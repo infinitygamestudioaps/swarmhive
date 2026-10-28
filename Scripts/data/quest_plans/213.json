@@ -2,7 +2,7 @@
  "id": 213,
  "name": "Trial Of The Seeker",
  "version": 1,
- "generated": "2026-10-27T11:15:15.277Z",
+ "generated": "2026-10-27T18:18:50.413Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 35,
@@ -47,9 +47,19 @@
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 1
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 17
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 17
   }
  ],
- "expectedMin": 16,
+ "expectedMin": 35,
  "refLevel": 35,
  "steps": [
   {
@@ -2843,20 +2853,7 @@
     1,
     2,
     3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17
+    4
    ]
   },
   {
@@ -3318,125 +3315,12 @@
     13,
     14,
     15,
-    16
-   ]
-  },
-  {
-   "i": 4,
-   "key": "c1:talk:30715",
-   "cond": 1,
-   "kind": "talk",
-   "to": 14,
-   "links": [
-    "Wait for the experiment results"
-   ],
-   "npc": {
-    "id": 30715,
-    "name": "Marina",
-    "title": "Magister",
-    "town": "Oren",
-    "at": [
-     84985,
-     15991,
-     -2799
-    ],
-    "alt": []
-   },
-   "text": "Talk to Marina",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30715@84985,15991",
-    "status": "ok",
-    "flags": [],
-    "from": ".oren",
-    "length": 463,
-    "sec": 64,
-    "via": ".oren > Oren -> Ivory Tower > enter Verona",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "gk",
-      "from": "Oren",
-      "desc": "Oren -> Ivory Tower",
-      "link": "ivory tower",
-      "price": 3700,
-      "live": true
-     },
-     {
-      "do": "enter",
-      "how": "npc-teleport",
-      "npc": "Verona",
-      "link": "2nd Floor Human Wizard Guild"
-     },
-     {
-      "do": "walk",
-      "len": 463,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Oren",
-     "desc": "Oren -> Ivory Tower"
-    },
-    "simple": false,
-    "pv": [
-     [
-      85399,
-      16197,
-      -2809
-     ],
-     [
-      84984,
-      15992,
-      -2808
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 89,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
     16,
     17
    ]
   },
   {
-   "i": 5,
+   "i": 4,
    "key": "c1:deliver:30526",
    "cond": 1,
    "kind": "deliver",
@@ -3686,6 +3570,7 @@
     10,
     11,
     12,
+    13,
     14,
     15,
     16,
@@ -3693,9 +3578,1775 @@
    ]
   },
   {
+   "i": 5,
+   "key": "c5:hunt",
+   "cond": 5,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20080,
+     "name": "Ant Captain",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 60,
+     "questSpawned": false
+    },
+    {
+     "id": 20088,
+     "name": "Ant Warrior Captain",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 67,
+     "questSpawned": false
+    },
+    {
+     "id": 20158,
+     "name": "Medusa",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 20198,
+     "name": "Neer Ghoul Berserker",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 20211,
+     "name": "Ol Mahum Captain",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20249,
+     "name": "Turak Bugbear Warrior",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 61,
+     "questSpawned": false
+    },
+    {
+     "id": 20270,
+     "name": "Breka Orc Overlord",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20495,
+     "name": "Turek Orc Warlord",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 20580,
+     "name": "Leto Lizardman Warrior",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2660,
+     "name": "Medusa Scales",
+     "n": 10,
+     "from": [
+      {
+       "id": 20158,
+       "name": "Medusa",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2668,
+     "name": "Abyss Spirit Ore",
+     "n": 1,
+     "from": [
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2669,
+     "name": "Abyss Spirit Ore",
+     "n": 1,
+     "from": [
+      {
+       "id": 20270,
+       "name": "Breka Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2670,
+     "name": "Abyss Spirit Ore",
+     "n": 1,
+     "from": [
+      {
+       "id": 20088,
+       "name": "Ant Warrior Captain",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2671,
+     "name": "Abyss Spirit Ore",
+     "n": 1,
+     "from": [
+      {
+       "id": 20580,
+       "name": "Leto Lizardman Warrior",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Ant Captain, Ant Warrior Captain, Medusa for Medusa Scales x10, Abyss Spirit Ore x1, Abyss Spirit Ore x1, Abyss Spirit Ore x1, Abyss Spirit Ore x1",
+   "places": [
+    {
+     "mobs": [
+      20158
+     ],
+     "items": [
+      2660
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "antharas-lair-14",
+      "name": "Antharas Lair 14: Medusa area (south-west)",
+      "at": [
+       118472,
+       129032,
+       -3096
+      ],
+      "radius": 4053,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 6,
+      "region": "Antharas Lair",
+      "atlasKey": "area:antharas-lair-14",
+      "status": "ok",
+      "sec": 244,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.933333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "antharas-lair-10",
+        "name": "Antharas Lair 10: Medusa area (south-west)",
+        "at": [
+         123160,
+         129928,
+         -3232
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "antharas-lair-15",
+        "name": "Antharas Lair 15: Wyrm area (south-west)",
+        "at": [
+         121240,
+         132936,
+         -3552
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-14",
+        "name": "Brekas Stronghold 14: Turak Bugbear area (east)",
+        "at": [
+         104904,
+         136328,
+         -3560
+        ],
+        "count": 1,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:antharas-lair-14",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 23872,
+      "sec": 244,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 17368,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 6504,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        124056,
+        126488,
+        -2840
+       ],
+       [
+        123480,
+        126792,
+        -2944
+       ],
+       [
+        122520,
+        127752,
+        -3000
+       ],
+       [
+        122376,
+        127880,
+        -3024
+       ],
+       [
+        122008,
+        128008,
+        -3032
+       ],
+       [
+        121480,
+        128168,
+        -3064
+       ],
+       [
+        120488,
+        128168,
+        -2952
+       ],
+       [
+        119496,
+        128168,
+        -2800
+       ],
+       [
+        118888,
+        128760,
+        -3000
+       ],
+       [
+        118616,
+        129032,
+        -3088
+       ],
+       [
+        118472,
+        129032,
+        -3096
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20234
+     ],
+     "items": [
+      2668
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fortress-of-resistance-34",
+      "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+      "at": [
+       28920,
+       108584,
+       -3704
+      ],
+      "radius": 5521,
+      "levels": [
+       32,
+       35
+      ],
+      "count": 12,
+      "region": "Fortress of Resistance",
+      "atlasKey": "area:fortress-of-resistance-34",
+      "status": "ok",
+      "sec": 177,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -69.05,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-3",
+        "name": "Cruma Tower 3: Marsh Stakato Soldier area (north-east)",
+        "at": [
+         19400,
+         106312,
+         -3672
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-6",
+        "name": "Cruma Tower 6: Marsh Stakato Drone area (north-east)",
+        "at": [
+         24120,
+         107832,
+         -3712
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-8",
+        "name": "Cruma Tower 8: Marsh Stakato Soldier area (north-east)",
+        "at": [
+         24552,
+         102888,
+         -3688
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fortress-of-resistance-34",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 15821,
+      "sec": 177,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5351,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 10470,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        20184,
+        113064,
+        -3752
+       ],
+       [
+        21176,
+        113064,
+        -3752
+       ],
+       [
+        22168,
+        113064,
+        -3680
+       ],
+       [
+        23080,
+        112968,
+        -3744
+       ],
+       [
+        24072,
+        112968,
+        -3728
+       ],
+       [
+        25064,
+        112440,
+        -3704
+       ],
+       [
+        26056,
+        111448,
+        -3720
+       ],
+       [
+        27048,
+        110456,
+        -3720
+       ],
+       [
+        28040,
+        109464,
+        -3728
+       ],
+       [
+        28920,
+        108584,
+        -3704
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20270
+     ],
+     "items": [
+      2669
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "brekas-stronghold-1",
+      "name": "Brekas Stronghold 1: Breka Orc Shaman area (east)",
+      "at": [
+       89032,
+       131912,
+       -3664
+      ],
+      "radius": 2818,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 2,
+      "region": "Brekas Stronghold",
+      "atlasKey": "area:brekas-stronghold-1",
+      "status": "ok",
+      "sec": 188,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -8.866666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-8",
+        "name": "Brekas Stronghold 8: Breka Orc Overlord area (north-west)",
+        "at": [
+         80952,
+         123912,
+         -2256
+        ],
+        "count": 3,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-7",
+        "name": "Brekas Stronghold 7: Breka Orc Shaman area (north-east)",
+        "at": [
+         93624,
+         124968,
+         -2448
+        ],
+        "count": 2,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-12",
+        "name": "Dragon Valley 12: Breka Orc Warrior area (north-west)",
+        "at": [
+         79272,
+         121784,
+         -2256
+        ],
+        "count": 2,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:brekas-stronghold-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".giran",
+      "length": 20166,
+      "sec": 188,
+      "via": ".giran",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Giran",
+        "cmd": ".giran"
+       },
+       {
+        "do": "walk",
+        "len": 15248,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 4918,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Giran"
+      },
+      "simple": true,
+      "pv": [
+       [
+        83551,
+        147945,
+        -3400
+       ],
+       [
+        84616,
+        133240,
+        -3648
+       ],
+       [
+        84632,
+        133208,
+        -3648
+       ],
+       [
+        85496,
+        132344,
+        -3648
+       ],
+       [
+        86280,
+        131960,
+        -3648
+       ],
+       [
+        86520,
+        131832,
+        -3648
+       ],
+       [
+        87192,
+        131864,
+        -3648
+       ],
+       [
+        88184,
+        131848,
+        -3656
+       ],
+       [
+        89032,
+        131912,
+        -3664
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20088
+     ],
+     "items": [
+      2670
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "antnest-1-straight-l",
+      "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+      "at": [
+       -25328,
+       180192,
+       -5406
+      ],
+      "radius": 1747,
+      "levels": [
+       34,
+       37
+      ],
+      "count": 14,
+      "region": "Ant Nest",
+      "atlasKey": "room:antnest-1-straight-l",
+      "status": "ok",
+      "sec": 254,
+      "danger": 36,
+      "reachable": true,
+      "score": -79.76666666666667,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-p",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -28065,
+         182298,
+         -5365
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-e",
+        "name": "Ant Nest: Nest tunnels, straight: Ant Warrior Captain room",
+        "at": [
+         -17792,
+         180659,
+         -5518
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-d",
+        "name": "Ant Nest: Nest tunnels, straight: Ant Patrol room",
+        "at": [
+         -18633,
+         178431,
+         -5387
+        ],
+        "count": 6,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antnest-1-straight-l",
+      "status": "ok",
+      "flags": [
+       "long-walk"
+      ],
+      "from": ".gludio",
+      "length": 25103,
+      "sec": 254,
+      "via": ".gludio > Gludio -> Ant Cave",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ant Cave",
+        "link": "ant nest",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 27
+       },
+       {
+        "do": "walk",
+        "len": 25103,
+        "how": "dungeon-rooms",
+        "danger": 38
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ant Cave"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -10136,
+        175208,
+        -4176
+       ],
+       [
+        -10152,
+        175064,
+        -4224
+       ],
+       [
+        -10216,
+        174936,
+        -4264
+       ],
+       [
+        -10328,
+        174808,
+        -4312
+       ],
+       [
+        -10936,
+        174328,
+        -4576
+       ],
+       [
+        -11448,
+        174120,
+        -4640
+       ],
+       [
+        -11848,
+        174216,
+        -4792
+       ],
+       [
+        -11896,
+        174216,
+        -4816
+       ],
+       [
+        -12344,
+        174616,
+        -5008
+       ],
+       [
+        -12520,
+        174680,
+        -5112
+       ],
+       [
+        -12680,
+        174808,
+        -5136
+       ],
+       [
+        -13352,
+        175784,
+        -5304
+       ],
+       [
+        -13960,
+        176248,
+        -5288
+       ],
+       [
+        -13992,
+        176360,
+        -5296
+       ],
+       [
+        -13944,
+        177080,
+        -5304
+       ],
+       [
+        -13864,
+        177160,
+        -5304
+       ],
+       [
+        -13640,
+        177432,
+        -5304
+       ],
+       [
+        -13576,
+        177544,
+        -5304
+       ],
+       [
+        -13560,
+        177624,
+        -5304
+       ],
+       [
+        -13560,
+        177704,
+        -5304
+       ],
+       [
+        -13608,
+        177800,
+        -5304
+       ],
+       [
+        -13800,
+        178056,
+        -5304
+       ],
+       [
+        -14632,
+        178472,
+        -5304
+       ],
+       [
+        -15240,
+        178984,
+        -5304
+       ],
+       [
+        -16232,
+        179976,
+        -5384
+       ],
+       [
+        -16744,
+        180104,
+        -5424
+       ],
+       [
+        -17032,
+        180200,
+        -5520
+       ],
+       [
+        -18024,
+        181192,
+        -5520
+       ],
+       [
+        -19016,
+        182184,
+        -5536
+       ],
+       [
+        -19528,
+        182776,
+        -5528
+       ],
+       [
+        -19528,
+        183544,
+        -5600
+       ],
+       [
+        -19592,
+        183640,
+        -5600
+       ],
+       [
+        -19624,
+        183672,
+        -5600
+       ],
+       [
+        -19864,
+        183784,
+        -5600
+       ],
+       [
+        -20856,
+        183784,
+        -5712
+       ],
+       [
+        -21848,
+        183784,
+        -5712
+       ],
+       [
+        -22840,
+        183832,
+        -5720
+       ],
+       [
+        -22952,
+        183944,
+        -5696
+       ],
+       [
+        -23224,
+        184024,
+        -5664
+       ],
+       [
+        -23320,
+        183992,
+        -5640
+       ],
+       [
+        -23464,
+        183896,
+        -5600
+       ],
+       [
+        -23592,
+        183784,
+        -5600
+       ],
+       [
+        -23960,
+        183224,
+        -5600
+       ],
+       [
+        -23960,
+        182232,
+        -5600
+       ],
+       [
+        -23960,
+        181496,
+        -5592
+       ],
+       [
+        -23992,
+        181400,
+        -5592
+       ],
+       [
+        -24984,
+        180408,
+        -5408
+       ],
+       [
+        -25320,
+        180200,
+        -5408
+       ]
+      ],
+      "maxDanger": 38,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 38,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20580
+     ],
+     "items": [
+      2671
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-23",
+      "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)",
+      "at": [
+       96328,
+       77128,
+       -3592
+      ],
+      "radius": 3827,
+      "levels": [
+       36,
+       40
+      ],
+      "count": 4,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "sec": 150,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -21.5,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 12541,
+      "sec": 150,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 11880,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 661,
+        "how": "field-areas",
+        "danger": 84
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        95896,
+        77624,
+        -3552
+       ],
+       [
+        96088,
+        77352,
+        -3568
+       ],
+       [
+        96328,
+        77128,
+        -3592
+       ]
+      ],
+      "maxDanger": 84,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 84,
+       "dangerVsLevel": 49,
+       "aggro": [
+        {
+         "name": "Energy Plant",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Rainbow Frog",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Soldier",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Magician",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Scout",
+         "lv": 82,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Fantasy Mushroom",
+       "lv": 85
+      },
+      {
+       "name": "Rainbow Frog",
+       "lv": 85
+      },
+      {
+       "name": "Energy Plant",
+       "lv": 85
+      },
+      {
+       "name": "Tanta Lizardman Berserker",
+       "lv": 84
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "antharas-lair-14",
+    "name": "Antharas Lair 14: Medusa area (south-west)",
+    "at": [
+     118472,
+     129032,
+     -3096
+    ],
+    "radius": 4053,
+    "levels": [
+     33,
+     35
+    ],
+    "count": 6,
+    "region": "Antharas Lair",
+    "atlasKey": "area:antharas-lair-14",
+    "status": "ok",
+    "sec": 244,
+    "danger": 37,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -31.933333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "antharas-lair-10",
+      "name": "Antharas Lair 10: Medusa area (south-west)",
+      "at": [
+       123160,
+       129928,
+       -3232
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "antharas-lair-15",
+      "name": "Antharas Lair 15: Wyrm area (south-west)",
+      "at": [
+       121240,
+       132936,
+       -3552
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "brekas-stronghold-14",
+      "name": "Brekas Stronghold 14: Turak Bugbear area (east)",
+      "at": [
+       104904,
+       136328,
+       -3560
+      ],
+      "count": 1,
+      "status": "unverified"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:antharas-lair-14",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 23872,
+    "sec": 244,
+    "via": ".hunters > Hunters -> Antharas Lair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Antharas Lair",
+      "link": "antharas lair",
+      "price": 7000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 17368,
+      "how": "field-areas-gap",
+      "danger": 34
+     },
+     {
+      "do": "walk",
+      "len": 6504,
+      "how": "field-areas",
+      "danger": 37
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Antharas Lair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      131557,
+      114509,
+      -3712
+     ],
+     [
+      124056,
+      126488,
+      -2840
+     ],
+     [
+      123480,
+      126792,
+      -2944
+     ],
+     [
+      122520,
+      127752,
+      -3000
+     ],
+     [
+      122376,
+      127880,
+      -3024
+     ],
+     [
+      122008,
+      128008,
+      -3032
+     ],
+     [
+      121480,
+      128168,
+      -3064
+     ],
+     [
+      120488,
+      128168,
+      -2952
+     ],
+     [
+      119496,
+      128168,
+      -2800
+     ],
+     [
+      118888,
+      128760,
+      -3000
+     ],
+     [
+      118616,
+      129032,
+      -3088
+     ],
+     [
+      118472,
+      129032,
+      -3096
+     ]
+    ],
+    "maxDanger": 37,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 37,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 494,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ]
+  },
+  {
    "i": 6,
-   "key": "c1:talk:30684",
-   "cond": 1,
+   "key": "c6:deliver:30684",
+   "cond": 6,
+   "kind": "deliver",
+   "to": 7,
+   "links": [
+    "Alberto Terrious"
+   ],
+   "npc": {
+    "id": 30684,
+    "name": "Viktor",
+    "title": "Weapon Merchant",
+    "town": "Hunters Village",
+    "at": [
+     115310,
+     75447,
+     -2581
+    ],
+    "alt": []
+   },
+   "text": "Bring Terry's Letter to Viktor",
+   "needs": [
+    {
+     "id": 2650,
+     "name": "Terry's Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30684@115310,75447",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2889,
+    "sec": 44,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2889,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116104,
+      76888,
+      -2664
+     ],
+     [
+      115912,
+      76776,
+      -2664
+     ],
+     [
+      115736,
+      76568,
+      -2664
+     ],
+     [
+      115672,
+      76344,
+      -2664
+     ],
+     [
+      115656,
+      76136,
+      -2592
+     ],
+     [
+      115624,
+      76072,
+      -2592
+     ],
+     [
+      115624,
+      75912,
+      -2592
+     ],
+     [
+      115560,
+      75784,
+      -2576
+     ],
+     [
+      115384,
+      75592,
+      -2576
+     ],
+     [
+      115304,
+      75448,
+      -2576
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 69,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c8:talk:30684",
+   "cond": 8,
+   "kind": "talk",
+   "to": 9,
+   "links": [
+    "Say you will do the favor."
+   ],
+   "npc": {
+    "id": 30684,
+    "name": "Viktor",
+    "title": "Weapon Merchant",
+    "town": "Hunters Village",
+    "at": [
+     115310,
+     75447,
+     -2581
+    ],
+    "alt": []
+   },
+   "text": "Talk to Viktor",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30684@115310,75447",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2889,
+    "sec": 44,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2889,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116104,
+      76888,
+      -2664
+     ],
+     [
+      115912,
+      76776,
+      -2664
+     ],
+     [
+      115736,
+      76568,
+      -2664
+     ],
+     [
+      115672,
+      76344,
+      -2664
+     ],
+     [
+      115656,
+      76136,
+      -2592
+     ],
+     [
+      115624,
+      76072,
+      -2592
+     ],
+     [
+      115624,
+      75912,
+      -2592
+     ],
+     [
+      115560,
+      75784,
+      -2576
+     ],
+     [
+      115384,
+      75592,
+      -2576
+     ],
+     [
+      115304,
+      75448,
+      -2576
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 69,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c10:talk:30684",
+   "cond": 10,
    "kind": "talk",
    "to": 11,
    "links": [
@@ -3842,247 +5493,694 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17
+    10
    ]
   },
   {
-   "i": 7,
-   "key": "c17:deliver:30064",
-   "cond": 17,
-   "kind": "deliver",
-   "to": 15,
+   "i": 9,
+   "key": "c11:talk:30715",
+   "cond": 11,
+   "kind": "talk",
+   "to": 12,
    "links": [
-    "Ask about the next tasks"
+    "Agree to do the favor."
    ],
    "npc": {
-    "id": 30064,
-    "name": "Terry",
-    "title": "Master",
-    "town": "Dion",
+    "id": 30715,
+    "name": "Marina",
+    "title": "Magister",
+    "town": "Oren",
     "at": [
-     19708,
-     144780,
-     -3088
+     84985,
+     15991,
+     -2799
     ],
     "alt": []
    },
-   "text": "Bring Analysis Result to Terry",
-   "needs": [
-    {
-     "id": 2665,
-     "name": "Analysis Result",
-     "n": 1
-    }
-   ],
+   "text": "Talk to Marina",
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:30064@19708,144780",
+    "key": "npc:30715@84985,15991",
     "status": "ok",
     "flags": [],
-    "from": ".dion",
-    "length": 5723,
-    "sec": 68,
-    "via": ".dion",
+    "from": ".oren",
+    "length": 463,
+    "sec": 64,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
     "steps": [
      {
       "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "2nd Floor Human Wizard Guild"
      },
      {
       "do": "walk",
-      "len": 5723,
-      "how": "town-graph",
-      "danger": 20
+      "len": 463,
+      "how": "geodata",
+      "danger": 0
      }
     ],
     "start": {
-     "kind": "town",
-     "town": "Dion"
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
     },
-    "simple": true,
+    "simple": false,
     "pv": [
      [
-      15619,
-      143132,
-      -2688
+      85399,
+      16197,
+      -2809
      ],
      [
-      15480,
-      142888,
-      -2696
-     ],
-     [
-      15624,
-      142888,
-      -2696
-     ],
-     [
-      15784,
-      143112,
-      -2712
-     ],
-     [
-      15976,
-      143304,
-      -2768
-     ],
-     [
-      16168,
-      143496,
-      -2824
-     ],
-     [
-      16216,
-      143544,
-      -2832
-     ],
-     [
-      16312,
-      143640,
-      -2864
-     ],
-     [
-      16520,
-      143800,
-      -2912
-     ],
-     [
-      16712,
-      143992,
-      -2968
-     ],
-     [
-      16936,
-      144040,
-      -3008
-     ],
-     [
-      16968,
-      144184,
-      -3008
-     ],
-     [
-      17176,
-      144184,
-      -3024
-     ],
-     [
-      17432,
-      144120,
-      -3032
-     ],
-     [
-      17480,
-      144088,
-      -3032
-     ],
-     [
-      17704,
-      143928,
-      -3032
-     ],
-     [
-      17976,
-      143928,
-      -3056
-     ],
-     [
-      18168,
-      143912,
-      -3064
-     ],
-     [
-      18280,
-      144152,
-      -3064
-     ],
-     [
-      18472,
-      144344,
-      -3064
-     ],
-     [
-      18696,
-      144504,
-      -3080
-     ],
-     [
-      18936,
-      144456,
-      -3096
-     ],
-     [
-      18968,
-      144424,
-      -3096
-     ],
-     [
-      19096,
-      144600,
-      -3104
-     ],
-     [
-      19272,
-      144680,
-      -3096
-     ],
-     [
-      19272,
-      144632,
-      -3096
-     ],
-     [
-      19416,
-      144552,
-      -3088
-     ],
-     [
-      19592,
-      144648,
-      -3088
-     ],
-     [
-      19704,
-      144776,
-      -3088
+      84984,
+      15992,
+      -2808
      ]
     ],
-    "maxDanger": 20,
+    "maxDanger": 0,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
      "water": false,
-     "danger": 20,
-     "dangerVsLevel": -15,
+     "danger": 0,
+     "dangerVsLevel": 0,
      "aggro": []
     }
    },
-   "expectedSec": 93,
+   "expectedSec": 89,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
+    11
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c13:talk:30715",
+   "cond": 13,
+   "kind": "talk",
+   "to": 14,
+   "links": [
+    "Wait for the experiment results"
+   ],
+   "npc": {
+    "id": 30715,
+    "name": "Marina",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     84985,
+     15991,
+     -2799
+    ],
+    "alt": []
+   },
+   "text": "Talk to Marina",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30715@84985,15991",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 463,
+    "sec": 64,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "2nd Floor Human Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 463,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -2809
+     ],
+     [
+      84984,
+      15992,
+      -2808
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    13
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c16:hunt",
+   "cond": 16,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20080,
+     "name": "Ant Captain",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 60,
+     "questSpawned": false
+    },
+    {
+     "id": 20088,
+     "name": "Ant Warrior Captain",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 67,
+     "questSpawned": false
+    },
+    {
+     "id": 20158,
+     "name": "Medusa",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 20198,
+     "name": "Neer Ghoul Berserker",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 20211,
+     "name": "Ol Mahum Captain",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20249,
+     "name": "Turak Bugbear Warrior",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 61,
+     "questSpawned": false
+    },
+    {
+     "id": 20270,
+     "name": "Breka Orc Overlord",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20495,
+     "name": "Turek Orc Warlord",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 20580,
+     "name": "Leto Lizardman Warrior",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2660,
+     "name": "Medusa Scales",
+     "n": 10,
+     "from": [
+      {
+       "id": 20158,
+       "name": "Medusa",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Ant Captain, Ant Warrior Captain, Medusa for Medusa Scales x10",
+   "places": [
+    {
+     "mobs": [
+      20158
+     ],
+     "items": [
+      2660
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "antharas-lair-14",
+      "name": "Antharas Lair 14: Medusa area (south-west)",
+      "at": [
+       118472,
+       129032,
+       -3096
+      ],
+      "radius": 4053,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 6,
+      "region": "Antharas Lair",
+      "atlasKey": "area:antharas-lair-14",
+      "status": "ok",
+      "sec": 244,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.933333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "antharas-lair-10",
+        "name": "Antharas Lair 10: Medusa area (south-west)",
+        "at": [
+         123160,
+         129928,
+         -3232
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "antharas-lair-15",
+        "name": "Antharas Lair 15: Wyrm area (south-west)",
+        "at": [
+         121240,
+         132936,
+         -3552
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-14",
+        "name": "Brekas Stronghold 14: Turak Bugbear area (east)",
+        "at": [
+         104904,
+         136328,
+         -3560
+        ],
+        "count": 1,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:antharas-lair-14",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 23872,
+      "sec": 244,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 17368,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 6504,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        124056,
+        126488,
+        -2840
+       ],
+       [
+        123480,
+        126792,
+        -2944
+       ],
+       [
+        122520,
+        127752,
+        -3000
+       ],
+       [
+        122376,
+        127880,
+        -3024
+       ],
+       [
+        122008,
+        128008,
+        -3032
+       ],
+       [
+        121480,
+        128168,
+        -3064
+       ],
+       [
+        120488,
+        128168,
+        -2952
+       ],
+       [
+        119496,
+        128168,
+        -2800
+       ],
+       [
+        118888,
+        128760,
+        -3000
+       ],
+       [
+        118616,
+        129032,
+        -3088
+       ],
+       [
+        118472,
+        129032,
+        -3096
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "antharas-lair-14",
+    "name": "Antharas Lair 14: Medusa area (south-west)",
+    "at": [
+     118472,
+     129032,
+     -3096
+    ],
+    "radius": 4053,
+    "levels": [
+     33,
+     35
+    ],
+    "count": 6,
+    "region": "Antharas Lair",
+    "atlasKey": "area:antharas-lair-14",
+    "status": "ok",
+    "sec": 244,
+    "danger": 37,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -31.933333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "antharas-lair-10",
+      "name": "Antharas Lair 10: Medusa area (south-west)",
+      "at": [
+       123160,
+       129928,
+       -3232
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "antharas-lair-15",
+      "name": "Antharas Lair 15: Wyrm area (south-west)",
+      "at": [
+       121240,
+       132936,
+       -3552
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "brekas-stronghold-14",
+      "name": "Brekas Stronghold 14: Turak Bugbear area (east)",
+      "at": [
+       104904,
+       136328,
+       -3560
+      ],
+      "count": 1,
+      "status": "unverified"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:antharas-lair-14",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 23872,
+    "sec": 244,
+    "via": ".hunters > Hunters -> Antharas Lair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Antharas Lair",
+      "link": "antharas lair",
+      "price": 7000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 17368,
+      "how": "field-areas-gap",
+      "danger": 34
+     },
+     {
+      "do": "walk",
+      "len": 6504,
+      "how": "field-areas",
+      "danger": 37
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Antharas Lair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      131557,
+      114509,
+      -3712
+     ],
+     [
+      124056,
+      126488,
+      -2840
+     ],
+     [
+      123480,
+      126792,
+      -2944
+     ],
+     [
+      122520,
+      127752,
+      -3000
+     ],
+     [
+      122376,
+      127880,
+      -3024
+     ],
+     [
+      122008,
+      128008,
+      -3032
+     ],
+     [
+      121480,
+      128168,
+      -3064
+     ],
+     [
+      120488,
+      128168,
+      -2952
+     ],
+     [
+      119496,
+      128168,
+      -2800
+     ],
+     [
+      118888,
+      128760,
+      -3000
+     ],
+     [
+      118616,
+      129032,
+      -3088
+     ],
+     [
+      118472,
+      129032,
+      -3096
+     ]
+    ],
+    "maxDanger": 37,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 37,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 494,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    16,
     17
    ]
   }

@@ -1,0 +1,86 @@
+{
+ "npcId": 32885,
+ "name": "Behemoth Leader",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.420Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00456_DontKnowDontCare/32885-02.html",
+   "when": "((qs == null) || !qs.isCond(1) || (allowedPlayers == null) || !allowedPlayers.contains(player.getObjectId()))",
+   "src": "quest 456"
+  },
+  {
+   "page": "Q00456_DontKnowDontCare/32885-03.html",
+   "when": "",
+   "src": "quest 456"
+  },
+  {
+   "page": "Q00456_DontKnowDontCare/32885-01.html",
+   "when": "",
+   "src": "quest 456"
+  }
+ ],
+ "quests": {
+  "456": {
+   "name": "Don't Know, Don't Care",
+   "listText": [
+    "[Don't Know, Don't Care]",
+    "[Don't Know, Don't Care (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00456_DontKnowDontCare/32885-02.html": {
+   "file": "Q00456_DontKnowDontCare/32885-02.html",
+   "quest": 456,
+   "text": "Behemoth Leader's Corpse: (This is the corpse of the Behemoth Leader. It was clearly murdered.)",
+   "header": "Behemoth Leader's Corpse",
+   "when": [
+    "((qs == null) || !qs.isCond(1) || (allowedPlayers == null) || !allowedPlayers.contains(player.getObjectId()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00456_DontKnowDontCare/32885-03.html": {
+   "file": "Q00456_DontKnowDontCare/32885-03.html",
+   "quest": 456,
+   "text": "Behemoth Leader's Corpse: (This corpse is no longer useful to you.)",
+   "header": "Behemoth Leader's Corpse",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00456_DontKnowDontCare/32885-01.html": {
+   "file": "Q00456_DontKnowDontCare/32885-01.html",
+   "quest": 456,
+   "text": "Behemoth Leader's Corpse: (A glittering, bead-shaped object was found while searching the corpse of the Behemoth Leader. This must be the Behemoth Leader's Essence!)",
+   "header": "Behemoth Leader's Corpse",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Don't Know, Don't Care (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00456_DontKnowDontCare",
+     "kind": "quest",
+     "quest": 456,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

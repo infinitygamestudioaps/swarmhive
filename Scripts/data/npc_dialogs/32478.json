@@ -1,0 +1,343 @@
+{
+ "npcId": 32478,
+ "name": "Dimensional Merchant",
+ "title": "Life Energy",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.375Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/32478.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "warehouse/32478.htm": {
+   "file": "warehouse/32478.htm",
+   "quest": null,
+   "text": "Dimensional Merchant: Greetings, adventurer! I have been waiting for so long to collect rare trinkets and treasures from the lands of Aden. I heard there are flying pigs around The Enchanted Valley, Forest of the Dead, Valley of Saints, Wild Beast Farm, Plains of the Lizardmen, Fields of Whisper an…",
+   "header": "Dimensional Merchant",
+   "links": [
+    {
+     "text": "Transfer a Dimensional Item to another character on this account.",
+     "bypass": "npc_%objectId%_package_deposit",
+     "kind": "warehouse",
+     "confirm": "1040"
+    },
+    {
+     "text": "Withdraw a transfered Dimensional Item.",
+     "bypass": "npc_%objectId%_package_withdraw",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Ask about Neolithic Crystal",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/32478-1.htm",
+     "live": true
+    }
+   ]
+  },
+  "warehouse/32478-1.htm": {
+   "file": "warehouse/32478-1.htm",
+   "quest": null,
+   "text": "Dimensional Merchant: If you have your Neolithic Crystal , I can swap one of your Conventional weapons, not lower than Grade B for rare weapon! But not the Dual Sword Grade B, do not be offended.",
+   "header": "Dimensional Merchant",
+   "live": {
+    "file": "Logs/npcmap_Dimensional_Merchant_10.html",
+    "at": "2026-10-20T15:05:50.000Z",
+    "score": 0.34
+   },
+   "dpText": "Dimensional Merchant: If you have a Neolithic Crystal , then you can exchange any normal weapon for a rare weapon B-grade and up! B grade dualswords are excluded.",
+   "links": [
+    {
+     "text": "Give Neolithic Crystal",
+     "bypass": "npc_%objectId%_exc_multisell 706",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/32478.htm",
+     "live": true
+    }
+   ]
+  },
+  "live:npcmap_Dimensional_Merchant_0.html": {
+   "file": "Logs/npcmap_Dimensional_Merchant_0.html",
+   "quest": null,
+   "header": "Dimensional Merchant",
+   "text": "Dimensional Merchant: Hello!. Welcome to Vitamin Service . With the help of Vitamin Service, we try to beautify the lives of our users.",
+   "live": {
+    "file": "Logs/npcmap_Dimensional_Merchant_0.html",
+    "at": "2026-10-20T15:00:37.000Z"
+   },
+   "outcome": "info",
+   "serverCustom": true,
+   "links": [
+    {
+     "text": "Toggle Services",
+     "bypass": "live 00",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Get Vitamin",
+     "bypass": "live 01",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Exchange coupon for a Pet",
+     "bypass": "live 02",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Exchange special coupon for a special Pet",
+     "bypass": "live 03",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Send vitamins to char on account",
+     "bypass": "live 04",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Receive vitamins from char on account",
+     "bypass": "live 05",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Show Proof of Friendship",
+     "bypass": "live 06",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Ask about Neolithic Crystal",
+     "bypass": "live 07",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    }
+   ]
+  },
+  "live:npcmap_Dimensional_Merchant_9.html": {
+   "file": "Logs/npcmap_Dimensional_Merchant_9.html",
+   "quest": null,
+   "header": "Dimensional Merchant",
+   "text": "Dimensional Merchant: You have no Proof of Friendship.",
+   "live": {
+    "file": "Logs/npcmap_Dimensional_Merchant_9.html",
+    "at": "2026-10-20T15:05:32.000Z"
+   },
+   "outcome": "info",
+   "serverCustom": true,
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "text of warehouse/32478-1.htm differs: live \"Dimensional Merchant: If you have your Neolithic Crystal , I can swap one of your Convent…\" vs datapack \"Dimensional Merchant: If you have a Neolithic Crystal , then you can exchange any normal …\"",
+  "server-custom page Logs/npcmap_Dimensional_Merchant_0.html: \"Dimensional Merchant: Hello!. Welcome to Vitamin Service . With the help of Vit…\" links: Toggle Services | Get Vitamin | Exchange coupon for a Pet | Exchange special coupon for a special Pet | Send vitamins to char on account | Receive vitamins from char on account | Show Proof of Friendship | Ask about Neolithic Crystal",
+  "server-custom page Logs/npcmap_Dimensional_Merchant_9.html: \"Dimensional Merchant: You have no Proof of Friendship.\" links: ",
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Toy Knight | Spirit Shaman | Owl Monk | Get Owl Monk Necklace | Improvements | Accessories | Pets | Souvenirs | Agathions | Hats"
+ ],
+ "liveClicks": [
+  {
+   "text": "Toggle Services",
+   "n": 11,
+   "inDatapack": true,
+   "from": [
+    "Dimensional Merchant:Hello!.Welcome to Vitamin Service.With "
+   ],
+   "to": [
+    "Toggle Services"
+   ]
+  },
+  {
+   "text": "Exchange special coupon for a special Pet",
+   "n": 5,
+   "inDatapack": true,
+   "from": [
+    "Dimensional Merchant:Hello!.Welcome to Vitamin Service.With "
+   ],
+   "to": [
+    "Dimensional Merchant:Want to get a special pet? Select who s"
+   ]
+  },
+  {
+   "text": "Improvements",
+   "n": 3,
+   "inDatapack": false,
+   "from": [
+    "Toggle Services"
+   ],
+   "to": []
+  },
+  {
+   "text": "Get Vitamin",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "Dimensional Merchant:Hello!.Welcome to Vitamin Service.With "
+   ],
+   "to": []
+  },
+  {
+   "text": "Send vitamins to char on account",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "Dimensional Merchant:Hello!.Welcome to Vitamin Service.With "
+   ],
+   "to": []
+  },
+  {
+   "text": "Owl Monk",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "Dimensional Merchant:Want to get a special pet? Select who s"
+   ],
+   "to": [
+    "Dimensional Merchant:Need Owl Monk?This pet is not any speci"
+   ]
+  },
+  {
+   "text": "Pets",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "Toggle Services"
+   ],
+   "to": []
+  },
+  {
+   "text": "Exchange coupon for a Pet",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Dimensional Merchant:Hello!.Welcome to Vitamin Service.With "
+   ],
+   "to": [
+    "Dimensional Merchant:Want to get a new pet? Select who you a"
+   ]
+  },
+  {
+   "text": "Toy Knight",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Dimensional Merchant:Want to get a special pet? Select who s"
+   ],
+   "to": [
+    "Dimensional Merchant:Need Toy Knight?This pet holds various "
+   ]
+  },
+  {
+   "text": "Spirit Shaman",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Dimensional Merchant:Want to get a special pet? Select who s"
+   ],
+   "to": [
+    "Dimensional Merchant:Need Soul Monk?This pet possesses power"
+   ]
+  },
+  {
+   "text": "Get Owl Monk Necklace",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Dimensional Merchant:Need Owl Monk?This pet is not any speci"
+   ],
+   "to": [
+    "Dimensional Merchant:Sorry, but you do not have the coupons "
+   ]
+  },
+  {
+   "text": "Accessories",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Toggle Services"
+   ],
+   "to": []
+  },
+  {
+   "text": "Souvenirs",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Toggle Services"
+   ],
+   "to": []
+  },
+  {
+   "text": "Agathions",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Toggle Services"
+   ],
+   "to": []
+  },
+  {
+   "text": "Hats",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Toggle Services"
+   ],
+   "to": []
+  },
+  {
+   "text": "Show Proof of Friendship",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Dimensional Merchant:Hello!.Welcome to Vitamin Service.With "
+   ],
+   "to": [
+    "Dimensional Merchant:You have no Proof of Friendship."
+   ]
+  },
+  {
+   "text": "Ask about Neolithic Crystal",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Dimensional Merchant:Hello!.Welcome to Vitamin Service.With "
+   ],
+   "to": [
+    "Dimensional Merchant:If you have your Neolithic Crystal, I c"
+   ]
+  },
+  {
+   "text": "Receive vitamins from char on account",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Dimensional Merchant:Hello!.Welcome to Vitamin Service.With "
+   ],
+   "to": []
+  }
+ ]
+}

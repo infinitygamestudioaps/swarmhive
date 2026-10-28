@@ -1,0 +1,525 @@
+{
+ "npcId": 32173,
+ "name": "Marcela",
+ "title": "Zerstorer",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.351Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/32173.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "174": {
+   "name": "Supply Check",
+   "listText": [
+    "[Supply Check]",
+    "[Supply Check (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00174_SupplyCheck/32173-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00174_SupplyCheck/32173-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00174_SupplyCheck/32173-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00174_SupplyCheck/32173-05.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00174_SupplyCheck/32173-06.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00174_SupplyCheck/32173-07.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "281": {
+   "name": "Head for the Hills!",
+   "listText": [
+    "[Head for the Hills!]",
+    "[Head for the Hills! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00281_HeadForTheHills/32173-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00281_HeadForTheHills/32173-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00281_HeadForTheHills/32173-05.html",
+     "when": "state STARTED; st.hasQuestItems(CLAWS)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00281_HeadForTheHills/32173-04.html",
+     "when": "state STARTED; NOT st.hasQuestItems(CLAWS)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32173.htm": {
+   "file": "default/32173.htm",
+   "quest": null,
+   "text": "Zerstorer Marcela: May the spear that splits the heavens bestow blessings upon you. I am Zerstorer Marcela, the commander of the Kamael Marksmen.",
+   "header": "Zerstorer Marcela",
+   "links": [
+    {
+     "text": "Ask about the Marksmen.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32173-1.htm"
+    },
+    {
+     "text": "View information about the local lord and manor tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true,
+     "dpText": "Quest."
+    }
+   ]
+  },
+  "default/32173-1.htm": {
+   "file": "default/32173-1.htm",
+   "quest": null,
+   "text": "Zerstorer Marcela: Long ago, the Kamael were called Marksmen, and their commanders were called Zerstorers. Ah, but that was when all Kamael were warriors. Now, of course, we have a village, and there are civilians among us. So gradually the Marksmen became the keepers of law, and the Zerstorers bec…",
+   "header": "Zerstorer Marcela",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00174_SupplyCheck/32173-01.htm": {
+   "file": "Q00174_SupplyCheck/32173-01.htm",
+   "quest": 174,
+   "text": "Zerstorer Marcela: It is time to conduct our annual supply inventory, but my Marksmen are spread thin and I am needed in the field, especially with so many outsiders on the island now. Collecting a supply manifest from each shop is not particularly difficult, but it is time consuming, and I simply …",
+   "header": "Zerstorer Marcela",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00174_SupplyCheck 32173-03.htm",
+     "kind": "quest-event",
+     "script": "Q00174_SupplyCheck",
+     "event": "32173-03.htm",
+     "quest": 174,
+     "to": "Q00174_SupplyCheck/32173-03.htm",
+     "effect": "start",
+     "live": true
+    }
+   ]
+  },
+  "Q00174_SupplyCheck/32173-02.htm": {
+   "file": "Q00174_SupplyCheck/32173-02.htm",
+   "quest": 174,
+   "text": "Zerstorer Marcela: Thank you for offering to help, but it would be irresponsible of me to entrust such an important task to someone so inexperienced. (Only characters who are level 2 or higher may undertake this quest.)",
+   "header": "Zerstorer Marcela",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00174_SupplyCheck/32173-04.html": {
+   "file": "Q00174_SupplyCheck/32173-04.html",
+   "quest": 174,
+   "text": "Zerstorer Marcela: Hurry and meet with Dwarf Benis at the warehouse , and bring back the supplies checklist!",
+   "header": "Zerstorer Marcela",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00174_SupplyCheck/32173-05.html": {
+   "file": "Q00174_SupplyCheck/32173-05.html",
+   "quest": 174,
+   "text": "Zerstorer Marcela: Ah, you've returned with the manifest. Well done! Hmm, the Warehouse inventory is lower than I expected... We best check the supply level at the General Store. Go to Trader Nika and bring back the supply manifest from the General Store.",
+   "header": "Zerstorer Marcela",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00174_SupplyCheck/32173-06.html": {
+   "file": "Q00174_SupplyCheck/32173-06.html",
+   "quest": 174,
+   "text": "Zerstorer Marcela: Go to Trader Nika at the General Store and bring back the supply manifest. Since our Warehouse supplies are low, we must be sure that there is no shortage there as well...",
+   "header": "Zerstorer Marcela",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00174_SupplyCheck/32173-07.html": {
+   "file": "Q00174_SupplyCheck/32173-07.html",
+   "quest": 174,
+   "text": "Zerstorer Marcela: Thank you! Your help has been invaluable. Please accept this as a small token of my appreciation... I hope our paths will cross again!",
+   "header": "Zerstorer Marcela",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "live": {
+    "file": "Logs/questpage_Spoiler9_2.html",
+    "at": "2026-10-27T12:36:23.424Z",
+    "score": 0.81
+   },
+   "dpText": "Zerstorer Marcela: You delivered my report to the Vice Hierarch? Thank you! Your help has been invaluable. Please accept this as a small token of my appreciation... I hope our paths will cross again!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00281_HeadForTheHills/32173-01.htm": {
+   "file": "Q00281_HeadForTheHills/32173-01.htm",
+   "quest": 281,
+   "text": "Zerstorer Marcela: Since our island was opened to the outside world, we have seen a dramatic increase in the number of goods and people landing at our port. In fact, the road connecting it to our village has now become one of the island's major thoroughfares. Unfortunately, all the traffic has also…",
+   "header": "Zerstorer Marcela",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00281_HeadForTheHills 32173-03.htm",
+     "kind": "quest-event",
+     "script": "Q00281_HeadForTheHills",
+     "event": "32173-03.htm",
+     "quest": 281,
+     "to": "Q00281_HeadForTheHills/32173-03.htm",
+     "effect": "start",
+     "live": true
+    }
+   ]
+  },
+  "Q00281_HeadForTheHills/32173-02.htm": {
+   "file": "Q00281_HeadForTheHills/32173-02.htm",
+   "quest": 281,
+   "text": "Zerstorer Marcela: I admire your courage, but I don't think you are ready yet to face the monsters of the Hills of Gold. Perhaps after some more training... (Only characters who are level 6 or higher may undertake this quest.)",
+   "header": "Zerstorer Marcela",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00281_HeadForTheHills/32173-05.html": {
+   "file": "Q00281_HeadForTheHills/32173-05.html",
+   "quest": 281,
+   "text": "Zerstorer Marcela: Ah, you have returned! How was the hunting? What have you brought me?",
+   "header": "Zerstorer Marcela",
+   "when": [
+    "state STARTED; st.hasQuestItems(CLAWS)"
+   ],
+   "links": [
+    {
+     "text": "Exchange monster claws for Adena.",
+     "bypass": "Quest Q00281_HeadForTheHills 32173-06.html",
+     "kind": "quest-event",
+     "script": "Q00281_HeadForTheHills",
+     "event": "32173-06.html",
+     "quest": 281,
+     "to": "Q00281_HeadForTheHills/32173-06.html",
+     "toAll": [
+      "Q00281_HeadForTheHills/32173-06.html",
+      "Q00281_HeadForTheHills/32173-07.html"
+     ]
+    },
+    {
+     "text": "Exchange 50 claws for an item.",
+     "bypass": "Quest Q00281_HeadForTheHills 32173-11.html",
+     "kind": "quest-event",
+     "script": "Q00281_HeadForTheHills",
+     "event": "32173-11.html",
+     "quest": 281,
+     "to": "Q00281_HeadForTheHills/32173-11.html",
+     "toAll": [
+      "Q00281_HeadForTheHills/32173-11.html",
+      "Q00281_HeadForTheHills/32173-10.html"
+     ]
+    }
+   ]
+  },
+  "Q00281_HeadForTheHills/32173-04.html": {
+   "file": "Q00281_HeadForTheHills/32173-04.html",
+   "quest": 281,
+   "text": "Zerstorer Marcela: Go to the Hills of Gold and hunt Green Goblins, Hill Werewolves, Muertos Archers, Mountain Werewolf Chieftains, Muertos Guards and Mountain Fungus . Bring back their claws as proof.",
+   "header": "Zerstorer Marcela",
+   "when": [
+    "state STARTED; NOT st.hasQuestItems(CLAWS)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00174_SupplyCheck/32173-03.htm": {
+   "file": "Q00174_SupplyCheck/32173-03.htm",
+   "quest": 174,
+   "text": "Zerstorer Marcela: Excellent! Inventorying the Warehouse is most critical, so go obtain the supply manifest from Warehouse Keeper Benis and bring it to me.",
+   "header": "Zerstorer Marcela",
+   "live": {
+    "file": "Logs/questpage_Dagger1_3.html",
+    "at": "2026-10-27T14:02:28.697Z",
+    "score": 1
+   },
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00281_HeadForTheHills/32173-03.htm": {
+   "file": "Q00281_HeadForTheHills/32173-03.htm",
+   "quest": 281,
+   "text": "Zerstorer Marcela: I like your spirit! Very well, go to the Hills of Gold and slay Green Goblins, Hill Werewolves, Muertos Archers, Mountain Werewolf Chieftains, Muertos Guards and Mountain Fungus . Bring back their claws as proof. We will pay Adena equal to the number of claws you bring, or you ca…",
+   "header": "Zerstorer Marcela",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00281_HeadForTheHills/32173-06.html": {
+   "file": "Q00281_HeadForTheHills/32173-06.html",
+   "quest": 281,
+   "text": "Zerstorer Marcela: Well done! Take this with my thanks. There's more work to do -- would you care to continue hunting monsters?",
+   "header": "Zerstorer Marcela",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00281_HeadForTheHills 32173-08.html",
+     "kind": "quest-event",
+     "script": "Q00281_HeadForTheHills",
+     "event": "32173-08.html",
+     "quest": 281,
+     "to": "Q00281_HeadForTheHills/32173-08.html",
+     "live": true
+    },
+    {
+     "text": "Say no.",
+     "bypass": "Quest Q00281_HeadForTheHills 32173-09.html",
+     "kind": "quest-event",
+     "script": "Q00281_HeadForTheHills",
+     "event": "32173-09.html",
+     "quest": 281,
+     "to": "Q00281_HeadForTheHills/32173-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00281_HeadForTheHills/32173-07.html": {
+   "file": "Q00281_HeadForTheHills/32173-07.html",
+   "quest": 281,
+   "text": "Zerstorer Marcela: Eh? Remember your mission! Go to the Hills of Gold and hunt Green Goblins, Mountain Werewolves, Muertos Archers, Mountain Werewolf Chiefs, Muertos Guards and Mountain Fungus . Then collect the monsters' claws and bring them to me as proof.",
+   "header": "Zerstorer Marcela",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00281_HeadForTheHills/32173-08.html": {
+   "file": "Q00281_HeadForTheHills/32173-08.html",
+   "quest": 281,
+   "text": "Zerstorer Marcela: Good! I know that this mission is in good hands. Return to the Hills of Gold and hunt Green Goblins, Mountain Werewolves, Muertos Archers, Mountain Werewolf Chiefs, Muertos Guards and Mountain Fungus . Then collect the monsters' claws and bring them to me as proof.",
+   "header": "Zerstorer Marcela",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00281_HeadForTheHills/32173-09.html": {
+   "file": "Q00281_HeadForTheHills/32173-09.html",
+   "quest": 281,
+   "text": "Zerstorer Marcela: Ah, no doubt other duties call you away. I understand, though I am sorry to lose you. Farewell, and may your sword always strike swiftly and true!",
+   "header": "Zerstorer Marcela",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00281_HeadForTheHills/32173-10.html": {
+   "file": "Q00281_HeadForTheHills/32173-10.html",
+   "quest": 281,
+   "text": "Zerstorer Marcela: You must have collected at least 50 monster claws in order to exchange them for an item.",
+   "header": "Zerstorer Marcela",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00281_HeadForTheHills/32173-11.html": {
+   "file": "Q00281_HeadForTheHills/32173-11.html",
+   "quest": 281,
+   "text": "Zerstorer Marcela: Bravely done! Here is the item I promised. I know you will put it to good use... There is still much to be done. Are you willing to return to the Hills of Gold and resume your hunting?",
+   "header": "Zerstorer Marcela",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00281_HeadForTheHills 32173-08.html",
+     "kind": "quest-event",
+     "script": "Q00281_HeadForTheHills",
+     "event": "32173-08.html",
+     "quest": 281,
+     "to": "Q00281_HeadForTheHills/32173-08.html",
+     "live": true
+    },
+    {
+     "text": "Say no.",
+     "bypass": "Quest Q00281_HeadForTheHills 32173-09.html",
+     "kind": "quest-event",
+     "script": "Q00281_HeadForTheHills",
+     "event": "32173-09.html",
+     "quest": 281,
+     "to": "Q00281_HeadForTheHills/32173-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Supply Check]",
+     "bypass": "npc_%objectId%_Quest Q00174_SupplyCheck",
+     "kind": "quest",
+     "quest": 174,
+     "to": "Q00174_SupplyCheck/32173-01.htm",
+     "when": "quest not started",
+     "live": true
+    },
+    {
+     "text": "[Supply Check (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00174_SupplyCheck",
+     "kind": "quest",
+     "quest": 174,
+     "to": "Q00174_SupplyCheck/32173-04.html",
+     "when": "quest in progress",
+     "live": true
+    },
+    {
+     "text": "[Head for the Hills!]",
+     "bypass": "npc_%objectId%_Quest Q00281_HeadForTheHills",
+     "kind": "quest",
+     "quest": 281,
+     "to": "Q00281_HeadForTheHills/32173-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Head for the Hills! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00281_HeadForTheHills",
+     "kind": "quest",
+     "quest": 281,
+     "to": "Q00281_HeadForTheHills/32173-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of Q00174_SupplyCheck/32173-07.html differs: live \"Zerstorer Marcela: Thank you! Your help has been invaluable. Please accept this as a smal…\" vs datapack \"Zerstorer Marcela: You delivered my report to the Vice Hierarch? Thank you! Your help has…\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 6,
+   "inDatapack": true,
+   "from": [
+    "Zerstorer Marcela:May the spear that splits the heavens best"
+   ],
+   "to": [
+    "[Supply Check][Head for the Hills!]",
+    "[Supply Check (In Progress)][Head for the Hills!]"
+   ]
+  },
+  {
+   "text": "[Supply Check (In Progress)]",
+   "n": 4,
+   "inDatapack": true,
+   "from": [
+    "[Supply Check (In Progress)][Head for the Hills!]"
+   ],
+   "to": [
+    "Zerstorer Marcela:Ah, you've returned with the manifest. Wel",
+    "Zerstorer Marcela:Thank you! Your help has been invaluable.P"
+   ]
+  },
+  {
+   "text": "[Supply Check]",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "[Supply Check][Head for the Hills!]"
+   ],
+   "to": [
+    "Zerstorer Marcela:It is time to conduct our annual supply in"
+   ]
+  },
+  {
+   "text": "Say yes.",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "Zerstorer Marcela:It is time to conduct our annual supply in"
+   ],
+   "to": [
+    "Zerstorer Marcela:Excellent! Inventorying the Warehouse is m"
+   ]
+  }
+ ]
+}

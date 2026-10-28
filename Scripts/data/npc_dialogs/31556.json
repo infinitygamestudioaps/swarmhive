@@ -1,0 +1,152 @@
+{
+ "npcId": 31556,
+ "name": "Selina",
+ "title": "Mercenary Medic",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.221Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Selina/31556-08.html",
+   "when": "has items 7247",
+   "src": "ai Selina"
+  },
+  {
+   "page": "ai/npc/Selina/31556-01.html",
+   "when": "has items 7246; lacks items 7247",
+   "src": "ai Selina"
+  },
+  {
+   "page": "ai/npc/Selina/31556-09.html",
+   "when": "lacks items 7247,7246",
+   "src": "ai Selina"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/Selina/31556-08.html": {
+   "file": "ai/npc/Selina/31556-08.html",
+   "quest": null,
+   "text": "Mercenary Medic Selina: Listen up! Your bravery is admirable, but you must take better care of yourself! I actually felt sorry for you when you came in so mangled! But don't get me wrong, you did a great job! You really raised morale around here! I'd like to offer you some magical assistance. Let m…",
+   "header": "Mercenary Medic Selina",
+   "when": [
+    "has items 7247"
+   ],
+   "links": [
+    {
+     "text": "Focus: Requires 2 Golden Ram Coins",
+     "bypass": "Quest Selina 4359",
+     "kind": "quest-event",
+     "script": "Selina",
+     "event": "4359",
+     "to": null
+    },
+    {
+     "text": "Death Whisper: Requires 2 Golden Ram Coins",
+     "bypass": "Quest Selina 4360",
+     "kind": "quest-event",
+     "script": "Selina",
+     "event": "4360",
+     "to": null
+    },
+    {
+     "text": "Might: Requires 3 Golden Ram Coins",
+     "bypass": "Quest Selina 4345",
+     "kind": "quest-event",
+     "script": "Selina",
+     "event": "4345",
+     "to": null
+    },
+    {
+     "text": "Acumen: Requires 3 Golden Ram Coins",
+     "bypass": "Quest Selina 4355",
+     "kind": "quest-event",
+     "script": "Selina",
+     "event": "4355",
+     "to": null
+    },
+    {
+     "text": "Berserker: Requires 3 Golden Ram Coins",
+     "bypass": "Quest Selina 4352",
+     "kind": "quest-event",
+     "script": "Selina",
+     "event": "4352",
+     "to": null
+    },
+    {
+     "text": "Vampiric Rage: Requires 3 Golden Ram Coins",
+     "bypass": "Quest Selina 4354",
+     "kind": "quest-event",
+     "script": "Selina",
+     "event": "4354",
+     "to": null
+    },
+    {
+     "text": "Empower: Requires 6 Golden Ram Coins",
+     "bypass": "Quest Selina 4356",
+     "kind": "quest-event",
+     "script": "Selina",
+     "event": "4356",
+     "to": null
+    },
+    {
+     "text": "Haste: Requires 6 Golden Ram Coins",
+     "bypass": "Quest Selina 4357",
+     "kind": "quest-event",
+     "script": "Selina",
+     "event": "4357",
+     "to": null
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Selina/31556-01.html": {
+   "file": "ai/npc/Selina/31556-01.html",
+   "quest": null,
+   "text": "Mercenary Medic Selina: Huh? Have you joined us? Excellent! My name's Selina. I'm a medic. Welcome aboard!",
+   "header": "Mercenary Medic Selina",
+   "when": [
+    "has items 7246; lacks items 7247"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Selina/31556-09.html": {
+   "file": "ai/npc/Selina/31556-09.html",
+   "quest": null,
+   "text": "Mercenary Medic Selina: Hey, you're not my boyfriend! You don't even belong to the Golden Ram Mercenary force! Get away from me! If you want to join our force go talk to that rough-looking Orc over there.",
+   "header": "Mercenary Medic Selina",
+   "when": [
+    "lacks items 7247,7246"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Selina/31556-02.html": {
+   "file": "ai/npc/Selina/31556-02.html",
+   "quest": null,
+   "text": "Mercenary Medic Selina: You'll need to pay a Golden Ram's mark for my help. Complete a mission for Captain Pierce to get one!",
+   "header": "Mercenary Medic Selina",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

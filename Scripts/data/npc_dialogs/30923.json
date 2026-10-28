@@ -1,0 +1,65 @@
+{
+ "npcId": 30923,
+ "name": "Dunst",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.112Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30923.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30923.htm": {
+   "file": "guard/30923.htm",
+   "quest": null,
+   "text": "Guard Dunst: Hello there Traveler! Welcome to Heine, the city of water and the capital of Innadril! My name is Dunst, I am one of the guards of this town. Pleased to meet you. Is there anything I can help you with?",
+   "header": "Guard Dunst",
+   "links": [
+    {
+     "text": "\"Tell me about Fafurion.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30923-1.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30923-1.htm": {
+   "file": "guard/30923-1.htm",
+   "quest": null,
+   "text": "Guard Dunst: Word comes from Giran that the dragon Antharas has awoken and is creating mayhem there. It is a good thing that Fafurion got all of his rage out of his system already. I must admit that the fear of him storming the castle has kept me up many a night...",
+   "header": "Guard Dunst",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30923.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

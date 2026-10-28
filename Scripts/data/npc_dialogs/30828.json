@@ -1,0 +1,428 @@
+{
+ "npcId": 30828,
+ "name": "Waters",
+ "title": "Pet Manager",
+ "type": "L2PetManager",
+ "generated": "2026-10-27T18:18:03.075Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "petmanager/30828.htm",
+   "when": "",
+   "src": "html/petmanager"
+  }
+ ],
+ "quests": {
+  "42": {
+   "name": "Help The Uncle!",
+   "listText": [
+    "[Help the Uncle!]",
+    "[Help the Uncle! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00042_HelpTheUncle/30828-00.htm",
+     "when": "state CREATED; (player.getLevel() >= 25)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00042_HelpTheUncle/30828-00a.html",
+     "when": "state CREATED; NOT (player.getLevel() >= 25)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00042_HelpTheUncle/30828-02.html",
+     "when": "state STARTED; cond 1; (st.hasQuestItems(TRIDENT))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00042_HelpTheUncle/30828-02a.html",
+     "when": "state STARTED; cond 1; NOT (st.hasQuestItems(TRIDENT))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00042_HelpTheUncle/30828-04.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00042_HelpTheUncle/30828-05.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00042_HelpTheUncle/30828-07.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00042_HelpTheUncle/30828-08.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "petmanager/30828.htm": {
+   "file": "petmanager/30828.htm",
+   "quest": null,
+   "text": "Pet Manager Waters: Here, try this delicious new Wolf food. With this, even a Turek War Hound will go down in one bite! And here are the Steel Teeth that a Dwarven knife sharpener spent weeks making. Ah, and see these new Hatchling items! Look around -- a good pet owner always comes to the Dion Pet…",
+   "header": "Pet Manager Waters",
+   "links": [
+    {
+     "text": "Listen to instructions for raising a pet.",
+     "bypass": "npc_%objectId%_Link petmanager/instructions.htm",
+     "kind": "page",
+     "to": "petmanager/instructions.htm"
+    },
+    {
+     "text": "Buy pet equipment.",
+     "bypass": "npc_%objectId%_Buy 3082800",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange pet equipment for higher grade equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 1000",
+     "kind": "multisell"
+    },
+    {
+     "text": "Exchange Hatchling equipment for Strider equipment.",
+     "bypass": "npc_%objectId%_multisell 999",
+     "kind": "multisell"
+    },
+    {
+     "text": "Evolve pet.",
+     "bypass": "npc_%objectId%_Link petmanager/evolve.htm",
+     "kind": "page",
+     "to": "petmanager/evolve.htm"
+    },
+    {
+     "text": "Exchange pet exchange ticket for a pet.",
+     "bypass": "npc_%objectId%_Link petmanager/exchange.htm",
+     "kind": "page",
+     "to": "petmanager/exchange.htm"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00042_HelpTheUncle/30828-00.htm": {
+   "file": "Q00042_HelpTheUncle/30828-00.htm",
+   "quest": 42,
+   "text": "Pet Manager Waters: Hey, could you do me a favor?",
+   "header": "Pet Manager Waters",
+   "when": [
+    "state CREATED; (player.getLevel() >= 25)"
+   ],
+   "links": [
+    {
+     "text": "\"What do you need?\"",
+     "bypass": "Quest Q00042_HelpTheUncle 30828-01.htm",
+     "kind": "quest-event",
+     "script": "Q00042_HelpTheUncle",
+     "event": "30828-01.htm",
+     "quest": 42,
+     "to": "Q00042_HelpTheUncle/30828-01.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00042_HelpTheUncle/30828-00a.html": {
+   "file": "Q00042_HelpTheUncle/30828-00a.html",
+   "quest": 42,
+   "text": "Hmm... Now that I see you in the light... You're not what I'm looking for at all! You look too scruffy and poor! (This quest can be performed only by the characters at the 25th level or above.)",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 25)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00042_HelpTheUncle/30828-02.html": {
+   "file": "Q00042_HelpTheUncle/30828-02.html",
+   "quest": 42,
+   "text": "Pet Manager Waters: Wonderful, you've brought it. Much thanks! So I have this uncle... one day my uncle just up and moves out north. He said he would earn cash as an adventurer. I hear he's actually pretty good, he takes on quests other adventurers couldn't. But he's family, so I'm worried. I wante…",
+   "header": "Pet Manager Waters",
+   "when": [
+    "state STARTED; cond 1; (st.hasQuestItems(TRIDENT))"
+   ],
+   "links": [
+    {
+     "text": "Ask what it is",
+     "bypass": "Quest Q00042_HelpTheUncle 30828-03.html",
+     "kind": "quest-event",
+     "script": "Q00042_HelpTheUncle",
+     "event": "30828-03.html",
+     "quest": 42,
+     "to": "Q00042_HelpTheUncle/30828-03.html",
+     "toAll": [
+      "Q00042_HelpTheUncle/30828-03.html",
+      "Q00042_HelpTheUncle/30828-03a.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00042_HelpTheUncle/30828-02a.html": {
+   "file": "Q00042_HelpTheUncle/30828-02a.html",
+   "quest": 42,
+   "text": "Pet Manager Waters: Please bring me a Trident. I really need one.",
+   "header": "Pet Manager Waters",
+   "when": [
+    "state STARTED; cond 1; NOT (st.hasQuestItems(TRIDENT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00042_HelpTheUncle/30828-04.html": {
+   "file": "Q00042_HelpTheUncle/30828-04.html",
+   "quest": 42,
+   "text": "Pet Manager Waters: Please destroy the monsterous eye so I can ship the Trident safely.",
+   "header": "Pet Manager Waters",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00042_HelpTheUncle/30828-05.html": {
+   "file": "Q00042_HelpTheUncle/30828-05.html",
+   "quest": 42,
+   "text": "Pet Manager Waters: Thank you! I've heard marvelous stories about a great adventurer who defeated the monsters in this area. Well, where is the Map Pieces?",
+   "header": "Pet Manager Waters",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00042_HelpTheUncle 30828-06.html",
+     "kind": "quest-event",
+     "script": "Q00042_HelpTheUncle",
+     "event": "30828-06.html",
+     "quest": 42,
+     "to": "Q00042_HelpTheUncle/30828-06.html",
+     "toAll": [
+      "Q00042_HelpTheUncle/30828-06.html",
+      "Q00042_HelpTheUncle/30828-06a.html"
+     ],
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00042_HelpTheUncle/30828-07.html": {
+   "file": "Q00042_HelpTheUncle/30828-07.html",
+   "quest": 42,
+   "text": "Pet Manager Waters: Take the Map to Sophya, captain of the Black Lion Mercenaries.",
+   "header": "Pet Manager Waters",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00042_HelpTheUncle/30828-08.html": {
+   "file": "Q00042_HelpTheUncle/30828-08.html",
+   "quest": 42,
+   "text": "Pet Manager Waters: The Black Lion Mercenaries have always been trustworthy, but this time you've outdone yourselves! Thank you so much! I should really do something for you...",
+   "header": "Pet Manager Waters",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"It was nothing!\"",
+     "bypass": "Quest Q00042_HelpTheUncle 30828-09.html",
+     "kind": "quest-event",
+     "script": "Q00042_HelpTheUncle",
+     "event": "30828-09.html",
+     "quest": 42,
+     "to": "Q00042_HelpTheUncle/30828-09.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00042_HelpTheUncle/30828-01.htm": {
+   "file": "Q00042_HelpTheUncle/30828-01.htm",
+   "quest": 42,
+   "text": "Pet Manager Waters: Awesome! Please, bring me a Trident ! I simply must have one! They probably sell them in stores around here, but I don't have enough Adena...",
+   "header": "Pet Manager Waters",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00042_HelpTheUncle/30828-03.html": {
+   "file": "Q00042_HelpTheUncle/30828-03.html",
+   "quest": 42,
+   "text": "Pet Manager Waters: I need to send the Trident, but outlaws have been rampant in this area lately! Please kill 30 Monster Eye Gazers and Destroyers ! Destroy them so I can send the Trident safely. Please, you must help me!",
+   "header": "Pet Manager Waters",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00042_HelpTheUncle/30828-03a.html": {
+   "file": "Q00042_HelpTheUncle/30828-03a.html",
+   "quest": 42,
+   "text": "Pet Manager Waters: Well, you should have suddenly felt that it is too valuable. Then, that's OK. Please bring me one when you have enough.",
+   "header": "Pet Manager Waters",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00042_HelpTheUncle/30828-06.html": {
+   "file": "Q00042_HelpTheUncle/30828-06.html",
+   "quest": 42,
+   "text": "Pet Manager Waters: Hmm... Let's see... I think I can put them together... Voila! Isn't it beautiful? Look! The attack plan is written on it! This is great! Send it to Sophya of the Black Lions.",
+   "header": "Pet Manager Waters",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00042_HelpTheUncle/30828-06a.html": {
+   "file": "Q00042_HelpTheUncle/30828-06a.html",
+   "quest": 42,
+   "text": "Pet Manager Waters: Where is the Map fragment?",
+   "header": "Pet Manager Waters",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00042_HelpTheUncle/30828-09.html": {
+   "file": "Q00042_HelpTheUncle/30828-09.html",
+   "quest": 42,
+   "text": "Pet Manager Waters: Don't be modest, my friend! Please accept this as a token of my esteem! It's quite rare, even among very wealthy! It's a pet exchange ticket . Enjoy your new pet, and raise it well!",
+   "header": "Pet Manager Waters",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Help the Uncle!]",
+     "bypass": "npc_%objectId%_Quest Q00042_HelpTheUncle",
+     "kind": "quest",
+     "quest": 42,
+     "to": "Q00042_HelpTheUncle/30828-00.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Help the Uncle! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00042_HelpTheUncle",
+     "kind": "quest",
+     "quest": 42,
+     "to": "Q00042_HelpTheUncle/30828-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "petmanager/instructions.htm": {
+   "file": "petmanager/instructions.htm",
+   "quest": null,
+   "text": "There are a few things you should know before deciding to raise a pet. Let me tell you what they are. First, you should know how to acquire a pet's experience. A pet gains a portion of the experience that its master obtains. The specific amount will vary depending on whether the master's own level …",
+   "outcome": "refusal",
+   "links": []
+  },
+  "petmanager/evolve.htm": {
+   "file": "petmanager/evolve.htm",
+   "quest": null,
+   "text": "Depending on its type, you may be able to evolve your pet. Evolution is only possible when the pet is summoned. Also, since the process transfers the experience value, evolving a high level pet might actually result in a decrease in the pet's level. Any items in the pet's inventory will be transfer…",
+   "links": [
+    {
+     "text": "Evolve a Wolf into a Great Wolf.",
+     "bypass": "npc_%objectId%_evolve 1",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Great Wolf into a Fenrir.",
+     "bypass": "npc_%objectId%_evolve 2",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Baby Buffalo into an Improved Baby Buffalo (for Warriors).",
+     "bypass": "npc_%objectId%_evolve 3",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Baby Kookaburra into an Improved Baby Kookaburra (for Mystics).",
+     "bypass": "npc_%objectId%_evolve 4",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Baby Cougar into an Improved Baby Cougar (for mixed professions).",
+     "bypass": "npc_%objectId%_evolve 5",
+     "kind": "other"
+    }
+   ]
+  },
+  "petmanager/exchange.htm": {
+   "file": "petmanager/exchange.htm",
+   "quest": null,
+   "text": "Pet exchange tickets allow their bearer to purchase pets, such as Kookaburra, Buffaloes or Cougars. Sales of the tickets are strictly limited to members. What kind of ticket would you like?",
+   "links": [
+    {
+     "text": "Pet Exchange Ticket: Kookaburra",
+     "bypass": "npc_%objectId%_exchange 1",
+     "kind": "other"
+    },
+    {
+     "text": "Pet Exchange Ticket: Buffalo",
+     "bypass": "npc_%objectId%_exchange 2",
+     "kind": "other"
+    },
+    {
+     "text": "Pet Exchange Ticket: Cougar",
+     "bypass": "npc_%objectId%_exchange 3",
+     "kind": "other"
+    }
+   ]
+  }
+ }
+}

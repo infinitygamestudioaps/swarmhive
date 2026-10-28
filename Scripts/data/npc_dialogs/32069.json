@@ -1,0 +1,438 @@
+{
+ "npcId": 32069,
+ "name": "Gutenhagen",
+ "title": "Collector",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.322Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32069.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "463": {
+   "name": "I Must Be a Genius",
+   "listText": [
+    "[I Must Be a Genius]",
+    "[I Must Be a Genius (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00463_IMustBeaGenius/32069-07.htm",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00463_IMustBeaGenius/32069-01.htm",
+     "when": "state COMPLETED|CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00463_IMustBeaGenius/32069-00.htm",
+     "when": "state COMPLETED|CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00463_IMustBeaGenius/32069-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00463_IMustBeaGenius/32069-06a.html",
+     "when": "state STARTED; st.getInt(\"var\") == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00463_IMustBeaGenius/32069-06.html",
+     "when": "state STARTED; !st.getInt(\"var\") == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "647": {
+   "name": "Influx of Machines",
+   "listText": [
+    "[Influx of Machines]",
+    "[Influx of Machines (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00647_InfluxOfMachines/32069-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00647_InfluxOfMachines/32069-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00647_InfluxOfMachines/32069-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00647_InfluxOfMachines/32069-05.html",
+     "when": "state STARTED; cond 2; item 15521 >= 500",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32069.htm": {
+   "file": "default/32069.htm",
+   "quest": null,
+   "text": "Collector Gutenhagen: Who are you and what are you doing in the Dwarf Barracks? Oh, sorry! My mistake. You have impeccable timing!",
+   "header": "Collector Gutenhagen",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00463_IMustBeaGenius/32069-07.htm": {
+   "file": "Q00463_IMustBeaGenius/32069-07.htm",
+   "quest": 463,
+   "text": "Collector Gutenhagen: Oh, there you are, ready for more? Well I'm still analyzing the data you've brought. (This quest can be completed only once a day. This quest resets everyday at 6:30 am.)",
+   "header": "Collector Gutenhagen",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00463_IMustBeaGenius/32069-01.htm": {
+   "file": "Q00463_IMustBeaGenius/32069-01.htm",
+   "quest": 463,
+   "text": "Collector Gutenhagen: Like animals, machines need to evolve. Evolve or become antiquities. The Horrifying Golem Army has gained considerable strength by adhering to this motto. And they are up to something lately. I was trying to find out what, but I have had zero success. The research and data col…",
+   "header": "Collector Gutenhagen",
+   "when": [
+    "state COMPLETED|CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Ask how to collect data.",
+     "bypass": "Quest Q00463_IMustBeaGenius 32069-02.htm",
+     "kind": "quest-event",
+     "script": "Q00463_IMustBeaGenius",
+     "event": "32069-02.htm",
+     "quest": 463,
+     "to": "Q00463_IMustBeaGenius/32069-02.htm"
+    }
+   ]
+  },
+  "Q00463_IMustBeaGenius/32069-00.htm": {
+   "file": "Q00463_IMustBeaGenius/32069-00.htm",
+   "quest": 463,
+   "text": "Collector Gutenhagen: Machines need to continually evolve. The ones that don't are turned into toasters. The Horrifying Golem Army has definitely evolved, and they have the strength to show it. To keep up with them you need to keep practicing! (Only characters with level 70 and above are permitted …",
+   "header": "Collector Gutenhagen",
+   "when": [
+    "state COMPLETED|CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00463_IMustBeaGenius/32069-04.html": {
+   "file": "Q00463_IMustBeaGenius/32069-04.html",
+   "quest": 463,
+   "text": "Collector Gutenhagen: The log value doesn't match today's number. Do you know what THIS MEANS!! Go back. Try harder. And keep getting data until the numbers match!",
+   "header": "Collector Gutenhagen",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Check today's number again",
+     "bypass": "Quest Q00463_IMustBeaGenius 32069-05.htm",
+     "kind": "quest-event",
+     "script": "Q00463_IMustBeaGenius",
+     "event": "32069-05.htm",
+     "quest": 463,
+     "to": "Q00463_IMustBeaGenius/32069-05.htm"
+    }
+   ]
+  },
+  "Q00463_IMustBeaGenius/32069-06a.html": {
+   "file": "Q00463_IMustBeaGenius/32069-06a.html",
+   "quest": 463,
+   "text": "Collector Gutenhagen: Huh? You're smart but also full of doubt, aren't you? I can't believe that you have not operated my device yet. Don't you trust me?! Or do you doubt my device?! I will give you one more chance!",
+   "header": "Collector Gutenhagen",
+   "when": [
+    "state STARTED; st.getInt(\"var\") == 1"
+   ],
+   "links": [
+    {
+     "text": "Operate the device.",
+     "bypass": "Quest Q00463_IMustBeaGenius reward",
+     "kind": "quest-event",
+     "script": "Q00463_IMustBeaGenius",
+     "event": "reward",
+     "quest": 463,
+     "to": null,
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00463_IMustBeaGenius/32069-06.html": {
+   "file": "Q00463_IMustBeaGenius/32069-06.html",
+   "quest": 463,
+   "text": "Collector Gutenhagen: You did it! I never doubted you. Yes, I prepared something for you. Here, this is a device unlike any other. Activating this device will give you a boost of energy and raise your intelligence. Sometimes it malfunctions... but, uhm... There won't be any problems, so trust me!",
+   "header": "Collector Gutenhagen",
+   "when": [
+    "state STARTED; !st.getInt(\"var\") == 1"
+   ],
+   "links": [
+    {
+     "text": "Operate the device",
+     "bypass": "Quest Q00463_IMustBeaGenius reward",
+     "kind": "quest-event",
+     "script": "Q00463_IMustBeaGenius",
+     "event": "reward",
+     "quest": 463,
+     "to": null,
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00647_InfluxOfMachines/32069-01.htm": {
+   "file": "Q00647_InfluxOfMachines/32069-01.htm",
+   "quest": 647,
+   "text": "Collector Gutenhagen: When I first came here, these barracks were full of Dwarves... Now they're deserted! That is, of course, except for Yumi and me! Yumi's on some sort of research mission, and I can't just leave her alone! You look like a strong-enough fellow... Are you looking for work?",
+   "header": "Collector Gutenhagen",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"What kind of work?\"",
+     "bypass": "Quest Q00647_InfluxOfMachines 32069-03.htm",
+     "kind": "quest-event",
+     "script": "Q00647_InfluxOfMachines",
+     "event": "32069-03.htm",
+     "quest": 647,
+     "to": "Q00647_InfluxOfMachines/32069-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00647_InfluxOfMachines/32069-02.htm": {
+   "file": "Q00647_InfluxOfMachines/32069-02.htm",
+   "quest": 647,
+   "text": "Collector Gutenhagen: The job is to take care of these Golems. Yumi has been flying solo on this, but she's burning herslef out. I'd like to hire you..., but you don't look like you're ready for this. Come back when you are prepared. (Only characters of level 70 and above are permitted to take on t…",
+   "header": "Collector Gutenhagen",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00647_InfluxOfMachines/32069-04.html": {
+   "file": "Q00647_InfluxOfMachines/32069-04.html",
+   "quest": 647,
+   "text": "Collector Gutenhagen: Your job is to destroy all the Golems in the Horrifying Golem Army, including the Ginzu Golems and the Cannon Golems in the Strip Mine. Bring me 500 Golem Shards and you'll be well rewarded! Good luck!",
+   "header": "Collector Gutenhagen",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00647_InfluxOfMachines/32069-05.html": {
+   "file": "Q00647_InfluxOfMachines/32069-05.html",
+   "quest": 647,
+   "text": "Collector Gutenhagen: You've brought back 500 Golem Shards! I had no idea you could get the job done so quickly! I suppose I should've hired someone like you long ago... Now, give me the Shards...",
+   "header": "Collector Gutenhagen",
+   "when": [
+    "state STARTED; cond 2; item 15521 >= 500"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the Shards.\"",
+     "bypass": "Quest Q00647_InfluxOfMachines 32069-06.html",
+     "kind": "quest-event",
+     "script": "Q00647_InfluxOfMachines",
+     "event": "32069-06.html",
+     "quest": 647,
+     "to": "Q00647_InfluxOfMachines/32069-06.html",
+     "toAll": [
+      "Q00647_InfluxOfMachines/32069-06.html",
+      "Q00647_InfluxOfMachines/32069-07.html"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00463_IMustBeaGenius/32069-02.htm": {
+   "file": "Q00463_IMustBeaGenius/32069-02.htm",
+   "quest": 463,
+   "text": "Collector Gutenhagen: It seems the Horrifying Golem Army sends different numbers every day. I'll need the logs of each Golem to understand more. Hmm... You look like someone who's dying for a chance to extract important data... What do you think? Extract some data for me?",
+   "header": "Collector Gutenhagen",
+   "links": [
+    {
+     "text": "Say that you will",
+     "bypass": "Quest Q00463_IMustBeaGenius 32069-03.htm",
+     "kind": "quest-event",
+     "script": "Q00463_IMustBeaGenius",
+     "event": "32069-03.htm",
+     "quest": 463,
+     "to": "Q00463_IMustBeaGenius/32069-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00463_IMustBeaGenius/32069-03.htm": {
+   "file": "Q00463_IMustBeaGenius/32069-03.htm",
+   "quest": 463,
+   "text": "Collector Gutenhagen: Quite good. Now, listen carefully and take notes if you must. First, Golems send negative or positive numbers, but the numbers differ from each other. Second, one Golem will send a random number betweenn 1~100, but the Golem that does this changes day by day. Lastly, Golems ex…",
+   "header": "Collector Gutenhagen",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00463_IMustBeaGenius/32069-05.htm": {
+   "file": "Q00463_IMustBeaGenius/32069-05.htm",
+   "quest": 463,
+   "text": "Collector Gutenhagen: I suppose people just sometimes forget VERY important things. Today's number is %num%. Please remember.",
+   "header": "Collector Gutenhagen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00463_IMustBeaGenius/32069-08.html": {
+   "file": "Q00463_IMustBeaGenius/32069-08.html",
+   "quest": 463,
+   "text": "Collector Gutenhagen: ......Hm, hmm!!! Well, well, well. This is strange... I haven't seen this before, no effects... Did I give you the wrong thing? It's not likely... Would you collect the logs again tomorrow? I'm sure everything will be working fine tomorrow. I think...",
+   "header": "Collector Gutenhagen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00463_IMustBeaGenius/32069-09.html": {
+   "file": "Q00463_IMustBeaGenius/32069-09.html",
+   "quest": 463,
+   "text": "Collector Gutenhagen: Well, all's well that ends well! I'm surprised to see such a stable result. At this rate, I may be able to get a higher sale price. Hmm, hmm. By the way - why not come back tomorrow? I always welcome fresh mea- uhm, adventurers like you.",
+   "header": "Collector Gutenhagen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00463_IMustBeaGenius/32069-10.html": {
+   "file": "Q00463_IMustBeaGenius/32069-10.html",
+   "quest": 463,
+   "text": "Collector Gutenhagen: Yee-HAW!! Success!! All those times I took a hammer to this thing, and it finally works!! We must do it again someday!!",
+   "header": "Collector Gutenhagen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00463_IMustBeaGenius/32069-11.html": {
+   "file": "Q00463_IMustBeaGenius/32069-11.html",
+   "quest": 463,
+   "text": "Collector Gutenhagen: This is hard to believe!! You are the first to have this happen!! Don't you surge with wisdom? Aren't you teeming with uncontrollable energy? The result is amazing... Come back any day, I'll be ready.",
+   "header": "Collector Gutenhagen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00647_InfluxOfMachines/32069-03.htm": {
+   "file": "Q00647_InfluxOfMachines/32069-03.htm",
+   "quest": 647,
+   "text": "Collector Gutenhagen: The job is to take care of these Golems. Yumi's been doing it alone, but she needs help, someone she can rely on. Any Golems belonging to the Horrifying Golem Army are fine. You will be dealing with Guard Golems inside the building or Jackhammer Golems in the Strip Mines. When…",
+   "header": "Collector Gutenhagen",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00647_InfluxOfMachines/32069-06.html": {
+   "file": "Q00647_InfluxOfMachines/32069-06.html",
+   "quest": 647,
+   "text": "Collector Gutenhagen: Good job! Collecting 500 Golem Shards is never an easy task! Please accept this reward... What's that? It's not enough?! You must not have any idea what this paper is worth!",
+   "header": "Collector Gutenhagen",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00647_InfluxOfMachines/32069-07.html": {
+   "file": "Q00647_InfluxOfMachines/32069-07.html",
+   "quest": 647,
+   "text": "Collector Gutenhagen: Hey, what happened to the Golem Shards? You had them, but when I went to pick them up, they were gone! This is unbelievable! Of course you realize that I can't give you a reward if you don't actually give me the Shards!",
+   "header": "Collector Gutenhagen",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[I Must Be a Genius]",
+     "bypass": "npc_%objectId%_Quest Q00463_IMustBeaGenius",
+     "kind": "quest",
+     "quest": 463,
+     "to": "Q00463_IMustBeaGenius/32069-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[I Must Be a Genius (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00463_IMustBeaGenius",
+     "kind": "quest",
+     "quest": 463,
+     "to": "Q00463_IMustBeaGenius/32069-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Influx of Machines]",
+     "bypass": "npc_%objectId%_Quest Q00647_InfluxOfMachines",
+     "kind": "quest",
+     "quest": 647,
+     "to": "Q00647_InfluxOfMachines/32069-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Influx of Machines (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00647_InfluxOfMachines",
+     "kind": "quest",
+     "quest": 647,
+     "to": "Q00647_InfluxOfMachines/32069-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

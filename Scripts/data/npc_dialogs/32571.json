@@ -1,0 +1,601 @@
+{
+ "npcId": 32571,
+ "name": "Colin",
+ "title": "Secret Agent",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.388Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32571.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "194": {
+   "name": "Seven Signs, Mammon's Contract",
+   "listText": [
+    "[Seven Signs, Mammon's Contract]",
+    "[Seven Signs, Mammon's Contract (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-01.html",
+     "when": "state STARTED; cond 1|2",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-02.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-06.html",
+     "when": "state STARTED; cond 4; (player.getTransformationId() != 111)",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-08.html",
+     "when": "state STARTED; cond 4; NOT (player.getTransformationId() != 111)",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-10.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-12.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-14.html",
+     "when": "state STARTED; cond 7; (player.getTransformationId() != 112)",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-16.html",
+     "when": "state STARTED; cond 7; NOT (player.getTransformationId() != 112)",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-18.html",
+     "when": "state STARTED; cond 8",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-20.html",
+     "when": "state STARTED; cond 9",
+     "state": "STARTED",
+     "cond": [
+      9
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-22.html",
+     "when": "state STARTED; cond 10; (player.getTransformationId() != 124)",
+     "state": "STARTED",
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-24.html",
+     "when": "state STARTED; cond 10; NOT (player.getTransformationId() != 124)",
+     "state": "STARTED",
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-26.html",
+     "when": "state STARTED; cond 11",
+     "state": "STARTED",
+     "cond": [
+      11
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32571-28.html",
+     "when": "state STARTED; cond 12",
+     "state": "STARTED",
+     "cond": [
+      12
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32571.htm": {
+   "file": "default/32571.htm",
+   "quest": null,
+   "text": "Secret Agent Colin: There's nothing in this world without meaning. If you dig deep enough, you'll find hidden meaning in everything. That's what makes life do interesting!",
+   "header": "Secret Agent Colin",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-01.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-01.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Lookin' like trouble's brewing, eh? Start learnin' its smell, you know. Trouble, that is. Clear as crystals.",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 1|2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-02.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-02.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Well then! You must be the one who cracked knuckles against Cain's monster. Good work there - those things ain't known for staying down. I've been told what you're to do, pal, and I ain't jealous of you. Listen closely though and I'll make sure you get in and out before priests…",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"So where do we start?\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-03.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-03.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-03.html"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-06.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-06.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: The disguise slipped? Do you need me to transform you again? (The transformation will cancel all movement-related buffs, including the PC room buff, other than energy buffs.)",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 4; (player.getTransformationId() != 111)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes please.\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-07.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-07.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-07.html"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-08.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-08.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: What do you want? A pat on the head? A kick in the jacobs? Look, just get out there and fetch me something to prove you can pull off the disguise. I ain't sending you to the priests without training you up. Get going.",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 4; NOT (player.getTransformationId() != 111)"
+   ],
+   "links": [
+    {
+     "text": "\"I want you to remove the spell.\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-09.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-09.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-09.html"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-10.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-10.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Back are we? Show me what you've brought then eh?",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"Here.\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-11.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-11.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-11.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-12.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-12.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: The Frog King was an easy mark. Not too smart and preoccupied with that Frog Lady we fabricated. This is different though. You're going to be transformed into a young boy , and you'll be talkin' to Grandma Tess . You'll have to use completely different character traits this tim…",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"As ever.\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-13.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-13.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-13.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-14.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-14.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: What happened? How come the transformation slipped? Ah, it doesn't matter. Want me to change you again? (The transformation will cancel all movement-related buffs, including the PC room buff, other than energy buffs.)",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 7; (player.getTransformationId() != 112)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-15.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-15.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-15.html"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-16.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-16.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Why are you here? Do you want the transformation removed?",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 7; NOT (player.getTransformationId() != 112)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes please.\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-17.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-17.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-17.html"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-18.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-18.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Back eh? Let's see what you brought then.",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 8"
+   ],
+   "links": [
+    {
+     "text": "\"Here. Grandma's candy.\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-19.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-19.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-19.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-20.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-20.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: So you've conned a talking frog and an old lady, now comes the real test. I want you to speak to one of the adult villagers here and get him to hand you one of their belongings . Do it and we'll be done with our trainin'. Fail and we'll know more work is needed. Ready for the t…",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 9"
+   ],
+   "links": [
+    {
+     "text": "\"I think so.\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-21.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-21.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-21.html",
+     "effect": "cond:10"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-22.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-22.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: What happened? Why's your disguise slipped? Do you need transforming again? (The transformation will cancel all movement-related buffs, including the PC room buff, other than energy buffs.)",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 10; (player.getTransformationId() != 124)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-23.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-23.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-23.html"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-24.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-24.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: What? Why are you back already? Don't tell me you've other work that needs doing....",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 10; NOT (player.getTransformationId() != 124)"
+   ],
+   "links": [
+    {
+     "text": "\"I do. I need to reverse the transformation.\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-25.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-25.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-25.html"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-26.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-26.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Ah ha! Let's see what you've got then.",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 11"
+   ],
+   "links": [
+    {
+     "text": "\"How are these?\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-27.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-27.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-27.html",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-28.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-28.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: What are you waitin' for? A pat on the back? Hurry to the Outer Ring of the Town of Aden and see Lady Claudia !",
+   "header": "Secret Agent Collin",
+   "when": [
+    "state STARTED; cond 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-03.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-03.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Well, we get you training! First thing you need to know is that we ain't going to be dressin' you up in rags and have you wobblin' about like some old madam. No no--you're gonna be transformed , my friend!",
+   "header": "Secret Agent Collin",
+   "links": [
+    {
+     "text": "\"Transformed?\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-04.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-04.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-04.html"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-04.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-04.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Yes, magically transformed. You'll be visually indistinguishable from the priests. But as any spy worth his salt knows, there's more to a disguise than getting dressed into fancy rags. Gotta play the part too, move like them, talk like them, think like them. Right, enough chat.…",
+   "header": "Secret Agent Collin",
+   "links": [
+    {
+     "text": "\"Okay, please disguise me as a frog.\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32571-05.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32571-05.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-05.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32571-05.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-05.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Perfect! Just remember that the disguise won't last forever , and you'll need to use some skills to get you there and back in good time. Oh, and stay out of the water ! The magic'll be broken if you get wet! There's not much time left before the transformation ends, so hurry! N…",
+   "header": "Secret Agent Collin",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-07.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-07.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: There you go. Remember to stay out of water , and move fast , else you'll be back here again beggin' for another chance. Now hurry up. That treasure won't bring itself will it?",
+   "header": "Secret Agent Collin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-09.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-09.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Right. When you want to resume your training, just let me know. Now go, I have things to do.",
+   "header": "Secret Agent Collin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-11.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-11.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: The blue bead! Well, didn't think you'd get anything quite as fancy as this, I must admit. Well then, I think we can consider that part of the test passed. Now let's see how you handle part two....",
+   "header": "Secret Agent Collin",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-13.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-13.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: There we go! Haha - look at you! Now go and see Grandma Tess , and see how long you can keep your chat going. You'll have to run as fast as your little legs'll carry you though, else you'll pop up all tall and strong before her very eyes, and lord knows what she'll do then.",
+   "header": "Secret Agent Collin",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-15.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-15.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: There - you're a child again. Now hurry and bring me a belonging from the old woman, all right? Now the transformation won't last long, so move fast, and steer clear of water! You'll also want to use some of your movement skills to get you there before the illusion wears off. G…",
+   "header": "Secret Agent Collin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-17.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-17.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: There. Now do what you have to do, and hurry back as soon as you can. Time ain't a commodity we have to spare.",
+   "header": "Secret Agent Collin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-19.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-19.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Nice work! Didn't think you'd be smart enough to bring back something edible, my friend. Clearly you know how to worm your way into my good books, eh? Now, there's one last training mission for you to do, then my work will be done. Let me know when you're ready.",
+   "header": "Secret Agent Collin",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-21.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-21.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Now the mark's name is Kuta . This transformation won't last long , so run as fast as you can and get the job done in double-time. Same rules as before. Move fast , and avoid water . Go!",
+   "header": "Secret Agent Collin",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-23.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-23.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Right, don't mess up this time. I need you to convince Kuta to hand you over one of his possessions . As soon as you have it, get back here and I'll assess your progress. Remember: move fast, avoid water . Go!",
+   "header": "Secret Agent Collin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-25.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-25.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: Right, well it's done. You better hurry up though--we don't have much time. If the priests move that page then we'll be right back at square one, understand?",
+   "header": "Secret Agent Collin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32571-27.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32571-27.html",
+   "quest": 194,
+   "text": "Secret Agent Collin: A pair of work gloves... not bad. Bit old though, ain't they? Never mind. You passed the tests, meanin' our training sessions are now complete. Lady Claudia asked me to send you onto her as soon as you were done--you'll find her in Aden's outer ring . You best leave. Well done.",
+   "header": "Secret Agent Collin",
+   "sets": {
+    "cond": "12"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Mammon's Contract (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00194_SevenSignsMammonsContract",
+     "kind": "quest",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32571-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

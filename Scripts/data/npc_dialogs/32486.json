@@ -1,0 +1,233 @@
+{
+ "npcId": 32486,
+ "name": "Inventor Maru",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.375Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32486.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "269": {
+   "name": "Invention Ambition",
+   "listText": [
+    "[Invention Ambition]",
+    "[Invention Ambition (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00269_InventionAmbition/32486-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00269_InventionAmbition/32486-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00269_InventionAmbition/32486-06.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00269_InventionAmbition/32486-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32486.htm": {
+   "file": "default/32486.htm",
+   "quest": null,
+   "text": "Inventor Maru: Dreams are the hidden driving force for the engine we call the mind! Tell me of your dreams...",
+   "header": "Inventor Maru",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00269_InventionAmbition/32486-01.htm": {
+   "file": "Q00269_InventionAmbition/32486-01.htm",
+   "quest": 269,
+   "text": "Inventor Maru: Ha ha! You're embarrassed! Yes, you're turning red! No need, no need. My dream is to become a great inventor. For example...just a minute... (From his bag, takes out a book entitled \"Dwarves: A History of Brilliant Inventions\" and begins reading.) \"During the Age of Empire, \"Soren,\" …",
+   "header": "Inventor Maru",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"What invention are you working on?\"",
+     "bypass": "Quest Q00269_InventionAmbition 32486-03.htm",
+     "kind": "quest-event",
+     "script": "Q00269_InventionAmbition",
+     "event": "32486-03.htm",
+     "quest": 269,
+     "to": "Q00269_InventionAmbition/32486-03.htm"
+    }
+   ]
+  },
+  "Q00269_InventionAmbition/32486-02.html": {
+   "file": "Q00269_InventionAmbition/32486-02.html",
+   "quest": 269,
+   "text": "Inventor Maru: Ha ha! You're embarrassed! Yes, you're turning red! No need, no need. My dream is to become a great inventor. Now, it's your turn. You still don't know? Well, I'm afraid I don't have time for this. You'll have to tell me later. Goodbye! (Only characters level 18 and above may underta…",
+   "header": "Inventor Maru",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00269_InventionAmbition/32486-06.html": {
+   "file": "Q00269_InventionAmbition/32486-06.html",
+   "quest": 269,
+   "text": "Inventor Maru: Yes, that's it. The Energy Ore! If this works, I will be able to transform this common substance into a perfect instant energy crystal. Thank you for your help. If you have time, would you collect some more materials? The energy converter device's success rate is still low, so I need…",
+   "header": "Inventor Maru",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00269_InventionAmbition 32486-07.html",
+     "kind": "quest-event",
+     "script": "Q00269_InventionAmbition",
+     "event": "32486-07.html",
+     "quest": 269,
+     "to": "Q00269_InventionAmbition/32486-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"I'll go find more minerals.\"",
+     "bypass": "Quest Q00269_InventionAmbition 32486-08.html",
+     "kind": "quest-event",
+     "script": "Q00269_InventionAmbition",
+     "event": "32486-08.html",
+     "quest": 269,
+     "to": "Q00269_InventionAmbition/32486-08.html"
+    }
+   ]
+  },
+  "Q00269_InventionAmbition/32486-05.html": {
+   "file": "Q00269_InventionAmbition/32486-05.html",
+   "quest": 269,
+   "text": "Inventor Maru: Are you still empty-handed? Why haven't you left yet? Please hurry to the Eastern Mining Zone and hunt the monsters necessary to acquire the Energy Ore I need for my energy converter device experiments. Collect as much ore as you can. I'm counting on you. Together, we can make this i…",
+   "header": "Inventor Maru",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00269_InventionAmbition 32486-07.html",
+     "kind": "quest-event",
+     "script": "Q00269_InventionAmbition",
+     "event": "32486-07.html",
+     "quest": 269,
+     "to": "Q00269_InventionAmbition/32486-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"I'll go find the ore.\"",
+     "bypass": "Quest Q00269_InventionAmbition 32486-08.html",
+     "kind": "quest-event",
+     "script": "Q00269_InventionAmbition",
+     "event": "32486-08.html",
+     "quest": 269,
+     "to": "Q00269_InventionAmbition/32486-08.html"
+    }
+   ]
+  },
+  "Q00269_InventionAmbition/32486-03.htm": {
+   "file": "Q00269_InventionAmbition/32486-03.htm",
+   "quest": 269,
+   "text": "Inventor Maru: My invention? Ah, I'm flattered that you are interested! I am working on an \"energy converter\" . It transforms a common mineral into a crystal filled with powerful energy. If I am successful, I'm sure this will become as famous as the Soulshot! I don't have enough time to review my b…",
+   "header": "Inventor Maru",
+   "links": [
+    {
+     "text": "\"Okay. I'll help you gather the materials.\"",
+     "bypass": "Quest Q00269_InventionAmbition 32486-04.htm",
+     "kind": "quest-event",
+     "script": "Q00269_InventionAmbition",
+     "event": "32486-04.htm",
+     "quest": 269,
+     "to": "Q00269_InventionAmbition/32486-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00269_InventionAmbition/32486-04.htm": {
+   "file": "Q00269_InventionAmbition/32486-04.htm",
+   "quest": 269,
+   "text": "Inventor Maru: Thank you very much! I can tell already that you will prove very helpful to my experiment. Let me tell you about the materials I need. The primary ingredient is called \"Energy Ore\" . You can acquire it by hunting the monsters in the Eastern Mining Zone , which lies north of the Dwarv…",
+   "header": "Inventor Maru",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00269_InventionAmbition/32486-07.html": {
+   "file": "Q00269_InventionAmbition/32486-07.html",
+   "quest": 269,
+   "text": "Inventor Maru: You want to quit? I am sorry to hear you say that. Inventing is my life's passion, but I suppose you may have something else you need to attend to. Goodbye and good luck!",
+   "header": "Inventor Maru",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00269_InventionAmbition/32486-08.html": {
+   "file": "Q00269_InventionAmbition/32486-08.html",
+   "quest": 269,
+   "text": "Inventor Maru: Thanks to you, I think I'll be able to complete my invention quickly now. I'm still relying on you! Keep up the good work.",
+   "header": "Inventor Maru",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Invention Ambition]",
+     "bypass": "npc_%objectId%_Quest Q00269_InventionAmbition",
+     "kind": "quest",
+     "quest": 269,
+     "to": "Q00269_InventionAmbition/32486-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Invention Ambition (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00269_InventionAmbition",
+     "kind": "quest",
+     "quest": 269,
+     "to": "Q00269_InventionAmbition/32486-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,316 @@
+{
+ "npcId": 32655,
+ "name": "Chairen",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.396Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32655.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "311": {
+   "name": "Expulsion of Evil Spirits",
+   "listText": [
+    "[Expulsion of Evil Spirits]",
+    "[Expulsion of Evil Spirits (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00311_ExpulsionOfEvilSpirits/32655-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00311_ExpulsionOfEvilSpirits/32655-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00311_ExpulsionOfEvilSpirits/32655-05.html",
+     "when": "state STARTED; !hasQuestItems(player, SOUL_CORE_CONTAINING_EVIL_SPIRIT, RAGNA_ORCS_AMULET)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00311_ExpulsionOfEvilSpirits/32655-06.html",
+     "when": "state STARTED; NOT !hasQuestItems(player, SOUL_CORE_CONTAINING_EVIL_SPIRIT, RAGNA_ORCS_AMULET)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32655.htm": {
+   "file": "default/32655.htm",
+   "quest": null,
+   "text": "Cheiren: Foolish Baranka! You were exiled because of your mad obsession with evil, and now you have embraced the power of Kasha without hesitation or remorse. There can be no doubt of your fate...",
+   "header": "Cheiren",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00311_ExpulsionOfEvilSpirits/32655-01.htm": {
+   "file": "Q00311_ExpulsionOfEvilSpirits/32655-01.htm",
+   "quest": 311,
+   "text": "Cheiren: Us beacon watchers have been observing the Ragna Orcs for quite some time now. We've done all we can since the sparks of rebellion first erupted from their lands, but our efforts to control them have been fruitless so far.",
+   "header": "Cheiren",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Please tell me what happened.\"",
+     "bypass": "Quest Q00311_ExpulsionOfEvilSpirits 32655-03.htm",
+     "kind": "quest-event",
+     "script": "Q00311_ExpulsionOfEvilSpirits",
+     "event": "32655-03.htm",
+     "quest": 311,
+     "to": "Q00311_ExpulsionOfEvilSpirits/32655-03.htm"
+    }
+   ]
+  },
+  "Q00311_ExpulsionOfEvilSpirits/32655-02.htm": {
+   "file": "Q00311_ExpulsionOfEvilSpirits/32655-02.htm",
+   "quest": 311,
+   "text": "Cheiren: We Beacon Watchers have long watched the movements of the Ragna Orcs. Despite our efforts, though, rebellion seems inevitable. We have failed... Ah, but this is none of your concern. If you value your life, take my advice and leave this area as quickly as you can! (Only characters who are …",
+   "header": "Cheiren",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00311_ExpulsionOfEvilSpirits/32655-05.html": {
+   "file": "Q00311_ExpulsionOfEvilSpirits/32655-05.html",
+   "quest": 311,
+   "text": "Cheiren: What's holding you back? If you're not up for this mission, you'd better let me know now... Otherwise, go hunt Ragna Orcs and the Evil Spirit of Baranka, the Destroyer of Baranka . Since they are possessed by evil spirits emanating from the Ragna Orc Amulets they wear, you must retrieve th…",
+   "header": "Cheiren",
+   "when": [
+    "state STARTED; !hasQuestItems(player, SOUL_CORE_CONTAINING_EVIL_SPIRIT, RAGNA_ORCS_AMULET)"
+   ],
+   "links": [
+    {
+     "text": "Say you want to quit.",
+     "bypass": "Quest Q00311_ExpulsionOfEvilSpirits 32655-13.html",
+     "kind": "quest-event",
+     "script": "Q00311_ExpulsionOfEvilSpirits",
+     "event": "32655-13.html",
+     "quest": 311,
+     "to": "Q00311_ExpulsionOfEvilSpirits/32655-13.html",
+     "toAll": [
+      "Q00311_ExpulsionOfEvilSpirits/32655-13.html",
+      "Q00311_ExpulsionOfEvilSpirits/32655-14.html"
+     ],
+     "effect": "end"
+    },
+    {
+     "text": "Keep hunting.",
+     "bypass": "Quest Q00311_ExpulsionOfEvilSpirits 32655-15.html",
+     "kind": "quest-event",
+     "script": "Q00311_ExpulsionOfEvilSpirits",
+     "event": "32655-15.html",
+     "quest": 311,
+     "to": "Q00311_ExpulsionOfEvilSpirits/32655-15.html"
+    }
+   ]
+  },
+  "Q00311_ExpulsionOfEvilSpirits/32655-06.html": {
+   "file": "Q00311_ExpulsionOfEvilSpirits/32655-06.html",
+   "quest": 311,
+   "text": "Cheiren: How did you do? If you present proof of the courage that you displayed, I will give you a fitting reward.",
+   "header": "Cheiren",
+   "when": [
+    "state STARTED; NOT !hasQuestItems(player, SOUL_CORE_CONTAINING_EVIL_SPIRIT, RAGNA_ORCS_AMULET)"
+   ],
+   "links": [
+    {
+     "text": "Receive reward for the Ragna Orc's Amulet.",
+     "bypass": "npc_%objectId%_multisell 2010",
+     "kind": "multisell"
+    },
+    {
+     "text": "Receive reward for 10 Soul Cores Containing Evil Spirits.",
+     "bypass": "Quest Q00311_ExpulsionOfEvilSpirits 32655-11.html",
+     "kind": "quest-event",
+     "script": "Q00311_ExpulsionOfEvilSpirits",
+     "event": "32655-11.html",
+     "quest": 311,
+     "to": "Q00311_ExpulsionOfEvilSpirits/32655-11.html",
+     "toAll": [
+      "Q00311_ExpulsionOfEvilSpirits/32655-11.html",
+      "Q00311_ExpulsionOfEvilSpirits/32655-12.html"
+     ]
+    }
+   ]
+  },
+  "Q00311_ExpulsionOfEvilSpirits/32655-03.htm": {
+   "file": "Q00311_ExpulsionOfEvilSpirits/32655-03.htm",
+   "quest": 311,
+   "text": "Cheiren: In their arrogance, the Ragna Orcs summoned the power of the evil spirit Kasha. Now Kasha has corrupted them, making them even more vicious and dangerous. Unless we can stop them, all the Orc tribes will be in grave danger... Will you help us?",
+   "header": "Cheiren",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00311_ExpulsionOfEvilSpirits 32655-04.htm",
+     "kind": "quest-event",
+     "script": "Q00311_ExpulsionOfEvilSpirits",
+     "event": "32655-04.htm",
+     "quest": 311,
+     "to": "Q00311_ExpulsionOfEvilSpirits/32655-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00311_ExpulsionOfEvilSpirits/32655-04.htm": {
+   "file": "Q00311_ExpulsionOfEvilSpirits/32655-04.htm",
+   "quest": 311,
+   "text": "Cheiren: Let me tell you about the mission. Hunt Ragna Orcs and the Evil Spirit of Baranka, the Destroyer of Baranka . Since they are possessed by evil spirits emanating from the Ragna Orc Amulets they wear, you must retrieve those accursed pendants. The more you bring me, the higher your reward. S…",
+   "header": "Cheiren",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00311_ExpulsionOfEvilSpirits/32655-11.html": {
+   "file": "Q00311_ExpulsionOfEvilSpirits/32655-11.html",
+   "quest": 311,
+   "text": "Cheiren: You have brought back 10 Soul Cores! If I combine the power of these cores with this pendant... like... so. This is the Guardian Spirit's Pendant ! This item is absolutely necessary to stand against Varangka , the chief of the Ragna Orcs. Without this item, you will not be able to endure h…",
+   "header": "Cheiren",
+   "links": [
+    {
+     "text": "Settle other items.",
+     "bypass": "npc_%objectId%_multisell 2010",
+     "kind": "multisell"
+    },
+    {
+     "text": "Say that you are quitting the mission.",
+     "bypass": "Quest Q00311_ExpulsionOfEvilSpirits 32655-13.html",
+     "kind": "quest-event",
+     "script": "Q00311_ExpulsionOfEvilSpirits",
+     "event": "32655-13.html",
+     "quest": 311,
+     "to": "Q00311_ExpulsionOfEvilSpirits/32655-13.html",
+     "toAll": [
+      "Q00311_ExpulsionOfEvilSpirits/32655-13.html",
+      "Q00311_ExpulsionOfEvilSpirits/32655-14.html"
+     ],
+     "effect": "end"
+    },
+    {
+     "text": "Continue the mission.",
+     "bypass": "Quest Q00311_ExpulsionOfEvilSpirits 32655-15.html",
+     "kind": "quest-event",
+     "script": "Q00311_ExpulsionOfEvilSpirits",
+     "event": "32655-15.html",
+     "quest": 311,
+     "to": "Q00311_ExpulsionOfEvilSpirits/32655-15.html"
+    }
+   ]
+  },
+  "Q00311_ExpulsionOfEvilSpirits/32655-12.html": {
+   "file": "Q00311_ExpulsionOfEvilSpirits/32655-12.html",
+   "quest": 311,
+   "text": "Cheiren: There must be at least 10 Soul Cores Containing Evil Spirits. You did not bring back 10. Is there anything else?",
+   "header": "Cheiren",
+   "links": [
+    {
+     "text": "Settle other items.",
+     "bypass": "npc_%objectId%_multisell 2010",
+     "kind": "multisell"
+    },
+    {
+     "text": "Say that you are quitting the mission.",
+     "bypass": "Quest Q00311_ExpulsionOfEvilSpirits 32655-13.html",
+     "kind": "quest-event",
+     "script": "Q00311_ExpulsionOfEvilSpirits",
+     "event": "32655-13.html",
+     "quest": 311,
+     "to": "Q00311_ExpulsionOfEvilSpirits/32655-13.html",
+     "toAll": [
+      "Q00311_ExpulsionOfEvilSpirits/32655-13.html",
+      "Q00311_ExpulsionOfEvilSpirits/32655-14.html"
+     ],
+     "effect": "end"
+    },
+    {
+     "text": "Continue the mission.",
+     "bypass": "Quest Q00311_ExpulsionOfEvilSpirits 32655-15.html",
+     "kind": "quest-event",
+     "script": "Q00311_ExpulsionOfEvilSpirits",
+     "event": "32655-15.html",
+     "quest": 311,
+     "to": "Q00311_ExpulsionOfEvilSpirits/32655-15.html"
+    }
+   ]
+  },
+  "Q00311_ExpulsionOfEvilSpirits/32655-13.html": {
+   "file": "Q00311_ExpulsionOfEvilSpirits/32655-13.html",
+   "quest": 311,
+   "text": "Cheiren: You want to leave? Very well. I must respect your decision, and I thank you for your service. If we Orcs survive this threat, you will always be welcome at our hearths...",
+   "header": "Cheiren",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00311_ExpulsionOfEvilSpirits/32655-14.html": {
+   "file": "Q00311_ExpulsionOfEvilSpirits/32655-14.html",
+   "quest": 311,
+   "text": "Cheiren: Are you sure you want to stop? You still have items you haven't traded yet. Why not do so first?",
+   "header": "Cheiren",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00311_ExpulsionOfEvilSpirits/32655-15.html": {
+   "file": "Q00311_ExpulsionOfEvilSpirits/32655-15.html",
+   "quest": 311,
+   "text": "Cheiren: I'm counting on you! Do not fail us!",
+   "header": "Cheiren",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Expulsion of Evil Spirits]",
+     "bypass": "npc_%objectId%_Quest Q00311_ExpulsionOfEvilSpirits",
+     "kind": "quest",
+     "quest": 311,
+     "to": "Q00311_ExpulsionOfEvilSpirits/32655-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Expulsion of Evil Spirits (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00311_ExpulsionOfEvilSpirits",
+     "kind": "quest",
+     "quest": 311,
+     "to": "Q00311_ExpulsionOfEvilSpirits/32655-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

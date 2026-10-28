@@ -2,7 +2,7 @@
  "id": 217,
  "name": "Testimony Of Trust",
  "version": 1,
- "generated": "2026-10-27T11:15:15.621Z",
+ "generated": "2026-10-27T18:18:51.159Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 37,
@@ -34,17 +34,8 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
    "code": "area-danger",
    "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
-   "step": 1
-  },
-  {
-   "code": "route-conditional",
-   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
    "step": 1
   },
   {
@@ -53,12 +44,42 @@
    "step": 1
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 2
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 4
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 4
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 16
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 16
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 53
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 53
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 53
   }
  ],
- "expectedMin": 46,
+ "expectedMin": 84,
  "refLevel": 37,
  "steps": [
   {
@@ -298,6 +319,1837 @@
    ],
    "items": [
     {
+     "id": 2749,
+     "name": "Guardian Basilisk Blood",
+     "n": 10,
+     "from": [
+      {
+       "id": 20550,
+       "name": "Guardian Basilisk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2750,
+     "name": "Giant Aphid",
+     "n": 10,
+     "from": [
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20087,
+       "name": "Ant Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20088,
+       "name": "Ant Warrior Captain",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2751,
+     "name": "Stakatos Fluids",
+     "n": 10,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2756,
+     "name": "Parasite of Lota",
+     "n": 10,
+     "from": [
+      {
+       "id": 20553,
+       "name": "Windsus",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Ant Recruit, Ant Guard, Ant Patrol for Guardian Basilisk Blood x10, Giant Aphid x10, Stakatos Fluids x10, Parasite of Lota x10",
+   "places": [
+    {
+     "mobs": [
+      20550
+     ],
+     "items": [
+      2749
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dragon-valley-2",
+      "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+      "at": [
+       69032,
+       113624,
+       -3664
+      ],
+      "radius": 4241,
+      "levels": [
+       35,
+       37
+      ],
+      "count": 5,
+      "region": "Dragon Valley",
+      "atlasKey": "area:dragon-valley-2",
+      "status": "ok",
+      "sec": 98,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -28.366666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-1",
+        "name": "Dragon Valley 1: Wyrm area (south-west)",
+        "at": [
+         68888,
+         120904,
+         -3656
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-4",
+        "name": "Dragon Valley 4: Fettered Soul area (south)",
+        "at": [
+         71624,
+         125672,
+         -3624
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-6",
+        "name": "Dragon Valley 6: Guardian Basilisk area (north-west)",
+        "at": [
+         67912,
+         109816,
+         -3640
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dragon-valley-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 6389,
+      "sec": 98,
+      "via": ".hunters > Hunters -> Dragon Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Dragon Valley",
+        "link": "dragon valley",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6389,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Dragon Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        73032,
+        118488,
+        -3696
+       ],
+       [
+        72664,
+        117496,
+        -3672
+       ],
+       [
+        71672,
+        116504,
+        -3616
+       ],
+       [
+        71416,
+        116248,
+        -3584
+       ],
+       [
+        71128,
+        115720,
+        -3560
+       ],
+       [
+        70136,
+        114728,
+        -3560
+       ],
+       [
+        69144,
+        113736,
+        -3648
+       ],
+       [
+        69032,
+        113624,
+        -3664
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20082,
+      20086,
+      20084,
+      20087,
+      20088
+     ],
+     "items": [
+      2750
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "antnest-1-left-b",
+      "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+      "at": [
+       -14207,
+       180247,
+       -5387
+      ],
+      "radius": 1882,
+      "levels": [
+       33,
+       36
+      ],
+      "count": 35,
+      "region": "Ant Nest",
+      "atlasKey": "room:antnest-1-left-b",
+      "status": "ok",
+      "sec": 137,
+      "danger": 36,
+      "reachable": true,
+      "score": -177.71666666666667,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-l",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -25328,
+         180192,
+         -5406
+        ],
+        "count": 46,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-p",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -28065,
+         182298,
+         -5365
+        ],
+        "count": 26,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-left-a",
+        "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+        "at": [
+         -13622,
+         179364,
+         -5389
+        ],
+        "count": 22,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antnest-1-left-b",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 11014,
+      "sec": 137,
+      "via": ".gludio > Gludio -> Ant Cave",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ant Cave",
+        "link": "ant nest",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 27
+       },
+       {
+        "do": "walk",
+        "len": 11014,
+        "how": "dungeon-rooms",
+        "danger": 36
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ant Cave"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -10136,
+        175208,
+        -4176
+       ],
+       [
+        -10152,
+        175064,
+        -4224
+       ],
+       [
+        -10216,
+        174936,
+        -4264
+       ],
+       [
+        -10328,
+        174808,
+        -4312
+       ],
+       [
+        -10936,
+        174328,
+        -4576
+       ],
+       [
+        -11448,
+        174120,
+        -4640
+       ],
+       [
+        -11848,
+        174216,
+        -4792
+       ],
+       [
+        -11896,
+        174216,
+        -4816
+       ],
+       [
+        -12344,
+        174616,
+        -5008
+       ],
+       [
+        -12520,
+        174680,
+        -5112
+       ],
+       [
+        -12680,
+        174808,
+        -5136
+       ],
+       [
+        -13352,
+        175784,
+        -5304
+       ],
+       [
+        -13960,
+        176248,
+        -5288
+       ],
+       [
+        -13992,
+        176360,
+        -5296
+       ],
+       [
+        -13944,
+        177080,
+        -5304
+       ],
+       [
+        -13864,
+        177160,
+        -5304
+       ],
+       [
+        -13208,
+        177944,
+        -5304
+       ],
+       [
+        -13048,
+        178648,
+        -5384
+       ],
+       [
+        -13048,
+        178712,
+        -5384
+       ],
+       [
+        -13080,
+        178856,
+        -5384
+       ],
+       [
+        -13480,
+        179848,
+        -5384
+       ],
+       [
+        -13480,
+        179912,
+        -5368
+       ],
+       [
+        -14200,
+        180248,
+        -5384
+       ]
+      ],
+      "maxDanger": 36,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 36,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20157,
+      20230,
+      20232,
+      20234
+     ],
+     "items": [
+      2751
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-tower-far-3",
+      "name": "Cruma Tower 3: Marsh Stakato Soldier area (north-east)",
+      "at": [
+       19400,
+       106312,
+       -3672
+      ],
+      "radius": 4429,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 15,
+      "region": "Cruma Tower",
+      "atlasKey": "area:cruma-tower-far-3",
+      "status": "ok",
+      "sec": 127,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -87.88333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-34",
+        "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+        "at": [
+         28920,
+         108584,
+         -3704
+        ],
+        "count": 15,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-13",
+        "name": "Cruma Marshlands 13: Marsh Stakato Worker area (north-east)",
+        "at": [
+         16184,
+         109992,
+         -3728
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-4",
+        "name": "Cruma Tower 4: Marsh Stakato Worker area (north)",
+        "at": [
+         12488,
+         103176,
+         -3736
+        ],
+        "count": 13,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-tower-far-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9850,
+      "sec": 127,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1154,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 8696,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114008,
+        -3576
+       ],
+       [
+        16488,
+        113560,
+        -3576
+       ],
+       [
+        16616,
+        112968,
+        -3576
+       ],
+       [
+        16616,
+        111976,
+        -3656
+       ],
+       [
+        16616,
+        110984,
+        -3696
+       ],
+       [
+        16616,
+        109992,
+        -3752
+       ],
+       [
+        17240,
+        109000,
+        -3720
+       ],
+       [
+        17320,
+        108920,
+        -3728
+       ],
+       [
+        17944,
+        107928,
+        -3744
+       ],
+       [
+        18936,
+        106936,
+        -3672
+       ],
+       [
+        19256,
+        106616,
+        -3656
+       ],
+       [
+        19400,
+        106312,
+        -3672
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20553
+     ],
+     "items": [
+      2756
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-30",
+      "name": "Plains of Lizardmen 30: Windsus area (south-east)",
+      "at": [
+       100072,
+       100936,
+       -3600
+      ],
+      "radius": 3982,
+      "levels": [
+       38,
+       40
+      ],
+      "count": 6,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-30",
+      "status": "ok",
+      "sec": 281,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.316666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-16",
+        "name": "Dragon Valley 16: Grandis area (north)",
+        "at": [
+         70056,
+         101080,
+         -3720
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-25",
+        "name": "Plains of Lizardmen 25: Fettered Soul area (south)",
+        "at": [
+         85896,
+         99592,
+         -3584
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-29",
+        "name": "Plains of Lizardmen 29: Grandis area (south-east)",
+        "at": [
+         96600,
+         101352,
+         -3464
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-30",
+      "status": "ok",
+      "flags": [
+       "swim",
+       "long-swim",
+       "over-breath"
+      ],
+      "from": ".oren",
+      "length": 20550,
+      "sec": 281,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3450,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 17100,
+        "how": "field-areas",
+        "danger": 85
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        88104,
+        88728,
+        -2840
+       ],
+       [
+        88984,
+        89720,
+        -3176
+       ],
+       [
+        89976,
+        90712,
+        -3352
+       ],
+       [
+        90968,
+        91704,
+        -3360
+       ],
+       [
+        91960,
+        92696,
+        -3416
+       ],
+       [
+        92744,
+        93480,
+        -3520
+       ],
+       [
+        93608,
+        94472,
+        -3888
+       ],
+       [
+        94600,
+        95464,
+        -3920
+       ],
+       [
+        95592,
+        96456,
+        -3912
+       ],
+       [
+        96584,
+        97448,
+        -3776
+       ],
+       [
+        97576,
+        98440,
+        -3688
+       ],
+       [
+        98568,
+        99432,
+        -3624
+       ],
+       [
+        99560,
+        100424,
+        -3592
+       ],
+       [
+        100072,
+        100936,
+        -3600
+       ]
+      ],
+      "maxDanger": 85,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 5582,
+        "maxSwim": 5582,
+        "overBreath": true
+       },
+       "danger": 85,
+       "dangerVsLevel": 48,
+       "aggro": [
+        {
+         "name": "Fantasy Mushroom",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Berserker",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "dragon-valley-2",
+    "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+    "at": [
+     69032,
+     113624,
+     -3664
+    ],
+    "radius": 4241,
+    "levels": [
+     35,
+     37
+    ],
+    "count": 5,
+    "region": "Dragon Valley",
+    "atlasKey": "area:dragon-valley-2",
+    "status": "ok",
+    "sec": 98,
+    "danger": 37,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -28.366666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "dragon-valley-1",
+      "name": "Dragon Valley 1: Wyrm area (south-west)",
+      "at": [
+       68888,
+       120904,
+       -3656
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dragon-valley-4",
+      "name": "Dragon Valley 4: Fettered Soul area (south)",
+      "at": [
+       71624,
+       125672,
+       -3624
+      ],
+      "count": 2,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dragon-valley-6",
+      "name": "Dragon Valley 6: Guardian Basilisk area (north-west)",
+      "at": [
+       67912,
+       109816,
+       -3640
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:dragon-valley-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 6389,
+    "sec": 98,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6389,
+      "how": "field-areas",
+      "danger": 37
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      72664,
+      117496,
+      -3672
+     ],
+     [
+      71672,
+      116504,
+      -3616
+     ],
+     [
+      71416,
+      116248,
+      -3584
+     ],
+     [
+      71128,
+      115720,
+      -3560
+     ],
+     [
+      70136,
+      114728,
+      -3560
+     ],
+     [
+      69144,
+      113736,
+      -3648
+     ],
+     [
+      69032,
+      113624,
+      -3664
+     ]
+    ],
+    "maxDanger": 37,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 37,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 348,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    4,
+    5,
+    9,
+    10,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    21,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:27120",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27120,
+     "name": "Luell Of Zephyr Winds",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27121,
+     "name": "Actea Of Verdant Wilds",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 2749,
+     "name": "Guardian Basilisk Blood",
+     "n": 10,
+     "from": [
+      {
+       "id": 20550,
+       "name": "Guardian Basilisk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2750,
+     "name": "Giant Aphid",
+     "n": 10,
+     "from": [
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20087,
+       "name": "Ant Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20088,
+       "name": "Ant Warrior Captain",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2751,
+     "name": "Stakatos Fluids",
+     "n": 10,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2756,
+     "name": "Parasite of Lota",
+     "n": 10,
+     "from": [
+      {
+       "id": 20553,
+       "name": "Windsus",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20013,
+     20019
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
+   },
+   "text": "Make Luell Of Zephyr Winds, Actea Of Verdant Wilds appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "elven-forest-2",
+    "name": "Elven Forest 2: Dryad Elder area (west)",
+    "at": [
+     16632,
+     49688,
+     -3704
+    ],
+    "radius": 5190,
+    "levels": [
+     12,
+     14
+    ],
+    "count": 18,
+    "region": "Elven Forest",
+    "atlasKey": "area:elven-forest-2",
+    "status": "ok",
+    "sec": 115,
+    "danger": 15,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -106.08333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "elven-forest-12",
+      "name": "Elven Forest 12: Dryad Elder area (west)",
+      "at": [
+       10584,
+       48952,
+       -3672
+      ],
+      "count": 13,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "elven-forest-5",
+      "name": "Elven Forest 5: Kaboo Orc Fighter Leader area (south)",
+      "at": [
+       24088,
+       58024,
+       -3408
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "elven-forest-4",
+      "name": "Elven Forest 4: Kaboo Orc Fighter Leader area (south-west)",
+      "at": [
+       18056,
+       56584,
+       -3464
+      ],
+      "count": 6,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:elven-forest-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5402,
+    "sec": 115,
+    "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Forest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Elven",
+      "desc": "Elven Village -> Elven Forest",
+      "link": "elven forest",
+      "price": 710,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2412,
+      "how": "field-areas-gap",
+      "danger": 13
+     },
+     {
+      "do": "walk",
+      "len": 2990,
+      "how": "field-areas",
+      "danger": 15
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      21362,
+      51122,
+      -3688
+     ],
+     [
+      19032,
+      51208,
+      -3672
+     ],
+     [
+      18040,
+      51096,
+      -3616
+     ],
+     [
+      17048,
+      50104,
+      -3704
+     ],
+     [
+      16632,
+      49688,
+      -3704
+     ]
+    ],
+    "maxDanger": 15,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 15,
+     "dangerVsLevel": -22,
+     "aggro": []
+    }
+   },
+   "expectedSec": 415,
+   "conds": [
+    1,
+    4,
+    5,
+    9,
+    10,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    21,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30154",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "\"How can I help to restore the forest?\""
+   ],
+   "npc": {
+    "id": 30154,
+    "name": "Asterios",
+    "title": "Hierarch",
+    "town": "Elven Village",
+    "at": [
+     44692,
+     52261,
+     -2792
+    ],
+    "alt": []
+   },
+   "text": "Bring Letter to Elf to Asterios",
+   "needs": [
+    {
+     "id": 2735,
+     "name": "Letter to Elf",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30154@44692,52261",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 8186,
+    "sec": 113,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8186,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46344,
+      50024,
+      -3056
+     ],
+     [
+      46184,
+      49864,
+      -3064
+     ],
+     [
+      46152,
+      49896,
+      -3064
+     ],
+     [
+      45912,
+      50024,
+      -3056
+     ],
+     [
+      45640,
+      50056,
+      -3056
+     ],
+     [
+      45368,
+      50120,
+      -3056
+     ],
+     [
+      45096,
+      50056,
+      -3056
+     ],
+     [
+      44824,
+      50024,
+      -3056
+     ],
+     [
+      44568,
+      50008,
+      -3064
+     ],
+     [
+      44536,
+      50040,
+      -3056
+     ],
+     [
+      44312,
+      50200,
+      -3056
+     ],
+     [
+      44232,
+      50200,
+      -3056
+     ],
+     [
+      43960,
+      50200,
+      -3056
+     ],
+     [
+      43704,
+      50312,
+      -3024
+     ],
+     [
+      43464,
+      50456,
+      -2992
+     ],
+     [
+      43416,
+      50680,
+      -2992
+     ],
+     [
+      43496,
+      50856,
+      -2992
+     ],
+     [
+      43688,
+      51032,
+      -2992
+     ],
+     [
+      43944,
+      51096,
+      -2992
+     ],
+     [
+      43976,
+      51192,
+      -2992
+     ],
+     [
+      44152,
+      51240,
+      -2984
+     ],
+     [
+      44312,
+      51256,
+      -2928
+     ],
+     [
+      44344,
+      51480,
+      -2848
+     ],
+     [
+      44456,
+      51688,
+      -2832
+     ],
+     [
+      44440,
+      51640,
+      -2832
+     ],
+     [
+      44648,
+      51592,
+      -2808
+     ],
+     [
+      44696,
+      51736,
+      -2808
+     ],
+     [
+      44696,
+      52008,
+      -2792
+     ],
+     [
+      44728,
+      52120,
+      -2792
+     ],
+     [
+      44696,
+      52264,
+      -2792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 138,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20082,
+     "name": "Ant Recruit",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20086,
+     "name": "Ant Guard",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20084,
+     "name": "Ant Patrol",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20087,
+     "name": "Ant Soldier",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20088,
+     "name": "Ant Warrior Captain",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 67,
+     "questSpawned": false
+    },
+    {
+     "id": 20157,
+     "name": "Marsh Stakato",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20230,
+     "name": "Marsh Stakato Worker",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20232,
+     "name": "Marsh Stakato Soldier",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20213,
+     "name": "Porta",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20550,
+     "name": "Guardian Basilisk",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20553,
+     "name": "Windsus",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
      "id": 2746,
      "name": "Breath of Winds",
      "n": 1,
@@ -331,6 +2183,2231 @@
       }
      ]
     },
+    {
+     "id": 2749,
+     "name": "Guardian Basilisk Blood",
+     "n": 10,
+     "from": [
+      {
+       "id": 20550,
+       "name": "Guardian Basilisk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2750,
+     "name": "Giant Aphid",
+     "n": 10,
+     "from": [
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20087,
+       "name": "Ant Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20088,
+       "name": "Ant Warrior Captain",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2751,
+     "name": "Stakatos Fluids",
+     "n": 10,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2756,
+     "name": "Parasite of Lota",
+     "n": 10,
+     "from": [
+      {
+       "id": 20553,
+       "name": "Windsus",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Ant Recruit, Ant Guard, Ant Patrol for Breath of Winds x1, Seed of Verdure x1, Guardian Basilisk Blood x10, Giant Aphid x10, Stakatos Fluids x10, Parasite of Lota x10",
+   "places": [
+    {
+     "mobs": [
+      20550
+     ],
+     "items": [
+      2749
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dragon-valley-2",
+      "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+      "at": [
+       69032,
+       113624,
+       -3664
+      ],
+      "radius": 4241,
+      "levels": [
+       35,
+       37
+      ],
+      "count": 5,
+      "region": "Dragon Valley",
+      "atlasKey": "area:dragon-valley-2",
+      "status": "ok",
+      "sec": 98,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -28.366666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-1",
+        "name": "Dragon Valley 1: Wyrm area (south-west)",
+        "at": [
+         68888,
+         120904,
+         -3656
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-4",
+        "name": "Dragon Valley 4: Fettered Soul area (south)",
+        "at": [
+         71624,
+         125672,
+         -3624
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-6",
+        "name": "Dragon Valley 6: Guardian Basilisk area (north-west)",
+        "at": [
+         67912,
+         109816,
+         -3640
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dragon-valley-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 6389,
+      "sec": 98,
+      "via": ".hunters > Hunters -> Dragon Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Dragon Valley",
+        "link": "dragon valley",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6389,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Dragon Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        73032,
+        118488,
+        -3696
+       ],
+       [
+        72664,
+        117496,
+        -3672
+       ],
+       [
+        71672,
+        116504,
+        -3616
+       ],
+       [
+        71416,
+        116248,
+        -3584
+       ],
+       [
+        71128,
+        115720,
+        -3560
+       ],
+       [
+        70136,
+        114728,
+        -3560
+       ],
+       [
+        69144,
+        113736,
+        -3648
+       ],
+       [
+        69032,
+        113624,
+        -3664
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20082,
+      20086,
+      20084,
+      20087,
+      20088
+     ],
+     "items": [
+      2750
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "antnest-1-left-b",
+      "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+      "at": [
+       -14207,
+       180247,
+       -5387
+      ],
+      "radius": 1882,
+      "levels": [
+       33,
+       36
+      ],
+      "count": 35,
+      "region": "Ant Nest",
+      "atlasKey": "room:antnest-1-left-b",
+      "status": "ok",
+      "sec": 137,
+      "danger": 36,
+      "reachable": true,
+      "score": -177.71666666666667,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-l",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -25328,
+         180192,
+         -5406
+        ],
+        "count": 46,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-p",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -28065,
+         182298,
+         -5365
+        ],
+        "count": 26,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-left-a",
+        "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+        "at": [
+         -13622,
+         179364,
+         -5389
+        ],
+        "count": 22,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antnest-1-left-b",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 11014,
+      "sec": 137,
+      "via": ".gludio > Gludio -> Ant Cave",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ant Cave",
+        "link": "ant nest",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 27
+       },
+       {
+        "do": "walk",
+        "len": 11014,
+        "how": "dungeon-rooms",
+        "danger": 36
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ant Cave"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -10136,
+        175208,
+        -4176
+       ],
+       [
+        -10152,
+        175064,
+        -4224
+       ],
+       [
+        -10216,
+        174936,
+        -4264
+       ],
+       [
+        -10328,
+        174808,
+        -4312
+       ],
+       [
+        -10936,
+        174328,
+        -4576
+       ],
+       [
+        -11448,
+        174120,
+        -4640
+       ],
+       [
+        -11848,
+        174216,
+        -4792
+       ],
+       [
+        -11896,
+        174216,
+        -4816
+       ],
+       [
+        -12344,
+        174616,
+        -5008
+       ],
+       [
+        -12520,
+        174680,
+        -5112
+       ],
+       [
+        -12680,
+        174808,
+        -5136
+       ],
+       [
+        -13352,
+        175784,
+        -5304
+       ],
+       [
+        -13960,
+        176248,
+        -5288
+       ],
+       [
+        -13992,
+        176360,
+        -5296
+       ],
+       [
+        -13944,
+        177080,
+        -5304
+       ],
+       [
+        -13864,
+        177160,
+        -5304
+       ],
+       [
+        -13208,
+        177944,
+        -5304
+       ],
+       [
+        -13048,
+        178648,
+        -5384
+       ],
+       [
+        -13048,
+        178712,
+        -5384
+       ],
+       [
+        -13080,
+        178856,
+        -5384
+       ],
+       [
+        -13480,
+        179848,
+        -5384
+       ],
+       [
+        -13480,
+        179912,
+        -5368
+       ],
+       [
+        -14200,
+        180248,
+        -5384
+       ]
+      ],
+      "maxDanger": 36,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 36,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20157,
+      20230,
+      20232,
+      20234
+     ],
+     "items": [
+      2751
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-tower-far-3",
+      "name": "Cruma Tower 3: Marsh Stakato Soldier area (north-east)",
+      "at": [
+       19400,
+       106312,
+       -3672
+      ],
+      "radius": 4429,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 15,
+      "region": "Cruma Tower",
+      "atlasKey": "area:cruma-tower-far-3",
+      "status": "ok",
+      "sec": 127,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -87.88333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-34",
+        "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+        "at": [
+         28920,
+         108584,
+         -3704
+        ],
+        "count": 15,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-13",
+        "name": "Cruma Marshlands 13: Marsh Stakato Worker area (north-east)",
+        "at": [
+         16184,
+         109992,
+         -3728
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-4",
+        "name": "Cruma Tower 4: Marsh Stakato Worker area (north)",
+        "at": [
+         12488,
+         103176,
+         -3736
+        ],
+        "count": 13,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-tower-far-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9850,
+      "sec": 127,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1154,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 8696,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114008,
+        -3576
+       ],
+       [
+        16488,
+        113560,
+        -3576
+       ],
+       [
+        16616,
+        112968,
+        -3576
+       ],
+       [
+        16616,
+        111976,
+        -3656
+       ],
+       [
+        16616,
+        110984,
+        -3696
+       ],
+       [
+        16616,
+        109992,
+        -3752
+       ],
+       [
+        17240,
+        109000,
+        -3720
+       ],
+       [
+        17320,
+        108920,
+        -3728
+       ],
+       [
+        17944,
+        107928,
+        -3744
+       ],
+       [
+        18936,
+        106936,
+        -3672
+       ],
+       [
+        19256,
+        106616,
+        -3656
+       ],
+       [
+        19400,
+        106312,
+        -3672
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20553
+     ],
+     "items": [
+      2756
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-30",
+      "name": "Plains of Lizardmen 30: Windsus area (south-east)",
+      "at": [
+       100072,
+       100936,
+       -3600
+      ],
+      "radius": 3982,
+      "levels": [
+       38,
+       40
+      ],
+      "count": 6,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-30",
+      "status": "ok",
+      "sec": 281,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.316666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-16",
+        "name": "Dragon Valley 16: Grandis area (north)",
+        "at": [
+         70056,
+         101080,
+         -3720
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-25",
+        "name": "Plains of Lizardmen 25: Fettered Soul area (south)",
+        "at": [
+         85896,
+         99592,
+         -3584
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-29",
+        "name": "Plains of Lizardmen 29: Grandis area (south-east)",
+        "at": [
+         96600,
+         101352,
+         -3464
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-30",
+      "status": "ok",
+      "flags": [
+       "swim",
+       "long-swim",
+       "over-breath"
+      ],
+      "from": ".oren",
+      "length": 20550,
+      "sec": 281,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3450,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 17100,
+        "how": "field-areas",
+        "danger": 85
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        88104,
+        88728,
+        -2840
+       ],
+       [
+        88984,
+        89720,
+        -3176
+       ],
+       [
+        89976,
+        90712,
+        -3352
+       ],
+       [
+        90968,
+        91704,
+        -3360
+       ],
+       [
+        91960,
+        92696,
+        -3416
+       ],
+       [
+        92744,
+        93480,
+        -3520
+       ],
+       [
+        93608,
+        94472,
+        -3888
+       ],
+       [
+        94600,
+        95464,
+        -3920
+       ],
+       [
+        95592,
+        96456,
+        -3912
+       ],
+       [
+        96584,
+        97448,
+        -3776
+       ],
+       [
+        97576,
+        98440,
+        -3688
+       ],
+       [
+        98568,
+        99432,
+        -3624
+       ],
+       [
+        99560,
+        100424,
+        -3592
+       ],
+       [
+        100072,
+        100936,
+        -3600
+       ]
+      ],
+      "maxDanger": 85,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 5582,
+        "maxSwim": 5582,
+        "overBreath": true
+       },
+       "danger": 85,
+       "dangerVsLevel": 48,
+       "aggro": [
+        {
+         "name": "Fantasy Mushroom",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Berserker",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "dragon-valley-2",
+    "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+    "at": [
+     69032,
+     113624,
+     -3664
+    ],
+    "radius": 4241,
+    "levels": [
+     35,
+     37
+    ],
+    "count": 5,
+    "region": "Dragon Valley",
+    "atlasKey": "area:dragon-valley-2",
+    "status": "ok",
+    "sec": 98,
+    "danger": 37,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -28.366666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "dragon-valley-1",
+      "name": "Dragon Valley 1: Wyrm area (south-west)",
+      "at": [
+       68888,
+       120904,
+       -3656
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dragon-valley-4",
+      "name": "Dragon Valley 4: Fettered Soul area (south)",
+      "at": [
+       71624,
+       125672,
+       -3624
+      ],
+      "count": 2,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dragon-valley-6",
+      "name": "Dragon Valley 6: Guardian Basilisk area (north-west)",
+      "at": [
+       67912,
+       109816,
+       -3640
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:dragon-valley-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 6389,
+    "sec": 98,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6389,
+      "how": "field-areas",
+      "danger": 37
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      72664,
+      117496,
+      -3672
+     ],
+     [
+      71672,
+      116504,
+      -3616
+     ],
+     [
+      71416,
+      116248,
+      -3584
+     ],
+     [
+      71128,
+      115720,
+      -3560
+     ],
+     [
+      70136,
+      114728,
+      -3560
+     ],
+     [
+      69144,
+      113736,
+      -3648
+     ],
+     [
+      69032,
+      113624,
+      -3664
+     ]
+    ],
+    "maxDanger": 37,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 37,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 348,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2,
+    3
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c2:spawn:27120",
+   "cond": 2,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27120,
+     "name": "Luell Of Zephyr Winds",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27121,
+     "name": "Actea Of Verdant Wilds",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 2746,
+     "name": "Breath of Winds",
+     "n": 1,
+     "from": [
+      {
+       "id": 27120,
+       "name": "Luell Of Zephyr Winds",
+       "chance": 100
+      },
+      {
+       "id": 27120,
+       "name": "Luell Of Zephyr Winds",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2747,
+     "name": "Seed of Verdure",
+     "n": 1,
+     "from": [
+      {
+       "id": 27121,
+       "name": "Actea Of Verdant Wilds",
+       "chance": 100
+      },
+      {
+       "id": 27121,
+       "name": "Actea Of Verdant Wilds",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2749,
+     "name": "Guardian Basilisk Blood",
+     "n": 10,
+     "from": [
+      {
+       "id": 20550,
+       "name": "Guardian Basilisk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2750,
+     "name": "Giant Aphid",
+     "n": 10,
+     "from": [
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20087,
+       "name": "Ant Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20088,
+       "name": "Ant Warrior Captain",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2751,
+     "name": "Stakatos Fluids",
+     "n": 10,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2756,
+     "name": "Parasite of Lota",
+     "n": 10,
+     "from": [
+      {
+       "id": 20553,
+       "name": "Windsus",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20013,
+     20019
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
+   },
+   "text": "Make Luell Of Zephyr Winds, Actea Of Verdant Wilds appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "elven-forest-2",
+    "name": "Elven Forest 2: Dryad Elder area (west)",
+    "at": [
+     16632,
+     49688,
+     -3704
+    ],
+    "radius": 5190,
+    "levels": [
+     12,
+     14
+    ],
+    "count": 18,
+    "region": "Elven Forest",
+    "atlasKey": "area:elven-forest-2",
+    "status": "ok",
+    "sec": 115,
+    "danger": 15,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -106.08333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "elven-forest-12",
+      "name": "Elven Forest 12: Dryad Elder area (west)",
+      "at": [
+       10584,
+       48952,
+       -3672
+      ],
+      "count": 13,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "elven-forest-5",
+      "name": "Elven Forest 5: Kaboo Orc Fighter Leader area (south)",
+      "at": [
+       24088,
+       58024,
+       -3408
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "elven-forest-4",
+      "name": "Elven Forest 4: Kaboo Orc Fighter Leader area (south-west)",
+      "at": [
+       18056,
+       56584,
+       -3464
+      ],
+      "count": 6,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:elven-forest-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5402,
+    "sec": 115,
+    "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Forest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Elven",
+      "desc": "Elven Village -> Elven Forest",
+      "link": "elven forest",
+      "price": 710,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2412,
+      "how": "field-areas-gap",
+      "danger": 13
+     },
+     {
+      "do": "walk",
+      "len": 2990,
+      "how": "field-areas",
+      "danger": 15
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      21362,
+      51122,
+      -3688
+     ],
+     [
+      19032,
+      51208,
+      -3672
+     ],
+     [
+      18040,
+      51096,
+      -3616
+     ],
+     [
+      17048,
+      50104,
+      -3704
+     ],
+     [
+      16632,
+      49688,
+      -3704
+     ]
+    ],
+    "maxDanger": 15,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 15,
+     "dangerVsLevel": -22,
+     "aggro": []
+    }
+   },
+   "expectedSec": 415,
+   "conds": [
+    2,
+    3
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c2:deliver:30154",
+   "cond": 2,
+   "kind": "deliver",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 30154,
+    "name": "Asterios",
+    "title": "Hierarch",
+    "town": "Elven Village",
+    "at": [
+     44692,
+     52261,
+     -2792
+    ],
+    "alt": []
+   },
+   "text": "Bring Breath of Winds, Seed of Verdure to Asterios",
+   "needs": [
+    {
+     "id": 2746,
+     "name": "Breath of Winds",
+     "n": 1
+    },
+    {
+     "id": 2747,
+     "name": "Seed of Verdure",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30154@44692,52261",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 8186,
+    "sec": 113,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8186,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46344,
+      50024,
+      -3056
+     ],
+     [
+      46184,
+      49864,
+      -3064
+     ],
+     [
+      46152,
+      49896,
+      -3064
+     ],
+     [
+      45912,
+      50024,
+      -3056
+     ],
+     [
+      45640,
+      50056,
+      -3056
+     ],
+     [
+      45368,
+      50120,
+      -3056
+     ],
+     [
+      45096,
+      50056,
+      -3056
+     ],
+     [
+      44824,
+      50024,
+      -3056
+     ],
+     [
+      44568,
+      50008,
+      -3064
+     ],
+     [
+      44536,
+      50040,
+      -3056
+     ],
+     [
+      44312,
+      50200,
+      -3056
+     ],
+     [
+      44232,
+      50200,
+      -3056
+     ],
+     [
+      43960,
+      50200,
+      -3056
+     ],
+     [
+      43704,
+      50312,
+      -3024
+     ],
+     [
+      43464,
+      50456,
+      -2992
+     ],
+     [
+      43416,
+      50680,
+      -2992
+     ],
+     [
+      43496,
+      50856,
+      -2992
+     ],
+     [
+      43688,
+      51032,
+      -2992
+     ],
+     [
+      43944,
+      51096,
+      -2992
+     ],
+     [
+      43976,
+      51192,
+      -2992
+     ],
+     [
+      44152,
+      51240,
+      -2984
+     ],
+     [
+      44312,
+      51256,
+      -2928
+     ],
+     [
+      44344,
+      51480,
+      -2848
+     ],
+     [
+      44456,
+      51688,
+      -2832
+     ],
+     [
+      44440,
+      51640,
+      -2832
+     ],
+     [
+      44648,
+      51592,
+      -2808
+     ],
+     [
+      44696,
+      51736,
+      -2808
+     ],
+     [
+      44696,
+      52008,
+      -2792
+     ],
+     [
+      44728,
+      52120,
+      -2792
+     ],
+     [
+      44696,
+      52264,
+      -2792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 138,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2,
+    3
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c4:deliver:30358",
+   "cond": 4,
+   "kind": "deliver",
+   "to": 5,
+   "links": [
+    "Give the letter of Hollint."
+   ],
+   "npc": {
+    "id": 30358,
+    "name": "Thifiell",
+    "title": "Tetrarch",
+    "town": "Dark Elf Village",
+    "at": [
+     10775,
+     14190,
+     -4240
+    ],
+    "alt": []
+   },
+   "text": "Bring Letter to Dark Elf to Thifiell",
+   "needs": [
+    {
+     "id": 2736,
+     "name": "Letter to Dark Elf",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30358@10775,14190",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2691,
+    "sec": 67,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2691,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9784,
+      15640,
+      -4568
+     ],
+     [
+      10056,
+      15672,
+      -4568
+     ],
+     [
+      10328,
+      15624,
+      -4568
+     ],
+     [
+      10584,
+      15544,
+      -4568
+     ],
+     [
+      10616,
+      15352,
+      -4528
+     ],
+     [
+      10584,
+      15080,
+      -4336
+     ],
+     [
+      10712,
+      14952,
+      -4336
+     ],
+     [
+      10904,
+      15016,
+      -4336
+     ],
+     [
+      10920,
+      14744,
+      -4240
+     ],
+     [
+      10984,
+      14616,
+      -4240
+     ],
+     [
+      10968,
+      14616,
+      -4240
+     ],
+     [
+      10840,
+      14456,
+      -4240
+     ],
+     [
+      10776,
+      14184,
+      -4240
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 92,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c5:deliver:30464",
+   "cond": 5,
+   "kind": "deliver",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30464,
+    "name": "Clayton",
+    "title": "Magister",
+    "town": "Dion",
+    "at": [
+     17280,
+     146944,
+     -3085
+    ],
+    "alt": []
+   },
+   "text": "Bring Letter from Thifiell to Clayton",
+   "needs": [
+    {
+     "id": 2748,
+     "name": "Letter from Thifiell",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30464@17280,146944",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 5822,
+    "sec": 69,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5822,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17528,
+      145480,
+      -3072
+     ],
+     [
+      17736,
+      145640,
+      -3088
+     ],
+     [
+      17784,
+      145672,
+      -3088
+     ],
+     [
+      17976,
+      145864,
+      -3104
+     ],
+     [
+      17992,
+      146136,
+      -3104
+     ],
+     [
+      17880,
+      146392,
+      -3104
+     ],
+     [
+      17752,
+      146536,
+      -3104
+     ],
+     [
+      17752,
+      146552,
+      -3112
+     ],
+     [
+      17608,
+      146792,
+      -3112
+     ],
+     [
+      17384,
+      146808,
+      -3080
+     ],
+     [
+      17240,
+      146872,
+      -3080
+     ],
+     [
+      17288,
+      146952,
+      -3080
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -15,
+     "aggro": []
+    }
+   },
+   "expectedSec": 94,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c6:hunt",
+   "cond": 6,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20082,
+     "name": "Ant Recruit",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20086,
+     "name": "Ant Guard",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20084,
+     "name": "Ant Patrol",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20087,
+     "name": "Ant Soldier",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20088,
+     "name": "Ant Warrior Captain",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 67,
+     "questSpawned": false
+    },
+    {
+     "id": 20157,
+     "name": "Marsh Stakato",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20230,
+     "name": "Marsh Stakato Worker",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20232,
+     "name": "Marsh Stakato Soldier",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20213,
+     "name": "Porta",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20550,
+     "name": "Guardian Basilisk",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20553,
+     "name": "Windsus",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    }
+   ],
+   "items": [
     {
      "id": 2749,
      "name": "Guardian Basilisk Blood",
@@ -484,27 +4561,14 @@
        "chance": 100
       }
      ]
-    },
-    {
-     "id": 2761,
-     "name": "Heartstone of Porta",
-     "n": 1,
-     "from": [
-      {
-       "id": 20213,
-       "name": "Porta",
-       "chance": 100
-      }
-     ]
     }
    ],
    "kills": null,
    "reasons": [
     "area-danger",
-    "route-conditional",
     "aggro-on-way"
    ],
-   "text": "Hunt Ant Recruit, Ant Guard, Ant Patrol for Breath of Winds x1, Seed of Verdure x1, Guardian Basilisk Blood x4, Giant Aphid x4, Stakatos Fluids x4, Basilisk Plasma x1, Honey Dew x1, Stakato Ichor x1, Parasite of Lota x10, Heartstone of Porta x1",
+   "text": "Hunt Ant Recruit, Ant Guard, Ant Patrol for Guardian Basilisk Blood x4, Giant Aphid x4, Stakatos Fluids x4, Basilisk Plasma x1, Honey Dew x1, Stakato Ichor x1, Parasite of Lota x10",
    "places": [
     {
      "mobs": [
@@ -1374,6 +5438,3612 @@
        ]
       }
      }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "dragon-valley-2",
+    "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+    "at": [
+     69032,
+     113624,
+     -3664
+    ],
+    "radius": 4241,
+    "levels": [
+     35,
+     37
+    ],
+    "count": 5,
+    "region": "Dragon Valley",
+    "atlasKey": "area:dragon-valley-2",
+    "status": "ok",
+    "sec": 98,
+    "danger": 37,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -28.366666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "dragon-valley-1",
+      "name": "Dragon Valley 1: Wyrm area (south-west)",
+      "at": [
+       68888,
+       120904,
+       -3656
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dragon-valley-4",
+      "name": "Dragon Valley 4: Fettered Soul area (south)",
+      "at": [
+       71624,
+       125672,
+       -3624
+      ],
+      "count": 2,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dragon-valley-6",
+      "name": "Dragon Valley 6: Guardian Basilisk area (north-west)",
+      "at": [
+       67912,
+       109816,
+       -3640
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:dragon-valley-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 6389,
+    "sec": 98,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6389,
+      "how": "field-areas",
+      "danger": 37
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      72664,
+      117496,
+      -3672
+     ],
+     [
+      71672,
+      116504,
+      -3616
+     ],
+     [
+      71416,
+      116248,
+      -3584
+     ],
+     [
+      71128,
+      115720,
+      -3560
+     ],
+     [
+      70136,
+      114728,
+      -3560
+     ],
+     [
+      69144,
+      113736,
+      -3648
+     ],
+     [
+      69032,
+      113624,
+      -3664
+     ]
+    ],
+    "maxDanger": 37,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 37,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 348,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c6:spawn:27120",
+   "cond": 6,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27120,
+     "name": "Luell Of Zephyr Winds",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27121,
+     "name": "Actea Of Verdant Wilds",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 2749,
+     "name": "Guardian Basilisk Blood",
+     "n": 4,
+     "from": [
+      {
+       "id": 20550,
+       "name": "Guardian Basilisk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2750,
+     "name": "Giant Aphid",
+     "n": 4,
+     "from": [
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20087,
+       "name": "Ant Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20088,
+       "name": "Ant Warrior Captain",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2751,
+     "name": "Stakatos Fluids",
+     "n": 4,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2752,
+     "name": "Basilisk Plasma",
+     "n": 1,
+     "from": [
+      {
+       "id": 20550,
+       "name": "Guardian Basilisk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2753,
+     "name": "Honey Dew",
+     "n": 1,
+     "from": [
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20087,
+       "name": "Ant Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20088,
+       "name": "Ant Warrior Captain",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2754,
+     "name": "Stakato Ichor",
+     "n": 1,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2756,
+     "name": "Parasite of Lota",
+     "n": 10,
+     "from": [
+      {
+       "id": 20553,
+       "name": "Windsus",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20013,
+     20019
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
+   },
+   "text": "Make Luell Of Zephyr Winds, Actea Of Verdant Wilds appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "elven-forest-2",
+    "name": "Elven Forest 2: Dryad Elder area (west)",
+    "at": [
+     16632,
+     49688,
+     -3704
+    ],
+    "radius": 5190,
+    "levels": [
+     12,
+     14
+    ],
+    "count": 18,
+    "region": "Elven Forest",
+    "atlasKey": "area:elven-forest-2",
+    "status": "ok",
+    "sec": 115,
+    "danger": 15,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -106.08333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "elven-forest-12",
+      "name": "Elven Forest 12: Dryad Elder area (west)",
+      "at": [
+       10584,
+       48952,
+       -3672
+      ],
+      "count": 13,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "elven-forest-5",
+      "name": "Elven Forest 5: Kaboo Orc Fighter Leader area (south)",
+      "at": [
+       24088,
+       58024,
+       -3408
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "elven-forest-4",
+      "name": "Elven Forest 4: Kaboo Orc Fighter Leader area (south-west)",
+      "at": [
+       18056,
+       56584,
+       -3464
+      ],
+      "count": 6,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:elven-forest-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5402,
+    "sec": 115,
+    "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Forest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Elven",
+      "desc": "Elven Village -> Elven Forest",
+      "link": "elven forest",
+      "price": 710,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2412,
+      "how": "field-areas-gap",
+      "danger": 13
+     },
+     {
+      "do": "walk",
+      "len": 2990,
+      "how": "field-areas",
+      "danger": 15
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      21362,
+      51122,
+      -3688
+     ],
+     [
+      19032,
+      51208,
+      -3672
+     ],
+     [
+      18040,
+      51096,
+      -3616
+     ],
+     [
+      17048,
+      50104,
+      -3704
+     ],
+     [
+      16632,
+      49688,
+      -3704
+     ]
+    ],
+    "maxDanger": 15,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 15,
+     "dangerVsLevel": -22,
+     "aggro": []
+    }
+   },
+   "expectedSec": 415,
+   "conds": [
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c6:deliver:30358",
+   "cond": 6,
+   "kind": "deliver",
+   "to": 9,
+   "links": [],
+   "npc": {
+    "id": 30358,
+    "name": "Thifiell",
+    "title": "Tetrarch",
+    "town": "Dark Elf Village",
+    "at": [
+     10775,
+     14190,
+     -4240
+    ],
+    "alt": []
+   },
+   "text": "Bring Order of Clayton to Thifiell",
+   "needs": [
+    {
+     "id": 2755,
+     "name": "Order of Clayton",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30358@10775,14190",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2691,
+    "sec": 67,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2691,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9784,
+      15640,
+      -4568
+     ],
+     [
+      10056,
+      15672,
+      -4568
+     ],
+     [
+      10328,
+      15624,
+      -4568
+     ],
+     [
+      10584,
+      15544,
+      -4568
+     ],
+     [
+      10616,
+      15352,
+      -4528
+     ],
+     [
+      10584,
+      15080,
+      -4336
+     ],
+     [
+      10712,
+      14952,
+      -4336
+     ],
+     [
+      10904,
+      15016,
+      -4336
+     ],
+     [
+      10920,
+      14744,
+      -4240
+     ],
+     [
+      10984,
+      14616,
+      -4240
+     ],
+     [
+      10968,
+      14616,
+      -4240
+     ],
+     [
+      10840,
+      14456,
+      -4240
+     ],
+     [
+      10776,
+      14184,
+      -4240
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 92,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c6:talk:30464",
+   "cond": 6,
+   "kind": "talk",
+   "to": 8,
+   "links": [],
+   "npc": {
+    "id": 30464,
+    "name": "Clayton",
+    "title": "Magister",
+    "town": "Dion",
+    "at": [
+     17280,
+     146944,
+     -3085
+    ],
+    "alt": []
+   },
+   "text": "Talk to Clayton",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30464@17280,146944",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 5822,
+    "sec": 69,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5822,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17528,
+      145480,
+      -3072
+     ],
+     [
+      17736,
+      145640,
+      -3088
+     ],
+     [
+      17784,
+      145672,
+      -3088
+     ],
+     [
+      17976,
+      145864,
+      -3104
+     ],
+     [
+      17992,
+      146136,
+      -3104
+     ],
+     [
+      17880,
+      146392,
+      -3104
+     ],
+     [
+      17752,
+      146536,
+      -3104
+     ],
+     [
+      17752,
+      146552,
+      -3112
+     ],
+     [
+      17608,
+      146792,
+      -3112
+     ],
+     [
+      17384,
+      146808,
+      -3080
+     ],
+     [
+      17240,
+      146872,
+      -3080
+     ],
+     [
+      17288,
+      146952,
+      -3080
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -15,
+     "aggro": []
+    }
+   },
+   "expectedSec": 94,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6,
+    7
+   ]
+  },
+  {
+   "i": 13,
+   "key": "c9:deliver:30191",
+   "cond": 9,
+   "kind": "deliver",
+   "to": 10,
+   "links": [],
+   "npc": {
+    "id": 30191,
+    "name": "Hollint",
+    "title": "High Priest",
+    "town": "Oren",
+    "at": [
+     83634,
+     52927,
+     -1443
+    ],
+    "alt": []
+   },
+   "text": "Bring Scroll of Elf Trust, Scroll of Dark Elf Trust to Hollint",
+   "needs": [
+    {
+     "id": 2741,
+     "name": "Scroll of Elf Trust",
+     "n": 1
+    },
+    {
+     "id": 2740,
+     "name": "Scroll of Dark Elf Trust",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30191@83634,52927",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 2203,
+    "sec": 38,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 2203,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82440,
+      53720,
+      -1488
+     ],
+     [
+      82664,
+      53576,
+      -1488
+     ],
+     [
+      82936,
+      53576,
+      -1488
+     ],
+     [
+      83208,
+      53576,
+      -1448
+     ],
+     [
+      83480,
+      53576,
+      -1456
+     ],
+     [
+      83624,
+      53464,
+      -1456
+     ],
+     [
+      83640,
+      53192,
+      -1456
+     ],
+     [
+      83640,
+      52920,
+      -1440
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 14,
+   "key": "c10:deliver:30657",
+   "cond": 10,
+   "kind": "deliver",
+   "to": 12,
+   "links": [
+    "\"I will leave right now.\""
+   ],
+   "npc": {
+    "id": 30657,
+    "name": "Seresin",
+    "title": "Cardinal",
+    "town": "Oren",
+    "at": [
+     83183,
+     53715,
+     -1452
+    ],
+    "alt": []
+   },
+   "text": "Bring Letter to Seresin to Seresin",
+   "needs": [
+    {
+     "id": 2739,
+     "name": "Letter to Seresin",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30657@83183,53715",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 1195,
+    "sec": 30,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 1195,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82664,
+      53592,
+      -1488
+     ],
+     [
+      82936,
+      53592,
+      -1488
+     ],
+     [
+      83176,
+      53720,
+      -1448
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 55,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10
+   ]
+  },
+  {
+   "i": 15,
+   "key": "c12:deliver:30565",
+   "cond": 12,
+   "kind": "deliver",
+   "to": 13,
+   "links": [
+    "Show Seresin's Letter"
+   ],
+   "npc": {
+    "id": 30565,
+    "name": "Kakai",
+    "title": "Flame Lord",
+    "town": "Orc Village",
+    "at": [
+     -46768,
+     -113610,
+     -3
+    ],
+    "alt": []
+   },
+   "text": "Bring Letter to Orc to Kakai",
+   "needs": [
+    {
+     "id": 2738,
+     "name": "Letter to Orc",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30565@-46768,-113610",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 10122,
+    "sec": 129,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10122,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45464,
+      -111816,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45736,
+      -111528,
+      -240
+     ],
+     [
+      -45832,
+      -111336,
+      -240
+     ],
+     [
+      -45816,
+      -111064,
+      -240
+     ],
+     [
+      -45816,
+      -110792,
+      -240
+     ],
+     [
+      -46008,
+      -110600,
+      -240
+     ],
+     [
+      -46088,
+      -110520,
+      -240
+     ],
+     [
+      -46120,
+      -110248,
+      -264
+     ],
+     [
+      -46136,
+      -109976,
+      -280
+     ],
+     [
+      -46152,
+      -109704,
+      -288
+     ],
+     [
+      -46344,
+      -109512,
+      -280
+     ],
+     [
+      -46472,
+      -109384,
+      -232
+     ],
+     [
+      -46536,
+      -109448,
+      -232
+     ],
+     [
+      -46792,
+      -109544,
+      -240
+     ],
+     [
+      -47064,
+      -109544,
+      -240
+     ],
+     [
+      -47320,
+      -109624,
+      -240
+     ],
+     [
+      -47368,
+      -109448,
+      -224
+     ],
+     [
+      -47608,
+      -109480,
+      -240
+     ],
+     [
+      -47784,
+      -109688,
+      -240
+     ],
+     [
+      -47784,
+      -109960,
+      -240
+     ],
+     [
+      -47944,
+      -110184,
+      -240
+     ],
+     [
+      -47896,
+      -110456,
+      -240
+     ],
+     [
+      -47864,
+      -110728,
+      -240
+     ],
+     [
+      -47864,
+      -110856,
+      -240
+     ],
+     [
+      -47864,
+      -111016,
+      -240
+     ],
+     [
+      -47864,
+      -111288,
+      -240
+     ],
+     [
+      -47864,
+      -111560,
+      -240
+     ],
+     [
+      -47896,
+      -111832,
+      -240
+     ],
+     [
+      -47896,
+      -112104,
+      -240
+     ],
+     [
+      -47896,
+      -112376,
+      -240
+     ],
+     [
+      -47896,
+      -112648,
+      -240
+     ],
+     [
+      -47896,
+      -112728,
+      -240
+     ],
+     [
+      -47880,
+      -112744,
+      -240
+     ],
+     [
+      -47832,
+      -113016,
+      -240
+     ],
+     [
+      -47752,
+      -113272,
+      -240
+     ],
+     [
+      -47640,
+      -113448,
+      -224
+     ],
+     [
+      -47432,
+      -113608,
+      -224
+     ],
+     [
+      -47160,
+      -113608,
+      -208
+     ],
+     [
+      -46888,
+      -113608,
+      -200
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -34,
+     "aggro": []
+    }
+   },
+   "expectedSec": 154,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    12
+   ]
+  },
+  {
+   "i": 16,
+   "key": "c13:deliver:30515",
+   "cond": 13,
+   "kind": "deliver",
+   "to": 14,
+   "links": [
+    "How can I help?"
+   ],
+   "npc": {
+    "id": 30515,
+    "name": "Manakia",
+    "title": "Seer",
+    "town": "Giran",
+    "at": [
+     80464,
+     144592,
+     -3529
+    ],
+    "alt": []
+   },
+   "text": "Bring Letter to Manakia to Manakia",
+   "needs": [
+    {
+     "id": 2757,
+     "name": "Letter to Manakia",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30515@80464,144592",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6851,
+    "sec": 77,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6851,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82856,
+      148520,
+      -3464
+     ],
+     [
+      82664,
+      148328,
+      -3464
+     ],
+     [
+      82616,
+      148232,
+      -3464
+     ],
+     [
+      82584,
+      148200,
+      -3464
+     ],
+     [
+      82392,
+      148008,
+      -3464
+     ],
+     [
+      82216,
+      147944,
+      -3464
+     ],
+     [
+      81944,
+      147944,
+      -3464
+     ],
+     [
+      81704,
+      147800,
+      -3464
+     ],
+     [
+      81544,
+      147592,
+      -3464
+     ],
+     [
+      81544,
+      147320,
+      -3504
+     ],
+     [
+      81480,
+      147176,
+      -3528
+     ],
+     [
+      81336,
+      147272,
+      -3528
+     ],
+     [
+      81528,
+      147080,
+      -3528
+     ],
+     [
+      81544,
+      146808,
+      -3528
+     ],
+     [
+      81512,
+      146536,
+      -3528
+     ],
+     [
+      81528,
+      146264,
+      -3528
+     ],
+     [
+      81544,
+      145992,
+      -3528
+     ],
+     [
+      81528,
+      145720,
+      -3528
+     ],
+     [
+      81528,
+      145448,
+      -3528
+     ],
+     [
+      81512,
+      145176,
+      -3528
+     ],
+     [
+      81496,
+      145000,
+      -3528
+     ],
+     [
+      81512,
+      144968,
+      -3528
+     ],
+     [
+      81544,
+      144696,
+      -3528
+     ],
+     [
+      81400,
+      144488,
+      -3528
+     ],
+     [
+      81192,
+      144440,
+      -3528
+     ],
+     [
+      80920,
+      144440,
+      -3528
+     ],
+     [
+      80648,
+      144504,
+      -3528
+     ],
+     [
+      80472,
+      144600,
+      -3528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    13
+   ]
+  },
+  {
+   "i": 17,
+   "key": "c15:deliver:30515",
+   "cond": 15,
+   "kind": "deliver",
+   "to": 16,
+   "links": [],
+   "npc": {
+    "id": 30515,
+    "name": "Manakia",
+    "title": "Seer",
+    "town": "Giran",
+    "at": [
+     80464,
+     144592,
+     -3529
+    ],
+    "alt": []
+   },
+   "text": "Bring Parasite of Lota x10 to Manakia",
+   "needs": [
+    {
+     "id": 2756,
+     "name": "Parasite of Lota",
+     "n": 10
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30515@80464,144592",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6851,
+    "sec": 77,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6851,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82856,
+      148520,
+      -3464
+     ],
+     [
+      82664,
+      148328,
+      -3464
+     ],
+     [
+      82616,
+      148232,
+      -3464
+     ],
+     [
+      82584,
+      148200,
+      -3464
+     ],
+     [
+      82392,
+      148008,
+      -3464
+     ],
+     [
+      82216,
+      147944,
+      -3464
+     ],
+     [
+      81944,
+      147944,
+      -3464
+     ],
+     [
+      81704,
+      147800,
+      -3464
+     ],
+     [
+      81544,
+      147592,
+      -3464
+     ],
+     [
+      81544,
+      147320,
+      -3504
+     ],
+     [
+      81480,
+      147176,
+      -3528
+     ],
+     [
+      81336,
+      147272,
+      -3528
+     ],
+     [
+      81528,
+      147080,
+      -3528
+     ],
+     [
+      81544,
+      146808,
+      -3528
+     ],
+     [
+      81512,
+      146536,
+      -3528
+     ],
+     [
+      81528,
+      146264,
+      -3528
+     ],
+     [
+      81544,
+      145992,
+      -3528
+     ],
+     [
+      81528,
+      145720,
+      -3528
+     ],
+     [
+      81528,
+      145448,
+      -3528
+     ],
+     [
+      81512,
+      145176,
+      -3528
+     ],
+     [
+      81496,
+      145000,
+      -3528
+     ],
+     [
+      81512,
+      144968,
+      -3528
+     ],
+     [
+      81544,
+      144696,
+      -3528
+     ],
+     [
+      81400,
+      144488,
+      -3528
+     ],
+     [
+      81192,
+      144440,
+      -3528
+     ],
+     [
+      80920,
+      144440,
+      -3528
+     ],
+     [
+      80648,
+      144504,
+      -3528
+     ],
+     [
+      80472,
+      144600,
+      -3528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    15
+   ]
+  },
+  {
+   "i": 18,
+   "key": "c16:talk:30565",
+   "cond": 16,
+   "kind": "talk",
+   "to": 17,
+   "links": [],
+   "npc": {
+    "id": 30565,
+    "name": "Kakai",
+    "title": "Flame Lord",
+    "town": "Orc Village",
+    "at": [
+     -46768,
+     -113610,
+     -3
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kakai",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30565@-46768,-113610",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 10122,
+    "sec": 129,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10122,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45464,
+      -111816,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45736,
+      -111528,
+      -240
+     ],
+     [
+      -45832,
+      -111336,
+      -240
+     ],
+     [
+      -45816,
+      -111064,
+      -240
+     ],
+     [
+      -45816,
+      -110792,
+      -240
+     ],
+     [
+      -46008,
+      -110600,
+      -240
+     ],
+     [
+      -46088,
+      -110520,
+      -240
+     ],
+     [
+      -46120,
+      -110248,
+      -264
+     ],
+     [
+      -46136,
+      -109976,
+      -280
+     ],
+     [
+      -46152,
+      -109704,
+      -288
+     ],
+     [
+      -46344,
+      -109512,
+      -280
+     ],
+     [
+      -46472,
+      -109384,
+      -232
+     ],
+     [
+      -46536,
+      -109448,
+      -232
+     ],
+     [
+      -46792,
+      -109544,
+      -240
+     ],
+     [
+      -47064,
+      -109544,
+      -240
+     ],
+     [
+      -47320,
+      -109624,
+      -240
+     ],
+     [
+      -47368,
+      -109448,
+      -224
+     ],
+     [
+      -47608,
+      -109480,
+      -240
+     ],
+     [
+      -47784,
+      -109688,
+      -240
+     ],
+     [
+      -47784,
+      -109960,
+      -240
+     ],
+     [
+      -47944,
+      -110184,
+      -240
+     ],
+     [
+      -47896,
+      -110456,
+      -240
+     ],
+     [
+      -47864,
+      -110728,
+      -240
+     ],
+     [
+      -47864,
+      -110856,
+      -240
+     ],
+     [
+      -47864,
+      -111016,
+      -240
+     ],
+     [
+      -47864,
+      -111288,
+      -240
+     ],
+     [
+      -47864,
+      -111560,
+      -240
+     ],
+     [
+      -47896,
+      -111832,
+      -240
+     ],
+     [
+      -47896,
+      -112104,
+      -240
+     ],
+     [
+      -47896,
+      -112376,
+      -240
+     ],
+     [
+      -47896,
+      -112648,
+      -240
+     ],
+     [
+      -47896,
+      -112728,
+      -240
+     ],
+     [
+      -47880,
+      -112744,
+      -240
+     ],
+     [
+      -47832,
+      -113016,
+      -240
+     ],
+     [
+      -47752,
+      -113272,
+      -240
+     ],
+     [
+      -47640,
+      -113448,
+      -224
+     ],
+     [
+      -47432,
+      -113608,
+      -224
+     ],
+     [
+      -47160,
+      -113608,
+      -208
+     ],
+     [
+      -46888,
+      -113608,
+      -200
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -34,
+     "aggro": []
+    }
+   },
+   "expectedSec": 154,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    16
+   ]
+  },
+  {
+   "i": 19,
+   "key": "c17:deliver:30531",
+   "cond": 17,
+   "kind": "deliver",
+   "to": 18,
+   "links": [
+    "Show Seresin's letter"
+   ],
+   "npc": {
+    "id": 30531,
+    "name": "Lockirin",
+    "title": "Iron Gate's",
+    "town": "Dwarven Village",
+    "at": [
+     116226,
+     -178529,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Bring Letter to Dwarf to Lockirin",
+   "needs": [
+    {
+     "id": 2737,
+     "name": "Letter to Dwarf",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30531@116226,-178529",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1706,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1706,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116168,
+      -178536,
+      -944
+     ],
+     [
+      116232,
+      -178536,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    17
+   ]
+  },
+  {
+   "i": 20,
+   "key": "c18:deliver:30621",
+   "cond": 18,
+   "kind": "deliver",
+   "to": 19,
+   "links": [
+    "Ask about the Core"
+   ],
+   "npc": {
+    "id": 30621,
+    "name": "Nikola",
+    "title": "Maestro",
+    "town": "Gludio",
+    "at": [
+     10580,
+     118027,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Bring Letter to Nikola to Nikola",
+   "needs": [
+    {
+     "id": 2759,
+     "name": "Letter to Nikola",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30621@10580,118027",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 8062,
+    "sec": 112,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8062,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114328,
+      -3528
+     ],
+     [
+      15912,
+      114488,
+      -3576
+     ],
+     [
+      15416,
+      114984,
+      -3596
+     ],
+     [
+      14920,
+      115480,
+      -3616
+     ],
+     [
+      14424,
+      115976,
+      -3664
+     ],
+     [
+      13928,
+      116472,
+      -3712
+     ],
+     [
+      13432,
+      116968,
+      -3708
+     ],
+     [
+      12936,
+      117464,
+      -3704
+     ],
+     [
+      12440,
+      117744,
+      -3720
+     ],
+     [
+      11944,
+      118024,
+      -3736
+     ],
+     [
+      10952,
+      118024,
+      -3688
+     ],
+     [
+      10584,
+      118024,
+      -3672
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 137,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    18
+   ]
+  },
+  {
+   "i": 21,
+   "key": "c19:hunt",
+   "cond": 19,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20082,
+     "name": "Ant Recruit",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20086,
+     "name": "Ant Guard",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20084,
+     "name": "Ant Patrol",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20087,
+     "name": "Ant Soldier",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20088,
+     "name": "Ant Warrior Captain",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 67,
+     "questSpawned": false
+    },
+    {
+     "id": 20157,
+     "name": "Marsh Stakato",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20230,
+     "name": "Marsh Stakato Worker",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20232,
+     "name": "Marsh Stakato Soldier",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20213,
+     "name": "Porta",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20550,
+     "name": "Guardian Basilisk",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20553,
+     "name": "Windsus",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2749,
+     "name": "Guardian Basilisk Blood",
+     "n": 10,
+     "from": [
+      {
+       "id": 20550,
+       "name": "Guardian Basilisk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2750,
+     "name": "Giant Aphid",
+     "n": 10,
+     "from": [
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20087,
+       "name": "Ant Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20088,
+       "name": "Ant Warrior Captain",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2751,
+     "name": "Stakatos Fluids",
+     "n": 10,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2756,
+     "name": "Parasite of Lota",
+     "n": 10,
+     "from": [
+      {
+       "id": 20553,
+       "name": "Windsus",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2761,
+     "name": "Heartstone of Porta",
+     "n": 1,
+     "from": [
+      {
+       "id": 20213,
+       "name": "Porta",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "route-conditional",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Ant Recruit, Ant Guard, Ant Patrol for Guardian Basilisk Blood x10, Giant Aphid x10, Stakatos Fluids x10, Parasite of Lota x10, Heartstone of Porta x1",
+   "places": [
+    {
+     "mobs": [
+      20550
+     ],
+     "items": [
+      2749
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dragon-valley-2",
+      "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+      "at": [
+       69032,
+       113624,
+       -3664
+      ],
+      "radius": 4241,
+      "levels": [
+       35,
+       37
+      ],
+      "count": 5,
+      "region": "Dragon Valley",
+      "atlasKey": "area:dragon-valley-2",
+      "status": "ok",
+      "sec": 98,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -28.366666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-1",
+        "name": "Dragon Valley 1: Wyrm area (south-west)",
+        "at": [
+         68888,
+         120904,
+         -3656
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-4",
+        "name": "Dragon Valley 4: Fettered Soul area (south)",
+        "at": [
+         71624,
+         125672,
+         -3624
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-6",
+        "name": "Dragon Valley 6: Guardian Basilisk area (north-west)",
+        "at": [
+         67912,
+         109816,
+         -3640
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dragon-valley-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 6389,
+      "sec": 98,
+      "via": ".hunters > Hunters -> Dragon Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Dragon Valley",
+        "link": "dragon valley",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6389,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Dragon Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        73032,
+        118488,
+        -3696
+       ],
+       [
+        72664,
+        117496,
+        -3672
+       ],
+       [
+        71672,
+        116504,
+        -3616
+       ],
+       [
+        71416,
+        116248,
+        -3584
+       ],
+       [
+        71128,
+        115720,
+        -3560
+       ],
+       [
+        70136,
+        114728,
+        -3560
+       ],
+       [
+        69144,
+        113736,
+        -3648
+       ],
+       [
+        69032,
+        113624,
+        -3664
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20082,
+      20086,
+      20084,
+      20087,
+      20088
+     ],
+     "items": [
+      2750
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "antnest-1-left-b",
+      "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+      "at": [
+       -14207,
+       180247,
+       -5387
+      ],
+      "radius": 1882,
+      "levels": [
+       33,
+       36
+      ],
+      "count": 35,
+      "region": "Ant Nest",
+      "atlasKey": "room:antnest-1-left-b",
+      "status": "ok",
+      "sec": 137,
+      "danger": 36,
+      "reachable": true,
+      "score": -177.71666666666667,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-l",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -25328,
+         180192,
+         -5406
+        ],
+        "count": 46,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-p",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -28065,
+         182298,
+         -5365
+        ],
+        "count": 26,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-left-a",
+        "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+        "at": [
+         -13622,
+         179364,
+         -5389
+        ],
+        "count": 22,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antnest-1-left-b",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 11014,
+      "sec": 137,
+      "via": ".gludio > Gludio -> Ant Cave",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ant Cave",
+        "link": "ant nest",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 27
+       },
+       {
+        "do": "walk",
+        "len": 11014,
+        "how": "dungeon-rooms",
+        "danger": 36
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ant Cave"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -10136,
+        175208,
+        -4176
+       ],
+       [
+        -10152,
+        175064,
+        -4224
+       ],
+       [
+        -10216,
+        174936,
+        -4264
+       ],
+       [
+        -10328,
+        174808,
+        -4312
+       ],
+       [
+        -10936,
+        174328,
+        -4576
+       ],
+       [
+        -11448,
+        174120,
+        -4640
+       ],
+       [
+        -11848,
+        174216,
+        -4792
+       ],
+       [
+        -11896,
+        174216,
+        -4816
+       ],
+       [
+        -12344,
+        174616,
+        -5008
+       ],
+       [
+        -12520,
+        174680,
+        -5112
+       ],
+       [
+        -12680,
+        174808,
+        -5136
+       ],
+       [
+        -13352,
+        175784,
+        -5304
+       ],
+       [
+        -13960,
+        176248,
+        -5288
+       ],
+       [
+        -13992,
+        176360,
+        -5296
+       ],
+       [
+        -13944,
+        177080,
+        -5304
+       ],
+       [
+        -13864,
+        177160,
+        -5304
+       ],
+       [
+        -13208,
+        177944,
+        -5304
+       ],
+       [
+        -13048,
+        178648,
+        -5384
+       ],
+       [
+        -13048,
+        178712,
+        -5384
+       ],
+       [
+        -13080,
+        178856,
+        -5384
+       ],
+       [
+        -13480,
+        179848,
+        -5384
+       ],
+       [
+        -13480,
+        179912,
+        -5368
+       ],
+       [
+        -14200,
+        180248,
+        -5384
+       ]
+      ],
+      "maxDanger": 36,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 36,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20157,
+      20230,
+      20232,
+      20234
+     ],
+     "items": [
+      2751
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-tower-far-3",
+      "name": "Cruma Tower 3: Marsh Stakato Soldier area (north-east)",
+      "at": [
+       19400,
+       106312,
+       -3672
+      ],
+      "radius": 4429,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 15,
+      "region": "Cruma Tower",
+      "atlasKey": "area:cruma-tower-far-3",
+      "status": "ok",
+      "sec": 127,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -87.88333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-34",
+        "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+        "at": [
+         28920,
+         108584,
+         -3704
+        ],
+        "count": 15,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-13",
+        "name": "Cruma Marshlands 13: Marsh Stakato Worker area (north-east)",
+        "at": [
+         16184,
+         109992,
+         -3728
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-4",
+        "name": "Cruma Tower 4: Marsh Stakato Worker area (north)",
+        "at": [
+         12488,
+         103176,
+         -3736
+        ],
+        "count": 13,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-tower-far-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9850,
+      "sec": 127,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1154,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 8696,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114008,
+        -3576
+       ],
+       [
+        16488,
+        113560,
+        -3576
+       ],
+       [
+        16616,
+        112968,
+        -3576
+       ],
+       [
+        16616,
+        111976,
+        -3656
+       ],
+       [
+        16616,
+        110984,
+        -3696
+       ],
+       [
+        16616,
+        109992,
+        -3752
+       ],
+       [
+        17240,
+        109000,
+        -3720
+       ],
+       [
+        17320,
+        108920,
+        -3728
+       ],
+       [
+        17944,
+        107928,
+        -3744
+       ],
+       [
+        18936,
+        106936,
+        -3672
+       ],
+       [
+        19256,
+        106616,
+        -3656
+       ],
+       [
+        19400,
+        106312,
+        -3672
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20553
+     ],
+     "items": [
+      2756
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-30",
+      "name": "Plains of Lizardmen 30: Windsus area (south-east)",
+      "at": [
+       100072,
+       100936,
+       -3600
+      ],
+      "radius": 3982,
+      "levels": [
+       38,
+       40
+      ],
+      "count": 6,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-30",
+      "status": "ok",
+      "sec": 281,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.316666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-16",
+        "name": "Dragon Valley 16: Grandis area (north)",
+        "at": [
+         70056,
+         101080,
+         -3720
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-25",
+        "name": "Plains of Lizardmen 25: Fettered Soul area (south)",
+        "at": [
+         85896,
+         99592,
+         -3584
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-29",
+        "name": "Plains of Lizardmen 29: Grandis area (south-east)",
+        "at": [
+         96600,
+         101352,
+         -3464
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-30",
+      "status": "ok",
+      "flags": [
+       "swim",
+       "long-swim",
+       "over-breath"
+      ],
+      "from": ".oren",
+      "length": 20550,
+      "sec": 281,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3450,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 17100,
+        "how": "field-areas",
+        "danger": 85
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        88104,
+        88728,
+        -2840
+       ],
+       [
+        88984,
+        89720,
+        -3176
+       ],
+       [
+        89976,
+        90712,
+        -3352
+       ],
+       [
+        90968,
+        91704,
+        -3360
+       ],
+       [
+        91960,
+        92696,
+        -3416
+       ],
+       [
+        92744,
+        93480,
+        -3520
+       ],
+       [
+        93608,
+        94472,
+        -3888
+       ],
+       [
+        94600,
+        95464,
+        -3920
+       ],
+       [
+        95592,
+        96456,
+        -3912
+       ],
+       [
+        96584,
+        97448,
+        -3776
+       ],
+       [
+        97576,
+        98440,
+        -3688
+       ],
+       [
+        98568,
+        99432,
+        -3624
+       ],
+       [
+        99560,
+        100424,
+        -3592
+       ],
+       [
+        100072,
+        100936,
+        -3600
+       ]
+      ],
+      "maxDanger": 85,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 5582,
+        "maxSwim": 5582,
+        "overBreath": true
+       },
+       "danger": 85,
+       "dangerVsLevel": 48,
+       "aggro": [
+        {
+         "name": "Fantasy Mushroom",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Berserker",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        }
+       ]
+      }
+     }
     },
     {
      "mobs": [
@@ -1822,34 +9492,14 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
     19,
-    20,
-    21,
-    22,
-    23
+    20
    ]
   },
   {
-   "i": 2,
-   "key": "c1:spawn:27120",
-   "cond": 1,
+   "i": 22,
+   "key": "c19:spawn:27120",
+   "cond": 19,
    "kind": "spawn",
    "monsters": [
     {
@@ -1873,43 +9523,9 @@
    ],
    "items": [
     {
-     "id": 2746,
-     "name": "Breath of Winds",
-     "n": 1,
-     "from": [
-      {
-       "id": 27120,
-       "name": "Luell Of Zephyr Winds",
-       "chance": 100
-      },
-      {
-       "id": 27120,
-       "name": "Luell Of Zephyr Winds",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 2747,
-     "name": "Seed of Verdure",
-     "n": 1,
-     "from": [
-      {
-       "id": 27121,
-       "name": "Actea Of Verdant Wilds",
-       "chance": 100
-      },
-      {
-       "id": 27121,
-       "name": "Actea Of Verdant Wilds",
-       "chance": 100
-      }
-     ]
-    },
-    {
      "id": 2749,
      "name": "Guardian Basilisk Blood",
-     "n": 4,
+     "n": 10,
      "from": [
       {
        "id": 20550,
@@ -1921,7 +9537,7 @@
     {
      "id": 2750,
      "name": "Giant Aphid",
-     "n": 4,
+     "n": 10,
      "from": [
       {
        "id": 20082,
@@ -1953,78 +9569,7 @@
     {
      "id": 2751,
      "name": "Stakatos Fluids",
-     "n": 4,
-     "from": [
-      {
-       "id": 20157,
-       "name": "Marsh Stakato",
-       "chance": 100
-      },
-      {
-       "id": 20230,
-       "name": "Marsh Stakato Worker",
-       "chance": 100
-      },
-      {
-       "id": 20232,
-       "name": "Marsh Stakato Soldier",
-       "chance": 100
-      },
-      {
-       "id": 20234,
-       "name": "Marsh Stakato Drone",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 2752,
-     "name": "Basilisk Plasma",
-     "n": 1,
-     "from": [
-      {
-       "id": 20550,
-       "name": "Guardian Basilisk",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 2753,
-     "name": "Honey Dew",
-     "n": 1,
-     "from": [
-      {
-       "id": 20082,
-       "name": "Ant Recruit",
-       "chance": 100
-      },
-      {
-       "id": 20086,
-       "name": "Ant Guard",
-       "chance": 100
-      },
-      {
-       "id": 20084,
-       "name": "Ant Patrol",
-       "chance": 100
-      },
-      {
-       "id": 20087,
-       "name": "Ant Soldier",
-       "chance": 100
-      },
-      {
-       "id": 20088,
-       "name": "Ant Warrior Captain",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 2754,
-     "name": "Stakato Ichor",
-     "n": 1,
+     "n": 10,
      "from": [
       {
        "id": 20157,
@@ -2074,15 +9619,15 @@
     }
    ],
    "kills": 1,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "kill",
     "trigger": [
      20013,
      20019
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Luell Of Zephyr Winds, Actea Of Verdant Wilds appear and kill it",
    "area": {
@@ -2238,480 +9783,14 @@
    },
    "expectedSec": 415,
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
     19,
-    20,
-    21,
-    22,
-    23
+    20
    ]
   },
   {
-   "i": 3,
-   "key": "c1:deliver:30031",
-   "cond": 1,
-   "kind": "deliver",
-   "to": "end",
-   "links": [],
-   "npc": {
-    "id": 30031,
-    "name": "Biotin",
-    "title": "High Priest",
-    "town": "Talking Island",
-    "at": [
-     -84516,
-     245449,
-     -3712
-    ],
-    "alt": []
-   },
-   "text": "Bring Recommendation of Hollint to Biotin",
-   "needs": [
-    {
-     "id": 2744,
-     "name": "Recommendation of Hollint",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30031@-84516,245449",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 1222,
-    "sec": 55,
-    "via": ".gludin > Gludin -> TI Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> TI Village",
-      "link": "talking island village",
-      "price": 9400,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 1222,
-      "how": "town-graph",
-      "danger": 3
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> TI Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -84141,
-      244623,
-      -3728
-     ],
-     [
-      -84312,
-      244584,
-      -3728
-     ],
-     [
-      -84264,
-      244648,
-      -3728
-     ],
-     [
-      -84216,
-      244920,
-      -3728
-     ],
-     [
-      -84376,
-      245144,
-      -3712
-     ],
-     [
-      -84584,
-      245320,
-      -3720
-     ],
-     [
-      -84520,
-      245448,
-      -3712
-     ]
-    ],
-    "maxDanger": 3,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 3,
-     "dangerVsLevel": -34,
-     "aggro": []
-    }
-   },
-   "expectedSec": 80,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 4,
-   "key": "c1:deliver:30191",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 23,
-   "links": [],
-   "npc": {
-    "id": 30191,
-    "name": "Hollint",
-    "title": "High Priest",
-    "town": "Oren",
-    "at": [
-     83634,
-     52927,
-     -1443
-    ],
-    "alt": []
-   },
-   "text": "Bring Scroll of Dwarf Trust, Scroll of Orc Trust to Hollint",
-   "needs": [
-    {
-     "id": 2742,
-     "name": "Scroll of Dwarf Trust",
-     "n": 1
-    },
-    {
-     "id": 2743,
-     "name": "Scroll of Orc Trust",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30191@83634,52927",
-    "status": "ok",
-    "flags": [],
-    "from": ".oren",
-    "length": 2203,
-    "sec": 38,
-    "via": ".oren",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "walk",
-      "len": 2203,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Oren"
-    },
-    "simple": true,
-    "pv": [
-     [
-      82760,
-      53578,
-      -1470
-     ],
-     [
-      82424,
-      53736,
-      -1488
-     ],
-     [
-      82440,
-      53720,
-      -1488
-     ],
-     [
-      82664,
-      53576,
-      -1488
-     ],
-     [
-      82936,
-      53576,
-      -1488
-     ],
-     [
-      83208,
-      53576,
-      -1448
-     ],
-     [
-      83480,
-      53576,
-      -1456
-     ],
-     [
-      83624,
-      53464,
-      -1456
-     ],
-     [
-      83640,
-      53192,
-      -1456
-     ],
-     [
-      83640,
-      52920,
-      -1440
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 63,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22
-   ]
-  },
-  {
-   "i": 5,
-   "key": "c1:talk:30531",
-   "cond": 1,
-   "kind": "talk",
-   "to": 22,
-   "links": [],
-   "npc": {
-    "id": 30531,
-    "name": "Lockirin",
-    "title": "Iron Gate's",
-    "town": "Dwarven Village",
-    "at": [
-     116226,
-     -178529,
-     -944
-    ],
-    "alt": []
-   },
-   "text": "Talk to Lockirin",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30531@116226,-178529",
-    "status": "ok",
-    "flags": [],
-    "from": ".schuttgart",
-    "length": 1706,
-    "sec": 59,
-    "via": ".schuttgart > Schuttgart -> Dwarven Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Schuttgart",
-      "cmd": ".schuttgart"
-     },
-     {
-      "do": "gk",
-      "from": "Schuttgart",
-      "desc": "Schuttgart -> Dwarven Village",
-      "link": "dwarven village",
-      "price": 4400,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 1706,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Schuttgart",
-     "desc": "Schuttgart -> Dwarven Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      115120,
-      -178224,
-      -880
-     ],
-     [
-      115128,
-      -178216,
-      -896
-     ],
-     [
-      115256,
-      -178456,
-      -920
-     ],
-     [
-      115256,
-      -178728,
-      -920
-     ],
-     [
-      115256,
-      -178808,
-      -920
-     ],
-     [
-      115416,
-      -178648,
-      -936
-     ],
-     [
-      115624,
-      -178536,
-      -944
-     ],
-     [
-      115896,
-      -178536,
-      -944
-     ],
-     [
-      116168,
-      -178536,
-      -944
-     ],
-     [
-      116232,
-      -178536,
-      -944
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 84,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    23
-   ]
-  },
-  {
-   "i": 6,
-   "key": "c1:deliver:30621",
-   "cond": 1,
+   "i": 23,
+   "key": "c19:deliver:30621",
+   "cond": 19,
    "kind": "deliver",
    "to": 21,
    "links": [],
@@ -2857,2850 +9936,17 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
     19,
-    20,
-    22,
-    23
+    20
    ]
   },
   {
-   "i": 7,
-   "key": "c1:talk:30565",
-   "cond": 1,
-   "kind": "talk",
-   "to": 17,
-   "links": [],
-   "npc": {
-    "id": 30565,
-    "name": "Kakai",
-    "title": "Flame Lord",
-    "town": "Orc Village",
-    "at": [
-     -46768,
-     -113610,
-     -3
-    ],
-    "alt": []
-   },
-   "text": "Talk to Kakai",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30565@-46768,-113610",
-    "status": "ok",
-    "flags": [],
-    "from": ".schuttgart",
-    "length": 10122,
-    "sec": 129,
-    "via": ".schuttgart > Schuttgart -> Orc Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Schuttgart",
-      "cmd": ".schuttgart"
-     },
-     {
-      "do": "gk",
-      "from": "Schuttgart",
-      "desc": "Schuttgart -> Orc Village",
-      "link": "orc village",
-      "price": 13000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 10122,
-      "how": "town-graph",
-      "danger": 3
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Schuttgart",
-     "desc": "Schuttgart -> Orc Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -45158,
-      -112583,
-      -240
-     ],
-     [
-      -45160,
-      -112584,
-      -240
-     ],
-     [
-      -45048,
-      -112408,
-      -240
-     ],
-     [
-      -45048,
-      -112136,
-      -240
-     ],
-     [
-      -45224,
-      -111944,
-      -240
-     ],
-     [
-      -45464,
-      -111816,
-      -240
-     ],
-     [
-      -45592,
-      -111752,
-      -240
-     ],
-     [
-      -45736,
-      -111528,
-      -240
-     ],
-     [
-      -45832,
-      -111336,
-      -240
-     ],
-     [
-      -45816,
-      -111064,
-      -240
-     ],
-     [
-      -45816,
-      -110792,
-      -240
-     ],
-     [
-      -46008,
-      -110600,
-      -240
-     ],
-     [
-      -46088,
-      -110520,
-      -240
-     ],
-     [
-      -46120,
-      -110248,
-      -264
-     ],
-     [
-      -46136,
-      -109976,
-      -280
-     ],
-     [
-      -46152,
-      -109704,
-      -288
-     ],
-     [
-      -46344,
-      -109512,
-      -280
-     ],
-     [
-      -46472,
-      -109384,
-      -232
-     ],
-     [
-      -46536,
-      -109448,
-      -232
-     ],
-     [
-      -46792,
-      -109544,
-      -240
-     ],
-     [
-      -47064,
-      -109544,
-      -240
-     ],
-     [
-      -47320,
-      -109624,
-      -240
-     ],
-     [
-      -47368,
-      -109448,
-      -224
-     ],
-     [
-      -47608,
-      -109480,
-      -240
-     ],
-     [
-      -47784,
-      -109688,
-      -240
-     ],
-     [
-      -47784,
-      -109960,
-      -240
-     ],
-     [
-      -47944,
-      -110184,
-      -240
-     ],
-     [
-      -47896,
-      -110456,
-      -240
-     ],
-     [
-      -47864,
-      -110728,
-      -240
-     ],
-     [
-      -47864,
-      -110856,
-      -240
-     ],
-     [
-      -47864,
-      -111016,
-      -240
-     ],
-     [
-      -47864,
-      -111288,
-      -240
-     ],
-     [
-      -47864,
-      -111560,
-      -240
-     ],
-     [
-      -47896,
-      -111832,
-      -240
-     ],
-     [
-      -47896,
-      -112104,
-      -240
-     ],
-     [
-      -47896,
-      -112376,
-      -240
-     ],
-     [
-      -47896,
-      -112648,
-      -240
-     ],
-     [
-      -47896,
-      -112728,
-      -240
-     ],
-     [
-      -47880,
-      -112744,
-      -240
-     ],
-     [
-      -47832,
-      -113016,
-      -240
-     ],
-     [
-      -47752,
-      -113272,
-      -240
-     ],
-     [
-      -47640,
-      -113448,
-      -224
-     ],
-     [
-      -47432,
-      -113608,
-      -224
-     ],
-     [
-      -47160,
-      -113608,
-      -208
-     ],
-     [
-      -46888,
-      -113608,
-      -200
-     ]
-    ],
-    "maxDanger": 3,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 3,
-     "dangerVsLevel": -34,
-     "aggro": []
-    }
-   },
-   "expectedSec": 154,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    12,
-    13,
-    14,
-    15,
-    16,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 8,
-   "key": "c1:deliver:30515",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 16,
-   "links": [],
-   "npc": {
-    "id": 30515,
-    "name": "Manakia",
-    "title": "Seer",
-    "town": "Giran",
-    "at": [
-     80464,
-     144592,
-     -3529
-    ],
-    "alt": []
-   },
-   "text": "Bring Parasite of Lota x10 to Manakia",
-   "needs": [
-    {
-     "id": 2756,
-     "name": "Parasite of Lota",
-     "n": 10
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30515@80464,144592",
-    "status": "ok",
-    "flags": [],
-    "from": ".giran",
-    "length": 6851,
-    "sec": 77,
-    "via": ".giran",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
-     },
-     {
-      "do": "walk",
-      "len": 6851,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Giran"
-    },
-    "simple": true,
-    "pv": [
-     [
-      83473,
-      148554,
-      -3400
-     ],
-     [
-      83480,
-      148552,
-      -3400
-     ],
-     [
-      83304,
-      148616,
-      -3400
-     ],
-     [
-      83032,
-      148616,
-      -3464
-     ],
-     [
-      82856,
-      148520,
-      -3464
-     ],
-     [
-      82664,
-      148328,
-      -3464
-     ],
-     [
-      82616,
-      148232,
-      -3464
-     ],
-     [
-      82584,
-      148200,
-      -3464
-     ],
-     [
-      82392,
-      148008,
-      -3464
-     ],
-     [
-      82216,
-      147944,
-      -3464
-     ],
-     [
-      81944,
-      147944,
-      -3464
-     ],
-     [
-      81704,
-      147800,
-      -3464
-     ],
-     [
-      81544,
-      147592,
-      -3464
-     ],
-     [
-      81544,
-      147320,
-      -3504
-     ],
-     [
-      81480,
-      147176,
-      -3528
-     ],
-     [
-      81336,
-      147272,
-      -3528
-     ],
-     [
-      81528,
-      147080,
-      -3528
-     ],
-     [
-      81544,
-      146808,
-      -3528
-     ],
-     [
-      81512,
-      146536,
-      -3528
-     ],
-     [
-      81528,
-      146264,
-      -3528
-     ],
-     [
-      81544,
-      145992,
-      -3528
-     ],
-     [
-      81528,
-      145720,
-      -3528
-     ],
-     [
-      81528,
-      145448,
-      -3528
-     ],
-     [
-      81512,
-      145176,
-      -3528
-     ],
-     [
-      81496,
-      145000,
-      -3528
-     ],
-     [
-      81512,
-      144968,
-      -3528
-     ],
-     [
-      81544,
-      144696,
-      -3528
-     ],
-     [
-      81400,
-      144488,
-      -3528
-     ],
-     [
-      81192,
-      144440,
-      -3528
-     ],
-     [
-      80920,
-      144440,
-      -3528
-     ],
-     [
-      80648,
-      144504,
-      -3528
-     ],
-     [
-      80472,
-      144600,
-      -3528
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 102,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    12,
-    13,
-    14,
-    15,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 9,
-   "key": "c1:deliver:30657",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 12,
-   "links": [
-    "\"I will leave right now.\""
-   ],
-   "npc": {
-    "id": 30657,
-    "name": "Seresin",
-    "title": "Cardinal",
-    "town": "Oren",
-    "at": [
-     83183,
-     53715,
-     -1452
-    ],
-    "alt": []
-   },
-   "text": "Bring Letter to Seresin to Seresin",
-   "needs": [
-    {
-     "id": 2739,
-     "name": "Letter to Seresin",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30657@83183,53715",
-    "status": "ok",
-    "flags": [],
-    "from": ".oren",
-    "length": 1195,
-    "sec": 30,
-    "via": ".oren",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "walk",
-      "len": 1195,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Oren"
-    },
-    "simple": true,
-    "pv": [
-     [
-      82760,
-      53578,
-      -1470
-     ],
-     [
-      82424,
-      53736,
-      -1488
-     ],
-     [
-      82664,
-      53592,
-      -1488
-     ],
-     [
-      82936,
-      53592,
-      -1488
-     ],
-     [
-      83176,
-      53720,
-      -1448
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 55,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 10,
-   "key": "c1:deliver:30358",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 9,
-   "links": [],
-   "npc": {
-    "id": 30358,
-    "name": "Thifiell",
-    "title": "Tetrarch",
-    "town": "Dark Elf Village",
-    "at": [
-     10775,
-     14190,
-     -4240
-    ],
-    "alt": []
-   },
-   "text": "Bring Order of Clayton to Thifiell",
-   "needs": [
-    {
-     "id": 2755,
-     "name": "Order of Clayton",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30358@10775,14190",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 2691,
-    "sec": 67,
-    "via": ".gludio > Gludio -> DE Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> DE Village",
-      "link": "dark elf village",
-      "price": 10000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 2691,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> DE Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      9709,
-      15566,
-      -4568
-     ],
-     [
-      9752,
-      15608,
-      -4568
-     ],
-     [
-      9784,
-      15640,
-      -4568
-     ],
-     [
-      10056,
-      15672,
-      -4568
-     ],
-     [
-      10328,
-      15624,
-      -4568
-     ],
-     [
-      10584,
-      15544,
-      -4568
-     ],
-     [
-      10616,
-      15352,
-      -4528
-     ],
-     [
-      10584,
-      15080,
-      -4336
-     ],
-     [
-      10712,
-      14952,
-      -4336
-     ],
-     [
-      10904,
-      15016,
-      -4336
-     ],
-     [
-      10920,
-      14744,
-      -4240
-     ],
-     [
-      10984,
-      14616,
-      -4240
-     ],
-     [
-      10968,
-      14616,
-      -4240
-     ],
-     [
-      10840,
-      14456,
-      -4240
-     ],
-     [
-      10776,
-      14184,
-      -4240
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 92,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    10,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 11,
-   "key": "c1:talk:30464",
-   "cond": 1,
-   "kind": "talk",
-   "to": 8,
-   "links": [],
-   "npc": {
-    "id": 30464,
-    "name": "Clayton",
-    "title": "Magister",
-    "town": "Dion",
-    "at": [
-     17280,
-     146944,
-     -3085
-    ],
-    "alt": []
-   },
-   "text": "Talk to Clayton",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30464@17280,146944",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 5822,
-    "sec": 69,
-    "via": ".dion",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "walk",
-      "len": 5822,
-      "how": "town-graph",
-      "danger": 22
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Dion"
-    },
-    "simple": true,
-    "pv": [
-     [
-      15619,
-      143132,
-      -2688
-     ],
-     [
-      15480,
-      142888,
-      -2696
-     ],
-     [
-      15624,
-      142888,
-      -2696
-     ],
-     [
-      15784,
-      143112,
-      -2712
-     ],
-     [
-      15976,
-      143304,
-      -2768
-     ],
-     [
-      16168,
-      143496,
-      -2824
-     ],
-     [
-      16216,
-      143544,
-      -2832
-     ],
-     [
-      16296,
-      143624,
-      -2856
-     ],
-     [
-      16488,
-      143816,
-      -2912
-     ],
-     [
-      16616,
-      144056,
-      -2960
-     ],
-     [
-      16744,
-      144296,
-      -2992
-     ],
-     [
-      16792,
-      144392,
-      -2992
-     ],
-     [
-      16856,
-      144664,
-      -3000
-     ],
-     [
-      16952,
-      144920,
-      -3008
-     ],
-     [
-      17112,
-      145128,
-      -3032
-     ],
-     [
-      17288,
-      145336,
-      -3056
-     ],
-     [
-      17528,
-      145480,
-      -3072
-     ],
-     [
-      17736,
-      145640,
-      -3088
-     ],
-     [
-      17784,
-      145672,
-      -3088
-     ],
-     [
-      17976,
-      145864,
-      -3104
-     ],
-     [
-      17992,
-      146136,
-      -3104
-     ],
-     [
-      17880,
-      146392,
-      -3104
-     ],
-     [
-      17752,
-      146536,
-      -3104
-     ],
-     [
-      17752,
-      146552,
-      -3112
-     ],
-     [
-      17608,
-      146792,
-      -3112
-     ],
-     [
-      17384,
-      146808,
-      -3080
-     ],
-     [
-      17240,
-      146872,
-      -3080
-     ],
-     [
-      17288,
-      146952,
-      -3080
-     ]
-    ],
-    "maxDanger": 22,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 22,
-     "dangerVsLevel": -15,
-     "aggro": []
-    }
-   },
-   "expectedSec": 94,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    9,
-    10,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 12,
-   "key": "c1:deliver:30154",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 4,
-   "links": [],
-   "npc": {
-    "id": 30154,
-    "name": "Asterios",
-    "title": "Hierarch",
-    "town": "Elven Village",
-    "at": [
-     44692,
-     52261,
-     -2792
-    ],
-    "alt": []
-   },
-   "text": "Bring Breath of Winds, Seed of Verdure to Asterios",
-   "needs": [
-    {
-     "id": 2746,
-     "name": "Breath of Winds",
-     "n": 1
-    },
-    {
-     "id": 2747,
-     "name": "Seed of Verdure",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30154@44692,52261",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 8186,
-    "sec": 113,
-    "via": ".gludio > Gludio -> Elven Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> Elven Village",
-      "link": "elven village",
-      "price": 9200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 8186,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> Elven Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      46951,
-      51550,
-      -2976
-     ],
-     [
-      46952,
-      51544,
-      -2976
-     ],
-     [
-      47112,
-      51320,
-      -2992
-     ],
-     [
-      47288,
-      51112,
-      -2992
-     ],
-     [
-      47304,
-      50984,
-      -2992
-     ],
-     [
-      47160,
-      50824,
-      -2992
-     ],
-     [
-      46968,
-      50648,
-      -2992
-     ],
-     [
-      46744,
-      50488,
-      -3056
-     ],
-     [
-      46472,
-      50488,
-      -3056
-     ],
-     [
-      46520,
-      50216,
-      -3056
-     ],
-     [
-      46344,
-      50024,
-      -3056
-     ],
-     [
-      46184,
-      49864,
-      -3064
-     ],
-     [
-      46152,
-      49896,
-      -3064
-     ],
-     [
-      45912,
-      50024,
-      -3056
-     ],
-     [
-      45640,
-      50056,
-      -3056
-     ],
-     [
-      45368,
-      50120,
-      -3056
-     ],
-     [
-      45096,
-      50056,
-      -3056
-     ],
-     [
-      44824,
-      50024,
-      -3056
-     ],
-     [
-      44568,
-      50008,
-      -3064
-     ],
-     [
-      44536,
-      50040,
-      -3056
-     ],
-     [
-      44312,
-      50200,
-      -3056
-     ],
-     [
-      44232,
-      50200,
-      -3056
-     ],
-     [
-      43960,
-      50200,
-      -3056
-     ],
-     [
-      43704,
-      50312,
-      -3024
-     ],
-     [
-      43464,
-      50456,
-      -2992
-     ],
-     [
-      43416,
-      50680,
-      -2992
-     ],
-     [
-      43496,
-      50856,
-      -2992
-     ],
-     [
-      43688,
-      51032,
-      -2992
-     ],
-     [
-      43944,
-      51096,
-      -2992
-     ],
-     [
-      43976,
-      51192,
-      -2992
-     ],
-     [
-      44152,
-      51240,
-      -2984
-     ],
-     [
-      44312,
-      51256,
-      -2928
-     ],
-     [
-      44344,
-      51480,
-      -2848
-     ],
-     [
-      44456,
-      51688,
-      -2832
-     ],
-     [
-      44440,
-      51640,
-      -2832
-     ],
-     [
-      44648,
-      51592,
-      -2808
-     ],
-     [
-      44696,
-      51736,
-      -2808
-     ],
-     [
-      44696,
-      52008,
-      -2792
-     ],
-     [
-      44728,
-      52120,
-      -2792
-     ],
-     [
-      44696,
-      52264,
-      -2792
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 138,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 13,
-   "key": "c4:deliver:30154",
-   "cond": 4,
-   "kind": "deliver",
-   "to": 2,
-   "links": [
-    "\"How can I help to restore the forest?\""
-   ],
-   "npc": {
-    "id": 30154,
-    "name": "Asterios",
-    "title": "Hierarch",
-    "town": "Elven Village",
-    "at": [
-     44692,
-     52261,
-     -2792
-    ],
-    "alt": []
-   },
-   "text": "Bring Letter to Elf to Asterios",
-   "needs": [
-    {
-     "id": 2735,
-     "name": "Letter to Elf",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30154@44692,52261",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 8186,
-    "sec": 113,
-    "via": ".gludio > Gludio -> Elven Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> Elven Village",
-      "link": "elven village",
-      "price": 9200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 8186,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> Elven Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      46951,
-      51550,
-      -2976
-     ],
-     [
-      46952,
-      51544,
-      -2976
-     ],
-     [
-      47112,
-      51320,
-      -2992
-     ],
-     [
-      47288,
-      51112,
-      -2992
-     ],
-     [
-      47304,
-      50984,
-      -2992
-     ],
-     [
-      47160,
-      50824,
-      -2992
-     ],
-     [
-      46968,
-      50648,
-      -2992
-     ],
-     [
-      46744,
-      50488,
-      -3056
-     ],
-     [
-      46472,
-      50488,
-      -3056
-     ],
-     [
-      46520,
-      50216,
-      -3056
-     ],
-     [
-      46344,
-      50024,
-      -3056
-     ],
-     [
-      46184,
-      49864,
-      -3064
-     ],
-     [
-      46152,
-      49896,
-      -3064
-     ],
-     [
-      45912,
-      50024,
-      -3056
-     ],
-     [
-      45640,
-      50056,
-      -3056
-     ],
-     [
-      45368,
-      50120,
-      -3056
-     ],
-     [
-      45096,
-      50056,
-      -3056
-     ],
-     [
-      44824,
-      50024,
-      -3056
-     ],
-     [
-      44568,
-      50008,
-      -3064
-     ],
-     [
-      44536,
-      50040,
-      -3056
-     ],
-     [
-      44312,
-      50200,
-      -3056
-     ],
-     [
-      44232,
-      50200,
-      -3056
-     ],
-     [
-      43960,
-      50200,
-      -3056
-     ],
-     [
-      43704,
-      50312,
-      -3024
-     ],
-     [
-      43464,
-      50456,
-      -2992
-     ],
-     [
-      43416,
-      50680,
-      -2992
-     ],
-     [
-      43496,
-      50856,
-      -2992
-     ],
-     [
-      43688,
-      51032,
-      -2992
-     ],
-     [
-      43944,
-      51096,
-      -2992
-     ],
-     [
-      43976,
-      51192,
-      -2992
-     ],
-     [
-      44152,
-      51240,
-      -2984
-     ],
-     [
-      44312,
-      51256,
-      -2928
-     ],
-     [
-      44344,
-      51480,
-      -2848
-     ],
-     [
-      44456,
-      51688,
-      -2832
-     ],
-     [
-      44440,
-      51640,
-      -2832
-     ],
-     [
-      44648,
-      51592,
-      -2808
-     ],
-     [
-      44696,
-      51736,
-      -2808
-     ],
-     [
-      44696,
-      52008,
-      -2792
-     ],
-     [
-      44728,
-      52120,
-      -2792
-     ],
-     [
-      44696,
-      52264,
-      -2792
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 138,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    4
-   ]
-  },
-  {
-   "i": 14,
-   "key": "c8:deliver:30464",
-   "cond": 8,
-   "kind": "deliver",
-   "to": 6,
-   "links": [],
-   "npc": {
-    "id": 30464,
-    "name": "Clayton",
-    "title": "Magister",
-    "town": "Dion",
-    "at": [
-     17280,
-     146944,
-     -3085
-    ],
-    "alt": []
-   },
-   "text": "Bring Letter from Thifiell to Clayton",
-   "needs": [
-    {
-     "id": 2748,
-     "name": "Letter from Thifiell",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30464@17280,146944",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 5822,
-    "sec": 69,
-    "via": ".dion",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "walk",
-      "len": 5822,
-      "how": "town-graph",
-      "danger": 22
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Dion"
-    },
-    "simple": true,
-    "pv": [
-     [
-      15619,
-      143132,
-      -2688
-     ],
-     [
-      15480,
-      142888,
-      -2696
-     ],
-     [
-      15624,
-      142888,
-      -2696
-     ],
-     [
-      15784,
-      143112,
-      -2712
-     ],
-     [
-      15976,
-      143304,
-      -2768
-     ],
-     [
-      16168,
-      143496,
-      -2824
-     ],
-     [
-      16216,
-      143544,
-      -2832
-     ],
-     [
-      16296,
-      143624,
-      -2856
-     ],
-     [
-      16488,
-      143816,
-      -2912
-     ],
-     [
-      16616,
-      144056,
-      -2960
-     ],
-     [
-      16744,
-      144296,
-      -2992
-     ],
-     [
-      16792,
-      144392,
-      -2992
-     ],
-     [
-      16856,
-      144664,
-      -3000
-     ],
-     [
-      16952,
-      144920,
-      -3008
-     ],
-     [
-      17112,
-      145128,
-      -3032
-     ],
-     [
-      17288,
-      145336,
-      -3056
-     ],
-     [
-      17528,
-      145480,
-      -3072
-     ],
-     [
-      17736,
-      145640,
-      -3088
-     ],
-     [
-      17784,
-      145672,
-      -3088
-     ],
-     [
-      17976,
-      145864,
-      -3104
-     ],
-     [
-      17992,
-      146136,
-      -3104
-     ],
-     [
-      17880,
-      146392,
-      -3104
-     ],
-     [
-      17752,
-      146536,
-      -3104
-     ],
-     [
-      17752,
-      146552,
-      -3112
-     ],
-     [
-      17608,
-      146792,
-      -3112
-     ],
-     [
-      17384,
-      146808,
-      -3080
-     ],
-     [
-      17240,
-      146872,
-      -3080
-     ],
-     [
-      17288,
-      146952,
-      -3080
-     ]
-    ],
-    "maxDanger": 22,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 22,
-     "dangerVsLevel": -15,
-     "aggro": []
-    }
-   },
-   "expectedSec": 94,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    8
-   ]
-  },
-  {
-   "i": 15,
-   "key": "c9:deliver:30358",
-   "cond": 9,
-   "kind": "deliver",
-   "to": 5,
-   "links": [
-    "Give the letter of Hollint."
-   ],
-   "npc": {
-    "id": 30358,
-    "name": "Thifiell",
-    "title": "Tetrarch",
-    "town": "Dark Elf Village",
-    "at": [
-     10775,
-     14190,
-     -4240
-    ],
-    "alt": []
-   },
-   "text": "Bring Letter to Dark Elf to Thifiell",
-   "needs": [
-    {
-     "id": 2736,
-     "name": "Letter to Dark Elf",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30358@10775,14190",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 2691,
-    "sec": 67,
-    "via": ".gludio > Gludio -> DE Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> DE Village",
-      "link": "dark elf village",
-      "price": 10000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 2691,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> DE Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      9709,
-      15566,
-      -4568
-     ],
-     [
-      9752,
-      15608,
-      -4568
-     ],
-     [
-      9784,
-      15640,
-      -4568
-     ],
-     [
-      10056,
-      15672,
-      -4568
-     ],
-     [
-      10328,
-      15624,
-      -4568
-     ],
-     [
-      10584,
-      15544,
-      -4568
-     ],
-     [
-      10616,
-      15352,
-      -4528
-     ],
-     [
-      10584,
-      15080,
-      -4336
-     ],
-     [
-      10712,
-      14952,
-      -4336
-     ],
-     [
-      10904,
-      15016,
-      -4336
-     ],
-     [
-      10920,
-      14744,
-      -4240
-     ],
-     [
-      10984,
-      14616,
-      -4240
-     ],
-     [
-      10968,
-      14616,
-      -4240
-     ],
-     [
-      10840,
-      14456,
-      -4240
-     ],
-     [
-      10776,
-      14184,
-      -4240
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 92,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    9
-   ]
-  },
-  {
-   "i": 16,
-   "key": "c16:deliver:30515",
-   "cond": 16,
-   "kind": "deliver",
-   "to": 14,
-   "links": [
-    "How can I help?"
-   ],
-   "npc": {
-    "id": 30515,
-    "name": "Manakia",
-    "title": "Seer",
-    "town": "Giran",
-    "at": [
-     80464,
-     144592,
-     -3529
-    ],
-    "alt": []
-   },
-   "text": "Bring Letter to Manakia to Manakia",
-   "needs": [
-    {
-     "id": 2757,
-     "name": "Letter to Manakia",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30515@80464,144592",
-    "status": "ok",
-    "flags": [],
-    "from": ".giran",
-    "length": 6851,
-    "sec": 77,
-    "via": ".giran",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
-     },
-     {
-      "do": "walk",
-      "len": 6851,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Giran"
-    },
-    "simple": true,
-    "pv": [
-     [
-      83473,
-      148554,
-      -3400
-     ],
-     [
-      83480,
-      148552,
-      -3400
-     ],
-     [
-      83304,
-      148616,
-      -3400
-     ],
-     [
-      83032,
-      148616,
-      -3464
-     ],
-     [
-      82856,
-      148520,
-      -3464
-     ],
-     [
-      82664,
-      148328,
-      -3464
-     ],
-     [
-      82616,
-      148232,
-      -3464
-     ],
-     [
-      82584,
-      148200,
-      -3464
-     ],
-     [
-      82392,
-      148008,
-      -3464
-     ],
-     [
-      82216,
-      147944,
-      -3464
-     ],
-     [
-      81944,
-      147944,
-      -3464
-     ],
-     [
-      81704,
-      147800,
-      -3464
-     ],
-     [
-      81544,
-      147592,
-      -3464
-     ],
-     [
-      81544,
-      147320,
-      -3504
-     ],
-     [
-      81480,
-      147176,
-      -3528
-     ],
-     [
-      81336,
-      147272,
-      -3528
-     ],
-     [
-      81528,
-      147080,
-      -3528
-     ],
-     [
-      81544,
-      146808,
-      -3528
-     ],
-     [
-      81512,
-      146536,
-      -3528
-     ],
-     [
-      81528,
-      146264,
-      -3528
-     ],
-     [
-      81544,
-      145992,
-      -3528
-     ],
-     [
-      81528,
-      145720,
-      -3528
-     ],
-     [
-      81528,
-      145448,
-      -3528
-     ],
-     [
-      81512,
-      145176,
-      -3528
-     ],
-     [
-      81496,
-      145000,
-      -3528
-     ],
-     [
-      81512,
-      144968,
-      -3528
-     ],
-     [
-      81544,
-      144696,
-      -3528
-     ],
-     [
-      81400,
-      144488,
-      -3528
-     ],
-     [
-      81192,
-      144440,
-      -3528
-     ],
-     [
-      80920,
-      144440,
-      -3528
-     ],
-     [
-      80648,
-      144504,
-      -3528
-     ],
-     [
-      80472,
-      144600,
-      -3528
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 102,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    16
-   ]
-  },
-  {
-   "i": 17,
-   "key": "c17:deliver:30565",
-   "cond": 17,
-   "kind": "deliver",
-   "to": 13,
-   "links": [
-    "Show Seresin's Letter"
-   ],
-   "npc": {
-    "id": 30565,
-    "name": "Kakai",
-    "title": "Flame Lord",
-    "town": "Orc Village",
-    "at": [
-     -46768,
-     -113610,
-     -3
-    ],
-    "alt": []
-   },
-   "text": "Bring Letter to Orc to Kakai",
-   "needs": [
-    {
-     "id": 2738,
-     "name": "Letter to Orc",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30565@-46768,-113610",
-    "status": "ok",
-    "flags": [],
-    "from": ".schuttgart",
-    "length": 10122,
-    "sec": 129,
-    "via": ".schuttgart > Schuttgart -> Orc Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Schuttgart",
-      "cmd": ".schuttgart"
-     },
-     {
-      "do": "gk",
-      "from": "Schuttgart",
-      "desc": "Schuttgart -> Orc Village",
-      "link": "orc village",
-      "price": 13000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 10122,
-      "how": "town-graph",
-      "danger": 3
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Schuttgart",
-     "desc": "Schuttgart -> Orc Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -45158,
-      -112583,
-      -240
-     ],
-     [
-      -45160,
-      -112584,
-      -240
-     ],
-     [
-      -45048,
-      -112408,
-      -240
-     ],
-     [
-      -45048,
-      -112136,
-      -240
-     ],
-     [
-      -45224,
-      -111944,
-      -240
-     ],
-     [
-      -45464,
-      -111816,
-      -240
-     ],
-     [
-      -45592,
-      -111752,
-      -240
-     ],
-     [
-      -45736,
-      -111528,
-      -240
-     ],
-     [
-      -45832,
-      -111336,
-      -240
-     ],
-     [
-      -45816,
-      -111064,
-      -240
-     ],
-     [
-      -45816,
-      -110792,
-      -240
-     ],
-     [
-      -46008,
-      -110600,
-      -240
-     ],
-     [
-      -46088,
-      -110520,
-      -240
-     ],
-     [
-      -46120,
-      -110248,
-      -264
-     ],
-     [
-      -46136,
-      -109976,
-      -280
-     ],
-     [
-      -46152,
-      -109704,
-      -288
-     ],
-     [
-      -46344,
-      -109512,
-      -280
-     ],
-     [
-      -46472,
-      -109384,
-      -232
-     ],
-     [
-      -46536,
-      -109448,
-      -232
-     ],
-     [
-      -46792,
-      -109544,
-      -240
-     ],
-     [
-      -47064,
-      -109544,
-      -240
-     ],
-     [
-      -47320,
-      -109624,
-      -240
-     ],
-     [
-      -47368,
-      -109448,
-      -224
-     ],
-     [
-      -47608,
-      -109480,
-      -240
-     ],
-     [
-      -47784,
-      -109688,
-      -240
-     ],
-     [
-      -47784,
-      -109960,
-      -240
-     ],
-     [
-      -47944,
-      -110184,
-      -240
-     ],
-     [
-      -47896,
-      -110456,
-      -240
-     ],
-     [
-      -47864,
-      -110728,
-      -240
-     ],
-     [
-      -47864,
-      -110856,
-      -240
-     ],
-     [
-      -47864,
-      -111016,
-      -240
-     ],
-     [
-      -47864,
-      -111288,
-      -240
-     ],
-     [
-      -47864,
-      -111560,
-      -240
-     ],
-     [
-      -47896,
-      -111832,
-      -240
-     ],
-     [
-      -47896,
-      -112104,
-      -240
-     ],
-     [
-      -47896,
-      -112376,
-      -240
-     ],
-     [
-      -47896,
-      -112648,
-      -240
-     ],
-     [
-      -47896,
-      -112728,
-      -240
-     ],
-     [
-      -47880,
-      -112744,
-      -240
-     ],
-     [
-      -47832,
-      -113016,
-      -240
-     ],
-     [
-      -47752,
-      -113272,
-      -240
-     ],
-     [
-      -47640,
-      -113448,
-      -224
-     ],
-     [
-      -47432,
-      -113608,
-      -224
-     ],
-     [
-      -47160,
-      -113608,
-      -208
-     ],
-     [
-      -46888,
-      -113608,
-      -200
-     ]
-    ],
-    "maxDanger": 3,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 3,
-     "dangerVsLevel": -34,
-     "aggro": []
-    }
-   },
-   "expectedSec": 154,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    17
-   ]
-  },
-  {
-   "i": 18,
-   "key": "c21:deliver:30621",
+   "i": 24,
+   "key": "c21:talk:30531",
    "cond": 21,
-   "kind": "deliver",
-   "to": 19,
-   "links": [
-    "Ask about the Core"
-   ],
-   "npc": {
-    "id": 30621,
-    "name": "Nikola",
-    "title": "Maestro",
-    "town": "Gludio",
-    "at": [
-     10580,
-     118027,
-     -3672
-    ],
-    "alt": []
-   },
-   "text": "Bring Letter to Nikola to Nikola",
-   "needs": [
-    {
-     "id": 2759,
-     "name": "Letter to Nikola",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30621@10580,118027",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 8062,
-    "sec": 112,
-    "via": ".dion > Dion -> Cruma Tower",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "gk",
-      "from": "Dion",
-      "desc": "Dion -> Cruma Tower",
-      "link": "cruma tower",
-      "price": 2300,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 8062,
-      "how": "geodata",
-      "danger": 34
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Cruma Tower"
-    },
-    "simple": true,
-    "pv": [
-     [
-      17225,
-      114173,
-      -3440
-     ],
-     [
-      16360,
-      114328,
-      -3528
-     ],
-     [
-      15912,
-      114488,
-      -3576
-     ],
-     [
-      15416,
-      114984,
-      -3596
-     ],
-     [
-      14920,
-      115480,
-      -3616
-     ],
-     [
-      14424,
-      115976,
-      -3664
-     ],
-     [
-      13928,
-      116472,
-      -3712
-     ],
-     [
-      13432,
-      116968,
-      -3708
-     ],
-     [
-      12936,
-      117464,
-      -3704
-     ],
-     [
-      12440,
-      117744,
-      -3720
-     ],
-     [
-      11944,
-      118024,
-      -3736
-     ],
-     [
-      10952,
-      118024,
-      -3688
-     ],
-     [
-      10584,
-      118024,
-      -3672
-     ]
-    ],
-    "maxDanger": 34,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 34,
-     "dangerVsLevel": -3,
-     "aggro": []
-    }
-   },
-   "expectedSec": 137,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    21
-   ]
-  },
-  {
-   "i": 19,
-   "key": "c22:deliver:30531",
-   "cond": 22,
-   "kind": "deliver",
-   "to": 18,
-   "links": [
-    "Show Seresin's letter"
-   ],
+   "kind": "talk",
+   "to": 22,
+   "links": [],
    "npc": {
     "id": 30531,
     "name": "Lockirin",
@@ -5713,14 +9959,7 @@
     ],
     "alt": []
    },
-   "text": "Bring Letter to Dwarf to Lockirin",
-   "needs": [
-    {
-     "id": 2737,
-     "name": "Letter to Dwarf",
-     "n": 1
-    }
-   ],
+   "text": "Talk to Lockirin",
    "reasons": [],
    "travel": {
     "src": "atlas",
@@ -5828,15 +10067,15 @@
     "hasItems": "talk"
    },
    "conds": [
-    22
+    21
    ]
   },
   {
-   "i": 20,
-   "key": "c23:deliver:30191",
-   "cond": 23,
+   "i": 25,
+   "key": "c22:deliver:30191",
+   "cond": 22,
    "kind": "deliver",
-   "to": 10,
+   "to": 23,
    "links": [],
    "npc": {
     "id": 30191,
@@ -5850,16 +10089,16 @@
     ],
     "alt": []
    },
-   "text": "Bring Scroll of Elf Trust, Scroll of Dark Elf Trust to Hollint",
+   "text": "Bring Scroll of Dwarf Trust, Scroll of Orc Trust to Hollint",
    "needs": [
     {
-     "id": 2741,
-     "name": "Scroll of Elf Trust",
+     "id": 2742,
+     "name": "Scroll of Dwarf Trust",
      "n": 1
     },
     {
-     "id": 2740,
-     "name": "Scroll of Dark Elf Trust",
+     "id": 2743,
+     "name": "Scroll of Orc Trust",
      "n": 1
     }
    ],
@@ -5956,6 +10195,128 @@
     }
    },
    "expectedSec": 63,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    22
+   ]
+  },
+  {
+   "i": 26,
+   "key": "c23:deliver:30031",
+   "cond": 23,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30031,
+    "name": "Biotin",
+    "title": "High Priest",
+    "town": "Talking Island",
+    "at": [
+     -84516,
+     245449,
+     -3712
+    ],
+    "alt": []
+   },
+   "text": "Bring Recommendation of Hollint to Biotin",
+   "needs": [
+    {
+     "id": 2744,
+     "name": "Recommendation of Hollint",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30031@-84516,245449",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 1222,
+    "sec": 55,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1222,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84264,
+      244648,
+      -3728
+     ],
+     [
+      -84216,
+      244920,
+      -3728
+     ],
+     [
+      -84376,
+      245144,
+      -3712
+     ],
+     [
+      -84584,
+      245320,
+      -3720
+     ],
+     [
+      -84520,
+      245448,
+      -3712
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -34,
+     "aggro": []
+    }
+   },
+   "expectedSec": 80,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"

@@ -1,0 +1,148 @@
+{
+ "npcId": 30539,
+ "name": "Chichirin",
+ "title": "Priestess of the Earth",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.996Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30539.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "293": {
+   "name": "The Hidden Veins",
+   "listText": [
+    "[The Hidden Veins]",
+    "[The Hidden Veins (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00293_TheHiddenVeins/30539-01.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30539.htm": {
+   "file": "default/30539.htm",
+   "quest": null,
+   "text": "Priestess of the Earth Chichirin: Carna Maphr! May the blessing of the Goddess of the Earth be with you. The venerated Hero Lucien had enormous strength and willpower when he fought against the wicked Earth Wyrm Trasken, saving us Dwarves from the evil creature. Lucien once said, \"I, Lucien, have a…",
+   "header": "Priestess of the Earth Chichirin",
+   "links": [
+    {
+     "text": "Ask about the Earth Wyrm.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30539-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30539-1.htm": {
+   "file": "default/30539-1.htm",
+   "quest": null,
+   "text": "Priestess of the Earth Chichirin: Earth Wyrm Trasken was one of the wicked devils created by Shilen , the goddess of darkness and death. Long ago, when Shunaiman, the king of Elmoreden, was building the Seal of Shilen, Earth Worm Trasken escaped from King Shunaiman, the tales tell us. It is said th…",
+   "header": "Priestess of the Earth Chichirin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00293_TheHiddenVeins/30539-01.html": {
+   "file": "Q00293_TheHiddenVeins/30539-01.html",
+   "quest": 293,
+   "text": "Priestess of the Earth Chichirin: I heard from Filaur of the Gray Pillar. You are trying to recover some old Maps, right? I used to be an apprentice for the cartography guild before becoming a seer. I helped Master Diana recover the Map that shows the sites of the ancient giants.",
+   "header": "Priestess of the Earth Chichirin",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Ask her to recover the Map",
+     "bypass": "Quest Q00293_TheHiddenVeins 30539-03.html",
+     "kind": "quest-event",
+     "script": "Q00293_TheHiddenVeins",
+     "event": "30539-03.html",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30539-03.html",
+     "toAll": [
+      "Q00293_TheHiddenVeins/30539-03.html",
+      "Q00293_TheHiddenVeins/30539-02.html"
+     ]
+    }
+   ]
+  },
+  "Q00464_Oath/30539-01.html": {
+   "file": "Q00464_Oath/30539-01.html",
+   "quest": 464,
+   "text": "Priestess of the Earth Chichirin: What can I do for you?",
+   "header": "Priestess of the Earth Chichirin",
+   "when": [
+    "state STARTED; cond >1; st.getInt(\"npc\") == npcId"
+   ],
+   "links": [
+    {
+     "text": "Say that you came to give her this book",
+     "bypass": "Quest Q00464_Oath end_quest",
+     "kind": "quest-event",
+     "script": "Q00464_Oath",
+     "event": "end_quest",
+     "quest": 464,
+     "to": "Q00464_Oath/30539-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00293_TheHiddenVeins/30539-02.html": {
+   "file": "Q00293_TheHiddenVeins/30539-02.html",
+   "quest": 293,
+   "text": "Priestess of the Earth Chichirin: I'm sorry, but you don't have enough pieces of the torn Map. Look here. You don't have this part. See, just there? I think I need four pieces of the torn Map to make a complete Map.",
+   "header": "Priestess of the Earth Chichirin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00293_TheHiddenVeins/30539-03.html": {
+   "file": "Q00293_TheHiddenVeins/30539-03.html",
+   "quest": 293,
+   "text": "Priestess of the Earth Chichirin: Let me see ... This part should be on the upper left-hand corner ... This should be under that piece ... If I put this here ... There! It is a little loose, but I have managed to create a rough Map. I have never seen these characters before. These are neither the g…",
+   "header": "Priestess of the Earth Chichirin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00464_Oath/30539-02.html": {
+   "file": "Q00464_Oath/30539-02.html",
+   "quest": 464,
+   "text": "Earth Priestess Chichirin: Oh, this book is...?! ...Where did you find this? I thought I lost it a long time ago. How did you find this book? Wow, you have an amazing talent. This book reminds me of the days in my youth. Thank you so much!! May blessing of Earth Goddess be upon you!! Karna Mapra!!",
+   "header": "Earth Priestess Chichirin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Hidden Veins (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00293_TheHiddenVeins",
+     "kind": "quest",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30539-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

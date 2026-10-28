@@ -1,0 +1,1017 @@
+{
+ "npcId": 31537,
+ "name": "Tunatun",
+ "title": "Beast Herder",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.216Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "19": {
+   "name": "Go to the Pastureland",
+   "listText": [
+    "[Go to the Pastureland]",
+    "[Go to the Pastureland (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00019_GoToThePastureland/31537-01.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "20": {
+   "name": "Bring Up With Love",
+   "listText": [
+    "[Bring Up With Love]",
+    "[Bring Up With Love (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00020_BringUpWithLove/31537-01.htm",
+     "when": "state CREATED; player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00020_BringUpWithLove/31537-13.html",
+     "when": "state CREATED; NOT player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00020_BringUpWithLove/31537-14.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00020_BringUpWithLove/31537-14.html",
+     "when": "state STARTED; cond 2; (!st.hasQuestItems(INNOCENCE_JEWEL))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00020_BringUpWithLove/31537-15.html",
+     "when": "state STARTED; cond 2; NOT (!st.hasQuestItems(INNOCENCE_JEWEL))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "72": {
+   "name": "Saga of the Sword Muse",
+   "listText": [
+    "[Saga of the Sword Muse]",
+    "[Saga of the Sword Muse (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00072_SagaOfTheSwordMuse/3-01.htm",
+     "when": "cond 10; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00072_SagaOfTheSwordMuse/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00072_SagaOfTheSwordMuse/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00072_SagaOfTheSwordMuse/3-06.htm",
+     "when": "cond 13; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "278": {
+   "name": "Home Security",
+   "listText": [
+    "[Home Security]",
+    "[Home Security (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00278_HomeSecurity/31537-01.htm",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00278_HomeSecurity/31537-06.html",
+     "when": "state STARTED; cond 1; (st.isCond(1) || !hasItemsAtLimit(player, SEL_MAHUM_MANE))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00278_HomeSecurity/31537-05.html",
+     "when": "state STARTED; cond 2; !(st.isCond(1) || !hasItemsAtLimit(player, SEL_MAHUM_MANE)); hasItemsAtLimit(player, SEL_MAHUM_MANE)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "631": {
+   "name": "Delicious Top Choice Meat",
+   "listText": [
+    "[Delicious Top Choice Meat]",
+    "[Delicious Top Choice Meat (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00631_DeliciousTopChoiceMeat/31537-01.htm",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00631_DeliciousTopChoiceMeat/31537-04.html",
+     "when": "state STARTED; cond 1; !hasItemsAtLimit(st.getPlayer(), PRIME_MEAT)",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00631_DeliciousTopChoiceMeat/31537-05.html",
+     "when": "state STARTED; cond 2; hasItemsAtLimit(st.getPlayer(), PRIME_MEAT)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00019_GoToThePastureland/31537-01.html": {
+   "file": "Q00019_GoToThePastureland/31537-01.html",
+   "quest": 19,
+   "text": "Beast Herder Tunatun: What? Vladimir said that? Hmm... Actually, that is the best meat I can get. Unless an skilled adventurer shows up... There is nothing else I can do. This is the only time I will accept a return. But I still look forward to doing business. Do I have any change?",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "Say that he said he doesn't need it",
+     "bypass": "Quest Q00019_GoToThePastureland 31537-02.html",
+     "kind": "quest-event",
+     "script": "Q00019_GoToThePastureland",
+     "event": "31537-02.html",
+     "quest": 19,
+     "to": "Q00019_GoToThePastureland/31537-02.html",
+     "toAll": [
+      "Q00019_GoToThePastureland/31537-02.html",
+      "Q00019_GoToThePastureland/31537-03.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00020_BringUpWithLove/31537-01.htm": {
+   "file": "Q00020_BringUpWithLove/31537-01.htm",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: Ahh... I love the farm, but I wonder what they will become when they mature. It's not always easy to farm beasts, you know. Even as manager of this place, I can only do so much to command those beasts... Do you know anyone skilled with such beasts...?",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "state CREATED; player.getLevel() >= MIN_LEVEL"
+   ],
+   "links": [
+    {
+     "text": "Say that you will help",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-02.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-02.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-02.htm"
+    }
+   ]
+  },
+  "Q00020_BringUpWithLove/31537-13.html": {
+   "file": "Q00020_BringUpWithLove/31537-13.html",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: Ahh... I love the farm, but I wonder what they will become when they mature. It's not always easy to farm beasts, you know. Even as manager of this place, I can only do so much to command those beasts... Do you know anyone skilled with such beasts...? Feral beasts are too dang…",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "state CREATED; NOT player.getLevel() >= MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00020_BringUpWithLove/31537-14.html": {
+   "file": "Q00020_BringUpWithLove/31537-14.html",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: Buy food from the Feed Sellers. Without food the beasts turn feral. If that happens you've wasted everyone's time. So do us both a favor, have enough food ready. The cubs you can raise are Alpine Buffalo, Alpine Grendel, Alpine Kookaburra, and Alpine Cougar . So raise em' righ…",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "state STARTED; cond 1",
+    "state STARTED; cond 2; (!st.hasQuestItems(INNOCENCE_JEWEL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00020_BringUpWithLove/31537-15.html": {
+   "file": "Q00020_BringUpWithLove/31537-15.html",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: The Jewel of Innocence! You aren't thinking of keeping it, are you? I'll pay you now..",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "state STARTED; cond 2; NOT (!st.hasQuestItems(INNOCENCE_JEWEL))"
+   ],
+   "links": [
+    {
+     "text": "Give it to him",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-16.html",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-16.html",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-16.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00072_SagaOfTheSwordMuse/3-01.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/3-01.htm",
+   "quest": 72,
+   "text": "Beast Herder Tunatun: What? The Stone of Commune? Uh... As a matter of fact, yes, I have it! But I can't give it to you! Let me explain... For as long as I can remember, I've had but one dream! It was the same every night, but forgotten soon after waking. But recently, I remembered it! I dream of b…",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "cond 10; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Ask about the thing of equal value.",
+     "bypass": "Quest Q00072_SagaOfTheSwordMuse 3-5",
+     "kind": "quest-event",
+     "script": "Q00072_SagaOfTheSwordMuse",
+     "event": "3-5",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/3-07.htm"
+    }
+   ]
+  },
+  "Q00072_SagaOfTheSwordMuse/3-05.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/3-05.htm",
+   "quest": 72,
+   "text": "Beast Herder Tunatun: You've brought the Divine Stone of Wisdom, right? All right. Now, I'll give you the Stone of Commune. Actually, I'm hoping to get two stones of sacred wisdom! One from the Varka Silenos and one from the Ketra Orcs... If I had two stones, I could meet with the chiefs of both tr…",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, please.\"",
+     "bypass": "Quest Q00072_SagaOfTheSwordMuse 3-8",
+     "kind": "quest-event",
+     "script": "Q00072_SagaOfTheSwordMuse",
+     "event": "3-8",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00072_SagaOfTheSwordMuse/3-04.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/3-04.htm",
+   "quest": 72,
+   "text": "Beast Herder Tunatun: Did you bring me the Divine Stone of Wisdom? That stone is proof of friendship. I won't give you this Stone of Commune until you bring me that stone! By the way, don't mention my name to anybody! I've got to live with these people after this is over!",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/3-06.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/3-06.htm",
+   "quest": 72,
+   "text": "Beast Herder Tunatun: The stone tablet that's linked with the Stone of Commune is located in the northern part of the Varka Silenos Barracks. You must find that stone tablet!",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "cond 13; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00278_HomeSecurity/31537-01.htm": {
+   "file": "Q00278_HomeSecurity/31537-01.htm",
+   "quest": 278,
+   "text": "Beast Herder Tunatun: There's nothing like a hard day's work that puts a man fast asleep at night. That is what I used to say. But I haven't been sleeping to well these past weeks. I worry about the future of this farm ever since those Sel Mahum started showing up.",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "Listen to his concern.",
+     "bypass": "Quest Q00278_HomeSecurity 31537-02.htm",
+     "kind": "quest-event",
+     "script": "Q00278_HomeSecurity",
+     "event": "31537-02.htm",
+     "quest": 278,
+     "to": "Q00278_HomeSecurity/31537-02.htm",
+     "toAll": [
+      "Q00278_HomeSecurity/31537-02.htm",
+      "Q00278_HomeSecurity/31537-03.html"
+     ]
+    }
+   ]
+  },
+  "Q00278_HomeSecurity/31537-06.html": {
+   "file": "Q00278_HomeSecurity/31537-06.html",
+   "quest": 278,
+   "text": "Beast Herder Tunatun: That's it? Uhm... I was hoping for more.. Can you do better?",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "state STARTED; cond 1; (st.isCond(1) || !hasItemsAtLimit(player, SEL_MAHUM_MANE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00278_HomeSecurity/31537-05.html": {
+   "file": "Q00278_HomeSecurity/31537-05.html",
+   "quest": 278,
+   "text": "Beast Herder Tunatun: How goes it, stranger? Looks like you have a fine collection of Sel Mahum Manes going there. I'm a man of my word and I'll pay you rightly for yer work.",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "state STARTED; cond 2; !(st.isCond(1) || !hasItemsAtLimit(player, SEL_MAHUM_MANE)); hasItemsAtLimit(player, SEL_MAHUM_MANE)"
+   ],
+   "links": [
+    {
+     "text": "Accept Reward",
+     "bypass": "Quest Q00278_HomeSecurity 31537-07.html",
+     "kind": "quest-event",
+     "script": "Q00278_HomeSecurity",
+     "event": "31537-07.html",
+     "quest": 278,
+     "to": "Q00278_HomeSecurity/31537-07.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00631_DeliciousTopChoiceMeat/31537-01.htm": {
+   "file": "Q00631_DeliciousTopChoiceMeat/31537-01.htm",
+   "quest": 631,
+   "text": "Beast Herder Tunatun: The meat here is famous, and I'm not bragging. A hint of Kookaburra, a savory note of Cougar, and the tender taste of Buffalo meat... I'd offer a sample of Grendel meat, IF we had a butcher! The problem is they get too big, we need a butcher to handle them when they're full gr…",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "Say that you will do it",
+     "bypass": "Quest Q00631_DeliciousTopChoiceMeat quest_accept",
+     "kind": "quest-event",
+     "script": "Q00631_DeliciousTopChoiceMeat",
+     "event": "quest_accept",
+     "quest": 631,
+     "to": "Q00631_DeliciousTopChoiceMeat/31537-02.html",
+     "toAll": [
+      "Q00631_DeliciousTopChoiceMeat/31537-02.html",
+      "Q00631_DeliciousTopChoiceMeat/31537-03.html"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00631_DeliciousTopChoiceMeat/31537-04.html": {
+   "file": "Q00631_DeliciousTopChoiceMeat/31537-04.html",
+   "quest": 631,
+   "text": "Beast Herder Tunatun: We need 120 units of meat. One unit serves one person. My customer feeds 120 people, really it's not hard to understand..",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "state STARTED; cond 1; !hasItemsAtLimit(st.getPlayer(), PRIME_MEAT)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00631_DeliciousTopChoiceMeat/31537-05.html": {
+   "file": "Q00631_DeliciousTopChoiceMeat/31537-05.html",
+   "quest": 631,
+   "text": "Beast Herder Tunatun: You make it look so easy! Too bad I can't convince you to stay.. skills like yours are always welcome! Here's the deal. Cash is thin right now, and we won't receive payment until we ship. For now, how about an item instead?",
+   "header": "Beast Herder Tunatun",
+   "when": [
+    "state STARTED; cond 2; hasItemsAtLimit(st.getPlayer(), PRIME_MEAT)"
+   ],
+   "links": [
+    {
+     "text": "Say that you understand and will accept whatever the item is",
+     "bypass": "Quest Q00631_DeliciousTopChoiceMeat 31537-06.html",
+     "kind": "quest-event",
+     "script": "Q00631_DeliciousTopChoiceMeat",
+     "event": "31537-06.html",
+     "quest": 631,
+     "to": "Q00631_DeliciousTopChoiceMeat/31537-06.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00019_GoToThePastureland/31537-02.html": {
+   "file": "Q00019_GoToThePastureland/31537-02.html",
+   "quest": 19,
+   "text": "Beast Herder Tunatun: He's a cranky one, eh! But I can't do that. I can apologize to him later. But you should take this money. I'll feel better that way when I pay a visit later. Now, I'm in need of a skilled, feared, willing adventurer to help me acquire good meat, if ONLY there was one nearby...?",
+   "header": "Beast Herder Tunatun",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00019_GoToThePastureland/31537-03.html": {
+   "file": "Q00019_GoToThePastureland/31537-03.html",
+   "quest": 19,
+   "text": "Beast Herder Tunatun: I see. Then, first return the meat... What? You didn't bring the meat? How would I know if he sent you?",
+   "header": "Beast Herder Tunatun",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00020_BringUpWithLove/31537-02.htm": {
+   "file": "Q00020_BringUpWithLove/31537-02.htm",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: You...? I agree you look the part, but know that these beasts won't care how you look. You must stay in control. The young are docile, it's the adults to watch out for. Are you sure you are ready?",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Say that you are ready",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-03.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-03.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-03.htm"
+    }
+   ]
+  },
+  "Q00020_BringUpWithLove/31537-03.htm": {
+   "file": "Q00020_BringUpWithLove/31537-03.htm",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: If you say so... First, take this Beast Handler's Whip . Do I need to show you how this works?",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Say that you know",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-04.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-04.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-04.htm"
+    },
+    {
+     "text": "Say that you don't know",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-05.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-05.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-05.htm"
+    }
+   ]
+  },
+  "Q00020_BringUpWithLove/31537-04.htm": {
+   "file": "Q00020_BringUpWithLove/31537-04.htm",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: Well, the lesson is almost over. If you feel ready, there's only one way to know for sure.",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Say that you know",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-08.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-08.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-08.htm"
+    },
+    {
+     "text": "Say that you don't know",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-12.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-12.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-12.htm"
+    }
+   ]
+  },
+  "Q00020_BringUpWithLove/31537-05.htm": {
+   "file": "Q00020_BringUpWithLove/31537-05.htm",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: The Beast Handler's Whip is a necessity on this farm. One beast used to be our limit, but thanks to the Beast Handler's Whip it isn't a problem controlling more.",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Continue to listen to the story",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-06.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-06.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-06.htm"
+    }
+   ]
+  },
+  "Q00020_BringUpWithLove/31537-06.htm": {
+   "file": "Q00020_BringUpWithLove/31537-06.htm",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: That's not the only reason. When you use this Beast Handler's Whip, you can use a variety supplemental magic on the cubs you train. The more kinds of beasts you train, the greater the magic you can use!",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Continue to listen to the story",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-07.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-07.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-07.htm"
+    }
+   ]
+  },
+  "Q00020_BringUpWithLove/31537-07.htm": {
+   "file": "Q00020_BringUpWithLove/31537-07.htm",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: If somehow you lose the Beast Handler's Whip, let me know. I'll give you another one. Before we begin.. Do you need a few tips?",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Say that you know",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-08.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-08.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-08.htm"
+    },
+    {
+     "text": "Say that you don't know",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-12.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-12.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-12.htm"
+    }
+   ]
+  },
+  "Q00020_BringUpWithLove/31537-08.htm": {
+   "file": "Q00020_BringUpWithLove/31537-08.htm",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: The next step is simple. The cubs need proper positive attention. They only recognize you as their master if you raise them right. But, if you ignore them and leave them to their own mischief... Well let's just say you won't be bringing one home for the kids!",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "\"And then?\"",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-09.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-09.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-09.htm"
+    }
+   ]
+  },
+  "Q00020_BringUpWithLove/31537-09.htm": {
+   "file": "Q00020_BringUpWithLove/31537-09.htm",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: Now sometimes, and I do mean rarely, a cub remains purely innocent and good, without any trace of evil. Again, this is rare. But when it does happen, that cub will produce a white jewel. We call this jewel a Jewel of Innocence . It's a product of the cub's pure love for its ma…",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "\"So, what you really want to say is...?\"",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-10.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-10.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-10.htm"
+    }
+   ]
+  },
+  "Q00020_BringUpWithLove/31537-10.htm": {
+   "file": "Q00020_BringUpWithLove/31537-10.htm",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: You've guessed it, I want that Jewel of Innocence! Beasts crave them, but only the person who raised the cub can retrieve the Jewel of Innocence. Also, and I don't know why, but you only get one chance to acquire that jewel. I've only seen it once, truly unforgettable to say t…",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Say that you will",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-11.html",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-11.html",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-11.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00020_BringUpWithLove/31537-11.html": {
+   "file": "Q00020_BringUpWithLove/31537-11.html",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: I hope you aren't all talk! Feed them, diligently, with Feed from the Feed Sellers, and fortune may shine on you... with a jewel! However, a beast with any evil in it can be dangerous. So be careful! I'll be waiting for that jewel.",
+   "header": "Beast Herder Tunatun",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00020_BringUpWithLove/31537-12.htm": {
+   "file": "Q00020_BringUpWithLove/31537-12.htm",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: Pay attention. You see those Feed Sellers? Purchase the Feed from them, and let Alpine Buffalo, Alpine Grendel, Alpine Kookaburra, Alpine Cougar eat the Feed to make them grow.",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Listen to the next story",
+     "bypass": "Quest Q00020_BringUpWithLove 31537-08.htm",
+     "kind": "quest-event",
+     "script": "Q00020_BringUpWithLove",
+     "event": "31537-08.htm",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-08.htm"
+    }
+   ]
+  },
+  "Q00020_BringUpWithLove/31537-16.html": {
+   "file": "Q00020_BringUpWithLove/31537-16.html",
+   "quest": 20,
+   "text": "Beast Herder Tunatun: Ahh, it has been too long...! The way light catches it, the color, the texture, the... Oh... I, I'm crying. Don't mind me... This Jewel... when I hold it I remember the innocence of my youth. I remember a dream... I dreamed about making the world a better place. Yes, I was you…",
+   "header": "Beast Herder Tunatun",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/3-02.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/3-02.htm",
+   "quest": 72,
+   "text": "Beast Herder Tunatun: Helping the Ketra Orcs, eh? That's fine. They're currently at war with the Varka Silenos over a piece of land. Honestly, my friend, I don't have a dog in that fight! So do me a favor... If you change your mind, you can go over to the other side. But eventually you should bring…",
+   "header": "Beast Herder Tunatun",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/3-03.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/3-03.htm",
+   "quest": 72,
+   "text": "Beast Herder Tunatun: Helping the Varka Silenos, eh? That's fine. They're currently at war with the Ketra Orcs over a piece of land. Honestly, my friend, I don't have a dog in that fight! So do me a favor... If you change your mind, you can go over to the other side. But eventually you should bring…",
+   "header": "Beast Herder Tunatun",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/3-07.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/3-07.htm",
+   "quest": 72,
+   "text": "Beast Herder Tunatun: Ah, yes, the Divine Stone of Wisdom . It's owned by the Ketra Orcs and the Varka Silenos. It holds a secret... the ability to communicate between tribes! Not only that, the fact that you have it is proof of your close friendship with them! Although it's more than I can logical…",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "\"I'll get the stone from the Ketra Orcs.\"",
+     "bypass": "Quest Q00072_SagaOfTheSwordMuse 3-6",
+     "kind": "quest-event",
+     "script": "Q00072_SagaOfTheSwordMuse",
+     "event": "3-6",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'll get the stone from the Varka Silenos.\"",
+     "bypass": "Quest Q00072_SagaOfTheSwordMuse 3-7",
+     "kind": "quest-event",
+     "script": "Q00072_SagaOfTheSwordMuse",
+     "event": "3-7",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/3-03.htm",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00072_SagaOfTheSwordMuse/3-08.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/3-08.htm",
+   "quest": 72,
+   "text": "Beast Herder Tunatun: Although it's certainly not my problem, I suppose I should let you in on where the Stone of Commune will take you! The Stone of Commune is linked with the stone tablet on the north of the Varka Silenos Barracks. You must find that stone tablet! Meanwhile, I'll study the Divine…",
+   "header": "Beast Herder Tunatun",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00278_HomeSecurity/31537-02.htm": {
+   "file": "Q00278_HomeSecurity/31537-02.htm",
+   "quest": 278,
+   "text": "Beast Herder Tunatun: Everyone knows that the best meat can only be found from the animals on this land. I've done all I can to keep them safe, but these Sel Mahum Farm Ravagers and Farm Bandits are starting to be too much for me. In fact, I would be overwhelmed if they all attacked at once. There …",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Offer to help.",
+     "bypass": "Quest Q00278_HomeSecurity 31537-04.htm",
+     "kind": "quest-event",
+     "script": "Q00278_HomeSecurity",
+     "event": "31537-04.htm",
+     "quest": 278,
+     "to": "Q00278_HomeSecurity/31537-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00278_HomeSecurity/31537-03.html": {
+   "file": "Q00278_HomeSecurity/31537-03.html",
+   "quest": 278,
+   "text": "Beast Herder Tunatun: No. Never mind. I need a strong adventurer. (Only characters of level 82 and above are permitted to take on this quest.)",
+   "header": "Beast Herder Tunatun",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00278_HomeSecurity/31537-04.htm": {
+   "file": "Q00278_HomeSecurity/31537-04.htm",
+   "quest": 278,
+   "text": "Beast Herder Tunatun: Mighty kind of you. Tell you what... I'll pay you for killing those Sel Mahum Farm Ravagers or Farm Bandits on my farm. I wish I could take your word for it, but I'm gonna need to see some proof before I pay you. Collect 300 Sel Mahum Manes and bring them back as proof. A word…",
+   "header": "Beast Herder Tunatun",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00278_HomeSecurity/31537-07.html": {
+   "file": "Q00278_HomeSecurity/31537-07.html",
+   "quest": 278,
+   "text": "Beast Herder Tunatun: I thank ya, stranger. Your help has definitely made a difference in my life. I even got a good night's sleep while you were helping out. If you are ever in need of some work, I am always willing pay until the very last one of those things are dead.",
+   "header": "Beast Herder Tunatun",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00631_DeliciousTopChoiceMeat/31537-02.html": {
+   "file": "Q00631_DeliciousTopChoiceMeat/31537-02.html",
+   "quest": 631,
+   "text": "Beast Herder Tunatun: Wow, you really ARE ready for anything! Ha! Alright, let's talk business. We need the best meat, if the beasts aren't big enough then the meat isn't ready. The young ones taste okay, but if we don't provide the best someone else will. For a good harvest we'll need about 120 un…",
+   "header": "Beast Herder Tunatun",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00631_DeliciousTopChoiceMeat/31537-03.html": {
+   "file": "Q00631_DeliciousTopChoiceMeat/31537-03.html",
+   "quest": 631,
+   "text": "Beast Herder Tunatun: Wow, ready for anything aren't you? Haha! Listen, you can't take these beasts lightly. The moment you do.. well.. there are no kind words for it. Even an adventurer with your skills could fall prey to a big one.. (Only characters with level 82 and above are permitted to take o…",
+   "header": "Beast Herder Tunatun",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00631_DeliciousTopChoiceMeat/31537-06.html": {
+   "file": "Q00631_DeliciousTopChoiceMeat/31537-06.html",
+   "quest": 631,
+   "text": "Beast Herder Tunatun: Great, you've really been working hard. We'll have to do it again sometime! I could ship this daily, so the work is always here if you want it.",
+   "header": "Beast Herder Tunatun",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "ai/npc/Tunatun/31537-01.html": {
+   "file": "ai/npc/Tunatun/31537-01.html",
+   "quest": null,
+   "text": "Beast Herder Tunatun: Are you talking about the Bull Whip? Don't you already have one? If you don't, I can give you one again. Unfortunately, if you already have one, I can't give you another. Resources are pretty limited out here, I'm sure you can understand.",
+   "header": "Beast Herder Tunatun",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Tunatun/31537-02.html": {
+   "file": "ai/npc/Tunatun/31537-02.html",
+   "quest": null,
+   "text": "Beast Herder Tunatun: You...? You don't look that strong. Raising beasts is not an easy thing. It could be really dangerious if something goes wrong. It's OK when they are young, but it becomes too dangerous for you to handle when they're are fully grown up. Maybe it would be better for you to come…",
+   "header": "Beast Herder Tunatun",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Tunatun/31537-03.html": {
+   "file": "ai/npc/Tunatun/31537-03.html",
+   "quest": null,
+   "text": "Beast Herder Tunatun: If you're interested in handling the beasts, I can give you this Bull Whip. If you've forgotten how to use it, I can tell you again.",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Listen to the explanation about how to handle.",
+     "bypass": "Quest Tunatun 31537-04.html",
+     "kind": "quest-event",
+     "script": "Tunatun",
+     "event": "31537-04.html",
+     "to": "ai/npc/Tunatun/31537-04.html"
+    }
+   ]
+  },
+  "ai/npc/Tunatun/31537-04.html": {
+   "file": "ai/npc/Tunatun/31537-04.html",
+   "quest": null,
+   "text": "Beast Herder Tunatun: In order to give orders to the beasts, you need this Bull Whip. On the old Beast Farm, you used to be able to command only one beast, but with this improved whip, you can now give orders to many tamed beasts at the same time.",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Continue to listen to the story",
+     "bypass": "Quest Tunatun 31537-05.html",
+     "kind": "quest-event",
+     "script": "Tunatun",
+     "event": "31537-05.html",
+     "to": "ai/npc/Tunatun/31537-05.html"
+    }
+   ]
+  },
+  "ai/npc/Tunatun/31537-05.html": {
+   "file": "ai/npc/Tunatun/31537-05.html",
+   "quest": null,
+   "text": "Beast Herder Tunatun: Being able to give orders to many cubs you train can be incredibly helpful. Each type of cub can cast supplemental magic to help buff your skills in combat, and the more cubs you tame, the more types of buffs you can have cast on yourself.",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Continue to listen to the story",
+     "bypass": "Quest Tunatun 31537-06.html",
+     "kind": "quest-event",
+     "script": "Tunatun",
+     "event": "31537-06.html",
+     "to": "ai/npc/Tunatun/31537-06.html"
+    }
+   ]
+  },
+  "ai/npc/Tunatun/31537-06.html": {
+   "file": "ai/npc/Tunatun/31537-06.html",
+   "quest": null,
+   "text": "Beast Herder Tunatun: Look for Feed Sellers in this area like the one standing next to me. The feed you buy from them can be given to Alpine Buffalo, Alpine Grendel, Alpine Kookaburra, and Alpine Buffalo . The more feed you give each beast, the more they'll grow. Remember though, tamed beasts will …",
+   "header": "Beast Herder Tunatun",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Tunatun/31537.html": {
+   "file": "ai/npc/Tunatun/31537.html",
+   "quest": null,
+   "text": "Beast Herder Tunatun: Hi! Welcome to the Beast Farm. My name is Tunatun and I'm the one in charge here. I got this job because I thought I'd be able to commune with the beasts. After all, my pet kitty back home absolutely loved me. On this farm though, it's not so easy. As a matter of fact, I'm hav…",
+   "header": "Beast Herder Tunatun",
+   "links": [
+    {
+     "text": "Take the Beast Handler's Whip.",
+     "bypass": "Quest Tunatun Whip",
+     "kind": "quest-event",
+     "script": "Tunatun",
+     "event": "Whip",
+     "to": "ai/npc/Tunatun/31537-01.html",
+     "toAll": [
+      "ai/npc/Tunatun/31537-01.html",
+      "ai/npc/Tunatun/31537-02.html",
+      "ai/npc/Tunatun/31537-03.html"
+     ]
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Go to the Pastureland (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00019_GoToThePastureland",
+     "kind": "quest",
+     "quest": 19,
+     "to": "Q00019_GoToThePastureland/31537-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Bring Up With Love]",
+     "bypass": "npc_%objectId%_Quest Q00020_BringUpWithLove",
+     "kind": "quest",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Bring Up With Love (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00020_BringUpWithLove",
+     "kind": "quest",
+     "quest": 20,
+     "to": "Q00020_BringUpWithLove/31537-14.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Sword Muse (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00072_SagaOfTheSwordMuse",
+     "kind": "quest",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/3-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Home Security]",
+     "bypass": "npc_%objectId%_Quest Q00278_HomeSecurity",
+     "kind": "quest",
+     "quest": 278,
+     "to": "Q00278_HomeSecurity/31537-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Home Security (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00278_HomeSecurity",
+     "kind": "quest",
+     "quest": 278,
+     "to": "Q00278_HomeSecurity/31537-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Delicious Top Choice Meat]",
+     "bypass": "npc_%objectId%_Quest Q00631_DeliciousTopChoiceMeat",
+     "kind": "quest",
+     "quest": 631,
+     "to": "Q00631_DeliciousTopChoiceMeat/31537-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Delicious Top Choice Meat (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00631_DeliciousTopChoiceMeat",
+     "kind": "quest",
+     "quest": 631,
+     "to": "Q00631_DeliciousTopChoiceMeat/31537-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

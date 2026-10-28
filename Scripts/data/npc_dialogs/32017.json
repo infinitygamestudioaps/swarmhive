@@ -1,0 +1,592 @@
+{
+ "npcId": 32017,
+ "name": "Karuda",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.311Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32017.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "112": {
+   "name": "Walk of Fate",
+   "listText": [
+    "[Walk of Fate]",
+    "[Walk of Fate (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00112_WalkOfFate/32017-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "122": {
+   "name": "Ominous News",
+   "listText": [
+    "[Ominous News]",
+    "[Ominous News (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00122_OminousNews/32017-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "644": {
+   "name": "Grave Robber Annihilation",
+   "listText": [
+    "[Grave Robber Annihilation]",
+    "[Grave Robber Annihilation (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00644_GraveRobberAnnihilation/32017-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00644_GraveRobberAnnihilation/32017-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00644_GraveRobberAnnihilation/32017-04.html",
+     "when": "state STARTED; cond 2; hasItemsAtLimit(st.getPlayer(), ORC_GOODS)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00644_GraveRobberAnnihilation/32017-05.html",
+     "when": "state STARTED; !(st.isCond(2) && hasItemsAtLimit(st.getPlayer(), ORC_GOODS))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "645": {
+   "name": "Ghosts of Batur",
+   "listText": [
+    "[Ghosts of Batur]",
+    "[Ghosts of Batur (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00645_GhostsOfBatur/32017-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00645_GhostsOfBatur/32017-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00645_GhostsOfBatur/32017-07.html",
+     "when": "state STARTED; count > 0; count < 180",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00645_GhostsOfBatur/32017-04.html",
+     "when": "state STARTED; !((count > 0) && (count < 180)); st.hasQuestItems(CURSED_BURIAL_ITEMS)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00645_GhostsOfBatur/32017-05.html",
+     "when": "state STARTED; !((count > 0) && (count < 180)); NOT st.hasQuestItems(CURSED_BURIAL_ITEMS)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32017.htm": {
+   "file": "default/32017.htm",
+   "quest": null,
+   "text": "Karuda: Curse them all! Those banished traitors still cause us grief, even in their death! They vex and plague us to no end! Hail traveler! Pardon my bickering and my constant rantings.",
+   "header": "Karuda",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00112_WalkOfFate/32017-01.html": {
+   "file": "Q00112_WalkOfFate/32017-01.html",
+   "quest": 112,
+   "text": "Karuda: You came to inquire after Livina? She is mostly all right; there is a small problem, but it's nothing serious.",
+   "header": "Karuda",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "I was asked to find out how she is.",
+     "bypass": "Quest Q00112_WalkOfFate 32017-02.html",
+     "kind": "quest-event",
+     "script": "Q00112_WalkOfFate",
+     "event": "32017-02.html",
+     "quest": 112,
+     "to": "Q00112_WalkOfFate/32017-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00122_OminousNews/32017-01.html": {
+   "file": "Q00122_OminousNews/32017-01.html",
+   "quest": 122,
+   "text": "Karuda: What misfortune brought you here? You don't want any part of what's happening here. This place is in chaos. Trust me, it's best if you just pass on by.",
+   "header": "Karuda",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"The Seer Moira sent me.\"",
+     "bypass": "Quest Q00122_OminousNews 32017-02.html",
+     "kind": "quest-event",
+     "script": "Q00122_OminousNews",
+     "event": "32017-02.html",
+     "quest": 122,
+     "to": "Q00122_OminousNews/32017-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00644_GraveRobberAnnihilation/32017-01.htm": {
+   "file": "Q00644_GraveRobberAnnihilation/32017-01.htm",
+   "quest": 644,
+   "text": "Karuda: Greetings, and welcome! We are the followers of Pa'agrio, as we are fated to be. Are you free to help us? This is the graveyard of a lost tribe, but grave robbers seek to plunder the burial grounds within. And thus, the spirits of the dead have become restless. We have decided to drive the …",
+   "header": "Karuda",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "How can I help you?",
+     "bypass": "Quest Q00644_GraveRobberAnnihilation 32017-03.htm",
+     "kind": "quest-event",
+     "script": "Q00644_GraveRobberAnnihilation",
+     "event": "32017-03.htm",
+     "quest": 644,
+     "to": "Q00644_GraveRobberAnnihilation/32017-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00644_GraveRobberAnnihilation/32017-02.htm": {
+   "file": "Q00644_GraveRobberAnnihilation/32017-02.htm",
+   "quest": 644,
+   "text": "Karuda: Greetings, and welcome... but what has brought you to such a dangerous place? (Only characters above level 20 can perform this quest.)",
+   "header": "Karuda",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00644_GraveRobberAnnihilation/32017-04.html": {
+   "file": "Q00644_GraveRobberAnnihilation/32017-04.html",
+   "quest": 644,
+   "text": "Karuda: Have you recovered all of the stolen burial goods? Swift work! I think you must have had the blessings of Pa'agrio! Please return the burial goods to me. I will see to their proper disposition.",
+   "header": "Karuda",
+   "when": [
+    "state STARTED; cond 2; hasItemsAtLimit(st.getPlayer(), ORC_GOODS)"
+   ],
+   "links": [
+    {
+     "text": "Hand over the burial goods.",
+     "bypass": "Quest Q00644_GraveRobberAnnihilation 32017-06.html",
+     "kind": "quest-event",
+     "script": "Q00644_GraveRobberAnnihilation",
+     "event": "32017-06.html",
+     "quest": 644,
+     "to": "Q00644_GraveRobberAnnihilation/32017-06.html"
+    }
+   ]
+  },
+  "Q00644_GraveRobberAnnihilation/32017-05.html": {
+   "file": "Q00644_GraveRobberAnnihilation/32017-05.html",
+   "quest": 644,
+   "text": "Karuda: We have confirmed that grave robbers plundered almost 120 graves. If you defeat them and bring back all of the stolen Orcish burial goods , I will give you a reward. I have heard that the grave robbers' hideout is based in the south. Best of luck.",
+   "header": "Karuda",
+   "when": [
+    "state STARTED; !(st.isCond(2) && hasItemsAtLimit(st.getPlayer(), ORC_GOODS))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00645_GhostsOfBatur/32017-01.htm": {
+   "file": "Q00645_GhostsOfBatur/32017-01.htm",
+   "quest": 645,
+   "text": "Karuda: Ah, have you come here to help us? Vengeful spirits that we purged long ago have returned. Now, because of the evil spirit Kasha, they are stronger than ever. Unless we receive assistance from powerful adventurers, I fear for our people... Will you help us?",
+   "header": "Karuda",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"What should I do?\"",
+     "bypass": "Quest Q00645_GhostsOfBatur 32017-03.htm",
+     "kind": "quest-event",
+     "script": "Q00645_GhostsOfBatur",
+     "event": "32017-03.htm",
+     "quest": 645,
+     "to": "Q00645_GhostsOfBatur/32017-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00645_GhostsOfBatur/32017-02.html": {
+   "file": "Q00645_GhostsOfBatur/32017-02.html",
+   "quest": 645,
+   "text": "Karuda: Vengeful spirits that we purged long ago have returned. Now, because of the evil spirit Kasha, they are stronger than ever. If only you were more experienced, perhaps you could help us... (Only characters who are level 80 or higher may undertake this quest.)",
+   "header": "Karuda",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00645_GhostsOfBatur/32017-07.html": {
+   "file": "Q00645_GhostsOfBatur/32017-07.html",
+   "quest": 645,
+   "text": "Karuda: Your mission was assigned prior to the changes in this place. I'm sorry, but that particular mission is no longer valid. Please accept this as some compensation for any inconvenience.",
+   "header": "Karuda",
+   "when": [
+    "state STARTED; count > 0; count < 180"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00645_GhostsOfBatur/32017-04.html": {
+   "file": "Q00645_GhostsOfBatur/32017-04.html",
+   "quest": 645,
+   "text": "Karuda: Aha! I can tell that the number of vengeful spirits has greatly decreased, thanks to you. Now, what will you do?",
+   "header": "Karuda",
+   "when": [
+    "state STARTED; !((count > 0) && (count < 180)); st.hasQuestItems(CURSED_BURIAL_ITEMS)"
+   ],
+   "links": [
+    {
+     "text": "Receive your reward.",
+     "bypass": "npc_%objectId%_multisell 2013",
+     "kind": "multisell"
+    },
+    {
+     "text": "Continue hunting.",
+     "bypass": "Quest Q00645_GhostsOfBatur 32017-08.html",
+     "kind": "quest-event",
+     "script": "Q00645_GhostsOfBatur",
+     "event": "32017-08.html",
+     "quest": 645,
+     "to": "Q00645_GhostsOfBatur/32017-08.html"
+    },
+    {
+     "text": "End the mission.",
+     "bypass": "Quest Q00645_GhostsOfBatur 32017-09.html",
+     "kind": "quest-event",
+     "script": "Q00645_GhostsOfBatur",
+     "event": "32017-09.html",
+     "quest": 645,
+     "to": "Q00645_GhostsOfBatur/32017-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00645_GhostsOfBatur/32017-05.html": {
+   "file": "Q00645_GhostsOfBatur/32017-05.html",
+   "quest": 645,
+   "text": "Karuda: You haven't left yet? Why not?",
+   "header": "Karuda",
+   "when": [
+    "state STARTED; !((count > 0) && (count < 180)); NOT st.hasQuestItems(CURSED_BURIAL_ITEMS)"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the rewards again.\"",
+     "bypass": "Quest Q00645_GhostsOfBatur 32017-06.html",
+     "kind": "quest-event",
+     "script": "Q00645_GhostsOfBatur",
+     "event": "32017-06.html",
+     "quest": 645,
+     "to": "Q00645_GhostsOfBatur/32017-06.html"
+    },
+    {
+     "text": "\"I'll leave right away.\"",
+     "bypass": "Quest Q00645_GhostsOfBatur 32017-08.html",
+     "kind": "quest-event",
+     "script": "Q00645_GhostsOfBatur",
+     "event": "32017-08.html",
+     "quest": 645,
+     "to": "Q00645_GhostsOfBatur/32017-08.html"
+    },
+    {
+     "text": "Say you want to quit.",
+     "bypass": "Quest Q00645_GhostsOfBatur 32017-09.html",
+     "kind": "quest-event",
+     "script": "Q00645_GhostsOfBatur",
+     "event": "32017-09.html",
+     "quest": 645,
+     "to": "Q00645_GhostsOfBatur/32017-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00112_WalkOfFate/32017-02.html": {
+   "file": "Q00112_WalkOfFate/32017-02.html",
+   "quest": 112,
+   "text": "Karuda: Well, I'll tell you what: why don't you go ask Moira? He can tell you what's happening. I do thank you for your trouble in coming all this way, though. Here, take this - it isn't much, but it will buy you a drink to wash away the dust of the road. If you are not engaged in some other task, …",
+   "header": "Karuda",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00122_OminousNews/32017-02.html": {
+   "file": "Q00122_OminousNews/32017-02.html",
+   "quest": 122,
+   "text": "Karuda: Seer Moira sent you? Well, I'm sort of busy at the moment. Do you think you could come back again later? I do have a job for you. In fact, here's some money - a deposit to retain your services for the future.",
+   "header": "Karuda",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00644_GraveRobberAnnihilation/32017-03.htm": {
+   "file": "Q00644_GraveRobberAnnihilation/32017-03.htm",
+   "quest": 644,
+   "text": "Karuda: My investigation confirms that the grave robbers plundered almost 120 graves. If you defeat them and bring back the stolen Orcish burial goods , I will give you a reward. I have heard that the grave robbers' hideout is based in the south. Best of luck to you.",
+   "header": "Karuda",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00644_GraveRobberAnnihilation/32017-06.html": {
+   "file": "Q00644_GraveRobberAnnihilation/32017-06.html",
+   "quest": 644,
+   "text": "Karuda: Yes, I certify that these are all of the stolen items. I shall reward you for your hard work as best I can. I don't have much to give you, but I can give you your choice of:",
+   "header": "Karuda",
+   "links": [
+    {
+     "text": "Varnish",
+     "bypass": "Quest Q00644_GraveRobberAnnihilation varnish",
+     "kind": "quest-event",
+     "script": "Q00644_GraveRobberAnnihilation",
+     "event": "varnish",
+     "quest": 644,
+     "to": "Q00644_GraveRobberAnnihilation/32017-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Animal Skin",
+     "bypass": "Quest Q00644_GraveRobberAnnihilation animalskin",
+     "kind": "quest-event",
+     "script": "Q00644_GraveRobberAnnihilation",
+     "event": "animalskin",
+     "quest": 644,
+     "to": "Q00644_GraveRobberAnnihilation/32017-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Animal Bone",
+     "bypass": "Quest Q00644_GraveRobberAnnihilation animalbone",
+     "kind": "quest-event",
+     "script": "Q00644_GraveRobberAnnihilation",
+     "event": "animalbone",
+     "quest": 644,
+     "to": "Q00644_GraveRobberAnnihilation/32017-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Charcoal",
+     "bypass": "Quest Q00644_GraveRobberAnnihilation charcoal",
+     "kind": "quest-event",
+     "script": "Q00644_GraveRobberAnnihilation",
+     "event": "charcoal",
+     "quest": 644,
+     "to": "Q00644_GraveRobberAnnihilation/32017-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Coal",
+     "bypass": "Quest Q00644_GraveRobberAnnihilation coal",
+     "kind": "quest-event",
+     "script": "Q00644_GraveRobberAnnihilation",
+     "event": "coal",
+     "quest": 644,
+     "to": "Q00644_GraveRobberAnnihilation/32017-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Iron Ore",
+     "bypass": "Quest Q00644_GraveRobberAnnihilation ironore",
+     "kind": "quest-event",
+     "script": "Q00644_GraveRobberAnnihilation",
+     "event": "ironore",
+     "quest": 644,
+     "to": "Q00644_GraveRobberAnnihilation/32017-07.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00644_GraveRobberAnnihilation/32017-07.html": {
+   "file": "Q00644_GraveRobberAnnihilation/32017-07.html",
+   "quest": 644,
+   "text": "Karuda: Here, and may Pa'agrio bless and protect you! Perhaps we will meet again, if it is His will.",
+   "header": "Karuda",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00645_GhostsOfBatur/32017-03.htm": {
+   "file": "Q00645_GhostsOfBatur/32017-03.htm",
+   "quest": 645,
+   "text": "Karuda: Go to the Crypts of Disgrace and defeat the Contaminated Batur Warriors and Contaminated Batur Commanders , as well as the Contaminated Morek Warriors . When you have defeated them, you will obtain Cursed Burial Items . Bring those to me and you will be richly rewarded!",
+   "header": "Karuda",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"I'll be back soon.\"",
+     "bypass": "Quest Q00645_GhostsOfBatur 32017-08.html",
+     "kind": "quest-event",
+     "script": "Q00645_GhostsOfBatur",
+     "event": "32017-08.html",
+     "quest": 645,
+     "to": "Q00645_GhostsOfBatur/32017-08.html"
+    },
+    {
+     "text": "\"What kind of rewards?\"",
+     "bypass": "Quest Q00645_GhostsOfBatur 32017-06.html",
+     "kind": "quest-event",
+     "script": "Q00645_GhostsOfBatur",
+     "event": "32017-06.html",
+     "quest": 645,
+     "to": "Q00645_GhostsOfBatur/32017-06.html"
+    }
+   ]
+  },
+  "Q00645_GhostsOfBatur/32017-06.html": {
+   "file": "Q00645_GhostsOfBatur/32017-06.html",
+   "quest": 645,
+   "text": "Karuda: You can earn the following rewards: S80 weapon recipe - Requires 500 Cursed Grave Goods Leonard - Requires 8 Cursed Grave Goods Adamantine - Requires 15 Cursed Grave Goods Orichalcum - Requires 12 Cursed Grave Goods Remember, I'm counting on you!",
+   "header": "Karuda",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00645_GhostsOfBatur/32017-08.html": {
+   "file": "Q00645_GhostsOfBatur/32017-08.html",
+   "quest": 645,
+   "text": "Karuda: Please keep up the good work for the safety of this area. I'm counting on you!",
+   "header": "Karuda",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00645_GhostsOfBatur/32017-09.html": {
+   "file": "Q00645_GhostsOfBatur/32017-09.html",
+   "quest": 645,
+   "text": "Karuda: Well, if that's your decision, I won't try to force you. Goodbye!",
+   "header": "Karuda",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Walk of Fate (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00112_WalkOfFate",
+     "kind": "quest",
+     "quest": 112,
+     "to": "Q00112_WalkOfFate/32017-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Ominous News (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00122_OminousNews",
+     "kind": "quest",
+     "quest": 122,
+     "to": "Q00122_OminousNews/32017-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Grave Robber Annihilation]",
+     "bypass": "npc_%objectId%_Quest Q00644_GraveRobberAnnihilation",
+     "kind": "quest",
+     "quest": 644,
+     "to": "Q00644_GraveRobberAnnihilation/32017-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Grave Robber Annihilation (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00644_GraveRobberAnnihilation",
+     "kind": "quest",
+     "quest": 644,
+     "to": "Q00644_GraveRobberAnnihilation/32017-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Ghosts of Batur]",
+     "bypass": "npc_%objectId%_Quest Q00645_GhostsOfBatur",
+     "kind": "quest",
+     "quest": 645,
+     "to": "Q00645_GhostsOfBatur/32017-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Ghosts of Batur (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00645_GhostsOfBatur",
+     "kind": "quest",
+     "quest": 645,
+     "to": "Q00645_GhostsOfBatur/32017-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

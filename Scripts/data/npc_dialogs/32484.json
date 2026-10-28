@@ -1,0 +1,69 @@
+{
+ "npcId": 32484,
+ "name": "Pathfinder Worker",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.375Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32484.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32484.htm": {
+   "file": "default/32484.htm",
+   "quest": null,
+   "text": "Pathfinder Agent: We Pathfinders were dispatched by the Ivory Tower to defend dreams against attack. We have been waiting for an adventurer like you!",
+   "header": "Pathfinder Agent",
+   "links": [
+    {
+     "text": "Ask about the Chamber of Delusion.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32484-1.htm"
+    }
+   ]
+  },
+  "default/32484-1.htm": {
+   "file": "default/32484-1.htm",
+   "quest": null,
+   "text": "Pathfinder Agent: The Chamber of Delusion is a dream maze discovered not long ago. Like Rim Kamaloka, it is presumed to be the power of darkness invading our world. It exists in the empty space between dream worlds. In terms of shape and structure, we presume it is related to the Dimensional Rift ,…",
+   "header": "Pathfinder Agent",
+   "links": [
+    {
+     "text": "Ask about missions in the Chamber of Delusion.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/32484-2.htm"
+    },
+    {
+     "text": "Challenge the Chamber of Delusion.",
+     "bypass": "npc_%objectId%_Quest DelusionTeleport",
+     "kind": "quest",
+     "script": "DelusionTeleport",
+     "to": null
+    }
+   ]
+  },
+  "default/32484-2.htm": {
+   "file": "default/32484-2.htm",
+   "quest": null,
+   "text": "Pathfinder Agent: Once you enter the Chamber of Delusion, you will find managers for each area. There are 6 total, entry to which is regulated in the individual manager. Ask each manager for more details. If you've been to the Dimensional Rift, you will understand quickly.",
+   "header": "Pathfinder Agent",
+   "links": [
+    {
+     "text": "Challenge the Chamber of Delusion.",
+     "bypass": "npc_%objectId%_Quest DelusionTeleport",
+     "kind": "quest",
+     "script": "DelusionTeleport",
+     "to": null
+    }
+   ]
+  }
+ }
+}

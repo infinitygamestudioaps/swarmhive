@@ -1,0 +1,261 @@
+{
+ "npcId": 30218,
+ "name": "Kendell",
+ "title": "Sentinel",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.912Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30218.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "105": {
+   "name": "Skirmish with Orcs",
+   "listText": [
+    "[Skirmish with the Orcs]",
+    "[Skirmish with the Orcs (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00105_SkirmishWithOrcs/30218-03.htm",
+     "when": "state CREATED; talker.getRace() == Race.ELF; (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00105_SkirmishWithOrcs/30218-02.htm",
+     "when": "state CREATED; talker.getRace() == Race.ELF; NOT (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00105_SkirmishWithOrcs/30218-01.htm",
+     "when": "state CREATED; !talker.getRace() == Race.ELF",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00105_SkirmishWithOrcs/30218-06.html",
+     "when": "state STARTED; has items 1836,1837,1838,1839",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00105_SkirmishWithOrcs/30218-07.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00105_SkirmishWithOrcs/30218-08.html",
+     "when": "state STARTED; has items 1840,1841,1842,1843",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00105_SkirmishWithOrcs/30218-09.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30218.htm": {
+   "file": "guard/30218.htm",
+   "quest": null,
+   "text": "Sentinel Kendell: May the smile of Eva be your peace and repose. I am Kendell, one of the Sentinels. Our task is to protect the beautiful Elven Forest and the most holy Mother Tree Glade that you see down there.",
+   "header": "Sentinel Kendell",
+   "links": [
+    {
+     "text": "Ask about the Elven Forest.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30218-1.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30218-1.htm": {
+   "file": "guard/30218-1.htm",
+   "quest": null,
+   "text": "Sentinel Kendell: This forest may seem peaceful at first glance, but terrible enemies lurk within. For hundreds of years, our kingdom was under attack by the Orcs of the Misty Mountains, the fungus from the Sea of Spores, and the giant spiders from the Wasteland of Gludio. When you travel in the fo…",
+   "header": "Sentinel Kendell",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30218.htm"
+    }
+   ]
+  },
+  "Q00105_SkirmishWithOrcs/30218-03.htm": {
+   "file": "Q00105_SkirmishWithOrcs/30218-03.htm",
+   "quest": 105,
+   "text": "Sentinel Kendell: Recently the orcs of Fog Mountain have become bold, and have attacked our beautiful woods in large groups. Orcs have invaded our forests before, but never in such large numbers. We Elven fighters plan to take this opportunity to strike back at those orcs that invade our homes, so …",
+   "header": "Sentinel Kendell",
+   "when": [
+    "state CREATED; talker.getRace() == Race.ELF; (talker.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say that you will fight the orcs",
+     "bypass": "Quest Q00105_SkirmishWithOrcs 30218-04.html",
+     "kind": "quest-event",
+     "script": "Q00105_SkirmishWithOrcs",
+     "event": "30218-04.html",
+     "quest": 105,
+     "to": "Q00105_SkirmishWithOrcs/30218-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00105_SkirmishWithOrcs/30218-02.htm": {
+   "file": "Q00105_SkirmishWithOrcs/30218-02.htm",
+   "quest": 105,
+   "text": "Sentinel Kendell: Looking at young Elves today, I think that they are like fragile flowers growing under the shade of the Mother Tree. Granted, they learn the use of The Bow or arrow from many fine masters, or magic to command the elementals from wise sorcerors, but that is purely academic, and I w…",
+   "header": "Sentinel Kendell",
+   "when": [
+    "state CREATED; talker.getRace() == Race.ELF; NOT (talker.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00105_SkirmishWithOrcs/30218-01.htm": {
+   "file": "Q00105_SkirmishWithOrcs/30218-01.htm",
+   "quest": 105,
+   "text": "Sentinel Kendell: Traveller of a foreign race, the Elves are currently engaged in war with the kaboo Orc tribe. If you plan on travelling outside the village, take care not to become involved in the battle or you shall be hurt. (Quest for Elven characters.)",
+   "header": "Sentinel Kendell",
+   "when": [
+    "state CREATED; !talker.getRace() == Race.ELF"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00105_SkirmishWithOrcs/30218-06.html": {
+   "file": "Q00105_SkirmishWithOrcs/30218-06.html",
+   "quest": 105,
+   "text": "Sentinel Kendell: Young friend, why have you not left yet? We must spare no time in defeating the kaboo orcs that invade our beautiful woods! The orders I have given you list which Orc leaders you must slay and where their locations are. Slay the targets and bring back proof of their deaths. As you…",
+   "header": "Sentinel Kendell",
+   "when": [
+    "state STARTED; has items 1836,1837,1838,1839"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00105_SkirmishWithOrcs/30218-07.html": {
+   "file": "Q00105_SkirmishWithOrcs/30218-07.html",
+   "quest": 105,
+   "text": "Sentinel Kendell: Well done indeed, my young friend. I have received reports that the kaboo orcs, having lost their leader, have scattered. Now it is only a matter of time before we can completely drive the scattered orcs out of our woods. May the souls of our brothers slain by the orcs be comforte…",
+   "header": "Sentinel Kendell",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00105_SkirmishWithOrcs/30218-08.html": {
+   "file": "Q00105_SkirmishWithOrcs/30218-08.html",
+   "quest": 105,
+   "text": "Sentinel Kendell: Young friend, have you not left the village yet? The target you must slay is written on the orders I gave you. Slay him and bring back proof of his death. And take heed. An animal becomes violent if cornered. Be extra careful.",
+   "header": "Sentinel Kendell",
+   "when": [
+    "state STARTED; has items 1840,1841,1842,1843"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00105_SkirmishWithOrcs/30218-09.html": {
+   "file": "Q00105_SkirmishWithOrcs/30218-09.html",
+   "quest": 105,
+   "text": "Sentinel Kendell: By the looks of that amulet, I see that you have delivered Bhato Bloodspear to the eternal rest of the deep lake. I'm sure Shilen has taken his bloody soul. My comrade, you have fought well for the brothers of the woods. There is nothing more you need to do now. I have received wo…",
+   "header": "Sentinel Kendell",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00105_SkirmishWithOrcs/30218-04.html": {
+   "file": "Q00105_SkirmishWithOrcs/30218-04.html",
+   "quest": 105,
+   "text": "Sentinel Kendell: My young friend, I advise you to take this opportunity to prove your bravery. Now I will tell you exactly what role you must play from this moment on.",
+   "header": "Sentinel Kendell",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Listen to the explanation about the role",
+     "bypass": "Quest Q00105_SkirmishWithOrcs 30218-05.html",
+     "kind": "quest-event",
+     "script": "Q00105_SkirmishWithOrcs",
+     "event": "30218-05.html",
+     "quest": 105,
+     "to": "Q00105_SkirmishWithOrcs/30218-05.html"
+    }
+   ]
+  },
+  "Q00105_SkirmishWithOrcs/30218-05.html": {
+   "file": "Q00105_SkirmishWithOrcs/30218-05.html",
+   "quest": 105,
+   "text": "Sentinel Kendell: As you know, the Elven fighting method is to form many squadrons and weaken the opponent's strength slowly through repeated attacks and retreats, rather than rely on a full scale clash between large armies. Bear this in mind. A retreat is not a shameful thing. If we retreat withou…",
+   "header": "Sentinel Kendell",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Skirmish with the Orcs]",
+     "bypass": "npc_%objectId%_Quest Q00105_SkirmishWithOrcs",
+     "kind": "quest",
+     "quest": 105,
+     "to": "Q00105_SkirmishWithOrcs/30218-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Skirmish with the Orcs (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00105_SkirmishWithOrcs",
+     "kind": "quest",
+     "quest": 105,
+     "to": "Q00105_SkirmishWithOrcs/30218-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

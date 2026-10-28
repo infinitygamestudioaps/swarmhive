@@ -1,0 +1,94 @@
+{
+ "npcId": 31027,
+ "name": "Coffer of the Dead",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.126Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31027.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "234": {
+   "name": "Fate's Whisper",
+   "listText": [
+    "[Fate's Whisper]",
+    "[Fate's Whisper (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00234_FatesWhisper/31027-01.html",
+     "when": "memo 1",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31027-02.html",
+     "when": "((qs.getMemoState() > 1) || qs.hasQuestItems(Q_REIRIAS_SOULORB))",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31027.htm": {
+   "file": "default/31027.htm",
+   "quest": null,
+   "text": "Messenger's Coffin: A strange wooden coffin rose from the spot where Messenger Cabrio fell.",
+   "header": "Messenger's Coffin",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31027-01.html": {
+   "file": "Q00234_FatesWhisper/31027-01.html",
+   "quest": 234,
+   "text": "Messenger's Coffin: Inside the coffin, Reiria's Soul Orb was discovered.",
+   "header": "Messenger's Coffin",
+   "when": [
+    "memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31027-02.html": {
+   "file": "Q00234_FatesWhisper/31027-02.html",
+   "quest": 234,
+   "text": "Messenger's Coffin: An empty coffin.",
+   "header": "Messenger's Coffin",
+   "when": [
+    "((qs.getMemoState() > 1) || qs.hasQuestItems(Q_REIRIAS_SOULORB))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Fate's Whisper (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00234_FatesWhisper",
+     "kind": "quest",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31027-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -19,6 +19,20 @@ const CAVES = [
   { key: 'devils_isle_caves', name: "Devil's Isle Caves (Zaken's pirates)", town: 'Heine', box: [34000, 60000, 190000, 226000], below: -2300,
     openBelow: 0, splits: [-3300], floorNames: ['Lower caves (Krantz, Kenishee)', 'Upper caves (pirate tunnels)'], seedBosses: ["Zaken's Chief Mate Tillion", 'Magus Kenishee', "Zaken's Butcher Krantz"], seeds: [[50984, 206200, -4000]],
     notes: 'Underground caves of Devil\'s Isle (Zaken\'s pirates). The island surface is ~2,500-3,000 above. Generated from the geodata + datapack spawns (cave_dungeon.js, 2026-10-14).' },
+  // FORGOTTEN TEMPLE (tester Vykaax 2026-10-27: "Dungeon mapping for Forgotten Temple"): the sunken temple south-west of the Gludin gatekeeper
+  // landing (client zone 28/152 "Forgotten Temple", region 18_23, z -3760..-5632). Walk-in: Gludin gatekeeper Richlin "Forgotten Temple" (2000)
+  // lands at -53001,191425,-3568; the ramp south of the landing (x ~-52900) goes down to the upper temple (-4512) and on to the water halls (-4808).
+  { key: 'forgotten_temple', name: 'Forgotten Temple', town: 'Gludin', box: [-66000, -48000, 176000, 196000], below: -3700,
+    openBelow: 0, splits: [-4720], topFirst: true, floorNames: ['Upper temple (entrance level, Unrequited Kael)', 'Lower temple (water halls, Tirak)'], seedBosses: ['Unrequited Kael', 'Tirak'],
+    seeds: [[-57037, 186821, -4556], [-60000, 181000, -4811], [-55000, 183000, -4550], [-52952, 188840, -4552]],
+    extra: {
+      gatekeeperRoute: { town: 'Gludin', gatekeeper: 'Richlin', destination: 'Forgotten Temple', price: 2000, landing: [-53001, 191425, -3568], liveMenu: true,
+        note: "Live text 'Forgotten Temple - 2000' (gk_live/Richlin.json). Datapack 'Gludin -> Forgotten Temple' (2000) lands at -53001,191425,-3568 on the surface, north of the temple ramp." },
+      entrance: { x: -53001, y: 191425, z: -3568, desc: 'Gludin gatekeeper landing on the surface. Walk south down the ramp (x ~-52900, y 190400 -> 188400) into the upper temple (z -4512); the water halls (z -4808) lie below to the west.' },
+      otherTeleports: [], mapLayers: ['18_23'],
+      sources: ['datapack l2j_teleport.sql', 'gk_live/Richlin.json', 'client_zones.json (zone 28/152)', 'spawns_h5.json', 'npcs_h5.json', 'aggro_h5.json', 'raidbosses_h5.json', 'geopath.js'] },
+    floorEnter: { how: 'walk', from: [-53001, 191425, -3568], npc: null, landing: null, note: 'Walk in from the Gludin gatekeeper landing (ramp south of it).' },
+    notes: 'Sunken temple near Gludin (Gludio territory), walk-in from the Gludin gatekeeper landing. Two levels: the upper temple (z ~-4512: Lafi lizardmen, Ritmal, Undines, Kanil Succubus, raid boss Unrequited Kael 24) and the lower water halls (z ~-4808: Kuran kobolds, Patin, salamanders, Sentinel of Water, Dre Vanul, Death Fire; raid boss Tirak 28 in the pit at -4968). Every temple monster is aggressive (aggro_h5.json), levels 27-35 (Lava Salamander 35). Outside on the surface: Patriarch Kuroboros 26 / Kuroboros\' Priest 23 (west), Tracker Leader Sharuk 23. Generated from the geodata + datapack spawns (cave_dungeon.js + cave_rooms.js, 2026-10-27).' },
 ];
 const MAX_STEP = 48, LINK = 700, MAXCELLS = 2500000, FLOOR_GAP = 250, PAD = 250;
 const E = 1, W = 2, S = 4, N = 8, DIRS = [[1, 0, E, W], [-1, 0, W, E], [0, 1, S, N], [0, -1, N, S]];
@@ -89,13 +103,16 @@ function build(C) {
   // floors: fixed split heights (stacked cave levels overlap in height, so a gap search finds one band) or the gaps in the heights
   let fb = bands([...F.heights.values()]);
   if (C.splits && C.splits.length) { let lo = 1e9, hi = -1e9; F.heights.forEach(h => { if (h < lo) lo = h; if (h > hi) hi = h; }); const cut = [lo - 32].concat(C.splits.slice().sort((a, b) => a - b), [hi + 32]); fb = []; for (let i = 0; i + 1 < cut.length; i++) fb.push([cut[i], cut[i + 1]]); }
+  // topFirst (Forgotten Temple 2026-10-27): floors[] in the order you walk in (floor 1 = the entrance level, like Giant's Cave), not by height
+  if (C.topFirst) fb.sort((a, b) => b[0] - a[0]);
   let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9, roofed = 0; F.cells.forEach(([gx, gy, li]) => { const x = GP.toWorldX(gx), y = GP.toWorldY(gy); if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; if (li > 0) roofed++; });
   const bbox = [x0 - 200, x1 + 200, y0 - 200, y1 + 200];
   console.log(`  bbox ${bbox.join(',')}, cells with a layer above (roof): ${roofed}`);
   const mine = spawns.filter(s => s.x >= bbox[0] && s.x <= bbox[1] && s.y >= bbox[2] && s.y <= bbox[3] && s.z <= C.below + 200 && onCave(s.x, s.y, s.z)
     && npcs[s.id] && /Monster|Raid|Minion/i.test(String(npcs[s.id].type || '')));
   console.log(`  ${mine.length} monster spawns on the cave floor, floors: ${fb.map(b => b.join('..')).join(' | ')}`);
-  const floors = fb.map((z, fi) => ({ name: (C.floorNames && C.floorNames[fi]) || (fb.length > 1 ? `Level ${fi + 1} (${z[0]}..${z[1]})` : 'Caves'), z, rooms: [], links: [], safeSpots: [],
+  const floors = fb.map((z, fi) => Object.assign({ name: (C.floorNames && C.floorNames[fi]) || (fb.length > 1 ? `Level ${fi + 1} (${z[0]}..${z[1]})` : 'Caves'), z },
+    C.floorEnter ? { enter: Object.assign({}, C.floorEnter) } : {}, { rooms: [], links: [], safeSpots: [],
     notes: 'Generated from the geodata (cave_dungeon.js).' }));
   const floorOf = (z) => floors.findIndex(f => z >= f.z[0] && z < f.z[1]);
   floors.forEach((Fl, fi) => {
@@ -124,9 +141,9 @@ function build(C) {
     const lvA = Fl.rooms.map(r => r.levelRange).filter(Boolean); Fl.levelRange = lvA.length ? [Math.min(...lvA.map(r => r[0])), Math.max(...lvA.map(r => r[1]))] : null;
   });
   const lvAll = floors.map(f => f.levelRange).filter(Boolean);
-  return { name: C.name, key: C.key, levelRange: lvAll.length ? [Math.min(...lvAll.map(r => r[0])), Math.max(...lvAll.map(r => r[1]))] : null, town: C.town,
+  return Object.assign({ name: C.name, key: C.key, levelRange: lvAll.length ? [Math.min(...lvAll.map(r => r[0])), Math.max(...lvAll.map(r => r[1]))] : null, town: C.town,
     entrance: null, bbox, floors: floors.filter(f => f.rooms.length || f.z[1] - f.z[0] > 200), raidBosses: bosses.map(b => ({ name: b.name, id: b.id, level: b.level, x: b.x, y: b.y, z: b.z })),
-    cave: true, generated: { by: 'cave_dungeon.js', at: new Date().toISOString(), cells: F.heights.size }, notes: C.notes };
+    cave: true, generated: { by: 'cave_dungeon.js', at: new Date().toISOString(), cells: F.heights.size }, notes: C.notes }, C.extra || {});
 }
 function main() {
   const dry = process.argv.includes('--dry'), oi = process.argv.indexOf('--only'), only = oi > 0 ? process.argv[oi + 1] : '';

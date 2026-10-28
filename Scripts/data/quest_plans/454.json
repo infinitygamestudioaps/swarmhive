@@ -2,7 +2,7 @@
  "id": 454,
  "name": "Completely Lost",
  "version": 1,
- "generated": "2026-10-27T11:15:41.051Z",
+ "generated": "2026-10-27T18:19:15.413Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 84,
@@ -22,10 +22,6 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
    "code": "timer",
    "text": "the quest script runs timers (QUEST_TIMER, EXPIRED_TIMER)"
   },
@@ -43,16 +39,6 @@
    "code": "engine-manual",
    "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
    "step": 2
-  },
-  {
-   "code": "npc-instance",
-   "text": "an NPC of a step stands inside an instance / closed zone",
-   "step": 3
-  },
-  {
-   "code": "route-conditional",
-   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
-   "step": 3
   }
  ],
  "expectedMin": 13,
@@ -157,10 +143,7 @@
     "why": "npc-instance"
    },
    "text": "Talk to Ermian",
-   "reasons": [
-    "npc-instance",
-    "route-conditional"
-   ],
+   "reasons": [],
    "travel": {
     "src": "atlas",
     "key": "npc:32736@-180232,186256",
@@ -407,6 +390,24 @@
    "conds": [
     3,
     4
+   ],
+   "overrideFrom": "c1:talk:32736",
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java; then Lionel 32782 teleport (150,000 adena, nav atlas condition keucereus-docks, dp html/teleporter/32782-1.htm); then Klemis \"Enter the Seed of Annihilation\" (level >= 80)",
+    "npcAt": [
+     -180232,
+     186256,
+     -10608
+    ],
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "npc-instance",
+    "route-conditional"
    ]
   }
  ],

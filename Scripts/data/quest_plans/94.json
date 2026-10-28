@@ -2,7 +2,7 @@
  "id": 94,
  "name": "Saga of the Soultaker",
  "version": 1,
- "generated": "2026-10-27T11:14:57.445Z",
+ "generated": "2026-10-27T18:18:35.305Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 76,
@@ -26,11 +26,6 @@
    "text": "the quest script runs timers (Archon Hellisha has despawned, Mob_1 Timer 1)"
   },
   {
-   "code": "route-unverified",
-   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
-   "step": 0
-  },
-  {
    "code": "item-from-elsewhere",
    "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
    "step": 3
@@ -39,11 +34,6 @@
    "code": "route-swim",
    "text": "the way has a swim longer than one breath",
    "step": 5
-  },
-  {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 8
   },
   {
    "code": "route-unverified",
@@ -76,19 +66,9 @@
    "step": 15
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 16
-  },
-  {
    "code": "npc-quest-spawned",
    "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
    "step": 18
-  },
-  {
-   "code": "route-unverified",
-   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
-   "step": 20
   },
   {
    "code": "engine-manual",
@@ -96,7 +76,7 @@
    "step": 21
   }
  ],
- "expectedMin": 370,
+ "expectedMin": 367,
  "refLevel": 76,
  "steps": [
   {
@@ -122,74 +102,206 @@
     "alt": []
    },
    "text": "Talk to Hardin – accept the saga (level 76, class 13)",
-   "reasons": [
-    "route-unverified"
-   ],
+   "reasons": [],
    "travel": {
-    "src": "atlas",
-    "key": "npc:30832@105745,114255",
-    "status": "unverified",
+    "src": "computed",
+    "key": "",
+    "status": "ok",
     "flags": [
-     "unverified-walk"
+     "live-landing"
     ],
-    "from": ".giran",
-    "length": 22123,
-    "sec": 229,
-    "via": ".giran > Giran -> Necropolis of Martyrdom",
+    "from": "Oren",
+    "length": 5261,
+    "sec": 44,
     "steps": [
      {
       "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
+      "town": "Oren",
+      "cmd": ".oren"
      },
      {
       "do": "gk",
-      "from": "Giran",
-      "desc": "Giran -> Necropolis of Martyrdom",
-      "link": "necropolis of martyrdom",
-      "price": 5000,
+      "from": "Oren",
+      "desc": "Oren -> Hardin's Private Academy",
+      "link": "Hardin's Private Academy",
+      "price": 6100,
       "live": true
      },
      {
       "do": "walk",
-      "len": 22123,
-      "how": "straight",
-      "danger": 67
+      "len": 5261,
+      "how": "geodata"
      }
     ],
+    "via": ".oren > Oren -> Hardin's Private Academy",
     "start": {
      "kind": "gk",
-     "from": "Giran",
-     "desc": "Giran -> Necropolis of Martyrdom"
+     "from": "Oren",
+     "desc": "Oren -> Hardin's Private Academy"
     },
     "simple": true,
     "pv": [
      [
-      117793,
-      132810,
-      -4835
+      105855,
+      109782,
+      -3200
      ],
      [
-      105745,
-      114255,
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
       -3136
      ]
     ],
-    "maxDanger": 67,
-    "needs": [],
-    "why": [
-     "walk not on the geodata from 117793,132810 (the start is a closed pocket of 5237 cells on the geodata (platform / island / sealed room: no walk out))"
+    "points": [
+     [
+      105855,
+      109782,
+      -3200
+     ],
+     [
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
     ],
+    "landing": {
+     "from": "Oren",
+     "dest": "Hardin's Private Academy",
+     "src": "nav_atlas_extra gkLinks (LIVE)"
+    },
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
     "checks": {
      "reachable": true,
-     "walls": "straight legs not wall-checked: 1",
+     "walls": "geodata leg from a live landing (walls block)",
      "water": false,
-     "danger": 67,
-     "dangerVsLevel": -9,
+     "danger": 0,
+     "dangerVsLevel": 0,
      "aggro": []
     }
    },
-   "expectedSec": 259,
+   "expectedSec": 74,
    "conds": [
     0
    ]
@@ -359,9 +471,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    10,
-    14
+    1
    ]
   },
   {
@@ -1893,14 +2003,15 @@
    ],
    "kills": 1,
    "reasons": [
-    "item-from-quest-mob",
     "route-unverified"
    ],
    "engine": {
     "how": "talk",
     "trigger": [
      31650
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Examine the area at Tablet of Vision (spawns Archangel Iconoclasis 27257 at 191046,-40640,-3042, 5 min), kill it ALONE (no party)",
    "npc": {
@@ -2105,6 +2216,175 @@
   },
   {
    "i": 10,
+   "key": "c10:talk:31279",
+   "cond": 10,
+   "kind": "talk",
+   "to": 11,
+   "links": [
+    "\"Where can I find the other piece?\"",
+    "\"I'll deal with the Ketra Orcs.\""
+   ],
+   "npc": {
+    "id": 31279,
+    "name": "Gregory",
+    "title": "High Priest",
+    "town": "Goddard",
+    "at": [
+     147712,
+     -52688,
+     -2731
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gregory and choose Ketra or Varka",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31279@147712,-52688",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4086,
+    "sec": 54,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 4086,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56200,
+      -2776
+     ],
+     [
+      147704,
+      -55928,
+      -2760
+     ],
+     [
+      147704,
+      -55656,
+      -2736
+     ],
+     [
+      147704,
+      -55384,
+      -2728
+     ],
+     [
+      147704,
+      -55112,
+      -2728
+     ],
+     [
+      147704,
+      -54840,
+      -2728
+     ],
+     [
+      147704,
+      -54568,
+      -2728
+     ],
+     [
+      147576,
+      -54472,
+      -2728
+     ],
+     [
+      147704,
+      -54408,
+      -2728
+     ],
+     [
+      147704,
+      -54136,
+      -2728
+     ],
+     [
+      147704,
+      -53864,
+      -2728
+     ],
+     [
+      147704,
+      -53592,
+      -2728
+     ],
+     [
+      147608,
+      -53480,
+      -2728
+     ],
+     [
+      147672,
+      -53416,
+      -2728
+     ],
+     [
+      147720,
+      -53224,
+      -2728
+     ],
+     [
+      147720,
+      -52952,
+      -2728
+     ],
+     [
+      147720,
+      -52680,
+      -2728
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 79,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10
+   ]
+  },
+  {
+   "i": 11,
    "key": "c11:deliver:31279",
    "cond": 11,
    "kind": "deliver",
@@ -2282,7 +2562,7 @@
    ]
   },
   {
-   "i": 11,
+   "i": 12,
    "key": "c13:deliver:31654",
    "cond": 13,
    "kind": "deliver",
@@ -2410,7 +2690,175 @@
    ]
   },
   {
-   "i": 12,
+   "i": 13,
+   "key": "c14:talk:31279",
+   "cond": 14,
+   "kind": "talk",
+   "to": 15,
+   "links": [
+    "\"How can I get a Stone of Commune?\""
+   ],
+   "npc": {
+    "id": 31279,
+    "name": "Gregory",
+    "title": "High Priest",
+    "town": "Goddard",
+    "at": [
+     147712,
+     -52688,
+     -2731
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gregory",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31279@147712,-52688",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4086,
+    "sec": 54,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 4086,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56200,
+      -2776
+     ],
+     [
+      147704,
+      -55928,
+      -2760
+     ],
+     [
+      147704,
+      -55656,
+      -2736
+     ],
+     [
+      147704,
+      -55384,
+      -2728
+     ],
+     [
+      147704,
+      -55112,
+      -2728
+     ],
+     [
+      147704,
+      -54840,
+      -2728
+     ],
+     [
+      147704,
+      -54568,
+      -2728
+     ],
+     [
+      147576,
+      -54472,
+      -2728
+     ],
+     [
+      147704,
+      -54408,
+      -2728
+     ],
+     [
+      147704,
+      -54136,
+      -2728
+     ],
+     [
+      147704,
+      -53864,
+      -2728
+     ],
+     [
+      147704,
+      -53592,
+      -2728
+     ],
+     [
+      147608,
+      -53480,
+      -2728
+     ],
+     [
+      147672,
+      -53416,
+      -2728
+     ],
+     [
+      147720,
+      -53224,
+      -2728
+     ],
+     [
+      147720,
+      -52952,
+      -2728
+     ],
+     [
+      147720,
+      -52680,
+      -2728
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 79,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    14
+   ]
+  },
+  {
+   "i": 14,
    "key": "c15:hunt",
    "cond": 15,
    "kind": "hunt",
@@ -3005,7 +3453,7 @@
    ]
   },
   {
-   "i": 13,
+   "i": 15,
    "key": "c15:spawn:27243",
    "cond": 15,
    "kind": "spawn",
@@ -3097,9 +3545,7 @@
     }
    ],
    "kills": 234,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "kill",
     "trigger": [
@@ -3109,7 +3555,9 @@
      21649,
      21650,
      21651
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Kill Archon Minions 21646-21651 for Halisha's Marks 7509 (700), then the Archon of Halisha 27243 spawns at you (10 min): kill it ALONE",
    "area": {
@@ -3485,7 +3933,7 @@
    ]
   },
   {
-   "i": 14,
+   "i": 16,
    "key": "c16:deliver:31655",
    "cond": 16,
    "kind": "deliver",
@@ -3774,7 +4222,7 @@
    ]
   },
   {
-   "i": 15,
+   "i": 17,
    "key": "c17:talk:31645",
    "cond": 17,
    "kind": "talk",
@@ -3806,7 +4254,7 @@
    ]
   },
   {
-   "i": 16,
+   "i": 18,
    "key": "c18:deliver:31657",
    "cond": 18,
    "kind": "deliver",
@@ -4145,7 +4593,7 @@
    ]
   },
   {
-   "i": 17,
+   "i": 19,
    "key": "c19:talk:30832",
    "cond": 19,
    "kind": "talk",
@@ -4166,74 +4614,206 @@
     "alt": []
    },
    "text": "Talk to Hardin",
-   "reasons": [
-    "route-unverified"
-   ],
+   "reasons": [],
    "travel": {
-    "src": "atlas",
-    "key": "npc:30832@105745,114255",
-    "status": "unverified",
+    "src": "computed",
+    "key": "",
+    "status": "ok",
     "flags": [
-     "unverified-walk"
+     "live-landing"
     ],
-    "from": ".giran",
-    "length": 22123,
-    "sec": 229,
-    "via": ".giran > Giran -> Necropolis of Martyrdom",
+    "from": "Oren",
+    "length": 5261,
+    "sec": 44,
     "steps": [
      {
       "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
+      "town": "Oren",
+      "cmd": ".oren"
      },
      {
       "do": "gk",
-      "from": "Giran",
-      "desc": "Giran -> Necropolis of Martyrdom",
-      "link": "necropolis of martyrdom",
-      "price": 5000,
+      "from": "Oren",
+      "desc": "Oren -> Hardin's Private Academy",
+      "link": "Hardin's Private Academy",
+      "price": 6100,
       "live": true
      },
      {
       "do": "walk",
-      "len": 22123,
-      "how": "straight",
-      "danger": 67
+      "len": 5261,
+      "how": "geodata"
      }
     ],
+    "via": ".oren > Oren -> Hardin's Private Academy",
     "start": {
      "kind": "gk",
-     "from": "Giran",
-     "desc": "Giran -> Necropolis of Martyrdom"
+     "from": "Oren",
+     "desc": "Oren -> Hardin's Private Academy"
     },
     "simple": true,
     "pv": [
      [
-      117793,
-      132810,
-      -4835
+      105855,
+      109782,
+      -3200
      ],
      [
-      105745,
-      114255,
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
       -3136
      ]
     ],
-    "maxDanger": 67,
-    "needs": [],
-    "why": [
-     "walk not on the geodata from 117793,132810 (the start is a closed pocket of 5237 cells on the geodata (platform / island / sealed room: no walk out))"
+    "points": [
+     [
+      105855,
+      109782,
+      -3200
+     ],
+     [
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
     ],
+    "landing": {
+     "from": "Oren",
+     "dest": "Hardin's Private Academy",
+     "src": "nav_atlas_extra gkLinks (LIVE)"
+    },
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
     "checks": {
      "reachable": true,
-     "walls": "straight legs not wall-checked: 1",
+     "walls": "geodata leg from a live landing (walls block)",
      "water": false,
-     "danger": 67,
-     "dangerVsLevel": -9,
+     "danger": 0,
+     "dangerVsLevel": 0,
      "aggro": []
     }
    },
-   "expectedSec": 254,
+   "expectedSec": 69,
    "engine": {
     "act": "talk",
     "hasItems": "talk"
@@ -4243,7 +4823,7 @@
    ]
   },
   {
-   "i": 18,
+   "i": 20,
    "key": "c20:manual",
    "cond": 20,
    "kind": "special",
@@ -4263,6 +4843,9 @@
   }
  ],
  "override": {
-  "steps": {}
+  "steps": {},
+  "note": "Hardin Academy landing (live 2026-10-27, Spoiler15): Oren gk Valentina \"Hardin's Private Academy\" 6100 -> 105855,109782,-3200 (gk Minerva); walk N to Hardin/Cema/Kaspar 5.2-5.7k, geodata dry path OK. Also Giran Clarissa 4400, Hunters Esmeralda 3400. nav_atlas_extra.json gkLinks.",
+  "editedAt": "2026-10-27T12:23:02.658Z",
+  "by": "claude live test 2026-10-27"
  }
 }

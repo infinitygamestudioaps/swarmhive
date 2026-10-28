@@ -1,0 +1,181 @@
+{
+ "npcId": 30050,
+ "name": "Elias",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.794Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30050.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "151": {
+   "name": "Cure for Fever",
+   "listText": [
+    "[Cure for Fever]",
+    "[Cure for Fever (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00151_CureForFever/30050-02.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00151_CureForFever/30050-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00151_CureForFever/30050-06.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00151_CureForFever/30050-05.html",
+     "when": "state STARTED; cond 2; !(st.isCond(3) && st.hasQuestItems(FEVER_MEDICINE))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00151_CureForFever/30050-04.html",
+     "when": "state STARTED; !(st.isCond(3) && st.hasQuestItems(FEVER_MEDICINE)); !(st.isCond(2) && st.hasQuestItems(POISON_SAC))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30050.htm": {
+   "file": "default/30050.htm",
+   "quest": null,
+   "text": "Elias: Do you happen to know anything about medicine or herbs ? I'm desperately in need of help, but I can't find anyone with the knowledge I need in an out-of-the-way village like this. Please, if you know anyone with this knowledge, send them to me. I'm willing to pay -- I'll give everything I ha…",
+   "header": "Elias",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00151_CureForFever/30050-02.htm": {
+   "file": "Q00151_CureForFever/30050-02.htm",
+   "quest": 151,
+   "text": "Elias: I am Elias, a teacher at Einhovant's School of Magic. Some time ago, my students and I went on a field trip to the northern part of the island to collect herbs needed for class, and many of the students fainted after catching a strange fever. It has been a week since they fell ill, and we st…",
+   "header": "Elias",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Say that you'll help.",
+     "bypass": "Quest Q00151_CureForFever 30050-03.htm",
+     "kind": "quest-event",
+     "script": "Q00151_CureForFever",
+     "event": "30050-03.htm",
+     "quest": 151,
+     "to": "Q00151_CureForFever/30050-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00151_CureForFever/30050-01.htm": {
+   "file": "Q00151_CureForFever/30050-01.htm",
+   "quest": 151,
+   "text": "Elias: I'm Elias, one of the teachers from the Einhovant School of Wizardry. My students and I went to the forest to the north of the island on a field trip recently, but some of my students have fallen ill with a strange fever . It has been more than a week since they became ill, but we have yet t…",
+   "header": "Elias",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00151_CureForFever/30050-06.html": {
+   "file": "Q00151_CureForFever/30050-06.html",
+   "quest": 151,
+   "text": "Elias: So this is the Fever Medicine. Ahh ... I am deeply grateful to you. Because you have so willingly helped others, we can save the lives of my students. May the angels bless you. I must hurry and send this medicine off to the school. But first ... Please accept this. This is a token of appreci…",
+   "header": "Elias",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00151_CureForFever/30050-05.html": {
+   "file": "Q00151_CureForFever/30050-05.html",
+   "quest": 151,
+   "text": "Elias: Ahh... You have obtained a poison sac. Thank you! Please hurry and take it to Priest Yohanes who is at the Temple of Einhasad. He will make the medicine for you. When he is done, you just have to bring the medicine back to me.",
+   "header": "Elias",
+   "when": [
+    "state STARTED; cond 2; !(st.isCond(3) && st.hasQuestItems(FEVER_MEDICINE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00151_CureForFever/30050-04.html": {
+   "file": "Q00151_CureForFever/30050-04.html",
+   "quest": 151,
+   "text": "Elias: Are you still here? Please hury and bring back the poison sac. My students are dying, and watching those youngsters muttering in their delirium just breaks my heart. Go to the northern part of Talking Island, kill the Giant Spider, and bring back its poison sac. If you bring the poison sac t…",
+   "header": "Elias",
+   "when": [
+    "state STARTED; !(st.isCond(3) && st.hasQuestItems(FEVER_MEDICINE)); !(st.isCond(2) && st.hasQuestItems(POISON_SAC))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00151_CureForFever/30050-03.htm": {
+   "file": "Q00151_CureForFever/30050-03.htm",
+   "quest": 151,
+   "text": "Elias: I can't thank you enough for your help. The giant spiders abound in the northern parts of the island, so hunt them and bring back their Poison Sacs. Once you have obtained the Poison Sacs, go to Priest Yohanes . He will create a Fever Medicine from the Poison Sacs. Bring the medicine back to…",
+   "header": "Elias",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Cure for Fever]",
+     "bypass": "npc_%objectId%_Quest Q00151_CureForFever",
+     "kind": "quest",
+     "quest": 151,
+     "to": "Q00151_CureForFever/30050-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Cure for Fever (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00151_CureForFever",
+     "kind": "quest",
+     "quest": 151,
+     "to": "Q00151_CureForFever/30050-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

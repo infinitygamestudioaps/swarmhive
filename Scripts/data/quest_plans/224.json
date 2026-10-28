@@ -2,7 +2,7 @@
  "id": 224,
  "name": "Test Of Sagittarius",
  "version": 1,
- "generated": "2026-10-27T11:15:16.030Z",
+ "generated": "2026-10-27T18:18:51.469Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 39,
@@ -29,10 +29,6 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
    "code": "area-danger",
    "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
    "step": 1
@@ -43,17 +39,57 @@
    "step": 1
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 2
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 17
   },
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 2
+   "step": 17
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 18
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 26
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 26
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 27
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 36
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 36
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 37
   }
  ],
- "expectedMin": 82,
+ "expectedMin": 302,
  "refLevel": 39,
  "steps": [
   {
@@ -452,7 +488,7 @@
     {
      "id": 3299,
      "name": "Hunter's 2nd Rune",
-     "n": 9,
+     "n": 10,
      "from": [
       {
        "id": 20269,
@@ -462,123 +498,6 @@
       {
        "id": 20270,
        "name": "Breka Orc Overlord",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 3300,
-     "name": "Talisman of Kadesh",
-     "n": 1,
-     "from": [
-      {
-       "id": 27090,
-       "name": "Serpent Demon Kadesh",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 3301,
-     "name": "Talisman of Snake",
-     "n": 1,
-     "from": [
-      {
-       "id": 20269,
-       "name": "Breka Orc Shaman",
-       "chance": 100
-      },
-      {
-       "id": 20270,
-       "name": "Breka Orc Overlord",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 3302,
-     "name": "Mithril Clip",
-     "n": 1,
-     "from": [
-      {
-       "id": 20551,
-       "name": "Road Scavenger",
-       "chance": 100
-      },
-      {
-       "id": 20551,
-       "name": "Road Scavenger",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 3303,
-     "name": "Stakato Chitin",
-     "n": 1,
-     "from": [
-      {
-       "id": 20230,
-       "name": "Marsh Stakato Worker",
-       "chance": 100
-      },
-      {
-       "id": 20232,
-       "name": "Marsh Stakato Soldier",
-       "chance": 100
-      },
-      {
-       "id": 20234,
-       "name": "Marsh Stakato Drone",
-       "chance": 100
-      },
-      {
-       "id": 20230,
-       "name": "Marsh Stakato Worker",
-       "chance": 100
-      },
-      {
-       "id": 20232,
-       "name": "Marsh Stakato Soldier",
-       "chance": 100
-      },
-      {
-       "id": 20234,
-       "name": "Marsh Stakato Drone",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 3304,
-     "name": "Reinforced Bowstring",
-     "n": 1,
-     "from": [
-      {
-       "id": 20233,
-       "name": "Marsh Spider",
-       "chance": 100
-      },
-      {
-       "id": 20233,
-       "name": "Marsh Spider",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 3305,
-     "name": "Manashen's Horn",
-     "n": 1,
-     "from": [
-      {
-       "id": 20563,
-       "name": "Manashen Gargoyle",
-       "chance": 100
-      },
-      {
-       "id": 20563,
-       "name": "Manashen Gargoyle",
        "chance": 100
       }
      ]
@@ -626,7 +545,2453 @@
     "area-danger",
     "aggro-on-way"
    ],
-   "text": "Hunt Ant, Ant Captain, Ant Overseer for Hunter's 1st Rune x10, Hunter's 2nd Rune x9, Talisman of Kadesh x1, Talisman of Snake x1, Mithril Clip x1, Stakato Chitin x1, Reinforced Bowstring x1, Manashen's Horn x1, Blood of Lizardman x140",
+   "text": "Hunt Ant, Ant Captain, Ant Overseer for Hunter's 1st Rune x10, Hunter's 2nd Rune x10, Blood of Lizardman x140",
+   "places": [
+    {
+     "mobs": [
+      20079,
+      20080,
+      20081,
+      20082,
+      20084,
+      20086,
+      20089,
+      20090
+     ],
+     "items": [
+      3298
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "antnest-1-left-a",
+      "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+      "at": [
+       -13622,
+       179364,
+       -5389
+      ],
+      "radius": 1130,
+      "levels": [
+       30,
+       35
+      ],
+      "count": 40,
+      "region": "Ant Nest",
+      "atlasKey": "room:antnest-1-left-a",
+      "status": "ok",
+      "sec": 127,
+      "danger": 31,
+      "reachable": true,
+      "score": -177.88333333333333,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-l",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -25328,
+         180192,
+         -5406
+        ],
+        "count": 34,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-r",
+        "name": "Ant Nest: Nest tunnels, straight: Ant Recruit room",
+        "at": [
+         -25107,
+         177468,
+         -5312
+        ],
+        "count": 37,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-q",
+        "name": "Ant Nest: Nest tunnels, straight: Ant Captain room",
+        "at": [
+         -27849,
+         177867,
+         -5242
+        ],
+        "count": 29,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antnest-1-left-a",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 9837,
+      "sec": 127,
+      "via": ".gludio > Gludio -> Ant Cave",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ant Cave",
+        "link": "ant nest",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 27
+       },
+       {
+        "do": "walk",
+        "len": 9837,
+        "how": "dungeon-rooms",
+        "danger": 36
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ant Cave"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -10136,
+        175208,
+        -4176
+       ],
+       [
+        -10152,
+        175064,
+        -4224
+       ],
+       [
+        -10216,
+        174936,
+        -4264
+       ],
+       [
+        -10328,
+        174808,
+        -4312
+       ],
+       [
+        -10936,
+        174328,
+        -4576
+       ],
+       [
+        -11448,
+        174120,
+        -4640
+       ],
+       [
+        -11848,
+        174216,
+        -4792
+       ],
+       [
+        -11896,
+        174216,
+        -4816
+       ],
+       [
+        -12344,
+        174616,
+        -5008
+       ],
+       [
+        -12520,
+        174680,
+        -5112
+       ],
+       [
+        -12680,
+        174808,
+        -5136
+       ],
+       [
+        -13352,
+        175784,
+        -5304
+       ],
+       [
+        -13944,
+        176232,
+        -5288
+       ],
+       [
+        -13992,
+        176344,
+        -5296
+       ],
+       [
+        -13992,
+        176456,
+        -5304
+       ],
+       [
+        -13624,
+        177448,
+        -5304
+       ],
+       [
+        -13208,
+        177944,
+        -5304
+       ],
+       [
+        -13048,
+        178648,
+        -5384
+       ],
+       [
+        -13048,
+        178712,
+        -5384
+       ],
+       [
+        -13080,
+        178856,
+        -5384
+       ],
+       [
+        -13224,
+        179128,
+        -5384
+       ],
+       [
+        -13464,
+        179368,
+        -5384
+       ],
+       [
+        -13624,
+        179368,
+        -5384
+       ]
+      ],
+      "maxDanger": 36,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 36,
+       "dangerVsLevel": -3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20269,
+      20270
+     ],
+     "items": [
+      3299
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "brekas-stronghold-1",
+      "name": "Brekas Stronghold 1: Breka Orc Shaman area (east)",
+      "at": [
+       89032,
+       131912,
+       -3664
+      ],
+      "radius": 2818,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 4,
+      "region": "Brekas Stronghold",
+      "atlasKey": "area:brekas-stronghold-1",
+      "status": "ok",
+      "sec": 188,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -20.866666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-7",
+        "name": "Brekas Stronghold 7: Breka Orc Shaman area (north-east)",
+        "at": [
+         93624,
+         124968,
+         -2448
+        ],
+        "count": 4,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-8",
+        "name": "Brekas Stronghold 8: Breka Orc Overlord area (north-west)",
+        "at": [
+         80952,
+         123912,
+         -2256
+        ],
+        "count": 4,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-12",
+        "name": "Dragon Valley 12: Breka Orc Warrior area (north-west)",
+        "at": [
+         79272,
+         121784,
+         -2256
+        ],
+        "count": 4,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:brekas-stronghold-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".giran",
+      "length": 20166,
+      "sec": 188,
+      "via": ".giran",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Giran",
+        "cmd": ".giran"
+       },
+       {
+        "do": "walk",
+        "len": 15248,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 4918,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Giran"
+      },
+      "simple": true,
+      "pv": [
+       [
+        83551,
+        147945,
+        -3400
+       ],
+       [
+        84616,
+        133240,
+        -3648
+       ],
+       [
+        84632,
+        133208,
+        -3648
+       ],
+       [
+        85496,
+        132344,
+        -3648
+       ],
+       [
+        86280,
+        131960,
+        -3648
+       ],
+       [
+        86520,
+        131832,
+        -3648
+       ],
+       [
+        87192,
+        131864,
+        -3648
+       ],
+       [
+        88184,
+        131848,
+        -3656
+       ],
+       [
+        89032,
+        131912,
+        -3664
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20577,
+      20578,
+      20579,
+      20580,
+      20581,
+      20582
+     ],
+     "items": [
+      3306
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-23",
+      "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)",
+      "at": [
+       96328,
+       77128,
+       -3592
+      ],
+      "radius": 3827,
+      "levels": [
+       36,
+       40
+      ],
+      "count": 20,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "sec": 150,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -117.5,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 12541,
+      "sec": 150,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 11880,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 661,
+        "how": "field-areas",
+        "danger": 84
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        95896,
+        77624,
+        -3552
+       ],
+       [
+        96088,
+        77352,
+        -3568
+       ],
+       [
+        96328,
+        77128,
+        -3592
+       ]
+      ],
+      "maxDanger": 84,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 84,
+       "dangerVsLevel": 45,
+       "aggro": [
+        {
+         "name": "Energy Plant",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Rainbow Frog",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Soldier",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Magician",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Scout",
+         "lv": 82,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Fantasy Mushroom",
+       "lv": 85
+      },
+      {
+       "name": "Rainbow Frog",
+       "lv": 85
+      },
+      {
+       "name": "Energy Plant",
+       "lv": 85
+      },
+      {
+       "name": "Tanta Lizardman Berserker",
+       "lv": 84
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "antnest-1-left-a",
+    "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+    "at": [
+     -13622,
+     179364,
+     -5389
+    ],
+    "radius": 1130,
+    "levels": [
+     30,
+     35
+    ],
+    "count": 40,
+    "region": "Ant Nest",
+    "atlasKey": "room:antnest-1-left-a",
+    "status": "ok",
+    "sec": 127,
+    "danger": 31,
+    "reachable": true,
+    "score": -177.88333333333333,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "antnest-1-straight-l",
+      "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+      "at": [
+       -25328,
+       180192,
+       -5406
+      ],
+      "count": 34,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "antnest-1-straight-r",
+      "name": "Ant Nest: Nest tunnels, straight: Ant Recruit room",
+      "at": [
+       -25107,
+       177468,
+       -5312
+      ],
+      "count": 37,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "antnest-1-straight-q",
+      "name": "Ant Nest: Nest tunnels, straight: Ant Captain room",
+      "at": [
+       -27849,
+       177867,
+       -5242
+      ],
+      "count": 29,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:antnest-1-left-a",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 9837,
+    "sec": 127,
+    "via": ".gludio > Gludio -> Ant Cave",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ant Cave",
+      "link": "ant nest",
+      "price": 2100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 27
+     },
+     {
+      "do": "walk",
+      "len": 9837,
+      "how": "dungeon-rooms",
+      "danger": 36
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ant Cave"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -9959,
+      176184,
+      -4160
+     ],
+     [
+      -9959,
+      176184,
+      -4160
+     ],
+     [
+      -10136,
+      175208,
+      -4176
+     ],
+     [
+      -10152,
+      175064,
+      -4224
+     ],
+     [
+      -10216,
+      174936,
+      -4264
+     ],
+     [
+      -10328,
+      174808,
+      -4312
+     ],
+     [
+      -10936,
+      174328,
+      -4576
+     ],
+     [
+      -11448,
+      174120,
+      -4640
+     ],
+     [
+      -11848,
+      174216,
+      -4792
+     ],
+     [
+      -11896,
+      174216,
+      -4816
+     ],
+     [
+      -12344,
+      174616,
+      -5008
+     ],
+     [
+      -12520,
+      174680,
+      -5112
+     ],
+     [
+      -12680,
+      174808,
+      -5136
+     ],
+     [
+      -13352,
+      175784,
+      -5304
+     ],
+     [
+      -13944,
+      176232,
+      -5288
+     ],
+     [
+      -13992,
+      176344,
+      -5296
+     ],
+     [
+      -13992,
+      176456,
+      -5304
+     ],
+     [
+      -13624,
+      177448,
+      -5304
+     ],
+     [
+      -13208,
+      177944,
+      -5304
+     ],
+     [
+      -13048,
+      178648,
+      -5384
+     ],
+     [
+      -13048,
+      178712,
+      -5384
+     ],
+     [
+      -13080,
+      178856,
+      -5384
+     ],
+     [
+      -13224,
+      179128,
+      -5384
+     ],
+     [
+      -13464,
+      179368,
+      -5384
+     ],
+     [
+      -13624,
+      179368,
+      -5384
+     ]
+    ],
+    "maxDanger": 36,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 36,
+     "dangerVsLevel": -3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 3627,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9,
+    12,
+    13
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:27090",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27090,
+     "name": "Serpent Demon Kadesh",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 3298,
+     "name": "Hunter's 1st Rune",
+     "n": 10,
+     "from": [
+      {
+       "id": 20079,
+       "name": "Ant",
+       "chance": 100
+      },
+      {
+       "id": 20080,
+       "name": "Ant Captain",
+       "chance": 100
+      },
+      {
+       "id": 20081,
+       "name": "Ant Overseer",
+       "chance": 100
+      },
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20089,
+       "name": "Noble Ant",
+       "chance": 100
+      },
+      {
+       "id": 20090,
+       "name": "Noble Ant Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3299,
+     "name": "Hunter's 2nd Rune",
+     "n": 10,
+     "from": [
+      {
+       "id": 20269,
+       "name": "Breka Orc Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20270,
+       "name": "Breka Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3306,
+     "name": "Blood of Lizardman",
+     "n": 140,
+     "from": [
+      {
+       "id": 20577,
+       "name": "Leto Lizardman",
+       "chance": 100
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 100
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20580,
+       "name": "Leto Lizardman Warrior",
+       "chance": 100
+      },
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20577,
+     20578,
+     20579,
+     20580,
+     20581,
+     20582
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
+   },
+   "text": "Make Serpent Demon Kadesh appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "plains-of-lizardmen-23",
+    "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)",
+    "at": [
+     96328,
+     77128,
+     -3592
+    ],
+    "radius": 3827,
+    "levels": [
+     36,
+     40
+    ],
+    "count": 20,
+    "region": "Plains of Lizardmen",
+    "atlasKey": "area:plains-of-lizardmen-23",
+    "status": "ok",
+    "sec": 150,
+    "danger": 40,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -117.5,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:plains-of-lizardmen-23",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 12541,
+    "sec": 150,
+    "via": ".oren > Oren -> Plains of Lizardmen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Plains of Lizardmen",
+      "link": "plains of the lizardmen",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11880,
+      "how": "field-areas-gap",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 661,
+      "how": "field-areas",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Plains of Lizardmen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87252,
+      85514,
+      -3056
+     ],
+     [
+      95896,
+      77624,
+      -3552
+     ],
+     [
+      96088,
+      77352,
+      -3568
+     ],
+     [
+      96328,
+      77128,
+      -3592
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 45,
+     "aggro": [
+      {
+       "name": "Energy Plant",
+       "lv": 85,
+       "n": 1
+      },
+      {
+       "name": "Rainbow Frog",
+       "lv": 85,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Soldier",
+       "lv": 84,
+       "n": 2
+      },
+      {
+       "name": "Tanta Lizardman Summoner",
+       "lv": 84,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83,
+       "n": 3
+      },
+      {
+       "name": "Tanta Lizardman Magician",
+       "lv": 83,
+       "n": 3
+      },
+      {
+       "name": "Tanta Lizardman Warrior",
+       "lv": 83,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Scout",
+       "lv": 82,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 450,
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9,
+    12,
+    13
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30626",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "\"What does the letter say?\""
+   ],
+   "npc": {
+    "id": 30626,
+    "name": "Hamil",
+    "title": "Sagittarius",
+    "town": "Floran",
+    "at": [
+     15734,
+     174805,
+     -3636
+    ],
+    "alt": []
+   },
+   "text": "Bring Bernard's Introduction to Hamil",
+   "needs": [
+    {
+     "id": 3294,
+     "name": "Bernard's Introduction",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30626@15734,174805",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".dion",
+    "length": 17089,
+    "sec": 211,
+    "via": ".dion > Dion -> Plains of Dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Plains of Dion",
+      "link": "plains of dion",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 17089,
+      "how": "geodata",
+      "danger": 29
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      630,
+      179184,
+      -3720
+     ],
+     [
+      1127,
+      178692,
+      -3684
+     ],
+     [
+      1624,
+      178200,
+      -3648
+     ],
+     [
+      2120,
+      177704,
+      -3604
+     ],
+     [
+      2616,
+      177208,
+      -3560
+     ],
+     [
+      3112,
+      176712,
+      -3452
+     ],
+     [
+      3608,
+      176216,
+      -3344
+     ],
+     [
+      4104,
+      175720,
+      -3376
+     ],
+     [
+      4600,
+      175224,
+      -3408
+     ],
+     [
+      5096,
+      175016,
+      -3448
+     ],
+     [
+      5592,
+      174808,
+      -3488
+     ],
+     [
+      6584,
+      174808,
+      -3608
+     ],
+     [
+      7576,
+      174808,
+      -3648
+     ],
+     [
+      8568,
+      174808,
+      -3672
+     ],
+     [
+      9560,
+      174808,
+      -3672
+     ],
+     [
+      10552,
+      174808,
+      -3608
+     ],
+     [
+      11544,
+      174808,
+      -3624
+     ],
+     [
+      12536,
+      174808,
+      -3856
+     ],
+     [
+      13528,
+      174808,
+      -3896
+     ],
+     [
+      14456,
+      175112,
+      -3712
+     ],
+     [
+      14600,
+      175112,
+      -3664
+     ],
+     [
+      15336,
+      175032,
+      -3656
+     ],
+     [
+      15336,
+      175048,
+      -3656
+     ],
+     [
+      15416,
+      175064,
+      -3656
+     ],
+     [
+      15448,
+      175048,
+      -3648
+     ],
+     [
+      15656,
+      174824,
+      -3632
+     ],
+     [
+      15656,
+      174760,
+      -3632
+     ],
+     [
+      15704,
+      174760,
+      -3632
+     ],
+     [
+      15736,
+      174808,
+      -3632
+     ]
+    ],
+    "maxDanger": 29,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 2012,
+      "maxSwim": 2012,
+      "overBreath": false
+     },
+     "danger": 29,
+     "dangerVsLevel": -10,
+     "aggro": []
+    }
+   },
+   "expectedSec": 236,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c2:deliver:30653",
+   "cond": 2,
+   "kind": "deliver",
+   "to": 3,
+   "links": [
+    "Show him the letter from Hamil"
+   ],
+   "npc": {
+    "id": 30653,
+    "name": "Sir Aron Tanford",
+    "title": "",
+    "town": "Floran",
+    "at": [
+     -6774,
+     202086,
+     -3649
+    ],
+    "alt": []
+   },
+   "text": "Bring Hamil's 1st Letter to Sir Aron Tanford",
+   "needs": [
+    {
+     "id": 3295,
+     "name": "Hamil's 1st Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30653@-6774,202086",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13112,
+    "sec": 154,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 13112,
+      "how": "geodata",
+      "danger": 25
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -15864,
+      207528,
+      -3664
+     ],
+     [
+      -15656,
+      207528,
+      -3664
+     ],
+     [
+      -15280,
+      207944,
+      -3596
+     ],
+     [
+      -14904,
+      208360,
+      -3528
+     ],
+     [
+      -14872,
+      208392,
+      -3512
+     ],
+     [
+      -14584,
+      208392,
+      -3352
+     ],
+     [
+      -14088,
+      207896,
+      -3204
+     ],
+     [
+      -13592,
+      207400,
+      -3056
+     ],
+     [
+      -13096,
+      206904,
+      -3072
+     ],
+     [
+      -12600,
+      206408,
+      -3088
+     ],
+     [
+      -12104,
+      205920,
+      -3136
+     ],
+     [
+      -11608,
+      205432,
+      -3184
+     ],
+     [
+      -11112,
+      204936,
+      -3268
+     ],
+     [
+      -10616,
+      204440,
+      -3352
+     ],
+     [
+      -10120,
+      203944,
+      -3408
+     ],
+     [
+      -9624,
+      203448,
+      -3464
+     ],
+     [
+      -8920,
+      202808,
+      -3464
+     ],
+     [
+      -8904,
+      202824,
+      -3464
+     ],
+     [
+      -8856,
+      202824,
+      -3432
+     ],
+     [
+      -8856,
+      202808,
+      -3432
+     ],
+     [
+      -8824,
+      202792,
+      -3408
+     ],
+     [
+      -8680,
+      202600,
+      -3416
+     ],
+     [
+      -8680,
+      202552,
+      -3408
+     ],
+     [
+      -8072,
+      202088,
+      -3456
+     ],
+     [
+      -7160,
+      202328,
+      -3608
+     ],
+     [
+      -7112,
+      202376,
+      -3608
+     ],
+     [
+      -7064,
+      202376,
+      -3608
+     ],
+     [
+      -7064,
+      202312,
+      -3624
+     ],
+     [
+      -6776,
+      202088,
+      -3648
+     ]
+    ],
+    "maxDanger": 25,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 25,
+     "dangerVsLevel": -14,
+     "aggro": []
+    }
+   },
+   "expectedSec": 179,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c4:deliver:30626",
+   "cond": 4,
+   "kind": "deliver",
+   "to": 5,
+   "links": [
+    "Ask about the Children of Abyss"
+   ],
+   "npc": {
+    "id": 30626,
+    "name": "Hamil",
+    "title": "Sagittarius",
+    "town": "Floran",
+    "at": [
+     15734,
+     174805,
+     -3636
+    ],
+    "alt": []
+   },
+   "text": "Bring Hunter's 1st Rune x10 to Hamil",
+   "needs": [
+    {
+     "id": 3298,
+     "name": "Hunter's 1st Rune",
+     "n": 10
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30626@15734,174805",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".dion",
+    "length": 17089,
+    "sec": 211,
+    "via": ".dion > Dion -> Plains of Dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Plains of Dion",
+      "link": "plains of dion",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 17089,
+      "how": "geodata",
+      "danger": 29
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      630,
+      179184,
+      -3720
+     ],
+     [
+      1127,
+      178692,
+      -3684
+     ],
+     [
+      1624,
+      178200,
+      -3648
+     ],
+     [
+      2120,
+      177704,
+      -3604
+     ],
+     [
+      2616,
+      177208,
+      -3560
+     ],
+     [
+      3112,
+      176712,
+      -3452
+     ],
+     [
+      3608,
+      176216,
+      -3344
+     ],
+     [
+      4104,
+      175720,
+      -3376
+     ],
+     [
+      4600,
+      175224,
+      -3408
+     ],
+     [
+      5096,
+      175016,
+      -3448
+     ],
+     [
+      5592,
+      174808,
+      -3488
+     ],
+     [
+      6584,
+      174808,
+      -3608
+     ],
+     [
+      7576,
+      174808,
+      -3648
+     ],
+     [
+      8568,
+      174808,
+      -3672
+     ],
+     [
+      9560,
+      174808,
+      -3672
+     ],
+     [
+      10552,
+      174808,
+      -3608
+     ],
+     [
+      11544,
+      174808,
+      -3624
+     ],
+     [
+      12536,
+      174808,
+      -3856
+     ],
+     [
+      13528,
+      174808,
+      -3896
+     ],
+     [
+      14456,
+      175112,
+      -3712
+     ],
+     [
+      14600,
+      175112,
+      -3664
+     ],
+     [
+      15336,
+      175032,
+      -3656
+     ],
+     [
+      15336,
+      175048,
+      -3656
+     ],
+     [
+      15416,
+      175064,
+      -3656
+     ],
+     [
+      15448,
+      175048,
+      -3648
+     ],
+     [
+      15656,
+      174824,
+      -3632
+     ],
+     [
+      15656,
+      174760,
+      -3632
+     ],
+     [
+      15704,
+      174760,
+      -3632
+     ],
+     [
+      15736,
+      174808,
+      -3632
+     ]
+    ],
+    "maxDanger": 29,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 2012,
+      "maxSwim": 2012,
+      "overBreath": false
+     },
+     "danger": 29,
+     "dangerVsLevel": -10,
+     "aggro": []
+    }
+   },
+   "expectedSec": 236,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c5:deliver:30514",
+   "cond": 5,
+   "kind": "deliver",
+   "to": 6,
+   "links": [
+    "Explain the situation"
+   ],
+   "npc": {
+    "id": 30514,
+    "name": "Vokian",
+    "title": "Prefect",
+    "town": "Giran",
+    "at": [
+     80464,
+     144368,
+     -3533
+    ],
+    "alt": []
+   },
+   "text": "Bring Hamil's 2nd Letter to Vokian",
+   "needs": [
+    {
+     "id": 3296,
+     "name": "Hamil's 2nd Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30514@80464,144368",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6811,
+    "sec": 77,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6811,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82856,
+      148520,
+      -3464
+     ],
+     [
+      82664,
+      148328,
+      -3464
+     ],
+     [
+      82616,
+      148232,
+      -3464
+     ],
+     [
+      82584,
+      148200,
+      -3464
+     ],
+     [
+      82392,
+      148008,
+      -3464
+     ],
+     [
+      82216,
+      147944,
+      -3464
+     ],
+     [
+      81944,
+      147944,
+      -3464
+     ],
+     [
+      81704,
+      147800,
+      -3464
+     ],
+     [
+      81544,
+      147592,
+      -3464
+     ],
+     [
+      81544,
+      147320,
+      -3504
+     ],
+     [
+      81480,
+      147176,
+      -3528
+     ],
+     [
+      81336,
+      147272,
+      -3528
+     ],
+     [
+      81528,
+      147080,
+      -3528
+     ],
+     [
+      81544,
+      146808,
+      -3528
+     ],
+     [
+      81512,
+      146536,
+      -3528
+     ],
+     [
+      81528,
+      146264,
+      -3528
+     ],
+     [
+      81544,
+      145992,
+      -3528
+     ],
+     [
+      81512,
+      145720,
+      -3528
+     ],
+     [
+      81512,
+      145544,
+      -3528
+     ],
+     [
+      81528,
+      145272,
+      -3528
+     ],
+     [
+      81512,
+      145000,
+      -3528
+     ],
+     [
+      81544,
+      144728,
+      -3528
+     ],
+     [
+      81384,
+      144504,
+      -3528
+     ],
+     [
+      81128,
+      144424,
+      -3528
+     ],
+     [
+      80936,
+      144408,
+      -3528
+     ],
+     [
+      80744,
+      144344,
+      -3528
+     ],
+     [
+      80472,
+      144376,
+      -3528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c7:hunt",
+   "cond": 7,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20079,
+     "name": "Ant",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 62,
+     "questSpawned": false
+    },
+    {
+     "id": 20080,
+     "name": "Ant Captain",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 60,
+     "questSpawned": false
+    },
+    {
+     "id": 20081,
+     "name": "Ant Overseer",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20082,
+     "name": "Ant Recruit",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20084,
+     "name": "Ant Patrol",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20086,
+     "name": "Ant Guard",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20089,
+     "name": "Noble Ant",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 56,
+     "questSpawned": false
+    },
+    {
+     "id": 20090,
+     "name": "Noble Ant Leader",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20230,
+     "name": "Marsh Stakato Worker",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20232,
+     "name": "Marsh Stakato Soldier",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20233,
+     "name": "Marsh Spider",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20269,
+     "name": "Breka Orc Shaman",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20270,
+     "name": "Breka Orc Overlord",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20551,
+     "name": "Road Scavenger",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20563,
+     "name": "Manashen Gargoyle",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 20577,
+     "name": "Leto Lizardman",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20578,
+     "name": "Leto Lizardman Archer",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20579,
+     "name": "Leto Lizardman Soldier",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20580,
+     "name": "Leto Lizardman Warrior",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20581,
+     "name": "Leto Lizardman Shaman",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20582,
+     "name": "Leto Lizardman Overlord",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3298,
+     "name": "Hunter's 1st Rune",
+     "n": 10,
+     "from": [
+      {
+       "id": 20079,
+       "name": "Ant",
+       "chance": 100
+      },
+      {
+       "id": 20080,
+       "name": "Ant Captain",
+       "chance": 100
+      },
+      {
+       "id": 20081,
+       "name": "Ant Overseer",
+       "chance": 100
+      },
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20089,
+       "name": "Noble Ant",
+       "chance": 100
+      },
+      {
+       "id": 20090,
+       "name": "Noble Ant Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3299,
+     "name": "Hunter's 2nd Rune",
+     "n": 10,
+     "from": [
+      {
+       "id": 20269,
+       "name": "Breka Orc Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20270,
+       "name": "Breka Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3301,
+     "name": "Talisman of Snake",
+     "n": 1,
+     "from": [
+      {
+       "id": 20269,
+       "name": "Breka Orc Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20270,
+       "name": "Breka Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3306,
+     "name": "Blood of Lizardman",
+     "n": 140,
+     "from": [
+      {
+       "id": 20577,
+       "name": "Leto Lizardman",
+       "chance": 100
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 100
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20580,
+       "name": "Leto Lizardman Warrior",
+       "chance": 100
+      },
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Ant, Ant Captain, Ant Overseer for Hunter's 1st Rune x10, Hunter's 2nd Rune x10, Talisman of Snake x1, Blood of Lizardman x140",
    "places": [
     {
      "mobs": [
@@ -894,6 +3259,2135 @@
      "items": [
       3299,
       3301
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "brekas-stronghold-1",
+      "name": "Brekas Stronghold 1: Breka Orc Shaman area (east)",
+      "at": [
+       89032,
+       131912,
+       -3664
+      ],
+      "radius": 2818,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 4,
+      "region": "Brekas Stronghold",
+      "atlasKey": "area:brekas-stronghold-1",
+      "status": "ok",
+      "sec": 188,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -20.866666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-7",
+        "name": "Brekas Stronghold 7: Breka Orc Shaman area (north-east)",
+        "at": [
+         93624,
+         124968,
+         -2448
+        ],
+        "count": 4,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-8",
+        "name": "Brekas Stronghold 8: Breka Orc Overlord area (north-west)",
+        "at": [
+         80952,
+         123912,
+         -2256
+        ],
+        "count": 4,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-12",
+        "name": "Dragon Valley 12: Breka Orc Warrior area (north-west)",
+        "at": [
+         79272,
+         121784,
+         -2256
+        ],
+        "count": 4,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:brekas-stronghold-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".giran",
+      "length": 20166,
+      "sec": 188,
+      "via": ".giran",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Giran",
+        "cmd": ".giran"
+       },
+       {
+        "do": "walk",
+        "len": 15248,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 4918,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Giran"
+      },
+      "simple": true,
+      "pv": [
+       [
+        83551,
+        147945,
+        -3400
+       ],
+       [
+        84616,
+        133240,
+        -3648
+       ],
+       [
+        84632,
+        133208,
+        -3648
+       ],
+       [
+        85496,
+        132344,
+        -3648
+       ],
+       [
+        86280,
+        131960,
+        -3648
+       ],
+       [
+        86520,
+        131832,
+        -3648
+       ],
+       [
+        87192,
+        131864,
+        -3648
+       ],
+       [
+        88184,
+        131848,
+        -3656
+       ],
+       [
+        89032,
+        131912,
+        -3664
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20577,
+      20578,
+      20579,
+      20580,
+      20581,
+      20582
+     ],
+     "items": [
+      3306
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-23",
+      "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)",
+      "at": [
+       96328,
+       77128,
+       -3592
+      ],
+      "radius": 3827,
+      "levels": [
+       36,
+       40
+      ],
+      "count": 20,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "sec": 150,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -117.5,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 12541,
+      "sec": 150,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 11880,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 661,
+        "how": "field-areas",
+        "danger": 84
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        95896,
+        77624,
+        -3552
+       ],
+       [
+        96088,
+        77352,
+        -3568
+       ],
+       [
+        96328,
+        77128,
+        -3592
+       ]
+      ],
+      "maxDanger": 84,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 84,
+       "dangerVsLevel": 45,
+       "aggro": [
+        {
+         "name": "Energy Plant",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Rainbow Frog",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Soldier",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Magician",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Scout",
+         "lv": 82,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Fantasy Mushroom",
+       "lv": 85
+      },
+      {
+       "name": "Rainbow Frog",
+       "lv": 85
+      },
+      {
+       "name": "Energy Plant",
+       "lv": 85
+      },
+      {
+       "name": "Tanta Lizardman Berserker",
+       "lv": 84
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "antnest-1-left-a",
+    "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+    "at": [
+     -13622,
+     179364,
+     -5389
+    ],
+    "radius": 1130,
+    "levels": [
+     30,
+     35
+    ],
+    "count": 40,
+    "region": "Ant Nest",
+    "atlasKey": "room:antnest-1-left-a",
+    "status": "ok",
+    "sec": 127,
+    "danger": 31,
+    "reachable": true,
+    "score": -177.88333333333333,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "antnest-1-straight-l",
+      "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+      "at": [
+       -25328,
+       180192,
+       -5406
+      ],
+      "count": 34,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "antnest-1-straight-r",
+      "name": "Ant Nest: Nest tunnels, straight: Ant Recruit room",
+      "at": [
+       -25107,
+       177468,
+       -5312
+      ],
+      "count": 37,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "antnest-1-straight-q",
+      "name": "Ant Nest: Nest tunnels, straight: Ant Captain room",
+      "at": [
+       -27849,
+       177867,
+       -5242
+      ],
+      "count": 29,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:antnest-1-left-a",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 9837,
+    "sec": 127,
+    "via": ".gludio > Gludio -> Ant Cave",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ant Cave",
+      "link": "ant nest",
+      "price": 2100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 27
+     },
+     {
+      "do": "walk",
+      "len": 9837,
+      "how": "dungeon-rooms",
+      "danger": 36
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ant Cave"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -9959,
+      176184,
+      -4160
+     ],
+     [
+      -9959,
+      176184,
+      -4160
+     ],
+     [
+      -10136,
+      175208,
+      -4176
+     ],
+     [
+      -10152,
+      175064,
+      -4224
+     ],
+     [
+      -10216,
+      174936,
+      -4264
+     ],
+     [
+      -10328,
+      174808,
+      -4312
+     ],
+     [
+      -10936,
+      174328,
+      -4576
+     ],
+     [
+      -11448,
+      174120,
+      -4640
+     ],
+     [
+      -11848,
+      174216,
+      -4792
+     ],
+     [
+      -11896,
+      174216,
+      -4816
+     ],
+     [
+      -12344,
+      174616,
+      -5008
+     ],
+     [
+      -12520,
+      174680,
+      -5112
+     ],
+     [
+      -12680,
+      174808,
+      -5136
+     ],
+     [
+      -13352,
+      175784,
+      -5304
+     ],
+     [
+      -13944,
+      176232,
+      -5288
+     ],
+     [
+      -13992,
+      176344,
+      -5296
+     ],
+     [
+      -13992,
+      176456,
+      -5304
+     ],
+     [
+      -13624,
+      177448,
+      -5304
+     ],
+     [
+      -13208,
+      177944,
+      -5304
+     ],
+     [
+      -13048,
+      178648,
+      -5384
+     ],
+     [
+      -13048,
+      178712,
+      -5384
+     ],
+     [
+      -13080,
+      178856,
+      -5384
+     ],
+     [
+      -13224,
+      179128,
+      -5384
+     ],
+     [
+      -13464,
+      179368,
+      -5384
+     ],
+     [
+      -13624,
+      179368,
+      -5384
+     ]
+    ],
+    "maxDanger": 36,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 36,
+     "dangerVsLevel": -3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 3627,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c7:spawn:27090",
+   "cond": 7,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27090,
+     "name": "Serpent Demon Kadesh",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 3298,
+     "name": "Hunter's 1st Rune",
+     "n": 10,
+     "from": [
+      {
+       "id": 20079,
+       "name": "Ant",
+       "chance": 100
+      },
+      {
+       "id": 20080,
+       "name": "Ant Captain",
+       "chance": 100
+      },
+      {
+       "id": 20081,
+       "name": "Ant Overseer",
+       "chance": 100
+      },
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20089,
+       "name": "Noble Ant",
+       "chance": 100
+      },
+      {
+       "id": 20090,
+       "name": "Noble Ant Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3299,
+     "name": "Hunter's 2nd Rune",
+     "n": 10,
+     "from": [
+      {
+       "id": 20269,
+       "name": "Breka Orc Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20270,
+       "name": "Breka Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3301,
+     "name": "Talisman of Snake",
+     "n": 1,
+     "from": [
+      {
+       "id": 20269,
+       "name": "Breka Orc Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20270,
+       "name": "Breka Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3306,
+     "name": "Blood of Lizardman",
+     "n": 140,
+     "from": [
+      {
+       "id": 20577,
+       "name": "Leto Lizardman",
+       "chance": 100
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 100
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20580,
+       "name": "Leto Lizardman Warrior",
+       "chance": 100
+      },
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20577,
+     20578,
+     20579,
+     20580,
+     20581,
+     20582
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
+   },
+   "text": "Make Serpent Demon Kadesh appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "plains-of-lizardmen-23",
+    "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)",
+    "at": [
+     96328,
+     77128,
+     -3592
+    ],
+    "radius": 3827,
+    "levels": [
+     36,
+     40
+    ],
+    "count": 20,
+    "region": "Plains of Lizardmen",
+    "atlasKey": "area:plains-of-lizardmen-23",
+    "status": "ok",
+    "sec": 150,
+    "danger": 40,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -117.5,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:plains-of-lizardmen-23",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 12541,
+    "sec": 150,
+    "via": ".oren > Oren -> Plains of Lizardmen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Plains of Lizardmen",
+      "link": "plains of the lizardmen",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11880,
+      "how": "field-areas-gap",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 661,
+      "how": "field-areas",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Plains of Lizardmen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87252,
+      85514,
+      -3056
+     ],
+     [
+      95896,
+      77624,
+      -3552
+     ],
+     [
+      96088,
+      77352,
+      -3568
+     ],
+     [
+      96328,
+      77128,
+      -3592
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 45,
+     "aggro": [
+      {
+       "name": "Energy Plant",
+       "lv": 85,
+       "n": 1
+      },
+      {
+       "name": "Rainbow Frog",
+       "lv": 85,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Soldier",
+       "lv": 84,
+       "n": 2
+      },
+      {
+       "name": "Tanta Lizardman Summoner",
+       "lv": 84,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83,
+       "n": 3
+      },
+      {
+       "name": "Tanta Lizardman Magician",
+       "lv": 83,
+       "n": 3
+      },
+      {
+       "name": "Tanta Lizardman Warrior",
+       "lv": 83,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Scout",
+       "lv": 82,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 450,
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c7:deliver:30514",
+   "cond": 7,
+   "kind": "deliver",
+   "to": 8,
+   "links": [],
+   "npc": {
+    "id": 30514,
+    "name": "Vokian",
+    "title": "Prefect",
+    "town": "Giran",
+    "at": [
+     80464,
+     144368,
+     -3533
+    ],
+    "alt": []
+   },
+   "text": "Bring Talisman of Snake to Vokian",
+   "needs": [
+    {
+     "id": 3301,
+     "name": "Talisman of Snake",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30514@80464,144368",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6811,
+    "sec": 77,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6811,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82856,
+      148520,
+      -3464
+     ],
+     [
+      82664,
+      148328,
+      -3464
+     ],
+     [
+      82616,
+      148232,
+      -3464
+     ],
+     [
+      82584,
+      148200,
+      -3464
+     ],
+     [
+      82392,
+      148008,
+      -3464
+     ],
+     [
+      82216,
+      147944,
+      -3464
+     ],
+     [
+      81944,
+      147944,
+      -3464
+     ],
+     [
+      81704,
+      147800,
+      -3464
+     ],
+     [
+      81544,
+      147592,
+      -3464
+     ],
+     [
+      81544,
+      147320,
+      -3504
+     ],
+     [
+      81480,
+      147176,
+      -3528
+     ],
+     [
+      81336,
+      147272,
+      -3528
+     ],
+     [
+      81528,
+      147080,
+      -3528
+     ],
+     [
+      81544,
+      146808,
+      -3528
+     ],
+     [
+      81512,
+      146536,
+      -3528
+     ],
+     [
+      81528,
+      146264,
+      -3528
+     ],
+     [
+      81544,
+      145992,
+      -3528
+     ],
+     [
+      81512,
+      145720,
+      -3528
+     ],
+     [
+      81512,
+      145544,
+      -3528
+     ],
+     [
+      81528,
+      145272,
+      -3528
+     ],
+     [
+      81512,
+      145000,
+      -3528
+     ],
+     [
+      81544,
+      144728,
+      -3528
+     ],
+     [
+      81384,
+      144504,
+      -3528
+     ],
+     [
+      81128,
+      144424,
+      -3528
+     ],
+     [
+      80936,
+      144408,
+      -3528
+     ],
+     [
+      80744,
+      144344,
+      -3528
+     ],
+     [
+      80472,
+      144376,
+      -3528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c8:talk:30626",
+   "cond": 8,
+   "kind": "talk",
+   "to": 9,
+   "links": [],
+   "npc": {
+    "id": 30626,
+    "name": "Hamil",
+    "title": "Sagittarius",
+    "town": "Floran",
+    "at": [
+     15734,
+     174805,
+     -3636
+    ],
+    "alt": []
+   },
+   "text": "Talk to Hamil",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30626@15734,174805",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".dion",
+    "length": 17089,
+    "sec": 211,
+    "via": ".dion > Dion -> Plains of Dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Plains of Dion",
+      "link": "plains of dion",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 17089,
+      "how": "geodata",
+      "danger": 29
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      630,
+      179184,
+      -3720
+     ],
+     [
+      1127,
+      178692,
+      -3684
+     ],
+     [
+      1624,
+      178200,
+      -3648
+     ],
+     [
+      2120,
+      177704,
+      -3604
+     ],
+     [
+      2616,
+      177208,
+      -3560
+     ],
+     [
+      3112,
+      176712,
+      -3452
+     ],
+     [
+      3608,
+      176216,
+      -3344
+     ],
+     [
+      4104,
+      175720,
+      -3376
+     ],
+     [
+      4600,
+      175224,
+      -3408
+     ],
+     [
+      5096,
+      175016,
+      -3448
+     ],
+     [
+      5592,
+      174808,
+      -3488
+     ],
+     [
+      6584,
+      174808,
+      -3608
+     ],
+     [
+      7576,
+      174808,
+      -3648
+     ],
+     [
+      8568,
+      174808,
+      -3672
+     ],
+     [
+      9560,
+      174808,
+      -3672
+     ],
+     [
+      10552,
+      174808,
+      -3608
+     ],
+     [
+      11544,
+      174808,
+      -3624
+     ],
+     [
+      12536,
+      174808,
+      -3856
+     ],
+     [
+      13528,
+      174808,
+      -3896
+     ],
+     [
+      14456,
+      175112,
+      -3712
+     ],
+     [
+      14600,
+      175112,
+      -3664
+     ],
+     [
+      15336,
+      175032,
+      -3656
+     ],
+     [
+      15336,
+      175048,
+      -3656
+     ],
+     [
+      15416,
+      175064,
+      -3656
+     ],
+     [
+      15448,
+      175048,
+      -3648
+     ],
+     [
+      15656,
+      174824,
+      -3632
+     ],
+     [
+      15656,
+      174760,
+      -3632
+     ],
+     [
+      15704,
+      174760,
+      -3632
+     ],
+     [
+      15736,
+      174808,
+      -3632
+     ]
+    ],
+    "maxDanger": 29,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 2012,
+      "maxSwim": 2012,
+      "overBreath": false
+     },
+     "danger": 29,
+     "dangerVsLevel": -10,
+     "aggro": []
+    }
+   },
+   "expectedSec": 236,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c9:deliver:30717",
+   "cond": 9,
+   "kind": "deliver",
+   "to": 10,
+   "links": [],
+   "npc": {
+    "id": 30717,
+    "name": "Gauen",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     85332,
+     16592,
+     -2285
+    ],
+    "alt": []
+   },
+   "text": "Bring Hamil's 3rd Letter to Gauen",
+   "needs": [
+    {
+     "id": 3297,
+     "name": "Hamil's 3rd Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30717@85332,16592",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 408,
+    "sec": 63,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "3rd Floor Elven Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 408,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -2293
+     ],
+     [
+      85336,
+      16600,
+      -2288
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c10:hunt",
+   "cond": 10,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20079,
+     "name": "Ant",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 62,
+     "questSpawned": false
+    },
+    {
+     "id": 20080,
+     "name": "Ant Captain",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 60,
+     "questSpawned": false
+    },
+    {
+     "id": 20081,
+     "name": "Ant Overseer",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20082,
+     "name": "Ant Recruit",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20084,
+     "name": "Ant Patrol",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20086,
+     "name": "Ant Guard",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20089,
+     "name": "Noble Ant",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 56,
+     "questSpawned": false
+    },
+    {
+     "id": 20090,
+     "name": "Noble Ant Leader",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20230,
+     "name": "Marsh Stakato Worker",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20232,
+     "name": "Marsh Stakato Soldier",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20233,
+     "name": "Marsh Spider",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20269,
+     "name": "Breka Orc Shaman",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20270,
+     "name": "Breka Orc Overlord",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20551,
+     "name": "Road Scavenger",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20563,
+     "name": "Manashen Gargoyle",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 20577,
+     "name": "Leto Lizardman",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20578,
+     "name": "Leto Lizardman Archer",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20579,
+     "name": "Leto Lizardman Soldier",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20580,
+     "name": "Leto Lizardman Warrior",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20581,
+     "name": "Leto Lizardman Shaman",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20582,
+     "name": "Leto Lizardman Overlord",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3298,
+     "name": "Hunter's 1st Rune",
+     "n": 10,
+     "from": [
+      {
+       "id": 20079,
+       "name": "Ant",
+       "chance": 100
+      },
+      {
+       "id": 20080,
+       "name": "Ant Captain",
+       "chance": 100
+      },
+      {
+       "id": 20081,
+       "name": "Ant Overseer",
+       "chance": 100
+      },
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20089,
+       "name": "Noble Ant",
+       "chance": 100
+      },
+      {
+       "id": 20090,
+       "name": "Noble Ant Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3299,
+     "name": "Hunter's 2nd Rune",
+     "n": 10,
+     "from": [
+      {
+       "id": 20269,
+       "name": "Breka Orc Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20270,
+       "name": "Breka Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3302,
+     "name": "Mithril Clip",
+     "n": 1,
+     "from": [
+      {
+       "id": 20551,
+       "name": "Road Scavenger",
+       "chance": 100
+      },
+      {
+       "id": 20551,
+       "name": "Road Scavenger",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3303,
+     "name": "Stakato Chitin",
+     "n": 1,
+     "from": [
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3304,
+     "name": "Reinforced Bowstring",
+     "n": 1,
+     "from": [
+      {
+       "id": 20233,
+       "name": "Marsh Spider",
+       "chance": 100
+      },
+      {
+       "id": 20233,
+       "name": "Marsh Spider",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3305,
+     "name": "Manashen's Horn",
+     "n": 1,
+     "from": [
+      {
+       "id": 20563,
+       "name": "Manashen Gargoyle",
+       "chance": 100
+      },
+      {
+       "id": 20563,
+       "name": "Manashen Gargoyle",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3306,
+     "name": "Blood of Lizardman",
+     "n": 140,
+     "from": [
+      {
+       "id": 20577,
+       "name": "Leto Lizardman",
+       "chance": 100
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 100
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20580,
+       "name": "Leto Lizardman Warrior",
+       "chance": 100
+      },
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Ant, Ant Captain, Ant Overseer for Hunter's 1st Rune x10, Hunter's 2nd Rune x10, Mithril Clip x1, Stakato Chitin x1, Reinforced Bowstring x1, Manashen's Horn x1, Blood of Lizardman x140",
+   "places": [
+    {
+     "mobs": [
+      20079,
+      20080,
+      20081,
+      20082,
+      20084,
+      20086,
+      20089,
+      20090
+     ],
+     "items": [
+      3298
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "antnest-1-left-a",
+      "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+      "at": [
+       -13622,
+       179364,
+       -5389
+      ],
+      "radius": 1130,
+      "levels": [
+       30,
+       35
+      ],
+      "count": 40,
+      "region": "Ant Nest",
+      "atlasKey": "room:antnest-1-left-a",
+      "status": "ok",
+      "sec": 127,
+      "danger": 31,
+      "reachable": true,
+      "score": -177.88333333333333,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-l",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -25328,
+         180192,
+         -5406
+        ],
+        "count": 34,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-r",
+        "name": "Ant Nest: Nest tunnels, straight: Ant Recruit room",
+        "at": [
+         -25107,
+         177468,
+         -5312
+        ],
+        "count": 37,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-q",
+        "name": "Ant Nest: Nest tunnels, straight: Ant Captain room",
+        "at": [
+         -27849,
+         177867,
+         -5242
+        ],
+        "count": 29,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antnest-1-left-a",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 9837,
+      "sec": 127,
+      "via": ".gludio > Gludio -> Ant Cave",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ant Cave",
+        "link": "ant nest",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 27
+       },
+       {
+        "do": "walk",
+        "len": 9837,
+        "how": "dungeon-rooms",
+        "danger": 36
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ant Cave"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -10136,
+        175208,
+        -4176
+       ],
+       [
+        -10152,
+        175064,
+        -4224
+       ],
+       [
+        -10216,
+        174936,
+        -4264
+       ],
+       [
+        -10328,
+        174808,
+        -4312
+       ],
+       [
+        -10936,
+        174328,
+        -4576
+       ],
+       [
+        -11448,
+        174120,
+        -4640
+       ],
+       [
+        -11848,
+        174216,
+        -4792
+       ],
+       [
+        -11896,
+        174216,
+        -4816
+       ],
+       [
+        -12344,
+        174616,
+        -5008
+       ],
+       [
+        -12520,
+        174680,
+        -5112
+       ],
+       [
+        -12680,
+        174808,
+        -5136
+       ],
+       [
+        -13352,
+        175784,
+        -5304
+       ],
+       [
+        -13944,
+        176232,
+        -5288
+       ],
+       [
+        -13992,
+        176344,
+        -5296
+       ],
+       [
+        -13992,
+        176456,
+        -5304
+       ],
+       [
+        -13624,
+        177448,
+        -5304
+       ],
+       [
+        -13208,
+        177944,
+        -5304
+       ],
+       [
+        -13048,
+        178648,
+        -5384
+       ],
+       [
+        -13048,
+        178712,
+        -5384
+       ],
+       [
+        -13080,
+        178856,
+        -5384
+       ],
+       [
+        -13224,
+        179128,
+        -5384
+       ],
+       [
+        -13464,
+        179368,
+        -5384
+       ],
+       [
+        -13624,
+        179368,
+        -5384
+       ]
+      ],
+      "maxDanger": 36,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 36,
+       "dangerVsLevel": -3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20269,
+      20270
+     ],
+     "items": [
+      3299
      ],
      "kills": null,
      "area": {
@@ -2260,29 +6754,17 @@
    "expectedSec": 3627,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "hunt"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
     10,
-    11,
-    12,
-    13,
-    14
+    11
    ]
   },
   {
-   "i": 2,
-   "key": "c1:spawn:27090",
-   "cond": 1,
+   "i": 13,
+   "key": "c10:spawn:27090",
+   "cond": 10,
    "kind": "spawn",
    "monsters": [
     {
@@ -2346,36 +6828,7 @@
     {
      "id": 3299,
      "name": "Hunter's 2nd Rune",
-     "n": 9,
-     "from": [
-      {
-       "id": 20269,
-       "name": "Breka Orc Shaman",
-       "chance": 100
-      },
-      {
-       "id": 20270,
-       "name": "Breka Orc Overlord",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 3300,
-     "name": "Talisman of Kadesh",
-     "n": 1,
-     "from": [
-      {
-       "id": 27090,
-       "name": "Serpent Demon Kadesh",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 3301,
-     "name": "Talisman of Snake",
-     "n": 1,
+     "n": 10,
      "from": [
       {
        "id": 20269,
@@ -2517,7 +6970,6 @@
    ],
    "kills": 1,
    "reasons": [
-    "item-from-quest-mob",
     "aggro-on-way"
    ],
    "engine": {
@@ -2529,7 +6981,9 @@
      20580,
      20581,
      20582
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Serpent Demon Kadesh appear and kill it",
    "area": {
@@ -2676,26 +7130,1851 @@
    },
    "expectedSec": 450,
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
     10,
-    11,
-    12,
-    13,
+    11
+   ]
+  },
+  {
+   "i": 14,
+   "key": "c11:deliver:30717",
+   "cond": 11,
+   "kind": "deliver",
+   "to": 12,
+   "links": [],
+   "npc": {
+    "id": 30717,
+    "name": "Gauen",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     85332,
+     16592,
+     -2285
+    ],
+    "alt": []
+   },
+   "text": "Bring Stakato Chitin, Mithril Clip, Reinforced Bowstring, Manashen's Horn to Gauen",
+   "needs": [
+    {
+     "id": 3303,
+     "name": "Stakato Chitin",
+     "n": 1
+    },
+    {
+     "id": 3302,
+     "name": "Mithril Clip",
+     "n": 1
+    },
+    {
+     "id": 3304,
+     "name": "Reinforced Bowstring",
+     "n": 1
+    },
+    {
+     "id": 3305,
+     "name": "Manashen's Horn",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30717@85332,16592",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 408,
+    "sec": 63,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "3rd Floor Elven Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 408,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -2293
+     ],
+     [
+      85336,
+      16600,
+      -2288
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    11
+   ]
+  },
+  {
+   "i": 15,
+   "key": "c12:deliver:30626",
+   "cond": 12,
+   "kind": "deliver",
+   "to": 13,
+   "links": [],
+   "npc": {
+    "id": 30626,
+    "name": "Hamil",
+    "title": "Sagittarius",
+    "town": "Floran",
+    "at": [
+     15734,
+     174805,
+     -3636
+    ],
+    "alt": []
+   },
+   "text": "Bring Crescent Moon Bow to Hamil",
+   "needs": [
+    {
+     "id": 3028,
+     "name": "Crescent Moon Bow",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30626@15734,174805",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".dion",
+    "length": 17089,
+    "sec": 211,
+    "via": ".dion > Dion -> Plains of Dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Plains of Dion",
+      "link": "plains of dion",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 17089,
+      "how": "geodata",
+      "danger": 29
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      630,
+      179184,
+      -3720
+     ],
+     [
+      1127,
+      178692,
+      -3684
+     ],
+     [
+      1624,
+      178200,
+      -3648
+     ],
+     [
+      2120,
+      177704,
+      -3604
+     ],
+     [
+      2616,
+      177208,
+      -3560
+     ],
+     [
+      3112,
+      176712,
+      -3452
+     ],
+     [
+      3608,
+      176216,
+      -3344
+     ],
+     [
+      4104,
+      175720,
+      -3376
+     ],
+     [
+      4600,
+      175224,
+      -3408
+     ],
+     [
+      5096,
+      175016,
+      -3448
+     ],
+     [
+      5592,
+      174808,
+      -3488
+     ],
+     [
+      6584,
+      174808,
+      -3608
+     ],
+     [
+      7576,
+      174808,
+      -3648
+     ],
+     [
+      8568,
+      174808,
+      -3672
+     ],
+     [
+      9560,
+      174808,
+      -3672
+     ],
+     [
+      10552,
+      174808,
+      -3608
+     ],
+     [
+      11544,
+      174808,
+      -3624
+     ],
+     [
+      12536,
+      174808,
+      -3856
+     ],
+     [
+      13528,
+      174808,
+      -3896
+     ],
+     [
+      14456,
+      175112,
+      -3712
+     ],
+     [
+      14600,
+      175112,
+      -3664
+     ],
+     [
+      15336,
+      175032,
+      -3656
+     ],
+     [
+      15336,
+      175048,
+      -3656
+     ],
+     [
+      15416,
+      175064,
+      -3656
+     ],
+     [
+      15448,
+      175048,
+      -3648
+     ],
+     [
+      15656,
+      174824,
+      -3632
+     ],
+     [
+      15656,
+      174760,
+      -3632
+     ],
+     [
+      15704,
+      174760,
+      -3632
+     ],
+     [
+      15736,
+      174808,
+      -3632
+     ]
+    ],
+    "maxDanger": 29,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 2012,
+      "maxSwim": 2012,
+      "overBreath": false
+     },
+     "danger": 29,
+     "dangerVsLevel": -10,
+     "aggro": []
+    }
+   },
+   "expectedSec": 236,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    12
+   ]
+  },
+  {
+   "i": 16,
+   "key": "c14:hunt",
+   "cond": 14,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20079,
+     "name": "Ant",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 62,
+     "questSpawned": false
+    },
+    {
+     "id": 20080,
+     "name": "Ant Captain",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 60,
+     "questSpawned": false
+    },
+    {
+     "id": 20081,
+     "name": "Ant Overseer",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20082,
+     "name": "Ant Recruit",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20084,
+     "name": "Ant Patrol",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20086,
+     "name": "Ant Guard",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20089,
+     "name": "Noble Ant",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 56,
+     "questSpawned": false
+    },
+    {
+     "id": 20090,
+     "name": "Noble Ant Leader",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20230,
+     "name": "Marsh Stakato Worker",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20232,
+     "name": "Marsh Stakato Soldier",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20233,
+     "name": "Marsh Spider",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20269,
+     "name": "Breka Orc Shaman",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20270,
+     "name": "Breka Orc Overlord",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20551,
+     "name": "Road Scavenger",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20563,
+     "name": "Manashen Gargoyle",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 20577,
+     "name": "Leto Lizardman",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20578,
+     "name": "Leto Lizardman Archer",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20579,
+     "name": "Leto Lizardman Soldier",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20580,
+     "name": "Leto Lizardman Warrior",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20581,
+     "name": "Leto Lizardman Shaman",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20582,
+     "name": "Leto Lizardman Overlord",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3298,
+     "name": "Hunter's 1st Rune",
+     "n": 10,
+     "from": [
+      {
+       "id": 20079,
+       "name": "Ant",
+       "chance": 100
+      },
+      {
+       "id": 20080,
+       "name": "Ant Captain",
+       "chance": 100
+      },
+      {
+       "id": 20081,
+       "name": "Ant Overseer",
+       "chance": 100
+      },
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20089,
+       "name": "Noble Ant",
+       "chance": 100
+      },
+      {
+       "id": 20090,
+       "name": "Noble Ant Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3299,
+     "name": "Hunter's 2nd Rune",
+     "n": 10,
+     "from": [
+      {
+       "id": 20269,
+       "name": "Breka Orc Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20270,
+       "name": "Breka Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3300,
+     "name": "Talisman of Kadesh",
+     "n": 1,
+     "from": [
+      {
+       "id": 27090,
+       "name": "Serpent Demon Kadesh",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3306,
+     "name": "Blood of Lizardman",
+     "n": 140,
+     "from": [
+      {
+       "id": 20577,
+       "name": "Leto Lizardman",
+       "chance": 100
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 100
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20580,
+       "name": "Leto Lizardman Warrior",
+       "chance": 100
+      },
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Ant, Ant Captain, Ant Overseer for Hunter's 1st Rune x10, Hunter's 2nd Rune x10, Talisman of Kadesh x1, Blood of Lizardman x140",
+   "places": [
+    {
+     "mobs": [
+      20079,
+      20080,
+      20081,
+      20082,
+      20084,
+      20086,
+      20089,
+      20090
+     ],
+     "items": [
+      3298
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "antnest-1-left-a",
+      "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+      "at": [
+       -13622,
+       179364,
+       -5389
+      ],
+      "radius": 1130,
+      "levels": [
+       30,
+       35
+      ],
+      "count": 40,
+      "region": "Ant Nest",
+      "atlasKey": "room:antnest-1-left-a",
+      "status": "ok",
+      "sec": 127,
+      "danger": 31,
+      "reachable": true,
+      "score": -177.88333333333333,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-l",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -25328,
+         180192,
+         -5406
+        ],
+        "count": 34,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-r",
+        "name": "Ant Nest: Nest tunnels, straight: Ant Recruit room",
+        "at": [
+         -25107,
+         177468,
+         -5312
+        ],
+        "count": 37,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-q",
+        "name": "Ant Nest: Nest tunnels, straight: Ant Captain room",
+        "at": [
+         -27849,
+         177867,
+         -5242
+        ],
+        "count": 29,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antnest-1-left-a",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 9837,
+      "sec": 127,
+      "via": ".gludio > Gludio -> Ant Cave",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ant Cave",
+        "link": "ant nest",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 27
+       },
+       {
+        "do": "walk",
+        "len": 9837,
+        "how": "dungeon-rooms",
+        "danger": 36
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ant Cave"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -10136,
+        175208,
+        -4176
+       ],
+       [
+        -10152,
+        175064,
+        -4224
+       ],
+       [
+        -10216,
+        174936,
+        -4264
+       ],
+       [
+        -10328,
+        174808,
+        -4312
+       ],
+       [
+        -10936,
+        174328,
+        -4576
+       ],
+       [
+        -11448,
+        174120,
+        -4640
+       ],
+       [
+        -11848,
+        174216,
+        -4792
+       ],
+       [
+        -11896,
+        174216,
+        -4816
+       ],
+       [
+        -12344,
+        174616,
+        -5008
+       ],
+       [
+        -12520,
+        174680,
+        -5112
+       ],
+       [
+        -12680,
+        174808,
+        -5136
+       ],
+       [
+        -13352,
+        175784,
+        -5304
+       ],
+       [
+        -13944,
+        176232,
+        -5288
+       ],
+       [
+        -13992,
+        176344,
+        -5296
+       ],
+       [
+        -13992,
+        176456,
+        -5304
+       ],
+       [
+        -13624,
+        177448,
+        -5304
+       ],
+       [
+        -13208,
+        177944,
+        -5304
+       ],
+       [
+        -13048,
+        178648,
+        -5384
+       ],
+       [
+        -13048,
+        178712,
+        -5384
+       ],
+       [
+        -13080,
+        178856,
+        -5384
+       ],
+       [
+        -13224,
+        179128,
+        -5384
+       ],
+       [
+        -13464,
+        179368,
+        -5384
+       ],
+       [
+        -13624,
+        179368,
+        -5384
+       ]
+      ],
+      "maxDanger": 36,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 36,
+       "dangerVsLevel": -3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20269,
+      20270
+     ],
+     "items": [
+      3299
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "brekas-stronghold-1",
+      "name": "Brekas Stronghold 1: Breka Orc Shaman area (east)",
+      "at": [
+       89032,
+       131912,
+       -3664
+      ],
+      "radius": 2818,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 4,
+      "region": "Brekas Stronghold",
+      "atlasKey": "area:brekas-stronghold-1",
+      "status": "ok",
+      "sec": 188,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -20.866666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-7",
+        "name": "Brekas Stronghold 7: Breka Orc Shaman area (north-east)",
+        "at": [
+         93624,
+         124968,
+         -2448
+        ],
+        "count": 4,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-8",
+        "name": "Brekas Stronghold 8: Breka Orc Overlord area (north-west)",
+        "at": [
+         80952,
+         123912,
+         -2256
+        ],
+        "count": 4,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-12",
+        "name": "Dragon Valley 12: Breka Orc Warrior area (north-west)",
+        "at": [
+         79272,
+         121784,
+         -2256
+        ],
+        "count": 4,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:brekas-stronghold-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".giran",
+      "length": 20166,
+      "sec": 188,
+      "via": ".giran",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Giran",
+        "cmd": ".giran"
+       },
+       {
+        "do": "walk",
+        "len": 15248,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 4918,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Giran"
+      },
+      "simple": true,
+      "pv": [
+       [
+        83551,
+        147945,
+        -3400
+       ],
+       [
+        84616,
+        133240,
+        -3648
+       ],
+       [
+        84632,
+        133208,
+        -3648
+       ],
+       [
+        85496,
+        132344,
+        -3648
+       ],
+       [
+        86280,
+        131960,
+        -3648
+       ],
+       [
+        86520,
+        131832,
+        -3648
+       ],
+       [
+        87192,
+        131864,
+        -3648
+       ],
+       [
+        88184,
+        131848,
+        -3656
+       ],
+       [
+        89032,
+        131912,
+        -3664
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20577,
+      20578,
+      20579,
+      20580,
+      20581,
+      20582
+     ],
+     "items": [
+      3306
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-23",
+      "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)",
+      "at": [
+       96328,
+       77128,
+       -3592
+      ],
+      "radius": 3827,
+      "levels": [
+       36,
+       40
+      ],
+      "count": 20,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "sec": 150,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -117.5,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 12541,
+      "sec": 150,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 11880,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 661,
+        "how": "field-areas",
+        "danger": 84
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        95896,
+        77624,
+        -3552
+       ],
+       [
+        96088,
+        77352,
+        -3568
+       ],
+       [
+        96328,
+        77128,
+        -3592
+       ]
+      ],
+      "maxDanger": 84,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 84,
+       "dangerVsLevel": 45,
+       "aggro": [
+        {
+         "name": "Energy Plant",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Rainbow Frog",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Soldier",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Magician",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Scout",
+         "lv": 82,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Fantasy Mushroom",
+       "lv": 85
+      },
+      {
+       "name": "Rainbow Frog",
+       "lv": 85
+      },
+      {
+       "name": "Energy Plant",
+       "lv": 85
+      },
+      {
+       "name": "Tanta Lizardman Berserker",
+       "lv": 84
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "antnest-1-left-a",
+    "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+    "at": [
+     -13622,
+     179364,
+     -5389
+    ],
+    "radius": 1130,
+    "levels": [
+     30,
+     35
+    ],
+    "count": 40,
+    "region": "Ant Nest",
+    "atlasKey": "room:antnest-1-left-a",
+    "status": "ok",
+    "sec": 127,
+    "danger": 31,
+    "reachable": true,
+    "score": -177.88333333333333,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "antnest-1-straight-l",
+      "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+      "at": [
+       -25328,
+       180192,
+       -5406
+      ],
+      "count": 34,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "antnest-1-straight-r",
+      "name": "Ant Nest: Nest tunnels, straight: Ant Recruit room",
+      "at": [
+       -25107,
+       177468,
+       -5312
+      ],
+      "count": 37,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "antnest-1-straight-q",
+      "name": "Ant Nest: Nest tunnels, straight: Ant Captain room",
+      "at": [
+       -27849,
+       177867,
+       -5242
+      ],
+      "count": 29,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:antnest-1-left-a",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 9837,
+    "sec": 127,
+    "via": ".gludio > Gludio -> Ant Cave",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ant Cave",
+      "link": "ant nest",
+      "price": 2100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 27
+     },
+     {
+      "do": "walk",
+      "len": 9837,
+      "how": "dungeon-rooms",
+      "danger": 36
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ant Cave"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -9959,
+      176184,
+      -4160
+     ],
+     [
+      -9959,
+      176184,
+      -4160
+     ],
+     [
+      -10136,
+      175208,
+      -4176
+     ],
+     [
+      -10152,
+      175064,
+      -4224
+     ],
+     [
+      -10216,
+      174936,
+      -4264
+     ],
+     [
+      -10328,
+      174808,
+      -4312
+     ],
+     [
+      -10936,
+      174328,
+      -4576
+     ],
+     [
+      -11448,
+      174120,
+      -4640
+     ],
+     [
+      -11848,
+      174216,
+      -4792
+     ],
+     [
+      -11896,
+      174216,
+      -4816
+     ],
+     [
+      -12344,
+      174616,
+      -5008
+     ],
+     [
+      -12520,
+      174680,
+      -5112
+     ],
+     [
+      -12680,
+      174808,
+      -5136
+     ],
+     [
+      -13352,
+      175784,
+      -5304
+     ],
+     [
+      -13944,
+      176232,
+      -5288
+     ],
+     [
+      -13992,
+      176344,
+      -5296
+     ],
+     [
+      -13992,
+      176456,
+      -5304
+     ],
+     [
+      -13624,
+      177448,
+      -5304
+     ],
+     [
+      -13208,
+      177944,
+      -5304
+     ],
+     [
+      -13048,
+      178648,
+      -5384
+     ],
+     [
+      -13048,
+      178712,
+      -5384
+     ],
+     [
+      -13080,
+      178856,
+      -5384
+     ],
+     [
+      -13224,
+      179128,
+      -5384
+     ],
+     [
+      -13464,
+      179368,
+      -5384
+     ],
+     [
+      -13624,
+      179368,
+      -5384
+     ]
+    ],
+    "maxDanger": 36,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 36,
+     "dangerVsLevel": -3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 3627,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
     14
    ]
   },
   {
-   "i": 3,
-   "key": "c1:deliver:30626",
-   "cond": 1,
+   "i": 17,
+   "key": "c14:spawn:27090",
+   "cond": 14,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27090,
+     "name": "Serpent Demon Kadesh",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 3298,
+     "name": "Hunter's 1st Rune",
+     "n": 10,
+     "from": [
+      {
+       "id": 20079,
+       "name": "Ant",
+       "chance": 100
+      },
+      {
+       "id": 20080,
+       "name": "Ant Captain",
+       "chance": 100
+      },
+      {
+       "id": 20081,
+       "name": "Ant Overseer",
+       "chance": 100
+      },
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20089,
+       "name": "Noble Ant",
+       "chance": 100
+      },
+      {
+       "id": 20090,
+       "name": "Noble Ant Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3299,
+     "name": "Hunter's 2nd Rune",
+     "n": 10,
+     "from": [
+      {
+       "id": 20269,
+       "name": "Breka Orc Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20270,
+       "name": "Breka Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3300,
+     "name": "Talisman of Kadesh",
+     "n": 1,
+     "from": [
+      {
+       "id": 27090,
+       "name": "Serpent Demon Kadesh",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3306,
+     "name": "Blood of Lizardman",
+     "n": 140,
+     "from": [
+      {
+       "id": 20577,
+       "name": "Leto Lizardman",
+       "chance": 100
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 100
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20580,
+       "name": "Leto Lizardman Warrior",
+       "chance": 100
+      },
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20577,
+     20578,
+     20579,
+     20580,
+     20581,
+     20582
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
+   },
+   "text": "Make Serpent Demon Kadesh appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "plains-of-lizardmen-23",
+    "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)",
+    "at": [
+     96328,
+     77128,
+     -3592
+    ],
+    "radius": 3827,
+    "levels": [
+     36,
+     40
+    ],
+    "count": 20,
+    "region": "Plains of Lizardmen",
+    "atlasKey": "area:plains-of-lizardmen-23",
+    "status": "ok",
+    "sec": 150,
+    "danger": 40,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -117.5,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:plains-of-lizardmen-23",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 12541,
+    "sec": 150,
+    "via": ".oren > Oren -> Plains of Lizardmen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Plains of Lizardmen",
+      "link": "plains of the lizardmen",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11880,
+      "how": "field-areas-gap",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 661,
+      "how": "field-areas",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Plains of Lizardmen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87252,
+      85514,
+      -3056
+     ],
+     [
+      95896,
+      77624,
+      -3552
+     ],
+     [
+      96088,
+      77352,
+      -3568
+     ],
+     [
+      96328,
+      77128,
+      -3592
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 45,
+     "aggro": [
+      {
+       "name": "Energy Plant",
+       "lv": 85,
+       "n": 1
+      },
+      {
+       "name": "Rainbow Frog",
+       "lv": 85,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Soldier",
+       "lv": 84,
+       "n": 2
+      },
+      {
+       "name": "Tanta Lizardman Summoner",
+       "lv": 84,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83,
+       "n": 3
+      },
+      {
+       "name": "Tanta Lizardman Magician",
+       "lv": 83,
+       "n": 3
+      },
+      {
+       "name": "Tanta Lizardman Warrior",
+       "lv": 83,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Scout",
+       "lv": 82,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 450,
+   "conds": [
+    14
+   ]
+  },
+  {
+   "i": 18,
+   "key": "c14:deliver:30626",
+   "cond": 14,
    "kind": "deliver",
    "to": "end",
    "links": [],
@@ -2927,984 +9206,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
     14
-   ]
-  },
-  {
-   "i": 4,
-   "key": "c1:deliver:30717",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 12,
-   "links": [],
-   "npc": {
-    "id": 30717,
-    "name": "Gauen",
-    "title": "Magister",
-    "town": "Oren",
-    "at": [
-     85332,
-     16592,
-     -2285
-    ],
-    "alt": []
-   },
-   "text": "Bring Stakato Chitin, Mithril Clip, Reinforced Bowstring, Manashen's Horn to Gauen",
-   "needs": [
-    {
-     "id": 3303,
-     "name": "Stakato Chitin",
-     "n": 1
-    },
-    {
-     "id": 3302,
-     "name": "Mithril Clip",
-     "n": 1
-    },
-    {
-     "id": 3304,
-     "name": "Reinforced Bowstring",
-     "n": 1
-    },
-    {
-     "id": 3305,
-     "name": "Manashen's Horn",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30717@85332,16592",
-    "status": "ok",
-    "flags": [],
-    "from": ".oren",
-    "length": 408,
-    "sec": 63,
-    "via": ".oren > Oren -> Ivory Tower > enter Verona",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "gk",
-      "from": "Oren",
-      "desc": "Oren -> Ivory Tower",
-      "link": "ivory tower",
-      "price": 3700,
-      "live": true
-     },
-     {
-      "do": "enter",
-      "how": "npc-teleport",
-      "npc": "Verona",
-      "link": "3rd Floor Elven Wizard Guild"
-     },
-     {
-      "do": "walk",
-      "len": 408,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Oren",
-     "desc": "Oren -> Ivory Tower"
-    },
-    "simple": false,
-    "pv": [
-     [
-      85399,
-      16197,
-      -2293
-     ],
-     [
-      85336,
-      16600,
-      -2288
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 88,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    13,
-    14
-   ]
-  },
-  {
-   "i": 5,
-   "key": "c1:deliver:30514",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 8,
-   "links": [],
-   "npc": {
-    "id": 30514,
-    "name": "Vokian",
-    "title": "Prefect",
-    "town": "Giran",
-    "at": [
-     80464,
-     144368,
-     -3533
-    ],
-    "alt": []
-   },
-   "text": "Bring Talisman of Snake to Vokian",
-   "needs": [
-    {
-     "id": 3301,
-     "name": "Talisman of Snake",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30514@80464,144368",
-    "status": "ok",
-    "flags": [],
-    "from": ".giran",
-    "length": 6811,
-    "sec": 77,
-    "via": ".giran",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
-     },
-     {
-      "do": "walk",
-      "len": 6811,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Giran"
-    },
-    "simple": true,
-    "pv": [
-     [
-      83473,
-      148554,
-      -3400
-     ],
-     [
-      83480,
-      148552,
-      -3400
-     ],
-     [
-      83304,
-      148616,
-      -3400
-     ],
-     [
-      83032,
-      148616,
-      -3464
-     ],
-     [
-      82856,
-      148520,
-      -3464
-     ],
-     [
-      82664,
-      148328,
-      -3464
-     ],
-     [
-      82616,
-      148232,
-      -3464
-     ],
-     [
-      82584,
-      148200,
-      -3464
-     ],
-     [
-      82392,
-      148008,
-      -3464
-     ],
-     [
-      82216,
-      147944,
-      -3464
-     ],
-     [
-      81944,
-      147944,
-      -3464
-     ],
-     [
-      81704,
-      147800,
-      -3464
-     ],
-     [
-      81544,
-      147592,
-      -3464
-     ],
-     [
-      81544,
-      147320,
-      -3504
-     ],
-     [
-      81480,
-      147176,
-      -3528
-     ],
-     [
-      81336,
-      147272,
-      -3528
-     ],
-     [
-      81528,
-      147080,
-      -3528
-     ],
-     [
-      81544,
-      146808,
-      -3528
-     ],
-     [
-      81512,
-      146536,
-      -3528
-     ],
-     [
-      81528,
-      146264,
-      -3528
-     ],
-     [
-      81544,
-      145992,
-      -3528
-     ],
-     [
-      81512,
-      145720,
-      -3528
-     ],
-     [
-      81512,
-      145544,
-      -3528
-     ],
-     [
-      81528,
-      145272,
-      -3528
-     ],
-     [
-      81512,
-      145000,
-      -3528
-     ],
-     [
-      81544,
-      144728,
-      -3528
-     ],
-     [
-      81384,
-      144504,
-      -3528
-     ],
-     [
-      81128,
-      144424,
-      -3528
-     ],
-     [
-      80936,
-      144408,
-      -3528
-     ],
-     [
-      80744,
-      144344,
-      -3528
-     ],
-     [
-      80472,
-      144376,
-      -3528
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 102,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14
-   ]
-  },
-  {
-   "i": 6,
-   "key": "c1:deliver:30653",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 3,
-   "links": [
-    "Show him the letter from Hamil"
-   ],
-   "npc": {
-    "id": 30653,
-    "name": "Sir Aron Tanford",
-    "title": "",
-    "town": "Floran",
-    "at": [
-     -6774,
-     202086,
-     -3649
-    ],
-    "alt": []
-   },
-   "text": "Bring Hamil's 1st Letter to Sir Aron Tanford",
-   "needs": [
-    {
-     "id": 3295,
-     "name": "Hamil's 1st Letter",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30653@-6774,202086",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 13112,
-    "sec": 154,
-    "via": ".gludin > Gludin -> Wastelands",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> Wastelands",
-      "link": "wastelands",
-      "price": 3400,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 13112,
-      "how": "geodata",
-      "danger": 25
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> Wastelands"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -16526,
-      208032,
-      -3664
-     ],
-     [
-      -15864,
-      207528,
-      -3664
-     ],
-     [
-      -15656,
-      207528,
-      -3664
-     ],
-     [
-      -15280,
-      207944,
-      -3596
-     ],
-     [
-      -14904,
-      208360,
-      -3528
-     ],
-     [
-      -14872,
-      208392,
-      -3512
-     ],
-     [
-      -14584,
-      208392,
-      -3352
-     ],
-     [
-      -14088,
-      207896,
-      -3204
-     ],
-     [
-      -13592,
-      207400,
-      -3056
-     ],
-     [
-      -13096,
-      206904,
-      -3072
-     ],
-     [
-      -12600,
-      206408,
-      -3088
-     ],
-     [
-      -12104,
-      205920,
-      -3136
-     ],
-     [
-      -11608,
-      205432,
-      -3184
-     ],
-     [
-      -11112,
-      204936,
-      -3268
-     ],
-     [
-      -10616,
-      204440,
-      -3352
-     ],
-     [
-      -10120,
-      203944,
-      -3408
-     ],
-     [
-      -9624,
-      203448,
-      -3464
-     ],
-     [
-      -8920,
-      202808,
-      -3464
-     ],
-     [
-      -8904,
-      202824,
-      -3464
-     ],
-     [
-      -8856,
-      202824,
-      -3432
-     ],
-     [
-      -8856,
-      202808,
-      -3432
-     ],
-     [
-      -8824,
-      202792,
-      -3408
-     ],
-     [
-      -8680,
-      202600,
-      -3416
-     ],
-     [
-      -8680,
-      202552,
-      -3408
-     ],
-     [
-      -8072,
-      202088,
-      -3456
-     ],
-     [
-      -7160,
-      202328,
-      -3608
-     ],
-     [
-      -7112,
-      202376,
-      -3608
-     ],
-     [
-      -7064,
-      202376,
-      -3608
-     ],
-     [
-      -7064,
-      202312,
-      -3624
-     ],
-     [
-      -6776,
-      202088,
-      -3648
-     ]
-    ],
-    "maxDanger": 25,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 25,
-     "dangerVsLevel": -14,
-     "aggro": []
-    }
-   },
-   "expectedSec": 179,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14
-   ]
-  },
-  {
-   "i": 7,
-   "key": "c8:deliver:30514",
-   "cond": 8,
-   "kind": "deliver",
-   "to": 6,
-   "links": [
-    "Explain the situation"
-   ],
-   "npc": {
-    "id": 30514,
-    "name": "Vokian",
-    "title": "Prefect",
-    "town": "Giran",
-    "at": [
-     80464,
-     144368,
-     -3533
-    ],
-    "alt": []
-   },
-   "text": "Bring Hamil's 2nd Letter to Vokian",
-   "needs": [
-    {
-     "id": 3296,
-     "name": "Hamil's 2nd Letter",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30514@80464,144368",
-    "status": "ok",
-    "flags": [],
-    "from": ".giran",
-    "length": 6811,
-    "sec": 77,
-    "via": ".giran",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
-     },
-     {
-      "do": "walk",
-      "len": 6811,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Giran"
-    },
-    "simple": true,
-    "pv": [
-     [
-      83473,
-      148554,
-      -3400
-     ],
-     [
-      83480,
-      148552,
-      -3400
-     ],
-     [
-      83304,
-      148616,
-      -3400
-     ],
-     [
-      83032,
-      148616,
-      -3464
-     ],
-     [
-      82856,
-      148520,
-      -3464
-     ],
-     [
-      82664,
-      148328,
-      -3464
-     ],
-     [
-      82616,
-      148232,
-      -3464
-     ],
-     [
-      82584,
-      148200,
-      -3464
-     ],
-     [
-      82392,
-      148008,
-      -3464
-     ],
-     [
-      82216,
-      147944,
-      -3464
-     ],
-     [
-      81944,
-      147944,
-      -3464
-     ],
-     [
-      81704,
-      147800,
-      -3464
-     ],
-     [
-      81544,
-      147592,
-      -3464
-     ],
-     [
-      81544,
-      147320,
-      -3504
-     ],
-     [
-      81480,
-      147176,
-      -3528
-     ],
-     [
-      81336,
-      147272,
-      -3528
-     ],
-     [
-      81528,
-      147080,
-      -3528
-     ],
-     [
-      81544,
-      146808,
-      -3528
-     ],
-     [
-      81512,
-      146536,
-      -3528
-     ],
-     [
-      81528,
-      146264,
-      -3528
-     ],
-     [
-      81544,
-      145992,
-      -3528
-     ],
-     [
-      81512,
-      145720,
-      -3528
-     ],
-     [
-      81512,
-      145544,
-      -3528
-     ],
-     [
-      81528,
-      145272,
-      -3528
-     ],
-     [
-      81512,
-      145000,
-      -3528
-     ],
-     [
-      81544,
-      144728,
-      -3528
-     ],
-     [
-      81384,
-      144504,
-      -3528
-     ],
-     [
-      81128,
-      144424,
-      -3528
-     ],
-     [
-      80936,
-      144408,
-      -3528
-     ],
-     [
-      80744,
-      144344,
-      -3528
-     ],
-     [
-      80472,
-      144376,
-      -3528
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 102,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    8
-   ]
-  },
-  {
-   "i": 8,
-   "key": "c12:deliver:30717",
-   "cond": 12,
-   "kind": "deliver",
-   "to": 10,
-   "links": [],
-   "npc": {
-    "id": 30717,
-    "name": "Gauen",
-    "title": "Magister",
-    "town": "Oren",
-    "at": [
-     85332,
-     16592,
-     -2285
-    ],
-    "alt": []
-   },
-   "text": "Bring Hamil's 3rd Letter to Gauen",
-   "needs": [
-    {
-     "id": 3297,
-     "name": "Hamil's 3rd Letter",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30717@85332,16592",
-    "status": "ok",
-    "flags": [],
-    "from": ".oren",
-    "length": 408,
-    "sec": 63,
-    "via": ".oren > Oren -> Ivory Tower > enter Verona",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "gk",
-      "from": "Oren",
-      "desc": "Oren -> Ivory Tower",
-      "link": "ivory tower",
-      "price": 3700,
-      "live": true
-     },
-     {
-      "do": "enter",
-      "how": "npc-teleport",
-      "npc": "Verona",
-      "link": "3rd Floor Elven Wizard Guild"
-     },
-     {
-      "do": "walk",
-      "len": 408,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Oren",
-     "desc": "Oren -> Ivory Tower"
-    },
-    "simple": false,
-    "pv": [
-     [
-      85399,
-      16197,
-      -2293
-     ],
-     [
-      85336,
-      16600,
-      -2288
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 88,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    12
    ]
   }
  ],

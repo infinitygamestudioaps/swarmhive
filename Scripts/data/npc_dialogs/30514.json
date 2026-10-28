@@ -1,0 +1,449 @@
+{
+ "npcId": 30514,
+ "name": "Vokian",
+ "title": "Prefect",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.988Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30514.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "220": {
+   "name": "Testimony Of Glory",
+   "listText": [
+    "[Testimony of Glory]",
+    "[Testimony of Glory (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00220_TestimonyOfGlory/30514-03.htm",
+     "when": "state CREATED; level >= 37; player.getRace() == Race.ORC; player.isInCategory(CategoryType.ORC_2ND_GROUP)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30514-01a.html",
+     "when": "state CREATED; level >= 37; player.getRace() == Race.ORC; !((player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.ORC_2ND_GROUP))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30514-02.html",
+     "when": "state CREATED; NOT level >= 37; player.getRace() == Race.ORC; !((player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.ORC_2ND_GROUP))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30514-01.html",
+     "when": "state CREATED; !player.getRace() == Race.ORC",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30514-08.html",
+     "when": "state STARTED; has items 3204; item 3205 >= 10; item 3206 >= 10; item 3207 >= 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30514-06.html",
+     "when": "state STARTED; has items 3204; !((getQuestItemsCount(player, MANASHEN_SHARD) >= 10) && (getQuestItemsCount(player, TYRANT_TALON) >= 10) && (getQuestIte",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30514-09.html",
+     "when": "state STARTED; has items 3208,3209; lacks items 3204",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30514-10.html",
+     "when": "state STARTED; has items 3208,3220; lacks items 3204,3208,3209",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "224": {
+   "name": "Test Of Sagittarius",
+   "listText": [
+    "[Test of Sagittarius]",
+    "[Test of Sagittarius (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00224_TestOfSagittarius/30514-01.html",
+     "when": "state STARTED; memo 5; has items 3296",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00224_TestOfSagittarius/30514-03.html",
+     "when": "state STARTED; memo 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00224_TestOfSagittarius/30514-04.html",
+     "when": "state STARTED; memo 7; has items 3301",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00224_TestOfSagittarius/30514-05.html",
+     "when": "state STARTED; memo 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30514.htm": {
+   "file": "trainer/30514.htm",
+   "quest": null,
+   "text": "Prefect Vokiyan: Welcome. I teach Orc Fighters, Raiders and Monks. Why have you come to see me?",
+   "header": "Prefect Vokiyan",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30514-noteach.htm": {
+   "file": "trainer/30514-noteach.htm",
+   "quest": null,
+   "text": "Prefect Vokian: You, fool! The great power of the ORcs is invincible! Don't you know that your race is lacking in all things, and will never be able to grasp the arts of the ORcs, no matter how hard you may train!",
+   "header": "Prefect Vokian",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30514-03.htm": {
+   "file": "Q00220_TestimonyOfGlory/30514-03.htm",
+   "quest": 220,
+   "text": "Prefect Vokian: Have you heard? All of the Orc seers agree that an eternal winter is approaching! It won't be long... We Orcs must prepare for dark days; days of chaos and destruction, dreadful days of endless war and disaster! People like you are indolent and weak. We are stronger than anyone else…",
+   "header": "Prefect Vokian",
+   "when": [
+    "state CREATED; level >= 37; player.getRace() == Race.ORC; player.isInCategory(CategoryType.ORC_2ND_GROUP)"
+   ],
+   "links": [
+    {
+     "text": "\"I shall participate in the reconstruction of the kingdom!\"",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30514-04.htm",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30514-04.htm",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30514-04.htm"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30514-01a.html": {
+   "file": "Q00220_TestimonyOfGlory/30514-01a.html",
+   "quest": 220,
+   "text": "Prefect Vokian: Have you heard? All of the Orc seers agree that an eternal winter is approaching! It won't be long... We Orcs must prepare for dark days; days of chaos and destruction, dreadful days of endless war and disaster! You must prepare yourself as well! First you must complete an occupatio…",
+   "header": "Prefect Vokian",
+   "when": [
+    "state CREATED; level >= 37; player.getRace() == Race.ORC; !((player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.ORC_2ND_GROUP))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30514-02.html": {
+   "file": "Q00220_TestimonyOfGlory/30514-02.html",
+   "quest": 220,
+   "text": "Prefect Vokian: Have you heard? All of the Orc seers agree that an eternal winter is approaching! It won't be long... We Orcs must prepare for dark days; days of chaos and destruction, dreadful days of endless war and disaster! You must prepare yourself as well! This is the only was we can defeat t…",
+   "header": "Prefect Vokian",
+   "when": [
+    "state CREATED; NOT level >= 37; player.getRace() == Race.ORC; !((player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.ORC_2ND_GROUP))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30514-01.html": {
+   "file": "Q00220_TestimonyOfGlory/30514-01.html",
+   "quest": 220,
+   "text": "Prefect Vokian: Have you heard? All of the Orc seers agree that an eternal winter is approaching! It won't be long... We Orcs must prepare for dark days; days of chaos and destruction, dreadful days of endless war and disaster! People like you are indolent and weak. We are stronger than anyone else…",
+   "header": "Prefect Vokian",
+   "when": [
+    "state CREATED; !player.getRace() == Race.ORC"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30514-08.html": {
+   "file": "Q00220_TestimonyOfGlory/30514-08.html",
+   "quest": 220,
+   "text": "Prefect Vokian: The stone shards of Manasen, the claws of the Tylant, and the teeth of the basilisk! Good job! You have fulfilled the mission! As a token of my appreciation please take this Necklace of Authority . Now go forth and do the work of the Lord Kakai! You must hurry and meet Chianta, the …",
+   "header": "Prefect Vokian",
+   "when": [
+    "state STARTED; has items 3204; item 3205 >= 10; item 3206 >= 10; item 3207 >= 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30514-06.html": {
+   "file": "Q00220_TestimonyOfGlory/30514-06.html",
+   "quest": 220,
+   "text": "Prefect Vokian: You must kill the monsters and bring back the proof! You must prove your strength and tenacity!",
+   "header": "Prefect Vokian",
+   "when": [
+    "state STARTED; has items 3204; !((getQuestItemsCount(player, MANASHEN_SHARD) >= 10) && (getQuestItemsCount(player, TYRANT_TALON) >= 10) && (getQuestIte"
+   ],
+   "links": [
+    {
+     "text": "Ask about the monsters.",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30514-07.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30514-07.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30514-07.html"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30514-09.html": {
+   "file": "Q00220_TestimonyOfGlory/30514-09.html",
+   "quest": 220,
+   "text": "Prefect Vokian: The Necklace of Authority officially acknowledges you as an agent of the Monarch! From this time forward you must do everything you can to quell the dissent in the kingdom of Orcs. You must force the apostate Orc tribes to rejoin their brothers in service to the Lord of Flame! Now, …",
+   "header": "Prefect Vokian",
+   "when": [
+    "state STARTED; has items 3208,3209; lacks items 3204"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30514-10.html": {
+   "file": "Q00220_TestimonyOfGlory/30514-10.html",
+   "quest": 220,
+   "text": "Prefect Vokian: You will restore the glory of the unified Kingdom of Orcs!",
+   "header": "Prefect Vokian",
+   "when": [
+    "state STARTED; has items 3208,3220; lacks items 3204,3208,3209"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00224_TestOfSagittarius/30514-01.html": {
+   "file": "Q00224_TestOfSagittarius/30514-01.html",
+   "quest": 224,
+   "text": "Prefect Vokian: So, you work for Hamil! He saved my life in a battle with the medusas... I can't deny him anything... Recently someone who called himself Hunter Brankel came to me and asked for help. He knew quite a bit about the Breka Orcs... When he left he set off for the campsite of the Breka t…",
+   "header": "Prefect Vokian",
+   "when": [
+    "state STARTED; memo 5; has items 3296"
+   ],
+   "links": [
+    {
+     "text": "Explain the situation",
+     "bypass": "Quest Q00224_TestOfSagittarius 30514-02.html",
+     "kind": "quest-event",
+     "script": "Q00224_TestOfSagittarius",
+     "event": "30514-02.html",
+     "quest": 224,
+     "to": "Q00224_TestOfSagittarius/30514-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00224_TestOfSagittarius/30514-03.html": {
+   "file": "Q00224_TestOfSagittarius/30514-03.html",
+   "quest": 224,
+   "text": "Prefect Vokian: Mercy is a luxury that filthy betrayers can ill afford! The Chiefs and Magisters of Breka Orcs are the ringleaders of the corruption! You should be able to extract some information from them! If you should find a snake-shaped amulet please bring it to me!",
+   "header": "Prefect Vokian",
+   "when": [
+    "state STARTED; memo 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00224_TestOfSagittarius/30514-04.html": {
+   "file": "Q00224_TestOfSagittarius/30514-04.html",
+   "quest": 224,
+   "text": "Prefect Vokian: This amulet will summon the spirits of the totem! Could those filthy Breka Orcs be trying to revive their long-dead totem spirit? Those foolish pigs have been deceived by the heathens into believing that hatching the devil serpent will restore the spirit of their totem! I know that …",
+   "header": "Prefect Vokian",
+   "when": [
+    "state STARTED; memo 7; has items 3301"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00224_TestOfSagittarius/30514-05.html": {
+   "file": "Q00224_TestOfSagittarius/30514-05.html",
+   "quest": 224,
+   "text": "Prefect Vokian: Please tell Hamil that I wish to see him again on the battlefield. I cannot repay my debt to him this way.",
+   "header": "Prefect Vokian",
+   "when": [
+    "state STARTED; memo 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30514-04.htm": {
+   "file": "Q00220_TestimonyOfGlory/30514-04.htm",
+   "quest": 220,
+   "text": "Prefect Vokian: To rebuild the kingdom of Orcs we must first crush the dissent within the kingdom! We must make the renegade Orcs return to the kingdom . Hundreds of years ago these apostates denied the Lord of Flame's authority and abandoned the kingdom. If you will lead the force to subjugate the…",
+   "header": "Prefect Vokian",
+   "links": [
+    {
+     "text": "\"I am ready!\"",
+     "bypass": "Quest Q00220_TestimonyOfGlory ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "ACCEPT",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30514-05a.htm",
+     "toAll": [
+      "Q00220_TestimonyOfGlory/30514-05a.htm",
+      "Q00220_TestimonyOfGlory/30514-05.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30514-05.htm": {
+   "file": "Q00220_TestimonyOfGlory/30514-05.htm",
+   "quest": 220,
+   "text": "Prefect Vokian: Excellent! Now listen carefully to what I must ask of you... First you must find and kill the 'flying stone statue', known as Manasen . He lurks near the Ivory Tower of Oren. Break him into pieces and bring 10 shards of his body back to me as proof! Next, in the Wastelands of Gludio…",
+   "header": "Prefect Vokian",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30514-05a.htm": {
+   "file": "Q00220_TestimonyOfGlory/30514-05a.htm",
+   "quest": 220,
+   "text": "Prefect Vokian: Very well! Then I, Prefect Vokian, will give you an order! Defeat these evil creatures and return with proof of your deed. There is Manashen , described as \"a stone statue that crosses the sky\" near the Ivory Tower of Oren. Smash that thing to pieces and bring back 10 shards. There …",
+   "header": "Prefect Vokian",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30514-07.html": {
+   "file": "Q00220_TestimonyOfGlory/30514-07.html",
+   "quest": 220,
+   "text": "Prefect Vokian: Did you forget your mission already? I truly dislike repeating myself so pay attention... First you must find and kill the 'flying stone statue', known as Manasen . He lurks near the Ivory Tower of Oren. Break him into pieces and bring 10 shards of his body back to me as proof! Next…",
+   "header": "Prefect Vokian",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00224_TestOfSagittarius/30514-02.html": {
+   "file": "Q00224_TestOfSagittarius/30514-02.html",
+   "quest": 224,
+   "text": "Prefect Vokian: Breka Orcs! Those filthy betrayers degrade the dignity of Orcs! They should all be sent to hell painfully! You say that the Breka tribe has been given the serpent's egg from the devil's nest? Yes, that stands to reason as their totem was a coiled serpent... Seer Manakia tells me tha…",
+   "header": "Prefect Vokian",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Glory]",
+     "bypass": "npc_%objectId%_Quest Q00220_TestimonyOfGlory",
+     "kind": "quest",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30514-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Testimony of Glory (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00220_TestimonyOfGlory",
+     "kind": "quest",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30514-08.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of Sagittarius (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00224_TestOfSagittarius",
+     "kind": "quest",
+     "quest": 224,
+     "to": "Q00224_TestOfSagittarius/30514-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

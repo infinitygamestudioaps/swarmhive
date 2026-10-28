@@ -1,0 +1,501 @@
+{
+ "npcId": 31454,
+ "name": "Ghost of Wigoth",
+ "title": "",
+ "type": "L2SepulcherNpc",
+ "generated": "2026-10-27T18:18:03.205Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "SepulcherNpc/31454.htm",
+   "when": "",
+   "src": "html/SepulcherNpc"
+  }
+ ],
+ "quests": {
+  "620": {
+   "name": "Four Goblets",
+   "listText": [
+    "[Four Goblets]",
+    "[Four Goblets (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00620_FourGoblets/31454-01.html",
+     "when": "state STARTED; has items 7256,7257,7258,7259; lacks items 7255; memoStateEx == 2; (brokenRelicPartCount < 1000)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31454-03.html",
+     "when": "state STARTED; has items 7256,7257,7258,7259; lacks items 7255; memoStateEx == 2; NOT (brokenRelicPartCount < 1000)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31454-06.html",
+     "when": "state STARTED; has items 7256,7257,7258,7259,7255; memoStateEx == 2; (brokenRelicPartCount < 1000)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31454-10.html",
+     "when": "state STARTED; has items 7256,7257,7258,7259,7255; memoStateEx == 2; NOT (brokenRelicPartCount < 1000)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31454-11.html",
+     "when": "state STARTED; lacks items 7256,7257,7258,7259,7255; memoStateEx == 2; (brokenRelicPartCount < 1000)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31454-12.html",
+     "when": "state STARTED; lacks items 7256,7257,7258,7259,7255; memoStateEx == 2; NOT (brokenRelicPartCount < 1000)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31454-13.html",
+     "when": "state STARTED; has items 7255; lacks items 7256,7257,7258,7259; memoStateEx == 2; (brokenRelicPartCount < 1000)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31454-14.html",
+     "when": "state STARTED; has items 7255; lacks items 7256,7257,7258,7259; memoStateEx == 2; NOT (brokenRelicPartCount < 1000)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31454-15.html",
+     "when": "state STARTED; lacks items 7255; !memoStateEx == 2; memoStateEx == 3; (brokenRelicPartCount < 1000)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31454-12.html",
+     "when": "state STARTED; lacks items 7255; !memoStateEx == 2; memoStateEx == 3; NOT (brokenRelicPartCount < 1000)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31454-13.html",
+     "when": "state STARTED; has items 7255; !memoStateEx == 2; memoStateEx == 3; (brokenRelicPartCount < 1000)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31454-14.html",
+     "when": "state STARTED; has items 7255; !memoStateEx == 2; memoStateEx == 3; NOT (brokenRelicPartCount < 1000)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "SepulcherNpc/31454.htm": {
+   "file": "SepulcherNpc/31454.htm",
+   "quest": null,
+   "text": "Ghost of Wigoth: Phew! You escaped safely!",
+   "header": "Ghost of Wigoth",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31454-01.html": {
+   "file": "Q00620_FourGoblets/31454-01.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: You have gathered all 4 cups. Take them to the Nameless Soul at the Four Sepulchers. Should I send you to the entrance? Before you go... Are you by any chance collecting Elmoreden relic fragments ? Bring me 1000 fragments, and I will exchange them for an S-Grade Weapon Recipe. At m…",
+   "header": "Ghost of Wigoth",
+   "when": [
+    "state STARTED; has items 7256,7257,7258,7259; lacks items 7255; memoStateEx == 2; (brokenRelicPartCount < 1000)"
+   ],
+   "links": [
+    {
+     "text": "Ask him to send you to the entrance.",
+     "bypass": "Quest Q00620_FourGoblets 31454-02.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31454-02.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-02.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31454-03.html": {
+   "file": "Q00620_FourGoblets/31454-03.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: Take the four goblets you gathered to the Nameless Spirit in the Four Sepulchers later. Are you still gathering relics of the Elmoreden Empire ? If you bring me 1000 relics, I'll trade them for an S-Grade Weapon Recipe . Call it nostalgia.",
+   "header": "Ghost of Wigoth",
+   "when": [
+    "state STARTED; has items 7256,7257,7258,7259; lacks items 7255; memoStateEx == 2; NOT (brokenRelicPartCount < 1000)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll trade the relics for the recipe.\"",
+     "bypass": "Quest Q00620_FourGoblets 31454-04.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31454-04.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-04.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31454-06.html": {
+   "file": "Q00620_FourGoblets/31454-06.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: Take the four goblets you gathered to the Nameless Spirit in the Four Sepulchers later. If you like, I can open the Sealed Boxes for you. Are you still gathering relics of the Elmoreden Empire ? If you bring me 1000 relics, I'll trade them for an S-Grade Weapon Recipe . Call it nos…",
+   "header": "Ghost of Wigoth",
+   "when": [
+    "state STARTED; has items 7256,7257,7258,7259,7255; memoStateEx == 2; (brokenRelicPartCount < 1000)"
+   ],
+   "links": [
+    {
+     "text": "\"Please open the boxes.\"",
+     "bypass": "Quest Q00620_FourGoblets 31454-07.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31454-07.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-07.html",
+     "toAll": [
+      "Q00620_FourGoblets/31454-07.html",
+      "Q00620_FourGoblets/31454-08.html",
+      "Q00620_FourGoblets/31454-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31454-10.html": {
+   "file": "Q00620_FourGoblets/31454-10.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: Take the four goblets you gathered to the Nameless Spirit in the Four Sepulchers later. If you like, I can open the Sealed Boxes for you. Are you still gathering relics of the Elmoreden Empire ? If you bring me 1000 relics, I'll trade them for an S-Grade Weapon Recipe . Call it nos…",
+   "header": "Ghost of Wigoth",
+   "when": [
+    "state STARTED; has items 7256,7257,7258,7259,7255; memoStateEx == 2; NOT (brokenRelicPartCount < 1000)"
+   ],
+   "links": [
+    {
+     "text": "\"Please open the boxes.\"",
+     "bypass": "Quest Q00620_FourGoblets 31454-07.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31454-07.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-07.html",
+     "toAll": [
+      "Q00620_FourGoblets/31454-07.html",
+      "Q00620_FourGoblets/31454-08.html",
+      "Q00620_FourGoblets/31454-09.html"
+     ]
+    },
+    {
+     "text": "\"I'll trade the relics for the recipe.\"",
+     "bypass": "Quest Q00620_FourGoblets 31454-04.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31454-04.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-04.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31454-11.html": {
+   "file": "Q00620_FourGoblets/31454-11.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: Well done. Should I send you to the entrance now? Before you go... Are you by any chance collecting Elmoreden relic fragments ? Bring me 1000 fragments, and I will exchange them for an S-Grade Weapon Recipe. At my age, nostalgia for the old days is all I have left...",
+   "header": "Ghost of Wigoth",
+   "when": [
+    "state STARTED; lacks items 7256,7257,7258,7259,7255; memoStateEx == 2; (brokenRelicPartCount < 1000)"
+   ],
+   "links": [
+    {
+     "text": "Ask him to send you to the entrance.",
+     "bypass": "Quest Q00620_FourGoblets 31454-02.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31454-02.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-02.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31454-12.html": {
+   "file": "Q00620_FourGoblets/31454-12.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: Are you still gathering relics of the Elmoreden Empire ? If you bring me 1000 relics, I'll trade them for an S-Grade Weapon Recipe . Call it nostalgia.",
+   "header": "Ghost of Wigoth",
+   "when": [
+    "state STARTED; lacks items 7256,7257,7258,7259,7255; memoStateEx == 2; NOT (brokenRelicPartCount < 1000)",
+    "state STARTED; lacks items 7255; !memoStateEx == 2; memoStateEx == 3; NOT (brokenRelicPartCount < 1000)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll trade the relics for the recipe.\"",
+     "bypass": "Quest Q00620_FourGoblets 31454-04.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31454-04.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-04.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31454-13.html": {
+   "file": "Q00620_FourGoblets/31454-13.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: If you like, I can open the Sealed Boxes for you. Are you still gathering relics of the Elmoreden Empire ? If you bring me 1000 relics, I'll trade them for an S-Grade Weapon Recipe . Call it nostalgia.",
+   "header": "Ghost of Wigoth",
+   "when": [
+    "state STARTED; has items 7255; lacks items 7256,7257,7258,7259; memoStateEx == 2; (brokenRelicPartCount < 1000)",
+    "state STARTED; has items 7255; !memoStateEx == 2; memoStateEx == 3; (brokenRelicPartCount < 1000)"
+   ],
+   "links": [
+    {
+     "text": "\"Please open the boxes.\"",
+     "bypass": "Quest Q00620_FourGoblets 31454-07.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31454-07.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-07.html",
+     "toAll": [
+      "Q00620_FourGoblets/31454-07.html",
+      "Q00620_FourGoblets/31454-08.html",
+      "Q00620_FourGoblets/31454-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31454-14.html": {
+   "file": "Q00620_FourGoblets/31454-14.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: If you like, I can open the Sealed Boxes for you. Are you still gathering relics of the Elmoreden Empire ? If you bring me 1000 relics, I'll trade them for an S-Grade Weapon Recipe . Call it nostalgia.",
+   "header": "Ghost of Wigoth",
+   "when": [
+    "state STARTED; has items 7255; lacks items 7256,7257,7258,7259; memoStateEx == 2; NOT (brokenRelicPartCount < 1000)",
+    "state STARTED; has items 7255; !memoStateEx == 2; memoStateEx == 3; NOT (brokenRelicPartCount < 1000)"
+   ],
+   "links": [
+    {
+     "text": "\"Please open the boxes.\"",
+     "bypass": "Quest Q00620_FourGoblets 31454-07.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31454-07.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-07.html",
+     "toAll": [
+      "Q00620_FourGoblets/31454-07.html",
+      "Q00620_FourGoblets/31454-08.html",
+      "Q00620_FourGoblets/31454-09.html"
+     ]
+    },
+    {
+     "text": "\"I'll trade the relics for the recipe.\"",
+     "bypass": "Quest Q00620_FourGoblets 31454-04.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31454-04.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-04.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31454-15.html": {
+   "file": "Q00620_FourGoblets/31454-15.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: Should I send you to the entrance now? Before you go... Are you by any chance collecting Elmoreden relic fragments ? Bring me 1000 fragments, and I will exchange them for an S-Grade Weapon Recipe. At my age, nostalgia for the old days is all I have left...",
+   "header": "Ghost of Wigoth",
+   "when": [
+    "state STARTED; lacks items 7255; !memoStateEx == 2; memoStateEx == 3; (brokenRelicPartCount < 1000)"
+   ],
+   "links": [
+    {
+     "text": "Ask him to send you to the entrance.",
+     "bypass": "Quest Q00620_FourGoblets 31454-02.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31454-02.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-02.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31454-02.html": {
+   "file": "Q00620_FourGoblets/31454-02.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: Afterwards, the Ghost of the Elmoreden Chamberlain will help you. Farewell!",
+   "header": "Ghost of Wigoth",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00620_FourGoblets/31454-04.html": {
+   "file": "Q00620_FourGoblets/31454-04.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: Which recipe do you want in exchange?",
+   "header": "Ghost of Wigoth",
+   "links": [
+    {
+     "text": "Recipe: Forgotten Blade (60%)",
+     "bypass": "Quest Q00620_FourGoblets 6881",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "6881",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-05.html"
+    },
+    {
+     "text": "Recipe: Basalt Battlehammer (60%)",
+     "bypass": "Quest Q00620_FourGoblets 6883",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "6883",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-05.html"
+    },
+    {
+     "text": "Recipe: Imperial Staff (60%)",
+     "bypass": "Quest Q00620_FourGoblets 6885",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "6885",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-05.html"
+    },
+    {
+     "text": "Recipe: Angel Slayer (60%)",
+     "bypass": "Quest Q00620_FourGoblets 6887",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "6887",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-05.html"
+    },
+    {
+     "text": "Recipe: Draconic Bow (60%)",
+     "bypass": "Quest Q00620_FourGoblets 7580",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "7580",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-05.html"
+    },
+    {
+     "text": "Recipe: Dragon Hunter Axe (60%)",
+     "bypass": "Quest Q00620_FourGoblets 6891",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "6891",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-05.html"
+    },
+    {
+     "text": "Recipe: Saint Spear (60%)",
+     "bypass": "Quest Q00620_FourGoblets 6893",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "6893",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-05.html"
+    },
+    {
+     "text": "Recipe: Demon Splinter (60%)",
+     "bypass": "Quest Q00620_FourGoblets 6895",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "6895",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-05.html"
+    },
+    {
+     "text": "Recipe: Heaven's Divider (60%)",
+     "bypass": "Quest Q00620_FourGoblets 6897",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "6897",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-05.html"
+    },
+    {
+     "text": "Recipe: Arcana Mace (60%)",
+     "bypass": "Quest Q00620_FourGoblets 6899",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "6899",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-05.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31454-05.html": {
+   "file": "Q00620_FourGoblets/31454-05.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: Gather more and I'll trade you again.",
+   "header": "Ghost of Wigoth",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00620_FourGoblets/31454-07.html": {
+   "file": "Q00620_FourGoblets/31454-07.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: Look what's in the box!",
+   "header": "Ghost of Wigoth",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00620_FourGoblets/31454-08.html": {
+   "file": "Q00620_FourGoblets/31454-08.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: The box is empty!",
+   "header": "Ghost of Wigoth",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00620_FourGoblets/31454-09.html": {
+   "file": "Q00620_FourGoblets/31454-09.html",
+   "quest": 620,
+   "text": "Ghost of Wigoth: The box is broken!",
+   "header": "Ghost of Wigoth",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Four Goblets (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00620_FourGoblets",
+     "kind": "quest",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31454-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

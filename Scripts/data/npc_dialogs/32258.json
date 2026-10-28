@@ -1,0 +1,362 @@
+{
+ "npcId": 32258,
+ "name": "Menacing Machine",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.365Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32258.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "179": {
+   "name": "Into The Large Cavern",
+   "listText": [
+    "[Into the Large Cavern]",
+    "[Into the Large Cavern (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00179_IntoTheLargeCavern/32258-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "182": {
+   "name": "New Recruits",
+   "listText": [
+    "[New Recruits]",
+    "[New Recruits (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00182_NewRecruits/32258-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32258.htm": {
+   "file": "default/32258.htm",
+   "quest": null,
+   "text": "???: There appears to be an enormous mechanical device.",
+   "header": "???",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32258-01.html": {
+   "file": "Q00179_IntoTheLargeCavern/32258-01.html",
+   "quest": 179,
+   "text": "???: You arrive in the last room of the grand cave. You see what appears to be enormous machinery here. But where is N? Could it be...in the machinery?",
+   "header": "???",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"Excuse me...N, are you here?\"",
+     "bypass": "Quest Q00179_IntoTheLargeCavern 32258-02.html",
+     "kind": "quest-event",
+     "script": "Q00179_IntoTheLargeCavern",
+     "event": "32258-02.html",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32258-02.html"
+    }
+   ]
+  },
+  "Q00182_NewRecruits/32258-01.html": {
+   "file": "Q00182_NewRecruits/32258-01.html",
+   "quest": 182,
+   "text": "???: You arrive in the last room of the big cave. You don't see anything except something that looks like an enormous piece of machinery. Could it be N?",
+   "header": "???",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "\"By any chance...are you N?\"",
+     "bypass": "Quest Q00182_NewRecruits 32258-02.html",
+     "kind": "quest-event",
+     "script": "Q00182_NewRecruits",
+     "event": "32258-02.html",
+     "quest": 182,
+     "to": "Q00182_NewRecruits/32258-02.html"
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32258-02.html": {
+   "file": "Q00179_IntoTheLargeCavern/32258-02.html",
+   "quest": 179,
+   "text": "???: Ah, you have really come to see me... It must not have been easy for you to find me. Yes, I am N. But the time for aliases has passed; there is no need for you to call me N. I am Nornil.",
+   "header": "???",
+   "links": [
+    {
+     "text": "\"Nornil? Mother Nornil? The one in our myths?\"",
+     "bypass": "Quest Q00179_IntoTheLargeCavern 32258-03.html",
+     "kind": "quest-event",
+     "script": "Q00179_IntoTheLargeCavern",
+     "event": "32258-03.html",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32258-03.html"
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32258-03.html": {
+   "file": "Q00179_IntoTheLargeCavern/32258-03.html",
+   "quest": 179,
+   "text": "Mother Nornil: Yes, the very one... This is my true form. Surprised? The founders of the Kamael created me and then fashioned a cloak of myth and legend around me. Perhaps I can help you understand. Listen to why I called you here..",
+   "header": "Mother Nornil",
+   "links": [
+    {
+     "text": "Listen.",
+     "bypass": "Quest Q00179_IntoTheLargeCavern 32258-04.html",
+     "kind": "quest-event",
+     "script": "Q00179_IntoTheLargeCavern",
+     "event": "32258-04.html",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32258-04.html"
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32258-04.html": {
+   "file": "Q00179_IntoTheLargeCavern/32258-04.html",
+   "quest": 179,
+   "text": "Mother Nornil: This Isle of Souls was sealed long ago to keep it hidden and protected. But if the Kamael were to truly grow strong as a race, they must be prepared for the day when the seal was released and all the dangers of the world lay before them. So an external device was created artificially…",
+   "header": "Mother Nornil",
+   "links": [
+    {
+     "text": "\"Then the monsters that I defeated so far are also...?\"",
+     "bypass": "Quest Q00179_IntoTheLargeCavern 32258-05.html",
+     "kind": "quest-event",
+     "script": "Q00179_IntoTheLargeCavern",
+     "event": "32258-05.html",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32258-05.html"
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32258-05.html": {
+   "file": "Q00179_IntoTheLargeCavern/32258-05.html",
+   "quest": 179,
+   "text": "Mother Nornil: Yes. All the monsters that have attacked you were created by me. What you faced were designed as trials to promote your growth. The world you know, my child, is an artificial one...",
+   "header": "Mother Nornil",
+   "links": [
+    {
+     "text": "\"Why are you telling me this now?\"",
+     "bypass": "Quest Q00179_IntoTheLargeCavern 32258-06.html",
+     "kind": "quest-event",
+     "script": "Q00179_IntoTheLargeCavern",
+     "event": "32258-06.html",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32258-06.html"
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32258-06.html": {
+   "file": "Q00179_IntoTheLargeCavern/32258-06.html",
+   "quest": 179,
+   "text": "Mother Nornil: You deserve to know the truth... If you leave this island, remember, you will encounter real enemies and actual dangers far different than what you have known here. I think you are ready, but it does not prevent me from worrying about your safety, my child.",
+   "header": "Mother Nornil",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00179_IntoTheLargeCavern 32258-07.html",
+     "kind": "quest-event",
+     "script": "Q00179_IntoTheLargeCavern",
+     "event": "32258-07.html",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32258-07.html"
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32258-07.html": {
+   "file": "Q00179_IntoTheLargeCavern/32258-07.html",
+   "quest": 179,
+   "text": "Mother Nornil: I have prepared something that may help you as you leave this haven for the outer world of chaos. This may be the last help I can give you, my child... Now, select one of these items.",
+   "header": "Mother Nornil",
+   "links": [
+    {
+     "text": "Light Armor.",
+     "bypass": "Quest Q00179_IntoTheLargeCavern 32258-08.html",
+     "kind": "quest-event",
+     "script": "Q00179_IntoTheLargeCavern",
+     "event": "32258-08.html",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32258-08.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Accessory.",
+     "bypass": "Quest Q00179_IntoTheLargeCavern 32258-09.html",
+     "kind": "quest-event",
+     "script": "Q00179_IntoTheLargeCavern",
+     "event": "32258-09.html",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32258-09.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32258-08.html": {
+   "file": "Q00179_IntoTheLargeCavern/32258-08.html",
+   "quest": 179,
+   "text": "Mother Nornil: I hope this light armor will help guard and protect you. Now I will send you out of here. Will you go out?",
+   "header": "Mother Nornil",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "Go outside.",
+     "bypass": "Quest Q00179_IntoTheLargeCavern exit",
+     "kind": "quest-event",
+     "script": "Q00179_IntoTheLargeCavern",
+     "event": "exit",
+     "quest": 179,
+     "to": null
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32258-09.html": {
+   "file": "Q00179_IntoTheLargeCavern/32258-09.html",
+   "quest": 179,
+   "text": "Mother Nornil: I hope this accessory will be helpful to you. Now I will send you out of here. Will you go out?",
+   "header": "Mother Nornil",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "Go outside.",
+     "bypass": "npc_%objectId%_Quest NornilsGarden exit",
+     "kind": "quest-event",
+     "script": "NornilsGarden",
+     "event": "exit"
+    }
+   ]
+  },
+  "Q00182_NewRecruits/32258-02.html": {
+   "file": "Q00182_NewRecruits/32258-02.html",
+   "quest": 182,
+   "text": "???: Yes, I am called by that name. You are not Kamael, are you?",
+   "header": "???",
+   "links": [
+    {
+     "text": "Tell it that you have come here at Kekropus' request.",
+     "bypass": "Quest Q00182_NewRecruits 32258-03.html",
+     "kind": "quest-event",
+     "script": "Q00182_NewRecruits",
+     "event": "32258-03.html",
+     "quest": 182,
+     "to": "Q00182_NewRecruits/32258-03.html"
+    }
+   ]
+  },
+  "Q00182_NewRecruits/32258-03.html": {
+   "file": "Q00182_NewRecruits/32258-03.html",
+   "quest": 182,
+   "text": "N: Ah, you! I heard about you from Kekropus. My thanks to you for helping this young Kamael reach here safely. I have prepared a small token of gratitude for your efforts. Which one would you like?",
+   "links": [
+    {
+     "text": "Receive earrings.",
+     "bypass": "Quest Q00182_NewRecruits 32258-04.html",
+     "kind": "quest-event",
+     "script": "Q00182_NewRecruits",
+     "event": "32258-04.html",
+     "quest": 182,
+     "to": "Q00182_NewRecruits/32258-04.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Receive ring.",
+     "bypass": "Quest Q00182_NewRecruits 32258-05.html",
+     "kind": "quest-event",
+     "script": "Q00182_NewRecruits",
+     "event": "32258-05.html",
+     "quest": 182,
+     "to": "Q00182_NewRecruits/32258-05.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00182_NewRecruits/32258-04.html": {
+   "file": "Q00182_NewRecruits/32258-04.html",
+   "quest": 182,
+   "text": "N: I hope this earring will help you on your journey. We have no further business to discuss -- will you go outside?",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "Go outside.",
+     "bypass": "npc_%objectId%_Quest NornilsGarden exit",
+     "kind": "quest-event",
+     "script": "NornilsGarden",
+     "event": "exit"
+    }
+   ]
+  },
+  "Q00182_NewRecruits/32258-05.html": {
+   "file": "Q00182_NewRecruits/32258-05.html",
+   "quest": 182,
+   "text": "N: I hope this ring will help you in your journey. We have no further business to discuss -- will you go outside?",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "Go outside.",
+     "bypass": "npc_%objectId%_Quest NornilsGarden exit",
+     "kind": "quest-event",
+     "script": "NornilsGarden",
+     "event": "exit"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Into the Large Cavern (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00179_IntoTheLargeCavern",
+     "kind": "quest",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32258-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[New Recruits (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00182_NewRecruits",
+     "kind": "quest",
+     "quest": 182,
+     "to": "Q00182_NewRecruits/32258-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

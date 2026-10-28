@@ -1,0 +1,84 @@
+{
+ "npcId": 31381,
+ "name": "Hagos",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.199Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31381-01.html",
+   "when": "(AllianceLevel < 0); (AllianceLevel == -1)",
+   "src": "ai VarkaSilenosSupport"
+  },
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31381-02.html",
+   "when": "(AllianceLevel < 0); NOT (AllianceLevel == -1)",
+   "src": "ai VarkaSilenosSupport"
+  },
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31381-no.html",
+   "when": "NOT (AllianceLevel < 0)",
+   "src": "ai VarkaSilenosSupport"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/VarkaSilenosSupport/31381-01.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31381-01.html",
+   "quest": null,
+   "text": "Warehouse Keeper Hagos: Welcome, friend of Varka! I'm in charge of keeping the tribe's supplies. I can't help you now because I don't yet have the approval of the elder. Try a little harder! Surely he'll allow you to use the warehouse.",
+   "header": "Warehouse Keeper Hagos",
+   "when": [
+    "(AllianceLevel < 0); (AllianceLevel == -1)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/VarkaSilenosSupport/31381-02.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31381-02.html",
+   "quest": null,
+   "text": "Warehouse Keeper Hagos: Welcome, valiant soldier of Varka! What can I do for you?",
+   "header": "Warehouse Keeper Hagos",
+   "when": [
+    "(AllianceLevel < 0); NOT (AllianceLevel == -1)"
+   ],
+   "links": [
+    {
+     "text": "Deposit an item.",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Pick up an item.",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "ai/npc/VarkaSilenosSupport/31381-no.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31381-no.html",
+   "quest": null,
+   "text": "Warehouse Keeper Hagos: Oh, traveler of the west wind! Haven't you heard? We Varka only do favors for our friends. We don't deal with strangers!",
+   "header": "Warehouse Keeper Hagos",
+   "when": [
+    "NOT (AllianceLevel < 0)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

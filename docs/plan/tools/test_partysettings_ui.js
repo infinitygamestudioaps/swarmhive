@@ -32,7 +32,9 @@ const FILES = {
 const rd = (f) => { try { return fs.readFileSync(f, 'utf8'); } catch (e) { return null; } };
 const LIVE0 = Object.fromEntries(Object.values(FILES).map(f => [f, rd(f)]));
 const strip = (o) => { const c = JSON.parse(JSON.stringify(o)); delete c._updated; return c; };
-const same = (a, b) => JSON.stringify(strip(a)) === JSON.stringify(strip(b));
+// key order does not matter (a save may move keys the API does not know, e.g. our real fund_rules.json "share" / "deposit"), the values do
+const canon = (v) => Array.isArray(v) ? v.map(canon) : v && typeof v === 'object' ? Object.keys(v).sort().reduce((o, k) => { o[k] = canon(v[k]); return o; }, {}) : v;
+const same = (a, b) => JSON.stringify(canon(strip(a))) === JSON.stringify(canon(strip(b)));
 
 async function startServer(env) {
   const srv = cp.spawn(process.execPath, [path.join(__dirname, 'cmdcenter_testserver.js')], { stdio: ['ignore', 'pipe', 'pipe'], env: Object.assign({}, process.env, env) });
@@ -151,9 +153,10 @@ async function startServer(env) {
 
   // ---- exactly the right keys in exactly the right files
   const exp = (k, mut) => { const o = JSON.parse(A0[k].replace(/^\uFEFF/, '')); mut(o); return o; };
-  const fundNow = fileA('SWARM_FUNDRULES_FILE');
-  ok('A: fund_rules.json: only parties.' + L + ' changed (leader target 9,000,000)', same(fundNow, exp('SWARM_FUNDRULES_FILE', o => { o.parties = o.parties || {}; o.parties[L] = Object.assign({ receive: true }, o.parties[L] ? { receive: o.parties[L].receive !== false } : {}, (o.parties[L] && o.parties[L].memberTarget != null) ? { memberTarget: o.parties[L].memberTarget } : {}, { leaderTarget: 9000000 }); })),
-    JSON.stringify((fundNow.parties || {})[L]));
+  const fundNow = fileA('SWARM_FUNDRULES_FILE');  ok('A: fund_rules.json: only parties.' + L + ' changed (leader target 9,000,000)', same(fundNow, exp('SWARM_FUNDRULES_FILE', o => { o.parties = o.parties || {}; o.parties[L] = Object.assign({ receive: true }, o.parties[L] ? { receive: o.parties[L].receive !== false } : {}, (o.parties[L] && o.parties[L].memberTarget != null) ? { memberTarget: o.parties[L].memberTarget } : {}, { leaderTarget: 9000000 }); })),
+    JSON.stringify((fundNow.parties || {})[L]) + ' | differs at: ' + (() => { const want = exp('SWARM_FUNDRULES_FILE', o => { o.parties = o.parties || {}; o.parties[L] = Object.assign({ receive: true }, o.parties[L] ? { receive: o.parties[L].receive !== false } : {}, (o.parties[L] && o.parties[L].memberTarget != null) ? { memberTarget: o.parties[L].memberTarget } : {}, { leaderTarget: 9000000 }); }), out = [];
+      const walk = (a, b, p) => { if (JSON.stringify(a) === JSON.stringify(b)) return; if (a && b && typeof a === 'object' && typeof b === 'object') { new Set([...Object.keys(a), ...Object.keys(b)]).forEach(k => walk(a[k], b[k], p + '.' + k)); return; } out.push(p + ' got ' + JSON.stringify(a) + ' want ' + JSON.stringify(b)); };
+      walk(fundNow, want, ''); return out.slice(0, 4).join('; ').slice(0, 400); })());
   const gearNow = fileA('SWARM_GEARAUTO_FILE');
   ok(`A: gear_auto.json: only parties.${L}.auto = ${gearNew}`, gearNow && gearNow.parties && gearNow.parties[L] && gearNow.parties[L].auto === gearNew &&
     same(Object.assign({}, gearNow, { parties: Object.assign({}, gearNow.parties, { [L]: undefined }) }), Object.assign({}, A0.SWARM_GEARAUTO_FILE ? JSON.parse(A0.SWARM_GEARAUTO_FILE) : {}, { version: 1, parties: Object.assign({}, (JSON.parse(A0.SWARM_GEARAUTO_FILE || '{}').parties || {}), { [L]: undefined }) })), JSON.stringify(gearNow && gearNow.parties));
@@ -360,7 +363,8 @@ async function startServer(env) {
     ok(`B: ${who === L ? 'party ' + L : 'an unknown party'} on a fresh install: every automation OFF`, OFFS.every(p => st[p] === 'false') && (ci === null || ci === 'false') && /Stopped/.test(run) && tm === 'off', JSON.stringify(st) + ' clan=' + ci + ' run=' + run + ' tactics=' + tm);
     ok(`B: ${who === L ? L : 'unknown party'}: the off sentence "nothing happens until you switch it on"`, await ev(`/nothing happens until you switch it on/.test(document.getElementById('psBody').textContent)`));
     ok(`B: ${who === L ? L : 'unknown party'}: nothing to save after opening`, await ev(`/All saved/.test(document.getElementById('psBar').textContent)`));
-    ok(`B: ${who === L ? L : 'unknown party'}: givers "like all parties", Supplies summary "Off"`, await ev(`window.PartySettings._state.W.money.pg === 'all' && /Off/.test(document.querySelector('#psBody [data-pssec="supplies"] .ps-sum').textContent)`));
+    ok(`B: ${who === L ? L : 'unknown party'}: givers "like all parties", Supplies summary = only the default-ON paths (RESUPOPT-2026-10-27: DP scrolls + mission supplies on, supply runs / selling / symbols off)`, await ev(`(() => { const s = document.querySelector('#psBody [data-pssec="supplies"] .ps-sum').textContent; return window.PartySettings._state.W.money.pg === 'all' && /DP scrolls/.test(s) && /mission supplies/.test(s) && !/supply runs|selling|symbols/.test(s); })()`));
+    ok(`B: ${who === L ? L : 'unknown party'}: Death Penalty scrolls + mission supplies switches ON on a fresh install (owner 2026-10-27: "Make the resupply optional", default = as before)`, (await swState('supplies.party.dpScrolls')) === 'true' && (await swState('supplies.party.missionSupplies')) === 'true');
     if (who === L) { await openSec('money'); await sleep(150); await shot('06_iphone_fresh_install'); }
     await click('#psOv [data-psact="close"]'); await waitFor(`document.getElementById('psOv').hidden`, 3000);
   }

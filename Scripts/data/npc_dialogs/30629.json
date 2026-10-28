@@ -1,0 +1,366 @@
+{
+ "npcId": 30629,
+ "name": "Rukal",
+ "title": "Bard",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.022Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30629.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "30": {
+   "name": "Chest Caught With A Bait Of Fire",
+   "listText": [
+    "[Chest Caught with a Bait of Flame]",
+    "[Chest Caught with a Bait of Flame (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00030_ChestCaughtWithABaitOfFire/30629-01.htm",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "228": {
+   "name": "Test Of Magus",
+   "listText": [
+    "[Test of Magus]",
+    "[Test of Magus (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00228_TestOfMagus/30629-02.html",
+     "when": "state CREATED; level < 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.elvenWizard) || ((player.getClassId() == Cla",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30629-03.htm",
+     "when": "state CREATED; NOT level < 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.elvenWizard) || ((player.getClassId() == Cla",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00228_TestOfMagus/30629-01.html",
+     "when": "state CREATED; !((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.elvenWizard) || ((player.getClassId() == Cl",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30629-05.html",
+     "when": "state STARTED; has items 2841",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30629-06.html",
+     "when": "state STARTED; has items 2842; lacks items 2841",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30629-08.html",
+     "when": "state STARTED; has items 2843,2844,2845,2846; lacks items 2841,2842",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00228_TestOfMagus/30629-07.html",
+     "when": "state STARTED; has items 2843; lacks items 2841,2842,2844,2845,2846",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30629-12.html",
+     "when": "state STARTED; has items 2847,2856,2857,2858,2859; lacks items 2841,2842,2843",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30629-11.html",
+     "when": "state STARTED; has items 2847; lacks items 2841,2842,2843,2856,2857,2858,2859",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30629.htm": {
+   "file": "default/30629.htm",
+   "quest": null,
+   "text": "Bard Rukal: Greetings, fellow traveler. I am Bard Rukal. I collect poems and songs from all the villages around the world. I have discovered in my travels that the arts of music and magic are branches of the same tree. Elemental magic is like a song from heaven. Mages combine the songs of the spiri…",
+   "header": "Bard Rukal",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00030_ChestCaughtWithABaitOfFire/30629-01.htm": {
+   "file": "Q00030_ChestCaughtWithABaitOfFire/30629-01.htm",
+   "quest": 30,
+   "text": "Bard Rukal: Beautiful music is pure magic! Are you here to listen to songs of the old poets? No? You have something for me? The musical score signed by Rukal that credits me as the composer and lyricist? That's what I've been waiting for! Show it to me!",
+   "header": "Bard Rukal",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00030_ChestCaughtWithABaitOfFire 30629-02.htm",
+     "kind": "quest-event",
+     "script": "Q00030_ChestCaughtWithABaitOfFire",
+     "event": "30629-02.htm",
+     "quest": 30,
+     "to": "Q00030_ChestCaughtWithABaitOfFire/30629-02.htm",
+     "toAll": [
+      "Q00030_ChestCaughtWithABaitOfFire/30629-02.htm",
+      "Q00030_ChestCaughtWithABaitOfFire/30629-03.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00228_TestOfMagus/30629-02.html": {
+   "file": "Q00228_TestOfMagus/30629-02.html",
+   "quest": 228,
+   "text": "Bard Rukal: To see a Mystic combining the songs of the spirits while commanding elemental magic is like hearing a song straight from heaven. A Mystic must have a thorough understanding of the elements of tone. Come back when you have more experience. (Quest for Wizard, Elven Wizard, or Dark Wizard.…",
+   "header": "Bard Rukal",
+   "when": [
+    "state CREATED; level < 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.elvenWizard) || ((player.getClassId() == Cla"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30629-03.htm": {
+   "file": "Q00228_TestOfMagus/30629-03.htm",
+   "quest": 228,
+   "text": "Bard Rukal: Elemental magic is like a song from heaven. Combining the songs of the spirits is fundamental in the use of elemental magic. Mystics must have a complete understanding of the elements of tone. The Test of the Magus will assess your understanding of the tones of the 4 elements. Those who…",
+   "header": "Bard Rukal",
+   "when": [
+    "state CREATED; NOT level < 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.elvenWizard) || ((player.getClassId() == Cla"
+   ],
+   "links": [
+    {
+     "text": "Take the Test of the Magus",
+     "bypass": "Quest Q00228_TestOfMagus ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00228_TestOfMagus",
+     "event": "ACCEPT",
+     "quest": 228,
+     "to": "Q00228_TestOfMagus/30629-04a.htm",
+     "toAll": [
+      "Q00228_TestOfMagus/30629-04a.htm",
+      "Q00228_TestOfMagus/30629-04.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00228_TestOfMagus/30629-01.html": {
+   "file": "Q00228_TestOfMagus/30629-01.html",
+   "quest": 228,
+   "text": "Bard Rukal: To see a Mystic command the ultimate elemental magic is somewhat like hearing a song from heaven. Unlike other magic, Elemental Magic consists of combining the songs of the spirits. Your ears are not sophisticated enough to hear the elemental tones? I suppose a cacophony of swords and s…",
+   "header": "Bard Rukal",
+   "when": [
+    "state CREATED; !((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.elvenWizard) || ((player.getClassId() == Cl"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30629-05.html": {
+   "file": "Q00228_TestOfMagus/30629-05.html",
+   "quest": 228,
+   "text": "Bard Rukal: The strange songs of the spirits will still not let me sleep. Please go meet Parina and investigate the origin of this music.",
+   "header": "Bard Rukal",
+   "when": [
+    "state STARTED; has items 2841"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30629-06.html": {
+   "file": "Q00228_TestOfMagus/30629-06.html",
+   "quest": 228,
+   "text": "Bard Rukal: This is very disturbing. That song was from the legendary evil spirit Singing Flower. As Parina advised you, you should go and meet Elder Casian. He will tell you more about Singing Flower.",
+   "header": "Bard Rukal",
+   "when": [
+    "state STARTED; has items 2842; lacks items 2841"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30629-08.html": {
+   "file": "Q00228_TestOfMagus/30629-08.html",
+   "quest": 228,
+   "text": "Bard Rukal: Excellent! The Golden Seeds of the Singing Flower! I have experience raising flowers from these seeds. One must be very careful in their cultivation, they can grow into brutal flowers if the seeds taste living human blood. Under normal circumstances they grow into a beautiful flower cal…",
+   "header": "Bard Rukal",
+   "when": [
+    "state STARTED; has items 2843,2844,2845,2846; lacks items 2841,2842"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00228_TestOfMagus 30629-09.html",
+     "kind": "quest-event",
+     "script": "Q00228_TestOfMagus",
+     "event": "30629-09.html",
+     "quest": 228,
+     "to": "Q00228_TestOfMagus/30629-09.html"
+    }
+   ]
+  },
+  "Q00228_TestOfMagus/30629-07.html": {
+   "file": "Q00228_TestOfMagus/30629-07.html",
+   "quest": 228,
+   "text": "Bard Rukal: The Singing Flowers must be stopped from ever singing that song again. You must find them all and destroy them. You can obtain golden seeds when you destroy them. You must get 3 types of seeds from 3 different types of Singing Flowers.",
+   "header": "Bard Rukal",
+   "when": [
+    "state STARTED; has items 2843; lacks items 2841,2842,2844,2845,2846"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30629-12.html": {
+   "file": "Q00228_TestOfMagus/30629-12.html",
+   "quest": 228,
+   "text": "Bard Rukal: Congratulations! You have passed the Test of the Magus! Now I can start the time-consuming process of creating Absolute Tone. This would not have been possible without your efforts. I will let you know when the Millennium Flowers bloom. Come to see me then. Congratulations again on pass…",
+   "header": "Bard Rukal",
+   "when": [
+    "state STARTED; has items 2847,2856,2857,2858,2859; lacks items 2841,2842,2843"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30629-11.html": {
+   "file": "Q00228_TestOfMagus/30629-11.html",
+   "quest": 228,
+   "text": "Bard Rukal: The Test of the Magus will not be complete until all 4 tones essential for Absolute Tone are collected. Please do your best to get these tones for me.",
+   "header": "Bard Rukal",
+   "when": [
+    "state STARTED; has items 2847; lacks items 2841,2842,2843,2856,2857,2858,2859"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00030_ChestCaughtWithABaitOfFire/30629-02.htm": {
+   "file": "Q00030_ChestCaughtWithABaitOfFire/30629-02.htm",
+   "quest": 30,
+   "text": "Bard Rukal: You say you've found the musical score I'm looking for, but you don't seem to have it with you. If you find a musical score with the name \"Rukal\" written on it, please bring it to me. It was composed by my late father.",
+   "header": "Bard Rukal",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00030_ChestCaughtWithABaitOfFire/30629-03.htm": {
+   "file": "Q00030_ChestCaughtWithABaitOfFire/30629-03.htm",
+   "quest": 30,
+   "text": "Bard Rukal: The Fishermen's Guild is truly a major patron of the arts! Whenever an object is lost, anywhere in the world, they manage to retrieve it! It's ironic that only those who know nothing about the lost objects can find them... As an Elf, it's hard to understand how Humans could have created…",
+   "header": "Bard Rukal",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30629-04.htm": {
+   "file": "Q00228_TestOfMagus/30629-04.htm",
+   "quest": 228,
+   "text": "Bard Rukal: Good. First let me tell you something about myself. My nights are sleepless, haunted by the songs of the spirits. This is a condition common to the practitioners of Elemental Magic. This inhuman song is not of this earth, and can make the hair stand up on the back of your neck, and a co…",
+   "header": "Bard Rukal",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30629-04a.htm": {
+   "file": "Q00228_TestOfMagus/30629-04a.htm",
+   "quest": 228,
+   "text": "Bard Rukal: Very well. Listen to my story, youngster. Blissful slumber escapes me night after night. In the quiet darkness, I am haunted by a strange melody that reaches my ears, a music that can only be heard by those who have mastered elemental magic. Low-pitched and subtle, it nevertheless grate…",
+   "header": "Bard Rukal",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30629-09.html": {
+   "file": "Q00228_TestOfMagus/30629-09.html",
+   "quest": 228,
+   "text": "Bard Rukal: To make an Absolute Tone we need 4 tones that correspond to 4 elements. As you know, our world is composed of these 4 elements and the 4 tones Raffortysent the essence of each element. That is, we can only make the Absolute Tone which controls all other tones by collecting 4 notes that …",
+   "header": "Bard Rukal",
+   "links": [
+    {
+     "text": "Ask about 4 notes",
+     "bypass": "Quest Q00228_TestOfMagus 30629-10.html",
+     "kind": "quest-event",
+     "script": "Q00228_TestOfMagus",
+     "event": "30629-10.html",
+     "quest": 228,
+     "to": "Q00228_TestOfMagus/30629-10.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00228_TestOfMagus/30629-10.html": {
+   "file": "Q00228_TestOfMagus/30629-10.html",
+   "quest": 228,
+   "text": "Bard Rukal: You must collect the 4 tones that correspond to the 4 elements in order to create an Absolute Tone. To obtain the Note of Water You must visit the Water Undine, a water spirit who lives in Fellmere Lake... It is located northwest of Gludin, north of the Abandoned Camp. To obtain the Not…",
+   "header": "Bard Rukal",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Chest Caught with a Bait of Flame (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00030_ChestCaughtWithABaitOfFire",
+     "kind": "quest",
+     "quest": 30,
+     "to": "Q00030_ChestCaughtWithABaitOfFire/30629-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of Magus]",
+     "bypass": "npc_%objectId%_Quest Q00228_TestOfMagus",
+     "kind": "quest",
+     "quest": 228,
+     "to": "Q00228_TestOfMagus/30629-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Test of Magus (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00228_TestOfMagus",
+     "kind": "quest",
+     "quest": 228,
+     "to": "Q00228_TestOfMagus/30629-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

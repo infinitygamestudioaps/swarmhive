@@ -1,0 +1,489 @@
+{
+ "npcId": 32597,
+ "name": "Franz",
+ "title": "Witness of Dawn",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.391Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32597.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "198": {
+   "name": "Seven Signs, Embryo",
+   "listText": [
+    "[Seven Signs, Embryo]",
+    "[Seven Signs, Embryo (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00198_SevenSignsEmbryo/32597-06.html",
+     "when": "state STARTED; cond 1; (isBusy)",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00198_SevenSignsEmbryo/32597-01.html",
+     "when": "state STARTED; cond 1; NOT (isBusy)",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00198_SevenSignsEmbryo/32597-07.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00198_SevenSignsEmbryo/32597-12.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10292": {
+   "name": "Seven Signs, Girl of Doubt",
+   "listText": [
+    "[Seven Signs, Girl of Doubt]",
+    "[Seven Signs, Girl of Doubt (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32597-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32597-05.html",
+     "when": "state STARTED; memoState >= 2; memoState < 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32597-06.html",
+     "when": "state STARTED; memo 7; !((memoState >= 2) && (memoState < 7))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10296": {
+   "name": "Seven Signs, One Who Seeks the Power of the Seal",
+   "listText": [
+    "[Seven Signs, One Who Seeks the Power of the Seal]",
+    "[Seven Signs, One Who Seeks the Power of the Seal (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-01.html",
+     "when": "state STARTED; memo 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32597.htm": {
+   "file": "default/32597.htm",
+   "quest": null,
+   "text": "Priest Franz: So, we meet at last! I am Franz, it's my sincerest pleasure to meet you, my child.",
+   "header": "Priest Franz",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32597-06.html": {
+   "file": "Q00198_SevenSignsEmbryo/32597-06.html",
+   "quest": 198,
+   "text": "Priest Franz: Fight the creature or we'll both be killed! (Another player is currently speaking with him.)",
+   "header": "Priest Franz",
+   "when": [
+    "state STARTED; cond 1; (isBusy)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00198_SevenSignsEmbryo/32597-01.html": {
+   "file": "Q00198_SevenSignsEmbryo/32597-01.html",
+   "quest": 198,
+   "text": "Priest Franz: I must first apologize for taking so long to get here. Unfortunately I can only get about so quickly, and I was quite a way away. Now, I have heard from Sir Athebaldt, his good wife Lady Claudia, and Iason Heine. You've collected quite a revered list of companions, but from what I hav…",
+   "header": "Priest Franz",
+   "when": [
+    "state STARTED; cond 1; NOT (isBusy)"
+   ],
+   "links": [
+    {
+     "text": "\"Thank you...\"",
+     "bypass": "Quest Q00198_SevenSignsEmbryo 32597-02.html",
+     "kind": "quest-event",
+     "script": "Q00198_SevenSignsEmbryo",
+     "event": "32597-02.html",
+     "quest": 198,
+     "to": "Q00198_SevenSignsEmbryo/32597-02.html"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32597-07.html": {
+   "file": "Q00198_SevenSignsEmbryo/32597-07.html",
+   "quest": 198,
+   "text": "Priest Franz: My word! What was that thing? And... and what is that thing it left? It must have been searching for this copy of the Book of Seals... What? This is part of the Sculpture of Shilen ... she must have somehow manifested herself into inanimate objects. My word.... Quickly child--hand me …",
+   "header": "Priest Franz",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Here.\"",
+     "bypass": "Quest Q00198_SevenSignsEmbryo 32597-08.html",
+     "kind": "quest-event",
+     "script": "Q00198_SevenSignsEmbryo",
+     "event": "32597-08.html",
+     "quest": 198,
+     "to": "Q00198_SevenSignsEmbryo/32597-08.html"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32597-12.html": {
+   "file": "Q00198_SevenSignsEmbryo/32597-12.html",
+   "quest": 198,
+   "text": "Priest Franz: You must leave now, my child. We will do our research, and then contact you when the time is right. Priestess Jayna will lead you outside, and I believe Priest Wood has a reward for you.",
+   "header": "Priest Franz",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32597-01.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32597-01.html",
+   "quest": 10292,
+   "text": "Priest Franz: Ahh!!! It's been a long time. How have you been? I contacted you because I have a request....",
+   "header": "Priest Franz",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "\"Go on...\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32597-02.html",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32597-02.html",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32597-02.html"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32597-05.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32597-05.html",
+   "quest": 10292,
+   "text": "Priest Franz: How did the job I requested go?",
+   "header": "Priest Franz",
+   "when": [
+    "state STARTED; memoState >= 2; memoState < 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32597-06.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32597-06.html",
+   "quest": 10292,
+   "text": "Priest Franz: Is the job I requested going well?",
+   "header": "Priest Franz",
+   "when": [
+    "state STARTED; memo 7; !((memoState >= 2) && (memoState < 7))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-01.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-01.html",
+   "quest": 10296,
+   "text": "Priest Franz: Well done! How's the assignment? Report to me.",
+   "header": "Priest Franz",
+   "when": [
+    "state STARTED; memo 5"
+   ],
+   "links": [
+    {
+     "text": "\"I have so much to tell you.\"",
+     "bypass": "Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal 32597-02.html",
+     "kind": "quest-event",
+     "script": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "event": "32597-02.html",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-02.html"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32597-02.html": {
+   "file": "Q00198_SevenSignsEmbryo/32597-02.html",
+   "quest": 198,
+   "text": "Priest Franz: Not at all. Now I'm going to let you in on another of our secrets. It... it... did you hear that? Strange.... It concerns that book of yours.",
+   "header": "Priest Franz",
+   "links": [
+    {
+     "text": "\"Oh?\"",
+     "bypass": "Quest Q00198_SevenSignsEmbryo 32597-03.html",
+     "kind": "quest-event",
+     "script": "Q00198_SevenSignsEmbryo",
+     "event": "32597-03.html",
+     "quest": 198,
+     "to": "Q00198_SevenSignsEmbryo/32597-03.html"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32597-03.html": {
+   "file": "Q00198_SevenSignsEmbryo/32597-03.html",
+   "quest": 198,
+   "text": "Priest Franz: As you may know, Emperor Shunaiman had control over the Seven Seals. Only those in his bloodline could control them, so when the last of his bloodline, Emperor Baium, was killed, we thought the power of the Seals had been lost forever.",
+   "header": "Priest Franz",
+   "links": [
+    {
+     "text": "\"But...\"",
+     "bypass": "Quest Q00198_SevenSignsEmbryo 32597-04.html",
+     "kind": "quest-event",
+     "script": "Q00198_SevenSignsEmbryo",
+     "event": "32597-04.html",
+     "quest": 198,
+     "to": "Q00198_SevenSignsEmbryo/32597-04.html"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32597-04.html": {
+   "file": "Q00198_SevenSignsEmbryo/32597-04.html",
+   "quest": 198,
+   "text": "Priest Franz: But, we were wrong. It has since emerged that that power still exists, and is contained in a Seal Stone buried in Lilith's own body . Now... not all the books can currently be controlled, but the Book of Seals is said to teach whoever reads it, and gain them mastery over all se... sev…",
+   "header": "Priest Franz",
+   "links": [
+    {
+     "text": "Look around.",
+     "bypass": "Quest Q00198_SevenSignsEmbryo fight",
+     "kind": "quest-event",
+     "script": "Q00198_SevenSignsEmbryo",
+     "event": "fight",
+     "quest": 198,
+     "to": "Q00198_SevenSignsEmbryo/32597-05.html"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32597-05.html": {
+   "file": "Q00198_SevenSignsEmbryo/32597-05.html",
+   "quest": 198,
+   "text": "Priest Franz: A monster! Kill it! It must have heard our secrets! Kill it!",
+   "header": "Priest Franz",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00198_SevenSignsEmbryo/32597-08.html": {
+   "file": "Q00198_SevenSignsEmbryo/32597-08.html",
+   "quest": 198,
+   "text": "Priest Franz: Well, I cannot fully interpret the document, but... I can understand enough. \"When the... when the new powers of... Shilen enter the world, monsters unseen shall become... seen.\" Oh my....",
+   "header": "Priest Franz",
+   "links": [
+    {
+     "text": "\"What does it mean?\"",
+     "bypass": "Quest Q00198_SevenSignsEmbryo 32597-09.html",
+     "kind": "quest-event",
+     "script": "Q00198_SevenSignsEmbryo",
+     "event": "32597-09.html",
+     "quest": 198,
+     "to": "Q00198_SevenSignsEmbryo/32597-09.html"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32597-09.html": {
+   "file": "Q00198_SevenSignsEmbryo/32597-09.html",
+   "quest": 198,
+   "text": "Priest Franz: It just proves my theory: that creature was indeed a manifestation of Shilen herself . Clearly she is looking to control the power of the Seals . That also means a fourth seal has been broken somewhere... but how?",
+   "header": "Priest Franz",
+   "links": [
+    {
+     "text": "Keep Listening.",
+     "bypass": "Quest Q00198_SevenSignsEmbryo 32597-10.html",
+     "kind": "quest-event",
+     "script": "Q00198_SevenSignsEmbryo",
+     "event": "32597-10.html",
+     "quest": 198,
+     "to": "Q00198_SevenSignsEmbryo/32597-10.html"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32597-10.html": {
+   "file": "Q00198_SevenSignsEmbryo/32597-10.html",
+   "quest": 198,
+   "text": "Priest Franz: There is more to this story, I'm sure of it, and I believe you are the one who can uncover the final chapters. Look at what you have done far, in such a short space of time, compared to what our best have uncovered over months... years even. But would you willing to help us again, whe…",
+   "header": "Priest Franz",
+   "links": [
+    {
+     "text": "\"Of course.\"",
+     "bypass": "Quest Q00198_SevenSignsEmbryo 32597-11.html",
+     "kind": "quest-event",
+     "script": "Q00198_SevenSignsEmbryo",
+     "event": "32597-11.html",
+     "quest": 198,
+     "to": "Q00198_SevenSignsEmbryo/32597-11.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32597-11.html": {
+   "file": "Q00198_SevenSignsEmbryo/32597-11.html",
+   "quest": 198,
+   "text": "Priest Franz: Thank you. We must uncover exactly what has happened and who is behind it all. Shilen stirs, but she can't be acting alone... I must look at our enemies--the Order of Dusk. More training is required--much more--before we can even look at them though. I propose a respite: you should le…",
+   "header": "Priest Franz",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32597-02.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32597-02.html",
+   "quest": 10292,
+   "text": "Priest Franz: I had a good deal of results ever since the research on the Seven Signs was completed. Also, I received information suggesting that the Revolutionaries of Dusk had uncovered more information too. We're going to send someone to uncover their findings, and I want you to accompany him an…",
+   "header": "Priest Franz",
+   "links": [
+    {
+     "text": "\"Sure.\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32597-03.html",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32597-03.html",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32597-03.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "\"Not interested.\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32597-04.html",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32597-04.html",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32597-04.html"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32597-03.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32597-03.html",
+   "quest": 10292,
+   "text": "Priest Franz: It is said that he has been looking for a companion. According to our intelligence, he is staying at a place in the Beast Farm. I want you to go find out what's going on.",
+   "header": "Priest Franz",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32597-04.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32597-04.html",
+   "quest": 10292,
+   "text": "Priest Franz: Is that so? That's too bad. But, there is nobody other than you who is qualified, so I hope that you think about it again.",
+   "header": "Priest Franz",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-02.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-02.html",
+   "quest": 10296,
+   "text": "Priest Franz: Hardin... He is not credible and even dangerous... I have no idea what he's been up to based on the fact that he had built his own world after leaving the Ivory Tower with his enormous power. Anyhow, I must express my gratitude to you for putting in such a tremendous effort for this a…",
+   "header": "Priest Franz",
+   "links": [
+    {
+     "text": "\"Great! Uh, do I get anything in return?\"",
+     "bypass": "Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal 32597-03.html",
+     "kind": "quest-event",
+     "script": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "event": "32597-03.html",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-03.html",
+     "toAll": [
+      "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-03.html",
+      "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-04.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-03.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-03.html",
+   "quest": 10296,
+   "text": "Priest Franz: Hm... You seem strange. You don't seem like the person I used to know. If you are in a Subclass status, please come back talk to me later after returing back to your normal state. (You cannot complete the quest in the Subclass status.)",
+   "header": "Priest Franz",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-04.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-04.html",
+   "quest": 10296,
+   "text": "Priest Franz: I believe we have enough information now. No matter what Hardin or the other Dusks say... Don't ever falter. Hardin is not someone you can trust. Now, seems like we are one step ahead toward the truth. I believe I will need your help again later on. I will ask you a favor again when t…",
+   "header": "Priest Franz",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Embryo (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00198_SevenSignsEmbryo",
+     "kind": "quest",
+     "quest": 198,
+     "to": "Q00198_SevenSignsEmbryo/32597-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, Girl of Doubt (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10292_SevenSignsGirlOfDoubt",
+     "kind": "quest",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32597-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, One Who Seeks the Power of the Seal (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "kind": "quest",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32597-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

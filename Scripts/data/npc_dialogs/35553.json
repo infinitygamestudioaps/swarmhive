@@ -1,0 +1,62 @@
+{
+ "npcId": 35553,
+ "name": "Blacksmith",
+ "title": "Schuttgart",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.436Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/CastleBlacksmith/35553-01.html",
+   "when": "(hasRights(player, npc))",
+   "src": "ai CastleBlacksmith"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/CastleBlacksmith/35553-01.html": {
+   "file": "ai/npc/CastleBlacksmith/35553-01.html",
+   "quest": null,
+   "text": "Blacksmith: What brings you to this shabby place? By the way, I've learned a new skill from our Blacksmith Guild! Now I use a wider variety of crops to make the items you need, my Lord. Our Dwarves are truly gifted with their hands.. Ha! Oops! Pardon me, my Lord. If you want me to make something fo…",
+   "header": "Blacksmith",
+   "when": [
+    "(hasRights(player, npc))"
+   ],
+   "links": [
+    {
+     "text": "Crop Manufacturing",
+     "bypass": "Quest CastleBlacksmith 35553-02.html",
+     "kind": "quest-event",
+     "script": "CastleBlacksmith",
+     "event": "35553-02.html",
+     "to": "ai/npc/CastleBlacksmith/35553-02.html"
+    }
+   ]
+  },
+  "ai/npc/CastleBlacksmith/35553-02.html": {
+   "file": "ai/npc/CastleBlacksmith/35553-02.html",
+   "quest": null,
+   "text": "Of course! Bring me the materials I need and I'll make anything you want at once! What do you want?",
+   "links": [
+    {
+     "text": "Examine the list",
+     "bypass": "npc_%objectId%_multisell 350980009",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35553-02.html": {
+   "file": "ai/npc/CastleChamberlain/35553-02.html",
+   "quest": null,
+   "text": "Of course! Bring me the materials I need and I'll make anything you want at once! What do you want?",
+   "links": [
+    {
+     "text": "Examine the list",
+     "bypass": "npc_%objectId%_multisell 350980009",
+     "kind": "multisell"
+    }
+   ]
+  }
+ }
+}

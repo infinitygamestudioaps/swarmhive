@@ -1,0 +1,181 @@
+{
+ "npcId": 32573,
+ "name": "Tess",
+ "title": "Grandma",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.388Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32573.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "194": {
+   "name": "Seven Signs, Mammon's Contract",
+   "listText": [
+    "[Seven Signs, Mammon's Contract]",
+    "[Seven Signs, Mammon's Contract (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32573-01.html",
+     "when": "state STARTED; cond 1|2|3|4|5|6",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32573-02.html",
+     "when": "state STARTED; cond 7; (player.getTransformationId() == 112)",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32573-05.html",
+     "when": "state STARTED; cond 7; NOT (player.getTransformationId() == 112)",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00194_SevenSignsMammonsContract/32573-06.html",
+     "when": "state STARTED; cond 8; player.getTransformationId() == 112",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32573.htm": {
+   "file": "default/32573.htm",
+   "quest": null,
+   "text": "Grandma Tess: I came to the lakeside for a nice stroll. But the sun reflecting off the water -- it makes my bad eyesight even worse... Well, the children said they were going fishing... Won't they get into trouble?",
+   "header": "Grandma Tess",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32573-01.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32573-01.html",
+   "quest": 194,
+   "text": "Grandma Tess: Oh hello there! You haven't seen my grandson have you? Short boy, looks like he needs a good meal... no? Well, if you see him, tell him his grandma is looking for him, all right?",
+   "header": "Grandma Tess",
+   "when": [
+    "state STARTED; cond 1|2|3|4|5|6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32573-02.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32573-02.html",
+   "quest": 194,
+   "text": "Grandma Tess: Oh my! You... you scared me there, child. Can't see too well these days, not with these eyes! Oh no.... Now, what's your name again? Hmm?",
+   "header": "Grandma Tess",
+   "when": [
+    "state STARTED; cond 7; (player.getTransformationId() == 112)"
+   ],
+   "links": [
+    {
+     "text": "\"Grandma, it's me!\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32573-03.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32573-03.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32573-03.html"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32573-05.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32573-05.html",
+   "quest": 194,
+   "text": "Grandma Tess: Oh hello there! You haven't seen my grandson have you? Short boy, looks like he needs a good meal... no? Well, if you see him, tell him his grandma is looking for him, all right?",
+   "header": "Grandma Tess",
+   "when": [
+    "state STARTED; cond 7; NOT (player.getTransformationId() == 112)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32573-06.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32573-06.html",
+   "quest": 194,
+   "text": "Grandma Tess: Hurry along now child, and remember to be home before dark!",
+   "header": "Grandma Tess",
+   "when": [
+    "state STARTED; cond 8; player.getTransformationId() == 112"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/32573-03.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32573-03.html",
+   "quest": 194,
+   "text": "Grandma Tess: Oh my--of course it is! Now sit down, won't you, and tell old Grandma what you've been up to. I thought all you kids were going fishing today? Couldn't you catch anything?",
+   "header": "Grandma Tess",
+   "links": [
+    {
+     "text": "\"No Grandma! And I'm real hungry!\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 32573-04.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "32573-04.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32573-04.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/32573-04.html": {
+   "file": "Q00194_SevenSignsMammonsContract/32573-04.html",
+   "quest": 194,
+   "text": "Grandma Tess: Oh I see! Well then let me get you some of the candy I made. It's not going to fill you right up, but should keep you going until supper. Hmm... I'll tell you what. How about I give you all the candy I made, and you hand it out to the others kids? Now hurry back to your friends, hear?…",
+   "header": "Grandma Tess",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Mammon's Contract (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00194_SevenSignsMammonsContract",
+     "kind": "quest",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/32573-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

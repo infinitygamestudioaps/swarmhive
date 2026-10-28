@@ -1,0 +1,242 @@
+{
+ "npcId": 30114,
+ "name": "Roa",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.843Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30114.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "219": {
+   "name": "Testimony Of Fate",
+   "listText": [
+    "[Testimony of Fate]",
+    "[Testimony of Fate (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00219_TestimonyOfFate/30114-01.html",
+     "when": "state STARTED; has items 3185",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30114-05.html",
+     "when": "state STARTED; has items 3186; lacks items 3185",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30114-06.html",
+     "when": "state STARTED; has items 3187,3188,3189; lacks items 3185,3186",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30114.htm": {
+   "file": "trainer/30114.htm",
+   "quest": null,
+   "text": "Magister Rovia: Welcome! My fellow Magisters and I were dispatched to the Ivory Tower of Oren in order to instruct Giran's finest youths in the ways of magic. It looks like you're from a small country school. Did you study at Einhovant's School of Magic? Hmmph! I wonder if you were even taught the …",
+   "header": "Magister Rovia",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30114-noteach.htm": {
+   "file": "trainer/30114-noteach.htm",
+   "quest": null,
+   "text": "Magister Roa: Welcome to the Hall of Magic. My fellow Magisters and I are dispatched from Oren's Ivory Tower to instruct seekers of wisdom here in Giran. I am sorry, but i cannot initiate you in the magic of the Ivory Tower. Only those of Human birth and with basic magic skills can take my classes.…",
+   "header": "Magister Roa",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30114-01.html": {
+   "file": "Q00219_TestimonyOfFate/30114-01.html",
+   "quest": 219,
+   "text": "Magister Roa: What business would a Dark Elf have with me?",
+   "header": "Magister Roa",
+   "when": [
+    "state STARTED; has items 3185"
+   ],
+   "links": [
+    {
+     "text": "\"I was sent here by your ancestor, brother Alder.\"",
+     "bypass": "Quest Q00219_TestimonyOfFate 30114-02.html",
+     "kind": "quest-event",
+     "script": "Q00219_TestimonyOfFate",
+     "event": "30114-02.html",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30114-02.html"
+    }
+   ]
+  },
+  "Q00219_TestimonyOfFate/30114-05.html": {
+   "file": "Q00219_TestimonyOfFate/30114-05.html",
+   "quest": 219,
+   "text": "Magister Roa: It appears to be a claim check for a warehouse. Perhaps my ancestor had something precious stored there? The slip says 'Gludin warehouse' . You had better go and have a look there.",
+   "header": "Magister Roa",
+   "when": [
+    "state STARTED; has items 3186; lacks items 3185"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30114-06.html": {
+   "file": "Q00219_TestimonyOfFate/30114-06.html",
+   "quest": 219,
+   "text": "Magister Roa: Is it true that my ancestor wrote a book that was banned by the Priests of Einhasad? Why would he be interested in forbidden knowledge? You must be careful. It is said that by merely reading the book your soul can become corrupted.",
+   "header": "Magister Roa",
+   "when": [
+    "state STARTED; has items 3187,3188,3189; lacks items 3185,3186"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30114-02.html": {
+   "file": "Q00219_TestimonyOfFate/30114-02.html",
+   "quest": 219,
+   "text": "Magister Roa: Brother Alder? My great, great grandfather? But how would a Dark Elf know about my ancestor? What could you possibly want to know about a person who has been dead for many years?",
+   "header": "Magister Roa",
+   "links": [
+    {
+     "text": "\"I just want to know the truth!\"",
+     "bypass": "Quest Q00219_TestimonyOfFate 30114-03.html",
+     "kind": "quest-event",
+     "script": "Q00219_TestimonyOfFate",
+     "event": "30114-03.html",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30114-03.html"
+    },
+    {
+     "text": "\"Even though you cover it with your hands, the moon still shines.\"",
+     "bypass": "Quest Q00219_TestimonyOfFate 30114-04.html",
+     "kind": "quest-event",
+     "script": "Q00219_TestimonyOfFate",
+     "event": "30114-04.html",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30114-04.html",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00219_TestimonyOfFate/30114-03.html": {
+   "file": "Q00219_TestimonyOfFate/30114-03.html",
+   "quest": 219,
+   "text": "Magister Roa: What?",
+   "header": "Magister Roa",
+   "links": [
+    {
+     "text": "\"Even though you cover it with your hands, the moon still shines.\"",
+     "bypass": "Quest Q00219_TestimonyOfFate 30114-04.html",
+     "kind": "quest-event",
+     "script": "Q00219_TestimonyOfFate",
+     "event": "30114-04.html",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30114-04.html",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00219_TestimonyOfFate/30114-04.html": {
+   "file": "Q00219_TestimonyOfFate/30114-04.html",
+   "quest": 219,
+   "text": "Magister Roa: I heard those words from my grandmother when I was quite small... She beseeched me to remember it until my dying day, and to pass them on to my children. I didn't understand the meaning exactly, but I knew that it was something very important. She said that if someone comes to me and …",
+   "header": "Magister Roa",
+   "sets": {
+    "cond": "12"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Fate (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00219_TestimonyOfFate",
+     "kind": "quest",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30114-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,263 @@
+{
+ "npcId": 30035,
+ "name": "Harrys",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.791Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30035.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "152": {
+   "name": "Shards of Golem",
+   "listText": [
+    "[Shards of Golem]",
+    "[Shards of Golem (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00152_ShardsOfGolem/30035-02.htm",
+     "when": "state CREATED; player.getLevel() >= MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00152_ShardsOfGolem/30035-01.htm",
+     "when": "state CREATED; NOT player.getLevel() >= MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00152_ShardsOfGolem/30035-04a.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00152_ShardsOfGolem/30035-04.html",
+     "when": "state STARTED; cond 2|3",
+     "state": "STARTED",
+     "cond": [
+      2,
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00152_ShardsOfGolem/30035-05.html",
+     "when": "state STARTED; cond 4; has items 1011",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30035.htm": {
+   "file": "trainer/30035.htm",
+   "quest": null,
+   "text": "Magister Harrys: Greetings! I'm Magister Harrys, and I teach magic here in the Twin Temple . It's always rewarding experience to pass on my knowledge to others. Are you here to enroll?",
+   "header": "Magister Harrys",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Ask about the Twin Temple.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30035-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30035-1.htm": {
+   "file": "trainer/30035-1.htm",
+   "quest": null,
+   "text": "Magister Harris: Ah, forgive my oversight. Priest Poster is in fact my twin brother. Unlike me, he is calm and quiet. You wanted to know why it's called the Twin Temple means, right? I'm not sure if you know, but both Johanes and Baulo, and Poster and I, are twins. Perhaps it is only a coincidence,…",
+   "header": "Magister Harris",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "trainer/30035-noteach.htm": {
+   "file": "trainer/30035-noteach.htm",
+   "quest": null,
+   "text": "Magister Harrys: I teach magic. But there is nothing I can teach you. If you want to learn something, you should find a Master that is right for you.",
+   "header": "Magister Harrys",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00152_ShardsOfGolem/30035-02.htm": {
+   "file": "Q00152_ShardsOfGolem/30035-02.htm",
+   "quest": 152,
+   "text": "Magister Harrys: Recently, the severe storms damaged the roof of the temple in several places. We are in the middle of repairing the roof right now, but it is harder than we thought. Plus, all our tools are old and dull, making this an even slower task. The high priest has personally asked us to hu…",
+   "header": "Magister Harrys",
+   "when": [
+    "state CREATED; player.getLevel() >= MIN_LVL"
+   ],
+   "links": [
+    {
+     "text": "Say you will do the favor",
+     "bypass": "Quest Q00152_ShardsOfGolem 30035-03.htm",
+     "kind": "quest-event",
+     "script": "Q00152_ShardsOfGolem",
+     "event": "30035-03.htm",
+     "quest": 152,
+     "to": "Q00152_ShardsOfGolem/30035-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00152_ShardsOfGolem/30035-01.htm": {
+   "file": "Q00152_ShardsOfGolem/30035-01.htm",
+   "quest": 152,
+   "text": "Magister Harrys: Recently the severe storms damaged the roof of the temple in several places. We will be starting repairs soon, and I hope you can help us at that time. (Quest for characters level 10 and above.)",
+   "header": "Magister Harrys",
+   "when": [
+    "state CREATED; NOT player.getLevel() >= MIN_LVL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00152_ShardsOfGolem/30035-04a.html": {
+   "file": "Q00152_ShardsOfGolem/30035-04a.html",
+   "quest": 152,
+   "text": "Magister Harrys: You haven't met with Blacksmith Altran yet, have you? Go and see him right away at the blacksmith shop in the village. We're planning to start some maintenance this afternoon. Hurry and get your new tool before we start work!",
+   "header": "Magister Harrys",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00152_ShardsOfGolem/30035-04.html": {
+   "file": "Q00152_ShardsOfGolem/30035-04.html",
+   "quest": 152,
+   "text": "> Magister Harrys: Go and fetch the tools that I have ordered from Blacksmith Altran. I'd like to receive them before this afternoon, as we plan on making repairs then. Please hurry.",
+   "header": "Magister Harrys",
+   "when": [
+    "state STARTED; cond 2|3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00152_ShardsOfGolem/30035-05.html": {
+   "file": "Q00152_ShardsOfGolem/30035-05.html",
+   "quest": 152,
+   "text": "Magister Harrys: So these are the tools that have been forged by Blacksmith Altran. I'm sure they are of the highest quality. Thank you for bringing them here. I heard that you obtained the materials to make the tools for Blacksmith Altran? I will give you a reward for your help. Please do not decl…",
+   "header": "Magister Harrys",
+   "when": [
+    "state STARTED; cond 4; has items 1011"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00152_ShardsOfGolem/30035-03.htm": {
+   "file": "Q00152_ShardsOfGolem/30035-03.htm",
+   "quest": 152,
+   "text": "Magister Harrys: Thank you. Take this receipt . Go to the village Blacksmith and show Altran this receipt, and come back here with the tools. We are planning to do repairs this afternoon, so I hope I can receive them before then.",
+   "header": "Magister Harrys",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Shards of Golem]",
+     "bypass": "npc_%objectId%_Quest Q00152_ShardsOfGolem",
+     "kind": "quest",
+     "quest": 152,
+     "to": "Q00152_ShardsOfGolem/30035-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Shards of Golem (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00152_ShardsOfGolem",
+     "kind": "quest",
+     "quest": 152,
+     "to": "Q00152_ShardsOfGolem/30035-04a.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,186 @@
+{
+ "npcId": 31997,
+ "name": "Priest of Dawn",
+ "title": "",
+ "type": "L2DawnPriest",
+ "generated": "2026-10-27T18:18:03.309Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Teleports/HuntingGroundsTeleport/low_schuttgart.htm": {
+   "file": "ai/npc/Teleports/HuntingGroundsTeleport/low_schuttgart.htm",
+   "quest": null,
+   "text": "&$556;",
+   "when": [
+    "check"
+   ],
+   "links": [
+    {
+     "text": "Necropolis of Sacrifice - 17000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 -41184 206752 -3352 17000",
+     "kind": "other"
+    },
+    {
+     "text": "The Pilgrim's Necropolis - 19000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 45600 126944 -3680 19000",
+     "kind": "other"
+    },
+    {
+     "text": "The Catacomb of the Heretic - 20000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 39232 143568 -3648 20000",
+     "kind": "other"
+    },
+    {
+     "text": "Catacomb of the Branded - 30000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 43200 170688 -3248 30000",
+     "kind": "other"
+    },
+    {
+     "text": "Necropolis of Worship - 22000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 107514 174329 -3704 22000",
+     "kind": "other"
+    },
+    {
+     "text": "Catacomb of the Apostate - 26000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 74672 78032 -3392 26000",
+     "kind": "other"
+    },
+    {
+     "text": "The Patriot's Necropolis - 29000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 -25472 77728 -3440 29000",
+     "kind": "other"
+    }
+   ]
+  },
+  "ai/npc/Teleports/HuntingGroundsTeleport/hg_schuttgart.htm": {
+   "file": "ai/npc/Teleports/HuntingGroundsTeleport/hg_schuttgart.htm",
+   "quest": null,
+   "text": "&$556;",
+   "when": [
+    "NOT check"
+   ],
+   "links": [
+    {
+     "text": "Necropolis of Sacrifice - 29000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 -41184 206752 -3352 29000",
+     "kind": "other"
+    },
+    {
+     "text": "The Pilgrim's Necropolis - 32000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 45600 126944 -3680 32000",
+     "kind": "other"
+    },
+    {
+     "text": "The Catacomb of the Heretic - 34000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 39232 143568 -3648 34000",
+     "kind": "other"
+    },
+    {
+     "text": "Catacomb of the Branded - 50000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 43200 170688 -3248 50000",
+     "kind": "other"
+    },
+    {
+     "text": "Necropolis of Worship - 38000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 107514 174329 -3704 38000",
+     "kind": "other"
+    },
+    {
+     "text": "Catacomb of the Apostate - 44000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 74672 78032 -3392 44000",
+     "kind": "other"
+    },
+    {
+     "text": "The Patriot's Necropolis - 49000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 -25472 77728 -3440 49000",
+     "kind": "other"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Purchase Record of the Seven Signs. | Buy | Participation in the Seven Signs | Seal of Avarice | \"I wish to fight for the Seal of Avarice.\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Participation in the Seven Signs",
+   "n": 35,
+   "inDatapack": false,
+   "from": [
+    "Priest of Dawn: Glory to the twilight empire! The Seal of De"
+   ],
+   "to": [
+    "[Participation in the Seven Signs] Do you wish to participat"
+   ]
+  },
+  {
+   "text": "Seal of Avarice",
+   "n": 35,
+   "inDatapack": false,
+   "from": [
+    "[Participation in the Seven Signs] Do you wish to participat"
+   ],
+   "to": [
+    "[Seal of Avarice] The Seal of Avarice bestows the following "
+   ]
+  },
+  {
+   "text": "\"I wish to fight for the Seal of Avarice.\"",
+   "n": 35,
+   "inDatapack": false,
+   "from": [
+    "[Seal of Avarice] The Seal of Avarice bestows the following "
+   ],
+   "to": [
+    "Your application has been accepted. Congratulations! You're "
+   ]
+  },
+  {
+   "text": "Purchase Record of the Seven Signs.",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "Priest of Dawn: Glory to the twilight empire! The Seal of De"
+   ],
+   "to": [
+    "[Purchase the Record of the Seven Seals] The Record of Seven"
+   ]
+  },
+  {
+   "text": "Buy",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "[Purchase the Record of the Seven Seals] The Record of Seven"
+   ],
+   "to": []
+  }
+ ]
+}

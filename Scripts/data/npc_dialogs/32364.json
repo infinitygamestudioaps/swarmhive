@@ -1,0 +1,108 @@
+{
+ "npcId": 32364,
+ "name": "Hellbound Traitor",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.372Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32364.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32364.htm": {
+   "file": "default/32364.htm",
+   "quest": null,
+   "text": "Hellbound Traitor: Fools! They are wasting their time and effort on a lost cause...",
+   "header": "Hellbound Traitor",
+   "links": [
+    {
+     "text": "Ask him who is foolish.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32364-1.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/32364-1.htm": {
+   "file": "default/32364-1.htm",
+   "quest": null,
+   "text": "Hellbound Traitor: My brethren act rashly if given even the tiniest bit of freedom. But unless they come to their senses, soon they will not even have the freedom to draw breath! Some may say that the Steel Citadel will soon fall, but that is nonsense. Any recent setbacks it has experienced are as …",
+   "header": "Hellbound Traitor",
+   "links": [
+    {
+     "text": "Ask what he means.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/32364-2.htm"
+    }
+   ]
+  },
+  "default/32364-2.htm": {
+   "file": "default/32364-2.htm",
+   "quest": null,
+   "text": "Hellbound Traitor: Well, here is a golden opportunity for an adventurer such as yourself. The rebel leader, Commander Leodas, is injured and resting in that room. Now what would happen if strangers burst in and killed him? I know for a fact that the ruler of the Steel Citadel would express his grat…",
+   "header": "Hellbound Traitor",
+   "links": [
+    {
+     "text": "Tell him to open the door.",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/32364-3.htm"
+    }
+   ]
+  },
+  "default/32364-3.htm": {
+   "file": "default/32364-3.htm",
+   "quest": null,
+   "text": "Hellbound Traitor: Kuhh! You are pretty clever. The Steel Citadel values people of talent like you. Look here, you will be rewarded for killing the captain of the Hellbound rebels, but what about me? Don't you think that I deserve a little payment? What I need is 10 Marks of Betrayal . Bring me tho…",
+   "header": "Hellbound Traitor",
+   "links": [
+    {
+     "text": "Tell him that you have them.",
+     "bypass": "Quest Natives open_door",
+     "kind": "quest-event",
+     "script": "Natives",
+     "event": "open_door"
+    },
+    {
+     "text": "Threaten him into opening the door immediately.",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "default/32364-4.htm"
+    }
+   ]
+  },
+  "default/32364-4.htm": {
+   "file": "default/32364-4.htm",
+   "quest": null,
+   "text": "Hellbound Traitor: Ha? My, my -- you are an eager young pup, aren't you? But what would happen if I called out to my comrades that foreign mercenaries were here to attack us? They would flood out and overpower you in an instant!",
+   "header": "Hellbound Traitor",
+   "links": [
+    {
+     "text": "Ask what he wants in return for opening the door.",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/32364-3.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

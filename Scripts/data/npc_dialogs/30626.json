@@ -1,0 +1,296 @@
+{
+ "npcId": 30626,
+ "name": "Hamil",
+ "title": "Sagittarius",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.021Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30626.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "224": {
+   "name": "Test Of Sagittarius",
+   "listText": [
+    "[Test of Sagittarius]",
+    "[Test of Sagittarius (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00224_TestOfSagittarius/30626-01.html",
+     "when": "state STARTED; memo 1; has items 3294",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00224_TestOfSagittarius/30626-04.html",
+     "when": "state STARTED; memo 2; has items 3295",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00224_TestOfSagittarius/30626-05.html",
+     "when": "state STARTED; memo 4; item 3298 >= 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00224_TestOfSagittarius/30626-08.html",
+     "when": "state STARTED; memo 5; has items 3296",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00224_TestOfSagittarius/30626-09.html",
+     "when": "state STARTED; memo 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00224_TestOfSagittarius/30626-10.html",
+     "when": "state STARTED; memo 9; has items 3297",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00224_TestOfSagittarius/30626-11.html",
+     "when": "state STARTED; memo 12; has items 3028",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00224_TestOfSagittarius/30626-12.html",
+     "when": "state STARTED; memo 13",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00224_TestOfSagittarius/30626-13.html",
+     "when": "state STARTED; memo 14; has items 3300",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30626.htm": {
+   "file": "default/30626.htm",
+   "quest": null,
+   "text": "Sagittarius Hamil: Hello, stranger! My name is Hamil. I've been dispatched by the Hunters Guild in Hunters Village to investigate suspicious activities in the southern region of the kingdom...",
+   "header": "Sagittarius Hamil",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00224_TestOfSagittarius/30626-01.html": {
+   "file": "Q00224_TestOfSagittarius/30626-01.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: Nice to meet you, young Warrior. Did Bernard send you here? We are in need of help. Your arrival is most timely. There is evil afoot in the southern part of the kingdom. The wasteland ants are on the move, and from the east, the Breka Orcs are restive... On top of all this, somet…",
+   "header": "Sagittarius Hamil",
+   "when": [
+    "state STARTED; memo 1; has items 3294"
+   ],
+   "links": [
+    {
+     "text": "Ask about Brankel",
+     "bypass": "Quest Q00224_TestOfSagittarius 30626-02.html",
+     "kind": "quest-event",
+     "script": "Q00224_TestOfSagittarius",
+     "event": "30626-02.html",
+     "quest": 224,
+     "to": "Q00224_TestOfSagittarius/30626-02.html"
+    }
+   ]
+  },
+  "Q00224_TestOfSagittarius/30626-04.html": {
+   "file": "Q00224_TestOfSagittarius/30626-04.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: There is no time to lose! You must go and meet Aaron Tanford immediately!",
+   "header": "Sagittarius Hamil",
+   "when": [
+    "state STARTED; memo 2; has items 3295"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00224_TestOfSagittarius/30626-05.html": {
+   "file": "Q00224_TestOfSagittarius/30626-05.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: Ah, hunter's runes written on the pebbles...? Yes, this is the secret code used by hunters. We must place the pebbles in order...",
+   "header": "Sagittarius Hamil",
+   "when": [
+    "state STARTED; memo 4; item 3298 >= 10"
+   ],
+   "links": [
+    {
+     "text": "Place the Hunter's Runes",
+     "bypass": "Quest Q00224_TestOfSagittarius 30626-06.html",
+     "kind": "quest-event",
+     "script": "Q00224_TestOfSagittarius",
+     "event": "30626-06.html",
+     "quest": 224,
+     "to": "Q00224_TestOfSagittarius/30626-06.html"
+    }
+   ]
+  },
+  "Q00224_TestOfSagittarius/30626-08.html": {
+   "file": "Q00224_TestOfSagittarius/30626-08.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: Prefect Vokian is an old friend of mine. He saved my life once and I saved his twice! Out of the death crisis. You must hurry to the Town of Giran and meet him. I hope to hear good news from you soon.",
+   "header": "Sagittarius Hamil",
+   "when": [
+    "state STARTED; memo 5; has items 3296"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00224_TestOfSagittarius/30626-09.html": {
+   "file": "Q00224_TestOfSagittarius/30626-09.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: Who would have thought that they could mobilize those savage heathens to join in their plot? Lets see what Brankel has to say... Oh, no, we are too late! The Orc shamans have revived the serpent and awakened the Commander! Ah, yes... Commander Kadesh ! I hoped to never hear that …",
+   "header": "Sagittarius Hamil",
+   "when": [
+    "state STARTED; memo 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00224_TestOfSagittarius/30626-10.html": {
+   "file": "Q00224_TestOfSagittarius/30626-10.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: No one has more experience against Commander Kadesh than Magister Gauen of the Ivory Tower . His assistance is essential. Go and meet him now.",
+   "header": "Sagittarius Hamil",
+   "when": [
+    "state STARTED; memo 9; has items 3297"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00224_TestOfSagittarius/30626-11.html": {
+   "file": "Q00224_TestOfSagittarius/30626-11.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: Brankel lives! I met with him shortly before he left for the south of Oren. Commander Kadesh is currently surviving off the flesh of Leto Lizardmen. Dammit! I should've gone with Brankel! Oh! Look! The crescent arrow! I haven't seen it in 20 years! Take it and follow Brankel! Kil…",
+   "header": "Sagittarius Hamil",
+   "when": [
+    "state STARTED; memo 12; has items 3028"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00224_TestOfSagittarius/30626-12.html": {
+   "file": "Q00224_TestOfSagittarius/30626-12.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: As time passes, Commander Kadesh grows stronger. Kill his food source, the Leto Lizardmen . When Kadesh appears, kill him with the crescent arrow ! If you use a skill or another method, the power of the arrow will disappear and Kadesh will survive ! Don't forget! Never use a skil…",
+   "header": "Sagittarius Hamil",
+   "when": [
+    "state STARTED; memo 13"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00224_TestOfSagittarius/30626-13.html": {
+   "file": "Q00224_TestOfSagittarius/30626-13.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: So you haven't found Brankel... He is searching for the heathens? He is noble indeed. He was correct, they must be up to something else. Commander Kadesh is not their final goal... This amulet holds clues for us... The seven eyes... This is the mark of the children of Shilen. I m…",
+   "header": "Sagittarius Hamil",
+   "when": [
+    "state STARTED; memo 14; has items 3300"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00224_TestOfSagittarius/30626-02.html": {
+   "file": "Q00224_TestOfSagittarius/30626-02.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: Brankel was sent here before me and left before I arrived. Before leaving he entrusted a letter with Merchant Pano addressed to me. I sensed danger even before Brankel was sent here.",
+   "header": "Sagittarius Hamil",
+   "links": [
+    {
+     "text": "\"What does the letter say?\"",
+     "bypass": "Quest Q00224_TestOfSagittarius 30626-03.html",
+     "kind": "quest-event",
+     "script": "Q00224_TestOfSagittarius",
+     "event": "30626-03.html",
+     "quest": 224,
+     "to": "Q00224_TestOfSagittarius/30626-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00224_TestOfSagittarius/30626-03.html": {
+   "file": "Q00224_TestOfSagittarius/30626-03.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: I will read the letter to you: I am leaving now for the Ant's Nest and I'm not sure if I shall return... I will try to leave clues for you to follow me. Please hurry, brother. Brankel ... I wish I could follow him right away, but I am busy defending the village from the Leto Liza…",
+   "header": "Sagittarius Hamil",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00224_TestOfSagittarius/30626-06.html": {
+   "file": "Q00224_TestOfSagittarius/30626-06.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: Hmm... Let's see... Ant's Nest... deep... black serpent... egg..., dark, no, abyss...!? child of abyss...! Hmm, this is...! Yes, here we go! 'In the hands of the children of abyss'... 'to the Breka Orcs'... 'the black serpent's egg' to the 'children of abyss' ...? The castle of t…",
+   "header": "Sagittarius Hamil",
+   "links": [
+    {
+     "text": "Ask about the Children of Abyss",
+     "bypass": "Quest Q00224_TestOfSagittarius 30626-07.html",
+     "kind": "quest-event",
+     "script": "Q00224_TestOfSagittarius",
+     "event": "30626-07.html",
+     "quest": 224,
+     "to": "Q00224_TestOfSagittarius/30626-07.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00224_TestOfSagittarius/30626-07.html": {
+   "file": "Q00224_TestOfSagittarius/30626-07.html",
+   "quest": 224,
+   "text": "Sagittarius Hamil: Those heathen followers of the Goddess of Destruction. Or should I say 'The children of Shilen'... Bah! I am sure that race is behind the mischief that has been going on lately! You must hurry and go to Giran! If what Brankel says is true, the Breka Orcs are having the black egg …",
+   "header": "Sagittarius Hamil",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Sagittarius (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00224_TestOfSagittarius",
+     "kind": "quest",
+     "quest": 224,
+     "to": "Q00224_TestOfSagittarius/30626-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

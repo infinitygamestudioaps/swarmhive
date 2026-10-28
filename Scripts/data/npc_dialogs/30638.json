@@ -1,0 +1,248 @@
+{
+ "npcId": 30638,
+ "name": "Basilla",
+ "title": "Summoner",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.024Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30638.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "230": {
+   "name": "Test Of The Summoner",
+   "listText": [
+    "[Test of the Summoner]",
+    "[Test of the Summoner (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00230_TestOfTheSummoner/30638-01.html",
+     "when": "state STARTED; lacks items 3357,3365,3366,3367,3368,3369",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30638-05.html",
+     "when": "state STARTED; has items 3365,3366,3367,3368,3369; lacks items 3357,3365,3366,3367,3369",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30638-06.html",
+     "when": "state STARTED; has items 3365,3366,3367,3368,3369; lacks items 3357,3365,3366,3368,3369; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_VI",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30638-07.html",
+     "when": "state STARTED; has items 3365,3366,3367,3368,3369; lacks items 3357,3365,3366,3367,3368; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_DEFEAT_2ND, CRYSTAL_OF_",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30638-08.html",
+     "when": "state STARTED; has items 3365,3366,3367,3368,3369; lacks items 3357,3366,3367,3368,3369; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_DEFEAT_2ND, CRYSTAL_OF_; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_DE",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30638-09.html",
+     "when": "state STARTED; has items 3365,3366,3367,3368,3369; lacks items 3357,3365,3367,3368,3369; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_DEFEAT_2ND, CRYSTAL_OF_; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_DE; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_DEFEAT_2ND, CRYSTAL_OF_VICT",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30638-10.html",
+     "when": "state STARTED; has items 3357",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30638.htm": {
+   "file": "default/30638.htm",
+   "quest": null,
+   "text": "Summoner Basillia Greetings, traveler. I am Basillia, a Summoner in the Ivory Tower. Good to see you. This area is where I was born... I've been gone for thirty years and everything looks very different now. All that is here now are the scars left by the war with Gracia... The beautiful town of my …",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30638-01.html": {
+   "file": "Q00230_TestOfTheSummoner/30638-01.html",
+   "quest": 230,
+   "text": "Summoner Basillia: Greetings, traveler. I am Basillia, a Summoner of the Ivory Tower. I was born in this place, but left it over 30 years ago. Let's get down to business, shall we? I know what you're here for... Take out your Arcana Card and prepare for battle! I have already summoned my cat, Mimi.",
+   "header": "Summoner Basillia",
+   "when": [
+    "state STARTED; lacks items 3357,3365,3366,3367,3368,3369"
+   ],
+   "links": [
+    {
+     "text": "Take out the Arcana Card.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30638-03.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30638-03.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30638-03.html",
+     "toAll": [
+      "Q00230_TestOfTheSummoner/30638-03.html",
+      "Q00230_TestOfTheSummoner/30638-02.html"
+     ]
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30638-05.html": {
+   "file": "Q00230_TestOfTheSummoner/30638-05.html",
+   "quest": 230,
+   "text": "Summoner Basillia: Don't be discouraged, the outcome was inevitable. I am invincible!",
+   "header": "Summoner Basillia",
+   "when": [
+    "state STARTED; has items 3365,3366,3367,3368,3369; lacks items 3357,3365,3366,3367,3369"
+   ],
+   "links": [
+    {
+     "text": "\"I demand a rematch!\"",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30638-03.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30638-03.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30638-03.html",
+     "toAll": [
+      "Q00230_TestOfTheSummoner/30638-03.html",
+      "Q00230_TestOfTheSummoner/30638-02.html"
+     ]
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30638-06.html": {
+   "file": "Q00230_TestOfTheSummoner/30638-06.html",
+   "quest": 230,
+   "text": "Summoner Basillia Haven't you learned that cheating does not lead to victory?",
+   "when": [
+    "state STARTED; has items 3365,3366,3367,3368,3369; lacks items 3357,3365,3366,3368,3369; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_VI"
+   ],
+   "links": [
+    {
+     "text": "\"I demand a rematch!\"",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30638-03.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30638-03.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30638-03.html",
+     "toAll": [
+      "Q00230_TestOfTheSummoner/30638-03.html",
+      "Q00230_TestOfTheSummoner/30638-02.html"
+     ]
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30638-07.html": {
+   "file": "Q00230_TestOfTheSummoner/30638-07.html",
+   "quest": 230,
+   "text": "Summoner Basillia ...Well, I certainly didn't see that coming. Quite unexpected I must say... How could I have lost to you? I don't understand it but acquiesce... My Arcana Card is yours, as promised .",
+   "when": [
+    "state STARTED; has items 3365,3366,3367,3368,3369; lacks items 3357,3365,3366,3367,3368; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_DEFEAT_2ND, CRYSTAL_OF_"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30638-08.html": {
+   "file": "Q00230_TestOfTheSummoner/30638-08.html",
+   "quest": 230,
+   "text": "Summoner Basillia The battle has begun. Order your creature to attack!",
+   "when": [
+    "state STARTED; has items 3365,3366,3367,3368,3369; lacks items 3357,3366,3367,3368,3369; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_DEFEAT_2ND, CRYSTAL_OF_; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_DE"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30638-09.html": {
+   "file": "Q00230_TestOfTheSummoner/30638-09.html",
+   "quest": 230,
+   "text": "Summoner Basillia Shut up, you fool! We are in the midst of battle!",
+   "when": [
+    "state STARTED; has items 3365,3366,3367,3368,3369; lacks items 3357,3365,3367,3368,3369; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_DEFEAT_2ND, CRYSTAL_OF_; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_2ND, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_DE; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_INPROGRESS_2ND, CRYSTAL_OF_FOUL_2ND, CRYSTAL_OF_DEFEAT_2ND, CRYSTAL_OF_VICT"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30638-10.html": {
+   "file": "Q00230_TestOfTheSummoner/30638-10.html",
+   "quest": 230,
+   "text": "Summoner Basillia Why are you still here? I assumed that you left for battle with another Summoner...",
+   "when": [
+    "state STARTED; has items 3357"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30638-02.html": {
+   "file": "Q00230_TestOfTheSummoner/30638-02.html",
+   "quest": 230,
+   "text": "Summoner Basillia We can go no further until you get an Arcana Card. Trader Lara of the Town of Dion will make one for you.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30638-03.html": {
+   "file": "Q00230_TestOfTheSummoner/30638-03.html",
+   "quest": 230,
+   "text": "Summoner Basillia: I suppose you know the rules? The first attack shall be made by summoned creatures! No intervention by the Summoners is allowed! Is that clear? Are you ready for battle?",
+   "header": "Summoner Basillia",
+   "links": [
+    {
+     "text": "Begin the battle",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30638-04.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30638-04.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30638-04.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30638-04.html": {
+   "file": "Q00230_TestOfTheSummoner/30638-04.html",
+   "quest": 230,
+   "text": "Summoner Basillia Very well. I accept your card. Your creature may attack Mimi The Cat now!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Summoner (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00230_TestOfTheSummoner",
+     "kind": "quest",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30638-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,171 @@
+{
+ "npcId": 30564,
+ "name": "Sumari",
+ "title": "Blacksmith",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.001Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30564.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "232": {
+   "name": "Test Of The Lord",
+   "listText": [
+    "[Test of the Lord]",
+    "[Test of the Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00232_TestOfTheLord/30564-01.html",
+     "when": "state STARTED; has items 3394,3391; lacks items 3404,3402,3401",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30564-02.html",
+     "when": "state STARTED; has items 3391,3394,3401; lacks items 3404,3402; !(hasQuestItems(player, HATOS_CHARM, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKULL, URUTU_BLADE, ",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30564-03.html",
+     "when": "state STARTED; has items 3391,3394,3402; lacks items 3401,3404; !(hasQuestItems(player, HATOS_CHARM, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKULL, URUTU_BLADE, ; !(hasQuestItems(player, ORDEAL_NECKLACE, HATOS_CHARM, SUMARIS_LETTER) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKUL",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30564-04.html",
+     "when": "state STARTED; has items 3391,3404; lacks items 3394,3402,3401; !(hasQuestItems(player, HATOS_CHARM, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKULL, URUTU_BLADE, ; !(hasQuestItems(player, ORDEAL_NECKLACE, HATOS_CHARM, SUMARIS_LETTER) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKUL; !(hasQuestItems(player, ORDEAL_NECKLACE, HATOS_CHARM, URUTU_BLADE) && !hasAtLeastOneQuestItem(player, SUMARIS_LETTER, SW",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30564.htm": {
+   "file": "default/30564.htm",
+   "quest": null,
+   "text": "Blacksmith Sumari: I, Sumari, am a blacksmith of the proud Orcs. What brings you here?",
+   "header": "Blacksmith Sumari",
+   "links": [
+    {
+     "text": "Create Double-blade",
+     "bypass": "npc_%objectId%_Link common/duals_01.htm",
+     "kind": "page",
+     "to": "common/duals_01.htm"
+    },
+    {
+     "text": "Create Item",
+     "bypass": "npc_%objectId%_Link common/crafting_01.htm",
+     "kind": "page",
+     "to": "common/crafting_01.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30564-01.html": {
+   "file": "Q00232_TestOfTheLord/30564-01.html",
+   "quest": 232,
+   "text": "Blacksmith Sumari: I, Sumari, am a blacksmith of the proud Orcs. Did Urutu Chief Hatos send you here? To collect the Urutu Blade? The blade ordered by Hatos is very important! A holy object to use in the Urutu tribe's ritual! I had to send it to someone else to work on the blade because it was impo…",
+   "header": "Blacksmith Sumari",
+   "when": [
+    "state STARTED; has items 3394,3391; lacks items 3404,3402,3401"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30564-02.html": {
+   "file": "Q00232_TestOfTheLord/30564-02.html",
+   "quest": 232,
+   "text": "Blacksmith Sumari: Why have you come back? Did I not tell you? I gave the Uturu Blade to Seer Somak of the Town of Dion! He will give you the blade when you show him the letter! So hurry and leave!",
+   "header": "Blacksmith Sumari",
+   "when": [
+    "state STARTED; has items 3391,3394,3401; lacks items 3404,3402; !(hasQuestItems(player, HATOS_CHARM, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKULL, URUTU_BLADE, "
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30564-03.html": {
+   "file": "Q00232_TestOfTheLord/30564-03.html",
+   "quest": 232,
+   "text": "Blacksmith Sumari: The Urutu Blade that has the blessings of ancestors! You received it from Seer Somak! Now take this to Chief Hatos!",
+   "header": "Blacksmith Sumari",
+   "when": [
+    "state STARTED; has items 3391,3394,3402; lacks items 3401,3404; !(hasQuestItems(player, HATOS_CHARM, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKULL, URUTU_BLADE, ; !(hasQuestItems(player, ORDEAL_NECKLACE, HATOS_CHARM, SUMARIS_LETTER) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKUL"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30564-04.html": {
+   "file": "Q00232_TestOfTheLord/30564-04.html",
+   "quest": 232,
+   "text": "Blacksmith Sumari: Oh, this is amazing! The Totem of the Urutu tribe, an Orc's skull with a blade! Raise this horrifying form on the battlefield and your enemies will tremble and lose the will to fight! For the chief to have given you this means that he has set a high value on your skills! You shou…",
+   "header": "Blacksmith Sumari",
+   "when": [
+    "state STARTED; has items 3391,3404; lacks items 3394,3402,3401; !(hasQuestItems(player, HATOS_CHARM, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKULL, URUTU_BLADE, ; !(hasQuestItems(player, ORDEAL_NECKLACE, HATOS_CHARM, SUMARIS_LETTER) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKUL; !(hasQuestItems(player, ORDEAL_NECKLACE, HATOS_CHARM, URUTU_BLADE) && !hasAtLeastOneQuestItem(player, SUMARIS_LETTER, SW"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00232_TestOfTheLord",
+     "kind": "quest",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30564-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/duals_01.htm": {
+   "file": "common/duals_01.htm",
+   "quest": null,
+   "text": "Needless to say, in order to make a Dualsword, you first need two swords. They can be either Regular weapons, Standard weapons or Rare weapons. Regular weapons can only be combined with other Regular weapons, Standard weapons can only be combined with other Standard weapons, and Rare weapons can on…",
+   "links": [
+    {
+     "text": "View the list.",
+     "bypass": "npc_%objectId%_multisell 1001",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/crafting_01.htm": {
+   "file": "common/crafting_01.htm",
+   "quest": null,
+   "text": "[Create ingredient item] Our Blacksmith Guild creates items at a very reasonable price. You may entrust your precious materials to our Blacksmiths. They have a long-standing tradition of integrity. We will do our best to serve you. The creation of the ingredient for A-grade items is the pride of ou…",
+   "links": [
+    {
+     "text": "See the list.",
+     "bypass": "npc_%objectId%_multisell 1004",
+     "kind": "multisell"
+    }
+   ]
+  }
+ }
+}

@@ -69,7 +69,8 @@ const rd = (f, d) => { try { return JSON.parse(fs.readFileSync(f, 'utf8').replac
 // ---------------------------------------------------------------------------------------------------------------------------------
 // datapack location
 function findDp() {
-  const cands = [process.argv.slice(2).find(a => !a.startsWith('--')), process.env.L2J_DP, path.join(DATA, 'dp', 'l2j-server-datapack'),
+  // 2026-10-27: the full clone lives in C:\RainbowControl\l2\datapack_h5\dp (next to the L2Swarm folder, never packaged; Logs/quest_java_src.json)
+  const cands = [process.argv.slice(2).find(a => !a.startsWith('--')), process.env.L2J_DP, path.join(ROOT, '..', 'datapack_h5', 'dp'), path.join(DATA, 'dp', 'l2j-server-datapack'),
     '%TEMP%/scratch'].filter(Boolean);
   for (const c of cands) if (fs.existsSync(path.join(c, 'src/main/java/com/l2jserver/datapack/quests'))) return c;
   console.error('datapack not found; pass its root: node quest_extract.js <dp root> (see the header for the sparse clone)'); process.exit(1);

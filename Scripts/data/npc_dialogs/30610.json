@@ -1,0 +1,827 @@
+{
+ "npcId": 30610,
+ "name": "Cronos",
+ "title": "Elder",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.017Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30610.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "214": {
+   "name": "Trial Of The Scholar",
+   "listText": [
+    "[Trial of the Scholar]",
+    "[Trial of the Scholar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00214_TrialOfTheScholar/30610-01.html",
+     "when": "state STARTED; has items 2677; lacks items 2691,2720",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30610-12.html",
+     "when": "state STARTED; has items 2677,2691,2720,2706,2707,2708,2709",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30610-11.html",
+     "when": "state STARTED; has items 2677,2691,2720; lacks items 2706,2707,2708,2709",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30610-15.html",
+     "when": "state STARTED; has items 2677,2691,2720; lacks items 2691",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "420": {
+   "name": "Little Wing",
+   "listText": [
+    "[Little Wing]",
+    "[Little Wing (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00420_LittleWing/30610-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30610-07.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30610-14.html",
+     "when": "state STARTED; cond 3; qs.getInt(\"old_stone\") > 0",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30610-08.html",
+     "when": "state STARTED; cond 3; !qs.getInt(\"old_stone\") > 0",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30610-09.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30610-10.html",
+     "when": "state STARTED; cond 5; item 3816 >= 0; item 3817 >= 0",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30610-11.html",
+     "when": "state STARTED; cond 5; !((getQuestItemsCount(talker, FAIRY_STONE) == 0) && (getQuestItemsCount(talker, DELUXE_FAIRY_STONE) == 0))",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "421": {
+   "name": "Little Wing's Big Adventure",
+   "listText": [
+    "[Little Wing's Big Adventure]",
+    "[Little Wing's Big Adventure (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30610-01.htm",
+     "when": "state CREATED; level < 45",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30610-02.htm",
+     "when": "state CREATED; NOT level < 45; fluteCount > 1",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30610-03.html",
+     "when": "state CREATED; NOT level < 45; !fluteCount > 1; getFlute(talker).getEnchantLevel() < MIN_HACHLING_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30610-04.htm",
+     "when": "state CREATED; NOT level < 45; !fluteCount > 1; !getFlute(talker).getEnchantLevel() < MIN_HACHLING_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30610-07.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30610.htm": {
+   "file": "default/30610.htm",
+   "quest": null,
+   "text": "Elder Cronos Yes, I am Cronos. I was born in the time before even your great-great grandfather. I am even older than you King! I have forgotten more than you could possibly ever comprehend. Do you understand?",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30610-01.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-01.html",
+   "quest": 214,
+   "text": "Elder Cronos: Running errands for Mirien, are you? How are those greenhorns? Aren't they annoying when they ask you to do this and that? They call themselves High Priest or Grand Magister or whatever, but only their words are courageous. They probably don't even know any great magic... All of their…",
+   "header": "Elder Cronos",
+   "when": [
+    "state STARTED; has items 2677; lacks items 2691,2720"
+   ],
+   "links": [
+    {
+     "text": "\"To be successful\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-02.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-02.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-02.html"
+    },
+    {
+     "text": "\"To gain wealth.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-03.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-03.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-03.html"
+    },
+    {
+     "text": "\"To earn recognition.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-04.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-04.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-04.html"
+    },
+    {
+     "text": "\"For no reason in particular.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-05.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-05.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-05.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30610-12.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-12.html",
+   "quest": 214,
+   "text": "Sage Cronos: Impressive! You collected all 4 of them. Good work! Now a promise is a promise, and I believe I now owe you a mark?",
+   "header": "Sage Cronos",
+   "when": [
+    "state STARTED; has items 2677,2691,2720,2706,2707,2708,2709"
+   ],
+   "links": [
+    {
+     "text": "\"I heard that there are 6 Sacred Books of Knowledge in all?\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-13.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-13.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-13.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30610-11.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-11.html",
+   "quest": 214,
+   "text": "Elder Cronos: Did you see Dieter ? Did you meet my helpless pupil in the Magister's Guild of Giran ? You must go and meet him. He will tell you about the Scriptures of Knowledge. Stop lolling about and leave right now! And don't come back until you have the book!",
+   "header": "Elder Cronos",
+   "when": [
+    "state STARTED; has items 2677,2691,2720; lacks items 2706,2707,2708,2709"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30610-15.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-15.html",
+   "quest": 214,
+   "text": "Elder Cronos: Why have you returned? Stop bothering me and go see Mirien!",
+   "header": "Elder Cronos",
+   "when": [
+    "state STARTED; has items 2677,2691,2720; lacks items 2691"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30610-01.html": {
+   "file": "Q00420_LittleWing/30610-01.html",
+   "quest": 420,
+   "text": "Elder Cronos: Let me guess. You have come for a hatchling, am I right? You should reconsider this foolish choice! It will not fight and eats like a pig. You cannot ride it, but must escort it about like it is your master. Why do you want something that will give you such trouble and heartache? I su…",
+   "header": "Elder Cronos",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"I will raise it with all my love!\"",
+     "bypass": "Quest Q00420_LittleWing 30610-02.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30610-02.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30610-02.html"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30610-07.html": {
+   "file": "Q00420_LittleWing/30610-07.html",
+   "quest": 420,
+   "text": "Elder Cronos: Why are you dawdling about? Don't you have your instructions? If you do not create the stone, I'll have nothing more to do with you! You must go see Maria at the Town of Dion , she will tell you more. To find the toad lord's back skin you must go to the Cruma Marshlands yourself and c…",
+   "header": "Elder Cronos",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30610-14.html": {
+   "file": "Q00420_LittleWing/30610-14.html",
+   "quest": 420,
+   "text": "Elder Cronos: Ah, another Fairy Stone! I had no idea you would actually make another one! May I examine it? It seems very similar to the last one. As I said before, you must go and see Guard Byron . He was born in this village and is the one to tell you what you should do next. Have you been to the…",
+   "header": "Elder Cronos",
+   "when": [
+    "state STARTED; cond 3; qs.getInt(\"old_stone\") > 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30610-08.html": {
+   "file": "Q00420_LittleWing/30610-08.html",
+   "quest": 420,
+   "text": "Elder Cronos: Are you kidding? You made a Fairy Stone? Seriously? I didn't expect it to work! May I see it? Oh my, it is splendid! Consider how lucky you are, my young friend. A wizened old sage like myself never expected to see one with my own eyes. I wonder what you should do next? Oh yes, I know…",
+   "header": "Elder Cronos",
+   "when": [
+    "state STARTED; cond 3; !qs.getInt(\"old_stone\") > 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30610-09.html": {
+   "file": "Q00420_LittleWing/30610-09.html",
+   "quest": 420,
+   "text": "Elder Cronos: Have you seen Guard Byron ? I know nothing of fairies and the like... Maybe you should visit the Enchanted Valley after all...",
+   "header": "Elder Cronos",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30610-10.html": {
+   "file": "Q00420_LittleWing/30610-10.html",
+   "quest": 420,
+   "text": "Elder Cronos: Ah, so a Deluxe Fairy Stone will break when it comes in contact with blood? This stone is more fragile than I thought. You knew about this weakness before you fought? If Byron told you not to engage in combat, you should have followed his instructions... How unfortunate! Oh well, some…",
+   "header": "Elder Cronos",
+   "when": [
+    "state STARTED; cond 5; item 3816 >= 0; item 3817 >= 0"
+   ],
+   "links": [
+    {
+     "text": "\"I will make a regular Fairy Stone.\"",
+     "bypass": "Quest Q00420_LittleWing 30610-12.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30610-12.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30610-12.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "\"I will make another Deluxe Fairy Stone.\"",
+     "bypass": "Quest Q00420_LittleWing 30610-13.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30610-13.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30610-13.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30610-11.html": {
+   "file": "Q00420_LittleWing/30610-11.html",
+   "quest": 420,
+   "text": "Elder Cronos: So he told you to go to the deepest part of Enchanted Valley? Then by all means, you should go! Byron knows of what he speaks. Few know the Enchanted Valley as well as he... Do as he says.",
+   "header": "Elder Cronos",
+   "when": [
+    "state STARTED; cond 5; !((getQuestItemsCount(talker, FAIRY_STONE) == 0) && (getQuestItemsCount(talker, DELUXE_FAIRY_STONE) == 0))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30610-01.htm": {
+   "file": "Q00421_LittleWingsBigAdventure/30610-01.htm",
+   "quest": 421,
+   "text": "Elder Cronos: We've had this conversation about hatchlings before, haven't we, my young friend? As I said before, raising a hatchling requires resolve, which you haven't proven to me yet. But you wouldn't listen, oh no... So here we are... Have you learned anything? Since you are determined to keep…",
+   "header": "Elder Cronos",
+   "when": [
+    "state CREATED; level < 45"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30610-02.htm": {
+   "file": "Q00421_LittleWingsBigAdventure/30610-02.htm",
+   "quest": 421,
+   "text": "Elder Cronos: We've had this conversation about hatchlings before, haven't we, my young friend? As I said before, raising a hatchling requires resolve, which you haven't proven to me yet. But would you listen, oh no... So here we are... Have you learned anything? Wait, what is this? Why are you car…",
+   "header": "Elder Cronos",
+   "when": [
+    "state CREATED; NOT level < 45; fluteCount > 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30610-03.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30610-03.html",
+   "quest": 421,
+   "text": "Elder Cronos: We've had this conversation about hatchlings before, haven't we, my young friend? As I said before, raising a hatchling requires resolve, which you haven't proven to me yet. But you wouldn't listen, oh no... So here we are... Have you learned anything? Since you are determined to keep…",
+   "header": "Elder Cronos",
+   "when": [
+    "state CREATED; NOT level < 45; !fluteCount > 1; getFlute(talker).getEnchantLevel() < MIN_HACHLING_LVL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30610-04.htm": {
+   "file": "Q00421_LittleWingsBigAdventure/30610-04.htm",
+   "quest": 421,
+   "text": "Elder Cronos: We've had this conversation before, haven't we? As I said, raising a hatchling requires resolve, which you haven't yet proven. Have you learned your lesson yet? Are you ready to have your hatchling transformed into a strider?",
+   "header": "Elder Cronos",
+   "when": [
+    "state CREATED; NOT level < 45; !fluteCount > 1; !getFlute(talker).getEnchantLevel() < MIN_HACHLING_LVL"
+   ],
+   "links": [
+    {
+     "text": "\"Do you know how to do this?\"",
+     "bypass": "Quest Q00421_LittleWingsBigAdventure 30610-05.htm",
+     "kind": "quest-event",
+     "script": "Q00421_LittleWingsBigAdventure",
+     "event": "30610-05.htm",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30610-05.htm",
+     "toAll": [
+      "Q00421_LittleWingsBigAdventure/30610-05.htm",
+      "Q00421_LittleWingsBigAdventure/30610-06.html"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00421_LittleWingsBigAdventure/30610-07.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30610-07.html",
+   "quest": 421,
+   "text": "Elder Cronos: Questions, questions, questions! You should mind your own business and go and find Fairy Mimyu in the Enchanted Valley. She will tell you what you need to do in order to transform your hatchling into a strider.",
+   "header": "Elder Cronos",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30610-02.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-02.html",
+   "quest": 214,
+   "text": "Elder Cronos: Success? What do you mean, that you wish to succeed as a Mystic? Have you ever heard of a Mystic who became King? Well, there was Baium, the Emperor of Elmoreden, but he didn't become King as a Mystic! Do you get it? The highest calling you can achieve is the pursuit of wealth!",
+   "header": "Elder Cronos",
+   "links": [
+    {
+     "text": "\"Whatever... just give me the test.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-06.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-06.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-06.html"
+    },
+    {
+     "text": "\"I am not interested in your opinions. Let me take the test.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-07.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-07.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-07.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30610-03.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-03.html",
+   "quest": 214,
+   "text": "Elder Cronos: You think you can build wealth with magic? How naive! Do you think that all the other Dwarves are wrong? They gave up magic long ago and used their limited intelligence for earning money! If you wish to learn to accumulate wealth, you should go to a Dwarf and learn from him.",
+   "header": "Elder Cronos",
+   "links": [
+    {
+     "text": "\"You seem bitter. Just give me the test, old man.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-06.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-06.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-06.html"
+    },
+    {
+     "text": "\"Could you please shut up and give me the test?\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-07.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-07.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-07.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30610-04.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-04.html",
+   "quest": 214,
+   "text": "Elder Cronos: You're so vain! Do you think people will respect you because you're a Magician? Ha! Showing off your magic like a trained monkey... Is that what you want? If you wish to earn the respect of others, the best way is to be generous. Yes, that's the best way!",
+   "header": "Elder Cronos",
+   "links": [
+    {
+     "text": "\"Whatever, old man. Just give me the test, OK?\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-06.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-06.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-06.html"
+    },
+    {
+     "text": "\"Could you please stop babbling and give me the test?\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-07.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-07.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-07.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30610-05.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-05.html",
+   "quest": 214,
+   "text": "Elder Cronos: No reason in particular, huh? Could it possibly be that the stupidest person in the world is in my presence? What are you thinking? Or are you thinking at all?",
+   "header": "Elder Cronos",
+   "links": [
+    {
+     "text": "\"You seem bitter. Could you please just give me the test?\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-06.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-06.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-06.html"
+    },
+    {
+     "text": "\"Please stop babbling and give me the test.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-07.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-07.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-07.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30610-06.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-06.html",
+   "quest": 214,
+   "text": "Elder Cronos: Ha! Cheeky, aren't you? Well, if you are sure that you are ready... Don't hang around here bawling if you fail...",
+   "header": "Elder Cronos",
+   "links": [
+    {
+     "text": "Take the test",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-08.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-08.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-08.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30610-07.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-07.html",
+   "quest": 214,
+   "text": "Elder Cronos: Ah ha, a flash of boldness! Good, that characteristic will serve you well. OK, you shall have the test. If you fail, don't think you can stand around here crying about it though...",
+   "header": "Elder Cronos",
+   "links": [
+    {
+     "text": "Take the test",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-08.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-08.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-08.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30610-08.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-08.html",
+   "quest": 214,
+   "text": "Elder Cronos: What a cheeky youngster! Very well, you shall have the test. Now listen carefully, as I hate to repeat things! I also have no patience for laggards, so keep up! Are you ready?",
+   "header": "Elder Cronos",
+   "links": [
+    {
+     "text": "\"I am ready!\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-09.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-09.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-09.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30610-09.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-09.html",
+   "quest": 214,
+   "text": "Elder Cronos: Over 100 years ago I wrote a book that some fool got ahold of and named 'The Scriptures of Knowledge'. 20 years ago the book disappeared, I'm not sure if it was stolen or if I lost it. Please find it for me.",
+   "header": "Elder Cronos",
+   "links": [
+    {
+     "text": "\"Where would I look for it?\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-10.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-10.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-10.html",
+     "effect": "cond:20"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30610-10.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-10.html",
+   "quest": 214,
+   "text": "Elder Cronos: Such a helpless child, must I do everything for you? If you are totally flummoxed I shall give you a clue. You must find Dieter from the Magister's Guild in Giran . He used to work for me... You should be able to get some advice from him. Don't waste time! Dieter will probably not wan…",
+   "header": "Elder Cronos",
+   "sets": {
+    "cond": "20"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30610-13.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-13.html",
+   "quest": 214,
+   "text": "Elder Cronos: Well, yes, of course. There are 6. To tell you the truth, I know who has the other 2, and I am not inclined to get them back. As Dieter told you, the books are meaningless unless you have all 6. This knowledge could be very dangerous if it became widespread in the world. My book is a …",
+   "header": "Elder Cronos",
+   "links": [
+    {
+     "text": "Ask about absolute geometry",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30610-14.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30610-14.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-14.html",
+     "effect": "cond:31"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30610-14.html": {
+   "file": "Q00214_TrialOfTheScholar/30610-14.html",
+   "quest": 214,
+   "text": "Elder Cronos: Absolute geometry evolved from the beginning of time. It contains all truth in the universe. Mathematics, dynamics, architecture, astronomy, and navigation were all derived from the absolute geometry. He who truly understands absolute geometry can control the world. The secrets of abs…",
+   "header": "Elder Cronos",
+   "sets": {
+    "cond": "31"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00420_LittleWing/30610-02.html": {
+   "file": "Q00420_LittleWing/30610-02.html",
+   "quest": 420,
+   "text": "Elder Cronos: How can you say that with a straight face! That makes my skin crawl! No matter how hard you try, it cannot be raised properly by those of our race. The fairies were the only ones successful at it! Why don't you find a fairy, and babble about love. Maybe she will listen and grant your …",
+   "header": "Elder Cronos",
+   "links": [
+    {
+     "text": "\"Where can I find a fairy?\"",
+     "bypass": "Quest Q00420_LittleWing 30610-03.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30610-03.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30610-03.html"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30610-03.html": {
+   "file": "Q00420_LittleWing/30610-03.html",
+   "quest": 420,
+   "text": "Elder Cronos: Such a stubborn youth! Do you only hear the words you want to hear? Fairies have been gone for centuries! In ancient times they became so disgusted with Human behavior they all flew away to another world! If you must see them, you might try looking in Enchanted Valley . You must be ve…",
+   "header": "Elder Cronos",
+   "links": [
+    {
+     "text": "\"Which way to the Enchanted Valley?\"",
+     "bypass": "Quest Q00420_LittleWing 30610-04.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30610-04.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30610-04.html"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30610-04.html": {
+   "file": "Q00420_LittleWing/30610-04.html",
+   "quest": 420,
+   "text": "Elder Cronos: Are you deaf? You still insist on going there even though you will surely be killed? Oh well, you were warned! Don't blame me if you wind up dead. Now where is that book? You must listen carefully! Let's assume that by some miracle you survive the Enchanted Valley long enough to meet …",
+   "header": "Elder Cronos",
+   "links": [
+    {
+     "text": "\"I will make a regular Fairy Stone.\"",
+     "bypass": "Quest Q00420_LittleWing 30610-05.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30610-05.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30610-05.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "\"I will make a Deluxe Fairy Stone.\"",
+     "bypass": "Quest Q00420_LittleWing 30610-06.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30610-06.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30610-06.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30610-05.html": {
+   "file": "Q00420_LittleWing/30610-05.html",
+   "quest": 420,
+   "text": "Elder Cronos: Oh well, what do I have to lose? Here is the list of ingredients you will need in order to create a Fairy Stone. Howover this cannot be accomplished easily, not even by a skilled Dwarven Artisan. I do know of a young lady named Maria who lives in the Town of Dion who can make a Crysta…",
+   "header": "Elder Cronos",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00420_LittleWing/30610-06.html": {
+   "file": "Q00420_LittleWing/30610-06.html",
+   "quest": 420,
+   "text": "Elder Cronos: Oh well, what do I have to lose? Here is the list of ingredients you will need in order to create a Fairy Stone. However this cannot be accomplished easily, not even by a skilled Dwarven Artisan. I do know of a young lady named Maria who lives in the Town of Dion who can make a Crysta…",
+   "header": "Elder Cronos",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00420_LittleWing/30610-12.html": {
+   "file": "Q00420_LittleWing/30610-12.html",
+   "quest": 420,
+   "text": "Elder Cronos: Here is the Ingredient List. You can obtain the toad lord's back skin in the Cruma Marshlands . You must capture a toad lord and take it with the other ingredients to Maria of the Town of Dion . She will make a Fairy Stone for you.",
+   "header": "Elder Cronos",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00420_LittleWing/30610-13.html": {
+   "file": "Q00420_LittleWing/30610-13.html",
+   "quest": 420,
+   "text": "Elder Cronos: Here is the Ingredient List. You can obtain the toad lord's back skin in the Cruma Marshlands . You must capture a toad lord and take it with the other ingredients to Maria of the Town of Dion . She will make a Deluxe Fairy Stone for you.",
+   "header": "Elder Cronos",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30610-05.htm": {
+   "file": "Q00421_LittleWingsBigAdventure/30610-05.htm",
+   "quest": 421,
+   "text": "Elder Cronos: Whether I know how to do it or not is not your concern... You should talk to Fairy Mimyu in the Enchanted Valley. Actually, she was the one I got your hatchling from! I have kept in touch with her since our last encounter. We have become friendly. I will send her a letter asking her t…",
+   "header": "Elder Cronos",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30610-06.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30610-06.html",
+   "quest": 421,
+   "text": "Elder Cronos: Whether I know how to do it or not is no concern of yours... The thing about hatchlings is... Wait! What is this? When did you switch the dragon flute? Oh, come on! How long can you go on acting like this?",
+   "header": "Elder Cronos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Scholar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00214_TrialOfTheScholar",
+     "kind": "quest",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30610-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Little Wing (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00420_LittleWing",
+     "kind": "quest",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30610-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Little Wing's Big Adventure]",
+     "bypass": "npc_%objectId%_Quest Q00421_LittleWingsBigAdventure",
+     "kind": "quest",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30610-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Little Wing's Big Adventure (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00421_LittleWingsBigAdventure",
+     "kind": "quest",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30610-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

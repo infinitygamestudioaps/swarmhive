@@ -1,0 +1,1447 @@
+{
+ "npcId": 30232,
+ "name": "Sorint",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.916Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30232.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "336": {
+   "name": "Coins of Magic",
+   "listText": [
+    "[Coins of Magic]",
+    "[Coins of Magic (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00336_CoinsOfMagic/30232-01.htm",
+     "when": "state CREATED; level < 40",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00336_CoinsOfMagic/30232-02.htm",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00336_CoinsOfMagic/30232-06.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00336_CoinsOfMagic/30232-07.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00336_CoinsOfMagic/30232-10.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00336_CoinsOfMagic/30232-11.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00336_CoinsOfMagic/30232-12.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "381": {
+   "name": "Let's Become a Royal Member!",
+   "listText": [
+    "[Let's Become a Royal Member!]",
+    "[Let's Become a Royal Member! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00381_LetsBecomeARoyalMember/30232-02.html",
+     "when": "state CREATED; ((talker.getLevel() < MIN_LVL) || !hasQuestItems(talker, COLLECTOR_MEMBERSHIP_1))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00381_LetsBecomeARoyalMember/30232-01.htm",
+     "when": "state CREATED; lacks items 5898; !((talker.getLevel() < MIN_LVL) || !hasQuestItems(talker, COLLECTOR_MEMBERSHIP_1))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00381_LetsBecomeARoyalMember/30232-06.html",
+     "when": "state STARTED; hasAlbum; hasCoin",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00381_LetsBecomeARoyalMember/30232-05.html",
+     "when": "state STARTED; !(hasAlbum && hasCoin); (hasAlbum || hasCoin)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00381_LetsBecomeARoyalMember/30232-04.html",
+     "when": "state STARTED; !(hasAlbum && hasCoin); !(hasAlbum || hasCoin)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30232.htm": {
+   "file": "warehouse/30232.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Sorint: How was your hunting? In this area, there are some monsters that look just like the others, but are far stronger. We call them \"elders,\" and I'd advise that you don't confront them until you're really ready. Remember, the older ginger gets, the hotter it becomes.",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/30232-1.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/30232-2.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30232-1.htm": {
+   "file": "warehouse/30232-1.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Sorint:",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Deposit an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30232.htm"
+    }
+   ]
+  },
+  "warehouse/30232-2.htm": {
+   "file": "warehouse/30232-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Sorint:",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Deposit an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30232.htm"
+    }
+   ]
+  },
+  "warehouse/30232-noteach.htm": {
+   "file": "warehouse/30232-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Sorint: I will safeguard anyone's property. If a unicorn was to walk in and ask me to keep his horn I would gladly add him to the account book. However, I will not teach skills merely for money. ...If I teach our secrets, we Dwarven Artisans will be out of our jobs! We can learn fr…",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-01.htm": {
+   "file": "Q00336_CoinsOfMagic/30232-01.htm",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: I have been under the weather lately. I have found something that I desire more than anything I have ever desired before. Only one thing stands between me and my object of desire. A damn fool who insists that it is a family heirloom, with no regard for its true value. I hav…",
+   "header": "Warehouse Keeper Sorint",
+   "when": [
+    "state CREATED; level < 40"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-02.htm": {
+   "file": "Q00336_CoinsOfMagic/30232-02.htm",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: You are vigorous but with a cautious manner of walking, like that of a tiger with the eyes of a hawk! I can tell you are an adventurer of considerable skill! Yes, someone like you would be of much help to me. Please take pity on a poor man. A single half-wit is standing bet…",
+   "header": "Warehouse Keeper Sorint",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the object.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 1",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "1",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-03.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-06.html": {
+   "file": "Q00336_CoinsOfMagic/30232-06.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Where is my coin? What do you mean you haven't gotten it yet? Did you think I would reward you for your empty hands? I want the Kaldis's Gold Dragon coin! It's not blood dre vanul! It's not Silver Unicorn! It is the Gold Dragon of Kaldis ! Go and get it!",
+   "header": "Warehouse Keeper Sorint",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-07.html": {
+   "file": "Q00336_CoinsOfMagic/30232-07.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, Kaldis's Gold Dragon! Thank you so much, I will add it to my collection. I am impressed! I was going to pay you for this, but I have another idea. Would you care to join our guild? This is a highly sought after membership. Will you join? Well, excuse me, I must gaze upo…",
+   "header": "Warehouse Keeper Sorint",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "\"Why should I join your union?\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 3",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "3",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-08.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-10.html": {
+   "file": "Q00336_CoinsOfMagic/30232-10.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: You look familiar! Ah, yes, it is you! There are so many level 3 members in our guild that even I, the president of the guild, can't remember everyone. What can I do for you, my friend?",
+   "header": "Warehouse Keeper Sorint",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "links": [
+    {
+     "text": "\"I would like to raise my membership level.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 5",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "5",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-16.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-16.html",
+      "Q00336_CoinsOfMagic/30232-13.html",
+      "Q00336_CoinsOfMagic/30232-17.html",
+      "Q00336_CoinsOfMagic/30232-14.html",
+      "Q00336_CoinsOfMagic/30232-15.html"
+     ]
+    },
+    {
+     "text": "\"I want to see the list of prize items for level 1 members.\"",
+     "bypass": "npc_%objectId%_multisell 507",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"I want to see the list of prize items for level 2 members.\"",
+     "bypass": "npc_%objectId%_multisell 508",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"I want to see the list of prize items for level 3 members.\"",
+     "bypass": "npc_%objectId%_multisell 509",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"Where can I obtain coins?\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 10",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "10",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-22.html"
+    },
+    {
+     "text": "\"Tell me about the members of the coin collection guild.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 11",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "11",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-23.html"
+    },
+    {
+     "text": "\"I would like to leave the guild.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 6",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "6",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-18.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-11.html": {
+   "file": "Q00336_CoinsOfMagic/30232-11.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Long time no see! Have you obtained any new coins? I have heard tales of your business acumen. What can I do for you?",
+   "header": "Warehouse Keeper Sorint",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "links": [
+    {
+     "text": "\"I would like to raise my membership level.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 5",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "5",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-16.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-16.html",
+      "Q00336_CoinsOfMagic/30232-13.html",
+      "Q00336_CoinsOfMagic/30232-17.html",
+      "Q00336_CoinsOfMagic/30232-14.html",
+      "Q00336_CoinsOfMagic/30232-15.html"
+     ]
+    },
+    {
+     "text": "\"I would like to see the list of prize items for level 1 members.\"",
+     "bypass": "npc_%objectId%_multisell 507",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"I would like to see the list of prize items for level 2 members.\"",
+     "bypass": "npc_%objectId%_multisell 508",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"I would like to see the list of prize items for level 3 members.\"",
+     "bypass": "npc_%objectId%_multisell 509",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"Where can I obtain coins?\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 10",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "10",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-22.html"
+    },
+    {
+     "text": "\"Tell me about the members of the coin collection guild.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 11",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "11",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-23.html"
+    },
+    {
+     "text": "\"I would like to leave the guild.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 6",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "6",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-18.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-12.html": {
+   "file": "Q00336_CoinsOfMagic/30232-12.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Hello there! Welcome back! Many members wish to move up to level 1 but few are chosen. There are only a limited number of these memberships available. If you wish to reach this level you must be extremely careful in your words and deeds. Well now, is there anything I can he…",
+   "header": "Warehouse Keeper Sorint",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "links": [
+    {
+     "text": "\"I would like to see the list of prize items for level 1 members.\"",
+     "bypass": "npc_%objectId%_multisell 507",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"I would like to see the list of prize items for level 2 members.\"",
+     "bypass": "npc_%objectId%_multisell 508",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"I would like to see the list of prize items for level 3 members.\"",
+     "bypass": "npc_%objectId%_multisell 509",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"Where can I obtain coins?\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 10",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "10",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-22.html"
+    },
+    {
+     "text": "\"Tell me about the members of the coin collection guild.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 11",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "11",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-23.html"
+    },
+    {
+     "text": "\"I would like to leave the guild.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 6",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "6",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-18.html"
+    }
+   ]
+  },
+  "Q00381_LetsBecomeARoyalMember/30232-02.html": {
+   "file": "Q00381_LetsBecomeARoyalMember/30232-02.html",
+   "quest": 381,
+   "text": "Warehouse Keeper Sorint: All you need is a Level 1 Coin Collector Club Membership Card and enough experience... Oh, I see... That doesn't describe you, does it? (Only a character who possesses a Level 1 Coin Collector Club Membership Card and whose level is 55 or above can undertake this quest.)",
+   "header": "Warehouse Keeper Sorint",
+   "when": [
+    "state CREATED; ((talker.getLevel() < MIN_LVL) || !hasQuestItems(talker, COLLECTOR_MEMBERSHIP_1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00381_LetsBecomeARoyalMember/30232-01.htm": {
+   "file": "Q00381_LetsBecomeARoyalMember/30232-01.htm",
+   "quest": 381,
+   "text": "Warehouse Keeper Sorint: Welcome! Come on in! I was about to ask you over anyway! I believe we've had this discussion before, am I right? About the special membership? Anyway, a special committee has been formed of members from all locations of the coin collectors club to decide upon whom to bestow…",
+   "header": "Warehouse Keeper Sorint",
+   "when": [
+    "state CREATED; lacks items 5898; !((talker.getLevel() < MIN_LVL) || !hasQuestItems(talker, COLLECTOR_MEMBERSHIP_1))"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00381_LetsBecomeARoyalMember 30232-03.htm",
+     "kind": "quest-event",
+     "script": "Q00381_LetsBecomeARoyalMember",
+     "event": "30232-03.htm",
+     "quest": 381,
+     "to": "Q00381_LetsBecomeARoyalMember/30232-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00381_LetsBecomeARoyalMember/30232-06.html": {
+   "file": "Q00381_LetsBecomeARoyalMember/30232-06.html",
+   "quest": 381,
+   "text": "Warehouse Keeper Sorint: Ah, Kail's Coin! And such a splendid album! This will truly enhance your collection. Once the committee sees this, they are bound to make you a royal! In fact, I'm so sure they will agree with me, I'm going to give you the Royal Membership Card of the Coin Collectors Club. …",
+   "header": "Warehouse Keeper Sorint",
+   "when": [
+    "state STARTED; hasAlbum; hasCoin"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00381_LetsBecomeARoyalMember/30232-05.html": {
+   "file": "Q00381_LetsBecomeARoyalMember/30232-05.html",
+   "quest": 381,
+   "text": "Warehouse Keeper Sorint: Unless you bring me a rare, high-quality Coin Collecting Album from Trader Sandra of Giran and Kail's Coins , I don't see how I could give you a Recommendation... Of course, I understand that these items are not easy to come by. That's why the reward is so great... you can …",
+   "header": "Warehouse Keeper Sorint",
+   "when": [
+    "state STARTED; !(hasAlbum && hasCoin); (hasAlbum || hasCoin)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00381_LetsBecomeARoyalMember/30232-04.html": {
+   "file": "Q00381_LetsBecomeARoyalMember/30232-04.html",
+   "quest": 381,
+   "text": "Warehouse Keeper Sorint: The monsters that inhabit the Forsaken Plains are quite dangerous. You must be fully prepared before you go there. You should leave any valuables you have with me... For safe keeping... Ha!",
+   "header": "Warehouse Keeper Sorint",
+   "when": [
+    "state STARTED; !(hasAlbum && hasCoin); !(hasAlbum || hasCoin)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-03.html": {
+   "file": "Q00336_CoinsOfMagic/30232-03.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: I can see that you are a person of high integrity! My first impression of you was correct! Now I shall give you the details. You know Bernard, the president of the Hunters Guild? He has been showing off a coin that he claims is lucky. Actually the coin is known as Kaldis's …",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "\"I will bring back the coin.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic QUEST_ACCEPTED",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "QUEST_ACCEPTED",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-05.htm",
+     "effect": "start"
+    },
+    {
+     "text": "\"I am not interested.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 2",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "2",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-04.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-04.html": {
+   "file": "Q00336_CoinsOfMagic/30232-04.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Could I have been wrong about you? How can you leave me like this? I will wager that you will return to me. I would even be willing to bet this Blood Succubus coin on it!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-05.htm": {
+   "file": "Q00336_CoinsOfMagic/30232-05.htm",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Go and meet with the Hunters Guild President Bernard . Take this drawing with you. It is a picture of the Kaldis's Gold Dragon coin that I told you about. Find it and bring it to me. You will be amply rewarded!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-08.html": {
+   "file": "Q00336_CoinsOfMagic/30232-08.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Why the long face? Don't you realize how valuable this membership card is! Do you think we ask just anybody to join our coin collecting guild? Once you get started, you will realize how valuable a membership card is. In order to trade coins with other members, you must have…",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "\"Where can I obtain coins?\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 10",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "10",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-22.html"
+    },
+    {
+     "text": "\"Tell me about the members of the coin collecting guild.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 11",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "11",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-23.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-09.html": {
+   "file": "Q00336_CoinsOfMagic/30232-09.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: What can I do for you?",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "\"I would like to raise my membership level.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 5",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "5",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-16.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-16.html",
+      "Q00336_CoinsOfMagic/30232-13.html",
+      "Q00336_CoinsOfMagic/30232-17.html",
+      "Q00336_CoinsOfMagic/30232-14.html",
+      "Q00336_CoinsOfMagic/30232-15.html"
+     ]
+    },
+    {
+     "text": "\"I would like to see the list of prize items for level 1 members.\"",
+     "bypass": "npc_%objectId%_multisell 507",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"I would like to see the list of prize items for level 2 members.\"",
+     "bypass": "npc_%objectId%_multisell 508",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"I would like to see the list of prize items for level 3 members.\"",
+     "bypass": "npc_%objectId%_multisell 509",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"Where can I obtain coins?\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 10",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "10",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-22.html"
+    },
+    {
+     "text": "\"Tell me about the members of the coin collecting guild.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 11",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "11",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-23.html"
+    },
+    {
+     "text": "\"I wish to leave the guild.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 6",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "6",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-18.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-13.html": {
+   "file": "Q00336_CoinsOfMagic/30232-13.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent! You have mastered the skills necessary for A-Grade 2 Member Certificate. But there's a world o' difference 'tween Grade 2 and Grade 3. For that Certificate, you will need to pass a much more difficult � and dangerous � test. If you've the heart to attempt it, bri…",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-14.html": {
+   "file": "Q00336_CoinsOfMagic/30232-14.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Aye, how time does fly! It seems like only yesterday that you joined our Coin Collectors Club, and here you are already bucking to be A-Grade 1 Member! 'Tis easier to beard a dragon in his lair than it is to earn A-Grade 1 Member Certificate, though. Still, I like the looks…",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-15.html": {
+   "file": "Q00336_CoinsOfMagic/30232-15.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: After holding a meeting of senior members we have decided to postpone the implementation of our special membership category for a while.",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-16.html": {
+   "file": "Q00336_CoinsOfMagic/30232-16.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: I hereby acknowledge your indomitable will and tenacious spirit. On behalf of our coin collectors guild, I promote you to level 2. Congratulations!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-17.html": {
+   "file": "Q00336_CoinsOfMagic/30232-17.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah! I see you have collected all the coins! I feel like crying I'm so happy! Pardon my outburst, I've made a fool of myself... It is a very special day when one of our members is promoted to level 1. Congratulations!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-18.html": {
+   "file": "Q00336_CoinsOfMagic/30232-18.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Why would you want to leave our coin collectors guild? How could you possibly think of abandoning the benefits of trading coins? Are you really going to give all that up?",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "\"I wish to leave the coin collectors guild.\"",
+     "bypass": "Quest Q00336_CoinsOfMagic 100",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "100",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-18a.html"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest Q00336_CoinsOfMagic 4",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "4",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-09.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-18a.html": {
+   "file": "Q00336_CoinsOfMagic/30232-18a.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: You have just come into your own as a collector and now you want to leave us. How regrettable. However, if this is what you want I will not try to stop you.",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-19.html": {
+   "file": "Q00336_CoinsOfMagic/30232-19.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: These are the prizes for level 1 members. - Type: blunt instrument Speed: medium Weight: 990 P. Atk.: 152 M. Atk.: 111 soulshotX3 spiritshotX3 - Type: Dagger Speed: very fast Weight: 1010 P. Atk.: 122 M. Atk.: 76 soulshotX3 spiritshotX3 - Type: two-handed spear Speed: mediu…",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Demon's Staff",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-19a.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-19a.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-19a.html"
+    },
+    {
+     "text": "Dark Screamer",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-19b.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-19b.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-19b.html"
+    },
+    {
+     "text": "Widow Maker",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-19c.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-19c.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-19c.html"
+    },
+    {
+     "text": "Sword of Limit",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-19d.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-19d.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-19d.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-19a.html": {
+   "file": "Q00336_CoinsOfMagic/30232-19a.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, the Demon's Staff! Bring me these coins and I'll give you one. 1 Beleth's Blood Dragon 1 Silver Dragon 13 Gold Wyrms",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "Quest Q00336_CoinsOfMagic 20",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "20",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-24a.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-24a.html",
+      "Q00336_CoinsOfMagic/30232-24.html"
+     ]
+    },
+    {
+     "text": "Go back to the list of prizes",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-19.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-19.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-19.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-19b.html": {
+   "file": "Q00336_CoinsOfMagic/30232-19b.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, the Dark Screamer! Bring me these coins and I'll give you one. 1 Beleth's Gold Dragon 1 Blood Dragon 1 Silver Dryad 1 Gold Giant",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "Quest Q00336_CoinsOfMagic 21",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "21",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-24b.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-24b.html",
+      "Q00336_CoinsOfMagic/30232-24.html"
+     ]
+    },
+    {
+     "text": "Back to the list of prizes",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-19.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-19.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-19.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-19c.html": {
+   "file": "Q00336_CoinsOfMagic/30232-19c.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, the Widow Maker. Bring me these coins and I'll give you one. 1 Beleth's Silver Dragon 1 Gold Dragon 1 Blood Succubus 2 Blood Basilisks",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "Quest Q00336_CoinsOfMagic 22",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "22",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-24c.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-24c.html",
+      "Q00336_CoinsOfMagic/30232-24.html"
+     ]
+    },
+    {
+     "text": "Back to the list of prizes",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-19.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-19.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-19.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-19d.html": {
+   "file": "Q00336_CoinsOfMagic/30232-19d.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, the Sword of Limit. Bring me these coins and I'll give you one. 1 Blood Dragon 1 Silver Dragon 1 Gold Dragon 1 Silver Undine",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "Quest Q00336_CoinsOfMagic 23",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "23",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-24d.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-24d.html",
+      "Q00336_CoinsOfMagic/30232-24.html"
+     ]
+    },
+    {
+     "text": "Back to the list of prizes",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-19.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-19.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-19.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-20.html": {
+   "file": "Q00336_CoinsOfMagic/30232-20.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: These are the prizes for level 2 members: - P. Def.: 36 Weight: 1220 - P. Def.: 43 Weight: 980 MP Increase: 177 - P. Def.: 36 Weight: 610 - P. Def.: 58 Weight: 600",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Demon's ?Boots",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-20a.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-20a.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-20a.html"
+    },
+    {
+     "text": "Demon's Stockings",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-20b.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-20b.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-20b.html"
+    },
+    {
+     "text": "Demon's Gloves",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-20c.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-20c.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-20c.html"
+    },
+    {
+     "text": "Full Plate Helmet",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-20d.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-20d.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-20d.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-20a.html": {
+   "file": "Q00336_CoinsOfMagic/30232-20a.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, the Demon's Boots. Bring me 1 Manak's Gold Giant and I'll give you a pair.",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "Quest Q00336_CoinsOfMagic 24",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "24",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-24e.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-24e.html",
+      "Q00336_CoinsOfMagic/30232-24.html"
+     ]
+    },
+    {
+     "text": "Back to the list of prizes.",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-20.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-20.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-20.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-20b.html": {
+   "file": "Q00336_CoinsOfMagic/30232-20b.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, the Demon's Stockings. Bring me these coins and I'll give you a pair. 1 Manak's Silver Dryad 1 Silver Dryad",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "Quest Q00336_CoinsOfMagic 25",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "25",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-24f.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-24f.html",
+      "Q00336_CoinsOfMagic/30232-24.html"
+     ]
+    },
+    {
+     "text": "Back to the list of prize items",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-20.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-20.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-20.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-20c.html": {
+   "file": "Q00336_CoinsOfMagic/30232-20c.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, the Demon's Gloves. Bring me 1 Manak's Gold Giant and I'll give you a pair.",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "Quest Q00336_CoinsOfMagic 26",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "26",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-24g.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-24g.html",
+      "Q00336_CoinsOfMagic/30232-24.html"
+     ]
+    },
+    {
+     "text": "Back to the list of prizes.",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-20.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-20.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-20.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-20d.html": {
+   "file": "Q00336_CoinsOfMagic/30232-20d.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, the Full Plate Helmet. Bring me these coins and I'll give you one. 1 Manak's Blood Werewolf 1 Gold Giant 1 Gold Wyrm",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "Quest Q00336_CoinsOfMagic 27",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "27",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-24h.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-24h.html",
+      "Q00336_CoinsOfMagic/30232-24.html"
+     ]
+    },
+    {
+     "text": "Back to the list of prizes",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-20.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-20.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-20.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-21.html": {
+   "file": "Q00336_CoinsOfMagic/30232-21.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: These are the prizes available for level 3 members. - M. Def.: 39 Weight: 150 - M. Def.: 48 Weight: 150 - M. Def.: 32 Weight: 150 - M. Def.: 56 Weight: 150",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Moonstone Earring",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-21a.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-21a.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-21a.html"
+    },
+    {
+     "text": "Nassen's Earring",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-21b.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-21b.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-21b.html"
+    },
+    {
+     "text": "Ring of Sage",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-21c.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-21c.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-21c.html"
+    },
+    {
+     "text": "Necklace of Protection",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-21d.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-21d.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-21d.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-21a.html": {
+   "file": "Q00336_CoinsOfMagic/30232-21a.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, the Moonstone Earring. Bring me these coins and I'll give you one. 2 Nia's Blood Medusas 2 Blood Drevanuls 2 Gold Drakes 3 Gold Knights",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "Quest Q00336_CoinsOfMagic 28",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "28",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-24i.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-24i.html",
+      "Q00336_CoinsOfMagic/30232-24.html"
+     ]
+    },
+    {
+     "text": "Back to the list of prizes",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-21.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-21.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-21.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-21b.html": {
+   "file": "Q00336_CoinsOfMagic/30232-21b.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, Nassen's Earring. Bring me these coins and I'll give you one. 7 Nia's Blood Medusas 5 Gold Knights 5 Blood Drevanuls 5 Silver Golems",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "Quest Q00336_CoinsOfMagic 29",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "29",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-24j.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-24j.html",
+      "Q00336_CoinsOfMagic/30232-24.html"
+     ]
+    },
+    {
+     "text": "Back to the list of prizes",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-21.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-21.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-21.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-21c.html": {
+   "file": "Q00336_CoinsOfMagic/30232-21c.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, the ring of sage. Bring me these coins and I'll give you one. 5 Nia's Gold Wyverns 4 Silver Golems 4 Gold Drakes 4 Blood Drevanuls",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "Quest Q00336_CoinsOfMagic 30",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-24k.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-24k.html",
+      "Q00336_CoinsOfMagic/30232-24.html"
+     ]
+    },
+    {
+     "text": "Back to the list of prizes",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-21.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-21.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-21.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-21d.html": {
+   "file": "Q00336_CoinsOfMagic/30232-21d.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Ah, the Necklace of Protection. Bring me these coins and I'll give you one. 5 Nia's Silver Fairies 3 Blood Drevanuls 3 Silver Fairies 3 Gold Knights",
+   "header": "Warehouse Keeper Sorint",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "Quest Q00336_CoinsOfMagic 31",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "31",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-24l.html",
+     "toAll": [
+      "Q00336_CoinsOfMagic/30232-24l.html",
+      "Q00336_CoinsOfMagic/30232-24.html"
+     ]
+    },
+    {
+     "text": "Back to the list of prizes",
+     "bypass": "Quest Q00336_CoinsOfMagic 30232-21.html",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "30232-21.html",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-21.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-22.html": {
+   "file": "Q00336_CoinsOfMagic/30232-22.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: In order to obtain rare coins you must trade with other members. But you won't be able to trade with others if you have empty hands, will you? So, for now, just collect coins. Hunters Guild members are experts in finding rare and hard to find items. Why don't you check with…",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00336_CoinsOfMagic 4",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "4",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-09.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-23.html": {
+   "file": "Q00336_CoinsOfMagic/30232-23.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Why don't I tell you about our current membership? Here's the list of our current members: Magister Page of the Wizard Guild, Researcher Lorain at the Entrance to Cruma Tower Warehouse Keeper Haggar in the Town of Oren, Guard Stan in the Town of Oren, Blacksmith Duning in H…",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00336_CoinsOfMagic 4",
+     "kind": "quest-event",
+     "script": "Q00336_CoinsOfMagic",
+     "event": "4",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-09.html"
+    }
+   ]
+  },
+  "Q00336_CoinsOfMagic/30232-24.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: You don't have anything I am interested in. I am sorry but I cannot trade with you.",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-24a.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24a.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent choice! Very nice trade! Ah, my lovely coins... Into the box with you!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-24b.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24b.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent choice! Very nice trade! Ah, my lovely coins... Into the box with you!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-24c.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24c.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent choice! Very nice trade! Ah, my lovely coins... Into the box with you!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-24d.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24d.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent choice! Very nice trade! Ah, my lovely coins... Into the box with you!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-24e.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24e.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent choice! Very nice trade! Ah, my lovely coins... Into the box with you!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-24f.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24f.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent choice! Very nice trade! Ah, my lovely coins... Into the box with you!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-24g.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24g.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent choice! Very nice trade! Ah, my lovely coins... Into the box with you!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-24h.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24h.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent choice! Very nice trade! Ah, my lovely coins... Into the box with you!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-24i.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24i.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent choice! Very nice trade! Ah, my lovely coins... Into the box with you!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-24j.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24j.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent choice! Very nice trade! Ah, my lovely coins... Into the box with you!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-24k.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24k.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent choice! Very nice trade! Ah, my lovely coins... Into the box with you!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00336_CoinsOfMagic/30232-24l.html": {
+   "file": "Q00336_CoinsOfMagic/30232-24l.html",
+   "quest": 336,
+   "text": "Warehouse Keeper Sorint: Excellent choice! Very nice trade! Ah, my lovely coins... Into the box with you!",
+   "header": "Warehouse Keeper Sorint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00381_LetsBecomeARoyalMember/30232-03.htm": {
+   "file": "Q00381_LetsBecomeARoyalMember/30232-03.htm",
+   "quest": 381,
+   "text": "Warehouse Keeper Sorint: Very well! You must prepare to impress the committee... There is an excellent opportunity available, I've heard a strange rumor... It's said that Kail's Coins were discovered in the Forsaken Plains . At one time Kail was Beleth's right-hand man. Bring me some of these coins…",
+   "header": "Warehouse Keeper Sorint",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Coins of Magic]",
+     "bypass": "npc_%objectId%_Quest Q00336_CoinsOfMagic",
+     "kind": "quest",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Coins of Magic (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00336_CoinsOfMagic",
+     "kind": "quest",
+     "quest": 336,
+     "to": "Q00336_CoinsOfMagic/30232-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Let's Become a Royal Member!]",
+     "bypass": "npc_%objectId%_Quest Q00381_LetsBecomeARoyalMember",
+     "kind": "quest",
+     "quest": 381,
+     "to": "Q00381_LetsBecomeARoyalMember/30232-02.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Let's Become a Royal Member! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00381_LetsBecomeARoyalMember",
+     "kind": "quest",
+     "quest": 381,
+     "to": "Q00381_LetsBecomeARoyalMember/30232-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

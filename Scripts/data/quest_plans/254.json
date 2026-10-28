@@ -2,7 +2,7 @@
  "id": 254,
  "name": "Legendary Tales",
  "version": 1,
- "generated": "2026-10-27T11:15:16.852Z",
+ "generated": "2026-10-27T18:18:52.182Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 80,
@@ -28,11 +28,6 @@
  ],
  "status": "fixable",
  "reasons": [
-  {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 1
-  },
   {
    "code": "npc-no-spawn",
    "text": "an NPC of a step has no spawn in the datapack",
@@ -251,7 +246,6 @@
    ],
    "kills": 7,
    "reasons": [
-    "item-from-quest-mob",
     "npc-no-spawn",
     "needs-party"
    ],
@@ -259,7 +253,9 @@
     "how": "talk",
     "trigger": [
      32871
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Emerald Horn, Dust Rider, Bleeding Fly, Blackdagger Wing, Shadow Summoner, Spike Slasher, Muscle Bomber appear and kill it",
    "npc": {

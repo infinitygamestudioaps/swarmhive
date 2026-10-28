@@ -1,0 +1,490 @@
+{
+ "npcId": 32734,
+ "name": "Klemis",
+ "title": "Officer",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.401Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "453": {
+   "name": "Not Strong Enought Alone",
+   "listText": [
+    "[Not Strong Enough Alone]",
+    "[Not Strong Enough Alone (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00453_NotStrongEnoughAlone/32734-01.htm",
+     "when": "state CREATED; level >= 84; player.hasQuestCompleted(Q10282_ToTheSeedOfAnnihilation.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00453_NotStrongEnoughAlone/32734-03.html",
+     "when": "state CREATED; !((player.getLevel() >= 84) && player.hasQuestCompleted(Q10282_ToTheSeedOfAnnihilation.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00453_NotStrongEnoughAlone/32734-10.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00453_NotStrongEnoughAlone/32734-11.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00453_NotStrongEnoughAlone/32734-12.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00453_NotStrongEnoughAlone/32734-13.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00453_NotStrongEnoughAlone/32734-14.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00453_NotStrongEnoughAlone/32734-02.htm",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00453_NotStrongEnoughAlone/32734-01.htm",
+     "when": "state COMPLETED; level >= 84; st.isNowAvailable(); player.hasQuestCompleted(Q10282_ToTheSeedOfAnnihilation.class.getSimpleName())",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00453_NotStrongEnoughAlone/32734-03.html",
+     "when": "state COMPLETED; st.isNowAvailable(); !((player.getLevel() >= 84) && player.hasQuestCompleted(Q10282_ToTheSeedOfAnnihilation.class.getSimpleName()))",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "10282": {
+   "name": "To the Seed of Annihilation",
+   "listText": [
+    "[To the Seed of Annihilation]",
+    "[To the Seed of Annihilation (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10282_ToTheSeedOfAnnihilation/32734-03.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10282_ToTheSeedOfAnnihilation/32734-01.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00453_NotStrongEnoughAlone/32734-01.htm": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-01.htm",
+   "quest": 453,
+   "text": "Officer Klemis: ...Hmm... This is a problem... According to our scouts, there has been a surge in violent behavior amongst the beast clans of the Seed. While we're here trying to save our men, we can't ignore this and wait for it go get worse.",
+   "header": "Officer Klemis",
+   "when": [
+    "state CREATED; level >= 84; player.hasQuestCompleted(Q10282_ToTheSeedOfAnnihilation.class.getSimpleName())",
+    "state COMPLETED; level >= 84; st.isNowAvailable(); player.hasQuestCompleted(Q10282_ToTheSeedOfAnnihilation.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "\"Anyway I can help?\"",
+     "bypass": "Quest Q00453_NotStrongEnoughAlone 32734-04.html",
+     "kind": "quest-event",
+     "script": "Q00453_NotStrongEnoughAlone",
+     "event": "32734-04.html",
+     "quest": 453,
+     "to": "Q00453_NotStrongEnoughAlone/32734-04.html"
+    }
+   ]
+  },
+  "Q00453_NotStrongEnoughAlone/32734-03.html": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-03.html",
+   "quest": 453,
+   "text": "Officer Klemis: Hmm... you look a little soft to be here. I wouldn't send someone into the Seed if I knew for sure I'd have to bury them later. (Only characters level 84 and above who have completed To The Seed of Annihilation can take this quest.)",
+   "header": "Officer Klemis",
+   "when": [
+    "state CREATED; !((player.getLevel() >= 84) && player.hasQuestCompleted(Q10282_ToTheSeedOfAnnihilation.class.getSimpleName()))",
+    "state COMPLETED; st.isNowAvailable(); !((player.getLevel() >= 84) && player.hasQuestCompleted(Q10282_ToTheSeedOfAnnihilation.class.getSimpleName()))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00453_NotStrongEnoughAlone/32734-10.html": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-10.html",
+   "quest": 453,
+   "text": "Officer Klemis: Tired of lazy afternoons, long naps, and good meals, eh? Haha, well thanks for volunteering. I'll let you decide what region of the Seed you want to cleanse. There are three to choose from:",
+   "header": "Officer Klemis",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Bistakon Region",
+     "bypass": "Quest Q00453_NotStrongEnoughAlone 32734-07.html",
+     "kind": "quest-event",
+     "script": "Q00453_NotStrongEnoughAlone",
+     "event": "32734-07.html",
+     "quest": 453,
+     "to": "Q00453_NotStrongEnoughAlone/32734-07.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "Reptilikon Region",
+     "bypass": "Quest Q00453_NotStrongEnoughAlone 32734-08.html",
+     "kind": "quest-event",
+     "script": "Q00453_NotStrongEnoughAlone",
+     "event": "32734-08.html",
+     "quest": 453,
+     "to": "Q00453_NotStrongEnoughAlone/32734-08.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "Cokrakon Region",
+     "bypass": "Quest Q00453_NotStrongEnoughAlone 32734-09.html",
+     "kind": "quest-event",
+     "script": "Q00453_NotStrongEnoughAlone",
+     "event": "32734-09.html",
+     "quest": 453,
+     "to": "Q00453_NotStrongEnoughAlone/32734-09.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00453_NotStrongEnoughAlone/32734-11.html": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-11.html",
+   "quest": 453,
+   "text": "Officer Klemis: The monsters of the Bistakon clans look like mammals, but don't be fooled. Their claws and teeth are unnaturally sharp and strong, and they aren't shy about using them. Also, they travel in packs, so unless you like being outnumbered, you should recruit a few friends to help. If you…",
+   "header": "Officer Klemis",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00453_NotStrongEnoughAlone/32734-12.html": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-12.html",
+   "quest": 453,
+   "text": "Officer Klemis: The monsters of the Reptilikon region are basically enormous reptilian beasts. They are just as vicious as the other beast clans, and tend to be poisonous to boot. Trust me on this - don't go alone. That said I hope it goes well. If you can kill 20 each of the Turtlelian, Krajian, a…",
+   "header": "Officer Klemis",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00453_NotStrongEnoughAlone/32734-13.html": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-13.html",
+   "quest": 453,
+   "text": "Officer Klemis: The Cokrakon clans resemble birds, but believe me, they aren't hunting worms. These monsters can emit sound shockwaves that can shatter your bones, paralyze all your nerves and muscle tissue, and leave you basically unable to move quickly. If Kookaburras give you nightmares, these t…",
+   "header": "Officer Klemis",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00453_NotStrongEnoughAlone/32734-14.html": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-14.html",
+   "quest": 453,
+   "text": "Officer Klemis: Good job soldier! Another day earning that pay. Thanks for your help, couldn't have done it without you. Here take this. Take it, you've earned it. And if you're ever here again, I could always use your help.",
+   "header": "Officer Klemis",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00453_NotStrongEnoughAlone/32734-02.htm": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-02.htm",
+   "quest": 453,
+   "text": "Officer Klemis: You've earned your rest today, soldier! The monsters won't be coming back after the lashing you gave them. I hope you come back at some point, our work here isn't done yet. (This quest can be completed once a day and resets at 6:30 am.)",
+   "header": "Officer Klemis",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32734-03.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32734-03.htm",
+   "quest": 10282,
+   "text": "Officer Klemis: If you're finished up here, you should go talk to Ermian . He has a mission for the men and women arriving here to help. (This quest is already complete.)",
+   "header": "Officer Klemis",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32734-01.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32734-01.htm",
+   "quest": 10282,
+   "text": "Officer Klemis: Let me see that order you have... ah, you've been sent by Commander Kbaldir of Keucereus Alliance Base?",
+   "header": "Officer Klemis",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Nod.",
+     "bypass": "Quest Q10282_ToTheSeedOfAnnihilation 32734-02.htm",
+     "kind": "quest-event",
+     "script": "Q10282_ToTheSeedOfAnnihilation",
+     "event": "32734-02.htm",
+     "quest": 10282,
+     "to": "Q10282_ToTheSeedOfAnnihilation/32734-02.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00453_NotStrongEnoughAlone/32734-04.html": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-04.html",
+   "quest": 453,
+   "text": "Officer Klemis: Ah, are you serious?! Well thank the gods, I could make use of a seasoned veteran like you. The mission is quite simple: Kill the monsters that inhabit the Seed of Annihilation . But be warned, while the terms of the mission are simple, actually completing it will not be.",
+   "header": "Officer Klemis",
+   "links": [
+    {
+     "text": "\"Like I said, I want to help.\"",
+     "bypass": "Quest Q00453_NotStrongEnoughAlone 32734-05.htm",
+     "kind": "quest-event",
+     "script": "Q00453_NotStrongEnoughAlone",
+     "event": "32734-05.htm",
+     "quest": 453,
+     "to": "Q00453_NotStrongEnoughAlone/32734-05.htm"
+    }
+   ]
+  },
+  "Q00453_NotStrongEnoughAlone/32734-05.htm": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-05.htm",
+   "quest": 453,
+   "text": "Officer Klemis: Alright. The Seed of Annihilation is comprised of three regions, each region with its own environment and set of properties. The monsters in each of these regions have evolved to fit those surroundings, so we've given each clan a name to distinguish them - the Bistakon, Reptilikon, …",
+   "header": "Officer Klemis",
+   "links": [
+    {
+     "text": "\"Kill 'em all and let the gods sort 'em out, that's what I say.\"",
+     "bypass": "Quest Q00453_NotStrongEnoughAlone 32734-06.htm",
+     "kind": "quest-event",
+     "script": "Q00453_NotStrongEnoughAlone",
+     "event": "32734-06.htm",
+     "quest": 453,
+     "to": "Q00453_NotStrongEnoughAlone/32734-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00453_NotStrongEnoughAlone/32734-06.htm": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-06.htm",
+   "quest": 453,
+   "text": "Officer Klemis: Alright, soldier! That's what I wanted to hear. So, which region will you cleanse first?",
+   "header": "Officer Klemis",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Bistakon Region",
+     "bypass": "Quest Q00453_NotStrongEnoughAlone 32734-07.html",
+     "kind": "quest-event",
+     "script": "Q00453_NotStrongEnoughAlone",
+     "event": "32734-07.html",
+     "quest": 453,
+     "to": "Q00453_NotStrongEnoughAlone/32734-07.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "Reptilikon Region",
+     "bypass": "Quest Q00453_NotStrongEnoughAlone 32734-08.html",
+     "kind": "quest-event",
+     "script": "Q00453_NotStrongEnoughAlone",
+     "event": "32734-08.html",
+     "quest": 453,
+     "to": "Q00453_NotStrongEnoughAlone/32734-08.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "Cokrakon Region",
+     "bypass": "Quest Q00453_NotStrongEnoughAlone 32734-09.html",
+     "kind": "quest-event",
+     "script": "Q00453_NotStrongEnoughAlone",
+     "event": "32734-09.html",
+     "quest": 453,
+     "to": "Q00453_NotStrongEnoughAlone/32734-09.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00453_NotStrongEnoughAlone/32734-07.html": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-07.html",
+   "quest": 453,
+   "text": "Officer Klemis: Ah, the Bistakons... well, I know a little something about them. Here's a short brief. The monsters of the Bistakon clans look like mammals, but don't be fooled. Their claws and teeth are unnaturally sharp and strong, and they aren't shy about using them. Also, they travel in packs,…",
+   "header": "Officer Klemis",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00453_NotStrongEnoughAlone/32734-08.html": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-08.html",
+   "quest": 453,
+   "text": "Officer Klemis: Ah, the Reptilikons. I'll brief you on them. The monsters of the Reptilikon region are basically enormous reptilian beasts. They are just as vicious as the other beast clans, and tend to be poisonous to boot. Trust me on this - don't go alone. That said I hope it goes well. If you c…",
+   "header": "Officer Klemis",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00453_NotStrongEnoughAlone/32734-09.html": {
+   "file": "Q00453_NotStrongEnoughAlone/32734-09.html",
+   "quest": 453,
+   "text": "Officer Klemis: Ah, the Cokrakon region. Alright, I'll give you a short brief of what we know about it. The Cokrakon clans resemble birds, but believe me, they aren't hunting worms. These monsters can emit sound shockwaves that can shatter your bones, paralyze all your nerves and muscle tissue, and…",
+   "header": "Officer Klemis",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32734-02.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32734-02.htm",
+   "quest": 10282,
+   "text": "Officer Klemis: Alright, order officially received. Your help here will be appreciated. Consider this a token of our good faith for you coming here.",
+   "header": "Officer Klemis",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "ai/npc/Teleports/Klemis/32734-01.html": {
+   "file": "ai/npc/Teleports/Klemis/32734-01.html",
+   "quest": null,
+   "text": "Officer Klemis: I understand the situation is urgent, but I think this place is still too dangerous for you. I cannot let any tourists walk into such a deadly place and waste their lives. So, please understand. But of course I will always welcome you back if you become stronger and gain more skills…",
+   "header": "Officer Klemis",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Teleports/Klemis/32734.html": {
+   "file": "ai/npc/Teleports/Klemis/32734.html",
+   "quest": null,
+   "text": "Officer Klemis: Thank you for coming. I know the journey was long, but we have much to do. This place is in need of a good... how should I put it ...cleansing. That's why I've called you here. Now go in and meet Ermian . He has a mission for you.",
+   "header": "Officer Klemis",
+   "links": [
+    {
+     "text": "Enter the Seed of Annihilation",
+     "bypass": "Quest Klemis portInside",
+     "kind": "quest-event",
+     "script": "Klemis",
+     "event": "portInside",
+     "to": "ai/npc/Teleports/Klemis/32734-01.html"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Not Strong Enough Alone]",
+     "bypass": "npc_%objectId%_Quest Q00453_NotStrongEnoughAlone",
+     "kind": "quest",
+     "quest": 453,
+     "to": "Q00453_NotStrongEnoughAlone/32734-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Not Strong Enough Alone (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00453_NotStrongEnoughAlone",
+     "kind": "quest",
+     "quest": 453,
+     "to": "Q00453_NotStrongEnoughAlone/32734-10.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[To the Seed of Annihilation (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10282_ToTheSeedOfAnnihilation",
+     "kind": "quest",
+     "quest": 10282,
+     "to": "Q10282_ToTheSeedOfAnnihilation/32734-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

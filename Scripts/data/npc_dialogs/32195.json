@@ -1,0 +1,377 @@
+{
+ "npcId": 32195,
+ "name": "Sione",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.354Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/32195.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "63": {
+   "name": "Path Of The Warder",
+   "listText": [
+    "[Path of the Warder]",
+    "[Path of the Warder (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00063_PathOfTheWarder/32195-01.htm",
+     "when": "state CREATED; level >= 18; lacks items 9772; player.getClassId() == ClassId.femaleSoldier",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/32195-02.html",
+     "when": "state CREATED; NOT level >= 18; lacks items 9772; player.getClassId() == ClassId.femaleSoldier",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/32195-03.html",
+     "when": "state CREATED; has items 9772; !((player.getClassId() == ClassId.femaleSoldier) && !hasQuestItems(player, STEELRAZOR_EVALUTION))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/32195-04.html",
+     "when": "state CREATED; lacks items 9772; !((player.getClassId() == ClassId.femaleSoldier) && !hasQuestItems(player, STEELRAZOR_EVALUTION))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/32195-07.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/32195-09.html",
+     "when": "state STARTED; memo 2; ((getQuestItemsCount(player, ORDERS) < 10) || (getQuestItemsCount(player, ORGANIZATION_CHART) < 5))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/32195-10.html",
+     "when": "state STARTED; memo 2; !((getQuestItemsCount(player, ORDERS) < 10) || (getQuestItemsCount(player, ORGANIZATION_CHART) < 5))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/32195-11.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/32195-12.html",
+     "when": "state STARTED; memoState > 3; memoState != 13",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/32195-13.html",
+     "when": "state STARTED; memo 13; !((memoState > 3) && (memoState != 13))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/32195.htm": {
+   "file": "trainer/32195.htm",
+   "quest": null,
+   "text": "Master Sione: Welcome! It always warms my heart to meet someone of my own race. In truth, I wish I could go home. But we Kamael never abandon our mission because of personal wishes.",
+   "header": "Master Sione",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/32195-noteach.htm": {
+   "file": "trainer/32195-noteach.htm",
+   "quest": null,
+   "text": "Master Sione: Even among the Kamael, I can only teach female Kamael Soldiers and Warders. You'd best find another master better suited to your needs.",
+   "header": "Master Sione",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00063_PathOfTheWarder/32195-01.htm": {
+   "file": "Q00063_PathOfTheWarder/32195-01.htm",
+   "quest": 63,
+   "text": "Master Sione: While you were still training on the Isle of Souls, I was sent to the outer world to collect information. Compared to our male counterparts, we female Kamael engage in more subtle and skillful combat. I see that you have gained a bit of combat experience. If you wish to rise to the ne…",
+   "header": "Master Sione",
+   "when": [
+    "state CREATED; level >= 18; lacks items 9772; player.getClassId() == ClassId.femaleSoldier"
+   ],
+   "links": [
+    {
+     "text": "Say that you will take the test to become a Warder.",
+     "bypass": "Quest Q00063_PathOfTheWarder ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00063_PathOfTheWarder",
+     "event": "ACCEPT",
+     "quest": 63,
+     "to": "Q00063_PathOfTheWarder/32195-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00063_PathOfTheWarder/32195-02.html": {
+   "file": "Q00063_PathOfTheWarder/32195-02.html",
+   "quest": 63,
+   "text": "Master Sione: Soldier, I was an officer of the force that ventured into the outer world to collect information while you were still in training on the island. I am sure you understand that female Kamael are better at more refined, skill-oriented combat techniques than those that rely on sheer physi…",
+   "header": "Master Sione",
+   "when": [
+    "state CREATED; NOT level >= 18; lacks items 9772; player.getClassId() == ClassId.femaleSoldier"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00063_PathOfTheWarder/32195-03.html": {
+   "file": "Q00063_PathOfTheWarder/32195-03.html",
+   "quest": 63,
+   "text": "Master Sione: You have already passed the qualification test with flying colors... Hurry and submit the evaluation report of Special Unit Steelfile to a Kamael Grand Master and you will be allowed to change your class to Warder. Let me see... You can submit it to Grand Master Yenitze , who is stand…",
+   "header": "Master Sione",
+   "when": [
+    "state CREATED; has items 9772; !((player.getClassId() == ClassId.femaleSoldier) && !hasQuestItems(player, STEELRAZOR_EVALUTION))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00063_PathOfTheWarder/32195-04.html": {
+   "file": "Q00063_PathOfTheWarder/32195-04.html",
+   "quest": 63,
+   "text": "Master Sione: Warrior, I am not suited to train you directly... Find another mentor... (Only female Kamael Soldiers may embark on this quest.)",
+   "header": "Master Sione",
+   "when": [
+    "state CREATED; lacks items 9772; !((player.getClassId() == ClassId.femaleSoldier) && !hasQuestItems(player, STEELRAZOR_EVALUTION))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00063_PathOfTheWarder/32195-07.html": {
+   "file": "Q00063_PathOfTheWarder/32195-07.html",
+   "quest": 63,
+   "text": "Master Sione: Our Kamael Steelfile is different from other combat groups. We are a special force particularly suited for information gathering, reporting, determining an enemy's weaknesses, interrogating, attacking supply lines and conducting raids behind enemy lines. These activities suit the natu…",
+   "header": "Master Sione",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "\"I understand.\"",
+     "bypass": "Quest Q00063_PathOfTheWarder 32195-08.html",
+     "kind": "quest-event",
+     "script": "Q00063_PathOfTheWarder",
+     "event": "32195-08.html",
+     "quest": 63,
+     "to": "Q00063_PathOfTheWarder/32195-08.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00063_PathOfTheWarder/32195-09.html": {
+   "file": "Q00063_PathOfTheWarder/32195-09.html",
+   "quest": 63,
+   "text": "Master Sione: What is it, soldier? Have you completed your mission? Go to the Abandoned Camp and defeat the Ol Mahum Novices as ordered and obtain 10 Ol Mahum orders . Then eliminate the Ol Mahum Patrols and obtain 5 Ol Mahum marks ...",
+   "header": "Master Sione",
+   "when": [
+    "state STARTED; memo 2; ((getQuestItemsCount(player, ORDERS) < 10) || (getQuestItemsCount(player, ORGANIZATION_CHART) < 5))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00063_PathOfTheWarder/32195-10.html": {
+   "file": "Q00063_PathOfTheWarder/32195-10.html",
+   "quest": 63,
+   "text": "Master Sione: Well done! (Reads the document carefully.) Let's see here... These reports are useful. The target that we want is the Ol Mahum Officer Tak. We also have reports from the other races near the Abandoned Camp who have also been attacked. When I have finished writing my report, deliver it…",
+   "header": "Master Sione",
+   "when": [
+    "state STARTED; memo 2; !((getQuestItemsCount(player, ORDERS) < 10) || (getQuestItemsCount(player, ORGANIZATION_CHART) < 5))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00063_PathOfTheWarder/32195-11.html": {
+   "file": "Q00063_PathOfTheWarder/32195-11.html",
+   "quest": 63,
+   "text": "Master Sione: Take the report I gave you to Gobie in the Town of Gludio ... Move!",
+   "header": "Master Sione",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00063_PathOfTheWarder/32195-12.html": {
+   "file": "Q00063_PathOfTheWarder/32195-12.html",
+   "quest": 63,
+   "text": "Master Sione: How are you progressing with the Steelrazor test, which is part of your class transfer test? May you succeed and become a great Warder...",
+   "header": "Master Sione",
+   "when": [
+    "state STARTED; memoState > 3; memoState != 13"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00063_PathOfTheWarder/32195-13.html": {
+   "file": "Q00063_PathOfTheWarder/32195-13.html",
+   "quest": 63,
+   "text": "Master Sione: Hmm, some... Ah, it's you. So how goes your test? ... Ah, this is Gobie's report. Well done, soldier. Return to Gobie and bring back the next set of orders.",
+   "header": "Master Sione",
+   "when": [
+    "state STARTED; memo 13; !((memoState > 3) && (memoState != 13))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00063_PathOfTheWarder/32195-05.htm": {
+   "file": "Q00063_PathOfTheWarder/32195-05.htm",
+   "quest": 63,
+   "text": "Master Selsia: I see... For you to obtain the right to become a Warder, you must pass the Steelrazor test for the Kamael special forces unit. Be warned: you will be tested by experienced warriors who have developed their skills as Warders... I am in charge of class transfer, but there is also a com…",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "\"Which group does the Steelrazor belong to?\"",
+     "bypass": "Quest Q00063_PathOfTheWarder 32195-06.html",
+     "kind": "quest-event",
+     "script": "Q00063_PathOfTheWarder",
+     "event": "32195-06.html",
+     "quest": 63,
+     "to": "Q00063_PathOfTheWarder/32195-06.html"
+    }
+   ]
+  },
+  "Q00063_PathOfTheWarder/32195-06.html": {
+   "file": "Q00063_PathOfTheWarder/32195-06.html",
+   "quest": 63,
+   "text": "Master Sione: Our Kamael Steelrazor is different from other combat groups. We are a special force particularly suited for information gathering, reporting, determining an enemy's weaknesses, interrogating, attacking supply lines and conducting raids behind enemy lines. These activities suit the nat…",
+   "header": "Master Sione",
+   "links": [
+    {
+     "text": "\"I understand.\"",
+     "bypass": "Quest Q00063_PathOfTheWarder 32195-08.html",
+     "kind": "quest-event",
+     "script": "Q00063_PathOfTheWarder",
+     "event": "32195-08.html",
+     "quest": 63,
+     "to": "Q00063_PathOfTheWarder/32195-08.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00063_PathOfTheWarder/32195-08.html": {
+   "file": "Q00063_PathOfTheWarder/32195-08.html",
+   "quest": 63,
+   "text": "Master Sione: Very well. First, I need a report about the military strength, chain of command and supply status of the \"Abandoned Camp\" forces that threaten this area. In order to obtain such a report, you must infiltrate the enemy at their very center. But I am worried about giving such a complica…",
+   "header": "Master Sione",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Warder]",
+     "bypass": "npc_%objectId%_Quest Q00063_PathOfTheWarder",
+     "kind": "quest",
+     "quest": 63,
+     "to": "Q00063_PathOfTheWarder/32195-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Warder (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00063_PathOfTheWarder",
+     "kind": "quest",
+     "quest": 63,
+     "to": "Q00063_PathOfTheWarder/32195-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

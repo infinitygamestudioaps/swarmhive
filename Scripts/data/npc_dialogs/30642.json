@@ -1,0 +1,383 @@
+{
+ "npcId": 30642,
+ "name": "Chianta",
+ "title": "Gandi Chief",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.025Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30642.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "220": {
+   "name": "Testimony Of Glory",
+   "listText": [
+    "[Testimony of Glory]",
+    "[Testimony of Glory (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00220_TestimonyOfGlory/30642-01.html",
+     "when": "state STARTED; has items 3209,3208",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30642-04.html",
+     "when": "state STARTED; has items 3209,3210; lacks items 3209,3208; (getQuestItemsCount(player, SCEPTER_OF_BREKA) + getQuestItemsCount(player, SCEPTER_OF_VUKU) + getQuestItemsCount(player,",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30642-05.html",
+     "when": "state STARTED; has items 3209,3210,3211,3213,3214,3215,3212; lacks items 3209,3208; !(getQuestItemsCount(player, SCEPTER_OF_BREKA) + getQuestItemsCount(player, SCEPTER_OF_VUKU) + getQuestItemsCount(player",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30642-09.html",
+     "when": "state STARTED; has items 3209,3216; lacks items 3209,3208,3210",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30642-11.html",
+     "when": "state STARTED; has items 3209,3217; lacks items 3209,3208,3210,3216; item 3218 >= 20; item 3219 >= 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30642-10.html",
+     "when": "state STARTED; has items 3209,3217; lacks items 3209,3208,3210,3216; !((getQuestItemsCount(player, TAMLIN_ORC_SKULL) >= 20) && (getQuestItemsCount(player, TIMAK_ORC_HEAD) >= 20))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30642-12.html",
+     "when": "state STARTED; has items 3220; lacks items 3209,3208,3210,3216,3217",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30642-13.html",
+     "when": "state STARTED; has items 3235,3237; lacks items 3209,3208,3210,3216,3217,3220",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "232": {
+   "name": "Test Of The Lord",
+   "listText": [
+    "[Test of the Lord]",
+    "[Test of the Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00232_TestOfTheLord/30642-01.html",
+     "when": "state STARTED; has items 3391; lacks items 3411,3396",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30642-03.html",
+     "when": "state STARTED; has items 3391,3396; lacks items 3411; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, MONSTER_EYE_WOODCARVING, CHIANTA_CHARM)); getQuestItemsCount(player, ENCHANTED_MONSTER_CORNEA) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30642-04.html",
+     "when": "state STARTED; has items 3391,3396; lacks items 3411; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, MONSTER_EYE_WOODCARVING, CHIANTA_CHARM)); !getQuestItemsCount(player, ENCHANTED_MONSTER_CORNEA) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30642-05.html",
+     "when": "state STARTED; has items 3391,3411; lacks items 3396; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, MONSTER_EYE_WOODCARVING, CHIANTA_CHARM)); !(hasQuestItems(player, ORDEAL_NECKLACE, CHIANTA_CHARM) && !hasQuestItems(player, MONSTER_EYE_WOODCARVING))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30642.htm": {
+   "file": "default/30642.htm",
+   "quest": null,
+   "text": "Gandi Chief Chianta: Hear the cries of the wind! Feel the trembling of the earth! And know the fire of the war spirit that burns within you. The time of chaos is at hand, and will bring endless war, confusion, massacre, and battle! I, Gandi Chief Chianta, declare! You must become strong in order to…",
+   "header": "Gandi Chief Chianta",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30642-01.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-01.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: The wind cries and the earth trembles! I see the fires of war reflected in your eyes. The time of chaos draws nigh, and brings with it endless war, confusion, massacre and battle! I, Gandi Chief Chianta, decree this day that you must become strong in order to survive! Only the …",
+   "header": "Gandi Chief Chianta",
+   "when": [
+    "state STARTED; has items 3209,3208"
+   ],
+   "links": [
+    {
+     "text": "Listen",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30642-02.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30642-02.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30642-02.html"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30642-04.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-04.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: I do not expect to see you again until you have recovered the Scepters of the Breka, Enku, Vuku, Turek, and Tunath tribes ! This is an important first step towards reuniting the greater Orc kingdom! You must not take your duty lightly! For the whereabouts of these renegade Orcs…",
+   "header": "Gandi Chief Chianta",
+   "when": [
+    "state STARTED; has items 3209,3210; lacks items 3209,3208; (getQuestItemsCount(player, SCEPTER_OF_BREKA) + getQuestItemsCount(player, SCEPTER_OF_VUKU) + getQuestItemsCount(player,"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30642-05.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-05.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: Good work, Envoy of the Lord! I see you have recovered the Scepters of the Breka, Enku, Vuku, Turek, and Tunath tribes ! It shall not be long before all 108 Orc tribes are reunited under the Lord of Flame! Now is the time to face the Timak and Tamlin tribes of the north! The la…",
+   "header": "Gandi Chief Chianta",
+   "when": [
+    "state STARTED; has items 3209,3210,3211,3213,3214,3215,3212; lacks items 3209,3208; !(getQuestItemsCount(player, SCEPTER_OF_BREKA) + getQuestItemsCount(player, SCEPTER_OF_VUKU) + getQuestItemsCount(player"
+   ],
+   "links": [
+    {
+     "text": "\"I shall participate in the battle!\"",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30642-07.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30642-07.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30642-07.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30642-09.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-09.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: Tejakar Oroka! As a Warrior of the great Orc race and as an envoy of the honorable Lord of Flame, go now onto the battlefield and punish the renegade tribes! Bring back 20 Timak Orc Heads and 20 Tamlin Orc Heads as trophies of war! That is the least punishment these traitors de…",
+   "header": "Gandi Chief Chianta",
+   "when": [
+    "state STARTED; has items 3209,3216; lacks items 3209,3208,3210"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30642-11.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-11.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: Glorious Orc Warrior, you have fought well! You have displayed boundless courage in battle with the enemy! Now you must deliver the Seals of Flame you wrenched from the lesser Orcs to our Lord! He also wants the seals from the Tamlin and Timak tribes, but we must be satisfied w…",
+   "header": "Gandi Chief Chianta",
+   "when": [
+    "state STARTED; has items 3209,3217; lacks items 3209,3208,3210,3216; item 3218 >= 20; item 3219 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30642-10.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-10.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: Tejakar Oroka! As a Warrior of the great Orc race and as an envoy of the honorable Lord of Flame, go now onto the battlefield and punish the renegade tribes! Bring back 20 Timak Orc Heads and 20 Tamlin Orc Heads ! That is the least punishment those traitors deserve!",
+   "header": "Gandi Chief Chianta",
+   "when": [
+    "state STARTED; has items 3209,3217; lacks items 3209,3208,3210,3216; !((getQuestItemsCount(player, TAMLIN_ORC_SKULL) >= 20) && (getQuestItemsCount(player, TIMAK_ORC_HEAD) >= 20))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30642-12.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-12.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: Go now to the eternal homeland of the Orcs, the Immortal Plateau , and present the Lord of Flame with the seals you have recovered! But before you meet with the Lord, go to Seer Tanapi first. He shall teach you the protocols you must know before holding an audience with the Fla…",
+   "header": "Gandi Chief Chianta",
+   "when": [
+    "state STARTED; has items 3220; lacks items 3209,3208,3210,3216,3217"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30642-13.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-13.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: If you can recover the Scepter of the Tantos tribe the Flame Lord shall be greatly pleased! I wish you luck!",
+   "header": "Gandi Chief Chianta",
+   "when": [
+    "state STARTED; has items 3235,3237; lacks items 3209,3208,3210,3216,3217,3220"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30642-01.html": {
+   "file": "Q00232_TestOfTheLord/30642-01.html",
+   "quest": 232,
+   "text": "Gandi Chief Chianta: Behold the cry of the wind and the trembling of the earth! Feel the fire of combat surging in your veins! The time of chaos draws nigh, and with it endless war, confusion, massacre, and battle! I, Gandi Chief Chianta, decree that in order to survive you must grow stronger! Only…",
+   "header": "Gandi Chief Chianta",
+   "when": [
+    "state STARTED; has items 3391; lacks items 3411,3396"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Gandi tribe totem",
+     "bypass": "Quest Q00232_TestOfTheLord 30642-02.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30642-02.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30642-02.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30642-03.html": {
+   "file": "Q00232_TestOfTheLord/30642-03.html",
+   "quest": 232,
+   "text": "Gandi Chief Chianta: You've come back already? If you wish to understand the meaning of the Gandi totem, and to receive my acknowledgement, you must bring me twenty cornea from the monster eye! The specific breed of monster eye that you should hunt is said to wander the grounds close to the Ivory T…",
+   "header": "Gandi Chief Chianta",
+   "when": [
+    "state STARTED; has items 3391,3396; lacks items 3411; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, MONSTER_EYE_WOODCARVING, CHIANTA_CHARM)); getQuestItemsCount(player, ENCHANTED_MONSTER_CORNEA) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30642-04.html": {
+   "file": "Q00232_TestOfTheLord/30642-04.html",
+   "quest": 232,
+   "text": "Gandi Chief Chianta: You have brought back all of the monster eye cornea! Well done, young Shaman! I trust you understand now the significance of the line that connects the two circles. Now I, Gandi Chief Chianta, will give you a monster eye wood carving, the symbol of our tribe. This totem signifi…",
+   "header": "Gandi Chief Chianta",
+   "when": [
+    "state STARTED; has items 3391,3396; lacks items 3411; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, MONSTER_EYE_WOODCARVING, CHIANTA_CHARM)); !getQuestItemsCount(player, ENCHANTED_MONSTER_CORNEA) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30642-05.html": {
+   "file": "Q00232_TestOfTheLord/30642-05.html",
+   "quest": 232,
+   "text": "Gandi Chief Chianta: Young Shaman, contemplate the meaning of the line that connects the 2 circles. It symbolizes the neverending cycle of life and death, and is a definitive symbol for Orc Warriors. We feel most alive on the battlefield with death alongside us. You must not forget this no matter w…",
+   "header": "Gandi Chief Chianta",
+   "when": [
+    "state STARTED; has items 3391,3411; lacks items 3396; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, MONSTER_EYE_WOODCARVING, CHIANTA_CHARM)); !(hasQuestItems(player, ORDEAL_NECKLACE, CHIANTA_CHARM) && !hasQuestItems(player, MONSTER_EYE_WOODCARVING))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30642-02.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-02.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: All Orc tribal chiefs possess a 'Scepter of Flame' . The scepter was bequethed to them by the ancient Priests of Pa'agrio and symbolizes their authority. As Envoy of the Lord, you must seek out the renegade Orc tribes and demand that they return to servicing the Lord. They must…",
+   "header": "Gandi Chief Chianta",
+   "links": [
+    {
+     "text": "Ask for more information regarding the renegade Orc tribes",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30642-03.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30642-03.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30642-03.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30642-03.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-03.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: The renegade Orc tribes you must find are the Breka, Enku, Vuku, Turek, and Tunath! Five tribes all together! Ask Seer Manakia of the Town of Giran about the Breka and Enku tribes! The other three tribes, the Vuku, Turek, and Tunath, will be found in the west. Ask Prefect Kasma…",
+   "header": "Gandi Chief Chianta",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30642-06.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-06.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: But you still lack experience! The Timak and Tamlin Orcs may be savage and uncivilized, but their strength cannot be taken lightly. Underestimate them and you will be a cold corpse on the battlefield, so train harder ! I won't send you onto the battlefield until I feel you are …",
+   "header": "Gandi Chief Chianta",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30642-07.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-07.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: Tejakar Oroka! As a Warrior of the great Orc race and an honorable Envoy of the Lord of Flame, go now to the battlefield and punish the renegade tribes! Bring back 20 Timak Orc Heads and 20 Tamlin Orc Heads as trophies of war! That is the least punishment those traitors deserve…",
+   "header": "Gandi Chief Chianta",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30642-08.html": {
+   "file": "Q00220_TestimonyOfGlory/30642-08.html",
+   "quest": 220,
+   "text": "Gandi Chief Chianta: You still lack experience! The Timak and Tamlin Orcs may be savage and uncivilized, but their strength cannot be taken lightly. Underestimate them and you will be a cold corpse on the battlefield! Train harder! I will not send you onto the battlefield until I feel you are ready.",
+   "header": "Gandi Chief Chianta",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30642-02.html": {
+   "file": "Q00232_TestOfTheLord/30642-02.html",
+   "quest": 232,
+   "text": "Gandi Chief Chianta: Do you truly not know anything about the Gandi tribe totem? Our tribal totem is a line that connects two circles! The two circles represent life and death and are interconnected, forming a larger circle! The warriors of the Gandi tribe, who fight to the death in order to feel m…",
+   "header": "Gandi Chief Chianta",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Glory (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00220_TestimonyOfGlory",
+     "kind": "quest",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30642-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00232_TestOfTheLord",
+     "kind": "quest",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30642-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

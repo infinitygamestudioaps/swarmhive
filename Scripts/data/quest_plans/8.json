@@ -2,7 +2,7 @@
  "id": 8,
  "name": "An Adventure Begins",
  "version": 1,
- "generated": "2026-10-27T11:14:35.550Z",
+ "generated": "2026-10-27T18:18:15.742Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 3,
@@ -121,268 +121,6 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:30134",
-   "cond": 1,
-   "kind": "talk",
-   "to": "end",
-   "links": [
-    "\"As I said, I want to go to Giran.\""
-   ],
-   "npc": {
-    "id": 30134,
-    "name": "Jasmine",
-    "title": "Gatekeeper",
-    "town": "Dark Elf Village",
-    "at": [
-     9670,
-     15537,
-     -4568
-    ],
-    "alt": []
-   },
-   "text": "Talk to Sentry Roselyn",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30134@9670,15537",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 163,
-    "sec": 46,
-    "via": ".gludio > Gludio -> DE Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> DE Village",
-      "link": "dark elf village",
-      "price": 10000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 163,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> DE Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      9709,
-      15566,
-      -4568
-     ],
-     [
-      9752,
-      15608,
-      -4568
-     ],
-     [
-      9672,
-      15544,
-      -4568
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 71,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:30144",
-   "cond": 1,
-   "kind": "talk",
-   "to": 3,
-   "links": [
-    "Give her the note from Sentry Roselyn and explain the situation."
-   ],
-   "npc": {
-    "id": 30144,
-    "name": "Harne",
-    "title": "Magister",
-    "town": "Dark Elf Village",
-    "at": [
-     10344,
-     14445,
-     -4240
-    ],
-    "alt": []
-   },
-   "text": "Talk to Sentry Roselyn",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30144@10344,14445",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 2976,
-    "sec": 70,
-    "via": ".gludio > Gludio -> DE Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> DE Village",
-      "link": "dark elf village",
-      "price": 10000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 2976,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> DE Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      9709,
-      15566,
-      -4568
-     ],
-     [
-      9752,
-      15608,
-      -4568
-     ],
-     [
-      9784,
-      15640,
-      -4568
-     ],
-     [
-      10056,
-      15672,
-      -4568
-     ],
-     [
-      10328,
-      15624,
-      -4568
-     ],
-     [
-      10584,
-      15544,
-      -4568
-     ],
-     [
-      10616,
-      15352,
-      -4528
-     ],
-     [
-      10584,
-      15080,
-      -4336
-     ],
-     [
-      10712,
-      14952,
-      -4336
-     ],
-     [
-      10904,
-      15016,
-      -4336
-     ],
-     [
-      10920,
-      14744,
-      -4240
-     ],
-     [
-      10984,
-      14616,
-      -4240
-     ],
-     [
-      10952,
-      14616,
-      -4240
-     ],
-     [
-      10808,
-      14392,
-      -4240
-     ],
-     [
-      10600,
-      14344,
-      -4240
-     ],
-     [
-      10344,
-      14440,
-      -4240
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 95,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2
-   ]
-  },
-  {
-   "i": 3,
    "key": "c1:talk:30355",
    "cond": 1,
    "kind": "talk",
@@ -796,7 +534,265 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30144",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "Give her the note from Sentry Roselyn and explain the situation."
+   ],
+   "npc": {
+    "id": 30144,
+    "name": "Harne",
+    "title": "Magister",
+    "town": "Dark Elf Village",
+    "at": [
+     10344,
+     14445,
+     -4240
+    ],
+    "alt": []
+   },
+   "text": "Talk to Magister Harne",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30144@10344,14445",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2976,
+    "sec": 70,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2976,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9784,
+      15640,
+      -4568
+     ],
+     [
+      10056,
+      15672,
+      -4568
+     ],
+     [
+      10328,
+      15624,
+      -4568
+     ],
+     [
+      10584,
+      15544,
+      -4568
+     ],
+     [
+      10616,
+      15352,
+      -4528
+     ],
+     [
+      10584,
+      15080,
+      -4336
+     ],
+     [
+      10712,
+      14952,
+      -4336
+     ],
+     [
+      10904,
+      15016,
+      -4336
+     ],
+     [
+      10920,
+      14744,
+      -4240
+     ],
+     [
+      10984,
+      14616,
+      -4240
+     ],
+     [
+      10952,
+      14616,
+      -4240
+     ],
+     [
+      10808,
+      14392,
+      -4240
+     ],
+     [
+      10600,
+      14344,
+      -4240
+     ],
+     [
+      10344,
+      14440,
+      -4240
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 95,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:30134",
+   "cond": 3,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"As I said, I want to go to Giran.\""
+   ],
+   "npc": {
+    "id": 30134,
+    "name": "Jasmine",
+    "title": "Gatekeeper",
+    "town": "Dark Elf Village",
+    "at": [
+     9670,
+     15537,
+     -4568
+    ],
+    "alt": []
+   },
+   "text": "Return to Jasmine – Complete the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30134@9670,15537",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 163,
+    "sec": 46,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 163,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9672,
+      15544,
+      -4568
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
     3
    ]
   }
@@ -805,7 +801,7 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:14:35.677Z",
+  "at": "2026-10-27T18:18:15.866Z",
   "pass": true,
   "geo": true,
   "fails": [],

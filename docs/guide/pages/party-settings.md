@@ -73,12 +73,22 @@ to 8m when both stand idle in Giran.
 - *Per character* sets an amount for one character. `0` means that character never receives.
 - **Collect spare adena to the leader now** sends that order once.
 
-**Supplies.** Three switches, each *Off — nothing happens until you switch it on* on a new install:
+**Supplies.** Three switches, each *Off — nothing happens until you switch it on* on a new install (two more, on by default, below):
 - *Supply runs when someone runs low*: the leader goes to Giran by himself, buys escape / resurrection scrolls, shots, potions and
-  arrows for everyone and hands them out (also when his bag is full).
-- *Sell junk on town visits*: items you marked "sell" are sold whenever a character idles in a town, and old gear + marked items are
-  sold during supply runs.
+  arrows for everyone and hands them out (also when his bag is full). **Off = nothing is bought by itself, also not when
+  shots run out:** the character fights on without shots and you get a warning (party card + notes). One switch (owner 2026-10-27).
+- *Sell marked items (automatic)*: **off by default — nothing is ever sold by itself.** On: only the items on your sell list (Trade page marks)
+  are sold when a character idles in a town, during supply runs, and the collector sells marked items from the clan warehouse. Gear you did not
+  mark is never sold; replaced gear stays in the bag. Your own `!sell` / `!whsell` orders always work.
 - *Draw symbols (dyes) in supply runs*: a character with a symbol plan buys the dyes and draws its next planned symbol in Giran.
+
+Two more buying paths have their own switch, **on** on a new install (= they work as before; owner 2026-10-27: "Make the resupply optional").
+Switched off, that path buys nothing by itself and a note says so; your own orders still buy:
+- *Death Penalty scrolls in Giran*: when the party is in Giran anyway (regroup, Giran rebuff trip), every character with a Death Penalty
+  or fewer than 3 Recovery scrolls buys them at Helvetia and reads them; a team with a penalty and no scrolls also makes that Giran trip.
+  The few scrolls a supply run buys follow *Supply runs when someone runs low*.
+- *Mission supplies before automatic raids and Kamaloka*: before a raid hunt / raid circuit boss or the daily Kamaloka every character
+  tops up its extra mission potions (the tank its Spirit Ore) at the grocer. Your `!mission raid` / `!mission kamaloka` / joint raid orders always buy them.
 
 They work only while the party is started (the state line says "works once you press Start" while it is stopped). *Per character*
 switches selling and symbols on or off for one character; its own choice wins over the party's switch. A supply run sells and draws

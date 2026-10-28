@@ -1,0 +1,57 @@
+{
+ "npcId": 32706,
+ "name": "Lucien's Altar",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.399Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32706.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "451": {
+   "name": "Lucien's Altar",
+   "listText": [
+    "[Lucien's Altar]",
+    "[Lucien's Altar (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "default/32706.htm": {
+   "file": "default/32706.htm",
+   "quest": null,
+   "text": "Altar of Lucien: (This altar commemorates the heroism of Lucien, who long ago defeated the Earthworm and saved the Dwarves.)",
+   "header": "Altar of Lucien",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Lucien's Altar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00451_LuciensAltar",
+     "kind": "quest",
+     "quest": 451,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

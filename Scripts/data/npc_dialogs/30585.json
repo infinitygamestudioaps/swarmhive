@@ -1,0 +1,391 @@
+{
+ "npcId": 30585,
+ "name": "Tataru Zu Hestui",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.006Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30585.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "4": {
+   "name": "Long Live the Pa'agrio Lord",
+   "listText": [
+    "[Long Live the Pa'agrio Lord]",
+    "[Long Live the Pa'agrio Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00004_LongLiveThePaagrioLord/30585-02.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00004_LongLiveThePaagrioLord/30585-01.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "416": {
+   "name": "Path of the Orc Shaman",
+   "listText": [
+    "[Path of the Orc Shaman]",
+    "[Path of the Orc Shaman (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30585-01.htm",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30585-08.html",
+     "when": "state STARTED; memo 1; has items 1616; !hasItemsAtLimit(player, KASHA_BEAR_PELT, KASHA_BLADE_SPIDER_HUSK, FIRST_FIERY_EGG)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30585-09.html",
+     "when": "state STARTED; memo 1; has items 1616; hasItemsAtLimit(player, KASHA_BEAR_PELT, KASHA_BLADE_SPIDER_HUSK, FIRST_FIERY_EGG)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30585-10.html",
+     "when": "state STARTED; memo 1; has items 1620,1621; lacks items 1616",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30585-11.html",
+     "when": "state STARTED; memo 1; has items 1622; lacks items 1616,1620,1621",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30585-15.html",
+     "when": "state STARTED; memo 1; has items 1623; lacks items 1616,1620,1621,1622",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30585-16.html",
+     "when": "state STARTED; memo 1; has items 1625,1624,1626,1627,1628,1630; lacks items 1616,1620,1621,1622,1623",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30585-14.html",
+     "when": "state STARTED; memo 100",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30585.htm": {
+   "file": "default/30585.htm",
+   "quest": null,
+   "text": "Tataru Zu Hestui: Tejakar Oroka! Nice to meet you, young traveler. I am the Tataru of the Hestui Tribe! I am one of the Shamans who passes on the teachings of flame from the god Paagrio! The spells of the Orcs are to control the spirits through the authority of fire! We are entirely of a different …",
+   "header": "Tataru Zu Hestui",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00004_LongLiveThePaagrioLord/30585-02.html": {
+   "file": "Q00004_LongLiveThePaagrioLord/30585-02.html",
+   "quest": 4,
+   "text": "Tataru Zu Hestui: Hurry and deliver our gift to Centurion Nakusin ! Our tribe's honor would be disgraced if our gift arrived later than the others!",
+   "header": "Tataru Zu Hestui",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00004_LongLiveThePaagrioLord/30585-01.html": {
+   "file": "Q00004_LongLiveThePaagrioLord/30585-01.html",
+   "quest": 4,
+   "text": "Tataru Zu Hestui: We Hestuis offer the great Lord of the Flame this Bear Fur Cloak . May it keep him warm even on the coldest winter night!",
+   "header": "Tataru Zu Hestui",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30585-01.htm": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-01.htm",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: An Orc Mystic acts as an intermediary between this world and the spirit world, supplicating the spirits for the power to command nature. That is how we breathe power into our allies and cure even the most grievous wounds of battle. Even our enemies quake before this mighty power!",
+   "header": "Tataru Zu Hestui",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "Say you want to be an Orc Shaman.",
+     "bypass": "Quest Q00416_PathOfTheOrcShaman START",
+     "kind": "quest-event",
+     "script": "Q00416_PathOfTheOrcShaman",
+     "event": "START",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30585-06.htm",
+     "toAll": [
+      "Q00416_PathOfTheOrcShaman/30585-02.htm",
+      "Q00416_PathOfTheOrcShaman/30585-03.htm",
+      "Q00416_PathOfTheOrcShaman/30585-04.htm",
+      "Q00416_PathOfTheOrcShaman/30585-05.htm",
+      "Q00416_PathOfTheOrcShaman/30585-06.htm"
+     ]
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/30585-08.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-08.html",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: Why do you hesitate? If you wish to summon the Hestui Totem Spirit, bring me a Kasha Bear Pelt and Kasha Bladespider Husk . Also, obtain a Fiery Egg from the Scarlet Salamander !",
+   "header": "Tataru Zu Hestui",
+   "when": [
+    "state STARTED; memo 1; has items 1616; !hasItemsAtLimit(player, KASHA_BEAR_PELT, KASHA_BLADE_SPIDER_HUSK, FIRST_FIERY_EGG)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30585-09.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-09.html",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: Now I will make you a totem mask from the Kasha Bear Pelt and Kasha Bladespider Husk you brought. It will enable you to learn the language of flame when you meet our Hestui Totem Spirit. The Fiery Egg you obtained from the Scarlet Salamander contains an unborn spirit whose existen…",
+   "header": "Tataru Zu Hestui",
+   "when": [
+    "state STARTED; memo 1; has items 1616; hasItemsAtLimit(player, KASHA_BEAR_PELT, KASHA_BLADE_SPIDER_HUSK, FIRST_FIERY_EGG)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30585-10.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-10.html",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: Now that you have prepared the Hestui Mask and the Fiery Egg, seek the Hestui Totem Spirit at the Ruins south of the Temple of Pa'agrio. Dejakyar Lamme! May the eternal flame guide your path.",
+   "header": "Tataru Zu Hestui",
+   "when": [
+    "state STARTED; memo 1; has items 1620,1621; lacks items 1616"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30585-11.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-11.html",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: Dejakyar Lamme! You have brought the Claw of the Totem Spirit! Magnificent! Young Mystic, now we shall perform a ritual in which we prick your tongue with the claw. Then you shall be able to speak the language of flame!",
+   "header": "Tataru Zu Hestui",
+   "when": [
+    "state STARTED; memo 1; has items 1622; lacks items 1616,1620,1621"
+   ],
+   "links": [
+    {
+     "text": "Perform the ritual.",
+     "bypass": "Quest Q00416_PathOfTheOrcShaman 30585-12.html",
+     "kind": "quest-event",
+     "script": "Q00416_PathOfTheOrcShaman",
+     "event": "30585-12.html",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30585-12.html"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/30585-15.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-15.html",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: You have done well in learning the language of flame, young Mystic. Now you must journey to the Human land of Gludio to learn the Names of the 99 Spirits. Seek Seer Umos in Gludin Village to discover what you must do.",
+   "header": "Tataru Zu Hestui",
+   "when": [
+    "state STARTED; memo 1; has items 1623; lacks items 1616,1620,1621,1622"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30585-16.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-16.html",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: Though you have learned the language of flame, unless you know the Names of the 99 Spirits you will not be able to control them. You must pass this trial to become a true Shaman, so steel yourself for the perils ahead. Dejakyar Lamme! May the eternal flame protect you!",
+   "header": "Tataru Zu Hestui",
+   "when": [
+    "state STARTED; memo 1; has items 1625,1624,1626,1627,1628,1630; lacks items 1616,1620,1621,1622,1623"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30585-14.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-14.html",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: You wish to acquire the Wisdom of the 99 Spirits? Then seek Seer Moira in the Town of Schuttgart beyond the Valley of the Lords to discover you what you must do.",
+   "header": "Tataru Zu Hestui",
+   "when": [
+    "state STARTED; memo 100"
+   ],
+   "sets": {
+    "cond": "12"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30585-02.htm": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-02.htm",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: You are already an Orc Shaman! Why do you waste your time here? Your path lies elsewhere!",
+   "header": "Tataru Zu Hestui",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30585-03.htm": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-03.htm",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: We Orc Shamans perform miracles with the authority of fire -- we do not teach this power lightly! Only Orc Mystics may be permitted to seek the secret of the eternal flame. You do not meet the qualifications.",
+   "header": "Tataru Zu Hestui",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30585-04.htm": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-04.htm",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: An Orc Mystic must ask the spirits to lend him some of their power, while an Orc Shaman uses the authority of Pa'agrio to actually control them. But you have not yet met the requirements to wield that authority. Dedicate yourself to the task! Return to me when you have reached lev…",
+   "header": "Tataru Zu Hestui",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30585-05.htm": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-05.htm",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: Have you not already acquired the Mask of Medium? It is the token that proves your readiness to become an Orc Shaman. Travel now to the Human lands and show it to the High Prefect . Then he will confer on you the title of Orc Shaman. Tejakar Pa'agrio! May the powers of fire be wit…",
+   "header": "Tataru Zu Hestui",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30585-06.htm": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-06.htm",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: To master the authority of flame and truly govern the spirits, you must learn 2 things. First, you must learn the language of flame, which is the language of the spirits, in order to communicate with them. Second, you must learn the names of the 99 spirits in order to acquire powe…",
+   "header": "Tataru Zu Hestui",
+   "links": [
+    {
+     "text": "Say you want to become a true Orc Shaman.",
+     "bypass": "Quest Q00416_PathOfTheOrcShaman 30585-07.htm",
+     "kind": "quest-event",
+     "script": "Q00416_PathOfTheOrcShaman",
+     "event": "30585-07.htm",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30585-07.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/30585-07.htm": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-07.htm",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: The language of flame cannot be taught, only learned. Confused? Ha! If you wish to learn the language of flame, my young friend, you must summon the Hestui Totem Spirit. The spirit, who takes the form of a Kasha Bear, symbolizes dignity and wisdom. Before attempting the summoning,…",
+   "header": "Tataru Zu Hestui",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30585-12.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-12.html",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: Thanks to the great Hestui Totem Spirit, you have mastered the secret language of flame! Now you can communicate with the spirits -- but you cannot yet command them. If you wish to do so, you must either learn the Names of the 99 Spirits or acquire the Wisdom of the 99 Spirits . W…",
+   "header": "Tataru Zu Hestui",
+   "links": [
+    {
+     "text": "Learn the Names of the 99 Spirits.",
+     "bypass": "Quest Q00416_PathOfTheOrcShaman 30585-13.html",
+     "kind": "quest-event",
+     "script": "Q00416_PathOfTheOrcShaman",
+     "event": "30585-13.html",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30585-13.html",
+     "effect": "cond:5"
+    },
+    {
+     "text": "Acquire the Wisdom of the 99 Spirits.",
+     "bypass": "Quest Q00416_PathOfTheOrcShaman 30585-14.html",
+     "kind": "quest-event",
+     "script": "Q00416_PathOfTheOrcShaman",
+     "event": "30585-14.html",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30585-14.html",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/30585-13.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30585-13.html",
+   "quest": 416,
+   "text": "Tataru Zu Hestui: You wish to learn the Names of the 99 Spirits? Then go to Gludin Village in the Human land of Gludio and show this letter of recommendation to Seer Umos. He will tell you what you must do next.",
+   "header": "Tataru Zu Hestui",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Long Live the Pa'agrio Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00004_LongLiveThePaagrioLord",
+     "kind": "quest",
+     "quest": 4,
+     "to": "Q00004_LongLiveThePaagrioLord/30585-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Orc Shaman]",
+     "bypass": "npc_%objectId%_Quest Q00416_PathOfTheOrcShaman",
+     "kind": "quest",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30585-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Orc Shaman (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00416_PathOfTheOrcShaman",
+     "kind": "quest",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30585-08.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

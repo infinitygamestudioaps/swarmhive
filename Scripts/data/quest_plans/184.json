@@ -2,7 +2,7 @@
  "id": 184,
  "name": "Art Of Persuasion",
  "version": 1,
- "generated": "2026-10-27T11:15:14.341Z",
+ "generated": "2026-10-27T18:18:49.601Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 40,
@@ -29,15 +29,15 @@
  "reasons": [
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 32366 \"32366-06.html\": fires at memo 4, which no transition sets; event 32366 \"32366-08.html\": fires at memo 5, which no transition sets"
   },
   {
    "code": "owner-manual",
    "text": "marked \"manual\" on the dashboard (plan override)",
-   "step": 2
+   "step": 1
   }
  ],
- "expectedMin": 5,
+ "expectedMin": 8,
  "refLevel": 40,
  "steps": [
   {
@@ -185,124 +185,6 @@
   },
   {
    "i": 1,
-   "key": "c1:deliver:30673",
-   "cond": 1,
-   "kind": "deliver",
-   "to": "end",
-   "links": [
-    "Give it to Lorain."
-   ],
-   "npc": {
-    "id": 30673,
-    "name": "Lorain",
-    "title": "Researcher",
-    "town": "Dion",
-    "at": [
-     16460,
-     113488,
-     -3575
-    ],
-    "alt": []
-   },
-   "text": "Bring Metallograph to Lorain",
-   "needs": [
-    {
-     "id": 10359,
-     "name": "Metallograph",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30673@16460,113488",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 1436,
-    "sec": 57,
-    "via": ".dion > Dion -> Cruma Tower",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "gk",
-      "from": "Dion",
-      "desc": "Dion -> Cruma Tower",
-      "link": "cruma tower",
-      "price": 2300,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 1436,
-      "how": "geodata",
-      "danger": 34
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Cruma Tower"
-    },
-    "simple": true,
-    "pv": [
-     [
-      17225,
-      114173,
-      -3440
-     ],
-     [
-      16360,
-      114024,
-      -3528
-     ],
-     [
-      16488,
-      113560,
-      -3576
-     ],
-     [
-      16488,
-      113528,
-      -3576
-     ],
-     [
-      16456,
-      113496,
-      -3576
-     ]
-    ],
-    "maxDanger": 34,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 34,
-     "dangerVsLevel": -6,
-     "aggro": []
-    }
-   },
-   "expectedSec": 82,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5
-   ]
-  },
-  {
-   "i": 2,
    "key": "c1:talk:32366",
    "cond": 1,
    "kind": "talk",
@@ -606,6 +488,335 @@
    },
    "fixedByOverride": [
     "no-route"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30673",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Give her the map."
+   ],
+   "npc": {
+    "id": 30673,
+    "name": "Lorain",
+    "title": "Researcher",
+    "town": "Dion",
+    "at": [
+     16460,
+     113488,
+     -3575
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lorain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30673@16460,113488",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1436,
+    "sec": 57,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1436,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114024,
+      -3528
+     ],
+     [
+      16488,
+      113560,
+      -3576
+     ],
+     [
+      16488,
+      113528,
+      -3576
+     ],
+     [
+      16456,
+      113496,
+      -3576
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:talk:30673",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"Let me know the exact location.\""
+   ],
+   "npc": {
+    "id": 30673,
+    "name": "Lorain",
+    "title": "Researcher",
+    "town": "Dion",
+    "at": [
+     16460,
+     113488,
+     -3575
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lorain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30673@16460,113488",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1436,
+    "sec": 57,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1436,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114024,
+      -3528
+     ],
+     [
+      16488,
+      113560,
+      -3576
+     ],
+     [
+      16488,
+      113528,
+      -3576
+     ],
+     [
+      16456,
+      113496,
+      -3576
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:deliver:30673",
+   "cond": 4,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Give it to Lorain."
+   ],
+   "npc": {
+    "id": 30673,
+    "name": "Lorain",
+    "title": "Researcher",
+    "town": "Dion",
+    "at": [
+     16460,
+     113488,
+     -3575
+    ],
+    "alt": []
+   },
+   "text": "Bring Metallograph to Lorain",
+   "needs": [
+    {
+     "id": 10359,
+     "name": "Metallograph",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30673@16460,113488",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1436,
+    "sec": 57,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1436,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114024,
+      -3528
+     ],
+     [
+      16488,
+      113560,
+      -3576
+     ],
+     [
+      16488,
+      113528,
+      -3576
+     ],
+     [
+      16456,
+      113496,
+      -3576
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4,
+    5
    ]
   }
  ],

@@ -1,0 +1,380 @@
+{
+ "npcId": 30536,
+ "name": "Arin",
+ "title": "Black Anvil's",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.995Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30536.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30536-01.html",
+     "when": "state STARTED; has items 3239,3246,3251; lacks items 3262,3256",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30536-02.html",
+     "when": "state STARTED; has items 3239,3246; lacks items 3262,3256,3251; !(hasQuestItems(player, LOCKIRINS_5TH_NOTICE) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_5TH, CONTRIBUTI",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30536-03.html",
+     "when": "state STARTED; has items 3239,3246,3262,3256,3251; lacks items 3262,3251; !(hasQuestItems(player, LOCKIRINS_5TH_NOTICE) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_5TH, CONTRIBUTI",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30536-04.html",
+     "when": "state STARTED; has items 3239,3246,3262,3256,3251; lacks items 3256,3251; !(hasQuestItems(player, LOCKIRINS_5TH_NOTICE) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_5TH, CONTRIBUTI; !(hasQuestItems(player, CONTRIBUTION_OF_TOMA) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_5TH, LOCKIRINS_",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "231": {
+   "name": "Test Of The Maestro",
+   "listText": [
+    "[Test of the Maestro]",
+    "[Test of the Maestro (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00231_TestOfTheMaestro/30536-01.html",
+     "when": "state STARTED; memo 1; lacks items 2866",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30536-02.html",
+     "when": "state STARTED; memo 3; has items 2871; lacks items 2872; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_ARIN))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30536-03.html",
+     "when": "state STARTED; memo 3; item 2872 >= 5; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_ARIN)); !(hasQuestItems(player, PAINT_OF_TELEPORT_DEVICE) && !hasQuestItems(player, TELEPORT_DEVICE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30536-04.html",
+     "when": "state STARTED; has items 2866; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_ARIN))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "295": {
+   "name": "Dreaming of the Skies",
+   "listText": [
+    "[Dreaming of the Skies]",
+    "[Dreaming of the Skies (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00295_DreamingOfTheSkies/30536-02.htm",
+     "when": "state CREATED; (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00295_DreamingOfTheSkies/30536-01.htm",
+     "when": "state CREATED; NOT (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00295_DreamingOfTheSkies/30536-06.html",
+     "when": "state STARTED; cond 2; has items 1509",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00295_DreamingOfTheSkies/30536-05.html",
+     "when": "state STARTED; cond 2; lacks items 1509",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00295_DreamingOfTheSkies/30536-04.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30536.htm": {
+   "file": "default/30536.htm",
+   "quest": null,
+   "text": "Elder Arin: Nice to meet you, young traveler. I am Arin Curdhammer, a representative of the Black Anvil Guild . What brings you here?",
+   "header": "Elder Arin",
+   "links": [
+    {
+     "text": "Ask about the Black Anvil Guild",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30536-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30536-1.htm": {
+   "file": "default/30536-1.htm",
+   "quest": null,
+   "text": "Elder Arin: While other races were brandishing their bamboo spears and stone axes, our ancestors had already fashioned bronze tools and begun to learn the secrets of steel. The Black Anvil Guild continues the tradition of those ancestors through delicate workmanship and a noble spirit of craftsmans…",
+   "header": "Elder Arin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30536.htm"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30536-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30536-01.html",
+   "quest": 221,
+   "text": "Elder Arin: I am Arin Curdhammer, a representative of the Black Anvil Guild. But wait! Haven't we met before? You look very familiar. Hmmm. Very strange, I never forget a face... Oh, well, I guess I am getting old.. Let's get on with the business at hand. Let's see, who has not paid his dues... Dea…",
+   "header": "Elder Arin",
+   "when": [
+    "state STARTED; has items 3239,3246,3251; lacks items 3262,3256"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30536-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30536-02.html",
+   "quest": 221,
+   "text": "Elder Arin: Please bring back Master Toma's contribution. No doubt he is traveling and simply forgot about the due date... Ah, he can be so elusive -- I heard some time ago that he was fishing on the northern coast ...",
+   "header": "Elder Arin",
+   "when": [
+    "state STARTED; has items 3239,3246; lacks items 3262,3256,3251; !(hasQuestItems(player, LOCKIRINS_5TH_NOTICE) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_5TH, CONTRIBUTI"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30536-03.html": {
+   "file": "Q00221_TestimonyOfProsperity/30536-03.html",
+   "quest": 221,
+   "text": "Elder Arin: Phew!. Ah, the guild dues of Master Toma ! So, how was he? Enraged? Yes, I thought he might be. He is one strange duck, that for sure. He looked down on me when I was a child, and still treats me like one, even though I am an Elder now... Anyway, I am glad it worked out. I'm sure that t…",
+   "header": "Elder Arin",
+   "when": [
+    "state STARTED; has items 3239,3246,3262,3256,3251; lacks items 3262,3251; !(hasQuestItems(player, LOCKIRINS_5TH_NOTICE) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_5TH, CONTRIBUTI"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30536-04.html": {
+   "file": "Q00221_TestimonyOfProsperity/30536-04.html",
+   "quest": 221,
+   "text": "Elder Arin: I hate all this paperwork! Don't be in such a rush and do the tasks properly!",
+   "header": "Elder Arin",
+   "when": [
+    "state STARTED; has items 3239,3246,3262,3256,3251; lacks items 3256,3251; !(hasQuestItems(player, LOCKIRINS_5TH_NOTICE) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_5TH, CONTRIBUTI; !(hasQuestItems(player, CONTRIBUTION_OF_TOMA) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_5TH, LOCKIRINS_"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30536-01.html": {
+   "file": "Q00231_TestOfTheMaestro/30536-01.html",
+   "quest": 231,
+   "text": "Elder Arin: The Black Anvil Guild represents the pinnacle of the Dwarven race. Thanks to our efforts, the lost skills of the ancient Giants have been rediscovered. As an elder, I will ensure that our skills progress even farther and faster. Our reputation among the other races will be unparalleled!…",
+   "header": "Elder Arin",
+   "when": [
+    "state STARTED; memo 1; lacks items 2866"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30536-02.html": {
+   "file": "Q00231_TestOfTheMaestro/30536-02.html",
+   "quest": 231,
+   "text": "Elder Arin: Where is the device?! If you do not bring me the mobile Teleport Device, you will never get a Recommendation letter! I must have it in order to win the upcoming election! Find Master Toma at once! And recover that teleport machine!",
+   "header": "Elder Arin",
+   "when": [
+    "state STARTED; memo 3; has items 2871; lacks items 2872; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_ARIN))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30536-03.html": {
+   "file": "Q00231_TestOfTheMaestro/30536-03.html",
+   "quest": 231,
+   "text": "Elder Arin: Five?! Did you say 5?! My dream... The future of my race... What shall I do...? Whew... Yes... A Recommendation letter, you say? OK, here you go. I need to think, so please leave me in peace.",
+   "header": "Elder Arin",
+   "when": [
+    "state STARTED; memo 3; item 2872 >= 5; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_ARIN)); !(hasQuestItems(player, PAINT_OF_TELEPORT_DEVICE) && !hasQuestItems(player, TELEPORT_DEVICE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30536-04.html": {
+   "file": "Q00231_TestOfTheMaestro/30536-04.html",
+   "quest": 231,
+   "text": "Elder Arin: Get letters of Recommendation from 3 Elders and take them to the First Elder.",
+   "header": "Elder Arin",
+   "when": [
+    "state STARTED; has items 2866; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_ARIN))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00295_DreamingOfTheSkies/30536-02.htm": {
+   "file": "Q00295_DreamingOfTheSkies/30536-02.htm",
+   "quest": 295,
+   "text": "Elder Arin: Have you ever traveled by airship ? It is the ultimate transportation, and we of the Black Anvil Guild created it with our combined technology. The sight of the airships flying high in the sky makes people sigh with admiration. But they say that the flying mechanisms of the giants of er…",
+   "header": "Elder Arin",
+   "when": [
+    "state CREATED; (talker.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00295_DreamingOfTheSkies 30536-03.htm",
+     "kind": "quest-event",
+     "script": "Q00295_DreamingOfTheSkies",
+     "event": "30536-03.htm",
+     "quest": 295,
+     "to": "Q00295_DreamingOfTheSkies/30536-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00295_DreamingOfTheSkies/30536-01.htm": {
+   "file": "Q00295_DreamingOfTheSkies/30536-01.htm",
+   "quest": 295,
+   "text": "Elder Arin: Have you ever traveled by airship ? It is the ultimate transportation, and we of the Black Anvil Guild created it with our combined technology. The sight of the airships flying high in the sky makes people sigh with admiration. But they say that the flying mechanisms of the giants of er…",
+   "header": "Elder Arin",
+   "when": [
+    "state CREATED; NOT (talker.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00295_DreamingOfTheSkies/30536-06.html": {
+   "file": "Q00295_DreamingOfTheSkies/30536-06.html",
+   "quest": 295,
+   "text": "Elder Arin: Welcome, young apprentice! Do you have the fifty Floating Stones that I asked you to collect? Ah, right! You certainly have fifty of them! Thank you for your trouble. I will pay you as promised. This should be enough. Now I can have some time to concentrate on my study. I don't know wha…",
+   "header": "Elder Arin",
+   "when": [
+    "state STARTED; cond 2; has items 1509"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00295_DreamingOfTheSkies/30536-05.html": {
+   "file": "Q00295_DreamingOfTheSkies/30536-05.html",
+   "quest": 295,
+   "text": "Elder Arin: Welcome, young apprentice! Do you have the fifty Floating Stones that I asked you to collect? Ah, right! You certainly have fifty of them! Thank you for your trouble. I will pay you as promised. This should be enough. I will give you this ring as a reward for working with us, the Black …",
+   "header": "Elder Arin",
+   "when": [
+    "state STARTED; cond 2; lacks items 1509"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00295_DreamingOfTheSkies/30536-04.html": {
+   "file": "Q00295_DreamingOfTheSkies/30536-04.html",
+   "quest": 295,
+   "text": "Elder Arin: Welcome back! How is the collecting job going? As I told you before, you can obtain the Floating Stones by hunting the magical weavers . Gather fifty of them and I will reward you.",
+   "header": "Elder Arin",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00295_DreamingOfTheSkies/30536-03.htm": {
+   "file": "Q00295_DreamingOfTheSkies/30536-03.htm",
+   "quest": 295,
+   "text": "Elder Arin: Floating Stones are not as hard to find as you think. Have you seen creatures such as monster eyes and magical weavers? They can fly through the air because they have Floating Stones in their bodies. Maybe the scholars were correct when they said monster eyes were artificial creatures c…",
+   "header": "Elder Arin",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30536-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Maestro (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00231_TestOfTheMaestro",
+     "kind": "quest",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30536-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Dreaming of the Skies]",
+     "bypass": "npc_%objectId%_Quest Q00295_DreamingOfTheSkies",
+     "kind": "quest",
+     "quest": 295,
+     "to": "Q00295_DreamingOfTheSkies/30536-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Dreaming of the Skies (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00295_DreamingOfTheSkies",
+     "kind": "quest",
+     "quest": 295,
+     "to": "Q00295_DreamingOfTheSkies/30536-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

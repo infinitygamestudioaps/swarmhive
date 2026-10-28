@@ -2,7 +2,7 @@
  "id": 620,
  "name": "Four Goblets",
  "version": 1,
- "generated": "2026-10-27T11:15:41.510Z",
+ "generated": "2026-10-27T18:19:15.943Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 74,
@@ -35,12 +35,22 @@
    "step": 2
   },
   {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 4
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 4
+  },
+  {
    "code": "route-conditional",
    "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
    "step": 5
   }
  ],
- "expectedMin": 10,
+ "expectedMin": 12,
  "refLevel": 74,
  "steps": [
   {
@@ -1098,8 +1108,158 @@
   },
   {
    "i": 2,
-   "key": "c1:talk:31453",
+   "key": "c1:deliver:31453",
    "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "\"I'll do it!\""
+   ],
+   "npc": {
+    "id": 31453,
+    "name": "Nameless Spirit",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     178292,
+     -85577,
+     -7200
+    ],
+    "alt": []
+   },
+   "text": "Bring Antique Brooch to Nameless Spirit",
+   "needs": [
+    {
+     "id": 7262,
+     "name": "Antique Brooch",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "engine-manual",
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31453@178292,-85577",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".goddard",
+    "length": 2042,
+    "sec": 77,
+    "via": ".goddard > Goddard -> Wall of Argos > enter Elmoreden's Ghost Chamberlain",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 887,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Elmoreden's Ghost Chamberlain",
+      "link": "I want to visit the Four Sepulchers."
+     },
+     {
+      "do": "walk",
+      "len": 1155,
+      "how": "geodata",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": false,
+    "pv": [
+     [
+      165054,
+      -47861,
+      -3560
+     ],
+     [
+      164520,
+      -47800,
+      -3528
+     ],
+     [
+      164472,
+      -47816,
+      -3528
+     ],
+     [
+      164424,
+      -47816,
+      -3528
+     ],
+     [
+      164312,
+      -47592,
+      -3504
+     ],
+     [
+      178212,
+      -84933,
+      -7215
+     ],
+     [
+      178296,
+      -85432,
+      -7216
+     ],
+     [
+      178296,
+      -85576,
+      -7216
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [
+     "four-sepulchers",
+     "four-sepulchers"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engineWhy": "the monsters (18141, 18142, 18143, 18144, 18145, 18146, 18147, 18148, 18149, 18230, 18120, 18123, 18126, 18129, 18221, 18121, 18124, 18127, 18130, 18224, 18122, 18125, 18128, 18131, 18168, 18175, 18178, 18181, 18184, 18133, 18135, 18136, 18187, 18189, 18190, 18132, 18134, 18167, 18170, 18188, 18223, 18137, 18169, 18172, 18191, 18226, 18138, 18140, 18192, 18194, 18229, 18139, 18193, 18166, 18195, 18171, 18173, 18176, 18179, 18182, 18174, 18177, 18180, 18183, 18185, 18186, 18220, 18222, 18225, 18227, 18212, 18213, 18214, 18215, 18216, 18217, 18218, 18219, 25339, 25342, 25346, 25349) only appear through the quest script and no trigger is known",
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:talk:31453",
+   "cond": 2,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -1236,12 +1396,11 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2
    ]
   },
   {
-   "i": 3,
+   "i": 4,
    "key": "c1:turnin:31454",
    "cond": 1,
    "kind": "deliver",

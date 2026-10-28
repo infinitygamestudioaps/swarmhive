@@ -1,0 +1,241 @@
+{
+ "npcId": 32166,
+ "name": "Trevor",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.350Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/32166.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "284": {
+   "name": "Muertos Feather",
+   "listText": [
+    "[Muertos Hunting]",
+    "[Muertos Hunting (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00284_MuertosFeather/32166-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00284_MuertosFeather/32166-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00284_MuertosFeather/32166-05.html",
+     "when": "state STARTED; hasQuestItems(player, MUERTOS_FEATHER)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00284_MuertosFeather/32166-04.html",
+     "when": "state STARTED; NOT hasQuestItems(player, MUERTOS_FEATHER)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/32166.htm": {
+   "file": "merchant/32166.htm",
+   "quest": null,
+   "text": "Trader Trevor: Welcome, how can I help you? We have every accessory you might need! If you're planning a long journey, don't leave without something from our shop.",
+   "header": "Trader Trevor",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Buy 3216600",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00284_MuertosFeather/32166-01.htm": {
+   "file": "Q00284_MuertosFeather/32166-01.htm",
+   "quest": 284,
+   "text": "Trevor: Hmm, my keen intuition tells me that good things are in store for both of us. Curious? Well, let me offer you the chance to take advantage of a terrific opportunity. Muertos feathers have become more and more popular, and their price is soaring. But the Muertos in this area are known to be …",
+   "header": "Trevor",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say that you will take the job.",
+     "bypass": "Quest Q00284_MuertosFeather 32166-03.htm",
+     "kind": "quest-event",
+     "script": "Q00284_MuertosFeather",
+     "event": "32166-03.htm",
+     "quest": 284,
+     "to": "Q00284_MuertosFeather/32166-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00284_MuertosFeather/32166-02.htm": {
+   "file": "Q00284_MuertosFeather/32166-02.htm",
+   "quest": 284,
+   "text": "Trevor: If my feeling is right... I think you came here because you heard about a job... But my keen intuition tells me that you don't quite have the necessary abilities yet. You might be strong enough to capture a monster, but you need experience to complete the task I have in mind... Why don't yo…",
+   "header": "Trevor",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00284_MuertosFeather/32166-05.html": {
+   "file": "Q00284_MuertosFeather/32166-05.html",
+   "quest": 284,
+   "text": "Trevor: Here you are. We must have a connection somehow. I was just wondering when you would return with the Muertos Feathers. Well, show them to me.",
+   "header": "Trevor",
+   "when": [
+    "state STARTED; hasQuestItems(player, MUERTOS_FEATHER)"
+   ],
+   "links": [
+    {
+     "text": "Show him the Muertos Feathers.",
+     "bypass": "Quest Q00284_MuertosFeather 32166-08.html",
+     "kind": "quest-event",
+     "script": "Q00284_MuertosFeather",
+     "event": "32166-08.html",
+     "quest": 284,
+     "to": "Q00284_MuertosFeather/32166-08.html",
+     "toAll": [
+      "Q00284_MuertosFeather/32166-08.html",
+      "Q00284_MuertosFeather/32166-07.html"
+     ]
+    }
+   ]
+  },
+  "Q00284_MuertosFeather/32166-04.html": {
+   "file": "Q00284_MuertosFeather/32166-04.html",
+   "quest": 284,
+   "text": "Trevor: Where are the feathers? I hope you didn't forget to bring them! Ah, I can tell what happened just from your expression. I'm sorry, but I just can't pay you without the feathers. Go capture a Muertos and bring back Muertos Feathers .",
+   "header": "Trevor",
+   "when": [
+    "state STARTED; NOT hasQuestItems(player, MUERTOS_FEATHER)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00284_MuertosFeather/32166-03.htm": {
+   "file": "Q00284_MuertosFeather/32166-03.htm",
+   "quest": 284,
+   "text": "Trevor: Good thinking. Go to Mimir's Forest and catch the Muertos . Of course, the important thing is to bring back the Muertos Feathers from their wings. Odd, isn't it, that such beautiful feathers grow on the bodies of such dangerous monsters? Still, collectors from the continent are very anxious…",
+   "header": "Trevor",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00284_MuertosFeather/32166-06.html": {
+   "file": "Q00284_MuertosFeather/32166-06.html",
+   "quest": 284,
+   "text": "Trevor: So you'll continue to work for me? Oh, thank goodness! I was worried that you might have become bored. As you already know, you can obtain these feathers by capturing the Muertos in Mimir's Forest. I will pay you well for whatever you bring me, naturally.",
+   "header": "Trevor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00284_MuertosFeather/32166-07.html": {
+   "file": "Q00284_MuertosFeather/32166-07.html",
+   "quest": 284,
+   "text": "Trevor: Hmm, I don't know what to do. An honest person like you wouldn't ask for compensation without bringing the feathers... Why don't you look around the area? Perhaps you simply dropped them on your way here. I'm sorry, but I just can't justify paying you without the feathers.",
+   "header": "Trevor",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00284_MuertosFeather/32166-08.html": {
+   "file": "Q00284_MuertosFeather/32166-08.html",
+   "quest": 284,
+   "text": "Trevor: Ah, these feathers are in very good condition. Excellent! How do you feel about continuing with this work? To be honest, it's not easy to find someone who is as dependable as you have proven to be.",
+   "header": "Trevor",
+   "links": [
+    {
+     "text": "Say you will continue.",
+     "bypass": "Quest Q00284_MuertosFeather 32166-06.html",
+     "kind": "quest-event",
+     "script": "Q00284_MuertosFeather",
+     "event": "32166-06.html",
+     "quest": 284,
+     "to": "Q00284_MuertosFeather/32166-06.html"
+    },
+    {
+     "text": "Say you want to quit.",
+     "bypass": "Quest Q00284_MuertosFeather 32166-09.html",
+     "kind": "quest-event",
+     "script": "Q00284_MuertosFeather",
+     "event": "32166-09.html",
+     "quest": 284,
+     "to": "Q00284_MuertosFeather/32166-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00284_MuertosFeather/32166-09.html": {
+   "file": "Q00284_MuertosFeather/32166-09.html",
+   "quest": 284,
+   "text": "Trevor: Ah, I'm sorry to hear that... Still, if you want to work again, please visit me any time.",
+   "header": "Trevor",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Muertos Hunting]",
+     "bypass": "npc_%objectId%_Quest Q00284_MuertosFeather",
+     "kind": "quest",
+     "quest": 284,
+     "to": "Q00284_MuertosFeather/32166-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Muertos Hunting (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00284_MuertosFeather",
+     "kind": "quest",
+     "quest": 284,
+     "to": "Q00284_MuertosFeather/32166-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

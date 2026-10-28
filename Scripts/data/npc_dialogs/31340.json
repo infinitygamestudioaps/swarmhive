@@ -1,0 +1,585 @@
+{
+ "npcId": 31340,
+ "name": "Mathias",
+ "title": "Captain",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.193Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/31340.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "902": {
+   "name": "Reclaim Our Era",
+   "listText": [
+    "[Reclaim Our Era]",
+    "[Reclaim Our Era (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00902_ReclaimOurEra/31340-02.htm",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00902_ReclaimOurEra/31340-01.htm",
+     "when": "state COMPLETED|CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00902_ReclaimOurEra/31340-03.htm",
+     "when": "state COMPLETED|CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00902_ReclaimOurEra/31340-09.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00902_ReclaimOurEra/31340-11.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00902_ReclaimOurEra/31340-12.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00902_ReclaimOurEra/31340-13.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00902_ReclaimOurEra/31340-14.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10281": {
+   "name": "Mutated Kaneus - Rune",
+   "listText": [
+    "[Mutated Kaneus - Rune]",
+    "[Mutated Kaneus - Rune (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10281_MutatedKaneusRune/31340-01.htm",
+     "when": "state CREATED; (player.getLevel() > 67)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10281_MutatedKaneusRune/31340-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() > 67)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10281_MutatedKaneusRune/31340-05.htm",
+     "when": "state STARTED; st.hasQuestItems(TISSUE_WA)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10281_MutatedKaneusRune/31340-04.htm",
+     "when": "state STARTED; NOT st.hasQuestItems(TISSUE_WA)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10281_MutatedKaneusRune/31340-06.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/31340.htm": {
+   "file": "guard/31340.htm",
+   "quest": null,
+   "text": "Captain Mathias: Welcome, traveler, to the capital of the kingdom of Elmore. You must be tired from your long journey. May your time in our fair city be restful and relaxing.",
+   "header": "Captain Mathias",
+   "links": [
+    {
+     "text": "Ask about Kamaloka.",
+     "bypass": "guard/kamaloka_help.htm",
+     "kind": "page",
+     "to": "guard/kamaloka_help.htm"
+    },
+    {
+     "text": "Look at the list of Kamaloka.",
+     "bypass": "guard/kamaloka_level.htm",
+     "kind": "page",
+     "to": "guard/kamaloka_level.htm"
+    },
+    {
+     "text": "Enter Kamaloka.",
+     "bypass": "npc_%objectId%_Quest Kamaloka",
+     "kind": "quest",
+     "script": "Kamaloka"
+    },
+    {
+     "text": "\"Do you know anything about the ominous rumor I heard?\"",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "guard/31340-4.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Exchange Blue Elmore Coins",
+     "bypass": "npc_%objectId%_multisell 313400001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/31340-4.htm": {
+   "file": "guard/31340-4.htm",
+   "quest": null,
+   "text": "Captain Mathias: People shouldn't spread false rumors! I've heard them all before... devil worshippers , vampires, blah blah blah... The ravings of drunks! This town is well-protected by our royal guards! Don't worry! Who is spreading these lies? If you hear anyone saying such rubbish, tell me imme…",
+   "header": "Captain Mathias",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31340.htm"
+    }
+   ]
+  },
+  "Q00902_ReclaimOurEra/31340-02.htm": {
+   "file": "Q00902_ReclaimOurEra/31340-02.htm",
+   "quest": 902,
+   "text": "Captain Mathias: Good job today. You were a great help. I know you're busy, but please help me again next time. The Elmore Kingdom will always welcome help from brave adventurers such as yourself. (This quest can only be undertaken once a day. This quest gets initialized everyday at 6:30 am.)",
+   "header": "Captain Mathias",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00902_ReclaimOurEra/31340-01.htm": {
+   "file": "Q00902_ReclaimOurEra/31340-01.htm",
+   "quest": 902,
+   "text": "Captain Mathias: Have you noticed the Red Moon as of Late? A bad omen to be sure. When that moon rises it tends to cause creatures to become more aggressive. I don't know maybe it has something to do with the color of blood. The king tries to hide it but I know he is troubled by the rise in monster…",
+   "header": "Captain Mathias",
+   "when": [
+    "state COMPLETED|CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "That is a problem. I might be the solution.",
+     "bypass": "Quest Q00902_ReclaimOurEra 31340-04.htm",
+     "kind": "quest-event",
+     "script": "Q00902_ReclaimOurEra",
+     "event": "31340-04.htm",
+     "quest": 902,
+     "to": "Q00902_ReclaimOurEra/31340-04.htm"
+    }
+   ]
+  },
+  "Q00902_ReclaimOurEra/31340-03.htm": {
+   "file": "Q00902_ReclaimOurEra/31340-03.htm",
+   "quest": 902,
+   "text": "Captain Mathias: I cannot trust your skill level. In order to receive this important mission, you need more experience. This is a life-risking task. (Only characters above level 80 can undertake this quest.)",
+   "header": "Captain Mathias",
+   "when": [
+    "state COMPLETED|CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00902_ReclaimOurEra/31340-09.html": {
+   "file": "Q00902_ReclaimOurEra/31340-09.html",
+   "quest": 902,
+   "text": "Captain Mathias: Wait a second. I like to keep tabs on who is doing what for me. I want to know what your plan of attack is. Which target do you plan on addressing?",
+   "header": "Captain Mathias",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "The Ketra Orcs and the Varka Silenos",
+     "bypass": "Quest Q00902_ReclaimOurEra 31340-06.html",
+     "kind": "quest-event",
+     "script": "Q00902_ReclaimOurEra",
+     "event": "31340-06.html",
+     "quest": 902,
+     "to": "Q00902_ReclaimOurEra/31340-06.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "The Cannibalistic Stakato Chief",
+     "bypass": "Quest Q00902_ReclaimOurEra 31340-07.html",
+     "kind": "quest-event",
+     "script": "Q00902_ReclaimOurEra",
+     "event": "31340-07.html",
+     "quest": 902,
+     "to": "Q00902_ReclaimOurEra/31340-07.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "Anais",
+     "bypass": "Quest Q00902_ReclaimOurEra 31340-08.html",
+     "kind": "quest-event",
+     "script": "Q00902_ReclaimOurEra",
+     "event": "31340-08.html",
+     "quest": 902,
+     "to": "Q00902_ReclaimOurEra/31340-08.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00902_ReclaimOurEra/31340-11.html": {
+   "file": "Q00902_ReclaimOurEra/31340-11.html",
+   "quest": 902,
+   "text": "Captain Mathias: The Ketra Orcs and the Varka Silenos are sworn enemies. Capturing just one of the leader monsters will be considered meeting the suppression goal.",
+   "header": "Captain Mathias",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00902_ReclaimOurEra/31340-12.html": {
+   "file": "Q00902_ReclaimOurEra/31340-12.html",
+   "quest": 902,
+   "text": "Captain Mathias: The Stakato Nest, where the Cannibalistic Stakato Chief lives, is a very dangerous place. Please be careful.",
+   "header": "Captain Mathias",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00902_ReclaimOurEra/31340-13.html": {
+   "file": "Q00902_ReclaimOurEra/31340-13.html",
+   "quest": 902,
+   "text": "Captain Mathias: If you wish to defeat Anais in the Monastery of Silence, you will first need to walk a dangerous path. Be careful.",
+   "header": "Captain Mathias",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00902_ReclaimOurEra/31340-14.html": {
+   "file": "Q00902_ReclaimOurEra/31340-14.html",
+   "quest": 902,
+   "text": "Captain Mathias: Well done. Speak to me again if you have any interest in further assignments. As promised here is your compensation.",
+   "header": "Captain Mathias",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10281_MutatedKaneusRune/31340-01.htm": {
+   "file": "Q10281_MutatedKaneusRune/31340-01.htm",
+   "quest": 10281,
+   "text": "Captain Mathias: I heard tales of your recent activities. You have already acquired a reputation as an accomplished adventurer. Perhaps you have already heard about the Mutated Kaneus of Kamaloka . I have been asked to help investigate these strange creatures, but my duties unfortunately keep me fa…",
+   "header": "Captain Mathias",
+   "when": [
+    "state CREATED; (player.getLevel() > 67)"
+   ],
+   "links": [
+    {
+     "text": "\"What kind of help do you need?\"",
+     "bypass": "Quest Q10281_MutatedKaneusRune 31340-02.htm",
+     "kind": "quest-event",
+     "script": "Q10281_MutatedKaneusRune",
+     "event": "31340-02.htm",
+     "quest": 10281,
+     "to": "Q10281_MutatedKaneusRune/31340-02.htm"
+    }
+   ]
+  },
+  "Q10281_MutatedKaneusRune/31340-00.htm": {
+   "file": "Q10281_MutatedKaneusRune/31340-00.htm",
+   "quest": 10281,
+   "text": "Captain Mathias: Based on my observations, I don't think you are yet ready to handle the Kaneus here. (Only characters level 68 and above are permitted to undertake this quest.)",
+   "header": "Captain Mathias",
+   "when": [
+    "state CREATED; NOT (player.getLevel() > 67)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10281_MutatedKaneusRune/31340-05.htm": {
+   "file": "Q10281_MutatedKaneusRune/31340-05.htm",
+   "quest": 10281,
+   "text": "Captain Mathias: Ah! Are these the cellular tissue of White Allosce ? From their pristine appearance, I can tell you were very careful. I couldn't have done better myself. Well done! Now take these samples to Magister Kayan at the Temple of Einhasad. He will be very pleased. If we can determine the…",
+   "header": "Captain Mathias",
+   "when": [
+    "state STARTED; st.hasQuestItems(TISSUE_WA)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10281_MutatedKaneusRune/31340-04.htm": {
+   "file": "Q10281_MutatedKaneusRune/31340-04.htm",
+   "quest": 10281,
+   "text": "Captain Mathias: The magisters become agitated if their research is delayed for any reason, so deliver the cellular tissue samples as quickly as possible. Those aren't people you want irritated with you, you know! Hurry to Kamaloka, and good hunting!",
+   "header": "Captain Mathias",
+   "when": [
+    "state STARTED; NOT st.hasQuestItems(TISSUE_WA)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10281_MutatedKaneusRune/31340-06.htm": {
+   "file": "Q10281_MutatedKaneusRune/31340-06.htm",
+   "quest": 10281,
+   "text": "Captain Mathias: Ah, it's you! Magister Kayan asked me to convey his gratitude to you. He said that the cellular tissues of the mutated Kaneus from the Kamaloka of Rune that you delivered to the Sages of Magic were a great help. Well done!",
+   "header": "Captain Mathias",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00902_ReclaimOurEra/31340-04.htm": {
+   "file": "Q00902_ReclaimOurEra/31340-04.htm",
+   "quest": 902,
+   "text": "Captain Mathias: You? Well, I suppose... those scars aren't for show, now are they? It looks like you can handle yourself in a fight. We have had reports of monsters near Rune and Goddard that have been the cause of these recent attacks. I'm not going to lie, it will be dangerous, but I will be abl…",
+   "header": "Captain Mathias",
+   "links": [
+    {
+     "text": "Hmmm, likely to be killed... sure why not.",
+     "bypass": "Quest Q00902_ReclaimOurEra 31340-05.html",
+     "kind": "quest-event",
+     "script": "Q00902_ReclaimOurEra",
+     "event": "31340-05.html",
+     "quest": 902,
+     "to": "Q00902_ReclaimOurEra/31340-05.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00902_ReclaimOurEra/31340-05.html": {
+   "file": "Q00902_ReclaimOurEra/31340-05.html",
+   "quest": 902,
+   "text": "Captain Mathias: Alright, there are three high priority targets. In Goddard, the Varka Silenos and Ketra Orcs Leaders have been rallying their troops. We need someone to go in there and eliminate the cause of their hostility. In the swamps near Rune, there is the Cannibalistic Stakato Chief... appa…",
+   "header": "Captain Mathias",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Well then, what I'm I waiting for.",
+     "bypass": "Quest Q00902_ReclaimOurEra 31340-10.html",
+     "kind": "quest-event",
+     "script": "Q00902_ReclaimOurEra",
+     "event": "31340-10.html",
+     "quest": 902,
+     "to": "Q00902_ReclaimOurEra/31340-10.html"
+    }
+   ]
+  },
+  "Q00902_ReclaimOurEra/31340-06.html": {
+   "file": "Q00902_ReclaimOurEra/31340-06.html",
+   "quest": 902,
+   "text": "Captain Mathias: So, you want to take a shot at the Varka Silenos and the Ketra Orcs? You are going to want to kill their leaders. The ones to hunt are Shadith, Moss, Horus, Hekaton, Tayr, and Braki. You don't need to kill them all... killing 1 should send the message. Oh, and once you are done... …",
+   "header": "Captain Mathias",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00902_ReclaimOurEra/31340-07.html": {
+   "file": "Q00902_ReclaimOurEra/31340-07.html",
+   "quest": 902,
+   "text": "Captain Mathias: The Stakatos have become more aggressive lately. This is probably due to their Leader who has a taste of their own kind. Consuming the flesh of the Stakato seems to produce a chemical that causes intense aggression. It sends them in a fury to attack all those around. We don't have …",
+   "header": "Captain Mathias",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00902_ReclaimOurEra/31340-08.html": {
+   "file": "Q00902_ReclaimOurEra/31340-08.html",
+   "quest": 902,
+   "text": "Captain Mathias: The Monastery of Silence, Eh? The creature you seek is Anais . A very powerful creature, so be careful. Just a tip... the Monks there don't like weapons. Your best off not brandishing your weapon until you find what you are looking for. Rumor has it Anais can be found near the Holy…",
+   "header": "Captain Mathias",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00902_ReclaimOurEra/31340-10.html": {
+   "file": "Q00902_ReclaimOurEra/31340-10.html",
+   "quest": 902,
+   "text": "Captain Mathias: Thanks for agreeing to help. I would like to know where you are planning to go. Which of the monsters I mentioned will you go to suppress?",
+   "header": "Captain Mathias",
+   "links": [
+    {
+     "text": "The Ketra Orcs and the Varka Silenos",
+     "bypass": "Quest Q00902_ReclaimOurEra 31340-06.html",
+     "kind": "quest-event",
+     "script": "Q00902_ReclaimOurEra",
+     "event": "31340-06.html",
+     "quest": 902,
+     "to": "Q00902_ReclaimOurEra/31340-06.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "The Cannibalistic Stakato Chief",
+     "bypass": "Quest Q00902_ReclaimOurEra 31340-07.html",
+     "kind": "quest-event",
+     "script": "Q00902_ReclaimOurEra",
+     "event": "31340-07.html",
+     "quest": 902,
+     "to": "Q00902_ReclaimOurEra/31340-07.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "Anais",
+     "bypass": "Quest Q00902_ReclaimOurEra 31340-08.html",
+     "kind": "quest-event",
+     "script": "Q00902_ReclaimOurEra",
+     "event": "31340-08.html",
+     "quest": 902,
+     "to": "Q00902_ReclaimOurEra/31340-08.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q10281_MutatedKaneusRune/31340-02.htm": {
+   "file": "Q10281_MutatedKaneusRune/31340-02.htm",
+   "quest": 10281,
+   "text": "Captain Mathias: The favor I ask is on behalf of Magister Kayan of the Temple of Einhasad. The Sages of Magic, a group of magisters of which Magister Kayan is a member, are researching the Kaneus: recently discovered monsters of Kamaloka. They know that Kamaloka exists between this world and the in…",
+   "header": "Captain Mathias",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q10281_MutatedKaneusRune 31340-03.htm",
+     "kind": "quest-event",
+     "script": "Q10281_MutatedKaneusRune",
+     "event": "31340-03.htm",
+     "quest": 10281,
+     "to": "Q10281_MutatedKaneusRune/31340-03.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10281_MutatedKaneusRune/31340-03.htm": {
+   "file": "Q10281_MutatedKaneusRune/31340-03.htm",
+   "quest": 10281,
+   "text": "Captain Mathias: Excellent! Visit the Kamaloka we can enter from Rune, kill the Kaneus there and extract their cellular tissues. You will face the White Allosce Kaneus. When you have extracted all the cellular tissues of the Kaneus, take them to Magister Kayan at the Temple of Einhasad. I know he a…",
+   "header": "Captain Mathias",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Reclaim Our Era]",
+     "bypass": "npc_%objectId%_Quest Q00902_ReclaimOurEra",
+     "kind": "quest",
+     "quest": 902,
+     "to": "Q00902_ReclaimOurEra/31340-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Reclaim Our Era (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00902_ReclaimOurEra",
+     "kind": "quest",
+     "quest": 902,
+     "to": "Q00902_ReclaimOurEra/31340-09.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Mutated Kaneus - Rune]",
+     "bypass": "npc_%objectId%_Quest Q10281_MutatedKaneusRune",
+     "kind": "quest",
+     "quest": 10281,
+     "to": "Q10281_MutatedKaneusRune/31340-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Mutated Kaneus - Rune (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10281_MutatedKaneusRune",
+     "kind": "quest",
+     "quest": 10281,
+     "to": "Q10281_MutatedKaneusRune/31340-05.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "guard/kamaloka_help.htm": {
+   "file": "guard/kamaloka_help.htm",
+   "quest": null,
+   "text": "Kamaloka is an invader from another world. We do not know precisely when it happened, but we discovered a sealed space, similar to a Dimensional Rift. We call it Kamaloka. To enter it, you must meet certain requirements. You cannot enter a basic Kamaloka alone. To fight alone, find the pathfinder t…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "guard/kamaloka_level.htm": {
+   "file": "guard/kamaloka_level.htm",
+   "quest": null,
+   "text": "According to research from the Ivory Tower, the established theory is that Kamaloka is from a dimensional overlapping in Aden's land. Kamaloka has stages of power based on the strength of a monster's soul. This is cutting edge science, and we don't fully understand it. So we introduce adventurers t…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

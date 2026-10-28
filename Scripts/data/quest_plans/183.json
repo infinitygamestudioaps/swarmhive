@@ -2,7 +2,7 @@
  "id": 183,
  "name": "Relic Exploration",
  "version": 1,
- "generated": "2026-10-27T11:15:14.329Z",
+ "generated": "2026-10-27T18:18:49.581Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 40,
@@ -12,13 +12,8 @@
  "region": "Giran",
  "requirements": {},
  "restrictions": [],
- "status": "fixable",
- "reasons": [
-  {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  }
- ],
+ "status": "ready",
+ "reasons": [],
  "expectedMin": 6,
  "refLevel": 40,
  "steps": [
@@ -198,8 +193,115 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:30621",
+   "key": "c1:talk:30673",
    "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"Give me some time and I'll see if I can patch things up between you two.\""
+   ],
+   "npc": {
+    "id": 30673,
+    "name": "Lorain",
+    "title": "Researcher",
+    "town": "Dion",
+    "at": [
+     16460,
+     113488,
+     -3575
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lorain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30673@16460,113488",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1436,
+    "sec": 57,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1436,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114024,
+      -3528
+     ],
+     [
+      16488,
+      113560,
+      -3576
+     ],
+     [
+      16488,
+      113528,
+      -3576
+     ],
+     [
+      16456,
+      113496,
+      -3576
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30621",
+   "cond": 2,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -340,119 +442,20 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:30673",
-   "cond": 1,
-   "kind": "talk",
-   "to": 2,
-   "links": [
-    "\"Give me some time and I'll see if I can patch things up between you two.\""
-   ],
-   "npc": {
-    "id": 30673,
-    "name": "Lorain",
-    "title": "Researcher",
-    "town": "Dion",
-    "at": [
-     16460,
-     113488,
-     -3575
-    ],
-    "alt": []
-   },
-   "text": "Talk to Lorain",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30673@16460,113488",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 1436,
-    "sec": 57,
-    "via": ".dion > Dion -> Cruma Tower",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "gk",
-      "from": "Dion",
-      "desc": "Dion -> Cruma Tower",
-      "link": "cruma tower",
-      "price": 2300,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 1436,
-      "how": "geodata",
-      "danger": 34
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Cruma Tower"
-    },
-    "simple": true,
-    "pv": [
-     [
-      17225,
-      114173,
-      -3440
-     ],
-     [
-      16360,
-      114024,
-      -3528
-     ],
-     [
-      16488,
-      113560,
-      -3576
-     ],
-     [
-      16488,
-      113528,
-      -3576
-     ],
-     [
-      16456,
-      113496,
-      -3576
-     ]
-    ],
-    "maxDanger": 34,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 34,
-     "dangerVsLevel": -6,
-     "aggro": []
-    }
-   },
-   "expectedSec": 82,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1
    ]
   }
  ],
  "override": {
   "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T18:18:49.591Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "prereq-missing"
+  ]
  }
 }

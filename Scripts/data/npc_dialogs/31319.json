@@ -1,0 +1,49 @@
+{
+ "npcId": 31319,
+ "name": "Hans",
+ "title": "Mineral Trader",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.186Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31319.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31319.htm": {
+   "file": "merchant/31319.htm",
+   "quest": null,
+   "text": "Mineral Trader Hans: What? You want a stone? I have plenty right over there. If you see something you like, just let me know.",
+   "header": "Mineral Trader Hans",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "npc_%objectId%_Buy 3131900",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

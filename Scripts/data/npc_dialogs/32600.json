@@ -1,0 +1,41 @@
+{
+ "npcId": 32600,
+ "name": "Alegria",
+ "title": "Birthday Helper",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.391Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32600.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32600.htm": {
+   "file": "default/32600.htm",
+   "quest": null,
+   "text": "Alegria: Phew! It's so chaotic here! Oh Hello! Hello! I am Alegria, here to celebrate your birthday! Heeheehee! Did you get my present? I hurried and flew here just in case you wanted to exchange your Birthday Hat for the Explorer Hat (event) you'd received before. I will exchange the Explorer Hat …",
+   "header": "Alegria",
+   "links": [
+    {
+     "text": "\"Let's swap!\"",
+     "bypass": "Quest CharacterBirthday 32600-yes.htm",
+     "kind": "quest-event",
+     "script": "CharacterBirthday",
+     "event": "32600-yes.htm"
+    },
+    {
+     "text": "\"I would um... would you ah... should we maybe... hmm... what would you say to a drink sometime? I SAID IT! YESSSSSSS.\"",
+     "bypass": "Quest CharacterBirthday 32600-no.htm",
+     "kind": "quest-event",
+     "script": "CharacterBirthday",
+     "event": "32600-no.htm"
+    }
+   ]
+  }
+ }
+}

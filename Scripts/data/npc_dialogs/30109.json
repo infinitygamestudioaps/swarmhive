@@ -1,0 +1,230 @@
+{
+ "npcId": 30109,
+ "name": "Hannavalt",
+ "title": "Grand Master",
+ "type": "L2VillageMasterFighter",
+ "generated": "2026-10-27T18:18:02.842Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30109.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "212": {
+   "name": "Trial of Duty",
+   "listText": [
+    "[Trial of Duty]",
+    "[Trial of Duty (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00212_TrialOfDuty/30109-02.html",
+     "when": "state CREATED; !talker.isInCategory(CategoryType.KNIGHT_GROUP)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00212_TrialOfDuty/30109-01.html",
+     "when": "state CREATED; level < 35; talker.isInCategory(CategoryType.KNIGHT_GROUP)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00212_TrialOfDuty/30109-03.htm",
+     "when": "state CREATED; NOT level < 35; talker.isInCategory(CategoryType.KNIGHT_GROUP)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00212_TrialOfDuty/30109-04.htm",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00212_TrialOfDuty/30109-05.html",
+     "when": "state STARTED; memo 14; has items 2634",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30109.htm": {
+   "file": "villagemaster/30109.htm",
+   "quest": null,
+   "text": "Grand Master Hannavalt: Welcome! I am Grand Master Hannavalt, the leader of this Warriors Guild. Any warrior committed to the pursuit of physical and mental power are welcome here.",
+   "header": "Grand Master Hannavalt",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest ElfHumanFighterChange2",
+     "kind": "quest",
+     "script": "ElfHumanFighterChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00212_TrialOfDuty/30109-02.html": {
+   "file": "Q00212_TrialOfDuty/30109-02.html",
+   "quest": 212,
+   "text": "Grand Master Hannavalt: The calling I refer to may only be answered by a Knight. You should seek another guide. (This quest may only be undertaken by Knights, Elven Knights, or Palus Knights of level 35 or higher.)",
+   "header": "Grand Master Hannavalt",
+   "when": [
+    "state CREATED; !talker.isInCategory(CategoryType.KNIGHT_GROUP)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00212_TrialOfDuty/30109-01.html": {
+   "file": "Q00212_TrialOfDuty/30109-01.html",
+   "quest": 212,
+   "text": "Grand Master Hannavalt: You fool! You are hardly worthy of the title you bear! Before you think of advancement, you must first improve your skills! (This quest may only be undertaken by Knights, Elven Knights, or Palus Knights of level 35 or higher.)",
+   "header": "Grand Master Hannavalt",
+   "when": [
+    "state CREATED; level < 35; talker.isInCategory(CategoryType.KNIGHT_GROUP)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00212_TrialOfDuty/30109-03.htm": {
+   "file": "Q00212_TrialOfDuty/30109-03.htm",
+   "quest": 212,
+   "text": "Grand Master Hannavalt: Do you hold higher ambitions than being a mere Knight? You must examine your motivation for fighting. It may be to protect loved ones, for the glory of the kingdom, for power... But true knights fight for the 'calling' that is given them. The Trial of Duty is the way for you…",
+   "header": "Grand Master Hannavalt",
+   "when": [
+    "state CREATED; NOT level < 35; talker.isInCategory(CategoryType.KNIGHT_GROUP)"
+   ],
+   "links": [
+    {
+     "text": "Say you will attempt the Trial of Duty",
+     "bypass": "Quest Q00212_TrialOfDuty quest_accept",
+     "kind": "quest-event",
+     "script": "Q00212_TrialOfDuty",
+     "event": "quest_accept",
+     "quest": 212,
+     "to": "Q00212_TrialOfDuty/30109-04a.htm",
+     "toAll": [
+      "Q00212_TrialOfDuty/30109-04a.htm",
+      "Q00212_TrialOfDuty/30109-04.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00212_TrialOfDuty/30109-04.htm": {
+   "file": "Q00212_TrialOfDuty/30109-04.htm",
+   "quest": 212,
+   "text": "Grand Master Hannavalt: First you must find Sir Aaron Tanford . He resides in the Southern Wastelands of Gludio. He shall give you your first test.",
+   "header": "Grand Master Hannavalt",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00212_TrialOfDuty/30109-05.html": {
+   "file": "Q00212_TrialOfDuty/30109-05.html",
+   "quest": 212,
+   "text": "Grand Master Hannavalt: Be welcome. So, now you know your calling? No need to tell me. The actions you saw, heard and felt, those are the very call of the knight and the virtue of chivalry. Learn those lessons well; engrave them on your heart. Now I will give you the Mark of Duty. May Einhasad prot…",
+   "header": "Grand Master Hannavalt",
+   "when": [
+    "state STARTED; memo 14; has items 2634"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00212_TrialOfDuty/30109-04a.htm": {
+   "file": "Q00212_TrialOfDuty/30109-04a.htm",
+   "quest": 212,
+   "text": "Grand Master Hannavalt: First, meet with Sir Aron Tanford . You will find him south of the Wasteland . He will assign you your first task. Take this Dimension Diamond . You can trade it to the village gatekeeper for something special that may help you on your journey.",
+   "header": "Grand Master Hannavalt",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of Duty]",
+     "bypass": "npc_%objectId%_Quest Q00212_TrialOfDuty",
+     "kind": "quest",
+     "quest": 212,
+     "to": "Q00212_TrialOfDuty/30109-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Trial of Duty (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00212_TrialOfDuty",
+     "kind": "quest",
+     "quest": 212,
+     "to": "Q00212_TrialOfDuty/30109-04.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

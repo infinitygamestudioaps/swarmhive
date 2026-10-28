@@ -1,0 +1,362 @@
+{
+ "npcId": 30293,
+ "name": "Manuel",
+ "title": "Priest",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.924Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "409": {
+   "name": "Path of the Elven Oracle",
+   "listText": [
+    "[Path of the Elven Oracle]",
+    "[Path of the Elven Oracle (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30293-01.htm",
+     "when": "lacks items 1235; (qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30293-04.htm",
+     "when": "has items 1235; (qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30293-09.html",
+     "when": "state STARTED; memo 2; has items 1231; lacks items 1232,1233,1234,1236; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30293-06.html",
+     "when": "state STARTED; has items 1231; lacks items 1232,1233,1234,1236; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30293-08.html",
+     "when": "state STARTED; has items 1231,1232,1233,1234,1236; lacks items 1236; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30293-07.html",
+     "when": "state STARTED; has items 1231,1232,1233,1234,1236; lacks items 1232,1233,1234; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00409_PathOfTheElvenOracle/30293-01.htm": {
+   "file": "Q00409_PathOfTheElvenOracle/30293-01.htm",
+   "quest": 409,
+   "text": "Priest Manuel: If you want to be an Elven Oracle who fulfills that holy will of Eva, you must listen carefully to what I am about to say. Between us Elven Priests, there has been a prophecy that has been handed down for hundreds of years. This is a prophecy given by the Mother Tree, mother of all w…",
+   "header": "Priest Manuel",
+   "when": [
+    "lacks items 1235; (qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you will take the task",
+     "bypass": "Quest Q00409_PathOfTheElvenOracle ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00409_PathOfTheElvenOracle",
+     "event": "ACCEPT",
+     "quest": 409,
+     "to": "Q00409_PathOfTheElvenOracle/30293-04.htm",
+     "toAll": [
+      "Q00409_PathOfTheElvenOracle/30293-04.htm",
+      "Q00409_PathOfTheElvenOracle/30293-05.htm",
+      "Q00409_PathOfTheElvenOracle/30293-03.htm",
+      "Q00409_PathOfTheElvenOracle/30293-02a.htm",
+      "Q00409_PathOfTheElvenOracle/30293-02.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00409_PathOfTheElvenOracle/30293-04.htm": {
+   "file": "Q00409_PathOfTheElvenOracle/30293-04.htm",
+   "quest": 409,
+   "text": "Priest Manuel: The leaf of the Oracle represents the noble spirit of those that fulfill Eva's will. Take it and meet the High Priest. Then you will be able to change profession to an Elven Oracle.",
+   "header": "Priest Manuel",
+   "when": [
+    "has items 1235; (qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30293-09.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30293-09.html",
+   "quest": 409,
+   "text": "Priest Manuel: I have received information that the lizardmen were hired by someone to kidnap that girl. We must meet the girl before they do! Hurry!",
+   "header": "Priest Manuel",
+   "when": [
+    "state STARTED; memo 2; has items 1231; lacks items 1232,1233,1234,1236; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30293-06.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30293-06.html",
+   "quest": 409,
+   "text": "Priest Manuel: I would like you to confirm the truth behind the rumors that say there is a girl near Gludin Harbor. If that girl is the chosen one mentioned in the prophecy of the sacred flame, then we must protect her. Please make haste and find the girl.",
+   "header": "Priest Manuel",
+   "when": [
+    "state STARTED; has items 1231; lacks items 1232,1233,1234,1236; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30293-08.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30293-08.html",
+   "quest": 409,
+   "text": "Priest Manuel: I am terribly sorry about the girl. It is difficult for us to understand the will of the gods. I am sorry the girl was not the prophecy of sacred flame, but I give you a high recommendation for the conduct you have shown in the process of revealing the truth. I believe you have suffi…",
+   "header": "Priest Manuel",
+   "when": [
+    "state STARTED; has items 1231,1232,1233,1234,1236; lacks items 1236; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30293-07.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30293-07.html",
+   "quest": 409,
+   "text": "Priest Manuel: It is difficult to be certain with only this evidence. The church needs more than mere rumors and guesses before it can act. Please bring back more solid evidence.",
+   "header": "Priest Manuel",
+   "when": [
+    "state STARTED; has items 1231,1232,1233,1234,1236; lacks items 1232,1233,1234; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30293-02.htm": {
+   "file": "Q00409_PathOfTheElvenOracle/30293-02.htm",
+   "quest": 409,
+   "text": "Priest Manuel: I see you are not an Elven Mystic. I have made a mistake. I am sorry, but this task can only be entrusted to an Elven Mystic.",
+   "header": "Priest Manuel",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30293-02a.htm": {
+   "file": "Q00409_PathOfTheElvenOracle/30293-02a.htm",
+   "quest": 409,
+   "text": "Priest Manuel: Ah! I see you are an Oracle that has already perceived the truth of light and life. Leave this task to the Elven Mystics, and go out into the world to fulfill the holy will of Eva.",
+   "header": "Priest Manuel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30293-03.htm": {
+   "file": "Q00409_PathOfTheElvenOracle/30293-03.htm",
+   "quest": 409,
+   "text": "Priest Manuel: Thank you for your offer, but I am afraid that this mission might prove too difficult for you. Come back when you have experienced more of the world. Then we will be able to speak at greater length. May your journey be a blessed one! (Only characters level 18 or above may embark on t…",
+   "header": "Priest Manuel",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30293-05.htm": {
+   "file": "Q00409_PathOfTheElvenOracle/30293-05.htm",
+   "quest": 409,
+   "text": "Priest Manuel: Recently, there have been rumors of a girl near Gludin Harbor that performs miracles . We suspect that perhaps this girl may have the power to purify the world. If that girl is truly the sacred flame mentioned in the prophecy, we must protect her. I have heard that there are already …",
+   "header": "Priest Manuel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30293-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30293-noteach.html",
+   "quest": null,
+   "text": "Priest Manuel: The power that you pursue and the power that I hold are different in their very source. I suggest that you look for another Master.",
+   "header": "Priest Manuel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30293.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30293.html",
+   "quest": null,
+   "text": "Father Manuell: May Einhasad reign forever! I am Father Manuell. What can I do for you?",
+   "header": "Father Manuell",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Elven Oracle]",
+     "bypass": "npc_%objectId%_Quest Q00409_PathOfTheElvenOracle",
+     "kind": "quest",
+     "quest": 409,
+     "to": "Q00409_PathOfTheElvenOracle/30293-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Elven Oracle (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00409_PathOfTheElvenOracle",
+     "kind": "quest",
+     "quest": 409,
+     "to": "Q00409_PathOfTheElvenOracle/30293-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30293-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30293-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

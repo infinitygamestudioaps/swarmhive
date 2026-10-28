@@ -1,0 +1,151 @@
+{
+ "npcId": 31274,
+ "name": "Fundin",
+ "title": "Mineral Trader",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.149Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31274.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "13": {
+   "name": "Parcel Delivery",
+   "listText": [
+    "[Parcel Delivery]",
+    "[Parcel Delivery (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00013_ParcelDelivery/31274-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00013_ParcelDelivery/31274-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00013_ParcelDelivery/31274-04.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/31274.htm": {
+   "file": "merchant/31274.htm",
+   "quest": null,
+   "text": "Mineral Trader Fundin: Please come in! My name is Fundin. I am a mineral trader dispatched from the Iron Gate Guild! Huh? Oh, of course, blacksmithing is the purview of the Black Anvil Guild. We handle mining and other essential functions. I don't know what it's like in the south, but here we Dwarv…",
+   "header": "Mineral Trader Fundin",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "npc_%objectId%_Buy 3127400",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00013_ParcelDelivery/31274-01.htm": {
+   "file": "Q00013_ParcelDelivery/31274-01.htm",
+   "quest": 13,
+   "text": "Mineral Trader Fundin: I have an urgent delivery to the Gods' Cauldron area! Would you deliver it for me?",
+   "header": "Mineral Trader Fundin",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Sure!\"",
+     "bypass": "Quest Q00013_ParcelDelivery 31274-03.htm",
+     "kind": "quest-event",
+     "script": "Q00013_ParcelDelivery",
+     "event": "31274-03.htm",
+     "quest": 13,
+     "to": "Q00013_ParcelDelivery/31274-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00013_ParcelDelivery/31274-02.html": {
+   "file": "Q00013_ParcelDelivery/31274-02.html",
+   "quest": 13,
+   "text": "Mineral Trader Fundin: My delivery to the Gods' Cauldron area is too important for a novice! (This quest can only be undertaken by a character of level 74 or above.)",
+   "header": "Mineral Trader Fundin",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00013_ParcelDelivery/31274-04.html": {
+   "file": "Q00013_ParcelDelivery/31274-04.html",
+   "quest": 13,
+   "text": "Mineral Trader Fundin: Take this to Flame Blacksmith Vulcan in the lower level of Gods' Cauldron. He'll reward you for it, he's been waiting.",
+   "header": "Mineral Trader Fundin",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00013_ParcelDelivery/31274-03.htm": {
+   "file": "Q00013_ParcelDelivery/31274-03.htm",
+   "quest": 13,
+   "text": "Mineral Trader Fundin: Take this to Flame Blacksmith Vulcan on the lower level of the Forge of the Gods. He'll reward you for it, he's been waiting.",
+   "header": "Mineral Trader Fundin",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Parcel Delivery]",
+     "bypass": "npc_%objectId%_Quest Q00013_ParcelDelivery",
+     "kind": "quest",
+     "quest": 13,
+     "to": "Q00013_ParcelDelivery/31274-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Parcel Delivery (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00013_ParcelDelivery",
+     "kind": "quest",
+     "quest": 13,
+     "to": "Q00013_ParcelDelivery/31274-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

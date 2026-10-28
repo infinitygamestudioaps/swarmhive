@@ -1,0 +1,632 @@
+{
+ "npcId": 30540,
+ "name": "Wirphy",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:02.997Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "teleporter/30540.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {
+  "297": {
+   "name": "Gatekeeper's Favor",
+   "listText": [
+    "[Gatekeeper's Favor]",
+    "[Gatekeeper's Favor (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00297_GatekeepersFavor/30540-02.htm",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00297_GatekeepersFavor/30540-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00297_GatekeepersFavor/30540-05.html",
+     "when": "state STARTED; cond 2; item 1573 >= 20",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "teleporter/30540.htm": {
+   "file": "teleporter/30540.htm",
+   "quest": null,
+   "text": "Gatekeeper Wirphy: I was brought here using only a small portion of the Instant Moving Device. Now I can send you wherever you want to go using that same small portion. Do you want to experience the unlimited power of early science?",
+   "header": "Gatekeeper Wirphy",
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/30540-1.htm",
+     "live": true
+    },
+    {
+     "text": "Exchange Dimension Diamonds.",
+     "bypass": "npc_%objectId%_multisell 002",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Exchange Dimension Diamonds"
+    },
+    {
+     "text": "Noblesse Exclusive Teleport",
+     "bypass": "npc_%objectId%_Quest NoblesseTeleport",
+     "kind": "quest",
+     "script": "NoblesseTeleport",
+     "to": null,
+     "live": true,
+     "dpText": "[Noblesse Exclusive] Teleport"
+    },
+    {
+     "text": "Teleport with Gatekeeper's Token",
+     "bypass": "npc_%objectId%_Quest TeleportWithCharm",
+     "kind": "quest",
+     "script": "TeleportWithCharm",
+     "to": "ai/npc/Teleports/TeleportWithCharm/30540-01.htm"
+    },
+    {
+     "text": "Call Alegria",
+     "bypass": "npc_%objectId%_Quest CharacterBirthday",
+     "kind": "quest",
+     "script": "CharacterBirthday"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/30540-1.htm": {
+   "file": "teleporter/30540-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio - 32000 Adena",
+     "bypass": "npc_%objectId%_goto 16",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "The Village of Gludin - 18000 Adena",
+     "bypass": "npc_%objectId%_goto 16000",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin"
+    },
+    {
+     "text": "The Town of Schuttgart - 4400 Adena",
+     "bypass": "npc_%objectId%_goto 1020",
+     "kind": "teleport",
+     "confirm": "811;The Town of Schuttgart"
+    },
+    {
+     "text": "Dark Elf Village - 22000 Adena",
+     "bypass": "npc_%objectId%_goto 1017",
+     "kind": "teleport",
+     "confirm": "811;Dark Elven Village"
+    },
+    {
+     "text": "Talking Island Village - 46000 Adena",
+     "bypass": "npc_%objectId%_goto 1019",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Elven Village - 23000 Adena",
+     "bypass": "npc_%objectId%_goto 1018",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Orc Village - 17000 Adena",
+     "bypass": "npc_%objectId%_goto 1021",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true
+    },
+    {
+     "text": "Kamael Village - 32000 Adena",
+     "bypass": "npc_%objectId%_goto 12056",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Abandoned Coal Mines - 690 Adena",
+     "bypass": "npc_%objectId%_goto 418",
+     "kind": "teleport",
+     "confirm": "811;Abandoned Coal Mines",
+     "live": true
+    },
+    {
+     "text": "Eastern Mining Zone (Northeastern Shore) - 2400 Adena",
+     "bypass": "npc_%objectId%_goto 17",
+     "kind": "teleport",
+     "confirm": "811;Eastern Mining Zone (Northeastern Shore)",
+     "live": true
+    },
+    {
+     "text": "Western Mining Zone (Central Shore)",
+     "bypass": "npc_%objectId%_goto 1022",
+     "kind": "teleport",
+     "confirm": "811;Western Mining Zone (Central Shore)",
+     "live": true,
+     "dpText": "Western Mining Zone (Central Shore) - 970 Adena"
+    },
+    {
+     "text": "Mithril Mines Western Entrance - 11000 Adena",
+     "bypass": "npc_%objectId%_goto 419",
+     "kind": "teleport",
+     "confirm": "811;Mithril Mines Western Entrance",
+     "live": true
+    },
+    {
+     "text": "Mithril Mines Eastern Entrance - 12000 Adena",
+     "bypass": "npc_%objectId%_goto 137",
+     "kind": "teleport",
+     "confirm": "811;Mithril Mines Eastern Entrance",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/30540-2.htm": {
+   "file": "teleporter/30540-2.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9000",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9002",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "The Center of the Mithril Mines - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9106",
+     "kind": "teleport",
+     "confirm": "811;The Center of the Mithril Mines"
+    },
+    {
+     "text": "The Center of the Abandoned Coal Mines - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9107",
+     "kind": "teleport",
+     "confirm": "811;The Center of the Abandoned Coal Mines"
+    },
+    {
+     "text": "Coliseum - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9001",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/30540-3.htm": {
+   "file": "teleporter/30540-3.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9900",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9902",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "The Center of the Mithril Mines - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 10006",
+     "kind": "teleport",
+     "confirm": "811;The Center of the Mithril Mines"
+    },
+    {
+     "text": "The Center of the Abandoned Coal Mines - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 10007",
+     "kind": "teleport",
+     "confirm": "811;The Center of the Abandoned Coal Mines"
+    },
+    {
+     "text": "Coliseum - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9901",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/30540-pk.htm": {
+   "file": "teleporter/30540-pk.htm",
+   "quest": null,
+   "text": "Gatekeeper Wirphy: My sensory apparatus tells me that your aura is too contaminated to experience the true power of science.",
+   "header": "Gatekeeper Wirphy",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "teleporter/free/30540.htm": {
+   "file": "teleporter/free/30540.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio",
+     "bypass": "npc_%objectId%_goto 16",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "The Village of Gludin",
+     "bypass": "npc_%objectId%_goto 16000",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin"
+    },
+    {
+     "text": "The Town of Schuttgart",
+     "bypass": "npc_%objectId%_goto 1020",
+     "kind": "teleport",
+     "confirm": "811;The Town of Schuttgart"
+    },
+    {
+     "text": "Dark Elf Village",
+     "bypass": "npc_%objectId%_goto 1017",
+     "kind": "teleport",
+     "confirm": "811;Dark Elven Village"
+    },
+    {
+     "text": "Talking Island Village",
+     "bypass": "npc_%objectId%_goto 1019",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Elven Village",
+     "bypass": "npc_%objectId%_goto 1018",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Orc Village",
+     "bypass": "npc_%objectId%_goto 1021",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true
+    },
+    {
+     "text": "Kamael Village",
+     "bypass": "npc_%objectId%_goto 12056",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Abandoned Coal Mines",
+     "bypass": "npc_%objectId%_goto 418",
+     "kind": "teleport",
+     "confirm": "811;Abandoned Coal Mines",
+     "live": true
+    },
+    {
+     "text": "Eastern Mining Zone (Northeastern Shore)",
+     "bypass": "npc_%objectId%_goto 17",
+     "kind": "teleport",
+     "confirm": "811;Eastern Mining Zone (Northeastern Shore)",
+     "live": true
+    },
+    {
+     "text": "Western Mining Zone (Central Shore)",
+     "bypass": "npc_%objectId%_goto 1022",
+     "kind": "teleport",
+     "confirm": "811;Western Mining Zone (Central Shore)",
+     "live": true
+    },
+    {
+     "text": "Mithril Mines Western Entrance",
+     "bypass": "npc_%objectId%_goto 419",
+     "kind": "teleport",
+     "confirm": "811;Mithril Mines Western Entrance",
+     "live": true
+    },
+    {
+     "text": "Mithril Mines Eastern Entrance",
+     "bypass": "npc_%objectId%_goto 137",
+     "kind": "teleport",
+     "confirm": "811;Mithril Mines Eastern Entrance",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/half/30540.htm": {
+   "file": "teleporter/half/30540.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio - 16000 Adena",
+     "bypass": "npc_%objectId%_goto 16",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "The Village of Gludin - 9000 Adena",
+     "bypass": "npc_%objectId%_goto 16000",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin"
+    },
+    {
+     "text": "The Town of Schuttgart - 2200 Adena",
+     "bypass": "npc_%objectId%_goto 1020",
+     "kind": "teleport",
+     "confirm": "811;The Town of Schuttgart"
+    },
+    {
+     "text": "Dark Elf Village - 11000 Adena",
+     "bypass": "npc_%objectId%_goto 1017",
+     "kind": "teleport",
+     "confirm": "811;Dark Elven Village"
+    },
+    {
+     "text": "Talking Island Village - 23000 Adena",
+     "bypass": "npc_%objectId%_goto 1019",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Elven Village - 11500 Adena",
+     "bypass": "npc_%objectId%_goto 1018",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Orc Village - 8500 Adena",
+     "bypass": "npc_%objectId%_goto 1021",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true
+    },
+    {
+     "text": "Kamael Village - 16000 Adena",
+     "bypass": "npc_%objectId%_goto 12056",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Abandoned Coal Mines - 345 Adena",
+     "bypass": "npc_%objectId%_goto 418",
+     "kind": "teleport",
+     "confirm": "811;Abandoned Coal Mines",
+     "live": true
+    },
+    {
+     "text": "Eastern Mining Zone (Northeastern Shore) - 1200 Adena",
+     "bypass": "npc_%objectId%_goto 17",
+     "kind": "teleport",
+     "confirm": "811;Eastern Mining Zone (Northeastern Shore)",
+     "live": true
+    },
+    {
+     "text": "Western Mining Zone (Central Shore)",
+     "bypass": "npc_%objectId%_goto 1022",
+     "kind": "teleport",
+     "confirm": "811;Western Mining Zone (Central Shore)",
+     "live": true,
+     "dpText": "Western Mining Zone (Central Shore) - 485 Adena"
+    },
+    {
+     "text": "Mithril Mines Western Entrance - 5500 Adena",
+     "bypass": "npc_%objectId%_goto 419",
+     "kind": "teleport",
+     "confirm": "811;Mithril Mines Western Entrance",
+     "live": true
+    },
+    {
+     "text": "Mithril Mines Eastern Entrance - 6000 Adena",
+     "bypass": "npc_%objectId%_goto 137",
+     "kind": "teleport",
+     "confirm": "811;Mithril Mines Eastern Entrance",
+     "live": true
+    }
+   ]
+  },
+  "Q00297_GatekeepersFavor/30540-02.htm": {
+   "file": "Q00297_GatekeepersFavor/30540-02.htm",
+   "quest": 297,
+   "text": "Gatekeeper Wirphy: Most of my body parts were created by combining materials from the previous creations of the ancient giants. But because the remains are not complete, I can always feel energy draining out of my body. My body could not be perfected with Dwarven technology, so they opted for a sec…",
+   "header": "Gatekeeper Wirphy",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00297_GatekeepersFavor 30540-03.htm",
+     "kind": "quest-event",
+     "script": "Q00297_GatekeepersFavor",
+     "event": "30540-03.htm",
+     "quest": 297,
+     "to": "Q00297_GatekeepersFavor/30540-03.htm",
+     "toAll": [
+      "Q00297_GatekeepersFavor/30540-03.htm",
+      "Q00297_GatekeepersFavor/30540-01.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00297_GatekeepersFavor/30540-04.html": {
+   "file": "Q00297_GatekeepersFavor/30540-04.html",
+   "quest": 297,
+   "text": "Gatekeeper Wirphy: I need at least twenty Starstones. The Dwarves created us so that we can only recharge in units of twenty Starstones. There are many whinstone golems in the Mine Field, so it shouldn't be difficult to gather them.",
+   "header": "Gatekeeper Wirphy",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00297_GatekeepersFavor/30540-05.html": {
+   "file": "Q00297_GatekeepersFavor/30540-05.html",
+   "quest": 297,
+   "text": "Gatekeeper Wirphy: Phew! Thank goodness. I was almost out of energy. Right ... I have to give you this. This is a Gatekeeper's token. If you need to teleport to Gludin later, just give it back to me. With the token, I will teleport you without charging any Adena. Thank you again. Have a nice day!",
+   "header": "Gatekeeper Wirphy",
+   "when": [
+    "state STARTED; cond 2; item 1573 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/TeleportWithCharm/30540-01.htm": {
+   "file": "ai/npc/Teleports/TeleportWithCharm/30540-01.htm",
+   "quest": null,
+   "text": "Gatekeeper Wirphy: My sensory apparatus tells me that you don't have the Gatekeeper Token. If you will go out and acquire Starstones for me, I'll give you the Gatekeeper Token.",
+   "header": "Gatekeeper Wirphy",
+   "when": [
+    "lacks items 1659"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00297_GatekeepersFavor/30540-01.htm": {
+   "file": "Q00297_GatekeepersFavor/30540-01.htm",
+   "quest": 297,
+   "text": "Gatekeeper Wirphy: Twenty Starstones from the whinstone golems would be enough for now. But do you know that the whinstone golems are extremely strong? I am sorry. I've met many adventurers in my long life and the way I see it, you're just beginning your journey as an adventurer and do not have eno…",
+   "header": "Gatekeeper Wirphy",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00297_GatekeepersFavor/30540-03.htm": {
+   "file": "Q00297_GatekeepersFavor/30540-03.htm",
+   "quest": 297,
+   "text": "Gatekeeper Wirphy: Thank you! You are truly kind. While travelling west through the Spine Mine Field, you will see many whinstone golems , one of the legacies of the ancient giants, wandering around. Please collect twenty Starstones from their bodies. That should be enough energy for now. I don't h…",
+   "header": "Gatekeeper Wirphy",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Gatekeeper's Favor]",
+     "bypass": "npc_%objectId%_Quest Q00297_GatekeepersFavor",
+     "kind": "quest",
+     "quest": 297,
+     "to": "Q00297_GatekeepersFavor/30540-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Gatekeeper's Favor (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00297_GatekeepersFavor",
+     "kind": "quest",
+     "quest": 297,
+     "to": "Q00297_GatekeepersFavor/30540-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "gatekeeper live menu (Scripts/data/gk_live/Wirphy.json) has links the datapack does not: Teleport using Gatekeeper's Token. | Summon Alegria | Town of Schuttgart - 4400 &#57; | The Dark Elf Village - 22000 &#57; | The Elven Village - 23000 &#57;"
+ ],
+ "liveClicks": [
+  {
+   "text": "Teleport",
+   "n": 50,
+   "inDatapack": true,
+   "from": [
+    "Gatekeeper Wirphy:I was created through the Teleportation De"
+   ],
+   "to": [
+    "556The Town of GludioTown of SchuttgartThe Dark Elf VillageT",
+    "556The Town of Gludio - 32000 &#57;Town of Schuttgart - 4400"
+   ]
+  },
+  {
+   "text": "Eastern Mining Zone (Northeastern Shore)",
+   "n": 33,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTown of SchuttgartThe Dark Elf VillageT"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Western Mining Zone (Central Shore)",
+   "n": 15,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTown of SchuttgartThe Dark Elf VillageT"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Eastern Mining Zone (Northeastern Shore) - 2400 &#57;",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 32000 &#57;Town of Schuttgart - 4400"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Abandoned Coal Mines - 690 &#57;",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 32000 &#57;Town of Schuttgart - 4400"
+   ],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

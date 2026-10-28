@@ -1,0 +1,236 @@
+{
+ "npcId": 32507,
+ "name": "Temple Inspector",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.377Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32507.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "128": {
+   "name": "Pailaka - Song of Ice and Fire",
+   "listText": [
+    "[Pailaka - Song of Ice and Fire]",
+    "[Pailaka - Song of Ice and Fire (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32507-01.htm",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32507-02.htm",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32507-03.htm",
+     "when": "cond 3",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32507-05.htm",
+     "when": "cond 4|5",
+     "state": null,
+     "cond": [
+      4,
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32507-06.htm",
+     "when": "cond 6",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32507-09.htm",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32507.htm": {
+   "file": "default/32507.htm",
+   "quest": null,
+   "text": "Temple Inspector: The temple's balance is slipping... I don't think it can be easily restored.",
+   "header": "Temple Inspector",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32507-01.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32507-01.htm",
+   "quest": 128,
+   "text": "Temple Inspector: Who are you? We don't allow just anybody to enter this place... If you have questions, ask Inspector Sinai .",
+   "header": "Temple Inspector",
+   "when": [
+    "cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00128_PailakaSongOfIceAndFire/32507-02.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32507-02.htm",
+   "quest": 128,
+   "text": "Temple Inspector: That's the Sprite's Sword! It was forged long ago, a mighty dualsword made of fire and water. We use it to stabilize the energy of the temple. But now the situation is too far gone for the sword alone to repair! If the legends are to be believed, something capable of strengthening…",
+   "header": "Temple Inspector",
+   "when": [
+    "cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00128_PailakaSongOfIceAndFire/32507-03.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32507-03.htm",
+   "quest": 128,
+   "text": "Temple Inspector: The Sprite's Sword... Under normal circumstances, that sword can stabilize the power of the Sprite -- but the current situation is beyond its ability alone. However, combined with the Essence of Water you have, we may have a chance. According to legend, when the sword can't stabil…",
+   "header": "Temple Inspector",
+   "when": [
+    "cond 3"
+   ],
+   "links": [
+    {
+     "text": "Strengthen the sword.",
+     "bypass": "Quest Q00128_PailakaSongOfIceAndFire 32507-04.htm",
+     "kind": "quest-event",
+     "script": "Q00128_PailakaSongOfIceAndFire",
+     "event": "32507-04.htm",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32507-04.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32507-05.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32507-05.htm",
+   "quest": 128,
+   "text": "Temple Inspector: Your sword has already absorbed the power of the Essence of Water. Bring me the Essence of Fire and I will be able to strengthen your weapon again. Ah, your book is shining! Perhaps something has changed; you should read it at once.",
+   "header": "Temple Inspector",
+   "when": [
+    "cond 4|5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00128_PailakaSongOfIceAndFire/32507-06.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32507-06.htm",
+   "quest": 128,
+   "text": "Temple Inspector: Hmm, the chaos seems more serious that I first thought. Fire magic in particular seems an issue... Tell me, has your weapon already absorbed the Essence of Water? Ah, then it's simple! We have never before tried to combine the Essences of Water and Fire at this level, but it shoul…",
+   "header": "Temple Inspector",
+   "when": [
+    "cond 6"
+   ],
+   "links": [
+    {
+     "text": "Hand over the sword and the Essence of Fire.",
+     "bypass": "Quest Q00128_PailakaSongOfIceAndFire 32507-07.htm",
+     "kind": "quest-event",
+     "script": "Q00128_PailakaSongOfIceAndFire",
+     "event": "32507-07.htm",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32507-07.htm"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32507-09.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32507-09.htm",
+   "quest": 128,
+   "text": "Temple Inspector: Take this newly-strengthed Sprite's Sword and restore peace in this temple!",
+   "header": "Temple Inspector",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00128_PailakaSongOfIceAndFire/32507-04.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32507-04.htm",
+   "quest": 128,
+   "text": "Temple Inspector: Converto augeo aquae... Thanks to the Essence of Water, your sword has been strengthened by two levels! Now you can access Shalin Heal to aid recovery. Take up the sword again and seek out other enemies! That book will be helpful.",
+   "header": "Temple Inspector",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00128_PailakaSongOfIceAndFire/32507-07.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32507-07.htm",
+   "quest": 128,
+   "text": "Temple Inspector: Permissum incendia successio! May even greater power descend on this sword!",
+   "header": "Temple Inspector",
+   "links": [
+    {
+     "text": "Watch",
+     "bypass": "Quest Q00128_PailakaSongOfIceAndFire 32507-08.htm",
+     "kind": "quest-event",
+     "script": "Q00128_PailakaSongOfIceAndFire",
+     "event": "32507-08.htm",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32507-08.htm",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32507-08.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32507-08.htm",
+   "quest": 128,
+   "text": "Temple Inspector: Ah! The sword is finished! I can feel its power! Can't you feel it calling to the power of the Sprite? Besides Shalin Heal, a powerful attack skill called Shalin Strike has been added. I am sure you can now stabilize the energy of confusion in this place. Go quickly!",
+   "header": "Temple Inspector",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Pailaka - Song of Ice and Fire (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00128_PailakaSongOfIceAndFire",
+     "kind": "quest",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32507-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

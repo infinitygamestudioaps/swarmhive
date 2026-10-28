@@ -1,0 +1,432 @@
+{
+ "npcId": 30358,
+ "name": "Thifiell",
+ "title": "Tetrarch",
+ "type": "L2VillageMasterDElf",
+ "generated": "2026-10-27T18:18:02.956Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30358.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "106": {
+   "name": "Forgotten Truth",
+   "listText": [
+    "[Forgotten Truth]",
+    "[Forgotten Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00106_ForgottenTruth/30358-03.htm",
+     "when": "state CREATED; talker.getRace() == Race.DARK_ELF; talker.getLevel() >= MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00106_ForgottenTruth/30358-02.htm",
+     "when": "state CREATED; talker.getRace() == Race.DARK_ELF; NOT talker.getLevel() >= MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00106_ForgottenTruth/30358-01.htm",
+     "when": "state CREATED; !talker.getRace() == Race.DARK_ELF",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00106_ForgottenTruth/30358-06.html",
+     "when": "state STARTED; has items 984,985",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00106_ForgottenTruth/30358-07.html",
+     "when": "state STARTED; cond 4; !(hasAtLeastOneQuestItem(talker, ONYX_TALISMAN1, ONYX_TALISMAN2) && !st.hasQuestItems(KARTAS_TRANSLATION))",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "217": {
+   "name": "Testimony Of Trust",
+   "listText": [
+    "[Testimony of Trust]",
+    "[Testimony of Trust (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00217_TestimonyOfTrust/30358-01.html",
+     "when": "state STARTED; memo 4; has items 2736",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30358-03.html",
+     "when": "state STARTED; memo 6; has items 2755; (getQuestItemsCount(player, STAKATO_ICHOR) + getQuestItemsCount(player, HONEY_DEW) + getQuestItemsCount(player, BASILISK",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30358-04.html",
+     "when": "state STARTED; memo 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30358-05.html",
+     "when": "state STARTED; memo 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "219": {
+   "name": "Testimony Of Fate",
+   "listText": [
+    "[Testimony of Fate]",
+    "[Testimony of Fate (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00219_TestimonyOfFate/30358-01.html",
+     "when": "state STARTED; has items 3189",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30358-02.html",
+     "when": "state STARTED; has items 3190,3191; lacks items 3189",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30358-03.html",
+     "when": "state STARTED; has items 3190,3192; lacks items 3189,3191",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30358-04.html",
+     "when": "state STARTED; has items 3190,3202; lacks items 3189,3191,3192",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30358.htm": {
+   "file": "villagemaster/30358.htm",
+   "quest": null,
+   "text": "Tetrarch Thifiell: May Shilen's power shade you from the harshness of the light! On behalf of the Hierarch, who was sealed by those despicable servants of the light, I represent the senior council that governs the race of darkness. It was I, Tetrarch Thifiell -- chosen by Gran Kain, the father of s…",
+   "header": "Tetrarch Thifiell",
+   "links": [
+    {
+     "text": "Listen to information about first class transfer.",
+     "bypass": "npc_%objectId%_Quest FirstClassTransferTalk",
+     "kind": "quest",
+     "script": "FirstClassTransferTalk",
+     "to": null
+    },
+    {
+     "text": "Ask about the current situation.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "villagemaster/30358-1.htm"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "villagemaster/30358-1.htm": {
+   "file": "villagemaster/30358-1.htm",
+   "quest": null,
+   "text": "Tetrarch Thifiell: The Holy War of Darkness to punish the deceitful Humans and the evil Elves of light who despised and persecuted us continues. Our revenge is not complete! We who lived in darkness for so long can understand more than anyone the truth in the shadows. The day will come when the tru…",
+   "header": "Tetrarch Thifiell",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "villagemaster/30358.htm"
+    }
+   ]
+  },
+  "Q00106_ForgottenTruth/30358-03.htm": {
+   "file": "Q00106_ForgottenTruth/30358-03.htm",
+   "quest": 106,
+   "text": "Tetrarch Thifiell: Recently, when a portion of the School of Dark Arts collapsed, a hidden room was revealed, and a portion of the ancient scroll called Kaisha's Revelation was discovered. Have you ever heard of this scroll? Fifty years ago, by the western shores of the Human kingdom Elmore, a numb…",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state CREATED; talker.getRace() == Race.DARK_ELF; talker.getLevel() >= MIN_LVL"
+   ],
+   "links": [
+    {
+     "text": "Ask about the whereabouts of the Revelations",
+     "bypass": "Quest Q00106_ForgottenTruth 30358-04.htm",
+     "kind": "quest-event",
+     "script": "Q00106_ForgottenTruth",
+     "event": "30358-04.htm",
+     "quest": 106,
+     "to": "Q00106_ForgottenTruth/30358-04.htm"
+    }
+   ]
+  },
+  "Q00106_ForgottenTruth/30358-02.htm": {
+   "file": "Q00106_ForgottenTruth/30358-02.htm",
+   "quest": 106,
+   "text": "Tetrarch Thifiell: Recently a portion of the School of Dark Arts collapsed and I was able to obtain an ancient document. Because it was written in the long lost language of the ancient giants, I have asked Abyssal Celebrant Kartia, who is well learned in the ancient languages, to translate it for m…",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state CREATED; talker.getRace() == Race.DARK_ELF; NOT talker.getLevel() >= MIN_LVL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00106_ForgottenTruth/30358-01.htm": {
+   "file": "Q00106_ForgottenTruth/30358-01.htm",
+   "quest": 106,
+   "text": "Tetrarch Thifiell: Curious foreign traveler, I have no favor to ask of you. As a rule, our race of darkness prefers not to receive the aid of others. (Quest for Dark Elven characters.)",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state CREATED; !talker.getRace() == Race.DARK_ELF"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00106_ForgottenTruth/30358-06.html": {
+   "file": "Q00106_ForgottenTruth/30358-06.html",
+   "quest": 106,
+   "text": "Tetrarch Thifiell: What are you doing, you haven't gone to the temple yet?! Go immediately to the Temple of Shillien and seek Kartia. Give him the onyx talisman and return to me with the translated revelations.",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state STARTED; has items 984,985"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00106_ForgottenTruth/30358-07.html": {
+   "file": "Q00106_ForgottenTruth/30358-07.html",
+   "quest": 106,
+   "text": "Tetrarch Thifiell: Well done! I was just getting anxious that you were not returning ... So, is this the Kaisha's revelation that Kartia has translated? This ancient writing contains the dark inheritance passed on to our race, the truths that have been until now hidden by the Elves of Light and the…",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state STARTED; cond 4; !(hasAtLeastOneQuestItem(talker, ONYX_TALISMAN1, ONYX_TALISMAN2) && !st.hasQuestItems(KARTAS_TRANSLATION))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30358-01.html": {
+   "file": "Q00217_TestimonyOfTrust/30358-01.html",
+   "quest": 217,
+   "text": "Tetrarch Thifiell May the mercy of Shilen be upon you. I am the chosen one of Gran Kain, the Father of shadow, and Shilen, the Mother of the abyss. I speak on behalf of the Hierarch, who was sealed by those hypocritical followers of the light. I represent the senior council that governs the race of…",
+   "when": [
+    "state STARTED; memo 4; has items 2736"
+   ],
+   "links": [
+    {
+     "text": "Give the letter of Hollint.",
+     "bypass": "Quest Q00217_TestimonyOfTrust 30358-02.html",
+     "kind": "quest-event",
+     "script": "Q00217_TestimonyOfTrust",
+     "event": "30358-02.html",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30358-02.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30358-03.html": {
+   "file": "Q00217_TestimonyOfTrust/30358-03.html",
+   "quest": 217,
+   "text": "Tetrarch Thifiell: Good job. You have been of great help in our efforts to free Mitraell, our tribal leader. Take this letter. It indicates that we have accepted the Humans' request and have agreed upon the need for trust between our races to deal with the upcoming Chaotic Chronicle . This is only …",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state STARTED; memo 6; has items 2755; (getQuestItemsCount(player, STAKATO_ICHOR) + getQuestItemsCount(player, HONEY_DEW) + getQuestItemsCount(player, BASILISK"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30358-04.html": {
+   "file": "Q00217_TestimonyOfTrust/30358-04.html",
+   "quest": 217,
+   "text": "Tetrarch Thifiell I will keep a close eye on the Humans' behavior. I pray that our trust will grow. Now return to your King.",
+   "when": [
+    "state STARTED; memo 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30358-05.html": {
+   "file": "Q00217_TestimonyOfTrust/30358-05.html",
+   "quest": 217,
+   "text": "Tetrarch Thifiell Why are you still here? Have you met Magister Clayton from the Town of Dion ? Have you come to improve relations between our races or is there something else on your mind?",
+   "when": [
+    "state STARTED; memo 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30358-01.html": {
+   "file": "Q00219_TestimonyOfFate/30358-01.html",
+   "quest": 219,
+   "text": "Tetrarch Thifiell: Welcome home, young brother. It seems like only yesterday when you came here after you finished training in the shrine of Shilen. My, haven't you grown! This document you have found is known as 'Kaysha's Revelation'. It contains the truth about Shilen! It contains the truth of th…",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state STARTED; has items 3189"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30358-02.html": {
+   "file": "Q00219_TestimonyOfFate/30358-02.html",
+   "quest": 219,
+   "text": "Tetrarch Thifiell: It is time for you to take the Initiation Ceremony of Shilen. Take the letter and charm that I gave you to Witch Arkenia of the Dark Elves Initiation Altar . She will perform your ceremony.",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state STARTED; has items 3190,3191; lacks items 3189"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30358-03.html": {
+   "file": "Q00219_TestimonyOfFate/30358-03.html",
+   "quest": 219,
+   "text": "Tetrarch Thifiell: The Book of the Abyss is the living history of our past and future. It is where all our tribal knowledge and experience is recorded. To complete the Initiation Ceremony you must write your own phrase in the book. Good luck!",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state STARTED; has items 3190,3192; lacks items 3189,3191"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30358-04.html": {
+   "file": "Q00219_TestimonyOfFate/30358-04.html",
+   "quest": 219,
+   "text": "Tetrarch Thifiell: Brother of darkness, you now know the truth of abyss. My congratulations on your newfound awakening. You have glimpsed the dark fate our tribe must endure during the coming age of chaos. Do not be despondent, however! Your task now, like all of ours, is to concentrate on the miss…",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state STARTED; has items 3190,3202; lacks items 3189,3191,3192"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00106_ForgottenTruth/30358-04.htm": {
+   "file": "Q00106_ForgottenTruth/30358-04.htm",
+   "quest": 106,
+   "text": "Tetrarch Thifiell: It is believed that at Honorius' execution by burning at the stake, the documents he had been translating were all burned, but there were also rumors that a portion of them had been stolen. The sheepskin scrolls were never found, and thus the rumors were believed to be false, but…",
+   "header": "Tetrarch Thifiell",
+   "links": [
+    {
+     "text": "Say you will take the task",
+     "bypass": "Quest Q00106_ForgottenTruth 30358-05.htm",
+     "kind": "quest-event",
+     "script": "Q00106_ForgottenTruth",
+     "event": "30358-05.htm",
+     "quest": 106,
+     "to": "Q00106_ForgottenTruth/30358-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00106_ForgottenTruth/30358-05.htm": {
+   "file": "Q00106_ForgottenTruth/30358-05.htm",
+   "quest": 106,
+   "text": "Tetrarch Thifiell: Go and seek Abyssal Celebrant Kartia in the Temple of Shillien . This black onyx necklace was promised to Kartia in return for the translation, so go deliver it to him, and return to me with the translated Revelations. Take care that no one hears about Kaisha's revelations. There…",
+   "header": "Tetrarch Thifiell",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30358-02.html": {
+   "file": "Q00217_TestimonyOfTrust/30358-02.html",
+   "quest": 217,
+   "text": "Tetrarch Thifiell: Trust... How dare you ask for such a thing from us... Remember the infamous betrayer Dasparion? He was of your race! And it was Human Wizards who sealed our leader! How could we possibly trust the Humans? Do you think that all the past injustices can be forgotten with a simple le…",
+   "header": "Tetrarch Thifiell",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Forgotten Truth]",
+     "bypass": "npc_%objectId%_Quest Q00106_ForgottenTruth",
+     "kind": "quest",
+     "quest": 106,
+     "to": "Q00106_ForgottenTruth/30358-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Forgotten Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00106_ForgottenTruth",
+     "kind": "quest",
+     "quest": 106,
+     "to": "Q00106_ForgottenTruth/30358-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Trust (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00217_TestimonyOfTrust",
+     "kind": "quest",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30358-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Fate (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00219_TestimonyOfFate",
+     "kind": "quest",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30358-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

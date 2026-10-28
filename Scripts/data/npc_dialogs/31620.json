@@ -1,0 +1,218 @@
+{
+ "npcId": 31620,
+ "name": "Verdure Elder Elikia",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.245Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00087_SagaOfEvasSaint/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 87"
+  },
+  {
+   "page": "Q00087_SagaOfEvasSaint/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 87"
+  },
+  {
+   "page": "Q00087_SagaOfEvasSaint/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 87"
+  },
+  {
+   "page": "Q00087_SagaOfEvasSaint/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 87"
+  },
+  {
+   "page": "Q00087_SagaOfEvasSaint/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 87"
+  },
+  {
+   "page": "Q00087_SagaOfEvasSaint/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 87"
+  },
+  {
+   "page": "Q00087_SagaOfEvasSaint/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 87"
+  },
+  {
+   "page": "Q00087_SagaOfEvasSaint/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 87"
+  }
+ ],
+ "quests": {
+  "87": {
+   "name": "Saga of Eva's Saint",
+   "listText": [
+    "[Saga of Eva's Saint]",
+    "[Saga of Eva's Saint (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00087_SagaOfEvasSaint/4-04.htm": {
+   "file": "Q00087_SagaOfEvasSaint/4-04.htm",
+   "quest": 87,
+   "text": "Verdure Wiseman Elikia: His power is strong, I'll need your help to defeat him. Show your strength!",
+   "header": "Verdure Wiseman Elikia",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00087_SagaOfEvasSaint/4-06.htm": {
+   "file": "Q00087_SagaOfEvasSaint/4-06.htm",
+   "quest": 87,
+   "text": "Verdure Wiseman Elikia: With your help, we can uncover the conspiracy. I came here when I heard about the Saint of Light Agnes in Goddard Castle Town. Agnes may not be the true Saint of Light! Meeting the Fallen Angel here may be a part of Agnes's conspiracy.",
+   "header": "Verdure Wiseman Elikia",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"What do you mean?\"",
+     "bypass": "Quest Q00087_SagaOfEvasSaint 4-1",
+     "kind": "quest-event",
+     "script": "Q00087_SagaOfEvasSaint",
+     "event": "4-1",
+     "quest": 87,
+     "to": "Q00087_SagaOfEvasSaint/4-010.htm"
+    }
+   ]
+  },
+  "Q00087_SagaOfEvasSaint/4-01.htm": {
+   "file": "Q00087_SagaOfEvasSaint/4-01.htm",
+   "quest": 87,
+   "text": "Verdure Wiseman Elikia: We are on the same path. Give me a hand, we can't miss Tanakia!",
+   "header": "Verdure Wiseman Elikia",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00087_SagaOfEvasSaint/4-03.htm": {
+   "file": "Q00087_SagaOfEvasSaint/4-03.htm",
+   "quest": 87,
+   "text": "Verdure Wiseman Elikia: He got away! I'll have to wait. We must defeat Tanakia, the world is in peril.",
+   "header": "Verdure Wiseman Elikia",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00087_SagaOfEvasSaint/4-05.htm": {
+   "file": "Q00087_SagaOfEvasSaint/4-05.htm",
+   "quest": 87,
+   "text": "Verdure Wiseman Elikia: I can't let you have your way, Tanakia. Stand back, this is not your fight!",
+   "header": "Verdure Wiseman Elikia",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00087_SagaOfEvasSaint/4-07.htm": {
+   "file": "Q00087_SagaOfEvasSaint/4-07.htm",
+   "quest": 87,
+   "text": "Verdure Wiseman Elikia: With your help, we can uncover the conspiracy. I came here when I heard about the Saint of Light Agnes in Goddard Castle Town. Agnes may not be the true Saint of Light! Meeting the Fallen Angel here may be a part of Agnes's conspiracy.",
+   "header": "Verdure Wiseman Elikia",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"What do you mean?\"",
+     "bypass": "Quest Q00087_SagaOfEvasSaint 4-2",
+     "kind": "quest-event",
+     "script": "Q00087_SagaOfEvasSaint",
+     "event": "4-2",
+     "quest": 87,
+     "to": "Q00087_SagaOfEvasSaint/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00087_SagaOfEvasSaint/4-02.htm": {
+   "file": "Q00087_SagaOfEvasSaint/4-02.htm",
+   "quest": 87,
+   "text": "Verdure Wiseman Elikia: I can't let you have your way, Tanakia. Stand back, this is not your fight!",
+   "header": "Verdure Wiseman Elikia",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00087_SagaOfEvasSaint/4-08.htm": {
+   "file": "Q00087_SagaOfEvasSaint/4-08.htm",
+   "quest": 87,
+   "text": "Verdure Wiseman Elikia: We'll handle this fight. Commune with the Tablet of Vision using the Stone of Commune.",
+   "header": "Verdure Wiseman Elikia",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00087_SagaOfEvasSaint/4-010.htm": {
+   "file": "Q00087_SagaOfEvasSaint/4-010.htm",
+   "quest": 87,
+   "text": "Verdure Wiseman Elikia: I came to see if she was the real Saint of Light. I discovered she was hiding something. I learned of Tanakia and got this Stone of Commune after fighting him. She wants you to have it, but don't get too close to her! I must go now. I'll pray for you.",
+   "header": "Verdure Wiseman Elikia",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00087_SagaOfEvasSaint 4-3",
+     "kind": "quest-event",
+     "script": "Q00087_SagaOfEvasSaint",
+     "event": "4-3",
+     "quest": 87,
+     "to": null
+    }
+   ]
+  },
+  "Q00087_SagaOfEvasSaint/4-011.htm": {
+   "file": "Q00087_SagaOfEvasSaint/4-011.htm",
+   "quest": 87,
+   "text": "Verdure Wiseman Elikia: I came to see if she was the real Saint of Light. I discovered she was hiding something. I learned of Tanakia and got this Stone of Commune after fighting him. She wants you to have it, but don't get too close to her! I must go now, I'll pray for your protection.",
+   "header": "Verdure Wiseman Elikia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00087_SagaOfEvasSaint/4-09.htm": {
+   "file": "Q00087_SagaOfEvasSaint/4-09.htm",
+   "quest": 87,
+   "text": "Verdure Wiseman Elikia: Agnes wants you to commune with the Tablet of Vision using this Stone of Commune. Go to the tablet!",
+   "header": "Verdure Wiseman Elikia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of Eva's Saint (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00087_SagaOfEvasSaint",
+     "kind": "quest",
+     "quest": 87,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

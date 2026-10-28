@@ -2,7 +2,7 @@
  "id": 422,
  "name": "Repent Your Sins",
  "version": 1,
- "generated": "2026-10-27T11:15:39.899Z",
+ "generated": "2026-10-27T18:19:14.620Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 31,
@@ -31,20 +31,25 @@
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 5
+   "step": 4
   },
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 7
+   "step": 10
   },
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 84
+   "step": 17
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 23
   }
  ],
- "expectedMin": 22,
+ "expectedMin": 37,
  "refLevel": 31,
  "steps": [
   {
@@ -264,7 +269,7 @@
     {
      "id": 4328,
      "name": "Tyrant Kingpin's Heart",
-     "n": 1,
+     "n": 3,
      "from": [
       {
        "id": 20193,
@@ -291,7 +296,7 @@
     "area-danger",
     "aggro-on-way"
    ],
-   "text": "Hunt Scavenger Wererat, Tyrant Kingpin, Turek War Hound for Ratman Scavenger's Skull x3, Turek War Hound's Tail x3, Tyrant Kingpin's Heart x1, Trisalim Tarantula's Venom Sac x3",
+   "text": "Hunt Scavenger Wererat, Tyrant Kingpin, Turek War Hound for Ratman Scavenger's Skull x3, Turek War Hound's Tail x3, Tyrant Kingpin's Heart x3, Trisalim Tarantula's Venom Sac x3",
    "places": [
     {
      "mobs": [
@@ -1304,6 +1309,1141 @@
    "key": "c1:talk:30981",
    "cond": 1,
    "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"I seek redemption.\""
+   ],
+   "npc": {
+    "id": 30981,
+    "name": "Black Judge",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     -18960,
+     209834,
+     -3656
+    ],
+    "alt": [
+     [
+      15520,
+      174572,
+      -3637
+     ],
+     [
+      106131,
+      105979,
+      -3482
+     ]
+    ]
+   },
+   "text": "Talk to Black Judge",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30730@-17305,209742",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 1971,
+    "sec": 61,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1971,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16915,
+      208532,
+      -3664
+     ],
+     [
+      -17304,
+      209032,
+      -3664
+     ],
+     [
+      -17304,
+      209736,
+      -3664
+     ],
+     [
+      -18952,
+      209832,
+      -3648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30730@-17305,209742",
+     "name": "Jax"
+    },
+    "points": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16915,
+      208532,
+      -3664
+     ],
+     [
+      -17304,
+      209032,
+      -3664
+     ],
+     [
+      -17304,
+      209736,
+      -3664
+     ],
+     [
+      -18952,
+      209832,
+      -3648
+     ]
+    ]
+   },
+   "expectedSec": 86,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:talk:30668",
+   "cond": 2,
+   "kind": "talk",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30668,
+    "name": "Katari",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     -3826,
+     40264,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Talk to Katari",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30668@-3826,40264",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 18173,
+    "sec": 221,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Swampland",
+      "link": "swampland",
+      "price": 1100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18173,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -21966,
+      40544,
+      -3192
+     ],
+     [
+      -21467,
+      40404,
+      -3272
+     ],
+     [
+      -20968,
+      40264,
+      -3352
+     ],
+     [
+      -19976,
+      40264,
+      -3504
+     ],
+     [
+      -18984,
+      40264,
+      -3616
+     ],
+     [
+      -17992,
+      40264,
+      -3640
+     ],
+     [
+      -17000,
+      40264,
+      -3760
+     ],
+     [
+      -16008,
+      40264,
+      -3760
+     ],
+     [
+      -15416,
+      40248,
+      -3752
+     ],
+     [
+      -14424,
+      40264,
+      -3776
+     ],
+     [
+      -13432,
+      40264,
+      -3736
+     ],
+     [
+      -12440,
+      40264,
+      -3760
+     ],
+     [
+      -11448,
+      40264,
+      -3768
+     ],
+     [
+      -10456,
+      40264,
+      -3752
+     ],
+     [
+      -9464,
+      40264,
+      -3736
+     ],
+     [
+      -8472,
+      40264,
+      -3760
+     ],
+     [
+      -7480,
+      40264,
+      -3736
+     ],
+     [
+      -6488,
+      40264,
+      -3680
+     ],
+     [
+      -5496,
+      40264,
+      -3680
+     ],
+     [
+      -4504,
+      40264,
+      -3664
+     ],
+     [
+      -3832,
+      40264,
+      -3672
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Black Willow Lurker",
+       "lv": 39,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "expectedSec": 246,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c2:talk:30981",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"I seek redemption.\""
+   ],
+   "npc": {
+    "id": 30981,
+    "name": "Black Judge",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     -18960,
+     209834,
+     -3656
+    ],
+    "alt": [
+     [
+      15520,
+      174572,
+      -3637
+     ],
+     [
+      106131,
+      105979,
+      -3482
+     ]
+    ]
+   },
+   "text": "Talk to Black Judge",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30730@-17305,209742",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 1971,
+    "sec": 61,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1971,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16915,
+      208532,
+      -3664
+     ],
+     [
+      -17304,
+      209032,
+      -3664
+     ],
+     [
+      -17304,
+      209736,
+      -3664
+     ],
+     [
+      -18952,
+      209832,
+      -3648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30730@-17305,209742",
+     "name": "Jax"
+    },
+    "points": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16915,
+      208532,
+      -3664
+     ],
+     [
+      -17304,
+      209032,
+      -3664
+     ],
+     [
+      -17304,
+      209736,
+      -3664
+     ],
+     [
+      -18952,
+      209832,
+      -3648
+     ]
+    ]
+   },
+   "expectedSec": 86,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c3:talk:30597",
+   "cond": 3,
+   "kind": "talk",
+   "to": 7,
+   "links": [],
+   "npc": {
+    "id": 30597,
+    "name": "Piotur",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -85700,
+     106591,
+     -3555
+    ],
+    "alt": []
+   },
+   "text": "Talk to Piotur",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30597@-85700,106591",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4395,
+    "sec": 82,
+    "via": ".gludin > Gludin -> Orc Barracks",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Orc Barracks",
+      "link": "orc barracks",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4395,
+      "how": "geodata",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Orc Barracks"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -89763,
+      105359,
+      -3576
+     ],
+     [
+      -89208,
+      105592,
+      -3456
+     ],
+     [
+      -88712,
+      105728,
+      -3388
+     ],
+     [
+      -88216,
+      105864,
+      -3320
+     ],
+     [
+      -87224,
+      105864,
+      -3456
+     ],
+     [
+      -86680,
+      105864,
+      -3528
+     ],
+     [
+      -86472,
+      105928,
+      -3544
+     ],
+     [
+      -86072,
+      106248,
+      -3552
+     ],
+     [
+      -85704,
+      106584,
+      -3552
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -11,
+     "aggro": []
+    }
+   },
+   "expectedSec": 107,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c3:talk:30981",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "\"I seek redemption.\""
+   ],
+   "npc": {
+    "id": 30981,
+    "name": "Black Judge",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     -18960,
+     209834,
+     -3656
+    ],
+    "alt": [
+     [
+      15520,
+      174572,
+      -3637
+     ],
+     [
+      106131,
+      105979,
+      -3482
+     ]
+    ]
+   },
+   "text": "Talk to Black Judge",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30730@-17305,209742",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 1971,
+    "sec": 61,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1971,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16915,
+      208532,
+      -3664
+     ],
+     [
+      -17304,
+      209032,
+      -3664
+     ],
+     [
+      -17304,
+      209736,
+      -3664
+     ],
+     [
+      -18952,
+      209832,
+      -3648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30730@-17305,209742",
+     "name": "Jax"
+    },
+    "points": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16915,
+      208532,
+      -3664
+     ],
+     [
+      -17304,
+      209032,
+      -3664
+     ],
+     [
+      -17304,
+      209736,
+      -3664
+     ],
+     [
+      -18952,
+      209832,
+      -3648
+     ]
+    ]
+   },
+   "expectedSec": 86,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c4:talk:30612",
+   "cond": 4,
+   "kind": "talk",
+   "to": 8,
+   "links": [],
+   "npc": {
+    "id": 30612,
+    "name": "Casian",
+    "title": "Elder",
+    "town": "Floran",
+    "at": [
+     -16895,
+     194229,
+     -4207
+    ],
+    "alt": []
+   },
+   "text": "Talk to Casian",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30612@-16895,194229",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 14637,
+    "sec": 167,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14637,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16707,
+      207540,
+      -3664
+     ],
+     [
+      -16888,
+      207048,
+      -3664
+     ],
+     [
+      -16904,
+      206056,
+      -3592
+     ],
+     [
+      -17288,
+      205464,
+      -3568
+     ],
+     [
+      -17288,
+      205304,
+      -3528
+     ],
+     [
+      -17088,
+      204808,
+      -3496
+     ],
+     [
+      -16888,
+      204312,
+      -3464
+     ],
+     [
+      -16888,
+      203320,
+      -3552
+     ],
+     [
+      -16872,
+      202328,
+      -3664
+     ],
+     [
+      -16856,
+      202248,
+      -3664
+     ],
+     [
+      -16888,
+      201256,
+      -3920
+     ],
+     [
+      -16792,
+      200616,
+      -3920
+     ],
+     [
+      -16888,
+      199624,
+      -4200
+     ],
+     [
+      -16888,
+      198632,
+      -4200
+     ],
+     [
+      -17192,
+      197736,
+      -4200
+     ],
+     [
+      -17208,
+      196840,
+      -4200
+     ],
+     [
+      -17144,
+      196760,
+      -4192
+     ],
+     [
+      -17144,
+      195832,
+      -4200
+     ],
+     [
+      -17432,
+      195544,
+      -4208
+     ],
+     [
+      -17496,
+      195432,
+      -4160
+     ],
+     [
+      -17528,
+      195288,
+      -4152
+     ],
+     [
+      -17576,
+      194872,
+      -4208
+     ],
+     [
+      -17576,
+      194728,
+      -4208
+     ],
+     [
+      -16888,
+      194232,
+      -4208
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Skeletal Mercenary",
+       "lv": 39,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 192,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c4:talk:30981",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"I seek redemption.\""
+   ],
+   "npc": {
+    "id": 30981,
+    "name": "Black Judge",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     -18960,
+     209834,
+     -3656
+    ],
+    "alt": [
+     [
+      15520,
+      174572,
+      -3637
+     ],
+     [
+      106131,
+      105979,
+      -3482
+     ]
+    ]
+   },
+   "text": "Talk to Black Judge",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30730@-17305,209742",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 1971,
+    "sec": 61,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1971,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16915,
+      208532,
+      -3664
+     ],
+     [
+      -17304,
+      209032,
+      -3664
+     ],
+     [
+      -17304,
+      209736,
+      -3664
+     ],
+     [
+      -18952,
+      209832,
+      -3648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30730@-17305,209742",
+     "name": "Jax"
+    },
+    "points": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16915,
+      208532,
+      -3664
+     ],
+     [
+      -17304,
+      209032,
+      -3664
+     ],
+     [
+      -17304,
+      209736,
+      -3664
+     ],
+     [
+      -18952,
+      209832,
+      -3648
+     ]
+    ]
+   },
+   "expectedSec": 86,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c5:talk:30981",
+   "cond": 5,
+   "kind": "talk",
    "to": "end",
    "links": [
     "Ask what you have left for your sin"
@@ -1445,228 +2585,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16
-   ]
-  },
-  {
-   "i": 3,
-   "key": "c1:deliver:30300",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 15,
-   "links": [],
-   "npc": {
-    "id": 30300,
-    "name": "Pushkin",
-    "title": "Blacksmith",
-    "town": "Giran",
-    "at": [
-     77458,
-     148169,
-     -3595
-    ],
-    "alt": []
-   },
-   "text": "Bring Blacksmith's Frame, Steel x5, Adamantite Nugget x2, Silver Nugget x10, Cokes x10, Manual of Manacles to Pushkin",
-   "needs": [
-    {
-     "id": 1892,
-     "name": "Blacksmith's Frame",
-     "n": 1
-    },
-    {
-     "id": 1880,
-     "name": "Steel",
-     "n": 5
-    },
-    {
-     "id": 1877,
-     "name": "Adamantite Nugget",
-     "n": 2
-    },
-    {
-     "id": 1873,
-     "name": "Silver Nugget",
-     "n": 10
-    },
-    {
-     "id": 1879,
-     "name": "Cokes",
-     "n": 10
-    },
-    {
-     "id": 4331,
-     "name": "Manual of Manacles",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30300@77458,148169",
-    "status": "ok",
-    "flags": [],
-    "from": ".giran",
-    "length": 7716,
-    "sec": 84,
-    "via": ".giran",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
-     },
-     {
-      "do": "walk",
-      "len": 7716,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Giran"
-    },
-    "simple": true,
-    "pv": [
-     [
-      83473,
-      148554,
-      -3400
-     ],
-     [
-      83240,
-      148744,
-      -3400
-     ],
-     [
-      82920,
-      148888,
-      -3464
-     ],
-     [
-      82792,
-      149016,
-      -3464
-     ],
-     [
-      82296,
-      149280,
-      -3464
-     ],
-     [
-      81800,
-      149544,
-      -3464
-     ],
-     [
-      81608,
-      149736,
-      -3464
-     ],
-     [
-      81384,
-      150168,
-      -3528
-     ],
-     [
-      81288,
-      150264,
-      -3528
-     ],
-     [
-      81160,
-      150264,
-      -3528
-     ],
-     [
-      80664,
-      149992,
-      -3528
-     ],
-     [
-      80168,
-      149720,
-      -3528
-     ],
-     [
-      80104,
-      149720,
-      -3528
-     ],
-     [
-      79784,
-      149208,
-      -3528
-     ],
-     [
-      79752,
-      148824,
-      -3528
-     ],
-     [
-      79256,
-      148600,
-      -3560
-     ],
-     [
-      78760,
-      148376,
-      -3592
-     ],
-     [
-      78280,
-      148408,
-      -3592
-     ],
-     [
-      77576,
-      148424,
-      -3592
-     ],
-     [
-      77464,
-      148168,
-      -3592
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 109,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
     5,
     6,
     7,
@@ -1681,11 +2599,11 @@
    ]
   },
   {
-   "i": 4,
-   "key": "c1:talk:30718",
-   "cond": 1,
+   "i": 10,
+   "key": "c5:talk:30718",
+   "cond": 5,
    "kind": "talk",
-   "to": 13,
+   "to": 9,
    "links": [],
    "npc": {
     "id": 30718,
@@ -1773,28 +2691,339 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16
+    5
    ]
   },
   {
-   "i": 5,
-   "key": "c1:deliver:30612",
-   "cond": 1,
+   "i": 11,
+   "key": "c6:talk:30668",
+   "cond": 6,
+   "kind": "talk",
+   "to": 10,
+   "links": [],
+   "npc": {
+    "id": 30668,
+    "name": "Katari",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     -3826,
+     40264,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Talk to Katari",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30668@-3826,40264",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 18173,
+    "sec": 221,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Swampland",
+      "link": "swampland",
+      "price": 1100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18173,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -21966,
+      40544,
+      -3192
+     ],
+     [
+      -21467,
+      40404,
+      -3272
+     ],
+     [
+      -20968,
+      40264,
+      -3352
+     ],
+     [
+      -19976,
+      40264,
+      -3504
+     ],
+     [
+      -18984,
+      40264,
+      -3616
+     ],
+     [
+      -17992,
+      40264,
+      -3640
+     ],
+     [
+      -17000,
+      40264,
+      -3760
+     ],
+     [
+      -16008,
+      40264,
+      -3760
+     ],
+     [
+      -15416,
+      40248,
+      -3752
+     ],
+     [
+      -14424,
+      40264,
+      -3776
+     ],
+     [
+      -13432,
+      40264,
+      -3736
+     ],
+     [
+      -12440,
+      40264,
+      -3760
+     ],
+     [
+      -11448,
+      40264,
+      -3768
+     ],
+     [
+      -10456,
+      40264,
+      -3752
+     ],
+     [
+      -9464,
+      40264,
+      -3736
+     ],
+     [
+      -8472,
+      40264,
+      -3760
+     ],
+     [
+      -7480,
+      40264,
+      -3736
+     ],
+     [
+      -6488,
+      40264,
+      -3680
+     ],
+     [
+      -5496,
+      40264,
+      -3680
+     ],
+     [
+      -4504,
+      40264,
+      -3664
+     ],
+     [
+      -3832,
+      40264,
+      -3672
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Black Willow Lurker",
+       "lv": 39,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "expectedSec": 246,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c7:talk:30597",
+   "cond": 7,
+   "kind": "talk",
+   "to": 11,
+   "links": [],
+   "npc": {
+    "id": 30597,
+    "name": "Piotur",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -85700,
+     106591,
+     -3555
+    ],
+    "alt": []
+   },
+   "text": "Talk to Piotur",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30597@-85700,106591",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4395,
+    "sec": 82,
+    "via": ".gludin > Gludin -> Orc Barracks",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Orc Barracks",
+      "link": "orc barracks",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4395,
+      "how": "geodata",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Orc Barracks"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -89763,
+      105359,
+      -3576
+     ],
+     [
+      -89208,
+      105592,
+      -3456
+     ],
+     [
+      -88712,
+      105728,
+      -3388
+     ],
+     [
+      -88216,
+      105864,
+      -3320
+     ],
+     [
+      -87224,
+      105864,
+      -3456
+     ],
+     [
+      -86680,
+      105864,
+      -3528
+     ],
+     [
+      -86472,
+      105928,
+      -3544
+     ],
+     [
+      -86072,
+      106248,
+      -3552
+     ],
+     [
+      -85704,
+      106584,
+      -3552
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -11,
+     "aggro": []
+    }
+   },
+   "expectedSec": 107,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 13,
+   "key": "c8:deliver:30612",
+   "cond": 8,
    "kind": "deliver",
    "to": 12,
    "links": [],
@@ -2008,410 +3237,367 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    13,
-    14,
-    15,
-    16
+    8
    ]
   },
   {
-   "i": 6,
-   "key": "c1:talk:30597",
-   "cond": 1,
+   "i": 14,
+   "key": "c9:talk:30718",
+   "cond": 9,
    "kind": "talk",
-   "to": 11,
+   "to": 13,
    "links": [],
    "npc": {
-    "id": 30597,
-    "name": "Piotur",
-    "title": "",
-    "town": "Gludin",
+    "id": 30718,
+    "name": "Joan",
+    "title": "Magister",
+    "town": "Oren",
     "at": [
-     -85700,
-     106591,
-     -3555
+     84985,
+     15991,
+     -2285
     ],
     "alt": []
    },
-   "text": "Talk to Piotur",
+   "text": "Talk to Joan",
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:30597@-85700,106591",
+    "key": "npc:30718@84985,15991",
     "status": "ok",
     "flags": [],
-    "from": ".gludin",
-    "length": 4395,
-    "sec": 82,
-    "via": ".gludin > Gludin -> Orc Barracks",
+    "from": ".oren",
+    "length": 463,
+    "sec": 64,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
     "steps": [
      {
       "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
+      "town": "Oren",
+      "cmd": ".oren"
      },
      {
       "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> Orc Barracks",
-      "link": "orc barracks",
-      "price": 1800,
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
       "live": true
      },
      {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "3rd Floor Elven Wizard Guild"
+     },
+     {
       "do": "walk",
-      "len": 4395,
+      "len": 463,
       "how": "geodata",
-      "danger": 20
+      "danger": 0
      }
     ],
     "start": {
      "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> Orc Barracks"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -89763,
-      105359,
-      -3576
-     ],
-     [
-      -89208,
-      105592,
-      -3456
-     ],
-     [
-      -88712,
-      105728,
-      -3388
-     ],
-     [
-      -88216,
-      105864,
-      -3320
-     ],
-     [
-      -87224,
-      105864,
-      -3456
-     ],
-     [
-      -86680,
-      105864,
-      -3528
-     ],
-     [
-      -86472,
-      105928,
-      -3544
-     ],
-     [
-      -86072,
-      106248,
-      -3552
-     ],
-     [
-      -85704,
-      106584,
-      -3552
-     ]
-    ],
-    "maxDanger": 20,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 20,
-     "dangerVsLevel": -11,
-     "aggro": []
-    }
-   },
-   "expectedSec": 107,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16
-   ]
-  },
-  {
-   "i": 7,
-   "key": "c1:talk:30668",
-   "cond": 1,
-   "kind": "talk",
-   "to": 10,
-   "links": [],
-   "npc": {
-    "id": 30668,
-    "name": "Katari",
-    "title": "",
-    "town": "Dark Elf Village",
-    "at": [
-     -3826,
-     40264,
-     -3672
-    ],
-    "alt": []
-   },
-   "text": "Talk to Katari",
-   "reasons": [
-    "aggro-on-way"
-   ],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30668@-3826,40264",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 18173,
-    "sec": 221,
-    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> DE Village",
-      "link": "dark elf village",
-      "price": 10000,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "DarkElf",
-      "desc": "DE Village -> Swampland",
-      "link": "swampland",
-      "price": 1100,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 18173,
-      "how": "geodata",
-      "danger": 39
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> DE Village"
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
     },
     "simple": false,
     "pv": [
      [
-      -21966,
-      40544,
-      -3192
+      85399,
+      16197,
+      -2293
      ],
      [
-      -21467,
-      40404,
-      -3272
-     ],
-     [
-      -20968,
-      40264,
-      -3352
-     ],
-     [
-      -19976,
-      40264,
-      -3504
-     ],
-     [
-      -18984,
-      40264,
-      -3616
-     ],
-     [
-      -17992,
-      40264,
-      -3640
-     ],
-     [
-      -17000,
-      40264,
-      -3760
-     ],
-     [
-      -16008,
-      40264,
-      -3760
-     ],
-     [
-      -15416,
-      40248,
-      -3752
-     ],
-     [
-      -14424,
-      40264,
-      -3776
-     ],
-     [
-      -13432,
-      40264,
-      -3736
-     ],
-     [
-      -12440,
-      40264,
-      -3760
-     ],
-     [
-      -11448,
-      40264,
-      -3768
-     ],
-     [
-      -10456,
-      40264,
-      -3752
-     ],
-     [
-      -9464,
-      40264,
-      -3736
-     ],
-     [
-      -8472,
-      40264,
-      -3760
-     ],
-     [
-      -7480,
-      40264,
-      -3736
-     ],
-     [
-      -6488,
-      40264,
-      -3680
-     ],
-     [
-      -5496,
-      40264,
-      -3680
-     ],
-     [
-      -4504,
-      40264,
-      -3664
-     ],
-     [
-      -3832,
-      40264,
-      -3672
+      84984,
+      15992,
+      -2288
      ]
     ],
-    "maxDanger": 39,
+    "maxDanger": 0,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
      "water": false,
-     "danger": 39,
-     "dangerVsLevel": 8,
-     "aggro": [
-      {
-       "name": "Black Willow Lurker",
-       "lv": 39,
-       "n": 1
-      }
-     ]
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
     }
    },
-   "expectedSec": 246,
+   "expectedSec": 89,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
+    9
+   ]
+  },
+  {
+   "i": 15,
+   "key": "c10:deliver:30300",
+   "cond": 10,
+   "kind": "deliver",
+   "to": 15,
+   "links": [],
+   "npc": {
+    "id": 30300,
+    "name": "Pushkin",
+    "title": "Blacksmith",
+    "town": "Giran",
+    "at": [
+     77458,
+     148169,
+     -3595
+    ],
+    "alt": []
+   },
+   "text": "Bring Blacksmith's Frame, Steel x5, Adamantite Nugget x2, Silver Nugget x10, Cokes x10, Manual of Manacles to Pushkin",
+   "needs": [
+    {
+     "id": 1892,
+     "name": "Blacksmith's Frame",
+     "n": 1
+    },
+    {
+     "id": 1880,
+     "name": "Steel",
+     "n": 5
+    },
+    {
+     "id": 1877,
+     "name": "Adamantite Nugget",
+     "n": 2
+    },
+    {
+     "id": 1873,
+     "name": "Silver Nugget",
+     "n": 10
+    },
+    {
+     "id": 1879,
+     "name": "Cokes",
+     "n": 10
+    },
+    {
+     "id": 4331,
+     "name": "Manual of Manacles",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30300@77458,148169",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 7716,
+    "sec": 84,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 7716,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83240,
+      148744,
+      -3400
+     ],
+     [
+      82920,
+      148888,
+      -3464
+     ],
+     [
+      82792,
+      149016,
+      -3464
+     ],
+     [
+      82296,
+      149280,
+      -3464
+     ],
+     [
+      81800,
+      149544,
+      -3464
+     ],
+     [
+      81608,
+      149736,
+      -3464
+     ],
+     [
+      81384,
+      150168,
+      -3528
+     ],
+     [
+      81288,
+      150264,
+      -3528
+     ],
+     [
+      81160,
+      150264,
+      -3528
+     ],
+     [
+      80664,
+      149992,
+      -3528
+     ],
+     [
+      80168,
+      149720,
+      -3528
+     ],
+     [
+      80104,
+      149720,
+      -3528
+     ],
+     [
+      79784,
+      149208,
+      -3528
+     ],
+     [
+      79752,
+      148824,
+      -3528
+     ],
+     [
+      79256,
+      148600,
+      -3560
+     ],
+     [
+      78760,
+      148376,
+      -3592
+     ],
+     [
+      78280,
+      148408,
+      -3592
+     ],
+     [
+      77576,
+      148424,
+      -3592
+     ],
+     [
+      77464,
+      148168,
+      -3592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 109,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
     10,
     11,
     12,
     13,
     14,
-    15,
-    16
+    15
    ]
   },
   {
-   "i": 8,
-   "key": "c12:talk:30612",
-   "cond": 12,
-   "kind": "talk",
-   "to": 8,
-   "links": [],
-   "npc": {
-    "id": 30612,
-    "name": "Casian",
-    "title": "Elder",
-    "town": "Floran",
-    "at": [
-     -16895,
-     194229,
-     -4207
-    ],
-    "alt": []
-   },
-   "text": "Talk to Casian",
-   "reasons": [
-    "aggro-on-way"
+   "i": 16,
+   "key": "c15:deliver:30981",
+   "cond": 15,
+   "kind": "deliver",
+   "to": 16,
+   "links": [
+    "Give her the manacles."
    ],
+   "npc": {
+    "id": 30981,
+    "name": "Black Judge",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     -18960,
+     209834,
+     -3656
+    ],
+    "alt": [
+     [
+      15520,
+      174572,
+      -3637
+     ],
+     [
+      106131,
+      105979,
+      -3482
+     ]
+    ]
+   },
+   "text": "Bring Manacles of Penitent, Penitent's Manacles to Black Judge",
+   "needs": [
+    {
+     "id": 4426,
+     "name": "Manacles of Penitent",
+     "n": 1
+    },
+    {
+     "id": 4330,
+     "name": "Penitent's Manacles",
+     "n": 1
+    }
+   ],
+   "reasons": [],
    "travel": {
-    "src": "atlas",
-    "key": "npc:30612@-16895,194229",
+    "src": "computed",
+    "key": "npc:30730@-17305,209742",
     "status": "ok",
     "flags": [],
     "from": ".gludin",
-    "length": 14637,
-    "sec": 167,
+    "length": 1971,
+    "sec": 61,
     "via": ".gludin > Gludin -> Wastelands",
     "steps": [
      {
@@ -2429,9 +3615,9 @@
      },
      {
       "do": "walk",
-      "len": 14637,
+      "len": 1971,
       "how": "geodata",
-      "danger": 39
+      "danger": 0
      }
     ],
     "start": {
@@ -2447,151 +3633,76 @@
       -3664
      ],
      [
-      -16707,
-      207540,
+      -16915,
+      208532,
       -3664
      ],
      [
-      -16888,
-      207048,
+      -17304,
+      209032,
       -3664
      ],
      [
-      -16904,
-      206056,
-      -3592
-     ],
-     [
-      -17288,
-      205464,
-      -3568
-     ],
-     [
-      -17288,
-      205304,
-      -3528
-     ],
-     [
-      -17088,
-      204808,
-      -3496
-     ],
-     [
-      -16888,
-      204312,
-      -3464
-     ],
-     [
-      -16888,
-      203320,
-      -3552
-     ],
-     [
-      -16872,
-      202328,
+      -17304,
+      209736,
       -3664
      ],
      [
-      -16856,
-      202248,
-      -3664
-     ],
-     [
-      -16888,
-      201256,
-      -3920
-     ],
-     [
-      -16792,
-      200616,
-      -3920
-     ],
-     [
-      -16888,
-      199624,
-      -4200
-     ],
-     [
-      -16888,
-      198632,
-      -4200
-     ],
-     [
-      -17192,
-      197736,
-      -4200
-     ],
-     [
-      -17208,
-      196840,
-      -4200
-     ],
-     [
-      -17144,
-      196760,
-      -4192
-     ],
-     [
-      -17144,
-      195832,
-      -4200
-     ],
-     [
-      -17432,
-      195544,
-      -4208
-     ],
-     [
-      -17496,
-      195432,
-      -4160
-     ],
-     [
-      -17528,
-      195288,
-      -4152
-     ],
-     [
-      -17576,
-      194872,
-      -4208
-     ],
-     [
-      -17576,
-      194728,
-      -4208
-     ],
-     [
-      -16888,
-      194232,
-      -4208
+      -18952,
+      209832,
+      -3648
      ]
     ],
-    "maxDanger": 39,
+    "maxDanger": 0,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
      "water": false,
-     "danger": 39,
-     "dangerVsLevel": 8,
-     "aggro": [
-      {
-       "name": "Skeletal Mercenary",
-       "lv": 39,
-       "n": 2
-      }
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30730@-17305,209742",
+     "name": "Jax"
+    },
+    "points": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16915,
+      208532,
+      -3664
+     ],
+     [
+      -17304,
+      209032,
+      -3664
+     ],
+     [
+      -17304,
+      209736,
+      -3664
+     ],
+     [
+      -18952,
+      209832,
+      -3648
      ]
-    }
+    ]
    },
-   "expectedSec": 192,
+   "expectedSec": 86,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    12
+    15
    ]
   }
  ],

@@ -1,0 +1,266 @@
+{
+ "npcId": 31641,
+ "name": "Pilgrim of Darkness",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.250Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31641.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "82": {
+   "name": "Saga of the Sagittarius",
+   "listText": [
+    "[Saga of the Sagittarius]",
+    "[Saga of the Sagittarius (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00082_SagaOfTheSagittarius/11-01.htm",
+     "when": "cond 14; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00082_SagaOfTheSagittarius/11-02.htm",
+     "when": "cond 15; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "83": {
+   "name": "Saga of the Moonlight Sentinel",
+   "listText": [
+    "[Saga of the Moonlight Sentinel]",
+    "[Saga of the Moonlight Sentinel (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00083_SagaOfTheMoonlightSentinel/11-01.htm",
+     "when": "cond 14; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00083_SagaOfTheMoonlightSentinel/11-02.htm",
+     "when": "cond 15; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "84": {
+   "name": "Saga of the Ghost Sentinel",
+   "listText": [
+    "[Saga of the Ghost Sentinel]",
+    "[Saga of the Ghost Sentinel (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00084_SagaOfTheGhostSentinel/11-01.htm",
+     "when": "cond 14; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00084_SagaOfTheGhostSentinel/11-02.htm",
+     "when": "cond 15; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31641.htm": {
+   "file": "default/31641.htm",
+   "quest": null,
+   "text": "Pilgrim of Darkness: Greetings, stranger! I'm a servant of Gran Kain, traveling from town to town, spreading his will to the world! This is my only purpose in life!",
+   "header": "Pilgrim of Darkness",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00082_SagaOfTheSagittarius/11-01.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/11-01.htm",
+   "quest": 82,
+   "text": "Pilgrim of Darkness: You're looking for a man who stole a bow, eh? I saw someone who fits that description not very long ago! I spent a day in the woods with him! We must have talked about everything! He seemed like a nice guy to me... Did he do anything serious?",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 14; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"He's a thief!\"",
+     "bypass": "Quest Q00082_SagaOfTheSagittarius 11-9",
+     "kind": "quest-event",
+     "script": "Q00082_SagaOfTheSagittarius",
+     "event": "11-9",
+     "quest": 82,
+     "to": "Q00082_SagaOfTheSagittarius/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00082_SagaOfTheSagittarius/11-02.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/11-02.htm",
+   "quest": 82,
+   "text": "Pilgrim of Darkness: I just told him that if he wanted to catch the Archon of Halisha he should look in the Sepulchers! I told him that he might also try attacking the Archon's minions at the north end of the Wall of Argos. That usually brings him out!",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 15; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/11-01.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/11-01.htm",
+   "quest": 83,
+   "text": "Pilgrim of Darkness: You're looking for a man who stole a bow, eh? I saw someone who fits that description not very long ago! I spent a day in the woods with him! We must have talked about everything! He seemed like a nice guy to me... Did he do anything serious?",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 14; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"He's a thief!\"",
+     "bypass": "Quest Q00083_SagaOfTheMoonlightSentinel 11-9",
+     "kind": "quest-event",
+     "script": "Q00083_SagaOfTheMoonlightSentinel",
+     "event": "11-9",
+     "quest": 83,
+     "to": "Q00083_SagaOfTheMoonlightSentinel/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/11-02.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/11-02.htm",
+   "quest": 83,
+   "text": "Pilgrim of Darkness: I just told him that if he wanted to catch the Archon of Halisha he should look in the Sepulchers! I told him that he might also try attacking the Archon's minions at the north end of the Wall of Argos. That usually brings him out!",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 15; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/11-01.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/11-01.htm",
+   "quest": 84,
+   "text": "Pilgrim of Darkness: You're looking for a man who stole a bow, eh? I saw someone who fits that description not very long ago! I spent a day in the woods with him! We must have talked about everything! He seemed like a nice guy to me... Did he do anything serious?",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 14; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Well, he stole a bow!\"",
+     "bypass": "Quest Q00084_SagaOfTheGhostSentinel 11-9",
+     "kind": "quest-event",
+     "script": "Q00084_SagaOfTheGhostSentinel",
+     "event": "11-9",
+     "quest": 84,
+     "to": "Q00084_SagaOfTheGhostSentinel/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00084_SagaOfTheGhostSentinel/11-02.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/11-02.htm",
+   "quest": 84,
+   "text": "R Pilgrim of Darkness: I just told him that if he wanted to catch the Archon of Halisha he should look in the Sepulchers! I told him that he might also try attacking the Archon's minions at the north end of the Wall of Argos. That usually brings him out!",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 15; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00082_SagaOfTheSagittarius/11-03.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/11-03.htm",
+   "quest": 82,
+   "text": "Pilgrim of Darkness: How can that be?! He said that he was after the Archon of Halisha. That's why I told him where to look! Did I make a mistake?",
+   "header": "Pilgrim of Darkness",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/11-03.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/11-03.htm",
+   "quest": 83,
+   "text": "Pilgrim of Darkness: How can that be?! He said that he was after the Archon of Halisha. That's why I told him where to look! Did I make a mistake?",
+   "header": "Pilgrim of Darkness",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/11-03.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/11-03.htm",
+   "quest": 84,
+   "text": "Pilgrim of Darkness: How can that be?! He said that he was after the Archon of Halisha. That's why I told him where to look! Did I make a mistake?",
+   "header": "Pilgrim of Darkness",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Sagittarius (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00082_SagaOfTheSagittarius",
+     "kind": "quest",
+     "quest": 82,
+     "to": "Q00082_SagaOfTheSagittarius/11-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Moonlight Sentinel (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00083_SagaOfTheMoonlightSentinel",
+     "kind": "quest",
+     "quest": 83,
+     "to": "Q00083_SagaOfTheMoonlightSentinel/11-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Ghost Sentinel (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00084_SagaOfTheGhostSentinel",
+     "kind": "quest",
+     "quest": 84,
+     "to": "Q00084_SagaOfTheGhostSentinel/11-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

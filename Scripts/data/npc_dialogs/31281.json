@@ -1,0 +1,463 @@
+{
+ "npcId": 31281,
+ "name": "Cerenas",
+ "title": "Priest",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.153Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "71": {
+   "name": "Saga of Eva's Templar",
+   "listText": [
+    "[Saga of Eva's Templar]",
+    "[Saga of Eva's Templar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00071_SagaOfEvasTemplar/11-01.htm",
+     "when": "cond 14; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00071_SagaOfEvasTemplar/11-02.htm",
+     "when": "cond 15; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "72": {
+   "name": "Saga of the Sword Muse",
+   "listText": [
+    "[Saga of the Sword Muse]",
+    "[Saga of the Sword Muse (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00072_SagaOfTheSwordMuse/11-01.htm",
+     "when": "cond 14; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00072_SagaOfTheSwordMuse/11-02.htm",
+     "when": "cond 15; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "92": {
+   "name": "Saga of the Elemental Master",
+   "listText": [
+    "[Saga of the Elemental Master]",
+    "[Saga of the Elemental Master (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/1-01.htm",
+     "when": "cond 2; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/1-03.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/1-02.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/1-04.htm",
+     "when": "cond 4; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/11-01.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/11-01.htm",
+   "quest": 71,
+   "text": "Priest Cerenas: Are you the pilgrim that I've been expecting? I heard about a long-sealed Elven pilgrim being released recently, but I certainly didn't expect to meet him! You must be here for the Stone of Commune. If I remember correctly, you should be getting the location of the next stone from t…",
+   "header": "Priest Cerenas",
+   "when": [
+    "cond 14; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Why not?\"",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar 11-9",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "11-9",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/11-02.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/11-02.htm",
+   "quest": 71,
+   "text": "Priest Cerenas: If you enter the Imperial Tomb, or fight in the Shrine of the Loyal near the Wall of Argos, you will be able to meet the Archon or Inferiors of Halisha. You can get this stone if you defeat them. Do you understand? If you want this stone, you need to defeat Halisha's Inferiors or Ar…",
+   "header": "Priest Cerenas",
+   "when": [
+    "cond 15; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/11-01.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/11-01.htm",
+   "quest": 72,
+   "text": "Priest Cerenas: The Stone of Commune, eh? I'll bet you're looking for the tablet too, aren't you? Ah yes, the song of the Swordsinger... Surely you've heard the story of the legendary singer who followed the same path!? What was his name? Biel or something...? What? You fought him? So the stories w…",
+   "header": "Priest Cerenas",
+   "when": [
+    "cond 14; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Why not?\"",
+     "bypass": "Quest Q00072_SagaOfTheSwordMuse 11-9",
+     "kind": "quest-event",
+     "script": "Q00072_SagaOfTheSwordMuse",
+     "event": "11-9",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00072_SagaOfTheSwordMuse/11-02.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/11-02.htm",
+   "quest": 72,
+   "text": "Priest Cerenas: To get the stone you must fight the Archon of Halisha in the Four Sepulchers or at the Shrine of the Loyal.",
+   "header": "Priest Cerenas",
+   "when": [
+    "cond 15; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/1-01.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/1-01.htm",
+   "quest": 92,
+   "text": "Priest Cerenas: My father sent you here... I just want my father's pain to end. I pray to Eva everyday to let him find relief. This medicine only prolongs his suffering. If you ask me to make the medicine again, it is too painful for me. However, I cannot go against my father's will. So, become an …",
+   "header": "Priest Cerenas",
+   "when": [
+    "cond 2; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What is the material?\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 1-3",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "1-3",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/1-05.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/1-03.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/1-03.htm",
+   "quest": 92,
+   "text": "Priest Cerenas: Thank you very much. Because you have the ice crystal, I now can make the medicine for my father. Please wait a moment while I prepare the materials.",
+   "header": "Priest Cerenas",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "links": [
+    {
+     "text": "\"Wait until the medicine is made.\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 1-4",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "1-4",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/1-06.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/1-02.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/1-02.htm",
+   "quest": 92,
+   "text": "Priest Cerenas: To make the medicine for my father, I need an ice crystal . In the northern part of this village, there is the hot springs area. There, meet Chef Gemeri . He will tell you how to get the ice crystal. I don't want to prolong my father's pain. Please hurry up.",
+   "header": "Priest Cerenas",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/1-04.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/1-04.htm",
+   "quest": 92,
+   "text": "Priest Cerenas: Take the medicine to my father, the Head Summoner Radyss . He is waiting for you in the Aden Castle Town. I heard that his health is getting worse and worse. Please hurry up.",
+   "header": "Priest Cerenas",
+   "when": [
+    "cond 4; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/11-03.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/11-03.htm",
+   "quest": 71,
+   "text": "Priest Cerenas : This is the material that I use for my study. Because the power of Goddess Eva and other powers are swriling in the stone... And another reason is that this Stone of Commune is not impossible to get. Those who have this Stone of Commune are Demon Halisha's Inferiors . If you enter …",
+   "header": "Priest Cerenas",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/11-03.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/11-03.htm",
+   "quest": 72,
+   "text": "Priest Cerenas: Eva would be quite displeased! My only function is to guide pilgrims on their way. You've already been on this path for a while, and seen several tablets. You are truly a pilgrim. This stone will prove your victory over the Archon of Halisha and his minions. Find them in the Four Se…",
+   "header": "Priest Cerenas",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/1-05.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/1-05.htm",
+   "quest": 92,
+   "text": "Priest Cerenas: I need some Ice Crystals that can only be found in the northern part of Goddard. Speak with Chef Jeremy in the hot springs area just to the north of this village. He's been trying to find some soy sauce. If you help him, he'll tell you exactly how to get ice crystals.",
+   "header": "Priest Cerenas",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/1-06.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/1-06.htm",
+   "quest": 92,
+   "text": "Priest Cerenas: I overheard what people say about you. It's about what you've done in the hot springs area. Have you destroyed the violent monster Bumbalump? It is really great. Now I'm beginning to understand why my father designated you as his successor. Now it is done. Please take this medicine …",
+   "header": "Priest Cerenas",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/31281-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/31281-noteach.html",
+   "quest": null,
+   "text": "Priest Cerenas: The path of light contains many mysteries, but there is nothing that I can teach you. Please find a more suitable teacher.",
+   "header": "Priest Cerenas",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/31281.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/31281.html",
+   "quest": null,
+   "text": "Priest Cerenas: O foreign traveler, may Einhasad's light guide and protect you! This village's temple is also our Warriors Guild, as you can see. That is because we value the martial arts just as much as we do faith and piety. But take care how you use the sword -- it can cut the user as easily as …",
+   "header": "Priest Cerenas",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of Eva's Templar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00071_SagaOfEvasTemplar",
+     "kind": "quest",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/11-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Sword Muse (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00072_SagaOfTheSwordMuse",
+     "kind": "quest",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/11-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Elemental Master (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00092_SagaOfTheElementalMaster",
+     "kind": "quest",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/1-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/31281-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/31281-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

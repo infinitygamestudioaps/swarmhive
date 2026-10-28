@@ -1,0 +1,548 @@
+{
+ "npcId": 31615,
+ "name": "Hermit",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.244Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31615.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "79": {
+   "name": "Saga of the Adventurer",
+   "listText": [
+    "[Saga of the Adventurer]",
+    "[Saga of the Adventurer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00079_SagaOfTheAdventurer/3-01.htm",
+     "when": "cond 10; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00079_SagaOfTheAdventurer/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00079_SagaOfTheAdventurer/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00079_SagaOfTheAdventurer/3-06.htm",
+     "when": "cond 13; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "80": {
+   "name": "Saga of the Wind Rider",
+   "listText": [
+    "[Saga of the Wind Rider]",
+    "[Saga of the Wind Rider (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00080_SagaOfTheWindRider/3-01.htm",
+     "when": "cond 10; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00080_SagaOfTheWindRider/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00080_SagaOfTheWindRider/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00080_SagaOfTheWindRider/3-06.htm",
+     "when": "cond 13; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "81": {
+   "name": "Saga of the Ghost Hunter",
+   "listText": [
+    "[Saga of the Ghost Hunter]",
+    "[Saga of the Ghost Hunter (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00081_SagaOfTheGhostHunter/3-01.htm",
+     "when": "cond 10; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00081_SagaOfTheGhostHunter/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00081_SagaOfTheGhostHunter/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00081_SagaOfTheGhostHunter/3-06.htm",
+     "when": "cond 13; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31615.htm": {
+   "file": "default/31615.htm",
+   "quest": null,
+   "text": "Hermit: May the blessing of Eva be with you always... Are you my successor? Oh, when will my vigil end... I'm so tired...",
+   "header": "Hermit",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/3-01.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/3-01.htm",
+   "quest": 79,
+   "text": "Hermit: I've been expecting you. You follow in the footsteps of giants! I've been waiting for many, many years... Since the gods told me to expect a hero such as you! I have the stone of vision you seek. First, however, you must prove that you are who you appear to be... Will you take a test?",
+   "header": "Hermit",
+   "when": [
+    "cond 10; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Yes, I will take the test.",
+     "bypass": "Quest Q00079_SagaOfTheAdventurer 3-5",
+     "kind": "quest-event",
+     "script": "Q00079_SagaOfTheAdventurer",
+     "event": "3-5",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/3-07.htm"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/3-05.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/3-05.htm",
+   "quest": 79,
+   "text": "Hermit: Have you brought the Divine Stone of Wisdom?",
+   "header": "Hermit",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00079_SagaOfTheAdventurer 3-8",
+     "kind": "quest-event",
+     "script": "Q00079_SagaOfTheAdventurer",
+     "event": "3-8",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/3-04.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/3-04.htm",
+   "quest": 79,
+   "text": "Hermit: Obtaining it won't be an easy task. This is your chance to prove that you are truly the one to succeed the legend! After earning the trust of the tribe you chose and being regarded as a true friend by them, you can obtain the Divine Stone of Wisdom. For Ketra Orcs, you must go to Ketra's Me…",
+   "header": "Hermit",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/3-06.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/3-06.htm",
+   "quest": 79,
+   "text": "Hermit: The Tablet of Vision can be found in the northern part of the Varka Silenos stronghold. Please don't disappoint us.",
+   "header": "Hermit",
+   "when": [
+    "cond 13; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00080_SagaOfTheWindRider/3-01.htm": {
+   "file": "Q00080_SagaOfTheWindRider/3-01.htm",
+   "quest": 80,
+   "text": "Hermit: I've been expecting you. You follow in the footsteps of giants! I've been waiting for many, many years... Since the gods told me to expect a hero such as you! I have the stone of vision you seek. First, however, you must prove that you are who you appear to be... Will you take a test?",
+   "header": "Hermit",
+   "when": [
+    "cond 10; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll take the test.\"",
+     "bypass": "Quest Q00080_SagaOfTheWindRider 3-5",
+     "kind": "quest-event",
+     "script": "Q00080_SagaOfTheWindRider",
+     "event": "3-5",
+     "quest": 80,
+     "to": "Q00080_SagaOfTheWindRider/3-07.htm"
+    }
+   ]
+  },
+  "Q00080_SagaOfTheWindRider/3-05.htm": {
+   "file": "Q00080_SagaOfTheWindRider/3-05.htm",
+   "quest": 80,
+   "text": "Hermit: Have you brought the Divine Stone of Wisdom?",
+   "header": "Hermit",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00080_SagaOfTheWindRider 3-8",
+     "kind": "quest-event",
+     "script": "Q00080_SagaOfTheWindRider",
+     "event": "3-8",
+     "quest": 80,
+     "to": "Q00080_SagaOfTheWindRider/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00080_SagaOfTheWindRider/3-04.htm": {
+   "file": "Q00080_SagaOfTheWindRider/3-04.htm",
+   "quest": 80,
+   "text": "Hermit: Obtaining it won't be an easy task. This is your chance to prove that you are truly the one to succeed the legend! After earning the trust of the tribe you chose and being regarded as a true friend by them, you can obtain the Divine Stone of Wisdom. For Ketra Orcs, you must go to Ketra's Me…",
+   "header": "Hermit",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00080_SagaOfTheWindRider/3-06.htm": {
+   "file": "Q00080_SagaOfTheWindRider/3-06.htm",
+   "quest": 80,
+   "text": "Hermit: The Tablet of Vision can be found in the northern part of the Varka Silenos stronghold. Please don't disappoint us.",
+   "header": "Hermit",
+   "when": [
+    "cond 13; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/3-01.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/3-01.htm",
+   "quest": 81,
+   "text": "Hermit: I've been expecting you. You follow in the footsteps of giants! I've been waiting for many, many years... Since the gods told me to expect a hero such as you! I have the stone of vision you seek. First, however, you must prove that you are who you appear to be... Will you take a test?",
+   "header": "Hermit",
+   "when": [
+    "cond 10; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Yes, I will take the test.",
+     "bypass": "Quest Q00081_SagaOfTheGhostHunter 3-5",
+     "kind": "quest-event",
+     "script": "Q00081_SagaOfTheGhostHunter",
+     "event": "3-5",
+     "quest": 81,
+     "to": "Q00081_SagaOfTheGhostHunter/3-07.htm"
+    }
+   ]
+  },
+  "Q00081_SagaOfTheGhostHunter/3-05.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/3-05.htm",
+   "quest": 81,
+   "text": "Hermit: Have you brought the Divine Stone of Wisdom?",
+   "header": "Hermit",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Here is the Divine Stone of Wisdom.\"",
+     "bypass": "Quest Q00081_SagaOfTheGhostHunter 3-8",
+     "kind": "quest-event",
+     "script": "Q00081_SagaOfTheGhostHunter",
+     "event": "3-8",
+     "quest": 81,
+     "to": "Q00081_SagaOfTheGhostHunter/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00081_SagaOfTheGhostHunter/3-04.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/3-04.htm",
+   "quest": 81,
+   "text": "Hermit: Obtaining it won't be an easy task. This is your chance to prove that you are truly the one to succeed the legend! After earning the trust of the tribe you chose and being regarded as a true friend by them, you can obtain the Divine Stone of Wisdom. For Ketra Orcs, you must go to Ketra's Me…",
+   "header": "Hermit",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/3-06.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/3-06.htm",
+   "quest": 81,
+   "text": "Hermit: The Tablet of Vision can be found in the northern part of the Varka Silenos stronghold. Please don't disappoint us.",
+   "header": "Hermit",
+   "when": [
+    "cond 13; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/3-02.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/3-02.htm",
+   "quest": 79,
+   "text": "Hermit: Well, go to the Ketra Orcs and get the Divine Stone of Wisdom. Like I said, Ketra Orcs are not the ones who trust strangers easily. To obtain Ketra Orcs' trust, you should go to Ketra's Messenger Wahkan in the Ketra Orc Outpost , and carry out difficult tasks that he asks you to do. You mus…",
+   "header": "Hermit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/3-03.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/3-03.htm",
+   "quest": 79,
+   "text": "Hermit: Well, go to the Varka Silenos and get the Divine Stone of Wisdom. Like I said, Varka Silenos are not the ones who trust strangers easily. To obtain Varka Silenos' trust, you should go to Varka's Messenger Naran Ashanuk in the Varka Silenos Outpost , and carry out difficult tasks that he ask…",
+   "header": "Hermit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/3-07.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/3-07.htm",
+   "quest": 79,
+   "text": "Hermit: This test has two paths. The Ketra Orcs and the Varka Silenos have long been at war, and both tribes are infamous for their hatred of each other and their cruelty in battle. Select one of the two tribes and obtain from them the Divine Stone of Wisdom. They give that only to those who they c…",
+   "header": "Hermit",
+   "links": [
+    {
+     "text": "\"I'll fight for the Ketra Orcs!\"",
+     "bypass": "Quest Q00079_SagaOfTheAdventurer 3-6",
+     "kind": "quest-event",
+     "script": "Q00079_SagaOfTheAdventurer",
+     "event": "3-6",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'll fight for the Varka Silenos!\"",
+     "bypass": "Quest Q00079_SagaOfTheAdventurer 3-7",
+     "kind": "quest-event",
+     "script": "Q00079_SagaOfTheAdventurer",
+     "event": "3-7",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/3-03.htm"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/3-08.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/3-08.htm",
+   "quest": 79,
+   "text": "Hermit: You've passed the first test. You've already come further than most who've attempted it! You're really starting to look like the hero I've been waiting for! Further dangers await you, however... You must always keep your cool. Take this Stone of Commune to the Tablet of Vision in the northe…",
+   "header": "Hermit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00080_SagaOfTheWindRider/3-02.htm": {
+   "file": "Q00080_SagaOfTheWindRider/3-02.htm",
+   "quest": 80,
+   "text": "Hermit: Well, go to the Ketra Orcs and get the Divine Stone of Wisdom. Like I said, Ketra Orcs are not the ones who trust strangers easily. To obtain Ketra Orcs' trust, you should go to Ketra's Messenger Wahkan in the Ketra Orc Outpost , and carry out difficult tasks that he asks you to do. You mus…",
+   "header": "Hermit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00080_SagaOfTheWindRider/3-03.htm": {
+   "file": "Q00080_SagaOfTheWindRider/3-03.htm",
+   "quest": 80,
+   "text": "Hermit: Well, go to the Varka Silenos and get the Divine Stone of Wisdom. Like I said, Varka Silenos are not the ones who trust strangers easily. To obtain Varka Silenos' trust, you should go to Varka's Messenger Naran Ashanuk in the Varka Silenos Outpost , and carry out difficult tasks that he ask…",
+   "header": "Hermit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00080_SagaOfTheWindRider/3-07.htm": {
+   "file": "Q00080_SagaOfTheWindRider/3-07.htm",
+   "quest": 80,
+   "text": "Hermit: This test has two paths. The Ketra Orcs and the Varka Silenos have long been at war, and both tribes are infamous for their hatred of each other and their cruelty in battle. Select one of the two tribes and obtain from them the Divine Stone of Wisdom. They give that only to those who they c…",
+   "header": "Hermit",
+   "links": [
+    {
+     "text": "\"I'll fight for the Ketra Orcs!\"",
+     "bypass": "Quest Q00080_SagaOfTheWindRider 3-6",
+     "kind": "quest-event",
+     "script": "Q00080_SagaOfTheWindRider",
+     "event": "3-6",
+     "quest": 80,
+     "to": "Q00080_SagaOfTheWindRider/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'll fight for the Varka Silenos!\"",
+     "bypass": "Quest Q00080_SagaOfTheWindRider 3-7",
+     "kind": "quest-event",
+     "script": "Q00080_SagaOfTheWindRider",
+     "event": "3-7",
+     "quest": 80,
+     "to": "Q00080_SagaOfTheWindRider/3-03.htm"
+    }
+   ]
+  },
+  "Q00080_SagaOfTheWindRider/3-08.htm": {
+   "file": "Q00080_SagaOfTheWindRider/3-08.htm",
+   "quest": 80,
+   "text": "Hermit: You've passed the first test. You've already come further than most who've attempted it! You're really starting to look like the hero I've been waiting for! Further dangers await you, however... You must always try to keep your cool. Take this Stone of Commune to the Tablet of Vision in the…",
+   "header": "Hermit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/3-02.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/3-02.htm",
+   "quest": 81,
+   "text": "Hermit: Well, go to the Ketra Orcs and get the Divine Stone of Wisdom. Like I said, Ketra Orcs are not the ones who trust strangers easily. To obtain Ketra Orcs' trust, you should go to Ketra's Messenger Wahkan in the Ketra Orc Outpost , and carry out difficult tasks that he asks you to do. You mus…",
+   "header": "Hermit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/3-03.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/3-03.htm",
+   "quest": 81,
+   "text": "Hermit: Well, go to the Varka Silenos and get the Divine Stone of Wisdom. Like I said, Varka Silenos are not the ones who trust strangers easily. To obtain Varka Silenos' trust, you should go to Varka's Messenger Naran Ashanuk in the Varka Silenos Outpost , and carry out difficult tasks that he ask…",
+   "header": "Hermit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/3-07.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/3-07.htm",
+   "quest": 81,
+   "text": "Hermit: This test has two paths. The Ketra Orcs and the Varka Silenos have long been at war, and both tribes are infamous for their hatred of each other and their cruelty in battle. Select one of the two tribes and obtain from them the Divine Stone of Wisdom. They give that only to those who they c…",
+   "header": "Hermit",
+   "links": [
+    {
+     "text": "\"I'll fight for the Ketra Orcs!\"",
+     "bypass": "Quest Q00081_SagaOfTheGhostHunter 3-6",
+     "kind": "quest-event",
+     "script": "Q00081_SagaOfTheGhostHunter",
+     "event": "3-6",
+     "quest": 81,
+     "to": "Q00081_SagaOfTheGhostHunter/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'll fight for the Varka Silenos!\"",
+     "bypass": "Quest Q00081_SagaOfTheGhostHunter 3-7",
+     "kind": "quest-event",
+     "script": "Q00081_SagaOfTheGhostHunter",
+     "event": "3-7",
+     "quest": 81,
+     "to": "Q00081_SagaOfTheGhostHunter/3-03.htm"
+    }
+   ]
+  },
+  "Q00081_SagaOfTheGhostHunter/3-08.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/3-08.htm",
+   "quest": 81,
+   "text": "Hermit: You've passed the first test. You've already come further than most who've attempted it! You're really starting to look like the hero I've been waiting for! Further dangers await you, however... You must always try to keep your cool. Take this Stone of Commune to the Tablet of Vision in the…",
+   "header": "Hermit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Adventurer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00079_SagaOfTheAdventurer",
+     "kind": "quest",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/3-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Wind Rider (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00080_SagaOfTheWindRider",
+     "kind": "quest",
+     "quest": 80,
+     "to": "Q00080_SagaOfTheWindRider/3-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Ghost Hunter (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00081_SagaOfTheGhostHunter",
+     "kind": "quest",
+     "quest": 81,
+     "to": "Q00081_SagaOfTheGhostHunter/3-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

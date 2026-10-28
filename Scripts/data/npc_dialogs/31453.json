@@ -1,0 +1,1088 @@
+{
+ "npcId": 31453,
+ "name": "Nameless Spirit",
+ "title": "",
+ "type": "L2SepulcherNpc",
+ "generated": "2026-10-27T18:18:03.205Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "SepulcherNpc/31453.htm",
+   "when": "",
+   "src": "html/SepulcherNpc"
+  }
+ ],
+ "quests": {
+  "119": {
+   "name": "Last Imperial Prince",
+   "listText": [
+    "[Last Imperial Prince]",
+    "[Last Imperial Prince (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00119_LastImperialPrince/31453-06.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00119_LastImperialPrince/31453-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && st.hasQuestItems(ANTIQUE_BROOCH))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00119_LastImperialPrince/31453-05.html",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && st.hasQuestItems(ANTIQUE_BROOCH))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00119_LastImperialPrince/31453-07.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00119_LastImperialPrince/31453-08.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00119_LastImperialPrince/31453-09.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "620": {
+   "name": "Four Goblets",
+   "listText": [
+    "[Four Goblets]",
+    "[Four Goblets (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00620_FourGoblets/31453-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31453-26.html",
+     "when": "state STARTED; has items 7256,7257,7258,7259; lacks items 7262",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31453-14.html",
+     "when": "state STARTED; lacks items 7262,7256,7257,7258,7259",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00620_FourGoblets/31453-29.html",
+     "when": "state STARTED; has items 7262",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "654": {
+   "name": "Journey to a Settlement",
+   "listText": [
+    "[Journey to a Settlement]",
+    "[Journey to a Settlement (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00654_JourneyToASettlement/31453-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00119_LastImperialPrince.class.getSim",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00654_JourneyToASettlement/31453-04.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00119_LastImperialPrince.class.getSim",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00654_JourneyToASettlement/31453-03.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "reward"
+    },
+    {
+     "page": "Q00654_JourneyToASettlement/31453-06.html",
+     "when": "state STARTED; memo 2; hasQuestItems(player, ANTELOPE_SKIN.getId())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00654_JourneyToASettlement/31453-05.html",
+     "when": "state STARTED; memo 2; NOT hasQuestItems(player, ANTELOPE_SKIN.getId())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "SepulcherNpc/31453.htm": {
+   "file": "SepulcherNpc/31453.htm",
+   "quest": null,
+   "text": "Nameless Soul: This is the final resting place of the ancient emperors of the Elmoreden Empire! There are four major sepulchers. They are the Sepulcher of Conquerors, the Sepulcher of Rulers, the Sepulcher of Great Sages and the Sepulcher of Judges, respectively. Together they are known as the Four…",
+   "header": "Nameless Soul",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00119_LastImperialPrince/31453-06.html": {
+   "file": "Q00119_LastImperialPrince/31453-06.html",
+   "quest": 119,
+   "text": "Nameless Spirit: Hmmm? You already brought me the song. We don't need to talk further. I just need to settle with him. (This quest has already been completed. Please move on to the next step, \"Journey to a Settlement\".)",
+   "header": "Nameless Spirit",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00119_LastImperialPrince/31453-01.htm": {
+   "file": "Q00119_LastImperialPrince/31453-01.htm",
+   "quest": 119,
+   "text": "Nameless Spirit: It's about time! I've learned where another me ... no... where the once-me is! I never know what he will do next! I must eliminate him as soon as possible! Unfortunately, at our current strength we can only put him to sleep ... But when he wakes up, we can put him right back to sle…",
+   "header": "Nameless Spirit",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && st.hasQuestItems(ANTIQUE_BROOCH))"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more.\"",
+     "bypass": "Quest Q00119_LastImperialPrince 31453-02.htm",
+     "kind": "quest-event",
+     "script": "Q00119_LastImperialPrince",
+     "event": "31453-02.htm",
+     "quest": 119,
+     "to": "Q00119_LastImperialPrince/31453-02.htm"
+    }
+   ]
+  },
+  "Q00119_LastImperialPrince/31453-05.html": {
+   "file": "Q00119_LastImperialPrince/31453-05.html",
+   "quest": 119,
+   "text": "Nameless Spirit: What do you need? I don't have anything to talk to you about. (Only characters of at least level 74 who have obtained the Antique Brooch through the \"Four Goblets\" quest may undertake this quest.)",
+   "header": "Nameless Spirit",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && st.hasQuestItems(ANTIQUE_BROOCH))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00119_LastImperialPrince/31453-07.html": {
+   "file": "Q00119_LastImperialPrince/31453-07.html",
+   "quest": 119,
+   "text": "Nameless Spirit: Please, go to Rune Township , meet with Nurse Devorin and learn the lyrics of the lullaby ! If you show her the Antique Brooch, she'll know I sent you. Please, help me!",
+   "header": "Nameless Spirit",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00119_LastImperialPrince/31453-08.html": {
+   "file": "Q00119_LastImperialPrince/31453-08.html",
+   "quest": 119,
+   "text": "Nameless Spirit: Please, go to Rune Township and meet with Nurse Devorin so you can learn the lyrics of the lullaby! Show her the Antique Brooch so she'll know that I sent you. Please... Help! ... What? You don't have the brooch? I must've made a mistake. I'm sorry! (The Antique Brooch is essential…",
+   "header": "Nameless Spirit",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00119_LastImperialPrince/31453-09.html": {
+   "file": "Q00119_LastImperialPrince/31453-09.html",
+   "quest": 119,
+   "text": "Nameless Spirit: Ah, you're back! How's Nurse Devorin doing? I just can't let her see me like this! Do you have the lyrics?",
+   "header": "Nameless Spirit",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Here they are.\"",
+     "bypass": "Quest Q00119_LastImperialPrince 31453-10.html",
+     "kind": "quest-event",
+     "script": "Q00119_LastImperialPrince",
+     "event": "31453-10.html",
+     "quest": 119,
+     "to": "Q00119_LastImperialPrince/31453-10.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-01.htm": {
+   "file": "Q00620_FourGoblets/31453-01.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: Delusions of grandeur and venal greed have resulted in this holy sepulcher becoming infested with demons and other evil monsters! If I could, I would drive every one of those vile creatures from this sacred place! But unfortunately...",
+   "header": "Nameless Spirit",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-02.htm",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-02.htm",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-02.htm"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-26.html": {
+   "file": "Q00620_FourGoblets/31453-26.html",
+   "quest": 620,
+   "text": "Nameless Spirit: At last, you've brought all of the four goblets! I'll bet Wigoth had some stories to tell!? I suppose now I can tell you the truth. I'm the one I mentioned earlier who would help you escape. I finally came to my senses, and even after hiding in this grave, I was terrified that some…",
+   "header": "Nameless Spirit",
+   "when": [
+    "state STARTED; has items 7256,7257,7258,7259; lacks items 7262"
+   ],
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-27.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-27.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-27.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-14.html": {
+   "file": "Q00620_FourGoblets/31453-14.html",
+   "quest": 620,
+   "text": "Nameless Spirit: Slaughter the shadows of Halisha in the deepest part of the Four Sepulchers and bring me the four goblets.",
+   "header": "Nameless Spirit",
+   "when": [
+    "state STARTED; lacks items 7262,7256,7257,7258,7259"
+   ],
+   "links": [
+    {
+     "text": "\"I want to stop.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-15.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-15.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-15.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"I want to continue.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-16.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-16.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-16.html"
+    },
+    {
+     "text": "\"Tell me about the four sepulchers.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-17.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-17.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-17.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-29.html": {
+   "file": "Q00620_FourGoblets/31453-29.html",
+   "quest": 620,
+   "text": "Nameless Spirit: You've brought all four goblets! Restoring the sepulcher to its original state is going to take some time. Please continue to destroy as many of the evil creatures there as you can.",
+   "header": "Nameless Spirit",
+   "when": [
+    "state STARTED; has items 7262"
+   ],
+   "links": [
+    {
+     "text": "\"I want to stop.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-15.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-15.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-15.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"I want to continue.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-16.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-16.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-16.html"
+    },
+    {
+     "text": "\"Tell me more about the sepulcher.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-17.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-17.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-17.html"
+    }
+   ]
+  },
+  "Q00654_JourneyToASettlement/31453-01.htm": {
+   "file": "Q00654_JourneyToASettlement/31453-01.htm",
+   "quest": 654,
+   "text": "Nameless Spirit: Oh, hello again! Yes, I spoke with Wigoth, and he assures me that this song is the one! We can now pass through the force field. It brings us one step closer to him, eh? By the way, could you help me put Frintezza to sleep ? As I said, we can't eliminate Frintezza completely with o…",
+   "header": "Nameless Spirit",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00119_LastImperialPrince.class.getSim"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help you.\"",
+     "bypass": "Quest Q00654_JourneyToASettlement 31453-02.htm",
+     "kind": "quest-event",
+     "script": "Q00654_JourneyToASettlement",
+     "event": "31453-02.htm",
+     "quest": 654,
+     "to": "Q00654_JourneyToASettlement/31453-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00654_JourneyToASettlement/31453-04.htm": {
+   "file": "Q00654_JourneyToASettlement/31453-04.htm",
+   "quest": 654,
+   "text": "Nameless Spirit: What do you want? I have nothing to say to you. (Characters must have achieved at least level 74 and completed the \"Last Imperial Prince\" quest before undertaking this quest.)",
+   "header": "Nameless Spirit",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00119_LastImperialPrince.class.getSim"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00654_JourneyToASettlement/31453-03.html": {
+   "file": "Q00654_JourneyToASettlement/31453-03.html",
+   "quest": 654,
+   "text": "Nameless Spirit: Well... I need a parchment to write the spell on . Go to the Wall of Argos and slaughter the Canyon Antelope or the Canyon Antelope Slave and bring me the Skin of the Antelope ! It'll make a lovely parchment! Ah! By the way, once you pass through the force field, only the Command C…",
+   "header": "Nameless Spirit",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "sets": {
+    "cond": "2",
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00654_JourneyToASettlement/31453-06.html": {
+   "file": "Q00654_JourneyToASettlement/31453-06.html",
+   "quest": 654,
+   "text": "Nameless Spirit: Excellent! Now, could you please smooth out the skin? Remove the hair, and smooth out the skin so that it's thin and soft. Just enough for me to write the spell down...",
+   "header": "Nameless Spirit",
+   "when": [
+    "state STARTED; memo 2; hasQuestItems(player, ANTELOPE_SKIN.getId())"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00654_JourneyToASettlement 31453-07.html",
+     "kind": "quest-event",
+     "script": "Q00654_JourneyToASettlement",
+     "event": "31453-07.html",
+     "quest": 654,
+     "to": "Q00654_JourneyToASettlement/31453-07.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00654_JourneyToASettlement/31453-05.html": {
+   "file": "Q00654_JourneyToASettlement/31453-05.html",
+   "quest": 654,
+   "text": "Nameless Spirit: Go to the Wall of Argos and slaughter the Canyon Antelope or the Canyon Antelope Slave and bring back the Skin of the Antelope ? It will make a wonderful parchment. Ah! by the way, when you pass through the force field, only the Command Channel Leader in command of all the parties …",
+   "header": "Nameless Spirit",
+   "when": [
+    "state STARTED; memo 2; NOT hasQuestItems(player, ANTELOPE_SKIN.getId())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00119_LastImperialPrince/31453-02.htm": {
+   "file": "Q00119_LastImperialPrince/31453-02.htm",
+   "quest": 119,
+   "text": "Nameless Spirit: Well, I found out where he was hiding, but it already had a magic force field around it. According to Wigoth, the force field uses a song as its password . Therefore, we need a certain type of continuous wavelength to pass through the force field. I hate to say it, but I'm afraid I…",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00119_LastImperialPrince 31453-03.htm",
+     "kind": "quest-event",
+     "script": "Q00119_LastImperialPrince",
+     "event": "31453-03.htm",
+     "quest": 119,
+     "to": "Q00119_LastImperialPrince/31453-03.htm"
+    }
+   ]
+  },
+  "Q00119_LastImperialPrince/31453-03.htm": {
+   "file": "Q00119_LastImperialPrince/31453-03.htm",
+   "quest": 119,
+   "text": "Nameless Spirit: He probably used the lullaby I heard when I was young . That has to be it! When I was young, my parents were always busy, so I was practically raised by my nurse! Sometimes when I couldn't fall asleep, the nurse would just smile with a sultry look and sing a beautiful lullaby. I'll…",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"I'll go.\"",
+     "bypass": "Quest Q00119_LastImperialPrince 31453-04.html",
+     "kind": "quest-event",
+     "script": "Q00119_LastImperialPrince",
+     "event": "31453-04.html",
+     "quest": 119,
+     "to": "Q00119_LastImperialPrince/31453-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00119_LastImperialPrince/31453-04.html": {
+   "file": "Q00119_LastImperialPrince/31453-04.html",
+   "quest": 119,
+   "text": "Nameless Spirit: Thank you! Honestly, I heard from an adventurer who stopped by that Nurse Devorin is still alive in Rune Township ! If you don't mind, would you go meet with her and learn the lyrics of the lullaby ? If you show Nurse Devorin the Antique Brooch, she'll know I sent you. Please, help…",
+   "header": "Nameless Spirit",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00119_LastImperialPrince/31453-10.html": {
+   "file": "Q00119_LastImperialPrince/31453-10.html",
+   "quest": 119,
+   "text": "Nameless Spirit: That's right! I remember now! \"Sleep now, my child, my beautiful rose blossom... Sleep now, my child, till the morning comes...\" ...... Sob! I'm sorry! It brings back such precious memories...",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"What are you going to do now?\"",
+     "bypass": "Quest Q00119_LastImperialPrince 31453-11.html",
+     "kind": "quest-event",
+     "script": "Q00119_LastImperialPrince",
+     "event": "31453-11.html",
+     "quest": 119,
+     "to": "Q00119_LastImperialPrince/31453-11.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00119_LastImperialPrince/31453-11.html": {
+   "file": "Q00119_LastImperialPrince/31453-11.html",
+   "quest": 119,
+   "text": "Nameless Spirit: First I must ask Wigoth if this song will get me through the force field... Thanks for all your help! Please accept this... It isn't much, but it's a token of my appreciation. By the way, could you come back to see me? I'll need your help with something else... I\"ll need to settle …",
+   "header": "Nameless Spirit",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00620_FourGoblets/31453-02.htm": {
+   "file": "Q00620_FourGoblets/31453-02.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: If we are to destroy them we must get the four goblets from them. You should look for the shadows of Halisha in the deepest part of the Four Sepulchers. Would you help me gather the four goblets? What do you have to lose? It'll be good for you!",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"What's in it for me?\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-03.htm",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-03.htm",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-03.htm"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-03.htm": {
+   "file": "Q00620_FourGoblets/31453-03.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: There are some very securely Sealed Boxes within the Four Sepulchers. They contain the treasures of the ancestors, and have been sealed against graverobbers with some extremely powerful magic. The demons are another very effective tool against thievery there. Sometimes, too effecti…",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"How will we open them?\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-04.htm",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-04.htm",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-04.htm"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-04.htm": {
+   "file": "Q00620_FourGoblets/31453-04.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: I've got just the guy for the job! He'll open them for you . Some of the boxes will be empty, but you'll get lucky eventually! You can keep everything you find! My friend collects relics of the Empire. Bring him some and he'll give you something nice! Oh! I almost forgot! There are…",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"What do I need?\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-05.htm",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-05.htm",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-05.htm"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-05.htm": {
+   "file": "Q00620_FourGoblets/31453-05.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: You must have a pass to enter the sepulcher . This is done to ensure the security of the sacred final resting place of the Emperors. It's given to nobles who come to worship here. Unfortunately, the worshippers stopped coming when the monsters moved in. Sigh...",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"Really?\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-06.htm",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-06.htm",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-06.htm"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-06.htm": {
+   "file": "Q00620_FourGoblets/31453-06.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: The nobles who unknowingly came here to worship were cruelly massacred by evil creatures. Maybe we could get the passes from their corpses! They won't be easy to find, however. The ghost of an adventurer that haunts the gate of the Imperial graveyard will give us one if we do him a…",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"What else is there?\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-07.htm",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-07.htm",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-07.htm"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-07.htm": {
+   "file": "Q00620_FourGoblets/31453-07.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: Entry to the sepulcher is only permitted at certain times. Only one party may enter at a time. All parties must have at least four members. When the gate opens, all party members should hurry inside to avoid being locked out. Once one party enters, no others may enter until the set…",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"What's different about it?\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-08.htm",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-08.htm",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-08.htm"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-08.htm": {
+   "file": "Q00620_FourGoblets/31453-08.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: When it is time for the party to leave the sepulcher, they are sent to the Pilgrim's Temple. You must defeat the shadow of Halisha before the next entry time. The sepulcher has several interconnected rooms, and you must find keys to open the locked doors. You can get the keys from …",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"Tell me more about the shadows of Halisha!\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-09.htm",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-09.htm",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-09.htm"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-09.htm": {
+   "file": "Q00620_FourGoblets/31453-09.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: Different shadows of Halisha inhabit each sepulcher. Each one has four different kinds of goblets. The four shadows are likely to appear in any location . This may turn out to be harder than you thought! Anyway, if you take the goblets from the shadows of Halisha, the door you came…",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"Then how do I get out?\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-10.htm",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-10.htm",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-10.htm"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-10.htm": {
+   "file": "Q00620_FourGoblets/31453-10.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: Naturally, I have a plan! After you defeat the shadows of Halisha, my friend will come and let you out . He'll teleport you to the Pilgrim's Temple and open the Sealed Boxes for you. My companion doesn't care for the shadows of Halisha, and he won't show up until they're all dead. …",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"The Pilgrim's Temple is very far from here!\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-11.htm",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-11.htm",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-11.htm"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-11.htm": {
+   "file": "Q00620_FourGoblets/31453-11.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: Don't worry! Show your used sepulcher pass to the ghost of Elmoreden's chamberlain at the Pilgrim's Temple. She'll teleport you here again. The pass will let her know that you've been here before. You can find another ghost of Elmoreden's chamberlain near the gate of the Wall of Ar…",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"I'll do it!\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-12.htm",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-12.htm",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-12.htm",
+     "effect": "start|cond:2"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-12.htm": {
+   "file": "Q00620_FourGoblets/31453-12.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: I'm counting on you! Come back when you've collected all four goblets . I'll take it from there. If you have any questions about the four sepulchers, just let me know!",
+   "header": "Nameless Spirit",
+   "sets": {
+    "start": true,
+    "cond": "2"
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00620_FourGoblets/31453-13.htm": {
+   "file": "Q00620_FourGoblets/31453-13.htm",
+   "quest": 620,
+   "text": "Nameless Spirit: Delusions of grandeur and venal greed has resulted in this holy sepulcher becoming infested with demons and other evil monsters. If I could, I would drive every one of those vile creatures from this sacred place! But unfortunately... Oh, never mind. Obviously, you're not ready! Com…",
+   "header": "Nameless Spirit",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00620_FourGoblets/31453-15.html": {
+   "file": "Q00620_FourGoblets/31453-15.html",
+   "quest": 620,
+   "text": "Nameless Spirit: I'll miss you. Thank you for your help.",
+   "header": "Nameless Spirit",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00620_FourGoblets/31453-16.html": {
+   "file": "Q00620_FourGoblets/31453-16.html",
+   "quest": 620,
+   "text": "Nameless Spirit: Excellent! I'll be counting on you!",
+   "header": "Nameless Spirit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00620_FourGoblets/31453-17.html": {
+   "file": "Q00620_FourGoblets/31453-17.html",
+   "quest": 620,
+   "text": "Nameless Spirit: What do you want to know?",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"Tell me about Sealed Boxes.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-18.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-18.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-18.html"
+    },
+    {
+     "text": "\"Tell me about the sepulcher pass.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-20.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-20.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-20.html"
+    },
+    {
+     "text": "\"Tell me how I can enter the sepulcher.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-21.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-21.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-21.html"
+    },
+    {
+     "text": "\"Tell me about the interior of the sepulcher.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-22.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-22.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-22.html"
+    },
+    {
+     "text": "\"Tell me about the shadows of Halisha and the four goblets.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-23.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-23.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-23.html"
+    },
+    {
+     "text": "\"Tell me about the Pilgrim's Temple.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-24.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-24.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-24.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-18.html": {
+   "file": "Q00620_FourGoblets/31453-18.html",
+   "quest": 620,
+   "text": "Nameless Spirit: You can get the Sealed Boxes from the evil creatures inside the four sepulchers. These boxes are sealed with an incredible magic, impervious to even the most determined graverobber! Defeat the shadows of Halisha and my friend will help you escape and open the Sealed Boxes for you. …",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-19.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-19.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-19.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-19.html": {
+   "file": "Q00620_FourGoblets/31453-19.html",
+   "quest": 620,
+   "text": "Nameless Spirit: By the way, my friend really hates the shadows of Halisha, and won't show up until you've defeated them. I don't have enough power to open the Sealed Boxes, so you'll need my companion to open them for you. My friend collects relics from the ancient Empire. Bring him some and he'll…",
+   "header": "Nameless Spirit",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00620_FourGoblets 31453-17.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-17.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-17.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-20.html": {
+   "file": "Q00620_FourGoblets/31453-20.html",
+   "quest": 620,
+   "text": "Nameless Spirit: Entry is restricted to those who possess a sepulcher pass. The nobles who unknowingly came here to worship were cruelly massacred by evil creatures. Maybe we could get the passes from their corpses! They won't be easy to find, however. The ghost of an adventurer that haunts the gat…",
+   "header": "Nameless Spirit",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00620_FourGoblets 31453-17.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-17.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-17.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-21.html": {
+   "file": "Q00620_FourGoblets/31453-21.html",
+   "quest": 620,
+   "text": "Nameless Spirit: Entry to the sepulcher is only permitted at certain times. Only one party may enter at a time. All parties must have at least four members. When the gate opens, all party members should hurry inside to avoid being locked out. Once one party enters, no others may enter until the set…",
+   "header": "Nameless Spirit",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00620_FourGoblets 31453-17.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-17.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-17.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-22.html": {
+   "file": "Q00620_FourGoblets/31453-22.html",
+   "quest": 620,
+   "text": "Nameless Spirit: When it is time for the party to leave the sepulcher, they are sent to the Pilgrim's Temple. You must defeat the shadow of Halisha before the next entry time. The sepulcher has several interconnected rooms, and you must find keys to open the locked doors. You can get the keys from …",
+   "header": "Nameless Spirit",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00620_FourGoblets 31453-17.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-17.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-17.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-23.html": {
+   "file": "Q00620_FourGoblets/31453-23.html",
+   "quest": 620,
+   "text": "Nameless Spirit: The shadow of Halisha is located in the last room of each sepulcher. Each sepulcher, of which there are four, has a different shadow. Each of the shadows has four goblets. By the way, the four shadows of Halisha change their location whenever they appear . This may turn out to be h…",
+   "header": "Nameless Spirit",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00620_FourGoblets 31453-17.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-17.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-17.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-24.html": {
+   "file": "Q00620_FourGoblets/31453-24.html",
+   "quest": 620,
+   "text": "Nameless Spirit: After defeating the Shadow of Halisha, a friend of mine will come and teleport you to the Pilgrim's Temple. He'll open the Sealed Boxes for you there... Of course, if you don't defeat the shadow of Halisha in time, you'll be sent to the Pilgrim's Temple. It's quite a distance from …",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"Yes, it is.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-25.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-25.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-25.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-25.html": {
+   "file": "Q00620_FourGoblets/31453-25.html",
+   "quest": 620,
+   "text": "Nameless Spirit: Don't worry! Show your used sepulcher pass to the ghost of Elmoreden's chamberlain at the Pilgrim's Temple. She'll teleport you back here. The pass proves that you've been here before. You can find another ghost of Elmoreden's chamberlain near the gate of the Wall of Argos.",
+   "header": "Nameless Spirit",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00620_FourGoblets 31453-17.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-17.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-17.html"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-27.html": {
+   "file": "Q00620_FourGoblets/31453-27.html",
+   "quest": 620,
+   "text": "Nameless Spirit: They were my royal guards, Alectia, Tishas, Mekara and Morigul! I thought I'd make them stronger than ever to protect myself and my treasures. I was not thinking too clearly at that time! So I gave them over to the demon, with catastrophic results! Well, we can't let all your hard …",
+   "header": "Nameless Spirit",
+   "links": [
+    {
+     "text": "\"What are you talking about?\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-28.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-28.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-28.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00620_FourGoblets/31453-28.html": {
+   "file": "Q00620_FourGoblets/31453-28.html",
+   "quest": 620,
+   "text": "Nameless Spirit: My guards weren't the only ones given over to the demon. I'll tell you more about that later. The restoration of the sepulchers will be hard work! You could help a lot by continuing to battle the creatures that infest that place! Oh, here's your reward for bringing the four goblets…",
+   "header": "Nameless Spirit",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"I want to stop.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-15.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-15.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-15.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"I want to continue.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-16.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-16.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-16.html"
+    },
+    {
+     "text": "\"Tell me more about the sepulcher.\"",
+     "bypass": "Quest Q00620_FourGoblets 31453-17.html",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "31453-17.html",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-17.html"
+    }
+   ]
+  },
+  "Q00654_JourneyToASettlement/31453-02.htm": {
+   "file": "Q00654_JourneyToASettlement/31453-02.htm",
+   "quest": 654,
+   "text": "Nameless Spirit: Yes, thank you! Now I'll help you and your friends pass through the force field. By the way, where are your friends? Surely you don't intend to take Frintezza on all by yourself, do you? You should take up to four parties with you. Frintezza's evil power won't be easily defeated! M…",
+   "header": "Nameless Spirit",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Unless...?\"",
+     "bypass": "Quest Q00654_JourneyToASettlement 31453-03.html",
+     "kind": "quest-event",
+     "script": "Q00654_JourneyToASettlement",
+     "event": "31453-03.html",
+     "quest": 654,
+     "to": "Q00654_JourneyToASettlement/31453-03.html",
+     "effect": "cond:2|reward"
+    }
+   ]
+  },
+  "Q00654_JourneyToASettlement/31453-07.html": {
+   "file": "Q00654_JourneyToASettlement/31453-07.html",
+   "quest": 654,
+   "text": "Nameless Spirit: Good job... Now to write down the spell... .... Light turns darkness away, and shines upon the hidden door. All obstacles will disappear and the path to truth will become clear ... Alright, it's done. Now, you and your friends go and meet the Imperial Tomb Guide near the entrance o…",
+   "header": "Nameless Spirit",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Last Imperial Prince]",
+     "bypass": "npc_%objectId%_Quest Q00119_LastImperialPrince",
+     "kind": "quest",
+     "quest": 119,
+     "to": "Q00119_LastImperialPrince/31453-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Last Imperial Prince (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00119_LastImperialPrince",
+     "kind": "quest",
+     "quest": 119,
+     "to": "Q00119_LastImperialPrince/31453-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Four Goblets]",
+     "bypass": "npc_%objectId%_Quest Q00620_FourGoblets",
+     "kind": "quest",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Four Goblets (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00620_FourGoblets",
+     "kind": "quest",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31453-26.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Journey to a Settlement]",
+     "bypass": "npc_%objectId%_Quest Q00654_JourneyToASettlement",
+     "kind": "quest",
+     "quest": 654,
+     "to": "Q00654_JourneyToASettlement/31453-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Journey to a Settlement (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00654_JourneyToASettlement",
+     "kind": "quest",
+     "quest": 654,
+     "to": "Q00654_JourneyToASettlement/31453-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

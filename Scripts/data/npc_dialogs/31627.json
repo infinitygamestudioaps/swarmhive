@@ -1,0 +1,917 @@
+{
+ "npcId": 31627,
+ "name": "Mist",
+ "title": "Information Broker",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.248Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31627.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "37": {
+   "name": "Make Formal Wear",
+   "listText": [
+    "[Make Formal Wear]",
+    "[Make Formal Wear (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00037_MakeFormalWear/31627-01.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00037_MakeFormalWear/31627-03.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "67": {
+   "name": "Saga of the Doombringer",
+   "listText": [
+    "[Saga of the Doombringer]",
+    "[Saga of the Doombringer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00067_SagaOfTheDoombringer/1-01.htm",
+     "when": "cond 2; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00067_SagaOfTheDoombringer/1-03.htm",
+     "when": "cond 3; has items 7080; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00067_SagaOfTheDoombringer/1-02.htm",
+     "when": "cond 3; has items 7080; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00067_SagaOfTheDoombringer/1-04.htm",
+     "when": "cond 4; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "82": {
+   "name": "Saga of the Sagittarius",
+   "listText": [
+    "[Saga of the Sagittarius]",
+    "[Saga of the Sagittarius (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00082_SagaOfTheSagittarius/1-01.htm",
+     "when": "cond 2; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00082_SagaOfTheSagittarius/1-03.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00082_SagaOfTheSagittarius/1-02.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00082_SagaOfTheSagittarius/1-04.htm",
+     "when": "cond 4; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "83": {
+   "name": "Saga of the Moonlight Sentinel",
+   "listText": [
+    "[Saga of the Moonlight Sentinel]",
+    "[Saga of the Moonlight Sentinel (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00083_SagaOfTheMoonlightSentinel/1-01.htm",
+     "when": "cond 2; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00083_SagaOfTheMoonlightSentinel/1-03.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00083_SagaOfTheMoonlightSentinel/1-02.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00083_SagaOfTheMoonlightSentinel/1-04.htm",
+     "when": "cond 4; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "88": {
+   "name": "Saga of the Archmage",
+   "listText": [
+    "[Saga of the Archmage]",
+    "[Saga of the Archmage (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00088_SagaOfTheArchmage/1-01.htm",
+     "when": "cond 2; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00088_SagaOfTheArchmage/1-03.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00088_SagaOfTheArchmage/1-02.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00088_SagaOfTheArchmage/1-04.htm",
+     "when": "cond 4; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "89": {
+   "name": "Saga of the Mystic Muse",
+   "listText": [
+    "[Saga of the Mystic Muse]",
+    "[Saga of the Mystic Muse (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00089_SagaOfTheMysticMuse/1-01.htm",
+     "when": "cond 2; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00089_SagaOfTheMysticMuse/1-03.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00089_SagaOfTheMysticMuse/1-02.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00089_SagaOfTheMysticMuse/1-04.htm",
+     "when": "cond 4; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "90": {
+   "name": "Saga of the Storm Screamer",
+   "listText": [
+    "[Saga of the Storm Screamer]",
+    "[Saga of the Storm Screamer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/1-01.htm",
+     "when": "cond 2; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/1-03.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/1-02.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/1-04.htm",
+     "when": "cond 4; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31627.htm": {
+   "file": "default/31627.htm",
+   "quest": null,
+   "text": "Information Broker Mist: Who do you think you are? Can't you see I'm spending quality time with my granddaughter? You just couldn't resist, eh? Hmm... You've got a good eye! She's very pretty, isn't she?! Her name's Lilly. Her parents died when she was quite young! I've raised her as my own... She'…",
+   "header": "Information Broker Mist",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00037_MakeFormalWear/31627-01.html": {
+   "file": "Q00037_MakeFormalWear/31627-01.html",
+   "quest": 37,
+   "text": "Information Broker Mist: Do you have the wine I ordered?",
+   "header": "Information Broker Mist",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the wine.\"",
+     "bypass": "Quest Q00037_MakeFormalWear 31627-02.html",
+     "kind": "quest-event",
+     "script": "Q00037_MakeFormalWear",
+     "event": "31627-02.html",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/31627-02.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00037_MakeFormalWear/31627-03.html": {
+   "file": "Q00037_MakeFormalWear/31627-03.html",
+   "quest": 37,
+   "text": "Information Broker Mist: Why are you back? Don't bother me! Speak with Jeremy !",
+   "header": "Information Broker Mist",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/1-01.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/1-01.htm",
+   "quest": 67,
+   "text": "Information Broker Mist: Quick freeze device? Master Duroga sent you, eh? Hmm... Well, this is essential for enjoying sherbert after a dip in the hot springs... But since I owe Duroga a favor, I suppose I can lend it to you. Unfortunately, it's power source is all but depleted right now.",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 2; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Then what should I do?\"",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 1-3",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "1-3",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/1-05.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/1-03.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/1-03.htm",
+   "quest": 67,
+   "text": "Information Broker Mist: Ah, you have finally brought an Ice Crystal! Give it to me.",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "links": [
+    {
+     "text": "Hand over the Ice Crystal.",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 1-4",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "1-4",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/1-06.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/1-02.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/1-02.htm",
+   "quest": 67,
+   "text": "Information Broker Mist: If you get Ice Crystals from Chef Jeremy, then I will give you the Freezer.",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/1-04.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/1-04.htm",
+   "quest": 67,
+   "text": "Information Broker Mist: Now, take that quick freeze device to Duroga. Be sure to tell Duroga that I want it returned ASAP!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 4; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00082_SagaOfTheSagittarius/1-01.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/1-01.htm",
+   "quest": 82,
+   "text": "Information Broker Mist: My granddaughter Lilly took first place at an event, and you'll get her anything she wants as her prize? Are you joking? Well, there is one thing she really loves...",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 2; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q00082_SagaOfTheSagittarius 1-3",
+     "kind": "quest-event",
+     "script": "Q00082_SagaOfTheSagittarius",
+     "event": "1-3",
+     "quest": 82,
+     "to": "Q00082_SagaOfTheSagittarius/1-05.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00082_SagaOfTheSagittarius/1-03.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/1-03.htm",
+   "quest": 82,
+   "text": "Information Broker Mist: Now I can make her a bowl of Shaved Ice!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the ice crystal.\"",
+     "bypass": "Quest Q00082_SagaOfTheSagittarius 1-4",
+     "kind": "quest-event",
+     "script": "Q00082_SagaOfTheSagittarius",
+     "event": "1-4",
+     "quest": 82,
+     "to": "Q00082_SagaOfTheSagittarius/1-06.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00082_SagaOfTheSagittarius/1-02.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/1-02.htm",
+   "quest": 82,
+   "text": "Information Broker Mist: My granddaughter won first prize at an event and you'll bring her anything she wants? Are you joking?",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00082_SagaOfTheSagittarius/1-04.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/1-04.htm",
+   "quest": 82,
+   "text": "Information Broker Mist: Thank you! I'm happy when she's happy!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 4; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/1-01.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/1-01.htm",
+   "quest": 83,
+   "text": "Information Broker Mist: My granddaughter Lilly took first place at an event, and you'll get her anything she wants as her prize? Are you joking? Well, there is one thing she really loves...",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 2; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q00083_SagaOfTheMoonlightSentinel 1-3",
+     "kind": "quest-event",
+     "script": "Q00083_SagaOfTheMoonlightSentinel",
+     "event": "1-3",
+     "quest": 83,
+     "to": "Q00083_SagaOfTheMoonlightSentinel/1-05.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/1-03.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/1-03.htm",
+   "quest": 83,
+   "text": "Information Broker Mist: Now I can make her a bowl of Ice Cream!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the ice crystal.\"",
+     "bypass": "Quest Q00083_SagaOfTheMoonlightSentinel 1-4",
+     "kind": "quest-event",
+     "script": "Q00083_SagaOfTheMoonlightSentinel",
+     "event": "1-4",
+     "quest": 83,
+     "to": "Q00083_SagaOfTheMoonlightSentinel/1-06.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/1-02.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/1-02.htm",
+   "quest": 83,
+   "text": "Information Broker Mist: My granddaughter won first prize at an event and you'll bring her anything she wants? Are you joking?",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/1-04.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/1-04.htm",
+   "quest": 83,
+   "text": "Information Broker Mist: Thank you! I'm happy when she's happy!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 4; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/1-01.htm": {
+   "file": "Q00088_SagaOfTheArchmage/1-01.htm",
+   "quest": 88,
+   "text": "Information Broker Mist: I know the truth seeker is pretending to be Magister Justin of Goddard Castle Town. I have the report he requested. This investigation was difficult, so I can't give it for free!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 2; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What do you want?\"",
+     "bypass": "Quest Q00088_SagaOfTheArchmage 1-3",
+     "kind": "quest-event",
+     "script": "Q00088_SagaOfTheArchmage",
+     "event": "1-3",
+     "quest": 88,
+     "to": "Q00088_SagaOfTheArchmage/1-05.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00088_SagaOfTheArchmage/1-03.htm": {
+   "file": "Q00088_SagaOfTheArchmage/1-03.htm",
+   "quest": 88,
+   "text": "Information Broker Mist: You brought the ice crystal!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00088_SagaOfTheArchmage 1-4",
+     "kind": "quest-event",
+     "script": "Q00088_SagaOfTheArchmage",
+     "event": "1-4",
+     "quest": 88,
+     "to": "Q00088_SagaOfTheArchmage/1-06.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00088_SagaOfTheArchmage/1-02.htm": {
+   "file": "Q00088_SagaOfTheArchmage/1-02.htm",
+   "quest": 88,
+   "text": "Information Broker Mist: Bring me some Ice Crystals and I'll give you the report I prepared for the Truth Scholar. You should be able to get some from Chef Jeremy if you help him prepare for the upcoming cooking competition.",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/1-04.htm": {
+   "file": "Q00088_SagaOfTheArchmage/1-04.htm",
+   "quest": 88,
+   "text": "Information Broker Mist: Take the report to the truth seeker, who is pretending to be Magister Justin in Goddard Castle Town!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 4; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/1-01.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/1-01.htm",
+   "quest": 89,
+   "text": "Information Broker Mist: I know the silver light wanderer is pretending to be Magister Alminas of Goddard Castle Town. I have the report he requested. This investigation was difficult, so I can't give it for free!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 2; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What do you want?\"",
+     "bypass": "Quest Q00089_SagaOfTheMysticMuse 1-3",
+     "kind": "quest-event",
+     "script": "Q00089_SagaOfTheMysticMuse",
+     "event": "1-3",
+     "quest": 89,
+     "to": "Q00089_SagaOfTheMysticMuse/1-05.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00089_SagaOfTheMysticMuse/1-03.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/1-03.htm",
+   "quest": 89,
+   "text": "Information Broker Mist: You brought the ice crystal!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00089_SagaOfTheMysticMuse 1-4",
+     "kind": "quest-event",
+     "script": "Q00089_SagaOfTheMysticMuse",
+     "event": "1-4",
+     "quest": 89,
+     "to": "Q00089_SagaOfTheMysticMuse/1-06.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00089_SagaOfTheMysticMuse/1-02.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/1-02.htm",
+   "quest": 89,
+   "text": "Information Broker Mist: Bring me some Ice Crystals and I'll give you the report I prepared for the Truth Scholar. You should be able to get some from Chef Jeremy if you help him prepare for the upcoming cooking contest.",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/1-04.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/1-04.htm",
+   "quest": 89,
+   "text": "Information Broker Mist: Give the Investigative Report to the silver light wanderer who is pretending to be Magister Alminas in Goddard Castle Town!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 4; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/1-01.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/1-01.htm",
+   "quest": 90,
+   "text": "Information Broker Mist: I know that M.B. is pretending to be Magister Kamilen of Goddard Castle Town. I have the report she requested. This investigation was difficult, so I can't give it for free!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 2; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What do you want?\"",
+     "bypass": "Quest Q00090_SagaOfTheStormScreamer 1-3",
+     "kind": "quest-event",
+     "script": "Q00090_SagaOfTheStormScreamer",
+     "event": "1-3",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/1-05.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00090_SagaOfTheStormScreamer/1-03.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/1-03.htm",
+   "quest": 90,
+   "text": "Information Broker Mist: You've brought the ice crystal!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00090_SagaOfTheStormScreamer 1-4",
+     "kind": "quest-event",
+     "script": "Q00090_SagaOfTheStormScreamer",
+     "event": "1-4",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/1-06.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00090_SagaOfTheStormScreamer/1-02.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/1-02.htm",
+   "quest": 90,
+   "text": "Information Broker Mist: Bring me some Ice Crystals and I'll give you the report I prepared for the Truth Scholar. If you help Chef Jeremy prepare for the cooking contest, he'll probably give you some.",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/1-04.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/1-04.htm",
+   "quest": 90,
+   "text": "Information Broker Mist: Take the report to M.B., who is pretending to be Magister Kamilen in Goddard Castle Town!",
+   "header": "Information Broker Mist",
+   "when": [
+    "cond 4; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/31627-02.html": {
+   "file": "Q00037_MakeFormalWear/31627-02.html",
+   "quest": 37,
+   "text": "Information Broker Mist: It's not cold anymore! You look like a newbie. Next time, try harder. Tell Jeremy I got the wine and thank him.",
+   "header": "Information Broker Mist",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/1-05.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/1-05.htm",
+   "quest": 67,
+   "text": "Information Broker Mist: How? Get Ice Crystals from Chef Jeremy. He is in a spot of trouble because of the upcoming cooking competition, and I am sure he would reward you for helping him.",
+   "header": "Information Broker Mist",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/1-06.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/1-06.htm",
+   "quest": 67,
+   "text": "Information Broker Mist: Put the Ice Crystal here. Now insert the power source... And...it works! Ha ha! Now, take this quick freeze device to Duroga. Be sure to tell Duroga that I want it returned ASAP!",
+   "header": "Information Broker Mist",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00082_SagaOfTheSagittarius/1-05.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/1-05.htm",
+   "quest": 82,
+   "text": "Information Broker Mist: Well, I suppose it wouldn't hurt to tell you the story... In the past, I made a Shaved Ice dessert for my granddaughter, and she loved it very much, but the ingredients are quite rare! The rarest and most important of the ingredients are ice crystals. The last time I got so…",
+   "header": "Information Broker Mist",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00082_SagaOfTheSagittarius/1-06.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/1-06.htm",
+   "quest": 82,
+   "text": "Information Broker Mist: Yummy! Why don't you take some with you? I'll wrap it in ice crystal to keep it cold!",
+   "header": "Information Broker Mist",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/1-05.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/1-05.htm",
+   "quest": 83,
+   "text": "Information Broker Mist: Well, I suppose it wouldn't hurt to tell you the story... In the past, I made a Shaved Ice dessert for my granddaughter, and she loved it very much, but the ingredients are quite rare! The rarest and most important of the ingredients are ice crystals. The last time I got so…",
+   "header": "Information Broker Mist",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/1-06.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/1-06.htm",
+   "quest": 83,
+   "text": "Information Broker Mist: Yummy! Why don't you take some with you? I'll wrap it in ice crystal to keep it cold!",
+   "header": "Information Broker Mist",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/1-05.htm": {
+   "file": "Q00088_SagaOfTheArchmage/1-05.htm",
+   "quest": 88,
+   "text": "Information Broker Mist: I've heard that you can find Ice Crystals in this hot springs area. I've been suffering from chronic back pain lately, and I'd like to make an ice pack with some of the crystals. Chef Jeremy is worried about the upcoming cooking contest, and will give you some ice crystals …",
+   "header": "Information Broker Mist",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/1-06.htm": {
+   "file": "Q00088_SagaOfTheArchmage/1-06.htm",
+   "quest": 88,
+   "text": "Information Broker Mist: Ah! So nice and cool. Now my back ache is gone! Give this report to the truth seeker .",
+   "header": "Information Broker Mist",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/1-05.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/1-05.htm",
+   "quest": 89,
+   "text": "Information Broker Mist: I've heard that you can find Ice Crystals in this hot springs area. I've been suffering from chronic back pain lately, and I'd like to try to make an ice pack with them. Help Chef Jeremy prepare for the upcoming cooking competition and he'll give you some.",
+   "header": "Information Broker Mist",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/1-06.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/1-06.htm",
+   "quest": 89,
+   "text": "Information Broker Mist: Ah! So nice and cool. Now my back ache is gone! Give this report to the silver light wanderer .",
+   "header": "Information Broker Mist",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/1-05.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/1-05.htm",
+   "quest": 90,
+   "text": "Information Broker Mist: I've heard that you can find Ice Crystals in this hot springs area. I've been suffering from chronic back pain lately, and I'd like to try to make an ice pack with them. Help Chef Jeremy prepare for the upcoming cooking competition and he'll give you some.",
+   "header": "Information Broker Mist",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/1-06.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/1-06.htm",
+   "quest": 90,
+   "text": "Information Broker Mist: Ah! So nice and cool. Now my back ache is gone! Give this report to M.B. .",
+   "header": "Information Broker Mist",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Make Formal Wear (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00037_MakeFormalWear",
+     "kind": "quest",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/31627-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Doombringer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00067_SagaOfTheDoombringer",
+     "kind": "quest",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/1-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Sagittarius (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00082_SagaOfTheSagittarius",
+     "kind": "quest",
+     "quest": 82,
+     "to": "Q00082_SagaOfTheSagittarius/1-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Moonlight Sentinel (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00083_SagaOfTheMoonlightSentinel",
+     "kind": "quest",
+     "quest": 83,
+     "to": "Q00083_SagaOfTheMoonlightSentinel/1-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Archmage (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00088_SagaOfTheArchmage",
+     "kind": "quest",
+     "quest": 88,
+     "to": "Q00088_SagaOfTheArchmage/1-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Mystic Muse (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00089_SagaOfTheMysticMuse",
+     "kind": "quest",
+     "quest": 89,
+     "to": "Q00089_SagaOfTheMysticMuse/1-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Storm Screamer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00090_SagaOfTheStormScreamer",
+     "kind": "quest",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/1-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

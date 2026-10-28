@@ -1,0 +1,107 @@
+{
+ "npcId": 31513,
+ "name": "Evil Altar",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.209Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31513.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "16": {
+   "name": "The Coming Darkness",
+   "listText": [
+    "[The Coming Darkness]",
+    "[The Coming Darkness (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00016_TheComingDarkness/31513-00.html",
+     "when": "state STARTED; (npcId - 31511) == st.getCond()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00016_TheComingDarkness/31513-01.html",
+     "when": "state STARTED; !(npcId - 31511) == st.getCond()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31513.htm": {
+   "file": "default/31513.htm",
+   "quest": null,
+   "text": "Evil Altar: Althought this altar look ordinary, for some reason, it seems like my soul has been dragged into a pool of sticky mud! The altar appears to be sealed.",
+   "header": "Evil Altar",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00016_TheComingDarkness/31513-00.html": {
+   "file": "Q00016_TheComingDarkness/31513-00.html",
+   "quest": 16,
+   "text": "Evil Altar: As with the previous altar, there is a space underneath where the crystal will easily fit.",
+   "header": "Evil Altar",
+   "when": [
+    "state STARTED; (npcId - 31511) == st.getCond()"
+   ],
+   "links": [
+    {
+     "text": "Place the crystal in the space under the altar.",
+     "bypass": "Quest Q00016_TheComingDarkness 31513-01.html",
+     "kind": "quest-event",
+     "script": "Q00016_TheComingDarkness",
+     "event": "31513-01.html",
+     "quest": 16,
+     "to": "Q00016_TheComingDarkness/31513-01.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00016_TheComingDarkness/31513-01.html": {
+   "file": "Q00016_TheComingDarkness/31513-01.html",
+   "quest": 16,
+   "text": "Evil Altar: The seal is loosening! The power is getting stronger. Find the next altar.",
+   "header": "Evil Altar",
+   "when": [
+    "state STARTED; !(npcId - 31511) == st.getCond()"
+   ],
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Coming Darkness (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00016_TheComingDarkness",
+     "kind": "quest",
+     "quest": 16,
+     "to": "Q00016_TheComingDarkness/31513-00.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

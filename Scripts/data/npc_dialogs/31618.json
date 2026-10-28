@@ -1,0 +1,219 @@
+{
+ "npcId": 31618,
+ "name": "Moon Voice Irene",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.245Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00072_SagaOfTheSwordMuse/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 72"
+  },
+  {
+   "page": "Q00072_SagaOfTheSwordMuse/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 72"
+  },
+  {
+   "page": "Q00072_SagaOfTheSwordMuse/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 72"
+  },
+  {
+   "page": "Q00072_SagaOfTheSwordMuse/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 72"
+  },
+  {
+   "page": "Q00072_SagaOfTheSwordMuse/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 72"
+  },
+  {
+   "page": "Q00072_SagaOfTheSwordMuse/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 72"
+  },
+  {
+   "page": "Q00072_SagaOfTheSwordMuse/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 72"
+  },
+  {
+   "page": "Q00072_SagaOfTheSwordMuse/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 72"
+  }
+ ],
+ "quests": {
+  "72": {
+   "name": "Saga of the Sword Muse",
+   "listText": [
+    "[Saga of the Sword Muse]",
+    "[Saga of the Sword Muse (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00072_SagaOfTheSwordMuse/4-04.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/4-04.htm",
+   "quest": 72,
+   "text": "Moonvoice Irene: I'm glad you're here. Together we will surely win. A trick of the dark arts forces people to listen and applaud. This is not the song of Eva!",
+   "header": "Moonvoice Irene",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/4-06.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/4-06.htm",
+   "quest": 72,
+   "text": "Moonvoice Irene: It's gone! That creature is trying to corrupt swordsingers. A singer doesn't just sing by herself, that would make you lonely! A singer exists for the audience, to make them happy and comfort them when they are sad.",
+   "header": "Moonvoice Irene",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"I agree.\"",
+     "bypass": "Quest Q00072_SagaOfTheSwordMuse 4-1",
+     "kind": "quest-event",
+     "script": "Q00072_SagaOfTheSwordMuse",
+     "event": "4-1",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/4-010.htm"
+    }
+   ]
+  },
+  "Q00072_SagaOfTheSwordMuse/4-01.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/4-01.htm",
+   "quest": 72,
+   "text": "Moonvoice Irene: Songs should be used for healing, not for seduction. Be careful how you use them!",
+   "header": "Moonvoice Irene",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/4-03.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/4-03.htm",
+   "quest": 72,
+   "text": "Moonvoice Irene: He got away!",
+   "header": "Moonvoice Irene",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/4-05.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/4-05.htm",
+   "quest": 72,
+   "text": "Moonvoice Irene: This is not a good time to chat!",
+   "header": "Moonvoice Irene",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/4-07.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/4-07.htm",
+   "quest": 72,
+   "text": "Moonvoice Irene: It's gone! That creature is trying to corrupt swordsingers. A singer doesn't just sing by herself, that would make you lonely! A singer exists for the audience, to make them happy and comfort them when they are sad.",
+   "header": "Moonvoice Irene",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"I agree.\"",
+     "bypass": "Quest Q00072_SagaOfTheSwordMuse 4-2",
+     "kind": "quest-event",
+     "script": "Q00072_SagaOfTheSwordMuse",
+     "event": "4-2",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00072_SagaOfTheSwordMuse/4-02.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/4-02.htm",
+   "quest": 72,
+   "text": "Moonvoice Irene: Now's not a good time! This is dangerous, get back!",
+   "header": "Moonvoice Irene",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/4-08.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/4-08.htm",
+   "quest": 72,
+   "text": "Moonvoice Irene: Sorry, I'm busy now. Go to the stone tablet!",
+   "header": "Moonvoice Irene",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/4-010.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/4-010.htm",
+   "quest": 72,
+   "text": "Moonvoice Irene: You're a great singer! Take this Stone of Commune to complete your pilgrimage. I must recover from that attack. Hold onto your good heart and always embrace others with Eva's melody. Do not surrender to seduction!",
+   "header": "Moonvoice Irene",
+   "links": [
+    {
+     "text": "\"I'll take it.\"",
+     "bypass": "Quest Q00072_SagaOfTheSwordMuse 4-3",
+     "kind": "quest-event",
+     "script": "Q00072_SagaOfTheSwordMuse",
+     "event": "4-3",
+     "quest": 72,
+     "to": null,
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00072_SagaOfTheSwordMuse/4-011.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/4-011.htm",
+   "quest": 72,
+   "text": "Moonvoice Irene: You're a great singer! Take this Stone of Commune to complete your pilgrimage. I must recover from that attack. Hold onto your good heart and always embrace others with Eva's melody. Do not surrender to seduction!",
+   "header": "Moonvoice Irene",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/4-09.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/4-09.htm",
+   "quest": 72,
+   "text": "Moonvoice Irene: Why haven't you communed with the stone tablet yet?",
+   "header": "Moonvoice Irene",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Sword Muse (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00072_SagaOfTheSwordMuse",
+     "kind": "quest",
+     "quest": 72,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

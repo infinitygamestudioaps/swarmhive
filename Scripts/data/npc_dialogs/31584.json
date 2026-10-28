@@ -1,0 +1,232 @@
+{
+ "npcId": 31584,
+ "name": "Valentine",
+ "title": "Brewer",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.237Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31584.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "79": {
+   "name": "Saga of the Adventurer",
+   "listText": [
+    "[Saga of the Adventurer]",
+    "[Saga of the Adventurer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00079_SagaOfTheAdventurer/1-01.htm",
+     "when": "cond 2; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00079_SagaOfTheAdventurer/1-03.htm",
+     "when": "cond 3; has items 7080; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00079_SagaOfTheAdventurer/1-02.htm",
+     "when": "cond 3; has items 7080; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00079_SagaOfTheAdventurer/1-04.htm",
+     "when": "cond 4; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "621": {
+   "name": "Egg Delivery",
+   "listText": [
+    "[Egg Delivery]",
+    "[Egg Delivery (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00621_EggDelivery/31584-01.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31584.htm": {
+   "file": "default/31584.htm",
+   "quest": null,
+   "text": "Brewer Valentine: Come on in friend! Tell me a story and I'll give you to a cold bottle of beer! What do you say? How are things in the outside world? I spend all my time brewing beer, so I have no idea what's going on out there! Ha! I'd probably stop brewing if my customers would let me!",
+   "header": "Brewer Valentine",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/1-01.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/1-01.htm",
+   "quest": 79,
+   "text": "Valentine: Did Klaus order some ice liquor? Hmm... How strange! He knows very well how rare that stuff is! If I'm to make some, I'll need some ingredients. Would you be willing to bring them to me?",
+   "header": "Valentine",
+   "when": [
+    "cond 2; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it!\"",
+     "bypass": "Quest Q00079_SagaOfTheAdventurer 1-3",
+     "kind": "quest-event",
+     "script": "Q00079_SagaOfTheAdventurer",
+     "event": "1-3",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/1-05.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/1-03.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/1-03.htm",
+   "quest": 79,
+   "text": "Valentine: What impeccable timing you have! I'm about ready to start brewing. Hand over the ice crystal and I'll make the liquor right away.",
+   "header": "Valentine",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "links": [
+    {
+     "text": "\"Here you go!\"",
+     "bypass": "Quest Q00079_SagaOfTheAdventurer 1-4",
+     "kind": "quest-event",
+     "script": "Q00079_SagaOfTheAdventurer",
+     "event": "1-4",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/1-06.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/1-02.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/1-02.htm",
+   "quest": 79,
+   "text": "Valentine: Bring me an ice crystal and I'll make ice liquor.",
+   "header": "Valentine",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/1-04.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/1-04.htm",
+   "quest": 79,
+   "text": "Black Cat: Klaus must be very thirsty by now! Hurry up!",
+   "header": "Black Cat",
+   "when": [
+    "cond 4; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00621_EggDelivery/31584-01.html": {
+   "file": "Q00621_EggDelivery/31584-01.html",
+   "quest": 621,
+   "text": "Brewer Valentine: Would you like a drink? What is it that you want?",
+   "header": "Brewer Valentine",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "links": [
+    {
+     "text": "\"Jeremy sent me.\"",
+     "bypass": "Quest Q00621_EggDelivery 31584-02.html",
+     "kind": "quest-event",
+     "script": "Q00621_EggDelivery",
+     "event": "31584-02.html",
+     "quest": 621,
+     "to": "Q00621_EggDelivery/31584-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/1-05.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/1-05.htm",
+   "quest": 79,
+   "text": "Valentine: Very well, if you feel that strongly about it, I'll tell you! Ice liquor can only be made from ice crystals . You should meet with Chef Jeremy . Perhaps if you help him, he might let you know where to find ice crystals .",
+   "header": "Valentine",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/1-06.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/1-06.htm",
+   "quest": 79,
+   "text": "Valentine: Here it is! You gave me more than enough ice crystals, so I made a few extra bottles of ice liquor for myself! I should be the one who's grateful! Ha!",
+   "header": "Valentine",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00621_EggDelivery/31584-02.html": {
+   "file": "Q00621_EggDelivery/31584-02.html",
+   "quest": 621,
+   "text": "Brewer Valentine: Jeremy? He wants to be paid?... I thought this matter was settled! I distinctly remember paying you before!",
+   "header": "Brewer Valentine",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Adventurer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00079_SagaOfTheAdventurer",
+     "kind": "quest",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/1-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Egg Delivery (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00621_EggDelivery",
+     "kind": "quest",
+     "quest": 621,
+     "to": "Q00621_EggDelivery/31584-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

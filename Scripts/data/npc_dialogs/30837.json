@@ -1,0 +1,248 @@
+{
+ "npcId": 30837,
+ "name": "Woodrow",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.078Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30837.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "362": {
+   "name": "Bard's Mandolin",
+   "listText": [
+    "[Bard's Mandolin]",
+    "[Bard's Mandolin (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00362_BardsMandolin/30837-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00362_BardsMandolin/30837-02.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00362_BardsMandolin/30837-03.html",
+     "when": "state STARTED; st.getMemoState() >= 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30837.htm": {
+   "file": "merchant/30837.htm",
+   "quest": null,
+   "text": "Trader Woodrow: Welcome, customer! Welcome to Aden, the largest and most splendid city on the continent! As you have already seen, this town is surrounded by a magnificent wall, which is supported by massive columns. Beautiful and practical -- how could our capital have less?",
+   "header": "Trader Woodrow",
+   "live": {
+    "file": "Logs/npclive_Woodrow_9b21b8ed.html",
+    "at": "2026-10-27T14:33:07.772Z",
+    "score": 0.3
+   },
+   "dpText": "Trader Woodrow: Hello, customer! Welcome to Aden, the largest and most splendid city on the continent! Doesn't it take your breath away? The perfect setting for the capital of the whole kingdom!",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30837-1.htm",
+     "live": true
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3083700",
+     "kind": "shop",
+     "live": true
+    },
+    {
+     "text": "Try on Mystic equipment.",
+     "bypass": "npc_%objectId%_Wear 3083701",
+     "kind": "shop",
+     "live": true,
+     "dpText": "Try on Wizard equipment."
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other",
+     "live": true
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true,
+     "dpText": "Quest"
+    }
+   ]
+  },
+  "merchant/30837-1.htm": {
+   "file": "merchant/30837-1.htm",
+   "quest": null,
+   "text": "Trader Woodrow: There must be something you need. What can I bring you?",
+   "header": "Trader Woodrow",
+   "live": {
+    "file": "Logs/npclive_Woodrow_b5ebeebb.html",
+    "at": "2026-10-27T14:33:08.077Z",
+    "score": 0.62
+   },
+   "dpText": "Trader Woodrow: There must be something here you like! What can I do for you?",
+   "links": [
+    {
+     "text": "Trade Fighter Equipment.",
+     "bypass": "npc_%objectId%_Buy 3083700",
+     "kind": "shop",
+     "live": true,
+     "dpText": "Buy equipment for Fighters."
+    },
+    {
+     "text": "Trade Mystic Equipment.",
+     "bypass": "npc_%objectId%_Buy 3083701",
+     "kind": "shop",
+     "live": true,
+     "dpText": "Buy equipment for Wizards."
+    },
+    {
+     "text": "Trade Common Items for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3083702",
+     "kind": "shop",
+     "live": true,
+     "dpText": "Buy Fighter Common Items."
+    },
+    {
+     "text": "Trade Common Items for Mystics.",
+     "bypass": "npc_%objectId%_Buy 3083703",
+     "kind": "shop",
+     "live": true,
+     "dpText": "Buy Wizard Common Items."
+    },
+    {
+     "text": "Trade a Shadow Item.",
+     "bypass": "npc_%objectId%_BuyShadowItem",
+     "kind": "shop",
+     "live": true,
+     "dpText": "Buy a Shadow item."
+    }
+   ]
+  },
+  "merchant/30837-pk.htm": {
+   "file": "merchant/30837-pk.htm",
+   "quest": null,
+   "text": "Trader Woodrow: Get out of here! I don't have the time or patience for the likes of you! I only cater to a dignified clientele. Leave immediately or I shall call the guards!",
+   "header": "Trader Woodrow",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00362_BardsMandolin/30837-01.html": {
+   "file": "Q00362_BardsMandolin/30837-01.html",
+   "quest": 362,
+   "text": "Trader Woodrow: Ah, you mean the flute that Swan ordered? It must have arrived at Giran Harbor by now... If you're in a hurry, you can go directly to the harbor and pick it up. I'll give you the item number so you can pick it up from Gallion at the harbor.",
+   "header": "Trader Woodrow",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00362_BardsMandolin/30837-02.html": {
+   "file": "Q00362_BardsMandolin/30837-02.html",
+   "quest": 362,
+   "text": "Trader Woodrow: Didn't you say that you desperately need the flute? It will take a long time for it to be shipped here. Why don't you go directly to Giran Harbor and pick it up? Give the item number I gave you to Gallion at the harbor.",
+   "header": "Trader Woodrow",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00362_BardsMandolin/30837-03.html": {
+   "file": "Q00362_BardsMandolin/30837-03.html",
+   "quest": 362,
+   "text": "Trader Woodrow: So, we meet again! Please give my regards to Mr. Swan.",
+   "header": "Trader Woodrow",
+   "when": [
+    "state STARTED; st.getMemoState() >= 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Bard's Mandolin (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00362_BardsMandolin",
+     "kind": "quest",
+     "quest": 362,
+     "to": "Q00362_BardsMandolin/30837-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of merchant/30837.htm differs: live \"Trader Woodrow: Welcome, customer! Welcome to Aden, the largest and most splendid city on…\" vs datapack \"Trader Woodrow: Hello, customer! Welcome to Aden, the largest and most splendid city on t…\"",
+  "merchant/30837.htm: link \"Try on Wizard equipment.\" is \"Try on Mystic equipment.\" live",
+  "text of merchant/30837-1.htm differs: live \"Trader Woodrow: There must be something you need. What can I bring you?\" vs datapack \"Trader Woodrow: There must be something here you like! What can I do for you?\"",
+  "merchant/30837-1.htm: link \"Buy equipment for Fighters.\" is \"Trade Fighter Equipment.\" live",
+  "merchant/30837-1.htm: link \"Buy equipment for Wizards.\" is \"Trade Mystic Equipment.\" live",
+  "merchant/30837-1.htm: link \"Buy Fighter Common Items.\" is \"Trade Common Items for Fighters.\" live",
+  "merchant/30837-1.htm: link \"Buy Wizard Common Items.\" is \"Trade Common Items for Mystics.\" live",
+  "merchant/30837-1.htm: link \"Buy a Shadow item.\" is \"Trade a Shadow Item.\" live"
+ ],
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Trader Woodrow:Welcome, customer! Welcome to Aden, the large"
+   ],
+   "to": [
+    "Trader Woodrow:There must be something you need. What can I "
+   ]
+  },
+  {
+   "text": "Ask about the local lord and tax rate.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Trader Woodrow:Welcome, customer! Welcome to Aden, the large"
+   ],
+   "to": [
+    "[Territory Status]Name : &%5;Lord : Zoidberg (TheBoys clan)T"
+   ]
+  },
+  {
+   "text": "Quest.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Trader Woodrow:Welcome, customer! Welcome to Aden, the large"
+   ],
+   "to": [
+    "You are either not on a quest that involves this NPC, or you"
+   ]
+  }
+ ]
+}

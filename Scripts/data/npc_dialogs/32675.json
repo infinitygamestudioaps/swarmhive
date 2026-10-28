@@ -1,0 +1,48 @@
+{
+ "npcId": 32675,
+ "name": "Delusion Manager",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.397Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32675.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32675.htm": {
+   "file": "default/32675.htm",
+   "quest": null,
+   "text": "Manager: I manage this place. What do you want to do?",
+   "header": "Manager",
+   "links": [
+    {
+     "text": "Move to another room.",
+     "bypass": "Quest ChamberOfDelusionSouth next_room",
+     "kind": "quest-event",
+     "script": "ChamberOfDelusionSouth",
+     "event": "next_room"
+    },
+    {
+     "text": "Go outside.",
+     "bypass": "Quest ChamberOfDelusionSouth go_out",
+     "kind": "quest-event",
+     "script": "ChamberOfDelusionSouth",
+     "event": "go_out"
+    },
+    {
+     "text": "Look for a party member.",
+     "bypass": "Quest ChamberOfDelusionSouth look_party",
+     "kind": "quest-event",
+     "script": "ChamberOfDelusionSouth",
+     "event": "look_party"
+    }
+   ]
+  }
+ }
+}

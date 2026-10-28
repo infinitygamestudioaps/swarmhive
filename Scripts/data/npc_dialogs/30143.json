@@ -1,0 +1,237 @@
+{
+ "npcId": 30143,
+ "name": "Trudy",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.850Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30143.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "166": {
+   "name": "Mass of Darkness",
+   "listText": [
+    "[Mass of Darkness]",
+    "[Mass of Darkness (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00166_MassOfDarkness/30135-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30139-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30143-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30135-02.html",
+     "when": "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30139-02.html",
+     "when": "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30143-02.html",
+     "when": "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30143.htm": {
+   "file": "trainer/30143.htm",
+   "quest": null,
+   "text": "Master Trudy: Our combat methods are much more refined -- and just as lethal -- as the crude, muscle-bound techniques of the Orcs. With just a flick of my wrist, I can cut the wings off a fly...or disembowel an unwary opponent. Remember that the mind is your best and most effective weapon!",
+   "header": "Master Trudy",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30143-noteach.htm": {
+   "file": "trainer/30143-noteach.htm",
+   "quest": null,
+   "text": "Master Trudy: I only teach warriors of the Dark Elves, If you want to receive training, go to another master.",
+   "header": "Master Trudy",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30135-01.html": {
+   "file": "Q00166_MassOfDarkness/30135-01.html",
+   "quest": 166,
+   "text": "Trader Iria: Abyssal Celebrant Undrias has sent you, I see. Here is the special dagger crafted by Karrod for use in this year's Ceremony of Darkness. Beautiful, isn't it? Ah, be careful! It may be ceremonial, but its blade is still razor-sharp!",
+   "header": "Trader Iria",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30139-01.html": {
+   "file": "Q00166_MassOfDarkness/30139-01.html",
+   "quest": 166,
+   "text": "Warehouse Keeper Dorankus: Ah! You're here for the item Undrias entrusted to me last year? Here it is! Dreviant Wine, made from the poison of spiders. A rare vintage that even I have never tasted... Be sure to tell Undrias how faithfully I fulfilled my service to him!",
+   "header": "Warehouse Keeper Dorankus",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30143-01.html": {
+   "file": "Q00166_MassOfDarkness/30143-01.html",
+   "quest": 166,
+   "text": "Master Trudy: Undrias sent you? Very well; take this scripture to him. It was discovered in an abandoned mine in the Misty Mountains during a battle with those vile Orcs. Surprising, isn't it, to see something written by ancient Humans who also served Gran Kain? Undrias plans to recite a portion of…",
+   "header": "Master Trudy",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30135-02.html": {
+   "file": "Q00166_MassOfDarkness/30135-02.html",
+   "quest": 166,
+   "text": "Trader Iria: Take this Ceremonial Dagger to Abyssal Celebrant Undrias. It is needed for the Ceremony of Darkness, so guard it with your life. If something were to happen to it, I shudder to think of what Undrias would do to you...",
+   "header": "Trader Iria",
+   "when": [
+    "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30139-02.html": {
+   "file": "Q00166_MassOfDarkness/30139-02.html",
+   "quest": 166,
+   "text": "Warehouse Keeper Dorankus: You haven't left for the Temple of Shilen yet? Hurry and deliver the Dreviant Wine I gave you to Abyssal Celebrant Undrias! It is very precious, so take care not to break the bottle!",
+   "header": "Warehouse Keeper Dorankus",
+   "when": [
+    "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30143-02.html": {
+   "file": "Q00166_MassOfDarkness/30143-02.html",
+   "quest": 166,
+   "text": "Master Trudy: Why haven't you delivered Garmiel's Scripture to Abyssal Celebrant Undrias? Hurry, you fool! If the ceremony is delayed on your account, Undrias will flay the flesh from your bones!",
+   "header": "Master Trudy",
+   "when": [
+    "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Mass of Darkness (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00166_MassOfDarkness",
+     "kind": "quest",
+     "quest": 166,
+     "to": "Q00166_MassOfDarkness/30135-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

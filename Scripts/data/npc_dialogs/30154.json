@@ -1,0 +1,681 @@
+{
+ "npcId": 30154,
+ "name": "Asterios",
+ "title": "Hierarch",
+ "type": "L2VillageMasterPriest",
+ "generated": "2026-10-27T18:18:02.855Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30154.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "7": {
+   "name": "A Trip Begins",
+   "listText": [
+    "[A Trip Begins]",
+    "[A Trip Begins (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00007_ATripBegins/30154-01.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00007_ATripBegins/30154-04.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "159": {
+   "name": "Protect the Water Source",
+   "listText": [
+    "[Protect the Water Source]",
+    "[Protect the Water Source (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00159_ProtectTheWaterSource/30154-03.htm",
+     "when": "state CREATED; (player.getRace() == Race.ELF); player.getLevel() >= MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00159_ProtectTheWaterSource/30154-02.htm",
+     "when": "state CREATED; (player.getRace() == Race.ELF); NOT player.getLevel() >= MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00159_ProtectTheWaterSource/30154-01.htm",
+     "when": "state CREATED; NOT (player.getRace() == Race.ELF)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00159_ProtectTheWaterSource/30154-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00159_ProtectTheWaterSource/30154-06.html",
+     "when": "state STARTED; cond 2; has items 1035",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00159_ProtectTheWaterSource/30154-07.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00159_ProtectTheWaterSource/30154-08.html",
+     "when": "state STARTED; cond 4; item 1035 >= 5",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "217": {
+   "name": "Testimony Of Trust",
+   "listText": [
+    "[Testimony of Trust]",
+    "[Testimony of Trust (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00217_TestimonyOfTrust/30154-01.html",
+     "when": "state STARTED; memo 1; has items 2735",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30154-04.html",
+     "when": "state STARTED; memo 2; has items 2745",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30154-05.html",
+     "when": "state STARTED; memo 3; has items 2746,2747",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30154-06.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "218": {
+   "name": "Testimony Of Life",
+   "listText": [
+    "[Testimony of Life]",
+    "[Testimony of Life (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00218_TestimonyOfLife/30154-01.html",
+     "when": "state STARTED; has items 3141",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30154-08.html",
+     "when": "state STARTED; has items 3144; lacks items 3141,3160",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30154-09.html",
+     "when": "state STARTED; has items 3144,3160; lacks items 3141",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30154-10.html",
+     "when": "state STARTED; has items 3142; lacks items 3141,3144",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30154.htm": {
+   "file": "villagemaster/30154.htm",
+   "quest": null,
+   "text": "Hierarch Asterios: May the blessings of Eva flood the deepest recesses of your soul. I am Tetrarch Asterios, representative of Eva, chosen by the mother of all forests and spirits! I alone remain among the 12 Tetrarchs chosen by the Mother Tree. Why have you sought me out?",
+   "header": "Hierarch Asterios",
+   "links": [
+    {
+     "text": "Listen to information about first class transfer.",
+     "bypass": "npc_%objectId%_Quest FirstClassTransferTalk",
+     "kind": "quest",
+     "script": "FirstClassTransferTalk",
+     "to": null
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Ask about the current situation.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "villagemaster/30154-1.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "villagemaster/30154-1.htm": {
+   "file": "villagemaster/30154-1.htm",
+   "quest": null,
+   "text": "Tetrarch Asterios: From ancient times, the Elves of Light have lived in harmony with the forest under the protection of the Mother Tree. Surrounded by her magic force field, this became their sanctuary from the outside world for a long, long time. However, the Sea of Spores east of the forest has b…",
+   "header": "Tetrarch Asterios",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "villagemaster/30154.htm"
+    }
+   ]
+  },
+  "Q00007_ATripBegins/30154-01.html": {
+   "file": "Q00007_ATripBegins/30154-01.html",
+   "quest": 7,
+   "text": "Hierarch Asterios: I recently received a message from Ariel. The outside world of the Humans who exiled us here has changed very much, to the point that it is unrecognizable to us Elves, living in isolation. Their world is now one of total chaos! Far be it for me to deny a young Elf his travels, bu…",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"I shall return!\"",
+     "bypass": "Quest Q00007_ATripBegins 30154-02.html",
+     "kind": "quest-event",
+     "script": "Q00007_ATripBegins",
+     "event": "30154-02.html",
+     "quest": 7,
+     "to": "Q00007_ATripBegins/30154-02.html",
+     "toAll": [
+      "Q00007_ATripBegins/30154-02.html",
+      "Q00007_ATripBegins/30154-03.html"
+     ],
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00007_ATripBegins/30154-04.html": {
+   "file": "Q00007_ATripBegins/30154-04.html",
+   "quest": 7,
+   "text": "Hierarch Asterios: I've spoken with Gatekeeper Mirabel , and she's agreed to help you. May Eva bless you along your journey.",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00159_ProtectTheWaterSource/30154-03.htm": {
+   "file": "Q00159_ProtectTheWaterSource/30154-03.htm",
+   "quest": 159,
+   "text": "Hierarch Asterios: I don't know if you've noticed, but the Mother Tree in the middle of the village has been slowly withering. The progress of the blight is so slow that it is hard to notice unless one possesses high magic powers. We do not wish to worry our brothers, and only a few of us know this…",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state CREATED; (player.getRace() == Race.ELF); player.getLevel() >= MIN_LVL"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00159_ProtectTheWaterSource 30154-04.htm",
+     "kind": "quest-event",
+     "script": "Q00159_ProtectTheWaterSource",
+     "event": "30154-04.htm",
+     "quest": 159,
+     "to": "Q00159_ProtectTheWaterSource/30154-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00159_ProtectTheWaterSource/30154-02.htm": {
+   "file": "Q00159_ProtectTheWaterSource/30154-02.htm",
+   "quest": 159,
+   "text": "Hierarch Asterios: Have you felt anything strange lately while walking around the village? I recently saw yellow, withered leaves on the surface of the pond in the middle of the village, under the Mother Tree. I don't know why a tree that has grown for thousands of years should suddenly drop discol…",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state CREATED; (player.getRace() == Race.ELF); NOT player.getLevel() >= MIN_LVL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00159_ProtectTheWaterSource/30154-01.htm": {
+   "file": "Q00159_ProtectTheWaterSource/30154-01.htm",
+   "quest": 159,
+   "text": "Hierarch Asterios: Young traveler of a foreign race, there is nothing you can do for me. Listen to the beautiful music of the woods and enjoy life under the shade of the Mother Tree, and rest your weary body. (Quest for Elves only.)",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state CREATED; NOT (player.getRace() == Race.ELF)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00159_ProtectTheWaterSource/30154-05.html": {
+   "file": "Q00159_ProtectTheWaterSource/30154-05.html",
+   "quest": 159,
+   "text": "Hierarch Asterios: What are you doing still here? Go north and follow the river to find the water's source, and find out who is contaminating our water. The Mother Tree is dying! Any more delays, and our very lives may be threatened.",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00159_ProtectTheWaterSource/30154-06.html": {
+   "file": "Q00159_ProtectTheWaterSource/30154-06.html",
+   "quest": 159,
+   "text": "Hierarch Asterios: This ...! The undead you came across at the water source are called Plague Zombies , and are those creatures who were killed by plagues and that have been resurrected with black magic. The fine powder that falls from their decomposing bodies is this Plague Dust ... This is the su…",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; cond 2; has items 1035"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00159_ProtectTheWaterSource/30154-07.html": {
+   "file": "Q00159_ProtectTheWaterSource/30154-07.html",
+   "quest": 159,
+   "text": "Hierarch Asterios: Go and bring me five handfuls of Plague Dust from those zombies that are polluting our water source. Go north and follow the river that flows into the village. The Mother Tree is dying! Hurry! May the blessings of Eva be with you ...!",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00159_ProtectTheWaterSource/30154-08.html": {
+   "file": "Q00159_ProtectTheWaterSource/30154-08.html",
+   "quest": 159,
+   "text": "Hierarch Asterios: Well done. This will be enough to research the purification magic. As soon as the magic is complete, I will travel under the protection of the sentinels to the water source and perform the purification spell, and eradicate any Plague Zombies that may yet remain. My young kinsman,…",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; cond 4; item 1035 >= 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30154-01.html": {
+   "file": "Q00217_TestimonyOfTrust/30154-01.html",
+   "quest": 217,
+   "text": "Hierarch Asterios: Welcome. I am Asterios, the chosen emmissary of Eva, the mother of all forests and nymphs. Of the 12 chosen hierarchs, I am the last remaining representative in this land of the final sovereign, Valderan. I rule the Elves of light. What brings you to my presence?",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; memo 1; has items 2735"
+   ],
+   "links": [
+    {
+     "text": "Give him the letter from Hollint",
+     "bypass": "Quest Q00217_TestimonyOfTrust 30154-02.html",
+     "kind": "quest-event",
+     "script": "Q00217_TestimonyOfTrust",
+     "event": "30154-02.html",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30154-02.html"
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30154-04.html": {
+   "file": "Q00217_TestimonyOfTrust/30154-04.html",
+   "quest": 217,
+   "text": "Hierarch Asterios: Are Humans just helpless creatures who are all mouths and out-stretched hands? Why don't you go to the Elven Forest and exterminate Luell of Zephyr Winds , head of the lireins , and Actea of Verdant Wilds , head of all dryads ? We will discuss trust after they are dead.",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; memo 2; has items 2745"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30154-05.html": {
+   "file": "Q00217_TestimonyOfTrust/30154-05.html",
+   "quest": 217,
+   "text": "Hierarch Asterios: Thank you. The breath of the wind will clear the forest air and seedlings of new life will spring from the earth. As our Elven Forest slowly recovers from its wounds, so will our trust in Humans recover. Here is a letter, but you must not expect absolute trust just yet. The futur…",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; memo 3; has items 2746,2747"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30154-06.html": {
+   "file": "Q00217_TestimonyOfTrust/30154-06.html",
+   "quest": 217,
+   "text": "Hierarch Asterios: Are you still here... You already have our answer. Take it and be on your way to the village of the Dark Elves ... The leader of darkness, High Priest Thifiell is waiting.",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30154-01.html": {
+   "file": "Q00218_TestimonyOfLife/30154-01.html",
+   "quest": 218,
+   "text": "Hierarch Asterios: Did Cardien send you here? It seems to me that it was only recently that you ventured from the Mother Tree to take lessons from me, but look at you now... You have matured so much... You must be very tired from your journey, I suggest that you drink the clear waters and feel the …",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; has items 3141"
+   ],
+   "links": [
+    {
+     "text": "I saw the approaching of their dark future summoned by their ignorance and greed.",
+     "bypass": "Quest Q00218_TestimonyOfLife 30154-02.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30154-02.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30154-02.html"
+    },
+    {
+     "text": "I predict their bright future which their wit and courage will bring forth.",
+     "bypass": "Quest Q00218_TestimonyOfLife 30154-03.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30154-03.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30154-03.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30154-08.html": {
+   "file": "Q00218_TestimonyOfLife/30154-08.html",
+   "quest": 218,
+   "text": "Hierarch Asterios: Finding the Water of Life will be a painful task that will require patience and sacrifice. I apologize for putting such a heavy burden on your young shoulders. But we each must play our part in the survival of our tribe. May the blessings of the starlight be upon you.",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; has items 3144; lacks items 3141,3160"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30154-09.html": {
+   "file": "Q00218_TestimonyOfLife/30154-09.html",
+   "quest": 218,
+   "text": "Hierarch Asterios: So, I see that you have returned with the Water of Life. Please forgive me, but I neglected to mention before that we must sacrifice Eva's unicorn. This animal, blessed by the Goddess, our guardian of the forest, must give her life to save our precious Mother Tree. This sacrifice…",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; has items 3144,3160; lacks items 3141"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30154-10.html": {
+   "file": "Q00218_TestimonyOfLife/30154-10.html",
+   "quest": 218,
+   "text": "Hierarch Asterios: Young brother, thanks to your help we now have hope for the future... I see in you a spark... the luminance of which will brighten the future of our entire tribe... Now return to Master Cardien of the Town of Dion . If you show him the Camomile Charm he will give you the Mark of …",
+   "header": "Hierarch Asterios",
+   "when": [
+    "state STARTED; has items 3142; lacks items 3141,3144"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00007_ATripBegins/30154-02.html": {
+   "file": "Q00007_ATripBegins/30154-02.html",
+   "quest": 7,
+   "text": "Hierarch Asterios: The outside world is a terribly chaotic place, nothing like our beautiful Elven Forest. Don't get me wrong, we have our share of problems, but nothing approaching the ravages that plague the world of the Humans. But I've always said, \"All young Elves should see the Town of Giran …",
+   "header": "Hierarch Asterios",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00007_ATripBegins/30154-03.html": {
+   "file": "Q00007_ATripBegins/30154-03.html",
+   "quest": 7,
+   "text": "Hierarch Asterios Didn't you say you have the Recommendation letter from Ariel? It is not good to deliver untrue words to a Hierarch, even if it is your simple mistake. I cannot support a liar like you!",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00159_ProtectTheWaterSource/30154-04.htm": {
+   "file": "Q00159_ProtectTheWaterSource/30154-04.htm",
+   "quest": 159,
+   "text": "Hierarch Asterios: You can reach the water source by following the river that flows into the village and travelling north. If you find anything that is even slightly suspicious, please investigate it. And bring back proof so that I can examine it. Take this charm. It will protect you from the conta…",
+   "header": "Hierarch Asterios",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30154-02.html": {
+   "file": "Q00217_TestimonyOfTrust/30154-02.html",
+   "quest": 217,
+   "text": "Hierarch Asterios: Building trust between Elves and Humans is easier said than done... You foolish Humans... First you betray your faith and now claim to want it back... Totally untrustworthy! If you are sincere you must prove yourself to me! Our forest was devastated during the war with the Humans…",
+   "header": "Hierarch Asterios",
+   "links": [
+    {
+     "text": "\"How can I help to restore the forest?\"",
+     "bypass": "Quest Q00217_TestimonyOfTrust 30154-03.html",
+     "kind": "quest-event",
+     "script": "Q00217_TestimonyOfTrust",
+     "event": "30154-03.html",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30154-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30154-03.html": {
+   "file": "Q00217_TestimonyOfTrust/30154-03.html",
+   "quest": 217,
+   "text": "Hierarch Asterios: In the Elven Forest, the spirits of the wind and the trees are becoming vicious. If we can ameliorate the leaders of these spirits we will probably be able to suppress this disturbance... The Chief of the wind spirit lireins is called Luell of Zephyr Winds . You can meet her if y…",
+   "header": "Hierarch Asterios",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30154-02.html": {
+   "file": "Q00218_TestimonyOfLife/30154-02.html",
+   "quest": 218,
+   "text": "Hierarch Asterios: Ignorance and greed are not unique to Humans. Elves must also resist such faults... The reason I have called you together is of utmost importance. Our Mother Tree is ailing, and will die without immediate help. This is of mortal concern to all Elves. Are you ready to devote yours…",
+   "header": "Hierarch Asterios",
+   "links": [
+    {
+     "text": "\"I am in.\"",
+     "bypass": "Quest Q00218_TestimonyOfLife 30154-04.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30154-04.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30154-04.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30154-03.html": {
+   "file": "Q00218_TestimonyOfLife/30154-03.html",
+   "quest": 218,
+   "text": "Hierarch Asterios: Humans can be quite charming and even brave at times, but their ignorance and greed always seem to triumph in the end. They can always be counted on invent a new future, but we Elves must constantly guard against that future being at our expense... The reason I have called you to…",
+   "header": "Hierarch Asterios",
+   "links": [
+    {
+     "text": "\"I will dedicate myself.\"",
+     "bypass": "Quest Q00218_TestimonyOfLife 30154-04.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30154-04.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30154-04.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30154-04.html": {
+   "file": "Q00218_TestimonyOfLife/30154-04.html",
+   "quest": 218,
+   "text": "Hierarch Asterios: The Mother Tree is the origin of life and a shelter for spirits. Rays of heaven shine through her branches and life branches forth from her roots. She is the center of the universe where the sky and earth become as one. The Elves and the Mother Tree have been inextricably linked …",
+   "header": "Hierarch Asterios",
+   "links": [
+    {
+     "text": "\"Why is the Mother Tree dying?\"",
+     "bypass": "Quest Q00218_TestimonyOfLife 30154-05.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30154-05.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30154-05.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30154-05.html": {
+   "file": "Q00218_TestimonyOfLife/30154-05.html",
+   "quest": 218,
+   "text": "Hierarch Asterios: Ten years ago, I was shocked to discover that the Mother Tree was slowly dying. I worked tirelessly to find the reason... Could it be the poisonous wind blowing from the Sea of Spores... Or maybe the disruption of earth energies by forces of nature? Perhaps the Sorcerers of the D…",
+   "header": "Hierarch Asterios",
+   "links": [
+    {
+     "text": "\"How can we save the Mother Tree?\"",
+     "bypass": "Quest Q00218_TestimonyOfLife 30154-06.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30154-06.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30154-06.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30154-06.html": {
+   "file": "Q00218_TestimonyOfLife/30154-06.html",
+   "quest": 218,
+   "text": "Hierarch Asterios: Long ago the first guardian sacrificed herself to give life to the Mother Tree. There are so many fewer Elves now that we cannot afford to lose one if we wanted to, and believe me, we don't! I hope that I never see anything so horrible again in my life! Fortunately, we have anoth…",
+   "header": "Hierarch Asterios",
+   "links": [
+    {
+     "text": "\"I will set off in search of the Water of Life.\"",
+     "bypass": "Quest Q00218_TestimonyOfLife 30154-07.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30154-07.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30154-07.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30154-07.html": {
+   "file": "Q00218_TestimonyOfLife/30154-07.html",
+   "quest": 218,
+   "text": "Hierarch Asterios: I apologize for putting such a heavy burden on your young shoulders, but it is your fate so you must deal with it. You must find the Water of Life and save the Mother Tree! Finding the water will be a painful task that will require patience and sacrifice. I give you this amulet w…",
+   "header": "Hierarch Asterios",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[A Trip Begins (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00007_ATripBegins",
+     "kind": "quest",
+     "quest": 7,
+     "to": "Q00007_ATripBegins/30154-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Protect the Water Source]",
+     "bypass": "npc_%objectId%_Quest Q00159_ProtectTheWaterSource",
+     "kind": "quest",
+     "quest": 159,
+     "to": "Q00159_ProtectTheWaterSource/30154-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Protect the Water Source (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00159_ProtectTheWaterSource",
+     "kind": "quest",
+     "quest": 159,
+     "to": "Q00159_ProtectTheWaterSource/30154-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Trust (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00217_TestimonyOfTrust",
+     "kind": "quest",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30154-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Life (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00218_TestimonyOfLife",
+     "kind": "quest",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30154-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

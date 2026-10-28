@@ -1,0 +1,142 @@
+{
+ "npcId": 30019,
+ "name": "Newbie Helper",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.787Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00255_Tutorial/30019-001.htm",
+   "when": "qs.getMemoStateEx(1) < 0; talker.getClassId() == ClassId.mage; talker.getRace() == Race.HUMAN",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30009-006.htm",
+   "when": "qs.getMemoStateEx(1) < 0; !((talker.getClassId() == ClassId.mage) && (talker.getRace() == Race.HUMAN))",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30019-002.htm",
+   "when": "!qs.getMemoStateEx(1) < 0; (qs.getMemoStateEx(1) == 0) || (qs.getMemoStateEx(1) == 1) || (qs.getMemoStateEx(1) == 2)",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30019-003.htm",
+   "when": "(qs.getMemoStateEx(1) == 0) || (qs.getMemoStateEx(1) == 1) || (qs.getMemoStateEx(1) == 2)",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30019-004.htm",
+   "when": "!(((qs.getMemoStateEx(1) == 0) || (qs.getMemoStateEx(1) == 1) || (qs.getMemoStateEx(1) == 2)) && qs.hasQuestItems(BLUE_G; qs.getMemoStateEx(1) == 3",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30009-005.htm",
+   "when": "!(((qs.getMemoStateEx(1) == 0) || (qs.getMemoStateEx(1) == 1) || (qs.getMemoStateEx(1) == 2)) && qs.hasQuestItems(BLUE_G; !qs.getMemoStateEx(1) == 3; qs.getMemoStateEx(1) > 3",
+   "src": "quest 255"
+  }
+ ],
+ "quests": {
+  "255": {
+   "name": "Tutorial",
+   "listText": [
+    "[Tutorial]",
+    "[Tutorial (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00255_Tutorial/30019-001.htm": {
+   "file": "Q00255_Tutorial/30019-001.htm",
+   "quest": 255,
+   "text": "Newbie Helper: Welcome! Are you ready for a mission? Have you seen the Gremlins around here? They've stolen the precious Blue Gemstone! You must recover it from them! I'll tell you again how to kill the Gremlins. Place your cursor over a Gremlin and click the left button . The cursor will change to…",
+   "header": "Newbie Helper",
+   "when": [
+    "qs.getMemoStateEx(1) < 0; talker.getClassId() == ClassId.mage; talker.getRace() == Race.HUMAN"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00255_Tutorial/30009-006.htm": {
+   "file": "Q00255_Tutorial/30009-006.htm",
+   "quest": 255,
+   "text": "Newbie Helper: I can't teach you. You should find the newbie helper for your occupation.",
+   "header": "Newbie Helper",
+   "when": [
+    "qs.getMemoStateEx(1) < 0; !((talker.getClassId() == ClassId.mage) && (talker.getRace() == Race.HUMAN))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00255_Tutorial/30019-002.htm": {
+   "file": "Q00255_Tutorial/30019-002.htm",
+   "quest": 255,
+   "text": "Newbie Helper: Did you forget what to do? Get a blue gem! You must kill Gremlins to get a blue gem. Kill, kill, kill the Gremlins! Put your cursor over a Gremlin and click the left mouse button . It turns into a knife. Press the F2 key to attack using wind strike magic. Do it quick and I'll give yo…",
+   "header": "Newbie Helper",
+   "when": [
+    "!qs.getMemoStateEx(1) < 0; (qs.getMemoStateEx(1) == 0) || (qs.getMemoStateEx(1) == 1) || (qs.getMemoStateEx(1) == 2)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00255_Tutorial/30019-003.htm": {
+   "file": "Q00255_Tutorial/30019-003.htm",
+   "quest": 255,
+   "text": "Newbie Helper: You got a blue gem! Good! As I promised, I'll give you a gift. This is called a spiritshot. Spiritshots make your magical attacks much stronger. However, it only works once, so you should save it for the right moment. Take this letter of Recommendation to Grand Magister Gallint over …",
+   "header": "Newbie Helper",
+   "when": [
+    "(qs.getMemoStateEx(1) == 0) || (qs.getMemoStateEx(1) == 1) || (qs.getMemoStateEx(1) == 2)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00255_Tutorial/30019-004.htm": {
+   "file": "Q00255_Tutorial/30019-004.htm",
+   "quest": 255,
+   "text": "Newbie Helper: Speak with Grand Magister Gallint over there. He's been waiting for you. He has a gift for you. May the goddess of luck be with you!",
+   "header": "Newbie Helper",
+   "when": [
+    "!(((qs.getMemoStateEx(1) == 0) || (qs.getMemoStateEx(1) == 1) || (qs.getMemoStateEx(1) == 2)) && qs.hasQuestItems(BLUE_G; qs.getMemoStateEx(1) == 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00255_Tutorial/30009-005.htm": {
+   "file": "Q00255_Tutorial/30009-005.htm",
+   "quest": 255,
+   "text": "Newbie Helper: I've taught you all I can, my child. Go now, out into the world! Live every day like it was your last! It very well might be!",
+   "header": "Newbie Helper",
+   "when": [
+    "!(((qs.getMemoStateEx(1) == 0) || (qs.getMemoStateEx(1) == 1) || (qs.getMemoStateEx(1) == 2)) && qs.hasQuestItems(BLUE_G; !qs.getMemoStateEx(1) == 3; qs.getMemoStateEx(1) > 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Tutorial]",
+     "bypass": "npc_%objectId%_Quest Q00255_Tutorial",
+     "kind": "quest",
+     "quest": 255,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Tutorial (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00255_Tutorial",
+     "kind": "quest",
+     "quest": 255,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,180 @@
+{
+ "npcId": 30583,
+ "name": "Petukai",
+ "title": "Centurion",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.006Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30583.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "9": {
+   "name": "Into the City of Humans",
+   "listText": [
+    "[Into the City of Humans]",
+    "[Into the City of Humans (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00009_IntoTheCityOfHumans/30583-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); (player.getRace() == Race.ORC)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00009_IntoTheCityOfHumans/30583-02.html",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (player.getRace() == Race.ORC)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00009_IntoTheCityOfHumans/30583-03.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00009_IntoTheCityOfHumans/30583-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30583.htm": {
+   "file": "guard/30583.htm",
+   "quest": null,
+   "text": "Centurion Petukai: I, Petukai, am a Centurion, charged with protecting the King's Hall. What business brings you here?! You're here to see Kakai, aren't you? Well, you'll wind him on the second floor. You must not forget to show the proper deference to the mighty King of the Orcs !",
+   "header": "Centurion Petukai",
+   "links": [
+    {
+     "text": "\"Tell me more about the King of the Orcs.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30583-1.htm"
+    },
+    {
+     "text": "\"Who is the Lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30583-1.htm": {
+   "file": "guard/30583-1.htm",
+   "quest": null,
+   "text": "Centurion Petukai: You know there are six tribes of the Orc? Chiefs from the six tribes gather together and select one king. Kakai was selected from the Hestui. Only the Overlords have the right to be a king. If an Orc Shaman performs great deeds and becomes famous, he or she may become an Overlord.",
+   "header": "Centurion Petukai",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00009_IntoTheCityOfHumans/30583-01.htm": {
+   "file": "Q00009_IntoTheCityOfHumans/30583-01.htm",
+   "quest": 9,
+   "text": "Centurion Petukai: I am devoted to the subject of power! Specifically, what is the most powerful thing in the world? Of course, dragons are quite formidable! But there is a beast who can subjugate even the mightiest of dragons! They are called Humans. We creatures of Pa'agrio are familiar with this…",
+   "header": "Centurion Petukai",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); (player.getRace() == Race.ORC)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it!\"",
+     "bypass": "Quest Q00009_IntoTheCityOfHumans 30583-04.htm",
+     "kind": "quest-event",
+     "script": "Q00009_IntoTheCityOfHumans",
+     "event": "30583-04.htm",
+     "quest": 9,
+     "to": "Q00009_IntoTheCityOfHumans/30583-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00009_IntoTheCityOfHumans/30583-02.html": {
+   "file": "Q00009_IntoTheCityOfHumans/30583-02.html",
+   "quest": 9,
+   "text": "Centurion Petukai: I am devoted to the subject of power! What is the most powerful thing in the world? (Only Orcs of Level 3 or above can undertake this quest).",
+   "header": "Centurion Petukai",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (player.getRace() == Race.ORC)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00009_IntoTheCityOfHumans/30583-03.html": {
+   "file": "Q00009_IntoTheCityOfHumans/30583-03.html",
+   "quest": 9,
+   "text": "Centurion Petukai: I am devoted to the subject of power! What is the most powerful thing in the world? (Only Orcs of Level 3 or above can undertake this quest).",
+   "header": "Centurion Petukai",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00009_IntoTheCityOfHumans/30583-05.html": {
+   "file": "Q00009_IntoTheCityOfHumans/30583-05.html",
+   "quest": 9,
+   "text": "Centurion Petukai: Arise, Orc Warrior! Visit Seer Tanapi at the Temple of Flames ! He is very wise! He will know the answer to my question!",
+   "header": "Centurion Petukai",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00009_IntoTheCityOfHumans/30583-04.htm": {
+   "file": "Q00009_IntoTheCityOfHumans/30583-04.htm",
+   "quest": 9,
+   "text": "Centurion Petukai: Good job! No Orc has sought to answer this question until now! Now, go to Seer Tanapi at the Temple of Flames . He's the wisest of all Orcs and is sure to know the answer. Go now! Go to Seer Tanapi!",
+   "header": "Centurion Petukai",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Into the City of Humans]",
+     "bypass": "npc_%objectId%_Quest Q00009_IntoTheCityOfHumans",
+     "kind": "quest",
+     "quest": 9,
+     "to": "Q00009_IntoTheCityOfHumans/30583-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Into the City of Humans (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00009_IntoTheCityOfHumans",
+     "kind": "quest",
+     "quest": 9,
+     "to": "Q00009_IntoTheCityOfHumans/30583-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

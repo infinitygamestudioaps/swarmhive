@@ -292,7 +292,7 @@ function makeEnv(o) {
 
   const has = (re, what) => check(re.test(src), 'source: ' + what);
   // ---- 3) source checks ---------------------------------------------------------------------------------------------------------
-  const lm = blk('async function leaderMission(kind, arg) {', '\n// ---');
+  const lm = blk('async function leaderMission(kind, arg, opt) {', '\n// ---');
   check(/while \(regroupRun && state\.running && orderState\.seq === mseq/.test(lm) && !/SayToParty\(`\[mission\] busy: \$\{regroupRun\.reason\}`\); return; \}/.test(lm), 'source: leaderMission waits for a running team task (no "busy" drop)');
   check(/orderRetry\('kamaloka', \{ what: `teleport to \$\{k\.entry\.town\}`, team: true, max: 3, abort: \(\) => !regroupAlive\(runId\)/.test(lm), 'source: Kamaloka travel teleport retried (3), stops on !mission stop');
   { const i = lm.indexOf('const rt = await orderRetry(`raid ${boss.name}`'), j = lm.indexOf('raidClearArea(boss, runId)'), k = lm.indexOf('waitBossDead(boss, runId'), e = lm.indexOf('// ORDERSTICK (2026-10-10): only the TRAVEL');

@@ -32,19 +32,25 @@
     if (p.seen === null && p.online) warn = ' · the bots run an older swarm.js: the switch works after the deploy';
     else if (p.seen !== null && p.seen !== p.on) warn = ' · the bots have not picked it up yet';
     const held = (p.held || []).length ? ` · stopped on their own: ${p.held.map(E).join(', ')}` : '';
-    return `<div class="runline ${p.on ? 'on' : 'off'}" title="${E((p.on ? 'Running' : 'Stopped') + (p.at ? ' since ' + new Date(p.at).toLocaleString() : '') + (p.by ? ' by ' + p.by : '') + (p.why ? ' (' + p.why + ')' : '') + (p.on ? '' : ' — Start does: ' + (p.plan ? p.plan.text : 'its activity')))}">${txt}${E(warn)}${held}</div>`;
+    const d = data(), hoN = d && d.handsOff && typeof d.handsOff === 'object' ? (p.members || []).filter(n => d.handsOff[n]) : [];   // HOFFRACE-2026-10-27: the party card names its hands-off members
+    const ho = hoN.length ? ` · <span class="runho" title="Hive leaves them alone (character page → Hands off); the party does not wait for them">✋ hands off: ${hoN.map(E).join(', ')}</span>` : '';
+    return `<div class="runline ${p.on ? 'on' : 'off'}" title="${E((p.on ? 'Running' : 'Stopped') + (p.at ? ' since ' + new Date(p.at).toLocaleString() : '') + (p.by ? ' by ' + p.by : '') + (p.why ? ' (' + p.why + ')' : '') + (p.on ? '' : ' — Start does: ' + (p.plan ? p.plan.text : 'its activity')))}">${txt}${E(warn)}${held}${ho}</div>`;
   }
   /** the character page: a leader's toggle is its party's; a member can be stopped on its own */
   /** HANDSOFF-2026-10-26: the per-character "hands off" switch (Hive leaves it alone; only your own orders to it run). Shown once the
    *  dashboard server sends handsOff (after its restart); default OFF. */
+  // HOFFRACE-2026-10-27 (owner, live test Healer14): say plainly what Hands off does NOT stop (L2Swarm's own profile keeps running)
+  const HOFF_EXPLAIN = 'Hands off switches off the Hive for this character only. L2Swarm itself keeps running whatever this account\'s own profile has ticked (follow, attack, auto-skills, heals). To make it stand completely still, also untick follow / attack in its L2Swarm profile. Your own orders to it still work.';
+  const handsOffOn = (name) => { const d = data(); return !!(d && d.handsOff && typeof d.handsOff === 'object' && d.handsOff[name]); };
   function handsOffBlock(name) {
     const d = data(); if (!d || !d.handsOff || typeof d.handsOff !== 'object') return '';
     const on = !!d.handsOff[name];
-    return `<span class="runc"><button class="runsw ${on ? 'on' : 'off'}" data-runsw="handsoff" data-name="${E(name)}" data-on="${on ? 0 : 1}" title="${on ? 'Hands off is ON — Hive does nothing with ' + E(name) + '. Click: Hive runs it again' : 'Hands off: Hive leaves ' + E(name) + ' completely alone (only your own orders to it run)'}">✋ Hands off: ${on ? 'ON' : 'OFF'}</button><span class="runct runho">${on ? 'Hive leaves it alone (no party orders, not waited for); your own orders still run' : 'Hive runs it · ON = Hive leaves it to you'}</span></span>`;
+    return `<span class="runc"><button class="runsw ${on ? 'on' : 'off'}" data-runsw="handsoff" data-name="${E(name)}" data-on="${on ? 0 : 1}" title="${E((on ? 'Hands off is ON — click: Hive runs ' + name + ' again. ' : 'Click: Hive leaves ' + name + ' alone. ') + HOFF_EXPLAIN)}">✋ Hands off: ${on ? 'ON' : 'OFF'}</button><span class="runct runho" title="${E(HOFF_EXPLAIN)}">${on ? 'Hive leaves it alone (no party orders, not waited for); your own orders still run · its L2Swarm profile (follow, attack, auto-skills, heals) keeps running — untick follow / attack there to make it stand still' : 'Hive runs it · ON = Hive leaves it to you (its L2Swarm profile keeps running)'}</span></span>`;
   }
   function charBlock(name) {
     const p = partyOfChar(name);
     if (!p) return handsOffBlock(name);
+    if (handsOffOn(name)) return `<span class="runc"><span class="runct runhoq" title="${E(HOFF_EXPLAIN)}">${p.leader === name ? 'party Start / Stop' : 'Stop / Start'} hidden — Hands off is on: Hive does not run ${E(name)}${p.leader === name ? ' (use the party card for the party)' : ' (party ' + E(p.leader) + ' goes on without it)'}; switch Hands off OFF first</span></span>${handsOffBlock(name)}`;   // HOFFRACE-2026-10-27: no "■ Stop · party running" next to "Hands off: ON"
     if (p.leader === name) return `<span class="runc">${partyButton(name)}<span class="runct">${p.on ? 'party running' : 'party stopped'}${(p.members || []).length > 1 ? ' (leads ' + (p.members.length) + ')' : ''}</span></span>${handsOffBlock(name)}`;
     const d = data(), own = d && d.chars ? d.chars[name] : null, held = !!(own && own.on === false);
     const btn = held
@@ -89,7 +95,7 @@
       return uiConfirm(on ? {
         title: `Hands off ${name}?`,
         body: [uiP(`Hive leaves ${name} completely alone: no hunting, leveling, follow, regroups, supplies, selling, trades, hand-overs, storing, Hive skills, heals or potions of its own, and no orders from its party leader.`),
-          uiList([`Its party does not wait for it and does not count it.`, `Your own orders sent to ${name} (its character page / commands) still run.`, `Its L2Swarm profile (and you, in the game) decide what it does. Hive gives back the skill / heal lists it had switched off.`])],
+          uiList([`Its party does not wait for it and does not count it.`, `Your own orders sent to ${name} (its character page / commands) still run.`, `Its L2Swarm profile (and you, in the game) decide what it does. Hive gives back the skill / heal lists it had switched off.`]), uiNote(HOFF_EXPLAIN)],
         confirmText: '✋ Hands off', cancelText: 'Cancel' } : {
         title: `Hive runs ${name} again?`, body: [uiP(`Hands off ends: ${name} is back with its party; the party's Start / Stop decides what it does.`)], confirmText: 'Hive runs it again', cancelText: 'Cancel' });
     }

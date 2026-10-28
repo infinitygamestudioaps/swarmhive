@@ -1,0 +1,83 @@
+{
+ "npcId": 32783,
+ "name": "Priest of Blessing",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.407Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/PriestOfBlessing/32783.htm",
+   "when": "",
+   "src": "ai PriestOfBlessing"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/PriestOfBlessing/32783.htm": {
+   "file": "ai/npc/PriestOfBlessing/32783.htm",
+   "quest": null,
+   "text": "Priest of Blessing: The Einhasad Temple is currently accepting donations for the needy and helpless. Those who donate will receive a small token of appreciation, allowing them to remain blessed by Nevit. Remember, true love is shown in giving, not receiving! Your soul is as beautiful as your appear…",
+   "header": "Priest of Blessing",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Donate 100,000 Adena. (Nevit's Voice)",
+     "bypass": "Quest PriestOfBlessing buy_voice",
+     "kind": "quest-event",
+     "script": "PriestOfBlessing",
+     "event": "buy_voice",
+     "to": "ai/npc/PriestOfBlessing/32783-adena.htm"
+    },
+    {
+     "text": "Donate %donate% Adena. (Nevit's Hourglass for 60~85 levels)",
+     "bypass": "Quest PriestOfBlessing buy_hourglass",
+     "kind": "quest-event",
+     "script": "PriestOfBlessing",
+     "event": "buy_hourglass",
+     "to": "ai/npc/PriestOfBlessing/32783-adena.htm"
+    },
+    {
+     "text": "Ask about Nevit's Voice.",
+     "bypass": "Quest PriestOfBlessing 32783-1.htm",
+     "kind": "quest-event",
+     "script": "PriestOfBlessing",
+     "event": "32783-1.htm",
+     "to": "ai/npc/PriestOfBlessing/32783-1.htm"
+    },
+    {
+     "text": "Ask about Nevit's Hourglass.",
+     "bypass": "Quest PriestOfBlessing 32783-2.htm",
+     "kind": "quest-event",
+     "script": "PriestOfBlessing",
+     "event": "32783-2.htm",
+     "to": "ai/npc/PriestOfBlessing/32783-2.htm"
+    }
+   ]
+  },
+  "ai/npc/PriestOfBlessing/32783-1.htm": {
+   "file": "ai/npc/PriestOfBlessing/32783-1.htm",
+   "quest": null,
+   "text": "Nevit's Voice is item which gives you 10 recommendation points in addition to 10 recommendations that you can use on other players. The waiting time for donation starts at the last time you donated. In addition, this waiting time is shared by all characters on an account, meaning that if you donate…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/PriestOfBlessing/32783-2.htm": {
+   "file": "ai/npc/PriestOfBlessing/32783-2.htm",
+   "quest": null,
+   "text": "Nevit's Hourglass is an item which extends the time you receive bonus experience from Nevit's Blessing. Basically, when you use the Hourglass, the time remaining on your bonus is paused. When the Hourglass' buff ends, the time continues as normal. Keep in mind that the buff will end if you die or c…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/PriestOfBlessing/32783-adena.htm": {
+   "file": "ai/npc/PriestOfBlessing/32783-adena.htm",
+   "quest": null,
+   "text": "Priest of Blessing Thanks for your generosity, but it looks like you don't have enough Adena to donate. There is always an opportunity to help people in difficult situations. Thus, come back to me whenever you can. May the blessing of the gods always be with you...",
+   "outcome": "refusal",
+   "links": []
+  }
+ }
+}

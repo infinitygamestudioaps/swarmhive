@@ -1,0 +1,910 @@
+{
+ "npcId": 32367,
+ "name": "Alarm",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.373Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Alarm/32367-01.html",
+   "when": "(verifyMemoState(talker, ART_OF_PERSUASION_ID, 3) || verifyMemoState(talker, NIKOLAS_COOPERATION_ID, 3)); player == talker",
+   "src": "ai Alarm"
+  },
+  {
+   "page": "ai/npc/Alarm/32367-02.html",
+   "when": "(verifyMemoState(talker, ART_OF_PERSUASION_ID, 3) || verifyMemoState(talker, NIKOLAS_COOPERATION_ID, 3)); !player == talker",
+   "src": "ai Alarm"
+  }
+ ],
+ "quests": {
+  "184": {
+   "name": "Art Of Persuasion",
+   "listText": [
+    "[Art of Persuasion]",
+    "[Art of Persuasion (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "ai/npc/Alarm/32367-01.html": {
+   "file": "ai/npc/Alarm/32367-01.html",
+   "quest": null,
+   "text": "Alarm System: As the alarm rings, a window for the passcode pops up. On the screen you see the number 120, which begins counting down. It looks like the alarm system will be activated in about 2 minutes unless the passcode is successfully entered.",
+   "header": "Alarm System",
+   "when": [
+    "(verifyMemoState(talker, ART_OF_PERSUASION_ID, 3) || verifyMemoState(talker, NIKOLAS_COOPERATION_ID, 3)); player == talker"
+   ],
+   "links": [
+    {
+     "text": "Enter the passcode.",
+     "bypass": "Quest Alarm 2",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "2",
+     "to": "ai/npc/Alarm/32367-184_02.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_02.html",
+      "ai/npc/Alarm/32367-185_02.html"
+     ]
+    }
+   ]
+  },
+  "ai/npc/Alarm/32367-02.html": {
+   "file": "ai/npc/Alarm/32367-02.html",
+   "quest": null,
+   "text": "Alarm System: The alarm is ringing loudly. You should leave here immediately. (Another person has already undertaken the quest.)",
+   "header": "Alarm System",
+   "when": [
+    "(verifyMemoState(talker, ART_OF_PERSUASION_ID, 3) || verifyMemoState(talker, NIKOLAS_COOPERATION_ID, 3)); !player == talker"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Alarm/32367-184_02.html": {
+   "file": "ai/npc/Alarm/32367-184_02.html",
+   "quest": null,
+   "text": "Alarm System: ######################## Enter the passcode for communication. Passcode :| ######################## The first number is...",
+   "header": "Alarm System",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Alarm 3",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "3",
+     "to": "ai/npc/Alarm/32367-184_04.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_04.html",
+      "ai/npc/Alarm/32367-185_04.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    }
+   ]
+  },
+  "ai/npc/Alarm/32367-184_04.html": {
+   "file": "ai/npc/Alarm/32367-184_04.html",
+   "quest": null,
+   "text": "Alarm System: ######################## Enter the passcode for communication. Passcode : *| ######################## The second number is...",
+   "header": "Alarm System",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Alarm 4",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "4",
+     "to": "ai/npc/Alarm/32367-184_06.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_06.html",
+      "ai/npc/Alarm/32367-185_06.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    }
+   ]
+  },
+  "ai/npc/Alarm/32367-184_06.html": {
+   "file": "ai/npc/Alarm/32367-184_06.html",
+   "quest": null,
+   "text": "Alarm System: ######################## Enter the passcode for communication. Passcode : **| ######################## The third number is...",
+   "header": "Alarm System",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Alarm 5",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "5",
+     "to": "ai/npc/Alarm/32367-184_08.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_08.html",
+      "ai/npc/Alarm/32367-185_08.html"
+     ]
+    }
+   ]
+  },
+  "ai/npc/Alarm/32367-184_08.html": {
+   "file": "ai/npc/Alarm/32367-184_08.html",
+   "quest": null,
+   "text": "Alarm System: ######################## Enter the passcode for communication. Passcode : ***| ######################## The fourth number is...",
+   "header": "Alarm System",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    }
+   ]
+  },
+  "ai/npc/Alarm/32367-184_09.html": {
+   "file": "ai/npc/Alarm/32367-184_09.html",
+   "quest": null,
+   "text": "Alarm System: ######################## Enter the passcode for communication. Passcode : **** ######################## Validation completed. Alarm has been disabled.",
+   "header": "Alarm System",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Alarm/32367-184_10.html": {
+   "file": "ai/npc/Alarm/32367-184_10.html",
+   "quest": null,
+   "text": "Alarm System: ######################## Enter the passcode for communication. Passcode : **** ######################## Validation has failed.",
+   "header": "Alarm System",
+   "links": [
+    {
+     "text": "Re-enter passcode.",
+     "bypass": "Quest Alarm 2",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "2",
+     "to": "ai/npc/Alarm/32367-184_02.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_02.html",
+      "ai/npc/Alarm/32367-185_02.html"
+     ]
+    }
+   ]
+  },
+  "ai/npc/Alarm/32367-185_02.html": {
+   "file": "ai/npc/Alarm/32367-185_02.html",
+   "quest": null,
+   "text": "Alarm System: ######################## Enter the passcode for communication. Passcode :| ######################## The first number is...",
+   "header": "Alarm System",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Alarm 3",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "3",
+     "to": "ai/npc/Alarm/32367-184_04.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_04.html",
+      "ai/npc/Alarm/32367-185_04.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Alarm 32367-184_04.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_04.html",
+     "to": "ai/npc/Alarm/32367-184_04.html"
+    }
+   ]
+  },
+  "ai/npc/Alarm/32367-185_04.html": {
+   "file": "ai/npc/Alarm/32367-185_04.html",
+   "quest": null,
+   "text": "Alarm System: ######################## Enter the passcode for communication. Passcode : *| ######################## The second number is...",
+   "header": "Alarm System",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Alarm 4",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "4",
+     "to": "ai/npc/Alarm/32367-184_06.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_06.html",
+      "ai/npc/Alarm/32367-185_06.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Alarm 32367-184_06.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_06.html",
+     "to": "ai/npc/Alarm/32367-184_06.html"
+    }
+   ]
+  },
+  "ai/npc/Alarm/32367-185_06.html": {
+   "file": "ai/npc/Alarm/32367-185_06.html",
+   "quest": null,
+   "text": "Alarm System: ######################## Enter the passcode for communication. Passcode : **| ######################## The third number is...",
+   "header": "Alarm System",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Alarm 32367-184_08.html",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "32367-184_08.html",
+     "to": "ai/npc/Alarm/32367-184_08.html"
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Alarm 5",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "5",
+     "to": "ai/npc/Alarm/32367-184_08.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_08.html",
+      "ai/npc/Alarm/32367-185_08.html"
+     ]
+    }
+   ]
+  },
+  "ai/npc/Alarm/32367-185_08.html": {
+   "file": "ai/npc/Alarm/32367-185_08.html",
+   "quest": null,
+   "text": "Alarm System: ######################## Enter the passcode for communication. Passcode : ***| ######################## The fourth number is...",
+   "header": "Alarm System",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Alarm 6",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "6",
+     "to": "ai/npc/Alarm/32367-184_09.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_09.html",
+      "ai/npc/Alarm/32367-184_10.html",
+      "ai/npc/Alarm/32367-185_09.html",
+      "ai/npc/Alarm/32367-185_10.html"
+     ]
+    }
+   ]
+  },
+  "ai/npc/Alarm/32367-185_09.html": {
+   "file": "ai/npc/Alarm/32367-185_09.html",
+   "quest": null,
+   "text": "Alarm System: ######################## Enter the passcode for communication. Passcode : **** ######################## Validation completed. Alarm has been disabled.",
+   "header": "Alarm System",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Alarm/32367-185_10.html": {
+   "file": "ai/npc/Alarm/32367-185_10.html",
+   "quest": null,
+   "text": "Alarm System: ######################## Enter passcode for communication. Passcode : **** ######################## Validation has failed.",
+   "header": "Alarm System",
+   "links": [
+    {
+     "text": "Re-enter passcode.",
+     "bypass": "Quest Alarm 2",
+     "kind": "quest-event",
+     "script": "Alarm",
+     "event": "2",
+     "to": "ai/npc/Alarm/32367-184_02.html",
+     "toAll": [
+      "ai/npc/Alarm/32367-184_02.html",
+      "ai/npc/Alarm/32367-185_02.html"
+     ]
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Art of Persuasion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00184_ArtOfPersuasion",
+     "kind": "quest",
+     "quest": 184,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "npcId": 31304,
+ "name": "Astrid",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.182Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31304.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31304.htm": {
+   "file": "merchant/31304.htm",
+   "quest": null,
+   "text": "Trader Astrid: It is wise to be careful in your purchasing. Not everything that glitters is gold, after all! That is especially true for accessories. You cannot judge a book by its cover. In fact, that is even true for people. Do you see Kendis, the Dwarf? He may look like a child, but he's even ol…",
+   "header": "Trader Astrid",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Buy 3130400",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy/Sell/Refund Common Items.",
+     "bypass": "npc_%objectId%_Buy 3130401",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy a bracelet or talisman.",
+     "bypass": "npc_%objectId%_multisell 300900001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Ask about the local lord and tax rate",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/31304-pk.htm": {
+   "file": "merchant/31304-pk.htm",
+   "quest": null,
+   "text": "Trader Astrid: Just because we live in chaotic times, did you think that you would be treated any better? You fool! I don't want anything to do with you! Leave!",
+   "header": "Trader Astrid",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

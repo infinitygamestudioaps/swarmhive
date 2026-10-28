@@ -1,0 +1,219 @@
+{
+ "npcId": 31636,
+ "name": "Flame Successor Akkan",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.249Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00077_SagaOfTheDominator/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 77"
+  },
+  {
+   "page": "Q00077_SagaOfTheDominator/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 77"
+  },
+  {
+   "page": "Q00077_SagaOfTheDominator/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 77"
+  },
+  {
+   "page": "Q00077_SagaOfTheDominator/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 77"
+  },
+  {
+   "page": "Q00077_SagaOfTheDominator/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 77"
+  },
+  {
+   "page": "Q00077_SagaOfTheDominator/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 77"
+  },
+  {
+   "page": "Q00077_SagaOfTheDominator/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 77"
+  },
+  {
+   "page": "Q00077_SagaOfTheDominator/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 77"
+  }
+ ],
+ "quests": {
+  "77": {
+   "name": "Saga of the Dominator",
+   "listText": [
+    "[Saga of the Dominator]",
+    "[Saga of the Dominator (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00077_SagaOfTheDominator/4-04.htm": {
+   "file": "Q00077_SagaOfTheDominator/4-04.htm",
+   "quest": 77,
+   "text": "Flame Successor Akkan: I can't pretend I don't know anything like that old man of Elmore did. By Atlus of Gandi, I also won't be like Hallate, who said he saw something when he didn't! I must be of sound mind for the upcoming winter! Help me defeat him!",
+   "header": "Flame Successor Akkan",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00077_SagaOfTheDominator/4-06.htm": {
+   "file": "Q00077_SagaOfTheDominator/4-06.htm",
+   "quest": 77,
+   "text": "Flame Successor Akkan: Thanks to you, I defeated the despot! I now know what I must do.",
+   "header": "Flame Successor Akkan",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00077_SagaOfTheDominator 4-1",
+     "kind": "quest-event",
+     "script": "Q00077_SagaOfTheDominator",
+     "event": "4-1",
+     "quest": 77,
+     "to": "Q00077_SagaOfTheDominator/4-010.htm"
+    }
+   ]
+  },
+  "Q00077_SagaOfTheDominator/4-01.htm": {
+   "file": "Q00077_SagaOfTheDominator/4-01.htm",
+   "quest": 77,
+   "text": "Flame Successor Akkan: At last, someone to help me deal with that despot!",
+   "header": "Flame Successor Akkan",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00077_SagaOfTheDominator/4-03.htm": {
+   "file": "Q00077_SagaOfTheDominator/4-03.htm",
+   "quest": 77,
+   "text": "Flame Successor Akkan: I can't let this go. I need some help dealing with this despot.",
+   "header": "Flame Successor Akkan",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00077_SagaOfTheDominator/4-05.htm": {
+   "file": "Q00077_SagaOfTheDominator/4-05.htm",
+   "quest": 77,
+   "text": "Flame Successor Akkan: This is not your fight! I command you to leave!",
+   "header": "Flame Successor Akkan",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00077_SagaOfTheDominator/4-07.htm": {
+   "file": "Q00077_SagaOfTheDominator/4-07.htm",
+   "quest": 77,
+   "text": "Flame Successor Akkan: Thanks, you saved my life! Now I know what I must do.",
+   "header": "Flame Successor Akkan",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00077_SagaOfTheDominator 4-2",
+     "kind": "quest-event",
+     "script": "Q00077_SagaOfTheDominator",
+     "event": "4-2",
+     "quest": 77,
+     "to": "Q00077_SagaOfTheDominator/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00077_SagaOfTheDominator/4-02.htm": {
+   "file": "Q00077_SagaOfTheDominator/4-02.htm",
+   "quest": 77,
+   "text": "Flame Successor Akkan: That man is a despot! If you don't leave, you might be sacrificed!",
+   "header": "Flame Successor Akkan",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00077_SagaOfTheDominator/4-08.htm": {
+   "file": "Q00077_SagaOfTheDominator/4-08.htm",
+   "quest": 77,
+   "text": "Flame Successor Akkan: You haven't finished the Pilgrimage of the King yet? Use the Stone of Commune to find the stone tablet.",
+   "header": "Flame Successor Akkan",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00077_SagaOfTheDominator/4-010.htm": {
+   "file": "Q00077_SagaOfTheDominator/4-010.htm",
+   "quest": 77,
+   "text": "Flame Successor Akkan: My older sister Cardia told me long ago that she wasn't fit to be queen. Now I know why! I'll never forget what I felt during those fights! I'm not sure what's coming next, but at least I know myself! Take this Stone of Commune, you'll need it on your pilgrimage. Now I must r…",
+   "header": "Flame Successor Akkan",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00077_SagaOfTheDominator 4-3",
+     "kind": "quest-event",
+     "script": "Q00077_SagaOfTheDominator",
+     "event": "4-3",
+     "quest": 77,
+     "to": null,
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00077_SagaOfTheDominator/4-011.htm": {
+   "file": "Q00077_SagaOfTheDominator/4-011.htm",
+   "quest": 77,
+   "text": "Flame Successor Akkan: My elder sister Cardia told me long ago she wasn't fit to be queen. I can't say exactly what's next, but now I know how big my vessel is! You'll need this Stone of Commune for the Pilgrimage of the King. Now I must return to Flame Lord Kakai. Goodbye for now!",
+   "header": "Flame Successor Akkan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00077_SagaOfTheDominator/4-09.htm": {
+   "file": "Q00077_SagaOfTheDominator/4-09.htm",
+   "quest": 77,
+   "text": "Flame Successor Akkan: You haven't finished the Pilgrimage of the King yet? Use the Stone of Commune to find the stone tablet.",
+   "header": "Flame Successor Akkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Dominator (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00077_SagaOfTheDominator",
+     "kind": "quest",
+     "quest": 77,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

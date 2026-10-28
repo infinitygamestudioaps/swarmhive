@@ -1,0 +1,333 @@
+{
+ "npcId": 32569,
+ "name": "Cain",
+ "title": "Priest",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.387Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32569.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "193": {
+   "name": "Seven Signs, Dying Message",
+   "listText": [
+    "[Seven Signs, Dying Message]",
+    "[Seven Signs, Dying Message (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00193_SevenSignsDyingMessage/32569-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00193_SevenSignsDyingMessage/32569-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00193_SevenSignsDyingMessage/32569-07.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00193_SevenSignsDyingMessage/32569-13.html",
+     "when": "state STARTED; cond 4; isBusy",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00193_SevenSignsDyingMessage/32569-08.html",
+     "when": "state STARTED; cond 4; !isBusy",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00193_SevenSignsDyingMessage/32569-09.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32569.htm": {
+   "file": "default/32569.htm",
+   "quest": null,
+   "text": "Priest Cain: The dead cannot speak, cannot hear, yet the ones they leave behind cry out in pain and anguish....",
+   "header": "Priest Cain",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00193_SevenSignsDyingMessage/32569-01.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-01.html",
+   "quest": 193,
+   "text": "Priest Cain: Men and women come into this world screaming and crying, and leave it silent as a winter's night. Still, they each deserve a moment's pause for reflection and consideration. You see, some walk through life and leave shallow footprints, while some leave marks as deep as trenches, and ar…",
+   "header": "Priest Cain",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"He was just a simple contractor. This necklace was his only valuable possession.\"",
+     "bypass": "Quest Q00193_SevenSignsDyingMessage 32569-02.html",
+     "kind": "quest-event",
+     "script": "Q00193_SevenSignsDyingMessage",
+     "event": "32569-02.html",
+     "quest": 193,
+     "to": "Q00193_SevenSignsDyingMessage/32569-02.html"
+    }
+   ]
+  },
+  "Q00193_SevenSignsDyingMessage/32569-06.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-06.html",
+   "quest": 193,
+   "text": "Priest Cain: You'll find Herb Collector Eric in the Enchanted Valley . Don't forget to bring back the herbs I need!",
+   "header": "Priest Cain",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00193_SevenSignsDyingMessage/32569-07.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-07.html",
+   "quest": 193,
+   "text": "Priest Cain: Ah good--I assume that package is full of the herbs Eric collected? Pass it here won't you? Now we can begin the service. Close your eyes, my child, and pray with me....",
+   "header": "Priest Cain",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Close your eyes.",
+     "bypass": "Quest Q00193_SevenSignsDyingMessage showmovie",
+     "kind": "quest-event",
+     "script": "Q00193_SevenSignsDyingMessage",
+     "event": "showmovie",
+     "quest": 193,
+     "to": null,
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00193_SevenSignsDyingMessage/32569-13.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-13.html",
+   "quest": 193,
+   "text": "Priest Cain: (Priest Cain is focused on fighting the strange-looking creature. He does not notice you trying to talk to him.) (Another player is currently speaking with him.)",
+   "header": "Priest Cain",
+   "when": [
+    "state STARTED; cond 4; isBusy"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00193_SevenSignsDyingMessage/32569-08.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-08.html",
+   "quest": 193,
+   "text": "Priest Cain: What was that?! You did see it, right? The black flames billowing out the moment I put Jacob's necklace on the altar? Something's wrong. Something is very wrong. This has never happened before... now I fear I have released an evil spirit into our very mids.... Look! Behind you!",
+   "header": "Priest Cain",
+   "when": [
+    "state STARTED; cond 4; !isBusy"
+   ],
+   "links": [
+    {
+     "text": "Look around.",
+     "bypass": "Quest Q00193_SevenSignsDyingMessage fight",
+     "kind": "quest-event",
+     "script": "Q00193_SevenSignsDyingMessage",
+     "event": "fight",
+     "quest": 193,
+     "to": "Q00193_SevenSignsDyingMessage/32569-14.html"
+    }
+   ]
+  },
+  "Q00193_SevenSignsDyingMessage/32569-09.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-09.html",
+   "quest": 193,
+   "text": "Priest Cain: Oh my! I... I've never seen anything killed before! I don't know quite how I'm supposed to feel. Come on, Cain--gather yourself--now is not the time for soul-searching! Breathe in... and breathe out. Breathe in... and out.... Okay, that's better. Now let's analyze what just happened. I…",
+   "header": "Priest Cain",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"You're going to have to explain this.\"",
+     "bypass": "Quest Q00193_SevenSignsDyingMessage 32569-10.html",
+     "kind": "quest-event",
+     "script": "Q00193_SevenSignsDyingMessage",
+     "event": "32569-10.html",
+     "quest": 193,
+     "to": "Q00193_SevenSignsDyingMessage/32569-10.html"
+    }
+   ]
+  },
+  "Q00193_SevenSignsDyingMessage/32569-02.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-02.html",
+   "quest": 193,
+   "text": "Priest Cain: Hmm... a contractor? That makes two in two days. I'm not believer in coincidences, you know. Perhaps there are patterns here that can be discerned--pinpoints that alone mean little, but together map something significant. This Jacob fellow, where was he based?",
+   "header": "Priest Cain",
+   "links": [
+    {
+     "text": "\"In Oren.\"",
+     "bypass": "Quest Q00193_SevenSignsDyingMessage 32569-03.html",
+     "kind": "quest-event",
+     "script": "Q00193_SevenSignsDyingMessage",
+     "event": "32569-03.html",
+     "quest": 193,
+     "to": "Q00193_SevenSignsDyingMessage/32569-03.html"
+    }
+   ]
+  },
+  "Q00193_SevenSignsDyingMessage/32569-03.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-03.html",
+   "quest": 193,
+   "text": "Priest Cain: So then Jacob ran the errands between the Merchants of Mammon and Oren, while the man I buried yesterday was from... where was it... ah yes--Goddard. Hmm. I will have to think on this for a while. I have heard whispers of others being killed too, but will have to speak with my associat…",
+   "header": "Priest Cain",
+   "links": [
+    {
+     "text": "\"No. I was hired to find Jacob by Crook, his cousin.\"",
+     "bypass": "Quest Q00193_SevenSignsDyingMessage 32569-04.html",
+     "kind": "quest-event",
+     "script": "Q00193_SevenSignsDyingMessage",
+     "event": "32569-04.html",
+     "quest": 193,
+     "to": "Q00193_SevenSignsDyingMessage/32569-04.html"
+    }
+   ]
+  },
+  "Q00193_SevenSignsDyingMessage/32569-04.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-04.html",
+   "quest": 193,
+   "text": "Priest Cain: I see. Well then, I can only offer you my heartfelt thanks for doing far more than you were initially hired to do. Now I'm afraid I have to ask you to do something more. You see, a memorial service cannot be performed without incense, and incense cannot be made without the full complem…",
+   "header": "Priest Cain",
+   "links": [
+    {
+     "text": "\"So you want me to pick it?\"",
+     "bypass": "Quest Q00193_SevenSignsDyingMessage 32569-05.html",
+     "kind": "quest-event",
+     "script": "Q00193_SevenSignsDyingMessage",
+     "event": "32569-05.html",
+     "quest": 193,
+     "to": "Q00193_SevenSignsDyingMessage/32569-05.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00193_SevenSignsDyingMessage/32569-05.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-05.html",
+   "quest": 193,
+   "text": "Priest Cain: Pick it? No no--I have a supplier already, only he's a forgetful type and I fear he's just forgotten to send me the package. I need you to visit my supplier, Herb Collector Eric , and bring me the herbs that he should have already gathered. He's normally found in the Enchanted Valley ,…",
+   "header": "Priest Cain",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00193_SevenSignsDyingMessage/32569-10.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-10.html",
+   "quest": 193,
+   "text": "Priest Cain: Dwarves have been able to inscribe weapons and armor with incantations, friend--their skills with metals are unrivalled throughout Aden. But what if Jacob were inscribe his necklace with something other than an incantation? What if he left a message within his necklace as he lay dying?…",
+   "header": "Priest Cain",
+   "links": [
+    {
+     "text": "\"I see... I think.\"",
+     "bypass": "Quest Q00193_SevenSignsDyingMessage 32569-11.html",
+     "kind": "quest-event",
+     "script": "Q00193_SevenSignsDyingMessage",
+     "event": "32569-11.html",
+     "quest": 193,
+     "to": "Q00193_SevenSignsDyingMessage/32569-11.html"
+    }
+   ]
+  },
+  "Q00193_SevenSignsDyingMessage/32569-11.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-11.html",
+   "quest": 193,
+   "text": "Priest Cain: While you were gone I did some research, by the by, and I believe the Contractor deaths have something to do with the Seven Signs . As I'm sure you know, the forces of dawn wage war with the forces of dusk for control over the three Seals. I may as well tell you now; I belong to the Or…",
+   "header": "Priest Cain",
+   "links": [
+    {
+     "text": "\"I'll help you, certainly.\"",
+     "bypass": "Quest Q00193_SevenSignsDyingMessage 32569-12.html",
+     "kind": "quest-event",
+     "script": "Q00193_SevenSignsDyingMessage",
+     "event": "32569-12.html",
+     "quest": 193,
+     "to": "Q00193_SevenSignsDyingMessage/32569-12.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00193_SevenSignsDyingMessage/32569-12.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-12.html",
+   "quest": 193,
+   "text": "Priest Cain: Thank you, friend! Thank you! Now I will study the necklace and see if my theory regarding Jacob's message holds water. You should hurry to Sir Gustav Athebaldt in Oren . He coordinates our efforts, and will be able to tell you far more than I. Go - hurry, and keep your sword arm free.",
+   "header": "Priest Cain",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00193_SevenSignsDyingMessage/32569-14.html": {
+   "file": "Q00193_SevenSignsDyingMessage/32569-14.html",
+   "quest": 193,
+   "text": "Priest Cain: Don't just stand there! Destroy that... thing!",
+   "header": "Priest Cain",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Dying Message (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00193_SevenSignsDyingMessage",
+     "kind": "quest",
+     "quest": 193,
+     "to": "Q00193_SevenSignsDyingMessage/32569-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

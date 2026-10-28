@@ -1,0 +1,463 @@
+{
+ "npcId": 31577,
+ "name": "Linnaeus",
+ "title": "Fishing Guild Member",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.236Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Fisherman/31577.htm",
+   "when": "normal (no karma); NOT player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman"
+  },
+  {
+   "page": "ai/npc/Fisherman/31577-pk.htm",
+   "when": "player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman",
+   "variant": "karma"
+  }
+ ],
+ "quests": {
+  "30": {
+   "name": "Chest Caught With A Bait Of Fire",
+   "listText": [
+    "[Chest Caught with a Bait of Flame]",
+    "[Chest Caught with a Bait of Flame (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00030_ChestCaughtWithABaitOfFire/31577-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= 61) && player.hasQuestCompleted(Q00053_LinnaeusSpecialBait.class.getSimpleNam",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00030_ChestCaughtWithABaitOfFire/31577-00.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= 61) && player.hasQuestCompleted(Q00053_LinnaeusSpecialBait.class.getSimpleNam",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00030_ChestCaughtWithABaitOfFire/31577-03a.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00030_ChestCaughtWithABaitOfFire/31577-03.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00030_ChestCaughtWithABaitOfFire/31577-05.htm",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "53": {
+   "name": "Linnaeus Special Bait",
+   "listText": [
+    "[Linnaeus' Special Bait]",
+    "[Linnaeus' Special Bait (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00053_LinnaeusSpecialBait/31577-0.htm",
+     "when": "state CREATED; (player.getLevel() > 59)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00053_LinnaeusSpecialBait/31577-0a.html",
+     "when": "state CREATED; NOT (player.getLevel() > 59)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00053_LinnaeusSpecialBait/31577-4.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00053_LinnaeusSpecialBait/31577-2.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "426": {
+   "name": "Quest for Fishing Shot",
+   "listText": [
+    "[Quest for Fishing shot]",
+    "[Quest for Fishing shot (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "ai/npc/Fisherman/31577.htm": {
+   "file": "ai/npc/Fisherman/31577.htm",
+   "quest": null,
+   "text": "Fishing Guild Member Linneaus: You know, the king is an avid fisherman himself -- and quite a good one, in fact. Aden is filled with prime fishing spots. How about spending this beautiful day on the shores of one of them?",
+   "header": "Fishing Guild Member Linneaus",
+   "links": [
+    {
+     "text": "Ask how to fish.",
+     "bypass": "player_help 7561.htm#7561",
+     "kind": "other"
+    },
+    {
+     "text": "Fishing Contest",
+     "bypass": "Quest Fisherman fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "fishing_championship.htm",
+     "to": "ai/npc/Fisherman/fishing_championship.htm"
+    },
+    {
+     "text": "Learn fishing skill.",
+     "bypass": "Quest Fisherman LearnFishSkill",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "LearnFishSkill",
+     "to": null
+    },
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "Quest Fisherman BuySellRefund",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "BuySellRefund",
+     "to": null
+    },
+    {
+     "text": "Sell fish.",
+     "bypass": "npc_%objectId%_multisell 009",
+     "kind": "multisell"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/31577-pk.htm": {
+   "file": "ai/npc/Fisherman/31577-pk.htm",
+   "quest": null,
+   "text": "Fishermen's Guild Member Linnaeus: We don't cater to the likes of you!",
+   "header": "Fishermen's Guild Member Linnaeus",
+   "when": [
+    "player.getKarma() > 0; !character().karmaPlayerCanShop()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00030_ChestCaughtWithABaitOfFire/31577-01.htm": {
+   "file": "Q00030_ChestCaughtWithABaitOfFire/31577-01.htm",
+   "quest": 30,
+   "text": "Fishermen's Guild Member Linneus: Welcome back! You're the one that I gave the bait of flame, right? So... Did you catch anything with it? Other than fish, I mean? That was a very specialized bait you were using! You didn't happen to catch a box, did you?",
+   "header": "Fishermen's Guild Member Linneus",
+   "when": [
+    "state CREATED; ((player.getLevel() >= 61) && player.hasQuestCompleted(Q00053_LinnaeusSpecialBait.class.getSimpleNam"
+   ],
+   "links": [
+    {
+     "text": "\"It's none of your business what I caught!\"",
+     "bypass": "Quest Q00030_ChestCaughtWithABaitOfFire 31577-02.htm",
+     "kind": "quest-event",
+     "script": "Q00030_ChestCaughtWithABaitOfFire",
+     "event": "31577-02.htm",
+     "quest": 30,
+     "to": "Q00030_ChestCaughtWithABaitOfFire/31577-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00030_ChestCaughtWithABaitOfFire/31577-00.htm": {
+   "file": "Q00030_ChestCaughtWithABaitOfFire/31577-00.htm",
+   "quest": 30,
+   "text": "Fishermen's Guild Member Linneus: Fishing really brings life into perspective. You're not here to buy fishing gear, are you? Have you ever been fishing? Even the nobles of Aden enjoy it. (This quest may only be undertaken by characters of level 60 or above who have completed Linneus's Special Bait …",
+   "header": "Fishermen's Guild Member Linneus",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= 61) && player.hasQuestCompleted(Q00053_LinnaeusSpecialBait.class.getSimpleNam"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00030_ChestCaughtWithABaitOfFire/31577-03a.htm": {
+   "file": "Q00030_ChestCaughtWithABaitOfFire/31577-03a.htm",
+   "quest": 30,
+   "text": "Fishermen's Guild Member Linneus: You're back! Did you finish your assignment already? No? Please, go and find the Red Treasure Box . I know it's not easy, but I really must have it! Ask around, see if anyone's found it.",
+   "header": "Fishermen's Guild Member Linneus",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00030_ChestCaughtWithABaitOfFire/31577-03.htm": {
+   "file": "Q00030_ChestCaughtWithABaitOfFire/31577-03.htm",
+   "quest": 30,
+   "text": "Fishermen's Guild Member Linneus: Wow! Did you already find the red treasure box ? Let me see it! I need to verify that it's the one my client lost.",
+   "header": "Fishermen's Guild Member Linneus",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00030_ChestCaughtWithABaitOfFire 31577-04a.htm",
+     "kind": "quest-event",
+     "script": "Q00030_ChestCaughtWithABaitOfFire",
+     "event": "31577-04a.htm",
+     "quest": 30,
+     "to": "Q00030_ChestCaughtWithABaitOfFire/31577-04a.htm",
+     "toAll": [
+      "Q00030_ChestCaughtWithABaitOfFire/31577-04a.htm",
+      "Q00030_ChestCaughtWithABaitOfFire/31577-04.htm"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00030_ChestCaughtWithABaitOfFire/31577-05.htm": {
+   "file": "Q00030_ChestCaughtWithABaitOfFire/31577-05.htm",
+   "quest": 30,
+   "text": "Fishermen's Guild Member Linneus: Why haven't you gone to see Mr. Rukal yet? Go to Dion Castle Town. Mortals such as us are unworthy to possess such beautiful music! It should be reserved for Swordsingers and Bladedancers!",
+   "header": "Fishermen's Guild Member Linneus",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00053_LinnaeusSpecialBait/31577-0.htm": {
+   "file": "Q00053_LinnaeusSpecialBait/31577-0.htm",
+   "quest": 53,
+   "text": "Fishing Guild Member Linnaeus: Theese days, many nobles enjoy fishing. We fishermen like to take our time while fishing, but the nobles prefer to quickly catch things other than fish. They're quite particular about who is allowed to use the special bait, but I don't think they'd have a problem with…",
+   "header": "Fishing Guild Member Linnaeus",
+   "when": [
+    "state CREATED; (player.getLevel() > 59)"
+   ],
+   "links": [
+    {
+     "text": "I'll do it.",
+     "bypass": "Quest Q00053_LinnaeusSpecialBait 31577-1.htm",
+     "kind": "quest-event",
+     "script": "Q00053_LinnaeusSpecialBait",
+     "event": "31577-1.htm",
+     "quest": 53,
+     "to": "Q00053_LinnaeusSpecialBait/31577-1.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00053_LinnaeusSpecialBait/31577-0a.html": {
+   "file": "Q00053_LinnaeusSpecialBait/31577-0a.html",
+   "quest": 53,
+   "text": "Fishermen's Guild Member Linnaeus: A while back, I accidently reeled in several strange boxes while fishing. When I opened them, I discovered that they contained many valuable items, much more precious than fish! I have a knack for finding these boxes, but I can't show you how to do it yet. (This q…",
+   "header": "Fishermen's Guild Member Linnaeus",
+   "when": [
+    "state CREATED; NOT (player.getLevel() > 59)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00053_LinnaeusSpecialBait/31577-4.html": {
+   "file": "Q00053_LinnaeusSpecialBait/31577-4.html",
+   "quest": 53,
+   "text": "Fishing Guild Member Linnaeus: You still haven't obtained the 100 crimson drake's hearts I need to make the bait. Since I'm making it for free, the least you can do is bring the materials I need!",
+   "header": "Fishing Guild Member Linnaeus",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00053_LinnaeusSpecialBait/31577-2.html": {
+   "file": "Q00053_LinnaeusSpecialBait/31577-2.html",
+   "quest": 53,
+   "text": "Fishing Guild Member Linnaeus: You already came back. Being such a famous person, you clearly have different ability. You've obtained all the bait materials to make the bait with the attributes of flame, haven't you? Frankly, I should charge you for the production itself, but wouldn't do that since…",
+   "header": "Fishing Guild Member Linnaeus",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "Give the hearts",
+     "bypass": "Quest Q00053_LinnaeusSpecialBait 31577-3.htm",
+     "kind": "quest-event",
+     "script": "Q00053_LinnaeusSpecialBait",
+     "event": "31577-3.htm",
+     "quest": 53,
+     "to": "Q00053_LinnaeusSpecialBait/31577-3.htm",
+     "toAll": [
+      "Q00053_LinnaeusSpecialBait/31577-3.htm",
+      "Q00053_LinnaeusSpecialBait/31577-5.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00030_ChestCaughtWithABaitOfFire/31577-02.htm": {
+   "file": "Q00030_ChestCaughtWithABaitOfFire/31577-02.htm",
+   "quest": 30,
+   "text": "Fishermen's Guild Member Linneus: There are some things more interesting than fish! A while back, someone came around looking for a red treasure box . Honestly, the bait I gave you earlier was designed to find it! Don't look at me like that! It wouldn't have worked if you would've known what the ba…",
+   "header": "Fishermen's Guild Member Linneus",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00030_ChestCaughtWithABaitOfFire/31577-04.htm": {
+   "file": "Q00030_ChestCaughtWithABaitOfFire/31577-04.htm",
+   "quest": 30,
+   "text": "Fishermen's Guild Member Linneus: I think this is my client's red treasure box . It contains the musical score that Mr. Rukal was looking for. It has his name listed as the composer and lyricist. If it is anything like his other works, it's wonderfully powerful music! Take it to Mr. Rukal in Dion C…",
+   "header": "Fishermen's Guild Member Linneus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00030_ChestCaughtWithABaitOfFire/31577-04a.htm": {
+   "file": "Q00030_ChestCaughtWithABaitOfFire/31577-04a.htm",
+   "quest": 30,
+   "text": "Fishermen's Guild Member Linneus: You found the red treasure box ? Well, I hope you didn't open it! Let me see... Hmm, this isn't the box I'm looking for.",
+   "header": "Fishermen's Guild Member Linneus",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00053_LinnaeusSpecialBait/31577-1.htm": {
+   "file": "Q00053_LinnaeusSpecialBait/31577-1.htm",
+   "quest": 53,
+   "text": "Fishing Guild Member Linnaeus: The special bait I'm talking about is made of Crimson Drake's Heart at Seal of Shilen . This bait is called Bait of Flame to contain the power of flames. And it never easy to get the materials. Besides, it requires 100 hearts. To make even a few baits, you need that n…",
+   "header": "Fishing Guild Member Linnaeus",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00053_LinnaeusSpecialBait/31577-3.htm": {
+   "file": "Q00053_LinnaeusSpecialBait/31577-3.htm",
+   "quest": 53,
+   "text": "Fishing Guild Member Linnaeus: You've obtained all the crimson drake's hearts. Please accept this bait of flame . You'll find it quite different than baits containing the other elements. You won't catch any fish with it, but you're more likely to discover a sunken Treasure Chest! You won't always l…",
+   "header": "Fishing Guild Member Linnaeus",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00053_LinnaeusSpecialBait/31577-5.html": {
+   "file": "Q00053_LinnaeusSpecialBait/31577-5.html",
+   "quest": 53,
+   "text": "Fishermen's Guild Member Linnaeus: You said you'd brought all of the Crimson Drake's Hearts, but they are not enough. I cannot make Bait of Flame containing the power of flame with these. Even though you are a famous soldier, you have to bring me the right materials for making it.",
+   "header": "Fishermen's Guild Member Linnaeus",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Chest Caught with a Bait of Flame]",
+     "bypass": "npc_%objectId%_Quest Q00030_ChestCaughtWithABaitOfFire",
+     "kind": "quest",
+     "quest": 30,
+     "to": "Q00030_ChestCaughtWithABaitOfFire/31577-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Chest Caught with a Bait of Flame (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00030_ChestCaughtWithABaitOfFire",
+     "kind": "quest",
+     "quest": 30,
+     "to": "Q00030_ChestCaughtWithABaitOfFire/31577-03a.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Linnaeus' Special Bait]",
+     "bypass": "npc_%objectId%_Quest Q00053_LinnaeusSpecialBait",
+     "kind": "quest",
+     "quest": 53,
+     "to": "Q00053_LinnaeusSpecialBait/31577-0.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Linnaeus' Special Bait (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00053_LinnaeusSpecialBait",
+     "kind": "quest",
+     "quest": 53,
+     "to": "Q00053_LinnaeusSpecialBait/31577-4.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Quest for Fishing shot]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Quest for Fishing shot (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/fishing_championship.htm": {
+   "file": "ai/npc/Fisherman/fishing_championship.htm",
+   "quest": null,
+   "text": "Fishing King Championship Tournament Fishing Guild Member: Ahoy! Here are the results of last week's Fishing King Championship Tournament! Do you see your name on the list? If you do, claim your prize money! Remember, you have only one week to claim your prize. Don't fret if your name isn't listed …",
+   "header": "Fishing Guild Member",
+   "links": [
+    {
+     "text": "Claim Prize",
+     "bypass": "Quest Fisherman fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "fishing_championship.htm",
+     "to": "ai/npc/Fisherman/fishing_championship.htm"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "npcId": 31344,
+ "name": "Schmidt",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.194Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/31344.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/31344.htm": {
+   "file": "guard/31344.htm",
+   "quest": null,
+   "text": "Guard Schmidt: Howdy, stranger! Welcome! You're really brave to be here at a time like this! Or just lucky maybe? Ha! I've had enough of danger myself, thank you! I'd rather stay home and relax with my georgeous wife! When the stakatos are driven out of the Swamp of Screams and the land is cultivat…",
+   "header": "Guard Schmidt",
+   "links": [
+    {
+     "text": "\"Tell me about the Swamp of Screams.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/31344-1.htm"
+    },
+    {
+     "text": "See the lord & tax rate info.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/31344-1.htm": {
+   "file": "guard/31344-1.htm",
+   "quest": null,
+   "text": "Guard Schmidt: The Swamp of Screams ? It's a very dangerous place. The stakatos are ferocious and the water in the swamp is poisonous. I hear you become addicted when you get near the water, you don't even have to drink it! The Golden Ram Mercenary Force was hired to wipe them out. Best to use the …",
+   "header": "Guard Schmidt",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31344.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

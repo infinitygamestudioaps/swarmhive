@@ -2,7 +2,7 @@
  "id": 141,
  "name": "Shadow Fox - 3",
  "version": 1,
- "generated": "2026-10-27T11:15:12.938Z",
+ "generated": "2026-10-27T18:18:48.666Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 37,
@@ -28,7 +28,7 @@
  ],
  "status": "ready",
  "reasons": [],
- "expectedMin": 28,
+ "expectedMin": 30,
  "refLevel": 37,
  "steps": [
   {
@@ -165,9 +165,9 @@
    "key": "c1:talk:30894",
    "cond": 1,
    "kind": "talk",
-   "to": "end",
+   "to": 2,
    "links": [
-    "\"I cannot say who is right and who is wrong...\""
+    "Keep listening."
    ],
    "npc": {
     "id": 30894,
@@ -290,10 +290,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4
+    1
    ]
   },
   {
@@ -668,10 +665,276 @@
    "expectedSec": 1524,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "hunt"
    },
    "conds": [
     2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:30894",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "\"Before I choose, can you give me more information about each request?\""
+   ],
+   "npc": {
+    "id": 30894,
+    "name": "Natools",
+    "title": "Warehouse Chief",
+    "town": "Heine",
+    "at": [
+     109627,
+     220168,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Talk to Natools",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30894@109627,220168",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2463,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2463,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109912,
+      219576,
+      -3472
+     ],
+     [
+      109864,
+      219800,
+      -3472
+     ],
+     [
+      109848,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220168,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 66,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:30894",
+   "cond": 4,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I cannot say who is right and who is wrong...\""
+   ],
+   "npc": {
+    "id": 30894,
+    "name": "Natools",
+    "title": "Warehouse Chief",
+    "town": "Heine",
+    "at": [
+     109627,
+     220168,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Talk to Natools",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30894@109627,220168",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2463,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2463,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109912,
+      219576,
+      -3472
+     ],
+     [
+      109864,
+      219800,
+      -3472
+     ],
+     [
+      109848,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220168,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 66,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
    ]
   }
  ],
@@ -679,7 +942,7 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:12.954Z",
+  "at": "2026-10-27T18:18:48.678Z",
   "pass": true,
   "geo": true,
   "fails": [],

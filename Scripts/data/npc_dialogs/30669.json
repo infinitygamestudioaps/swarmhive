@@ -1,0 +1,149 @@
+{
+ "npcId": 30669,
+ "name": "Kakan",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.029Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30669.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "227": {
+   "name": "Test Of The Reformer",
+   "listText": [
+    "[Test of the Reformer]",
+    "[Test of the Reformer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00227_TestOfTheReformer/30669-01.html",
+     "when": "state STARTED; memo 11; has items 2825",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30669-04.html",
+     "when": "state STARTED; memo 12; has items 2825; lacks items 3037",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30669.htm": {
+   "file": "default/30669.htm",
+   "quest": null,
+   "text": "Kakan: I have endured many hardships along with the reformed Ol Mahum pilgrims to reach this place and create our home, but the gods still continue to send hardships upon us. Freezing cold weather, vicious Orcs, and now werewolves. When can we finally be at peace?",
+   "header": "Kakan",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00227_TestOfTheReformer/30669-01.html": {
+   "file": "Q00227_TestOfTheReformer/30669-01.html",
+   "quest": 227,
+   "text": "Kakan: After being sent here by my master, we had barely managed to escape the prying eyes of the Orcs and to build a home for ourselves before we were viciously attacked by werewolves trying to drive us out. Bear in mind, I don't blame the church of Einhasad in any way for this... But... after a f…",
+   "header": "Kakan",
+   "when": [
+    "state STARTED; memo 11; has items 2825"
+   ],
+   "links": [
+    {
+     "text": "Ask what the problem is.",
+     "bypass": "Quest Q00227_TestOfTheReformer 30669-02.html",
+     "kind": "quest-event",
+     "script": "Q00227_TestOfTheReformer",
+     "event": "30669-02.html",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30669-02.html"
+    }
+   ]
+  },
+  "Q00227_TestOfTheReformer/30669-04.html": {
+   "file": "Q00227_TestOfTheReformer/30669-04.html",
+   "quest": 227,
+   "text": "Kakan: Do you think we are lying? We who have lost so many friends to deceit and broken promises? You must agree that this is the best way to cut our losses... Please take this letter to my master as soon as possible. You want to meet with all of Sla's disciples? Try going to the nearby village of …",
+   "header": "Kakan",
+   "when": [
+    "state STARTED; memo 12; has items 2825; lacks items 3037"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30669-02.html": {
+   "file": "Q00227_TestOfTheReformer/30669-02.html",
+   "quest": 227,
+   "text": "Kakan: Our representative is not himself lately. Hey, you look like a magic user... Would you help us? Perhaps you could just rough him up ‍a bit, you know, scare him a little... You must decide quickly though, he draws nigh...",
+   "header": "Kakan",
+   "links": [
+    {
+     "text": "\"I will help.\"",
+     "bypass": "Quest Q00227_TestOfTheReformer 30669-03.html",
+     "kind": "quest-event",
+     "script": "Q00227_TestOfTheReformer",
+     "event": "30669-03.html",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30669-03.html",
+     "effect": "cond:12"
+    },
+    {
+     "text": "\"You're on your own.\"",
+     "bypass": "Quest Q00227_TestOfTheReformer 30669-05.html",
+     "kind": "quest-event",
+     "script": "Q00227_TestOfTheReformer",
+     "event": "30669-05.html",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30669-05.html"
+    }
+   ]
+  },
+  "Q00227_TestOfTheReformer/30669-03.html": {
+   "file": "Q00227_TestOfTheReformer/30669-03.html",
+   "quest": 227,
+   "text": "Kakan: Don't you get it? Either use your magic to help us secretly or deal with him directly and knock him out with one blow. ‍We must show him our strength! Otherwise, the entire pack will be upon us! It would be a bloodbath!",
+   "header": "Kakan",
+   "sets": {
+    "cond": "12"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30669-05.html": {
+   "file": "Q00227_TestOfTheReformer/30669-05.html",
+   "quest": 227,
+   "text": "Kakan: Please reconsider. Even if we are defeated, we shall all die together. Our representative has been weakened by those very werewolves. There was no evidence, but... They are savage, but clever.",
+   "header": "Kakan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Reformer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00227_TestOfTheReformer",
+     "kind": "quest",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30669-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

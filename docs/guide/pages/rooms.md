@@ -14,6 +14,9 @@ with the geodata). From here you also open a room's outline in the [shape editor
   the party levels it suits, its monsters, and the **side** (left / right / straight / behind) as seen from the floor entry.
 - A floor has **safe spots** (green shields on the maps): places in the corridors away from every room and every aggressive monster,
   used when a character has to get away from a fight.
+- Caves mapped room by room from the geodata: **Devil's Isle Caves** (Heine, levels 43-54) and **Forgotten Temple** (Gludin gatekeeper
+  → "Forgotten Temple", 2000 adena, then walk down the ramp south of the landing; upper temple and lower water halls, levels 27-35, every
+  monster aggressive; raid bosses Unrequited Kael 24 and Tirak 28 inside).
 
 **How rooms are used:** a party hunts in rooms when its spot is a "rooms" spot (see [Spots](spots.md#add-a-dungeon-spot)) or when you
 chose a room (or several) for the party on the [Parties](parties.md) tab. The leader takes the party to the floor, walks your saved points

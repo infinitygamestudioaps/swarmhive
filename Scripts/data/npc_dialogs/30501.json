@@ -1,0 +1,454 @@
+{
+ "npcId": 30501,
+ "name": "Kasman",
+ "title": "Prefect",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.985Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30501.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "220": {
+   "name": "Testimony Of Glory",
+   "listText": [
+    "[Testimony of Glory]",
+    "[Testimony of Glory (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00220_TestimonyOfGlory/30501-01.html",
+     "when": "state STARTED; has items 3209,3210",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30501-11.html",
+     "when": "state STARTED; has items 3216,3217,3220; lacks items 3209,3210",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "414": {
+   "name": "Path Of The Orc Raider",
+   "listText": [
+    "[Path of the Orc Raider]",
+    "[Path of the Orc Raider (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00414_PathOfTheOrcRaider/30501-01.html",
+     "when": "state STARTED; lacks items 1591; item 1589 >= 2; item 1590 >= 2; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00414_PathOfTheOrcRaider/30501-02.html",
+     "when": "state STARTED; item 1591 >= 1; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, HEAD_OF_BETRAYER) && (getQuestItemsCount(player, BETRAYER_UMBAR_REPORT, BETRAYER_ZAKAN_REPORT) ",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00414_PathOfTheOrcRaider/30501-03.html",
+     "when": "state STARTED; item 1591 >= 2; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, HEAD_OF_BETRAYER) && (getQuestItemsCount(player, BETRAYER_UMBAR_REPORT, BETRAYER_ZAKAN_REPORT) ; !getQuestItemsCount(player, HEAD_OF_BETRAYER) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "415": {
+   "name": "Path Of The Orc Monk",
+   "listText": [
+    "[Path of the Orc Monk]",
+    "[Path of the Orc Monk (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30501-01.html",
+     "when": "state STARTED; has items 1605; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30501-02.html",
+     "when": "state STARTED; has items 1606; lacks items 1605,1607,1608; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30501-03.html",
+     "when": "state STARTED; has items 1607,1608; lacks items 1605,1606; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, FIG) && !hasAtLeastOneQuestItem(player, LEATHER_POUCH_4TF, LEATHER_POUCH_4TF_FULL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30501-04.html",
+     "when": "state STARTED; has items 1613; lacks items 1605; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, FIG) && !hasAtLeastOneQuestItem(player, LEATHER_POUCH_4TF, LEATHER_POUCH_4TF_FULL)); !(!hasQuestItems(player, FIG) && hasAtLeastOneQuestItem(player, LEATHER_POUCH_4TF, LEATHER_POUCH_4TF_FULL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30501.htm": {
+   "file": "trainer/30501.htm",
+   "quest": null,
+   "text": "Prefect Kasman: Have you come here to learn? Heed my advice: do your best, then use your power to bring justice to those Low Orcs .",
+   "header": "Prefect Kasman",
+   "links": [
+    {
+     "text": "Ask about the Low Orcs.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30501-1.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30501-1.htm": {
+   "file": "trainer/30501-1.htm",
+   "quest": null,
+   "text": "Prefect Kasman: They were rebels we defeated long ago. They have so long been exiled from our civilization that they can hardly be termed Orcs any more. It is difficult for me to even accept the fact that they have the same origin as the rest of our kind. We must purge them with the sacred flames o…",
+   "header": "Prefect Kasman",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30501.htm"
+    }
+   ]
+  },
+  "trainer/30501-noteach.htm": {
+   "file": "trainer/30501-noteach.htm",
+   "quest": null,
+   "text": "Prefect Kasman: I, Kasman, have nothing to teach you. Go seek out a Master who is right for you!",
+   "header": "Prefect Kasman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30501-01.html": {
+   "file": "Q00220_TestimonyOfGlory/30501-01.html",
+   "quest": 220,
+   "text": "Prefect Kasman: My friend, this reconstruction of the Orc Kingdom that you have undertaken is truly the Lord's work! I can tell you whatever you need to know about the apostate Orcs around here.",
+   "header": "Prefect Kasman",
+   "when": [
+    "state STARTED; has items 3209,3210"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Vuku Orcs",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30501-02.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30501-02.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30501-02.html",
+     "toAll": [
+      "Q00220_TestimonyOfGlory/30501-02.html",
+      "Q00220_TestimonyOfGlory/30501-03.html",
+      "Q00220_TestimonyOfGlory/30501-04.html"
+     ]
+    },
+    {
+     "text": "Ask about the Turek Orcs",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30501-05.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30501-05.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30501-05.html",
+     "toAll": [
+      "Q00220_TestimonyOfGlory/30501-05.html",
+      "Q00220_TestimonyOfGlory/30501-06.html",
+      "Q00220_TestimonyOfGlory/30501-07.html"
+     ]
+    },
+    {
+     "text": "Ask about the Lennunt Orcs",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30501-08.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30501-08.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30501-08.html",
+     "toAll": [
+      "Q00220_TestimonyOfGlory/30501-08.html",
+      "Q00220_TestimonyOfGlory/30501-09.html",
+      "Q00220_TestimonyOfGlory/30501-10.html"
+     ]
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30501-11.html": {
+   "file": "Q00220_TestimonyOfGlory/30501-11.html",
+   "quest": 220,
+   "text": "Prefect Kasman: The time has come for all of the 108 tribes to reunite under our Flame Lord! The world trembles before the glorious kingdom of Orc! All praise the great Flame Lord Kakai! Tejakar Oroka!",
+   "header": "Prefect Kasman",
+   "when": [
+    "state STARTED; has items 3216,3217,3220; lacks items 3209,3210"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00414_PathOfTheOrcRaider/30501-01.html": {
+   "file": "Q00414_PathOfTheOrcRaider/30501-01.html",
+   "quest": 414,
+   "text": "Prefect Kasman: I have received notice from Karukia. You were given the task to destroy the betrayers, right? They are sly scoundrels, so you must be careful in dealing with them. After you finish your task, bring me back their heads!",
+   "header": "Prefect Kasman",
+   "when": [
+    "state STARTED; lacks items 1591; item 1589 >= 2; item 1590 >= 2; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00414_PathOfTheOrcRaider/30501-02.html": {
+   "file": "Q00414_PathOfTheOrcRaider/30501-02.html",
+   "quest": 414,
+   "text": "Prefect Kasman: Now you have one left. Go and kill the scoundrel!",
+   "header": "Prefect Kasman",
+   "when": [
+    "state STARTED; item 1591 >= 1; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, HEAD_OF_BETRAYER) && (getQuestItemsCount(player, BETRAYER_UMBAR_REPORT, BETRAYER_ZAKAN_REPORT) "
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00414_PathOfTheOrcRaider/30501-03.html": {
+   "file": "Q00414_PathOfTheOrcRaider/30501-03.html",
+   "quest": 414,
+   "text": "Prefect Kasman: Foul betrayers, the Umbar tribe, to think that they abandoned the courage and loyalty of high-level orcs, they have become low Orcs depraved in body as well as in soul. How truly wicked they look. I am moved to think that we have shown mercy by killing them! Anyway, you have done we…",
+   "header": "Prefect Kasman",
+   "when": [
+    "state STARTED; item 1591 >= 2; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, HEAD_OF_BETRAYER) && (getQuestItemsCount(player, BETRAYER_UMBAR_REPORT, BETRAYER_ZAKAN_REPORT) ; !getQuestItemsCount(player, HEAD_OF_BETRAYER) == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30501-01.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30501-01.html",
+   "quest": 415,
+   "text": "Prefect Kasman: To find the second scroll needed in order to become a Monk, you must meet Khavatari Toruku . To meet him, you must follow the path that heads north from the village. He will be near the fork in the road. When you meet him, give him this fig. Come back after you have completed his Tr…",
+   "header": "Prefect Kasman",
+   "when": [
+    "state STARTED; has items 1605; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30501-02.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30501-02.html",
+   "quest": 415,
+   "text": "Prefect Kasman: Why have you returned? If you want to find the scroll, go on now to Khavatari Toruku He is near the three-way junction if you follow the road north of the village. When you secure the Iron Will Scroll, come back to me.",
+   "header": "Prefect Kasman",
+   "when": [
+    "state STARTED; has items 1606; lacks items 1605,1607,1608; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30501-03.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30501-03.html",
+   "quest": 415,
+   "text": "Prefect Kasman: You have met Khavatari Toruku! They say that his tasks can be completed only with iron will and determination! That's no problem for one like you, right?",
+   "header": "Prefect Kasman",
+   "when": [
+    "state STARTED; has items 1607,1608; lacks items 1605,1606; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, FIG) && !hasAtLeastOneQuestItem(player, LEATHER_POUCH_4TF, LEATHER_POUCH_4TF_FULL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30501-04.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30501-04.html",
+   "quest": 415,
+   "text": "Prefect Kasman: Tejakar Oroka! Good work, young fighter! As a result of steady effort and steadfast perseverance, you have obtained both scrolls! Congratulations! Maintain that spirit and go forward. I hope you will become a fighter stronger than anyone else! Take this totem! It is a token that sho…",
+   "header": "Prefect Kasman",
+   "when": [
+    "state STARTED; has items 1613; lacks items 1605; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, FIG) && !hasAtLeastOneQuestItem(player, LEATHER_POUCH_4TF, LEATHER_POUCH_4TF_FULL)); !(!hasQuestItems(player, FIG) && hasAtLeastOneQuestItem(player, LEATHER_POUCH_4TF, LEATHER_POUCH_4TF_FULL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30501-02.html": {
+   "file": "Q00220_TestimonyOfGlory/30501-02.html",
+   "quest": 220,
+   "text": "Prefect Kasman: Tejakar Oroka! You have reclaimed the Scepter of Vuku ! The reunification of the 108 tribes grows nearer!",
+   "header": "Prefect Kasman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30501-03.html": {
+   "file": "Q00220_TestimonyOfGlory/30501-03.html",
+   "quest": 220,
+   "text": "Prefect Kasman: Take the letter I gave you to the Chief of the Vuku tribe . You will find him cowering in a forest near the Town of Gludio . Go and reclaim the Scepter of Flame from those lowlifes!",
+   "header": "Prefect Kasman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30501-04.html": {
+   "file": "Q00220_TestimonyOfGlory/30501-04.html",
+   "quest": 220,
+   "text": "Prefect Kasman: Take the letter I gave you to the Chief of the Vuku tribe . You will find him cowering in a forest near the Town of Gludio . Go and reclaim the Scepter of Flame from those lowlifes!",
+   "header": "Prefect Kasman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30501-05.html": {
+   "file": "Q00220_TestimonyOfGlory/30501-05.html",
+   "quest": 220,
+   "text": "Prefect Kasman: Tejakar Oroka! Have you retrieved the Scepter of Turek ? The reunification of the 108 tribes will soon come!",
+   "header": "Prefect Kasman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30501-06.html": {
+   "file": "Q00220_TestimonyOfGlory/30501-06.html",
+   "quest": 220,
+   "text": "Prefect Kasman: You must take the letter I gave you to the Chief of the Vuku ! On the road north from this village you will find the army post of Turek Orcs . You must never forget that you are the representative of the greatest Flame Lord, Kakai! Always behave with the pride and dignity that your …",
+   "header": "Prefect Kasman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30501-07.html": {
+   "file": "Q00220_TestimonyOfGlory/30501-07.html",
+   "quest": 220,
+   "text": "Prefect Kasman: You must take the letter I gave you to the Chief of the Turek ! On the road north from this village you will find the Turek Orc Military Post . You must never forget that you are the representative of the greatest Flame Lord, Kakai! Always behave with the pride and dignity that your…",
+   "header": "Prefect Kasman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30501-08.html": {
+   "file": "Q00220_TestimonyOfGlory/30501-08.html",
+   "quest": 220,
+   "text": "Prefect Kasman: Tejakar Oroka! Have you reclaimed the Scepter of Lennunt ? The time of the reunification of the 108 tribes draws nearer!!",
+   "header": "Prefect Kasman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30501-09.html": {
+   "file": "Q00220_TestimonyOfGlory/30501-09.html",
+   "quest": 220,
+   "text": "Prefect Kasman: A man claiming to be the Chief of the Lennunt tribe is currently on the southern seashore of Gludio . Take this letter to him. Don't forget that you are the representative of the greatest Flame Lord, Kakai and you must always display the pride and dignity befitting your position!",
+   "header": "Prefect Kasman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30501-10.html": {
+   "file": "Q00220_TestimonyOfGlory/30501-10.html",
+   "quest": 220,
+   "text": "Prefect Kasman: A man claiming to be the Chief of the Lennunt tribe is currently on the southern seashore of Gludio . Take this letter to him. Don't forget that you are the representative of the greatest Flame Lord, Kakai and you must always display the pride and dignity befitting your position!",
+   "header": "Prefect Kasman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Glory (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00220_TestimonyOfGlory",
+     "kind": "quest",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30501-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Orc Raider (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00414_PathOfTheOrcRaider",
+     "kind": "quest",
+     "quest": 414,
+     "to": "Q00414_PathOfTheOrcRaider/30501-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Orc Monk (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00415_PathOfTheOrcMonk",
+     "kind": "quest",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/30501-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

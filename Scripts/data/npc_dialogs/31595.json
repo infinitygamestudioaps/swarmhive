@@ -1,0 +1,219 @@
+{
+ "npcId": 31595,
+ "name": "Leona Blackbird",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.240Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00074_SagaOfTheDreadnought/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 74"
+  },
+  {
+   "page": "Q00074_SagaOfTheDreadnought/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 74"
+  },
+  {
+   "page": "Q00074_SagaOfTheDreadnought/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 74"
+  },
+  {
+   "page": "Q00074_SagaOfTheDreadnought/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 74"
+  },
+  {
+   "page": "Q00074_SagaOfTheDreadnought/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 74"
+  },
+  {
+   "page": "Q00074_SagaOfTheDreadnought/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 74"
+  },
+  {
+   "page": "Q00074_SagaOfTheDreadnought/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 74"
+  },
+  {
+   "page": "Q00074_SagaOfTheDreadnought/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 74"
+  }
+ ],
+ "quests": {
+  "74": {
+   "name": "Saga of the Dreadnought",
+   "listText": [
+    "[Saga of the Dreadnought]",
+    "[Saga of the Dreadnought (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00074_SagaOfTheDreadnought/4-04.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/4-04.htm",
+   "quest": 74,
+   "text": "Leona Blackbird: I have a lot of things I'd like to tell you. But for now, it's important for you to help me in defeating this guy. In order to obtain more power, you will need to overcome hardship! A real challenge like this one!",
+   "header": "Leona Blackbird",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/4-06.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/4-06.htm",
+   "quest": 74,
+   "text": "Leona Blackbird: Good job! Pleased to meet you. I'm Leona Blackbird. Some call me such things as the Bride of the Fire Dragon, but believe me, I never married Valakas! Ha! At one time I was captain of the guard in Giran. That's when the fire dragon told me about this pilgrimage, which I didn't foll…",
+   "header": "Leona Blackbird",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Why is that?\"",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought 4-1",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "4-1",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/4-010.htm"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/4-01.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/4-01.htm",
+   "quest": 74,
+   "text": "Leona Blackbird: Finally, I get to meet you! We'll talk later. First, would you help me take care of this guy?",
+   "header": "Leona Blackbird",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/4-03.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/4-03.htm",
+   "quest": 74,
+   "text": "Leona Blackbird: Hmm? He..he ran away? Well, that's OK! I didn't really need to kill him anyway!",
+   "header": "Leona Blackbird",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/4-05.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/4-05.htm",
+   "quest": 74,
+   "text": "Leona Blackbird: What do you want from me? You shouldn't get so close when Warlords fight! You could get hurt!",
+   "header": "Leona Blackbird",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/4-07.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/4-07.htm",
+   "quest": 74,
+   "text": "Leona Blackbird: Good job! Pleased to meet you. I'm Leona Blackbird. Some call me such things as the Bride of the Fire Dragon, but believe me, I never married Valakas! Ha! At one time I was captain of the guard in Giran. That's when the fire dragon told me about this pilgrimage, which I didn't foll…",
+   "header": "Leona Blackbird",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "Why is that?",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought 4-2",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "4-2",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/4-02.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/4-02.htm",
+   "quest": 74,
+   "text": "Leona Blackbird: Sorry, but as you can see, this isn't the time for me to sit down for a chat!",
+   "header": "Leona Blackbird",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/4-08.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/4-08.htm",
+   "quest": 74,
+   "text": "Leona Blackbird: We meet again! Have you gotten the last vision of the dragon? The Tablet of Vision beside you holds the knowledge you seek.",
+   "header": "Leona Blackbird",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/4-010.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/4-010.htm",
+   "quest": 74,
+   "text": "Leona Blackbird: I was suspicious for a while. Why, at that time, did the fire dragon come to me? What woke that beast from its sleep...? Especially damning was the fact that the seal of Shilen was broken! The era of chaos... The period the dragon warned about, had arrived at last. In times of chao…",
+   "header": "Leona Blackbird",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought 4-3",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "4-3",
+     "quest": 74,
+     "to": null,
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/4-011.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/4-011.htm",
+   "quest": 74,
+   "text": "Leona Blackbird: I was suspicious for a while. Why, at that time, did the fire dragon come to me? What woke that beast from its sleep...? Especially damning was the fact that the seal of Shilen was broken! The era of chaos... The period the dragon warned about, had arrived at last. In times of chao…",
+   "header": "Leona Blackbird",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/4-09.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/4-09.htm",
+   "quest": 74,
+   "text": "Leona Blackbird: Take the stone and commune with the last stone tablet to learn the vision of the dragon...",
+   "header": "Leona Blackbird",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Dreadnought (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00074_SagaOfTheDreadnought",
+     "kind": "quest",
+     "quest": 74,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,973 @@
+{
+ "npcId": 30845,
+ "name": "Klump",
+ "title": "Warehouse Chief",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:03.083Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30845.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "662": {
+   "name": "A Game of Cards",
+   "listText": [
+    "[A Game of Cards]",
+    "[A Game of Cards (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00662_AGameOfCards/30845-02.html",
+     "when": "state CREATED; player.getLevel() < MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00662_AGameOfCards/30845-01.htm",
+     "when": "state CREATED; NOT player.getLevel() < MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00662_AGameOfCards/30845-04.html",
+     "when": "state STARTED; cond 1; st.getQuestItemsCount(RED_GEM) < REQUIRED_CHIP_COUNT",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00662_AGameOfCards/30845-05.html",
+     "when": "state STARTED; cond 1; NOT st.getQuestItemsCount(RED_GEM) < REQUIRED_CHIP_COUNT",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00662_AGameOfCards/30845-11a.html",
+     "when": "state STARTED; st.getInt(\"ExMemoState\") != 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30845.htm": {
+   "file": "villagemaster/30845.htm",
+   "quest": null,
+   "text": "Warehouse Chief Klump: Pleased to meet you. I am Warehouse Chief Klump of the Iron Gate Guild. Giran is the center of our craft, of course, but the river of wealth that flows to us here in Aden Castle Town is scarcely less deep. Of course, here we focus more on decorative and artistic pieces rather…",
+   "header": "Warehouse Chief Klump",
+   "live": {
+    "file": "Logs/npclive_Klump_eb76d9c7.html",
+    "at": "2026-10-27T14:43:25.056Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest DwarfWarehouseChange2",
+     "kind": "quest",
+     "script": "DwarfWarehouseChange2",
+     "live": true
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class",
+     "live": true
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan",
+     "live": true
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance",
+     "live": true
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm",
+     "live": true
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-02.html": {
+   "file": "Q00662_AGameOfCards/30845-02.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Are you here because you heard the rumor, too? These days, I spend a lot of my time playing cards with the travelers who pass this way. Naturally, there's plenty of reward for those who play a good game. Feel up to a game? Of course, since you stand to win a fair amount, you …",
+   "header": "Warehouse Chief Klump",
+   "when": [
+    "state CREATED; player.getLevel() < MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00662_AGameOfCards/30845-01.htm": {
+   "file": "Q00662_AGameOfCards/30845-01.htm",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Are you here because you heard the rumor, too?These days, I spend a lot of my time playing cards with the travelers who pass this way. Naturally, there's plenty of reward for those who play a good game. Feel up to a game? (This quest may be undertaken only by characters of le…",
+   "header": "Warehouse Chief Klump",
+   "when": [
+    "state CREATED; NOT player.getLevel() < MIN_LEVEL"
+   ],
+   "live": {
+    "file": "Logs/npc_Healer9.html",
+    "at": "2026-10-27T14:43:29.126Z",
+    "score": 0.52
+   },
+   "dpText": "Warehouse Chief Klump: Are you here because you heard the rumor, too? These days, I spend a lot of my time playing cards with the travelers who pass this way. Naturally, there's plenty of reward for those who play a good game. Feel up to a game? Of course, since you stand to win a fair amount, you …",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00662_AGameOfCards 30845-03.htm",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "30845-03.htm",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-04.html": {
+   "file": "Q00662_AGameOfCards/30845-04.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: You haven't collected 50 Red Beads yet. You can get them by defeating the Tulben, Hames Orc Scout, Hames Orc Footman, Cursed Guardian, Hames Orc Overlord, Doom Scout, Dismal Pole, Doom Servant, Doom Archer, Doom Warrior, Bloody Queen, Trives, Falibati, Doom Knight, Ghostly Wa…",
+   "header": "Warehouse Chief Klump",
+   "when": [
+    "state STARTED; cond 1; st.getQuestItemsCount(RED_GEM) < REQUIRED_CHIP_COUNT"
+   ],
+   "links": [
+    {
+     "text": "\"I'll come back later.\"",
+     "bypass": "Quest Q00662_AGameOfCards 30845-06.html",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "30845-06.html",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-06.html"
+    },
+    {
+     "text": "\"I think I'll quit.\"",
+     "bypass": "Quest Q00662_AGameOfCards 30845-07.html",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "30845-07.html",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Listen to an explanation of the rules.",
+     "bypass": "Quest Q00662_AGameOfCards 30845-09.html",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "30845-09.html",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-09.html"
+    },
+    {
+     "text": "Learn about the cards.",
+     "bypass": "Quest Q00662_AGameOfCards 30845-09a.html",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "30845-09a.html",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-09a.html"
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-05.html": {
+   "file": "Q00662_AGameOfCards/30845-05.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Hey, you've brought all 50 red gems. Terrific! What do say? Ready to play some cards?",
+   "header": "Warehouse Chief Klump",
+   "when": [
+    "state STARTED; cond 1; NOT st.getQuestItemsCount(RED_GEM) < REQUIRED_CHIP_COUNT"
+   ],
+   "links": [
+    {
+     "text": "Play cards.",
+     "bypass": "Quest Q00662_AGameOfCards 30845-10.html",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "30845-10.html",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-10.html"
+    },
+    {
+     "text": "Play next time.",
+     "bypass": "Quest Q00662_AGameOfCards 30845-08.html",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "30845-08.html",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-08.html"
+    },
+    {
+     "text": "Listen to the explanation of the rules.",
+     "bypass": "Quest Q00662_AGameOfCards 30845-09.html",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "30845-09.html",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-09.html"
+    },
+    {
+     "text": "Listen to the story about the cards.",
+     "bypass": "Quest Q00662_AGameOfCards 30845-09a.html",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "30845-09a.html",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-09a.html"
+    },
+    {
+     "text": "Ask about evil creatures that you can collect red gems from.",
+     "bypass": "Quest Q00662_AGameOfCards 30845-09b.html",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "30845-09b.html",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-09b.html"
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-11a.html": {
+   "file": "Q00662_AGameOfCards/30845-11a.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Hey, I thought you were checking your cards! Where did you go? Your cards are untouched! Check all 5 of them and then show them to me. Cell1 Cell2 Cell3 Cell4 Cell5",
+   "header": "Warehouse Chief Klump",
+   "when": [
+    "state STARTED; st.getInt(\"ExMemoState\") != 0"
+   ],
+   "links": [
+    {
+     "text": "Put the first card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard1",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard1",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    },
+    {
+     "text": "Put the second card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard2",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard2",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    },
+    {
+     "text": "Put the third card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard3",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard3",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    },
+    {
+     "text": "Put the fourth card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard4",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard4",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    },
+    {
+     "text": "Put the fifth card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard5",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard5",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-03.htm": {
+   "file": "Q00662_AGameOfCards/30845-03.htm",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Good! Then collect the Red Beads and bring them to me. There are many monsters from whom you can get get Red Beads, so listen carefully. You can get them by defeating the Tulben, Hames Orc Scout, Hames Orc Footman, Cursed Guardian, Hames Orc Overlord, Doom Scout, Dismal Pole,…",
+   "header": "Warehouse Chief Klump",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00662_AGameOfCards/30845-06.html": {
+   "file": "Q00662_AGameOfCards/30845-06.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Okay, then. Once you collect all 50 red gems, come back.",
+   "header": "Warehouse Chief Klump",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00662_AGameOfCards/30845-07.html": {
+   "file": "Q00662_AGameOfCards/30845-07.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Are you quitting? If you ever change your mind, come back any time.",
+   "header": "Warehouse Chief Klump",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00662_AGameOfCards/30845-08.html": {
+   "file": "Q00662_AGameOfCards/30845-08.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Oh yeah? You're very cautious, I see. This game largely depends on luck, so I think it's a good idea to trust your intuition. When you feel like it, come back and challenge me again.",
+   "header": "Warehouse Chief Klump",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00662_AGameOfCards/30845-09.html": {
+   "file": "Q00662_AGameOfCards/30845-09.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: It's very simple. There are 70 cards, made up of 5 suits with 14 characters in each suit. You draw 5 cards from the lot, and if you get one of the combination of cards below, you can be rewarded. Five of a kind: Five cards containing the same character. Four of a kind: Four c…",
+   "header": "Warehouse Chief Klump",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return.",
+     "bypass": "Quest Q00662_AGameOfCards return",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "return",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-04.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-04.html",
+      "Q00662_AGameOfCards/30845-05.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-09a.html": {
+   "file": "Q00662_AGameOfCards/30845-09a.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Actually, a fellow named Hindemith left these cards. Looks like they have some kind of message on them, but I have no idea what that means... I just use them to play cards... Ha ha ha!",
+   "header": "Warehouse Chief Klump",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return.",
+     "bypass": "Quest Q00662_AGameOfCards return",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "return",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-04.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-04.html",
+      "Q00662_AGameOfCards/30845-05.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-09b.html": {
+   "file": "Q00662_AGameOfCards/30845-09b.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: You can obtain red gems from many evil creatures. Get them by slaying the Tulben, Hames Orc Scout, Hames Orc Footman, Cursed Guardian, Hames Orc Overlord, Doom Scout, Dismal Pole, Doom Servant, Doom Archer, Doom Warrior, Blood Queen, Trives, Falibati, Doom Knight, Ghostly War…",
+   "header": "Warehouse Chief Klump",
+   "links": [
+    {
+     "text": "Go back.",
+     "bypass": "Quest Q00662_AGameOfCards return",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "return",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-04.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-04.html",
+      "Q00662_AGameOfCards/30845-05.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-10.html": {
+   "file": "Q00662_AGameOfCards/30845-10.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Good thinking! Just let me shuffle the cards... . . . Ah, there we go! Would you like to cut the deck?",
+   "header": "Warehouse Chief Klump",
+   "links": [
+    {
+     "text": "Cut the card deck.",
+     "bypass": "Quest Q00662_AGameOfCards 30845-11.html",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "30845-11.html",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-11.html"
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-11.html": {
+   "file": "Q00662_AGameOfCards/30845-11.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Alrighty, time to play! Here are your 5 cards, face down. Check all 5 of your cards first, and then show them to me. ? ? ? ? ?",
+   "header": "Warehouse Chief Klump",
+   "links": [
+    {
+     "text": "Put the first card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard1",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard1",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    },
+    {
+     "text": "Put the second card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard2",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard2",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    },
+    {
+     "text": "Put the third card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard3",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard3",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    },
+    {
+     "text": "Put the fourth card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard4",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard4",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    },
+    {
+     "text": "Put the fifth card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard5",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard5",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-12.html": {
+   "file": "Q00662_AGameOfCards/30845-12.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Check all 5 of your cards and then show them to me. Cell1 Cell2 Cell3 Cell4 Cell5",
+   "header": "Warehouse Chief Klump",
+   "links": [
+    {
+     "text": "Put the first card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard1",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard1",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    },
+    {
+     "text": "Put the second card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard2",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard2",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    },
+    {
+     "text": "Put the third card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard3",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard3",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    },
+    {
+     "text": "Put the fourth card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard4",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard4",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    },
+    {
+     "text": "Put the fifth card face up.",
+     "bypass": "Quest Q00662_AGameOfCards turncard5",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "turncard5",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-12.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-12.html",
+      "Q00662_AGameOfCards/30845-13.html",
+      "Q00662_AGameOfCards/30845-14.html",
+      "Q00662_AGameOfCards/30845-15.html",
+      "Q00662_AGameOfCards/30845-16.html",
+      "Q00662_AGameOfCards/30845-17.html",
+      "Q00662_AGameOfCards/30845-18.html",
+      "Q00662_AGameOfCards/30845-19.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-13.html": {
+   "file": "Q00662_AGameOfCards/30845-13.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Did you have a look at your cards? Show them to me. Cell1 Cell2 Cell3 Cell4 Cell5 Hmmmm....? This is... Five of a kind! What luck! The goddess of victory must be with you! Here is your prize! Well earned, well played!",
+   "header": "Warehouse Chief Klump",
+   "links": [
+    {
+     "text": "Play again.",
+     "bypass": "Quest Q00662_AGameOfCards playagain",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "playagain",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-21.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-21.html",
+      "Q00662_AGameOfCards/30845-20.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-14.html": {
+   "file": "Q00662_AGameOfCards/30845-14.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Did you have a look at your cards? Show them to me. Cell1 Cell2 Cell3 Cell4 Cell5 Hmmmm...? This is... Four of a kind! Well done, my young friend! That sort of hand doesn't come up very often, that's for sure. Here's your prize.",
+   "header": "Warehouse Chief Klump",
+   "links": [
+    {
+     "text": "Play again.",
+     "bypass": "Quest Q00662_AGameOfCards playagain",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "playagain",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-21.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-21.html",
+      "Q00662_AGameOfCards/30845-20.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-15.html": {
+   "file": "Q00662_AGameOfCards/30845-15.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Did you have a look at your cards? Show them to me. Cell1 Cell2 Cell3 Cell4 Cell5 Hmmmm...? This is... A full house? Excellent! You're better than I thought. Here's your prize.",
+   "header": "Warehouse Chief Klump",
+   "links": [
+    {
+     "text": "Play again.",
+     "bypass": "Quest Q00662_AGameOfCards playagain",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "playagain",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-21.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-21.html",
+      "Q00662_AGameOfCards/30845-20.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-16.html": {
+   "file": "Q00662_AGameOfCards/30845-16.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Did you have a look at your cards? Show them to me. Cell1 Cell2 Cell3 Cell4 Cell5 Hmmmm...? This is... Three of a kind? You're lucky, I'll say that for you! Here's your prize.",
+   "header": "Warehouse Chief Klump",
+   "links": [
+    {
+     "text": "Play again.",
+     "bypass": "Quest Q00662_AGameOfCards playagain",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "playagain",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-21.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-21.html",
+      "Q00662_AGameOfCards/30845-20.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-17.html": {
+   "file": "Q00662_AGameOfCards/30845-17.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Did you have a look at your cards? Show them to me. Cell1 Cell2 Cell3 Cell4 Cell5 Hmmmm...? This is... Two pair? Not bad. Here's your prize.",
+   "header": "Warehouse Chief Klump",
+   "links": [
+    {
+     "text": "Play again.",
+     "bypass": "Quest Q00662_AGameOfCards playagain",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "playagain",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-21.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-21.html",
+      "Q00662_AGameOfCards/30845-20.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-18.html": {
+   "file": "Q00662_AGameOfCards/30845-18.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Did you have a look at your cards? Show them to me. Cell1 Cell2 Cell3 Cell4 Cell5 Hmmmm...? This is... One pair? You got lucky this time, but I wonder if it'll last. Here's your prize.",
+   "header": "Warehouse Chief Klump",
+   "links": [
+    {
+     "text": "Play again.",
+     "bypass": "Quest Q00662_AGameOfCards playagain",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "playagain",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-21.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-21.html",
+      "Q00662_AGameOfCards/30845-20.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-19.html": {
+   "file": "Q00662_AGameOfCards/30845-19.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Did you have a look at your cards? Show them to me. Cell1 Cell2 Cell3 Cell4 Cell5 Hmmmm...? This is... No pair? Tough luck, my friend! Want to try again? Perhaps your luck will take a turn for the better...",
+   "header": "Warehouse Chief Klump",
+   "links": [
+    {
+     "text": "Play again.",
+     "bypass": "Quest Q00662_AGameOfCards playagain",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "playagain",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-21.html",
+     "toAll": [
+      "Q00662_AGameOfCards/30845-21.html",
+      "Q00662_AGameOfCards/30845-20.html"
+     ]
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-20.html": {
+   "file": "Q00662_AGameOfCards/30845-20.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: How about another game? Just let me reshuffle these cards... . . . Ah, all set. Cut the deck, if you please.",
+   "header": "Warehouse Chief Klump",
+   "links": [
+    {
+     "text": "Cut the card deck.",
+     "bypass": "Quest Q00662_AGameOfCards 30845-11.html",
+     "kind": "quest-event",
+     "script": "Q00662_AGameOfCards",
+     "event": "30845-11.html",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-11.html"
+    }
+   ]
+  },
+  "Q00662_AGameOfCards/30845-21.html": {
+   "file": "Q00662_AGameOfCards/30845-21.html",
+   "quest": 662,
+   "text": "Warehouse Chief Klump: Huh? Looks like you've run out of red gems. Too bad! Why don't you collect another 50 red gems and come back, eh?",
+   "header": "Warehouse Chief Klump",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[A Game of Cards]",
+     "bypass": "npc_%objectId%_Quest Q00662_AGameOfCards",
+     "kind": "quest",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[A Game of Cards (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00662_AGameOfCards",
+     "kind": "quest",
+     "quest": 662,
+     "to": "Q00662_AGameOfCards/30845-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of Q00662_AGameOfCards/30845-01.htm differs: live \"Warehouse Chief Klump: Are you here because you heard the rumor, too?These days, I spend …\" vs datapack \"Warehouse Chief Klump: Are you here because you heard the rumor, too? These days, I spend…\"",
+  "Q00662_AGameOfCards/30845-01.htm: datapack link \"Say yes.\" not in the live page (Logs/npc_Healer9.html)",
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Listen to information about second class transfer.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Chief Klump:Pleased to meet you. I am Warehouse Ch"
+   ],
+   "to": [
+    "I am known as the one who trains famous Dwarven Bounty Hunte"
+   ]
+  },
+  {
+   "text": "Clan.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Chief Klump:Pleased to meet you. I am Warehouse Ch"
+   ],
+   "to": [
+    "What would you like to do?Create New Clan.Increase Clan Leve"
+   ]
+  },
+  {
+   "text": "Alliance.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Chief Klump:Pleased to meet you. I am Warehouse Ch"
+   ],
+   "to": [
+    "What would you like to do? Create an Alliance"
+   ]
+  },
+  {
+   "text": "Use Shadow Weapon Exchange Coupon.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Chief Klump:Pleased to meet you. I am Warehouse Ch"
+   ],
+   "to": [
+    "A Shadow Weapon is special weapon that is made in cooperatio"
+   ]
+  },
+  {
+   "text": "Quest.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Chief Klump:Pleased to meet you. I am Warehouse Ch"
+   ],
+   "to": [
+    "Warehouse Chief Klump:Are you here because you heard the rum"
+   ]
+  }
+ ]
+}

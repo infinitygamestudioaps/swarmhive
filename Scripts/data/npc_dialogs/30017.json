@@ -1,0 +1,354 @@
+{
+ "npcId": 30017,
+ "name": "Gallint",
+ "title": "Grand Magister",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.787Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00255_Tutorial/30017-001.htm",
+   "when": "",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30017-004.htm",
+   "when": "qs.getMemoStateEx(1) > 3",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30017-003.htm",
+   "when": "!(!qs.hasQuestItems(RECOMMENDATION_2) && (qs.getMemoStateEx(1) > 3)); qs.getMemoStateEx(1) <= 3",
+   "src": "quest 255"
+  }
+ ],
+ "quests": {
+  "104": {
+   "name": "Spirit of Mirrors",
+   "listText": [
+    "[Spirit of Mirrors]",
+    "[Spirit of Mirrors (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00104_SpiritOfMirrors/30017-03.htm",
+     "when": "state CREATED; (player.getRace() == Race.HUMAN); (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00104_SpiritOfMirrors/30017-02.htm",
+     "when": "state CREATED; (player.getRace() == Race.HUMAN); NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00104_SpiritOfMirrors/30017-01.htm",
+     "when": "state CREATED; NOT (player.getRace() == Race.HUMAN)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00104_SpiritOfMirrors/30017-06.html",
+     "when": "state STARTED; cond 3; has items 1136,1137",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00104_SpiritOfMirrors/30017-05.html",
+     "when": "state STARTED; !(st.isCond(3) && st.hasQuestItems(SPIRITBOUND_WAND1, SPIRITBOUND_WAND2, SPIRITBOUND_WAND3))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "255": {
+   "name": "Tutorial",
+   "listText": [
+    "[Tutorial]",
+    "[Tutorial (In Progress)]"
+   ],
+   "onTalk": []
+  },
+  "405": {
+   "name": "Path Of The Cleric",
+   "listText": [
+    "[Path of the Cleric]",
+    "[Path of the Cleric (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00405_PathOfTheCleric/30017-01.html",
+     "when": "state STARTED; has items 1192,1193; lacks items 1200,1197; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00405_PathOfTheCleric/30017-02.html",
+     "when": "state STARTED; has items 1192; lacks items 1200; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, CERTIFICATE_OF_GALLINT) && hasQuestItems(player, LIONELS_BOOK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "Q00255_Tutorial/30017-001.htm": {
+   "file": "Q00255_Tutorial/30017-001.htm",
+   "quest": 255,
+   "text": "Grand Magister Gallint: Welcome to my school of wizardry. It was founded by the famed alchemist Einhovant, and many excellent Wizards have been trained here. Have you brought a letter of Recommendation from the Newbie Helper?",
+   "header": "Grand Magister Gallint",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "\"I've brought the letter of Recommendation.\"",
+     "bypass": "Quest Q00255_Tutorial 31",
+     "kind": "quest-event",
+     "script": "Q00255_Tutorial",
+     "event": "31",
+     "quest": 255,
+     "to": "Q00255_Tutorial/30017-002.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00255_Tutorial/30017-004.htm": {
+   "file": "Q00255_Tutorial/30017-004.htm",
+   "quest": 255,
+   "text": "Grand Magister Gallint: Go to Talking Island Village and meet the newbie helper. The newbie helper will teach you many things you need to know about the game. He also has a gift for you!",
+   "header": "Grand Magister Gallint",
+   "when": [
+    "qs.getMemoStateEx(1) > 3"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00255_Tutorial/30017-003.htm": {
+   "file": "Q00255_Tutorial/30017-003.htm",
+   "quest": 255,
+   "text": "Grand Magister Gallint: First, you must learn the basic methods of control in the game. Let me introduce my little friend, the newbie helper . The newbie helper will teach you many things you will find useful in the game.",
+   "header": "Grand Magister Gallint",
+   "when": [
+    "!(!qs.hasQuestItems(RECOMMENDATION_2) && (qs.getMemoStateEx(1) > 3)); qs.getMemoStateEx(1) <= 3"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00104_SpiritOfMirrors/30017-03.htm": {
+   "file": "Q00104_SpiritOfMirrors/30017-03.htm",
+   "quest": 104,
+   "text": "Grand Magister Gallint: Recently I have been studying the Spirit Of Mirrors . This spirit does not have a set form and reflects the form of others, like a mirror. The name Spirit Of Mirrors comes from that trait. I think that the magical creature called the doppelganger may also be an evolved form …",
+   "header": "Grand Magister Gallint",
+   "when": [
+    "state CREATED; (player.getRace() == Race.HUMAN); (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00104_SpiritOfMirrors 30017-04.htm",
+     "kind": "quest-event",
+     "script": "Q00104_SpiritOfMirrors",
+     "event": "30017-04.htm",
+     "quest": 104,
+     "to": "Q00104_SpiritOfMirrors/30017-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00104_SpiritOfMirrors/30017-02.htm": {
+   "file": "Q00104_SpiritOfMirrors/30017-02.htm",
+   "quest": 104,
+   "text": "Grand Magister Gallint: I don't know why, but the magic defense field that I erected around the school of magic disappeared a few days ago. I have restored most of the shields, but I am worried that the spirits that were kept within the school for research have escaped to the outside. If some spiri…",
+   "header": "Grand Magister Gallint",
+   "when": [
+    "state CREATED; (player.getRace() == Race.HUMAN); NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00104_SpiritOfMirrors/30017-01.htm": {
+   "file": "Q00104_SpiritOfMirrors/30017-01.htm",
+   "quest": 104,
+   "text": "Grand Magister Gallint: Young traveler of an alien race, how did you chance to journey to this remote island? I'm sure the Human world must seem fascinating to your eyes. I do wish I could speak with you longer, but unfortunately I have pressing matters to attend to, and cannot spend my time in idl…",
+   "header": "Grand Magister Gallint",
+   "when": [
+    "state CREATED; NOT (player.getRace() == Race.HUMAN)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00104_SpiritOfMirrors/30017-06.html": {
+   "file": "Q00104_SpiritOfMirrors/30017-06.html",
+   "quest": 104,
+   "text": "Grand Magister Gallint: You have captured all the escaped spirits of mirrors! Thank you! Now that I have restored all the force fields around the School of Wizardry, the spirits will never escape again. I will give you this as a sign of my appreciation. It may not seem like much, but it will help b…",
+   "header": "Grand Magister Gallint",
+   "when": [
+    "state STARTED; cond 3; has items 1136,1137"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00104_SpiritOfMirrors/30017-05.html": {
+   "file": "Q00104_SpiritOfMirrors/30017-05.html",
+   "quest": 104,
+   "text": "Grand Magister Gallint: Go and capture all three escaped spirits of mirrors. Don't forget! You can only capture them using the oak wands I gave you. You might get some leads on the spirits of mirrors by speaking to the guards of the village.",
+   "header": "Grand Magister Gallint",
+   "when": [
+    "state STARTED; !(st.isCond(3) && st.hasQuestItems(SPIRITBOUND_WAND1, SPIRITBOUND_WAND2, SPIRITBOUND_WAND3))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30017-01.html": {
+   "file": "Q00405_PathOfTheCleric/30017-01.html",
+   "quest": 405,
+   "text": "Grand Magister Gallint: So it comes to this. I knew it would turn out badly, and I tried to stop him when he started writing that book ... Give me the book. From this moment it will be kept here forever in this place. If you show this token to Lionel, he will be relieved as well. Now, take this tok…",
+   "header": "Grand Magister Gallint",
+   "when": [
+    "state STARTED; has items 1192,1193; lacks items 1200,1197; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30017-02.html": {
+   "file": "Q00405_PathOfTheCleric/30017-02.html",
+   "quest": 405,
+   "text": "Grand Magister Gallint: Please take this token of custody of the book to Lionel.",
+   "header": "Grand Magister Gallint",
+   "when": [
+    "state STARTED; has items 1192; lacks items 1200; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, CERTIFICATE_OF_GALLINT) && hasQuestItems(player, LIONELS_BOOK))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00104_SpiritOfMirrors/30017-04.htm": {
+   "file": "Q00104_SpiritOfMirrors/30017-04.htm",
+   "quest": 104,
+   "text": "Grand Magister Gallint: Thank you. Fortunately, I think the spirits have gone into the woods rather than to the village. Things may become complicated if a Spirit Of Mirrors encounters a dangerous beast and changes into its identical form, so they must be caught as soon as possible. To capture the …",
+   "header": "Grand Magister Gallint",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00255_Tutorial/30017-002.htm": {
+   "file": "Q00255_Tutorial/30017-002.htm",
+   "quest": 255,
+   "text": "Grand Magister Gallint: You have learned the basic operations of the game well. From here on out, you will be able to really enjoy the adventure! Take this gift -- I presume you have already heard instructions about how to use it? You now have a choice to make. Will you further hone your skills in …",
+   "header": "Grand Magister Gallint",
+   "links": [
+    {
+     "text": "\"I will go to the Talking Island Village.\"",
+     "bypass": "Quest Q00255_Tutorial 42",
+     "kind": "quest-event",
+     "script": "Q00255_Tutorial",
+     "event": "42",
+     "quest": 255,
+     "to": "Q00255_Tutorial/30017-006.htm"
+    },
+    {
+     "text": "\"I will go to the Isle of Souls.\"",
+     "bypass": "Quest Q00255_Tutorial 41",
+     "kind": "quest-event",
+     "script": "Q00255_Tutorial",
+     "event": "41",
+     "quest": 255,
+     "to": "Q00255_Tutorial/30017-005.htm"
+    }
+   ]
+  },
+  "Q00255_Tutorial/30017-005.htm": {
+   "file": "Q00255_Tutorial/30017-005.htm",
+   "quest": 255,
+   "text": "Grand Magister Gallint: Then please seek out the Newbie Guide in Kamael Village , the chief town of the Kamael. He will give you many important tips, as well as an item that will prove useful in your adventures. You can find the Newbie Guide by following the direction arrow you see above your head.…",
+   "header": "Grand Magister Gallint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00255_Tutorial/30017-006.htm": {
+   "file": "Q00255_Tutorial/30017-006.htm",
+   "quest": 255,
+   "text": "Grand Magister Gallint: Go to Talking Island Village and speak to the Newbie Guide there. He will advise you about what to do next, as well as give you a useful gift. To find him, just follow the arrow above your head. Farewell and good luck!",
+   "header": "Grand Magister Gallint",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Spirit of Mirrors]",
+     "bypass": "npc_%objectId%_Quest Q00104_SpiritOfMirrors",
+     "kind": "quest",
+     "quest": 104,
+     "to": "Q00104_SpiritOfMirrors/30017-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Spirit of Mirrors (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00104_SpiritOfMirrors",
+     "kind": "quest",
+     "quest": 104,
+     "to": "Q00104_SpiritOfMirrors/30017-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Tutorial]",
+     "bypass": "npc_%objectId%_Quest Q00255_Tutorial",
+     "kind": "quest",
+     "quest": 255,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Tutorial (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00255_Tutorial",
+     "kind": "quest",
+     "quest": 255,
+     "to": null,
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Cleric (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00405_PathOfTheCleric",
+     "kind": "quest",
+     "quest": 405,
+     "to": "Q00405_PathOfTheCleric/30017-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

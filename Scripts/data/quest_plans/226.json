@@ -2,7 +2,7 @@
  "id": 226,
  "name": "Test Of The Healer",
  "version": 1,
- "generated": "2026-10-27T11:15:16.136Z",
+ "generated": "2026-10-27T18:18:51.564Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 39,
@@ -27,10 +27,6 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
    "code": "mob-no-spawn",
    "text": "a monster of a step has no spawn and no known trigger",
    "step": 1
@@ -38,20 +34,40 @@
   {
    "code": "engine-manual",
    "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
-   "step": 12
+   "step": 1
   },
   {
    "code": "engine-manual",
    "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
-   "step": 13
+   "step": 2
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 26
   },
   {
    "code": "engine-manual",
    "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
-   "step": 52
+   "step": 27
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 32
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 36
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 71
   }
  ],
- "expectedMin": 49,
+ "expectedMin": 59,
  "refLevel": 39,
  "steps": [
   {
@@ -246,59 +262,11 @@
      "questSpawned": false
     }
    ],
-   "items": [
-    {
-     "id": 2816,
-     "name": "1st Secret Letter",
-     "n": 1,
-     "from": [
-      {
-       "id": 27123,
-       "name": "Leto Lizardman Leader",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 2817,
-     "name": "2nd Secret Letter",
-     "n": 1,
-     "from": [
-      {
-       "id": 27124,
-       "name": "Leto Lizardman Assassin",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 2818,
-     "name": "3rd Secret Letter",
-     "n": 1,
-     "from": [
-      {
-       "id": 27125,
-       "name": "Leto Lizardman Sniper",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 2819,
-     "name": "4th Secret Letter",
-     "n": 1,
-     "from": [
-      {
-       "id": 27127,
-       "name": "Leto Lizardman Lord",
-       "chance": 100
-      }
-     ]
-    }
-   ],
+   "items": [],
    "kills": 1,
    "reasons": [
-    "mob-no-spawn"
+    "mob-no-spawn",
+    "engine-manual"
    ],
    "engine": {
     "manual": "the monsters (27123, 27124, 27125, 27127) only appear through the quest script and no trigger is known"
@@ -315,159 +283,169 @@
     7,
     8,
     9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
     22,
     23
    ]
   },
   {
    "i": 2,
-   "key": "c1:deliver:30473",
+   "key": "c1:deliver:30428",
    "cond": 1,
    "kind": "deliver",
-   "to": "end",
+   "to": 2,
    "links": [
-    "Hand over the Golden Statue"
+    "\"Tell me the truth or you will get hurt!\""
    ],
    "npc": {
-    "id": 30473,
-    "name": "Bandellos",
-    "title": "Priest",
-    "town": "Giran",
+    "id": 30428,
+    "name": "Perrin",
+    "title": "",
+    "town": "Gludin",
     "at": [
-     85829,
-     148365,
-     -3392
+     -93275,
+     147654,
+     -2674
     ],
     "alt": []
    },
-   "text": "Bring Golden Statue to Bandellos",
+   "text": "Bring Report of Perrin to Perrin",
    "needs": [
     {
-     "id": 2813,
-     "name": "Golden Statue",
+     "id": 2810,
+     "name": "Report of Perrin",
      "n": 1
     }
    ],
-   "reasons": [],
+   "reasons": [
+    "engine-manual"
+   ],
    "travel": {
     "src": "atlas",
-    "key": "npc:30473@85829,148365",
+    "key": "npc:30428@-93275,147654",
     "status": "ok",
     "flags": [],
-    "from": ".giran",
-    "length": 3092,
-    "sec": 46,
-    "via": ".giran",
+    "from": ".gludin",
+    "length": 13415,
+    "sec": 132,
+    "via": ".gludin",
     "steps": [
      {
       "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
+      "town": "Gludin",
+      "cmd": ".gludin"
      },
      {
       "do": "walk",
-      "len": 3092,
-      "how": "town-graph",
+      "len": 13415,
+      "how": "geodata",
       "danger": 0
      }
     ],
     "start": {
      "kind": "town",
-     "town": "Giran"
+     "town": "Gludin"
     },
     "simple": true,
     "pv": [
      [
-      83473,
-      148554,
-      -3400
+      -80786,
+      150251,
+      -3040
      ],
      [
-      83480,
-      148552,
-      -3400
+      -81285,
+      150218,
+      -3080
      ],
      [
-      83480,
-      148392,
-      -3400
+      -81784,
+      150184,
+      -3120
      ],
      [
-      83592,
-      148216,
-      -3400
+      -82536,
+      150184,
+      -3120
      ],
      [
-      83864,
-      148184,
-      -3392
+      -83320,
+      149576,
+      -3120
      ],
      [
-      84136,
-      148216,
-      -3400
+      -83496,
+      149288,
+      -3120
      ],
      [
-      84120,
-      148424,
-      -3400
+      -83496,
+      149256,
+      -3120
      ],
      [
-      84184,
-      148600,
-      -3400
+      -83992,
+      148760,
+      -3164
      ],
      [
-      84456,
-      148616,
-      -3400
+      -84488,
+      148264,
+      -3208
      ],
      [
-      84728,
-      148616,
-      -3400
+      -84984,
+      148024,
+      -3236
      ],
      [
-      85000,
-      148616,
-      -3400
+      -85480,
+      147784,
+      -3264
      ],
      [
-      85272,
-      148616,
-      -3400
+      -86456,
+      147784,
+      -3072
      ],
      [
-      85544,
-      148616,
-      -3400
+      -87448,
+      147720,
+      -3064
      ],
      [
-      85720,
-      148552,
-      -3400
+      -88440,
+      147720,
+      -3064
      ],
      [
-      85832,
-      148376,
-      -3400
+      -89432,
+      147720,
+      -3088
      ],
      [
-      85832,
-      148360,
-      -3400
+      -90424,
+      147720,
+      -3296
+     ],
+     [
+      -90760,
+      147720,
+      -3152
+     ],
+     [
+      -91752,
+      147656,
+      -2968
+     ],
+     [
+      -92744,
+      147656,
+      -2760
+     ],
+     [
+      -93272,
+      147656,
+      -2672
      ]
     ],
     "maxDanger": 0,
@@ -482,43 +460,374 @@
      "aggro": []
     }
    },
-   "expectedSec": 71,
+   "expectedSec": 157,
+   "engineWhy": "the monsters (27134) only appear through the quest script and no trigger is known",
    "engine": {
     "act": "manual",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
+    1
    ]
   },
   {
    "i": 3,
-   "key": "c1:deliver:30327",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 23,
+   "key": "c3:talk:30428",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 30428,
+    "name": "Perrin",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -93275,
+     147654,
+     -2674
+    ],
+    "alt": []
+   },
+   "text": "Talk to Perrin",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30428@-93275,147654",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13415,
+    "sec": 132,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 13415,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81285,
+      150218,
+      -3080
+     ],
+     [
+      -81784,
+      150184,
+      -3120
+     ],
+     [
+      -82536,
+      150184,
+      -3120
+     ],
+     [
+      -83320,
+      149576,
+      -3120
+     ],
+     [
+      -83496,
+      149288,
+      -3120
+     ],
+     [
+      -83496,
+      149256,
+      -3120
+     ],
+     [
+      -83992,
+      148760,
+      -3164
+     ],
+     [
+      -84488,
+      148264,
+      -3208
+     ],
+     [
+      -84984,
+      148024,
+      -3236
+     ],
+     [
+      -85480,
+      147784,
+      -3264
+     ],
+     [
+      -86456,
+      147784,
+      -3072
+     ],
+     [
+      -87448,
+      147720,
+      -3064
+     ],
+     [
+      -88440,
+      147720,
+      -3064
+     ],
+     [
+      -89432,
+      147720,
+      -3088
+     ],
+     [
+      -90424,
+      147720,
+      -3296
+     ],
+     [
+      -90760,
+      147720,
+      -3152
+     ],
+     [
+      -91752,
+      147656,
+      -2968
+     ],
+     [
+      -92744,
+      147656,
+      -2760
+     ],
+     [
+      -93272,
+      147656,
+      -2672
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 157,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:30424",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30424,
+    "name": "Allana",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -92310,
+     154223,
+     -3284
+    ],
+    "alt": []
+   },
+   "text": "Talk to Allana",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30424@-92310,154223",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13024,
+    "sec": 129,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 13024,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81224,
+      150552,
+      -3112
+     ],
+     [
+      -81720,
+      151048,
+      -3116
+     ],
+     [
+      -82216,
+      151544,
+      -3120
+     ],
+     [
+      -82616,
+      151672,
+      -3120
+     ],
+     [
+      -82776,
+      151752,
+      -3120
+     ],
+     [
+      -83144,
+      152488,
+      -3120
+     ],
+     [
+      -83640,
+      152688,
+      -3144
+     ],
+     [
+      -84136,
+      152888,
+      -3168
+     ],
+     [
+      -84904,
+      152888,
+      -3168
+     ],
+     [
+      -85048,
+      152904,
+      -3160
+     ],
+     [
+      -85240,
+      153048,
+      -3152
+     ],
+     [
+      -85736,
+      153496,
+      -3128
+     ],
+     [
+      -86232,
+      153944,
+      -3104
+     ],
+     [
+      -87160,
+      153944,
+      -3264
+     ],
+     [
+      -88152,
+      153976,
+      -3632
+     ],
+     [
+      -89144,
+      153976,
+      -3640
+     ],
+     [
+      -90136,
+      153976,
+      -3720
+     ],
+     [
+      -91128,
+      153976,
+      -3552
+     ],
+     [
+      -91624,
+      154096,
+      -3428
+     ],
+     [
+      -92120,
+      154216,
+      -3304
+     ],
+     [
+      -92312,
+      154216,
+      -3280
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 154,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:30327",
+   "cond": 5,
+   "kind": "talk",
+   "to": 10,
    "links": [],
    "npc": {
     "id": 30327,
@@ -532,14 +841,7 @@
     ],
     "alt": []
    },
-   "text": "Bring Kristina's Letter to Sorius",
-   "needs": [
-    {
-     "id": 2811,
-     "name": "Kristina's Letter",
-     "n": 1
-    }
-   ],
+   "text": "Talk to Sorius",
    "reasons": [],
    "travel": {
     "src": "atlas",
@@ -679,66 +981,432 @@
    },
    "expectedSec": 73,
    "engine": {
-    "act": "manual",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
     5,
     6,
     7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22
+    9
    ]
   },
   {
-   "i": 4,
-   "key": "c1:talk:30665",
-   "cond": 1,
+   "i": 6,
+   "key": "c5:talk:30658",
+   "cond": 5,
    "kind": "talk",
-   "to": 22,
-   "links": [
-    "\"Please visit Master Sorius with me.\""
-   ],
+   "to": 9,
+   "links": [],
    "npc": {
-    "id": 30665,
-    "name": "Kristina",
-    "title": "Saint",
+    "id": 30658,
+    "name": "Gupu",
+    "title": "Father",
     "town": "Gludio",
     "at": [
-     -53664,
-     85862,
-     -3504
+     -28103,
+     120634,
+     -3724
     ],
     "alt": []
    },
-   "text": "Talk to Kristina",
+   "text": "Talk to Gupu",
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:30665@-53664,85862",
+    "key": "npc:30658@-28103,120634",
     "status": "ok",
     "flags": [],
     "from": ".gludio",
-    "length": 13817,
-    "sec": 185,
-    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+    "length": 16261,
+    "sec": 156,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 16261,
+      "how": "geodata",
+      "danger": 27
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -13224,
+      122632,
+      -3048
+     ],
+     [
+      -13352,
+      122424,
+      -2984
+     ],
+     [
+      -13928,
+      121976,
+      -2984
+     ],
+     [
+      -14328,
+      121480,
+      -2984
+     ],
+     [
+      -14728,
+      120984,
+      -2984
+     ],
+     [
+      -14872,
+      120808,
+      -3008
+     ],
+     [
+      -15368,
+      120720,
+      -3080
+     ],
+     [
+      -15864,
+      120632,
+      -3152
+     ],
+     [
+      -16856,
+      120632,
+      -3152
+     ],
+     [
+      -17848,
+      120632,
+      -3224
+     ],
+     [
+      -18840,
+      120632,
+      -3264
+     ],
+     [
+      -19832,
+      120632,
+      -3328
+     ],
+     [
+      -20824,
+      120632,
+      -3416
+     ],
+     [
+      -20968,
+      120648,
+      -3424
+     ],
+     [
+      -21960,
+      120632,
+      -3504
+     ],
+     [
+      -22808,
+      120616,
+      -3568
+     ],
+     [
+      -23800,
+      120632,
+      -3632
+     ],
+     [
+      -24792,
+      120632,
+      -3696
+     ],
+     [
+      -25112,
+      120600,
+      -3704
+     ],
+     [
+      -26104,
+      120632,
+      -3720
+     ],
+     [
+      -27096,
+      120632,
+      -3720
+     ],
+     [
+      -27752,
+      120664,
+      -3720
+     ],
+     [
+      -28104,
+      120632,
+      -3720
+     ]
+    ],
+    "maxDanger": 27,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 27,
+     "dangerVsLevel": -12,
+     "aggro": []
+    }
+   },
+   "expectedSec": 181,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c5:talk:30424",
+   "cond": 5,
+   "kind": "talk",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30424,
+    "name": "Allana",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -92310,
+     154223,
+     -3284
+    ],
+    "alt": []
+   },
+   "text": "Talk to Allana",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30424@-92310,154223",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13024,
+    "sec": 129,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 13024,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81224,
+      150552,
+      -3112
+     ],
+     [
+      -81720,
+      151048,
+      -3116
+     ],
+     [
+      -82216,
+      151544,
+      -3120
+     ],
+     [
+      -82616,
+      151672,
+      -3120
+     ],
+     [
+      -82776,
+      151752,
+      -3120
+     ],
+     [
+      -83144,
+      152488,
+      -3120
+     ],
+     [
+      -83640,
+      152688,
+      -3144
+     ],
+     [
+      -84136,
+      152888,
+      -3168
+     ],
+     [
+      -84904,
+      152888,
+      -3168
+     ],
+     [
+      -85048,
+      152904,
+      -3160
+     ],
+     [
+      -85240,
+      153048,
+      -3152
+     ],
+     [
+      -85736,
+      153496,
+      -3128
+     ],
+     [
+      -86232,
+      153944,
+      -3104
+     ],
+     [
+      -87160,
+      153944,
+      -3264
+     ],
+     [
+      -88152,
+      153976,
+      -3632
+     ],
+     [
+      -89144,
+      153976,
+      -3640
+     ],
+     [
+      -90136,
+      153976,
+      -3720
+     ],
+     [
+      -91128,
+      153976,
+      -3552
+     ],
+     [
+      -91624,
+      154096,
+      -3428
+     ],
+     [
+      -92120,
+      154216,
+      -3304
+     ],
+     [
+      -92312,
+      154216,
+      -3280
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 154,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5,
+    6,
+    7,
+    9
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c7:deliver:30660",
+   "cond": 7,
+   "kind": "deliver",
+   "to": 8,
+   "links": [
+    "\"You should go back home now!\""
+   ],
+   "npc": {
+    "id": 30660,
+    "name": "Windy Shaoring",
+    "title": "",
+    "town": "Floran",
+    "at": [
+     -21101,
+     178989,
+     -4094
+    ],
+    "alt": []
+   },
+   "text": "Bring Picture of Windy to Windy Shaoring",
+   "needs": [
+    {
+     "id": 2812,
+     "name": "Picture of Windy",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30660@-21101,178989",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 12718,
+    "sec": 151,
+    "via": ".gludio > Gludio -> Ant Cave",
     "steps": [
      {
       "do": "town",
@@ -748,164 +1416,689 @@
      {
       "do": "gk",
       "from": "Gludio",
-      "desc": "Gludio -> DE Village",
-      "link": "dark elf village",
-      "price": 10000,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "DarkElf",
-      "desc": "DE Village -> Spider Nest",
-      "link": "spider nest",
-      "price": 3600,
+      "desc": "Gludio -> Ant Cave",
+      "link": "ant nest",
+      "price": 2100,
       "live": true
      },
      {
       "do": "walk",
-      "len": 13817,
+      "len": 12718,
       "how": "geodata",
-      "danger": 18
+      "danger": 35
      }
     ],
     "start": {
      "kind": "gk",
      "from": "Gludio",
-     "desc": "Gludio -> DE Village"
+     "desc": "Gludio -> Ant Cave"
     },
-    "simple": false,
+    "simple": true,
     "pv": [
      [
-      -61095,
-      75104,
-      -3352
+      -9959,
+      176184,
+      -4160
      ],
      [
-      -60599,
-      75604,
-      -3348
+      -10455,
+      176680,
+      -4064
      ],
      [
-      -60104,
-      76104,
-      -3344
+      -10952,
+      177176,
+      -3968
      ],
      [
-      -59608,
-      76600,
-      -3376
+      -11448,
+      177672,
+      -4032
      ],
      [
-      -59112,
-      77096,
-      -3408
+      -11944,
+      178168,
+      -4096
      ],
      [
-      -58616,
-      77592,
-      -3440
+      -12440,
+      178576,
+      -4140
      ],
      [
-      -58120,
-      78088,
-      -3472
+      -12936,
+      178984,
+      -4184
      ],
      [
-      -57624,
-      78584,
-      -3332
+      -13928,
+      178984,
+      -4136
      ],
      [
-      -57128,
-      79080,
-      -3192
+      -14440,
+      179336,
+      -4112
      ],
      [
-      -56632,
-      79576,
-      -3128
+      -14968,
+      179656,
+      -4200
      ],
      [
-      -56136,
-      80072,
-      -3064
+      -15480,
+      179848,
+      -4208
      ],
      [
-      -55640,
-      80568,
-      -3244
+      -15656,
+      179896,
+      -4208
      ],
      [
-      -55144,
-      81064,
-      -3424
+      -16472,
+      179960,
+      -4208
      ],
      [
-      -54632,
-      81640,
-      -3488
+      -17304,
+      179960,
+      -4208
      ],
      [
-      -54144,
-      82136,
-      -3464
+      -18072,
+      179896,
+      -4208
      ],
      [
-      -53656,
-      82632,
-      -3440
+      -18584,
+      179768,
+      -4208
      ],
      [
-      -53656,
-      83624,
-      -3472
+      -19032,
+      179448,
+      -4104
      ],
      [
-      -53656,
-      84616,
-      -3560
+      -19528,
+      179216,
+      -4092
      ],
      [
-      -53656,
-      85608,
-      -3536
+      -20024,
+      178984,
+      -4080
      ],
      [
-      -53656,
-      85864,
-      -3504
+      -21016,
+      178984,
+      -4088
+     ],
+     [
+      -21096,
+      178984,
+      -4096
      ]
     ],
-    "maxDanger": 18,
+    "maxDanger": 35,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
      "water": false,
-     "danger": 18,
-     "dangerVsLevel": -21,
+     "danger": 35,
+     "dangerVsLevel": -4,
      "aggro": []
     }
    },
-   "expectedSec": 210,
+   "expectedSec": 176,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c9:deliver:30658",
+   "cond": 9,
+   "kind": "deliver",
+   "to": 7,
+   "links": [
+    "Say you will donate that amount"
+   ],
+   "npc": {
+    "id": 30658,
+    "name": "Gupu",
+    "title": "Father",
+    "town": "Gludio",
+    "at": [
+     -28103,
+     120634,
+     -3724
+    ],
+    "alt": []
+   },
+   "text": "Bring Adena x100000 to Gupu",
+   "needs": [
+    {
+     "id": 57,
+     "name": "Adena",
+     "n": 100000
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30658@-28103,120634",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 16261,
+    "sec": 156,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 16261,
+      "how": "geodata",
+      "danger": 27
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -13224,
+      122632,
+      -3048
+     ],
+     [
+      -13352,
+      122424,
+      -2984
+     ],
+     [
+      -13928,
+      121976,
+      -2984
+     ],
+     [
+      -14328,
+      121480,
+      -2984
+     ],
+     [
+      -14728,
+      120984,
+      -2984
+     ],
+     [
+      -14872,
+      120808,
+      -3008
+     ],
+     [
+      -15368,
+      120720,
+      -3080
+     ],
+     [
+      -15864,
+      120632,
+      -3152
+     ],
+     [
+      -16856,
+      120632,
+      -3152
+     ],
+     [
+      -17848,
+      120632,
+      -3224
+     ],
+     [
+      -18840,
+      120632,
+      -3264
+     ],
+     [
+      -19832,
+      120632,
+      -3328
+     ],
+     [
+      -20824,
+      120632,
+      -3416
+     ],
+     [
+      -20968,
+      120648,
+      -3424
+     ],
+     [
+      -21960,
+      120632,
+      -3504
+     ],
+     [
+      -22808,
+      120616,
+      -3568
+     ],
+     [
+      -23800,
+      120632,
+      -3632
+     ],
+     [
+      -24792,
+      120632,
+      -3696
+     ],
+     [
+      -25112,
+      120600,
+      -3704
+     ],
+     [
+      -26104,
+      120632,
+      -3720
+     ],
+     [
+      -27096,
+      120632,
+      -3720
+     ],
+     [
+      -27752,
+      120664,
+      -3720
+     ],
+     [
+      -28104,
+      120632,
+      -3720
+     ]
+    ],
+    "maxDanger": 27,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 27,
+     "dangerVsLevel": -12,
+     "aggro": []
+    }
+   },
+   "expectedSec": 181,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c10:spawn:27123",
+   "cond": 10,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27123,
+     "name": "Leto Lizardman Leader",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27124,
+     "name": "Leto Lizardman Assassin",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27125,
+     "name": "Leto Lizardman Sniper",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27127,
+     "name": "Leto Lizardman Lord",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2816,
+     "name": "1st Secret Letter",
+     "n": 1,
+     "from": [
+      {
+       "id": 27123,
+       "name": "Leto Lizardman Leader",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "the monsters (27123, 27124, 27125, 27127) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Leto Lizardman Leader, Leto Lizardman Assassin, Leto Lizardman Sniper, Leto Lizardman Lord appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c10:deliver:30674",
+   "cond": 10,
+   "kind": "deliver",
+   "to": 13,
+   "links": [],
+   "npc": {
+    "id": 30674,
+    "name": "Daurin Hammercrush",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -97611,
+     106574,
+     -3388
+    ],
+    "alt": []
+   },
+   "text": "Bring 1st Secret Letter, Order of Sorius to Daurin Hammercrush",
+   "needs": [
+    {
+     "id": 2816,
+     "name": "1st Secret Letter",
+     "n": 1
+    },
+    {
+     "id": 2815,
+     "name": "Order of Sorius",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "engine-manual"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30674@-97611,106574",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 8191,
+    "sec": 113,
+    "via": ".gludin > Gludin -> Orc Barracks",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Orc Barracks",
+      "link": "orc barracks",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8191,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Orc Barracks"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -89763,
+      105359,
+      -3576
+     ],
+     [
+      -90392,
+      105592,
+      -3624
+     ],
+     [
+      -90888,
+      106000,
+      -3720
+     ],
+     [
+      -91384,
+      106408,
+      -3816
+     ],
+     [
+      -92376,
+      106408,
+      -3720
+     ],
+     [
+      -93000,
+      106408,
+      -3696
+     ],
+     [
+      -93496,
+      106480,
+      -3696
+     ],
+     [
+      -93992,
+      106552,
+      -3696
+     ],
+     [
+      -94984,
+      106552,
+      -3552
+     ],
+     [
+      -95976,
+      106552,
+      -3448
+     ],
+     [
+      -96488,
+      106552,
+      -3376
+     ],
+     [
+      -97240,
+      106584,
+      -3400
+     ],
+     [
+      -97608,
+      106568,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 138,
+   "engineWhy": "the monsters (27123) only appear through the quest script and no trigger is known",
    "engine": {
     "act": "manual",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
     10,
     11,
-    12,
+    12
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c13:spawn:27123",
+   "cond": 13,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27123,
+     "name": "Leto Lizardman Leader",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27124,
+     "name": "Leto Lizardman Assassin",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27125,
+     "name": "Leto Lizardman Sniper",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27127,
+     "name": "Leto Lizardman Lord",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2816,
+     "name": "1st Secret Letter",
+     "n": 1,
+     "from": [
+      {
+       "id": 27123,
+       "name": "Leto Lizardman Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2817,
+     "name": "2nd Secret Letter",
+     "n": 1,
+     "from": [
+      {
+       "id": 27124,
+       "name": "Leto Lizardman Assassin",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2818,
+     "name": "3rd Secret Letter",
+     "n": 1,
+     "from": [
+      {
+       "id": 27125,
+       "name": "Leto Lizardman Sniper",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2819,
+     "name": "4th Secret Letter",
+     "n": 1,
+     "from": [
+      {
+       "id": 27127,
+       "name": "Leto Lizardman Lord",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "the monsters (27123, 27124, 27125, 27127) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Leto Lizardman Leader, Leto Lizardman Assassin, Leto Lizardman Sniper, Leto Lizardman Lord appear and kill it",
+   "expectedSec": 300,
+   "conds": [
     13,
     14,
     15,
@@ -914,14 +2107,13 @@
     18,
     19,
     20,
-    21,
-    23
+    21
    ]
   },
   {
-   "i": 5,
-   "key": "c1:deliver:30662",
-   "cond": 1,
+   "i": 13,
+   "key": "c13:deliver:30662",
+   "cond": 13,
    "kind": "deliver",
    "to": 21,
    "links": [],
@@ -1090,18 +2282,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
     13,
     14,
     15,
@@ -1109,15 +2289,13 @@
     17,
     18,
     19,
-    20,
-    22,
-    23
+    20
    ]
   },
   {
-   "i": 6,
-   "key": "c1:deliver:30663",
-   "cond": 1,
+   "i": 14,
+   "key": "c13:deliver:30663",
+   "cond": 13,
    "kind": "deliver",
    "to": 21,
    "links": [],
@@ -1346,18 +2524,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
     13,
     14,
     15,
@@ -1365,15 +2531,13 @@
     17,
     18,
     19,
-    20,
-    22,
-    23
+    20
    ]
   },
   {
-   "i": 7,
-   "key": "c1:deliver:30664",
-   "cond": 1,
+   "i": 15,
+   "key": "c13:deliver:30664",
+   "cond": 13,
    "kind": "deliver",
    "to": 21,
    "links": [],
@@ -1537,18 +2701,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
     13,
     14,
     15,
@@ -1556,15 +2708,13 @@
     17,
     18,
     19,
-    20,
-    22,
-    23
+    20
    ]
   },
   {
-   "i": 8,
-   "key": "c1:talk:30661",
-   "cond": 1,
+   "i": 16,
+   "key": "c13:talk:30661",
+   "cond": 13,
    "kind": "talk",
    "to": 20,
    "links": [],
@@ -1592,7 +2742,9 @@
     ]
    },
    "text": "Talk to Mysterious Dark Elf",
-   "reasons": [],
+   "reasons": [
+    "engine-manual"
+   ],
    "travel": {
     "src": "atlas",
     "key": "npc:30661@-59985,79234",
@@ -1702,1027 +2854,12 @@
     }
    },
    "expectedSec": 132,
-   "engine": {
-    "act": "manual",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 9,
-   "key": "c1:deliver:30674",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 13,
-   "links": [],
-   "npc": {
-    "id": 30674,
-    "name": "Daurin Hammercrush",
-    "title": "",
-    "town": "Gludin",
-    "at": [
-     -97611,
-     106574,
-     -3388
-    ],
-    "alt": []
-   },
-   "text": "Bring 1st Secret Letter, Order of Sorius to Daurin Hammercrush",
-   "needs": [
-    {
-     "id": 2816,
-     "name": "1st Secret Letter",
-     "n": 1
-    },
-    {
-     "id": 2815,
-     "name": "Order of Sorius",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30674@-97611,106574",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 8191,
-    "sec": 113,
-    "via": ".gludin > Gludin -> Orc Barracks",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> Orc Barracks",
-      "link": "orc barracks",
-      "price": 1800,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 8191,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> Orc Barracks"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -89763,
-      105359,
-      -3576
-     ],
-     [
-      -90392,
-      105592,
-      -3624
-     ],
-     [
-      -90888,
-      106000,
-      -3720
-     ],
-     [
-      -91384,
-      106408,
-      -3816
-     ],
-     [
-      -92376,
-      106408,
-      -3720
-     ],
-     [
-      -93000,
-      106408,
-      -3696
-     ],
-     [
-      -93496,
-      106480,
-      -3696
-     ],
-     [
-      -93992,
-      106552,
-      -3696
-     ],
-     [
-      -94984,
-      106552,
-      -3552
-     ],
-     [
-      -95976,
-      106552,
-      -3448
-     ],
-     [
-      -96488,
-      106552,
-      -3376
-     ],
-     [
-      -97240,
-      106584,
-      -3400
-     ],
-     [
-      -97608,
-      106568,
-      -3400
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 138,
-   "engine": {
-    "act": "manual",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 10,
-   "key": "c1:talk:30658",
-   "cond": 1,
-   "kind": "talk",
-   "to": 9,
-   "links": [],
-   "npc": {
-    "id": 30658,
-    "name": "Gupu",
-    "title": "Father",
-    "town": "Gludio",
-    "at": [
-     -28103,
-     120634,
-     -3724
-    ],
-    "alt": []
-   },
-   "text": "Talk to Gupu",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30658@-28103,120634",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 16261,
-    "sec": 156,
-    "via": ".gludio",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "walk",
-      "len": 16261,
-      "how": "geodata",
-      "danger": 27
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludio"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -12712,
-      122776,
-      -3116
-     ],
-     [
-      -13224,
-      122632,
-      -3048
-     ],
-     [
-      -13352,
-      122424,
-      -2984
-     ],
-     [
-      -13928,
-      121976,
-      -2984
-     ],
-     [
-      -14328,
-      121480,
-      -2984
-     ],
-     [
-      -14728,
-      120984,
-      -2984
-     ],
-     [
-      -14872,
-      120808,
-      -3008
-     ],
-     [
-      -15368,
-      120720,
-      -3080
-     ],
-     [
-      -15864,
-      120632,
-      -3152
-     ],
-     [
-      -16856,
-      120632,
-      -3152
-     ],
-     [
-      -17848,
-      120632,
-      -3224
-     ],
-     [
-      -18840,
-      120632,
-      -3264
-     ],
-     [
-      -19832,
-      120632,
-      -3328
-     ],
-     [
-      -20824,
-      120632,
-      -3416
-     ],
-     [
-      -20968,
-      120648,
-      -3424
-     ],
-     [
-      -21960,
-      120632,
-      -3504
-     ],
-     [
-      -22808,
-      120616,
-      -3568
-     ],
-     [
-      -23800,
-      120632,
-      -3632
-     ],
-     [
-      -24792,
-      120632,
-      -3696
-     ],
-     [
-      -25112,
-      120600,
-      -3704
-     ],
-     [
-      -26104,
-      120632,
-      -3720
-     ],
-     [
-      -27096,
-      120632,
-      -3720
-     ],
-     [
-      -27752,
-      120664,
-      -3720
-     ],
-     [
-      -28104,
-      120632,
-      -3720
-     ]
-    ],
-    "maxDanger": 27,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 27,
-     "dangerVsLevel": -12,
-     "aggro": []
-    }
-   },
-   "expectedSec": 181,
-   "engine": {
-    "act": "manual",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 11,
-   "key": "c1:deliver:30660",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 8,
-   "links": [
-    "\"You should go back home now!\""
-   ],
-   "npc": {
-    "id": 30660,
-    "name": "Windy Shaoring",
-    "title": "",
-    "town": "Floran",
-    "at": [
-     -21101,
-     178989,
-     -4094
-    ],
-    "alt": []
-   },
-   "text": "Bring Picture of Windy to Windy Shaoring",
-   "needs": [
-    {
-     "id": 2812,
-     "name": "Picture of Windy",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30660@-21101,178989",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 12718,
-    "sec": 151,
-    "via": ".gludio > Gludio -> Ant Cave",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> Ant Cave",
-      "link": "ant nest",
-      "price": 2100,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 12718,
-      "how": "geodata",
-      "danger": 35
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> Ant Cave"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -9959,
-      176184,
-      -4160
-     ],
-     [
-      -10455,
-      176680,
-      -4064
-     ],
-     [
-      -10952,
-      177176,
-      -3968
-     ],
-     [
-      -11448,
-      177672,
-      -4032
-     ],
-     [
-      -11944,
-      178168,
-      -4096
-     ],
-     [
-      -12440,
-      178576,
-      -4140
-     ],
-     [
-      -12936,
-      178984,
-      -4184
-     ],
-     [
-      -13928,
-      178984,
-      -4136
-     ],
-     [
-      -14440,
-      179336,
-      -4112
-     ],
-     [
-      -14968,
-      179656,
-      -4200
-     ],
-     [
-      -15480,
-      179848,
-      -4208
-     ],
-     [
-      -15656,
-      179896,
-      -4208
-     ],
-     [
-      -16472,
-      179960,
-      -4208
-     ],
-     [
-      -17304,
-      179960,
-      -4208
-     ],
-     [
-      -18072,
-      179896,
-      -4208
-     ],
-     [
-      -18584,
-      179768,
-      -4208
-     ],
-     [
-      -19032,
-      179448,
-      -4104
-     ],
-     [
-      -19528,
-      179216,
-      -4092
-     ],
-     [
-      -20024,
-      178984,
-      -4080
-     ],
-     [
-      -21016,
-      178984,
-      -4088
-     ],
-     [
-      -21096,
-      178984,
-      -4096
-     ]
-    ],
-    "maxDanger": 35,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 35,
-     "dangerVsLevel": -4,
-     "aggro": []
-    }
-   },
-   "expectedSec": 176,
-   "engine": {
-    "act": "manual",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 12,
-   "key": "c1:talk:30424",
-   "cond": 1,
-   "kind": "talk",
-   "to": 5,
-   "links": [],
-   "npc": {
-    "id": 30424,
-    "name": "Allana",
-    "title": "",
-    "town": "Gludin",
-    "at": [
-     -92310,
-     154223,
-     -3284
-    ],
-    "alt": []
-   },
-   "text": "Talk to Allana",
-   "reasons": [
-    "engine-manual"
-   ],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30424@-92310,154223",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 13024,
-    "sec": 129,
-    "via": ".gludin",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "walk",
-      "len": 13024,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludin"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -80786,
-      150251,
-      -3040
-     ],
-     [
-      -81224,
-      150552,
-      -3112
-     ],
-     [
-      -81720,
-      151048,
-      -3116
-     ],
-     [
-      -82216,
-      151544,
-      -3120
-     ],
-     [
-      -82616,
-      151672,
-      -3120
-     ],
-     [
-      -82776,
-      151752,
-      -3120
-     ],
-     [
-      -83144,
-      152488,
-      -3120
-     ],
-     [
-      -83640,
-      152688,
-      -3144
-     ],
-     [
-      -84136,
-      152888,
-      -3168
-     ],
-     [
-      -84904,
-      152888,
-      -3168
-     ],
-     [
-      -85048,
-      152904,
-      -3160
-     ],
-     [
-      -85240,
-      153048,
-      -3152
-     ],
-     [
-      -85736,
-      153496,
-      -3128
-     ],
-     [
-      -86232,
-      153944,
-      -3104
-     ],
-     [
-      -87160,
-      153944,
-      -3264
-     ],
-     [
-      -88152,
-      153976,
-      -3632
-     ],
-     [
-      -89144,
-      153976,
-      -3640
-     ],
-     [
-      -90136,
-      153976,
-      -3720
-     ],
-     [
-      -91128,
-      153976,
-      -3552
-     ],
-     [
-      -91624,
-      154096,
-      -3428
-     ],
-     [
-      -92120,
-      154216,
-      -3304
-     ],
-     [
-      -92312,
-      154216,
-      -3280
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 154,
-   "engine": {
-    "act": "manual",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 13,
-   "key": "c1:talk:30428",
-   "cond": 1,
-   "kind": "talk",
-   "to": 4,
-   "links": [],
-   "npc": {
-    "id": 30428,
-    "name": "Perrin",
-    "title": "",
-    "town": "Gludin",
-    "at": [
-     -93275,
-     147654,
-     -2674
-    ],
-    "alt": []
-   },
-   "text": "Talk to Perrin",
-   "reasons": [
-    "engine-manual"
-   ],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30428@-93275,147654",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 13415,
-    "sec": 132,
-    "via": ".gludin",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "walk",
-      "len": 13415,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludin"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -80786,
-      150251,
-      -3040
-     ],
-     [
-      -81285,
-      150218,
-      -3080
-     ],
-     [
-      -81784,
-      150184,
-      -3120
-     ],
-     [
-      -82536,
-      150184,
-      -3120
-     ],
-     [
-      -83320,
-      149576,
-      -3120
-     ],
-     [
-      -83496,
-      149288,
-      -3120
-     ],
-     [
-      -83496,
-      149256,
-      -3120
-     ],
-     [
-      -83992,
-      148760,
-      -3164
-     ],
-     [
-      -84488,
-      148264,
-      -3208
-     ],
-     [
-      -84984,
-      148024,
-      -3236
-     ],
-     [
-      -85480,
-      147784,
-      -3264
-     ],
-     [
-      -86456,
-      147784,
-      -3072
-     ],
-     [
-      -87448,
-      147720,
-      -3064
-     ],
-     [
-      -88440,
-      147720,
-      -3064
-     ],
-     [
-      -89432,
-      147720,
-      -3088
-     ],
-     [
-      -90424,
-      147720,
-      -3296
-     ],
-     [
-      -90760,
-      147720,
-      -3152
-     ],
-     [
-      -91752,
-      147656,
-      -2968
-     ],
-     [
-      -92744,
-      147656,
-      -2760
-     ],
-     [
-      -93272,
-      147656,
-      -2672
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 157,
    "engineWhy": "the monsters (27123, 27124, 27125, 27127) only appear through the quest script and no trigger is known",
    "engine": {
     "act": "manual",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
     13,
     14,
     15,
@@ -2730,540 +2867,7 @@
     17,
     18,
     19,
-    20,
-    21,
-    22,
-    23
-   ]
-  },
-  {
-   "i": 14,
-   "key": "c4:deliver:30428",
-   "cond": 4,
-   "kind": "deliver",
-   "to": 2,
-   "links": [
-    "\"Tell me the truth or you will get hurt!\""
-   ],
-   "npc": {
-    "id": 30428,
-    "name": "Perrin",
-    "title": "",
-    "town": "Gludin",
-    "at": [
-     -93275,
-     147654,
-     -2674
-    ],
-    "alt": []
-   },
-   "text": "Bring Report of Perrin to Perrin",
-   "needs": [
-    {
-     "id": 2810,
-     "name": "Report of Perrin",
-     "n": 1
-    }
-   ],
-   "reasons": [
-    "engine-manual"
-   ],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30428@-93275,147654",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 13415,
-    "sec": 132,
-    "via": ".gludin",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "walk",
-      "len": 13415,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludin"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -80786,
-      150251,
-      -3040
-     ],
-     [
-      -81285,
-      150218,
-      -3080
-     ],
-     [
-      -81784,
-      150184,
-      -3120
-     ],
-     [
-      -82536,
-      150184,
-      -3120
-     ],
-     [
-      -83320,
-      149576,
-      -3120
-     ],
-     [
-      -83496,
-      149288,
-      -3120
-     ],
-     [
-      -83496,
-      149256,
-      -3120
-     ],
-     [
-      -83992,
-      148760,
-      -3164
-     ],
-     [
-      -84488,
-      148264,
-      -3208
-     ],
-     [
-      -84984,
-      148024,
-      -3236
-     ],
-     [
-      -85480,
-      147784,
-      -3264
-     ],
-     [
-      -86456,
-      147784,
-      -3072
-     ],
-     [
-      -87448,
-      147720,
-      -3064
-     ],
-     [
-      -88440,
-      147720,
-      -3064
-     ],
-     [
-      -89432,
-      147720,
-      -3088
-     ],
-     [
-      -90424,
-      147720,
-      -3296
-     ],
-     [
-      -90760,
-      147720,
-      -3152
-     ],
-     [
-      -91752,
-      147656,
-      -2968
-     ],
-     [
-      -92744,
-      147656,
-      -2760
-     ],
-     [
-      -93272,
-      147656,
-      -2672
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 157,
-   "engineWhy": "the monsters (27123, 27124, 27125, 27127) only appear through the quest script and no trigger is known",
-   "engine": {
-    "act": "manual",
-    "hasItems": "talk"
-   },
-   "conds": [
-    4
-   ]
-  },
-  {
-   "i": 15,
-   "key": "c9:deliver:30658",
-   "cond": 9,
-   "kind": "deliver",
-   "to": 7,
-   "links": [
-    "Say you will donate that amount"
-   ],
-   "npc": {
-    "id": 30658,
-    "name": "Gupu",
-    "title": "Father",
-    "town": "Gludio",
-    "at": [
-     -28103,
-     120634,
-     -3724
-    ],
-    "alt": []
-   },
-   "text": "Bring Adena x100000 to Gupu",
-   "needs": [
-    {
-     "id": 57,
-     "name": "Adena",
-     "n": 100000
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30658@-28103,120634",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 16261,
-    "sec": 156,
-    "via": ".gludio",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "walk",
-      "len": 16261,
-      "how": "geodata",
-      "danger": 27
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludio"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -12712,
-      122776,
-      -3116
-     ],
-     [
-      -13224,
-      122632,
-      -3048
-     ],
-     [
-      -13352,
-      122424,
-      -2984
-     ],
-     [
-      -13928,
-      121976,
-      -2984
-     ],
-     [
-      -14328,
-      121480,
-      -2984
-     ],
-     [
-      -14728,
-      120984,
-      -2984
-     ],
-     [
-      -14872,
-      120808,
-      -3008
-     ],
-     [
-      -15368,
-      120720,
-      -3080
-     ],
-     [
-      -15864,
-      120632,
-      -3152
-     ],
-     [
-      -16856,
-      120632,
-      -3152
-     ],
-     [
-      -17848,
-      120632,
-      -3224
-     ],
-     [
-      -18840,
-      120632,
-      -3264
-     ],
-     [
-      -19832,
-      120632,
-      -3328
-     ],
-     [
-      -20824,
-      120632,
-      -3416
-     ],
-     [
-      -20968,
-      120648,
-      -3424
-     ],
-     [
-      -21960,
-      120632,
-      -3504
-     ],
-     [
-      -22808,
-      120616,
-      -3568
-     ],
-     [
-      -23800,
-      120632,
-      -3632
-     ],
-     [
-      -24792,
-      120632,
-      -3696
-     ],
-     [
-      -25112,
-      120600,
-      -3704
-     ],
-     [
-      -26104,
-      120632,
-      -3720
-     ],
-     [
-      -27096,
-      120632,
-      -3720
-     ],
-     [
-      -27752,
-      120664,
-      -3720
-     ],
-     [
-      -28104,
-      120632,
-      -3720
-     ]
-    ],
-    "maxDanger": 27,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 27,
-     "dangerVsLevel": -12,
-     "aggro": []
-    }
-   },
-   "expectedSec": 181,
-   "engine": {
-    "act": "manual",
-    "hasItems": "talk"
-   },
-   "conds": [
-    9
-   ]
-  },
-  {
-   "i": 16,
-   "key": "c13:talk:30674",
-   "cond": 13,
-   "kind": "talk",
-   "to": 11,
-   "links": [
-    "\"Leave the rest to me.\""
-   ],
-   "npc": {
-    "id": 30674,
-    "name": "Daurin Hammercrush",
-    "title": "",
-    "town": "Gludin",
-    "at": [
-     -97611,
-     106574,
-     -3388
-    ],
-    "alt": []
-   },
-   "text": "Talk to Daurin Hammercrush",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30674@-97611,106574",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 8191,
-    "sec": 113,
-    "via": ".gludin > Gludin -> Orc Barracks",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> Orc Barracks",
-      "link": "orc barracks",
-      "price": 1800,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 8191,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> Orc Barracks"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -89763,
-      105359,
-      -3576
-     ],
-     [
-      -90392,
-      105592,
-      -3624
-     ],
-     [
-      -90888,
-      106000,
-      -3720
-     ],
-     [
-      -91384,
-      106408,
-      -3816
-     ],
-     [
-      -92376,
-      106408,
-      -3720
-     ],
-     [
-      -93000,
-      106408,
-      -3696
-     ],
-     [
-      -93496,
-      106480,
-      -3696
-     ],
-     [
-      -93992,
-      106552,
-      -3696
-     ],
-     [
-      -94984,
-      106552,
-      -3552
-     ],
-     [
-      -95976,
-      106552,
-      -3448
-     ],
-     [
-      -96488,
-      106552,
-      -3376
-     ],
-     [
-      -97240,
-      106584,
-      -3400
-     ],
-     [
-      -97608,
-      106568,
-      -3400
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 138,
-   "engine": {
-    "act": "manual",
-    "hasItems": "talk"
-   },
-   "conds": [
-    13
+    21
    ]
   },
   {
@@ -3314,7 +2918,9 @@
      "n": 1
     }
    ],
-   "reasons": [],
+   "reasons": [
+    "engine-manual"
+   ],
    "travel": {
     "src": "atlas",
     "key": "npc:30661@-59985,79234",
@@ -3424,6 +3030,7 @@
     }
    },
    "expectedSec": 132,
+   "engineWhy": "the monsters (27123, 27124, 27125, 27127) only appear through the quest script and no trigger is known",
    "engine": {
     "act": "manual",
     "hasItems": "talk"
@@ -3434,10 +3041,200 @@
   },
   {
    "i": 18,
-   "key": "c23:talk:30327",
-   "cond": 23,
+   "key": "c21:talk:30665",
+   "cond": 21,
    "kind": "talk",
-   "to": 10,
+   "to": 22,
+   "links": [
+    "\"Please visit Master Sorius with me.\""
+   ],
+   "npc": {
+    "id": 30665,
+    "name": "Kristina",
+    "title": "Saint",
+    "town": "Gludio",
+    "at": [
+     -53664,
+     85862,
+     -3504
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kristina",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30665@-53664,85862",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 13817,
+    "sec": 185,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Spider Nest",
+      "link": "spider nest",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 13817,
+      "how": "geodata",
+      "danger": 18
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60599,
+      75604,
+      -3348
+     ],
+     [
+      -60104,
+      76104,
+      -3344
+     ],
+     [
+      -59608,
+      76600,
+      -3376
+     ],
+     [
+      -59112,
+      77096,
+      -3408
+     ],
+     [
+      -58616,
+      77592,
+      -3440
+     ],
+     [
+      -58120,
+      78088,
+      -3472
+     ],
+     [
+      -57624,
+      78584,
+      -3332
+     ],
+     [
+      -57128,
+      79080,
+      -3192
+     ],
+     [
+      -56632,
+      79576,
+      -3128
+     ],
+     [
+      -56136,
+      80072,
+      -3064
+     ],
+     [
+      -55640,
+      80568,
+      -3244
+     ],
+     [
+      -55144,
+      81064,
+      -3424
+     ],
+     [
+      -54632,
+      81640,
+      -3488
+     ],
+     [
+      -54144,
+      82136,
+      -3464
+     ],
+     [
+      -53656,
+      82632,
+      -3440
+     ],
+     [
+      -53656,
+      83624,
+      -3472
+     ],
+     [
+      -53656,
+      84616,
+      -3560
+     ],
+     [
+      -53656,
+      85608,
+      -3536
+     ],
+     [
+      -53656,
+      85864,
+      -3504
+     ]
+    ],
+    "maxDanger": 18,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 18,
+     "dangerVsLevel": -21,
+     "aggro": []
+    }
+   },
+   "expectedSec": 210,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    21
+   ]
+  },
+  {
+   "i": 19,
+   "key": "c22:deliver:30327",
+   "cond": 22,
+   "kind": "deliver",
+   "to": 23,
    "links": [],
    "npc": {
     "id": 30327,
@@ -3451,7 +3248,14 @@
     ],
     "alt": []
    },
-   "text": "Talk to Sorius",
+   "text": "Bring Kristina's Letter to Sorius",
+   "needs": [
+    {
+     "id": 2811,
+     "name": "Kristina's Letter",
+     "n": 1
+    }
+   ],
    "reasons": [],
    "travel": {
     "src": "atlas",
@@ -3591,7 +3395,167 @@
    },
    "expectedSec": 73,
    "engine": {
-    "act": "manual",
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    22
+   ]
+  },
+  {
+   "i": 20,
+   "key": "c23:deliver:30473",
+   "cond": 23,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Hand over the Golden Statue"
+   ],
+   "npc": {
+    "id": 30473,
+    "name": "Bandellos",
+    "title": "Priest",
+    "town": "Giran",
+    "at": [
+     85829,
+     148365,
+     -3392
+    ],
+    "alt": []
+   },
+   "text": "Bring Golden Statue to Bandellos",
+   "needs": [
+    {
+     "id": 2813,
+     "name": "Golden Statue",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30473@85829,148365",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 3092,
+    "sec": 46,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 3092,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148392,
+      -3400
+     ],
+     [
+      83592,
+      148216,
+      -3400
+     ],
+     [
+      83864,
+      148184,
+      -3392
+     ],
+     [
+      84136,
+      148216,
+      -3400
+     ],
+     [
+      84120,
+      148424,
+      -3400
+     ],
+     [
+      84184,
+      148600,
+      -3400
+     ],
+     [
+      84456,
+      148616,
+      -3400
+     ],
+     [
+      84728,
+      148616,
+      -3400
+     ],
+     [
+      85000,
+      148616,
+      -3400
+     ],
+     [
+      85272,
+      148616,
+      -3400
+     ],
+     [
+      85544,
+      148616,
+      -3400
+     ],
+     [
+      85720,
+      148552,
+      -3400
+     ],
+     [
+      85832,
+      148376,
+      -3400
+     ],
+     [
+      85832,
+      148360,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "engine": {
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [

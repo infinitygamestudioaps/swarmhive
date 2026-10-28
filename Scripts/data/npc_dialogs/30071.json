@@ -1,0 +1,479 @@
+{
+ "npcId": 30071,
+ "name": "Lucas",
+ "title": "Captain",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.802Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "guard/30071.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "65": {
+   "name": "Certified Soul Breaker",
+   "listText": [
+    "[Certified Soul Breaker]",
+    "[Certified Soul Breaker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30071-01.html",
+     "when": "state STARTED; memo 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30071-03.html",
+     "when": "state STARTED; memo 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "214": {
+   "name": "Trial Of The Scholar",
+   "listText": [
+    "[Trial of the Scholar]",
+    "[Trial of the Scholar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00214_TrialOfTheScholar/30071-01.html",
+     "when": "state STARTED; has items 2675,2689,2679",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30071-02.html",
+     "when": "state STARTED; has items 2675,2689,2680,2683,2682,2684,2681; lacks items 2679",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30071-03.html",
+     "when": "state STARTED; has items 2675,2689,2685; lacks items 2679,2680,2683,2682,2684,2681",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30071-05.html",
+     "when": "state STARTED; has items 2675,2689,2686; lacks items 2679,2680,2683,2682,2684,2681,2685; !hasItemsAtLimit(player, BROWN_SCROLL_SCRAP)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30071-06.html",
+     "when": "state STARTED; has items 2675,2689,2686; lacks items 2679,2680,2683,2682,2684,2681,2685; hasItemsAtLimit(player, BROWN_SCROLL_SCRAP)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30071-07.html",
+     "when": "state STARTED; has items 2693,2676,2677,2688; lacks items 2675,2689",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10277": {
+   "name": "Mutated Kaneus - Dion",
+   "listText": [
+    "[Mutated Kaneus - Dion]",
+    "[Mutated Kaneus - Dion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10277_MutatedKaneusDion/30071-01.htm",
+     "when": "state CREATED; (player.getLevel() > 27)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10277_MutatedKaneusDion/30071-00.html",
+     "when": "state CREATED; NOT (player.getLevel() > 27)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10277_MutatedKaneusDion/30071-05.html",
+     "when": "state STARTED; (st.hasQuestItems(TISSUE_CH) && st.hasQuestItems(TISSUE_SF))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10277_MutatedKaneusDion/30071-04.html",
+     "when": "state STARTED; NOT (st.hasQuestItems(TISSUE_CH) && st.hasQuestItems(TISSUE_SF))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10277_MutatedKaneusDion/30071-06.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30071.htm": {
+   "file": "guard/30071.htm",
+   "quest": null,
+   "text": "Captain Lucas: Welcome, young friend. Welcome to Dion! I am Lucas, the man responsible for the security of Dion. Is this your first time to Dion? I don't know what brought you here, but bear in mind that this is a quiet and law-abiding town. I don't tolerate anyone looking only to disturb the peace…",
+   "header": "Captain Lucas",
+   "links": [
+    {
+     "text": "Ask about Kamaloka.",
+     "bypass": "guard/kamaloka_help.htm",
+     "kind": "page",
+     "to": "guard/kamaloka_help.htm"
+    },
+    {
+     "text": "Look at the list of Kamaloka.",
+     "bypass": "guard/kamaloka_level.htm",
+     "kind": "page",
+     "to": "guard/kamaloka_level.htm"
+    },
+    {
+     "text": "Enter Kamaloka.",
+     "bypass": "npc_%objectId%_Quest Kamaloka",
+     "kind": "quest",
+     "script": "Kamaloka",
+     "live": true
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/30071-01.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30071-01.html",
+   "quest": 65,
+   "text": "Captain Lucas: What brings you to me? A suspicious person, you say? Well, we see a very large number of suspicious-looking people here, so you need to be a little more specific.",
+   "header": "Captain Lucas",
+   "when": [
+    "state STARTED; memo 7"
+   ],
+   "links": [
+    {
+     "text": "Describe his appearance.",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 30071-02.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "30071-02.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/30071-02.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/30071-03.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30071-03.html",
+   "quest": 65,
+   "text": "Captain Lucas: No one saw him pass this way. Go look for up north.",
+   "header": "Captain Lucas",
+   "when": [
+    "state STARTED; memo 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30071-01.html": {
+   "file": "Q00214_TrialOfTheScholar/30071-01.html",
+   "quest": 214,
+   "text": "Captain Lucas: Maria's scroll... Ah yes, I have heard of its importance. We have looked everywhere and are still unable to find it. The thief must be very cunning. It is very unusual to have no clues in a whole month! Maybe we should consult a fortune-teller... Anyway, please tell Maria that I am t…",
+   "header": "Captain Lucas",
+   "when": [
+    "state STARTED; has items 2675,2689,2679"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30071-02.html": {
+   "file": "Q00214_TrialOfTheScholar/30071-02.html",
+   "quest": 214,
+   "text": "Captain Lucas: Please give my message to Maria . Be patient, I will catch the thief as soon as I can.",
+   "header": "Captain Lucas",
+   "when": [
+    "state STARTED; has items 2675,2689,2680,2683,2682,2684,2681; lacks items 2679"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30071-03.html": {
+   "file": "Q00214_TrialOfTheScholar/30071-03.html",
+   "quest": 214,
+   "text": "Captain Lucas: You saw the fortune-teller? Fortune-teller, astrologer, what's the difference? I was only kidding the other day when I suggested it. Who thought you would have taken me seriously? I guess I just ran out of ideas... What is that picture, anyway? Why are you holding such a thing? Ah! H…",
+   "header": "Captain Lucas",
+   "when": [
+    "state STARTED; has items 2675,2689,2685; lacks items 2679,2680,2683,2682,2684,2681"
+   ],
+   "links": [
+    {
+     "text": "\"It is the reflection of the criminal\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30071-04.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30071-04.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30071-04.html",
+     "effect": "cond:10"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30071-05.html": {
+   "file": "Q00214_TrialOfTheScholar/30071-05.html",
+   "quest": 214,
+   "text": "Captain Lucas: If this mirror is correct, the person who stole the scroll will be among the Leto Lizardmen . We might find the scroll if we find them.",
+   "header": "Captain Lucas",
+   "when": [
+    "state STARTED; has items 2675,2689,2686; lacks items 2679,2680,2683,2682,2684,2681,2685; !hasItemsAtLimit(player, BROWN_SCROLL_SCRAP)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30071-06.html": {
+   "file": "Q00214_TrialOfTheScholar/30071-06.html",
+   "quest": 214,
+   "text": "Captain Lucas: We have recovered all the scrolls from the leto Lizardman! Thank God. Take them to Maria immediately.",
+   "header": "Captain Lucas",
+   "when": [
+    "state STARTED; has items 2675,2689,2686; lacks items 2679,2680,2683,2682,2684,2681,2685; hasItemsAtLimit(player, BROWN_SCROLL_SCRAP)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30071-07.html": {
+   "file": "Q00214_TrialOfTheScholar/30071-07.html",
+   "quest": 214,
+   "text": "Captain Lucas: I'm afraid I didn't express my gratitude adequately before. Thanks to you we recovered the scrolls from the leto Lizardman. I am in your debt...",
+   "header": "Captain Lucas",
+   "when": [
+    "state STARTED; has items 2693,2676,2677,2688; lacks items 2675,2689"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10277_MutatedKaneusDion/30071-01.htm": {
+   "file": "Q10277_MutatedKaneusDion/30071-01.htm",
+   "quest": 10277,
+   "text": "Captain Lucas: I heard tales of your recent activities. You have already acquired a reputation as an accomplished adventurer. Perhaps you have already heard about the Mutated Kaneus of Kamaloka . I have been asked to help investigate these strange creatures, but my duties unfortunately keep me far …",
+   "header": "Captain Lucas",
+   "when": [
+    "state CREATED; (player.getLevel() > 27)"
+   ],
+   "links": [
+    {
+     "text": "\"What kind of help do you need?\"",
+     "bypass": "Quest Q10277_MutatedKaneusDion 30071-02.htm",
+     "kind": "quest-event",
+     "script": "Q10277_MutatedKaneusDion",
+     "event": "30071-02.htm",
+     "quest": 10277,
+     "to": "Q10277_MutatedKaneusDion/30071-02.htm"
+    }
+   ]
+  },
+  "Q10277_MutatedKaneusDion/30071-00.html": {
+   "file": "Q10277_MutatedKaneusDion/30071-00.html",
+   "quest": 10277,
+   "text": "Captain Lucas: Based on my observations, I don't think you are yet ready to handle the Kaneus. (Only characters level 28 and above are permitted to undertake this quest.)",
+   "header": "Captain Lucas",
+   "when": [
+    "state CREATED; NOT (player.getLevel() > 27)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10277_MutatedKaneusDion/30071-05.html": {
+   "file": "Q10277_MutatedKaneusDion/30071-05.html",
+   "quest": 10277,
+   "text": "Captain Lucas: Ah! Are these the cellular tissues of Crimson Hatu and Seer Flouros ? From their pristine appearance, I can tell you were very careful. I couldn't have done better myself. Well done! Now take these samples to Magister Mirien at the Temple of Einhasad. He will be very pleased. If we c…",
+   "header": "Captain Lucas",
+   "when": [
+    "state STARTED; (st.hasQuestItems(TISSUE_CH) && st.hasQuestItems(TISSUE_SF))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10277_MutatedKaneusDion/30071-04.html": {
+   "file": "Q10277_MutatedKaneusDion/30071-04.html",
+   "quest": 10277,
+   "text": "Captain Lucas: The magisters become agitated if their research is delayed for any reason, so deliver the cellular tissue samples as quickly as possible. Those aren't people you want irritated with you, you know! Hurry to Kamaloka, and good hunting!",
+   "header": "Captain Lucas",
+   "when": [
+    "state STARTED; NOT (st.hasQuestItems(TISSUE_CH) && st.hasQuestItems(TISSUE_SF))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10277_MutatedKaneusDion/30071-06.html": {
+   "file": "Q10277_MutatedKaneusDion/30071-06.html",
+   "quest": 10277,
+   "text": "Captain Lucas: Ah, it's you! Magister Mirien asked me to convey his gratitude to you. He said that the cellular tissues of the mutated Kaneus from the Kamaloka of Dion that you delivered to the were a great help. Well done!",
+   "header": "Captain Lucas",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/30071-02.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30071-02.html",
+   "quest": 65,
+   "text": "Captain Lucas: No, I haven't seen anyone matching that description here, nor has Guard Metty. If he fled northwest, perhaps he snuck out north through the alley? Why don't you go ask?",
+   "header": "Captain Lucas",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30071-04.html": {
+   "file": "Q00214_TrialOfTheScholar/30071-04.html",
+   "quest": 214,
+   "text": "Captain Lucas: Do you mean this is the reflection of the thief? I can't help noticing that it looks exactly like a Leto Lizardman. He appears to be a perfect Warrior... I heard that the Leto Lizardmen have been seen in the southeastern part of Oren. If this fortune-teller's mirror is correct, we ha…",
+   "header": "Captain Lucas",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10277_MutatedKaneusDion/30071-02.htm": {
+   "file": "Q10277_MutatedKaneusDion/30071-02.htm",
+   "quest": 10277,
+   "text": "Captain Lucas: I heard from Magister Mirien in the Temple of Einhasad that the Sages of Magic, a group of magisters to which Magister Mirien belongs, are researching the Kaneus -- the monsters of the Kamaloka that recently came into existence; he has asked me for a favor. Kamaloka exists between th…",
+   "header": "Captain Lucas",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q10277_MutatedKaneusDion 30071-03.html",
+     "kind": "quest-event",
+     "script": "Q10277_MutatedKaneusDion",
+     "event": "30071-03.html",
+     "quest": 10277,
+     "to": "Q10277_MutatedKaneusDion/30071-03.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10277_MutatedKaneusDion/30071-03.html": {
+   "file": "Q10277_MutatedKaneusDion/30071-03.html",
+   "quest": 10277,
+   "text": "Captain Lucas: Excellent! Visit either of the 2 Kamalokas we can enter from Dion, kill the Kaneus there and extract their cellular tissues. You will face the Crimson Hatu Otis and Seer Flouros Kaneus. The Crimson Hatu Otis is much weaker, so I'd advise that you pursue it first. When you have extrac…",
+   "header": "Captain Lucas",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Soul Breaker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00065_CertifiedSoulBreaker",
+     "kind": "quest",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/30071-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Trial of the Scholar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00214_TrialOfTheScholar",
+     "kind": "quest",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30071-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Mutated Kaneus - Dion]",
+     "bypass": "npc_%objectId%_Quest Q10277_MutatedKaneusDion",
+     "kind": "quest",
+     "quest": 10277,
+     "to": "Q10277_MutatedKaneusDion/30071-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Mutated Kaneus - Dion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10277_MutatedKaneusDion",
+     "kind": "quest",
+     "quest": 10277,
+     "to": "Q10277_MutatedKaneusDion/30071-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "guard/kamaloka_help.htm": {
+   "file": "guard/kamaloka_help.htm",
+   "quest": null,
+   "text": "Kamaloka is an invader from another world. We do not know precisely when it happened, but we discovered a sealed space, similar to a Dimensional Rift. We call it Kamaloka. To enter it, you must meet certain requirements. You cannot enter a basic Kamaloka alone. To fight alone, find the pathfinder t…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "guard/kamaloka_level.htm": {
+   "file": "guard/kamaloka_level.htm",
+   "quest": null,
+   "text": "According to research from the Ivory Tower, the established theory is that Kamaloka is from a dimensional overlapping in Aden's land. Kamaloka has stages of power based on the strength of a monster's soul. This is cutting edge science, and we don't fully understand it. So we introduce adventurers t…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Enter Kamaloka, Labyrinth of the Abyss (level 39)."
+ ],
+ "liveClicks": [
+  {
+   "text": "Enter Kamaloka.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Captain Lucas:Welcome, young friend. Welcome to Dion! I am L"
+   ],
+   "to": [
+    "Captain Lucas:What? You want to enter Kamaloka?Enter Kamalok"
+   ]
+  },
+  {
+   "text": "Enter Kamaloka, Labyrinth of the Abyss (level 39).",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Captain Lucas:What? You want to enter Kamaloka?Enter Kamalok"
+   ],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

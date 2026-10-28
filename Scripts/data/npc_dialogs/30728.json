@@ -1,0 +1,184 @@
+{
+ "npcId": 30728,
+ "name": "Leirynn",
+ "title": "Militiaman",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.062Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30728.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "225": {
+   "name": "Test Of The Searcher",
+   "listText": [
+    "[Test of the Searcher]",
+    "[Test of the Searcher (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00225_TestOfTheSearcher/30728-01.html",
+     "when": "state STARTED; has items 2785",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30728-02.html",
+     "when": "state STARTED; has items 2786; lacks items 2785; getQuestItemsCount(player, DELU_TOTEM) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30728-03.html",
+     "when": "state STARTED; has items 2786; lacks items 2785; !getQuestItemsCount(player, DELU_TOTEM) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30728-04.html",
+     "when": "state STARTED; has items 2788; lacks items 2785,2786,2789",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30728-05.html",
+     "when": "state STARTED; has items 2788,2789; lacks items 2785,2786",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30728-06.html",
+     "when": "state STARTED; has items 2790; lacks items 2785,2786,2788",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30728-07.html",
+     "when": "state STARTED; has items 2808,2794; lacks items 2785,2786,2788,2790",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30728.htm": {
+   "file": "guard/30728.htm",
+   "quest": null,
+   "text": "Militiaman Leirynn: Nice to meet you, stranger. My name is Leirynn and I am a militiamen in the village army of Floran. Floran is a place where people who refuse to live under the harsh ruling of the coutry's leader gather and try to live peacefully according to their own rules and laws. Therefore,…",
+   "header": "Militiaman Leirynn",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30728-01.html": {
+   "file": "Q00225_TestOfTheSearcher/30728-01.html",
+   "quest": 225,
+   "text": "Militiaman Leirynn: Welcome. Recently a large group of delu lizardmen have gathered, threatening the village. We are badly outnumbered and may have to resort to guerrilla tactics. I realize that this is rather sudden, but could you please find the delu lizardmen's shaman and kill them? There are 10…",
+   "header": "Militiaman Leirynn",
+   "when": [
+    "state STARTED; has items 2785"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30728-02.html": {
+   "file": "Q00225_TestOfTheSearcher/30728-02.html",
+   "quest": 225,
+   "text": "Militiaman Leirynn: There are some shamans left. You must find all of them and kill them!",
+   "header": "Militiaman Leirynn",
+   "when": [
+    "state STARTED; has items 2786; lacks items 2785; getQuestItemsCount(player, DELU_TOTEM) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30728-03.html": {
+   "file": "Q00225_TestOfTheSearcher/30728-03.html",
+   "quest": 225,
+   "text": "Militiaman Leirynn: Thank you so much for your help! One more thing... Apparently the delu lizardmen do not intend to attack the village... They seem to be looking for something... What could be so precious that the whole tribe would be looking for it? I am sure that Delu Chief Kalkis knows somethi…",
+   "header": "Militiaman Leirynn",
+   "when": [
+    "state STARTED; has items 2786; lacks items 2785; !getQuestItemsCount(player, DELU_TOTEM) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30728-04.html": {
+   "file": "Q00225_TestOfTheSearcher/30728-04.html",
+   "quest": 225,
+   "text": "Militiaman Leirynn: Chief Kalkis is the leader of the whole delu tribe . Why would he have brought his whole tribe here to look for something? Find out what they are looking for and kill Chief Kalkis. If you follow the path that heads towards the East, you will run into him.",
+   "header": "Militiaman Leirynn",
+   "when": [
+    "state STARTED; has items 2788; lacks items 2785,2786,2789"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30728-05.html": {
+   "file": "Q00225_TestOfTheSearcher/30728-05.html",
+   "quest": 225,
+   "text": "Militiaman Leirynn: This Map looks somehow familiar but also strange... Seems that it's a nearby area, but its not quite right. I can't make heads or tails of it. Take this Map and report to Captain Alex . You must follow his directions.",
+   "header": "Militiaman Leirynn",
+   "when": [
+    "state STARTED; has items 2788,2789; lacks items 2785,2786"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30728-06.html": {
+   "file": "Q00225_TestOfTheSearcher/30728-06.html",
+   "quest": 225,
+   "text": "Militiaman Leirynn: What are you still doing here? You must take this report to Alex before it is too late . He's waiting for the news. You know, something about that Map really bothers me...",
+   "header": "Militiaman Leirynn",
+   "when": [
+    "state STARTED; has items 2790; lacks items 2785,2786,2788"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30728-07.html": {
+   "file": "Q00225_TestOfTheSearcher/30728-07.html",
+   "quest": 225,
+   "text": "Militiaman Leirynn: I understand that Alex gave you a task. It is very noble for you, an outsider, to help us like this. It is said that you saved our militia from starving... When the time is right, will you join me for dinner?",
+   "header": "Militiaman Leirynn",
+   "when": [
+    "state STARTED; has items 2808,2794; lacks items 2785,2786,2788,2790"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Searcher (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00225_TestOfTheSearcher",
+     "kind": "quest",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30728-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

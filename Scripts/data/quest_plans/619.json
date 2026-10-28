@@ -2,7 +2,7 @@
  "id": 619,
  "name": "Relics of the Old Empire",
  "version": 1,
- "generated": "2026-10-27T11:15:41.489Z",
+ "generated": "2026-10-27T18:19:15.907Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 74,
@@ -12,17 +12,8 @@
  "region": "Goddard",
  "requirements": {},
  "restrictions": [],
- "status": "fixable",
- "reasons": [
-  {
-   "code": "dryrun-fail",
-   "text": "dry run: hunt-too-long"
-  },
-  {
-   "code": "dryrun:hunt-too-long",
-   "text": "step 2 (c1:hunt): ~1053 kills (~439 min) > the engine's 4 x 45 min hunt cap"
-  }
- ],
+ "status": "ready",
+ "reasons": [],
  "expectedMin": 849,
  "refLevel": 74,
  "steps": [
@@ -1135,7 +1126,16 @@
        "dangerVsLevel": 4,
        "aggro": []
       }
-     }
+     },
+     "lookalikes": [
+      {
+       "id": 21403,
+       "name": "Katraxis",
+       "n": 5,
+       "not": 21402
+      }
+     ],
+     "note": "5 Katraxis 21403 here are NOT the quest's monster (the script counts only 21402): the bots leave them alone"
     }
    ],
    "area": {
@@ -1868,17 +1868,14 @@
   "by": "quest-fixer batch 5"
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:41.501Z",
-  "pass": false,
+  "at": "2026-10-27T18:19:15.935Z",
+  "pass": true,
   "geo": true,
-  "fails": [
-   {
-    "code": "hunt-too-long",
-    "t": "step 2 (c1:hunt): ~1053 kills (~439 min) > the engine's 4 x 45 min hunt cap"
-   }
-  ],
+  "fails": [],
   "warns": [
-   "area-partial"
+   "area-lookalike",
+   "area-partial",
+   "hunt-long"
   ]
  }
 }

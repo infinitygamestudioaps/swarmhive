@@ -1,0 +1,766 @@
+{
+ "npcId": 30512,
+ "name": "Kusto",
+ "title": "Head Blacksmith",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:02.988Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30512.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "183": {
+   "name": "Relic Exploration",
+   "listText": [
+    "[Relics Exploration]",
+    "[Relics Exploration (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00183_RelicExploration/30512-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00183_RelicExploration/30512-03.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00183_RelicExploration/30512-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "187": {
+   "name": "Nikola's Heart",
+   "listText": [
+    "[Nikola's Heart]",
+    "[Nikola's Heart (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00187_NikolasHeart/30512-01.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "189": {
+   "name": "Contract Completion",
+   "listText": [
+    "[Contract Completion]",
+    "[Contract Completion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00189_ContractCompletion/30512-01.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "190": {
+   "name": "Lost Dream",
+   "listText": [
+    "[Lost Dream]",
+    "[Lost Dream (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00190_LostDream/30512-01.htm",
+     "when": "state CREATED; player.hasQuestCompleted(Q00187_NikolasHeart.class.getSimpleName()); (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00190_LostDream/30512-02.htm",
+     "when": "state CREATED; player.hasQuestCompleted(Q00187_NikolasHeart.class.getSimpleName()); NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00190_LostDream/30512-04.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00190_LostDream/30512-05.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00190_LostDream/30512-07.html",
+     "when": "state STARTED; memoState >= 3; memoState <= 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00190_LostDream/30512-08.html",
+     "when": "state STARTED; memo 5; !((memoState >= 3) && (memoState <= 4))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "191": {
+   "name": "Vain Conclusion",
+   "listText": [
+    "[Vain Conclusion]",
+    "[Vain Conclusion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00191_VainConclusion/30512-01.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "503": {
+   "name": "Pursuit Of Clan Ambition",
+   "listText": [
+    "[Pursuit of Clan Ambition!]",
+    "[Pursuit of Clan Ambition! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30512-01a.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; !player.isClanLeader()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30512-01.html",
+     "when": "state STARTED; lacks items 3843,3871; !(qs.isCreated() || qs.isCompleted()); !((lqs != null) && !player.isClanLeader())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30512-02.html",
+     "when": "state STARTED; has items 3843,3871; !(qs.isCreated() || qs.isCompleted()); !((lqs != null) && !player.isClanLeader())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30512-04.html",
+     "when": "state STARTED; has items 3843,3871; lacks items 3843; !(qs.isCreated() || qs.isCompleted()); !((lqs != null) && !player.isClanLeader()); lqs != null",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30512.htm": {
+   "file": "villagemaster/30512.htm",
+   "quest": null,
+   "text": "Head Blacksmith Kusto: I'm Head Blacksmith Kusto of the Black Anvil Guild here in Gludin. Unlike the Iron Gate Guild, our Black Anvil Guild is interested in more than simply profit. The joy in creating something beautiful should sometimes take precedence over the prospect of a few gold coins, don't…",
+   "header": "Head Blacksmith Kusto",
+   "live": {
+    "file": "Logs/clan_page_levelup_Kusto_0.html",
+    "at": "2026-10-20T16:29:21.000Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Listen to information about 2nd class transfer.",
+     "bypass": "Quest DwarfBlacksmithChange2",
+     "kind": "quest",
+     "script": "DwarfBlacksmithChange2",
+     "live": true,
+     "dpText": "Listen to information about second class transfer."
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class",
+     "live": true
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan",
+     "live": true
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance",
+     "live": true
+    },
+    {
+     "text": "Use shadow weapon exchange coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm",
+     "live": true,
+     "dpText": "Use Shadow Weapon Exchange Coupon."
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00183_RelicExploration/30512-01.htm": {
+   "file": "Q00183_RelicExploration/30512-01.htm",
+   "quest": 183,
+   "text": "Head Blacksmith Kusto: My trade is a very competitive one. I believed that the lost knowledge of the Giants would benefit me and all those with interests in the Black Anvil Guild...",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Listen to his story.",
+     "bypass": "Quest Q00183_RelicExploration 30512-02.htm",
+     "kind": "quest-event",
+     "script": "Q00183_RelicExploration",
+     "event": "30512-02.htm",
+     "quest": 183,
+     "to": "Q00183_RelicExploration/30512-02.htm"
+    }
+   ]
+  },
+  "Q00183_RelicExploration/30512-03.html": {
+   "file": "Q00183_RelicExploration/30512-03.html",
+   "quest": 183,
+   "text": "Head Blacksmith Kusto: My trade is a very competitive one. I believed that the lost knowledge of the Giants would benefit me and all those with interests in the Black Anvil Guild... Are you not interested in those things? (Only characters level 40 and above are permitted to undertake this quest.)",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00183_RelicExploration/30512-05.html": {
+   "file": "Q00183_RelicExploration/30512-05.html",
+   "quest": 183,
+   "text": "Head Blacksmith Kusto: Please find Researcher Lorain in the Tower of Cruma. She will give you the details about how you can help her. Good luck!",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00187_NikolasHeart/30512-01.html": {
+   "file": "Q00187_NikolasHeart/30512-01.html",
+   "quest": 187,
+   "text": "Head Blacksmith Kusto: Long time no see! Do you have any good news?",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"I heard that you also gave Nikola some work.\"",
+     "bypass": "Quest Q00187_NikolasHeart 30512-02.html",
+     "kind": "quest-event",
+     "script": "Q00187_NikolasHeart",
+     "event": "30512-02.html",
+     "quest": 187,
+     "to": "Q00187_NikolasHeart/30512-02.html"
+    }
+   ]
+  },
+  "Q00189_ContractCompletion/30512-01.html": {
+   "file": "Q00189_ContractCompletion/30512-01.html",
+   "quest": 189,
+   "text": "Head Blacksmith Kusto: Long time no see. How is Lorain progressing with her assignment?",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "links": [
+    {
+     "text": "Explain what has happened.",
+     "bypass": "Quest Q00189_ContractCompletion 30512-02.html",
+     "kind": "quest-event",
+     "script": "Q00189_ContractCompletion",
+     "event": "30512-02.html",
+     "quest": 189,
+     "to": "Q00189_ContractCompletion/30512-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00190_LostDream/30512-01.htm": {
+   "file": "Q00190_LostDream/30512-01.htm",
+   "quest": 190,
+   "text": "Head Blacksmith Kusto: Good to see you again! When I decoded the metal plate that you gave me, it turned out to be a research log from the lab. I still need to check something, however. Would you help me?",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state CREATED; player.hasQuestCompleted(Q00187_NikolasHeart.class.getSimpleName()); (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"How?\"",
+     "bypass": "Quest Q00190_LostDream 30512-03.htm",
+     "kind": "quest-event",
+     "script": "Q00190_LostDream",
+     "event": "30512-03.htm",
+     "quest": 190,
+     "to": "Q00190_LostDream/30512-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00190_LostDream/30512-02.htm": {
+   "file": "Q00190_LostDream/30512-02.htm",
+   "quest": 190,
+   "text": "Head Blacksmith Kusto: How are you? I certainly appreciate the assistance you provided me. If I need your help again, I won't hesitate to ask! In the meantime, I must take my leave... (Only characters level 42 and above are permitted to undertake this quest.)",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state CREATED; player.hasQuestCompleted(Q00187_NikolasHeart.class.getSimpleName()); NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00190_LostDream/30512-04.html": {
+   "file": "Q00190_LostDream/30512-04.html",
+   "quest": 190,
+   "text": "Head Blacksmith Kusto: Why are you still here? There is no time to waste. Go find Magister Juris in the town of Giran and ask her about the last Cruma. If you are having second thoughts, I will ask somebody else to go.",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00190_LostDream/30512-05.html": {
+   "file": "Q00190_LostDream/30512-05.html",
+   "quest": 190,
+   "text": "Head Blacksmith Kusto: Did you find her? She does know something about the Cruma, doesn't she?",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "Tell him what you've learned.",
+     "bypass": "Quest Q00190_LostDream 30512-06.html",
+     "kind": "quest-event",
+     "script": "Q00190_LostDream",
+     "event": "30512-06.html",
+     "quest": 190,
+     "to": "Q00190_LostDream/30512-06.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00190_LostDream/30512-07.html": {
+   "file": "Q00190_LostDream/30512-07.html",
+   "quest": 190,
+   "text": "Head Blacksmith Kusto: Please do not waste any more time! Tell Lorain that the work I asked her to do is finished.",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state STARTED; memoState >= 3; memoState <= 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00190_LostDream/30512-08.html": {
+   "file": "Q00190_LostDream/30512-08.html",
+   "quest": 190,
+   "text": "Head Blacksmith Kusto: Thank you for your help, my friend. Please take this as a small token of my gratitude. I should be happy to work with you again if the opportunity arises in the future. Farewell!",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state STARTED; memo 5; !((memoState >= 3) && (memoState <= 4))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00191_VainConclusion/30512-01.html": {
+   "file": "Q00191_VainConclusion/30512-01.html",
+   "quest": 191,
+   "text": "Head Blacksmith Kusto: Long time no see. How is Lorain progressing with her assignment?",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "links": [
+    {
+     "text": "Explain what has happened.",
+     "bypass": "Quest Q00191_VainConclusion 30512-02.html",
+     "kind": "quest-event",
+     "script": "Q00191_VainConclusion",
+     "event": "30512-02.html",
+     "quest": 191,
+     "to": "Q00191_VainConclusion/30512-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30512-01a.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30512-01a.html",
+   "quest": 503,
+   "text": "Head Blacksmith Kusto: I have heard many impressive tales of your clan... I would be greatly honored to meet the lord of your clan.",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; !player.isClanLeader()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30512-01.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30512-01.html",
+   "quest": 503,
+   "text": "Head Blacksmith Kusto: I've heard about your clan... you are the Clan in high spirits, no? I heard that you were headed towards Death Pass...? I'll be counting on you. Please find my brother. He received the title of honorable Bounty Hunter... These days he hangs out with a bad crowd called the Mag…",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state STARTED; lacks items 3843,3871; !(qs.isCreated() || qs.isCompleted()); !((lqs != null) && !player.isClanLeader())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30512-02.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30512-02.html",
+   "quest": 503,
+   "text": "Head Blacksmith Kusto: A magpie brooch...? Does this mean...?! How could he...! Sob! It's from the Magpie Brothers! He fell in with those ruffians and see where it got him... He sullied the reputations of honorable Bounty Hunters everywhere... How dreadful! Even though he has disgraced himself, I c…",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state STARTED; has items 3843,3871; !(qs.isCreated() || qs.isCompleted()); !((lqs != null) && !player.isClanLeader())"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more about the Magpie Brothers.\"",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30512-03.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30512-03.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30512-03.html"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30512-04.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30512-04.html",
+   "quest": 503,
+   "text": "Head Blacksmith Kusto: I will never forget your kindness in bringing me the news of my poor brother. I hope that the guild can help you someday.",
+   "header": "Head Blacksmith Kusto",
+   "when": [
+    "state STARTED; has items 3843,3871; lacks items 3843; !(qs.isCreated() || qs.isCompleted()); !((lqs != null) && !player.isClanLeader()); lqs != null"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the Magpie Brothers.\"",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30512-03.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30512-03.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30512-03.html"
+    }
+   ]
+  },
+  "Q00183_RelicExploration/30512-02.htm": {
+   "file": "Q00183_RelicExploration/30512-02.htm",
+   "quest": 183,
+   "text": "Head Blacksmith Kusto: I allied myself with Lorain, a member of the Bronze Key Guild. I promised that we would share equally any of the secrets we discovered in our quest. However, I think something terrible has recently happened to her. Would you help me?",
+   "header": "Head Blacksmith Kusto",
+   "links": [
+    {
+     "text": "\"How can I help?\"",
+     "bypass": "Quest Q00183_RelicExploration 30512-04.htm",
+     "kind": "quest-event",
+     "script": "Q00183_RelicExploration",
+     "event": "30512-04.htm",
+     "quest": 183,
+     "to": "Q00183_RelicExploration/30512-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00183_RelicExploration/30512-04.htm": {
+   "file": "Q00183_RelicExploration/30512-04.htm",
+   "quest": 183,
+   "text": "Head Blacksmith Kusto: Lorain is stationed just outside the entrance to Cruma Tower studying the technology of the ancient Giants. I believe, however, that the monsters who inhabit the Tower are threatening her safety...and interrupting her research. Would you help her? Please, I beg of you... (Ple…",
+   "header": "Head Blacksmith Kusto",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00187_NikolasHeart/30512-02.html": {
+   "file": "Q00187_NikolasHeart/30512-02.html",
+   "quest": 187,
+   "text": "Head Blacksmith Kusto: Ha ha! I don't know how you found that out. Well... since you already know, I will tell you. I wouldn't mind if Nikola and Lorain would work together, actually, but since they despise each other I thought it best to let them work separately. But as you discovered, this is not…",
+   "header": "Head Blacksmith Kusto",
+   "links": [
+    {
+     "text": "\"That problem has been resolved. I found something that looks like a relic, but we need the password.\"",
+     "bypass": "Quest Q00187_NikolasHeart 30512-03.html",
+     "kind": "quest-event",
+     "script": "Q00187_NikolasHeart",
+     "event": "30512-03.html",
+     "quest": 187,
+     "to": "Q00187_NikolasHeart/30512-03.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00187_NikolasHeart/30512-03.html": {
+   "file": "Q00187_NikolasHeart/30512-03.html",
+   "quest": 187,
+   "text": "Head Blacksmith Kusto: Ah! Let me see it! Hmm. I see. Yes, we certainly need the password. It might take me some time, but I think I can puzzle it out. Excellent work, my young friend! Please accept this as a token of my gratitude. Farewell -- I must take this to my lab!",
+   "header": "Head Blacksmith Kusto",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00189_ContractCompletion/30512-02.html": {
+   "file": "Q00189_ContractCompletion/30512-02.html",
+   "quest": 189,
+   "text": "Head Blacksmith Kusto: I see. Hmm... Researching Cruma, eh? Interesting... Although there is nothing to be gained financially from it, unfortunately... But I suppose the research may still have some value, eh? Thank you for your help. Please take this in exchange for what you've done. I will send w…",
+   "header": "Head Blacksmith Kusto",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00190_LostDream/30512-03.htm": {
+   "file": "Q00190_LostDream/30512-03.htm",
+   "quest": 190,
+   "text": "Head Blacksmith Kusto: The research log on the metal plate contains a record of the Cruma, one of the ancient creatures born at the creation of the world. I have determined to ask the Elves about the location of the last Cruma. Magister Juris in the town of Giran may know something about this matte…",
+   "header": "Head Blacksmith Kusto",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00190_LostDream/30512-06.html": {
+   "file": "Q00190_LostDream/30512-06.html",
+   "quest": 190,
+   "text": "Head Blacksmith Kusto: I see... So it really is extinct. As I told you before, I doubt there is anything to be gained financially from this line of research. Still, any knowledge must possess some value, don't you think? In any event, thank you for your efforts. I have one final favor to ask of you…",
+   "header": "Head Blacksmith Kusto",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00191_VainConclusion/30512-02.html": {
+   "file": "Q00191_VainConclusion/30512-02.html",
+   "quest": 191,
+   "text": "Head Blacksmith Kusto: I see. Hmm... Researching Cruma, eh? Interesting... Although there is nothing to be gained financially from it, unfortunately... But I suppose the research may still have some value, eh? Thank you for your help. Please take this in exchange for what you've done. I will send w…",
+   "header": "Head Blacksmith Kusto",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30512-03.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30512-03.html",
+   "quest": 503,
+   "text": "Head Blacksmith Kusto: They don't respect their ancestors. They are bounty hunters who dig up graves and rummage through relics to collect anything that's valuable. They were named the Magpie's Brothers because of their greed. They even hoarded relics from the Dwarf Kingdom found in the ancient lab…",
+   "header": "Head Blacksmith Kusto",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Relics Exploration]",
+     "bypass": "npc_%objectId%_Quest Q00183_RelicExploration",
+     "kind": "quest",
+     "quest": 183,
+     "to": "Q00183_RelicExploration/30512-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Relics Exploration (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00183_RelicExploration",
+     "kind": "quest",
+     "quest": 183,
+     "to": "Q00183_RelicExploration/30512-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Nikola's Heart (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00187_NikolasHeart",
+     "kind": "quest",
+     "quest": 187,
+     "to": "Q00187_NikolasHeart/30512-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Contract Completion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00189_ContractCompletion",
+     "kind": "quest",
+     "quest": 189,
+     "to": "Q00189_ContractCompletion/30512-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Lost Dream]",
+     "bypass": "npc_%objectId%_Quest Q00190_LostDream",
+     "kind": "quest",
+     "quest": 190,
+     "to": "Q00190_LostDream/30512-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Lost Dream (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00190_LostDream",
+     "kind": "quest",
+     "quest": 190,
+     "to": "Q00190_LostDream/30512-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Vain Conclusion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00191_VainConclusion",
+     "kind": "quest",
+     "quest": 191,
+     "to": "Q00191_VainConclusion/30512-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Pursuit of Clan Ambition! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00503_PursuitOfClanAmbition",
+     "kind": "quest",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30512-01a.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "villagemaster/30512.htm: link \"Listen to information about second class transfer.\" is \"Listen to information about 2nd class transfer.\" live",
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\"",
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Increase Clan Level. | Level Up | Manage Academy. | Create an Academy | Enter (SwarmAcademy)"
+ ],
+ "liveClicks": [
+  {
+   "text": "Clan.",
+   "n": 6,
+   "inDatapack": true,
+   "from": [
+    "Head Blacksmith Kusto:I'm Head Blacksmith Kusto of the Black"
+   ],
+   "to": [
+    "What would you like to do?Create New Clan.Increase Clan Leve"
+   ]
+  },
+  {
+   "text": "Manage Academy.",
+   "n": 3,
+   "inDatapack": false,
+   "from": [
+    "What would you like to do?Create New Clan.Increase Clan Leve"
+   ],
+   "to": [
+    "Any Level 5 or higher clan may found an Academy. Anyone belo"
+   ]
+  },
+  {
+   "text": "Increase Clan Level.",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "What would you like to do?Create New Clan.Increase Clan Leve"
+   ],
+   "to": [
+    "The clan level can be raised. Raising clan level requires th"
+   ]
+  },
+  {
+   "text": "Level Up",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "The clan level can be raised. Raising clan level requires th"
+   ],
+   "to": []
+  },
+  {
+   "text": "Create an Academy",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "Any Level 5 or higher clan may found an Academy. Anyone belo"
+   ],
+   "to": [
+    "Please enter the name of Academy:"
+   ]
+  },
+  {
+   "text": "Enter (SwarmAcademy)",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Please enter the name of Academy:"
+   ],
+   "to": [
+    "An Academy has been created."
+   ]
+  }
+ ]
+}

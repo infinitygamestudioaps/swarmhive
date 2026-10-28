@@ -1,0 +1,371 @@
+{
+ "npcId": 32010,
+ "name": "Flauron",
+ "title": "Priest",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.310Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32010.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "636": {
+   "name": "The Truth Beyond the Gate",
+   "listText": [
+    "[Truth Beyond the Gate]",
+    "[Truth Beyond the Gate (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00636_TruthBeyond/32010-01.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00636_TruthBeyond/32010-03.htm",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "637": {
+   "name": "Through the Gate Once More",
+   "listText": [
+    "[Through the Gate Once More]",
+    "[Through the Gate Once More (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00637_ThroughOnceMore/32010-02.htm",
+     "when": "level > 72; id == State.CREATED",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00637_ThroughOnceMore/32010-01a.htm",
+     "when": "level > 72; id == State.CREATED",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00637_ThroughOnceMore/32010-0.htm",
+     "when": "level > 72; id == State.CREATED",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00637_ThroughOnceMore/32010-01.htm",
+     "when": "id == State.CREATED",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00637_ThroughOnceMore/32010-05.htm",
+     "when": "cond 2; !id == State.CREATED; id == State.STARTED; hasItemsAtLimit(st.getPlayer(), NECRO_HEART)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00637_ThroughOnceMore/32010-04.htm",
+     "when": "!id == State.CREATED; id == State.STARTED",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32010.htm": {
+   "file": "default/32010.htm",
+   "quest": null,
+   "text": "Priest Flauron: Eh? What are you doing here? The pathway is a dangerous place! Never go in there, not even by mistake.",
+   "header": "Priest Flauron",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00636_TruthBeyond/32010-01.htm": {
+   "file": "Q00636_TruthBeyond/32010-01.htm",
+   "quest": 636,
+   "text": "Priest Flauron: Who comes calling? Oh, you can't want to go down this pathway. Yes, it leads to our temple, but it's awfully dangerous if you're not authorized. Unwelcome visitors often disappear down that path, never to been seen again. Unwise, tragically unwise! I see no authorization documents o…",
+   "header": "Priest Flauron",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Well, i'd like to visit too. May I?\"",
+     "bypass": "Quest Q00636_TruthBeyond 32010-02.htm",
+     "kind": "quest-event",
+     "script": "Q00636_TruthBeyond",
+     "event": "32010-02.htm",
+     "quest": 636,
+     "to": "Q00636_TruthBeyond/32010-02.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00636_TruthBeyond/32010-03.htm": {
+   "file": "Q00636_TruthBeyond/32010-03.htm",
+   "quest": 636,
+   "text": "Priest Flauron: Oh dear, what are you still doing here? Remember you are in luck! Today is Visitor's Day and you don't want to miss a thing, do you? This way please.. join the rest of our.. visitors.",
+   "header": "Priest Flauron",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00637_ThroughOnceMore/32010-02.htm": {
+   "file": "Q00637_ThroughOnceMore/32010-02.htm",
+   "quest": 637,
+   "text": "Priest Flauron: Eh? Oh, my, it's you! I, uh, I didn't expect to see you again. Not alive, at any rate. Well, er, let us rejoice in your good fortune! Surely your relief at your survival will allow you to laugh at any harmless incidents in the past! Eheheh.",
+   "header": "Priest Flauron",
+   "when": [
+    "level > 72; id == State.CREATED"
+   ],
+   "links": [
+    {
+     "text": "Grab him by the collar.",
+     "bypass": "Quest Q00637_ThroughOnceMore 32010-06.htm",
+     "kind": "quest-event",
+     "script": "Q00637_ThroughOnceMore",
+     "event": "32010-06.htm",
+     "quest": 637,
+     "to": "Q00637_ThroughOnceMore/32010-06.htm"
+    },
+    {
+     "text": "Listen to his story.",
+     "bypass": "Quest Q00637_ThroughOnceMore 32010-08.htm",
+     "kind": "quest-event",
+     "script": "Q00637_ThroughOnceMore",
+     "event": "32010-08.htm",
+     "quest": 637,
+     "to": "Q00637_ThroughOnceMore/32010-08.htm"
+    }
+   ]
+  },
+  "Q00637_ThroughOnceMore/32010-01a.htm": {
+   "file": "Q00637_ThroughOnceMore/32010-01a.htm",
+   "quest": 637,
+   "text": "Priest Flauron: You should go on to the temple; I'm too busy to see you just now. (Only characters level 73 and above are permitted to take on the quest.)",
+   "header": "Priest Flauron",
+   "when": [
+    "level > 72; id == State.CREATED"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00637_ThroughOnceMore/32010-0.htm": {
+   "file": "Q00637_ThroughOnceMore/32010-0.htm",
+   "quest": 637,
+   "text": "Priest Flauron: You already have the Mark of the Pagan, so you don't need to hear this story again. Oh, by the way, a little remind for you: Although you realized your own frailty and brought your combined might can do anything to stop us. Lord Triol was quite aware of the danger a party of adventu…",
+   "header": "Priest Flauron",
+   "when": [
+    "level > 72; id == State.CREATED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00637_ThroughOnceMore/32010-01.htm": {
+   "file": "Q00637_ThroughOnceMore/32010-01.htm",
+   "quest": 637,
+   "text": "Priest Flauron: I'm too busy to help you. Sorry! (Only characters level 73 and above who possess a Faded Visitor's Mark are permitted to take on the quest.)",
+   "header": "Priest Flauron",
+   "when": [
+    "id == State.CREATED"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00637_ThroughOnceMore/32010-05.htm": {
+   "file": "Q00637_ThroughOnceMore/32010-05.htm",
+   "quest": 637,
+   "text": "Priest Flauron: Ha! Excellent! Quickly, give it to me, before someone sees us! What am I going to use it for, you ask? Heh. Ask me no questions, and I'll tell you no lies! Well, you've done your part, and I'll do mine. Here, let me give you the Pagan's Mark . There! You will no longer need the Visi…",
+   "header": "Priest Flauron",
+   "when": [
+    "cond 2; !id == State.CREATED; id == State.STARTED; hasItemsAtLimit(st.getPlayer(), NECRO_HEART)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00637_ThroughOnceMore/32010-04.htm": {
+   "file": "Q00637_ThroughOnceMore/32010-04.htm",
+   "quest": 637,
+   "text": "Priest Flauron: We have a deal, then. Now go to the Forest of the Dead and defeat the Bone Animator, the Bone Slayer, and the Skull Animator. Bring me ten Necromancer Hearts , and I will give you the Pagan's Mark that will allow you to enter the chapel of the Temple.",
+   "header": "Priest Flauron",
+   "when": [
+    "!id == State.CREATED; id == State.STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00636_TruthBeyond/32010-02.htm": {
+   "file": "Q00636_TruthBeyond/32010-02.htm",
+   "quest": 636,
+   "text": "Priest Flauron: As it so happens, you are in luck! Today is Visitor's Day. Excuse me... (He mutters to the side) Yes, I have just received word from higher up that we need more, so I'm telling them that it's Visitor's Day. (He turns back to you) How fortunate you are! On Visitor's Day we lavish spl…",
+   "header": "Priest Flauron",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00637_ThroughOnceMore/32010-03.htm": {
+   "file": "Q00637_ThroughOnceMore/32010-03.htm",
+   "quest": 637,
+   "text": "Priest Flauron: A wise decision! Now, here's what I want: go to the Forest of the Dead and defeat the Bone Animator, the Bone Slayer and the Skull Animator. Bring me 10 Necromancer Hearts. Do that, and I'll give you the real sign - the occult sign that will allow you to enter the chapel of the Temp…",
+   "header": "Priest Flauron",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00637_ThroughOnceMore/32010-06.htm": {
+   "file": "Q00637_ThroughOnceMore/32010-06.htm",
+   "quest": 637,
+   "text": "Priest Flauron: Hey, hey! Settle down! We can discuss this, can't we? It was merely a harmless prank, and I'm sure you appreciate the humor - hey, that hurts! The truth? Very well. I can see I have no choice; your grim faces suggest no love of my jest. Visitor's Day is a lie. We use that as a ruse …",
+   "header": "Priest Flauron",
+   "links": [
+    {
+     "text": "\"Why would I do you a favor when you lied to me?\"",
+     "bypass": "Quest Q00637_ThroughOnceMore 32010-09.htm",
+     "kind": "quest-event",
+     "script": "Q00637_ThroughOnceMore",
+     "event": "32010-09.htm",
+     "quest": 637,
+     "to": "Q00637_ThroughOnceMore/32010-09.htm"
+    }
+   ]
+  },
+  "Q00637_ThroughOnceMore/32010-07.htm": {
+   "file": "Q00637_ThroughOnceMore/32010-07.htm",
+   "quest": 637,
+   "text": "Priest Flauron: Why betray my order? Well, for one thing, I don't think you'll pose any real threat to the order, even if you do get into the temple. We aren't weaklings, you know. In any case, our order teaches self-interest, and this deal serves my interest. You get into the chapel, I get what I …",
+   "header": "Priest Flauron",
+   "links": [
+    {
+     "text": "\"Okay, it's a deal.\"",
+     "bypass": "Quest Q00637_ThroughOnceMore 32010-03.htm",
+     "kind": "quest-event",
+     "script": "Q00637_ThroughOnceMore",
+     "event": "32010-03.htm",
+     "quest": 637,
+     "to": "Q00637_ThroughOnceMore/32010-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00637_ThroughOnceMore/32010-08.htm": {
+   "file": "Q00637_ThroughOnceMore/32010-08.htm",
+   "quest": 637,
+   "text": "Priest Flauron: Ha, you emerged alive! My felicitations. And even better, you came back to speak with me! So, all water under the bridge, then, eh? Yes, Visitor's Day is a lie. We use it to attract live sacrifices, frankly. Anyway, it's been a long time since I've seen anyone return from there aliv…",
+   "header": "Priest Flauron",
+   "links": [
+    {
+     "text": "\"Why would I do you a favor after you lied to me?\"",
+     "bypass": "Quest Q00637_ThroughOnceMore 32010-09.htm",
+     "kind": "quest-event",
+     "script": "Q00637_ThroughOnceMore",
+     "event": "32010-09.htm",
+     "quest": 637,
+     "to": "Q00637_ThroughOnceMore/32010-09.htm"
+    }
+   ]
+  },
+  "Q00637_ThroughOnceMore/32010-09.htm": {
+   "file": "Q00637_ThroughOnceMore/32010-09.htm",
+   "quest": 637,
+   "text": "Priest Flauron: Oh, that. Disregard that; it was a minor matter. You have survived and gained by your experiences, surely. How can that be bad? Keep your thoughts on the future, that is my motto! Look, let's deal. I'm not going to try any more tricks. I know better now. If I'd known you for what yo…",
+   "header": "Priest Flauron",
+   "links": [
+    {
+     "text": "\"I want to go into the chapel, but why would you want to help me?\"",
+     "bypass": "Quest Q00637_ThroughOnceMore 32010-07.htm",
+     "kind": "quest-event",
+     "script": "Q00637_ThroughOnceMore",
+     "event": "32010-07.htm",
+     "quest": 637,
+     "to": "Q00637_ThroughOnceMore/32010-07.htm"
+    },
+    {
+     "text": "\"I am not interested in the chapel of the temple.\"",
+     "bypass": "Quest Q00637_ThroughOnceMore 32010-10.htm",
+     "kind": "quest-event",
+     "script": "Q00637_ThroughOnceMore",
+     "event": "32010-10.htm",
+     "quest": 637,
+     "to": "Q00637_ThroughOnceMore/32010-10.htm",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00637_ThroughOnceMore/32010-10.htm": {
+   "file": "Q00637_ThroughOnceMore/32010-10.htm",
+   "quest": 637,
+   "text": "Priest Flauron: Oh, really? What a pity. Please feel free to return any time!",
+   "header": "Priest Flauron",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Truth Beyond the Gate (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00636_TruthBeyond",
+     "kind": "quest",
+     "quest": 636,
+     "to": "Q00636_TruthBeyond/32010-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Through the Gate Once More]",
+     "bypass": "npc_%objectId%_Quest Q00637_ThroughOnceMore",
+     "kind": "quest",
+     "quest": 637,
+     "to": "Q00637_ThroughOnceMore/32010-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Through the Gate Once More (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00637_ThroughOnceMore",
+     "kind": "quest",
+     "quest": 637,
+     "to": "Q00637_ThroughOnceMore/32010-02.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

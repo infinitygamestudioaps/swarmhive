@@ -1,0 +1,65 @@
+{
+ "npcId": 30917,
+ "name": "Dupuis",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.111Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30917.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30917.htm": {
+   "file": "guard/30917.htm",
+   "quest": null,
+   "text": "Guard Dupuis: You look exhausted! You have chosen the most beautiful and peaceful place on earth to brush the dust from your boots. If you present a flower to the Lady of the Lake, she may bestow upon you a kiss of blessing.",
+   "header": "Guard Dupuis",
+   "links": [
+    {
+     "text": "\"Tell me more about the Lady of the Lake.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30917-1.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30917-1.htm": {
+   "file": "guard/30917-1.htm",
+   "quest": null,
+   "text": "Guard Dupuis: Human and Elves have lived alongside each other peacefully for years in this land. Here, Eva is more revered than Einhasad and the rest of us worship Eva. Our special name for her is \"The Lady of the Lake\". This term incorporates the old religion of the indigenous people from this are…",
+   "header": "Guard Dupuis",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30917.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

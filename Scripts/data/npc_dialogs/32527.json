@@ -1,0 +1,391 @@
+{
+ "npcId": 32527,
+ "name": "Edric",
+ "title": "Officer",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.381Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00693_DefeatingDragonkinRemnants/32527-00.html",
+   "when": "GraciaSeedsManager.getInstance().getSoDState() == 2",
+   "src": "quest 693"
+  },
+  {
+   "page": "Q00693_DefeatingDragonkinRemnants/32527-00a.html",
+   "when": "",
+   "src": "quest 693"
+  }
+ ],
+ "quests": {
+  "693": {
+   "name": "Defeating Dragonkin Remnants",
+   "listText": [
+    "[Defeating Dragonkin Remnants]",
+    "[Defeating Dragonkin Remnants (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00693_DefeatingDragonkinRemnants/32527-01.htm",
+     "when": "NOT level < 75; st.getMemoState() < 1",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00693_DefeatingDragonkinRemnants/32527-reward.html",
+     "when": "state STARTED; memo 3; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; st.getMemoState() >= 3; rewardPlayer(st, st.getInt(\"difficulty\"), st.getInt(\"members\"))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00693_DefeatingDragonkinRemnants/32527-noreward.html",
+     "when": "state STARTED; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; st.getMemoState() >= 3; !(st.isMemoState(3) && rewardPlayer(st, st.getInt(\"difficulty\"), st.getInt(\"members\")))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00693_DefeatingDragonkinRemnants/32527-11.html",
+     "when": "state STARTED; memo 2; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; !st.getMemoState() >= 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00693_DefeatingDragonkinRemnants/32527-noparty.html",
+     "when": "state STARTED; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; !st.getMemoState() >= 3; party == null",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00693_DefeatingDragonkinRemnants/32527-noleader.html",
+     "when": "state STARTED; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; !st.getMemoState() >= 3; !party == null",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00693_DefeatingDragonkinRemnants/32527-noquest.html",
+     "when": "state STARTED; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; !st.getMemoState() >= 3; !party == null",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00693_DefeatingDragonkinRemnants/32527-06.htm",
+     "when": "state STARTED; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; !st.getMemoState() >= 3; !party == null",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "Q00693_DefeatingDragonkinRemnants/32527-00.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-00.html",
+   "quest": 693,
+   "text": "Officer Edric: Hail! I am Officer Edric, who manages the remnant of the Mounted Troop here. We caught some of the Mounted Troop's lesser minions when the Seed of Destruction became temporarily stable . Do you have time for a chat?",
+   "header": "Officer Edric",
+   "when": [
+    "GraciaSeedsManager.getInstance().getSoDState() == 2"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "Quest Q00693_DefeatingDragonkinRemnants",
+     "kind": "quest",
+     "script": "Q00693_DefeatingDragonkinRemnants",
+     "quest": 693,
+     "to": "Q00693_DefeatingDragonkinRemnants/32527-01.htm"
+    }
+   ]
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-00a.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-00a.html",
+   "quest": 693,
+   "text": "Officer Edric: The Seed of Destruction is on the rise. Orders have come down to withdraw. We must flee now and hope for the best... Perhaps fortune will allow us to wage this battle some other time. Right now, our focus just needs to be on survival.",
+   "header": "Officer Edric",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-01.htm": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-01.htm",
+   "quest": 693,
+   "text": "Officer Edric: When I was a soldier, I fought, armed only with patriotism and loyalty. And I survived, as you can see. But all I got for my efforts were these menial chores and this lowly rank of \"Officer.\" Ha! How I long for the days when I saw my enemy face to face! But I am still a soldier, and …",
+   "header": "Officer Edric",
+   "when": [
+    "NOT level < 75; st.getMemoState() < 1"
+   ],
+   "links": [
+    {
+     "text": "Listen to the rules of battle.",
+     "bypass": "Quest Q00693_DefeatingDragonkinRemnants 32527-02.html",
+     "kind": "quest-event",
+     "script": "Q00693_DefeatingDragonkinRemnants",
+     "event": "32527-02.html",
+     "quest": 693,
+     "to": "Q00693_DefeatingDragonkinRemnants/32527-02.html"
+    }
+   ]
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-reward.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-reward.html",
+   "quest": 693,
+   "text": "Officer Edric: Well done. Watching you fight remind me of my own time in the ranks. It sure brought back memories! I only wish I could give you a better reward than this. Please come back and challenge again soon!",
+   "header": "Officer Edric",
+   "when": [
+    "state STARTED; memo 3; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; st.getMemoState() >= 3; rewardPlayer(st, st.getInt(\"difficulty\"), st.getInt(\"members\"))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-noreward.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-noreward.html",
+   "quest": 693,
+   "text": "Officer Edric: Well done. Watching you fight remind me of my own time in the ranks. It sure brought back memories! Unfortunately, you didn't qualify for a reward. Tat's not a reflection on your skills, believe me. It just wasn't your day. When you try again, I'm sure things will turn out better.",
+   "header": "Officer Edric",
+   "when": [
+    "state STARTED; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; st.getMemoState() >= 3; !(st.isMemoState(3) && rewardPlayer(st, st.getInt(\"difficulty\"), st.getInt(\"members\")))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-11.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-11.html",
+   "quest": 693,
+   "text": "Officer Edric: I'll send you back to the Entrance of Destruction if you want. If you want to start from the beginning, that's fine with me. (To start the quest from the beginning, first select \"Quest Stop.\") Move to the battle location.",
+   "header": "Officer Edric",
+   "when": [
+    "state STARTED; memo 2; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; !st.getMemoState() >= 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-noparty.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-noparty.html",
+   "quest": 693,
+   "text": "Officer Edric: They are still demons under the power of Dragon of Darkness, even if they are the captured remnants of the Mounted Troupe. Do you think you can confront them by yourself? Find a party and come back. I won't let you in there otherwise.",
+   "header": "Officer Edric",
+   "when": [
+    "state STARTED; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; !st.getMemoState() >= 3; party == null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-noleader.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-noleader.html",
+   "quest": 693,
+   "text": "Officer Edric: You need a party leader to enter. Let me talk to your leader. Call %leader% for me.",
+   "header": "Officer Edric",
+   "when": [
+    "state STARTED; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; !st.getMemoState() >= 3; !party == null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-noquest.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-noquest.html",
+   "quest": 693,
+   "text": "Officer Edric: Uh... %member% isn't registered. Your party can't enter the battle with an un-registered member. Tell him to register right away!",
+   "header": "Officer Edric",
+   "when": [
+    "state STARTED; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; !st.getMemoState() >= 3; !party == null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-06.htm": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-06.htm",
+   "quest": 693,
+   "text": "Officer Edric: Are you ready? Then choose the degree of battle difficulty. Battle with Mounted Troop Chamberlains : 2-3 Battle with Mounted Troop Soldiers : 4-5 Battle with Mounted Troop Warriors : 6-7 Battle with Mounted Troop Great Warriors : 8-9 These are only recommendations. You can select a b…",
+   "header": "Officer Edric",
+   "when": [
+    "state STARTED; NOT level < 75; !st.getMemoState() < 1; st.getMemoState() >= 1; !st.getMemoState() >= 3; !party == null"
+   ],
+   "links": [
+    {
+     "text": "Fight with Mounted Troop Chamberlains.",
+     "bypass": "Quest Q00693_DefeatingDragonkinRemnants 32527-07.html",
+     "kind": "quest-event",
+     "script": "Q00693_DefeatingDragonkinRemnants",
+     "event": "32527-07.html",
+     "quest": 693,
+     "to": "Q00693_DefeatingDragonkinRemnants/32527-07.html"
+    },
+    {
+     "text": "Fight with Mounted Troop Soldiers.",
+     "bypass": "Quest Q00693_DefeatingDragonkinRemnants 32527-08.html",
+     "kind": "quest-event",
+     "script": "Q00693_DefeatingDragonkinRemnants",
+     "event": "32527-08.html",
+     "quest": 693,
+     "to": "Q00693_DefeatingDragonkinRemnants/32527-08.html"
+    },
+    {
+     "text": "Fight with Mounted Troop Warriors.",
+     "bypass": "Quest Q00693_DefeatingDragonkinRemnants 32527-09.html",
+     "kind": "quest-event",
+     "script": "Q00693_DefeatingDragonkinRemnants",
+     "event": "32527-09.html",
+     "quest": 693,
+     "to": "Q00693_DefeatingDragonkinRemnants/32527-09.html"
+    },
+    {
+     "text": "Fight with Mounted Troop Great Warriors.",
+     "bypass": "Quest Q00693_DefeatingDragonkinRemnants 32527-10.html",
+     "kind": "quest-event",
+     "script": "Q00693_DefeatingDragonkinRemnants",
+     "event": "32527-10.html",
+     "quest": 693,
+     "to": "Q00693_DefeatingDragonkinRemnants/32527-10.html"
+    }
+   ]
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-02.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-02.html",
+   "quest": 693,
+   "text": "Officer Edric: The rules are so simple, I almost don't need to explain. When your party is ready, the remnants will be freed at the Entrance of Destruction. You and your party will enter through it. Then we will block the only passage. At that point, the full-scale show-down begins. You and your pa…",
+   "header": "Officer Edric",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00693_DefeatingDragonkinRemnants 32527-03.html",
+     "kind": "quest-event",
+     "script": "Q00693_DefeatingDragonkinRemnants",
+     "event": "32527-03.html",
+     "quest": 693,
+     "to": "Q00693_DefeatingDragonkinRemnants/32527-03.html"
+    }
+   ]
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-03.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-03.html",
+   "quest": 693,
+   "text": "Officer Edric: If you are interested in the match, simply register for battle . When you are ready to start, have the leader of your party let me know. After the party leader selects one of the following degrees of battle difficulty , entry will be granted: 2-3 for battle with Mounted Troop Chamber…",
+   "header": "Officer Edric",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00693_DefeatingDragonkinRemnants 32527-04.htm",
+     "kind": "quest-event",
+     "script": "Q00693_DefeatingDragonkinRemnants",
+     "event": "32527-04.htm",
+     "quest": 693,
+     "to": "Q00693_DefeatingDragonkinRemnants/32527-04.htm"
+    }
+   ]
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-04.htm": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-04.htm",
+   "quest": 693,
+   "text": "Officer Edric: There have been cases in which the defeated party kept requesting a rematch, so by rule the battle is allowed only once a day. (The clock is reset in real time at 6:30 AM) You can come back to avenge your defeat any time the next day if you want. This battle is only available when th…",
+   "header": "Officer Edric",
+   "links": [
+    {
+     "text": "Register for battle with the Mounted Troop.",
+     "bypass": "Quest Q00693_DefeatingDragonkinRemnants 32527-05.htm",
+     "kind": "quest-event",
+     "script": "Q00693_DefeatingDragonkinRemnants",
+     "event": "32527-05.htm",
+     "quest": 693,
+     "to": "Q00693_DefeatingDragonkinRemnants/32527-05.htm",
+     "toAll": [
+      "Q00693_DefeatingDragonkinRemnants/32527-05.htm",
+      "Q00693_DefeatingDragonkinRemnants/32527-12.html"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-05.htm": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-05.htm",
+   "quest": 693,
+   "text": "Officer Edric: You're now registered for battle. I'm looking forward to seeing what you can do in there... What? Don't look at me like that. Do you think the higher-level officers care about mere remnants? Nobody cares about them! Do with them whatever you want. Your name will be remembered as a he…",
+   "header": "Officer Edric",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-07.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-07.html",
+   "quest": 693,
+   "text": "Officer Edric: You've chosen the battle with Mounted Troop Chamberlains . You shouldn't have any problems with this one. Next time, choose something more challenging! Please confirm all your party members are ready. When they are, I'll teleport you to the arena. Move to the battle location.",
+   "header": "Officer Edric",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-08.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-08.html",
+   "quest": 693,
+   "text": "Office Edric: You've chosen the battle with Mounted Troop Soldiers . This will be an easy one. May your triumph be swift and complete! Please confirm all your party members are ready. When they are, I'll teleport you to the arena. Move to the battle location.",
+   "header": "Office Edric",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-09.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-09.html",
+   "quest": 693,
+   "text": "Office Edric: You've chosen the battle with Mounted Troop Warriors . This one won't be so easy. Do your best and work together! Please confirm all your party members are ready. When they are, I'll teleport you to the arena. Move to the battle location.",
+   "header": "Office Edric",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-10.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-10.html",
+   "quest": 693,
+   "text": "Office Edric: You've chosen the battle with Mounted Troop Great Warriors . This one won't be so easy. Do your best and work together! Please confirm all your party members are ready. When they are, I'll teleport you to the arena. Move to the battle location.",
+   "header": "Office Edric",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-12.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-12.html",
+   "quest": 693,
+   "text": "Officer Edric: You need some cool-down time. By rule, you can only participate in the battle once a day. (The clock is reset in real-time at 6:30 a.m.)",
+   "header": "Officer Edric",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00693_DefeatingDragonkinRemnants/32527-lowlevel.html": {
+   "file": "Q00693_DefeatingDragonkinRemnants/32527-lowlevel.html",
+   "quest": 693,
+   "text": "Officer Edric: When I was a soldier, I fought, armed only with patriotism and loyalty. And I survived, as you can see. But all I got for my efforts were these menial chores and this lowly rank of \"Officer.\" Ha! How I long for the days when I saw my enemy face to face! But I am still a soldier, and …",
+   "header": "Officer Edric",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Defeating Dragonkin Remnants]",
+     "bypass": "npc_%objectId%_Quest Q00693_DefeatingDragonkinRemnants",
+     "kind": "quest",
+     "quest": 693,
+     "to": "Q00693_DefeatingDragonkinRemnants/32527-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Defeating Dragonkin Remnants (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00693_DefeatingDragonkinRemnants",
+     "kind": "quest",
+     "quest": 693,
+     "to": "Q00693_DefeatingDragonkinRemnants/32527-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

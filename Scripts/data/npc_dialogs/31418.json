@@ -1,0 +1,254 @@
+{
+ "npcId": 31418,
+ "name": "Rouke",
+ "title": "Spellbook Seller",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.201Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31418.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "134": {
+   "name": "Temple Missionary",
+   "listText": [
+    "[Temple Missionary]",
+    "[Temple Missionary (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00134_TempleMissionary/31418-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00134_TempleMissionary/31418-02.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00134_TempleMissionary/31418-04.html",
+     "when": "state STARTED; cond 3; st.getQuestItemsCount(GIANTS_EXPERIMENTAL_TOOL_FRAGMENT) < FRAGMENT_COUNT; st.getQuestItemsCount(GIANTS_TECHNOLOGY_REPORT) < REPORT_COUNT",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00134_TempleMissionary/31418-05.html",
+     "when": "state STARTED; cond 3; item 10335 >= 10; !((st.getQuestItemsCount(GIANTS_EXPERIMENTAL_TOOL_FRAGMENT) < FRAGMENT_COUNT) && (st.getQuestItemsCount(GIANTS_TECHNOLOG",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00134_TempleMissionary/31418-07.html",
+     "when": "state STARTED; cond 4; st.isSet(\"talk\")",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00134_TempleMissionary/31418-06.html",
+     "when": "state STARTED; cond 4; item 10337 >= 3; !st.isSet(\"talk\")",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00134_TempleMissionary/31418-09.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/31418.htm": {
+   "file": "merchant/31418.htm",
+   "quest": null,
+   "text": "Spellbook Seller Rouke: Oh seeker of truth! May the sacred light of Einhasad be with you always... The path to truth is found in books. You need not buy anything from me. Why don't you try reading a book?",
+   "header": "Spellbook Seller Rouke",
+   "links": [
+    {
+     "text": "\"Who is the lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00134_TempleMissionary/31418-01.html": {
+   "file": "Q00134_TempleMissionary/31418-01.html",
+   "quest": 134,
+   "text": "Spellbook Seller Rouke: I'm sorry. I don't know why you wanted to see me, adventurer. But I don't think I can help you... Go speak to Priestess Glyvka.",
+   "header": "Spellbook Seller Rouke",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00134_TempleMissionary/31418-02.html": {
+   "file": "Q00134_TempleMissionary/31418-02.html",
+   "quest": 134,
+   "text": "Spellbook Seller Rouke: You are here on behalf of the Temple, eh? Very well. I will explain what you must do to defeat the monsters and traitors in the Cruma Marshlands. Listen carefully!",
+   "header": "Spellbook Seller Rouke",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "Listen.",
+     "bypass": "Quest Q00134_TempleMissionary 31418-03.html",
+     "kind": "quest-event",
+     "script": "Q00134_TempleMissionary",
+     "event": "31418-03.html",
+     "quest": 134,
+     "to": "Q00134_TempleMissionary/31418-03.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00134_TempleMissionary/31418-04.html": {
+   "file": "Q00134_TempleMissionary/31418-04.html",
+   "quest": 134,
+   "text": "Spellbook Seller Rouke: You can obtain the pieces from the Giant's Experimental Tools by defeating the Marsh Stakatos, Stinger Wasps, Marsh Stakato Workers, Toad Lords, Marsh Stakato Soldiers, Marsh Spiders and Marsh Stakato Drones in the Cruma Marshlands . If you bring me 10 Giant's Experimental T…",
+   "header": "Spellbook Seller Rouke",
+   "when": [
+    "state STARTED; cond 3; st.getQuestItemsCount(GIANTS_EXPERIMENTAL_TOOL_FRAGMENT) < FRAGMENT_COUNT; st.getQuestItemsCount(GIANTS_TECHNOLOGY_REPORT) < REPORT_COUNT"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00134_TempleMissionary/31418-05.html": {
+   "file": "Q00134_TempleMissionary/31418-05.html",
+   "quest": 134,
+   "text": "Spellbook Seller Rouke: Excellent, you've gathered the Giants' Experimental Tool Fragments I need. Now take this fully operational Giant's Experimental Tool . If you fight the monsters while this tool is in your inventory, the traitors will appear, as they are drawn to the tool. Defeat them and bri…",
+   "header": "Spellbook Seller Rouke",
+   "when": [
+    "state STARTED; cond 3; item 10335 >= 10; !((st.getQuestItemsCount(GIANTS_EXPERIMENTAL_TOOL_FRAGMENT) < FRAGMENT_COUNT) && (st.getQuestItemsCount(GIANTS_TECHNOLOG"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00134_TempleMissionary/31418-07.html": {
+   "file": "Q00134_TempleMissionary/31418-07.html",
+   "quest": 134,
+   "text": "Spellbook Seller Rouke: Uh...perhaps I've said too much. I do not know why the Temple is interested in the ancient Giants' technology. Perhaps it is simply in order to keep it away from the traitors, or to counter its effects should it fall into the wrong hands. How can I understand the subtle stra…",
+   "header": "Spellbook Seller Rouke",
+   "when": [
+    "state STARTED; cond 4; st.isSet(\"talk\")"
+   ],
+   "links": [
+    {
+     "text": "Receive the report from Rouke.",
+     "bypass": "Quest Q00134_TempleMissionary 31418-08.html",
+     "kind": "quest-event",
+     "script": "Q00134_TempleMissionary",
+     "event": "31418-08.html",
+     "quest": 134,
+     "to": "Q00134_TempleMissionary/31418-08.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00134_TempleMissionary/31418-06.html": {
+   "file": "Q00134_TempleMissionary/31418-06.html",
+   "quest": 134,
+   "text": "Spellbook Seller Rouke: Oh, you've gathered all the research papers on the Giants' technology... The Temple will be very pleased; they are keenly interested in the lost technology of the Giants...",
+   "header": "Spellbook Seller Rouke",
+   "when": [
+    "state STARTED; cond 4; item 10337 >= 3; !st.isSet(\"talk\")"
+   ],
+   "links": [
+    {
+     "text": "\"What are you talking about? The Temple of Einhasad, the goddess of order, is interested in the chaos-spawned technology of the Giants?\"",
+     "bypass": "Quest Q00134_TempleMissionary 31418-07.html",
+     "kind": "quest-event",
+     "script": "Q00134_TempleMissionary",
+     "event": "31418-07.html",
+     "quest": 134,
+     "to": "Q00134_TempleMissionary/31418-07.html"
+    }
+   ]
+  },
+  "Q00134_TempleMissionary/31418-09.html": {
+   "file": "Q00134_TempleMissionary/31418-09.html",
+   "quest": 134,
+   "text": "Spellbook Seller Rouke: If you give this report to Priestess Glyvka, adventurer, she will judge your worthiness.",
+   "header": "Spellbook Seller Rouke",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00134_TempleMissionary/31418-03.html": {
+   "file": "Q00134_TempleMissionary/31418-03.html",
+   "quest": 134,
+   "text": "Spellbook Seller Rouke: You can obtain the Giants' Experimental Tools Fragments by defeating the Marsh Stakatos, Stinger Wasps, Marsh Stakato Workers, Toad Lords, Marsh Stakato Soldiers, Marsh Spiders and Marsh Stakato Drones in the Cruma Marshlands . If you bring me 10 Giants' Experimental Tool Fr…",
+   "header": "Spellbook Seller Rouke",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00134_TempleMissionary/31418-08.html": {
+   "file": "Q00134_TempleMissionary/31418-08.html",
+   "quest": 134,
+   "text": "Spellbook Seller Rouke: The report also mentions your help in this matter, adventurer. If you give this to Priestess Glyvka, I am sure she will express her thanks...",
+   "header": "Spellbook Seller Rouke",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Temple Missionary (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00134_TempleMissionary",
+     "kind": "quest",
+     "quest": 134,
+     "to": "Q00134_TempleMissionary/31418-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

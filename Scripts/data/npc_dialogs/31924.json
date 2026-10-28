@@ -1,0 +1,141 @@
+{
+ "npcId": 31924,
+ "name": "Judges' Sepulcher Manager",
+ "title": "",
+ "type": "L2SepulcherNpc",
+ "generated": "2026-10-27T18:18:03.297Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "SepulcherNpc/31924.htm",
+   "when": "",
+   "src": "html/SepulcherNpc"
+  }
+ ],
+ "quests": {
+  "620": {
+   "name": "Four Goblets",
+   "listText": [
+    "[Four Goblets]",
+    "[Four Goblets (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00620_FourGoblets/31924-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "SepulcherNpc/31924.htm": {
+   "file": "SepulcherNpc/31924.htm",
+   "quest": null,
+   "text": "Judge's Sepulcher Manager: A weird-looking statue.",
+   "header": "Judge's Sepulcher Manager",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "SepulcherNpc/31924-FULL.htm": {
+   "file": "SepulcherNpc/31924-FULL.htm",
+   "quest": null,
+   "text": "Judges' Sepulcher Manager: Another party has already entered the sepulcher. Come back later!",
+   "header": "Judges' Sepulcher Manager",
+   "outcome": "refusal",
+   "links": []
+  },
+  "SepulcherNpc/31924-NE.htm": {
+   "file": "SepulcherNpc/31924-NE.htm",
+   "quest": null,
+   "text": "Judge's Sepulcher Manager: Come back later!",
+   "header": "Judge's Sepulcher Manager",
+   "outcome": "refusal",
+   "links": []
+  },
+  "SepulcherNpc/31924-NL.htm": {
+   "file": "SepulcherNpc/31924-NL.htm",
+   "quest": null,
+   "text": "Judges' Sepulcher Manager: Only a party leader may lay hands on the stone statue and enter!",
+   "header": "Judges' Sepulcher Manager",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "SepulcherNpc/31924-NS.htm": {
+   "file": "SepulcherNpc/31924-NS.htm",
+   "quest": null,
+   "text": "Judges' Sepulcher Manager: %member% must get permission from the nameless soul.",
+   "header": "Judges' Sepulcher Manager",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "SepulcherNpc/31924-OK.htm": {
+   "file": "SepulcherNpc/31924-OK.htm",
+   "quest": null,
+   "text": "Judges' Sepulcher Manager: You may enter!",
+   "header": "Judges' Sepulcher Manager",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "SepulcherNpc/31924-SE.htm": {
+   "file": "SepulcherNpc/31924-SE.htm",
+   "quest": null,
+   "text": "Judges' Sepulcher Manager: %member% doesn't have a pass!",
+   "header": "Judges' Sepulcher Manager",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "SepulcherNpc/31924-SP.htm": {
+   "file": "SepulcherNpc/31924-SP.htm",
+   "quest": null,
+   "text": "Judges' Sepulcher Manager: The combined strength of at least four is needed to gain entry!",
+   "header": "Judges' Sepulcher Manager",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00620_FourGoblets/31924-01.html": {
+   "file": "Q00620_FourGoblets/31924-01.html",
+   "quest": 620,
+   "text": "Judges' Sepulcher Manager: Enter if you dare!",
+   "header": "Judges' Sepulcher Manager",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Place hands on the stone statue and concentrate...",
+     "bypass": "Quest Q00620_FourGoblets ENTER",
+     "kind": "quest-event",
+     "script": "Q00620_FourGoblets",
+     "event": "ENTER",
+     "quest": 620,
+     "to": null
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Four Goblets (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00620_FourGoblets",
+     "kind": "quest",
+     "quest": 620,
+     "to": "Q00620_FourGoblets/31924-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

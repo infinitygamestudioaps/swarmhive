@@ -1,0 +1,330 @@
+{
+ "npcId": 35627,
+ "name": "Messenger",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.438Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/35627.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "655": {
+   "name": "A Grand Plan for Taming Wild Beasts",
+   "listText": [
+    "[A Grand Plan for Taming Wild Beasts]",
+    "[A Grand Plan for Taming Wild Beasts (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00655_AGrandPlanForTamingWildBeasts/35627-01.html",
+     "when": "state CREATED; level >= 4; minutesToSiege > 0; minutesToSiege < MINUTES_TO_SIEGE; talker.isClanLeader(); clan.getFortId() == 0",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00655_AGrandPlanForTamingWildBeasts/35627-03.html",
+     "when": "state CREATED; NOT level >= 4; minutesToSiege > 0; minutesToSiege < MINUTES_TO_SIEGE; talker.isClanLeader(); clan.getFortId() == 0",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00655_AGrandPlanForTamingWildBeasts/35627-04.html",
+     "when": "state CREATED; minutesToSiege > 0; minutesToSiege < MINUTES_TO_SIEGE; talker.isClanLeader(); !clan.getFortId() == 0",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00655_AGrandPlanForTamingWildBeasts/35627-05.html",
+     "when": "state CREATED; minutesToSiege > 0; minutesToSiege < MINUTES_TO_SIEGE; !talker.isClanLeader(); !((clan.getFortId() == ClanHallSiegeEngine.BEAST_FARM) && (minutesToSiege > 0) && (minutesToSiege < MINUTES_TO_SIEGE))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00655_AGrandPlanForTamingWildBeasts/35627-02.html",
+     "when": "state CREATED; !((minutesToSiege > 0) && (minutesToSiege < MINUTES_TO_SIEGE))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00655_AGrandPlanForTamingWildBeasts/35627-07.html",
+     "when": "((minutesToSiege < 0) || (minutesToSiege > MINUTES_TO_SIEGE))",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00655_AGrandPlanForTamingWildBeasts/35627-09.html",
+     "when": "has items 8293; !((minutesToSiege < 0) || (minutesToSiege > MINUTES_TO_SIEGE))",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00655_AGrandPlanForTamingWildBeasts/35627-08.html",
+     "when": "lacks items 8293; !((minutesToSiege < 0) || (minutesToSiege > MINUTES_TO_SIEGE)); getQuestItemsCount(talker, CRYSTAL_OF_PURITY) < REQUIRED_CRYSTAL_COUNT",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00655_AGrandPlanForTamingWildBeasts/35627-10.html",
+     "when": "lacks items 8293; !((minutesToSiege < 0) || (minutesToSiege > MINUTES_TO_SIEGE)); !getQuestItemsCount(talker, CRYSTAL_OF_PURITY) < REQUIRED_CRYSTAL_COUNT",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/35627.htm": {
+   "file": "default/35627.htm",
+   "quest": null,
+   "text": "Messenger: What brings you to this place? I can't be responsible for your safety here! Unless, that is, you're a member of the SouthernLights Clan in charge of the farm.",
+   "header": "Messenger",
+   "links": [
+    {
+     "text": "Qualification Test for Clan Hall Battle Registration",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/35627.htm"
+    },
+    {
+     "text": "Register for Clan Hall Battle",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/35627-1.htm"
+    },
+    {
+     "text": "Clans Participating in the Preliminaries",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/35627-2.htm"
+    }
+   ]
+  },
+  "default/35627-1.htm": {
+   "file": "default/35627-1.htm",
+   "quest": null,
+   "text": "Messenger: Didn't I already cover that? Clan Hall registration begins an hour before the contest, and the next Clan Hall War will begin around 2010-09-09 20:00:00.",
+   "header": "Messenger",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "default/35627-2.htm": {
+   "file": "default/35627-2.htm",
+   "quest": null,
+   "text": "Messenger: The following Clans have applied for entry to the preliminary contest. This would be a good time to study their strategies. === Clans Registered for the Preliminary Contest === 1. **unregistered** (Number of Participants : ) 2. **unregistered** (Number of Participants : ) 3. **unregister…",
+   "header": "Messenger",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00655_AGrandPlanForTamingWildBeasts/35627-01.html": {
+   "file": "Q00655_AGrandPlanForTamingWildBeasts/35627-01.html",
+   "quest": 655,
+   "text": "Messenger: Are you after this Clan Hall? Do you have any idea where you are? You must be able to tame beasts if you expect to win this Clan Hall. Don't bite off more than you can chew, my friend!",
+   "header": "Messenger",
+   "when": [
+    "state CREATED; level >= 4; minutesToSiege > 0; minutesToSiege < MINUTES_TO_SIEGE; talker.isClanLeader(); clan.getFortId() == 0"
+   ],
+   "links": [
+    {
+     "text": "\"I want to demonstrate my ability.\"",
+     "bypass": "Quest Q00655_AGrandPlanForTamingWildBeasts 35627-06.html",
+     "kind": "quest-event",
+     "script": "Q00655_AGrandPlanForTamingWildBeasts",
+     "event": "35627-06.html",
+     "quest": 655,
+     "to": "Q00655_AGrandPlanForTamingWildBeasts/35627-06.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00655_AGrandPlanForTamingWildBeasts/35627-03.html": {
+   "file": "Q00655_AGrandPlanForTamingWildBeasts/35627-03.html",
+   "quest": 655,
+   "text": "Messenger: Ha! You think you stand a chance of winning with that ability? (Only Leaders of Clans of level 4 or above can do this.)",
+   "header": "Messenger",
+   "when": [
+    "state CREATED; NOT level >= 4; minutesToSiege > 0; minutesToSiege < MINUTES_TO_SIEGE; talker.isClanLeader(); clan.getFortId() == 0"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00655_AGrandPlanForTamingWildBeasts/35627-04.html": {
+   "file": "Q00655_AGrandPlanForTamingWildBeasts/35627-04.html",
+   "quest": 655,
+   "text": "Messenger: Hey, what are you doing? You already have a Clan Hall! Don't be greedy! Take off!",
+   "header": "Messenger",
+   "when": [
+    "state CREATED; minutesToSiege > 0; minutesToSiege < MINUTES_TO_SIEGE; talker.isClanLeader(); !clan.getFortId() == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00655_AGrandPlanForTamingWildBeasts/35627-05.html": {
+   "file": "Q00655_AGrandPlanForTamingWildBeasts/35627-05.html",
+   "quest": 655,
+   "text": "Messenger: You're not the leader of your Clan. (Only Leaders of level 4 or above Clans can do this.)",
+   "header": "Messenger",
+   "when": [
+    "state CREATED; minutesToSiege > 0; minutesToSiege < MINUTES_TO_SIEGE; !talker.isClanLeader(); !((clan.getFortId() == ClanHallSiegeEngine.BEAST_FARM) && (minutesToSiege > 0) && (minutesToSiege < MINUTES_TO_SIEGE))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00655_AGrandPlanForTamingWildBeasts/35627-02.html": {
+   "file": "Q00655_AGrandPlanForTamingWildBeasts/35627-02.html",
+   "quest": 655,
+   "text": "Messenger: Registration begins an hour before the Clan Hall War. As far as I know, the next Clan Hall War is around %next_siege%. Check back then.",
+   "header": "Messenger",
+   "when": [
+    "state CREATED; !((minutesToSiege > 0) && (minutesToSiege < MINUTES_TO_SIEGE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00655_AGrandPlanForTamingWildBeasts/35627-07.html": {
+   "file": "Q00655_AGrandPlanForTamingWildBeasts/35627-07.html",
+   "quest": 655,
+   "text": "Messenger: Did you participate in the previous contest? Then start again!",
+   "header": "Messenger",
+   "when": [
+    "((minutesToSiege < 0) || (minutesToSiege > MINUTES_TO_SIEGE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00655_AGrandPlanForTamingWildBeasts/35627-09.html": {
+   "file": "Q00655_AGrandPlanForTamingWildBeasts/35627-09.html",
+   "quest": 655,
+   "text": "Messenger: If you have a Trainer License, register quickly!",
+   "header": "Messenger",
+   "when": [
+    "has items 8293; !((minutesToSiege < 0) || (minutesToSiege > MINUTES_TO_SIEGE))"
+   ],
+   "links": [
+    {
+     "text": "Clan Hall War Registration",
+     "bypass": "Quest Q00655_AGrandPlanForTamingWildBeasts 35627-11.html",
+     "kind": "quest-event",
+     "script": "Q00655_AGrandPlanForTamingWildBeasts",
+     "event": "35627-11.html",
+     "quest": 655,
+     "to": "Q00655_AGrandPlanForTamingWildBeasts/35627-11.html"
+    }
+   ]
+  },
+  "Q00655_AGrandPlanForTamingWildBeasts/35627-08.html": {
+   "file": "Q00655_AGrandPlanForTamingWildBeasts/35627-08.html",
+   "quest": 655,
+   "text": "Messenger: Surely you didn't think qualification would be easy? If you have time to gab like this, you have time to take the test... Don't forget to bring me 10 Crystals of Purity. Remember to raise the beast along with your clan, making sure to keep a close eye on it!",
+   "header": "Messenger",
+   "when": [
+    "lacks items 8293; !((minutesToSiege < 0) || (minutesToSiege > MINUTES_TO_SIEGE)); getQuestItemsCount(talker, CRYSTAL_OF_PURITY) < REQUIRED_CRYSTAL_COUNT"
+   ],
+   "links": [
+    {
+     "text": "\"How do I raise the beasts?\"",
+     "bypass": "Quest Q00655_AGrandPlanForTamingWildBeasts 35627-06a.html",
+     "kind": "quest-event",
+     "script": "Q00655_AGrandPlanForTamingWildBeasts",
+     "event": "35627-06a.html",
+     "quest": 655,
+     "to": "Q00655_AGrandPlanForTamingWildBeasts/35627-06a.html"
+    }
+   ]
+  },
+  "Q00655_AGrandPlanForTamingWildBeasts/35627-10.html": {
+   "file": "Q00655_AGrandPlanForTamingWildBeasts/35627-10.html",
+   "quest": 655,
+   "text": "Messenger: I checked out your 10 Crystals of Purity. While it's true you have skills, other clans are just as good as you. This Clan Hall War should prove to be very exciting! The finals will begin soon, so get registered. Only 5 clans may participate.",
+   "header": "Messenger",
+   "when": [
+    "lacks items 8293; !((minutesToSiege < 0) || (minutesToSiege > MINUTES_TO_SIEGE)); !getQuestItemsCount(talker, CRYSTAL_OF_PURITY) < REQUIRED_CRYSTAL_COUNT"
+   ],
+   "links": [
+    {
+     "text": "Clan Hall War Registration",
+     "bypass": "Quest Q00655_AGrandPlanForTamingWildBeasts 35627-11.html",
+     "kind": "quest-event",
+     "script": "Q00655_AGrandPlanForTamingWildBeasts",
+     "event": "35627-11.html",
+     "quest": 655,
+     "to": "Q00655_AGrandPlanForTamingWildBeasts/35627-11.html"
+    }
+   ]
+  },
+  "Q00655_AGrandPlanForTamingWildBeasts/35627-06.html": {
+   "file": "Q00655_AGrandPlanForTamingWildBeasts/35627-06.html",
+   "quest": 655,
+   "text": "Messenger: Measuring your abilities is actually very simple. Just raise some beasts and bring me the proof. Raise them well, so they have a good heart, and they'll produce a Crystal of Purity . Bring me 10 Crystals of Purity and your ability will be proven. Remember to raise them along with your Cl…",
+   "header": "Messenger",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"How do I raise the beasts?\"",
+     "bypass": "Quest Q00655_AGrandPlanForTamingWildBeasts 35627-06a.html",
+     "kind": "quest-event",
+     "script": "Q00655_AGrandPlanForTamingWildBeasts",
+     "event": "35627-06a.html",
+     "quest": 655,
+     "to": "Q00655_AGrandPlanForTamingWildBeasts/35627-06a.html"
+    }
+   ]
+  },
+  "Q00655_AGrandPlanForTamingWildBeasts/35627-06a.html": {
+   "file": "Q00655_AGrandPlanForTamingWildBeasts/35627-06a.html",
+   "quest": 655,
+   "text": "Herald: You can tame a beast using Golden Spice or Crystal Spice . You must've known that already, huh?",
+   "header": "Herald",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00655_AGrandPlanForTamingWildBeasts/35627-11.html": {
+   "file": "Q00655_AGrandPlanForTamingWildBeasts/35627-11.html",
+   "quest": 655,
+   "text": "Messenger: Didn't I already cover that? Clan Hall registration begins an hour before the contest, and the next Clan Hall War will begin around %next_siege%.",
+   "header": "Messenger",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[A Grand Plan for Taming Wild Beasts]",
+     "bypass": "npc_%objectId%_Quest Q00655_AGrandPlanForTamingWildBeasts",
+     "kind": "quest",
+     "quest": 655,
+     "to": "Q00655_AGrandPlanForTamingWildBeasts/35627-01.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[A Grand Plan for Taming Wild Beasts (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00655_AGrandPlanForTamingWildBeasts",
+     "kind": "quest",
+     "quest": 655,
+     "to": "Q00655_AGrandPlanForTamingWildBeasts/35627-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

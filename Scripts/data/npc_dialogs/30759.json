@@ -1,0 +1,461 @@
+{
+ "npcId": 30759,
+ "name": "Kalis",
+ "title": "Witch",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.073Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30759.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "242": {
+   "name": "Possessor Of A Precious Soul 2",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 2]",
+    "[Path of the Noblesse, Precious Soul - 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/30759-01.html",
+     "when": "cond 6",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/30759-03.html",
+     "when": "cond 7",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/30759-04.html",
+     "when": "cond 8",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/30759-06.html",
+     "when": "cond 9",
+     "state": null,
+     "cond": [
+      9
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "501": {
+   "name": "Proof of Clan Alliance",
+   "listText": [
+    "[Proof of Clan Alliance]",
+    "[Proof of Clan Alliance (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00501_ProofOfClanAlliance/30759-01.html",
+     "when": "memo 1; lacks items 3837",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30759-05.html",
+     "when": "memo 2; !(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30759-06.html",
+     "when": "item 3837 >= 3; !(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); !(qs.isMemoState(2) && (getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3)); !hasAbnormal(player)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30759-08.html",
+     "when": "memo 5; has items 3835,3833,3832,3834; !(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); !(qs.isMemoState(2) && (getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3)); !((getQuestItemsCount(player, SYMBOL_OF_LOYALTY) >= 3) && !hasAbnormal(player)); hasAbnormal(player)",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30759-09.html",
+     "when": "memo 3; !(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); !(qs.isMemoState(2) && (getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3)); !((getQuestItemsCount(player, SYMBOL_OF_LOYALTY) >= 3) && !hasAbnormal(player)); !(qs.isMemoState(5) && hasQuestItems(player, BLOOD_OF_EVA) && hasQuestItems(player, HERB_OF_VANOR.getId()) && hasQuestIt",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30759-10.html",
+     "when": "item 3837 >= 3; !(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); !(qs.isMemoState(2) && (getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3)); !((getQuestItemsCount(player, SYMBOL_OF_LOYALTY) >= 3) && !hasAbnormal(player)); !(qs.isMemoState(5) && hasQuestItems(player, BLOOD_OF_EVA) && hasQuestItems(player, HERB_OF_VANOR.getId()) && hasQuestIt",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30759-11.html",
+     "when": "memo 6; !(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); !(qs.isMemoState(2) && (getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3)); !((getQuestItemsCount(player, SYMBOL_OF_LOYALTY) >= 3) && !hasAbnormal(player)); !(qs.isMemoState(5) && hasQuestItems(player, BLOOD_OF_EVA) && hasQuestItems(player, HERB_OF_VANOR.getId()) && hasQuestIt",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30759-12.html",
+     "when": "!(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); !(qs.isMemoState(2) && (getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3)); !((getQuestItemsCount(player, SYMBOL_OF_LOYALTY) >= 3) && !hasAbnormal(player)); !(qs.isMemoState(5) && hasQuestItems(player, BLOOD_OF_EVA) && hasQuestItems(player, HERB_OF_VANOR.getId()) && hasQuestIt",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "503": {
+   "name": "Pursuit Of Clan Ambition",
+   "listText": [
+    "[Pursuit of Clan Ambition!]",
+    "[Pursuit of Clan Ambition! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30759-01.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30759.htm": {
+   "file": "default/30759.htm",
+   "quest": null,
+   "text": "Witch Kalis: Feel the earth tremble with desire for a blood sacrifice! Hear the wind call for a hero to lead us into a new era! The time of chaos is upon us. It is time to decide what sort of man you will be.",
+   "header": "Witch Kalis",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00242_PossessorOfAPreciousSoul2/30759-01.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/30759-01.html",
+   "quest": 242,
+   "text": "Witch Kalis: I owe the Mysterious Dark Knight a favor, so I'll help you. I need to use the Sight of One-Hundred Eyes spell to find the owner of this hair. I'm missing some key ingredients, though.",
+   "header": "Witch Kalis",
+   "when": [
+    "cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"Where can I find them?\"",
+     "bypass": "Quest Q00242_PossessorOfAPreciousSoul2 30759-02.html",
+     "kind": "quest-event",
+     "script": "Q00242_PossessorOfAPreciousSoul2",
+     "event": "30759-02.html",
+     "quest": 242,
+     "to": "Q00242_PossessorOfAPreciousSoul2/30759-02.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00242_PossessorOfAPreciousSoul2/30759-03.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/30759-03.html",
+   "quest": 242,
+   "text": "Witch Kalis: Find Matild to get the materials for the spell. Aren't you supposed to be in a hurry?",
+   "header": "Witch Kalis",
+   "when": [
+    "cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00242_PossessorOfAPreciousSoul2/30759-04.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/30759-04.html",
+   "quest": 242,
+   "text": "Witch Kalis: Good work. Now wait a moment while I cast the spell...",
+   "header": "Witch Kalis",
+   "when": [
+    "cond 8"
+   ],
+   "links": [
+    {
+     "text": "Wait",
+     "bypass": "Quest Q00242_PossessorOfAPreciousSoul2 30759-05.html",
+     "kind": "quest-event",
+     "script": "Q00242_PossessorOfAPreciousSoul2",
+     "event": "30759-05.html",
+     "quest": 242,
+     "to": "Q00242_PossessorOfAPreciousSoul2/30759-05.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00242_PossessorOfAPreciousSoul2/30759-06.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/30759-06.html",
+   "quest": 242,
+   "text": "Witch Kalis: Aren't you supposed to be in a hurry?",
+   "header": "Witch Kalis",
+   "when": [
+    "cond 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30759-01.html": {
+   "file": "Q00501_ProofOfClanAlliance/30759-01.html",
+   "quest": 501,
+   "text": "Witch Kalis: Would you choose to be a star shining brightly in the midst of chaos? Behold the graves of those who have fallen attempting to do this... Are you prepared to rest alongside them?",
+   "header": "Witch Kalis",
+   "when": [
+    "memo 1; lacks items 3837"
+   ],
+   "links": [
+    {
+     "text": "\"I want to be a star.\"",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30759-02.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30759-02.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30759-02.html"
+    }
+   ]
+  },
+  "Q00501_ProofOfClanAlliance/30759-05.html": {
+   "file": "Q00501_ProofOfClanAlliance/30759-05.html",
+   "quest": 501,
+   "text": "Witch Kalis: Where is the confidence you so reeked of earlier? No comrades willing to risk their lives, eh? Unless you bring me three symbols of loyalty , you will never pass the test. In order to obtain the symbols, three of your clan must take an oath of their life at the table of sacrifice and p…",
+   "header": "Witch Kalis",
+   "when": [
+    "memo 2; !(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30759-06.html": {
+   "file": "Q00501_ProofOfClanAlliance/30759-06.html",
+   "quest": 501,
+   "text": "Witch Kalis: Your comrades must have firm resolve and unfailing loyalty. In these days of the endless pursuit of profit, these are rare and noble qualities. Now, do you trust your clan members? Would you bet your life on them? If so, then drink this poison and ask your clan members to gather the in…",
+   "header": "Witch Kalis",
+   "when": [
+    "item 3837 >= 3; !(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); !(qs.isMemoState(2) && (getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3)); !hasAbnormal(player)"
+   ],
+   "links": [
+    {
+     "text": "Drink the poison",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30759-07.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30759-07.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30759-07.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "Do not drink the poison",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30759-04.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30759-04.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30759-04.html"
+    }
+   ]
+  },
+  "Q00501_ProofOfClanAlliance/30759-08.html": {
+   "file": "Q00501_ProofOfClanAlliance/30759-08.html",
+   "quest": 501,
+   "text": "Witch Kalis: Ah, all the ingredients of the Antidote! It has been a long time since this has happened. It is heartening to learn that there are still people like you and your clan with firm resolve and common trust! You are truly the soldiers of the new age! A bright star illuminating the darkness …",
+   "header": "Witch Kalis",
+   "when": [
+    "memo 5; has items 3835,3833,3832,3834; !(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); !(qs.isMemoState(2) && (getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3)); !((getQuestItemsCount(player, SYMBOL_OF_LOYALTY) >= 3) && !hasAbnormal(player)); hasAbnormal(player)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30759-09.html": {
+   "file": "Q00501_ProofOfClanAlliance/30759-09.html",
+   "quest": 501,
+   "text": "Witch Kalis: You are a liar and a cheat! Your sort can never become a shining star. You are dead to me now. Do you have regrets? If so, you can start over from the very beginning...",
+   "header": "Witch Kalis",
+   "when": [
+    "memo 3; !(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); !(qs.isMemoState(2) && (getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3)); !((getQuestItemsCount(player, SYMBOL_OF_LOYALTY) >= 3) && !hasAbnormal(player)); !(qs.isMemoState(5) && hasQuestItems(player, BLOOD_OF_EVA) && hasQuestItems(player, HERB_OF_VANOR.getId()) && hasQuestIt"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30759-10.html": {
+   "file": "Q00501_ProofOfClanAlliance/30759-10.html",
+   "quest": 501,
+   "text": "Witch Kalis: Your time among the living grows short. What has become of your comrades? Will they return in time to save your life? Let me remind you again, when your clan members bring back all the ingredients, you must gather them and bring them to me personally. I will use them to make the Antido…",
+   "header": "Witch Kalis",
+   "when": [
+    "item 3837 >= 3; !(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); !(qs.isMemoState(2) && (getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3)); !((getQuestItemsCount(player, SYMBOL_OF_LOYALTY) >= 3) && !hasAbnormal(player)); !(qs.isMemoState(5) && hasQuestItems(player, BLOOD_OF_EVA) && hasQuestItems(player, HERB_OF_VANOR.getId()) && hasQuestIt"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30759-11.html": {
+   "file": "Q00501_ProofOfClanAlliance/30759-11.html",
+   "quest": 501,
+   "text": "Witch Kalis: Haven't you already passed my test? Why do you return to my humble abode? Have you come to punish me for my previous rudeness?",
+   "header": "Witch Kalis",
+   "when": [
+    "memo 6; !(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); !(qs.isMemoState(2) && (getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3)); !((getQuestItemsCount(player, SYMBOL_OF_LOYALTY) >= 3) && !hasAbnormal(player)); !(qs.isMemoState(5) && hasQuestItems(player, BLOOD_OF_EVA) && hasQuestItems(player, HERB_OF_VANOR.getId()) && hasQuestIt"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30759-12.html": {
+   "file": "Q00501_ProofOfClanAlliance/30759-12.html",
+   "quest": 501,
+   "text": "Witch Kalis: The lives of those who do not know their place often end prematurely. People should always live their lives within the proper boundaries. I don't have time to speak with you. Ask your clan lord to come and see me...",
+   "header": "Witch Kalis",
+   "when": [
+    "!(qs.isMemoState(1) && !hasQuestItems(player, SYMBOL_OF_LOYALTY)); !(qs.isMemoState(2) && (getQuestItemsCount(player, SYMBOL_OF_LOYALTY) < 3)); !((getQuestItemsCount(player, SYMBOL_OF_LOYALTY) >= 3) && !hasAbnormal(player)); !(qs.isMemoState(5) && hasQuestItems(player, BLOOD_OF_EVA) && hasQuestItems(player, HERB_OF_VANOR.getId()) && hasQuestIt"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30759-01.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30759-01.html",
+   "quest": 503,
+   "text": "Witch Kalis: You who will walk the path of a king, listen carefully! Ambition and power will guide your fate!",
+   "header": "Witch Kalis",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00242_PossessorOfAPreciousSoul2/30759-02.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/30759-02.html",
+   "quest": 242,
+   "text": "Witch Kalis: Find my disciple Matild at my hut, in the forest east of the Ivory Tower in Oren. Tell her you need the materials for the Sight of One-Hundred Eyes spell.",
+   "header": "Witch Kalis",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00242_PossessorOfAPreciousSoul2/30759-05.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/30759-05.html",
+   "quest": 242,
+   "text": "Witch Kalis: I've found a very faint trace of the Lady of the Lake in the Valley of Saints. Her life force is weakening. You'd better hurry!",
+   "header": "Witch Kalis",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30759-02.html": {
+   "file": "Q00501_ProofOfClanAlliance/30759-02.html",
+   "quest": 501,
+   "text": "Witch Kalis: You fool! Do you think that you are immortal? The test begins! Are there any among your clan who would die for you?",
+   "header": "Witch Kalis",
+   "links": [
+    {
+     "text": "\"There is one who will.\"",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30759-03.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30759-03.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30759-03.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "\"There are none who will.\"",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30759-04.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30759-04.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30759-04.html"
+    }
+   ]
+  },
+  "Q00501_ProofOfClanAlliance/30759-03.html": {
+   "file": "Q00501_ProofOfClanAlliance/30759-03.html",
+   "quest": 501,
+   "text": "Witch Kalis: Ah, we shall see... Tell those who would lay down their lives for you to join me at the table of sacrifice ! If they are truly loyal they will not hesitate to sacrifice their lives. Bring me three symbols of loyalty , I will recognize the resolve of you and your clan!",
+   "header": "Witch Kalis",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30759-04.html": {
+   "file": "Q00501_ProofOfClanAlliance/30759-04.html",
+   "quest": 501,
+   "text": "Witch Kalis: Just as I expected. All talk and no action.",
+   "header": "Witch Kalis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30759-07.html": {
+   "file": "Q00501_ProofOfClanAlliance/30759-07.html",
+   "quest": 501,
+   "text": "Witch Kalis: Tell me, how does the poison taste? Everything growing dark, is it? That would be death coming for you. I fear that soon we will need to add another grave here... Will your comrades find and bring back all the ingredients in time? Oh, I do hate to see you in such pain. Would you care f…",
+   "header": "Witch Kalis",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00242_PossessorOfAPreciousSoul2",
+     "kind": "quest",
+     "quest": 242,
+     "to": "Q00242_PossessorOfAPreciousSoul2/30759-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Proof of Clan Alliance (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00501_ProofOfClanAlliance",
+     "kind": "quest",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30759-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Pursuit of Clan Ambition! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00503_PursuitOfClanAmbition",
+     "kind": "quest",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30759-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

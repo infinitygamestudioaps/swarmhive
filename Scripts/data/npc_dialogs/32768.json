@@ -1,0 +1,605 @@
+{
+ "npcId": 32768,
+ "name": "Kelleyia",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.405Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32768.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "458": {
+   "name": "Perfect Form",
+   "listText": [
+    "[Perfect Form]",
+    "[Perfect Form (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00458_PerfectForm/32768-18.htm",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00458_PerfectForm/32768-01.htm",
+     "when": "state COMPLETED|CREATED; (player.getLevel() > 81)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00458_PerfectForm/32768-00.htm",
+     "when": "state COMPLETED|CREATED; NOT (player.getLevel() > 81)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00458_PerfectForm/32768-11.html",
+     "when": "state STARTED; cond 1; st.getInt(\"18879\") == 0; st.getInt(\"18886\") == 0; st.getInt(\"18893\") == 0; st.getInt(\"18900\") == 0",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00458_PerfectForm/32768-12.html",
+     "when": "state STARTED; cond 1; !((st.getInt(\"18879\") == 0) && (st.getInt(\"18886\") == 0) && (st.getInt(\"18893\") == 0) && (st.getInt(\"18900\") == 0))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00458_PerfectForm/32768-13.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32768.htm": {
+   "file": "default/32768.htm",
+   "quest": null,
+   "text": "Kelleyia: I kept hearing so many rumors about the skill of those who inhabit the Beast Farm that I just had to see the talent for myself. And when I get here, what do I find? A bunch of foul smelling, drooling, hideously deformed creatures... and I'm not talking about the monsters roaming the groun…",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-18.htm": {
+   "file": "Q00458_PerfectForm/32768-18.htm",
+   "quest": 458,
+   "text": "Kelleyia: Sorry. But it's time to go back home... Please tell me all about it tomorrow. (This is a quest that can be played only once a day. This quest resets everyday at 6:30 am.)",
+   "header": "Kelleyia",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00458_PerfectForm/32768-01.htm": {
+   "file": "Q00458_PerfectForm/32768-01.htm",
+   "quest": 458,
+   "text": "Kelleyia: By the looks of you, I can tell you aren't one of the locals... given the fact you can still stand up straight and don't look like you are about to pass out. I'm a talent scout and I'm looking for the best of the best in Aden. Apparently, I made a mistake coming here first. You look like …",
+   "header": "Kelleyia",
+   "when": [
+    "state COMPLETED|CREATED; (player.getLevel() > 81)"
+   ],
+   "links": [
+    {
+     "text": "\"Talent Scout?\"",
+     "bypass": "Quest Q00458_PerfectForm 32768-02.html",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-02.html",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-02.html"
+    },
+    {
+     "text": "\"I don't want to brag, but yeah... I'm good.\"",
+     "bypass": "Quest Q00458_PerfectForm 32768-04.html",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-04.html",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-04.html"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-00.htm": {
+   "file": "Q00458_PerfectForm/32768-00.htm",
+   "quest": 458,
+   "text": "Kelleyia: You will understand what I mean someday, adventurer. When that time comes, we can combine our skills. You with your sword, and me with my brain. (Only characters with levels 82 and above can play this quest.)",
+   "header": "Kelleyia",
+   "when": [
+    "state COMPLETED|CREATED; NOT (player.getLevel() > 81)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00458_PerfectForm/32768-11.html": {
+   "file": "Q00458_PerfectForm/32768-11.html",
+   "quest": 458,
+   "text": "Kelleyia: Remember, we will be judging you based on skill, technique, and consistency. We are looking for total perfection. Fully grown Alpine Kookaburra, Alpine Cougar, Alpine Buffalo, Alpine Grendel and Over-hits count. Anything else is worthless.",
+   "header": "Kelleyia",
+   "when": [
+    "state STARTED; cond 1; st.getInt(\"18879\") == 0; st.getInt(\"18886\") == 0; st.getInt(\"18893\") == 0; st.getInt(\"18900\") == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00458_PerfectForm/32768-12.html": {
+   "file": "Q00458_PerfectForm/32768-12.html",
+   "quest": 458,
+   "text": "Kelleyia: Our spotters have reported you aren't quite finished yet. Get back in the field and show us what you got.",
+   "header": "Kelleyia",
+   "when": [
+    "state STARTED; cond 1; !((st.getInt(\"18879\") == 0) && (st.getInt(\"18886\") == 0) && (st.getInt(\"18893\") == 0) && (st.getInt(\"18900\") == 0))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00458_PerfectForm/32768-13.html": {
+   "file": "Q00458_PerfectForm/32768-13.html",
+   "quest": 458,
+   "text": "Kelleyia: And done... you look a little winded. Are you sure that wasn't too much for you? Are you ready to hear your results?",
+   "header": "Kelleyia",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "Listen to Results.",
+     "bypass": "Quest Q00458_PerfectForm results1",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "results1",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-14a.html",
+     "toAll": [
+      "Q00458_PerfectForm/32768-14a.html",
+      "Q00458_PerfectForm/32768-14b.html",
+      "Q00458_PerfectForm/32768-14c.html"
+     ]
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-02.html": {
+   "file": "Q00458_PerfectForm/32768-02.html",
+   "quest": 458,
+   "text": "Kelleyia: Yes... someone who searches for someone who has talent. Not too bright are you. My boss, who wishes to remain nameless, has asked me to find adventurers who can demonstrate excellent combat skills. Those who are great are rewarded with greatness. Those who are horrible are rewarded with s…",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "\"What type of skills are you looking for?\"",
+     "bypass": "Quest Q00458_PerfectForm 32768-03.html",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-03.html",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-03.html"
+    },
+    {
+     "text": "\"Look no further. Greatness has arrived.\"",
+     "bypass": "Quest Q00458_PerfectForm 32768-04.html",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-04.html",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-04.html"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-03.html": {
+   "file": "Q00458_PerfectForm/32768-03.html",
+   "quest": 458,
+   "text": "Kelleyia: Oh nothing much. We take a look at the area to see what can be done and then ask would-be-adventure-seekers such as you to do it. For instance, the Beast Farm. There are a lot of animals that can be temperamental if raised incorrectly. So, we use that as inspiration when creating a challe…",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "\"I think I see where this is going.\"",
+     "bypass": "Quest Q00458_PerfectForm 32768-04.html",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-04.html",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-04.html"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-04.html": {
+   "file": "Q00458_PerfectForm/32768-04.html",
+   "quest": 458,
+   "text": "Kelleyia: Right. Down to business. As you can see, there are Alpine Buffalo, Grendel, Cougar, and Kookaburra all over the place. Cute in their infant state, but vicious if they are raised incorrectly. There are 3 parts to the challenge. Part 1: Raise an Alpine animal to their adult state. Part 2: S…",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "\"Looks good... I think I get it.\"",
+     "bypass": "Quest Q00458_PerfectForm 32768-05.html",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-05.html",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-05.html"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-05.html": {
+   "file": "Q00458_PerfectForm/32768-05.html",
+   "quest": 458,
+   "text": "Kelleyia: No, you do NOT get it you amateur. Part 3 is the most important part of the challenge. It separates the no talent wannabes from the pros. You must score Over-hits on fully grown Alpine animals . A kill is a kill and that is all fine and dandy, but we are looking for perfection here. Bonus…",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "\"Yes... I think.\"",
+     "bypass": "Quest Q00458_PerfectForm 32768-06.htm",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-06.htm",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-06.htm"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-06.htm": {
+   "file": "Q00458_PerfectForm/32768-06.htm",
+   "quest": 458,
+   "text": "Kelleyia: Really... you really want me to go over this again? It is simple. Find an Alpine Kookaburra, Alpine Cougar, Alpine Buffalo, or Alpine Grendel and feed it on spice until it grows into an adult. Speak to my associate over here to purchase spice. Once it is an adult, kill it trying to score …",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "Accept the challenge.",
+     "bypass": "Quest Q00458_PerfectForm 32768-10.htm",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-10.htm",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-10.htm",
+     "effect": "start"
+    },
+    {
+     "text": "Annoy Her.",
+     "bypass": "Quest Q00458_PerfectForm 32768-07.htm",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-07.htm",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-07.htm"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-07.htm": {
+   "file": "Q00458_PerfectForm/32768-07.htm",
+   "quest": 458,
+   "text": "Kelleyia: Am I wasting my time here or what? Do you want to see if you got what it takes, or am I going to have to go speak to some other adventurer who can stop annoying me?",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "Accept the challenge.",
+     "bypass": "Quest Q00458_PerfectForm 32768-10.htm",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-10.htm",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-10.htm",
+     "effect": "start"
+    },
+    {
+     "text": "Keep annoying her.",
+     "bypass": "Quest Q00458_PerfectForm 32768-08.htm",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-08.htm",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-08.htm"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-08.htm": {
+   "file": "Q00458_PerfectForm/32768-08.htm",
+   "quest": 458,
+   "text": "Kelleyia: No, no, no, I will not be drawn into this ridiculous game. Either accept the challenge or walk away.",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "Accept the challenge.",
+     "bypass": "Quest Q00458_PerfectForm 32768-10.htm",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-10.htm",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-10.htm",
+     "effect": "start"
+    },
+    {
+     "text": "Keep annoying her.",
+     "bypass": "Quest Q00458_PerfectForm 32768-09.htm",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-09.htm",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-09.htm"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-09.htm": {
+   "file": "Q00458_PerfectForm/32768-09.htm",
+   "quest": 458,
+   "text": "Kelleyia: Ah, seriously, there isn't anything further if you keep annoying me. Go ahead and accept the challenge.",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "Accept the challenge.",
+     "bypass": "Quest Q00458_PerfectForm 32768-10.htm",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-10.htm",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-10.htm",
+     "effect": "start"
+    },
+    {
+     "text": "KEEP ANNOYING HER.",
+     "bypass": "Quest Q00458_PerfectForm 32768-08.htm",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-08.htm",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-08.htm"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-10.htm": {
+   "file": "Q00458_PerfectForm/32768-10.htm",
+   "quest": 458,
+   "text": "Kelleyia: We have set up spotters all around the area to watch you so you can't cheat. We will keep track and let you know how well you have done. Break a leg!",
+   "header": "Kelleyia",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00458_PerfectForm/32768-14a.html": {
+   "file": "Q00458_PerfectForm/32768-14a.html",
+   "quest": 458,
+   "text": "Kelleyia: First, I'd like to discuss your skill level. Out of the 40 kills, you had Over-hits . Wow, a perfect number! I almost never see that!",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "\"Yeah, I'm kind of a perfectionist.\"",
+     "bypass": "Quest Q00458_PerfectForm results2",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "results2",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-15a.html",
+     "toAll": [
+      "Q00458_PerfectForm/32768-15a.html",
+      "Q00458_PerfectForm/32768-15b.html",
+      "Q00458_PerfectForm/32768-15c.html"
+     ]
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-14b.html": {
+   "file": "Q00458_PerfectForm/32768-14b.html",
+   "quest": 458,
+   "text": "Kelleyia: First, I'd like to discuss your skill level. Out of the 40 kills, you had Over-hits . It's okay... but not great. We have seen better.",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "\"I'm sure I had more than that.\"",
+     "bypass": "Quest Q00458_PerfectForm results2",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "results2",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-15a.html",
+     "toAll": [
+      "Q00458_PerfectForm/32768-15a.html",
+      "Q00458_PerfectForm/32768-15b.html",
+      "Q00458_PerfectForm/32768-15c.html"
+     ]
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-14c.html": {
+   "file": "Q00458_PerfectForm/32768-14c.html",
+   "quest": 458,
+   "text": "Kelleyia: First, I'd like to discuss your skill level. Out of the 40 kills, you had Over-hits . Hmm... seems like you didn't quite understand the challenge. Or is it that you just don't have what it takes to be a pro.",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "\"Yeah, yeah. Next.\"",
+     "bypass": "Quest Q00458_PerfectForm results2",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "results2",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-15a.html",
+     "toAll": [
+      "Q00458_PerfectForm/32768-15a.html",
+      "Q00458_PerfectForm/32768-15b.html",
+      "Q00458_PerfectForm/32768-15c.html"
+     ]
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-15a.html": {
+   "file": "Q00458_PerfectForm/32768-15a.html",
+   "quest": 458,
+   "text": "Kelleyia: Second, I'd like to discuss your technique. It also appears that you like to use a lot of flash in your moves. Of the 40 kills, you managed to get Critical Over-hits . That is impressive. I don't think we have ever encountered someone who has managed that.",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "\"Yep, I am awesome.\"",
+     "bypass": "Quest Q00458_PerfectForm results3",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "results3",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-16a.html",
+     "toAll": [
+      "Q00458_PerfectForm/32768-16a.html",
+      "Q00458_PerfectForm/32768-16b.html",
+      "Q00458_PerfectForm/32768-16c.html"
+     ]
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-15b.html": {
+   "file": "Q00458_PerfectForm/32768-15b.html",
+   "quest": 458,
+   "text": "Kelleyia: Second, I'd like to discuss your technique. Not a lot of zest in your moves. Of the 40 kills, you managed to get Critical Over-hits . Not that exciting to watch. With someone of your talents, I would have expected more.",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "\"Well, I wasn't really trying.\"",
+     "bypass": "Quest Q00458_PerfectForm results3",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "results3",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-16a.html",
+     "toAll": [
+      "Q00458_PerfectForm/32768-16a.html",
+      "Q00458_PerfectForm/32768-16b.html",
+      "Q00458_PerfectForm/32768-16c.html"
+     ]
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-15c.html": {
+   "file": "Q00458_PerfectForm/32768-15c.html",
+   "quest": 458,
+   "text": "Kelleyia: Second, I'd like to discuss your technique. Wow. You managed to have Critical Over-hits . Well, I've seen worse... no not really. You are really that bad.",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "Continue listening to the abuse.",
+     "bypass": "Quest Q00458_PerfectForm results3",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "results3",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-16a.html",
+     "toAll": [
+      "Q00458_PerfectForm/32768-16a.html",
+      "Q00458_PerfectForm/32768-16b.html",
+      "Q00458_PerfectForm/32768-16c.html"
+     ]
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-16a.html": {
+   "file": "Q00458_PerfectForm/32768-16a.html",
+   "quest": 458,
+   "text": "Kelleyia: Lastly, I want to discuss your consistency. You managed consecutive Over-hit(s) . You've demonstrated all the traits of a perfect killing machine. I don't have anything else to go over. Here is your reward.",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "Graciously accept the award.",
+     "bypass": "Quest Q00458_PerfectForm 32768-17.html",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-17.html",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-17.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-16b.html": {
+   "file": "Q00458_PerfectForm/32768-16b.html",
+   "quest": 458,
+   "text": "Kelleyia: Lastly, I want to discuss your consistency. You managed consecutive Over-hit(s) . It's about average. You could do better. I don't have anything else to go over. Here is your reward.",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "Embarrassed... accept the reward.",
+     "bypass": "Quest Q00458_PerfectForm 32768-17.html",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-17.html",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-17.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-16c.html": {
+   "file": "Q00458_PerfectForm/32768-16c.html",
+   "quest": 458,
+   "text": "Kelleyia: Lastly I want to discuss your consistency. Of the 40 kills, you managed consecutive Over-hit(s) . Yes, you consistently demonstrated how bad at this you really are. Now that I have finished crushing your spirit, here is your reward for your work.",
+   "header": "Kelleyia",
+   "links": [
+    {
+     "text": "Humiliated... accept the reward.",
+     "bypass": "Quest Q00458_PerfectForm 32768-17.html",
+     "kind": "quest-event",
+     "script": "Q00458_PerfectForm",
+     "event": "32768-17.html",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-17.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00458_PerfectForm/32768-17.html": {
+   "file": "Q00458_PerfectForm/32768-17.html",
+   "quest": 458,
+   "text": "Kelleyia: If you want to give it a shot again, let me know.",
+   "header": "Kelleyia",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Perfect Form]",
+     "bypass": "npc_%objectId%_Quest Q00458_PerfectForm",
+     "kind": "quest",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Perfect Form (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00458_PerfectForm",
+     "kind": "quest",
+     "quest": 458,
+     "to": "Q00458_PerfectForm/32768-11.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

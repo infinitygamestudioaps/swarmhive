@@ -1,0 +1,557 @@
+{
+ "npcId": 31348,
+ "name": "Agripel",
+ "title": "High Priest",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.195Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31348.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "21": {
+   "name": "Hidden Truth",
+   "listText": [
+    "[Hidden Truth]",
+    "[Hidden Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00021_HiddenTruth/31348-03.html",
+     "when": "cond 6; st.getInt(\"AGRIPEL\") == 1; st.getInt(\"DOMINIC\") == 1; st.getInt(\"BENEDICT\") == 1",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00021_HiddenTruth/31348-02.html",
+     "when": "cond 6; !((st.getInt(\"AGRIPEL\") == 1) && (st.getInt(\"DOMINIC\") == 1) && (st.getInt(\"BENEDICT\") == 1)); ((st.getInt(\"DOMINIC\") == 1) || (st.getInt(\"BENEDICT\") == 1))",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00021_HiddenTruth/31348-01.html",
+     "when": "cond 6; !((st.getInt(\"AGRIPEL\") == 1) && (st.getInt(\"DOMINIC\") == 1) && (st.getInt(\"BENEDICT\") == 1)); !((st.getInt(\"DOMINIC\") == 1) || (st.getInt(\"BENEDICT\") == 1))",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00021_HiddenTruth/31348-03.html",
+     "when": "cond 7; !(st.hasQuestItems(CROSS_OF_EINHASAD) && st.isCond(6))",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "25": {
+   "name": "Hiding Behind the Truth",
+   "listText": [
+    "[Hiding Behind the Truth]",
+    "[Hiding Behind the Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00025_HidingBehindTheTruth/31348-01.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31348-03.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31348-08a.html",
+     "when": "state STARTED; memo 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31348-09.html",
+     "when": "state STARTED; memo 20; has items 7158",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31348-10a.html",
+     "when": "state STARTED; memo 21",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31348-15.html",
+     "when": "state STARTED; memo 22",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31348-18.html",
+     "when": "state STARTED; memo 23",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31348-19.html",
+     "when": "state STARTED; memo 24",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31348.htm": {
+   "file": "default/31348.htm",
+   "quest": null,
+   "text": "Agripel: I am High Priest Agripel! The gods speak directly to me! Ahem! They've ordered me... to give everything I own to them and wait for my judgement. Ahem!",
+   "header": "Agripel",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31348-03.html": {
+   "file": "Q00021_HiddenTruth/31348-03.html",
+   "quest": 21,
+   "text": "High Priest Agripel: Maybe the devil worshippers are hiding in a library somewhere, they still need to acquire knowledge. They couldn't be here in the temple!",
+   "header": "High Priest Agripel",
+   "when": [
+    "cond 6; st.getInt(\"AGRIPEL\") == 1; st.getInt(\"DOMINIC\") == 1; st.getInt(\"BENEDICT\") == 1",
+    "cond 7; !(st.hasQuestItems(CROSS_OF_EINHASAD) && st.isCond(6))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00021_HiddenTruth/31348-02.html": {
+   "file": "Q00021_HiddenTruth/31348-02.html",
+   "quest": 21,
+   "text": "High Priest Agripel: Maybe he was the guy who long ago was expelled for keeping a devil worshipper with him! He's probably a beggar now. I don't waste my time on such filth.",
+   "header": "High Priest Agripel",
+   "when": [
+    "cond 6; !((st.getInt(\"AGRIPEL\") == 1) && (st.getInt(\"DOMINIC\") == 1) && (st.getInt(\"BENEDICT\") == 1)); ((st.getInt(\"DOMINIC\") == 1) || (st.getInt(\"BENEDICT\") == 1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00021_HiddenTruth/31348-01.html": {
+   "file": "Q00021_HiddenTruth/31348-01.html",
+   "quest": 21,
+   "text": "High Priest Agripel: Is Innocentin one of those devil worshippers executed in the old witch trials? I never heard of him, ask someone else.",
+   "header": "High Priest Agripel",
+   "when": [
+    "cond 6; !((st.getInt(\"AGRIPEL\") == 1) && (st.getInt(\"DOMINIC\") == 1) && (st.getInt(\"BENEDICT\") == 1)); !((st.getInt(\"DOMINIC\") == 1) || (st.getInt(\"BENEDICT\") == 1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31348-01.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-01.html",
+   "quest": 25,
+   "text": "High Priest Agripel: I've heard your story. That totem is precious to us. If you give it to me, I will tell you about anything you wish. In the name of our gods...",
+   "header": "High Priest Agripel",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"OK, I will!\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-02.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-02.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-02.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-03.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-03.html",
+   "quest": 25,
+   "text": "High Priest Agripel: First, the totem! What can I help you with?",
+   "header": "High Priest Agripel",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the true nature of the doll.\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-04.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-04.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-04.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-08a.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-08a.html",
+   "quest": 25,
+   "text": "High Priest Agripel: Don't you have the key already? Take it back to the dark Magus. Your path is filled with peril, I would recommend against it.",
+   "header": "High Priest Agripel",
+   "when": [
+    "state STARTED; memo 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31348-09.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-09.html",
+   "quest": 25,
+   "text": "High Priest Agripel: You're back! I can't believe you fought the undead servant and returned alive!",
+   "header": "High Priest Agripel",
+   "when": [
+    "state STARTED; memo 20; has items 7158"
+   ],
+   "links": [
+    {
+     "text": "\"Here's Triol's totem.\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-10.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-10.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-10.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-10a.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-10a.html",
+   "quest": 25,
+   "text": "High Priest Agripel: By the gods! You've slain the undead servant, who was created from the research on the magic of the necropolis and is both dead and alive! Did you read the Contract? I feel bad about the Hellmann family, but someone had to shake things up and create a gap for us to enter throug…",
+   "header": "High Priest Agripel",
+   "when": [
+    "state STARTED; memo 21"
+   ],
+   "links": [
+    {
+     "text": "\"I know what you did!\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-11.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-11.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-11.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-15.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-15.html",
+   "quest": 25,
+   "text": "High Priest Agripel: There is nothing for you here. Fine what you want to do! What do you want to do?",
+   "header": "High Priest Agripel",
+   "when": [
+    "state STARTED; memo 22"
+   ],
+   "links": [
+    {
+     "text": "Meet with Lidia",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-16.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-16.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-16.html",
+     "effect": "cond:17"
+    },
+    {
+     "text": "Meet with Hardin",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-17.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-17.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-17.html",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-18.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-18.html",
+   "quest": 25,
+   "text": "High Priest Agripel: Haven't you decided yet? Do you have something to say? You seem to be looking for someone! Are you about to run crying to someone's maid?",
+   "header": "High Priest Agripel",
+   "when": [
+    "state STARTED; memo 23"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31348-19.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-19.html",
+   "quest": 25,
+   "text": "High Priest Agripel: Haven't you decided yet? Do you have something to say? You seem to be looking for someone! Are you going to report me to the Magus of the dark arts?",
+   "header": "High Priest Agripel",
+   "when": [
+    "state STARTED; memo 24"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31348-02.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-02.html",
+   "quest": 25,
+   "text": "High Priest Agripel: First, the totem! What can I help you with?",
+   "header": "High Priest Agripel",
+   "links": [
+    {
+     "text": "\"Tell me about the true nature of the doll.\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-04.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-04.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-04.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-04.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-04.html",
+   "quest": 25,
+   "text": "High Priest Agripel: This can't be of use to you, but since you asked, I'll tell you. As a sacred object it is a blessing to us, but can be used to cast a curse on others.",
+   "header": "High Priest Agripel",
+   "links": [
+    {
+     "text": "\"What about the god of your people?\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-05.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-05.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-05.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-05.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-05.html",
+   "quest": 25,
+   "text": "High Priest Agripel: I see what your questions are leading to. We can't say out loud the name of our god here, but this much I can tell you. We're not followers of Einhasad!",
+   "header": "High Priest Agripel",
+   "links": [
+    {
+     "text": "\"Tell me about the key.\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-06.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-06.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-06.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-06.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-06.html",
+   "quest": 25,
+   "text": "High Priest Agripel: To tell you of the key I must know where you got the totem. Did you get it from a dark Magus?",
+   "header": "High Priest Agripel",
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-07.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-07.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-07.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-07.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-07.html",
+   "quest": 25,
+   "text": "High Priest Agripel: Since the dark Magus himself asked you for it, here's the key. You'd still better not use it yourself if you can help it.",
+   "header": "High Priest Agripel",
+   "links": [
+    {
+     "text": "Take the key",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-08.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-08.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-08.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-08.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-08.html",
+   "quest": 25,
+   "text": "High Priest Agripel: Did that help? Take the key and return to the dark Magus. Your path is filled with peril, I would recommend against it.",
+   "header": "High Priest Agripel",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31348-10.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-10.html",
+   "quest": 25,
+   "text": "High Priest Agripel: By the gods! You've slain the undead servant, who was created from the research on the magic of the necropolis! Did you read the Contract? I feel bad about the Hellmann family, but someone had to shake things up and create a gap for us to enter through! Nobody can stop us from …",
+   "header": "High Priest Agripel",
+   "links": [
+    {
+     "text": "\"I know what you did!\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-11.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-11.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-11.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-11.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-11.html",
+   "quest": 25,
+   "text": "High Priest Agripel: What crime? Ha! The gap was small when we first got here, but we've become so important that Rune can no longer exist without us! We stopped the insurrection, punished the rebels and expelled the devil worshippers! What else? Lidia von Hellmann, the Lord of the Forest of the De…",
+   "header": "High Priest Agripel",
+   "links": [
+    {
+     "text": "\"That Contract is between a demon and a witch. You can't hold us responsible for anything in it!\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-12.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-12.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-12.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-12.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-12.html",
+   "quest": 25,
+   "text": "High Priest Agripel: Don't be angry with me! No matter how much power a Mystic possesses, he can't fight the great powers that move this world. You know everything that happened in the Forest of the Dead. Perhaps you know something that I don't. You still can't do anything about it! Truth alone can…",
+   "header": "High Priest Agripel",
+   "links": [
+    {
+     "text": "\"Who massacred the Hellmann family?\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-13.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-13.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-13.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-13.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-13.html",
+   "quest": 25,
+   "text": "High Priest Agripel: You were right on this. Our order, the Benandanti Cartel, has worked for a long time to take over this manor. The Hellmann's tragedy was an unfortunate by-product of our efforts. It's time for me to attend the worship service for Einhasad, the great god of light! Why don't you …",
+   "header": "High Priest Agripel",
+   "links": [
+    {
+     "text": "\"What is that?\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-14.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-14.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-14.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-14.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-14.html",
+   "quest": 25,
+   "text": "What will you do?",
+   "links": [
+    {
+     "text": "Meet with Lidia",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-16.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-16.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-16.html",
+     "effect": "cond:17"
+    },
+    {
+     "text": "Meet with Hardin",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31348-17.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31348-17.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-17.html",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31348-16.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-16.html",
+   "quest": 25,
+   "text": "You want to meet Lidia?",
+   "sets": {
+    "cond": "17"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31348-17.html": {
+   "file": "Q00025_HidingBehindTheTruth/31348-17.html",
+   "quest": 25,
+   "text": "You want to meet Hardin?",
+   "sets": {
+    "cond": "18"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Hidden Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00021_HiddenTruth",
+     "kind": "quest",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31348-03.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Hiding Behind the Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00025_HidingBehindTheTruth",
+     "kind": "quest",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31348-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

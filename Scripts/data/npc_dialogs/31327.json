@@ -1,0 +1,309 @@
+{
+ "npcId": 31327,
+ "name": "Tazki",
+ "title": "Prefect",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.188Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/31327.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "75": {
+   "name": "Saga of the Titan",
+   "listText": [
+    "[Saga of the Titan]",
+    "[Saga of the Titan (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00075_SagaOfTheTitan/0-01.htm",
+     "when": "cond 0; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00075_SagaOfTheTitan/0-04.htm",
+     "when": "cond 1; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00075_SagaOfTheTitan/0-06.htm",
+     "when": "cond 19; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00075_SagaOfTheTitan/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00075_SagaOfTheTitan/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/31327.htm": {
+   "file": "trainer/31327.htm",
+   "quest": null,
+   "text": "Prefect Tazki: Awaken, young soul! Do not heed the frivolous calls of this age, but follow your own great purpose! Act honorably and bravely at all times. Then your destiny will benefit all our people.",
+   "header": "Prefect Tazki",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/31327-noteach.htm": {
+   "file": "trainer/31327-noteach.htm",
+   "quest": null,
+   "text": "Prefect Tazki: I only teach Orc Warriors! Your teacher awaits elsewhere!",
+   "header": "Prefect Tazki",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00075_SagaOfTheTitan/0-01.htm": {
+   "file": "Q00075_SagaOfTheTitan/0-01.htm",
+   "quest": 75,
+   "text": "Perfect Tazki: Tejarka Paagrio! I've been waiting for you! The Hestui totem spirit has revealed many ancient Orcish secrets to me!",
+   "header": "Perfect Tazki",
+   "when": [
+    "cond 0; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What have you learned?\"",
+     "bypass": "Quest Q00075_SagaOfTheTitan 0-1",
+     "kind": "quest-event",
+     "script": "Q00075_SagaOfTheTitan",
+     "event": "0-1",
+     "quest": 75,
+     "to": "Q00075_SagaOfTheTitan/0-05.htm",
+     "toAll": [
+      "Q00075_SagaOfTheTitan/0-02.htm",
+      "Q00075_SagaOfTheTitan/0-05.htm"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00075_SagaOfTheTitan/0-04.htm": {
+   "file": "Q00075_SagaOfTheTitan/0-04.htm",
+   "quest": 75,
+   "text": "Prefect Tazki: Find Prefect Lakan in Goddard Castle Town and you'll meet the strongest warrior of the Atuba tribe!",
+   "header": "Prefect Tazki",
+   "when": [
+    "cond 1; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00075_SagaOfTheTitan/0-06.htm": {
+   "file": "Q00075_SagaOfTheTitan/0-06.htm",
+   "quest": 75,
+   "text": "Prefect Tazki: Tejakar Orca! The ancient Orcish fire is on your breath, warrior! Have you achieved the power that can defeat the giants?",
+   "header": "Prefect Tazki",
+   "when": [
+    "cond 19; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I've got the power!\"",
+     "bypass": "Quest Q00075_SagaOfTheTitan 0-2",
+     "kind": "quest-event",
+     "script": "Q00075_SagaOfTheTitan",
+     "event": "0-2",
+     "quest": 75,
+     "to": "Q00075_SagaOfTheTitan/0-07.htm",
+     "toAll": [
+      "Q00075_SagaOfTheTitan/0-08.htm",
+      "Q00075_SagaOfTheTitan/0-07.htm"
+     ],
+     "effect": "cond:20|reward"
+    }
+   ]
+  },
+  "Q00075_SagaOfTheTitan/0-09.htm": {
+   "file": "Q00075_SagaOfTheTitan/0-09.htm",
+   "quest": 75,
+   "text": "Prefect Tazki: Your soul emits fire and your body rivals those of the ancient giants! Your fighting spirit burns like a volcano! You can't lose! You shall take the name of the legendary fighter who fought so valiantly at the Temple of Giants. Henceforth you shall be known as a Titan!",
+   "header": "Prefect Tazki",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00075_SagaOfTheTitan/0-010.htm": {
+   "file": "Q00075_SagaOfTheTitan/0-010.htm",
+   "quest": 75,
+   "text": "Prefect Tazki: Train your body and spark the ancient flame that burns within you! (Only players of level 76 or above may transfer class. Don't abandon quest until class transfer is complete.)",
+   "header": "Prefect Tazki",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00075_SagaOfTheTitan/0-02.htm": {
+   "file": "Q00075_SagaOfTheTitan/0-02.htm",
+   "quest": 75,
+   "text": "Perfect Tazki: Tejarka Paagrio! Your soul will lead you to enlightenment! Follow the path of Paagrio that opens before you! You shall gain unimaginable strength! (This quest may only be undertaken by Destroyers of level 76 and above.)",
+   "header": "Perfect Tazki",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00075_SagaOfTheTitan/0-03.htm": {
+   "file": "Q00075_SagaOfTheTitan/0-03.htm",
+   "quest": 75,
+   "text": "Prefect Tazki: Tejarka Paagrio! Your spirit shall lead you to the source of ancient Orcish power! Long ago, a legendary warrior abandoned his path, and devoted all his time to training a disciple. The youth thrived, and soon became as strong as his master. Then, without warning, he disappeared! Her…",
+   "header": "Prefect Tazki",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00075_SagaOfTheTitan/0-05.htm": {
+   "file": "Q00075_SagaOfTheTitan/0-05.htm",
+   "quest": 75,
+   "text": "Prefect Tazki: Tejakar Hestui! In ancient times, only Orcish warriors were strong enough to confront the fearsome giants! Do you wish to receive this power?",
+   "header": "Prefect Tazki",
+   "links": [
+    {
+     "text": "\"Yes!\"",
+     "bypass": "Quest Q00075_SagaOfTheTitan accept",
+     "kind": "quest-event",
+     "script": "Q00075_SagaOfTheTitan",
+     "event": "accept",
+     "quest": 75,
+     "to": "Q00075_SagaOfTheTitan/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00075_SagaOfTheTitan/0-07.htm": {
+   "file": "Q00075_SagaOfTheTitan/0-07.htm",
+   "quest": 75,
+   "text": "Prefect Tazki: Tejakar Paagrio! Your soul emits fire and your body rivals those of the ancient giants! Your fighting spirit burns like a volcano! You can't lose! You shall take the name of the legendary fighter who fought so valiantly at the Temple of Giants. Henceforth you shall be known as a Tita…",
+   "header": "Prefect Tazki",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00075_SagaOfTheTitan/0-08.htm": {
+   "file": "Q00075_SagaOfTheTitan/0-08.htm",
+   "quest": 75,
+   "text": "Prefect Tazki: Tejakar Paagrio! Your soul burns like a volcano, but your body could use some work! Do not neglect your training. Come back when you're stronger! (Only players of level 76 or above may transfer class. Don't abandon the quest until class transfer is complete.)",
+   "header": "Prefect Tazki",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Titan]",
+     "bypass": "npc_%objectId%_Quest Q00075_SagaOfTheTitan",
+     "kind": "quest",
+     "quest": 75,
+     "to": "Q00075_SagaOfTheTitan/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Titan (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00075_SagaOfTheTitan",
+     "kind": "quest",
+     "quest": 75,
+     "to": "Q00075_SagaOfTheTitan/0-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,482 @@
+{
+ "npcId": 30414,
+ "name": "Rosella",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.973Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30414.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "408": {
+   "name": "Path Of The Elven Wizard",
+   "listText": [
+    "[Path of the Elven Wizard]",
+    "[Path of the Elven Wizard (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30414-01.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30414-11.html",
+     "when": "state STARTED; has items 1229; lacks items 1218,1222,1224,1272,1273,1274,1220,1226,1221; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30414-08.html",
+     "when": "state STARTED; has items 1218; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30414-09.html",
+     "when": "state STARTED; has items 1272; lacks items 1218; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR; getQuestItemsCount(player, RED_DOWN) < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30414-21.html",
+     "when": "state STARTED; has items 1272; lacks items 1218; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR; !getQuestItemsCount(player, RED_DOWN) < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30414-14.html",
+     "when": "state STARTED; has items 1222; lacks items 1218,1272; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30414-15.html",
+     "when": "state STARTED; has items 1273; lacks items 1218,1272,1222; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR; getQuestItemsCount(player, GOLD_LEAVES) < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30414-22.html",
+     "when": "state STARTED; has items 1273; lacks items 1218,1272,1222; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR; !getQuestItemsCount(player, GOLD_LEAVES) < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30414-18.html",
+     "when": "state STARTED; has items 1224; lacks items 1218,1272,1222,1273; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30414-19.html",
+     "when": "state STARTED; has items 1274; lacks items 1218,1272,1222,1273,1224; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR; getQuestItemsCount(player, AMETHYST) < 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30414-23.html",
+     "when": "state STARTED; has items 1274; lacks items 1218,1272,1222,1273,1224; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR; !getQuestItemsCount(player, AMETHYST) < 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30414-20.html",
+     "when": "state STARTED; has items 1229,1220,1226,1221; lacks items 1218,1272,1222,1273,1224,1274; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30414.htm": {
+   "file": "default/30414.htm",
+   "quest": null,
+   "text": "Rosella: Almost 700 years have passed since I first took the task of changing the professions of the Elves. I have seen many youths in my time, and there have been many stories. I feel better when I meet with a fresh youth like you. It seems as if that youth is contagious.",
+   "header": "Rosella",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00408_PathOfTheElvenWizard/30414-01.htm": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-01.htm",
+   "quest": 408,
+   "text": "Rosella: Elven Wizards are in the preparatory level before becoming a Spellsinger or Elemental Summoner. They aren't to be compared with the likes of the Dark Elves, who walk the path of evil. To become an Elven Wizard, you must learn how to communicate with the spirits. For this communication, you…",
+   "header": "Rosella",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Take the challenge",
+     "bypass": "Quest Q00408_PathOfTheElvenWizard ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00408_PathOfTheElvenWizard",
+     "event": "ACCEPT",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30414-06.htm",
+     "toAll": [
+      "Q00408_PathOfTheElvenWizard/30414-02a.htm",
+      "Q00408_PathOfTheElvenWizard/30414-03.htm",
+      "Q00408_PathOfTheElvenWizard/30414-04.htm",
+      "Q00408_PathOfTheElvenWizard/30414-05.htm",
+      "Q00408_PathOfTheElvenWizard/30414-06.htm"
+     ],
+     "effect": "start"
+    },
+    {
+     "text": "Take the challenge later",
+     "bypass": "Quest Q00408_PathOfTheElvenWizard 30414-02.htm",
+     "kind": "quest-event",
+     "script": "Q00408_PathOfTheElvenWizard",
+     "event": "30414-02.htm",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30414-02.htm"
+    }
+   ]
+  },
+  "Q00408_PathOfTheElvenWizard/30414-11.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-11.html",
+   "quest": 408,
+   "text": "Rosella: If you devote four jewels, symbolizing water, fire, wind and earth, to Mother Nature and perform the ritual for Eva's blessing, in return, you will be able to communicate more deeply with the spirits. I already gave you the Fertility Peridot so go and find the remaining three by yourself. …",
+   "header": "Rosella",
+   "when": [
+    "state STARTED; has items 1229; lacks items 1218,1222,1224,1272,1273,1274,1220,1226,1221; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Ruby, symbol of fire",
+     "bypass": "Quest Q00408_PathOfTheElvenWizard 30414-10.html",
+     "kind": "quest-event",
+     "script": "Q00408_PathOfTheElvenWizard",
+     "event": "30414-10.html",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30414-10.html",
+     "toAll": [
+      "Q00408_PathOfTheElvenWizard/30414-10.html",
+      "Q00408_PathOfTheElvenWizard/30414-07.html"
+     ]
+    },
+    {
+     "text": "Aquamarine, symbol of water",
+     "bypass": "Quest Q00408_PathOfTheElvenWizard 30414-12.html",
+     "kind": "quest-event",
+     "script": "Q00408_PathOfTheElvenWizard",
+     "event": "30414-12.html",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30414-12.html",
+     "toAll": [
+      "Q00408_PathOfTheElvenWizard/30414-12.html",
+      "Q00408_PathOfTheElvenWizard/30414-13.html"
+     ]
+    },
+    {
+     "text": "Amethyst, symbol of wind",
+     "bypass": "Quest Q00408_PathOfTheElvenWizard 30414-16.html",
+     "kind": "quest-event",
+     "script": "Q00408_PathOfTheElvenWizard",
+     "event": "30414-16.html",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30414-16.html",
+     "toAll": [
+      "Q00408_PathOfTheElvenWizard/30414-16.html",
+      "Q00408_PathOfTheElvenWizard/30414-17.html"
+     ]
+    }
+   ]
+  },
+  "Q00408_PathOfTheElvenWizard/30414-08.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-08.html",
+   "quest": 408,
+   "text": "Rosella: Take the letter I gave you to Magister Greenis in the Elven Village. If you ask her for help, she will tell you about the ruby that symbolizes fire.",
+   "header": "Rosella",
+   "when": [
+    "state STARTED; has items 1218; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-09.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-09.html",
+   "quest": 408,
+   "text": "Rosella: Have you met Magister Greenis? How is the dear child? If you do as she says, you can find the ruby.",
+   "header": "Rosella",
+   "when": [
+    "state STARTED; has items 1272; lacks items 1218; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR; getQuestItemsCount(player, RED_DOWN) < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-21.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-21.html",
+   "quest": 408,
+   "text": "Rosella: You have collected five clumps of Red Down. This will be useful in manufacturing the Magical Powers Ruby. Greenis will be waiting, so go to her quickly and give her the down.",
+   "header": "Rosella",
+   "when": [
+    "state STARTED; has items 1272; lacks items 1218; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR; !getQuestItemsCount(player, RED_DOWN) < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-14.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-14.html",
+   "quest": 408,
+   "text": "Rosella: Go see Thalia, who takes care of the Mother Tree on Lake Iris. She will tell you about the Pure Aquamarine. You can reach Lake Iris if you go straight south of the Elven Village. Thalia will be at the eastern shore of the lake.",
+   "header": "Rosella",
+   "when": [
+    "state STARTED; has items 1222; lacks items 1218,1272; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-15.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-15.html",
+   "quest": 408,
+   "text": "Rosella: Did Thalia tell you about the Aquamarine? She is a very clever girl. She may test your skills. Her favorite test is related to the Gold Leaves. You can usually get them from the dryad elders.",
+   "header": "Rosella",
+   "when": [
+    "state STARTED; has items 1273; lacks items 1218,1272,1222; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR; getQuestItemsCount(player, GOLD_LEAVES) < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-22.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-22.html",
+   "quest": 408,
+   "text": "Rosella: You have collected five Gold Leaves with no difficulty, I see. There was a time when the Elven Forest was full of these leaves... Now they are very rare because of the dryads. Thalia must be waiting for these leaves, I don't want to keep her waiting. Bring her these leaves and be quick.",
+   "header": "Rosella",
+   "when": [
+    "state STARTED; has items 1273; lacks items 1218,1272,1222; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR; !getQuestItemsCount(player, GOLD_LEAVES) < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-18.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-18.html",
+   "quest": 408,
+   "text": "Rosella: Give the book I gave you to Northwind. The book is called, 'Immortal Love'... A wonderful love story... So touching... He asked for the book a long time ago. To find the Elven Fortress, first go north of the village to the Neutral Zone, cross the bridge, and enter the Elven forest. If you …",
+   "header": "Rosella",
+   "when": [
+    "state STARTED; has items 1224; lacks items 1218,1272,1222,1273; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-19.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-19.html",
+   "quest": 408,
+   "text": "Rosella: Didn't Northwind tell you the story of the Nobility Amethyst? There is no one who can better explain about the jewel in the Elven Forest. Meet him and ask him in detail.",
+   "header": "Rosella",
+   "when": [
+    "state STARTED; has items 1274; lacks items 1218,1272,1222,1273,1224; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR; getQuestItemsCount(player, AMETHYST) < 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-23.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-23.html",
+   "quest": 408,
+   "text": "Rosella: This is an ordinary Amethyst. Yes, this will be fine for Northwind to make a Nobility Amethyst. Northwind has a temper, so he won't wait long. If you are late, he may go someplace else. Hurry and go find him.",
+   "header": "Rosella",
+   "when": [
+    "state STARTED; has items 1274; lacks items 1218,1272,1222,1273,1224; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR; !getQuestItemsCount(player, AMETHYST) < 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-20.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-20.html",
+   "quest": 408,
+   "text": "Rosella: Oh! You have collected all the jewels! Now we can begin the ritual. Water is the source of life. Mother, and eternity. Cleanse our stained souls with the Tears of Eva, purer than anything in the world, and give us your new blessing... With this, you have performed the ritual and earned the…",
+   "header": "Rosella",
+   "when": [
+    "state STARTED; has items 1229,1220,1226,1221; lacks items 1218,1272,1222,1273,1224,1274; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ROSELLAS_LETTER, APPETIZING_APPLE, IMMORTAL_LOVE, GREENISS_CHARM, SAP_OF_THE_MOTHER_TR"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-02.htm": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-02.htm",
+   "quest": 408,
+   "text": "Rosella: Well, it is not a bad idea to savor the charm of nature a little longer and take the challenge later.",
+   "header": "Rosella",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-02a.htm": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-02a.htm",
+   "quest": 408,
+   "text": "Rosella: Looking again... I see you have already earned the title of Elven Wizard... Why are you trying to challenge the trial again? Leave the trial for those younger than you... You should concentrate more on the task of studying the order of mother nature.",
+   "header": "Rosella",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-03.htm": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-03.htm",
+   "quest": 408,
+   "text": "Rosella: Oh no... At my age, my eyes are always tricking me. I'm afraid you cannot perform the ritual. Only Elven Mystics have the qualifications for it. I must go back to my knitting. My grandson will be having his birthday soon.",
+   "header": "Rosella",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-04.htm": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-04.htm",
+   "quest": 408,
+   "text": "Rogellia: Wait a moment... Youngster, I think I made a mistake. You are too young to complete the ceremony. I cannot send an innocent soul like yours into the harsh world. See me again after you have gained more experience. (Only characters level 18 and above may undertake this quest.)",
+   "header": "Rogellia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-05.htm": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-05.htm",
+   "quest": 408,
+   "text": "Rosella: Hmmm now, aren't you the one who finished the ritual? What are you waiting for? Go take a step into the wider world. Seek the High Priest. He will teach you what you must do and how to survive. May the protection of mother Eva be with you.",
+   "header": "Rosella",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-06.htm": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-06.htm",
+   "quest": 408,
+   "text": "Rosella: Four things are required to perform the ritual. They are 4 jewels that represent water, fire, wind and the earth. If you devote the jewels to Mother Nature and perform the ritual for Eva's blessing, in return, you will be able to communicate more deeply with the spirits. First, I give you …",
+   "header": "Rosella",
+   "links": [
+    {
+     "text": "Ruby, symbol of fire",
+     "bypass": "Quest Q00408_PathOfTheElvenWizard 30414-10.html",
+     "kind": "quest-event",
+     "script": "Q00408_PathOfTheElvenWizard",
+     "event": "30414-10.html",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30414-10.html",
+     "toAll": [
+      "Q00408_PathOfTheElvenWizard/30414-10.html",
+      "Q00408_PathOfTheElvenWizard/30414-07.html"
+     ]
+    },
+    {
+     "text": "Aquamarine, symbol of water",
+     "bypass": "Quest Q00408_PathOfTheElvenWizard 30414-12.html",
+     "kind": "quest-event",
+     "script": "Q00408_PathOfTheElvenWizard",
+     "event": "30414-12.html",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30414-12.html",
+     "toAll": [
+      "Q00408_PathOfTheElvenWizard/30414-12.html",
+      "Q00408_PathOfTheElvenWizard/30414-13.html"
+     ]
+    },
+    {
+     "text": "Amethyst, symbol of wind",
+     "bypass": "Quest Q00408_PathOfTheElvenWizard 30414-16.html",
+     "kind": "quest-event",
+     "script": "Q00408_PathOfTheElvenWizard",
+     "event": "30414-16.html",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30414-16.html",
+     "toAll": [
+      "Q00408_PathOfTheElvenWizard/30414-16.html",
+      "Q00408_PathOfTheElvenWizard/30414-17.html"
+     ]
+    }
+   ]
+  },
+  "Q00408_PathOfTheElvenWizard/30414-07.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-07.html",
+   "quest": 408,
+   "text": "Rosella: Ruby... When I look at the red hues, I feel a memory stirring the passions of my youth... If you seek the ruby, symbol of fire, go to Magister Greenis in the Elven Village . I was her godmother when she was born. She is a fine lady. Please give her this letter I wrote about you so she will…",
+   "header": "Rosella",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-10.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-10.html",
+   "quest": 408,
+   "text": "Rosella: Are you testing me? Don't you already have the magical powersd ruby?",
+   "header": "Rosella",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-12.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-12.html",
+   "quest": 408,
+   "text": "Rosella: How about learning a spell that increases memory? Haven't you already found the Pure Aquamarine? A young one like you should have a better memory! As I told you before, the Pure Aquamarine symbolizes water. The Elves who serve Eva always have divine protection of water. That's why the Aqua…",
+   "header": "Rosella",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-13.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-13.html",
+   "quest": 408,
+   "text": "Rosella: Of course, you probably already know that water is the symbol of our mother Eva. Therefore, unlike other races, we elves receive the divine protection of mother Eva in the water. You need not go far to find the Pure Aquamarine, that symbolizes water. It can be found in the Elven Forest. Go…",
+   "header": "Rosella",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-16.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-16.html",
+   "quest": 408,
+   "text": "Rosella: Don't you already have the Magical Powers Ruby? Try to find the other jewels.",
+   "header": "Rosella",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30414-17.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30414-17.html",
+   "quest": 408,
+   "text": "Rosella: The Nobility Amethyst is the symbol of elegance and nobility and at the same time is the symbol of Sayha, the God of Wind. The force of the wind within the jewel is an important material for Mystics who study the magic of storms. Well, if you had studied the basics, you would know all this…",
+   "header": "Rosella",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Elven Wizard]",
+     "bypass": "npc_%objectId%_Quest Q00408_PathOfTheElvenWizard",
+     "kind": "quest",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30414-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Elven Wizard (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00408_PathOfTheElvenWizard",
+     "kind": "quest",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30414-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

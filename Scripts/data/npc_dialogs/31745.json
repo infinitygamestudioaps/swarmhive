@@ -1,0 +1,150 @@
+{
+ "npcId": 31745,
+ "name": "Lady of the Lake",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.274Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31745.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "247": {
+   "name": "Possessor Of A Precious Soul 4",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 4]",
+    "[Path of the Noblesse, Precious Soul - 4 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00247_PossessorOfAPreciousSoul4/31745-1.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31745.htm": {
+   "file": "default/31745.htm",
+   "quest": null,
+   "text": "Lady of the Lake: Although this is the first time I've met her, I feel I've known her forever... Her beautiful face shows maturity and the purity of youth at the same time! She's been gazing at the lake for hours, engrossed in her thoughts. Then, she slowly turns her head towards me and our eyes me…",
+   "header": "Lady of the Lake",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00247_PossessorOfAPreciousSoul4/31745-1.html": {
+   "file": "Q00247_PossessorOfAPreciousSoul4/31745-1.html",
+   "quest": 247,
+   "text": "Lady of the Lake: Finally I meet the one who bears a holy soul. I've been waiting.",
+   "header": "Lady of the Lake",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"I've been waiting to meet you, too.\"",
+     "bypass": "Quest Q00247_PossessorOfAPreciousSoul4 31745-2.html",
+     "kind": "quest-event",
+     "script": "Q00247_PossessorOfAPreciousSoul4",
+     "event": "31745-2.html",
+     "quest": 247,
+     "to": "Q00247_PossessorOfAPreciousSoul4/31745-2.html"
+    }
+   ]
+  },
+  "Q00247_PossessorOfAPreciousSoul4/31745-2.html": {
+   "file": "Q00247_PossessorOfAPreciousSoul4/31745-2.html",
+   "quest": 247,
+   "text": "Lady of the Lake: Your path has been difficult, but your journey is not over yet. You must fulfill your destiny. I came here to find a new future, but my mother's wishes kept me from it. I can't help you much either. I will answer the question that you've had on your mind.",
+   "header": "Lady of the Lake",
+   "links": [
+    {
+     "text": "\"Who are you and why are you here?\"",
+     "bypass": "Quest Q00247_PossessorOfAPreciousSoul4 31745-3.html",
+     "kind": "quest-event",
+     "script": "Q00247_PossessorOfAPreciousSoul4",
+     "event": "31745-3.html",
+     "quest": 247,
+     "to": "Q00247_PossessorOfAPreciousSoul4/31745-3.html"
+    }
+   ]
+  },
+  "Q00247_PossessorOfAPreciousSoul4/31745-3.html": {
+   "file": "Q00247_PossessorOfAPreciousSoul4/31745-3.html",
+   "quest": 247,
+   "text": "Lady of the Lake: Don't you know who I am? My mother lost everything that she loved, and her grief over the betrayal was overpowering. I am the child who holds hope and faith in the future. Some call me the Goddess of Water, but that title really belongs to my sister. My name is Eva. I will give my…",
+   "header": "Lady of the Lake",
+   "links": [
+    {
+     "text": "\"I will with my entire body and soul.\"",
+     "bypass": "Quest Q00247_PossessorOfAPreciousSoul4 31745-4.html",
+     "kind": "quest-event",
+     "script": "Q00247_PossessorOfAPreciousSoul4",
+     "event": "31745-4.html",
+     "quest": 247,
+     "to": "Q00247_PossessorOfAPreciousSoul4/31745-4.html"
+    }
+   ]
+  },
+  "Q00247_PossessorOfAPreciousSoul4/31745-4.html": {
+   "file": "Q00247_PossessorOfAPreciousSoul4/31745-4.html",
+   "quest": 247,
+   "text": "Lady of the Lake: The world is a battleground, where everyone fights for themselves. Can you allow your love for Humans to blossom even in this sad state?",
+   "header": "Lady of the Lake",
+   "links": [
+    {
+     "text": "\"Of course. As you wish.\"",
+     "bypass": "Quest Q00247_PossessorOfAPreciousSoul4 31745-5.html",
+     "kind": "quest-event",
+     "script": "Q00247_PossessorOfAPreciousSoul4",
+     "event": "31745-5.html",
+     "quest": 247,
+     "to": "Q00247_PossessorOfAPreciousSoul4/31745-5.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00247_PossessorOfAPreciousSoul4/31745-5.html": {
+   "file": "Q00247_PossessorOfAPreciousSoul4/31745-5.html",
+   "quest": 247,
+   "text": "Lady of the Lake: You and I will open a new future for this world with infinite possibilities! May you be eternally blessed.",
+   "header": "Lady of the Lake",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 4 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00247_PossessorOfAPreciousSoul4",
+     "kind": "quest",
+     "quest": 247,
+     "to": "Q00247_PossessorOfAPreciousSoul4/31745-1.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

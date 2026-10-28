@@ -1,0 +1,219 @@
+{
+ "npcId": 30411,
+ "name": "Flame Salamander",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.973Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30411.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "228": {
+   "name": "Test Of Magus",
+   "listText": [
+    "[Test of Magus]",
+    "[Test of Magus (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00228_TestOfMagus/30411-01.html",
+     "when": "state STARTED; has items 2847; lacks items 2857,2860",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30411-02.html",
+     "when": "state STARTED; has items 2847,2857,2860; !hasItemsAtLimit(player, FLAME_CRYSTAL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30411-03.html",
+     "when": "state STARTED; has items 2847,2857,2860; hasItemsAtLimit(player, FLAME_CRYSTAL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30411-04.html",
+     "when": "state STARTED; has items 2847,2857,2860; lacks items 2860",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "404": {
+   "name": "Path Of The Human Wizard",
+   "listText": [
+    "[Path of the Human Wizard]",
+    "[Path of the Human Wizard (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00404_PathOfTheHumanWizard/30411-01.html",
+     "when": "state STARTED; lacks items 1280,1282; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00404_PathOfTheHumanWizard/30411-02.html",
+     "when": "state STARTED; has items 1280,1282; lacks items 1281; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00404_PathOfTheHumanWizard/30411-03.html",
+     "when": "state STARTED; has items 1280,1282,1281; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00404_PathOfTheHumanWizard/30411-04.html",
+     "when": "state STARTED; has items 1280,1282; lacks items 1280; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30411.htm": {
+   "file": "default/30411.htm",
+   "quest": null,
+   "text": "Flame Salamander: What business do you have with me? If you have nothing to say, be on your way and don't bother me.",
+   "header": "Flame Salamander",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00228_TestOfMagus/30411-01.html": {
+   "file": "Q00228_TestOfMagus/30411-01.html",
+   "quest": 228,
+   "text": "Flame Salamander: What is it, my child? Have you no fear of fire? ...Ah, you seek the Note of Fire... I see... Of course I have it, silly! Nothing comes for free, however... If you will journey north, near the Ivory Tower, and retrieve 5 Flame Crystals from the Ghost Fires, I shall take them in exc…",
+   "header": "Flame Salamander",
+   "when": [
+    "state STARTED; has items 2847; lacks items 2857,2860"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30411-02.html": {
+   "file": "Q00228_TestOfMagus/30411-02.html",
+   "quest": 228,
+   "text": "Flame Salamander: Bring me 5 Flame Crystals from the Ghost Fires. They are in the north... Near the Ivory Tower...",
+   "header": "Flame Salamander",
+   "when": [
+    "state STARTED; has items 2847,2857,2860; !hasItemsAtLimit(player, FLAME_CRYSTAL)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30411-03.html": {
+   "file": "Q00228_TestOfMagus/30411-03.html",
+   "quest": 228,
+   "text": "Flame Salamander: Five Flame Crystals... Oh how lovely. Here is the Note of Fire. Take it!",
+   "header": "Flame Salamander",
+   "when": [
+    "state STARTED; has items 2847,2857,2860; hasItemsAtLimit(player, FLAME_CRYSTAL)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30411-04.html": {
+   "file": "Q00228_TestOfMagus/30411-04.html",
+   "quest": 228,
+   "text": "Flame Salamander: I trust you are taking good care of the Note of Fire that I have given you... I hope you realize that that note is the strongest, and has the deepest tone of all 4 of the elemental notes...",
+   "header": "Flame Salamander",
+   "when": [
+    "state STARTED; has items 2847,2857,2860; lacks items 2860"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30411-01.html": {
+   "file": "Q00404_PathOfTheHumanWizard/30411-01.html",
+   "quest": 404,
+   "text": "Flame Salamander: What is it, child of Humans? Aren't you frightened by the fumes of fire that I breathe? It has been a long time since I've seen a Human as fearless as you. So you've come to find the token of flame? Now I see that you are a Mystic who controls the powers of elements! Good ... If y…",
+   "header": "Flame Salamander",
+   "when": [
+    "state STARTED; lacks items 1280,1282; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30411-02.html": {
+   "file": "Q00404_PathOfTheHumanWizard/30411-02.html",
+   "quest": 404,
+   "text": "Flame Salamander: Child of Humans, have you come back already? Didn't I tell you to kill the ratman fighter and bring back the Key of Flame? Only then can I give you the token of flame. There are many ratman fighters at the northwestern corner of the Ruins of Despair.",
+   "header": "Flame Salamander",
+   "when": [
+    "state STARTED; has items 1280,1282; lacks items 1281; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30411-03.html": {
+   "file": "Q00404_PathOfTheHumanWizard/30411-03.html",
+   "quest": 404,
+   "text": "Flame Salamander: Ah ... I see you have found the key. I give you the Flame Earring as a token of fire. I name you predecessor of the flame ... Pray, do not neglect the desire for learning now rising within you. Your desires for knowledge lead to curiosity about the world. Thought caught up in that…",
+   "header": "Flame Salamander",
+   "when": [
+    "state STARTED; has items 1280,1282,1281; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30411-04.html": {
+   "file": "Q00404_PathOfTheHumanWizard/30411-04.html",
+   "quest": 404,
+   "text": "Flame Salamander: Child of Humans ... Haven't you already received the token of flame from me? You have already been recognized as the predecessor of flame, now go find the Wind Token. In order to find the token, you must meet the Wind Sylph. You can meet her at the entrance to the Wastelands that …",
+   "header": "Flame Salamander",
+   "when": [
+    "state STARTED; has items 1280,1282; lacks items 1280; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Magus (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00228_TestOfMagus",
+     "kind": "quest",
+     "quest": 228,
+     "to": "Q00228_TestOfMagus/30411-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Human Wizard (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00404_PathOfTheHumanWizard",
+     "kind": "quest",
+     "quest": 404,
+     "to": "Q00404_PathOfTheHumanWizard/30411-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

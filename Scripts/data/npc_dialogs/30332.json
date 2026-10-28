@@ -1,0 +1,850 @@
+{
+ "npcId": 30332,
+ "name": "Bathis",
+ "title": "Captain",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.937Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30332.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "39": {
+   "name": "Red-eyed Invaders",
+   "listText": [
+    "[Red-eyed Invader]",
+    "[Red-eyed Invader (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00039_RedEyedInvaders/30332-01.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00039_RedEyedInvaders/30332-03.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00039_RedEyedInvaders/30332-04.html",
+     "when": "cond 3",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00039_RedEyedInvaders/30332-07.html",
+     "when": "cond 4",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00039_RedEyedInvaders/30332-08.html",
+     "when": "cond 5",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "63": {
+   "name": "Path Of The Warder",
+   "listText": [
+    "[Path of the Warder]",
+    "[Path of the Warder (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00063_PathOfTheWarder/30332-01.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/30332-02.html",
+     "when": "state STARTED; memoState < 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/30332-04.html",
+     "when": "state STARTED; memo 5; !memoState < 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/30332-07.html",
+     "when": "state STARTED; memo 6; !memoState < 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00063_PathOfTheWarder/30332-08.html",
+     "when": "state STARTED; !memoState < 4; memoState > 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "402": {
+   "name": "Path Of The Human Knight",
+   "listText": [
+    "[Path of the Human Knight]",
+    "[Path of the Human Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30332-01.html",
+     "when": "state STARTED; has items 1271; lacks items 1168,1162; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30332-03.html",
+     "when": "state STARTED; has items 1168; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_1ST_BADGE, COIN_OF_LORDS1)); getQuestItemsCount(player, BUGBEAR_NECKLACE) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30332-04.html",
+     "when": "state STARTED; has items 1168; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_1ST_BADGE, COIN_OF_LORDS1)); !getQuestItemsCount(player, BUGBEAR_NECKLACE) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30332-05.html",
+     "when": "state STARTED; has items 1162; lacks items 1168; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_1ST_BADGE, COIN_OF_LORDS1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "708": {
+   "name": "Path To Becoming A Lord - Gludio",
+   "listText": [
+    "[Path to Becoming a Lord - Gludio]",
+    "[Path to Becoming a Lord - Gludio (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00708_PathToBecomingALordGludio/30332-01.html",
+     "when": "state STARTED; qs.hasMemoState(); (qs.getMemoState() / 10) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/30332-03.html",
+     "when": "state STARTED; !(qs.hasMemoState() && ((qs.getMemoState() / 10) == 1)); qs.hasMemoState(); (qs.getMemoState() / 10) == 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/30332-04.html",
+     "when": "state STARTED; !(qs.hasMemoState() && ((qs.getMemoState() / 10) == 1)); !(qs.hasMemoState() && ((qs.getMemoState() / 10) == 2)); qs.hasMemoState(); (qs.getMemoState() / 10) == 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/30332-06.html",
+     "when": "state STARTED; !(qs.hasMemoState() && ((qs.getMemoState() / 10) == 1)); !(qs.hasMemoState() && ((qs.getMemoState() / 10) == 2)); !(qs.hasMemoState() && ((qs.getMemoState() / 10) == 3)); qs.hasMemoState()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10276": {
+   "name": "Mutated Kaneus - Gludio",
+   "listText": [
+    "[Mutated Kaneus - Gludio]",
+    "[Mutated Kaneus - Gludio (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10276_MutatedKaneusGludio/30332-01.htm",
+     "when": "state CREATED; (player.getLevel() > 17)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10276_MutatedKaneusGludio/30332-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() > 17)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10276_MutatedKaneusGludio/30332-05.htm",
+     "when": "state STARTED; (st.hasQuestItems(TISSUE_TK) && st.hasQuestItems(TISSUE_OA))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10276_MutatedKaneusGludio/30332-04.htm",
+     "when": "state STARTED; NOT (st.hasQuestItems(TISSUE_TK) && st.hasQuestItems(TISSUE_OA))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10276_MutatedKaneusGludio/30332-06.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30332.htm": {
+   "file": "guard/30332.htm",
+   "quest": null,
+   "text": "Captain Bathis: Welcome, young traveler! I am Captain Bathis, the commander of the guard that provides security to both this village and the surrounding area. May I offer you a word of advice? What kind of outfit are you wearing? I understand the desire to be fashionable, particularly among the you…",
+   "header": "Captain Bathis",
+   "links": [
+    {
+     "text": "Ask about Kamaloka.",
+     "bypass": "guard/kamaloka_help.htm",
+     "kind": "page",
+     "to": "guard/kamaloka_help.htm"
+    },
+    {
+     "text": "Look at the list of Kamaloka.",
+     "bypass": "guard/kamaloka_level.htm",
+     "kind": "page",
+     "to": "guard/kamaloka_level.htm"
+    },
+    {
+     "text": "Enter Kamaloka.",
+     "bypass": "npc_%objectId%_Quest Kamaloka",
+     "kind": "quest",
+     "script": "Kamaloka"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30332-1.htm": {
+   "file": "guard/30332-1.htm",
+   "quest": null,
+   "text": "Kamaloka is an invader from another world. We do not know precisely when it happened, but we discovered a sealed space, similar to a Dimensional Rift. We call it Kamaloka. To enter it, you must meet certain requirements. You cannot enter a basic Kamaloka alone. If you wish to fight alone, find the …",
+   "outcome": "refusal",
+   "links": []
+  },
+  "guard/30332-2.htm": {
+   "file": "guard/30332-2.htm",
+   "quest": null,
+   "text": "Researchers at the Ivory Tower believe that Kamaloka is a result of another dimension overlapping Aden. The monsters of Kamaloka are tremendously powerful. Adventurers must take care to enter only the Kamaloka appropriate for their level. The following captains can grant access: Captain Bathis (Tow…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00039_RedEyedInvaders/30332-01.html": {
+   "file": "Q00039_RedEyedInvaders/30332-01.html",
+   "quest": 39,
+   "text": "Captain Bathis: Did Guard Babenco send you? Hmm... You don't have very good armor, do you? Oh well, I do have to commend you for your bravery! This is a critical and potentially very dangerous mission! You must listen carefully!",
+   "header": "Captain Bathis",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"I'm listening.\"",
+     "bypass": "Quest Q00039_RedEyedInvaders 30332-02.html",
+     "kind": "quest-event",
+     "script": "Q00039_RedEyedInvaders",
+     "event": "30332-02.html",
+     "quest": 39,
+     "to": "Q00039_RedEyedInvaders/30332-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00039_RedEyedInvaders/30332-03.html": {
+   "file": "Q00039_RedEyedInvaders/30332-03.html",
+   "quest": 39,
+   "text": "Captain Bathis: The battle continues! The lizardmen may attack at any moment! Drop off your delivery and return to the battlefield immediately! Don't forget to bring back some war trophies! I need 100 Red Totem Necklaces and 100 black Totem Necklaces . The Maille Lizardmen can be found on the plain…",
+   "header": "Captain Bathis",
+   "when": [
+    "cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00039_RedEyedInvaders/30332-04.html": {
+   "file": "Q00039_RedEyedInvaders/30332-04.html",
+   "quest": 39,
+   "text": "Captain Bathis: Good job! We won't have to worry about them for a while! We were successful that time, but reports from the battlefield of giant, deadly arachnids are reason for concern... Would you help us get rid of these horrible spiders?",
+   "header": "Captain Bathis",
+   "when": [
+    "cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"Well, I suppose I'll do it.\"",
+     "bypass": "Quest Q00039_RedEyedInvaders 30332-05.html",
+     "kind": "quest-event",
+     "script": "Q00039_RedEyedInvaders",
+     "event": "30332-05.html",
+     "quest": 39,
+     "to": "Q00039_RedEyedInvaders/30332-05.html",
+     "toAll": [
+      "Q00039_RedEyedInvaders/30332-05.html",
+      "Q00039_RedEyedInvaders/30332-06.html"
+     ],
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00039_RedEyedInvaders/30332-07.html": {
+   "file": "Q00039_RedEyedInvaders/30332-07.html",
+   "quest": 39,
+   "text": "Captain Bathis: Thank you for your hard work, but we still need more items to fully investigate this matter. I need 30 mysterious Incense Pouches and 30 five-colored beads . Don't let me down!",
+   "header": "Captain Bathis",
+   "when": [
+    "cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00039_RedEyedInvaders/30332-08.html": {
+   "file": "Q00039_RedEyedInvaders/30332-08.html",
+   "quest": 39,
+   "text": "Captain Bathis: You've proven the conspiracy between the Maille Lizardmen and the giant spiders! Magister Rohmer attributes it to the lizardmen's magic. This matter must be investigated further! We'll get to the bottom of this eventually!",
+   "header": "Captain Bathis",
+   "when": [
+    "cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"Is my mission over?\"",
+     "bypass": "Quest Q00039_RedEyedInvaders 30332-09.html",
+     "kind": "quest-event",
+     "script": "Q00039_RedEyedInvaders",
+     "event": "30332-09.html",
+     "quest": 39,
+     "to": "Q00039_RedEyedInvaders/30332-09.html",
+     "toAll": [
+      "Q00039_RedEyedInvaders/30332-09.html",
+      "Q00039_RedEyedInvaders/30332-10.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00063_PathOfTheWarder/30332-01.html": {
+   "file": "Q00063_PathOfTheWarder/30332-01.html",
+   "quest": 63,
+   "text": "Bathis: Ah! I see that you are a Kamael...",
+   "header": "Bathis",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "links": [
+    {
+     "text": "What?",
+     "bypass": "Quest Q00063_PathOfTheWarder 30332-03.html",
+     "kind": "quest-event",
+     "script": "Q00063_PathOfTheWarder",
+     "event": "30332-03.html",
+     "quest": 63,
+     "to": "Q00063_PathOfTheWarder/30332-03.html"
+    }
+   ]
+  },
+  "Q00063_PathOfTheWarder/30332-02.html": {
+   "file": "Q00063_PathOfTheWarder/30332-02.html",
+   "quest": 63,
+   "text": "Bathis: I wish to have no business with the Kamael. Be on your way!",
+   "header": "Bathis",
+   "when": [
+    "state STARTED; memoState < 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00063_PathOfTheWarder/30332-04.html": {
+   "file": "Q00063_PathOfTheWarder/30332-04.html",
+   "quest": 63,
+   "text": "Bathis: (There is something about him that makes you cringe with distaste.) Why that expression on your face? Your job is to do what you're told, soldier.",
+   "header": "Bathis",
+   "when": [
+    "state STARTED; memo 5; !memoState < 4"
+   ],
+   "links": [
+    {
+     "text": "It's nothing.",
+     "bypass": "Quest Q00063_PathOfTheWarder 30332-06.html",
+     "kind": "quest-event",
+     "script": "Q00063_PathOfTheWarder",
+     "event": "30332-06.html",
+     "quest": 63,
+     "to": "Q00063_PathOfTheWarder/30332-06.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00063_PathOfTheWarder/30332-07.html": {
+   "file": "Q00063_PathOfTheWarder/30332-07.html",
+   "quest": 63,
+   "text": "Bathis: What are you doing? I told you to go see Gobie !",
+   "header": "Bathis",
+   "when": [
+    "state STARTED; memo 6; !memoState < 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00063_PathOfTheWarder/30332-08.html": {
+   "file": "Q00063_PathOfTheWarder/30332-08.html",
+   "quest": 63,
+   "text": "Bathis: Is there anything else you want to say to me, Kamael?",
+   "header": "Bathis",
+   "when": [
+    "state STARTED; !memoState < 4; memoState > 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30332-01.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30332-01.html",
+   "quest": 402,
+   "text": "Captain Bathis: Oh-ho. That mark tells me that you're an apprentice knight! Our guards do a great job protecting the village, so I don't think we have much to as of someone like you. Well, if you insist on helping, there is one thing that you could do...",
+   "header": "Captain Bathis",
+   "when": [
+    "state STARTED; has items 1271; lacks items 1168,1162; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Ask what it is.",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30332-02.html",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30332-02.html",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30332-02.html"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30332-03.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30332-03.html",
+   "quest": 402,
+   "text": "Captain Bathis: Have you defeated the bugbear raiders? What do you mean, not yet? What have you done all this time?! I have already reported to my superiors that I have sent out soldiers to destroy the bugbears ... What will they take me for?! At this very moment, the Traders that do business with …",
+   "header": "Captain Bathis",
+   "when": [
+    "state STARTED; has items 1168; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_1ST_BADGE, COIN_OF_LORDS1)); getQuestItemsCount(player, BUGBEAR_NECKLACE) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30332-04.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30332-04.html",
+   "quest": 402,
+   "text": "Captain Bathis: Oh, so you have killed all the bugbears. Now the traders can safely drive their carts to Dion. Here, take this -- it's a coin of the lords . Now you have the coin in your hand, and I have preserved my dignity as captain of the guards. Wasn't that a good exchange? Ha! Well, have a fi…",
+   "header": "Captain Bathis",
+   "when": [
+    "state STARTED; has items 1168; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_1ST_BADGE, COIN_OF_LORDS1)); !getQuestItemsCount(player, BUGBEAR_NECKLACE) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30332-05.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30332-05.html",
+   "quest": 402,
+   "text": "Captain Bathis: Are you still on your training quest, fledgling? You're inviting trouble ... tsk tsk ... Come and see me whenever you feel like quitting! I will hire you on in the guard. Ha! Well, have a fine day!",
+   "header": "Captain Bathis",
+   "when": [
+    "state STARTED; has items 1162; lacks items 1168; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_1ST_BADGE, COIN_OF_LORDS1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30332-01.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30332-01.html",
+   "quest": 708,
+   "text": "Captain Bathis: Welcome, my lord. At the chamberlain's behest, we investigated the caravan's disappearance. We discovered that it went missing somewhere in the Relics of Sorrow. We also heard rumors of a headless knight attacking passing merchants...",
+   "header": "Captain Bathis",
+   "when": [
+    "state STARTED; qs.hasMemoState(); (qs.getMemoState() / 10) == 1"
+   ],
+   "links": [
+    {
+     "text": "\"A headless knight in Gludio?! How can that be?\"",
+     "bypass": "Quest Q00708_PathToBecomingALordGludio 30332-02.html",
+     "kind": "quest-event",
+     "script": "Q00708_PathToBecomingALordGludio",
+     "event": "30332-02.html",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/30332-02.html"
+    }
+   ]
+  },
+  "Q00708_PathToBecomingALordGludio/30332-03.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30332-03.html",
+   "quest": 708,
+   "text": "Captain Bathis: Once you have confirmed that the streets of Gludin Village and the Town of Gludio are safe, I am sure our subjects will breathe a sigh of relief. As our lord, it is your duty to do this for us!",
+   "header": "Captain Bathis",
+   "when": [
+    "state STARTED; !(qs.hasMemoState() && ((qs.getMemoState() / 10) == 1)); qs.hasMemoState(); (qs.getMemoState() / 10) == 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30332-04.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30332-04.html",
+   "quest": 708,
+   "text": "Captain Bathis: Lord, has a headless knight appeared? But that armor...",
+   "header": "Captain Bathis",
+   "when": [
+    "state STARTED; !(qs.hasMemoState() && ((qs.getMemoState() / 10) == 1)); !(qs.hasMemoState() && ((qs.getMemoState() / 10) == 2)); qs.hasMemoState(); (qs.getMemoState() / 10) == 3"
+   ],
+   "links": [
+    {
+     "text": ">\"It was a little difficult, but I took care of it. Our territory is safe now.\"",
+     "bypass": "Quest Q00708_PathToBecomingALordGludio 30332-05.html",
+     "kind": "quest-event",
+     "script": "Q00708_PathToBecomingALordGludio",
+     "event": "30332-05.html",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/30332-05.html"
+    }
+   ]
+  },
+  "Q00708_PathToBecomingALordGludio/30332-06.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30332-06.html",
+   "quest": 708,
+   "text": "Captain Bathis: I will not forget your noble actions, my lord. My sword will always be at your service!",
+   "header": "Captain Bathis",
+   "when": [
+    "state STARTED; !(qs.hasMemoState() && ((qs.getMemoState() / 10) == 1)); !(qs.hasMemoState() && ((qs.getMemoState() / 10) == 2)); !(qs.hasMemoState() && ((qs.getMemoState() / 10) == 3)); qs.hasMemoState()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10276_MutatedKaneusGludio/30332-01.htm": {
+   "file": "Q10276_MutatedKaneusGludio/30332-01.htm",
+   "quest": 10276,
+   "text": "Captain Bathis: I heard tales of your recent activities. You have already acquired a reputation as an accomplished adventurer. Perhaps you have already heard about the Mutated Kaneus of Kamaloka . I have been asked to help investigate these strange creatures, but my duties unfortunately keep me far…",
+   "header": "Captain Bathis",
+   "when": [
+    "state CREATED; (player.getLevel() > 17)"
+   ],
+   "links": [
+    {
+     "text": "\"What kind of help do you need?\"",
+     "bypass": "Quest Q10276_MutatedKaneusGludio 30332-02.htm",
+     "kind": "quest-event",
+     "script": "Q10276_MutatedKaneusGludio",
+     "event": "30332-02.htm",
+     "quest": 10276,
+     "to": "Q10276_MutatedKaneusGludio/30332-02.htm"
+    }
+   ]
+  },
+  "Q10276_MutatedKaneusGludio/30332-00.htm": {
+   "file": "Q10276_MutatedKaneusGludio/30332-00.htm",
+   "quest": 10276,
+   "text": "Captain Bathis: Based on my observations, I don't think you are yet ready to handle the Kaneus. (Only characters level 18 and above are permitted to undertake this quest.)",
+   "header": "Captain Bathis",
+   "when": [
+    "state CREATED; NOT (player.getLevel() > 17)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10276_MutatedKaneusGludio/30332-05.htm": {
+   "file": "Q10276_MutatedKaneusGludio/30332-05.htm",
+   "quest": 10276,
+   "text": "Captain Bathis: Ah! Are these the cellular tissues of Tomlan Kamos and Ol Ariosh ? From their pristine appearance, I can tell you were very careful. I couldn't have done better myself. Well done! Now take these samples to Magister Rohmer at the Temple of Einhasad. He will be very pleased. If we can…",
+   "header": "Captain Bathis",
+   "when": [
+    "state STARTED; (st.hasQuestItems(TISSUE_TK) && st.hasQuestItems(TISSUE_OA))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10276_MutatedKaneusGludio/30332-04.htm": {
+   "file": "Q10276_MutatedKaneusGludio/30332-04.htm",
+   "quest": 10276,
+   "text": "Captain Bathis: The magisters become agitated if their research is delayed for any reason, so deliver the cellular tissue samples as quickly as possible. Those aren't people you want irritated with you, you know! Hurry to Kamaloka, and good hunting!",
+   "header": "Captain Bathis",
+   "when": [
+    "state STARTED; NOT (st.hasQuestItems(TISSUE_TK) && st.hasQuestItems(TISSUE_OA))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10276_MutatedKaneusGludio/30332-06.htm": {
+   "file": "Q10276_MutatedKaneusGludio/30332-06.htm",
+   "quest": 10276,
+   "text": "Captain Bathis: Ah, it's you! Magister Kayan asked me to convey his gratitude to you. He said that the cellular tissues of the mutated Kaneus from the Kamaloka of Gludio that you delivered were a great help. Well done!",
+   "header": "Captain Bathis",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00039_RedEyedInvaders/30332-02.html": {
+   "file": "Q00039_RedEyedInvaders/30332-02.html",
+   "quest": 39,
+   "text": "Captain Bathis: The mission is simple: Find the Maille Lizardmen on the plains west of the village and kill them! Their advance unit consists of Maille Lizardmen, Maille Lizardman Scouts, and Maille Lizardman Guards . You must destroy them and stop their advance. All Maille Lizardman wear a Bone To…",
+   "header": "Captain Bathis",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00039_RedEyedInvaders/30332-05.html": {
+   "file": "Q00039_RedEyedInvaders/30332-05.html",
+   "quest": 39,
+   "text": "Captain Bathis: I realize you just completed a difficult task, but we still need your help! We must discover the connection between Maille Lizardmen and the Araneids . They've been fighting alongside the lizardmen! This is unheard of! Return to the Maille Lizardman Barracks and investigate this unh…",
+   "header": "Captain Bathis",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00039_RedEyedInvaders/30332-06.html": {
+   "file": "Q00039_RedEyedInvaders/30332-06.html",
+   "quest": 39,
+   "text": "Captain Bathis: The battle continues! The lizardmen may attack at any moment! Drop off your delivery and return to the battlefield immediately! Don't forget to bring back some war trophies! I need 100 Red Totem Necklaces and 100 black Totem Necklaces . The Maille Lizardmen can be found on the plain…",
+   "header": "Captain Bathis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00039_RedEyedInvaders/30332-09.html": {
+   "file": "Q00039_RedEyedInvaders/30332-09.html",
+   "quest": 39,
+   "text": "Captain Bathis: Thank you very much! Now we have enough ingredients for Magister Rohmer to determine the roots of this conspiracy! We couldn't have done it without you! The future of Gludio is secure in the hands of noble warriors like you. Please accept this humble reward as a token of our appreci…",
+   "header": "Captain Bathis",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00039_RedEyedInvaders/30332-10.html": {
+   "file": "Q00039_RedEyedInvaders/30332-10.html",
+   "quest": 39,
+   "text": "Captain Bathis: Thank you for your hard work, but we still need some more items to fully investigate this matter. Bring me 30 mysterious Incense Pouches and 30 five-colored beads . I'm counting on you!",
+   "header": "Captain Bathis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00063_PathOfTheWarder/30332-03.html": {
+   "file": "Q00063_PathOfTheWarder/30332-03.html",
+   "quest": 63,
+   "text": "Bathis: It's nothing. I was just talking to myself... . . . Hmm...you must be the Kamael liaison. First time I've seen a female of your race. Hmm....well, you seem competent enough. (Deliver the documents.) These are the military documents? Excellent. Take these to your superior. (Bathis suddenly t…",
+   "header": "Bathis",
+   "links": [
+    {
+     "text": "\"Yes, sir...\"",
+     "bypass": "Quest Q00063_PathOfTheWarder 30332-05.html",
+     "kind": "quest-event",
+     "script": "Q00063_PathOfTheWarder",
+     "event": "30332-05.html",
+     "quest": 63,
+     "to": "Q00063_PathOfTheWarder/30332-05.html"
+    }
+   ]
+  },
+  "Q00063_PathOfTheWarder/30332-05.html": {
+   "file": "Q00063_PathOfTheWarder/30332-05.html",
+   "quest": 63,
+   "text": "Bathis: (There is something about him that makes you cringe with distaste.) Why that expression on your face? Your job is to do what you're told, soldier.",
+   "header": "Bathis",
+   "links": [
+    {
+     "text": "It's nothing.",
+     "bypass": "Quest Q00063_PathOfTheWarder 30332-06.html",
+     "kind": "quest-event",
+     "script": "Q00063_PathOfTheWarder",
+     "event": "30332-06.html",
+     "quest": 63,
+     "to": "Q00063_PathOfTheWarder/30332-06.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00063_PathOfTheWarder/30332-06.html": {
+   "file": "Q00063_PathOfTheWarder/30332-06.html",
+   "quest": 63,
+   "text": "Bathis: Then get over to Gobie . Hurry up!",
+   "header": "Bathis",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30332-02.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30332-02.html",
+   "quest": 402,
+   "text": "Captain Bathis: If you follow the road northeast of the village, you will cross a river that marks the area between Gludio and Neutral Zone. There is a bridge that crosses the river. Recently, bugbear raiders have appeared around the area between the bridge and the Neutral Zone and attacked trader …",
+   "header": "Captain Bathis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30332-02.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30332-02.html",
+   "quest": 708,
+   "text": "Captain Bathis: I agree, my lord, but I spoke to several merchants who survived the attack. Their testimony all agreed: it was a headless knight. Perhaps the spirits of restless noblemen who perished in the war with Gracia now haunt that area. You must confirm this phenomenon for yourself. I learne…",
+   "header": "Captain Bathis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30332-05.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30332-05.html",
+   "quest": 708,
+   "text": "Captain Bathis: I expected no less from you, my lord! I will inform your subjects of your victory! They will not soon forget your bravery in this matter. It is my honor to serve so noble a ruler.",
+   "header": "Captain Bathis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10276_MutatedKaneusGludio/30332-02.htm": {
+   "file": "Q10276_MutatedKaneusGludio/30332-02.htm",
+   "quest": 10276,
+   "text": "Captain Bathis: The favor I ask is on behalf of Magister Rohmer of the Temple of Einhasad. The Sages of Magic, a group of magisters of which Magister Rohmer is a member, are researching the Kaneus: recently discovered monsters of Kamaloka. They know that Kamaloka exists between this world and the i…",
+   "header": "Captain Bathis",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q10276_MutatedKaneusGludio 30332-03.htm",
+     "kind": "quest-event",
+     "script": "Q10276_MutatedKaneusGludio",
+     "event": "30332-03.htm",
+     "quest": 10276,
+     "to": "Q10276_MutatedKaneusGludio/30332-03.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10276_MutatedKaneusGludio/30332-03.htm": {
+   "file": "Q10276_MutatedKaneusGludio/30332-03.htm",
+   "quest": 10276,
+   "text": "Captain Bathis: Excellent! Visit either of the 2 Kamalokas we can enter from Gludio, kill the Kaneus there and extract their cellular tissues. You will face the Tomlan Kamos and Ol Ariosh Kaneus. The Tomlan Kamos is much weaker, so I'd advise that you pursue it first. When you have extracted all th…",
+   "header": "Captain Bathis",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Red-eyed Invader (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00039_RedEyedInvaders",
+     "kind": "quest",
+     "quest": 39,
+     "to": "Q00039_RedEyedInvaders/30332-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Warder (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00063_PathOfTheWarder",
+     "kind": "quest",
+     "quest": 63,
+     "to": "Q00063_PathOfTheWarder/30332-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Human Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00402_PathOfTheHumanKnight",
+     "kind": "quest",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30332-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path to Becoming a Lord - Gludio (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00708_PathToBecomingALordGludio",
+     "kind": "quest",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/30332-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Mutated Kaneus - Gludio]",
+     "bypass": "npc_%objectId%_Quest Q10276_MutatedKaneusGludio",
+     "kind": "quest",
+     "quest": 10276,
+     "to": "Q10276_MutatedKaneusGludio/30332-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Mutated Kaneus - Gludio (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10276_MutatedKaneusGludio",
+     "kind": "quest",
+     "quest": 10276,
+     "to": "Q10276_MutatedKaneusGludio/30332-05.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "guard/kamaloka_help.htm": {
+   "file": "guard/kamaloka_help.htm",
+   "quest": null,
+   "text": "Kamaloka is an invader from another world. We do not know precisely when it happened, but we discovered a sealed space, similar to a Dimensional Rift. We call it Kamaloka. To enter it, you must meet certain requirements. You cannot enter a basic Kamaloka alone. To fight alone, find the pathfinder t…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "guard/kamaloka_level.htm": {
+   "file": "guard/kamaloka_level.htm",
+   "quest": null,
+   "text": "According to research from the Ivory Tower, the established theory is that Kamaloka is from a dimensional overlapping in Aden's land. Kamaloka has stages of power based on the strength of a monster's soul. This is cutting edge science, and we don't fully understand it. So we introduce adventurers t…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

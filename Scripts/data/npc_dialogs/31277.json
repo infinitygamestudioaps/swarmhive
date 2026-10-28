@@ -1,0 +1,372 @@
+{
+ "npcId": 31277,
+ "name": "Felix",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.151Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/31277.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "70": {
+   "name": "Saga of the Phoenix Knight",
+   "listText": [
+    "[Saga of the Phoenix Knight]",
+    "[Saga of the Phoenix Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/2-01.htm",
+     "when": "cond 1; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/2-02.htm",
+     "when": "cond 2; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/2-03.htm",
+     "when": "cond 4; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/2-04.htm",
+     "when": "cond 5; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/11-01.htm",
+     "when": "cond 14; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/11-02.htm",
+     "when": "cond 15; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "73": {
+   "name": "Saga of the Duelist",
+   "listText": [
+    "[Saga of the Duelist]",
+    "[Saga of the Duelist (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00073_SagaOfTheDuelist/11-01.htm",
+     "when": "cond 14; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00073_SagaOfTheDuelist/11-02.htm",
+     "when": "cond 15; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/31277.htm": {
+   "file": "trainer/31277.htm",
+   "quest": null,
+   "text": "Master Felix: Goddard's warriors are known for their toughness and directness. Unlike those southern Knights with their courtly manners and elaborate rituals, our warriors have been shaped by hard fighting, dangerous beasts and unforgiving terrain...",
+   "header": "Master Felix",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/31277-noteach.htm": {
+   "file": "trainer/31277-noteach.htm",
+   "quest": null,
+   "text": "Master Felix: I won't waste my time to you! What gave you the idea to come here? Everyone, even the blockheads from Aden, know better than to bother me! Go find yourself a more suitable teacher!",
+   "header": "Master Felix",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/2-01.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/2-01.htm",
+   "quest": 70,
+   "text": "Master Felix: I used to have the pride of a Knight. I sacrificed it to save my family. Did Sedrick tell you I was the one who gave up everything and left? My wife has since died, and now my daughter is very sick.",
+   "header": "Master Felix",
+   "when": [
+    "cond 1; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What's wrong?\"",
+     "bypass": "Quest Q00070_SagaOfThePhoenixKnight 2-1",
+     "kind": "quest-event",
+     "script": "Q00070_SagaOfThePhoenixKnight",
+     "event": "2-1",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00070_SagaOfThePhoenixKnight/2-02.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/2-02.htm",
+   "quest": 70,
+   "text": "Master Felix: You don't have the Ice Cold Flower ? See Donath in the hot springs area of Goddard!",
+   "header": "Master Felix",
+   "when": [
+    "cond 2; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/2-03.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/2-03.htm",
+   "quest": 70,
+   "text": "Master Felix: Ice Cold Flower! I'll put this at her bedside when she sleeps. You must visit the six stone tablets placed by the gods around our world. The legendary Knight disappeared to undertake this pilgrimage! However...",
+   "header": "Master Felix",
+   "when": [
+    "cond 4; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00070_SagaOfThePhoenixKnight 2-2",
+     "kind": "quest-event",
+     "script": "Q00070_SagaOfThePhoenixKnight",
+     "event": "2-2",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00070_SagaOfThePhoenixKnight/2-04.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/2-04.htm",
+   "quest": 70,
+   "text": "Master Felix: Did you see the first stone tablet in the South of Tower of Insolence? I don't know about the Stone of Commune very well. However, Sedrick left this Stone of Commune with me long time ago... Go to the tablet. Then, commune with the first stone tablet! This is all I know now.",
+   "header": "Master Felix",
+   "when": [
+    "cond 5; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/11-01.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/11-01.htm",
+   "quest": 70,
+   "text": "Master Felix: You haven't finished yet? I really appreciated you saving my daughter. I'll never forget that you protected my family. The fifth Stone of Commune? Ah, yes. I have it, but I can't give this one to you. A Knight gave me this an hour ago and told me to tell the next Knight who visits me …",
+   "header": "Master Felix",
+   "when": [
+    "cond 14; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me how!\"",
+     "bypass": "Quest Q00070_SagaOfThePhoenixKnight 11-9",
+     "kind": "quest-event",
+     "script": "Q00070_SagaOfThePhoenixKnight",
+     "event": "11-9",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00070_SagaOfThePhoenixKnight/11-02.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/11-02.htm",
+   "quest": 70,
+   "text": "Master Felix: To get the stone, there are two ways. You can get it either by entering the Four Sepulchers or by slaying evil monsters in the Shrine of the Loyal by the Wall of Argos. Anyways, you must kill the Archon of Halisha . The Stone of Commune will let you know where the next tablet is.",
+   "header": "Master Felix",
+   "when": [
+    "cond 15; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/11-01.htm": {
+   "file": "Q00073_SagaOfTheDuelist/11-01.htm",
+   "quest": 73,
+   "text": "Master Felix: You seek the Stone of Commune? Are you the powerful Knight I envisioned would come to help me?",
+   "header": "Master Felix",
+   "when": [
+    "cond 14; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Maybe so.\"",
+     "bypass": "Quest Q00073_SagaOfTheDuelist 11-9",
+     "kind": "quest-event",
+     "script": "Q00073_SagaOfTheDuelist",
+     "event": "11-9",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00073_SagaOfTheDuelist/11-02.htm": {
+   "file": "Q00073_SagaOfTheDuelist/11-02.htm",
+   "quest": 73,
+   "text": "Master Felix: To get the Stone of Commune, you must kill the Archon of Halisha. Find him by entering the Sepulchers or by hunting down about 700 monsters at the Shrine of the Loyal.",
+   "header": "Master Felix",
+   "when": [
+    "cond 15; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/11-03.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/11-03.htm",
+   "quest": 70,
+   "text": "Master Felix: To get the Stone of Commune, you must kill the Archon of Halisha , either by entering the Four Sepulchers or by slaying evil monsters in the Shrine of the Loyal by the Wall of Argos. Both paths will be difficult! The fifth stone tablet is in the northwest corner of the Wall of Argos.",
+   "header": "Master Felix",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/2-05.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/2-05.htm",
+   "quest": 70,
+   "text": "Master Felix: My daughter has come down with Execution Grounds Fever. I need an Ice Cold Flower . Even if Sedrick has other plans for you, bring me one and I'll tell you what path to follow. Meet Chef Donath in the north, he'll help you get one.",
+   "header": "Master Felix",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/2-06.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/2-06.htm",
+   "quest": 70,
+   "text": "Master Felix: You saved my daughter's life! Sedrick is the only guild member to succeed in this quest. Take this stone and commune with the stone tablet, then you'll be able to read the inscriptions on it. The legendary Knight is the guardian of the stone tablets. He was cursed and bound to the tab…",
+   "header": "Master Felix",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/11-03.htm": {
+   "file": "Q00073_SagaOfTheDuelist/11-03.htm",
+   "quest": 73,
+   "text": "Master Felix: Let me tell you. The devil Halisha made the Imperial Tomb its home during the Elmoreden era. Feudal lords paid tribute to dead emperors there . One of the devil's minions, the Archon of Halisha, has the stone. It can be found somewhere inside the Four Sepulchers. If it proves too diff…",
+   "header": "Master Felix",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Phoenix Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00070_SagaOfThePhoenixKnight",
+     "kind": "quest",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/2-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Duelist (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00073_SagaOfTheDuelist",
+     "kind": "quest",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/11-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

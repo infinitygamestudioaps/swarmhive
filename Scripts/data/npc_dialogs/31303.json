@@ -1,0 +1,91 @@
+{
+ "npcId": 31303,
+ "name": "Alisha",
+ "title": "Armor Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.182Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31303.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31303.htm": {
+   "file": "merchant/31303.htm",
+   "quest": null,
+   "text": "Trader Alisha: You've come to the right place! I'm so pleased to see you here. Is there something you'd like to get a closer look of?",
+   "header": "Trader Alisha",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/31303-1.htm"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3130301",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/31303-1.htm": {
+   "file": "merchant/31303-1.htm",
+   "quest": null,
+   "text": "Trade Alisha: I have all kinds of goods over here.. If you have anything to sell, I also buy items for a very generous price! See anything you like, stranger?",
+   "header": "Trade Alisha",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3130300",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3130301",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3130302",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3130303",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/31303-pk.htm": {
+   "file": "merchant/31303-pk.htm",
+   "quest": null,
+   "text": "Trader Alisha: You're an evil man! Get out of here before I call my uncle Vladimir! Do you want to get your blood sucked by a vampire and live a hellish eternal life?",
+   "header": "Trader Alisha",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

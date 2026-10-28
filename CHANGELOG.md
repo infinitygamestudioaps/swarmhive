@@ -2,6 +2,23 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.12.3 (2026-10-28)
+
+- Selling: a second automatic seller is closed: the clan leader / collector took items marked on the sell list out of the clan warehouse and sold them every 5 min, and an interrupted sale continued after a restart - both now need the party switch 'Sell marked items (automatic)' (off by default, renamed from 'Sell junk on town visits', whose old text wrongly said old gear is sold)
+- your !whsell order still works. Supplies: one switch - with supply runs off nothing is bought by itself, also not when shots run out (warning only)
+- the separate 'shots-out supply run' switch is gone
+- new optional switches (default ON = as before): Death Penalty scrolls in Giran, supplies before automatic raid / Kamaloka missions. Fight with L2Swarm: the Hive no longer stops a party member's own L2Swarm combat every 2 s (Start Combat switched itself off)
+- it restarts it after its own stops and notes every stop. Spoilers: one answer per Spoil cast (no recast before the answer, no target switch mid-Spoil / Sweeper), the Spoil page shows resisted / no answer / already spoiled. Accounts: a Brain connection check after Add account (name spelling, allow list, agent2) with the exact fix. Distributors: give each distributor its grades on the Gear page
+- with the new switch (off by default) the collector hands marked gear to the matching distributor in Giran ('give to the distributor for its grade'). Hunting: monsters nobody targeted yet (HP 0) are no longer treated as dead. Quests: full NPC dialogues (every page and answer, live server text preferred) incl. choice pages
+- multi-stage quests
+- correct item counts
+- walks instead of paying for .town + gatekeeper when near
+- quest-spawned NPCs
+- long hunts
+- Kamaloka boss steps
+- asks before buying a quest item (!quest buy yes|no)
+- a quest jumping between two stages stops with a reason. Hands off: shown clearly, ignored party orders say 'skipped (hands off)', a race that switched assist off is fixed. NPC mapper (!npcmap) reads only, where the character stands. Dashboard shows its version in the header. New dungeon: Forgotten Temple. Works with L2Swarm 3.10.8.
+
 ## v1.12.2 (2026-10-27)
 
 - L2Swarm 3.10.7 fixes: (1) account files written by older versions are refused at login ('The account options XML does not match the internal schema ... CombatSkill/RepeatDelaySeconds'): update.cmd now moves RepeatDelaySeconds to where 3.10.7 expects it in every Settings\*.xml (backup first)

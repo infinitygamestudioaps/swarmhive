@@ -2,7 +2,7 @@
  "id": 175,
  "name": "The Way of the Warrior",
  "version": 1,
- "generated": "2026-10-27T11:15:14.071Z",
+ "generated": "2026-10-27T18:18:49.453Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 10,
@@ -23,7 +23,7 @@
  ],
  "status": "ready",
  "reasons": [],
- "expectedMin": 18,
+ "expectedMin": 32,
  "refLevel": 10,
  "steps": [
   {
@@ -246,249 +246,11 @@
   },
   {
    "i": 1,
-   "key": "c1:deliver:32138",
-   "cond": 1,
-   "kind": "deliver",
-   "to": "end",
-   "links": [
-    "Show him the claws."
-   ],
-   "npc": {
-    "id": 32138,
-    "name": "Kekropus",
-    "title": "Hierarch",
-    "town": "Kamael Village",
-    "at": [
-     -118080,
-     42835,
-     712
-    ],
-    "alt": []
-   },
-   "text": "Bring Muertos Claw to Kekropus",
-   "needs": [
-    {
-     "id": 9808,
-     "name": "Muertos Claw",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:32138@-118080,42835",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 5820,
-    "sec": 94,
-    "via": ".gludio > Gludio -> Kamael Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> Kamael Village",
-      "link": "kamael village",
-      "price": 12000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 5820,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> Kamael Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -117251,
-      46771,
-      360
-     ],
-     [
-      -117256,
-      46776,
-      360
-     ],
-     [
-      -117208,
-      46520,
-      360
-     ],
-     [
-      -117096,
-      46264,
-      360
-     ],
-     [
-      -117048,
-      45992,
-      360
-     ],
-     [
-      -117048,
-      45944,
-      360
-     ],
-     [
-      -117080,
-      45800,
-      360
-     ],
-     [
-      -117128,
-      45528,
-      360
-     ],
-     [
-      -117304,
-      45320,
-      360
-     ],
-     [
-      -117528,
-      45240,
-      360
-     ],
-     [
-      -117704,
-      45032,
-      360
-     ],
-     [
-      -117880,
-      44840,
-      400
-     ],
-     [
-      -118072,
-      44696,
-      448
-     ],
-     [
-      -117976,
-      44664,
-      464
-     ],
-     [
-      -117784,
-      44472,
-      528
-     ],
-     [
-      -117560,
-      44312,
-      544
-     ],
-     [
-      -117304,
-      44312,
-      536
-     ],
-     [
-      -117112,
-      44120,
-      536
-     ],
-     [
-      -117112,
-      43848,
-      544
-     ],
-     [
-      -117144,
-      43576,
-      544
-     ],
-     [
-      -117320,
-      43496,
-      544
-     ],
-     [
-      -117592,
-      43512,
-      544
-     ],
-     [
-      -117736,
-      43512,
-      544
-     ],
-     [
-      -117736,
-      43480,
-      544
-     ],
-     [
-      -117736,
-      43208,
-      576
-     ],
-     [
-      -117752,
-      42936,
-      680
-     ],
-     [
-      -117928,
-      42888,
-      704
-     ],
-     [
-      -118072,
-      42840,
-      712
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 119,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8
-   ]
-  },
-  {
-   "i": 2,
    "key": "c1:talk:32133",
    "cond": 1,
    "kind": "talk",
-   "to": 6,
-   "links": [
-    "\"I'm ready.\""
-   ],
+   "to": 2,
+   "links": [],
    "npc": {
     "id": 32133,
     "name": "Perwan",
@@ -755,17 +517,11 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    7,
-    8
+    1
    ]
   },
   {
-   "i": 3,
+   "i": 2,
    "key": "c2:hunt",
    "cond": 2,
    "kind": "hunt",
@@ -1134,14 +890,1017 @@
    "expectedSec": 441,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "hunt"
    },
    "conds": [
     2
    ]
   },
   {
+   "i": 3,
+   "key": "c3:deliver:32133",
+   "cond": 3,
+   "kind": "deliver",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 32133,
+    "name": "Perwan",
+    "title": "Vice Hierarch",
+    "town": "Kamael Village",
+    "at": [
+     -125872,
+     38208,
+     1232
+    ],
+    "alt": []
+   },
+   "text": "Bring Wolf Tail to Perwan",
+   "needs": [
+    {
+     "id": 9807,
+     "name": "Wolf Tail",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:kamael-village-outskirts-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 14244,
+    "sec": 163,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10714,
+      "how": "field-areas",
+      "danger": 1
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -118248,
+      46536,
+      368
+     ],
+     [
+      -118552,
+      46232,
+      360
+     ],
+     [
+      -119544,
+      45352,
+      360
+     ],
+     [
+      -120536,
+      44360,
+      400
+     ],
+     [
+      -121528,
+      43368,
+      704
+     ],
+     [
+      -122248,
+      42648,
+      936
+     ],
+     [
+      -122376,
+      42376,
+      952
+     ],
+     [
+      -122376,
+      41384,
+      1088
+     ],
+     [
+      -121512,
+      40392,
+      1304
+     ],
+     [
+      -120696,
+      39576,
+      1408
+     ],
+     [
+      -120456,
+      39320,
+      1408
+     ],
+     [
+      -122440,
+      38216,
+      1432
+     ],
+     [
+      -122616,
+      38120,
+      1432
+     ],
+     [
+      -123608,
+      38136,
+      1232
+     ],
+     [
+      -124104,
+      38136,
+      1176
+     ],
+     [
+      -124856,
+      38424,
+      1208
+     ],
+     [
+      -125304,
+      38392,
+      1208
+     ],
+     [
+      -125864,
+      38216,
+      1232
+     ]
+    ],
+    "maxDanger": 1,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 1,
+     "dangerVsLevel": -9,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:kamael-village-outskirts-5",
+     "name": "Kamael Village outskirts 5: Young Grey Keltir area (north-west)"
+    },
+    "points": [
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -118248,
+      46536,
+      368
+     ],
+     [
+      -118552,
+      46232,
+      360
+     ],
+     [
+      -119544,
+      45352,
+      360
+     ],
+     [
+      -120536,
+      44360,
+      400
+     ],
+     [
+      -121528,
+      43368,
+      704
+     ],
+     [
+      -122248,
+      42648,
+      936
+     ],
+     [
+      -122376,
+      42376,
+      952
+     ],
+     [
+      -122376,
+      41384,
+      1088
+     ],
+     [
+      -121512,
+      40392,
+      1304
+     ],
+     [
+      -120696,
+      39576,
+      1408
+     ],
+     [
+      -120456,
+      39320,
+      1408
+     ],
+     [
+      -122440,
+      38216,
+      1432
+     ],
+     [
+      -122616,
+      38120,
+      1432
+     ],
+     [
+      -123608,
+      38136,
+      1232
+     ],
+     [
+      -124104,
+      38136,
+      1176
+     ],
+     [
+      -124856,
+      38424,
+      1208
+     ],
+     [
+      -125304,
+      38392,
+      1208
+     ],
+     [
+      -125864,
+      38216,
+      1232
+     ]
+    ]
+   },
+   "expectedSec": 188,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
    "i": 4,
+   "key": "c4:talk:32138",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 32138,
+    "name": "Kekropus",
+    "title": "Hierarch",
+    "town": "Kamael Village",
+    "at": [
+     -118080,
+     42835,
+     712
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kekropus",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32138@-118080,42835",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5820,
+    "sec": 94,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5820,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117208,
+      46520,
+      360
+     ],
+     [
+      -117096,
+      46264,
+      360
+     ],
+     [
+      -117048,
+      45992,
+      360
+     ],
+     [
+      -117048,
+      45944,
+      360
+     ],
+     [
+      -117080,
+      45800,
+      360
+     ],
+     [
+      -117128,
+      45528,
+      360
+     ],
+     [
+      -117304,
+      45320,
+      360
+     ],
+     [
+      -117528,
+      45240,
+      360
+     ],
+     [
+      -117704,
+      45032,
+      360
+     ],
+     [
+      -117880,
+      44840,
+      400
+     ],
+     [
+      -118072,
+      44696,
+      448
+     ],
+     [
+      -117976,
+      44664,
+      464
+     ],
+     [
+      -117784,
+      44472,
+      528
+     ],
+     [
+      -117560,
+      44312,
+      544
+     ],
+     [
+      -117304,
+      44312,
+      536
+     ],
+     [
+      -117112,
+      44120,
+      536
+     ],
+     [
+      -117112,
+      43848,
+      544
+     ],
+     [
+      -117144,
+      43576,
+      544
+     ],
+     [
+      -117320,
+      43496,
+      544
+     ],
+     [
+      -117592,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43480,
+      544
+     ],
+     [
+      -117736,
+      43208,
+      576
+     ],
+     [
+      -117752,
+      42936,
+      680
+     ],
+     [
+      -117928,
+      42888,
+      704
+     ],
+     [
+      -118072,
+      42840,
+      712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 119,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:32133",
+   "cond": 5,
+   "kind": "talk",
+   "to": 6,
+   "links": [
+    "\"I'm ready.\""
+   ],
+   "npc": {
+    "id": 32133,
+    "name": "Perwan",
+    "title": "Vice Hierarch",
+    "town": "Kamael Village",
+    "at": [
+     -125872,
+     38208,
+     1232
+    ],
+    "alt": []
+   },
+   "text": "Talk to Perwan",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:kamael-village-outskirts-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 14244,
+    "sec": 163,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10714,
+      "how": "field-areas",
+      "danger": 1
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -118248,
+      46536,
+      368
+     ],
+     [
+      -118552,
+      46232,
+      360
+     ],
+     [
+      -119544,
+      45352,
+      360
+     ],
+     [
+      -120536,
+      44360,
+      400
+     ],
+     [
+      -121528,
+      43368,
+      704
+     ],
+     [
+      -122248,
+      42648,
+      936
+     ],
+     [
+      -122376,
+      42376,
+      952
+     ],
+     [
+      -122376,
+      41384,
+      1088
+     ],
+     [
+      -121512,
+      40392,
+      1304
+     ],
+     [
+      -120696,
+      39576,
+      1408
+     ],
+     [
+      -120456,
+      39320,
+      1408
+     ],
+     [
+      -122440,
+      38216,
+      1432
+     ],
+     [
+      -122616,
+      38120,
+      1432
+     ],
+     [
+      -123608,
+      38136,
+      1232
+     ],
+     [
+      -124104,
+      38136,
+      1176
+     ],
+     [
+      -124856,
+      38424,
+      1208
+     ],
+     [
+      -125304,
+      38392,
+      1208
+     ],
+     [
+      -125864,
+      38216,
+      1232
+     ]
+    ],
+    "maxDanger": 1,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 1,
+     "dangerVsLevel": -9,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:kamael-village-outskirts-5",
+     "name": "Kamael Village outskirts 5: Young Grey Keltir area (north-west)"
+    },
+    "points": [
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -118248,
+      46536,
+      368
+     ],
+     [
+      -118552,
+      46232,
+      360
+     ],
+     [
+      -119544,
+      45352,
+      360
+     ],
+     [
+      -120536,
+      44360,
+      400
+     ],
+     [
+      -121528,
+      43368,
+      704
+     ],
+     [
+      -122248,
+      42648,
+      936
+     ],
+     [
+      -122376,
+      42376,
+      952
+     ],
+     [
+      -122376,
+      41384,
+      1088
+     ],
+     [
+      -121512,
+      40392,
+      1304
+     ],
+     [
+      -120696,
+      39576,
+      1408
+     ],
+     [
+      -120456,
+      39320,
+      1408
+     ],
+     [
+      -122440,
+      38216,
+      1432
+     ],
+     [
+      -122616,
+      38120,
+      1432
+     ],
+     [
+      -123608,
+      38136,
+      1232
+     ],
+     [
+      -124104,
+      38136,
+      1176
+     ],
+     [
+      -124856,
+      38424,
+      1208
+     ],
+     [
+      -125304,
+      38392,
+      1208
+     ],
+     [
+      -125864,
+      38216,
+      1232
+     ]
+    ]
+   },
+   "expectedSec": 188,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c6:talk:32138",
+   "cond": 6,
+   "kind": "talk",
+   "to": 7,
+   "links": [
+    "\"I am ready.\""
+   ],
+   "npc": {
+    "id": 32138,
+    "name": "Kekropus",
+    "title": "Hierarch",
+    "town": "Kamael Village",
+    "at": [
+     -118080,
+     42835,
+     712
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kekropus",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32138@-118080,42835",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5820,
+    "sec": 94,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5820,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117208,
+      46520,
+      360
+     ],
+     [
+      -117096,
+      46264,
+      360
+     ],
+     [
+      -117048,
+      45992,
+      360
+     ],
+     [
+      -117048,
+      45944,
+      360
+     ],
+     [
+      -117080,
+      45800,
+      360
+     ],
+     [
+      -117128,
+      45528,
+      360
+     ],
+     [
+      -117304,
+      45320,
+      360
+     ],
+     [
+      -117528,
+      45240,
+      360
+     ],
+     [
+      -117704,
+      45032,
+      360
+     ],
+     [
+      -117880,
+      44840,
+      400
+     ],
+     [
+      -118072,
+      44696,
+      448
+     ],
+     [
+      -117976,
+      44664,
+      464
+     ],
+     [
+      -117784,
+      44472,
+      528
+     ],
+     [
+      -117560,
+      44312,
+      544
+     ],
+     [
+      -117304,
+      44312,
+      536
+     ],
+     [
+      -117112,
+      44120,
+      536
+     ],
+     [
+      -117112,
+      43848,
+      544
+     ],
+     [
+      -117144,
+      43576,
+      544
+     ],
+     [
+      -117320,
+      43496,
+      544
+     ],
+     [
+      -117592,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43480,
+      544
+     ],
+     [
+      -117736,
+      43208,
+      576
+     ],
+     [
+      -117752,
+      42936,
+      680
+     ],
+     [
+      -117928,
+      42888,
+      704
+     ],
+     [
+      -118072,
+      42840,
+      712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 119,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 7,
    "key": "c7:hunt",
    "cond": 7,
    "kind": "hunt",
@@ -1215,7 +1974,7 @@
     {
      "id": 9808,
      "name": "Muertos Claw",
-     "n": 1,
+     "n": 10,
      "from": [
       {
        "id": 22235,
@@ -1257,7 +2016,7 @@
    ],
    "kills": 1,
    "reasons": [],
-   "text": "Hunt Mountain Werewolf, Muertos Archer, Muertos Guard for Muertos Claw x1",
+   "text": "Hunt Mountain Werewolf, Muertos Archer, Muertos Guard for Muertos Claw x10",
    "places": [
     {
      "mobs": [
@@ -1597,13 +2356,242 @@
      "aggro": []
     }
    },
-   "expectedSec": 216,
+   "expectedSec": 441,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "hunt"
    },
    "conds": [
     7
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c8:deliver:32138",
+   "cond": 8,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Show him the claws."
+   ],
+   "npc": {
+    "id": 32138,
+    "name": "Kekropus",
+    "title": "Hierarch",
+    "town": "Kamael Village",
+    "at": [
+     -118080,
+     42835,
+     712
+    ],
+    "alt": []
+   },
+   "text": "Bring Muertos Claw to Kekropus",
+   "needs": [
+    {
+     "id": 9808,
+     "name": "Muertos Claw",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32138@-118080,42835",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5820,
+    "sec": 94,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5820,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117208,
+      46520,
+      360
+     ],
+     [
+      -117096,
+      46264,
+      360
+     ],
+     [
+      -117048,
+      45992,
+      360
+     ],
+     [
+      -117048,
+      45944,
+      360
+     ],
+     [
+      -117080,
+      45800,
+      360
+     ],
+     [
+      -117128,
+      45528,
+      360
+     ],
+     [
+      -117304,
+      45320,
+      360
+     ],
+     [
+      -117528,
+      45240,
+      360
+     ],
+     [
+      -117704,
+      45032,
+      360
+     ],
+     [
+      -117880,
+      44840,
+      400
+     ],
+     [
+      -118072,
+      44696,
+      448
+     ],
+     [
+      -117976,
+      44664,
+      464
+     ],
+     [
+      -117784,
+      44472,
+      528
+     ],
+     [
+      -117560,
+      44312,
+      544
+     ],
+     [
+      -117304,
+      44312,
+      536
+     ],
+     [
+      -117112,
+      44120,
+      536
+     ],
+     [
+      -117112,
+      43848,
+      544
+     ],
+     [
+      -117144,
+      43576,
+      544
+     ],
+     [
+      -117320,
+      43496,
+      544
+     ],
+     [
+      -117592,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43480,
+      544
+     ],
+     [
+      -117736,
+      43208,
+      576
+     ],
+     [
+      -117752,
+      42936,
+      680
+     ],
+     [
+      -117928,
+      42888,
+      704
+     ],
+     [
+      -118072,
+      42840,
+      712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 119,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
    ]
   }
  ],
@@ -1611,7 +2599,7 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:14.305Z",
+  "at": "2026-10-27T18:18:49.558Z",
   "pass": true,
   "geo": true,
   "fails": [],

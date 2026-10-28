@@ -1,0 +1,190 @@
+{
+ "npcId": 30230,
+ "name": "Edroc",
+ "title": "Armor Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.914Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30230.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "214": {
+   "name": "Trial Of The Scholar",
+   "listText": [
+    "[Trial of the Scholar]",
+    "[Trial of the Scholar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00214_TrialOfTheScholar/30230-01.html",
+     "when": "state STARTED; has items 2703,2702",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30230-03.html",
+     "when": "state STARTED; has items 2703,2704; lacks items 2702",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30230-04.html",
+     "when": "state STARTED; has items 2703,2713,2705; lacks items 2702,2704",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30230.htm": {
+   "file": "merchant/30230.htm",
+   "quest": null,
+   "text": "Trader Edroc: Is this your first time in Hunters Village? Then let me give you a bit of information about this town... Originally, hunters chasing rare prey broke new ground in this village. By rare game, I mean creatures that were difficult and dangerous to hunt. So don't imagine people catching r…",
+   "header": "Trader Edroc",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30230-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3023000",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3023001",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30230-1.htm": {
+   "file": "merchant/30230-1.htm",
+   "quest": null,
+   "text": "Trader Edroc: Can I sell you something, friend? Please tell me if you see something you like.",
+   "header": "Trader Edroc",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3023000",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3023001",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3023002",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3023003",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/30230-pk.htm": {
+   "file": "merchant/30230-pk.htm",
+   "quest": null,
+   "text": "Trader Edroc: You must leave this place immediately. There are far too many Bounty Hunters around here... If you are discovered you will be killed instantly!",
+   "header": "Trader Edroc",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30230-01.html": {
+   "file": "Q00214_TrialOfTheScholar/30230-01.html",
+   "quest": 214,
+   "text": "Trader Edroc: Ah, a letter from Dieter! Dieter the crybaby! Of course I remember him! Did you say that he became a teacher at the School of Wizardry? Oh, my! He did better than I expected he would... He used to cry like a baby after being scolded by Cronos the wise, and I always had to cheer him up…",
+   "header": "Trader Edroc",
+   "when": [
+    "state STARTED; has items 2703,2702"
+   ],
+   "links": [
+    {
+     "text": "\"It is all in the letter.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30230-02.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30230-02.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30230-02.html",
+     "effect": "cond:24"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30230-03.html": {
+   "file": "Q00214_TrialOfTheScholar/30230-03.html",
+   "quest": 214,
+   "text": "Trader Edroc: What did you do with the envelope? I hope Dieter finds the book soon so that he will stop crying. Oh, yes, I remember... You said he is a good teacher now. Ha ha!",
+   "header": "Trader Edroc",
+   "when": [
+    "state STARTED; has items 2703,2704; lacks items 2702"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30230-04.html": {
+   "file": "Q00214_TrialOfTheScholar/30230-04.html",
+   "quest": 214,
+   "text": "Trader Edroc: Did you find the book? Please help Dieter!",
+   "header": "Trader Edroc",
+   "when": [
+    "state STARTED; has items 2703,2713,2705; lacks items 2702,2704"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30230-02.html": {
+   "file": "Q00214_TrialOfTheScholar/30230-02.html",
+   "quest": 214,
+   "text": "Trader Edroc: The letter! Oh, yes, yes... It was probably 20 years ago but I do remember. There was a big fuss about a stolen book, and the burglar... Yes, he sure seemed strange to me as well. Back then, the atmosphere was very tense between the Dwarves, Dark Elves and Humans. What? The far west..…",
+   "header": "Trader Edroc",
+   "sets": {
+    "cond": "24"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Scholar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00214_TrialOfTheScholar",
+     "kind": "quest",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30230-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

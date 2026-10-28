@@ -119,6 +119,24 @@
     try { GP.auto = await api('/api/gearauto'); } catch (e) { GP.auto = null; }
     renderAuto();
   }
+  // GEARPASS-2026-10-27 (tester Vykaax: "I want the collector to grab everything from the parties ... and then hand off certain things to certain
+  // distributors"; owner "Yes"): the grades (+ kinds) each distributor holds, the switch "Collector passes gear to the distributors" (default OFF),
+  // and the collector's live report (Logs/gear_pass.json): waiting for N per distributor, what stays with the collector and why.
+  const DIST_GRADES = ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'], DIST_KINDS = ['weapon', 'armor', 'jewel'];
+  function distPassHtml(S, sw) {
+    const names = S.names || [], G = S.grades || {}, K = S.kinds || {}, st = S.passStatus || null, W = (st && st.waiting) || {};
+    if (!names.length) return '';
+    const rows = names.map(n => `<div class="gp-autor gp-distrow" data-gpdistrow="${esc(n)}"><b>${esc(n)}</b>
+        <span class="gp-distg" role="group" aria-label="${esc(n)} holds these grades">${DIST_GRADES.map(g => `<label class="gp-autoopt"><input type="checkbox" data-gpdgrade="${esc(n)}|${g}" ${(G[n] || []).includes(g) ? 'checked' : ''}> ${g === 'NONE' ? 'no-grade' : g}</label>`).join('')}</span>
+        <span class="gp-distk" role="group" aria-label="${esc(n)} kinds (none ticked = all)">${DIST_KINDS.map(k => `<label class="gp-autoopt"><input type="checkbox" data-gpdkind="${esc(n)}|${k}" ${(K[n] || []).includes(k) ? 'checked' : ''}> ${k}s</label>`).join('')}</span>
+        <span class="muted gp-distw">${(G[n] || []).length ? 'holds ' + (G[n] || []).join(', ') + ((K[n] || []).length ? ' (' + K[n].join(', ') + ')' : '') : 'no grade picked: gets nothing'} · waiting for: ${Number(W[n]) || 0}</span></div>`).join('');
+    const stay = st && st.on && (st.stay || []).length ? `<div class="muted gp-diststay">With the collector${st.collector ? ' (' + esc(st.collector) + ')' : ''}: ${st.stay.slice(0, 8).map(x => `${esc(x.name)} (${esc(x.grade)}): ${esc(x.why)}`).join(' · ')}${st.stay.length > 8 ? ' · +' + (st.stay.length - 8) + ' more' : ''}</div>` : '';
+    const last = st && (st.last || []).length ? `<div class="muted gp-distlast">Last: ${st.last.slice(-5).reverse().map(x => `${esc(x.name)} (${esc(x.grade)}) → ${esc(x.to)}`).join(' · ')}</div>` : '';
+    return `<div class="gp-autotop gp-distpass" title="Gear you mark for the distributors (item pop-up: otherwise → give to the distributor for its grade, or 'Other replaced gear' → to the distributor) goes to the collector at the next hand-over; the collector, idle in Giran, hands each piece to the nearest idle distributor holding its grade. Never +10 or higher, never worn or quest items, never unmarked gear. Nothing is sold."><b>Collector → distributors:</b>
+        ${sw(!!S.pass, 'data-gppass="1"', 'Collector passes gear to the distributors: ' + (S.pass ? 'ON' : 'OFF'))}
+        <span class="muted">${S.pass ? 'marked gear goes collector → the distributor of its grade (both idle in Giran)' : 'Off — nothing changes until you switch it on'}${(S.marked || []).length ? ' · ' + S.marked.length + ' item kind(s) marked' : ''}</span></div>
+      ${rows}${stay}${last}`;
+  }
   function renderAuto() {
     const el = $id('gpAuto'), A = GP.auto; if (!el) return;
     if (!A || A.error) { el.innerHTML = '<div class="muted">Not available (restart the dashboard server once after the update).</div>'; return; }
@@ -133,14 +151,15 @@
       ${A.oldGear ? (() => { const O = A.oldGear, K = A.oldGearKeys || ['NONE', 'D', 'C', 'B', 'A', 'S', 'enchanted', 'special'];   // OLDGEAR-2026-10-26: optional, default keep (= today)
         const lab = { NONE: 'no-grade', D: 'D', C: 'C', B: 'B', A: 'A', S: 'S', enchanted: 'enchanted (+1 and up)', special: 'with a Special Ability' };
         return `<div class="gp-autotop" title="What happens to a piece an upgrade (Upgrade order or gear-up) replaced. Starter pieces follow the 'replaced starter gear' choice. Keep = it stays in the character's bag (default). Collector = handed to the Storage page's collector when he stands in the same town and is free; otherwise it is kept. Never sold."><b>Other replaced gear:</b>
-          ${K.map(k => `<label class="gp-autoopt">${esc(lab[k] || k)} <select data-gpoldgear="${esc(k)}" aria-label="replaced ${esc(lab[k] || k)} gear"><option value="keep" ${O[k] !== 'collector' ? 'selected' : ''}>keep in the bag</option><option value="collector" ${O[k] === 'collector' ? 'selected' : ''}>to the collector</option></select></label>`).join('')}
+          ${K.map(k => `<label class="gp-autoopt">${esc(lab[k] || k)} <select data-gpoldgear="${esc(k)}" aria-label="replaced ${esc(lab[k] || k)} gear"><option value="keep" ${O[k] !== 'collector' && O[k] !== 'distributor' ? 'selected' : ''}>keep in the bag</option><option value="collector" ${O[k] === 'collector' ? 'selected' : ''}>to the collector</option><option value="distributor" ${O[k] === 'distributor' ? 'selected' : ''}>to the distributor for its grade</option></select></label>`).join('')}
           <span class="muted">${A.collector ? 'collector: ' + esc(A.collector) : 'no collector switched on (Storage page): everything is kept'} · never sold</span></div>`; })() : ''}
       ${(() => { const S = A.sources || {}, all = [].concat(...A.parties.map(p => p.members.map(m => m.name)));   // GEARDIST-2026-10-25
         return `<div class="gp-autotop" title="Before buying, the gear-up takes a planned piece from these, without asking (your choice 2026-10-25). A giver reserves the piece, so two characters never wait for the same one."><b>Before buying, use:</b>
           ${sw(S.ownWh, 'data-gpsrc="ownWh"', 'own bag + warehouse')}${sw(S.clan, 'data-gpsrc="clan"', 'clan warehouse')}${sw(S.bags, 'data-gpsrc="bags"', 'spare pieces of every character (in Giran)')}${sw(S.dist, 'data-gpsrc="dist"', 'distributors')}${sw(S.unseal, 'data-gpsrc="unseal"', 'sealed pieces (unseal at Pushkin)')}</div>
         <div class="gp-autotop" title="Gear mules: they wait in Giran (near a warehouse keeper) and hand out pieces from their bags to whoever's gear-up needs them."><b>Distributors:</b>
           ${(S.names || []).map(n => `<button class="gp-sw on" data-gpdist="${esc(n)}" title="remove">${esc(n)} ✕</button>`).join('') || '<span class="muted">none yet</span>'}
-          <select data-gpdistadd aria-label="add a distributor"><option value="">+ add…</option>${all.filter(n => !(S.names || []).includes(n)).sort().map(n => `<option>${esc(n)}</option>`).join('')}</select></div>`; })()}
+          <select data-gpdistadd aria-label="add a distributor"><option value="">+ add…</option>${all.filter(n => !(S.names || []).includes(n)).sort().map(n => `<option>${esc(n)}</option>`).join('')}</select></div>
+        ${distPassHtml(S, sw)}`; })()}
       <div class="gp-autotop" title="Nobody buys gear of these grades: weapons, armor and jewels, every class, also pieces named in a gear plan. What they already wear stays on."><b>Never buy these grades:</b> ${['D', 'C', 'B', 'A', 'S'].map(gr => `<label class="gp-autoopt"><input type="checkbox" data-gpskipgrade="${gr}" ${(A.skipGrades || []).includes(gr) ? 'checked' : ''}> ${gr}</label>`).join('')}<span class="muted">everyone skips them (weapons, armor, jewels)</span></div>
       ${A.parties.map(p => `<div class="gp-autop"><div class="gp-autoph"><b>Party ${esc(p.leader)}</b>
           <select data-gpautoparty="${esc(p.leader)}" aria-label="party ${esc(p.leader)} auto upgrades"><option value="" ${p.auto === null ? 'selected' : ''}>as everyone</option><option value="on" ${p.auto === true ? 'selected' : ''}>ON</option><option value="off" ${p.auto === false ? 'selected' : ''}>OFF</option></select></div>
@@ -544,6 +563,9 @@
     const t = e.target;
     // GEARDIST-2026-10-25: the gear-up sources (own warehouse / clan warehouse / distributors / sealed) + removing a distributor
     const gs = t.closest('[data-gpsrc]'); if (gs) { const k = gs.dataset.gpsrc, S = (GP.auto && GP.auto.sources) || {}, to = !S[k]; await saveAuto({ scope: 'sources', [k]: to }, { ownWh: 'Own bag + warehouse', clan: 'Clan warehouse', bags: 'Spare pieces of every character', dist: 'Distributors', unseal: 'Sealed pieces' }[k] + ' before buying: ' + (to ? 'ON' : 'OFF'), ''); return; }
+    const gpp = t.closest('[data-gppass]'); if (gpp) { const S = (GP.auto && GP.auto.sources) || {}, to = !S.pass;   // GEARPASS-2026-10-27
+      if (to && !await uiConfirm({ title: 'Collector passes gear to the distributors?', body: [uiP('Gear you marked for the distributors goes to the collector at the next hand-over (as today). The collector, idle in Giran, then hands each piece to the nearest idle distributor that holds its grade.'), uiNote('Never +10 or higher, never worn or quest items, never gear you did not mark. Nothing is sold. No matching distributor = it stays with the collector and the page says why.')], confirmText: 'Switch on', cancelText: 'Cancel' })) return;
+      await saveAuto({ scope: 'sources', pass: to }, 'Collector passes gear to the distributors: ' + (to ? 'ON' : 'OFF'), ''); return; }
     const gdel = t.closest('[data-gpdist]'); if (gdel) { const S = (GP.auto && GP.auto.sources) || {}, n = gdel.dataset.gpdist; await saveAuto({ scope: 'sources', names: (S.names || []).filter(x => x !== n) }, n + ' is no distributor any more', ''); return; }
     const ga = t.closest('[data-gpauto]'); if (ga) { const to = !(GP.auto && GP.auto.default); await saveAuto({ scope: 'default', auto: to }, 'Auto gear upgrades for everyone: ' + (to ? 'ON' : 'OFF'), to ? 'Every character without its own choice buys gear upgrades by itself.' : ''); return; }
     if (t.closest('#gpClsBtn')) { GP.drawer = !GP.drawer; renderHead(); if (GP.drawer) { const q = $id('gpClsQ'); if (q && window.matchMedia('(pointer: fine)').matches) q.focus({ preventScroll: true }); } return; }
@@ -643,12 +665,17 @@
     if (d.gpautolock !== undefined) { saveAuto({ scope: 'char', name: d.gpautolock, lock: e.target.checked }, d.gpautolock + ': ' + (e.target.checked ? 'equipment LOCKED (nothing is bought or swapped)' : 'lock removed'), ''); return; }
     if (d.gpskipgrade) { const L = [...document.querySelectorAll('[data-gpskipgrade]')].filter(x => x.checked).map(x => x.dataset.gpskipgrade); saveAuto({ scope: 'policy', skipGrades: L }, L.length ? 'saved: never buys ' + L.join(', ') + '-grade' : 'saved: every grade may be bought', ''); return; }   // SKIPGRADE-2026-10-14
     if (d.gpautopol) { saveAuto({ scope: 'policy', [d.gpautopol]: e.target.checked }, 'saved', ''); return; }
+    if (d.gpdgrade || d.gpdkind) {                                               // GEARPASS-2026-10-27: grades / kinds per distributor
+      const key = d.gpdgrade ? 'grades' : 'kinds', n = String(d.gpdgrade || d.gpdkind).split('|')[0], attr = d.gpdgrade ? 'data-gpdgrade' : 'data-gpdkind';
+      const L = [...document.querySelectorAll(`[${attr}]`)].filter(x => x.checked && x.getAttribute(attr).split('|')[0] === n).map(x => x.getAttribute(attr).split('|')[1]);
+      saveAuto({ scope: 'sources', [key]: { [n]: L } }, `${n} holds: ${L.length ? L.join(', ') : key === 'grades' ? 'no grade (gets nothing)' : 'all kinds'}`, ''); return; }
     if (d.gpdistadd !== undefined && e.target.value) { const S = (GP.auto && GP.auto.sources) || {}; saveAuto({ scope: 'sources', names: (S.names || []).concat(e.target.value) }, e.target.value + ' is a distributor now: it hands out gear from its bag in Giran', ''); return; }   // GEARDIST
     if (d.gpoldgear) {                                                            // OLDGEAR-2026-10-26: replaced (non-starter) gear keep | collector, per grade
-      const k = d.gpoldgear, v = e.target.value === 'collector' ? 'collector' : 'keep', col = (GP.auto && GP.auto.collector) || '';
+      const k = d.gpoldgear, v = e.target.value === 'collector' ? 'collector' : e.target.value === 'distributor' ? 'distributor' : 'keep', col = (GP.auto && GP.auto.collector) || '';
       (async () => {
         if (v === 'collector' && !await uiConfirm({ title: 'Give replaced gear to the collector?', body: [uiP(`After an upgrade, a replaced ${k === 'enchanted' ? 'enchanted' : k === 'special' ? 'Special Ability' : k === 'NONE' ? 'no-grade' : k + '-grade'} piece is handed to the collector${col ? ' (' + col + ')' : ''} instead of staying in the character's bag.`), uiNote('Only when the collector stands in the same town and is free; otherwise it is kept. Starter pieces follow their own choice. Nothing is ever sold.')], confirmText: 'Give to the collector', cancelText: 'Cancel' })) { renderAuto(); return; }
-        saveAuto({ scope: 'policy', oldGear: { [k]: v } }, `Replaced ${k} gear: ${v === 'collector' ? 'to the collector' : 'kept in the bag'}`, '');
+        if (v === 'distributor' && !await uiConfirm({ title: 'Replaced gear to the distributor of its grade?', body: [uiP(`After an upgrade, a replaced ${k === 'enchanted' ? 'enchanted' : k === 'special' ? 'Special Ability' : k === 'NONE' ? 'no-grade' : k + '-grade'} piece is handed to the collector${col ? ' (' + col + ')' : ''}; the collector then passes it to the distributor that holds its grade.`), uiNote('Needs the switch "Collector passes gear to the distributors" and a distributor with that grade (Distributors row). Never +10 or higher. Nothing is ever sold.')], confirmText: 'To the distributor', cancelText: 'Cancel' })) { renderAuto(); return; }   // GEARPASS-2026-10-27
+        saveAuto({ scope: 'policy', oldGear: { [k]: v } }, `Replaced ${k} gear: ${v === 'collector' ? 'to the collector' : v === 'distributor' ? 'to the distributor for its grade (through the collector)' : 'kept in the bag'}`, '');
       })();
       return;
     }

@@ -2,7 +2,7 @@
  "id": 36,
  "name": "Make a Sewing Kit",
  "version": 1,
- "generated": "2026-10-27T11:14:55.303Z",
+ "generated": "2026-10-27T18:18:33.222Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 60,
@@ -23,7 +23,7 @@
    "text": "cond 3: talk to 30847 needs 1891x10+1893x10 — not in the bag"
   }
  ],
- "expectedMin": 13,
+ "expectedMin": 15,
  "refLevel": 60,
  "steps": [
   {
@@ -659,7 +659,7 @@
    "expectedSec": 610,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "hunt"
    },
    "conds": [
     1
@@ -667,8 +667,231 @@
   },
   {
    "i": 2,
-   "key": "c1:deliver:30847",
-   "cond": 1,
+   "key": "c2:talk:30847",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"What else do you need?\""
+   ],
+   "npc": {
+    "id": 30847,
+    "name": "Ferris",
+    "title": "Head Blacksmith",
+    "town": "Aden",
+    "at": [
+     150337,
+     28398,
+     -2246
+    ],
+    "alt": []
+   },
+   "text": "Return to Ferris – Delivery Request",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30847@150337,28398",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 6253,
+    "sec": 72,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 6253,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147608,
+      26808,
+      -2200
+     ],
+     [
+      147800,
+      27000,
+      -2200
+     ],
+     [
+      147944,
+      27016,
+      -2200
+     ],
+     [
+      148088,
+      27160,
+      -2200
+     ],
+     [
+      148152,
+      27336,
+      -2200
+     ],
+     [
+      148344,
+      27528,
+      -2240
+     ],
+     [
+      148520,
+      27624,
+      -2256
+     ],
+     [
+      148792,
+      27624,
+      -2200
+     ],
+     [
+      149064,
+      27624,
+      -2216
+     ],
+     [
+      149336,
+      27624,
+      -2264
+     ],
+     [
+      149608,
+      27624,
+      -2264
+     ],
+     [
+      149672,
+      27640,
+      -2264
+     ],
+     [
+      149896,
+      27688,
+      -2264
+     ],
+     [
+      150168,
+      27736,
+      -2264
+     ],
+     [
+      150440,
+      27688,
+      -2264
+     ],
+     [
+      150712,
+      27704,
+      -2264
+     ],
+     [
+      150904,
+      27688,
+      -2264
+     ],
+     [
+      150840,
+      27704,
+      -2264
+     ],
+     [
+      150600,
+      27848,
+      -2264
+     ],
+     [
+      150552,
+      28056,
+      -2240
+     ],
+     [
+      150552,
+      28104,
+      -2248
+     ],
+     [
+      150440,
+      28216,
+      -2248
+     ],
+     [
+      150344,
+      28392,
+      -2240
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 97,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:deliver:30847",
+   "cond": 3,
    "kind": "deliver",
    "to": "end",
    "links": [
@@ -686,7 +909,7 @@
     ],
     "alt": []
    },
-   "text": "Hunt Enchanted Iron Golems",
+   "text": "Deliver Materials – Complete the Quest",
    "needs": [
     {
      "id": 1891,
@@ -893,12 +1116,10 @@
    },
    "expectedSec": 97,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
     3
    ]
   }
@@ -907,7 +1128,7 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:14:55.744Z",
+  "at": "2026-10-27T18:18:33.551Z",
   "pass": false,
   "geo": true,
   "fails": [

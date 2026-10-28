@@ -1,0 +1,1032 @@
+{
+ "npcId": 30755,
+ "name": "Theodric",
+ "title": "Antharas Watchman",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.072Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30755.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "337": {
+   "name": "Audience With The Land Dragon",
+   "listText": [
+    "[Audience with the Land Dragon]",
+    "[Audience with the Land Dragon  (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30755-01.html",
+     "when": "state STARTED; memoState < 60000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30755-02.html",
+     "when": "state STARTED; memo 60000; !memoState < 60000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30755-03.html",
+     "when": "state STARTED; memo 70000; lacks items 3861; !memoState < 60000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30755-04.html",
+     "when": "state STARTED; memo 70000; has items 3861; !memoState < 60000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "903": {
+   "name": "The Call of Antharas",
+   "listText": [
+    "[The Call of Antharas]",
+    "[The Call of Antharas (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00903_TheCallOfAntharas/30755-03.html",
+     "when": "state CREATED; level < 83",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00903_TheCallOfAntharas/30755-04.html",
+     "when": "state CREATED; NOT level < 83",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00903_TheCallOfAntharas/30755-01.htm",
+     "when": "state CREATED; NOT level < 83",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00903_TheCallOfAntharas/30755-07.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00903_TheCallOfAntharas/30755-08.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00903_TheCallOfAntharas/30755-02.html",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00903_TheCallOfAntharas/30755-03.html",
+     "when": "state COMPLETED; level < 83; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00903_TheCallOfAntharas/30755-04.html",
+     "when": "state COMPLETED; NOT level < 83; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00903_TheCallOfAntharas/30755-01.htm",
+     "when": "state COMPLETED; NOT level < 83; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "904": {
+   "name": "Dragon Trophy - Antharas",
+   "listText": [
+    "[Dragon Trophy - Antharas]",
+    "[Dragon Trophy - Antharas (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00904_DragonTrophyAntharas/30755-02.html",
+     "when": "state CREATED; level < 84",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00904_DragonTrophyAntharas/30755-04.html",
+     "when": "state CREATED; NOT level < 84",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00904_DragonTrophyAntharas/30755-01.htm",
+     "when": "state CREATED; NOT level < 84",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00904_DragonTrophyAntharas/30755-08.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00904_DragonTrophyAntharas/30755-09.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00904_DragonTrophyAntharas/30755-03.html",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00904_DragonTrophyAntharas/30755-02.html",
+     "when": "state COMPLETED; level < 84; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00904_DragonTrophyAntharas/30755-04.html",
+     "when": "state COMPLETED; NOT level < 84; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00904_DragonTrophyAntharas/30755-01.htm",
+     "when": "state COMPLETED; NOT level < 84; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "10290": {
+   "name": "Land Dragon Conqueror",
+   "listText": [
+    "[Land Dragon Conqueror]",
+    "[Land Dragon Conqueror (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10290_LandDragonConqueror/30755-00.htm",
+     "when": "state CREATED; level < 83",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10290_LandDragonConqueror/30755-02.htm",
+     "when": "state CREATED; NOT level < 83; st.hasQuestItems(PORTAL_STONE)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10290_LandDragonConqueror/30755-01.htm",
+     "when": "state CREATED; NOT level < 83; NOT st.hasQuestItems(PORTAL_STONE)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10290_LandDragonConqueror/30755-06.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10290_LandDragonConqueror/30755-07.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10290_LandDragonConqueror/30755-08.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10290_LandDragonConqueror/30755-09.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10504": {
+   "name": "Jewel of Antharas",
+   "listText": [
+    "[Jewel of Antharas]",
+    "[Jewel of Antharas (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10504_JewelOfAntharas/30755-02.html",
+     "when": "state CREATED; level < 84",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10504_JewelOfAntharas/30755-04.html",
+     "when": "state CREATED; NOT level < 84; lacks items 3865",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10504_JewelOfAntharas/30755-01.htm",
+     "when": "state CREATED; NOT level < 84; has items 3865",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10504_JewelOfAntharas/30755-08.html",
+     "when": "state STARTED; cond 1; has items 21905",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10504_JewelOfAntharas/30755-09.html",
+     "when": "state STARTED; cond 1; lacks items 21905",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10504_JewelOfAntharas/30755-10.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10504_JewelOfAntharas/30755-03.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30755.htm": {
+   "file": "default/30755.htm",
+   "quest": null,
+   "text": "Antharas Watchman Theodric: I am Gilmore, watcher of the beast Theodric... I must monitor every breath that demon dragon takes, every twitch of its mighty tail, to assure that it does not awaken from its deep sleep. I have watched the beast for 1,000 years, since I had an army against him. We were …",
+   "header": "Antharas Watchman Theodric",
+   "links": [
+    {
+     "text": "\"Tell me about the portal stone.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30755-1.htm"
+    },
+    {
+     "text": "\"Tell me about the Antharas Watchers.\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30755-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30755-1.htm": {
+   "file": "default/30755-1.htm",
+   "quest": null,
+   "text": "Antharas Watchman Theodric: ... The portal stone is the key that you need to use in order to enter the Lair of Antharas. It is given only to those who are selected by seal watchers as slayers of Antharas. If you are truly wanting to confront Antharas, go see Gabrielle who is the leader of the seal …",
+   "header": "Antharas Watchman Theodric",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30755.htm"
+    }
+   ]
+  },
+  "default/30755-2.htm": {
+   "file": "default/30755-2.htm",
+   "quest": null,
+   "text": "Antharas Watchman Theodric: ... there are three Antharas Watchers. Gilmore guards the entrance to Dragon Valley. I, Theodric, guard the entrance of the Antharas Nest. Malkion used to guard the Heart of Warding... But a long time ago, he gave up on his calling and disappeared.",
+   "header": "Antharas Watchman Theodric",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30755.htm"
+    }
+   ]
+  },
+  "Q00337_AudienceWithTheLandDragon/30755-01.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30755-01.html",
+   "quest": 337,
+   "text": "Antharas Watchman Theodric: If you sincerely wish to confront Antharas, go meet with Gabrielle, the leader of the Seal Guardians, and be recognized as an Antharas vanquisher. She is currently staying at Giran Castle Town. If you come back to see me with the Mark of Watchman, I, Antharas Watchman Th…",
+   "header": "Antharas Watchman Theodric",
+   "when": [
+    "state STARTED; memoState < 60000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30755-02.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30755-02.html",
+   "quest": 337,
+   "text": "Antharas Watchman Theodric: You may have the Mark of Watchman from Gabrielle, but I cannot allow you to enter Antharas' nest right now. We are in an urgent situation where the restraints on Antharas' power are being threatened. You can hear the specifics from Antharas Watchman Gilmore, who is guard…",
+   "header": "Antharas Watchman Theodric",
+   "when": [
+    "state STARTED; memo 60000; !memoState < 60000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30755-03.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30755-03.html",
+   "quest": 337,
+   "text": "Antharas Watchman Theodric: Hurry... Find the Abyss Jewel and destroy it! If you kill the Cave Keepers and Cave Maidens who are concealing the jewel with sorcery, the jewel will appear. Hurry! Every second counts!",
+   "header": "Antharas Watchman Theodric",
+   "when": [
+    "state STARTED; memo 70000; lacks items 3861; !memoState < 60000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30755-04.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30755-04.html",
+   "quest": 337,
+   "text": "Antharas Watchman Theodric: Is this a fragment of the Abyssal Jewel? I'll give it to the Dwarves of the Gray Pillar Guild! They will melt it to nothing in their supreme furnace! The wicked followers of Antharas will never be able to use it to commit evil acts again. Now you must confront Antharas. …",
+   "header": "Antharas Watchman Theodric",
+   "when": [
+    "state STARTED; memo 70000; has items 3861; !memoState < 60000"
+   ],
+   "links": [
+    {
+     "text": "\"I am ready to confront Antharas!\"",
+     "bypass": "Quest Q00337_AudienceWithTheLandDragon 30755-05.html",
+     "kind": "quest-event",
+     "script": "Q00337_AudienceWithTheLandDragon",
+     "event": "30755-05.html",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30755-05.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00903_TheCallOfAntharas/30755-03.html": {
+   "file": "Q00903_TheCallOfAntharas/30755-03.html",
+   "quest": 903,
+   "text": "Watcher of Antharas Theodric: You are not qualified to hear my request... (Only characters above level 83 can undertake this quest.)",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state CREATED; level < 83",
+    "state COMPLETED; level < 83; st.isNowAvailable()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00903_TheCallOfAntharas/30755-04.html": {
+   "file": "Q00903_TheCallOfAntharas/30755-04.html",
+   "quest": 903,
+   "text": "Watcher of Antharas Theodric: The fact that you don't have the Portal Stone means you did not satisfy the minimum requirement for this request. If you really want to hear my request, you must first be recognized by Gabrielle in Giran Village.",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state CREATED; NOT level < 83",
+    "state COMPLETED; NOT level < 83; st.isNowAvailable()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00903_TheCallOfAntharas/30755-01.htm": {
+   "file": "Q00903_TheCallOfAntharas/30755-01.htm",
+   "quest": 903,
+   "text": "Watcher of Antharas Theodric: You have a Portal Stone ... it means that you are one of the few who can challenge Antharas. Do you want to hear something interesting about Antharas's underlings, the Tarask Dragon and Behemoth Dragon?",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state CREATED; NOT level < 83",
+    "state COMPLETED; NOT level < 83; st.isNowAvailable()"
+   ],
+   "links": [
+    {
+     "text": "Ask about Antharas's underlings.",
+     "bypass": "Quest Q00903_TheCallOfAntharas 30755-05.htm",
+     "kind": "quest-event",
+     "script": "Q00903_TheCallOfAntharas",
+     "event": "30755-05.htm",
+     "quest": 903,
+     "to": "Q00903_TheCallOfAntharas/30755-05.htm"
+    }
+   ]
+  },
+  "Q00903_TheCallOfAntharas/30755-07.html": {
+   "file": "Q00903_TheCallOfAntharas/30755-07.html",
+   "quest": 903,
+   "text": "Watcher of Antharas Theodric: Very kind of you sir! And here is you rewa-wait a second. You don't any of the items I have requested. Very sneaky of you sir... very sneaky. Come back when you have Behemoth Dragon Leather and Tarask Dragon Leather.",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00903_TheCallOfAntharas/30755-08.html": {
+   "file": "Q00903_TheCallOfAntharas/30755-08.html",
+   "quest": 903,
+   "text": "Watcher of Antharas Theodric: Hmmm... leather from the Tarask and Behemoth dragons? Let's see... yes these do appear to contain the power Antharas in these hides. I appreciate your time in gathering these for me. Now give me a moment... Here, this scroll is made from the same leather you have colle…",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00903_TheCallOfAntharas/30755-02.html": {
+   "file": "Q00903_TheCallOfAntharas/30755-02.html",
+   "quest": 903,
+   "text": "Watcher of Antharas Theodric: Thank you for obtaining the Tarask Dragon and Behemoth Dragon leathers. If you obtain them again, bring them to me. (This quest can be completed only once a day. This quest gets initialized everyday at 6:30 am.)",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00904_DragonTrophyAntharas/30755-02.html": {
+   "file": "Q00904_DragonTrophyAntharas/30755-02.html",
+   "quest": 904,
+   "text": "Watcher of Antharas Theodric: Do you look down on the earth dragon? Its claws have shattered countless lives. (Only characters at level 84 or above can undertake this quest.)",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state CREATED; level < 84",
+    "state COMPLETED; level < 84; st.isNowAvailable()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00904_DragonTrophyAntharas/30755-04.html": {
+   "file": "Q00904_DragonTrophyAntharas/30755-04.html",
+   "quest": 904,
+   "text": "Watcher of Antharas Theodric: The fact that you don't have the Portal Stone means you didn't satisfy the minimum requirement for this mission. If you really want to defeat Antharas, first you need to get recognized by Gabrielle in Giran village.",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state CREATED; NOT level < 84",
+    "state COMPLETED; NOT level < 84; st.isNowAvailable()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00904_DragonTrophyAntharas/30755-01.htm": {
+   "file": "Q00904_DragonTrophyAntharas/30755-01.htm",
+   "quest": 904,
+   "text": "Watcher of Antharas Theodric: You have a Portal Stone ... it means that you are one of the few who can challenge Antharas. So, do you feel that you are up to the challenge of defeating the land dragon?",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state CREATED; NOT level < 84",
+    "state COMPLETED; NOT level < 84; st.isNowAvailable()"
+   ],
+   "links": [
+    {
+     "text": "Say that you can defeat it.",
+     "bypass": "Quest Q00904_DragonTrophyAntharas 30755-05.htm",
+     "kind": "quest-event",
+     "script": "Q00904_DragonTrophyAntharas",
+     "event": "30755-05.htm",
+     "quest": 904,
+     "to": "Q00904_DragonTrophyAntharas/30755-05.htm"
+    }
+   ]
+  },
+  "Q00904_DragonTrophyAntharas/30755-08.html": {
+   "file": "Q00904_DragonTrophyAntharas/30755-08.html",
+   "quest": 904,
+   "text": "Watcher of Antharas Theodric: I know for a fact that you have not destroyed Antharas. When you do, I know for I shall have heard it echo throughout the winds. Until that time, I stand... I wait... and I watch.",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00904_DragonTrophyAntharas/30755-09.html": {
+   "file": "Q00904_DragonTrophyAntharas/30755-09.html",
+   "quest": 904,
+   "text": "Watcher of Antharas Theodric: Word has already spread throughout the land that you and your fellowship have defeated the land dragon Antharas. Enjoy your victory while it lasts. Unfortunately, the legends are true about Antharas... the beast can never truly be killed. It will rise once again. True …",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00904_DragonTrophyAntharas/30755-03.html": {
+   "file": "Q00904_DragonTrophyAntharas/30755-03.html",
+   "quest": 904,
+   "text": "Watcher of Antharas Theodric: Ah, you have returned, and with a victor's skip in your step! You have defeated the dragon! Your power shall be praised throughout the lands! (This quest can be done only a day. This quest gets initialized everyday at 6:30 am.)",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10290_LandDragonConqueror/30755-00.htm": {
+   "file": "Q10290_LandDragonConqueror/30755-00.htm",
+   "quest": 10290,
+   "text": "Antharas Watchman Theodric: You underestimate the power of Antharas. You simply do not have the skill required in order to take on this task. (Only characters at level 83 or above can undertake this quest.)",
+   "header": "Antharas Watchman Theodric",
+   "when": [
+    "state CREATED; level < 83"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10290_LandDragonConqueror/30755-02.htm": {
+   "file": "Q10290_LandDragonConqueror/30755-02.htm",
+   "quest": 10290,
+   "text": "Antharas Watchman Theodric: Ah, I see that you have a Portal Stone in your possession. It appears as though you may be one of the few chosen to handle this task.",
+   "header": "Antharas Watchman Theodric",
+   "when": [
+    "state CREATED; NOT level < 83; st.hasQuestItems(PORTAL_STONE)"
+   ],
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q10290_LandDragonConqueror 30755-03.html",
+     "kind": "quest-event",
+     "script": "Q10290_LandDragonConqueror",
+     "event": "30755-03.html",
+     "quest": 10290,
+     "to": "Q10290_LandDragonConqueror/30755-03.html"
+    }
+   ]
+  },
+  "Q10290_LandDragonConqueror/30755-01.htm": {
+   "file": "Q10290_LandDragonConqueror/30755-01.htm",
+   "quest": 10290,
+   "text": "Antharas Watchman Theodric: You do not have the Portal Stone which means you haven't satisfied the minimum requirements for this mission. So if you really want to face Antharas, you need to be recognized by Gabriel in Giran village.",
+   "header": "Antharas Watchman Theodric",
+   "when": [
+    "state CREATED; NOT level < 83; NOT st.hasQuestItems(PORTAL_STONE)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10290_LandDragonConqueror/30755-06.html": {
+   "file": "Q10290_LandDragonConqueror/30755-06.html",
+   "quest": 10290,
+   "text": "Antharas Watchman Theodric: The necklace you possess is still just a Shabby Necklace and contains no energy from Antharas. Speak to me again when this necklace has been transformed. As always I will be watching...",
+   "header": "Antharas Watchman Theodric",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10290_LandDragonConqueror/30755-07.html": {
+   "file": "Q10290_LandDragonConqueror/30755-07.html",
+   "quest": 10290,
+   "text": "Antharas Watchman Theodric: Why have you discarded the Shabby Necklace? Do you think everyone would believe that you defeated Antharas if you told the world? Here is another necklace. Try not to loose it. Only it can prove that you have defeated Antharas.",
+   "header": "Antharas Watchman Theodric",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10290_LandDragonConqueror/30755-08.html": {
+   "file": "Q10290_LandDragonConqueror/30755-08.html",
+   "quest": 10290,
+   "text": "Antharas Watchman Theodric: And so it is done. Antharas has been stopped and his return prevented. I have something for you... something that I rarely am allowed to give. The Antharas Slayer Circlet is yours. What now? I stay, I wait, and I watch. Antharas can never truly be killed. I can only hope…",
+   "header": "Antharas Watchman Theodric",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10290_LandDragonConqueror/30755-09.html": {
+   "file": "Q10290_LandDragonConqueror/30755-09.html",
+   "quest": 10290,
+   "text": "Antharas Watchman Theodric: If I could only give more to those who wish to take on this task... Unfortunately I have nothing more to give. Be pleased with the fact that you are one of the few who went on to take on Antharas and lived to tell the tale. (You have already completed this quest.)",
+   "header": "Antharas Watchman Theodric",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10504_JewelOfAntharas/30755-02.html": {
+   "file": "Q10504_JewelOfAntharas/30755-02.html",
+   "quest": 10504,
+   "text": "Watcher of Antharas Theodric: You do not have the ability to hear my request... Please come back after raising your caliber... (Only characters above level 84 can undertake this quest.)",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state CREATED; level < 84"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10504_JewelOfAntharas/30755-04.html": {
+   "file": "Q10504_JewelOfAntharas/30755-04.html",
+   "quest": 10504,
+   "text": "Watcher of Antharas Theodric: The fact that you don't have the Portal Stone means you did not satisfy the minimum requirement for this mission. If you really want to hear my request, you must first be recognized by Gabriel in Giran Village.",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state CREATED; NOT level < 84; lacks items 3865"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10504_JewelOfAntharas/30755-01.htm": {
+   "file": "Q10504_JewelOfAntharas/30755-01.htm",
+   "quest": 10504,
+   "text": "Watcher of Antharas Theodric: You have a Portal Stone ... it means that you are one of the few who can challenge Antharas. I have a task that may interest you.",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state CREATED; NOT level < 84; has items 3865"
+   ],
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q10504_JewelOfAntharas 30755-05.htm",
+     "kind": "quest-event",
+     "script": "Q10504_JewelOfAntharas",
+     "event": "30755-05.htm",
+     "quest": 10504,
+     "to": "Q10504_JewelOfAntharas/30755-05.htm"
+    }
+   ]
+  },
+  "Q10504_JewelOfAntharas/30755-08.html": {
+   "file": "Q10504_JewelOfAntharas/30755-08.html",
+   "quest": 10504,
+   "text": "Watcher of Antharas Theodric: Apologies, sir! It does not appear as though you have defeated the land dragon. If you did that Clear Crystal would be filled with Antharas�s energy. Good try though, sir! I�ll be keeping an eye on you and your shenanigans.",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state STARTED; cond 1; has items 21905"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10504_JewelOfAntharas/30755-09.html": {
+   "file": "Q10504_JewelOfAntharas/30755-09.html",
+   "quest": 10504,
+   "text": "Watcher of Antharas Theodric: Without the Clear Crystal , you cannot contain Antharas's energy even after defeating it. So please take this Clear Crystal.",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state STARTED; cond 1; lacks items 21905"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10504_JewelOfAntharas/30755-10.html": {
+   "file": "Q10504_JewelOfAntharas/30755-10.html",
+   "quest": 10504,
+   "text": "Watcher of Antharas Theodric: Amazing! I congratulate you on your accomplishment! The crystal is filled with the energy of the land dragon. You have brought back the land dragon's energy. Alas... this victory is short lived. Though Antharas has been defeated and we may celebrate peace for now... th…",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10504_JewelOfAntharas/30755-03.html": {
+   "file": "Q10504_JewelOfAntharas/30755-03.html",
+   "quest": 10504,
+   "text": "Watcher of Antharas Theodric: Praise unto you for your great achievement in fulfilling my request... (You have already completed this quest.)",
+   "header": "Watcher of Antharas Theodric",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30755-05.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30755-05.html",
+   "quest": 337,
+   "text": "Antharas Watchman Theodric: I will give you a Portal Stone. Take this to the deepest part of the cave and find the Heart of Warding. If you activate the Heart, you will be able to enter Antharas' nest. Be on your way. Your destiny is already in the hands of the gods. May the will of Einhasad be wit…",
+   "header": "Antharas Watchman Theodric",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00903_TheCallOfAntharas/30755-05.htm": {
+   "file": "Q00903_TheCallOfAntharas/30755-05.htm",
+   "quest": 903,
+   "text": "Watcher of Antharas Theodric: The leather from these beasts contains a mysterious power of the land dragon Antharas. Why is this interesting? Imagine the possibilities... Antharas leather jackets... or boots... well maybe nothing quite so silly but you get the idea. I would love to have some of the…",
+   "header": "Watcher of Antharas Theodric",
+   "links": [
+    {
+     "text": "Agree to help.",
+     "bypass": "Quest Q00903_TheCallOfAntharas 30755-06.html",
+     "kind": "quest-event",
+     "script": "Q00903_TheCallOfAntharas",
+     "event": "30755-06.html",
+     "quest": 903,
+     "to": "Q00903_TheCallOfAntharas/30755-06.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00903_TheCallOfAntharas/30755-06.html": {
+   "file": "Q00903_TheCallOfAntharas/30755-06.html",
+   "quest": 903,
+   "text": "Watcher of Antharas Theodric: Thank you sir! Please let me know once you have obtained the leather from these beasts.",
+   "header": "Watcher of Antharas Theodric",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00904_DragonTrophyAntharas/30755-05.htm": {
+   "file": "Q00904_DragonTrophyAntharas/30755-05.htm",
+   "quest": 904,
+   "text": "Watcher of Antharas Theodric: You may think that you are invincible and that your courage is unmatched, but does anyone know of your fame? Do you wish to become famous?",
+   "header": "Watcher of Antharas Theodric",
+   "links": [
+    {
+     "text": "Ask how to become famous.",
+     "bypass": "Quest Q00904_DragonTrophyAntharas 30755-06.htm",
+     "kind": "quest-event",
+     "script": "Q00904_DragonTrophyAntharas",
+     "event": "30755-06.htm",
+     "quest": 904,
+     "to": "Q00904_DragonTrophyAntharas/30755-06.htm"
+    }
+   ]
+  },
+  "Q00904_DragonTrophyAntharas/30755-06.htm": {
+   "file": "Q00904_DragonTrophyAntharas/30755-06.htm",
+   "quest": 904,
+   "text": "Watcher of Antharas Theodric: It's simple really. Use your strength and destroy the first offspring of the Goddess of Destruction... Antharas. Who is the Goddess of Destruction? This discussion will have to wait for another time. Do you think you can handle the challenge to defeat Antharas?",
+   "header": "Watcher of Antharas Theodric",
+   "links": [
+    {
+     "text": "\"I shall defeat Antharas.\"",
+     "bypass": "Quest Q00904_DragonTrophyAntharas 30755-07.html",
+     "kind": "quest-event",
+     "script": "Q00904_DragonTrophyAntharas",
+     "event": "30755-07.html",
+     "quest": 904,
+     "to": "Q00904_DragonTrophyAntharas/30755-07.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00904_DragonTrophyAntharas/30755-07.html": {
+   "file": "Q00904_DragonTrophyAntharas/30755-07.html",
+   "quest": 904,
+   "text": "Watcher of Antharas Theodric: I wish you the best of luck. Unfortunately I cannot go with you on this journey. However, I am sure there are others just like you who wish to take on Antharas. You may wish to continue once you have acquired a large group of highly skilled adventurers to go with you o…",
+   "header": "Watcher of Antharas Theodric",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10290_LandDragonConqueror/30755-03.html": {
+   "file": "Q10290_LandDragonConqueror/30755-03.html",
+   "quest": 10290,
+   "text": "Antharas Watchman Theodric: I am a Watcher which brings the curse of immortality. My purpose in life is to watch over the earth dragon, Antharas. I can only assume that you and your comrades are here to slay the dragon. I wish to give you some words of wisdom before you venture into this cave... Yo…",
+   "header": "Antharas Watchman Theodric",
+   "links": [
+    {
+     "text": "Words of wisdom, huh?",
+     "bypass": "Quest Q10290_LandDragonConqueror 30755-04.htm",
+     "kind": "quest-event",
+     "script": "Q10290_LandDragonConqueror",
+     "event": "30755-04.htm",
+     "quest": 10290,
+     "to": "Q10290_LandDragonConqueror/30755-04.htm"
+    }
+   ]
+  },
+  "Q10290_LandDragonConqueror/30755-04.htm": {
+   "file": "Q10290_LandDragonConqueror/30755-04.htm",
+   "quest": 10290,
+   "text": "Antharas Watchman Theodric: Yes, Antharas can never really be killed... not yet anyway. You may have heard stories from other adventurers how they have killed him again and again. Each time he is killed, he resurrects even more powerful. I fear that the greed of adventurers has caused Antharas to b…",
+   "header": "Antharas Watchman Theodric",
+   "links": [
+    {
+     "text": "Accept the mission.",
+     "bypass": "Quest Q10290_LandDragonConqueror 30755-05.htm",
+     "kind": "quest-event",
+     "script": "Q10290_LandDragonConqueror",
+     "event": "30755-05.htm",
+     "quest": 10290,
+     "to": "Q10290_LandDragonConqueror/30755-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10290_LandDragonConqueror/30755-05.htm": {
+   "file": "Q10290_LandDragonConqueror/30755-05.htm",
+   "quest": 10290,
+   "text": "Antharas Watchman Theodric: Take this Shabby Necklace . If you manage to strike Antharas down part of its energy will be contained in this necklace preventing it from growing any more powerful. If successful, the necklace will transform. Bring me the transformed necklace as proof of successfully st…",
+   "header": "Antharas Watchman Theodric",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10504_JewelOfAntharas/30755-05.htm": {
+   "file": "Q10504_JewelOfAntharas/30755-05.htm",
+   "quest": 10504,
+   "text": "Watcher of Antharas Theodric: Actually, it is more of a challenge than a task. I have this Clear Crystal I would like you to fill with the energy of Antharas.",
+   "header": "Watcher of Antharas Theodric",
+   "links": [
+    {
+     "text": "\"Fill the crystal with energy... this sounds familiar.\"",
+     "bypass": "Quest Q10504_JewelOfAntharas 30755-06.htm",
+     "kind": "quest-event",
+     "script": "Q10504_JewelOfAntharas",
+     "event": "30755-06.htm",
+     "quest": 10504,
+     "to": "Q10504_JewelOfAntharas/30755-06.htm"
+    }
+   ]
+  },
+  "Q10504_JewelOfAntharas/30755-06.htm": {
+   "file": "Q10504_JewelOfAntharas/30755-06.htm",
+   "quest": 10504,
+   "text": "Watcher of Antharas Theodric: I have no idea what you are talking about. Maybe you are mistaking me for another Watcher and another Dragon. With this crystal in your possession, once you have defeated Antharas it should draw the energy of the land dragon into the crystal.",
+   "header": "Watcher of Antharas Theodric",
+   "links": [
+    {
+     "text": "Accept the mission.",
+     "bypass": "Quest Q10504_JewelOfAntharas 30755-07.html",
+     "kind": "quest-event",
+     "script": "Q10504_JewelOfAntharas",
+     "event": "30755-07.html",
+     "quest": 10504,
+     "to": "Q10504_JewelOfAntharas/30755-07.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10504_JewelOfAntharas/30755-07.html": {
+   "file": "Q10504_JewelOfAntharas/30755-07.html",
+   "quest": 10504,
+   "text": "Watcher of Antharas Theodric: Excellent. Take this Clear Crystal . I must warn you however, you will need many soldiers of equal skill in order to challenge Antharas. Best of luck to you, sir!",
+   "header": "Watcher of Antharas Theodric",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Audience with the Land Dragon  (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00337_AudienceWithTheLandDragon",
+     "kind": "quest",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30755-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Call of Antharas]",
+     "bypass": "npc_%objectId%_Quest Q00903_TheCallOfAntharas",
+     "kind": "quest",
+     "quest": 903,
+     "to": "Q00903_TheCallOfAntharas/30755-04.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Call of Antharas (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00903_TheCallOfAntharas",
+     "kind": "quest",
+     "quest": 903,
+     "to": "Q00903_TheCallOfAntharas/30755-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Dragon Trophy - Antharas]",
+     "bypass": "npc_%objectId%_Quest Q00904_DragonTrophyAntharas",
+     "kind": "quest",
+     "quest": 904,
+     "to": "Q00904_DragonTrophyAntharas/30755-04.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Dragon Trophy - Antharas (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00904_DragonTrophyAntharas",
+     "kind": "quest",
+     "quest": 904,
+     "to": "Q00904_DragonTrophyAntharas/30755-08.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Land Dragon Conqueror]",
+     "bypass": "npc_%objectId%_Quest Q10290_LandDragonConqueror",
+     "kind": "quest",
+     "quest": 10290,
+     "to": "Q10290_LandDragonConqueror/30755-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Land Dragon Conqueror (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10290_LandDragonConqueror",
+     "kind": "quest",
+     "quest": 10290,
+     "to": "Q10290_LandDragonConqueror/30755-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Jewel of Antharas]",
+     "bypass": "npc_%objectId%_Quest Q10504_JewelOfAntharas",
+     "kind": "quest",
+     "quest": 10504,
+     "to": "Q10504_JewelOfAntharas/30755-04.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Jewel of Antharas (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10504_JewelOfAntharas",
+     "kind": "quest",
+     "quest": 10504,
+     "to": "Q10504_JewelOfAntharas/30755-08.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

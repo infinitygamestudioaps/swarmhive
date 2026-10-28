@@ -2,7 +2,7 @@
  "id": 227,
  "name": "Test Of The Reformer",
  "version": 1,
- "generated": "2026-10-27T11:15:16.209Z",
+ "generated": "2026-10-27T18:18:51.593Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 39,
@@ -28,22 +28,13 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
-   "code": "no-route",
-   "text": "no route to a step place (atlas unreachable / no geodata walk)",
-   "step": 1
-  },
-  {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 1
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
    "step": 2
   },
   {
@@ -54,10 +45,35 @@
   {
    "code": "npc-quest-spawned",
    "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
-   "step": 9
+   "step": 20
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 25
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 26
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 50
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 50
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 51
   }
  ],
- "expectedMin": 50,
+ "expectedMin": 95,
  "refLevel": 39,
  "steps": [
   {
@@ -285,7 +301,2037 @@
     {
      "id": 2831,
      "name": "Ripped Diary",
-     "n": 6,
+     "n": 7,
+     "from": [
+      {
+       "id": 27099,
+       "name": "Nameless Revenant",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Misery Skeleton, Skeleton Archer, Skeleton Marksman for Ripped Diary x7",
+   "places": [
+    {
+     "mobs": [
+      27099
+     ],
+     "items": [
+      2831
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-10",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 10: Nameless Revenant area (north)",
+      "at": [
+       53320,
+       143128,
+       -3856
+      ],
+      "radius": 1469,
+      "levels": [
+       38,
+       38
+      ],
+      "count": 5,
+      "region": "Tanor Canyon / Cruma Tower / Tanor Fortress",
+      "atlasKey": "area:tanor-canyon-cruma-tower-tanor-fortress-far-10",
+      "status": "ok",
+      "sec": 260,
+      "danger": 38,
+      "aggrShare": 1,
+      "reachable": false,
+      "score": 34.33333333333333,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:tanor-canyon-cruma-tower-tanor-fortress-far-10",
+      "status": "ok",
+      "flags": [
+       "long-walk"
+      ],
+      "from": ".dion",
+      "length": 25830,
+      "sec": 260,
+      "via": ".dion > Dion -> Tanor Canyon",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Tanor Canyon",
+        "link": "tanor canyon",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 25830,
+        "how": "geodata",
+        "danger": 50
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Tanor Canyon"
+      },
+      "simple": true,
+      "pv": [
+       [
+        60374,
+        164301,
+        -2856
+       ],
+       [
+        59879,
+        163803,
+        -2844
+       ],
+       [
+        59384,
+        163304,
+        -2832
+       ],
+       [
+        58888,
+        162808,
+        -2824
+       ],
+       [
+        58392,
+        162312,
+        -2816
+       ],
+       [
+        57896,
+        161816,
+        -2692
+       ],
+       [
+        57400,
+        161320,
+        -2568
+       ],
+       [
+        57352,
+        161160,
+        -2496
+       ],
+       [
+        56856,
+        160664,
+        -1996
+       ],
+       [
+        56360,
+        160168,
+        -1496
+       ],
+       [
+        55872,
+        159672,
+        -1292
+       ],
+       [
+        55384,
+        159176,
+        -1088
+       ],
+       [
+        55304,
+        158968,
+        -920
+       ],
+       [
+        55192,
+        158856,
+        -824
+       ],
+       [
+        54632,
+        158856,
+        -1040
+       ],
+       [
+        54232,
+        158584,
+        -840
+       ],
+       [
+        53776,
+        158088,
+        -948
+       ],
+       [
+        53320,
+        157592,
+        -1056
+       ],
+       [
+        53320,
+        156600,
+        -1464
+       ],
+       [
+        53320,
+        155608,
+        -1992
+       ],
+       [
+        53336,
+        154632,
+        -1768
+       ],
+       [
+        53320,
+        153640,
+        -2384
+       ],
+       [
+        53320,
+        152648,
+        -2376
+       ],
+       [
+        53320,
+        151656,
+        -2448
+       ],
+       [
+        53320,
+        150664,
+        -2480
+       ],
+       [
+        53320,
+        149672,
+        -2464
+       ],
+       [
+        53320,
+        148680,
+        -2440
+       ],
+       [
+        53304,
+        148184,
+        -2392
+       ],
+       [
+        53320,
+        147192,
+        -2880
+       ],
+       [
+        53288,
+        147080,
+        -2880
+       ],
+       [
+        53320,
+        146088,
+        -2944
+       ],
+       [
+        53800,
+        145592,
+        -3088
+       ],
+       [
+        54280,
+        145096,
+        -3232
+       ],
+       [
+        54584,
+        144792,
+        -3184
+       ],
+       [
+        54584,
+        144712,
+        -3256
+       ],
+       [
+        54824,
+        144408,
+        -3224
+       ],
+       [
+        54824,
+        144376,
+        -3224
+       ],
+       [
+        54712,
+        144200,
+        -3224
+       ],
+       [
+        54072,
+        143896,
+        -3640
+       ],
+       [
+        54040,
+        143880,
+        -3664
+       ],
+       [
+        53928,
+        143704,
+        -3704
+       ],
+       [
+        53912,
+        143704,
+        -3744
+       ],
+       [
+        53912,
+        143720,
+        -3760
+       ],
+       [
+        53896,
+        143720,
+        -3776
+       ],
+       [
+        53896,
+        143736,
+        -3784
+       ],
+       [
+        53864,
+        143720,
+        -3832
+       ],
+       [
+        53320,
+        143128,
+        -3856
+       ]
+      ],
+      "maxDanger": 50,
+      "needs": [],
+      "why": [
+       "field_areas.json: no walkable way from any gatekeeper landing (Tanor Canyon, Dion — walls, cliffs or water) — tried the nearest landings on the geodata"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 50,
+       "dangerVsLevel": 11,
+       "aggro": [
+        {
+         "name": "Nightmare Lord",
+         "lv": 47,
+         "n": 7
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "tanor-canyon-cruma-tower-tanor-fortress-far-10",
+    "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 10: Nameless Revenant area (north)",
+    "at": [
+     53320,
+     143128,
+     -3856
+    ],
+    "radius": 1469,
+    "levels": [
+     38,
+     38
+    ],
+    "count": 5,
+    "region": "Tanor Canyon / Cruma Tower / Tanor Fortress",
+    "atlasKey": "area:tanor-canyon-cruma-tower-tanor-fortress-far-10",
+    "status": "ok",
+    "sec": 260,
+    "danger": 38,
+    "aggrShare": 1,
+    "reachable": false,
+    "score": 34.33333333333333,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:tanor-canyon-cruma-tower-tanor-fortress-far-10",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".dion",
+    "length": 25830,
+    "sec": 260,
+    "via": ".dion > Dion -> Tanor Canyon",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Tanor Canyon",
+      "link": "tanor canyon",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 25830,
+      "how": "geodata",
+      "danger": 50
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Tanor Canyon"
+    },
+    "simple": true,
+    "pv": [
+     [
+      60374,
+      164301,
+      -2856
+     ],
+     [
+      59879,
+      163803,
+      -2844
+     ],
+     [
+      59384,
+      163304,
+      -2832
+     ],
+     [
+      58888,
+      162808,
+      -2824
+     ],
+     [
+      58392,
+      162312,
+      -2816
+     ],
+     [
+      57896,
+      161816,
+      -2692
+     ],
+     [
+      57400,
+      161320,
+      -2568
+     ],
+     [
+      57352,
+      161160,
+      -2496
+     ],
+     [
+      56856,
+      160664,
+      -1996
+     ],
+     [
+      56360,
+      160168,
+      -1496
+     ],
+     [
+      55872,
+      159672,
+      -1292
+     ],
+     [
+      55384,
+      159176,
+      -1088
+     ],
+     [
+      55304,
+      158968,
+      -920
+     ],
+     [
+      55192,
+      158856,
+      -824
+     ],
+     [
+      54632,
+      158856,
+      -1040
+     ],
+     [
+      54232,
+      158584,
+      -840
+     ],
+     [
+      53776,
+      158088,
+      -948
+     ],
+     [
+      53320,
+      157592,
+      -1056
+     ],
+     [
+      53320,
+      156600,
+      -1464
+     ],
+     [
+      53320,
+      155608,
+      -1992
+     ],
+     [
+      53336,
+      154632,
+      -1768
+     ],
+     [
+      53320,
+      153640,
+      -2384
+     ],
+     [
+      53320,
+      152648,
+      -2376
+     ],
+     [
+      53320,
+      151656,
+      -2448
+     ],
+     [
+      53320,
+      150664,
+      -2480
+     ],
+     [
+      53320,
+      149672,
+      -2464
+     ],
+     [
+      53320,
+      148680,
+      -2440
+     ],
+     [
+      53304,
+      148184,
+      -2392
+     ],
+     [
+      53320,
+      147192,
+      -2880
+     ],
+     [
+      53288,
+      147080,
+      -2880
+     ],
+     [
+      53320,
+      146088,
+      -2944
+     ],
+     [
+      53800,
+      145592,
+      -3088
+     ],
+     [
+      54280,
+      145096,
+      -3232
+     ],
+     [
+      54584,
+      144792,
+      -3184
+     ],
+     [
+      54584,
+      144712,
+      -3256
+     ],
+     [
+      54824,
+      144408,
+      -3224
+     ],
+     [
+      54824,
+      144376,
+      -3224
+     ],
+     [
+      54712,
+      144200,
+      -3224
+     ],
+     [
+      54072,
+      143896,
+      -3640
+     ],
+     [
+      54040,
+      143880,
+      -3664
+     ],
+     [
+      53928,
+      143704,
+      -3704
+     ],
+     [
+      53912,
+      143704,
+      -3744
+     ],
+     [
+      53912,
+      143720,
+      -3760
+     ],
+     [
+      53896,
+      143720,
+      -3776
+     ],
+     [
+      53896,
+      143736,
+      -3784
+     ],
+     [
+      53864,
+      143720,
+      -3832
+     ],
+     [
+      53320,
+      143128,
+      -3856
+     ]
+    ],
+    "maxDanger": 50,
+    "needs": [],
+    "why": [
+     "field_areas.json: no walkable way from any gatekeeper landing (Tanor Canyon, Dion — walls, cliffs or water) — tried the nearest landings on the geodata"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 50,
+     "dangerVsLevel": 11,
+     "aggro": [
+      {
+       "name": "Nightmare Lord",
+       "lv": 47,
+       "n": 7
+      }
+     ]
+    }
+   },
+   "expectedSec": 435,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    19,
+    20
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:27128",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27128,
+     "name": "Aruraune",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27130,
+     "name": "Ol Mahum Betrayer",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 2831,
+     "name": "Ripped Diary",
+     "n": 7,
+     "from": [
+      {
+       "id": 27099,
+       "name": "Nameless Revenant",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "engine-manual",
+    "aggro-on-way"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     27099
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
+   },
+   "text": "Make Aruraune, Ol Mahum Betrayer appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "tanor-canyon-cruma-tower-tanor-fortress-far-10",
+    "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 10: Nameless Revenant area (north)",
+    "at": [
+     53320,
+     143128,
+     -3856
+    ],
+    "radius": 1469,
+    "levels": [
+     38,
+     38
+    ],
+    "count": 5,
+    "region": "Tanor Canyon / Cruma Tower / Tanor Fortress",
+    "atlasKey": "area:tanor-canyon-cruma-tower-tanor-fortress-far-10",
+    "status": "ok",
+    "sec": 260,
+    "danger": 38,
+    "aggrShare": 1,
+    "reachable": false,
+    "score": 34.33333333333333,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:tanor-canyon-cruma-tower-tanor-fortress-far-10",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".dion",
+    "length": 25830,
+    "sec": 260,
+    "via": ".dion > Dion -> Tanor Canyon",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Tanor Canyon",
+      "link": "tanor canyon",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 25830,
+      "how": "geodata",
+      "danger": 50
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Tanor Canyon"
+    },
+    "simple": true,
+    "pv": [
+     [
+      60374,
+      164301,
+      -2856
+     ],
+     [
+      59879,
+      163803,
+      -2844
+     ],
+     [
+      59384,
+      163304,
+      -2832
+     ],
+     [
+      58888,
+      162808,
+      -2824
+     ],
+     [
+      58392,
+      162312,
+      -2816
+     ],
+     [
+      57896,
+      161816,
+      -2692
+     ],
+     [
+      57400,
+      161320,
+      -2568
+     ],
+     [
+      57352,
+      161160,
+      -2496
+     ],
+     [
+      56856,
+      160664,
+      -1996
+     ],
+     [
+      56360,
+      160168,
+      -1496
+     ],
+     [
+      55872,
+      159672,
+      -1292
+     ],
+     [
+      55384,
+      159176,
+      -1088
+     ],
+     [
+      55304,
+      158968,
+      -920
+     ],
+     [
+      55192,
+      158856,
+      -824
+     ],
+     [
+      54632,
+      158856,
+      -1040
+     ],
+     [
+      54232,
+      158584,
+      -840
+     ],
+     [
+      53776,
+      158088,
+      -948
+     ],
+     [
+      53320,
+      157592,
+      -1056
+     ],
+     [
+      53320,
+      156600,
+      -1464
+     ],
+     [
+      53320,
+      155608,
+      -1992
+     ],
+     [
+      53336,
+      154632,
+      -1768
+     ],
+     [
+      53320,
+      153640,
+      -2384
+     ],
+     [
+      53320,
+      152648,
+      -2376
+     ],
+     [
+      53320,
+      151656,
+      -2448
+     ],
+     [
+      53320,
+      150664,
+      -2480
+     ],
+     [
+      53320,
+      149672,
+      -2464
+     ],
+     [
+      53320,
+      148680,
+      -2440
+     ],
+     [
+      53304,
+      148184,
+      -2392
+     ],
+     [
+      53320,
+      147192,
+      -2880
+     ],
+     [
+      53288,
+      147080,
+      -2880
+     ],
+     [
+      53320,
+      146088,
+      -2944
+     ],
+     [
+      53800,
+      145592,
+      -3088
+     ],
+     [
+      54280,
+      145096,
+      -3232
+     ],
+     [
+      54584,
+      144792,
+      -3184
+     ],
+     [
+      54584,
+      144712,
+      -3256
+     ],
+     [
+      54824,
+      144408,
+      -3224
+     ],
+     [
+      54824,
+      144376,
+      -3224
+     ],
+     [
+      54712,
+      144200,
+      -3224
+     ],
+     [
+      54072,
+      143896,
+      -3640
+     ],
+     [
+      54040,
+      143880,
+      -3664
+     ],
+     [
+      53928,
+      143704,
+      -3704
+     ],
+     [
+      53912,
+      143704,
+      -3744
+     ],
+     [
+      53912,
+      143720,
+      -3760
+     ],
+     [
+      53896,
+      143720,
+      -3776
+     ],
+     [
+      53896,
+      143736,
+      -3784
+     ],
+     [
+      53864,
+      143720,
+      -3832
+     ],
+     [
+      53320,
+      143128,
+      -3856
+     ]
+    ],
+    "maxDanger": 50,
+    "needs": [],
+    "why": [
+     "field_areas.json: no walkable way from any gatekeeper landing (Tanor Canyon, Dion — walls, cliffs or water) — tried the nearest landings on the geodata"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 50,
+     "dangerVsLevel": 11,
+     "aggro": [
+      {
+       "name": "Nightmare Lord",
+       "lv": 47,
+       "n": 7
+      }
+     ]
+    }
+   },
+   "expectedSec": 560,
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    19,
+    20
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:deliver:30118",
+   "cond": 3,
+   "kind": "deliver",
+   "to": 4,
+   "links": [
+    "\"I shall remain true to my beliefs.\""
+   ],
+   "npc": {
+    "id": 30118,
+    "name": "Pupina",
+    "title": "Priestess",
+    "town": "Giran",
+    "at": [
+     86485,
+     148384,
+     -3392
+    ],
+    "alt": []
+   },
+   "text": "Bring Book of Reform to Pupina",
+   "needs": [
+    {
+     "id": 2822,
+     "name": "Book of Reform",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30118@86485,148384",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 3733,
+    "sec": 51,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 3733,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148392,
+      -3400
+     ],
+     [
+      83592,
+      148216,
+      -3400
+     ],
+     [
+      83864,
+      148184,
+      -3392
+     ],
+     [
+      84136,
+      148216,
+      -3400
+     ],
+     [
+      84120,
+      148424,
+      -3400
+     ],
+     [
+      84184,
+      148600,
+      -3400
+     ],
+     [
+      84456,
+      148616,
+      -3400
+     ],
+     [
+      84728,
+      148616,
+      -3400
+     ],
+     [
+      85000,
+      148616,
+      -3400
+     ],
+     [
+      85160,
+      148616,
+      -3400
+     ],
+     [
+      85304,
+      148616,
+      -3400
+     ],
+     [
+      85576,
+      148616,
+      -3400
+     ],
+     [
+      85848,
+      148616,
+      -3400
+     ],
+     [
+      86120,
+      148616,
+      -3400
+     ],
+     [
+      86392,
+      148568,
+      -3400
+     ],
+     [
+      86488,
+      148392,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:30666",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"Yes\""
+   ],
+   "npc": {
+    "id": 30666,
+    "name": "Sla",
+    "title": "Preacher",
+    "town": "Floran",
+    "at": [
+     -671,
+     179051,
+     -3708
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sla",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30666@-671,179051",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1303,
+    "sec": 56,
+    "via": ".dion > Dion -> Plains of Dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Plains of Dion",
+      "link": "plains of dion",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1303,
+      "how": "geodata",
+      "danger": 26
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      630,
+      179184,
+      -3720
+     ],
+     [
+      -360,
+      179048,
+      -3704
+     ],
+     [
+      -664,
+      179048,
+      -3704
+     ]
+    ],
+    "maxDanger": 26,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 26,
+     "dangerVsLevel": -13,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:30668",
+   "cond": 5,
+   "kind": "talk",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30668,
+    "name": "Katari",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     -3826,
+     40264,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Talk to Katari",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30668@-3826,40264",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 18173,
+    "sec": 221,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Swampland",
+      "link": "swampland",
+      "price": 1100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18173,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -21966,
+      40544,
+      -3192
+     ],
+     [
+      -21467,
+      40404,
+      -3272
+     ],
+     [
+      -20968,
+      40264,
+      -3352
+     ],
+     [
+      -19976,
+      40264,
+      -3504
+     ],
+     [
+      -18984,
+      40264,
+      -3616
+     ],
+     [
+      -17992,
+      40264,
+      -3640
+     ],
+     [
+      -17000,
+      40264,
+      -3760
+     ],
+     [
+      -16008,
+      40264,
+      -3760
+     ],
+     [
+      -15416,
+      40248,
+      -3752
+     ],
+     [
+      -14424,
+      40264,
+      -3776
+     ],
+     [
+      -13432,
+      40264,
+      -3736
+     ],
+     [
+      -12440,
+      40264,
+      -3760
+     ],
+     [
+      -11448,
+      40264,
+      -3768
+     ],
+     [
+      -10456,
+      40264,
+      -3752
+     ],
+     [
+      -9464,
+      40264,
+      -3736
+     ],
+     [
+      -8472,
+      40264,
+      -3760
+     ],
+     [
+      -7480,
+      40264,
+      -3736
+     ],
+     [
+      -6488,
+      40264,
+      -3680
+     ],
+     [
+      -5496,
+      40264,
+      -3680
+     ],
+     [
+      -4504,
+      40264,
+      -3664
+     ],
+     [
+      -3832,
+      40264,
+      -3672
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 246,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5,
+    6
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c7:talk:30668",
+   "cond": 7,
+   "kind": "talk",
+   "to": 8,
+   "links": [],
+   "npc": {
+    "id": 30668,
+    "name": "Katari",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     -3826,
+     40264,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Talk to Katari",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30668@-3826,40264",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 18173,
+    "sec": 221,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Swampland",
+      "link": "swampland",
+      "price": 1100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18173,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -21966,
+      40544,
+      -3192
+     ],
+     [
+      -21467,
+      40404,
+      -3272
+     ],
+     [
+      -20968,
+      40264,
+      -3352
+     ],
+     [
+      -19976,
+      40264,
+      -3504
+     ],
+     [
+      -18984,
+      40264,
+      -3616
+     ],
+     [
+      -17992,
+      40264,
+      -3640
+     ],
+     [
+      -17000,
+      40264,
+      -3760
+     ],
+     [
+      -16008,
+      40264,
+      -3760
+     ],
+     [
+      -15416,
+      40248,
+      -3752
+     ],
+     [
+      -14424,
+      40264,
+      -3776
+     ],
+     [
+      -13432,
+      40264,
+      -3736
+     ],
+     [
+      -12440,
+      40264,
+      -3760
+     ],
+     [
+      -11448,
+      40264,
+      -3768
+     ],
+     [
+      -10456,
+      40264,
+      -3752
+     ],
+     [
+      -9464,
+      40264,
+      -3736
+     ],
+     [
+      -8472,
+      40264,
+      -3760
+     ],
+     [
+      -7480,
+      40264,
+      -3736
+     ],
+     [
+      -6488,
+      40264,
+      -3680
+     ],
+     [
+      -5496,
+      40264,
+      -3680
+     ],
+     [
+      -4504,
+      40264,
+      -3664
+     ],
+     [
+      -3832,
+      40264,
+      -3672
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 246,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c7:talk:30732",
+   "cond": 7,
+   "kind": "talk",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30732,
+    "name": "Ol Mahum Pilgrim",
+    "title": "",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-quest-spawned"
+   },
+   "text": "Talk to Ol Mahum Pilgrim",
+   "reasons": [
+    "npc-quest-spawned"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7,
+    8
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c8:talk:30668",
+   "cond": 8,
+   "kind": "talk",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30668,
+    "name": "Katari",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     -3826,
+     40264,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Talk to Katari",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30668@-3826,40264",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 18173,
+    "sec": 221,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Swampland",
+      "link": "swampland",
+      "price": 1100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18173,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -21966,
+      40544,
+      -3192
+     ],
+     [
+      -21467,
+      40404,
+      -3272
+     ],
+     [
+      -20968,
+      40264,
+      -3352
+     ],
+     [
+      -19976,
+      40264,
+      -3504
+     ],
+     [
+      -18984,
+      40264,
+      -3616
+     ],
+     [
+      -17992,
+      40264,
+      -3640
+     ],
+     [
+      -17000,
+      40264,
+      -3760
+     ],
+     [
+      -16008,
+      40264,
+      -3760
+     ],
+     [
+      -15416,
+      40248,
+      -3752
+     ],
+     [
+      -14424,
+      40264,
+      -3776
+     ],
+     [
+      -13432,
+      40264,
+      -3736
+     ],
+     [
+      -12440,
+      40264,
+      -3760
+     ],
+     [
+      -11448,
+      40264,
+      -3768
+     ],
+     [
+      -10456,
+      40264,
+      -3752
+     ],
+     [
+      -9464,
+      40264,
+      -3736
+     ],
+     [
+      -8472,
+      40264,
+      -3760
+     ],
+     [
+      -7480,
+      40264,
+      -3736
+     ],
+     [
+      -6488,
+      40264,
+      -3680
+     ],
+     [
+      -5496,
+      40264,
+      -3680
+     ],
+     [
+      -4504,
+      40264,
+      -3664
+     ],
+     [
+      -3832,
+      40264,
+      -3672
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 246,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c9:hunt",
+   "cond": 9,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20022,
+     "name": "Misery Skeleton",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 20100,
+     "name": "Skeleton Archer",
+     "level": 13,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    },
+    {
+     "id": 20102,
+     "name": "Skeleton Marksman",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20104,
+     "name": "Skeleton Lord",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20404,
+     "name": "Silent Horror",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 27099,
+     "name": "Nameless Revenant",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2831,
+     "name": "Ripped Diary",
+     "n": 7,
      "from": [
       {
        "id": 27099,
@@ -302,6 +2348,2495 @@
       {
        "id": 27130,
        "name": "Ol Mahum Betrayer",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Misery Skeleton, Skeleton Archer, Skeleton Marksman for Ripped Diary x7, Letter of Betrayer x1",
+   "places": [
+    {
+     "mobs": [
+      27099
+     ],
+     "items": [
+      2831
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-10",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 10: Nameless Revenant area (north)",
+      "at": [
+       53320,
+       143128,
+       -3856
+      ],
+      "radius": 1469,
+      "levels": [
+       38,
+       38
+      ],
+      "count": 5,
+      "region": "Tanor Canyon / Cruma Tower / Tanor Fortress",
+      "atlasKey": "area:tanor-canyon-cruma-tower-tanor-fortress-far-10",
+      "status": "ok",
+      "sec": 260,
+      "danger": 38,
+      "aggrShare": 1,
+      "reachable": false,
+      "score": 34.33333333333333,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:tanor-canyon-cruma-tower-tanor-fortress-far-10",
+      "status": "ok",
+      "flags": [
+       "long-walk"
+      ],
+      "from": ".dion",
+      "length": 25830,
+      "sec": 260,
+      "via": ".dion > Dion -> Tanor Canyon",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Tanor Canyon",
+        "link": "tanor canyon",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 25830,
+        "how": "geodata",
+        "danger": 50
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Tanor Canyon"
+      },
+      "simple": true,
+      "pv": [
+       [
+        60374,
+        164301,
+        -2856
+       ],
+       [
+        59879,
+        163803,
+        -2844
+       ],
+       [
+        59384,
+        163304,
+        -2832
+       ],
+       [
+        58888,
+        162808,
+        -2824
+       ],
+       [
+        58392,
+        162312,
+        -2816
+       ],
+       [
+        57896,
+        161816,
+        -2692
+       ],
+       [
+        57400,
+        161320,
+        -2568
+       ],
+       [
+        57352,
+        161160,
+        -2496
+       ],
+       [
+        56856,
+        160664,
+        -1996
+       ],
+       [
+        56360,
+        160168,
+        -1496
+       ],
+       [
+        55872,
+        159672,
+        -1292
+       ],
+       [
+        55384,
+        159176,
+        -1088
+       ],
+       [
+        55304,
+        158968,
+        -920
+       ],
+       [
+        55192,
+        158856,
+        -824
+       ],
+       [
+        54632,
+        158856,
+        -1040
+       ],
+       [
+        54232,
+        158584,
+        -840
+       ],
+       [
+        53776,
+        158088,
+        -948
+       ],
+       [
+        53320,
+        157592,
+        -1056
+       ],
+       [
+        53320,
+        156600,
+        -1464
+       ],
+       [
+        53320,
+        155608,
+        -1992
+       ],
+       [
+        53336,
+        154632,
+        -1768
+       ],
+       [
+        53320,
+        153640,
+        -2384
+       ],
+       [
+        53320,
+        152648,
+        -2376
+       ],
+       [
+        53320,
+        151656,
+        -2448
+       ],
+       [
+        53320,
+        150664,
+        -2480
+       ],
+       [
+        53320,
+        149672,
+        -2464
+       ],
+       [
+        53320,
+        148680,
+        -2440
+       ],
+       [
+        53304,
+        148184,
+        -2392
+       ],
+       [
+        53320,
+        147192,
+        -2880
+       ],
+       [
+        53288,
+        147080,
+        -2880
+       ],
+       [
+        53320,
+        146088,
+        -2944
+       ],
+       [
+        53800,
+        145592,
+        -3088
+       ],
+       [
+        54280,
+        145096,
+        -3232
+       ],
+       [
+        54584,
+        144792,
+        -3184
+       ],
+       [
+        54584,
+        144712,
+        -3256
+       ],
+       [
+        54824,
+        144408,
+        -3224
+       ],
+       [
+        54824,
+        144376,
+        -3224
+       ],
+       [
+        54712,
+        144200,
+        -3224
+       ],
+       [
+        54072,
+        143896,
+        -3640
+       ],
+       [
+        54040,
+        143880,
+        -3664
+       ],
+       [
+        53928,
+        143704,
+        -3704
+       ],
+       [
+        53912,
+        143704,
+        -3744
+       ],
+       [
+        53912,
+        143720,
+        -3760
+       ],
+       [
+        53896,
+        143720,
+        -3776
+       ],
+       [
+        53896,
+        143736,
+        -3784
+       ],
+       [
+        53864,
+        143720,
+        -3832
+       ],
+       [
+        53320,
+        143128,
+        -3856
+       ]
+      ],
+      "maxDanger": 50,
+      "needs": [],
+      "why": [
+       "field_areas.json: no walkable way from any gatekeeper landing (Tanor Canyon, Dion — walls, cliffs or water) — tried the nearest landings on the geodata"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 50,
+       "dangerVsLevel": 11,
+       "aggro": [
+        {
+         "name": "Nightmare Lord",
+         "lv": 47,
+         "n": 7
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "tanor-canyon-cruma-tower-tanor-fortress-far-10",
+    "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 10: Nameless Revenant area (north)",
+    "at": [
+     53320,
+     143128,
+     -3856
+    ],
+    "radius": 1469,
+    "levels": [
+     38,
+     38
+    ],
+    "count": 5,
+    "region": "Tanor Canyon / Cruma Tower / Tanor Fortress",
+    "atlasKey": "area:tanor-canyon-cruma-tower-tanor-fortress-far-10",
+    "status": "ok",
+    "sec": 260,
+    "danger": 38,
+    "aggrShare": 1,
+    "reachable": false,
+    "score": 34.33333333333333,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:tanor-canyon-cruma-tower-tanor-fortress-far-10",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".dion",
+    "length": 25830,
+    "sec": 260,
+    "via": ".dion > Dion -> Tanor Canyon",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Tanor Canyon",
+      "link": "tanor canyon",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 25830,
+      "how": "geodata",
+      "danger": 50
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Tanor Canyon"
+    },
+    "simple": true,
+    "pv": [
+     [
+      60374,
+      164301,
+      -2856
+     ],
+     [
+      59879,
+      163803,
+      -2844
+     ],
+     [
+      59384,
+      163304,
+      -2832
+     ],
+     [
+      58888,
+      162808,
+      -2824
+     ],
+     [
+      58392,
+      162312,
+      -2816
+     ],
+     [
+      57896,
+      161816,
+      -2692
+     ],
+     [
+      57400,
+      161320,
+      -2568
+     ],
+     [
+      57352,
+      161160,
+      -2496
+     ],
+     [
+      56856,
+      160664,
+      -1996
+     ],
+     [
+      56360,
+      160168,
+      -1496
+     ],
+     [
+      55872,
+      159672,
+      -1292
+     ],
+     [
+      55384,
+      159176,
+      -1088
+     ],
+     [
+      55304,
+      158968,
+      -920
+     ],
+     [
+      55192,
+      158856,
+      -824
+     ],
+     [
+      54632,
+      158856,
+      -1040
+     ],
+     [
+      54232,
+      158584,
+      -840
+     ],
+     [
+      53776,
+      158088,
+      -948
+     ],
+     [
+      53320,
+      157592,
+      -1056
+     ],
+     [
+      53320,
+      156600,
+      -1464
+     ],
+     [
+      53320,
+      155608,
+      -1992
+     ],
+     [
+      53336,
+      154632,
+      -1768
+     ],
+     [
+      53320,
+      153640,
+      -2384
+     ],
+     [
+      53320,
+      152648,
+      -2376
+     ],
+     [
+      53320,
+      151656,
+      -2448
+     ],
+     [
+      53320,
+      150664,
+      -2480
+     ],
+     [
+      53320,
+      149672,
+      -2464
+     ],
+     [
+      53320,
+      148680,
+      -2440
+     ],
+     [
+      53304,
+      148184,
+      -2392
+     ],
+     [
+      53320,
+      147192,
+      -2880
+     ],
+     [
+      53288,
+      147080,
+      -2880
+     ],
+     [
+      53320,
+      146088,
+      -2944
+     ],
+     [
+      53800,
+      145592,
+      -3088
+     ],
+     [
+      54280,
+      145096,
+      -3232
+     ],
+     [
+      54584,
+      144792,
+      -3184
+     ],
+     [
+      54584,
+      144712,
+      -3256
+     ],
+     [
+      54824,
+      144408,
+      -3224
+     ],
+     [
+      54824,
+      144376,
+      -3224
+     ],
+     [
+      54712,
+      144200,
+      -3224
+     ],
+     [
+      54072,
+      143896,
+      -3640
+     ],
+     [
+      54040,
+      143880,
+      -3664
+     ],
+     [
+      53928,
+      143704,
+      -3704
+     ],
+     [
+      53912,
+      143704,
+      -3744
+     ],
+     [
+      53912,
+      143720,
+      -3760
+     ],
+     [
+      53896,
+      143720,
+      -3776
+     ],
+     [
+      53896,
+      143736,
+      -3784
+     ],
+     [
+      53864,
+      143720,
+      -3832
+     ],
+     [
+      53320,
+      143128,
+      -3856
+     ]
+    ],
+    "maxDanger": 50,
+    "needs": [],
+    "why": [
+     "field_areas.json: no walkable way from any gatekeeper landing (Tanor Canyon, Dion — walls, cliffs or water) — tried the nearest landings on the geodata"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 50,
+     "dangerVsLevel": 11,
+     "aggro": [
+      {
+       "name": "Nightmare Lord",
+       "lv": 47,
+       "n": 7
+      }
+     ]
+    }
+   },
+   "expectedSec": 435,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c9:spawn:27128",
+   "cond": 9,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27128,
+     "name": "Aruraune",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27130,
+     "name": "Ol Mahum Betrayer",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 2831,
+     "name": "Ripped Diary",
+     "n": 7,
+     "from": [
+      {
+       "id": 27099,
+       "name": "Nameless Revenant",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2833,
+     "name": "Letter of Betrayer",
+     "n": 1,
+     "from": [
+      {
+       "id": 27130,
+       "name": "Ol Mahum Betrayer",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     27099
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
+   },
+   "text": "Make Aruraune, Ol Mahum Betrayer appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "tanor-canyon-cruma-tower-tanor-fortress-far-10",
+    "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 10: Nameless Revenant area (north)",
+    "at": [
+     53320,
+     143128,
+     -3856
+    ],
+    "radius": 1469,
+    "levels": [
+     38,
+     38
+    ],
+    "count": 5,
+    "region": "Tanor Canyon / Cruma Tower / Tanor Fortress",
+    "atlasKey": "area:tanor-canyon-cruma-tower-tanor-fortress-far-10",
+    "status": "ok",
+    "sec": 260,
+    "danger": 38,
+    "aggrShare": 1,
+    "reachable": false,
+    "score": 34.33333333333333,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:tanor-canyon-cruma-tower-tanor-fortress-far-10",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".dion",
+    "length": 25830,
+    "sec": 260,
+    "via": ".dion > Dion -> Tanor Canyon",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Tanor Canyon",
+      "link": "tanor canyon",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 25830,
+      "how": "geodata",
+      "danger": 50
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Tanor Canyon"
+    },
+    "simple": true,
+    "pv": [
+     [
+      60374,
+      164301,
+      -2856
+     ],
+     [
+      59879,
+      163803,
+      -2844
+     ],
+     [
+      59384,
+      163304,
+      -2832
+     ],
+     [
+      58888,
+      162808,
+      -2824
+     ],
+     [
+      58392,
+      162312,
+      -2816
+     ],
+     [
+      57896,
+      161816,
+      -2692
+     ],
+     [
+      57400,
+      161320,
+      -2568
+     ],
+     [
+      57352,
+      161160,
+      -2496
+     ],
+     [
+      56856,
+      160664,
+      -1996
+     ],
+     [
+      56360,
+      160168,
+      -1496
+     ],
+     [
+      55872,
+      159672,
+      -1292
+     ],
+     [
+      55384,
+      159176,
+      -1088
+     ],
+     [
+      55304,
+      158968,
+      -920
+     ],
+     [
+      55192,
+      158856,
+      -824
+     ],
+     [
+      54632,
+      158856,
+      -1040
+     ],
+     [
+      54232,
+      158584,
+      -840
+     ],
+     [
+      53776,
+      158088,
+      -948
+     ],
+     [
+      53320,
+      157592,
+      -1056
+     ],
+     [
+      53320,
+      156600,
+      -1464
+     ],
+     [
+      53320,
+      155608,
+      -1992
+     ],
+     [
+      53336,
+      154632,
+      -1768
+     ],
+     [
+      53320,
+      153640,
+      -2384
+     ],
+     [
+      53320,
+      152648,
+      -2376
+     ],
+     [
+      53320,
+      151656,
+      -2448
+     ],
+     [
+      53320,
+      150664,
+      -2480
+     ],
+     [
+      53320,
+      149672,
+      -2464
+     ],
+     [
+      53320,
+      148680,
+      -2440
+     ],
+     [
+      53304,
+      148184,
+      -2392
+     ],
+     [
+      53320,
+      147192,
+      -2880
+     ],
+     [
+      53288,
+      147080,
+      -2880
+     ],
+     [
+      53320,
+      146088,
+      -2944
+     ],
+     [
+      53800,
+      145592,
+      -3088
+     ],
+     [
+      54280,
+      145096,
+      -3232
+     ],
+     [
+      54584,
+      144792,
+      -3184
+     ],
+     [
+      54584,
+      144712,
+      -3256
+     ],
+     [
+      54824,
+      144408,
+      -3224
+     ],
+     [
+      54824,
+      144376,
+      -3224
+     ],
+     [
+      54712,
+      144200,
+      -3224
+     ],
+     [
+      54072,
+      143896,
+      -3640
+     ],
+     [
+      54040,
+      143880,
+      -3664
+     ],
+     [
+      53928,
+      143704,
+      -3704
+     ],
+     [
+      53912,
+      143704,
+      -3744
+     ],
+     [
+      53912,
+      143720,
+      -3760
+     ],
+     [
+      53896,
+      143720,
+      -3776
+     ],
+     [
+      53896,
+      143736,
+      -3784
+     ],
+     [
+      53864,
+      143720,
+      -3832
+     ],
+     [
+      53320,
+      143128,
+      -3856
+     ]
+    ],
+    "maxDanger": 50,
+    "needs": [],
+    "why": [
+     "field_areas.json: no walkable way from any gatekeeper landing (Tanor Canyon, Dion — walls, cliffs or water) — tried the nearest landings on the geodata"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 50,
+     "dangerVsLevel": 11,
+     "aggro": [
+      {
+       "name": "Nightmare Lord",
+       "lv": 47,
+       "n": 7
+      }
+     ]
+    }
+   },
+   "expectedSec": 560,
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c9:deliver:30668",
+   "cond": 9,
+   "kind": "deliver",
+   "to": 10,
+   "links": [],
+   "npc": {
+    "id": 30668,
+    "name": "Katari",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     -3826,
+     40264,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Bring Letter of Betrayer to Katari",
+   "needs": [
+    {
+     "id": 2833,
+     "name": "Letter of Betrayer",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30668@-3826,40264",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 18173,
+    "sec": 221,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Swampland",
+      "link": "swampland",
+      "price": 1100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18173,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -21966,
+      40544,
+      -3192
+     ],
+     [
+      -21467,
+      40404,
+      -3272
+     ],
+     [
+      -20968,
+      40264,
+      -3352
+     ],
+     [
+      -19976,
+      40264,
+      -3504
+     ],
+     [
+      -18984,
+      40264,
+      -3616
+     ],
+     [
+      -17992,
+      40264,
+      -3640
+     ],
+     [
+      -17000,
+      40264,
+      -3760
+     ],
+     [
+      -16008,
+      40264,
+      -3760
+     ],
+     [
+      -15416,
+      40248,
+      -3752
+     ],
+     [
+      -14424,
+      40264,
+      -3776
+     ],
+     [
+      -13432,
+      40264,
+      -3736
+     ],
+     [
+      -12440,
+      40264,
+      -3760
+     ],
+     [
+      -11448,
+      40264,
+      -3768
+     ],
+     [
+      -10456,
+      40264,
+      -3752
+     ],
+     [
+      -9464,
+      40264,
+      -3736
+     ],
+     [
+      -8472,
+      40264,
+      -3760
+     ],
+     [
+      -7480,
+      40264,
+      -3736
+     ],
+     [
+      -6488,
+      40264,
+      -3680
+     ],
+     [
+      -5496,
+      40264,
+      -3680
+     ],
+     [
+      -4504,
+      40264,
+      -3664
+     ],
+     [
+      -3832,
+      40264,
+      -3672
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 246,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c10:deliver:30666",
+   "cond": 10,
+   "kind": "deliver",
+   "to": 11,
+   "links": [],
+   "npc": {
+    "id": 30666,
+    "name": "Sla",
+    "title": "Preacher",
+    "town": "Floran",
+    "at": [
+     -671,
+     179051,
+     -3708
+    ],
+    "alt": []
+   },
+   "text": "Bring Ol Mahum's Money to Sla",
+   "needs": [
+    {
+     "id": 2826,
+     "name": "Ol Mahum's Money",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30666@-671,179051",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1303,
+    "sec": 56,
+    "via": ".dion > Dion -> Plains of Dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Plains of Dion",
+      "link": "plains of dion",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1303,
+      "how": "geodata",
+      "danger": 26
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      630,
+      179184,
+      -3720
+     ],
+     [
+      -360,
+      179048,
+      -3704
+     ],
+     [
+      -664,
+      179048,
+      -3704
+     ]
+    ],
+    "maxDanger": 26,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 26,
+     "dangerVsLevel": -13,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10
+   ]
+  },
+  {
+   "i": 13,
+   "key": "c11:talk:30669",
+   "cond": 11,
+   "kind": "talk",
+   "to": 12,
+   "links": [
+    "\"I will help.\""
+   ],
+   "npc": {
+    "id": 30669,
+    "name": "Kakan",
+    "title": "",
+    "town": "Orc Village",
+    "at": [
+     -9563,
+     -89959,
+     -2320
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kakan",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30669@-9563,-89959",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 19553,
+    "sec": 233,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Immortal Plateau,Southern Region",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> Immortal Plateau,Southern Region",
+      "link": "immortal plateau, southern region",
+      "price": 2000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 19553,
+      "how": "geodata",
+      "danger": 23
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -4190,
+      -80040,
+      -2696
+     ],
+     [
+      -4184,
+      -80040,
+      -2696
+     ],
+     [
+      -3688,
+      -80104,
+      -2604
+     ],
+     [
+      -3192,
+      -80168,
+      -2512
+     ],
+     [
+      -2200,
+      -80168,
+      -2432
+     ],
+     [
+      -1912,
+      -80168,
+      -2432
+     ],
+     [
+      -1912,
+      -81160,
+      -2424
+     ],
+     [
+      -1912,
+      -82152,
+      -2416
+     ],
+     [
+      -1912,
+      -82568,
+      -2416
+     ],
+     [
+      -1912,
+      -83560,
+      -2112
+     ],
+     [
+      -1912,
+      -84552,
+      -2032
+     ],
+     [
+      -1912,
+      -84968,
+      -2080
+     ],
+     [
+      -1912,
+      -85960,
+      -2208
+     ],
+     [
+      -1912,
+      -86952,
+      -2328
+     ],
+     [
+      -1912,
+      -87368,
+      -2368
+     ],
+     [
+      -1912,
+      -88360,
+      -2424
+     ],
+     [
+      -1912,
+      -89352,
+      -2216
+     ],
+     [
+      -1912,
+      -89768,
+      -2088
+     ],
+     [
+      -2408,
+      -89864,
+      -2116
+     ],
+     [
+      -2904,
+      -89960,
+      -2144
+     ],
+     [
+      -3896,
+      -89960,
+      -2264
+     ],
+     [
+      -4120,
+      -89960,
+      -2280
+     ],
+     [
+      -5112,
+      -89960,
+      -2368
+     ],
+     [
+      -6104,
+      -89960,
+      -2384
+     ],
+     [
+      -6520,
+      -89960,
+      -2392
+     ],
+     [
+      -7512,
+      -89960,
+      -2312
+     ],
+     [
+      -8504,
+      -89960,
+      -2336
+     ],
+     [
+      -8920,
+      -89960,
+      -2336
+     ],
+     [
+      -9560,
+      -89960,
+      -2320
+     ]
+    ],
+    "maxDanger": 23,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 23,
+     "dangerVsLevel": -16,
+     "aggro": []
+    }
+   },
+   "expectedSec": 258,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    11
+   ]
+  },
+  {
+   "i": 14,
+   "key": "c13:deliver:30669",
+   "cond": 13,
+   "kind": "deliver",
+   "to": 14,
+   "links": [],
+   "npc": {
+    "id": 30669,
+    "name": "Kakan",
+    "title": "",
+    "town": "Orc Village",
+    "at": [
+     -9563,
+     -89959,
+     -2320
+    ],
+    "alt": []
+   },
+   "text": "Bring Greetings to Kakan",
+   "needs": [
+    {
+     "id": 2825,
+     "name": "Greetings",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30669@-9563,-89959",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 19553,
+    "sec": 233,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Immortal Plateau,Southern Region",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> Immortal Plateau,Southern Region",
+      "link": "immortal plateau, southern region",
+      "price": 2000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 19553,
+      "how": "geodata",
+      "danger": 23
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -4190,
+      -80040,
+      -2696
+     ],
+     [
+      -4184,
+      -80040,
+      -2696
+     ],
+     [
+      -3688,
+      -80104,
+      -2604
+     ],
+     [
+      -3192,
+      -80168,
+      -2512
+     ],
+     [
+      -2200,
+      -80168,
+      -2432
+     ],
+     [
+      -1912,
+      -80168,
+      -2432
+     ],
+     [
+      -1912,
+      -81160,
+      -2424
+     ],
+     [
+      -1912,
+      -82152,
+      -2416
+     ],
+     [
+      -1912,
+      -82568,
+      -2416
+     ],
+     [
+      -1912,
+      -83560,
+      -2112
+     ],
+     [
+      -1912,
+      -84552,
+      -2032
+     ],
+     [
+      -1912,
+      -84968,
+      -2080
+     ],
+     [
+      -1912,
+      -85960,
+      -2208
+     ],
+     [
+      -1912,
+      -86952,
+      -2328
+     ],
+     [
+      -1912,
+      -87368,
+      -2368
+     ],
+     [
+      -1912,
+      -88360,
+      -2424
+     ],
+     [
+      -1912,
+      -89352,
+      -2216
+     ],
+     [
+      -1912,
+      -89768,
+      -2088
+     ],
+     [
+      -2408,
+      -89864,
+      -2116
+     ],
+     [
+      -2904,
+      -89960,
+      -2144
+     ],
+     [
+      -3896,
+      -89960,
+      -2264
+     ],
+     [
+      -4120,
+      -89960,
+      -2280
+     ],
+     [
+      -5112,
+      -89960,
+      -2368
+     ],
+     [
+      -6104,
+      -89960,
+      -2384
+     ],
+     [
+      -6520,
+      -89960,
+      -2392
+     ],
+     [
+      -7512,
+      -89960,
+      -2312
+     ],
+     [
+      -8504,
+      -89960,
+      -2336
+     ],
+     [
+      -8920,
+      -89960,
+      -2336
+     ],
+     [
+      -9560,
+      -89960,
+      -2320
+     ]
+    ],
+    "maxDanger": 23,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 23,
+     "dangerVsLevel": -16,
+     "aggro": []
+    }
+   },
+   "expectedSec": 258,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    13
+   ]
+  },
+  {
+   "i": 15,
+   "key": "c14:talk:30670",
+   "cond": 14,
+   "kind": "talk",
+   "to": 15,
+   "links": [
+    "\"I will fight and win!\""
+   ],
+   "npc": {
+    "id": 30670,
+    "name": "Nyakuri",
+    "title": "",
+    "town": "Dwarven Village",
+    "at": [
+     125832,
+     -180002,
+     -1773
+    ],
+    "alt": []
+   },
+   "text": "Talk to Nyakuri",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30670@125832,-180002",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 17026,
+    "sec": 212,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Abandoned Coal Mines",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Dwarven",
+      "desc": "Dwarven Village -> Abandoned Coal Mines",
+      "link": "abandoned coal mines",
+      "price": 690,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 17026,
+      "how": "geodata",
+      "danger": 7
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      139714,
+      -177456,
+      -1536
+     ],
+     [
+      139221,
+      -177948,
+      -1544
+     ],
+     [
+      138728,
+      -178440,
+      -1552
+     ],
+     [
+      138232,
+      -178936,
+      -1584
+     ],
+     [
+      137736,
+      -179432,
+      -1616
+     ],
+     [
+      137240,
+      -179568,
+      -1716
+     ],
+     [
+      136744,
+      -179704,
+      -1816
+     ],
+     [
+      136168,
+      -179704,
+      -1968
+     ],
+     [
+      135576,
+      -180008,
+      -1872
+     ],
+     [
+      134584,
+      -180008,
+      -2272
+     ],
+     [
+      133592,
+      -180008,
+      -2664
+     ],
+     [
+      133096,
+      -179712,
+      -2680
+     ],
+     [
+      132600,
+      -179416,
+      -2696
+     ],
+     [
+      132104,
+      -178920,
+      -2676
+     ],
+     [
+      131608,
+      -178424,
+      -2656
+     ],
+     [
+      131112,
+      -177928,
+      -2636
+     ],
+     [
+      130616,
+      -177432,
+      -2616
+     ],
+     [
+      130440,
+      -177256,
+      -2568
+     ],
+     [
+      130312,
+      -177144,
+      -2536
+     ],
+     [
+      129912,
+      -177144,
+      -2336
+     ],
+     [
+      129416,
+      -177552,
+      -2228
+     ],
+     [
+      128920,
+      -177960,
+      -2120
+     ],
+     [
+      128872,
+      -177960,
+      -2120
+     ],
+     [
+      128376,
+      -178456,
+      -2032
+     ],
+     [
+      127880,
+      -178952,
+      -1944
+     ],
+     [
+      127384,
+      -179448,
+      -1892
+     ],
+     [
+      126888,
+      -179944,
+      -1840
+     ],
+     [
+      125896,
+      -180008,
+      -1776
+     ],
+     [
+      125832,
+      -180008,
+      -1768
+     ]
+    ],
+    "maxDanger": 7,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 7,
+     "dangerVsLevel": -32,
+     "aggro": []
+    }
+   },
+   "expectedSec": 237,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    14
+   ]
+  },
+  {
+   "i": 16,
+   "key": "c16:deliver:30670",
+   "cond": 16,
+   "kind": "deliver",
+   "to": 17,
+   "links": [],
+   "npc": {
+    "id": 30670,
+    "name": "Nyakuri",
+    "title": "",
+    "town": "Dwarven Village",
+    "at": [
+     125832,
+     -180002,
+     -1773
+    ],
+    "alt": []
+   },
+   "text": "Bring Letter of Greetings to Nyakuri",
+   "needs": [
+    {
+     "id": 5567,
+     "name": "Letter of Greetings",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30670@125832,-180002",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 17026,
+    "sec": 212,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Abandoned Coal Mines",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Dwarven",
+      "desc": "Dwarven Village -> Abandoned Coal Mines",
+      "link": "abandoned coal mines",
+      "price": 690,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 17026,
+      "how": "geodata",
+      "danger": 7
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      139714,
+      -177456,
+      -1536
+     ],
+     [
+      139221,
+      -177948,
+      -1544
+     ],
+     [
+      138728,
+      -178440,
+      -1552
+     ],
+     [
+      138232,
+      -178936,
+      -1584
+     ],
+     [
+      137736,
+      -179432,
+      -1616
+     ],
+     [
+      137240,
+      -179568,
+      -1716
+     ],
+     [
+      136744,
+      -179704,
+      -1816
+     ],
+     [
+      136168,
+      -179704,
+      -1968
+     ],
+     [
+      135576,
+      -180008,
+      -1872
+     ],
+     [
+      134584,
+      -180008,
+      -2272
+     ],
+     [
+      133592,
+      -180008,
+      -2664
+     ],
+     [
+      133096,
+      -179712,
+      -2680
+     ],
+     [
+      132600,
+      -179416,
+      -2696
+     ],
+     [
+      132104,
+      -178920,
+      -2676
+     ],
+     [
+      131608,
+      -178424,
+      -2656
+     ],
+     [
+      131112,
+      -177928,
+      -2636
+     ],
+     [
+      130616,
+      -177432,
+      -2616
+     ],
+     [
+      130440,
+      -177256,
+      -2568
+     ],
+     [
+      130312,
+      -177144,
+      -2536
+     ],
+     [
+      129912,
+      -177144,
+      -2336
+     ],
+     [
+      129416,
+      -177552,
+      -2228
+     ],
+     [
+      128920,
+      -177960,
+      -2120
+     ],
+     [
+      128872,
+      -177960,
+      -2120
+     ],
+     [
+      128376,
+      -178456,
+      -2032
+     ],
+     [
+      127880,
+      -178952,
+      -1944
+     ],
+     [
+      127384,
+      -179448,
+      -1892
+     ],
+     [
+      126888,
+      -179944,
+      -1840
+     ],
+     [
+      125896,
+      -180008,
+      -1776
+     ],
+     [
+      125832,
+      -180008,
+      -1768
+     ]
+    ],
+    "maxDanger": 7,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 7,
+     "dangerVsLevel": -32,
+     "aggro": []
+    }
+   },
+   "expectedSec": 237,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    16
+   ]
+  },
+  {
+   "i": 17,
+   "key": "c17:deliver:30667",
+   "cond": 17,
+   "kind": "deliver",
+   "to": 18,
+   "links": [],
+   "npc": {
+    "id": 30667,
+    "name": "Ramus",
+    "title": "",
+    "town": "Talking Island",
+    "at": [
+     -112206,
+     244303,
+     -3448
+    ],
+    "alt": []
+   },
+   "text": "Bring Letter of Greetings to Ramus",
+   "needs": [
+    {
+     "id": 5568,
+     "name": "Letter of Greetings",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30667@-112206,244303",
+    "status": "ok",
+    "flags": [
+     "link-unverified"
+    ],
+    "from": ".gludin",
+    "length": 473,
+    "sec": 74,
+    "via": ".gludin > Gludin -> TI Village > TI -> Singing Waterfall",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "TI",
+      "desc": "TI -> Singing Waterfall",
+      "link": "Singing Waterfall",
+      "price": 770,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 473,
+      "how": "geodata",
+      "danger": 14
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -111728,
+      244330,
+      -3448
+     ],
+     [
+      -112200,
+      244296,
+      -3448
+     ]
+    ],
+    "maxDanger": 14,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 14,
+     "dangerVsLevel": -25,
+     "aggro": []
+    }
+   },
+   "expectedSec": 99,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    17
+   ]
+  },
+  {
+   "i": 18,
+   "key": "c18:hunt",
+   "cond": 18,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20022,
+     "name": "Misery Skeleton",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 20100,
+     "name": "Skeleton Archer",
+     "level": 13,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    },
+    {
+     "id": 20102,
+     "name": "Skeleton Marksman",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20104,
+     "name": "Skeleton Lord",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20404,
+     "name": "Silent Horror",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 27099,
+     "name": "Nameless Revenant",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2831,
+     "name": "Ripped Diary",
+     "n": 7,
+     "from": [
+      {
+       "id": 27099,
+       "name": "Nameless Revenant",
        "chance": 100
       }
      ]
@@ -372,7 +4907,7 @@
     "no-route",
     "aggro-on-way"
    ],
-   "text": "Hunt Misery Skeleton, Skeleton Archer, Skeleton Marksman for Ripped Diary x6, Letter of Betrayer x1, Bone Fragment x1, Bone Fragment x1, Bone Fragment x1, Bone Fragment x1, Bone Fragment x1",
+   "text": "Hunt Misery Skeleton, Skeleton Archer, Skeleton Marksman for Ripped Diary x7, Bone Fragment x1, Bone Fragment x1, Bone Fragment x1, Bone Fragment x1, Bone Fragment x1",
    "places": [
     {
      "mobs": [
@@ -1677,38 +6212,19 @@
      "name": "Tiramisa"
     }
    },
-   "expectedSec": 510,
+   "expectedSec": 535,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "hunt"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
+    18
    ]
   },
   {
-   "i": 2,
-   "key": "c1:spawn:27128",
-   "cond": 1,
+   "i": 19,
+   "key": "c18:spawn:27128",
+   "cond": 18,
    "kind": "spawn",
    "monsters": [
     {
@@ -1734,23 +6250,11 @@
     {
      "id": 2831,
      "name": "Ripped Diary",
-     "n": 6,
+     "n": 7,
      "from": [
       {
        "id": 27099,
        "name": "Nameless Revenant",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 2833,
-     "name": "Letter of Betrayer",
-     "n": 1,
-     "from": [
-      {
-       "id": 27130,
-       "name": "Ol Mahum Betrayer",
        "chance": 100
       }
      ]
@@ -1818,14 +6322,15 @@
    ],
    "kills": 1,
    "reasons": [
-    "item-from-quest-mob",
     "aggro-on-way"
    ],
    "engine": {
     "how": "kill",
     "trigger": [
      27099
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Aruraune, Ol Mahum Betrayer appear and kill it",
    "area": {
@@ -2150,32 +6655,120 @@
    },
    "expectedSec": 560,
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
+    18
    ]
   },
   {
-   "i": 3,
-   "key": "c1:deliver:30666",
-   "cond": 1,
+   "i": 20,
+   "key": "c19:deliver:30667",
+   "cond": 19,
+   "kind": "deliver",
+   "to": 20,
+   "links": [],
+   "npc": {
+    "id": 30667,
+    "name": "Ramus",
+    "title": "",
+    "town": "Talking Island",
+    "at": [
+     -112206,
+     244303,
+     -3448
+    ],
+    "alt": []
+   },
+   "text": "Bring Undead List to Ramus",
+   "needs": [
+    {
+     "id": 2829,
+     "name": "Undead List",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30667@-112206,244303",
+    "status": "ok",
+    "flags": [
+     "link-unverified"
+    ],
+    "from": ".gludin",
+    "length": 473,
+    "sec": 74,
+    "via": ".gludin > Gludin -> TI Village > TI -> Singing Waterfall",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "TI",
+      "desc": "TI -> Singing Waterfall",
+      "link": "Singing Waterfall",
+      "price": 770,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 473,
+      "how": "geodata",
+      "danger": 14
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -111728,
+      244330,
+      -3448
+     ],
+     [
+      -112200,
+      244296,
+      -3448
+     ]
+    ],
+    "maxDanger": 14,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 14,
+     "dangerVsLevel": -25,
+     "aggro": []
+    }
+   },
+   "expectedSec": 99,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    19
+   ]
+  },
+  {
+   "i": 21,
+   "key": "c20:deliver:30666",
+   "cond": 20,
    "kind": "deliver",
    "to": "end",
    "links": [],
@@ -2281,1890 +6874,6 @@
     }
    },
    "expectedSec": 81,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
-   ]
-  },
-  {
-   "i": 4,
-   "key": "c1:deliver:30667",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 20,
-   "links": [],
-   "npc": {
-    "id": 30667,
-    "name": "Ramus",
-    "title": "",
-    "town": "Talking Island",
-    "at": [
-     -112206,
-     244303,
-     -3448
-    ],
-    "alt": []
-   },
-   "text": "Bring Undead List to Ramus",
-   "needs": [
-    {
-     "id": 2829,
-     "name": "Undead List",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30667@-112206,244303",
-    "status": "ok",
-    "flags": [
-     "link-unverified"
-    ],
-    "from": ".gludin",
-    "length": 473,
-    "sec": 74,
-    "via": ".gludin > Gludin -> TI Village > TI -> Singing Waterfall",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> TI Village",
-      "link": "talking island village",
-      "price": 9400,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "TI",
-      "desc": "TI -> Singing Waterfall",
-      "link": "Singing Waterfall",
-      "price": 770,
-      "live": false
-     },
-     {
-      "do": "walk",
-      "len": 473,
-      "how": "geodata",
-      "danger": 14
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> TI Village"
-    },
-    "simple": false,
-    "pv": [
-     [
-      -111728,
-      244330,
-      -3448
-     ],
-     [
-      -112200,
-      244296,
-      -3448
-     ]
-    ],
-    "maxDanger": 14,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 14,
-     "dangerVsLevel": -25,
-     "aggro": []
-    }
-   },
-   "expectedSec": 99,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19
-   ]
-  },
-  {
-   "i": 5,
-   "key": "c1:deliver:30670",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 17,
-   "links": [],
-   "npc": {
-    "id": 30670,
-    "name": "Nyakuri",
-    "title": "",
-    "town": "Dwarven Village",
-    "at": [
-     125832,
-     -180002,
-     -1773
-    ],
-    "alt": []
-   },
-   "text": "Bring Letter of Greetings to Nyakuri",
-   "needs": [
-    {
-     "id": 5567,
-     "name": "Letter of Greetings",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30670@125832,-180002",
-    "status": "ok",
-    "flags": [],
-    "from": ".schuttgart",
-    "length": 17026,
-    "sec": 212,
-    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Abandoned Coal Mines",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Schuttgart",
-      "cmd": ".schuttgart"
-     },
-     {
-      "do": "gk",
-      "from": "Schuttgart",
-      "desc": "Schuttgart -> Dwarven Village",
-      "link": "dwarven village",
-      "price": 4400,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "Dwarven",
-      "desc": "Dwarven Village -> Abandoned Coal Mines",
-      "link": "abandoned coal mines",
-      "price": 690,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 17026,
-      "how": "geodata",
-      "danger": 7
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Schuttgart",
-     "desc": "Schuttgart -> Dwarven Village"
-    },
-    "simple": false,
-    "pv": [
-     [
-      139714,
-      -177456,
-      -1536
-     ],
-     [
-      139221,
-      -177948,
-      -1544
-     ],
-     [
-      138728,
-      -178440,
-      -1552
-     ],
-     [
-      138232,
-      -178936,
-      -1584
-     ],
-     [
-      137736,
-      -179432,
-      -1616
-     ],
-     [
-      137240,
-      -179568,
-      -1716
-     ],
-     [
-      136744,
-      -179704,
-      -1816
-     ],
-     [
-      136168,
-      -179704,
-      -1968
-     ],
-     [
-      135576,
-      -180008,
-      -1872
-     ],
-     [
-      134584,
-      -180008,
-      -2272
-     ],
-     [
-      133592,
-      -180008,
-      -2664
-     ],
-     [
-      133096,
-      -179712,
-      -2680
-     ],
-     [
-      132600,
-      -179416,
-      -2696
-     ],
-     [
-      132104,
-      -178920,
-      -2676
-     ],
-     [
-      131608,
-      -178424,
-      -2656
-     ],
-     [
-      131112,
-      -177928,
-      -2636
-     ],
-     [
-      130616,
-      -177432,
-      -2616
-     ],
-     [
-      130440,
-      -177256,
-      -2568
-     ],
-     [
-      130312,
-      -177144,
-      -2536
-     ],
-     [
-      129912,
-      -177144,
-      -2336
-     ],
-     [
-      129416,
-      -177552,
-      -2228
-     ],
-     [
-      128920,
-      -177960,
-      -2120
-     ],
-     [
-      128872,
-      -177960,
-      -2120
-     ],
-     [
-      128376,
-      -178456,
-      -2032
-     ],
-     [
-      127880,
-      -178952,
-      -1944
-     ],
-     [
-      127384,
-      -179448,
-      -1892
-     ],
-     [
-      126888,
-      -179944,
-      -1840
-     ],
-     [
-      125896,
-      -180008,
-      -1776
-     ],
-     [
-      125832,
-      -180008,
-      -1768
-     ]
-    ],
-    "maxDanger": 7,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 7,
-     "dangerVsLevel": -32,
-     "aggro": []
-    }
-   },
-   "expectedSec": 237,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    18,
-    19,
-    20
-   ]
-  },
-  {
-   "i": 6,
-   "key": "c1:deliver:30669",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 14,
-   "links": [],
-   "npc": {
-    "id": 30669,
-    "name": "Kakan",
-    "title": "",
-    "town": "Orc Village",
-    "at": [
-     -9563,
-     -89959,
-     -2320
-    ],
-    "alt": []
-   },
-   "text": "Bring Greetings to Kakan",
-   "needs": [
-    {
-     "id": 2825,
-     "name": "Greetings",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30669@-9563,-89959",
-    "status": "ok",
-    "flags": [],
-    "from": ".schuttgart",
-    "length": 19553,
-    "sec": 233,
-    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Immortal Plateau,Southern Region",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Schuttgart",
-      "cmd": ".schuttgart"
-     },
-     {
-      "do": "gk",
-      "from": "Schuttgart",
-      "desc": "Schuttgart -> Orc Village",
-      "link": "orc village",
-      "price": 13000,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "Orc",
-      "desc": "Orc Village -> Immortal Plateau,Southern Region",
-      "link": "immortal plateau, southern region",
-      "price": 2000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 19553,
-      "how": "geodata",
-      "danger": 23
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Schuttgart",
-     "desc": "Schuttgart -> Orc Village"
-    },
-    "simple": false,
-    "pv": [
-     [
-      -4190,
-      -80040,
-      -2696
-     ],
-     [
-      -4184,
-      -80040,
-      -2696
-     ],
-     [
-      -3688,
-      -80104,
-      -2604
-     ],
-     [
-      -3192,
-      -80168,
-      -2512
-     ],
-     [
-      -2200,
-      -80168,
-      -2432
-     ],
-     [
-      -1912,
-      -80168,
-      -2432
-     ],
-     [
-      -1912,
-      -81160,
-      -2424
-     ],
-     [
-      -1912,
-      -82152,
-      -2416
-     ],
-     [
-      -1912,
-      -82568,
-      -2416
-     ],
-     [
-      -1912,
-      -83560,
-      -2112
-     ],
-     [
-      -1912,
-      -84552,
-      -2032
-     ],
-     [
-      -1912,
-      -84968,
-      -2080
-     ],
-     [
-      -1912,
-      -85960,
-      -2208
-     ],
-     [
-      -1912,
-      -86952,
-      -2328
-     ],
-     [
-      -1912,
-      -87368,
-      -2368
-     ],
-     [
-      -1912,
-      -88360,
-      -2424
-     ],
-     [
-      -1912,
-      -89352,
-      -2216
-     ],
-     [
-      -1912,
-      -89768,
-      -2088
-     ],
-     [
-      -2408,
-      -89864,
-      -2116
-     ],
-     [
-      -2904,
-      -89960,
-      -2144
-     ],
-     [
-      -3896,
-      -89960,
-      -2264
-     ],
-     [
-      -4120,
-      -89960,
-      -2280
-     ],
-     [
-      -5112,
-      -89960,
-      -2368
-     ],
-     [
-      -6104,
-      -89960,
-      -2384
-     ],
-     [
-      -6520,
-      -89960,
-      -2392
-     ],
-     [
-      -7512,
-      -89960,
-      -2312
-     ],
-     [
-      -8504,
-      -89960,
-      -2336
-     ],
-     [
-      -8920,
-      -89960,
-      -2336
-     ],
-     [
-      -9560,
-      -89960,
-      -2320
-     ]
-    ],
-    "maxDanger": 23,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 23,
-     "dangerVsLevel": -16,
-     "aggro": []
-    }
-   },
-   "expectedSec": 258,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
-   ]
-  },
-  {
-   "i": 7,
-   "key": "c1:deliver:30668",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 10,
-   "links": [],
-   "npc": {
-    "id": 30668,
-    "name": "Katari",
-    "title": "",
-    "town": "Dark Elf Village",
-    "at": [
-     -3826,
-     40264,
-     -3672
-    ],
-    "alt": []
-   },
-   "text": "Bring Letter of Betrayer to Katari",
-   "needs": [
-    {
-     "id": 2833,
-     "name": "Letter of Betrayer",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30668@-3826,40264",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 18173,
-    "sec": 221,
-    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> DE Village",
-      "link": "dark elf village",
-      "price": 10000,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "DarkElf",
-      "desc": "DE Village -> Swampland",
-      "link": "swampland",
-      "price": 1100,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 18173,
-      "how": "geodata",
-      "danger": 39
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> DE Village"
-    },
-    "simple": false,
-    "pv": [
-     [
-      -21966,
-      40544,
-      -3192
-     ],
-     [
-      -21467,
-      40404,
-      -3272
-     ],
-     [
-      -20968,
-      40264,
-      -3352
-     ],
-     [
-      -19976,
-      40264,
-      -3504
-     ],
-     [
-      -18984,
-      40264,
-      -3616
-     ],
-     [
-      -17992,
-      40264,
-      -3640
-     ],
-     [
-      -17000,
-      40264,
-      -3760
-     ],
-     [
-      -16008,
-      40264,
-      -3760
-     ],
-     [
-      -15416,
-      40248,
-      -3752
-     ],
-     [
-      -14424,
-      40264,
-      -3776
-     ],
-     [
-      -13432,
-      40264,
-      -3736
-     ],
-     [
-      -12440,
-      40264,
-      -3760
-     ],
-     [
-      -11448,
-      40264,
-      -3768
-     ],
-     [
-      -10456,
-      40264,
-      -3752
-     ],
-     [
-      -9464,
-      40264,
-      -3736
-     ],
-     [
-      -8472,
-      40264,
-      -3760
-     ],
-     [
-      -7480,
-      40264,
-      -3736
-     ],
-     [
-      -6488,
-      40264,
-      -3680
-     ],
-     [
-      -5496,
-      40264,
-      -3680
-     ],
-     [
-      -4504,
-      40264,
-      -3664
-     ],
-     [
-      -3832,
-      40264,
-      -3672
-     ]
-    ],
-    "maxDanger": 39,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 39,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 246,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
-   ]
-  },
-  {
-   "i": 8,
-   "key": "c1:deliver:30118",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 4,
-   "links": [
-    "\"I shall remain true to my beliefs.\""
-   ],
-   "npc": {
-    "id": 30118,
-    "name": "Pupina",
-    "title": "Priestess",
-    "town": "Giran",
-    "at": [
-     86485,
-     148384,
-     -3392
-    ],
-    "alt": []
-   },
-   "text": "Bring Book of Reform to Pupina",
-   "needs": [
-    {
-     "id": 2822,
-     "name": "Book of Reform",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30118@86485,148384",
-    "status": "ok",
-    "flags": [],
-    "from": ".giran",
-    "length": 3733,
-    "sec": 51,
-    "via": ".giran",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
-     },
-     {
-      "do": "walk",
-      "len": 3733,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Giran"
-    },
-    "simple": true,
-    "pv": [
-     [
-      83473,
-      148554,
-      -3400
-     ],
-     [
-      83480,
-      148552,
-      -3400
-     ],
-     [
-      83480,
-      148392,
-      -3400
-     ],
-     [
-      83592,
-      148216,
-      -3400
-     ],
-     [
-      83864,
-      148184,
-      -3392
-     ],
-     [
-      84136,
-      148216,
-      -3400
-     ],
-     [
-      84120,
-      148424,
-      -3400
-     ],
-     [
-      84184,
-      148600,
-      -3400
-     ],
-     [
-      84456,
-      148616,
-      -3400
-     ],
-     [
-      84728,
-      148616,
-      -3400
-     ],
-     [
-      85000,
-      148616,
-      -3400
-     ],
-     [
-      85160,
-      148616,
-      -3400
-     ],
-     [
-      85304,
-      148616,
-      -3400
-     ],
-     [
-      85576,
-      148616,
-      -3400
-     ],
-     [
-      85848,
-      148616,
-      -3400
-     ],
-     [
-      86120,
-      148616,
-      -3400
-     ],
-     [
-      86392,
-      148568,
-      -3400
-     ],
-     [
-      86488,
-      148392,
-      -3400
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 76,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
-   ]
-  },
-  {
-   "i": 9,
-   "key": "c1:talk:30732",
-   "cond": 1,
-   "kind": "talk",
-   "to": null,
-   "links": [],
-   "npc": {
-    "id": 30732,
-    "name": "Ol Mahum Pilgrim",
-    "title": "",
-    "town": "",
-    "at": null,
-    "alt": [],
-    "why": "npc-quest-spawned"
-   },
-   "text": "Talk to Ol Mahum Pilgrim",
-   "reasons": [
-    "npc-quest-spawned"
-   ],
-   "expectedSec": 25,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
-   ]
-  },
-  {
-   "i": 10,
-   "key": "c10:talk:30668",
-   "cond": 10,
-   "kind": "talk",
-   "to": 8,
-   "links": [],
-   "npc": {
-    "id": 30668,
-    "name": "Katari",
-    "title": "",
-    "town": "Dark Elf Village",
-    "at": [
-     -3826,
-     40264,
-     -3672
-    ],
-    "alt": []
-   },
-   "text": "Talk to Katari",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30668@-3826,40264",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 18173,
-    "sec": 221,
-    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> DE Village",
-      "link": "dark elf village",
-      "price": 10000,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "DarkElf",
-      "desc": "DE Village -> Swampland",
-      "link": "swampland",
-      "price": 1100,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 18173,
-      "how": "geodata",
-      "danger": 39
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> DE Village"
-    },
-    "simple": false,
-    "pv": [
-     [
-      -21966,
-      40544,
-      -3192
-     ],
-     [
-      -21467,
-      40404,
-      -3272
-     ],
-     [
-      -20968,
-      40264,
-      -3352
-     ],
-     [
-      -19976,
-      40264,
-      -3504
-     ],
-     [
-      -18984,
-      40264,
-      -3616
-     ],
-     [
-      -17992,
-      40264,
-      -3640
-     ],
-     [
-      -17000,
-      40264,
-      -3760
-     ],
-     [
-      -16008,
-      40264,
-      -3760
-     ],
-     [
-      -15416,
-      40248,
-      -3752
-     ],
-     [
-      -14424,
-      40264,
-      -3776
-     ],
-     [
-      -13432,
-      40264,
-      -3736
-     ],
-     [
-      -12440,
-      40264,
-      -3760
-     ],
-     [
-      -11448,
-      40264,
-      -3768
-     ],
-     [
-      -10456,
-      40264,
-      -3752
-     ],
-     [
-      -9464,
-      40264,
-      -3736
-     ],
-     [
-      -8472,
-      40264,
-      -3760
-     ],
-     [
-      -7480,
-      40264,
-      -3736
-     ],
-     [
-      -6488,
-      40264,
-      -3680
-     ],
-     [
-      -5496,
-      40264,
-      -3680
-     ],
-     [
-      -4504,
-      40264,
-      -3664
-     ],
-     [
-      -3832,
-      40264,
-      -3672
-     ]
-    ],
-    "maxDanger": 39,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 39,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 246,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    10
-   ]
-  },
-  {
-   "i": 11,
-   "key": "c14:talk:30669",
-   "cond": 14,
-   "kind": "talk",
-   "to": 12,
-   "links": [
-    "\"I will help.\""
-   ],
-   "npc": {
-    "id": 30669,
-    "name": "Kakan",
-    "title": "",
-    "town": "Orc Village",
-    "at": [
-     -9563,
-     -89959,
-     -2320
-    ],
-    "alt": []
-   },
-   "text": "Talk to Kakan",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30669@-9563,-89959",
-    "status": "ok",
-    "flags": [],
-    "from": ".schuttgart",
-    "length": 19553,
-    "sec": 233,
-    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Immortal Plateau,Southern Region",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Schuttgart",
-      "cmd": ".schuttgart"
-     },
-     {
-      "do": "gk",
-      "from": "Schuttgart",
-      "desc": "Schuttgart -> Orc Village",
-      "link": "orc village",
-      "price": 13000,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "Orc",
-      "desc": "Orc Village -> Immortal Plateau,Southern Region",
-      "link": "immortal plateau, southern region",
-      "price": 2000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 19553,
-      "how": "geodata",
-      "danger": 23
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Schuttgart",
-     "desc": "Schuttgart -> Orc Village"
-    },
-    "simple": false,
-    "pv": [
-     [
-      -4190,
-      -80040,
-      -2696
-     ],
-     [
-      -4184,
-      -80040,
-      -2696
-     ],
-     [
-      -3688,
-      -80104,
-      -2604
-     ],
-     [
-      -3192,
-      -80168,
-      -2512
-     ],
-     [
-      -2200,
-      -80168,
-      -2432
-     ],
-     [
-      -1912,
-      -80168,
-      -2432
-     ],
-     [
-      -1912,
-      -81160,
-      -2424
-     ],
-     [
-      -1912,
-      -82152,
-      -2416
-     ],
-     [
-      -1912,
-      -82568,
-      -2416
-     ],
-     [
-      -1912,
-      -83560,
-      -2112
-     ],
-     [
-      -1912,
-      -84552,
-      -2032
-     ],
-     [
-      -1912,
-      -84968,
-      -2080
-     ],
-     [
-      -1912,
-      -85960,
-      -2208
-     ],
-     [
-      -1912,
-      -86952,
-      -2328
-     ],
-     [
-      -1912,
-      -87368,
-      -2368
-     ],
-     [
-      -1912,
-      -88360,
-      -2424
-     ],
-     [
-      -1912,
-      -89352,
-      -2216
-     ],
-     [
-      -1912,
-      -89768,
-      -2088
-     ],
-     [
-      -2408,
-      -89864,
-      -2116
-     ],
-     [
-      -2904,
-      -89960,
-      -2144
-     ],
-     [
-      -3896,
-      -89960,
-      -2264
-     ],
-     [
-      -4120,
-      -89960,
-      -2280
-     ],
-     [
-      -5112,
-      -89960,
-      -2368
-     ],
-     [
-      -6104,
-      -89960,
-      -2384
-     ],
-     [
-      -6520,
-      -89960,
-      -2392
-     ],
-     [
-      -7512,
-      -89960,
-      -2312
-     ],
-     [
-      -8504,
-      -89960,
-      -2336
-     ],
-     [
-      -8920,
-      -89960,
-      -2336
-     ],
-     [
-      -9560,
-      -89960,
-      -2320
-     ]
-    ],
-    "maxDanger": 23,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 23,
-     "dangerVsLevel": -16,
-     "aggro": []
-    }
-   },
-   "expectedSec": 258,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    14
-   ]
-  },
-  {
-   "i": 12,
-   "key": "c17:talk:30670",
-   "cond": 17,
-   "kind": "talk",
-   "to": 15,
-   "links": [
-    "\"I will fight and win!\""
-   ],
-   "npc": {
-    "id": 30670,
-    "name": "Nyakuri",
-    "title": "",
-    "town": "Dwarven Village",
-    "at": [
-     125832,
-     -180002,
-     -1773
-    ],
-    "alt": []
-   },
-   "text": "Talk to Nyakuri",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30670@125832,-180002",
-    "status": "ok",
-    "flags": [],
-    "from": ".schuttgart",
-    "length": 17026,
-    "sec": 212,
-    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Abandoned Coal Mines",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Schuttgart",
-      "cmd": ".schuttgart"
-     },
-     {
-      "do": "gk",
-      "from": "Schuttgart",
-      "desc": "Schuttgart -> Dwarven Village",
-      "link": "dwarven village",
-      "price": 4400,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "Dwarven",
-      "desc": "Dwarven Village -> Abandoned Coal Mines",
-      "link": "abandoned coal mines",
-      "price": 690,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 17026,
-      "how": "geodata",
-      "danger": 7
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Schuttgart",
-     "desc": "Schuttgart -> Dwarven Village"
-    },
-    "simple": false,
-    "pv": [
-     [
-      139714,
-      -177456,
-      -1536
-     ],
-     [
-      139221,
-      -177948,
-      -1544
-     ],
-     [
-      138728,
-      -178440,
-      -1552
-     ],
-     [
-      138232,
-      -178936,
-      -1584
-     ],
-     [
-      137736,
-      -179432,
-      -1616
-     ],
-     [
-      137240,
-      -179568,
-      -1716
-     ],
-     [
-      136744,
-      -179704,
-      -1816
-     ],
-     [
-      136168,
-      -179704,
-      -1968
-     ],
-     [
-      135576,
-      -180008,
-      -1872
-     ],
-     [
-      134584,
-      -180008,
-      -2272
-     ],
-     [
-      133592,
-      -180008,
-      -2664
-     ],
-     [
-      133096,
-      -179712,
-      -2680
-     ],
-     [
-      132600,
-      -179416,
-      -2696
-     ],
-     [
-      132104,
-      -178920,
-      -2676
-     ],
-     [
-      131608,
-      -178424,
-      -2656
-     ],
-     [
-      131112,
-      -177928,
-      -2636
-     ],
-     [
-      130616,
-      -177432,
-      -2616
-     ],
-     [
-      130440,
-      -177256,
-      -2568
-     ],
-     [
-      130312,
-      -177144,
-      -2536
-     ],
-     [
-      129912,
-      -177144,
-      -2336
-     ],
-     [
-      129416,
-      -177552,
-      -2228
-     ],
-     [
-      128920,
-      -177960,
-      -2120
-     ],
-     [
-      128872,
-      -177960,
-      -2120
-     ],
-     [
-      128376,
-      -178456,
-      -2032
-     ],
-     [
-      127880,
-      -178952,
-      -1944
-     ],
-     [
-      127384,
-      -179448,
-      -1892
-     ],
-     [
-      126888,
-      -179944,
-      -1840
-     ],
-     [
-      125896,
-      -180008,
-      -1776
-     ],
-     [
-      125832,
-      -180008,
-      -1768
-     ]
-    ],
-    "maxDanger": 7,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 7,
-     "dangerVsLevel": -32,
-     "aggro": []
-    }
-   },
-   "expectedSec": 237,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    17
-   ]
-  },
-  {
-   "i": 13,
-   "key": "c20:deliver:30667",
-   "cond": 20,
-   "kind": "deliver",
-   "to": 18,
-   "links": [],
-   "npc": {
-    "id": 30667,
-    "name": "Ramus",
-    "title": "",
-    "town": "Talking Island",
-    "at": [
-     -112206,
-     244303,
-     -3448
-    ],
-    "alt": []
-   },
-   "text": "Bring Letter of Greetings to Ramus",
-   "needs": [
-    {
-     "id": 5568,
-     "name": "Letter of Greetings",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30667@-112206,244303",
-    "status": "ok",
-    "flags": [
-     "link-unverified"
-    ],
-    "from": ".gludin",
-    "length": 473,
-    "sec": 74,
-    "via": ".gludin > Gludin -> TI Village > TI -> Singing Waterfall",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> TI Village",
-      "link": "talking island village",
-      "price": 9400,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "TI",
-      "desc": "TI -> Singing Waterfall",
-      "link": "Singing Waterfall",
-      "price": 770,
-      "live": false
-     },
-     {
-      "do": "walk",
-      "len": 473,
-      "how": "geodata",
-      "danger": 14
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> TI Village"
-    },
-    "simple": false,
-    "pv": [
-     [
-      -111728,
-      244330,
-      -3448
-     ],
-     [
-      -112200,
-      244296,
-      -3448
-     ]
-    ],
-    "maxDanger": 14,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 14,
-     "dangerVsLevel": -25,
-     "aggro": []
-    }
-   },
-   "expectedSec": 99,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"

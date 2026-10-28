@@ -2,7 +2,7 @@
  "id": 130,
  "name": "Path To Hellbound",
  "version": 1,
- "generated": "2026-10-27T11:15:12.446Z",
+ "generated": "2026-10-27T18:18:47.597Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 78,
@@ -18,7 +18,7 @@
  "restrictions": [],
  "status": "ready",
  "reasons": [],
- "expectedMin": 8,
+ "expectedMin": 9,
  "refLevel": 78,
  "steps": [
   {
@@ -440,8 +440,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    3
+    1
    ]
   },
   {
@@ -650,13 +649,232 @@
    "conds": [
     2
    ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:32292",
+   "cond": 3,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Is there a way to enter Hellbound?\""
+   ],
+   "npc": {
+    "id": 32292,
+    "name": "Galate",
+    "title": "",
+    "town": "Heine",
+    "at": [
+     112017,
+     219528,
+     -3671
+    ],
+    "alt": []
+   },
+   "text": "Talk to Galate",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31688@112336,220128",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2569,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2281,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111464,
+      219000,
+      -3536
+     ],
+     [
+      111720,
+      219080,
+      -3536
+     ],
+     [
+      111992,
+      219096,
+      -3536
+     ],
+     [
+      112264,
+      219096,
+      -3536
+     ],
+     [
+      112536,
+      219128,
+      -3536
+     ],
+     [
+      112616,
+      219304,
+      -3536
+     ],
+     [
+      112616,
+      219576,
+      -3536
+     ],
+     [
+      112568,
+      219720,
+      -3536
+     ],
+     [
+      112472,
+      219976,
+      -3584
+     ],
+     [
+      112344,
+      220136,
+      -3592
+     ],
+     [
+      112024,
+      219816,
+      -3664
+     ],
+     [
+      112024,
+      219528,
+      -3664
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31688@112336,220128",
+     "name": "Grand Olympiad Manager"
+    },
+    "points": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111464,
+      219000,
+      -3536
+     ],
+     [
+      111720,
+      219080,
+      -3536
+     ],
+     [
+      111992,
+      219096,
+      -3536
+     ],
+     [
+      112264,
+      219096,
+      -3536
+     ],
+     [
+      112536,
+      219128,
+      -3536
+     ],
+     [
+      112616,
+      219304,
+      -3536
+     ],
+     [
+      112616,
+      219576,
+      -3536
+     ],
+     [
+      112568,
+      219720,
+      -3536
+     ],
+     [
+      112472,
+      219976,
+      -3584
+     ],
+     [
+      112344,
+      220136,
+      -3592
+     ],
+     [
+      112024,
+      219816,
+      -3664
+     ],
+     [
+      112024,
+      219528,
+      -3664
+     ]
+    ]
+   },
+   "expectedSec": 66,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
   }
  ],
  "override": {
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:12.511Z",
+  "at": "2026-10-27T18:18:47.617Z",
   "pass": true,
   "geo": true,
   "fails": [],

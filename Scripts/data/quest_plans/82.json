@@ -2,7 +2,7 @@
  "id": 82,
  "name": "Saga of the Sagittarius",
  "version": 1,
- "generated": "2026-10-27T11:14:57.088Z",
+ "generated": "2026-10-27T18:18:35.099Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 76,
@@ -41,11 +41,6 @@
    "step": 7
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 8
-  },
-  {
    "code": "route-unverified",
    "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
    "step": 8
@@ -74,11 +69,6 @@
    "code": "no-hunt-place",
    "text": "no hunting place (field area / room / spawn cluster) for the monsters of a step",
    "step": 15
-  },
-  {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 16
   },
   {
    "code": "npc-quest-spawned",
@@ -1564,14 +1554,15 @@
    ],
    "kills": 1,
    "reasons": [
-    "item-from-quest-mob",
     "route-unverified"
    ],
    "engine": {
     "how": "talk",
     "trigger": [
      31650
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Examine the area at Tablet of Vision (spawns Monument Watcher Ezekiel 27296 at 191046,-40640,-3042, 5 min), kill it ALONE (no party)",
    "npc": {
@@ -3227,9 +3218,7 @@
     }
    ],
    "kills": 234,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "kill",
     "trigger": [
@@ -3239,7 +3228,9 @@
      21649,
      21650,
      21651
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Kill Archon Minions 21646-21651 for Halisha's Marks 7497 (700), then the Archon of Halisha 27231 spawns at you (10 min): kill it ALONE",
    "area": {

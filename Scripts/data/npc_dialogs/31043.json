@@ -1,0 +1,384 @@
+{
+ "npcId": 31043,
+ "name": "Octavia",
+ "title": "Melody Maestro",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.130Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31043.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "432": {
+   "name": "Birthday Party Song",
+   "listText": [
+    "[Birthday Party Song]",
+    "[Birthday Party Song (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00432_BirthdayPartySong/31043-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 31)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00432_BirthdayPartySong/31043-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 31)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00432_BirthdayPartySong/31043-03.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00432_BirthdayPartySong/31043-04.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31043.htm": {
+   "file": "default/31043.htm",
+   "quest": null,
+   "text": "Melody Maestro Octavia: I am a magician of melody! I put music into crystals for your listning pleasure! Tra La La~! What sound would you like me to put into a crystal~? It only costs 200 adena, a very reasonable price!",
+   "header": "Melody Maestro Octavia",
+   "links": [
+    {
+     "text": "[Create an Echo Crystal - Travel Theme]",
+     "bypass": "Quest EchoCrystals 4410",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4410",
+     "to": null
+    },
+    {
+     "text": "[Create an Echo Crystal - Battle Theme]",
+     "bypass": "Quest EchoCrystals 4409",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4409",
+     "to": null
+    },
+    {
+     "text": "[Create an Echo Crystal - Love Theme]",
+     "bypass": "Quest EchoCrystals 4408",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4408",
+     "to": null
+    },
+    {
+     "text": "[Create an Echo Crystal - Theme of Solitude]",
+     "bypass": "Quest EchoCrystals 4420",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4420",
+     "to": null
+    },
+    {
+     "text": "[Create an Echo Crystal - Theme of the Feast]",
+     "bypass": "Quest EchoCrystals 4421",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4421",
+     "to": null
+    },
+    {
+     "text": "[Create an Echo Crystal - Comedy Theme]",
+     "bypass": "Quest EchoCrystals 4419",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4419",
+     "to": null
+    },
+    {
+     "text": "[Create an Echo Crystal - Celebration Theme]",
+     "bypass": "Quest EchoCrystals 4418",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4418",
+     "to": null
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00432_BirthdayPartySong/31043-01.htm": {
+   "file": "Q00432_BirthdayPartySong/31043-01.htm",
+   "quest": 432,
+   "text": "Melody Maestro Octavia: This beautiful weather has inspired me to finish a birthday musical piece, but I need some Red Crystals to store it! Will you help me find some?",
+   "header": "Melody Maestro Octavia",
+   "when": [
+    "state CREATED; (player.getLevel() >= 31)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll get the crystals.\"",
+     "bypass": "Quest Q00432_BirthdayPartySong 31043-02.htm",
+     "kind": "quest-event",
+     "script": "Q00432_BirthdayPartySong",
+     "event": "31043-02.htm",
+     "quest": 432,
+     "to": "Q00432_BirthdayPartySong/31043-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00432_BirthdayPartySong/31043-00.htm": {
+   "file": "Q00432_BirthdayPartySong/31043-00.htm",
+   "quest": 432,
+   "text": "Melody Maestro Octavia: You need more classical training to be of help here! (This quest can only be undertaken by a character of level 31 or above.)",
+   "header": "Melody Maestro Octavia",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 31)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00432_BirthdayPartySong/31043-03.html": {
+   "file": "Q00432_BirthdayPartySong/31043-03.html",
+   "quest": 432,
+   "text": "Melody Maestro Octavia: Don't give up! For a hero like you, this should be easy! Go in again, and bring back the crystal...",
+   "header": "Melody Maestro Octavia",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00432_BirthdayPartySong/31043-04.html": {
+   "file": "Q00432_BirthdayPartySong/31043-04.html",
+   "quest": 432,
+   "text": "Melody Maestro Octavia: Isn't this wonderful? Now I can share my birthday song with everyone! Yahoo!! Aren't you also happy?",
+   "header": "Melody Maestro Octavia",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the crystals.\"",
+     "bypass": "Quest Q00432_BirthdayPartySong 31043-05.html",
+     "kind": "quest-event",
+     "script": "Q00432_BirthdayPartySong",
+     "event": "31043-05.html",
+     "quest": 432,
+     "to": "Q00432_BirthdayPartySong/31043-05.html",
+     "toAll": [
+      "Q00432_BirthdayPartySong/31043-05.html",
+      "Q00432_BirthdayPartySong/31043-06.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00432_BirthdayPartySong/31043-02.htm": {
+   "file": "Q00432_BirthdayPartySong/31043-02.htm",
+   "quest": 432,
+   "text": "Melody Maestro Octavia: Kill rough hewn rock golems in the Floran Agricultural Area to get the Red Crystals. Come back when you have 50!",
+   "header": "Melody Maestro Octavia",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00432_BirthdayPartySong/31043-05.html": {
+   "file": "Q00432_BirthdayPartySong/31043-05.html",
+   "quest": 432,
+   "text": "Melody Maestro Octavia: Here's a small gift for the help. Now you can play birthday music for all your friends!",
+   "header": "Melody Maestro Octavia",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00432_BirthdayPartySong/31043-06.html": {
+   "file": "Q00432_BirthdayPartySong/31043-06.html",
+   "quest": 432,
+   "text": "Melody Maestro Octavia: If there is no crystal... There is no music... If you don't even know that... I wonder... How you can call yourself an adventurer... And travel around this world ...",
+   "header": "Melody Maestro Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-01.htm": {
+   "file": "ai/npc/EchoCrystals/31043-01.htm",
+   "quest": null,
+   "text": "Octavia: Music and travel are my two favorite things! Music makes travel twice as exciting! Your crystal is finished! Tra la la~!",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-02.htm": {
+   "file": "ai/npc/EchoCrystals/31043-02.htm",
+   "quest": null,
+   "text": "Octavia: I'm trying to make a living here! If you won't pay for the ingredients, who do you think will? An Echo Crystal will cost you 200 adena.",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-03.htm": {
+   "file": "ai/npc/EchoCrystals/31043-03.htm",
+   "quest": null,
+   "text": "Octavia: How do you expect me to make an Echo Crystal without a score? Unless you want a silent Echo Crystal~!! Bard Swan has a lovely travel score you might like... Tra la la~ la la~!",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-04.htm": {
+   "file": "ai/npc/EchoCrystals/31043-04.htm",
+   "quest": null,
+   "text": "Octavia: Oh, my! What a bellicose theme! I feel like marching off to war! Da dum da dum dum~! La la~! Your crystal is finished~! Tra la la~ la la~!",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-05.htm": {
+   "file": "ai/npc/EchoCrystals/31043-05.htm",
+   "quest": null,
+   "text": "Octavia: I'm trying to make a living here! If you won't pay for the ingredients, who do you think will? An Echo Crystal will cost you 200 adena.",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-06.htm": {
+   "file": "ai/npc/EchoCrystals/31043-06.htm",
+   "quest": null,
+   "text": "Octavia: How can I make an Echo Crystal without a score~? Unless you want me to make a silent Echo Crystal~!!",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-07.htm": {
+   "file": "ai/npc/EchoCrystals/31043-07.htm",
+   "quest": null,
+   "text": "Octavia: What is the taste of love? Is it sweet like honey or bitter like black beer? I'll bet it tastes like a Dion potato! Yum! Your crystal is finished! I hope you enjoy it!",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-08.htm": {
+   "file": "ai/npc/EchoCrystals/31043-08.htm",
+   "quest": null,
+   "text": "Octavia: I'm trying to make a living here! If you won't pay for the ingredients, do you expect me to? An Echo Crystal will cost you 200 adena.",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-09.htm": {
+   "file": "ai/npc/EchoCrystals/31043-09.htm",
+   "quest": null,
+   "text": "Octavia: How do you expect me to make an Echo Crystal without a score? Unless you want a silent Echo Crystal~!!",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-10.htm": {
+   "file": "ai/npc/EchoCrystals/31043-10.htm",
+   "quest": null,
+   "text": "Octavia: Oh, the lonely moon! My aching heart! This isn't my style at all!~ Your crystal is finished!",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-11.htm": {
+   "file": "ai/npc/EchoCrystals/31043-11.htm",
+   "quest": null,
+   "text": "Octavia: I'm trying to make a living here! If you won't pay for the ingredients, do you expect me to? An Echo Crystal will cost you 200 adena.",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-12.htm": {
+   "file": "ai/npc/EchoCrystals/31043-12.htm",
+   "quest": null,
+   "text": "Octavia: How do you expect me to make an Echo Crystal without a score? Unless you a silent Echo Crystal!! A fellow once told me that an excellent theme of solitude can be obtained from Musician Nanarin. He has quite a fondness for beards. Tra la la la la!",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-13.htm": {
+   "file": "ai/npc/EchoCrystals/31043-13.htm",
+   "quest": null,
+   "text": "Octavia: Shake that booty! Yeah, baby! Go! Dance, you slug! You self-centered buffoon! Shake your body! Feel the beat! Your crystal is finished!",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-14.htm": {
+   "file": "ai/npc/EchoCrystals/31043-14.htm",
+   "quest": null,
+   "text": "Octavia: I'm trying to make a living here! If you won't pay for the ingredients, who do you think will? An Echo Crystal will cost you 200 adena.",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-15.htm": {
+   "file": "ai/npc/EchoCrystals/31043-15.htm",
+   "quest": null,
+   "text": "Octavia: How do you expect me to make an Echo Crystal without a score? Unless you want a silent Echo Crystal!! Barbado has a lovely score with a theme of feast!",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-16.htm": {
+   "file": "ai/npc/EchoCrystals/31043-16.htm",
+   "quest": null,
+   "text": "Octavia: Come out and play with me! Forget your troubles! Come on! Get happy! It's finished! This is really my kind of music!",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31043-17.htm": {
+   "file": "ai/npc/EchoCrystals/31043-17.htm",
+   "quest": null,
+   "text": "Octavia: Ah, what a touching melody! Such heart-felt sentiments. And just think, it was made especially for you! Enjoy!",
+   "header": "Octavia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Birthday Party Song]",
+     "bypass": "npc_%objectId%_Quest Q00432_BirthdayPartySong",
+     "kind": "quest",
+     "quest": 432,
+     "to": "Q00432_BirthdayPartySong/31043-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Birthday Party Song (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00432_BirthdayPartySong",
+     "kind": "quest",
+     "quest": 432,
+     "to": "Q00432_BirthdayPartySong/31043-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

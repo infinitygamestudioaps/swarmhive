@@ -1,0 +1,388 @@
+{
+ "npcId": 30031,
+ "name": "Biotin",
+ "title": "High Priest",
+ "type": "L2VillageMasterPriest",
+ "generated": "2026-10-27T18:18:02.789Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30031.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "158": {
+   "name": "Seed of Evil",
+   "listText": [
+    "[Seed of Evil]",
+    "[Seed of Evil (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00158_SeedOfEvil/30031-02.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00158_SeedOfEvil/30031-01.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00158_SeedOfEvil/30031-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00158_SeedOfEvil/30031-05.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "217": {
+   "name": "Testimony Of Trust",
+   "listText": [
+    "[Testimony of Trust]",
+    "[Testimony of Trust (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00217_TestimonyOfTrust/30031-01.html",
+     "when": "state STARTED; memo 19; has items 2744",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "402": {
+   "name": "Path Of The Human Knight",
+   "listText": [
+    "[Path of the Human Knight]",
+    "[Path of the Human Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30031-01.html",
+     "when": "state STARTED; has items 1271; lacks items 1178,1167; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30031-03.html",
+     "when": "state STARTED; has items 1178; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_3RD_TEMPLE_BADGE, COIN_OF_LORDS6)); getQuestItemsCount(player, SKULL_OF_SILENT_HORROR) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30031-04.html",
+     "when": "state STARTED; has items 1178; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_3RD_TEMPLE_BADGE, COIN_OF_LORDS6)); !getQuestItemsCount(player, SKULL_OF_SILENT_HORROR) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30031-05.html",
+     "when": "state STARTED; has items 1167; lacks items 1178; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_3RD_TEMPLE_BADGE, COIN_OF_LORDS6))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30031.htm": {
+   "file": "villagemaster/30031.htm",
+   "quest": null,
+   "text": "High Priest Biotin: I am High Priest Biotin, guardian of this temple of Einhasad. The power and authority of Einhasad, the goddess of light, surpasses everything in this world. Which aspect of Einhasad's authority would you like to experience? If I can help you in any way, my young friend, it would…",
+   "header": "High Priest Biotin",
+   "live": {
+    "file": "Logs/questpage_Dagger1_0.html",
+    "at": "2026-10-27T14:43:02.464Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Listen to information about first class transfer.",
+     "bypass": "npc_%objectId%_Quest FirstClassTransferTalk",
+     "kind": "quest",
+     "script": "FirstClassTransferTalk",
+     "to": null
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan",
+     "live": true
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance",
+     "live": true
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    },
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "live 00",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "live 01",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    }
+   ]
+  },
+  "Q00158_SeedOfEvil/30031-02.htm": {
+   "file": "Q00158_SeedOfEvil/30031-02.htm",
+   "quest": 158,
+   "text": "High Priest Biotin: I have had great intuition since my youth and have received warnings about disasters or dangers in my sleep. Eventually that has caused me to walk the path of faith. After becoming a priest, I have received the message of the gods more clearly in my dreams. Lately those occurren…",
+   "header": "High Priest Biotin",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will accept the job",
+     "bypass": "Quest Q00158_SeedOfEvil 30031-03.htm",
+     "kind": "quest-event",
+     "script": "Q00158_SeedOfEvil",
+     "event": "30031-03.htm",
+     "quest": 158,
+     "to": "Q00158_SeedOfEvil/30031-03.htm",
+     "effect": "start",
+     "live": true
+    }
+   ]
+  },
+  "Q00158_SeedOfEvil/30031-01.html": {
+   "file": "Q00158_SeedOfEvil/30031-01.html",
+   "quest": 158,
+   "text": "High Priest Biotin: Actually, I have been plagued by an unexplainable fear lately. I think it is the reoccurring nightmare that I have been having recently. I have had superior intuition since I was young, and have often received divine signs in my dreams. I think that my nightmares are a warning f…",
+   "header": "High Priest Biotin",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00158_SeedOfEvil/30031-04.html": {
+   "file": "Q00158_SeedOfEvil/30031-04.html",
+   "quest": 158,
+   "text": "High Priest Biotin: You have not yet been able to eradicate that seed of evil , I see. Bear this in mind. It is in the deepest depths of the Elven Ruins , and takes the form of a great red devil with the wings of a bat. I bid you take caution.",
+   "header": "High Priest Biotin",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00158_SeedOfEvil/30031-05.html": {
+   "file": "Q00158_SeedOfEvil/30031-05.html",
+   "quest": 158,
+   "text": "High Priest Biotin: Thank you. You have completed a dangerous task. What ...? He called upon the name of Beleth at his death ...? Beleth was an evil Sorcerer, also called a devil. Long ago, his powers were sealed by the Mystics of the Ivory Tower. However, they say that no one knows whether he is s…",
+   "header": "High Priest Biotin",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "live": {
+    "file": "Logs/questpage_Dagger1_1.html",
+    "at": "2026-10-27T14:43:02.681Z",
+    "score": 0.39
+   },
+   "dpText": "High Priest Biotin: Well done. You've done well in a very dangerous task. What's that ...? He cried out Beleth's name as he died...? Beleth was a Dark Mage who was called a demon a long time ago and whose powers were sealed by the magicians of the Ivory Tower. But whether he lived or died has never…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30031-01.html": {
+   "file": "Q00217_TestimonyOfTrust/30031-01.html",
+   "quest": 217,
+   "text": "Priest Biotin: Welcome, welcome, my friend! It's been such a long time! Ah, it seems like only yesterday that you finished your studies and left to see the wide world. And here you are, all grown up, strong and straight as a reed. My heart sings to see you well! Thanks be to Einhasad! Hollint told …",
+   "header": "Priest Biotin",
+   "when": [
+    "state STARTED; memo 19; has items 2744"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30031-01.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30031-01.html",
+   "quest": 402,
+   "text": "High Priest Biotin: Now I see you were a squire. The church of Einhasad has always provided a restful place for pilgrims. Stay here and rest until your weary body and soul have recovered.",
+   "header": "High Priest Biotin",
+   "when": [
+    "state STARTED; has items 1271; lacks items 1178,1167; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Ask if there is anything you can help with",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30031-02.html",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30031-02.html",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30031-02.html"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30031-03.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30031-03.html",
+   "quest": 402,
+   "text": "High Priest Biotin: You and I will represent the Humans and show respect to the spirits of the Elves that died by the hands of our ancestors one thousand years ago. You must bring ten silent horror skulls from the Elven Ruins in order to perform a proper funeral service.",
+   "header": "High Priest Biotin",
+   "when": [
+    "state STARTED; has items 1178; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_3RD_TEMPLE_BADGE, COIN_OF_LORDS6)); getQuestItemsCount(player, SKULL_OF_SILENT_HORROR) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30031-04.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30031-04.html",
+   "quest": 402,
+   "text": "High Priest Biotin: You have brought back ten skulls from the ruins. With these, I can perform a proper funeral service for the elves that were slain a long time ago. May the departed spirits of the ruins forget their resentment of a thousand years, and gain peace within the arms of Einhasad. Pleas…",
+   "header": "High Priest Biotin",
+   "when": [
+    "state STARTED; has items 1178; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_3RD_TEMPLE_BADGE, COIN_OF_LORDS6)); !getQuestItemsCount(player, SKULL_OF_SILENT_HORROR) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30031-05.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30031-05.html",
+   "quest": 402,
+   "text": "High Priest Biotin: Einhasad leads all pilgrims in the right direction in their search for truth. We cannot know what disasters or blessings are in store for us in the future, being as we are mere Humans. But I am sure there is something prepared for you.",
+   "header": "High Priest Biotin",
+   "when": [
+    "state STARTED; has items 1167; lacks items 1178; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_3RD_TEMPLE_BADGE, COIN_OF_LORDS6))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00158_SeedOfEvil/30031-03.htm": {
+   "file": "Q00158_SeedOfEvil/30031-03.htm",
+   "quest": 158,
+   "text": "High Priest Biotin: Brave warrior, to seek out and eradicate the seed of evil , you must travel to the abandoned Elven Ruins . For directions to the abandoned Elven Ruins, ask Guard Kenyos who stands at the northern entrance of the village. In my dreams the seed of evil that will lead a great evil …",
+   "header": "High Priest Biotin",
+   "live": {
+    "file": "Logs/questpage_Dagger1_2.html",
+    "at": "2026-10-27T14:36:47.999Z",
+    "score": 1
+   },
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30031-02.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30031-02.html",
+   "quest": 402,
+   "text": "High Priest Biotin: Long ago, this place was where the Elves taught the Humans magic. However, not long after, the Humans betrayed the Elves and went to war with them. In the end, we Humans repaid kindness with betrayal. Although it was committed by our ancestors, we inherited their sin. We are sti…",
+   "header": "High Priest Biotin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seed of Evil]",
+     "bypass": "npc_%objectId%_Quest Q00158_SeedOfEvil",
+     "kind": "quest",
+     "quest": 158,
+     "to": "Q00158_SeedOfEvil/30031-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seed of Evil (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00158_SeedOfEvil",
+     "kind": "quest",
+     "quest": 158,
+     "to": "Q00158_SeedOfEvil/30031-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Trust (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00217_TestimonyOfTrust",
+     "kind": "quest",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30031-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Human Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00402_PathOfTheHumanKnight",
+     "kind": "quest",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30031-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "villagemaster/30031.htm: datapack link \"Listen to information about first class transfer.\" not in the live page (Logs/questpage_Dagger1_0.html)",
+  "villagemaster/30031.htm: live-only link \"Listen to information about second class transfer.\" (server custom)",
+  "villagemaster/30031.htm: live-only link \"Sub Class.\" (server custom)",
+  "text of Q00158_SeedOfEvil/30031-05.html differs: live \"High Priest Biotin: Thank you. You have completed a dangerous task. What ...? He called u…\" vs datapack \"High Priest Biotin: Well done. You've done well in a very dangerous task. What's that ...…\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest.",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "High Priest Biotin:I am High Priest Biotin, guardian of this"
+   ],
+   "to": [
+    "High Priest Biotin:I have had great intuition since my youth",
+    "High Priest Biotin:Thank you. You have completed a dangerous"
+   ]
+  },
+  {
+   "text": "Say you will accept the job",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "High Priest Biotin:I have had great intuition since my youth"
+   ],
+   "to": [
+    "High Priest Biotin:Brave warrior, to seek out and eradicate "
+   ]
+  }
+ ]
+}

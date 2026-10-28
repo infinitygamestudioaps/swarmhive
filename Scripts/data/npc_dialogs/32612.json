@@ -1,0 +1,665 @@
+{
+ "npcId": 32612,
+ "name": "Olf Adams",
+ "title": "Weaver",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.392Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/32612.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "10501": {
+   "name": "Zaken Embroidered Soul Cloak",
+   "listText": [
+    "[Zaken Embroidered Soul Cloak]",
+    "[Zaken Embroidered Soul Cloak (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10501_ZakenEmbroideredSoulCloak/32612-02.html",
+     "when": "state CREATED; (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10501_ZakenEmbroideredSoulCloak/32612-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10501_ZakenEmbroideredSoulCloak/32612-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10501_ZakenEmbroideredSoulCloak/32612-06.html",
+     "when": "state STARTED; cond 2; item 21722 >= 20",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10501_ZakenEmbroideredSoulCloak/32612-03.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10502": {
+   "name": "Freya Embroidered Soul Cloak",
+   "listText": [
+    "[Freya Embroidered Soul Cloak]",
+    "[Freya Embroidered Soul Cloak (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10502_FreyaEmbroideredSoulCloak/32612-02.html",
+     "when": "state CREATED; (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10502_FreyaEmbroideredSoulCloak/32612-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10502_FreyaEmbroideredSoulCloak/32612-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10502_FreyaEmbroideredSoulCloak/32612-06.html",
+     "when": "state STARTED; cond 2; item 21723 >= 20",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10502_FreyaEmbroideredSoulCloak/32612-03.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10503": {
+   "name": "Frintezza Embroidered Soul Cloak",
+   "listText": [
+    "[Frintezza Embroidered Soul Cloak]",
+    "[Frintezza Embroidered Soul Cloak (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10503_FrintezzaEmbroideredSoulCloak/32612-02.html",
+     "when": "state CREATED; (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10503_FrintezzaEmbroideredSoulCloak/32612-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10503_FrintezzaEmbroideredSoulCloak/32612-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10503_FrintezzaEmbroideredSoulCloak/32612-06.html",
+     "when": "state STARTED; cond 2; item 21724 >= 20",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10503_FrintezzaEmbroideredSoulCloak/32612-03.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/32612.htm": {
+   "file": "merchant/32612.htm",
+   "quest": null,
+   "text": "Weaver Olf Adams: Welcome! I am Olf Adams, a weaver of Rauren Olf Company, the best weaving guild in Aden. Our products are confortable, practical and yet also luxurious. Rauren Olf will never let you down. Now, what are you looking for?",
+   "header": "Weaver Olf Adams",
+   "links": [
+    {
+     "text": "Buy a belt.",
+     "bypass": "npc_%objectId%_exc_multisell 326100001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Order a custom-tailored cloak.",
+     "bypass": "npc_%objectId%_multisell 326100002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Remove the seal on a pin, pouch, clip or accessory.",
+     "bypass": "npc_%objectId%_Quest WeaverOlf",
+     "kind": "quest",
+     "script": "WeaverOlf",
+     "to": "ai/npc/WeaverOlf/32612-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10501_ZakenEmbroideredSoulCloak/32612-02.html": {
+   "file": "Q10501_ZakenEmbroideredSoulCloak/32612-02.html",
+   "quest": 10501,
+   "text": "Weaver Olf Adams: I'm sorry, but you're not ready to take this on. (Only characters of level 78 or above can take on this quest.)",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state CREATED; (player.getLevel() < MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10501_ZakenEmbroideredSoulCloak/32612-01.htm": {
+   "file": "Q10501_ZakenEmbroideredSoulCloak/32612-01.htm",
+   "quest": 10501,
+   "text": "Weaver Olf Adams: Recently, our weavers' guild learned how to imbed the souls of monsters into the clothes that we make. This method allows us to make clothes that are far superior, and gives the wearer a monster-like appearance. If you can collect souls of boss monsters, I can make you a new cloak…",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Of course!\"",
+     "bypass": "Quest Q10501_ZakenEmbroideredSoulCloak 32612-04.html",
+     "kind": "quest-event",
+     "script": "Q10501_ZakenEmbroideredSoulCloak",
+     "event": "32612-04.html",
+     "quest": 10501,
+     "to": "Q10501_ZakenEmbroideredSoulCloak/32612-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10501_ZakenEmbroideredSoulCloak/32612-05.html": {
+   "file": "Q10501_ZakenEmbroideredSoulCloak/32612-05.html",
+   "quest": 10501,
+   "text": "Weaver Olf Adams: There still aren't enough soul fragments here. Every time you capture Zaken (top) , you will receive Zaken Soul Fragments . Please bring back 20 of them!",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10501_ZakenEmbroideredSoulCloak/32612-06.html": {
+   "file": "Q10501_ZakenEmbroideredSoulCloak/32612-06.html",
+   "quest": 10501,
+   "text": "Weaver Olf Adams: You've finally collected all the soul fragments! Here is the cloak as promised!",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state STARTED; cond 2; item 21722 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10501_ZakenEmbroideredSoulCloak/32612-03.html": {
+   "file": "Q10501_ZakenEmbroideredSoulCloak/32612-03.html",
+   "quest": 10501,
+   "text": "Weaver Olf Adams: If I remember correctly, you already received my cloak, right? (You have already completed this quest.)",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10502_FreyaEmbroideredSoulCloak/32612-02.html": {
+   "file": "Q10502_FreyaEmbroideredSoulCloak/32612-02.html",
+   "quest": 10502,
+   "text": "Weaver Olf Adams: I'm sorry, but you're not ready to take this on. (Only characters of level 82 or above can take on this quest.)",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state CREATED; (player.getLevel() < MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10502_FreyaEmbroideredSoulCloak/32612-01.htm": {
+   "file": "Q10502_FreyaEmbroideredSoulCloak/32612-01.htm",
+   "quest": 10502,
+   "text": "Weaver Olf Adams: Recently, our weavers' guild learned how to imbed the souls of monsters into the clothes that we make. This method allows us to make clothes that are far superior, and gives the wearer a monster-like appearance. If you can collect souls of boss monsters, I can make you a new cloak…",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes!\"",
+     "bypass": "Quest Q10502_FreyaEmbroideredSoulCloak 32612-04.html",
+     "kind": "quest-event",
+     "script": "Q10502_FreyaEmbroideredSoulCloak",
+     "event": "32612-04.html",
+     "quest": 10502,
+     "to": "Q10502_FreyaEmbroideredSoulCloak/32612-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10502_FreyaEmbroideredSoulCloak/32612-05.html": {
+   "file": "Q10502_FreyaEmbroideredSoulCloak/32612-05.html",
+   "quest": 10502,
+   "text": "Weaver Olf Adams: There still aren't enough soul fragments here. Every time you succeed in a Freya raid, you will receive Freya Soul Fragments . Please bring back 20 of them.",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10502_FreyaEmbroideredSoulCloak/32612-06.html": {
+   "file": "Q10502_FreyaEmbroideredSoulCloak/32612-06.html",
+   "quest": 10502,
+   "text": "Weaver Olf Adams: You've finally collected all the soul fragments! Here is the cloak as promised!",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state STARTED; cond 2; item 21723 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10502_FreyaEmbroideredSoulCloak/32612-03.html": {
+   "file": "Q10502_FreyaEmbroideredSoulCloak/32612-03.html",
+   "quest": 10502,
+   "text": "Weaver Olf Adams: If I remember correctly, you already received my cloak, right? (You have already completed this quest.)",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10503_FrintezzaEmbroideredSoulCloak/32612-02.html": {
+   "file": "Q10503_FrintezzaEmbroideredSoulCloak/32612-02.html",
+   "quest": 10503,
+   "text": "Weaver Olf Adams: I'm sorry, but you're not ready to take this on. (Only characters of level 80 or above can take on this quest.)",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state CREATED; (player.getLevel() < MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10503_FrintezzaEmbroideredSoulCloak/32612-01.htm": {
+   "file": "Q10503_FrintezzaEmbroideredSoulCloak/32612-01.htm",
+   "quest": 10503,
+   "text": "Weaver Olf Adams: Recently, our weavers' guild learned how to imbed the souls of monsters into the clothes that we make. This method allows us to make clothes that are far superior, and gives the wearer a monster-like appearance. If you can collect souls of boss monsters, I can make you a new cloak…",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes!\"",
+     "bypass": "Quest Q10503_FrintezzaEmbroideredSoulCloak 32612-04.html",
+     "kind": "quest-event",
+     "script": "Q10503_FrintezzaEmbroideredSoulCloak",
+     "event": "32612-04.html",
+     "quest": 10503,
+     "to": "Q10503_FrintezzaEmbroideredSoulCloak/32612-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10503_FrintezzaEmbroideredSoulCloak/32612-05.html": {
+   "file": "Q10503_FrintezzaEmbroideredSoulCloak/32612-05.html",
+   "quest": 10503,
+   "text": "Weaver Olf Adams: There still aren't enough soul fragments. Every time you succeed in a Frintezza raid, you will receive Frintezza Soul Fragments . Please bring back 20 of them!",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10503_FrintezzaEmbroideredSoulCloak/32612-06.html": {
+   "file": "Q10503_FrintezzaEmbroideredSoulCloak/32612-06.html",
+   "quest": 10503,
+   "text": "Weaver Olf Adams: You've finally collected all the soul fragments! Here is the cloak as promised!",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state STARTED; cond 2; item 21724 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10503_FrintezzaEmbroideredSoulCloak/32612-03.html": {
+   "file": "Q10503_FrintezzaEmbroideredSoulCloak/32612-03.html",
+   "quest": 10503,
+   "text": "Weaver Olf Adams: If I remember correctly, you have already received my cloak, right? (You have already completed this quest.)",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/WeaverOlf/32612-1.htm": {
+   "file": "ai/npc/WeaverOlf/32612-1.htm",
+   "quest": null,
+   "text": "Weaver Olf Adams: Select an item from which you wish the seal removed.",
+   "header": "Weaver Olf Adams",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Remove the seal on the pin.",
+     "bypass": "Quest WeaverOlf 32612-2.htm",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "32612-2.htm",
+     "to": "ai/npc/WeaverOlf/32612-2.htm"
+    },
+    {
+     "text": "Remove the seal on the pouch.",
+     "bypass": "Quest WeaverOlf 32612-3.htm",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "32612-3.htm",
+     "to": "ai/npc/WeaverOlf/32612-3.htm"
+    },
+    {
+     "text": "Remove the seal on the clip.",
+     "bypass": "Quest WeaverOlf 32612-4.htm",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "32612-4.htm",
+     "to": "ai/npc/WeaverOlf/32612-4.htm"
+    },
+    {
+     "text": "Remove the seal on the accessory.",
+     "bypass": "Quest WeaverOlf 32612-5.htm",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "32612-5.htm",
+     "to": "ai/npc/WeaverOlf/32612-5.htm"
+    }
+   ]
+  },
+  "Q10501_ZakenEmbroideredSoulCloak/32612-04.html": {
+   "file": "Q10501_ZakenEmbroideredSoulCloak/32612-04.html",
+   "quest": 10501,
+   "text": "Weaver Olf Adams: OK. From now on, every time you capture Zaken (top) , you will receive Zaken Soul Fragments . Please bring back 20 of them!",
+   "header": "Weaver Olf Adams",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10502_FreyaEmbroideredSoulCloak/32612-04.html": {
+   "file": "Q10502_FreyaEmbroideredSoulCloak/32612-04.html",
+   "quest": 10502,
+   "text": "Weaver Olf Adams: OK! From now on, every time you succeed in a Freya raid, you will receive Freya Soul Fragments . Please bring back 20 of them!",
+   "header": "Weaver Olf Adams",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10503_FrintezzaEmbroideredSoulCloak/32612-04.html": {
+   "file": "Q10503_FrintezzaEmbroideredSoulCloak/32612-04.html",
+   "quest": 10503,
+   "text": "Weaver Olf Adams: OK. From now on, every time you succeed in a Frintezza raid, you will receive Frintezza Soul Fragments . Please bring back 20 of them!",
+   "header": "Weaver Olf Adams",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "ai/npc/WeaverOlf/32612-2.htm": {
+   "file": "ai/npc/WeaverOlf/32612-2.htm",
+   "quest": null,
+   "text": "Weaver Olf Adams: Select a magic pin from which to remove the seal. Keep in mind that there is a fee for doing so.",
+   "header": "Weaver Olf Adams",
+   "links": [
+    {
+     "text": "C-Grade Magic Pin (3200 Adena)",
+     "bypass": "Quest WeaverOlf 0_grade_pin",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "0_grade_pin",
+     "to": null
+    },
+    {
+     "text": "B-Grade Magic Pin (11,800 Adena)",
+     "bypass": "Quest WeaverOlf 1_grade_pin",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "1_grade_pin",
+     "to": null
+    },
+    {
+     "text": "A-Grade Magic Pin (26,500 Adena)",
+     "bypass": "Quest WeaverOlf 2_grade_pin",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "2_grade_pin",
+     "to": null
+    },
+    {
+     "text": "S-Grade Magic Pin (136,600 Adena)",
+     "bypass": "Quest WeaverOlf 3_grade_pin",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "3_grade_pin",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/WeaverOlf/32612-3.htm": {
+   "file": "ai/npc/WeaverOlf/32612-3.htm",
+   "quest": null,
+   "text": "Weaver Olf Adams: Select a magic pouch from which to remove the seal. Keep in mind that there is a fee for doing so.",
+   "header": "Weaver Olf Adams",
+   "links": [
+    {
+     "text": "C-Grade Magic Pouch (3200 Adena)",
+     "bypass": "Quest WeaverOlf 0_grade_pouch",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "0_grade_pouch",
+     "to": null
+    },
+    {
+     "text": "B-Grade Magic Pouch (11,800 Adena)",
+     "bypass": "Quest WeaverOlf 1_grade_pouch",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "1_grade_pouch",
+     "to": null
+    },
+    {
+     "text": "A-Grade Magic Pouch (26,500 Adena)",
+     "bypass": "Quest WeaverOlf 2_grade_pouch",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "2_grade_pouch",
+     "to": null
+    },
+    {
+     "text": "S-Grade Magic Pouch (136,600 Adena)",
+     "bypass": "Quest WeaverOlf 3_grade_pouch",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "3_grade_pouch",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/WeaverOlf/32612-4.htm": {
+   "file": "ai/npc/WeaverOlf/32612-4.htm",
+   "quest": null,
+   "text": "Weaver Olf Adams: Select a magic clip from which to remove the seal. Keep in mind that there is a fee for doing so.",
+   "header": "Weaver Olf Adams",
+   "links": [
+    {
+     "text": "A-Grade Magic Clip (26,500 Adena)",
+     "bypass": "Quest WeaverOlf 2_grade_clip",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "2_grade_clip",
+     "to": null
+    },
+    {
+     "text": "S-Grade Magic Clip (136,600 Adena)",
+     "bypass": "Quest WeaverOlf 3_grade_clip",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "3_grade_clip",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/WeaverOlf/32612-5.htm": {
+   "file": "ai/npc/WeaverOlf/32612-5.htm",
+   "quest": null,
+   "text": "Weaver Olf Adams: Select an accessory from which to remove the seal. Keep in mind that there is a fee for doing so.",
+   "header": "Weaver Olf Adams",
+   "links": [
+    {
+     "text": "A-Grade Accessory (26,500 Adena)",
+     "bypass": "Quest WeaverOlf 2_grade_ornament",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "2_grade_ornament",
+     "to": null
+    },
+    {
+     "text": "S-Grade Accessory (136,600 Adena)",
+     "bypass": "Quest WeaverOlf 3_grade_ornament",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "3_grade_ornament",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/WeaverOlf/32612-low.htm": {
+   "file": "ai/npc/WeaverOlf/32612-low.htm",
+   "quest": null,
+   "text": "Weaver Olf Adams: Either you have no sealed items for me to release, or you don't have enough Adena to pay the fee.",
+   "header": "Weaver Olf Adams",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/WeaverOlf/32612-no.htm": {
+   "file": "ai/npc/WeaverOlf/32612-no.htm",
+   "quest": null,
+   "text": "Weaver Olf Adams: I see no sealed items here...",
+   "header": "Weaver Olf Adams",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Zaken Embroidered Soul Cloak]",
+     "bypass": "npc_%objectId%_Quest Q10501_ZakenEmbroideredSoulCloak",
+     "kind": "quest",
+     "quest": 10501,
+     "to": "Q10501_ZakenEmbroideredSoulCloak/32612-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Zaken Embroidered Soul Cloak (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10501_ZakenEmbroideredSoulCloak",
+     "kind": "quest",
+     "quest": 10501,
+     "to": "Q10501_ZakenEmbroideredSoulCloak/32612-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Freya Embroidered Soul Cloak]",
+     "bypass": "npc_%objectId%_Quest Q10502_FreyaEmbroideredSoulCloak",
+     "kind": "quest",
+     "quest": 10502,
+     "to": "Q10502_FreyaEmbroideredSoulCloak/32612-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Freya Embroidered Soul Cloak (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10502_FreyaEmbroideredSoulCloak",
+     "kind": "quest",
+     "quest": 10502,
+     "to": "Q10502_FreyaEmbroideredSoulCloak/32612-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Frintezza Embroidered Soul Cloak]",
+     "bypass": "npc_%objectId%_Quest Q10503_FrintezzaEmbroideredSoulCloak",
+     "kind": "quest",
+     "quest": 10503,
+     "to": "Q10503_FrintezzaEmbroideredSoulCloak/32612-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Frintezza Embroidered Soul Cloak (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10503_FrintezzaEmbroideredSoulCloak",
+     "kind": "quest",
+     "quest": 10503,
+     "to": "Q10503_FrintezzaEmbroideredSoulCloak/32612-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

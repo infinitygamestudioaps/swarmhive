@@ -1,0 +1,237 @@
+{
+ "npcId": 30220,
+ "name": "Starden",
+ "title": "Sentinel",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.913Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30220.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "163": {
+   "name": "Legacy of the Poet",
+   "listText": [
+    "[Legacy of the Poet]",
+    "[Legacy of the Poet (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00163_LegacyOfThePoet/30220-02.htm",
+     "when": "state CREATED; (player.getRace() != Race.DARK_ELF); (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00163_LegacyOfThePoet/30220-01.htm",
+     "when": "state CREATED; (player.getRace() != Race.DARK_ELF); NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00163_LegacyOfThePoet/30220-00.htm",
+     "when": "state CREATED; NOT (player.getRace() != Race.DARK_ELF)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00163_LegacyOfThePoet/30220-07.html",
+     "when": "state STARTED; has items 1039,1040,1041",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00163_LegacyOfThePoet/30220-06.html",
+     "when": "state STARTED; lacks items 1039,1040,1041",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30220.htm": {
+   "file": "guard/30220.htm",
+   "quest": null,
+   "text": "Sentinel Starden: May the song of stars give you happiness. I am Starden, one of the sentinels who protect the forest, the Mother Tree Glade, and Elves of light. If my expression looks dark, then forgive me. Originally, I was a cheerful elf who enjoyed poetry and singing, but now I've lost all my f…",
+   "header": "Sentinel Starden",
+   "links": [
+    {
+     "text": "Ask about the final battle of the Underground Fortress",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30220-1.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30220-1.htm": {
+   "file": "guard/30220-1.htm",
+   "quest": null,
+   "text": "Sentinel Starden: The Underground Fortress was the final stronghold in the battle with Humans, and an important stronghold in the war with the Elves. It was the site of several offensive and defensive battles as well. In the end, the demons summoned by the Dark Elven enchanters completely razed the…",
+   "header": "Sentinel Starden",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30220.htm"
+    }
+   ]
+  },
+  "Q00163_LegacyOfThePoet/30220-02.htm": {
+   "file": "Q00163_LegacyOfThePoet/30220-02.htm",
+   "quest": 163,
+   "text": "Sentinel Starden: According to legend, the Eldarin of the beginning of the world -- or the 'Gods,' as the Humans call them, created various races and gave each race different knowledge. The Orcs received the art of war from Pa'agrio, the Dwarves trade and craftsmanship from Maphr, and we received p…",
+   "header": "Sentinel Starden",
+   "when": [
+    "state CREATED; (player.getRace() != Race.DARK_ELF); (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Ask about Rumiel",
+     "bypass": "Quest Q00163_LegacyOfThePoet 30220-03.html",
+     "kind": "quest-event",
+     "script": "Q00163_LegacyOfThePoet",
+     "event": "30220-03.html",
+     "quest": 163,
+     "to": "Q00163_LegacyOfThePoet/30220-03.html"
+    }
+   ]
+  },
+  "Q00163_LegacyOfThePoet/30220-01.htm": {
+   "file": "Q00163_LegacyOfThePoet/30220-01.htm",
+   "quest": 163,
+   "text": "Sentinel Starden: I am one of the warriors who fought in the underground dungeon battle during the war with the Dark Elves. My long time friend and companion, Rumiel, was killed in that battle. Not only was he an excellent warrior, but he was also a marvelous poet. Sadly, the beautiful poetry he wr…",
+   "header": "Sentinel Starden",
+   "when": [
+    "state CREATED; (player.getRace() != Race.DARK_ELF); NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00163_LegacyOfThePoet/30220-00.htm": {
+   "file": "Q00163_LegacyOfThePoet/30220-00.htm",
+   "quest": 163,
+   "text": "Sentinel Starden: If not for the peace talks, I would slay Dark Elves like yourself with a single blow! Child of darkness, beware! We Sentinels will be watching your every move! (Not available for Dark Elven characters.)",
+   "header": "Sentinel Starden",
+   "when": [
+    "state CREATED; NOT (player.getRace() != Race.DARK_ELF)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00163_LegacyOfThePoet/30220-07.html": {
+   "file": "Q00163_LegacyOfThePoet/30220-07.html",
+   "quest": 163,
+   "text": "Sentinel Starden: So you have recovered all of Rumiel's poems. Now I can read my friend's poetry once again. I plan to put these together with the other poems that Rumiel wrote and publish a Poetry Book. Now my Elven brothers may also enjoy Rumiel's fine poetry. This is the only thing I can do for …",
+   "header": "Sentinel Starden",
+   "when": [
+    "state STARTED; has items 1039,1040,1041"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00163_LegacyOfThePoet/30220-06.html": {
+   "file": "Q00163_LegacyOfThePoet/30220-06.html",
+   "quest": 163,
+   "text": "Sentinel Starden: I see, so you haven't recovered all of Rumiel's poems yet. Travel along the southwestern path of the village and you will reach the Underground Fortress. Please recover Rumiel's four scrolls from the lowly race that lives there. I implore you!",
+   "header": "Sentinel Starden",
+   "when": [
+    "state STARTED; lacks items 1039,1040,1041"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00163_LegacyOfThePoet/30220-03.html": {
+   "file": "Q00163_LegacyOfThePoet/30220-03.html",
+   "quest": 163,
+   "text": "Sentinel Starden: During the fiercest battle with the Dark Elves, Rumiel and I, along with a few dozen sentinel brothers, faced the Dark Elves that had surrounded our fortress. The Dark Elves did not engage in direct battle but used hit and run tactics, slowly tiring us out. Rumiel was in the most …",
+   "header": "Sentinel Starden",
+   "links": [
+    {
+     "text": "Ask about the five poems",
+     "bypass": "Quest Q00163_LegacyOfThePoet 30220-04.html",
+     "kind": "quest-event",
+     "script": "Q00163_LegacyOfThePoet",
+     "event": "30220-04.html",
+     "quest": 163,
+     "to": "Q00163_LegacyOfThePoet/30220-04.html"
+    }
+   ]
+  },
+  "Q00163_LegacyOfThePoet/30220-04.html": {
+   "file": "Q00163_LegacyOfThePoet/30220-04.html",
+   "quest": 163,
+   "text": "Sentinel Starden: Unfortunately all of those five poems were lost. We were defeated in the siege of the Underground Fortress, and three Sentinels, including myself, barely managed to escape with our lives. But Rumiel was killed in that battle. The sheepskin scrolls where his poems were written were…",
+   "header": "Sentinel Starden",
+   "links": [
+    {
+     "text": "Say you will do the favor",
+     "bypass": "Quest Q00163_LegacyOfThePoet 30220-05.htm",
+     "kind": "quest-event",
+     "script": "Q00163_LegacyOfThePoet",
+     "event": "30220-05.htm",
+     "quest": 163,
+     "to": "Q00163_LegacyOfThePoet/30220-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00163_LegacyOfThePoet/30220-05.htm": {
+   "file": "Q00163_LegacyOfThePoet/30220-05.htm",
+   "quest": 163,
+   "text": "Sentinel Starden: Thank you. Go to the Elven Underground Fortress and find the remaining four scrolls. I have discovered his second poem already. What you must find are the scrolls containing his first, third, fourth and fifth poems. I think that the foolish baraq orcs that live in the ruins may ha…",
+   "header": "Sentinel Starden",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Legacy of the Poet]",
+     "bypass": "npc_%objectId%_Quest Q00163_LegacyOfThePoet",
+     "kind": "quest",
+     "quest": 163,
+     "to": "Q00163_LegacyOfThePoet/30220-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Legacy of the Poet (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00163_LegacyOfThePoet",
+     "kind": "quest",
+     "quest": 163,
+     "to": "Q00163_LegacyOfThePoet/30220-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

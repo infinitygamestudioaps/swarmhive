@@ -1,0 +1,264 @@
+{
+ "npcId": 31270,
+ "name": "Stefano",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.146Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/31270.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "69": {
+   "name": "Saga of the Trickster",
+   "listText": [
+    "[Saga of the Trickster]",
+    "[Saga of the Trickster (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00069_SagaOfTheTrickster/1-01.htm",
+     "when": "cond 2; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00069_SagaOfTheTrickster/1-03.htm",
+     "when": "cond 3; has items 7080; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00069_SagaOfTheTrickster/1-02.htm",
+     "when": "cond 3; has items 7080; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00069_SagaOfTheTrickster/1-04.htm",
+     "when": "cond 4; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/31270.htm": {
+   "file": "warehouse/31270.htm",
+   "quest": null,
+   "text": "Freighter Stefano: Don't take anything into battle you don't actually need -- it'll just slow you down! Instead, take advantage of our services to deposit your valuables in our warehouse. You won't find a safer, more cost-effective deal!",
+   "header": "Freighter Stefano",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/privatewh.htm",
+     "kind": "page",
+     "to": "warehouse/privatewh.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/clanwh.htm",
+     "kind": "page",
+     "to": "warehouse/clanwh.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/31270-noteach.htm": {
+   "file": "warehouse/31270-noteach.htm",
+   "quest": null,
+   "text": "Freighter Stefano: Sorry, friend, but I only teach Dwarven Fighters, Scavengers and Bounty Hunters. I'm sure someone else can give you what you need...",
+   "header": "Freighter Stefano",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/1-01.htm": {
+   "file": "Q00069_SagaOfTheTrickster/1-01.htm",
+   "quest": 69,
+   "text": "Warehouse Freightman Stefano: Justin sent you here? Ah...I think I know why... Justin has pestered me for months now, but transporting cell tissues isn't easy.",
+   "header": "Warehouse Freightman Stefano",
+   "when": [
+    "cond 2; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Why is that?\"",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 1-3",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "1-3",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/1-05.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/1-03.htm": {
+   "file": "Q00069_SagaOfTheTrickster/1-03.htm",
+   "quest": 69,
+   "text": "Warehouse Freightman Stefano: I see that you've managed to find some icicles. Very good! Now all we need to do is give the cell tissues a special low temperature treatment to preserve them during the journey. It might take a while -- do you mind waiting?",
+   "header": "Warehouse Freightman Stefano",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "links": [
+    {
+     "text": "Wait.",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 1-4",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "1-4",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/1-06.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/1-02.htm": {
+   "file": "Q00069_SagaOfTheTrickster/1-02.htm",
+   "quest": 69,
+   "text": "Warehouse Freightman Stefano: If you get Ice Crystals from Chef Jeremy, then I can treat those cells for Justin.",
+   "header": "Warehouse Freightman Stefano",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/1-04.htm": {
+   "file": "Q00069_SagaOfTheTrickster/1-04.htm",
+   "quest": 69,
+   "text": "Warehouse Freightman Stefano: Hurry and take those cell tissues to Justin before they thaw.",
+   "header": "Warehouse Freightman Stefano",
+   "when": [
+    "cond 4; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/1-05.htm": {
+   "file": "Q00069_SagaOfTheTrickster/1-05.htm",
+   "quest": 69,
+   "text": "Warehouse Freightman Stefano: The cell tissues that Justin needs are very fragile, and if they are less than perfect they are completely unusable. It is possible to transport them using a special low temperature treatment, but we will need icicles for the procedure. Bring me the icicles and I'll be…",
+   "header": "Warehouse Freightman Stefano",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/1-06.htm": {
+   "file": "Q00069_SagaOfTheTrickster/1-06.htm",
+   "quest": 69,
+   "text": "Warehouse Freightman Stefano: Phew! All ready, at last. Here are the temperature-treated cell tissues. Hurry and take them to Justin before they thaw.",
+   "header": "Warehouse Freightman Stefano",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Trickster (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00069_SagaOfTheTrickster",
+     "kind": "quest",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/1-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "warehouse/privatewh.htm": {
+   "file": "warehouse/privatewh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Private Warehouse",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item from the Private Warehouse",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "warehouse/clanwh.htm": {
+   "file": "warehouse/clanwh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item from the Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

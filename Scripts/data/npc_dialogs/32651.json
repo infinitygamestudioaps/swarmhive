@@ -1,0 +1,78 @@
+{
+ "npcId": 32651,
+ "name": "Grave Robber Warrior",
+ "title": "Quest Monster",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.396Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32651.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "450": {
+   "name": "Grave Robber Rescue",
+   "listText": [
+    "[Grave Robber Rescue]",
+    "[Grave Robber Rescue (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00450_GraveRobberRescue/32651-01.html",
+     "when": "cond 1; chance 66%",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32651.htm": {
+   "file": "default/32651.htm",
+   "quest": null,
+   "text": "Grave Robber Warrior: Kiak...you! What is it?",
+   "header": "Grave Robber Warrior",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00450_GraveRobberRescue/32651-01.html": {
+   "file": "Q00450_GraveRobberRescue/32651-01.html",
+   "quest": 450,
+   "text": "Grave Robber Warrior: Did the captain say so? We knew something was going on... Kiak, thanks for letting me know. I'll get out of here as soon as I can!",
+   "header": "Grave Robber Warrior",
+   "when": [
+    "cond 1; chance 66%"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Grave Robber Rescue (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00450_GraveRobberRescue",
+     "kind": "quest",
+     "quest": 450,
+     "to": "Q00450_GraveRobberRescue/32651-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

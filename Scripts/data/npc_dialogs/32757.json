@@ -1,0 +1,854 @@
+{
+ "npcId": 32757,
+ "name": "Greymore",
+ "title": "Priest",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.403Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32757.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "270": {
+   "name": "The One Who Ends Silence",
+   "listText": [
+    "[The One Who Ends Silence]",
+    "[The One Who Ends Silence (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00270_TheOneWhoEndsSilence/32757-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10288_SecretMission.class.getSimpleNa",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00270_TheOneWhoEndsSilence/32757-03.html",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10288_SecretMission.class.getSimpleNa",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00270_TheOneWhoEndsSilence/32757-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "10288": {
+   "name": "Secret Mission",
+   "listText": [
+    "[Secret Mission]",
+    "[Secret Mission (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10288_SecretMission/32757-01.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "10289": {
+   "name": "Fade to Black",
+   "listText": [
+    "[Fade to Black]",
+    "[Fade to Black (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10289_FadeToBlack/32757-00.htm",
+     "when": "state CREATED; ((player.getLevel() < 82) || (q10288 == null) || !q10288.isCompleted())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10289_FadeToBlack/32757-01.htm",
+     "when": "state CREATED; !((player.getLevel() < 82) || (q10288 == null) || !q10288.isCompleted())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10289_FadeToBlack/32757-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10289_FadeToBlack/32757-05.html",
+     "when": "state STARTED; cond 2|3",
+     "state": "STARTED",
+     "cond": [
+      2,
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10289_FadeToBlack/32757-10.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32757.htm": {
+   "file": "default/32757.htm",
+   "quest": null,
+   "text": "Greymore: Ahh!? Hey, you trying to scare me??",
+   "header": "Greymore",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00270_TheOneWhoEndsSilence/32757-01.htm": {
+   "file": "Q00270_TheOneWhoEndsSilence/32757-01.htm",
+   "quest": 270,
+   "text": "Priest Greymore: You again! I was just thinking until you started talking to me. What is it?",
+   "header": "Priest Greymore",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10288_SecretMission.class.getSimpleNa"
+   ],
+   "links": [
+    {
+     "text": "\"Uh... I can come back later.\"",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence 32757-02.htm",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "32757-02.htm",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-02.htm"
+    }
+   ]
+  },
+  "Q00270_TheOneWhoEndsSilence/32757-03.html": {
+   "file": "Q00270_TheOneWhoEndsSilence/32757-03.html",
+   "quest": 270,
+   "text": "Priest Greymore: You! Can't you see I'm thinking? Thinking of these idiot monks... thinking of the unspeakable horrors that will befall them before I'm done here. (Only characters level 82 and above who have completed Secret Mission may take this quest.)",
+   "header": "Priest Greymore",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10288_SecretMission.class.getSimpleNa"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00270_TheOneWhoEndsSilence/32757-05.html": {
+   "file": "Q00270_TheOneWhoEndsSilence/32757-05.html",
+   "quest": 270,
+   "text": "Priest Greymore: Alright, so how goes the hunt?",
+   "header": "Priest Greymore",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "I defeated enough monks.",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence 32757-08.html",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "32757-08.html",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-08.html",
+     "toAll": [
+      "Q00270_TheOneWhoEndsSilence/32757-08.html",
+      "Q00270_TheOneWhoEndsSilence/32757-06.html",
+      "Q00270_TheOneWhoEndsSilence/32757-07.html"
+     ],
+     "effect": "cond:1"
+    }
+   ]
+  },
+  "Q10288_SecretMission/32757-01.html": {
+   "file": "Q10288_SecretMission/32757-01.html",
+   "quest": 10288,
+   "text": "Greymore: Blast! You startled me, fool. Who are you?",
+   "header": "Greymore",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Ah, I've found you!\"",
+     "bypass": "Quest Q10288_SecretMission 32757-02.html",
+     "kind": "quest-event",
+     "script": "Q10288_SecretMission",
+     "event": "32757-02.html",
+     "quest": 10288,
+     "to": "Q10288_SecretMission/32757-02.html"
+    }
+   ]
+  },
+  "Q10289_FadeToBlack/32757-00.htm": {
+   "file": "Q10289_FadeToBlack/32757-00.htm",
+   "quest": 10289,
+   "text": "Priest Greymore: By the gods! Stop sneaking up on me! Anyway, I'm busy just now and while you seem pleasant enough, that doesn't free up my busy afternoon. (Only characters level 82 and up who have completed Secret Mission can take this quest.)",
+   "header": "Priest Greymore",
+   "when": [
+    "state CREATED; ((player.getLevel() < 82) || (q10288 == null) || !q10288.isCompleted())"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10289_FadeToBlack/32757-01.htm": {
+   "file": "Q10289_FadeToBlack/32757-01.htm",
+   "quest": 10289,
+   "text": "Priest Greymore: WAH! You again, why do you keep scaring me? You must truly possess the acumen of the rodent, treading so silently. Anyway, I am not to be bothered, I am reading that letter you delivered from Brother Dominic.",
+   "header": "Priest Greymore",
+   "when": [
+    "state CREATED; !((player.getLevel() < 82) || (q10288 == null) || !q10288.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Ask if you should leave.",
+     "bypass": "Quest Q10289_FadeToBlack 32757-02.htm",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "32757-02.htm",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-02.htm"
+    }
+   ]
+  },
+  "Q10289_FadeToBlack/32757-04.html": {
+   "file": "Q10289_FadeToBlack/32757-04.html",
+   "quest": 10289,
+   "text": "Priest Greymore: As I told you already, you are to capture the Master of Splendor Annays and bring me his Mark of Splendor .",
+   "header": "Priest Greymore",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10289_FadeToBlack/32757-05.html": {
+   "file": "Q10289_FadeToBlack/32757-05.html",
+   "quest": 10289,
+   "text": "Priest Greymore: Seriously! So you're good at scaring people. Then what? Want a prize?",
+   "header": "Priest Greymore",
+   "when": [
+    "state STARTED; cond 2|3"
+   ],
+   "links": [
+    {
+     "text": "Say you captured the Master of Splendor Annays.",
+     "bypass": "Quest Q10289_FadeToBlack 32757-06.html",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "32757-06.html",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-06.html",
+     "toAll": [
+      "Q10289_FadeToBlack/32757-06.html",
+      "Q10289_FadeToBlack/32757-07.html",
+      "Q10289_FadeToBlack/32757-08.html"
+     ]
+    }
+   ]
+  },
+  "Q10289_FadeToBlack/32757-10.html": {
+   "file": "Q10289_FadeToBlack/32757-10.html",
+   "quest": 10289,
+   "text": "Priest Greymore: What? Are you here to relive your glory? Are you going to buy us all a round of drinks? I already thanked you, now you're just showing off. (This quest is already complete.)",
+   "header": "Priest Greymore",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00270_TheOneWhoEndsSilence/32757-02.htm": {
+   "file": "Q00270_TheOneWhoEndsSilence/32757-02.htm",
+   "quest": 270,
+   "text": "Priest Greymore: Yes, fool, leave me to my craft... wait. Wait! Don't go yet, something just occurred to me. Brother Dominic assigned me a mission and I think you might be able to help me with this one. You see, I have a dream. In this dream, I am not stuck in this dreary Monastery surrounded by th…",
+   "header": "Priest Greymore",
+   "links": [
+    {
+     "text": "Accept the mission.",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence 32757-04.html",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "32757-04.html",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00270_TheOneWhoEndsSilence/32757-04.html": {
+   "file": "Q00270_TheOneWhoEndsSilence/32757-04.html",
+   "quest": 270,
+   "text": "Priest Greymore: Finally, we'll be able to cleanse this place of these filthy monks. I can see it in your eyes, you want it as much as I do. And I can tell you, I REALLY do. These fools will know fear before the day is over. You must defeat them for me. All monks in the monastery, I am not picky ab…",
+   "header": "Priest Greymore",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00270_TheOneWhoEndsSilence/32757-06.html": {
+   "file": "Q00270_TheOneWhoEndsSilence/32757-06.html",
+   "quest": 270,
+   "text": "Priest Greymore: Then you need proof! You have shown the uncanny ability to startle me but I can read a lie in any man's eyes, especially now that I've been surrounded by these phony monks.",
+   "header": "Priest Greymore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00270_TheOneWhoEndsSilence/32757-07.html": {
+   "file": "Q00270_TheOneWhoEndsSilence/32757-07.html",
+   "quest": 270,
+   "text": "Priest Greymore: This is good, but I will only reward you once I have at least 100 of these monks' rags in front of me.",
+   "header": "Priest Greymore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00270_TheOneWhoEndsSilence/32757-08.html": {
+   "file": "Q00270_TheOneWhoEndsSilence/32757-08.html",
+   "quest": 270,
+   "text": "Priest Greymore: Ah... now doesn't that feel good? With every monk erased from this world, it feels a little better. Sometimes I don't even see the monk fall, I just get that feeling that the world is a better place and I know why. Anyway, how did we fare?",
+   "header": "Priest Greymore",
+   "sets": {
+    "cond": "1"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "I brought 100 Rags of Monks",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence rags100",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "rags100",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-09.html",
+     "toAll": [
+      "Q00270_TheOneWhoEndsSilence/32757-09.html",
+      "Q00270_TheOneWhoEndsSilence/32757-10.html"
+     ],
+     "effect": "cond:1"
+    },
+    {
+     "text": "I brought 200 Rags of Monks",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence rags200",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "rags200",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-09.html",
+     "toAll": [
+      "Q00270_TheOneWhoEndsSilence/32757-09.html",
+      "Q00270_TheOneWhoEndsSilence/32757-10.html"
+     ]
+    },
+    {
+     "text": "I brought 300 Rags of Monks",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence rags300",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "rags300",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-09.html",
+     "toAll": [
+      "Q00270_TheOneWhoEndsSilence/32757-09.html",
+      "Q00270_TheOneWhoEndsSilence/32757-10.html"
+     ]
+    },
+    {
+     "text": "I brought 400 Rags of Monks",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence rags400",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "rags400",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-09.html",
+     "toAll": [
+      "Q00270_TheOneWhoEndsSilence/32757-09.html",
+      "Q00270_TheOneWhoEndsSilence/32757-10.html"
+     ]
+    },
+    {
+     "text": "I brought 500 Rags of Monks",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence rags500",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "rags500",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-09.html",
+     "toAll": [
+      "Q00270_TheOneWhoEndsSilence/32757-09.html",
+      "Q00270_TheOneWhoEndsSilence/32757-10.html"
+     ]
+    }
+   ]
+  },
+  "Q00270_TheOneWhoEndsSilence/32757-09.html": {
+   "file": "Q00270_TheOneWhoEndsSilence/32757-09.html",
+   "quest": 270,
+   "text": "Priest Greymore: Nicely done, creature. Take care in your travels. What will you do now?",
+   "header": "Priest Greymore",
+   "links": [
+    {
+     "text": "\"I have more rags.\"",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence 32757-08.html",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "32757-08.html",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-08.html",
+     "toAll": [
+      "Q00270_TheOneWhoEndsSilence/32757-08.html",
+      "Q00270_TheOneWhoEndsSilence/32757-06.html",
+      "Q00270_TheOneWhoEndsSilence/32757-07.html"
+     ],
+     "effect": "cond:1"
+    },
+    {
+     "text": "\"I've got a fever... and the only cure is more monk blood.\"",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence 32757-04.html",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "32757-04.html",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-04.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"I tire of this. I am done with this mission.\"",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence exit1",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "exit1",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-12.html",
+     "toAll": [
+      "Q00270_TheOneWhoEndsSilence/32757-12.html",
+      "Q00270_TheOneWhoEndsSilence/32757-13.html"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00270_TheOneWhoEndsSilence/32757-10.html": {
+   "file": "Q00270_TheOneWhoEndsSilence/32757-10.html",
+   "quest": 270,
+   "text": "Priest Greymore: Hm... looks like you don't have that many rags. Pity, I wish you did. Very sincerely.",
+   "header": "Priest Greymore",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00270_TheOneWhoEndsSilence/32757-12.html": {
+   "file": "Q00270_TheOneWhoEndsSilence/32757-12.html",
+   "quest": 270,
+   "text": "Priest Greymore: Ahh... but you still have some of these monk's rags. If you quit now, we'll have to throw them away.",
+   "header": "Priest Greymore",
+   "links": [
+    {
+     "text": "\"Hmm... Ok I have more rags.\"",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence 32757-08.html",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "32757-08.html",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-08.html",
+     "toAll": [
+      "Q00270_TheOneWhoEndsSilence/32757-08.html",
+      "Q00270_TheOneWhoEndsSilence/32757-06.html",
+      "Q00270_TheOneWhoEndsSilence/32757-07.html"
+     ],
+     "effect": "cond:1"
+    },
+    {
+     "text": "\"Yeah... actually beating up more monks sounds good.\"",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence 32757-04.html",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "32757-04.html",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-04.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"Oh well. I'm done with this.\"",
+     "bypass": "Quest Q00270_TheOneWhoEndsSilence exit2",
+     "kind": "quest-event",
+     "script": "Q00270_TheOneWhoEndsSilence",
+     "event": "exit2",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-13.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00270_TheOneWhoEndsSilence/32757-13.html": {
+   "file": "Q00270_TheOneWhoEndsSilence/32757-13.html",
+   "quest": 270,
+   "text": "Priest Greymore: Ah well, felt good while it lasted. Good bye then.",
+   "header": "Priest Greymore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10288_SecretMission/32757-02.html": {
+   "file": "Q10288_SecretMission/32757-02.html",
+   "quest": 10288,
+   "text": "Greymore: What?! You followed me here? Fool!",
+   "header": "Greymore",
+   "links": [
+    {
+     "text": "\"Relax, I'm here with a parcel from Brother Dominic.\"",
+     "bypass": "Quest Q10288_SecretMission 32757-03.html",
+     "kind": "quest-event",
+     "script": "Q10288_SecretMission",
+     "event": "32757-03.html",
+     "quest": 10288,
+     "to": "Q10288_SecretMission/32757-03.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10288_SecretMission/32757-03.html": {
+   "file": "Q10288_SecretMission/32757-03.html",
+   "quest": 10288,
+   "text": "Greymore: Ah, now that, that is different. You must travel as silently as a feline, for you startled me and I am usually quite perceptive. Well, I must read this letter and it is not for the eyes of the uninitiated. So unless you have something else to tell me, you can be on your way now, wanderer.…",
+   "header": "Greymore",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q10289_FadeToBlack/32757-02.htm": {
+   "file": "Q10289_FadeToBlack/32757-02.htm",
+   "quest": 10289,
+   "text": "Priest Greymore: Hm... now that I think about it, might I tempt you with a mission from Dominic? It is not that I am incapable of doing it, but my face is too well known. Not like yours, at least not around here. Besides, you're already here, and if Dominic saw fit to trust you with this parcel, I …",
+   "header": "Priest Greymore",
+   "links": [
+    {
+     "text": "Accept the mission.",
+     "bypass": "Quest Q10289_FadeToBlack 32757-03.htm",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "32757-03.htm",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10289_FadeToBlack/32757-03.htm": {
+   "file": "Q10289_FadeToBlack/32757-03.htm",
+   "quest": 10289,
+   "text": "Priest Greymore: Alright. I've been here studying these confounding monks and their secrets, but so far I've been unable to find anything or any information of value. Bloody quiet lot, these. I suspect we must capture someone higher up the chain of command, as it were. Master of Splendor Annays is …",
+   "header": "Priest Greymore",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10289_FadeToBlack/32757-06.html": {
+   "file": "Q10289_FadeToBlack/32757-06.html",
+   "quest": 10289,
+   "text": "Priest Greymore: You captured him already? Alright, show me the proof, I must see his Mark of Splendor. Hmm... it would seem that other than startling me, you are skilled at nothing because you are not even a good liar. Bring me proof!",
+   "header": "Priest Greymore",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10289_FadeToBlack/32757-07.html": {
+   "file": "Q10289_FadeToBlack/32757-07.html",
+   "quest": 10289,
+   "text": "Priest Greymore: Ah, you captured him? I need to see the proof! ... No, that's just the Mark of Darkness. All it proves is that you are unlucky. Like I told you, I must have the Mark of Splendor ! That is the proof I require.",
+   "header": "Priest Greymore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10289_FadeToBlack/32757-08.html": {
+   "file": "Q10289_FadeToBlack/32757-08.html",
+   "quest": 10289,
+   "text": "Priest Greymore: Ah, you captured him? Let's see... ah, finally that fool saw his end. What a pleasant surprise! I would have done him myself if I didn't have a serious fear of heights. A great deed such as this deserves a great reward. You can choose one of the following items:",
+   "header": "Priest Greymore",
+   "links": [
+    {
+     "text": "Recipe - Sealed Moirai Helmet (60%)",
+     "bypass": "Quest Q10289_FadeToBlack 11",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "11",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Leather Helmet (60%)",
+     "bypass": "Quest Q10289_FadeToBlack 12",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "12",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Circlet(60%)",
+     "bypass": "Quest Q10289_FadeToBlack 13",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "13",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Breastplate(60%)",
+     "bypass": "Quest Q10289_FadeToBlack 14",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "14",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Leather Breastplate(60%)",
+     "bypass": "Quest Q10289_FadeToBlack 15",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "15",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Tunic(60%)",
+     "bypass": "Quest Q10289_FadeToBlack 16",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "16",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Gaiters(60%)",
+     "bypass": "Quest Q10289_FadeToBlack 17",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "17",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Leather Leggings(60%)",
+     "bypass": "Quest Q10289_FadeToBlack 18",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "18",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Hose(60%)",
+     "bypass": "Quest Q10289_FadeToBlack 19",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "19",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Gauntlet (60%)",
+     "bypass": "Quest Q10289_FadeToBlack 20",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "20",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Leather Glove (60%)",
+     "bypass": "Quest Q10289_FadeToBlack 21",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "21",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Glove (60%)",
+     "bypass": "Quest Q10289_FadeToBlack 22",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "22",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Boots(60%)",
+     "bypass": "Quest Q10289_FadeToBlack 23",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "23",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Leather Boots(60%)",
+     "bypass": "Quest Q10289_FadeToBlack 24",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "24",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Shoes (60%)",
+     "bypass": "Quest Q10289_FadeToBlack 25",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "25",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Sickle(60%)",
+     "bypass": "Quest Q10289_FadeToBlack 26",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "26",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Shield(60%)",
+     "bypass": "Quest Q10289_FadeToBlack 27",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "27",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Ring(70%)",
+     "bypass": "Quest Q10289_FadeToBlack 28",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "28",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Earring(70%)",
+     "bypass": "Quest Q10289_FadeToBlack 29",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "29",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Recipe - Sealed Moirai Necklace(70%)",
+     "bypass": "Quest Q10289_FadeToBlack 30",
+     "kind": "quest-event",
+     "script": "Q10289_FadeToBlack",
+     "event": "30",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-09.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10289_FadeToBlack/32757-09.html": {
+   "file": "Q10289_FadeToBlack/32757-09.html",
+   "quest": 10289,
+   "text": "Priest Greymore: Good job. You proved yourself able to do more than just startle me on a consistent basis. The timing couldn't be better, I've grown weary of this Monastery and these idiotic mute monks. Perhaps Dominic will give me a position back in the Town of Rune. Thanks again. Hopefully I will…",
+   "header": "Priest Greymore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The One Who Ends Silence]",
+     "bypass": "npc_%objectId%_Quest Q00270_TheOneWhoEndsSilence",
+     "kind": "quest",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The One Who Ends Silence (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00270_TheOneWhoEndsSilence",
+     "kind": "quest",
+     "quest": 270,
+     "to": "Q00270_TheOneWhoEndsSilence/32757-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Secret Mission (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10288_SecretMission",
+     "kind": "quest",
+     "quest": 10288,
+     "to": "Q10288_SecretMission/32757-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Fade to Black]",
+     "bypass": "npc_%objectId%_Quest Q10289_FadeToBlack",
+     "kind": "quest",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-00.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Fade to Black (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10289_FadeToBlack",
+     "kind": "quest",
+     "quest": 10289,
+     "to": "Q10289_FadeToBlack/32757-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

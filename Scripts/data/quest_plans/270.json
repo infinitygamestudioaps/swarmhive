@@ -2,7 +2,7 @@
  "id": 270,
  "name": "The One Who Ends Silence",
  "version": 1,
- "generated": "2026-10-27T11:15:17.175Z",
+ "generated": "2026-10-27T18:18:52.557Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 82,
@@ -25,21 +25,8 @@
    "text": "10288 completed"
   }
  ],
- "status": "fixable",
- "reasons": [
-  {
-   "code": "dryrun-fail",
-   "text": "dry run: script-flow, flow-no-end"
-  },
-  {
-   "code": "dryrun:script-flow",
-   "text": "event \"32757-08.html\" -> cond 1: the script never sets it"
-  },
-  {
-   "code": "dryrun:flow-no-end",
-   "text": "the simulation did not reach the end (last cond 1)"
-  }
- ],
+ "status": "ready",
+ "reasons": [],
  "expectedMin": 749,
  "refLevel": 82,
  "steps": [
@@ -1306,7 +1293,7 @@
    "expectedSec": 44196,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "turnin"
    },
    "conds": [
     1
@@ -1314,12 +1301,12 @@
   },
   {
    "i": 2,
-   "key": "c1:talk:32757",
+   "key": "c1:deliver:32757",
    "cond": 1,
-   "kind": "talk",
-   "to": "end",
+   "kind": "deliver",
+   "to": 1,
    "links": [
-    "\"I tire of this. I am done with this mission.\""
+    "I brought 100 Rags of Monks"
    ],
    "npc": {
     "id": 32757,
@@ -1333,7 +1320,14 @@
     ],
     "alt": []
    },
-   "text": "Talk to Greymore",
+   "text": "Bring Tattered Monk Clothes x100 to Greymore",
+   "needs": [
+    {
+     "id": 15526,
+     "name": "Tattered Monk Clothes",
+     "n": 100
+    }
+   ],
    "reasons": [],
    "travel": {
     "src": "atlas",
@@ -1664,7 +1658,7 @@
    "expectedSec": 373,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "turnin"
    },
    "conds": [
     1
@@ -1675,23 +1669,10 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:17.188Z",
-  "pass": false,
+  "at": "2026-10-27T18:18:52.576Z",
+  "pass": true,
   "geo": true,
-  "fails": [
-   {
-    "code": "script-flow",
-    "t": "event \"32757-08.html\" -> cond 1: the script never sets it"
-   },
-   {
-    "code": "script-flow",
-    "t": "event \"rags100\" -> cond 1: the script never sets it"
-   },
-   {
-    "code": "flow-no-end",
-    "t": "the simulation did not reach the end (last cond 1)"
-   }
-  ],
+  "fails": [],
   "warns": [
    "area-partial"
   ]

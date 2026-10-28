@@ -1,0 +1,659 @@
+{
+ "npcId": 30103,
+ "name": "Valkon",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.840Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30103.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "214": {
+   "name": "Trial Of The Scholar",
+   "listText": [
+    "[Trial of the Scholar]",
+    "[Trial of the Scholar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00214_TrialOfTheScholar/30103-01.html",
+     "when": "state STARTED; has items 2705; lacks items 2710,2714,2707",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30103-05.html",
+     "when": "state STARTED; has items 2705,2710,2714,2707; lacks items 2714,2707",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30103-06.html",
+     "when": "state STARTED; has items 2705,2710,2714,2707; lacks items 2710,2707; !(hasQuestItems(player, VALKONS_REQUEST) && !hasAtLeastOneQuestItem(player, CRYSTAL_OF_PURITY2, SCRIPTURE_CHAPTER_2))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30103-07.html",
+     "when": "state STARTED; has items 2705,2710,2714,2707; lacks items 2710,2714; !(hasQuestItems(player, VALKONS_REQUEST) && !hasAtLeastOneQuestItem(player, CRYSTAL_OF_PURITY2, SCRIPTURE_CHAPTER_2)); !(hasQuestItems(player, CRYSTAL_OF_PURITY2) && !hasAtLeastOneQuestItem(player, VALKONS_REQUEST, SCRIPTURE_CHAPTER_2))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "216": {
+   "name": "Trial Of The Guildsman",
+   "listText": [
+    "[Trial of the Guildsman]",
+    "[Trial of the Guildsman (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30103-02.html",
+     "when": "state CREATED; level < 35; ((player.getClassId() == ClassId.artisan) || (player.getClassId() == ClassId.scavenger))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30103-03.htm",
+     "when": "state CREATED; NOT level < 35; ((player.getClassId() == ClassId.artisan) || (player.getClassId() == ClassId.scavenger))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30103-01.html",
+     "when": "state CREATED; !((player.getClassId() == ClassId.artisan) || (player.getClassId() == ClassId.scavenger))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30103-07.html",
+     "when": "state STARTED; has items 3120",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30103-08.html",
+     "when": "state STARTED; has items 3122; lacks items 3120; getQuestItemsCount(player, JOURNEYMAN_RING) < 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30103-09.html",
+     "when": "state STARTED; has items 3122; lacks items 3120; !getQuestItemsCount(player, JOURNEYMAN_RING) < 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30103.htm": {
+   "file": "warehouse/30103.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Valkon: Only mules and fools should be loaded with heavy and nonessential packs. Why not deposit your items in this safe and affordable branch of the Iron Gate Guild? I swear by Maphr that we will protect your valuable with our lives...",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/30103-1.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/30103-2.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30103-1.htm": {
+   "file": "warehouse/30103-1.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Valkon:",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "Deposit an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30103.htm"
+    }
+   ]
+  },
+  "warehouse/30103-2.htm": {
+   "file": "warehouse/30103-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Valkon:",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "Deposit an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30103.htm"
+    }
+   ]
+  },
+  "warehouse/30103-noteach.htm": {
+   "file": "warehouse/30103-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Valkon: Huh, I teach Dwarven Fighters, Scavengers and Bounty Hunters only. You should look for a Master who can teach you some skills. If you are an Artisan, go to a Blacksmith.",
+   "header": "Warehouse Keeper Valkon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30103-01.html": {
+   "file": "Q00214_TrialOfTheScholar/30103-01.html",
+   "quest": 214,
+   "text": "Warehouse Keeper Valkon: The Scriptures of Knowledge? Ah, what a strange book! I got it from that Drunkard Triff as payment for his debt... Is it as valuable as he said? Well the money that he owes me wasn't that much, anyway... 1,000 Adena, I believe...?",
+   "header": "Warehouse Keeper Valkon",
+   "when": [
+    "state STARTED; has items 2705; lacks items 2710,2714,2707"
+   ],
+   "links": [
+    {
+     "text": "\"Please give me the Scriptures of Knowledge: Volume II.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30103-02.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30103-02.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30103-02.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30103-05.html": {
+   "file": "Q00214_TrialOfTheScholar/30103-05.html",
+   "quest": 214,
+   "text": "Warehouse Keeper Valkon: Have you forgotten the terms already? First you must bring me the Crystal of Purity ! Then we will talk about that scripture thing.",
+   "header": "Warehouse Keeper Valkon",
+   "when": [
+    "state STARTED; has items 2705,2710,2714,2707; lacks items 2714,2707"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30103-06.html": {
+   "file": "Q00214_TrialOfTheScholar/30103-06.html",
+   "quest": 214,
+   "text": "Warehouse Keeper Valkon: Wow, this is indeed the Crystal of Purity! How did you find such a precious thing so quickly? You are more skillful than I had expected. Oh, well, a man should keep his word. Here is the Scripture: Volume II . Take good care of it!",
+   "header": "Warehouse Keeper Valkon",
+   "when": [
+    "state STARTED; has items 2705,2710,2714,2707; lacks items 2710,2707; !(hasQuestItems(player, VALKONS_REQUEST) && !hasAtLeastOneQuestItem(player, CRYSTAL_OF_PURITY2, SCRIPTURE_CHAPTER_2))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30103-07.html": {
+   "file": "Q00214_TrialOfTheScholar/30103-07.html",
+   "quest": 214,
+   "text": "Warehouse Keeper Valkon: I understand that you are trying to acquire the whole collection of scriptures? Well, I doubt that you can find them so easily? Keep trying, young one!",
+   "header": "Warehouse Keeper Valkon",
+   "when": [
+    "state STARTED; has items 2705,2710,2714,2707; lacks items 2710,2714; !(hasQuestItems(player, VALKONS_REQUEST) && !hasAtLeastOneQuestItem(player, CRYSTAL_OF_PURITY2, SCRIPTURE_CHAPTER_2)); !(hasQuestItems(player, CRYSTAL_OF_PURITY2) && !hasAtLeastOneQuestItem(player, VALKONS_REQUEST, SCRIPTURE_CHAPTER_2))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30103-02.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-02.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: How long will you be an apprentice? Don't you have any ambition? I hope you are not under the impression that you have reached a comfortable level. Shouldn't you work harder and challenge the Trial of the Guildsman ? You won't be a true member of Dwarven society until you p…",
+   "header": "Warehouse Keeper Valkon",
+   "when": [
+    "state CREATED; level < 35; ((player.getClassId() == ClassId.artisan) || (player.getClassId() == ClassId.scavenger))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30103-03.htm": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-03.htm",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: How long will you be an apprentice? Don't you have any ambition? I hope you are not under the impression that you have reached a comfortable level. Now listen to me carefully. I shall tell you about Dwarven education.",
+   "header": "Warehouse Keeper Valkon",
+   "when": [
+    "state CREATED; NOT level < 35; ((player.getClassId() == ClassId.artisan) || (player.getClassId() == ClassId.scavenger))"
+   ],
+   "links": [
+    {
+     "text": "Hear about Dwarven Education",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30103-04.htm",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30103-04.htm",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-04.htm"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30103-01.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-01.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: I have been in charge of the promotion test of the Dwarf union members for the last 10 years. Among all Dwarf apprentices, only those who pass this test are accepted as full members of Dwarven society. This may not be clear to you since you are not a Dwarf, but within our s…",
+   "header": "Warehouse Keeper Valkon",
+   "when": [
+    "state CREATED; !((player.getClassId() == ClassId.artisan) || (player.getClassId() == ClassId.scavenger))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30103-07.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-07.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: It is said that Altran was once a kind man, but perhaps due to his age he has become much more irritable these days. They say that his arthritis is making him a crooked old man...",
+   "header": "Warehouse Keeper Valkon",
+   "when": [
+    "state STARTED; has items 3120"
+   ],
+   "links": [
+    {
+     "text": "Do you know of a good remedy for arthritis?",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30103-07a.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30103-07a.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-07a.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30103-08.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-08.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: How is your work proceeding, young fellow? How is the making of the 7 Journeyman Gem going? You should complete it soon so you can advance beyond an apprentice. Good luck!",
+   "header": "Warehouse Keeper Valkon",
+   "when": [
+    "state STARTED; has items 3122; lacks items 3120; getQuestItemsCount(player, JOURNEYMAN_RING) < 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30103-09.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-09.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: You have made all the rings. Thank you for your trouble. So, did you learn anything from the test?",
+   "header": "Warehouse Keeper Valkon",
+   "when": [
+    "state STARTED; has items 3122; lacks items 3120; !getQuestItemsCount(player, JOURNEYMAN_RING) < 7"
+   ],
+   "links": [
+    {
+     "text": "\"I learned the mind attitude and virtues that one should possess as a faithful union member.\"",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30103-09a.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30103-09a.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-09a.html",
+     "effect": "reward"
+    },
+    {
+     "text": "\"I learned how to fawn upon the authorities of the guild and ways to bribe them.\"",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30103-09b.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30103-09b.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-09b.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30103-02.html": {
+   "file": "Q00214_TrialOfTheScholar/30103-02.html",
+   "quest": 214,
+   "text": "Warehouse Keeper Valkon: Hey, youngster! You expect me to give it to you for free? What about the debt? Would you care to pay for that instead?",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "\"I will pay the debt.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30103-03.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30103-03.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30103-03.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30103-03.html": {
+   "file": "Q00214_TrialOfTheScholar/30103-03.html",
+   "quest": 214,
+   "text": "Warehouse Keeper Valkon: So, you will pay the debt? Hey since I loaned that man 1,000 Adena... How long has it been? Let me see... Yes, that was 10 years ago, 10 years! Do you know how much interest is drawn from that? If you compute the compound interest, that would be... Let's say, 100,000 Adena!…",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "Accept the proposal",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30103-04.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30103-04.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30103-04.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30103-04.html": {
+   "file": "Q00214_TrialOfTheScholar/30103-04.html",
+   "quest": 214,
+   "text": "Warehouse Keeper Valkon: Good! You are a good fellow. Now listen to me carefully. I have heard of a very precious crystal, what was its name, yes, that's right, it is called the Purifying Crystal . I have heard that only one person can make it. If you will bring me one of those, I shall gladly give…",
+   "header": "Warehouse Keeper Valkon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30103-04.htm": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-04.htm",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: Dwarven apprentices will work in the Strip Mine to strengthen their bodies and spirits, as well as learning to protect their own bodies. When they complete basic training they return to the Dwarven Village and accumulate experience while assisting the Elders of the guilds w…",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "I will take the Test of the Guildsman.",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30103-05.htm",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30103-05.htm",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-05.htm"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30103-05.htm": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-05.htm",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: First you must pay the registration fee. The amount will be 2,000 Adena . All fees received are used to support the technical development of the guild and sponsoring Artisans.",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "Pay the registration fee",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "ACCEPT",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-06d.htm",
+     "toAll": [
+      "Q00216_TrialOfTheGuildsman/30103-06d.htm",
+      "Q00216_TrialOfTheGuildsman/30103-06.htm",
+      "Q00216_TrialOfTheGuildsman/30103-05b.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30103-05a.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-05a.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: First you must pay the registration fee. The amount will be 2,000 adena . All fees received are used to support the technical development of the guild and sponsoring Artisans.",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "Pay the registration fee",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30103-05b.htm",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30103-05b.htm",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-05b.htm"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30103-05b.htm": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-05b.htm",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: How embarassing for you! You should have known to bring some money with you... Come back when you get 2,000 Adena.",
+   "header": "Warehouse Keeper Valkon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30103-06.htm": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-06.htm",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: Good! You must first take this badge. It is a mark that lets others know that you are in the midst of taking the Trial of the Guildsman. Many Blacksmiths and Warehouse Chiefs will help you when they see your badge. The content of the test is quite simple. It consists of mak…",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "Do you have any more advice for me?",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30103-06a.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30103-06a.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-06a.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30103-06a.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-06a.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: Hints? You want to learn the short way through even before trying to solve it out by patiently working hard... Tsk tsk... A young Dwarf shouldn't be like that!",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "Please give me some hints",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30103-06b.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30103-06b.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-06b.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30103-06b.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-06b.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: Hmm... What nerves you've got. Hints... Well, yes I just came across one. I heard that Altran used to be a kind man, but perhaps because of his aging, he seems to be a bit fastidious these days. Some say that it is because of the arthritis... Whatever the reason may be, he …",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "Where can I find a Mandragora Berry?",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30103-06c.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30103-06c.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-06c.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30103-06c.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-06c.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: Must everything be spelled out for you? Some things you must discover on your own!",
+   "header": "Warehouse Keeper Valkon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30103-06d.htm": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-06d.htm",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: Very well! First, take this insignia, which signifies that you are performing the Trial of the Guildsman. Many blacksmiths and senior warehouse keepers will assist you when they see it. The trial itself is very straightforward. You must make 7 Journeyman Rings . Don't be fo…",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "Ask if he has any more hints to give you.",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30103-06a.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30103-06a.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-06a.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30103-07a.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-07a.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: Some say that the Mandragora Berry is helpful for the pain of arthritis... Yes, this would be an excellent gift to give him.",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "\"Where can I find a Mandragora Berry?\"",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30103-07b.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30103-07b.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-07b.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30103-07b.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-07b.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: Hey, you! Do I have to tell you everything?! You can do such things for yourself!",
+   "header": "Warehouse Keeper Valkon",
+   "links": [
+    {
+     "text": "Please give me some hints",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30103-07c.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30103-07c.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-07c.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30103-07c.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-07c.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: Now let's see... Think about it! Where would be the best place to find a mandragora in the whole continent? There is a place in Dion called the Mandragora Farm.",
+   "header": "Warehouse Keeper Valkon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30103-09a.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-09a.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: Yes, yes, yes! Superb! You will make an excellent addition to our guild, and I perceive a bright future in store for you. Congratulations! You have successfully passed the Trial of the Guildsman, and I now award you the Mark of Guildsman . It will aid you when transfering t…",
+   "header": "Warehouse Keeper Valkon",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30103-09b.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30103-09b.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Valkon: Hmmph. With talk like that, you won't last very long or rise very high here, my friend. My advice is to learn to fake sincerity, and everything else will be easy. Understood? In any case, congratulations are in order. You have successfully passed the Trial of the Guildsman,…",
+   "header": "Warehouse Keeper Valkon",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Scholar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00214_TrialOfTheScholar",
+     "kind": "quest",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30103-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Trial of the Guildsman]",
+     "bypass": "npc_%objectId%_Quest Q00216_TrialOfTheGuildsman",
+     "kind": "quest",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Trial of the Guildsman (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00216_TrialOfTheGuildsman",
+     "kind": "quest",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30103-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

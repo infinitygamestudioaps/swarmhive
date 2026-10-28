@@ -11,7 +11,7 @@
   const hm = (ms) => { const d = new Date(ms); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
   const OV = { data: null, at: 0, busy: false, open: null, view: null };
   // UX audit B4 (2026-10-13): calm words (no shouting "FAILED"), identical results grouped, reasons in plain words (Dashboard/plainwords.js)
-  const STATE_LABEL = { queued: 'waiting', delivered: 'waiting', acknowledged: 'started', running: 'working on it', done: 'done', failed: 'not done', superseded: 'replaced', expired: 'too old', cancelled: 'cancelled', unknown: '?' };
+  const STATE_LABEL = { queued: 'waiting', delivered: 'waiting', acknowledged: 'started', running: 'working on it', done: 'done', skipped: 'skipped (hands off)', failed: 'not done', superseded: 'replaced', expired: 'too old', cancelled: 'cancelled', unknown: '?' };
   const PL = () => window.Plain || null;
   const isAdv = () => !window.UIKit || UIKit.isAdv();
   const cmdTitle = (c) => (PL() ? Plain.cmd(c) : String(c || ''));
@@ -27,7 +27,7 @@
   function groups(o) {
     const g = [], by = {};
     (o.recipients || []).map(r => eff(o, r)).forEach(r => {
-      const showWhy = r.note || r.state === 'failed' || r.state === 'expired' || r.waiting || r.state === 'cancelled' || r.state === 'superseded';
+      const showWhy = r.note || r.state === 'failed' || r.state === 'expired' || r.waiting || r.state === 'cancelled' || r.state === 'superseded' || r.state === 'skipped';
       const w = showWhy ? whyOf(o, r) : '', k = r.state + '|' + w;
       if (!by[k]) { by[k] = { state: r.state, why: w, names: [], raw: [] }; g.push(by[k]); }
       by[k].names.push(r.name); by[k].raw.push(`${r.name}: ${r.state}${r.why ? ' — ' + r.why : ''}${r.how ? ' [' + r.how + ']' : ''}`);
@@ -49,7 +49,7 @@
   .ordrc{display:inline-block;margin:2px 6px 2px 0;padding:1px 6px;border-radius:9px;font-size:12px;background:rgba(255,255,255,.07)}
   .ordrc.s-done{background:rgba(70,160,90,.25)} .ordrc.s-running,.ordrc.s-acknowledged{background:rgba(70,120,200,.28)}
   .ordrc.s-failed{background:rgba(200,60,60,.35)} .ordrc.s-queued,.ordrc.s-delivered{background:rgba(216,169,59,.28)}
-  .ordrc.s-expired,.ordrc.s-superseded,.ordrc.s-cancelled{background:rgba(140,140,140,.22)}
+  .ordrc.s-expired,.ordrc.s-superseded,.ordrc.s-cancelled,.ordrc.s-skipped{background:rgba(140,140,140,.22)}
   .ordwhy{font-size:12px;opacity:.8;margin-left:4px}
   .ordact{float:right} .ordact button{margin-left:4px}
   .ordttl{font-size:var(--fs-em,14px);color:var(--gold,#e3c27a)} .ordrow code{font-weight:400;opacity:.75;margin-left:4px}

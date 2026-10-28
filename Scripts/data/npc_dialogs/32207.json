@@ -1,0 +1,393 @@
+{
+ "npcId": 32207,
+ "name": "Orkurus",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.356Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "trainer/32207.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "64": {
+   "name": "Certified Berserker",
+   "listText": [
+    "[Certified Berserker]",
+    "[Certified Berserker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00064_CertifiedBerserker/32207-01.htm",
+     "when": "state CREATED; level >= 39; player.getRace() == Race.KAMAEL; player.getClassId() == ClassId.trooper",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00064_CertifiedBerserker/32207-02.html",
+     "when": "state CREATED; NOT level >= 39; player.getRace() == Race.KAMAEL; player.getClassId() == ClassId.trooper",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00064_CertifiedBerserker/32207-03.html",
+     "when": "state CREATED; player.getRace() == Race.KAMAEL; !player.getClassId() == ClassId.trooper",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00064_CertifiedBerserker/32207-04.html",
+     "when": "state CREATED; !player.getRace() == Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00064_CertifiedBerserker/32207-07.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00064_CertifiedBerserker/32207-08.html",
+     "when": "state STARTED; memoState >= 2; memoState < 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00064_CertifiedBerserker/32207-09.html",
+     "when": "state STARTED; memo 11; !((memoState >= 2) && (memoState < 11))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00064_CertifiedBerserker/32207-05.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/32207.htm": {
+   "file": "trainer/32207.htm",
+   "quest": null,
+   "text": "Master Orkurus: Is this your first time to visit the Kamael Guild? I have to admit, I rather enjoy living in this place. I'm surprised too! But the architecture is reassuringly sparse -- no wasted frills, no inefficient use of space. And the people here are reasonably law-abiding. It's not home, bu…",
+   "header": "Master Orkurus",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "trainer/32207-noteach.htm": {
+   "file": "trainer/32207-noteach.htm",
+   "quest": null,
+   "text": "Master Orkurus: Do you have business with me? Ah, don't you know that I can only help Berserkers, Soul Breakers and Troopers? Of you go to find a more appropriate teacher for your needs!",
+   "header": "Master Orkurus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00064_CertifiedBerserker/32207-01.htm": {
+   "file": "Q00064_CertifiedBerserker/32207-01.htm",
+   "quest": 64,
+   "text": "Master Orkurus: Are you sure you want to be a Berserker? If so, you must first pass a test of our Berserker Guild. You will be assigned a suitable task which will benefit to the Guild. Are you ready?",
+   "header": "Master Orkurus",
+   "when": [
+    "state CREATED; level >= 39; player.getRace() == Race.KAMAEL; player.getClassId() == ClassId.trooper"
+   ],
+   "links": [
+    {
+     "text": "Say you will try.",
+     "bypass": "Quest Q00064_CertifiedBerserker ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00064_CertifiedBerserker",
+     "event": "ACCEPT",
+     "quest": 64,
+     "to": "Q00064_CertifiedBerserker/32207-06.htm",
+     "toAll": [
+      "Q00064_CertifiedBerserker/32207-06.htm",
+      "Q00064_CertifiedBerserker/32207-06a.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00064_CertifiedBerserker/32207-02.html": {
+   "file": "Q00064_CertifiedBerserker/32207-02.html",
+   "quest": 64,
+   "text": "Master Orkurus: Are you sure you want to be a Berserker? To be a Berserker, you must first pass the test of our Berserker Guild. You show promise, but I think you need additional training before you will be ready to undertake this test. (This quest may only be undertaken by a Trooper class characte…",
+   "header": "Master Orkurus",
+   "when": [
+    "state CREATED; NOT level >= 39; player.getRace() == Race.KAMAEL; player.getClassId() == ClassId.trooper"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00064_CertifiedBerserker/32207-03.html": {
+   "file": "Q00064_CertifiedBerserker/32207-03.html",
+   "quest": 64,
+   "text": "Master Orkurus: Are you sure you want to be a Berserker? To be a Berserker, you must first pass the test of our Berserker Guild. Hmm... You do not look like a Fighter to me. This is not the path for you, my young friend. (This quest may only be undertaken by a Trooper class character who is level 3…",
+   "header": "Master Orkurus",
+   "when": [
+    "state CREATED; player.getRace() == Race.KAMAEL; !player.getClassId() == ClassId.trooper"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00064_CertifiedBerserker/32207-04.html": {
+   "file": "Q00064_CertifiedBerserker/32207-04.html",
+   "quest": 64,
+   "text": "Master Orkurus: Are you sure you want to be a Berserker? Unfortunately, our Guild does not teach foreign races. (Only Kamael characters may undertake this quest.)",
+   "header": "Master Orkurus",
+   "when": [
+    "state CREATED; !player.getRace() == Race.KAMAEL"
+   ],
+   "live": {
+    "file": "Logs/npclive_Orkurus_27d4dd38.html",
+    "at": "2026-10-27T14:38:51.375Z",
+    "score": 1
+   },
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00064_CertifiedBerserker/32207-07.html": {
+   "file": "Q00064_CertifiedBerserker/32207-07.html",
+   "quest": 64,
+   "text": "Master Orkurus: Go to Master Tenain in the Town of Giran and assist him -- word has reached us that his mission is in jeopardy. Tell him that I sent you and he will welcome you and give you the details of your task.",
+   "header": "Master Orkurus",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00064_CertifiedBerserker/32207-08.html": {
+   "file": "Q00064_CertifiedBerserker/32207-08.html",
+   "quest": 64,
+   "text": "Master Orkurus: Are you willing to help Master Tenain? That is the test you must pass to become a member of this guild. It will be difficult, but if you can endure it, you will be one of us.",
+   "header": "Master Orkurus",
+   "when": [
+    "state STARTED; memoState >= 2; memoState < 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00064_CertifiedBerserker/32207-09.html": {
+   "file": "Q00064_CertifiedBerserker/32207-09.html",
+   "quest": 64,
+   "text": "Master Orkurus: How was your mission? I heard that you played an important role in securing something special. You will be a worthy member of our Guild.",
+   "header": "Master Orkurus",
+   "when": [
+    "state STARTED; memo 11; !((memoState >= 2) && (memoState < 11))"
+   ],
+   "links": [
+    {
+     "text": "Ask about Enuma Elish.",
+     "bypass": "Quest Q00064_CertifiedBerserker 32207-10.html",
+     "kind": "quest-event",
+     "script": "Q00064_CertifiedBerserker",
+     "event": "32207-10.html",
+     "quest": 64,
+     "to": "Q00064_CertifiedBerserker/32207-10.html"
+    }
+   ]
+  },
+  "Q00064_CertifiedBerserker/32207-05.html": {
+   "file": "Q00064_CertifiedBerserker/32207-05.html",
+   "quest": 64,
+   "text": "Master Orkurus: Finished already? Did you change your profession? If not, go to Grand Master Etonic of the Kamael Guild and ask him for a favor; he will help you. (You have already completed this quest.)",
+   "header": "Master Orkurus",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00064_CertifiedBerserker/32207-06.htm": {
+   "file": "Q00064_CertifiedBerserker/32207-06.htm",
+   "quest": 64,
+   "text": "Master Orkurus: Are you sure you want to take this test? Very well, then! Go to Master Tenain in the Town of Giran and assist him -- word has reached us that his mission is in jeopardy. Tell him that I sent you and he will welcome you and give you the details of your task. This Dimensional Diamond …",
+   "header": "Master Orkurus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00064_CertifiedBerserker/32207-06a.htm": {
+   "file": "Q00064_CertifiedBerserker/32207-06a.htm",
+   "quest": 64,
+   "text": "Master Orkurus: Are you sure you want to take this test? Very well, then! Go to Master Tenain in the Town of Giran and assist him -- word has reached us that his mission is in jeopardy. Tell him that I sent you and he will welcome you and give you the details of your task.",
+   "header": "Master Orkurus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00064_CertifiedBerserker/32207-10.html": {
+   "file": "Q00064_CertifiedBerserker/32207-10.html",
+   "quest": 64,
+   "text": "Master Orkurus: The Enuma Elish is one of the three mythic weapons of the Kamael: Enuma Elish, Leopold and Prahnah. You have already met Harkilgamed, the great hero who once wielded the mighty sword Enuma Elish, whose blade can cut the gods themselves... If you become an expert with the Claymore, p…",
+   "header": "Master Orkurus",
+   "links": [
+    {
+     "text": "Ask why a messenger of the gods desires to seize Enuma Elish.",
+     "bypass": "Quest Q00064_CertifiedBerserker 32207-11.html",
+     "kind": "quest-event",
+     "script": "Q00064_CertifiedBerserker",
+     "event": "32207-11.html",
+     "quest": 64,
+     "to": "Q00064_CertifiedBerserker/32207-11.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00064_CertifiedBerserker/32207-11.html": {
+   "file": "Q00064_CertifiedBerserker/32207-11.html",
+   "quest": 64,
+   "text": "Master Orkurus: I cannot tell you now, but someday perhaps you will learn of the deeper truths that affect both the Kamael and the gods. In the meantime, congratulations! You have passed the test to enter of our Guild. If you take my letter or recommendation to the Grand Master of the Kamael Guild,…",
+   "header": "Master Orkurus",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Berserker]",
+     "bypass": "npc_%objectId%_Quest Q00064_CertifiedBerserker",
+     "kind": "quest",
+     "quest": 64,
+     "to": "Q00064_CertifiedBerserker/32207-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Certified Berserker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00064_CertifiedBerserker",
+     "kind": "quest",
+     "quest": 64,
+     "to": "Q00064_CertifiedBerserker/32207-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "live:npclive_Orkurus_5d23e6c1.html": {
+   "file": "Logs/npclive_Orkurus_5d23e6c1.html",
+   "quest": null,
+   "header": "Master Orkurus",
+   "text": "Master Orkurus: I am Orkurus, a Master of the Kamael Guild here. Is this your first visit to Oren Castle Town? Unique, is it not? Some say the atmosphere here is dreary and dark, but I do not think so. In fact, it feels very much like home to me — no unnecessary ornamentation or frivolity. What do …",
+   "live": {
+    "file": "Logs/npclive_Orkurus_5d23e6c1.html",
+    "at": "2026-10-27T14:38:51.233Z"
+   },
+   "outcome": "info",
+   "serverCustom": true,
+   "links": [
+    {
+     "text": "\"Learn Skills.\"",
+     "bypass": "live 00",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Quest",
+     "bypass": "live 01",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "server-custom page Logs/npclive_Orkurus_5d23e6c1.html: \"Master Orkurus: I am Orkurus, a Master of the Kamael Guild here. Is this your f…\" links: \"Learn Skills.\" | Quest"
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Master Orkurus:I am Orkurus, a Master of the Kamael Guild he"
+   ],
+   "to": [
+    "Master Orkurus:Are you sure you want to be a Berserker? Unfo"
+   ]
+  }
+ ]
+}

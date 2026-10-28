@@ -1,0 +1,117 @@
+{
+ "npcId": 31375,
+ "name": "Jumara",
+ "title": "Trader",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.198Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/KetraOrcSupport/31375-01.html",
+   "when": "switch(AllianceLevel) case 1,2",
+   "src": "ai KetraOrcSupport"
+  },
+  {
+   "page": "ai/npc/KetraOrcSupport/31375-02.html",
+   "when": "switch(AllianceLevel) case 3,4",
+   "src": "ai KetraOrcSupport"
+  },
+  {
+   "page": "ai/npc/KetraOrcSupport/31375-03.html",
+   "when": "switch(AllianceLevel) case 5",
+   "src": "ai KetraOrcSupport"
+  },
+  {
+   "page": "ai/npc/KetraOrcSupport/31375-no.html",
+   "when": "switch(AllianceLevel) case default",
+   "src": "ai KetraOrcSupport"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/KetraOrcSupport/31375-01.html": {
+   "file": "ai/npc/KetraOrcSupport/31375-01.html",
+   "quest": null,
+   "text": "Trader Jumara: Tejakar Ketra! Welcome, comrade! I'm a supplier of specialty items! The elder tells me that you're interested in buying something! How about this low-level booty pouch? Someday, when you're qualified to open it, you'll have the strongest armor available! Bring me a Buffalo Horn and I…",
+   "header": "Trader Jumara",
+   "when": [
+    "switch(AllianceLevel) case 1,2"
+   ],
+   "links": [
+    {
+     "text": "\"I'd like one of the Ketra's specialty products.\"",
+     "bypass": "npc_%objectId%_multisell 313750001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/KetraOrcSupport/31375-02.html": {
+   "file": "ai/npc/KetraOrcSupport/31375-02.html",
+   "quest": null,
+   "text": "Trader Jumara: Tejakar Ketra! Welcome, dear friend! I've been ordered to supply a higher-level pouch to you, but you won't get the strongest armor yet! Try again when you've had more experiences. Bring me a Buffalo Horn and I'll give you whatever you want. Care to take a look?",
+   "header": "Trader Jumara",
+   "when": [
+    "switch(AllianceLevel) case 3,4"
+   ],
+   "links": [
+    {
+     "text": "\"I'd like one of the Ketra's specialty products.\"",
+     "bypass": "npc_%objectId%_multisell 313750002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/KetraOrcSupport/31375-03.html": {
+   "file": "ai/npc/KetraOrcSupport/31375-03.html",
+   "quest": null,
+   "text": "Trader Jumara: Tejakar Ketra! Welcome, dear friend! You're finally qualified to get the most valuable looted goods from our tribe! Now, open the box that holds the strongest armor! Bring me a Buffalo Horn and I'll give you anything you want!",
+   "header": "Trader Jumara",
+   "when": [
+    "switch(AllianceLevel) case 5"
+   ],
+   "links": [
+    {
+     "text": "\"I'd like one of the Ketra's specialty products.\"",
+     "bypass": "npc_%objectId%_multisell 313750003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/KetraOrcSupport/31375-no.html": {
+   "file": "ai/npc/KetraOrcSupport/31375-no.html",
+   "quest": null,
+   "text": "Trader Jumara: I don't deal with foreigners! Get lost, you filthy invader!",
+   "header": "Trader Jumara",
+   "when": [
+    "switch(AllianceLevel) case default"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

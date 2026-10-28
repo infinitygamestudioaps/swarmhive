@@ -1,0 +1,576 @@
+{
+ "npcId": 30063,
+ "name": "Lara",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.798Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30063.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "229": {
+   "name": "Test Of Witchcraft",
+   "listText": [
+    "[Test of Witchcraft]",
+    "[Test of Witchcraft (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00229_TestOfWitchcraft/30063-01.htm",
+     "when": "state STARTED; has items 3309; lacks items 3314,3319",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30063-03.htm",
+     "when": "state STARTED; has items 3309,3314,3319; lacks items 3319",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30063-04.htm",
+     "when": "state STARTED; has items 3309,3314,3319; lacks items 3314; !(!hasQuestItems(player, AKLANTOTH_3RD_GEM) && hasQuestItems(player, LARAS_MEMO))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30063-05.htm",
+     "when": "state STARTED; has items 3323,3324; lacks items 3309",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "230": {
+   "name": "Test Of The Summoner",
+   "listText": [
+    "[Test of the Summoner]",
+    "[Test of the Summoner (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00230_TestOfTheSummoner/30063-01.html",
+     "when": "state STARTED; has items 3352",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30063-03.html",
+     "when": "state STARTED; lacks items 3352,3347,3348,3349,3350,3351",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30063-06.html",
+     "when": "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352; hasItemsAtLimit(player, LETOLIZARDMAN_AMULET, SAC_OF_REDSPORES)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30063-05.html",
+     "when": "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352; !hasItemsAtLimit(player, LETOLIZARDMAN_AMULET, SAC_OF_REDSPORES)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30063-08.html",
+     "when": "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347; hasItemsAtLimit(player, KARULBUGBEAR_TOTEM, SHARDS_OF_MANASHEN)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30063-07.html",
+     "when": "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347; !hasItemsAtLimit(player, KARULBUGBEAR_TOTEM, SHARDS_OF_MANASHEN)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30063-10.html",
+     "when": "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347,3348; hasItemsAtLimit(player, BREKAORC_TOTEM, CRIMSON_BLOODSTONE)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30063-09.html",
+     "when": "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347,3348; !hasItemsAtLimit(player, BREKAORC_TOTEM, CRIMSON_BLOODSTONE)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30063-12.html",
+     "when": "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347,3348,3349; hasItemsAtLimit(player, TALONS_OF_TYRANT, TUSK_OF_WINDSUS)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30063-11.html",
+     "when": "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347,3348,3349; !hasItemsAtLimit(player, TALONS_OF_TYRANT, TUSK_OF_WINDSUS)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30063-14.html",
+     "when": "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347,3348,3349,3350; hasItemsAtLimit(player, WINGS_OF_DRONEANT, FANGS_OF_WYRM)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30063-13.html",
+     "when": "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347,3348,3349,3350; !hasItemsAtLimit(player, WINGS_OF_DRONEANT, FANGS_OF_WYRM)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "299": {
+   "name": "Gather Ingredients for Pie",
+   "listText": [
+    "[Gather Ingredients for Pie]",
+    "[Gather Ingredients for Pie (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00299_GatherIngredientsForPie/30063-01.html",
+     "when": "cond 3",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00299_GatherIngredientsForPie/30063-03.html",
+     "when": "cond 4",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30063.htm": {
+   "file": "merchant/30063.htm",
+   "quest": null,
+   "text": "Grocer Lara: Welcome, friend! You won't recognize my store since we recently finished remodeling. We sell a variety of potions -- necessities for any serious adventurer. You look like someone who has an eye for quality, so just let me know what I can get for you...",
+   "header": "Grocer Lara",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund General.",
+     "bypass": "npc_%objectId%_Buy 3006300",
+     "kind": "shop",
+     "live": true
+    },
+    {
+     "text": "Buy/Sell/Refund Dyes.",
+     "bypass": "npc_%objectId%_Buy 3006301",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30063-pk.htm": {
+   "file": "merchant/30063-pk.htm",
+   "quest": null,
+   "text": "Grocer Lara: Get out of here! I don't do business with outlaws!!!",
+   "header": "Grocer Lara",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30063-01.htm": {
+   "file": "Q00229_TestOfWitchcraft/30063-01.htm",
+   "quest": 229,
+   "text": "Trader Lara: Jewels? Ah! You mean the one that I bought in Giran's gallery recently. It was for one of my patrons who is really into collecting empire antiques. The jewels are already in his hands...",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3309; lacks items 3314,3319"
+   ],
+   "links": [
+    {
+     "text": "Who is your patron?",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30063-02.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30063-02.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30063-02.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30063-03.htm": {
+   "file": "Q00229_TestOfWitchcraft/30063-03.htm",
+   "quest": 229,
+   "text": "Trader Lara: I hope that Ismel is all right...",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3309,3314,3319; lacks items 3319"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30063-04.htm": {
+   "file": "Q00229_TestOfWitchcraft/30063-04.htm",
+   "quest": 229,
+   "text": "Trader Lara: Poor Ismel... He didn't even get a proper burial... Such an upstanding person... how could he have turned into an undead? So strange! Do you suppose that it has something to do with the jewelry?",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3309,3314,3319; lacks items 3314; !(!hasQuestItems(player, AKLANTOTH_3RD_GEM) && hasQuestItems(player, LARAS_MEMO))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30063-05.htm": {
+   "file": "Q00229_TestOfWitchcraft/30063-05.htm",
+   "quest": 229,
+   "text": "Trader Lara: I am quite sure that the jewel you seek is an omen. If I were you, I would give it to the Highest Priest of Einhasad's shrine!",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3323,3324; lacks items 3309"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30063-01.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-01.html",
+   "quest": 230,
+   "text": "Trader Lara: I know! You are the summons apprentice! Did you find me because you needed an arcana? I can make one for you... Although it won't be very good, it's just something I do as a pastime. It would be too embarrassing if I sold it for money. So how about an exchange? I'll make you a Beginner…",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3352"
+   ],
+   "links": [
+    {
+     "text": "I will find you the things that you need.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30063-02.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30063-02.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30063-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30063-03.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-03.html",
+   "quest": 230,
+   "text": "Trader Lara: You again! What do you want this time?",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; lacks items 3352,3347,3348,3349,3350,3351"
+   ],
+   "links": [
+    {
+     "text": "I need some more cards.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30063-04.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30063-04.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30063-04.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30063-06.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-06.html",
+   "quest": 230,
+   "text": "Trader Lara: You have found all the things that I asked for! Thank you so much. I shall lend you two Beginner's Arcanas as promised.",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352; hasItemsAtLimit(player, LETOLIZARDMAN_AMULET, SAC_OF_REDSPORES)"
+   ],
+   "links": [
+    {
+     "text": "I need more cards.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30063-04.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30063-04.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30063-04.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30063-05.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-05.html",
+   "quest": 230,
+   "text": "Trader Lara: Please bring me all the things I wrote down on the list. Very well. I shall create the Beginner's Arcanas for you.",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352; !hasItemsAtLimit(player, LETOLIZARDMAN_AMULET, SAC_OF_REDSPORES)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30063-08.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-08.html",
+   "quest": 230,
+   "text": "Trader Lara: You have found all the things that I asked for! Thank you so much. I shall lend you two Beginner's Arcanas as I have promised.",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347; hasItemsAtLimit(player, KARULBUGBEAR_TOTEM, SHARDS_OF_MANASHEN)"
+   ],
+   "links": [
+    {
+     "text": "I need more cards.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30063-04.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30063-04.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30063-04.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30063-07.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-07.html",
+   "quest": 230,
+   "text": "Trader Lara: Please bring me all the things I wrote down on the list. Very well. I shall lend you two Beginner's Arcanas.",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347; !hasItemsAtLimit(player, KARULBUGBEAR_TOTEM, SHARDS_OF_MANASHEN)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30063-10.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-10.html",
+   "quest": 230,
+   "text": "Trader Lara: You have found all the things that I asked for! Thank you so much. I shall lend you two Beginner's Arcanas as I have promised.",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347,3348; hasItemsAtLimit(player, BREKAORC_TOTEM, CRIMSON_BLOODSTONE)"
+   ],
+   "links": [
+    {
+     "text": "I need more cards.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30063-04.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30063-04.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30063-04.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30063-09.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-09.html",
+   "quest": 230,
+   "text": "Trader Lara: Please bring me all the things I wrote down on the list. Very well. I shall lend you two Beginner's Arcanas.",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347,3348; !hasItemsAtLimit(player, BREKAORC_TOTEM, CRIMSON_BLOODSTONE)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30063-12.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-12.html",
+   "quest": 230,
+   "text": "Trader Lara: You have found all the things that I asked for! Thank you so much. I shall lend you two Beginner's Arcanas as promised.",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347,3348,3349; hasItemsAtLimit(player, TALONS_OF_TYRANT, TUSK_OF_WINDSUS)"
+   ],
+   "links": [
+    {
+     "text": "I need more cards.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30063-04.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30063-04.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30063-04.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30063-11.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-11.html",
+   "quest": 230,
+   "text": "Trader Lara: Please bring me all the things I wrote down on the list. Very well. I shall lend you two Beginner's Arcanas.",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347,3348,3349; !hasItemsAtLimit(player, TALONS_OF_TYRANT, TUSK_OF_WINDSUS)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30063-14.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-14.html",
+   "quest": 230,
+   "text": "Trader Lara: You have found all the things that I asked for! Thank you so much. I shall lend you two Beginner's Arcanas as promised.",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347,3348,3349,3350; hasItemsAtLimit(player, WINGS_OF_DRONEANT, FANGS_OF_WYRM)"
+   ],
+   "links": [
+    {
+     "text": "I need more cards.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30063-04.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30063-04.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30063-04.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30063-13.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-13.html",
+   "quest": 230,
+   "text": "Trader Lara: Please bring me all the things I wrote down on the list. Very well. I shall lend you two Beginner's Arcanas.",
+   "header": "Trader Lara",
+   "when": [
+    "state STARTED; has items 3347,3348,3349,3350,3351; lacks items 3352,3347,3348,3349,3350; !hasItemsAtLimit(player, WINGS_OF_DRONEANT, FANGS_OF_WYRM)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00299_GatherIngredientsForPie/30063-01.html": {
+   "file": "Q00299_GatherIngredientsForPie/30063-01.html",
+   "quest": 299,
+   "text": "Trader Lara: Emily's imported spice just arrived. Here, take a sniff! Isn't it fragrant? As she requested, I ordered a wonderfully aromatic spice! She'll be able to bake a delicious pie!",
+   "header": "Trader Lara",
+   "when": [
+    "cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"I'll take it to her.\"",
+     "bypass": "Quest Q00299_GatherIngredientsForPie 30063-02.html",
+     "kind": "quest-event",
+     "script": "Q00299_GatherIngredientsForPie",
+     "event": "30063-02.html",
+     "quest": 299,
+     "to": "Q00299_GatherIngredientsForPie/30063-02.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00299_GatherIngredientsForPie/30063-03.html": {
+   "file": "Q00299_GatherIngredientsForPie/30063-03.html",
+   "quest": 299,
+   "text": "Trader Lara: Why haven't you returned to Emily yet? Deliver it to her before the fragrance of the spice dissipates. She must be waiting, so please hurry!",
+   "header": "Trader Lara",
+   "when": [
+    "cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30063-02.htm": {
+   "file": "Q00229_TestOfWitchcraft/30063-02.htm",
+   "quest": 229,
+   "text": "Trader Lara: Let's see... The records say it was sold by the village leather craftsman Ismell . He has been behaving strangely since he bought jewelry from our shop. He has been seen wandering around the village in the middle of the night, murmuring to himself in a strange voice. Then suddenly he d…",
+   "header": "Trader Lara",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30063-02.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-02.html",
+   "quest": 230,
+   "text": "Trader Lara: Then I will write down the things that I need. If you can bring me what's written on the list, I will make you two Beginner's Arcanas. Okay, it's a deal.",
+   "header": "Trader Lara",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30063-04.html": {
+   "file": "Q00230_TestOfTheSummoner/30063-04.html",
+   "quest": 230,
+   "text": "Trader Lara: Oh, I see! If that is so, let's do it just like the other day... You find me the things that I need, and I will make you some more Beginner's Arcanas. Here, I'll make a list of the things I need.",
+   "header": "Trader Lara",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00299_GatherIngredientsForPie/30063-02.html": {
+   "file": "Q00299_GatherIngredientsForPie/30063-02.html",
+   "quest": 299,
+   "text": "Trader Lara: The fruit aroma is pleasant, isn't it? The spice is specially imported! Please take it to Emily.",
+   "header": "Trader Lara",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Witchcraft (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00229_TestOfWitchcraft",
+     "kind": "quest",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30063-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Summoner (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00230_TestOfTheSummoner",
+     "kind": "quest",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30063-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Gather Ingredients for Pie (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00299_GatherIngredientsForPie",
+     "kind": "quest",
+     "quest": 299,
+     "to": "Q00299_GatherIngredientsForPie/30063-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund General.",
+   "n": 47,
+   "inDatapack": true,
+   "from": [
+    "Trader Lara:Welcome, friend! You won't recognize my store si"
+   ],
+   "to": []
+  }
+ ]
+}

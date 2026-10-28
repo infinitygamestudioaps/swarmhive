@@ -1,0 +1,307 @@
+{
+ "npcId": 31589,
+ "name": "Duda-Mara Totem Spirit",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.239Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31589.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "76": {
+   "name": "Saga of the Grand Khavatari",
+   "listText": [
+    "[Saga of the Grand Khavatari]",
+    "[Saga of the Grand Khavatari (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00076_SagaOfTheGrandKhavatari/2-01.htm",
+     "when": "cond 1; !((npcId == 31339) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00076_SagaOfTheGrandKhavatari/2-02.htm",
+     "when": "cond 2; !((npcId == 31339) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00076_SagaOfTheGrandKhavatari/2-03.htm",
+     "when": "cond 4; !((npcId == 31339) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00076_SagaOfTheGrandKhavatari/2-04.htm",
+     "when": "cond 5; !((npcId == 31339) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "78": {
+   "name": "Saga of the Doomcryer",
+   "listText": [
+    "[Saga of the Doomcryer]",
+    "[Saga of the Doomcryer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00078_SagaOfTheDoomcryer/2-01.htm",
+     "when": "cond 1; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00078_SagaOfTheDoomcryer/2-02.htm",
+     "when": "cond 2; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00078_SagaOfTheDoomcryer/2-03.htm",
+     "when": "cond 4; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00078_SagaOfTheDoomcryer/2-04.htm",
+     "when": "cond 5; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31589.htm": {
+   "file": "default/31589.htm",
+   "quest": null,
+   "text": "Duda-Mara Totem Spirit: Although my eyes have dimmed, I am more aware than you can possibly imagine... The webs of the Duda-Mara span all dimensions of time and space! All events, even those that occur far away, are within my grasp.",
+   "header": "Duda-Mara Totem Spirit",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00076_SagaOfTheGrandKhavatari/2-01.htm": {
+   "file": "Q00076_SagaOfTheGrandKhavatari/2-01.htm",
+   "quest": 76,
+   "text": "Duda-Mara Totem Spirit: Heh heh... a young Orc seeking information... I know exactly why you're here! You're trying to find the two Orcs who murdered Khavatari Hubai, aren't you?",
+   "header": "Duda-Mara Totem Spirit",
+   "when": [
+    "cond 1; !((npcId == 31339) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Yes, I am!",
+     "bypass": "Quest Q00076_SagaOfTheGrandKhavatari 2-1",
+     "kind": "quest-event",
+     "script": "Q00076_SagaOfTheGrandKhavatari",
+     "event": "2-1",
+     "quest": 76,
+     "to": "Q00076_SagaOfTheGrandKhavatari/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00076_SagaOfTheGrandKhavatari/2-02.htm": {
+   "file": "Q00076_SagaOfTheGrandKhavatari/2-02.htm",
+   "quest": 76,
+   "text": "Duda-Mara Totem Spirit: How dare you come here empty-handed! Don't you know who I am? Show the proper respect!",
+   "header": "Duda-Mara Totem Spirit",
+   "when": [
+    "cond 2; !((npcId == 31339) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00076_SagaOfTheGrandKhavatari/2-03.htm": {
+   "file": "Q00076_SagaOfTheGrandKhavatari/2-03.htm",
+   "quest": 76,
+   "text": "Duda-Mara Totem Spirit: Have you brought liquor for the ritual? Well, it's not enough, but it's certainly better than nothing! Give me your hand.",
+   "header": "Duda-Mara Totem Spirit",
+   "when": [
+    "cond 4; !((npcId == 31339) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"OK.\"",
+     "bypass": "Quest Q00076_SagaOfTheGrandKhavatari 2-2",
+     "kind": "quest-event",
+     "script": "Q00076_SagaOfTheGrandKhavatari",
+     "event": "2-2",
+     "quest": 76,
+     "to": "Q00076_SagaOfTheGrandKhavatari/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00076_SagaOfTheGrandKhavatari/2-04.htm": {
+   "file": "Q00076_SagaOfTheGrandKhavatari/2-04.htm",
+   "quest": 76,
+   "text": "Duda-Mara Totem Spirit: The time has come for your last journey of training as a tyrant. Go to the Tablet of Vision, my child.",
+   "header": "Duda-Mara Totem Spirit",
+   "when": [
+    "cond 5; !((npcId == 31339) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00078_SagaOfTheDoomcryer/2-01.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/2-01.htm",
+   "quest": 78,
+   "text": "Duda-Mara Totem Spirit: Ah, yes, Tarkai! That punk told me what happened! Can you become a red-hot live fire that will last throughout the winter , one that can warm everyone up during the long, cold winter?",
+   "header": "Duda-Mara Totem Spirit",
+   "when": [
+    "cond 1; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I think so.\"",
+     "bypass": "Quest Q00078_SagaOfTheDoomcryer 2-1",
+     "kind": "quest-event",
+     "script": "Q00078_SagaOfTheDoomcryer",
+     "event": "2-1",
+     "quest": 78,
+     "to": "Q00078_SagaOfTheDoomcryer/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00078_SagaOfTheDoomcryer/2-02.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/2-02.htm",
+   "quest": 78,
+   "text": "Duda-Mara Totem Spirit: I guess you haven't met Donath yet. He's the only one who can make Bitter Cold Vodka without using the power of dead spirits.",
+   "header": "Duda-Mara Totem Spirit",
+   "when": [
+    "cond 2; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00078_SagaOfTheDoomcryer/2-03.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/2-03.htm",
+   "quest": 78,
+   "text": "Duda-Mara Totem Spirit: Did you bring the liquor for the ritual? This will do! It's different from the one Kakai has, it should satisfy the spirits. You want to know where Tarkai went? Here, give me your hand.",
+   "header": "Duda-Mara Totem Spirit",
+   "when": [
+    "cond 4; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"OK.\"",
+     "bypass": "Quest Q00078_SagaOfTheDoomcryer 2-2",
+     "kind": "quest-event",
+     "script": "Q00078_SagaOfTheDoomcryer",
+     "event": "2-2",
+     "quest": 78,
+     "to": "Q00078_SagaOfTheDoomcryer/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00078_SagaOfTheDoomcryer/2-04.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/2-04.htm",
+   "quest": 78,
+   "text": "Duda-Mara Totem Spirit: I granted Tarkai's request. If you want to find him, first you must go to the Tablet of Vision.",
+   "header": "Duda-Mara Totem Spirit",
+   "when": [
+    "cond 5; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00076_SagaOfTheGrandKhavatari/2-05.htm": {
+   "file": "Q00076_SagaOfTheGrandKhavatari/2-05.htm",
+   "quest": 76,
+   "text": "Duda-Mara Totem Spirit: You rascal! You dare ask for my help without bringing anything for me?! The least you could've done is brought me some Bitter Cold Vodka ! You're lucky I don't skin you alive!",
+   "header": "Duda-Mara Totem Spirit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00076_SagaOfTheGrandKhavatari/2-06.htm": {
+   "file": "Q00076_SagaOfTheGrandKhavatari/2-06.htm",
+   "quest": 76,
+   "text": "Duda-Mara Totem Spirit: Take this stone that the god of fire has entrusted with your tribe. Two of Hubai's disciples stole it from him. Things did not go well as they left on their last training mission as tyrants... I'm afraid one of them killed Hubai, and the other is relentlessly pursuing the ki…",
+   "header": "Duda-Mara Totem Spirit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00078_SagaOfTheDoomcryer/2-05.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/2-05.htm",
+   "quest": 78,
+   "text": "Duda-Mara Totem Spirit: Oh, really? OK, go ahead and tell me... First, see if you can find any ritual liquor! But don't get it from Kakai's warehouse. If you want to become a hot roaring fire that will last throughout the winter, you must first learn to soothe the spirits while in peril, get it? I'…",
+   "header": "Duda-Mara Totem Spirit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00078_SagaOfTheDoomcryer/2-06.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/2-06.htm",
+   "quest": 78,
+   "text": "Duda-Mara Totem Spirit: Take this stone that the god of fire himself entrusted to me! It contains many powers... The greatest of all is the power to recover forgotten memories from the era of heroes... The memories are stored in Tablets of Vision, distributed throughout the world... You'll find the…",
+   "header": "Duda-Mara Totem Spirit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Grand Khavatari (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00076_SagaOfTheGrandKhavatari",
+     "kind": "quest",
+     "quest": 76,
+     "to": "Q00076_SagaOfTheGrandKhavatari/2-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Doomcryer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00078_SagaOfTheDoomcryer",
+     "kind": "quest",
+     "quest": 78,
+     "to": "Q00078_SagaOfTheDoomcryer/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

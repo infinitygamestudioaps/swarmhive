@@ -1,0 +1,753 @@
+{
+ "npcId": 30320,
+ "name": "Richlin",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:02.934Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "teleporter/30320.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "teleporter/30320.htm": {
+   "file": "teleporter/30320.htm",
+   "quest": null,
+   "text": "Gatekeeper Richlin: Today is a good day! Tell me if you want to go somewhere. I'll send you there if I can.",
+   "header": "Gatekeeper Richlin",
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/30320-1.htm",
+     "live": true
+    },
+    {
+     "text": "Exchange Dimension Diamonds.",
+     "bypass": "npc_%objectId%_multisell 002",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "[Noblesse Exclusive] Teleport",
+     "bypass": "npc_%objectId%_Quest NoblesseTeleport",
+     "kind": "quest",
+     "script": "NoblesseTeleport",
+     "to": null
+    },
+    {
+     "text": "Move to Arena & Monster Race Track (free)",
+     "bypass": "npc_%objectId%_Quest TeleportToRaceTrack",
+     "kind": "quest",
+     "confirm": "811;Monster Racetrack",
+     "script": "TeleportToRaceTrack",
+     "to": null,
+     "live": true,
+     "dpText": "Move to Arena & Monster Race Track (Free)."
+    },
+    {
+     "text": "Move to Fantasy Isle (Free).",
+     "bypass": "npc_%objectId%_Quest TeleportToFantasy",
+     "kind": "quest",
+     "confirm": "811;Fantasy Isle",
+     "script": "TeleportToFantasy",
+     "to": null
+    },
+    {
+     "text": "Call Alegria",
+     "bypass": "npc_%objectId%_Quest CharacterBirthday",
+     "kind": "quest",
+     "script": "CharacterBirthday",
+     "live": true
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/30320-1.htm": {
+   "file": "teleporter/30320-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio - 7300 Adena",
+     "bypass": "npc_%objectId%_goto 12",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "Talking Island Village - 9400 Adena",
+     "bypass": "npc_%objectId%_goto 9",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Elven Village - 16000 Adena",
+     "bypass": "npc_%objectId%_goto 10",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Dark Elf Village - 16000 Adena",
+     "bypass": "npc_%objectId%_goto 11",
+     "kind": "teleport",
+     "confirm": "811;Dark Elf Village"
+    },
+    {
+     "text": "Dwarven Village - 38000 Adena",
+     "bypass": "npc_%objectId%_goto 8",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Orc Village",
+     "bypass": "npc_%objectId%_goto 7",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true,
+     "dpText": "Orc Village - 26000 Adena"
+    },
+    {
+     "text": "Kamael Village - 10000",
+     "bypass": "npc_%objectId%_goto 12055",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Langk Lizardman Dwelling - 1800 Adena",
+     "bypass": "npc_%objectId%_goto 92",
+     "kind": "teleport",
+     "confirm": "811;Langk Lizardman Dwelling"
+    },
+    {
+     "text": "Windmill Hill",
+     "bypass": "npc_%objectId%_goto 1029",
+     "kind": "teleport",
+     "confirm": "811;Windmill Hill",
+     "live": true,
+     "dpText": "Windmill Hill - 550 Adena"
+    },
+    {
+     "text": "Fellmere Harvesting Grounds - 1400 Adena",
+     "bypass": "npc_%objectId%_goto 91",
+     "kind": "teleport",
+     "confirm": "811;Fellmere Harvesting Grounds",
+     "live": true
+    },
+    {
+     "text": "Forgotten Temple - 2000 Adena",
+     "bypass": "npc_%objectId%_goto 1030",
+     "kind": "teleport",
+     "confirm": "811;Forgotten Temple",
+     "live": true
+    },
+    {
+     "text": "Orc Barracks - 1800 Adena",
+     "bypass": "npc_%objectId%_goto 1044",
+     "kind": "teleport",
+     "confirm": "811;Orc Barracks",
+     "live": true
+    },
+    {
+     "text": "Windy Hill",
+     "bypass": "npc_%objectId%_goto 1121",
+     "kind": "teleport",
+     "confirm": "811;Windy Hill",
+     "live": true,
+     "dpText": "Windy Hill - 2600 Adena"
+    },
+    {
+     "text": "Abandoned Camp",
+     "bypass": "npc_%objectId%_goto 90",
+     "kind": "teleport",
+     "confirm": "811;Abandoned Camp",
+     "live": true,
+     "dpText": "Abandoned Camp - 1200 Adena"
+    },
+    {
+     "text": "Wastelands",
+     "bypass": "npc_%objectId%_goto 13",
+     "kind": "teleport",
+     "confirm": "811;Wastelands",
+     "live": true,
+     "dpText": "Wastelands - 3400 Adena"
+    },
+    {
+     "text": "Red Rock Ridge - 3700 Adena",
+     "bypass": "npc_%objectId%_goto 1032",
+     "kind": "teleport",
+     "confirm": "811;Red Rock Ridge",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/30320-2.htm": {
+   "file": "teleporter/30320-2.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9000",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9002",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "Center of the Forgotten Temple - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9010",
+     "kind": "teleport",
+     "confirm": "811;Center of the Forgotten Temple"
+    },
+    {
+     "text": "Wastelands, Western Region - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9011",
+     "kind": "teleport",
+     "confirm": "811;Wastelands, Western Region"
+    },
+    {
+     "text": "Coliseum - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9001",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/30320-3.htm": {
+   "file": "teleporter/30320-3.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9900",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9902",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "Center of the Forgotten Temple - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9910",
+     "kind": "teleport",
+     "confirm": "811;Center of the Forgotten Temple"
+    },
+    {
+     "text": "Wastelands, Western Region - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9911",
+     "kind": "teleport",
+     "confirm": "811;Wastelands, Western Region"
+    },
+    {
+     "text": "Coliseum - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9901",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/30320-pk.htm": {
+   "file": "teleporter/30320-pk.htm",
+   "quest": null,
+   "text": "Gatekeeper Richlin: You've got a lot of nerve showing your face at a gate. Remove yourself from my sight before I call the guards!",
+   "header": "Gatekeeper Richlin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "teleporter/free/30320.htm": {
+   "file": "teleporter/free/30320.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio",
+     "bypass": "npc_%objectId%_goto 12",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "Talking Island Village",
+     "bypass": "npc_%objectId%_goto 9",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Elven Village",
+     "bypass": "npc_%objectId%_goto 10",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Dark Elf Village",
+     "bypass": "npc_%objectId%_goto 11",
+     "kind": "teleport",
+     "confirm": "811;Dark Elf Village"
+    },
+    {
+     "text": "Dwarven Village",
+     "bypass": "npc_%objectId%_goto 8",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Orc Village",
+     "bypass": "npc_%objectId%_goto 7",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true
+    },
+    {
+     "text": "Kamael Village",
+     "bypass": "npc_%objectId%_goto 12055",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Langk Lizardman Dwelling",
+     "bypass": "npc_%objectId%_goto 92",
+     "kind": "teleport",
+     "confirm": "811;Langk Lizardman Dwelling"
+    },
+    {
+     "text": "Windmill Hill",
+     "bypass": "npc_%objectId%_goto 1029",
+     "kind": "teleport",
+     "confirm": "811;Windmill Hill",
+     "live": true
+    },
+    {
+     "text": "Fellmere Harvesting Grounds",
+     "bypass": "npc_%objectId%_goto 91",
+     "kind": "teleport",
+     "confirm": "811;Fellmere Harvesting Grounds",
+     "live": true
+    },
+    {
+     "text": "Forgotten Temple",
+     "bypass": "npc_%objectId%_goto 1030",
+     "kind": "teleport",
+     "confirm": "811;Forgotten Temple",
+     "live": true
+    },
+    {
+     "text": "Orc Barracks",
+     "bypass": "npc_%objectId%_goto 1044",
+     "kind": "teleport",
+     "confirm": "811;Orc Barracks",
+     "live": true
+    },
+    {
+     "text": "Windy Hill",
+     "bypass": "npc_%objectId%_goto 1121",
+     "kind": "teleport",
+     "confirm": "811;Windy Hill",
+     "live": true
+    },
+    {
+     "text": "Abandoned Camp",
+     "bypass": "npc_%objectId%_goto 90",
+     "kind": "teleport",
+     "confirm": "811;Abandoned Camp",
+     "live": true
+    },
+    {
+     "text": "Wastelands",
+     "bypass": "npc_%objectId%_goto 13",
+     "kind": "teleport",
+     "confirm": "811;Wastelands",
+     "live": true
+    },
+    {
+     "text": "Red Rock Ridge",
+     "bypass": "npc_%objectId%_goto 1032",
+     "kind": "teleport",
+     "confirm": "811;Red Rock Ridge",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/half/30320.htm": {
+   "file": "teleporter/half/30320.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio - 3650 Adena",
+     "bypass": "npc_%objectId%_goto 12",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "Talking Island Village - 4700 Adena",
+     "bypass": "npc_%objectId%_goto 9",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Elven Village - 8000 Adena",
+     "bypass": "npc_%objectId%_goto 10",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Dark Elf Village - 8000 Adena",
+     "bypass": "npc_%objectId%_goto 11",
+     "kind": "teleport",
+     "confirm": "811;Dark Elf Village"
+    },
+    {
+     "text": "Dwarven Village - 19000 Adena",
+     "bypass": "npc_%objectId%_goto 8",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Orc Village",
+     "bypass": "npc_%objectId%_goto 7",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true,
+     "dpText": "Orc Village - 13000 Adena"
+    },
+    {
+     "text": "Kamael Village - 5000",
+     "bypass": "npc_%objectId%_goto 12055",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Langk Lizardman Dwelling - 9000 Adena",
+     "bypass": "npc_%objectId%_goto 92",
+     "kind": "teleport",
+     "confirm": "811;Langk Lizardman Dwelling"
+    },
+    {
+     "text": "Windmill Hill",
+     "bypass": "npc_%objectId%_goto 1029",
+     "kind": "teleport",
+     "confirm": "811;Windmill Hill",
+     "live": true,
+     "dpText": "Windmill Hill - 275 Adena"
+    },
+    {
+     "text": "Fellmere Harvesting Grounds - 700 Adena",
+     "bypass": "npc_%objectId%_goto 91",
+     "kind": "teleport",
+     "confirm": "811;Fellmere Harvesting Grounds",
+     "live": true
+    },
+    {
+     "text": "Forgotten Temple - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 1030",
+     "kind": "teleport",
+     "confirm": "811;Forgotten Temple",
+     "live": true
+    },
+    {
+     "text": "Orc Barracks - 900 Adena",
+     "bypass": "npc_%objectId%_goto 1044",
+     "kind": "teleport",
+     "confirm": "811;Orc Barracks",
+     "live": true
+    },
+    {
+     "text": "Windy Hill",
+     "bypass": "npc_%objectId%_goto 1121",
+     "kind": "teleport",
+     "confirm": "811;Windy Hill",
+     "live": true,
+     "dpText": "Windy Hill - 1300 Adena"
+    },
+    {
+     "text": "Abandoned Camp",
+     "bypass": "npc_%objectId%_goto 90",
+     "kind": "teleport",
+     "confirm": "811;Abandoned Camp",
+     "live": true,
+     "dpText": "Abandoned Camp - 600 Adena"
+    },
+    {
+     "text": "Wastelands",
+     "bypass": "npc_%objectId%_goto 13",
+     "kind": "teleport",
+     "confirm": "811;Wastelands",
+     "live": true,
+     "dpText": "Wastelands - 1700 Adena"
+    },
+    {
+     "text": "Red Rock Ridge - 1850 Adena",
+     "bypass": "npc_%objectId%_goto 1032",
+     "kind": "teleport",
+     "confirm": "811;Red Rock Ridge",
+     "live": true
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "gatekeeper live menu (Scripts/data/gk_live/Richlin.json) has links the datapack does not: (Nobless only) Teleport | Teleport to Fantasy Isle (free) | The Elven Village - 8000 &#57; | The Dark Elf Village - 8000 &#57; | Langk Lizardman Dwellings - 900 &#57;",
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Langk Lizardman Dwellings"
+ ],
+ "liveClicks": [
+  {
+   "text": "Teleport",
+   "n": 412,
+   "inDatapack": true,
+   "from": [
+    "Gatekeeper Richlin:What a nice day! Do you wish to travel so"
+   ],
+   "to": [
+    "556The Town of GludioTalking Island VillageThe Elven Village",
+    "556The Town of Gludio - 7300 &#57;Talking Island Village - 9",
+    "556The Town of Gludio - 3650 &#57;Talking Island Village - 4"
+   ]
+  },
+  {
+   "text": "Orc Barracks - 1800 &#57;",
+   "n": 90,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 7300 &#57;Talking Island Village - 9"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Langk Lizardman Dwellings",
+   "n": 74,
+   "inDatapack": false,
+   "from": [
+    "556The Town of GludioTalking Island VillageThe Elven Village"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Abandoned Camp",
+   "n": 52,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTalking Island VillageThe Elven Village"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Wastelands",
+   "n": 40,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTalking Island VillageThe Elven Village"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Windy Hill",
+   "n": 32,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTalking Island VillageThe Elven Village"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Red Rock Ridge",
+   "n": 26,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTalking Island VillageThe Elven Village"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Orc Barracks - 900 &#57;",
+   "n": 18,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 3650 &#57;Talking Island Village - 4"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Red Rock Ridge - 3700 &#57;",
+   "n": 13,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 7300 &#57;Talking Island Village - 9"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Windmill Hill",
+   "n": 12,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTalking Island VillageThe Elven Village"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Orc Barracks",
+   "n": 10,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTalking Island VillageThe Elven Village"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Kamael Village",
+   "n": 7,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTalking Island VillageThe Elven Village"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Talking Island Village",
+   "n": 6,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTalking Island VillageThe Elven Village"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Red Rock Ridge - 1850 &#57;",
+   "n": 5,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 3650 &#57;Talking Island Village - 4"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Talking Island Village - 9400 &#57;",
+   "n": 5,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 7300 &#57;Talking Island Village - 9"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Forgotten Temple",
+   "n": 4,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTalking Island VillageThe Elven Village"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Forgotten Temple - 1000 &#57;",
+   "n": 4,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 3650 &#57;Talking Island Village - 4"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Kamael Village - 10000 &#57;",
+   "n": 3,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 7300 &#57;Talking Island Village - 9"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Forgotten Temple - 2000 &#57;",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 7300 &#57;Talking Island Village - 9"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Orc Village",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTalking Island VillageThe Elven Village"
+   ],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

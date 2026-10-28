@@ -1,0 +1,49 @@
+{
+ "npcId": 31444,
+ "name": "Cona",
+ "title": "Mineral Trader",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.204Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31444.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31444.htm": {
+   "file": "merchant/31444.htm",
+   "quest": null,
+   "text": "Mineral Trader Cona: \"Clean Golem Kettle at least once a day and apply Varnish of Purity onto the wheel early in the morning. For Stone of Purity, clean three times a day...\" Oh! A customer! When did you come in? Sorry, I was just reading a manual...",
+   "header": "Mineral Trader Cona",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "npc_%objectId%_Buy 3144400",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

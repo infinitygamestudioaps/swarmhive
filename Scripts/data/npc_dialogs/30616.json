@@ -1,0 +1,209 @@
+{
+ "npcId": 30616,
+ "name": "Kepra",
+ "title": "Enku Chief",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.019Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30616.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "220": {
+   "name": "Testimony Of Glory",
+   "listText": [
+    "[Testimony of Glory]",
+    "[Testimony of Glory (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00220_TestimonyOfGlory/30616-01.html",
+     "when": "state STARTED; has items 3209,3210; lacks items 3212,3229,3225; (getQuestItemsCount(player, ENKU_OVERLORD_HEAD)) < 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30616-02.html",
+     "when": "state STARTED; has items 3209,3210,3229; !(!hasAtLeastOneQuestItem(player, SCEPTER_OF_ENKU, MANAKIA_2ND_LETTER, GLOVE_OF_KEPRA) && ((getQuestItemsCount(player, E",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30616-05.html",
+     "when": "state STARTED; has items 3209,3210,3225; lacks items 3229; !(!hasAtLeastOneQuestItem(player, SCEPTER_OF_ENKU, MANAKIA_2ND_LETTER, GLOVE_OF_KEPRA) && ((getQuestItemsCount(player, E; (getQuestItemsCount(player, ENKU_OVERLORD_HEAD)) < 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30616-06.html",
+     "when": "state STARTED; has items 3209,3210; lacks items 3229; item 3224 >= 4; !(!hasAtLeastOneQuestItem(player, SCEPTER_OF_ENKU, MANAKIA_2ND_LETTER, GLOVE_OF_KEPRA) && ((getQuestItemsCount(player, E; !(hasQuestItems(player, GLOVE_OF_KEPRA) && ((getQuestItemsCount(player, ENKU_OVERLORD_HEAD)) < 4))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30616-07.html",
+     "when": "state STARTED; has items 3209,3210,3212; lacks items 3229; !(!hasAtLeastOneQuestItem(player, SCEPTER_OF_ENKU, MANAKIA_2ND_LETTER, GLOVE_OF_KEPRA) && ((getQuestItemsCount(player, E; !(hasQuestItems(player, GLOVE_OF_KEPRA) && ((getQuestItemsCount(player, ENKU_OVERLORD_HEAD)) < 4)); !getQuestItemsCount(player, ENKU_OVERLORD_HEAD) >= 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30616-08.html",
+     "when": "state STARTED; has items 3216,3217,3220; lacks items 3209,3210",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30616.htm": {
+   "file": "default/30616.htm",
+   "quest": null,
+   "text": "Enku Chief Kepra: I am Kepra, Chief of the Enku Orcs! How dare you speak like to that to the leader of a great Orc tribe! I shall spare your life this one time, so leave my presence at once!",
+   "header": "Enku Chief Kepra",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30616-01.html": {
+   "file": "Q00220_TestimonyOfGlory/30616-01.html",
+   "quest": 220,
+   "text": "Enku Chief Kepra: Orc of the ancient kingdom! What brings you here! Have you come to pay tribute to me, the great King of the Enku tribe? In order to receive an audience with me you must at the least bring a letter handwritten by the Seer of your tribe ! Now leave at once!",
+   "header": "Enku Chief Kepra",
+   "when": [
+    "state STARTED; has items 3209,3210; lacks items 3212,3229,3225; (getQuestItemsCount(player, ENKU_OVERLORD_HEAD)) < 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30616-02.html": {
+   "file": "Q00220_TestimonyOfGlory/30616-02.html",
+   "quest": 220,
+   "text": "Enku Chief Kepra: Orc of the ancient kingdom! What brings you here? Have you come to pay tribute to me, the great King of the Enku tribe?",
+   "header": "Enku Chief Kepra",
+   "when": [
+    "state STARTED; has items 3209,3210,3229; !(!hasAtLeastOneQuestItem(player, SCEPTER_OF_ENKU, MANAKIA_2ND_LETTER, GLOVE_OF_KEPRA) && ((getQuestItemsCount(player, E"
+   ],
+   "links": [
+    {
+     "text": "\"I have come to receive a Pledge of Loyalty and the Scepter of Flame!\"",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30616-03.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30616-03.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30616-03.html"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30616-05.html": {
+   "file": "Q00220_TestimonyOfGlory/30616-05.html",
+   "quest": 220,
+   "text": "Enku Chief Kepra: I shall never surrender! My guards will cut you to ribbons! Let's see what you're made of!",
+   "header": "Enku Chief Kepra",
+   "when": [
+    "state STARTED; has items 3209,3210,3225; lacks items 3229; !(!hasAtLeastOneQuestItem(player, SCEPTER_OF_ENKU, MANAKIA_2ND_LETTER, GLOVE_OF_KEPRA) && ((getQuestItemsCount(player, E; (getQuestItemsCount(player, ENKU_OVERLORD_HEAD)) < 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30616-06.html": {
+   "file": "Q00220_TestimonyOfGlory/30616-06.html",
+   "quest": 220,
+   "text": "Enku Chief Kepra: Stop! Halt! Are you trying to extinguish our race? Go ahead and take it! This Scepter is nothing more than an ornament! Take it and leave!",
+   "header": "Enku Chief Kepra",
+   "when": [
+    "state STARTED; has items 3209,3210; lacks items 3229; item 3224 >= 4; !(!hasAtLeastOneQuestItem(player, SCEPTER_OF_ENKU, MANAKIA_2ND_LETTER, GLOVE_OF_KEPRA) && ((getQuestItemsCount(player, E; !(hasQuestItems(player, GLOVE_OF_KEPRA) && ((getQuestItemsCount(player, ENKU_OVERLORD_HEAD)) < 4))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30616-07.html": {
+   "file": "Q00220_TestimonyOfGlory/30616-07.html",
+   "quest": 220,
+   "text": "Enku Chief Kepra: Violent oppressor! Enemy of our race! I have already suffered the indignity of losing the Tribal Scepter ! Do not make me suffer any longer!",
+   "header": "Enku Chief Kepra",
+   "when": [
+    "state STARTED; has items 3209,3210,3212; lacks items 3229; !(!hasAtLeastOneQuestItem(player, SCEPTER_OF_ENKU, MANAKIA_2ND_LETTER, GLOVE_OF_KEPRA) && ((getQuestItemsCount(player, E; !(hasQuestItems(player, GLOVE_OF_KEPRA) && ((getQuestItemsCount(player, ENKU_OVERLORD_HEAD)) < 4)); !getQuestItemsCount(player, ENKU_OVERLORD_HEAD) >= 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30616-08.html": {
+   "file": "Q00220_TestimonyOfGlory/30616-08.html",
+   "quest": 220,
+   "text": "Enku Chief Kepra: Do not humiliate me further. Leave me alone!",
+   "header": "Enku Chief Kepra",
+   "when": [
+    "state STARTED; has items 3216,3217,3220; lacks items 3209,3210"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30616-03.html": {
+   "file": "Q00220_TestimonyOfGlory/30616-03.html",
+   "quest": 220,
+   "text": "Enku Chief Kepra: Why should I do this for the ruler of a ruined kingdom! He has been defeated by the Humans and hides like a coward on the plateau! Your days are over!",
+   "header": "Enku Chief Kepra",
+   "links": [
+    {
+     "text": "\"If you do not give me the Scepter, I shall take it by force!\"",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30616-04.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30616-04.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30616-04.html"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30616-04.html": {
+   "file": "Q00220_TestimonyOfGlory/30616-04.html",
+   "quest": 220,
+   "text": "Enku Chief Kepra: Wha...what!? How dare you! I would never give the seal to a child like you! Guard! Beat some sense into this Orc!",
+   "header": "Enku Chief Kepra",
+   "links": [
+    {
+     "text": "\"Do you dare challenge the authority of Flame Lord!\"",
+     "bypass": "Quest Q00220_TestimonyOfGlory RETURN",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "RETURN",
+     "quest": 220,
+     "to": null
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Glory (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00220_TestimonyOfGlory",
+     "kind": "quest",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30616-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

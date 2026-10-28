@@ -2,7 +2,7 @@
  "id": 405,
  "name": "Path Of The Cleric",
  "version": 1,
- "generated": "2026-10-27T11:15:39.145Z",
+ "generated": "2026-10-27T18:19:13.913Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 18,
@@ -32,7 +32,7 @@
    "step": 1
   }
  ],
- "expectedMin": 18,
+ "expectedMin": 15,
  "refLevel": 18,
  "steps": [
   {
@@ -1074,7 +1074,8 @@
     2,
     3,
     4,
-    5
+    5,
+    6
    ]
   },
   {
@@ -1184,6 +1185,7 @@
     2,
     3,
     4,
+    5,
     6
    ],
    "override": {
@@ -2226,148 +2228,6 @@
     3,
     4,
     5,
-    6
-   ]
-  },
-  {
-   "i": 8,
-   "key": "c6:deliver:30408",
-   "cond": 6,
-   "kind": "deliver",
-   "to": 4,
-   "links": [],
-   "npc": {
-    "id": 30408,
-    "name": "Lionel",
-    "title": "",
-    "town": "Talking Island",
-    "at": [
-     -106485,
-     233377,
-     -3624
-    ],
-    "alt": []
-   },
-   "text": "Bring 2nd Letter of Order to Lionel",
-   "needs": [
-    {
-     "id": 1192,
-     "name": "2nd Letter of Order",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30408@-106485,233377",
-    "status": "ok",
-    "flags": [
-     "link-unverified"
-    ],
-    "from": ".gludin",
-    "length": 6315,
-    "sec": 123,
-    "via": ".gludin > Gludin -> TI Village > TI -> Elven Ruins",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> TI Village",
-      "link": "talking island village",
-      "price": 9400,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "TI",
-      "desc": "TI -> Elven Ruins",
-      "link": "Elven Ruins",
-      "price": 830,
-      "live": false
-     },
-     {
-      "do": "walk",
-      "len": 6315,
-      "how": "geodata",
-      "danger": 13
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> TI Village"
-    },
-    "simple": false,
-    "pv": [
-     [
-      -112367,
-      234703,
-      -3688
-     ],
-     [
-      -111867,
-      234204,
-      -3688
-     ],
-     [
-      -111368,
-      233704,
-      -3688
-     ],
-     [
-      -110408,
-      233528,
-      -3552
-     ],
-     [
-      -109416,
-      233480,
-      -3536
-     ],
-     [
-      -109128,
-      233480,
-      -3560
-     ],
-     [
-      -108136,
-      233384,
-      -3584
-     ],
-     [
-      -107144,
-      233384,
-      -3584
-     ],
-     [
-      -106488,
-      233384,
-      -3624
-     ]
-    ],
-    "maxDanger": 13,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 13,
-     "dangerVsLevel": -5,
-     "aggro": []
-    }
-   },
-   "expectedSec": 148,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
     6
    ]
   }

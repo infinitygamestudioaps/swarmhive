@@ -1,0 +1,171 @@
+{
+ "npcId": 30842,
+ "name": "Alexis",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.079Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30842.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "37": {
+   "name": "Make Formal Wear",
+   "listText": [
+    "[Make Formal Wear]",
+    "[Make Formal Wear (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00037_MakeFormalWear/30842-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00037_MakeFormalWear/30842-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00037_MakeFormalWear/30842-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30842.htm": {
+   "file": "merchant/30842.htm",
+   "quest": null,
+   "text": "Trader Alexis: Are you looking for an exquisite ring for your lover? Or perhaps a lovely necklace for your mother...? Come in and take a look at these beauties, my friend. Everything in the store is crafted by Elven artisans. They may look the same to the untrained eye, but the quality is quite dif…",
+   "header": "Trader Alexis",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Buy 3084200",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy a bracelet or talisman.",
+     "bypass": "npc_%objectId%_multisell 300900001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Buy/Sell/Refund Common Items.",
+     "bypass": "npc_%objectId%_Buy 3084201",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30842-pk.htm": {
+   "file": "merchant/30842-pk.htm",
+   "quest": null,
+   "text": "Trader Alexis: I will not do business with you. Get out! You are offending my customers!",
+   "header": "Trader Alexis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/30842-01.htm": {
+   "file": "Q00037_MakeFormalWear/30842-01.htm",
+   "quest": 37,
+   "text": "Trader Alexis: Welcome. What are you looking for? I'm sorry, but I can't do Formal Wear. Meet Leikar in the Town of Aden, she can help you.",
+   "header": "Trader Alexis",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "Quest Q00037_MakeFormalWear 30842-03.htm",
+     "kind": "quest-event",
+     "script": "Q00037_MakeFormalWear",
+     "event": "30842-03.htm",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/30842-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00037_MakeFormalWear/30842-02.html": {
+   "file": "Q00037_MakeFormalWear/30842-02.html",
+   "quest": 37,
+   "text": "Trader Alexis: Welcome. What can I help you with? I'm sorry, but you must grow a little before you can wear Formal Wear. (Quest may only be undertaken by a character of level 60 or above.)",
+   "header": "Trader Alexis",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/30842-04.html": {
+   "file": "Q00037_MakeFormalWear/30842-04.html",
+   "quest": 37,
+   "text": "Trader Alexis: Ask Leikar, she's the best at Formal Wear around here.",
+   "header": "Trader Alexis",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/30842-03.htm": {
+   "file": "Q00037_MakeFormalWear/30842-03.htm",
+   "quest": 37,
+   "text": "Trader Alexis: She's a maid in the Town of Aden. Quite good with her hands. All of her clothes are hand made and of excellent quality. Tell her I sent you.",
+   "header": "Trader Alexis",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Make Formal Wear]",
+     "bypass": "npc_%objectId%_Quest Q00037_MakeFormalWear",
+     "kind": "quest",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/30842-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Make Formal Wear (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00037_MakeFormalWear",
+     "kind": "quest",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/30842-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

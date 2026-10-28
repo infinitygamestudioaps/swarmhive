@@ -1,0 +1,220 @@
+{
+ "npcId": 30879,
+ "name": "Felton",
+ "title": "Wharf Manager",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.102Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30879.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "35": {
+   "name": "Find Glittering Jewelry",
+   "listText": [
+    "[Find Glittering Jewelry]",
+    "[Find Glittering Jewelry (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00035_FindGlitteringJewelry/30879-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00035_FindGlitteringJewelry/30879-03.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "65": {
+   "name": "Certified Soul Breaker",
+   "listText": [
+    "[Certified Soul Breaker]",
+    "[Certified Soul Breaker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30879-01.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30879-04.html",
+     "when": "state STARTED; memo 12",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30879.htm": {
+   "file": "merchant/30879.htm",
+   "quest": null,
+   "text": "Wharf Manager Felton: From here many ships come and go to other ports on the continent, including Talking Island. Without this port, Giran's giant market would not exist! It may look just like a sleepy little port to you, but mark my words: soon a village will be built near here. I hear that the Dw…",
+   "header": "Wharf Manager Felton",
+   "links": [
+    {
+     "text": "Buy a ticket.",
+     "bypass": "npc_%objectId%_Buy 3087900",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00035_FindGlitteringJewelry/30879-01.html": {
+   "file": "Q00035_FindGlitteringJewelry/30879-01.html",
+   "quest": 35,
+   "text": "Wharf Manager Felton: What brings you here? The boat with the ore Ellie's looking for still hasn't arrived. If you're in a hurry, why don't you go get some yourself?",
+   "header": "Wharf Manager Felton",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"How?\"",
+     "bypass": "Quest Q00035_FindGlitteringJewelry 30879-02.html",
+     "kind": "quest-event",
+     "script": "Q00035_FindGlitteringJewelry",
+     "event": "30879-02.html",
+     "quest": 35,
+     "to": "Q00035_FindGlitteringJewelry/30879-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00035_FindGlitteringJewelry/30879-03.html": {
+   "file": "Q00035_FindGlitteringJewelry/30879-03.html",
+   "quest": 35,
+   "text": "Wharf Manager Felton: You can get it from alligators on Alligator Beach . Ellie wanted 10 ores . They are ferocious, so be careful!",
+   "header": "Wharf Manager Felton",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/30879-01.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30879-01.html",
+   "quest": 65,
+   "text": "Wharf Manager Felton: Why did you come to me? The cargo has been delayed by a storm. If that's what you're here for, you'll have to wait a little longer. We're not delaying things on purpose, I promise you. You're looking for someone? There are many people moving about this wharf... I'm afraid you'…",
+   "header": "Wharf Manager Felton",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "links": [
+    {
+     "text": "Explain.",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 30879-02.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "30879-02.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/30879-02.html"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/30879-04.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30879-04.html",
+   "quest": 65,
+   "text": "Wharf Manager Felton: Is there anything else you want to ask? I think I told you about the location of the shipwreck, so go check it out.",
+   "header": "Wharf Manager Felton",
+   "when": [
+    "state STARTED; memo 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00035_FindGlitteringJewelry/30879-02.html": {
+   "file": "Q00035_FindGlitteringJewelry/30879-02.html",
+   "quest": 35,
+   "text": "Wharf Manager Felton: If you don't want to wait, you can get the ore by hunting the Alligators on Alligator Beach . Ellie's order was for 10 ore . They are ferocious, so be careful!",
+   "header": "Wharf Manager Felton",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/30879-02.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30879-02.html",
+   "quest": 65,
+   "text": "Wharf Manager Felton: Hmm.. Now that you mention it, I think I did see that person before. Yes! He asked me about the direction of the cargo ship. Then he disappeared after I told him that we were salvaging the goods from the cargo ship that had been shipwrecked near the entrance to Devil's Isle.",
+   "header": "Wharf Manager Felton",
+   "links": [
+    {
+     "text": "Ask about the location.",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 30879-03.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "30879-03.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/30879-03.html",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/30879-03.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30879-03.html",
+   "quest": 65,
+   "text": "Wharf Manager Felton: Since they were shipwrecked near the entrance, it should be near the broken bridge on your way to Devil's Isle. Go see for yourself.",
+   "header": "Wharf Manager Felton",
+   "sets": {
+    "cond": "12"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Find Glittering Jewelry (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00035_FindGlitteringJewelry",
+     "kind": "quest",
+     "quest": 35,
+     "to": "Q00035_FindGlitteringJewelry/30879-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Certified Soul Breaker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00065_CertifiedSoulBreaker",
+     "kind": "quest",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/30879-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

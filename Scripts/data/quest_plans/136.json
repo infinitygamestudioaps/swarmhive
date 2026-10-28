@@ -2,7 +2,7 @@
  "id": 136,
  "name": "More Than Meets the Eye",
  "version": 1,
- "generated": "2026-10-27T11:15:12.821Z",
+ "generated": "2026-10-27T18:18:48.556Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 50,
@@ -15,17 +15,15 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "route-unverified",
-   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
-   "step": 0
+   "code": "dryrun-fail",
+   "text": "dry run: plan-stage-unknown"
   },
   {
-   "code": "route-unverified",
-   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
-   "step": 1
+   "code": "dryrun:plan-stage-unknown",
+   "text": "plan stage(s) 4, 8 never set by the script"
   }
  ],
- "expectedMin": 35,
+ "expectedMin": 34,
  "refLevel": 50,
  "steps": [
   {
@@ -50,74 +48,206 @@
     "alt": []
    },
    "text": "Talk to Hardin – accept the quest",
-   "reasons": [
-    "route-unverified"
-   ],
+   "reasons": [],
    "travel": {
-    "src": "atlas",
-    "key": "npc:30832@105745,114255",
-    "status": "unverified",
+    "src": "computed",
+    "key": "",
+    "status": "ok",
     "flags": [
-     "unverified-walk"
+     "live-landing"
     ],
-    "from": ".giran",
-    "length": 22123,
-    "sec": 229,
-    "via": ".giran > Giran -> Necropolis of Martyrdom",
+    "from": "Oren",
+    "length": 5261,
+    "sec": 44,
     "steps": [
      {
       "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
+      "town": "Oren",
+      "cmd": ".oren"
      },
      {
       "do": "gk",
-      "from": "Giran",
-      "desc": "Giran -> Necropolis of Martyrdom",
-      "link": "necropolis of martyrdom",
-      "price": 5000,
+      "from": "Oren",
+      "desc": "Oren -> Hardin's Private Academy",
+      "link": "Hardin's Private Academy",
+      "price": 6100,
       "live": true
      },
      {
       "do": "walk",
-      "len": 22123,
-      "how": "straight",
-      "danger": 67
+      "len": 5261,
+      "how": "geodata"
      }
     ],
+    "via": ".oren > Oren -> Hardin's Private Academy",
     "start": {
      "kind": "gk",
-     "from": "Giran",
-     "desc": "Giran -> Necropolis of Martyrdom"
+     "from": "Oren",
+     "desc": "Oren -> Hardin's Private Academy"
     },
     "simple": true,
     "pv": [
      [
-      117793,
-      132810,
-      -4835
+      105855,
+      109782,
+      -3200
      ],
      [
-      105745,
-      114255,
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
       -3136
      ]
     ],
-    "maxDanger": 67,
-    "needs": [],
-    "why": [
-     "walk not on the geodata from 117793,132810 (the start is a closed pocket of 5237 cells on the geodata (platform / island / sealed room: no walk out))"
+    "points": [
+     [
+      105855,
+      109782,
+      -3200
+     ],
+     [
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
     ],
+    "landing": {
+     "from": "Oren",
+     "dest": "Hardin's Private Academy",
+     "src": "nav_atlas_extra gkLinks (LIVE)"
+    },
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
     "checks": {
      "reachable": true,
-     "walls": "straight legs not wall-checked: 1",
+     "walls": "geodata leg from a live landing (walls block)",
      "water": false,
-     "danger": 67,
-     "dangerVsLevel": 17,
+     "danger": 0,
+     "dangerVsLevel": 0,
      "aggro": []
     }
    },
-   "expectedSec": 259,
+   "expectedSec": 74,
    "conds": [
     0
    ]
@@ -146,82 +276,212 @@
     "alt": []
    },
    "text": "Listen to Hardin",
-   "reasons": [
-    "route-unverified"
-   ],
+   "reasons": [],
    "travel": {
-    "src": "atlas",
-    "key": "npc:30832@105745,114255",
-    "status": "unverified",
+    "src": "computed",
+    "key": "",
+    "status": "ok",
     "flags": [
-     "unverified-walk"
+     "live-landing"
     ],
-    "from": ".giran",
-    "length": 22123,
-    "sec": 229,
-    "via": ".giran > Giran -> Necropolis of Martyrdom",
+    "from": "Oren",
+    "length": 5261,
+    "sec": 44,
     "steps": [
      {
       "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
+      "town": "Oren",
+      "cmd": ".oren"
      },
      {
       "do": "gk",
-      "from": "Giran",
-      "desc": "Giran -> Necropolis of Martyrdom",
-      "link": "necropolis of martyrdom",
-      "price": 5000,
+      "from": "Oren",
+      "desc": "Oren -> Hardin's Private Academy",
+      "link": "Hardin's Private Academy",
+      "price": 6100,
       "live": true
      },
      {
       "do": "walk",
-      "len": 22123,
-      "how": "straight",
-      "danger": 67
+      "len": 5261,
+      "how": "geodata"
      }
     ],
+    "via": ".oren > Oren -> Hardin's Private Academy",
     "start": {
      "kind": "gk",
-     "from": "Giran",
-     "desc": "Giran -> Necropolis of Martyrdom"
+     "from": "Oren",
+     "desc": "Oren -> Hardin's Private Academy"
     },
     "simple": true,
     "pv": [
      [
-      117793,
-      132810,
-      -4835
+      105855,
+      109782,
+      -3200
      ],
      [
-      105745,
-      114255,
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
       -3136
      ]
     ],
-    "maxDanger": 67,
-    "needs": [],
-    "why": [
-     "walk not on the geodata from 117793,132810 (the start is a closed pocket of 5237 cells on the geodata (platform / island / sealed room: no walk out))"
+    "points": [
+     [
+      105855,
+      109782,
+      -3200
+     ],
+     [
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
     ],
+    "landing": {
+     "from": "Oren",
+     "dest": "Hardin's Private Academy",
+     "src": "nav_atlas_extra gkLinks (LIVE)"
+    },
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
     "checks": {
      "reachable": true,
-     "walls": "straight legs not wall-checked: 1",
+     "walls": "geodata leg from a live landing (walls block)",
      "water": false,
-     "danger": 67,
-     "dangerVsLevel": 17,
+     "danger": 0,
+     "dangerVsLevel": 0,
      "aggro": []
     }
    },
-   "expectedSec": 254,
+   "expectedSec": 69,
    "engine": {
     "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    5,
-    9
+    1
    ]
   },
   {
@@ -504,8 +764,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    2,
-    4
+    2
    ]
   },
   {
@@ -513,7 +772,9 @@
    "key": "c3:hunt",
    "cond": 3,
    "kind": "hunt",
-   "to": null,
+   "to": {
+    "raw": "cond"
+   },
    "monsters": [
     {
      "id": 20636,
@@ -550,6 +811,15 @@
      "raid": false,
      "spawns": 11,
      "questSpawned": false
+    },
+    {
+     "id": 20250,
+     "name": "Glass Jaguar",
+     "level": 27,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
     }
    ],
    "items": [
@@ -581,7 +851,7 @@
      ]
     }
    ],
-   "kills": null,
+   "kills": 1,
    "reasons": [],
    "text": "Collect 35 Ectoplasm from the Forest of Mirrors ghosts",
    "places": [
@@ -765,6 +1035,242 @@
         -3520
        ]
       ]
+     }
+    },
+    {
+     "mobs": [
+      20636,
+      20637,
+      20638,
+      20250,
+      20639
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "silent-valley-5",
+      "name": "Silent Valley 5: Forest of Mirrors Ghost area (south-west)",
+      "at": [
+       157192,
+       66472,
+       -3616
+      ],
+      "radius": 4410,
+      "levels": [
+       46,
+       51
+      ],
+      "count": 14,
+      "region": "Silent Valley",
+      "atlasKey": "area:silent-valley-5",
+      "status": "ok",
+      "sec": 255,
+      "danger": 52,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -79.75,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-3",
+        "name": "Forest of Mirrors 3: Mirror area (west)",
+        "at": [
+         135688,
+         81864,
+         -3520
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-3",
+        "name": "Plains of Dion 3: Glass Jaguar area (south-east)",
+        "at": [
+         3336,
+         184072,
+         -3440
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-17",
+        "name": "Plains of Dion 17: Monster Eye Destroyer area (north)",
+        "at": [
+         3720,
+         166904,
+         -3464
+        ],
+        "count": 7,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:silent-valley-5",
+      "status": "ok",
+      "flags": [
+       "swim",
+       "over-breath"
+      ],
+      "from": ".hunters",
+      "length": 21191,
+      "sec": 255,
+      "via": ".hunters > Hunters -> Entrance to the Forest of Mirrors",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Entrance to the Forest of Mirrors",
+        "link": "forest of mirrors",
+        "price": 2000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 394,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 20797,
+        "how": "field-areas",
+        "danger": 49
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Entrance to the Forest of Mirrors"
+      },
+      "simple": true,
+      "pv": [
+       [
+        142065,
+        81300,
+        -3000
+       ],
+       [
+        142392,
+        81080,
+        -3200
+       ],
+       [
+        142712,
+        80776,
+        -3176
+       ],
+       [
+        142728,
+        80760,
+        -3160
+       ],
+       [
+        143720,
+        79800,
+        -3000
+       ],
+       [
+        144712,
+        78808,
+        -2856
+       ],
+       [
+        145240,
+        78280,
+        -2808
+       ],
+       [
+        146232,
+        77400,
+        -3040
+       ],
+       [
+        147224,
+        76408,
+        -3104
+       ],
+       [
+        148216,
+        75416,
+        -3160
+       ],
+       [
+        149208,
+        74424,
+        -3312
+       ],
+       [
+        150200,
+        73432,
+        -3400
+       ],
+       [
+        151192,
+        72440,
+        -3472
+       ],
+       [
+        152184,
+        71448,
+        -3816
+       ],
+       [
+        153176,
+        70456,
+        -3784
+       ],
+       [
+        154168,
+        69480,
+        -3600
+       ],
+       [
+        154856,
+        68792,
+        -3328
+       ],
+       [
+        155848,
+        67816,
+        -3464
+       ],
+       [
+        156840,
+        66824,
+        -3584
+       ],
+       [
+        157192,
+        66472,
+        -3616
+       ]
+      ],
+      "maxDanger": 49,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 2848,
+        "maxSwim": 2848,
+        "overBreath": true
+       },
+       "danger": 49,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
      }
     }
    ],
@@ -1126,6 +1632,520 @@
   },
   {
    "i": 4,
+   "key": "c4:talk:30701",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30701,
+    "name": "Errickin",
+    "title": "Magister",
+    "town": "Hunters Village",
+    "at": [
+     120180,
+     75807,
+     -2260
+    ],
+    "alt": []
+   },
+   "text": "Bring the ectoplasm to Errickin (talk twice)",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30701@120180,75807",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 8960,
+    "sec": 95,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 8960,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76280,
+      -2728
+     ],
+     [
+      116776,
+      76456,
+      -2728
+     ],
+     [
+      116792,
+      76728,
+      -2720
+     ],
+     [
+      116824,
+      77000,
+      -2704
+     ],
+     [
+      116616,
+      77160,
+      -2720
+     ],
+     [
+      116424,
+      77352,
+      -2704
+     ],
+     [
+      116360,
+      77416,
+      -2704
+     ],
+     [
+      116344,
+      77672,
+      -2680
+     ],
+     [
+      116392,
+      77944,
+      -2680
+     ],
+     [
+      116536,
+      78184,
+      -2648
+     ],
+     [
+      116616,
+      78312,
+      -2608
+     ],
+     [
+      116760,
+      78536,
+      -2496
+     ],
+     [
+      116824,
+      78648,
+      -2432
+     ],
+     [
+      116968,
+      78888,
+      -2256
+     ],
+     [
+      117000,
+      78968,
+      -2256
+     ],
+     [
+      117256,
+      78984,
+      -2256
+     ],
+     [
+      117528,
+      79000,
+      -2256
+     ],
+     [
+      117800,
+      79016,
+      -2256
+     ],
+     [
+      117976,
+      78808,
+      -2200
+     ],
+     [
+      117976,
+      78648,
+      -2168
+     ],
+     [
+      117976,
+      78664,
+      -2168
+     ],
+     [
+      118168,
+      78632,
+      -2176
+     ],
+     [
+      118344,
+      78424,
+      -2176
+     ],
+     [
+      118520,
+      78216,
+      -2176
+     ],
+     [
+      118696,
+      78024,
+      -2176
+     ],
+     [
+      118904,
+      77848,
+      -2200
+     ],
+     [
+      119016,
+      77720,
+      -2248
+     ],
+     [
+      119064,
+      77448,
+      -2272
+     ],
+     [
+      119112,
+      77208,
+      -2272
+     ],
+     [
+      119288,
+      77000,
+      -2272
+     ],
+     [
+      119352,
+      76920,
+      -2272
+     ],
+     [
+      119480,
+      76920,
+      -2272
+     ],
+     [
+      119720,
+      76792,
+      -2272
+     ],
+     [
+      119768,
+      76520,
+      -2272
+     ],
+     [
+      119640,
+      76280,
+      -2272
+     ],
+     [
+      119608,
+      76008,
+      -2272
+     ],
+     [
+      119704,
+      75912,
+      -2264
+     ],
+     [
+      119896,
+      76024,
+      -2264
+     ],
+     [
+      120024,
+      76024,
+      -2264
+     ],
+     [
+      120184,
+      75800,
+      -2264
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 120,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:30832",
+   "cond": 5,
+   "kind": "talk",
+   "to": 6,
+   "links": [
+    "Keep listening.",
+    "Seal of Transformation?",
+    "\"How do I do that?\"",
+    "How do I make this empty Book of Seal?"
+   ],
+   "npc": {
+    "id": 30832,
+    "name": "Hardin",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     105745,
+     114255,
+     -3136
+    ],
+    "alt": []
+   },
+   "text": "Bring the Stabilized Ectoplasm to Hardin",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "",
+    "status": "ok",
+    "flags": [
+     "live-landing"
+    ],
+    "from": "Oren",
+    "length": 5261,
+    "sec": 44,
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Hardin's Private Academy",
+      "link": "Hardin's Private Academy",
+      "price": 6100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5261,
+      "how": "geodata"
+     }
+    ],
+    "via": ".oren > Oren -> Hardin's Private Academy",
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Hardin's Private Academy"
+    },
+    "simple": true,
+    "pv": [
+     [
+      105855,
+      109782,
+      -3200
+     ],
+     [
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
+    ],
+    "points": [
+     [
+      105855,
+      109782,
+      -3200
+     ],
+     [
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
+    ],
+    "landing": {
+     "from": "Oren",
+     "dest": "Hardin's Private Academy",
+     "src": "nav_atlas_extra gkLinks (LIVE)"
+    },
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata leg from a live landing (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 69,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 6,
    "key": "c6:talk:30464",
    "cond": 6,
    "kind": "talk",
@@ -1334,12 +2354,11 @@
     "hasItems": "talk"
    },
    "conds": [
-    6,
-    8
+    6
    ]
   },
   {
-   "i": 5,
+   "i": 7,
    "key": "c7:hunt",
    "cond": 7,
    "kind": "hunt",
@@ -1675,6 +2694,449 @@
    "conds": [
     7
    ]
+  },
+  {
+   "i": 8,
+   "key": "c8:talk:30464",
+   "cond": 8,
+   "kind": "talk",
+   "to": 9,
+   "links": [],
+   "npc": {
+    "id": 30464,
+    "name": "Clayton",
+    "title": "Magister",
+    "town": "Dion",
+    "at": [
+     17280,
+     146944,
+     -3085
+    ],
+    "alt": []
+   },
+   "text": "Bring them to Clayton",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30464@17280,146944",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 5822,
+    "sec": 69,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5822,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17528,
+      145480,
+      -3072
+     ],
+     [
+      17736,
+      145640,
+      -3088
+     ],
+     [
+      17784,
+      145672,
+      -3088
+     ],
+     [
+      17976,
+      145864,
+      -3104
+     ],
+     [
+      17992,
+      146136,
+      -3104
+     ],
+     [
+      17880,
+      146392,
+      -3104
+     ],
+     [
+      17752,
+      146536,
+      -3104
+     ],
+     [
+      17752,
+      146552,
+      -3112
+     ],
+     [
+      17608,
+      146792,
+      -3112
+     ],
+     [
+      17384,
+      146808,
+      -3080
+     ],
+     [
+      17240,
+      146872,
+      -3080
+     ],
+     [
+      17288,
+      146952,
+      -3080
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -28,
+     "aggro": []
+    }
+   },
+   "expectedSec": 94,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c9:talk:30832",
+   "cond": 9,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Drink the concoction.",
+    "Then can I transform now?",
+    "Wait."
+   ],
+   "npc": {
+    "id": 30832,
+    "name": "Hardin",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     105745,
+     114255,
+     -3136
+    ],
+    "alt": []
+   },
+   "text": "Report to Hardin",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "",
+    "status": "ok",
+    "flags": [
+     "live-landing"
+    ],
+    "from": "Oren",
+    "length": 5261,
+    "sec": 44,
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Hardin's Private Academy",
+      "link": "Hardin's Private Academy",
+      "price": 6100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5261,
+      "how": "geodata"
+     }
+    ],
+    "via": ".oren > Oren -> Hardin's Private Academy",
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Hardin's Private Academy"
+    },
+    "simple": true,
+    "pv": [
+     [
+      105855,
+      109782,
+      -3200
+     ],
+     [
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
+    ],
+    "points": [
+     [
+      105855,
+      109782,
+      -3200
+     ],
+     [
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
+    ],
+    "landing": {
+     "from": "Oren",
+     "dest": "Hardin's Private Academy",
+     "src": "nav_atlas_extra gkLinks (LIVE)"
+    },
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata leg from a live landing (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 69,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
   }
  ],
  "override": {
@@ -1750,7 +3212,24 @@
     "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
    }
   },
-  "editedAt": "2026-10-27T10:27:51.251Z",
-  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+  "editedAt": "2026-10-27T12:23:02.623Z",
+  "by": "claude live test 2026-10-27",
+  "note": "Hardin Academy landing (live 2026-10-27, Spoiler15): Oren gk Valentina \"Hardin's Private Academy\" 6100 -> 105855,109782,-3200 (gk Minerva); walk N to Hardin/Cema/Kaspar 5.2-5.7k, geodata dry path OK. Also Giran Clarissa 4400, Hunters Esmeralda 3400. nav_atlas_extra.json gkLinks."
+ },
+ "dryrun": {
+  "at": "2026-10-27T18:18:48.583Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "plan-stage-unknown",
+    "t": "plan stage(s) 4, 8 never set by the script"
+   }
+  ],
+  "warns": [
+   "script-runtime-cond",
+   "script-flow-far",
+   "area-partial"
+  ]
  }
 }

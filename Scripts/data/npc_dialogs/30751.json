@@ -1,0 +1,176 @@
+{
+ "npcId": 30751,
+ "name": "Suzet",
+ "title": "Wyrm",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.068Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30751.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "420": {
+   "name": "Little Wing",
+   "listText": [
+    "[Little Wing]",
+    "[Little Wing (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00420_LittleWing/30751-01.html",
+     "when": "state STARTED; cond 5; item 3821 >= 1",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30751-05.html",
+     "when": "state STARTED; cond 6; item 3829 >= 20",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30751-04.html",
+     "when": "state STARTED; cond 6; !getQuestItemsCount(talker, SUZET_EGG) >= 20",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30751-06.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30751.htm": {
+   "file": "default/30751.htm",
+   "quest": null,
+   "text": "Wyrm Suzet: Why would a person who belongs to the race that walks with two legs would want to talk to me who belongs to the race that has wings& What is this all about? I am wyrm Suzet. I am looking for my lost eggs. Why do you think someone stole my eggs? When Antharas, the lord of this land wakes…",
+   "header": "Wyrm Suzet",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30751-01.html": {
+   "file": "Q00420_LittleWing/30751-01.html",
+   "quest": 420,
+   "text": "Wyvern Suzet: I am a cold-hearted beast. Is this the Juice of Monkshood? I suppose Fairy Mimyu told you that in order to straighten out a dull-witted wyvern, you would have to pour this poison into my mouth? Poppycock! You should throw away such dangerous stuff. If you have been sent by Mimyu, I su…",
+   "header": "Wyvern Suzet",
+   "when": [
+    "state STARTED; cond 5; item 3821 >= 1"
+   ],
+   "links": [
+    {
+     "text": "\"Give me an egg.\"",
+     "bypass": "Quest Q00420_LittleWing 30751-02.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30751-02.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30751-02.html"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30751-05.html": {
+   "file": "Q00420_LittleWing/30751-05.html",
+   "quest": 420,
+   "text": "Wyvern Suzet: You saved all my eggs! And none damaged! Outstanding! Dear Sayha, thank you. Of course I guess I should give you the reward... As I promised, I will give you one of my eggs. If you take it to Fairy Mimyu , she will hatch it for you. During the upcoming time of war and tribulation, I p…",
+   "header": "Wyvern Suzet",
+   "when": [
+    "state STARTED; cond 6; item 3829 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30751-04.html": {
+   "file": "Q00420_LittleWing/30751-04.html",
+   "quest": 420,
+   "text": "Wyvern Suzet: Have you found my eggs yet? I hate to hurry you, but I'm very worried about what Breka orcs will do to my eggs. Please go to Northern Giran , kill the Breka Orc Overlords and bring back my 20 eggs .",
+   "header": "Wyvern Suzet",
+   "when": [
+    "state STARTED; cond 6; !getQuestItemsCount(talker, SUZET_EGG) >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30751-06.html": {
+   "file": "Q00420_LittleWing/30751-06.html",
+   "quest": 420,
+   "text": "Wyvern Suzet: Are you still here? How fortunate! This gives me the opportunity to see my child again. Oh yes! There is something I must tell you. It is said that the lord of all creatures with scales and wings, who has been sleeping deeply in Dragon Valley has awoken. Weak creatures cannot even gaz…",
+   "header": "Wyvern Suzet",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30751-02.html": {
+   "file": "Q00420_LittleWing/30751-02.html",
+   "quest": 420,
+   "text": "Wyvern Suzet: Only one out of twenty? It seems reasonable but it's not easy for me to say yes. These eggs are a part of me. But for you, its just another exotic animal, am I right? I fear that you will desert my baby and it will end up being killed.",
+   "header": "Wyvern Suzet",
+   "links": [
+    {
+     "text": "\"I will raise it with affection and care.\"",
+     "bypass": "Quest Q00420_LittleWing 30751-03.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30751-03.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30751-03.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30751-03.html": {
+   "file": "Q00420_LittleWing/30751-03.html",
+   "quest": 420,
+   "text": "Wyvern Suzet: If you were irresponsible I know you wouldn't have been able speak with Fairy Mimyu and find me like this. In the name of Sayha and Antharas, if you recover my 20 lost eggs that have been stolen by Breka orcs, I promise to give one of them to you. Take my scale with you. My eggs will …",
+   "header": "Wyvern Suzet",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Little Wing (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00420_LittleWing",
+     "kind": "quest",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30751-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

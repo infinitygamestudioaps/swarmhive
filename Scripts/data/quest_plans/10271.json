@@ -2,7 +2,7 @@
  "id": 10271,
  "name": "The Enveloping Darkness",
  "version": 1,
- "generated": "2026-10-27T11:16:38.388Z",
+ "generated": "2026-10-27T18:20:04.481Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 75,
@@ -28,17 +28,12 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "no-route",
-   "text": "no route to a step place (atlas unreachable / no geodata walk)",
-   "step": 1
-  },
-  {
    "code": "npc-no-spawn",
    "text": "an NPC of a step has no spawn in the datapack",
-   "step": 3
+   "step": 2
   }
  ],
- "expectedMin": 19,
+ "expectedMin": 20,
  "refLevel": 75,
  "steps": [
   {
@@ -193,9 +188,9 @@
    "key": "c1:talk:32556",
    "cond": 1,
    "kind": "talk",
-   "to": 4,
+   "to": 2,
    "links": [
-    "\"I found the documents just where you said they would be.\""
+    "\"Leave it to me.\""
    ],
    "npc": {
     "id": 32556,
@@ -210,9 +205,7 @@
     "alt": []
    },
    "text": "Talk to El",
-   "reasons": [
-    "no-route"
-   ],
+   "reasons": [],
    "travel": {
     "src": "none",
     "status": "unreachable",
@@ -230,10 +223,114 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4
+    1
+   ],
+   "overrideFrom": "c2:talk:32556",
+   "override": {
+    "route": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186136,
+      242840,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -186248,
+      242600,
+      1680
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "note": "El; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "points": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186136,
+      242840,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -186248,
+      242600,
+      1680
+     ]
+    ],
+    "pv": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186136,
+      242840,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -186248,
+      242600,
+      1680
+     ]
+    ],
+    "length": 1658,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "no-route"
    ]
   },
   {
@@ -267,6 +364,156 @@
   },
   {
    "i": 3,
+   "key": "c3:talk:32556",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "\"I found the documents just where you said they would be.\""
+   ],
+   "npc": {
+    "id": 32556,
+    "name": "El",
+    "title": "Soldier",
+    "town": "Talking Island",
+    "at": [
+     -186252,
+     242594,
+     1680
+    ],
+    "alt": []
+   },
+   "text": "Talk to El",
+   "reasons": [],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ],
+   "overrideFrom": "c2:talk:32556",
+   "override": {
+    "route": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186136,
+      242840,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -186248,
+      242600,
+      1680
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "note": "El; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "points": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186136,
+      242840,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -186248,
+      242600,
+      1680
+     ]
+    ],
+    "pv": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186136,
+      242840,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -186248,
+      242600,
+      1680
+     ]
+    ],
+    "length": 1658,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "no-route"
+   ]
+  },
+  {
+   "i": 4,
    "key": "c4:talk:32560",
    "cond": 4,
    "kind": "talk",

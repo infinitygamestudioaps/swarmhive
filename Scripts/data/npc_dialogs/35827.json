@@ -1,0 +1,196 @@
+{
+ "npcId": 35827,
+ "name": "Foreman",
+ "title": "Narsell Fortress",
+ "type": "L2FortManager",
+ "generated": "2026-10-27T18:18:03.443Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "fortress/35827-d.htm": {
+   "file": "fortress/35827-d.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Open the gate",
+     "bypass": "npc_%objectId%_operate_door 1 24190005 24190010 24190006 24190007 24190008 24190009 24190011 24190012",
+     "kind": "other"
+    },
+    {
+     "text": "Close the gate",
+     "bypass": "npc_%objectId%_operate_door 0 24190005 24190010 24190006 24190007 24190008 24190009 24190011 24190012",
+     "kind": "other"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Link fortress/foreman.htm",
+     "kind": "page",
+     "to": "fortress/foreman.htm"
+    }
+   ]
+  },
+  "fortress/35827-t1.htm": {
+   "file": "fortress/35827-t1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Fortress West Gate",
+     "bypass": "npc_%objectId%_goto 20040",
+     "kind": "teleport",
+     "confirm": "811;Fortress West Gate"
+    },
+    {
+     "text": "Fortress East Gate",
+     "bypass": "npc_%objectId%_goto 20041",
+     "kind": "teleport",
+     "confirm": "811;Fortress East Gate"
+    },
+    {
+     "text": "Aden Town Square",
+     "bypass": "npc_%objectId%_goto 20042",
+     "kind": "teleport",
+     "confirm": "811;Aden Town Square"
+    },
+    {
+     "text": "Front of the Aden Castle Gate",
+     "bypass": "npc_%objectId%_goto 20043",
+     "kind": "teleport",
+     "confirm": "811;Front of the Aden Castle Gate"
+    }
+   ]
+  },
+  "fortress/35827-t2.htm": {
+   "file": "fortress/35827-t2.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Fortress West Gate",
+     "bypass": "npc_%objectId%_goto 20040",
+     "kind": "teleport",
+     "confirm": "811;Fortress West Gate"
+    },
+    {
+     "text": "Fortress East Gate",
+     "bypass": "npc_%objectId%_goto 20041",
+     "kind": "teleport",
+     "confirm": "811;Fortress East Gate"
+    },
+    {
+     "text": "Aden Town Square",
+     "bypass": "npc_%objectId%_goto 20042",
+     "kind": "teleport",
+     "confirm": "811;Aden Town Square"
+    },
+    {
+     "text": "Front of the Aden Castle Gate",
+     "bypass": "npc_%objectId%_goto 20043",
+     "kind": "teleport",
+     "confirm": "811;Front of the Aden Castle Gate"
+    },
+    {
+     "text": "Ancient Battleground - 500",
+     "bypass": "npc_%objectId%_goto 20044",
+     "kind": "teleport",
+     "confirm": "811;Ancient Battleground"
+    },
+    {
+     "text": "Enchanted Valley, Southern Region - 500",
+     "bypass": "npc_%objectId%_goto 20045",
+     "kind": "teleport",
+     "confirm": "811;Enchanted Valley, Southern Region"
+    },
+    {
+     "text": "Enchanted Valley, Northern Region - 500",
+     "bypass": "npc_%objectId%_goto 20046",
+     "kind": "teleport",
+     "confirm": "811;Enchanted Valley, Northern Region"
+    },
+    {
+     "text": "Blazing Swamp - 500",
+     "bypass": "npc_%objectId%_goto 20047",
+     "kind": "teleport",
+     "confirm": "811;Blazing Swamp"
+    },
+    {
+     "text": "The Giant's Cave Upper Layer - 500",
+     "bypass": "npc_%objectId%_goto 20048",
+     "kind": "teleport",
+     "confirm": "811;The Giant's Cave Upper Layer"
+    },
+    {
+     "text": "The Giant's Cave Lower Layer - 500",
+     "bypass": "npc_%objectId%_goto 20049",
+     "kind": "teleport",
+     "confirm": "811;The Giant's Cave Lower Layer"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  },
+  "fortress/foreman.htm": {
+   "file": "fortress/foreman.htm",
+   "quest": null,
+   "text": "Whoever owns this fortress must safeguard the territory from monsters or enemy clans. It is a task that requires constant vigilance -- conflict may arise at any time from any quarter!",
+   "links": [
+    {
+     "text": "Receive Report.",
+     "bypass": "npc_%objectId%_receive_report",
+     "kind": "other"
+    },
+    {
+     "text": "Open/Close Door.",
+     "bypass": "npc_%objectId%_operate_door",
+     "kind": "other"
+    },
+    {
+     "text": "Expel Outsiders.",
+     "bypass": "npc_%objectId%_expel",
+     "kind": "other"
+    },
+    {
+     "text": "Fortress Functions.",
+     "bypass": "npc_%objectId%_functions",
+     "kind": "other"
+    },
+    {
+     "text": "Clan Warehouse.",
+     "bypass": "npc_%objectId%_manage_vault",
+     "kind": "other"
+    },
+    {
+     "text": "Fortress Management.",
+     "bypass": "npc_%objectId%_manage",
+     "kind": "other"
+    }
+   ]
+  }
+ }
+}

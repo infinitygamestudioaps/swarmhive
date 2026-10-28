@@ -1,0 +1,365 @@
+{
+ "npcId": 31350,
+ "name": "Dominic",
+ "title": "Priest",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.195Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31350.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "21": {
+   "name": "Hidden Truth",
+   "listText": [
+    "[Hidden Truth]",
+    "[Hidden Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00021_HiddenTruth/31350-03.html",
+     "when": "cond 6; st.getInt(\"AGRIPEL\") == 1; st.getInt(\"DOMINIC\") == 1; st.getInt(\"BENEDICT\") == 1",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00021_HiddenTruth/31350-02.html",
+     "when": "cond 6; !((st.getInt(\"AGRIPEL\") == 1) && (st.getInt(\"DOMINIC\") == 1) && (st.getInt(\"BENEDICT\") == 1)); ((st.getInt(\"AGRIPEL\") == 1) || (st.getInt(\"BENEDICT\") == 1))",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00021_HiddenTruth/31350-01.html",
+     "when": "cond 6; !((st.getInt(\"AGRIPEL\") == 1) && (st.getInt(\"DOMINIC\") == 1) && (st.getInt(\"BENEDICT\") == 1)); !((st.getInt(\"AGRIPEL\") == 1) || (st.getInt(\"BENEDICT\") == 1))",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00021_HiddenTruth/31350-03.html",
+     "when": "cond 7; !(st.hasQuestItems(CROSS_OF_EINHASAD) && st.isCond(6))",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "639": {
+   "name": "Guardians of the Holy Grail",
+   "listText": [
+    "[Guardians of the Holy Grail]",
+    "[Guardians of the Holy Grail (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00639_GuardiansOfTheHolyGrail/31350-01.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10288": {
+   "name": "Secret Mission",
+   "listText": [
+    "[Secret Mission]",
+    "[Secret Mission (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10288_SecretMission/31350-01.htm",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10288_SecretMission/31350-06.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10288_SecretMission/31350-07.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31350.htm": {
+   "file": "default/31350.htm",
+   "quest": null,
+   "text": "Dominic: Heh heh... This isn't too bad! Everything's going according to plan...",
+   "header": "Dominic",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31350-03.html": {
+   "file": "Q00021_HiddenTruth/31350-03.html",
+   "quest": 21,
+   "text": "Dominic: Maybe the devil worshippers are hiding in a library somewhere, they still need to acquire knowledge. They couldn't be here in the temple!",
+   "header": "Dominic",
+   "when": [
+    "cond 6; st.getInt(\"AGRIPEL\") == 1; st.getInt(\"DOMINIC\") == 1; st.getInt(\"BENEDICT\") == 1",
+    "cond 7; !(st.hasQuestItems(CROSS_OF_EINHASAD) && st.isCond(6))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00021_HiddenTruth/31350-02.html": {
+   "file": "Q00021_HiddenTruth/31350-02.html",
+   "quest": 21,
+   "text": "Dominic: Maybe he was the guy who long ago was expelled for keeping a devil worshipper with him! He's probably a beggar now. I don't waste my time with such filth.",
+   "header": "Dominic",
+   "when": [
+    "cond 6; !((st.getInt(\"AGRIPEL\") == 1) && (st.getInt(\"DOMINIC\") == 1) && (st.getInt(\"BENEDICT\") == 1)); ((st.getInt(\"AGRIPEL\") == 1) || (st.getInt(\"BENEDICT\") == 1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00021_HiddenTruth/31350-01.html": {
+   "file": "Q00021_HiddenTruth/31350-01.html",
+   "quest": 21,
+   "text": "Priest Dominic: Is Innocentin one of those devil worshippers executed in the old witch trials? I never heard of him, ask someone else.",
+   "header": "Priest Dominic",
+   "when": [
+    "cond 6; !((st.getInt(\"AGRIPEL\") == 1) && (st.getInt(\"DOMINIC\") == 1) && (st.getInt(\"BENEDICT\") == 1)); !((st.getInt(\"AGRIPEL\") == 1) || (st.getInt(\"BENEDICT\") == 1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00464_Oath/31350-01.html": {
+   "file": "Q00464_Oath/31350-01.html",
+   "quest": 464,
+   "text": "Priest Dominic: What would possess YOU to speak to me?",
+   "header": "Priest Dominic",
+   "when": [
+    "state STARTED; cond >1; st.getInt(\"npc\") == npcId"
+   ],
+   "links": [
+    {
+     "text": "Is this book yours?",
+     "bypass": "Quest Q00464_Oath end_quest",
+     "kind": "quest-event",
+     "script": "Q00464_Oath",
+     "event": "end_quest",
+     "quest": 464,
+     "to": "Q00464_Oath/31350-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00639_GuardiansOfTheHolyGrail/31350-01.html": {
+   "file": "Q00639_GuardiansOfTheHolyGrail/31350-01.html",
+   "quest": 639,
+   "text": "Priest Dominic: Ahhh... that mission has been.. satisfied. It's time for a new mission.",
+   "header": "Priest Dominic",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10288_SecretMission/31350-01.htm": {
+   "file": "Q10288_SecretMission/31350-01.htm",
+   "quest": 10288,
+   "text": "Priest Dominic: It's time plans were put into motion... yes... it's time those silent sycophants saw the truth of things... time for you to finally earn the right to be in my presence as well. I've got a task for you... yes if you're willing, there's something that needs being done and you will be …",
+   "header": "Priest Dominic",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "Ask what needs to be done.",
+     "bypass": "Quest Q10288_SecretMission 31350-03.html",
+     "kind": "quest-event",
+     "script": "Q10288_SecretMission",
+     "event": "31350-03.html",
+     "quest": 10288,
+     "to": "Q10288_SecretMission/31350-03.html",
+     "toAll": [
+      "Q10288_SecretMission/31350-03.html",
+      "Q10288_SecretMission/31350-02b.html"
+     ]
+    },
+    {
+     "text": "Back away slowly and quietly.",
+     "bypass": "Quest Q10288_SecretMission 31350-02.html",
+     "kind": "quest-event",
+     "script": "Q10288_SecretMission",
+     "event": "31350-02.html",
+     "quest": 10288,
+     "to": "Q10288_SecretMission/31350-02.html"
+    }
+   ]
+  },
+  "Q10288_SecretMission/31350-06.html": {
+   "file": "Q10288_SecretMission/31350-06.html",
+   "quest": 10288,
+   "text": "Priest Dominic: You are on the path I have laid out for you. Do not dilly-dally, do not be distracted. And don't forget, first talk to Aquilani at the entrance to the Monastery of Silence and he shall show you the way to Greymore.",
+   "header": "Priest Dominic",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10288_SecretMission/31350-07.html": {
+   "file": "Q10288_SecretMission/31350-07.html",
+   "quest": 10288,
+   "text": "Priest Dominic: Aquilani tells me I was right to trust you with that task. I am not easily impressed, but you have indeed proven yourself worthy of my presence. I suspect Greymore may require help if you wish to assist us further. (You have already completed this quest.)",
+   "header": "Priest Dominic",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00464_Oath/31350-02.html": {
+   "file": "Q00464_Oath/31350-02.html",
+   "quest": 464,
+   "text": "Priest Dominic: You aren't afraid to look me in the eye. That shows your inner bravery. Tell me, brave one, where did you find this book? Interesting. If you were one of my family, I would share a story with you about this book. If there is nothing else...",
+   "header": "Priest Dominic",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10288_SecretMission/31350-02.html": {
+   "file": "Q10288_SecretMission/31350-02.html",
+   "quest": 10288,
+   "text": "Priest Dominic: Why are you here? Stop testing my patience and perform the simple tasks to which I have turned to you.",
+   "header": "Priest Dominic",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10288_SecretMission/31350-02b.html": {
+   "file": "Q10288_SecretMission/31350-02b.html",
+   "quest": 10288,
+   "text": "Priest Dominic: No. You lack strength. (Only characters of level 82 and above are permitted to take on this quest.)",
+   "header": "Priest Dominic",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10288_SecretMission/31350-03.html": {
+   "file": "Q10288_SecretMission/31350-03.html",
+   "quest": 10288,
+   "text": "Priest Dominic: As a matter of business, I find simplicity in things to be... ideal. Beautiful even. Your task is to deliver a message to someone, nothing more and nothing less. Someone named Greymore . The task is simple, but as important as what the letter says...",
+   "header": "Priest Dominic",
+   "links": [
+    {
+     "text": "\"What does the letter say?\"",
+     "bypass": "Quest Q10288_SecretMission 31350-04.htm",
+     "kind": "quest-event",
+     "script": "Q10288_SecretMission",
+     "event": "31350-04.htm",
+     "quest": 10288,
+     "to": "Q10288_SecretMission/31350-04.htm"
+    }
+   ]
+  },
+  "Q10288_SecretMission/31350-04.htm": {
+   "file": "Q10288_SecretMission/31350-04.htm",
+   "quest": 10288,
+   "text": "Priest Dominic: None of your business. Your role in task is simply delivery. To find Greymore, talk to Aquilani . He stands outside the western entrance of the Monastery of Silence . He knows precisely where you'll find Greymore. Yes... simply shoulder this epistle. A task so simple someone such as…",
+   "header": "Priest Dominic",
+   "links": [
+    {
+     "text": "Accept the task.",
+     "bypass": "Quest Q10288_SecretMission 31350-05.htm",
+     "kind": "quest-event",
+     "script": "Q10288_SecretMission",
+     "event": "31350-05.htm",
+     "quest": 10288,
+     "to": "Q10288_SecretMission/31350-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10288_SecretMission/31350-05.htm": {
+   "file": "Q10288_SecretMission/31350-05.htm",
+   "quest": 10288,
+   "text": "Priest Dominic: Here is the letter. This task makes you one of my own, which means that should you lose this letter or fail this task, you will be mine to punish. It also means Aquilani will recognize my presence in you when you seek him out. Do not deter from the path. Seek Aquilani and he will sh…",
+   "header": "Priest Dominic",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Hidden Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00021_HiddenTruth",
+     "kind": "quest",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31350-03.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Guardians of the Holy Grail]",
+     "bypass": "npc_%objectId%_Quest Q00639_GuardiansOfTheHolyGrail",
+     "kind": "quest",
+     "quest": 639,
+     "to": "Q00639_GuardiansOfTheHolyGrail/31350-01.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Guardians of the Holy Grail (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00639_GuardiansOfTheHolyGrail",
+     "kind": "quest",
+     "quest": 639,
+     "to": "Q00639_GuardiansOfTheHolyGrail/31350-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Secret Mission]",
+     "bypass": "npc_%objectId%_Quest Q10288_SecretMission",
+     "kind": "quest",
+     "quest": 10288,
+     "to": "Q10288_SecretMission/31350-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Secret Mission (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10288_SecretMission",
+     "kind": "quest",
+     "quest": 10288,
+     "to": "Q10288_SecretMission/31350-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

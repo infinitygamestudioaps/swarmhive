@@ -1,0 +1,58 @@
+{
+ "npcId": 32179,
+ "name": "Putin",
+ "title": "Marksman",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.352Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/32179.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/32179.htm": {
+   "file": "guard/32179.htm",
+   "quest": null,
+   "text": "Marksman Putin: Thank you for your efforts. If you step through the door behind me, you will enter Kamael Village. The monsters in Mimir's Forest are powerful, aren't they? If you feel that they are easy, it may be time for you to challenge yourself with a trip to Nornil's Cave .",
+   "header": "Marksman Putin",
+   "links": [
+    {
+     "text": "Ask about Nornil's Cave.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/32179-1.htm"
+    },
+    {
+     "text": "See information on permanent residence and tax rates.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/32179-1.htm": {
+   "file": "guard/32179-1.htm",
+   "quest": null,
+   "text": "Marksman Putin: Nornil's Cave is widely known as the origin of all the monsters who roam the Isle of Souls. Survive it and you will gain the qualifications necessary to depart this island for the mainland as a soldier of the Kamael. To be honest, even if you don't pass you may still be able to leav…",
+   "header": "Marksman Putin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

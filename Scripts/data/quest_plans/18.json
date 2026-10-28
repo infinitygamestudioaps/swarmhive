@@ -2,7 +2,7 @@
  "id": 18,
  "name": "Meeting With The Golden Ram",
  "version": 1,
- "generated": "2026-10-27T11:14:36.582Z",
+ "generated": "2026-10-27T18:18:17.173Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 66,
@@ -122,8 +122,106 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:31555",
+   "key": "c1:talk:31315",
    "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"You can count on me.\""
+   ],
+   "npc": {
+    "id": 31315,
+    "name": "Daisy",
+    "title": "Warehouse Keeper",
+    "town": "Rune",
+    "at": [
+     43556,
+     -48640,
+     -800
+    ],
+    "alt": []
+   },
+   "text": "Talk to Daisy",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31315@43556,-48640",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 786,
+    "sec": 27,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 786,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      43880,
+      -48312,
+      -792
+     ],
+     [
+      43736,
+      -48552,
+      -792
+     ],
+     [
+      43560,
+      -48632,
+      -792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 52,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:31555",
+   "cond": 2,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -225,106 +323,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:31315",
-   "cond": 1,
-   "kind": "talk",
-   "to": 2,
-   "links": [
-    "\"You can count on me.\""
-   ],
-   "npc": {
-    "id": 31315,
-    "name": "Daisy",
-    "title": "Warehouse Keeper",
-    "town": "Rune",
-    "at": [
-     43556,
-     -48640,
-     -800
-    ],
-    "alt": []
-   },
-   "text": "Talk to Daisy",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:31315@43556,-48640",
-    "status": "ok",
-    "flags": [],
-    "from": ".rune",
-    "length": 786,
-    "sec": 27,
-    "via": ".rune",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "walk",
-      "len": 786,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Rune"
-    },
-    "simple": true,
-    "pv": [
-     [
-      43759,
-      -48122,
-      -792
-     ],
-     [
-      43880,
-      -48120,
-      -792
-     ],
-     [
-      43880,
-      -48312,
-      -792
-     ],
-     [
-      43736,
-      -48552,
-      -792
-     ],
-     [
-      43560,
-      -48632,
-      -792
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 52,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1
    ]
   }
  ],
@@ -332,7 +331,7 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:14:36.603Z",
+  "at": "2026-10-27T18:18:17.192Z",
   "pass": true,
   "geo": true,
   "fails": [],

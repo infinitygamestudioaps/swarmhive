@@ -1,0 +1,322 @@
+{
+ "npcId": 30048,
+ "name": "Darin",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.794Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/30048.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "1": {
+   "name": "Letters of Love",
+   "listText": [
+    "[Letters of Love]",
+    "[Letters of Love (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00001_LettersOfLove/30048-01.html",
+     "when": "state CREATED; (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00001_LettersOfLove/30048-02.html",
+     "when": "state CREATED; NOT (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00001_LettersOfLove/30048-07.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00001_LettersOfLove/30048-08.html",
+     "when": "state STARTED; cond 2; has items 688",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00001_LettersOfLove/30048-09.html",
+     "when": "state STARTED; cond 3; (hasQuestItems(player, DARINS_RECEIPT) || !hasQuestItems(player, BAULROS_POTION))",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00001_LettersOfLove/30048-10.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30048.htm": {
+   "file": "default/30048.htm",
+   "quest": null,
+   "text": "Darin: Do you ever look out at the world and find it to be a beautiful and magical place? Like you're seeing it for the first time? I feel like that these days. Have you ever read \"The Young Lover's Sadness\"? If you haven't, you should read it, the book is very inspiring.",
+   "header": "Darin",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00001_LettersOfLove/30048-01.html": {
+   "file": "Q00001_LettersOfLove/30048-01.html",
+   "quest": 1,
+   "text": "Darin: What's more dangerous than a Knight's sword or a Wizard's staff? That thing we call love. More silently than a thief, swifter than a sunset it comes upon you and captures your soul. The minstrels were right; it's sweet and bitter all at once! One moment my heart soars to the heights of joy, …",
+   "header": "Darin",
+   "when": [
+    "state CREATED; (player.getLevel() < MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00001_LettersOfLove/30048-02.html": {
+   "file": "Q00001_LettersOfLove/30048-02.html",
+   "quest": 1,
+   "text": "Darin: What's more dangerous than a Knight's sword or a Wizard's staff? That thing we call love. More silently than a thief, swifter than a sunset it comes upon you and captures your soul. The minstrels were right; it's sweet and bitter all at once! I cannot concentrate, I cannot sleep, I cannot ea…",
+   "header": "Darin",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Ask whom he loves.",
+     "bypass": "Quest Q00001_LettersOfLove 30048-03.html",
+     "kind": "quest-event",
+     "script": "Q00001_LettersOfLove",
+     "event": "30048-03.html",
+     "quest": 1,
+     "to": "Q00001_LettersOfLove/30048-03.html",
+     "live": true
+    }
+   ]
+  },
+  "Q00001_LettersOfLove/30048-07.html": {
+   "file": "Q00001_LettersOfLove/30048-07.html",
+   "quest": 1,
+   "text": "Darin: You haven't given my letter to Roxxy yet?! Please hurry! I'm so anxious that I can't eat or sleep. I must know her answer!",
+   "header": "Darin",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00001_LettersOfLove/30048-08.html": {
+   "file": "Q00001_LettersOfLove/30048-08.html",
+   "quest": 1,
+   "text": "Darin: Roxxy's handkerchief! Oh, she really likes me! It seems like a dream... Thank you! If not for you, I would never have known.. I must speak with her. So much to do: buy flowers, bathe, get dressed in my finest clothes... Oh, I must hurry! I hate to impose, but would you do me another favor? B…",
+   "header": "Darin",
+   "when": [
+    "state STARTED; cond 2; has items 688"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00001_LettersOfLove/30048-09.html": {
+   "file": "Q00001_LettersOfLove/30048-09.html",
+   "quest": 1,
+   "text": "Darin: \"Your eyes are like...puddles of moonlight...\" Ah! You haven't brought Baulro's potion? Please hurry -- I'm writing a poem for Roxxy and I need all the help I can get. Everything must be perfect!",
+   "header": "Darin",
+   "when": [
+    "state STARTED; cond 3; (hasQuestItems(player, DARINS_RECEIPT) || !hasQuestItems(player, BAULROS_POTION))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00001_LettersOfLove/30048-10.html": {
+   "file": "Q00001_LettersOfLove/30048-10.html",
+   "quest": 1,
+   "text": "Darin: You brought the potion? Thank you! I've already bought roses and even finished the poem I was writing for Roxxy. Now that I have Baulro's potion, all that's left is for me to do is to go and talk to her. I know in my heart this is meant to be! I couldn't have done any of this without your he…",
+   "header": "Darin",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00001_LettersOfLove/30048-03.html": {
+   "file": "Q00001_LettersOfLove/30048-03.html",
+   "quest": 1,
+   "text": "Darin: I am in love with Roxxy . Do you know her? She's our village Gatekeeper.",
+   "header": "Darin",
+   "links": [
+    {
+     "text": "Tell him you don't know her.",
+     "bypass": "Quest Q00001_LettersOfLove 30048-04.html",
+     "kind": "quest-event",
+     "script": "Q00001_LettersOfLove",
+     "event": "30048-04.html",
+     "quest": 1,
+     "to": "Q00001_LettersOfLove/30048-04.html",
+     "live": true
+    },
+    {
+     "text": "Tell him you do know her.",
+     "bypass": "Quest Q00001_LettersOfLove 30048-05.html",
+     "kind": "quest-event",
+     "script": "Q00001_LettersOfLove",
+     "event": "30048-05.html",
+     "quest": 1,
+     "to": "Q00001_LettersOfLove/30048-05.html"
+    }
+   ]
+  },
+  "Q00001_LettersOfLove/30048-04.html": {
+   "file": "Q00001_LettersOfLove/30048-04.html",
+   "quest": 1,
+   "text": "Darin: You don't know Roxxy?! She is the most beautiful woman on Talking Island... She is also very intelligent -- she was even a student at Oren's Ivory Tower! Now she belongs to the Gatekeeper Guild, able to bend time and space to connect many villages. Oh, why would a woman like that ever return…",
+   "header": "Darin",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00001_LettersOfLove 30048-06.htm",
+     "kind": "quest-event",
+     "script": "Q00001_LettersOfLove",
+     "event": "30048-06.htm",
+     "quest": 1,
+     "to": "Q00001_LettersOfLove/30048-06.htm",
+     "effect": "start",
+     "live": true
+    }
+   ]
+  },
+  "Q00001_LettersOfLove/30048-05.html": {
+   "file": "Q00001_LettersOfLove/30048-05.html",
+   "quest": 1,
+   "text": "Darin: Ah, then you can see why I am so tormented! She is an amazing woman...in fact, why would a woman like that ever return the love I feel for her? For months, I vowed every day to tell her how I feel, and every day my courage deserted me. What would I do if she rejected me? Now I've written her…",
+   "header": "Darin",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00001_LettersOfLove 30048-06.htm",
+     "kind": "quest-event",
+     "script": "Q00001_LettersOfLove",
+     "event": "30048-06.htm",
+     "quest": 1,
+     "to": "Q00001_LettersOfLove/30048-06.htm",
+     "effect": "start",
+     "live": true
+    }
+   ]
+  },
+  "Q00001_LettersOfLove/30048-06.htm": {
+   "file": "Q00001_LettersOfLove/30048-06.htm",
+   "quest": 1,
+   "text": "Darin: Thank you! Do you know the Temple of Einhasad? You will find Roxxy at the well in front of the temple. Please give her this letter. Please hurry -- my nerves can't stand the strain of waiting!",
+   "header": "Darin",
+   "live": {
+    "file": "Logs/questpage_Dagger1_4.html",
+    "at": "2026-10-27T13:51:47.551Z",
+    "score": 1
+   },
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Letters of Love]",
+     "bypass": "npc_%objectId%_Quest Q00001_LettersOfLove",
+     "kind": "quest",
+     "quest": 1,
+     "to": "Q00001_LettersOfLove/30048-02.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Letters of Love (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00001_LettersOfLove",
+     "kind": "quest",
+     "quest": 1,
+     "to": "Q00001_LettersOfLove/30048-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 7,
+   "inDatapack": true,
+   "from": [
+    "Darin:Do you ever look out at the world and find it to be a "
+   ],
+   "to": [
+    "Darin:What's more dangerous than a Knight's sword or a Wizar",
+    "Darin:Roxxy's handkerchief! Oh, she really likes me! It seem",
+    "Darin:You brought the potion? Thank you! I've already bought"
+   ]
+  },
+  {
+   "text": "Ask whom he loves.",
+   "n": 5,
+   "inDatapack": true,
+   "from": [
+    "Darin:What's more dangerous than a Knight's sword or a Wizar"
+   ],
+   "to": [
+    "Darin:I am in love with Roxxy. Do you know her? She's our vi"
+   ]
+  },
+  {
+   "text": "Tell him you don't know her.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Darin:I am in love with Roxxy. Do you know her? She's our vi"
+   ],
+   "to": [
+    "Darin:You don't know Roxxy?! She is the most beautiful woman"
+   ]
+  },
+  {
+   "text": "Say yes.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Darin:You don't know Roxxy?! She is the most beautiful woman"
+   ],
+   "to": [
+    "Darin:Thank you! Do you know the Temple of Einhasad? You wil"
+   ]
+  }
+ ]
+}

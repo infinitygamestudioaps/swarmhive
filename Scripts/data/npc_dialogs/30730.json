@@ -1,0 +1,256 @@
+{
+ "npcId": 30730,
+ "name": "Jax",
+ "title": "Bodyguard",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.063Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30730.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "225": {
+   "name": "Test Of The Searcher",
+   "listText": [
+    "[Test of the Searcher]",
+    "[Test of the Searcher (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00225_TestOfTheSearcher/30730-01.html",
+     "when": "state STARTED; has items 2799",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30730-02.html",
+     "when": "state STARTED; has items 2800; lacks items 2799; (getQuestItemsCount(player, SOLTS_MAP) + getQuestItemsCount(player, MAKELS_MAP)) < 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30730-03.html",
+     "when": "state STARTED; has items 2800; lacks items 2799; !(getQuestItemsCount(player, SOLTS_MAP) + getQuestItemsCount(player, MAKELS_MAP)) < 2; (getQuestItemsCount(player, SOLTS_MAP) + getQuestItemsCount(player, MAKELS_MAP)) == 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30730-04.html",
+     "when": "state STARTED; has items 2805,2808; lacks items 2799,2800",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30730.htm": {
+   "file": "default/30730.htm",
+   "quest": null,
+   "text": "Bodyguard Jax: Traveler, sir. My name is Jax. I receive money and sell my swordsmanship. That is, my job is to protect children of nobles like you. Ah? You're not a noble person? So what! I am currently working under Trader Rolento over there. There are some neat things, have a look around.",
+   "header": "Bodyguard Jax",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30730-01.html": {
+   "file": "Q00225_TestOfTheSearcher/30730-01.html",
+   "quest": 225,
+   "text": "Bodyguard Jax: Royal Guards of the Lord? Gold of Prince Ashiton? What are you talking about? Are you drunk?",
+   "header": "Bodyguard Jax",
+   "when": [
+    "state STARTED; has items 2799"
+   ],
+   "links": [
+    {
+     "text": "Show him the Map of Rambert",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30730-01a.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30730-01a.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30730-01a.html"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30730-02.html": {
+   "file": "Q00225_TestOfTheSearcher/30730-02.html",
+   "quest": 225,
+   "text": "Bodyguard Jax: You have not found the other portions of the Map yet. Was there something else you wanted to know?",
+   "header": "Bodyguard Jax",
+   "when": [
+    "state STARTED; has items 2800; lacks items 2799; (getQuestItemsCount(player, SOLTS_MAP) + getQuestItemsCount(player, MAKELS_MAP)) < 2"
+   ],
+   "links": [
+    {
+     "text": "Ask about Salt",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30730-02a.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30730-02a.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30730-02a.html"
+    },
+    {
+     "text": "Ask about Makell",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30730-02b.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30730-02b.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30730-02b.html"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30730-03.html": {
+   "file": "Q00225_TestOfTheSearcher/30730-03.html",
+   "quest": 225,
+   "text": "Bodyguard Jax: You have found the Maps of Solt and Makell! Now with my portion all 4 pieces are reunited! Let us put them together and hold it close to the candle... These four dots create a cross... Here, the gold is buried in this place! I will mark it on your World Map. No payment is necessary, …",
+   "header": "Bodyguard Jax",
+   "when": [
+    "state STARTED; has items 2800; lacks items 2799; !(getQuestItemsCount(player, SOLTS_MAP) + getQuestItemsCount(player, MAKELS_MAP)) < 2; (getQuestItemsCount(player, SOLTS_MAP) + getQuestItemsCount(player, MAKELS_MAP)) == 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30730-04.html": {
+   "file": "Q00225_TestOfTheSearcher/30730-04.html",
+   "quest": 225,
+   "text": "Bodyguard Jax: Go now and find the gold! I have heard that there are evil spirits searching for the gold in that area as well. Good luck!",
+   "header": "Bodyguard Jax",
+   "when": [
+    "state STARTED; has items 2805,2808; lacks items 2799,2800"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30730-01a.html": {
+   "file": "Q00225_TestOfTheSearcher/30730-01a.html",
+   "quest": 225,
+   "text": "Bodyguard Jax: Where did you find this? I never expected to see this Map again... Ok. I will tell you. Prince intended to hire Soldiers with that gold, The Shark Troop, famous for its inhumanity... Although I didn't owe the villagers anything, I could not allow the innocent people to fall into the …",
+   "header": "Bodyguard Jax",
+   "links": [
+    {
+     "text": "\"Where is the gold?\"",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30730-01b.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30730-01b.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30730-01b.html"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30730-01b.html": {
+   "file": "Q00225_TestOfTheSearcher/30730-01b.html",
+   "quest": 225,
+   "text": "Bodyguard Jax: I buried the gold in Dion's southern forest. We made a map to the place, divided it into 4 pieces, and took 1 piece each. It meant none of us could return there without the others... I first knew the gold was cursed when I heard about the unfortunate deaths of my 3 comrades. So I dec…",
+   "header": "Bodyguard Jax",
+   "links": [
+    {
+     "text": "Ask about the dead comrades",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30730-01c.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30730-01c.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30730-01c.html"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30730-01c.html": {
+   "file": "Q00225_TestOfTheSearcher/30730-01c.html",
+   "quest": 225,
+   "text": "Bodyguard Jax: Solt and I were very close... He died on his way home to Elmoreden. Murdered by thieves called Road Scavengers ... Makell was the idealist, he joined the rebel army... In the end, he was caught and executed. His body was hung from a tree as a reminder to others... This tree grew anim…",
+   "header": "Bodyguard Jax",
+   "links": [
+    {
+     "text": "Say you want other pieces",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30730-01d.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30730-01d.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30730-01d.html",
+     "effect": "cond:14"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30730-01d.html": {
+   "file": "Q00225_TestOfTheSearcher/30730-01d.html",
+   "quest": 225,
+   "text": "Bodyguard Jax: My memory is not so good...I will give you my diary instead. If you can find the Maps of Solt and Makell with this, I will give you my portion of the Map. I have quit my job and am trying to come to terms with my past. I have no desire for gold. I just hope that if the gold is found …",
+   "header": "Bodyguard Jax",
+   "sets": {
+    "cond": "14"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30730-02a.html": {
+   "file": "Q00225_TestOfTheSearcher/30730-02a.html",
+   "quest": 225,
+   "text": "Bodyguard Jax: Solt was murdered on his way home to the Elmoreden Kingdom. He was murdered by thieves called Road Scavengers near the Death Pass . He was my best friend... Such a needless death...",
+   "header": "Bodyguard Jax",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30730-02.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30730-02.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30730-02.html"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30730-02b.html": {
+   "file": "Q00225_TestOfTheSearcher/30730-02b.html",
+   "quest": 225,
+   "text": "Bodyguard Jax: Makell was incensed by Prince Ashton's tyranny and joined a rebel army of farmers. Eventually he was caught and executed. He was hanged with other rebels. Prince Ashton decreed that his body be hung from a tree as a lesson to others...but the tree itself became animated and is now ca…",
+   "header": "Bodyguard Jax",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30730-02.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30730-02.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30730-02.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Searcher (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00225_TestOfTheSearcher",
+     "kind": "quest",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30730-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

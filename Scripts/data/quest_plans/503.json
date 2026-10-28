@@ -2,7 +2,7 @@
  "id": 503,
  "name": "Pursuit Of Clan Ambition",
  "version": 1,
- "generated": "2026-10-27T11:15:41.152Z",
+ "generated": "2026-10-27T18:19:15.517Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 5,
@@ -39,7 +39,7 @@
   },
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 30760 \"30760-12.html\": bit-flag memo (4000); event 30760 \"30760-16.html\": bit-flag memo (7000); event 30760 \"30760-22.html\": bit-flag memo (10000); event 30645 \"30645-03.html\": bit-flag memo (2000); event 30761 \"30761-02.html\": bit-flag memo (2000, 2011); event 30762 \"30762-02.html\": bit-flag memo (2000, 2101)"
   },
   {
    "code": "spawn-script",
@@ -56,11 +56,6 @@
    "step": 1
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 2
-  },
-  {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 2
@@ -73,25 +68,30 @@
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 8
+   "step": 5
   },
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 9
-  },
-  {
-   "code": "aggro-on-way",
-   "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 10
+   "step": 6
   },
   {
    "code": "npc-quest-spawned",
    "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
+   "step": 7
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 11
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 61
   }
  ],
- "expectedMin": 71,
+ "expectedMin": 83,
  "refLevel": 5,
  "steps": [
   {
@@ -1499,7 +1499,7 @@
    },
    "expectedSec": 2676,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -1651,14 +1651,15 @@
    ],
    "kills": 1,
    "reasons": [
-    "item-from-quest-mob",
     "aggro-on-way"
    ],
    "engine": {
     "how": "talk",
     "trigger": [
      30761
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Drake, Thunder Wyrm, Blitz Wyrm, Grave Keymaster appear and kill it",
    "npc": {
@@ -1858,1056 +1859,6 @@
   },
   {
    "i": 3,
-   "key": "c1:deliver:30760",
-   "cond": 1,
-   "kind": "deliver",
-   "to": "end",
-   "links": [
-    "\"Here, take it.\""
-   ],
-   "npc": {
-    "id": 30760,
-    "name": "Sir Gustav Athebaldt",
-    "title": "",
-    "town": "Oren",
-    "at": [
-     80036,
-     56568,
-     -1557
-    ],
-    "alt": []
-   },
-   "text": "Bring Scepter of Judgment to Sir Gustav Athebaldt",
-   "needs": [
-    {
-     "id": 3869,
-     "name": "Scepter of Judgment",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "computed",
-    "key": "npc:31092@80129,56947",
-    "status": "ok",
-    "flags": [],
-    "from": ".oren",
-    "length": 5395,
-    "sec": 65,
-    "via": ".oren",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "walk",
-      "len": 5076,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Oren"
-    },
-    "simple": true,
-    "pv": [
-     [
-      82760,
-      53578,
-      -1470
-     ],
-     [
-      82424,
-      53736,
-      -1488
-     ],
-     [
-      82408,
-      53752,
-      -1488
-     ],
-     [
-      82360,
-      54024,
-      -1488
-     ],
-     [
-      82360,
-      54296,
-      -1488
-     ],
-     [
-      82360,
-      54568,
-      -1520
-     ],
-     [
-      82264,
-      54792,
-      -1520
-     ],
-     [
-      82280,
-      54904,
-      -1520
-     ],
-     [
-      82280,
-      55176,
-      -1520
-     ],
-     [
-      82184,
-      55400,
-      -1520
-     ],
-     [
-      82008,
-      55480,
-      -1520
-     ],
-     [
-      81800,
-      55384,
-      -1520
-     ],
-     [
-      81624,
-      55576,
-      -1520
-     ],
-     [
-      81384,
-      55688,
-      -1520
-     ],
-     [
-      81272,
-      55704,
-      -1528
-     ],
-     [
-      81080,
-      55784,
-      -1552
-     ],
-     [
-      80872,
-      55960,
-      -1552
-     ],
-     [
-      80648,
-      56104,
-      -1552
-     ],
-     [
-      80424,
-      56184,
-      -1552
-     ],
-     [
-      80232,
-      56376,
-      -1552
-     ],
-     [
-      80072,
-      56584,
-      -1552
-     ],
-     [
-      80040,
-      56856,
-      -1552
-     ],
-     [
-      80136,
-      56952,
-      -1552
-     ],
-     [
-      80040,
-      56872,
-      -1552
-     ],
-     [
-      80072,
-      56600,
-      -1552
-     ],
-     [
-      80040,
-      56568,
-      -1552
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    },
-    "anchor": {
-     "key": "npc:31092@80129,56947",
-     "name": "Black Marketeer of Mammon"
-    },
-    "points": [
-     [
-      82760,
-      53578,
-      -1470
-     ],
-     [
-      82424,
-      53736,
-      -1488
-     ],
-     [
-      82408,
-      53752,
-      -1488
-     ],
-     [
-      82360,
-      54024,
-      -1488
-     ],
-     [
-      82360,
-      54296,
-      -1488
-     ],
-     [
-      82360,
-      54568,
-      -1520
-     ],
-     [
-      82264,
-      54792,
-      -1520
-     ],
-     [
-      82280,
-      54904,
-      -1520
-     ],
-     [
-      82280,
-      55176,
-      -1520
-     ],
-     [
-      82184,
-      55400,
-      -1520
-     ],
-     [
-      82008,
-      55480,
-      -1520
-     ],
-     [
-      81800,
-      55384,
-      -1520
-     ],
-     [
-      81624,
-      55576,
-      -1520
-     ],
-     [
-      81384,
-      55688,
-      -1520
-     ],
-     [
-      81272,
-      55704,
-      -1528
-     ],
-     [
-      81080,
-      55784,
-      -1552
-     ],
-     [
-      80872,
-      55960,
-      -1552
-     ],
-     [
-      80648,
-      56104,
-      -1552
-     ],
-     [
-      80424,
-      56184,
-      -1552
-     ],
-     [
-      80232,
-      56376,
-      -1552
-     ],
-     [
-      80072,
-      56584,
-      -1552
-     ],
-     [
-      80040,
-      56856,
-      -1552
-     ],
-     [
-      80136,
-      56952,
-      -1552
-     ],
-     [
-      80040,
-      56872,
-      -1552
-     ],
-     [
-      80072,
-      56600,
-      -1552
-     ],
-     [
-      80040,
-      56568,
-      -1552
-     ]
-    ]
-   },
-   "expectedSec": 90,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
-   ]
-  },
-  {
-   "i": 4,
-   "key": "c1:deliver:30766",
-   "cond": 1,
-   "kind": "deliver",
-   "to": "end",
-   "links": [
-    "Show her the Scepter of Judgment"
-   ],
-   "npc": {
-    "id": 30766,
-    "name": "Cleo",
-    "title": "Witch",
-    "town": "Aden",
-    "at": [
-     160611,
-     21236,
-     -3714
-    ],
-    "alt": []
-   },
-   "text": "Bring Scepter of Judgment to Cleo",
-   "needs": [
-    {
-     "id": 3869,
-     "name": "Scepter of Judgment",
-     "n": 1
-    }
-   ],
-   "reasons": [
-    "aggro-on-way"
-   ],
-   "travel": {
-    "src": "computed",
-    "key": "area:aden-outskirts-11",
-    "status": "ok",
-    "flags": [],
-    "from": ".aden",
-    "length": 20067,
-    "sec": 212,
-    "via": ".aden > Aden -> Forsaken Plains",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Aden",
-      "cmd": ".aden"
-     },
-     {
-      "do": "gk",
-      "from": "Aden",
-      "desc": "Aden -> Forsaken Plains",
-      "link": "forsaken plains",
-      "price": 1900,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 9326,
-      "how": "field-areas-gap",
-      "danger": 58
-     },
-     {
-      "do": "walk",
-      "len": 10517,
-      "how": "field-areas",
-      "danger": 47
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Aden",
-     "desc": "Aden -> Forsaken Plains"
-    },
-    "simple": true,
-    "pv": [
-     [
-      168217,
-      37990,
-      -4072
-     ],
-     [
-      166808,
-      30104,
-      -3768
-     ],
-     [
-      166808,
-      29112,
-      -3736
-     ],
-     [
-      166728,
-      28840,
-      -3704
-     ],
-     [
-      166728,
-      27848,
-      -3656
-     ],
-     [
-      166728,
-      26856,
-      -3672
-     ],
-     [
-      166728,
-      25864,
-      -3336
-     ],
-     [
-      166728,
-      25288,
-      -3352
-     ],
-     [
-      165736,
-      24296,
-      -3344
-     ],
-     [
-      164744,
-      23304,
-      -3648
-     ],
-     [
-      164136,
-      22696,
-      -3664
-     ],
-     [
-      163368,
-      21704,
-      -3632
-     ],
-     [
-      162824,
-      21160,
-      -3608
-     ],
-     [
-      160840,
-      21240,
-      -3704
-     ],
-     [
-      160616,
-      21240,
-      -3712
-     ]
-    ],
-    "maxDanger": 58,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 58,
-     "dangerVsLevel": 53,
-     "aggro": [
-      {
-       "name": "Fallen Orc Shaman",
-       "lv": 58,
-       "n": 1
-      },
-      {
-       "name": "Ancient Gargoyle",
-       "lv": 56,
-       "n": 1
-      },
-      {
-       "name": "Fallen Orc",
-       "lv": 55,
-       "n": 1
-      },
-      {
-       "name": "Hatar Ratman Thief",
-       "lv": 47,
-       "n": 4
-      },
-      {
-       "name": "Archer of Greed",
-       "lv": 46,
-       "n": 4
-      },
-      {
-       "name": "Grave Wanderer",
-       "lv": 45,
-       "n": 2
-      }
-     ]
-    },
-    "anchor": {
-     "key": "area:aden-outskirts-11",
-     "name": "Aden outskirts 11: Hatar Ratman Thief area (east)"
-    },
-    "points": [
-     [
-      168217,
-      37990,
-      -4072
-     ],
-     [
-      166808,
-      30104,
-      -3768
-     ],
-     [
-      166808,
-      29112,
-      -3736
-     ],
-     [
-      166728,
-      28840,
-      -3704
-     ],
-     [
-      166728,
-      27848,
-      -3656
-     ],
-     [
-      166728,
-      26856,
-      -3672
-     ],
-     [
-      166728,
-      25864,
-      -3336
-     ],
-     [
-      166728,
-      25288,
-      -3352
-     ],
-     [
-      165736,
-      24296,
-      -3344
-     ],
-     [
-      164744,
-      23304,
-      -3648
-     ],
-     [
-      164136,
-      22696,
-      -3664
-     ],
-     [
-      163368,
-      21704,
-      -3632
-     ],
-     [
-      162824,
-      21160,
-      -3608
-     ],
-     [
-      160840,
-      21240,
-      -3704
-     ],
-     [
-      160616,
-      21240,
-      -3712
-     ]
-    ]
-   },
-   "expectedSec": 237,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
-   ]
-  },
-  {
-   "i": 5,
-   "key": "c1:talk:30868",
-   "cond": 1,
-   "kind": "talk",
-   "to": 11,
-   "links": [
-    "\"What do you mean by this?\""
-   ],
-   "npc": {
-    "id": 30868,
-    "name": "Sir Eric Rodemai",
-    "title": "",
-    "town": "Aden",
-    "at": [
-     147456,
-     27488,
-     -2204
-    ],
-    "alt": []
-   },
-   "text": "Talk to Sir Eric Rodemai",
-   "reasons": [],
-   "travel": {
-    "src": "computed",
-    "key": "npc:31690@147504,27408",
-    "status": "ok",
-    "flags": [],
-    "from": ".aden",
-    "length": 2165,
-    "sec": 38,
-    "via": ".aden",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Aden",
-      "cmd": ".aden"
-     },
-     {
-      "do": "walk",
-      "len": 2165,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Aden"
-    },
-    "simple": true,
-    "pv": [
-     [
-      147448,
-      25816,
-      -2008
-     ],
-     [
-      147768,
-      25752,
-      -2008
-     ],
-     [
-      147560,
-      25832,
-      -2008
-     ],
-     [
-      147464,
-      26008,
-      -2008
-     ],
-     [
-      147464,
-      26280,
-      -2104
-     ],
-     [
-      147448,
-      26328,
-      -2128
-     ],
-     [
-      147448,
-      26600,
-      -2200
-     ],
-     [
-      147464,
-      26872,
-      -2200
-     ],
-     [
-      147464,
-      27144,
-      -2200
-     ],
-     [
-      147512,
-      27416,
-      -2200
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    },
-    "anchor": {
-     "key": "npc:31690@147504,27408",
-     "name": "Monument of Heroes"
-    },
-    "points": [
-     [
-      147448,
-      25816,
-      -2008
-     ],
-     [
-      147768,
-      25752,
-      -2008
-     ],
-     [
-      147560,
-      25832,
-      -2008
-     ],
-     [
-      147464,
-      26008,
-      -2008
-     ],
-     [
-      147464,
-      26280,
-      -2104
-     ],
-     [
-      147448,
-      26328,
-      -2128
-     ],
-     [
-      147448,
-      26600,
-      -2200
-     ],
-     [
-      147464,
-      26872,
-      -2200
-     ],
-     [
-      147464,
-      27144,
-      -2200
-     ],
-     [
-      147512,
-      27416,
-      -2200
-     ]
-    ]
-   },
-   "expectedSec": 63,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
-   ]
-  },
-  {
-   "i": 6,
-   "key": "c1:talk:30764",
-   "cond": 1,
-   "kind": "talk",
-   "to": 6,
-   "links": [],
-   "npc": {
-    "id": 30764,
-    "name": "Balthazar",
-    "title": "",
-    "town": "Hunters Village",
-    "at": [
-     117380,
-     75616,
-     -2664
-    ],
-    "alt": []
-   },
-   "text": "Talk to Balthazar",
-   "reasons": [],
-   "travel": {
-    "src": "computed",
-    "key": "npc:31669@117572,75592",
-    "status": "ok",
-    "flags": [],
-    "from": ".hunters",
-    "length": 1677,
-    "sec": 34,
-    "via": ".hunters",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Hunters",
-      "cmd": ".hunters"
-     },
-     {
-      "do": "walk",
-      "len": 1661,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Hunters"
-    },
-    "simple": true,
-    "pv": [
-     [
-      116589,
-      76268,
-      -3000
-     ],
-     [
-      116568,
-      76152,
-      -2728
-     ],
-     [
-      116712,
-      76152,
-      -2728
-     ],
-     [
-      116984,
-      76152,
-      -2728
-     ],
-     [
-      117208,
-      76008,
-      -2728
-     ],
-     [
-      117400,
-      75832,
-      -2664
-     ],
-     [
-      117304,
-      75640,
-      -2664
-     ],
-     [
-      117384,
-      75496,
-      -2648
-     ],
-     [
-      117528,
-      75592,
-      -2648
-     ],
-     [
-      117576,
-      75592,
-      -2648
-     ],
-     [
-      117368,
-      75624,
-      -2664
-     ],
-     [
-      117384,
-      75624,
-      -2664
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    },
-    "anchor": {
-     "key": "npc:31669@117572,75592",
-     "name": "Onyx"
-    },
-    "points": [
-     [
-      116589,
-      76268,
-      -3000
-     ],
-     [
-      116568,
-      76152,
-      -2728
-     ],
-     [
-      116712,
-      76152,
-      -2728
-     ],
-     [
-      116984,
-      76152,
-      -2728
-     ],
-     [
-      117208,
-      76008,
-      -2728
-     ],
-     [
-      117400,
-      75832,
-      -2664
-     ],
-     [
-      117304,
-      75640,
-      -2664
-     ],
-     [
-      117384,
-      75496,
-      -2648
-     ],
-     [
-      117528,
-      75592,
-      -2648
-     ],
-     [
-      117576,
-      75592,
-      -2648
-     ],
-     [
-      117368,
-      75624,
-      -2664
-     ],
-     [
-      117384,
-      75624,
-      -2664
-     ]
-    ]
-   },
-   "expectedSec": 59,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
-   ]
-  },
-  {
-   "i": 7,
    "key": "c1:talk:30645",
    "cond": 1,
    "kind": "talk",
@@ -3115,7 +2066,7 @@
    },
    "expectedSec": 95,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -3134,7 +2085,7 @@
    ]
   },
   {
-   "i": 8,
+   "i": 4,
    "key": "c1:talk:30761",
    "cond": 1,
    "kind": "talk",
@@ -3327,7 +2278,7 @@
    },
    "expectedSec": 143,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -3346,7 +2297,7 @@
    ]
   },
   {
-   "i": 9,
+   "i": 5,
    "key": "c1:talk:30762",
    "cond": 1,
    "kind": "talk",
@@ -3574,7 +2525,7 @@
    },
    "expectedSec": 162,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -3593,7 +2544,7 @@
    ]
   },
   {
-   "i": 10,
+   "i": 6,
    "key": "c1:talk:30763",
    "cond": 1,
    "kind": "talk",
@@ -3931,7 +2882,7 @@
    },
    "expectedSec": 212,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -3950,7 +2901,7 @@
    ]
   },
   {
-   "i": 11,
+   "i": 7,
    "key": "c1:talk:30765",
    "cond": 1,
    "kind": "talk",
@@ -3973,7 +2924,7 @@
    ],
    "expectedSec": 25,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -3989,6 +2940,2867 @@
     10,
     11,
     12
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c2:deliver:30760",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "\"Here, take it.\""
+   ],
+   "npc": {
+    "id": 30760,
+    "name": "Sir Gustav Athebaldt",
+    "title": "",
+    "town": "Oren",
+    "at": [
+     80036,
+     56568,
+     -1557
+    ],
+    "alt": []
+   },
+   "text": "Bring Scepter of Judgment to Sir Gustav Athebaldt",
+   "needs": [
+    {
+     "id": 3869,
+     "name": "Scepter of Judgment",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31092@80129,56947",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 5395,
+    "sec": 65,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 5076,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80872,
+      55960,
+      -1552
+     ],
+     [
+      80648,
+      56104,
+      -1552
+     ],
+     [
+      80424,
+      56184,
+      -1552
+     ],
+     [
+      80232,
+      56376,
+      -1552
+     ],
+     [
+      80072,
+      56584,
+      -1552
+     ],
+     [
+      80040,
+      56856,
+      -1552
+     ],
+     [
+      80136,
+      56952,
+      -1552
+     ],
+     [
+      80040,
+      56872,
+      -1552
+     ],
+     [
+      80072,
+      56600,
+      -1552
+     ],
+     [
+      80040,
+      56568,
+      -1552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31092@80129,56947",
+     "name": "Black Marketeer of Mammon"
+    },
+    "points": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80872,
+      55960,
+      -1552
+     ],
+     [
+      80648,
+      56104,
+      -1552
+     ],
+     [
+      80424,
+      56184,
+      -1552
+     ],
+     [
+      80232,
+      56376,
+      -1552
+     ],
+     [
+      80072,
+      56584,
+      -1552
+     ],
+     [
+      80040,
+      56856,
+      -1552
+     ],
+     [
+      80136,
+      56952,
+      -1552
+     ],
+     [
+      80040,
+      56872,
+      -1552
+     ],
+     [
+      80072,
+      56600,
+      -1552
+     ],
+     [
+      80040,
+      56568,
+      -1552
+     ]
+    ]
+   },
+   "expectedSec": 90,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2,
+    5,
+    9,
+    12
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c2:deliver:30766",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Show her the Scepter of Judgment"
+   ],
+   "npc": {
+    "id": 30766,
+    "name": "Cleo",
+    "title": "Witch",
+    "town": "Aden",
+    "at": [
+     160611,
+     21236,
+     -3714
+    ],
+    "alt": []
+   },
+   "text": "Bring Scepter of Judgment to Cleo",
+   "needs": [
+    {
+     "id": 3869,
+     "name": "Scepter of Judgment",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:aden-outskirts-11",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 20067,
+    "sec": 212,
+    "via": ".aden > Aden -> Forsaken Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Forsaken Plains",
+      "link": "forsaken plains",
+      "price": 1900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9326,
+      "how": "field-areas-gap",
+      "danger": 58
+     },
+     {
+      "do": "walk",
+      "len": 10517,
+      "how": "field-areas",
+      "danger": 47
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Forsaken Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      168217,
+      37990,
+      -4072
+     ],
+     [
+      166808,
+      30104,
+      -3768
+     ],
+     [
+      166808,
+      29112,
+      -3736
+     ],
+     [
+      166728,
+      28840,
+      -3704
+     ],
+     [
+      166728,
+      27848,
+      -3656
+     ],
+     [
+      166728,
+      26856,
+      -3672
+     ],
+     [
+      166728,
+      25864,
+      -3336
+     ],
+     [
+      166728,
+      25288,
+      -3352
+     ],
+     [
+      165736,
+      24296,
+      -3344
+     ],
+     [
+      164744,
+      23304,
+      -3648
+     ],
+     [
+      164136,
+      22696,
+      -3664
+     ],
+     [
+      163368,
+      21704,
+      -3632
+     ],
+     [
+      162824,
+      21160,
+      -3608
+     ],
+     [
+      160840,
+      21240,
+      -3704
+     ],
+     [
+      160616,
+      21240,
+      -3712
+     ]
+    ],
+    "maxDanger": 58,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 58,
+     "dangerVsLevel": 53,
+     "aggro": [
+      {
+       "name": "Fallen Orc Shaman",
+       "lv": 58,
+       "n": 1
+      },
+      {
+       "name": "Ancient Gargoyle",
+       "lv": 56,
+       "n": 1
+      },
+      {
+       "name": "Fallen Orc",
+       "lv": 55,
+       "n": 1
+      },
+      {
+       "name": "Hatar Ratman Thief",
+       "lv": 47,
+       "n": 4
+      },
+      {
+       "name": "Archer of Greed",
+       "lv": 46,
+       "n": 4
+      },
+      {
+       "name": "Grave Wanderer",
+       "lv": 45,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:aden-outskirts-11",
+     "name": "Aden outskirts 11: Hatar Ratman Thief area (east)"
+    },
+    "points": [
+     [
+      168217,
+      37990,
+      -4072
+     ],
+     [
+      166808,
+      30104,
+      -3768
+     ],
+     [
+      166808,
+      29112,
+      -3736
+     ],
+     [
+      166728,
+      28840,
+      -3704
+     ],
+     [
+      166728,
+      27848,
+      -3656
+     ],
+     [
+      166728,
+      26856,
+      -3672
+     ],
+     [
+      166728,
+      25864,
+      -3336
+     ],
+     [
+      166728,
+      25288,
+      -3352
+     ],
+     [
+      165736,
+      24296,
+      -3344
+     ],
+     [
+      164744,
+      23304,
+      -3648
+     ],
+     [
+      164136,
+      22696,
+      -3664
+     ],
+     [
+      163368,
+      21704,
+      -3632
+     ],
+     [
+      162824,
+      21160,
+      -3608
+     ],
+     [
+      160840,
+      21240,
+      -3704
+     ],
+     [
+      160616,
+      21240,
+      -3712
+     ]
+    ]
+   },
+   "expectedSec": 237,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2,
+    5,
+    9,
+    12
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c3:talk:30760",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "\"What's next?\""
+   ],
+   "npc": {
+    "id": 30760,
+    "name": "Sir Gustav Athebaldt",
+    "title": "",
+    "town": "Oren",
+    "at": [
+     80036,
+     56568,
+     -1557
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sir Gustav Athebaldt",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31092@80129,56947",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 5395,
+    "sec": 65,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 5076,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80872,
+      55960,
+      -1552
+     ],
+     [
+      80648,
+      56104,
+      -1552
+     ],
+     [
+      80424,
+      56184,
+      -1552
+     ],
+     [
+      80232,
+      56376,
+      -1552
+     ],
+     [
+      80072,
+      56584,
+      -1552
+     ],
+     [
+      80040,
+      56856,
+      -1552
+     ],
+     [
+      80136,
+      56952,
+      -1552
+     ],
+     [
+      80040,
+      56872,
+      -1552
+     ],
+     [
+      80072,
+      56600,
+      -1552
+     ],
+     [
+      80040,
+      56568,
+      -1552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31092@80129,56947",
+     "name": "Black Marketeer of Mammon"
+    },
+    "points": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80872,
+      55960,
+      -1552
+     ],
+     [
+      80648,
+      56104,
+      -1552
+     ],
+     [
+      80424,
+      56184,
+      -1552
+     ],
+     [
+      80232,
+      56376,
+      -1552
+     ],
+     [
+      80072,
+      56584,
+      -1552
+     ],
+     [
+      80040,
+      56856,
+      -1552
+     ],
+     [
+      80136,
+      56952,
+      -1552
+     ],
+     [
+      80040,
+      56872,
+      -1552
+     ],
+     [
+      80072,
+      56600,
+      -1552
+     ],
+     [
+      80040,
+      56568,
+      -1552
+     ]
+    ]
+   },
+   "expectedSec": 90,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c4:talk:30764",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "Ask how to help."
+   ],
+   "npc": {
+    "id": 30764,
+    "name": "Balthazar",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     117380,
+     75616,
+     -2664
+    ],
+    "alt": []
+   },
+   "text": "Talk to Balthazar",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31669@117572,75592",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 1677,
+    "sec": 34,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 1661,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116712,
+      76152,
+      -2728
+     ],
+     [
+      116984,
+      76152,
+      -2728
+     ],
+     [
+      117208,
+      76008,
+      -2728
+     ],
+     [
+      117400,
+      75832,
+      -2664
+     ],
+     [
+      117304,
+      75640,
+      -2664
+     ],
+     [
+      117384,
+      75496,
+      -2648
+     ],
+     [
+      117528,
+      75592,
+      -2648
+     ],
+     [
+      117576,
+      75592,
+      -2648
+     ],
+     [
+      117368,
+      75624,
+      -2664
+     ],
+     [
+      117384,
+      75624,
+      -2664
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31669@117572,75592",
+     "name": "Onyx"
+    },
+    "points": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116712,
+      76152,
+      -2728
+     ],
+     [
+      116984,
+      76152,
+      -2728
+     ],
+     [
+      117208,
+      76008,
+      -2728
+     ],
+     [
+      117400,
+      75832,
+      -2664
+     ],
+     [
+      117304,
+      75640,
+      -2664
+     ],
+     [
+      117384,
+      75496,
+      -2648
+     ],
+     [
+      117528,
+      75592,
+      -2648
+     ],
+     [
+      117576,
+      75592,
+      -2648
+     ],
+     [
+      117368,
+      75624,
+      -2664
+     ],
+     [
+      117384,
+      75624,
+      -2664
+     ]
+    ]
+   },
+   "expectedSec": 59,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c5:talk:30764",
+   "cond": 5,
+   "kind": "talk",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30764,
+    "name": "Balthazar",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     117380,
+     75616,
+     -2664
+    ],
+    "alt": []
+   },
+   "text": "Talk to Balthazar",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31669@117572,75592",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 1677,
+    "sec": 34,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 1661,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116712,
+      76152,
+      -2728
+     ],
+     [
+      116984,
+      76152,
+      -2728
+     ],
+     [
+      117208,
+      76008,
+      -2728
+     ],
+     [
+      117400,
+      75832,
+      -2664
+     ],
+     [
+      117304,
+      75640,
+      -2664
+     ],
+     [
+      117384,
+      75496,
+      -2648
+     ],
+     [
+      117528,
+      75592,
+      -2648
+     ],
+     [
+      117576,
+      75592,
+      -2648
+     ],
+     [
+      117368,
+      75624,
+      -2664
+     ],
+     [
+      117384,
+      75624,
+      -2664
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31669@117572,75592",
+     "name": "Onyx"
+    },
+    "points": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116712,
+      76152,
+      -2728
+     ],
+     [
+      116984,
+      76152,
+      -2728
+     ],
+     [
+      117208,
+      76008,
+      -2728
+     ],
+     [
+      117400,
+      75832,
+      -2664
+     ],
+     [
+      117304,
+      75640,
+      -2664
+     ],
+     [
+      117384,
+      75496,
+      -2648
+     ],
+     [
+      117528,
+      75592,
+      -2648
+     ],
+     [
+      117576,
+      75592,
+      -2648
+     ],
+     [
+      117368,
+      75624,
+      -2664
+     ],
+     [
+      117384,
+      75624,
+      -2664
+     ]
+    ]
+   },
+   "expectedSec": 59,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 13,
+   "key": "c6:talk:30760",
+   "cond": 6,
+   "kind": "talk",
+   "to": 7,
+   "links": [
+    "\"What is the next part of the mission?\""
+   ],
+   "npc": {
+    "id": 30760,
+    "name": "Sir Gustav Athebaldt",
+    "title": "",
+    "town": "Oren",
+    "at": [
+     80036,
+     56568,
+     -1557
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sir Gustav Athebaldt",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31092@80129,56947",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 5395,
+    "sec": 65,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 5076,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80872,
+      55960,
+      -1552
+     ],
+     [
+      80648,
+      56104,
+      -1552
+     ],
+     [
+      80424,
+      56184,
+      -1552
+     ],
+     [
+      80232,
+      56376,
+      -1552
+     ],
+     [
+      80072,
+      56584,
+      -1552
+     ],
+     [
+      80040,
+      56856,
+      -1552
+     ],
+     [
+      80136,
+      56952,
+      -1552
+     ],
+     [
+      80040,
+      56872,
+      -1552
+     ],
+     [
+      80072,
+      56600,
+      -1552
+     ],
+     [
+      80040,
+      56568,
+      -1552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31092@80129,56947",
+     "name": "Black Marketeer of Mammon"
+    },
+    "points": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80872,
+      55960,
+      -1552
+     ],
+     [
+      80648,
+      56104,
+      -1552
+     ],
+     [
+      80424,
+      56184,
+      -1552
+     ],
+     [
+      80232,
+      56376,
+      -1552
+     ],
+     [
+      80072,
+      56584,
+      -1552
+     ],
+     [
+      80040,
+      56856,
+      -1552
+     ],
+     [
+      80136,
+      56952,
+      -1552
+     ],
+     [
+      80040,
+      56872,
+      -1552
+     ],
+     [
+      80072,
+      56600,
+      -1552
+     ],
+     [
+      80040,
+      56568,
+      -1552
+     ]
+    ]
+   },
+   "expectedSec": 90,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 14,
+   "key": "c7:talk:30868",
+   "cond": 7,
+   "kind": "talk",
+   "to": 8,
+   "links": [
+    "\"Tell me more about the witches.\""
+   ],
+   "npc": {
+    "id": 30868,
+    "name": "Sir Eric Rodemai",
+    "title": "",
+    "town": "Aden",
+    "at": [
+     147456,
+     27488,
+     -2204
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sir Eric Rodemai",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31690@147504,27408",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 2165,
+    "sec": 38,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 2165,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147464,
+      26872,
+      -2200
+     ],
+     [
+      147464,
+      27144,
+      -2200
+     ],
+     [
+      147512,
+      27416,
+      -2200
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31690@147504,27408",
+     "name": "Monument of Heroes"
+    },
+    "points": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147464,
+      26872,
+      -2200
+     ],
+     [
+      147464,
+      27144,
+      -2200
+     ],
+     [
+      147512,
+      27416,
+      -2200
+     ]
+    ]
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 15,
+   "key": "c8:talk:30766",
+   "cond": 8,
+   "kind": "talk",
+   "to": 9,
+   "links": [
+    "\"Tell me another story.\""
+   ],
+   "npc": {
+    "id": 30766,
+    "name": "Cleo",
+    "title": "Witch",
+    "town": "Aden",
+    "at": [
+     160611,
+     21236,
+     -3714
+    ],
+    "alt": []
+   },
+   "text": "Talk to Cleo",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:aden-outskirts-11",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 20067,
+    "sec": 212,
+    "via": ".aden > Aden -> Forsaken Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Forsaken Plains",
+      "link": "forsaken plains",
+      "price": 1900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9326,
+      "how": "field-areas-gap",
+      "danger": 58
+     },
+     {
+      "do": "walk",
+      "len": 10517,
+      "how": "field-areas",
+      "danger": 47
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Forsaken Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      168217,
+      37990,
+      -4072
+     ],
+     [
+      166808,
+      30104,
+      -3768
+     ],
+     [
+      166808,
+      29112,
+      -3736
+     ],
+     [
+      166728,
+      28840,
+      -3704
+     ],
+     [
+      166728,
+      27848,
+      -3656
+     ],
+     [
+      166728,
+      26856,
+      -3672
+     ],
+     [
+      166728,
+      25864,
+      -3336
+     ],
+     [
+      166728,
+      25288,
+      -3352
+     ],
+     [
+      165736,
+      24296,
+      -3344
+     ],
+     [
+      164744,
+      23304,
+      -3648
+     ],
+     [
+      164136,
+      22696,
+      -3664
+     ],
+     [
+      163368,
+      21704,
+      -3632
+     ],
+     [
+      162824,
+      21160,
+      -3608
+     ],
+     [
+      160840,
+      21240,
+      -3704
+     ],
+     [
+      160616,
+      21240,
+      -3712
+     ]
+    ],
+    "maxDanger": 58,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 58,
+     "dangerVsLevel": 53,
+     "aggro": [
+      {
+       "name": "Fallen Orc Shaman",
+       "lv": 58,
+       "n": 1
+      },
+      {
+       "name": "Ancient Gargoyle",
+       "lv": 56,
+       "n": 1
+      },
+      {
+       "name": "Fallen Orc",
+       "lv": 55,
+       "n": 1
+      },
+      {
+       "name": "Hatar Ratman Thief",
+       "lv": 47,
+       "n": 4
+      },
+      {
+       "name": "Archer of Greed",
+       "lv": 46,
+       "n": 4
+      },
+      {
+       "name": "Grave Wanderer",
+       "lv": 45,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:aden-outskirts-11",
+     "name": "Aden outskirts 11: Hatar Ratman Thief area (east)"
+    },
+    "points": [
+     [
+      168217,
+      37990,
+      -4072
+     ],
+     [
+      166808,
+      30104,
+      -3768
+     ],
+     [
+      166808,
+      29112,
+      -3736
+     ],
+     [
+      166728,
+      28840,
+      -3704
+     ],
+     [
+      166728,
+      27848,
+      -3656
+     ],
+     [
+      166728,
+      26856,
+      -3672
+     ],
+     [
+      166728,
+      25864,
+      -3336
+     ],
+     [
+      166728,
+      25288,
+      -3352
+     ],
+     [
+      165736,
+      24296,
+      -3344
+     ],
+     [
+      164744,
+      23304,
+      -3648
+     ],
+     [
+      164136,
+      22696,
+      -3664
+     ],
+     [
+      163368,
+      21704,
+      -3632
+     ],
+     [
+      162824,
+      21160,
+      -3608
+     ],
+     [
+      160840,
+      21240,
+      -3704
+     ],
+     [
+      160616,
+      21240,
+      -3712
+     ]
+    ]
+   },
+   "expectedSec": 237,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 16,
+   "key": "c9:talk:30868",
+   "cond": 9,
+   "kind": "talk",
+   "to": 10,
+   "links": [],
+   "npc": {
+    "id": 30868,
+    "name": "Sir Eric Rodemai",
+    "title": "",
+    "town": "Aden",
+    "at": [
+     147456,
+     27488,
+     -2204
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sir Eric Rodemai",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31690@147504,27408",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 2165,
+    "sec": 38,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 2165,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147464,
+      26872,
+      -2200
+     ],
+     [
+      147464,
+      27144,
+      -2200
+     ],
+     [
+      147512,
+      27416,
+      -2200
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31690@147504,27408",
+     "name": "Monument of Heroes"
+    },
+    "points": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147464,
+      26872,
+      -2200
+     ],
+     [
+      147464,
+      27144,
+      -2200
+     ],
+     [
+      147512,
+      27416,
+      -2200
+     ]
+    ]
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 17,
+   "key": "c10:talk:30868",
+   "cond": 10,
+   "kind": "talk",
+   "to": 11,
+   "links": [
+    "\"What do you mean by this?\""
+   ],
+   "npc": {
+    "id": 30868,
+    "name": "Sir Eric Rodemai",
+    "title": "",
+    "town": "Aden",
+    "at": [
+     147456,
+     27488,
+     -2204
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sir Eric Rodemai",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31690@147504,27408",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 2165,
+    "sec": 38,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 2165,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147464,
+      26872,
+      -2200
+     ],
+     [
+      147464,
+      27144,
+      -2200
+     ],
+     [
+      147512,
+      27416,
+      -2200
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31690@147504,27408",
+     "name": "Monument of Heroes"
+    },
+    "points": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147464,
+      26872,
+      -2200
+     ],
+     [
+      147464,
+      27144,
+      -2200
+     ],
+     [
+      147512,
+      27416,
+      -2200
+     ]
+    ]
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10
+   ]
+  },
+  {
+   "i": 18,
+   "key": "c11:talk:30760",
+   "cond": 11,
+   "kind": "talk",
+   "to": 12,
+   "links": [
+    "\"No. Not like this.\""
+   ],
+   "npc": {
+    "id": 30760,
+    "name": "Sir Gustav Athebaldt",
+    "title": "",
+    "town": "Oren",
+    "at": [
+     80036,
+     56568,
+     -1557
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sir Gustav Athebaldt",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31092@80129,56947",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 5395,
+    "sec": 65,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 5076,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80872,
+      55960,
+      -1552
+     ],
+     [
+      80648,
+      56104,
+      -1552
+     ],
+     [
+      80424,
+      56184,
+      -1552
+     ],
+     [
+      80232,
+      56376,
+      -1552
+     ],
+     [
+      80072,
+      56584,
+      -1552
+     ],
+     [
+      80040,
+      56856,
+      -1552
+     ],
+     [
+      80136,
+      56952,
+      -1552
+     ],
+     [
+      80040,
+      56872,
+      -1552
+     ],
+     [
+      80072,
+      56600,
+      -1552
+     ],
+     [
+      80040,
+      56568,
+      -1552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31092@80129,56947",
+     "name": "Black Marketeer of Mammon"
+    },
+    "points": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80872,
+      55960,
+      -1552
+     ],
+     [
+      80648,
+      56104,
+      -1552
+     ],
+     [
+      80424,
+      56184,
+      -1552
+     ],
+     [
+      80232,
+      56376,
+      -1552
+     ],
+     [
+      80072,
+      56584,
+      -1552
+     ],
+     [
+      80040,
+      56856,
+      -1552
+     ],
+     [
+      80136,
+      56952,
+      -1552
+     ],
+     [
+      80040,
+      56872,
+      -1552
+     ],
+     [
+      80072,
+      56600,
+      -1552
+     ],
+     [
+      80040,
+      56568,
+      -1552
+     ]
+    ]
+   },
+   "expectedSec": 90,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    11
    ]
   }
  ],

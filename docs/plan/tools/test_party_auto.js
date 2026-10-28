@@ -91,7 +91,17 @@ check(!supplyWatchRun(false).some(c => /leadSupply/.test(c)), 'supply watch OFF 
 check(!supplyWatchRun(null).some(c => /leadSupply/.test(c)), 'supply watch with no entry (fresh install): NO supply run');
 check(!supplyWatchRun(true, { run: false }).some(c => /leadSupply/.test(c)), 'supply watch ON but the party stopped (Start / Stop): NO supply run');
 check(!supplyWatchRun(true, { low: false }).some(c => /leadSupply/.test(c)), 'supply watch ON, nobody low: nothing');
-check(supplyWatchRun(false, { circuit: true }).includes('rcSupplyAsk'), 'the raid circuit\'s own resupply between bosses is not this switch (owner-only circuit setting)');
+check(supplyWatchRun(false, { circuit: true }).includes('rcSupplyAsk'), 'the raid circuit\'s own resupply between bosses is not this switch (it has its own: circuitResupply)');
+// RESUPOPT-2026-10-27 (owner: "Make the resupply optional"): the circuit's resupply = its own party switch circuitResupply, default ON
+// the raid circuit + its switch are owner only (PRIVATE-START): in the public package they are cut, so these checks only run where they exist
+if (!/circuitResupply: {/.test(src)) console.log('skip circuit resupply checks (public package: the raid circuit is owner only)');
+else { const ASK = (() => { const i = src.indexOf('function rcSupplyAsk(low)'); return src.slice(i, src.indexOf('\n', i)); })();
+  const ask = (cfg) => { const W = world(), RC = { supplyWant: null }; if (cfg) W.put(cfg); new Function('env', 'RC', 'rcEvent', 'with (env) {\n' + HOST + '\n' + ASK + '\nrcSupplyAsk(["Tank1: SoE 0/5"]);\n}')(W.env, RC, () => { }); return { RC, W }; };
+  check(!!ask(null).RC.supplyWant && !!ask({ parties: { Tank1: { supplyWatch: false } } }).RC.supplyWant, 'circuit resupply: DEFAULT ON (no entry; also with supply runs off) = resupplies between bosses as before');
+  const off = ask({ parties: { Tank1: { circuitResupply: false } } });
+  check(!off.RC.supplyWant && off.W.notes.some(m => /raid circuit's resupply/.test(m)), 'circuit resupply switched OFF: nothing asked, a note says so');
+  const loop = fnSrc('async function raidCircuitLoop(why) {');
+  check(/if \(pautoGate\('circuitResupply'\)\) \{ await rcSupply\(/.test(loop) && /!RC\.supplyWant && pautoGate\('circuitResupply'\)/.test(loop), 'circuit loop + after-a-wipe resupply ask the switch'); }
 
 const TSELL_SRC = blk('const TSELL = { since: 0', '// NODESTROY-2026-10-13 (tester');
 async function townSellRun(cfg, me) {

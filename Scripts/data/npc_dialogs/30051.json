@@ -1,0 +1,138 @@
+{
+ "npcId": 30051,
+ "name": "Cristel",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.794Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30051.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "154": {
+   "name": "Sacrifice to the Sea",
+   "listText": [
+    "[Sacrifice to the Sea]",
+    "[Sacrifice to the Sea (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00154_SacrificeToTheSea/30051-02.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00154_SacrificeToTheSea/30051-01.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00154_SacrificeToTheSea/30051-03.html",
+     "when": "cond 3",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00154_SacrificeToTheSea/30051-04.html",
+     "when": "cond 4",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30051.htm": {
+   "file": "default/30051.htm",
+   "quest": null,
+   "text": "Widow Cristel: You look like a nice, young adventurer. Youth is a good thing. As I grow older, I think more of my younger days... with my dearly departed husband. Nowadays, there's not much I can do to earn a living, that is why I spin yarn out of animal fur and make cloth from that. It's not so ba…",
+   "header": "Widow Cristel",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00154_SacrificeToTheSea/30051-02.html": {
+   "file": "Q00154_SacrificeToTheSea/30051-02.html",
+   "quest": 154,
+   "text": "Cristel: Ah, Rockswell must have sent you. This is such soft fur. But you don't have enough to make into yarn. It would be good to have about ten bundles of fur like this... I'm sorry to trouble you, but please go get me some more, and I'll make it into yarn.",
+   "header": "Cristel",
+   "when": [
+    "cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00154_SacrificeToTheSea/30051-01.html": {
+   "file": "Q00154_SacrificeToTheSea/30051-01.html",
+   "quest": 154,
+   "text": "Cristel: Ah, Rockswell must have sent you. This is such soft fur. This amount should be enough for one bundle of yarn. Just a moment, and I'll spin it for you... There you are, one bundle of yarn. I wonder if Rockswell is planning on sewing something... Oh, and please tell him that I'm knitting a s…",
+   "header": "Cristel",
+   "when": [
+    "cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00154_SacrificeToTheSea/30051-03.html": {
+   "file": "Q00154_SacrificeToTheSea/30051-03.html",
+   "quest": 154,
+   "text": "Cristel: I see you still have the yarn that I gave you. Please deliver it to Rockswell.",
+   "header": "Cristel",
+   "when": [
+    "cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00154_SacrificeToTheSea/30051-04.html": {
+   "file": "Q00154_SacrificeToTheSea/30051-04.html",
+   "quest": 154,
+   "text": "Cristel: Oh my! What a pretty doll! Did Rolfe make this? He is really talented with his hands. I guess it's a gift for someone?",
+   "header": "Cristel",
+   "when": [
+    "cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Sacrifice to the Sea (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00154_SacrificeToTheSea",
+     "kind": "quest",
+     "quest": 154,
+     "to": "Q00154_SacrificeToTheSea/30051-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

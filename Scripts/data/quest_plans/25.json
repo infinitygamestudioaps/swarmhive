@@ -2,7 +2,7 @@
  "id": 25,
  "name": "Hiding Behind the Truth",
  "version": 1,
- "generated": "2026-10-27T11:14:36.860Z",
+ "generated": "2026-10-27T18:18:17.533Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 66,
@@ -29,10 +29,10 @@
  "reasons": [
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 31533 \"31533-05.html\": fires at memo 8, which no transition sets; event 31533 \"31533-09.html\": fires at memo 8, which no transition sets; attack 27218: fires at memo 8, which no transition sets"
   }
  ],
- "expectedMin": 30,
+ "expectedMin": 42,
  "refLevel": 66,
  "steps": [
   {
@@ -656,150 +656,38 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:31522",
+   "key": "c1:deliver:31533",
    "cond": 1,
-   "kind": "talk",
-   "to": "end",
+   "kind": "deliver",
+   "to": 9,
    "links": [
-    "Listen"
+    "Use a Gemstone Key."
    ],
    "npc": {
-    "id": 31522,
-    "name": "Mysterious Wizard",
+    "id": 31533,
+    "name": "Broken Bookshelf",
     "title": "",
     "town": "Rune",
     "at": [
-     51878,
-     -54796,
-     -3167
+     47059,
+     -35982,
+     -1635
     ],
     "alt": []
    },
-   "text": "Talk to Mysterious Wizard",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:31522@51878,-54796",
-    "status": "ok",
-    "flags": [],
-    "from": ".rune",
-    "length": 560,
-    "sec": 50,
-    "via": ".rune > Rune -> Forest of the Dead",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "gk",
-      "from": "Rune",
-      "desc": "Rune -> Forest of the Dead",
-      "link": "forest of the dead",
-      "price": 1200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 560,
-      "how": "geodata",
-      "danger": 69
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Rune",
-     "desc": "Rune -> Forest of the Dead"
+   "text": "Bring Suspicious Totem Doll, Gemstone Key to Broken Bookshelf",
+   "needs": [
+    {
+     "id": 7158,
+     "name": "Suspicious Totem Doll",
+     "n": 1
     },
-    "simple": true,
-    "pv": [
-     [
-      52107,
-      -54328,
-      -3152
-     ],
-     [
-      51912,
-      -54568,
-      -3160
-     ],
-     [
-      51880,
-      -54584,
-      -3160
-     ],
-     [
-      51864,
-      -54600,
-      -3160
-     ],
-     [
-      51880,
-      -54792,
-      -3160
-     ]
-    ],
-    "maxDanger": 69,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 69,
-     "dangerVsLevel": 3,
-     "aggro": []
+    {
+     "id": 7157,
+     "name": "Gemstone Key",
+     "n": 1
     }
-   },
-   "expectedSec": 75,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:31532",
-   "cond": 1,
-   "kind": "talk",
-   "to": "end",
-   "links": [
-    "\"You're welcome. I wish you the best!\""
    ],
-   "npc": {
-    "id": 31532,
-    "name": "Lidia's Maid",
-    "title": "",
-    "town": "Rune",
-    "at": [
-     47151,
-     -36080,
-     -1608
-    ],
-    "alt": []
-   },
-   "text": "Talk to Lidia's Maid",
    "reasons": [],
    "travel": {
     "src": "computed",
@@ -949,6 +837,2206 @@
     17,
     18
    ],
+   "override": {
+    "route": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      51496,
+      -53944,
+      -2960
+     ],
+     [
+      51368,
+      -53912,
+      -2936
+     ],
+     [
+      50824,
+      -53576,
+      -2848
+     ],
+     [
+      50760,
+      -53384,
+      -2832
+     ],
+     [
+      50776,
+      -53256,
+      -2824
+     ],
+     [
+      50840,
+      -52568,
+      -2888
+     ],
+     [
+      50728,
+      -51576,
+      -2912
+     ],
+     [
+      50616,
+      -51016,
+      -2816
+     ],
+     [
+      50616,
+      -50024,
+      -2856
+     ],
+     [
+      50616,
+      -49032,
+      -2984
+     ],
+     [
+      50616,
+      -48616,
+      -3056
+     ],
+     [
+      50488,
+      -48328,
+      -3296
+     ],
+     [
+      50696,
+      -48072,
+      -3336
+     ],
+     [
+      50120,
+      -47224,
+      -3392
+     ],
+     [
+      50168,
+      -46664,
+      -3392
+     ],
+     [
+      50024,
+      -46184,
+      -3360
+     ],
+     [
+      49512,
+      -45992,
+      -3184
+     ],
+     [
+      49496,
+      -45976,
+      -3168
+     ],
+     [
+      49528,
+      -44984,
+      -2912
+     ],
+     [
+      49528,
+      -44904,
+      -2912
+     ],
+     [
+      49416,
+      -43912,
+      -2656
+     ],
+     [
+      49464,
+      -42920,
+      -2584
+     ],
+     [
+      49416,
+      -42616,
+      -2504
+     ],
+     [
+      49160,
+      -42488,
+      -2328
+     ],
+     [
+      49112,
+      -41496,
+      -2176
+     ],
+     [
+      48920,
+      -41000,
+      -2208
+     ],
+     [
+      49000,
+      -40632,
+      -2232
+     ],
+     [
+      48936,
+      -39640,
+      -2184
+     ],
+     [
+      48984,
+      -39368,
+      -2184
+     ],
+     [
+      48776,
+      -38376,
+      -2072
+     ],
+     [
+      48920,
+      -38264,
+      -2064
+     ],
+     [
+      48968,
+      -38264,
+      -2064
+     ],
+     [
+      48360,
+      -38120,
+      -1960
+     ],
+     [
+      48072,
+      -37800,
+      -1848
+     ],
+     [
+      47992,
+      -37064,
+      -1584
+     ],
+     [
+      48008,
+      -36824,
+      -1440
+     ],
+     [
+      47176,
+      -36104,
+      -1616
+     ],
+     [
+      47064,
+      -35976,
+      -1632
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "note": "Broken Bookshelf 31533 (47059,-35982): gk link \"Forest of the Dead\" on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27. LEVEL NOTE: the danger-weighted search cannot avoid Bone Scavenger 72 x1, Vampire Wizard 73 x1, Vampire Warrior 72 x1 (aggro_h5 + spawns_h5) -> Forest of the Dead vampires / ghosts 70-73 everywhere; run it at level 70+ or as a party.",
+    "fixed": [
+     "aggro-on-way"
+    ],
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "points": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      51496,
+      -53944,
+      -2960
+     ],
+     [
+      51368,
+      -53912,
+      -2936
+     ],
+     [
+      50824,
+      -53576,
+      -2848
+     ],
+     [
+      50760,
+      -53384,
+      -2832
+     ],
+     [
+      50776,
+      -53256,
+      -2824
+     ],
+     [
+      50840,
+      -52568,
+      -2888
+     ],
+     [
+      50728,
+      -51576,
+      -2912
+     ],
+     [
+      50616,
+      -51016,
+      -2816
+     ],
+     [
+      50616,
+      -50024,
+      -2856
+     ],
+     [
+      50616,
+      -49032,
+      -2984
+     ],
+     [
+      50616,
+      -48616,
+      -3056
+     ],
+     [
+      50488,
+      -48328,
+      -3296
+     ],
+     [
+      50696,
+      -48072,
+      -3336
+     ],
+     [
+      50120,
+      -47224,
+      -3392
+     ],
+     [
+      50168,
+      -46664,
+      -3392
+     ],
+     [
+      50024,
+      -46184,
+      -3360
+     ],
+     [
+      49512,
+      -45992,
+      -3184
+     ],
+     [
+      49496,
+      -45976,
+      -3168
+     ],
+     [
+      49528,
+      -44984,
+      -2912
+     ],
+     [
+      49528,
+      -44904,
+      -2912
+     ],
+     [
+      49416,
+      -43912,
+      -2656
+     ],
+     [
+      49464,
+      -42920,
+      -2584
+     ],
+     [
+      49416,
+      -42616,
+      -2504
+     ],
+     [
+      49160,
+      -42488,
+      -2328
+     ],
+     [
+      49112,
+      -41496,
+      -2176
+     ],
+     [
+      48920,
+      -41000,
+      -2208
+     ],
+     [
+      49000,
+      -40632,
+      -2232
+     ],
+     [
+      48936,
+      -39640,
+      -2184
+     ],
+     [
+      48984,
+      -39368,
+      -2184
+     ],
+     [
+      48776,
+      -38376,
+      -2072
+     ],
+     [
+      48920,
+      -38264,
+      -2064
+     ],
+     [
+      48968,
+      -38264,
+      -2064
+     ],
+     [
+      48360,
+      -38120,
+      -1960
+     ],
+     [
+      48072,
+      -37800,
+      -1848
+     ],
+     [
+      47992,
+      -37064,
+      -1584
+     ],
+     [
+      48008,
+      -36824,
+      -1440
+     ],
+     [
+      47176,
+      -36104,
+      -1616
+     ],
+     [
+      47064,
+      -35976,
+      -1632
+     ]
+    ],
+    "pv": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      51496,
+      -53944,
+      -2960
+     ],
+     [
+      51368,
+      -53912,
+      -2936
+     ],
+     [
+      50824,
+      -53576,
+      -2848
+     ],
+     [
+      50760,
+      -53384,
+      -2832
+     ],
+     [
+      50776,
+      -53256,
+      -2824
+     ],
+     [
+      50840,
+      -52568,
+      -2888
+     ],
+     [
+      50728,
+      -51576,
+      -2912
+     ],
+     [
+      50616,
+      -51016,
+      -2816
+     ],
+     [
+      50616,
+      -50024,
+      -2856
+     ],
+     [
+      50616,
+      -49032,
+      -2984
+     ],
+     [
+      50616,
+      -48616,
+      -3056
+     ],
+     [
+      50488,
+      -48328,
+      -3296
+     ],
+     [
+      50696,
+      -48072,
+      -3336
+     ],
+     [
+      50120,
+      -47224,
+      -3392
+     ],
+     [
+      50168,
+      -46664,
+      -3392
+     ],
+     [
+      50024,
+      -46184,
+      -3360
+     ],
+     [
+      49512,
+      -45992,
+      -3184
+     ],
+     [
+      49496,
+      -45976,
+      -3168
+     ],
+     [
+      49528,
+      -44984,
+      -2912
+     ],
+     [
+      49528,
+      -44904,
+      -2912
+     ],
+     [
+      49416,
+      -43912,
+      -2656
+     ],
+     [
+      49464,
+      -42920,
+      -2584
+     ],
+     [
+      49416,
+      -42616,
+      -2504
+     ],
+     [
+      49160,
+      -42488,
+      -2328
+     ],
+     [
+      49112,
+      -41496,
+      -2176
+     ],
+     [
+      48920,
+      -41000,
+      -2208
+     ],
+     [
+      49000,
+      -40632,
+      -2232
+     ],
+     [
+      48936,
+      -39640,
+      -2184
+     ],
+     [
+      48984,
+      -39368,
+      -2184
+     ],
+     [
+      48776,
+      -38376,
+      -2072
+     ],
+     [
+      48920,
+      -38264,
+      -2064
+     ],
+     [
+      48968,
+      -38264,
+      -2064
+     ],
+     [
+      48360,
+      -38120,
+      -1960
+     ],
+     [
+      48072,
+      -37800,
+      -1848
+     ],
+     [
+      47992,
+      -37064,
+      -1584
+     ],
+     [
+      48008,
+      -36824,
+      -1440
+     ],
+     [
+      47176,
+      -36104,
+      -1616
+     ],
+     [
+      47064,
+      -35976,
+      -1632
+     ]
+    ],
+    "length": 21165,
+    "checks": {
+     "aggro": [
+      {
+       "name": "Vampire Wizard",
+       "lv": 73,
+       "n": 1
+      },
+      {
+       "name": "Bone Scavenger",
+       "lv": 72,
+       "n": 1
+      },
+      {
+       "name": "Vampire Warrior",
+       "lv": 72,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way",
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:31349",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 4,
+   "links": [
+    "\"Tell me the true nature of the doll.\""
+   ],
+   "npc": {
+    "id": 31349,
+    "name": "Benedict",
+    "title": "Priest",
+    "town": "Rune",
+    "at": [
+     35408,
+     -48368,
+     899
+    ],
+    "alt": []
+   },
+   "text": "Bring Suspicious Totem Doll to Benedict",
+   "needs": [
+    {
+     "id": 7156,
+     "name": "Suspicious Totem Doll",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31349@35408,-48368",
+    "status": "unverified",
+    "flags": [
+     "link-not-on-live-menu"
+    ],
+    "from": ".rune",
+    "length": 13362,
+    "sec": 156,
+    "via": ".rune > Rune -> Rune Castle Town Guild",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Rune Castle Town Guild",
+      "link": "Rune Castle Town Guild",
+      "price": 150,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 13362,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Rune Castle Town Guild"
+    },
+    "simple": true,
+    "pv": [
+     [
+      38316,
+      -48216,
+      -1152
+     ],
+     [
+      39304,
+      -48280,
+      -856
+     ],
+     [
+      40232,
+      -48280,
+      -768
+     ],
+     [
+      40248,
+      -48296,
+      -768
+     ],
+     [
+      40232,
+      -48664,
+      -720
+     ],
+     [
+      40136,
+      -49656,
+      -376
+     ],
+     [
+      39768,
+      -50248,
+      -264
+     ],
+     [
+      39096,
+      -50680,
+      -96
+     ],
+     [
+      38664,
+      -50888,
+      32
+     ],
+     [
+      37976,
+      -51144,
+      296
+     ],
+     [
+      36984,
+      -51144,
+      672
+     ],
+     [
+      36712,
+      -51064,
+      712
+     ],
+     [
+      36712,
+      -50408,
+      896
+     ],
+     [
+      37208,
+      -49912,
+      896
+     ],
+     [
+      37704,
+      -49416,
+      896
+     ],
+     [
+      37736,
+      -49384,
+      896
+     ],
+     [
+      37960,
+      -49048,
+      896
+     ],
+     [
+      38248,
+      -48456,
+      896
+     ],
+     [
+      38248,
+      -48392,
+      896
+     ],
+     [
+      37848,
+      -48328,
+      896
+     ],
+     [
+      36856,
+      -48280,
+      896
+     ],
+     [
+      36728,
+      -48280,
+      896
+     ],
+     [
+      35736,
+      -48360,
+      896
+     ],
+     [
+      35416,
+      -48360,
+      896
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 181,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ],
+   "override": {
+    "route": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40120,
+      -47144,
+      -488
+     ],
+     [
+      40120,
+      -46952,
+      -424
+     ],
+     [
+      40200,
+      -46872,
+      -400
+     ],
+     [
+      39784,
+      -46136,
+      -272
+     ],
+     [
+      39080,
+      -45592,
+      -88
+     ],
+     [
+      38088,
+      -45304,
+      256
+     ],
+     [
+      37928,
+      -45240,
+      312
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38152,
+      -47448,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38152,
+      -48280,
+      896
+     ],
+     [
+      37160,
+      -48248,
+      896
+     ],
+     [
+      36680,
+      -48232,
+      896
+     ],
+     [
+      35832,
+      -48360,
+      896
+     ],
+     [
+      35416,
+      -48360,
+      896
+     ]
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "note": "Benedict 31349 (35408,-48368,899): walk from the .rune landing (TOWN_LAND 43759,-48122) through Rune town; the datapack gatekeeper link \"Rune -> Rune Castle Town Guild/Temple\" is not on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "points": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40120,
+      -47144,
+      -488
+     ],
+     [
+      40120,
+      -46952,
+      -424
+     ],
+     [
+      40200,
+      -46872,
+      -400
+     ],
+     [
+      39784,
+      -46136,
+      -272
+     ],
+     [
+      39080,
+      -45592,
+      -88
+     ],
+     [
+      38088,
+      -45304,
+      256
+     ],
+     [
+      37928,
+      -45240,
+      312
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38152,
+      -47448,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38152,
+      -48280,
+      896
+     ],
+     [
+      37160,
+      -48248,
+      896
+     ],
+     [
+      36680,
+      -48232,
+      896
+     ],
+     [
+      35832,
+      -48360,
+      896
+     ],
+     [
+      35416,
+      -48360,
+      896
+     ]
+    ],
+    "pv": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40120,
+      -47144,
+      -488
+     ],
+     [
+      40120,
+      -46952,
+      -424
+     ],
+     [
+      40200,
+      -46872,
+      -400
+     ],
+     [
+      39784,
+      -46136,
+      -272
+     ],
+     [
+      39080,
+      -45592,
+      -88
+     ],
+     [
+      38088,
+      -45304,
+      256
+     ],
+     [
+      37928,
+      -45240,
+      312
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38152,
+      -47448,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38152,
+      -48280,
+      896
+     ],
+     [
+      37160,
+      -48248,
+      896
+     ],
+     [
+      36680,
+      -48232,
+      896
+     ],
+     [
+      35832,
+      -48360,
+      896
+     ],
+     [
+      35416,
+      -48360,
+      896
+     ]
+    ],
+    "length": 15186,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:31522",
+   "cond": 1,
+   "kind": "talk",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 31522,
+    "name": "Mysterious Wizard",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mysterious Wizard",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 560,
+    "sec": 50,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:31348",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "Take the key"
+   ],
+   "npc": {
+    "id": 31348,
+    "name": "Agripel",
+    "title": "High Priest",
+    "town": "Rune",
+    "at": [
+     35480,
+     -48224,
+     899
+    ],
+    "alt": []
+   },
+   "text": "Talk to Agripel",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31348@35480,-48224",
+    "status": "unverified",
+    "flags": [
+     "link-not-on-live-menu"
+    ],
+    "from": ".rune",
+    "length": 2839,
+    "sec": 69,
+    "via": ".rune > Rune -> Rune Castle Town Temple",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Rune Castle Town Temple",
+      "link": "Rune Castle Town Temple",
+      "price": 150,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 2839,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Rune Castle Town Temple"
+    },
+    "simple": true,
+    "pv": [
+     [
+      38303,
+      -48040,
+      896
+     ],
+     [
+      37320,
+      -48216,
+      896
+     ],
+     [
+      36328,
+      -48216,
+      896
+     ],
+     [
+      35480,
+      -48216,
+      896
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 94,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ],
+   "overrideFrom": "c1:talk:31348",
+   "override": {
+    "route": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40120,
+      -47144,
+      -488
+     ],
+     [
+      40120,
+      -46952,
+      -424
+     ],
+     [
+      40200,
+      -46872,
+      -400
+     ],
+     [
+      39784,
+      -46136,
+      -272
+     ],
+     [
+      38952,
+      -45736,
+      -64
+     ],
+     [
+      38936,
+      -45736,
+      -56
+     ],
+     [
+      38840,
+      -45544,
+      -24
+     ],
+     [
+      37912,
+      -45240,
+      320
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38088,
+      -47368,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38168,
+      -48216,
+      896
+     ],
+     [
+      38088,
+      -48216,
+      896
+     ],
+     [
+      37096,
+      -48216,
+      896
+     ],
+     [
+      36104,
+      -48216,
+      896
+     ],
+     [
+      35688,
+      -48216,
+      896
+     ],
+     [
+      35480,
+      -48216,
+      896
+     ]
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "note": "Agripel 31348 (35480,-48224,899): walk from the .rune landing (TOWN_LAND 43759,-48122) through Rune town; the datapack gatekeeper link \"Rune -> Rune Castle Town Guild/Temple\" is not on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "points": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40120,
+      -47144,
+      -488
+     ],
+     [
+      40120,
+      -46952,
+      -424
+     ],
+     [
+      40200,
+      -46872,
+      -400
+     ],
+     [
+      39784,
+      -46136,
+      -272
+     ],
+     [
+      38952,
+      -45736,
+      -64
+     ],
+     [
+      38936,
+      -45736,
+      -56
+     ],
+     [
+      38840,
+      -45544,
+      -24
+     ],
+     [
+      37912,
+      -45240,
+      320
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38088,
+      -47368,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38168,
+      -48216,
+      896
+     ],
+     [
+      38088,
+      -48216,
+      896
+     ],
+     [
+      37096,
+      -48216,
+      896
+     ],
+     [
+      36104,
+      -48216,
+      896
+     ],
+     [
+      35688,
+      -48216,
+      896
+     ],
+     [
+      35480,
+      -48216,
+      896
+     ]
+    ],
+    "pv": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40120,
+      -47144,
+      -488
+     ],
+     [
+      40120,
+      -46952,
+      -424
+     ],
+     [
+      40200,
+      -46872,
+      -400
+     ],
+     [
+      39784,
+      -46136,
+      -272
+     ],
+     [
+      38952,
+      -45736,
+      -64
+     ],
+     [
+      38936,
+      -45736,
+      -56
+     ],
+     [
+      38840,
+      -45544,
+      -24
+     ],
+     [
+      37912,
+      -45240,
+      320
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38088,
+      -47368,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38168,
+      -48216,
+      896
+     ],
+     [
+      38088,
+      -48216,
+      896
+     ],
+     [
+      37096,
+      -48216,
+      896
+     ],
+     [
+      36104,
+      -48216,
+      896
+     ],
+     [
+      35688,
+      -48216,
+      896
+     ],
+     [
+      35480,
+      -48216,
+      896
+     ]
+    ],
+    "length": 15080,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:deliver:31522",
+   "cond": 5,
+   "kind": "deliver",
+   "to": 6,
+   "links": [
+    "Listen"
+   ],
+   "npc": {
+    "id": 31522,
+    "name": "Mysterious Wizard",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "alt": []
+   },
+   "text": "Bring Gemstone Key to Mysterious Wizard",
+   "needs": [
+    {
+     "id": 7157,
+     "name": "Gemstone Key",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 560,
+    "sec": 50,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c9:talk:31532",
+   "cond": 9,
+   "kind": "talk",
+   "to": 11,
+   "links": [
+    "\"WAKE UP...! SNAP OUT OF IT!!\""
+   ],
+   "npc": {
+    "id": 31532,
+    "name": "Lidia's Maid",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     47151,
+     -36080,
+     -1608
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lidia's Maid",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:rune-outskirts-9",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 19626,
+    "sec": 209,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18238,
+      "how": "field-areas-gap",
+      "danger": 73
+     },
+     {
+      "do": "walk",
+      "len": 1388,
+      "how": "field-areas",
+      "danger": 73
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      47560,
+      -37944,
+      -1824
+     ],
+     [
+      46760,
+      -36952,
+      -1632
+     ],
+     [
+      46680,
+      -36872,
+      -1632
+     ]
+    ],
+    "maxDanger": 73,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 73,
+     "dangerVsLevel": 7,
+     "aggro": [
+      {
+       "name": "Vampire Warlord",
+       "lv": 73,
+       "n": 5
+      },
+      {
+       "name": "Bone Scavenger",
+       "lv": 72,
+       "n": 2
+      },
+      {
+       "name": "Vampire Magician",
+       "lv": 72,
+       "n": 1
+      },
+      {
+       "name": "Vampire Adept",
+       "lv": 72,
+       "n": 1
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:rune-outskirts-9",
+     "name": "Rune outskirts 9: Bone Scavenger area (south)"
+    },
+    "points": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      47560,
+      -37944,
+      -1824
+     ],
+     [
+      46760,
+      -36952,
+      -1632
+     ],
+     [
+      46680,
+      -36872,
+      -1632
+     ]
+    ]
+   },
+   "expectedSec": 234,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9,
+    10
+   ],
+   "overrideFrom": "c1:talk:31532",
    "override": {
     "route": [
      [
@@ -1587,39 +3675,42 @@
    ]
   },
   {
-   "i": 3,
-   "key": "c1:talk:31348",
-   "cond": 1,
-   "kind": "talk",
-   "to": 18,
-   "links": [
-    "Meet with Hardin"
-   ],
+   "i": 7,
+   "key": "c9:deliver:31522",
+   "cond": 9,
+   "kind": "deliver",
+   "to": 10,
+   "links": [],
    "npc": {
-    "id": 31348,
-    "name": "Agripel",
-    "title": "High Priest",
+    "id": 31522,
+    "name": "Mysterious Wizard",
+    "title": "",
     "town": "Rune",
     "at": [
-     35480,
-     -48224,
-     899
+     51878,
+     -54796,
+     -3167
     ],
     "alt": []
    },
-   "text": "Talk to Agripel",
+   "text": "Bring Contract to Mysterious Wizard",
+   "needs": [
+    {
+     "id": 7066,
+     "name": "Contract",
+     "n": 1
+    }
+   ],
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:31348@35480,-48224",
-    "status": "unverified",
-    "flags": [
-     "link-not-on-live-menu"
-    ],
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
     "from": ".rune",
-    "length": 2839,
-    "sec": 69,
-    "via": ".rune > Rune -> Rune Castle Town Temple",
+    "length": 560,
+    "sec": 50,
+    "via": ".rune > Rune -> Forest of the Dead",
     "steps": [
      {
       "do": "town",
@@ -1629,537 +3720,76 @@
      {
       "do": "gk",
       "from": "Rune",
-      "desc": "Rune -> Rune Castle Town Temple",
-      "link": "Rune Castle Town Temple",
-      "price": 150,
-      "live": false
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
      },
      {
       "do": "walk",
-      "len": 2839,
+      "len": 560,
       "how": "geodata",
-      "danger": 0
+      "danger": 69
      }
     ],
     "start": {
      "kind": "gk",
      "from": "Rune",
-     "desc": "Rune -> Rune Castle Town Temple"
+     "desc": "Rune -> Forest of the Dead"
     },
     "simple": true,
     "pv": [
      [
-      38303,
-      -48040,
-      896
+      52107,
+      -54328,
+      -3152
      ],
      [
-      37320,
-      -48216,
-      896
+      51912,
+      -54568,
+      -3160
      ],
      [
-      36328,
-      -48216,
-      896
+      51880,
+      -54584,
+      -3160
      ],
      [
-      35480,
-      -48216,
-      896
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
      ]
     ],
-    "maxDanger": 0,
+    "maxDanger": 69,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
      "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
+     "danger": 69,
+     "dangerVsLevel": 3,
      "aggro": []
     }
    },
-   "expectedSec": 94,
+   "expectedSec": 75,
    "engine": {
     "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18
-   ],
-   "override": {
-    "route": [
-     [
-      43752,
-      -48120,
-      -792
-     ],
-     [
-      42760,
-      -48120,
-      -792
-     ],
-     [
-      41768,
-      -48120,
-      -800
-     ],
-     [
-      41352,
-      -48120,
-      -800
-     ],
-     [
-      40472,
-      -48040,
-      -768
-     ],
-     [
-      40120,
-      -47144,
-      -488
-     ],
-     [
-      40120,
-      -46952,
-      -424
-     ],
-     [
-      40200,
-      -46872,
-      -400
-     ],
-     [
-      39784,
-      -46136,
-      -272
-     ],
-     [
-      38952,
-      -45736,
-      -64
-     ],
-     [
-      38936,
-      -45736,
-      -56
-     ],
-     [
-      38840,
-      -45544,
-      -24
-     ],
-     [
-      37912,
-      -45240,
-      320
-     ],
-     [
-      37384,
-      -45272,
-      520
-     ],
-     [
-      37016,
-      -45416,
-      664
-     ],
-     [
-      36872,
-      -45336,
-      712
-     ],
-     [
-      36680,
-      -45384,
-      712
-     ],
-     [
-      36680,
-      -45912,
-      896
-     ],
-     [
-      37384,
-      -46840,
-      896
-     ],
-     [
-      37640,
-      -46856,
-      896
-     ],
-     [
-      38088,
-      -47368,
-      896
-     ],
-     [
-      38328,
-      -48024,
-      896
-     ],
-     [
-      38168,
-      -48216,
-      896
-     ],
-     [
-      38088,
-      -48216,
-      896
-     ],
-     [
-      37096,
-      -48216,
-      896
-     ],
-     [
-      36104,
-      -48216,
-      896
-     ],
-     [
-      35688,
-      -48216,
-      896
-     ],
-     [
-      35480,
-      -48216,
-      896
-     ]
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Rune"
-    },
-    "note": "Agripel 31348 (35480,-48224,899): walk from the .rune landing (TOWN_LAND 43759,-48122) through Rune town; the datapack gatekeeper link \"Rune -> Rune Castle Town Guild/Temple\" is not on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
-    "editedAt": "2026-10-27T10:22:10.684Z",
-    "by": "quest fixer batch 2 (Claude)"
-   },
-   "travelOverride": {
-    "src": "override",
-    "start": {
-     "kind": "town",
-     "town": "Rune"
-    },
-    "points": [
-     [
-      43752,
-      -48120,
-      -792
-     ],
-     [
-      42760,
-      -48120,
-      -792
-     ],
-     [
-      41768,
-      -48120,
-      -800
-     ],
-     [
-      41352,
-      -48120,
-      -800
-     ],
-     [
-      40472,
-      -48040,
-      -768
-     ],
-     [
-      40120,
-      -47144,
-      -488
-     ],
-     [
-      40120,
-      -46952,
-      -424
-     ],
-     [
-      40200,
-      -46872,
-      -400
-     ],
-     [
-      39784,
-      -46136,
-      -272
-     ],
-     [
-      38952,
-      -45736,
-      -64
-     ],
-     [
-      38936,
-      -45736,
-      -56
-     ],
-     [
-      38840,
-      -45544,
-      -24
-     ],
-     [
-      37912,
-      -45240,
-      320
-     ],
-     [
-      37384,
-      -45272,
-      520
-     ],
-     [
-      37016,
-      -45416,
-      664
-     ],
-     [
-      36872,
-      -45336,
-      712
-     ],
-     [
-      36680,
-      -45384,
-      712
-     ],
-     [
-      36680,
-      -45912,
-      896
-     ],
-     [
-      37384,
-      -46840,
-      896
-     ],
-     [
-      37640,
-      -46856,
-      896
-     ],
-     [
-      38088,
-      -47368,
-      896
-     ],
-     [
-      38328,
-      -48024,
-      896
-     ],
-     [
-      38168,
-      -48216,
-      896
-     ],
-     [
-      38088,
-      -48216,
-      896
-     ],
-     [
-      37096,
-      -48216,
-      896
-     ],
-     [
-      36104,
-      -48216,
-      896
-     ],
-     [
-      35688,
-      -48216,
-      896
-     ],
-     [
-      35480,
-      -48216,
-      896
-     ]
-    ],
-    "pv": [
-     [
-      43752,
-      -48120,
-      -792
-     ],
-     [
-      42760,
-      -48120,
-      -792
-     ],
-     [
-      41768,
-      -48120,
-      -800
-     ],
-     [
-      41352,
-      -48120,
-      -800
-     ],
-     [
-      40472,
-      -48040,
-      -768
-     ],
-     [
-      40120,
-      -47144,
-      -488
-     ],
-     [
-      40120,
-      -46952,
-      -424
-     ],
-     [
-      40200,
-      -46872,
-      -400
-     ],
-     [
-      39784,
-      -46136,
-      -272
-     ],
-     [
-      38952,
-      -45736,
-      -64
-     ],
-     [
-      38936,
-      -45736,
-      -56
-     ],
-     [
-      38840,
-      -45544,
-      -24
-     ],
-     [
-      37912,
-      -45240,
-      320
-     ],
-     [
-      37384,
-      -45272,
-      520
-     ],
-     [
-      37016,
-      -45416,
-      664
-     ],
-     [
-      36872,
-      -45336,
-      712
-     ],
-     [
-      36680,
-      -45384,
-      712
-     ],
-     [
-      36680,
-      -45912,
-      896
-     ],
-     [
-      37384,
-      -46840,
-      896
-     ],
-     [
-      37640,
-      -46856,
-      896
-     ],
-     [
-      38088,
-      -47368,
-      896
-     ],
-     [
-      38328,
-      -48024,
-      896
-     ],
-     [
-      38168,
-      -48216,
-      896
-     ],
-     [
-      38088,
-      -48216,
-      896
-     ],
-     [
-      37096,
-      -48216,
-      896
-     ],
-     [
-      36104,
-      -48216,
-      896
-     ],
-     [
-      35688,
-      -48216,
-      896
-     ],
-     [
-      35480,
-      -48216,
-      896
-     ]
-    ],
-    "length": 15080,
-    "checks": {
-     "aggro": []
-    }
-   },
-   "fixedByOverride": [
-    "route-unverified"
+    9
    ]
   },
   {
-   "i": 4,
-   "key": "c1:talk:31536",
-   "cond": 1,
+   "i": 8,
+   "key": "c11:talk:31536",
+   "cond": 11,
    "kind": "talk",
    "to": 13,
    "links": [],
@@ -2184,24 +3814,10 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
     11,
-    12,
-    14,
-    15,
-    16,
-    17,
-    18
+    12
    ],
+   "overrideFrom": "c1:talk:31536",
    "override": {
     "npcAt": [
      60104,
@@ -3470,9 +5086,9 @@
    ]
   },
   {
-   "i": 5,
-   "key": "c1:talk:31531",
-   "cond": 1,
+   "i": 9,
+   "key": "c11:talk:31531",
+   "cond": 11,
    "kind": "talk",
    "to": 12,
    "links": [
@@ -4192,24 +5808,9 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18
+    11
    ],
+   "overrideFrom": "c1:talk:31531",
    "override": {
     "route": [
      [
@@ -4778,36 +6379,29 @@
    ]
   },
   {
-   "i": 6,
-   "key": "c1:deliver:31533",
-   "cond": 1,
+   "i": 10,
+   "key": "c13:deliver:31532",
+   "cond": 13,
    "kind": "deliver",
-   "to": 9,
-   "links": [
-    "Use a Gemstone Key."
-   ],
+   "to": 14,
+   "links": [],
    "npc": {
-    "id": 31533,
-    "name": "Broken Bookshelf",
+    "id": 31532,
+    "name": "Lidia's Maid",
     "title": "",
     "town": "Rune",
     "at": [
-     47059,
-     -35982,
-     -1635
+     47151,
+     -36080,
+     -1608
     ],
     "alt": []
    },
-   "text": "Bring Suspicious Totem Doll, Gemstone Key to Broken Bookshelf",
+   "text": "Bring Lidia's Dress to Lidia's Maid",
    "needs": [
     {
-     "id": 7158,
-     "name": "Suspicious Totem Doll",
-     "n": 1
-    },
-    {
-     "id": 7157,
-     "name": "Gemstone Key",
+     "id": 7155,
+     "name": "Lidia's Dress",
      "n": 1
     }
    ],
@@ -4941,24 +6535,9 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18
+    13
    ],
+   "overrideFrom": "c1:talk:31532",
    "override": {
     "route": [
      [
@@ -5147,14 +6726,14 @@
       -1440
      ],
      [
-      47176,
-      -36104,
+      47192,
+      -36072,
       -1616
      ],
      [
-      47064,
-      -35976,
-      -1632
+      47144,
+      -36072,
+      -1624
      ]
     ],
     "start": {
@@ -5162,7 +6741,7 @@
      "from": "Rune",
      "desc": "Rune -> Forest of the Dead"
     },
-    "note": "Broken Bookshelf 31533 (47059,-35982): gk link \"Forest of the Dead\" on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27. LEVEL NOTE: the danger-weighted search cannot avoid Bone Scavenger 72 x1, Vampire Wizard 73 x1, Vampire Warrior 72 x1 (aggro_h5 + spawns_h5) -> Forest of the Dead vampires / ghosts 70-73 everywhere; run it at level 70+ or as a party.",
+    "note": "Lidia's Maid 31532 (47151,-36080): gk link \"Forest of the Dead\" on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27. LEVEL NOTE: the danger-weighted search cannot avoid Bone Scavenger 72 x1, Vampire Wizard 73 x1, Vampire Warrior 72 x1 (aggro_h5 + spawns_h5) -> Forest of the Dead vampires / ghosts 70-73 everywhere; run it at level 70+ or as a party.",
     "fixed": [
      "aggro-on-way"
     ],
@@ -5363,14 +6942,14 @@
       -1440
      ],
      [
-      47176,
-      -36104,
+      47192,
+      -36072,
       -1616
      ],
      [
-      47064,
-      -35976,
-      -1632
+      47144,
+      -36072,
+      -1624
      ]
     ],
     "pv": [
@@ -5560,17 +7139,17 @@
       -1440
      ],
      [
-      47176,
-      -36104,
+      47192,
+      -36072,
       -1616
      ],
      [
-      47064,
-      -35976,
-      -1632
+      47144,
+      -36072,
+      -1624
      ]
     ],
-    "length": 21165,
+    "length": 21053,
     "checks": {
      "aggro": [
       {
@@ -5597,1296 +7176,27 @@
    ]
   },
   {
-   "i": 7,
-   "key": "c1:deliver:31349",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 4,
-   "links": [
-    "\"Tell me the true nature of the doll.\""
-   ],
-   "npc": {
-    "id": 31349,
-    "name": "Benedict",
-    "title": "Priest",
-    "town": "Rune",
-    "at": [
-     35408,
-     -48368,
-     899
-    ],
-    "alt": []
-   },
-   "text": "Bring Suspicious Totem Doll to Benedict",
-   "needs": [
-    {
-     "id": 7156,
-     "name": "Suspicious Totem Doll",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:31349@35408,-48368",
-    "status": "unverified",
-    "flags": [
-     "link-not-on-live-menu"
-    ],
-    "from": ".rune",
-    "length": 13362,
-    "sec": 156,
-    "via": ".rune > Rune -> Rune Castle Town Guild",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "gk",
-      "from": "Rune",
-      "desc": "Rune -> Rune Castle Town Guild",
-      "link": "Rune Castle Town Guild",
-      "price": 150,
-      "live": false
-     },
-     {
-      "do": "walk",
-      "len": 13362,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Rune",
-     "desc": "Rune -> Rune Castle Town Guild"
-    },
-    "simple": true,
-    "pv": [
-     [
-      38316,
-      -48216,
-      -1152
-     ],
-     [
-      39304,
-      -48280,
-      -856
-     ],
-     [
-      40232,
-      -48280,
-      -768
-     ],
-     [
-      40248,
-      -48296,
-      -768
-     ],
-     [
-      40232,
-      -48664,
-      -720
-     ],
-     [
-      40136,
-      -49656,
-      -376
-     ],
-     [
-      39768,
-      -50248,
-      -264
-     ],
-     [
-      39096,
-      -50680,
-      -96
-     ],
-     [
-      38664,
-      -50888,
-      32
-     ],
-     [
-      37976,
-      -51144,
-      296
-     ],
-     [
-      36984,
-      -51144,
-      672
-     ],
-     [
-      36712,
-      -51064,
-      712
-     ],
-     [
-      36712,
-      -50408,
-      896
-     ],
-     [
-      37208,
-      -49912,
-      896
-     ],
-     [
-      37704,
-      -49416,
-      896
-     ],
-     [
-      37736,
-      -49384,
-      896
-     ],
-     [
-      37960,
-      -49048,
-      896
-     ],
-     [
-      38248,
-      -48456,
-      896
-     ],
-     [
-      38248,
-      -48392,
-      896
-     ],
-     [
-      37848,
-      -48328,
-      896
-     ],
-     [
-      36856,
-      -48280,
-      896
-     ],
-     [
-      36728,
-      -48280,
-      896
-     ],
-     [
-      35736,
-      -48360,
-      896
-     ],
-     [
-      35416,
-      -48360,
-      896
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 181,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18
-   ],
-   "override": {
-    "route": [
-     [
-      43752,
-      -48120,
-      -792
-     ],
-     [
-      42760,
-      -48120,
-      -792
-     ],
-     [
-      41768,
-      -48120,
-      -800
-     ],
-     [
-      41352,
-      -48120,
-      -800
-     ],
-     [
-      40472,
-      -48040,
-      -768
-     ],
-     [
-      40120,
-      -47144,
-      -488
-     ],
-     [
-      40120,
-      -46952,
-      -424
-     ],
-     [
-      40200,
-      -46872,
-      -400
-     ],
-     [
-      39784,
-      -46136,
-      -272
-     ],
-     [
-      39080,
-      -45592,
-      -88
-     ],
-     [
-      38088,
-      -45304,
-      256
-     ],
-     [
-      37928,
-      -45240,
-      312
-     ],
-     [
-      37384,
-      -45272,
-      520
-     ],
-     [
-      37016,
-      -45416,
-      664
-     ],
-     [
-      36872,
-      -45336,
-      712
-     ],
-     [
-      36680,
-      -45384,
-      712
-     ],
-     [
-      36680,
-      -45912,
-      896
-     ],
-     [
-      37384,
-      -46840,
-      896
-     ],
-     [
-      37640,
-      -46856,
-      896
-     ],
-     [
-      38152,
-      -47448,
-      896
-     ],
-     [
-      38328,
-      -48024,
-      896
-     ],
-     [
-      38152,
-      -48280,
-      896
-     ],
-     [
-      37160,
-      -48248,
-      896
-     ],
-     [
-      36680,
-      -48232,
-      896
-     ],
-     [
-      35832,
-      -48360,
-      896
-     ],
-     [
-      35416,
-      -48360,
-      896
-     ]
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Rune"
-    },
-    "note": "Benedict 31349 (35408,-48368,899): walk from the .rune landing (TOWN_LAND 43759,-48122) through Rune town; the datapack gatekeeper link \"Rune -> Rune Castle Town Guild/Temple\" is not on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
-    "editedAt": "2026-10-27T10:22:10.684Z",
-    "by": "quest fixer batch 2 (Claude)"
-   },
-   "travelOverride": {
-    "src": "override",
-    "start": {
-     "kind": "town",
-     "town": "Rune"
-    },
-    "points": [
-     [
-      43752,
-      -48120,
-      -792
-     ],
-     [
-      42760,
-      -48120,
-      -792
-     ],
-     [
-      41768,
-      -48120,
-      -800
-     ],
-     [
-      41352,
-      -48120,
-      -800
-     ],
-     [
-      40472,
-      -48040,
-      -768
-     ],
-     [
-      40120,
-      -47144,
-      -488
-     ],
-     [
-      40120,
-      -46952,
-      -424
-     ],
-     [
-      40200,
-      -46872,
-      -400
-     ],
-     [
-      39784,
-      -46136,
-      -272
-     ],
-     [
-      39080,
-      -45592,
-      -88
-     ],
-     [
-      38088,
-      -45304,
-      256
-     ],
-     [
-      37928,
-      -45240,
-      312
-     ],
-     [
-      37384,
-      -45272,
-      520
-     ],
-     [
-      37016,
-      -45416,
-      664
-     ],
-     [
-      36872,
-      -45336,
-      712
-     ],
-     [
-      36680,
-      -45384,
-      712
-     ],
-     [
-      36680,
-      -45912,
-      896
-     ],
-     [
-      37384,
-      -46840,
-      896
-     ],
-     [
-      37640,
-      -46856,
-      896
-     ],
-     [
-      38152,
-      -47448,
-      896
-     ],
-     [
-      38328,
-      -48024,
-      896
-     ],
-     [
-      38152,
-      -48280,
-      896
-     ],
-     [
-      37160,
-      -48248,
-      896
-     ],
-     [
-      36680,
-      -48232,
-      896
-     ],
-     [
-      35832,
-      -48360,
-      896
-     ],
-     [
-      35416,
-      -48360,
-      896
-     ]
-    ],
-    "pv": [
-     [
-      43752,
-      -48120,
-      -792
-     ],
-     [
-      42760,
-      -48120,
-      -792
-     ],
-     [
-      41768,
-      -48120,
-      -800
-     ],
-     [
-      41352,
-      -48120,
-      -800
-     ],
-     [
-      40472,
-      -48040,
-      -768
-     ],
-     [
-      40120,
-      -47144,
-      -488
-     ],
-     [
-      40120,
-      -46952,
-      -424
-     ],
-     [
-      40200,
-      -46872,
-      -400
-     ],
-     [
-      39784,
-      -46136,
-      -272
-     ],
-     [
-      39080,
-      -45592,
-      -88
-     ],
-     [
-      38088,
-      -45304,
-      256
-     ],
-     [
-      37928,
-      -45240,
-      312
-     ],
-     [
-      37384,
-      -45272,
-      520
-     ],
-     [
-      37016,
-      -45416,
-      664
-     ],
-     [
-      36872,
-      -45336,
-      712
-     ],
-     [
-      36680,
-      -45384,
-      712
-     ],
-     [
-      36680,
-      -45912,
-      896
-     ],
-     [
-      37384,
-      -46840,
-      896
-     ],
-     [
-      37640,
-      -46856,
-      896
-     ],
-     [
-      38152,
-      -47448,
-      896
-     ],
-     [
-      38328,
-      -48024,
-      896
-     ],
-     [
-      38152,
-      -48280,
-      896
-     ],
-     [
-      37160,
-      -48248,
-      896
-     ],
-     [
-      36680,
-      -48232,
-      896
-     ],
-     [
-      35832,
-      -48360,
-      896
-     ],
-     [
-      35416,
-      -48360,
-      896
-     ]
-    ],
-    "length": 15186,
-    "checks": {
-     "aggro": []
-    }
-   },
-   "fixedByOverride": [
-    "route-unverified"
-   ]
-  },
-  {
-   "i": 8,
-   "key": "c4:talk:31349",
-   "cond": 4,
+   "i": 11,
+   "key": "c14:talk:31532",
+   "cond": 14,
    "kind": "talk",
-   "to": 2,
+   "to": 15,
    "links": [
-    "Show him the totem"
+    "\"So who are you?\""
    ],
    "npc": {
-    "id": 31349,
-    "name": "Benedict",
-    "title": "Priest",
-    "town": "Rune",
-    "at": [
-     35408,
-     -48368,
-     899
-    ],
-    "alt": []
-   },
-   "text": "Talk to Benedict",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:31349@35408,-48368",
-    "status": "unverified",
-    "flags": [
-     "link-not-on-live-menu"
-    ],
-    "from": ".rune",
-    "length": 13362,
-    "sec": 156,
-    "via": ".rune > Rune -> Rune Castle Town Guild",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "gk",
-      "from": "Rune",
-      "desc": "Rune -> Rune Castle Town Guild",
-      "link": "Rune Castle Town Guild",
-      "price": 150,
-      "live": false
-     },
-     {
-      "do": "walk",
-      "len": 13362,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Rune",
-     "desc": "Rune -> Rune Castle Town Guild"
-    },
-    "simple": true,
-    "pv": [
-     [
-      38316,
-      -48216,
-      -1152
-     ],
-     [
-      39304,
-      -48280,
-      -856
-     ],
-     [
-      40232,
-      -48280,
-      -768
-     ],
-     [
-      40248,
-      -48296,
-      -768
-     ],
-     [
-      40232,
-      -48664,
-      -720
-     ],
-     [
-      40136,
-      -49656,
-      -376
-     ],
-     [
-      39768,
-      -50248,
-      -264
-     ],
-     [
-      39096,
-      -50680,
-      -96
-     ],
-     [
-      38664,
-      -50888,
-      32
-     ],
-     [
-      37976,
-      -51144,
-      296
-     ],
-     [
-      36984,
-      -51144,
-      672
-     ],
-     [
-      36712,
-      -51064,
-      712
-     ],
-     [
-      36712,
-      -50408,
-      896
-     ],
-     [
-      37208,
-      -49912,
-      896
-     ],
-     [
-      37704,
-      -49416,
-      896
-     ],
-     [
-      37736,
-      -49384,
-      896
-     ],
-     [
-      37960,
-      -49048,
-      896
-     ],
-     [
-      38248,
-      -48456,
-      896
-     ],
-     [
-      38248,
-      -48392,
-      896
-     ],
-     [
-      37848,
-      -48328,
-      896
-     ],
-     [
-      36856,
-      -48280,
-      896
-     ],
-     [
-      36728,
-      -48280,
-      896
-     ],
-     [
-      35736,
-      -48360,
-      896
-     ],
-     [
-      35416,
-      -48360,
-      896
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 181,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    4
-   ],
-   "override": {
-    "route": [
-     [
-      43752,
-      -48120,
-      -792
-     ],
-     [
-      42760,
-      -48120,
-      -792
-     ],
-     [
-      41768,
-      -48120,
-      -800
-     ],
-     [
-      41352,
-      -48120,
-      -800
-     ],
-     [
-      40472,
-      -48040,
-      -768
-     ],
-     [
-      40120,
-      -47144,
-      -488
-     ],
-     [
-      40120,
-      -46952,
-      -424
-     ],
-     [
-      40200,
-      -46872,
-      -400
-     ],
-     [
-      39784,
-      -46136,
-      -272
-     ],
-     [
-      39080,
-      -45592,
-      -88
-     ],
-     [
-      38088,
-      -45304,
-      256
-     ],
-     [
-      37928,
-      -45240,
-      312
-     ],
-     [
-      37384,
-      -45272,
-      520
-     ],
-     [
-      37016,
-      -45416,
-      664
-     ],
-     [
-      36872,
-      -45336,
-      712
-     ],
-     [
-      36680,
-      -45384,
-      712
-     ],
-     [
-      36680,
-      -45912,
-      896
-     ],
-     [
-      37384,
-      -46840,
-      896
-     ],
-     [
-      37640,
-      -46856,
-      896
-     ],
-     [
-      38152,
-      -47448,
-      896
-     ],
-     [
-      38328,
-      -48024,
-      896
-     ],
-     [
-      38152,
-      -48280,
-      896
-     ],
-     [
-      37160,
-      -48248,
-      896
-     ],
-     [
-      36680,
-      -48232,
-      896
-     ],
-     [
-      35832,
-      -48360,
-      896
-     ],
-     [
-      35416,
-      -48360,
-      896
-     ]
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Rune"
-    },
-    "note": "Benedict 31349 (35408,-48368,899): walk from the .rune landing (TOWN_LAND 43759,-48122) through Rune town; the datapack gatekeeper link \"Rune -> Rune Castle Town Guild/Temple\" is not on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
-    "editedAt": "2026-10-27T10:22:10.684Z",
-    "by": "quest fixer batch 2 (Claude)"
-   },
-   "travelOverride": {
-    "src": "override",
-    "start": {
-     "kind": "town",
-     "town": "Rune"
-    },
-    "points": [
-     [
-      43752,
-      -48120,
-      -792
-     ],
-     [
-      42760,
-      -48120,
-      -792
-     ],
-     [
-      41768,
-      -48120,
-      -800
-     ],
-     [
-      41352,
-      -48120,
-      -800
-     ],
-     [
-      40472,
-      -48040,
-      -768
-     ],
-     [
-      40120,
-      -47144,
-      -488
-     ],
-     [
-      40120,
-      -46952,
-      -424
-     ],
-     [
-      40200,
-      -46872,
-      -400
-     ],
-     [
-      39784,
-      -46136,
-      -272
-     ],
-     [
-      39080,
-      -45592,
-      -88
-     ],
-     [
-      38088,
-      -45304,
-      256
-     ],
-     [
-      37928,
-      -45240,
-      312
-     ],
-     [
-      37384,
-      -45272,
-      520
-     ],
-     [
-      37016,
-      -45416,
-      664
-     ],
-     [
-      36872,
-      -45336,
-      712
-     ],
-     [
-      36680,
-      -45384,
-      712
-     ],
-     [
-      36680,
-      -45912,
-      896
-     ],
-     [
-      37384,
-      -46840,
-      896
-     ],
-     [
-      37640,
-      -46856,
-      896
-     ],
-     [
-      38152,
-      -47448,
-      896
-     ],
-     [
-      38328,
-      -48024,
-      896
-     ],
-     [
-      38152,
-      -48280,
-      896
-     ],
-     [
-      37160,
-      -48248,
-      896
-     ],
-     [
-      36680,
-      -48232,
-      896
-     ],
-     [
-      35832,
-      -48360,
-      896
-     ],
-     [
-      35416,
-      -48360,
-      896
-     ]
-    ],
-    "pv": [
-     [
-      43752,
-      -48120,
-      -792
-     ],
-     [
-      42760,
-      -48120,
-      -792
-     ],
-     [
-      41768,
-      -48120,
-      -800
-     ],
-     [
-      41352,
-      -48120,
-      -800
-     ],
-     [
-      40472,
-      -48040,
-      -768
-     ],
-     [
-      40120,
-      -47144,
-      -488
-     ],
-     [
-      40120,
-      -46952,
-      -424
-     ],
-     [
-      40200,
-      -46872,
-      -400
-     ],
-     [
-      39784,
-      -46136,
-      -272
-     ],
-     [
-      39080,
-      -45592,
-      -88
-     ],
-     [
-      38088,
-      -45304,
-      256
-     ],
-     [
-      37928,
-      -45240,
-      312
-     ],
-     [
-      37384,
-      -45272,
-      520
-     ],
-     [
-      37016,
-      -45416,
-      664
-     ],
-     [
-      36872,
-      -45336,
-      712
-     ],
-     [
-      36680,
-      -45384,
-      712
-     ],
-     [
-      36680,
-      -45912,
-      896
-     ],
-     [
-      37384,
-      -46840,
-      896
-     ],
-     [
-      37640,
-      -46856,
-      896
-     ],
-     [
-      38152,
-      -47448,
-      896
-     ],
-     [
-      38328,
-      -48024,
-      896
-     ],
-     [
-      38152,
-      -48280,
-      896
-     ],
-     [
-      37160,
-      -48248,
-      896
-     ],
-     [
-      36680,
-      -48232,
-      896
-     ],
-     [
-      35832,
-      -48360,
-      896
-     ],
-     [
-      35416,
-      -48360,
-      896
-     ]
-    ],
-    "length": 15186,
-    "checks": {
-     "aggro": []
-    }
-   },
-   "fixedByOverride": [
-    "route-unverified"
-   ]
-  },
-  {
-   "i": 9,
-   "key": "c9:talk:31533",
-   "cond": 9,
-   "kind": "talk",
-   "to": 7,
-   "links": [
-    "Search for the source of the light."
-   ],
-   "npc": {
-    "id": 31533,
-    "name": "Broken Bookshelf",
+    "id": 31532,
+    "name": "Lidia's Maid",
     "title": "",
     "town": "Rune",
     "at": [
-     47059,
-     -35982,
-     -1635
+     47151,
+     -36080,
+     -1608
     ],
     "alt": []
    },
-   "text": "Talk to Broken Bookshelf",
+   "text": "Talk to Lidia's Maid",
    "reasons": [],
    "travel": {
     "src": "computed",
@@ -7017,8 +7327,9 @@
     "hasItems": "talk"
    },
    "conds": [
-    9
+    14
    ],
+   "overrideFrom": "c1:talk:31532",
    "override": {
     "route": [
      [
@@ -7207,14 +7518,14 @@
       -1440
      ],
      [
-      47176,
-      -36104,
+      47192,
+      -36072,
       -1616
      ],
      [
-      47064,
-      -35976,
-      -1632
+      47144,
+      -36072,
+      -1624
      ]
     ],
     "start": {
@@ -7222,7 +7533,7 @@
      "from": "Rune",
      "desc": "Rune -> Forest of the Dead"
     },
-    "note": "Broken Bookshelf 31533 (47059,-35982): gk link \"Forest of the Dead\" on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27. LEVEL NOTE: the danger-weighted search cannot avoid Bone Scavenger 72 x1, Vampire Wizard 73 x1, Vampire Warrior 72 x1 (aggro_h5 + spawns_h5) -> Forest of the Dead vampires / ghosts 70-73 everywhere; run it at level 70+ or as a party.",
+    "note": "Lidia's Maid 31532 (47151,-36080): gk link \"Forest of the Dead\" on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27. LEVEL NOTE: the danger-weighted search cannot avoid Bone Scavenger 72 x1, Vampire Wizard 73 x1, Vampire Warrior 72 x1 (aggro_h5 + spawns_h5) -> Forest of the Dead vampires / ghosts 70-73 everywhere; run it at level 70+ or as a party.",
     "fixed": [
      "aggro-on-way"
     ],
@@ -7423,14 +7734,14 @@
       -1440
      ],
      [
-      47176,
-      -36104,
+      47192,
+      -36072,
       -1616
      ],
      [
-      47064,
-      -35976,
-      -1632
+      47144,
+      -36072,
+      -1624
      ]
     ],
     "pv": [
@@ -7620,17 +7931,17 @@
       -1440
      ],
      [
-      47176,
-      -36104,
+      47192,
+      -36072,
       -1616
      ],
      [
-      47064,
-      -35976,
-      -1632
+      47144,
+      -36072,
+      -1624
      ]
     ],
-    "length": 21165,
+    "length": 21053,
     "checks": {
      "aggro": [
       {
@@ -7654,6 +7965,1566 @@
    "fixedByOverride": [
     "aggro-on-way",
     "aggro-on-way"
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c15:talk:31522",
+   "cond": 15,
+   "kind": "talk",
+   "to": 16,
+   "links": [
+    "\"The place where the sun sets?\""
+   ],
+   "npc": {
+    "id": 31522,
+    "name": "Mysterious Wizard",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mysterious Wizard",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 560,
+    "sec": 50,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    15
+   ]
+  },
+  {
+   "i": 13,
+   "key": "c16:talk:31348",
+   "cond": 16,
+   "kind": "talk",
+   "to": 18,
+   "links": [
+    "Meet with Hardin"
+   ],
+   "npc": {
+    "id": 31348,
+    "name": "Agripel",
+    "title": "High Priest",
+    "town": "Rune",
+    "at": [
+     35480,
+     -48224,
+     899
+    ],
+    "alt": []
+   },
+   "text": "Talk to Agripel",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31348@35480,-48224",
+    "status": "unverified",
+    "flags": [
+     "link-not-on-live-menu"
+    ],
+    "from": ".rune",
+    "length": 2839,
+    "sec": 69,
+    "via": ".rune > Rune -> Rune Castle Town Temple",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Rune Castle Town Temple",
+      "link": "Rune Castle Town Temple",
+      "price": 150,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 2839,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Rune Castle Town Temple"
+    },
+    "simple": true,
+    "pv": [
+     [
+      38303,
+      -48040,
+      896
+     ],
+     [
+      37320,
+      -48216,
+      896
+     ],
+     [
+      36328,
+      -48216,
+      896
+     ],
+     [
+      35480,
+      -48216,
+      896
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 94,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    16
+   ],
+   "overrideFrom": "c1:talk:31348",
+   "override": {
+    "route": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40120,
+      -47144,
+      -488
+     ],
+     [
+      40120,
+      -46952,
+      -424
+     ],
+     [
+      40200,
+      -46872,
+      -400
+     ],
+     [
+      39784,
+      -46136,
+      -272
+     ],
+     [
+      38952,
+      -45736,
+      -64
+     ],
+     [
+      38936,
+      -45736,
+      -56
+     ],
+     [
+      38840,
+      -45544,
+      -24
+     ],
+     [
+      37912,
+      -45240,
+      320
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38088,
+      -47368,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38168,
+      -48216,
+      896
+     ],
+     [
+      38088,
+      -48216,
+      896
+     ],
+     [
+      37096,
+      -48216,
+      896
+     ],
+     [
+      36104,
+      -48216,
+      896
+     ],
+     [
+      35688,
+      -48216,
+      896
+     ],
+     [
+      35480,
+      -48216,
+      896
+     ]
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "note": "Agripel 31348 (35480,-48224,899): walk from the .rune landing (TOWN_LAND 43759,-48122) through Rune town; the datapack gatekeeper link \"Rune -> Rune Castle Town Guild/Temple\" is not on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "points": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40120,
+      -47144,
+      -488
+     ],
+     [
+      40120,
+      -46952,
+      -424
+     ],
+     [
+      40200,
+      -46872,
+      -400
+     ],
+     [
+      39784,
+      -46136,
+      -272
+     ],
+     [
+      38952,
+      -45736,
+      -64
+     ],
+     [
+      38936,
+      -45736,
+      -56
+     ],
+     [
+      38840,
+      -45544,
+      -24
+     ],
+     [
+      37912,
+      -45240,
+      320
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38088,
+      -47368,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38168,
+      -48216,
+      896
+     ],
+     [
+      38088,
+      -48216,
+      896
+     ],
+     [
+      37096,
+      -48216,
+      896
+     ],
+     [
+      36104,
+      -48216,
+      896
+     ],
+     [
+      35688,
+      -48216,
+      896
+     ],
+     [
+      35480,
+      -48216,
+      896
+     ]
+    ],
+    "pv": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40120,
+      -47144,
+      -488
+     ],
+     [
+      40120,
+      -46952,
+      -424
+     ],
+     [
+      40200,
+      -46872,
+      -400
+     ],
+     [
+      39784,
+      -46136,
+      -272
+     ],
+     [
+      38952,
+      -45736,
+      -64
+     ],
+     [
+      38936,
+      -45736,
+      -56
+     ],
+     [
+      38840,
+      -45544,
+      -24
+     ],
+     [
+      37912,
+      -45240,
+      320
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38088,
+      -47368,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38168,
+      -48216,
+      896
+     ],
+     [
+      38088,
+      -48216,
+      896
+     ],
+     [
+      37096,
+      -48216,
+      896
+     ],
+     [
+      36104,
+      -48216,
+      896
+     ],
+     [
+      35688,
+      -48216,
+      896
+     ],
+     [
+      35480,
+      -48216,
+      896
+     ]
+    ],
+    "length": 15080,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 14,
+   "key": "c17:talk:31532",
+   "cond": 17,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"You're welcome. I wish you the best!\""
+   ],
+   "npc": {
+    "id": 31532,
+    "name": "Lidia's Maid",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     47151,
+     -36080,
+     -1608
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lidia's Maid",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:rune-outskirts-9",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 19626,
+    "sec": 209,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18238,
+      "how": "field-areas-gap",
+      "danger": 73
+     },
+     {
+      "do": "walk",
+      "len": 1388,
+      "how": "field-areas",
+      "danger": 73
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      47560,
+      -37944,
+      -1824
+     ],
+     [
+      46760,
+      -36952,
+      -1632
+     ],
+     [
+      46680,
+      -36872,
+      -1632
+     ]
+    ],
+    "maxDanger": 73,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 73,
+     "dangerVsLevel": 7,
+     "aggro": [
+      {
+       "name": "Vampire Warlord",
+       "lv": 73,
+       "n": 5
+      },
+      {
+       "name": "Bone Scavenger",
+       "lv": 72,
+       "n": 2
+      },
+      {
+       "name": "Vampire Magician",
+       "lv": 72,
+       "n": 1
+      },
+      {
+       "name": "Vampire Adept",
+       "lv": 72,
+       "n": 1
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:rune-outskirts-9",
+     "name": "Rune outskirts 9: Bone Scavenger area (south)"
+    },
+    "points": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      47560,
+      -37944,
+      -1824
+     ],
+     [
+      46760,
+      -36952,
+      -1632
+     ],
+     [
+      46680,
+      -36872,
+      -1632
+     ]
+    ]
+   },
+   "expectedSec": 234,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    17
+   ],
+   "overrideFrom": "c1:talk:31532",
+   "override": {
+    "route": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      51496,
+      -53944,
+      -2960
+     ],
+     [
+      51368,
+      -53912,
+      -2936
+     ],
+     [
+      50824,
+      -53576,
+      -2848
+     ],
+     [
+      50760,
+      -53384,
+      -2832
+     ],
+     [
+      50776,
+      -53256,
+      -2824
+     ],
+     [
+      50840,
+      -52568,
+      -2888
+     ],
+     [
+      50728,
+      -51576,
+      -2912
+     ],
+     [
+      50616,
+      -51016,
+      -2816
+     ],
+     [
+      50616,
+      -50024,
+      -2856
+     ],
+     [
+      50616,
+      -49032,
+      -2984
+     ],
+     [
+      50616,
+      -48616,
+      -3056
+     ],
+     [
+      50488,
+      -48328,
+      -3296
+     ],
+     [
+      50696,
+      -48072,
+      -3336
+     ],
+     [
+      50120,
+      -47224,
+      -3392
+     ],
+     [
+      50168,
+      -46664,
+      -3392
+     ],
+     [
+      50024,
+      -46184,
+      -3360
+     ],
+     [
+      49512,
+      -45992,
+      -3184
+     ],
+     [
+      49496,
+      -45976,
+      -3168
+     ],
+     [
+      49528,
+      -44984,
+      -2912
+     ],
+     [
+      49528,
+      -44904,
+      -2912
+     ],
+     [
+      49416,
+      -43912,
+      -2656
+     ],
+     [
+      49464,
+      -42920,
+      -2584
+     ],
+     [
+      49416,
+      -42616,
+      -2504
+     ],
+     [
+      49160,
+      -42488,
+      -2328
+     ],
+     [
+      49112,
+      -41496,
+      -2176
+     ],
+     [
+      48920,
+      -41000,
+      -2208
+     ],
+     [
+      49000,
+      -40632,
+      -2232
+     ],
+     [
+      48936,
+      -39640,
+      -2184
+     ],
+     [
+      48984,
+      -39368,
+      -2184
+     ],
+     [
+      48776,
+      -38376,
+      -2072
+     ],
+     [
+      48920,
+      -38264,
+      -2064
+     ],
+     [
+      48968,
+      -38264,
+      -2064
+     ],
+     [
+      48360,
+      -38120,
+      -1960
+     ],
+     [
+      48072,
+      -37800,
+      -1848
+     ],
+     [
+      47992,
+      -37064,
+      -1584
+     ],
+     [
+      48008,
+      -36824,
+      -1440
+     ],
+     [
+      47192,
+      -36072,
+      -1616
+     ],
+     [
+      47144,
+      -36072,
+      -1624
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "note": "Lidia's Maid 31532 (47151,-36080): gk link \"Forest of the Dead\" on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27. LEVEL NOTE: the danger-weighted search cannot avoid Bone Scavenger 72 x1, Vampire Wizard 73 x1, Vampire Warrior 72 x1 (aggro_h5 + spawns_h5) -> Forest of the Dead vampires / ghosts 70-73 everywhere; run it at level 70+ or as a party.",
+    "fixed": [
+     "aggro-on-way"
+    ],
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "points": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      51496,
+      -53944,
+      -2960
+     ],
+     [
+      51368,
+      -53912,
+      -2936
+     ],
+     [
+      50824,
+      -53576,
+      -2848
+     ],
+     [
+      50760,
+      -53384,
+      -2832
+     ],
+     [
+      50776,
+      -53256,
+      -2824
+     ],
+     [
+      50840,
+      -52568,
+      -2888
+     ],
+     [
+      50728,
+      -51576,
+      -2912
+     ],
+     [
+      50616,
+      -51016,
+      -2816
+     ],
+     [
+      50616,
+      -50024,
+      -2856
+     ],
+     [
+      50616,
+      -49032,
+      -2984
+     ],
+     [
+      50616,
+      -48616,
+      -3056
+     ],
+     [
+      50488,
+      -48328,
+      -3296
+     ],
+     [
+      50696,
+      -48072,
+      -3336
+     ],
+     [
+      50120,
+      -47224,
+      -3392
+     ],
+     [
+      50168,
+      -46664,
+      -3392
+     ],
+     [
+      50024,
+      -46184,
+      -3360
+     ],
+     [
+      49512,
+      -45992,
+      -3184
+     ],
+     [
+      49496,
+      -45976,
+      -3168
+     ],
+     [
+      49528,
+      -44984,
+      -2912
+     ],
+     [
+      49528,
+      -44904,
+      -2912
+     ],
+     [
+      49416,
+      -43912,
+      -2656
+     ],
+     [
+      49464,
+      -42920,
+      -2584
+     ],
+     [
+      49416,
+      -42616,
+      -2504
+     ],
+     [
+      49160,
+      -42488,
+      -2328
+     ],
+     [
+      49112,
+      -41496,
+      -2176
+     ],
+     [
+      48920,
+      -41000,
+      -2208
+     ],
+     [
+      49000,
+      -40632,
+      -2232
+     ],
+     [
+      48936,
+      -39640,
+      -2184
+     ],
+     [
+      48984,
+      -39368,
+      -2184
+     ],
+     [
+      48776,
+      -38376,
+      -2072
+     ],
+     [
+      48920,
+      -38264,
+      -2064
+     ],
+     [
+      48968,
+      -38264,
+      -2064
+     ],
+     [
+      48360,
+      -38120,
+      -1960
+     ],
+     [
+      48072,
+      -37800,
+      -1848
+     ],
+     [
+      47992,
+      -37064,
+      -1584
+     ],
+     [
+      48008,
+      -36824,
+      -1440
+     ],
+     [
+      47192,
+      -36072,
+      -1616
+     ],
+     [
+      47144,
+      -36072,
+      -1624
+     ]
+    ],
+    "pv": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      51496,
+      -53944,
+      -2960
+     ],
+     [
+      51368,
+      -53912,
+      -2936
+     ],
+     [
+      50824,
+      -53576,
+      -2848
+     ],
+     [
+      50760,
+      -53384,
+      -2832
+     ],
+     [
+      50776,
+      -53256,
+      -2824
+     ],
+     [
+      50840,
+      -52568,
+      -2888
+     ],
+     [
+      50728,
+      -51576,
+      -2912
+     ],
+     [
+      50616,
+      -51016,
+      -2816
+     ],
+     [
+      50616,
+      -50024,
+      -2856
+     ],
+     [
+      50616,
+      -49032,
+      -2984
+     ],
+     [
+      50616,
+      -48616,
+      -3056
+     ],
+     [
+      50488,
+      -48328,
+      -3296
+     ],
+     [
+      50696,
+      -48072,
+      -3336
+     ],
+     [
+      50120,
+      -47224,
+      -3392
+     ],
+     [
+      50168,
+      -46664,
+      -3392
+     ],
+     [
+      50024,
+      -46184,
+      -3360
+     ],
+     [
+      49512,
+      -45992,
+      -3184
+     ],
+     [
+      49496,
+      -45976,
+      -3168
+     ],
+     [
+      49528,
+      -44984,
+      -2912
+     ],
+     [
+      49528,
+      -44904,
+      -2912
+     ],
+     [
+      49416,
+      -43912,
+      -2656
+     ],
+     [
+      49464,
+      -42920,
+      -2584
+     ],
+     [
+      49416,
+      -42616,
+      -2504
+     ],
+     [
+      49160,
+      -42488,
+      -2328
+     ],
+     [
+      49112,
+      -41496,
+      -2176
+     ],
+     [
+      48920,
+      -41000,
+      -2208
+     ],
+     [
+      49000,
+      -40632,
+      -2232
+     ],
+     [
+      48936,
+      -39640,
+      -2184
+     ],
+     [
+      48984,
+      -39368,
+      -2184
+     ],
+     [
+      48776,
+      -38376,
+      -2072
+     ],
+     [
+      48920,
+      -38264,
+      -2064
+     ],
+     [
+      48968,
+      -38264,
+      -2064
+     ],
+     [
+      48360,
+      -38120,
+      -1960
+     ],
+     [
+      48072,
+      -37800,
+      -1848
+     ],
+     [
+      47992,
+      -37064,
+      -1584
+     ],
+     [
+      48008,
+      -36824,
+      -1440
+     ],
+     [
+      47192,
+      -36072,
+      -1616
+     ],
+     [
+      47144,
+      -36072,
+      -1624
+     ]
+    ],
+    "length": 21053,
+    "checks": {
+     "aggro": [
+      {
+       "name": "Vampire Wizard",
+       "lv": 73,
+       "n": 1
+      },
+      {
+       "name": "Bone Scavenger",
+       "lv": 72,
+       "n": 1
+      },
+      {
+       "name": "Vampire Warrior",
+       "lv": 72,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way",
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 15,
+   "key": "c18:talk:31522",
+   "cond": 18,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Listen"
+   ],
+   "npc": {
+    "id": 31522,
+    "name": "Mysterious Wizard",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mysterious Wizard",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 560,
+    "sec": 50,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    18
    ]
   }
  ],

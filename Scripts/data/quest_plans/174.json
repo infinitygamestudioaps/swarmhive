@@ -2,7 +2,7 @@
  "id": 174,
  "name": "Supply Check",
  "version": 1,
- "generated": "2026-10-27T11:15:14.002Z",
+ "generated": "2026-10-27T18:18:49.435Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 2,
@@ -14,7 +14,7 @@
  "restrictions": [],
  "status": "ready",
  "reasons": [],
- "expectedMin": 6,
+ "expectedMin": 8,
  "refLevel": 2,
  "steps": [
   {
@@ -734,8 +734,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    2,
-    4
+    2
    ]
   },
   {
@@ -887,13 +886,289 @@
    "conds": [
     3
    ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:32173",
+   "cond": 4,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32173,
+    "name": "Marcela",
+    "title": "Zerstorer",
+    "town": "Kamael Village",
+    "at": [
+     -119378,
+     49242,
+     8
+    ],
+    "alt": []
+   },
+   "text": "Report to Marcela – reward",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32337@-119808,47760",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3258,
+    "sec": 72,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3258,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117512,
+      46776,
+      360
+     ],
+     [
+      -117720,
+      46952,
+      360
+     ],
+     [
+      -117992,
+      46952,
+      360
+     ],
+     [
+      -118088,
+      46952,
+      360
+     ],
+     [
+      -118136,
+      46952,
+      360
+     ],
+     [
+      -118392,
+      47064,
+      360
+     ],
+     [
+      -118584,
+      47256,
+      416
+     ],
+     [
+      -118856,
+      47208,
+      400
+     ],
+     [
+      -118872,
+      47064,
+      400
+     ],
+     [
+      -119016,
+      47064,
+      400
+     ],
+     [
+      -119288,
+      47064,
+      400
+     ],
+     [
+      -119304,
+      47112,
+      400
+     ],
+     [
+      -119528,
+      47272,
+      384
+     ],
+     [
+      -119624,
+      47400,
+      384
+     ],
+     [
+      -119624,
+      47560,
+      384
+     ],
+     [
+      -119800,
+      47768,
+      384
+     ],
+     [
+      -119384,
+      49240,
+      8
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32337@-119808,47760",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117512,
+      46776,
+      360
+     ],
+     [
+      -117720,
+      46952,
+      360
+     ],
+     [
+      -117992,
+      46952,
+      360
+     ],
+     [
+      -118088,
+      46952,
+      360
+     ],
+     [
+      -118136,
+      46952,
+      360
+     ],
+     [
+      -118392,
+      47064,
+      360
+     ],
+     [
+      -118584,
+      47256,
+      416
+     ],
+     [
+      -118856,
+      47208,
+      400
+     ],
+     [
+      -118872,
+      47064,
+      400
+     ],
+     [
+      -119016,
+      47064,
+      400
+     ],
+     [
+      -119288,
+      47064,
+      400
+     ],
+     [
+      -119304,
+      47112,
+      400
+     ],
+     [
+      -119528,
+      47272,
+      384
+     ],
+     [
+      -119624,
+      47400,
+      384
+     ],
+     [
+      -119624,
+      47560,
+      384
+     ],
+     [
+      -119800,
+      47768,
+      384
+     ],
+     [
+      -119384,
+      49240,
+      8
+     ]
+    ]
+   },
+   "expectedSec": 97,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
   }
  ],
  "override": {
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:14.060Z",
+  "at": "2026-10-27T18:18:49.446Z",
   "pass": true,
   "geo": true,
   "fails": [],

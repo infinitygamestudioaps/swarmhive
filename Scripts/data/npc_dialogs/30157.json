@@ -1,0 +1,269 @@
+{
+ "npcId": 30157,
+ "name": "Greenis",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.856Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30157.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "2": {
+   "name": "What Women Want",
+   "listText": [
+    "[What Women Want]",
+    "[What Women Want (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00002_WhatWomenWant/30157-02.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00002_WhatWomenWant/30157-03.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00002_WhatWomenWant/30157-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "408": {
+   "name": "Path Of The Elven Wizard",
+   "listText": [
+    "[Path of the Elven Wizard]",
+    "[Path of the Elven Wizard (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30157-01.html",
+     "when": "state STARTED; has items 1218; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30157-03.html",
+     "when": "state STARTED; has items 1272; lacks items 1218; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, RED_DOWN) < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30157-04.html",
+     "when": "state STARTED; has items 1272; lacks items 1218; !(qs.isCreated() || qs.isCompleted()); !getQuestItemsCount(player, RED_DOWN) < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30157.htm": {
+   "file": "trainer/30157.htm",
+   "quest": null,
+   "text": "Magister Greenis: Humans try to \"control\" magic with meaningless incantations and elaborate rituals, but that's not the true essence of magic. Singing the beauty of space along with the Spirit of Earth -- that is the power I will teach you.",
+   "header": "Magister Greenis",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30157-noteach.htm": {
+   "file": "trainer/30157-noteach.htm",
+   "quest": null,
+   "text": "Magister Greenis: I teach only Elven Mystics; you'll have to look elsewhere for the knowledge you seek.",
+   "header": "Magister Greenis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00002_WhatWomenWant/30157-02.html": {
+   "file": "Q00002_WhatWomenWant/30157-02.html",
+   "quest": 2,
+   "text": "Magister Greenis: Oh, Arujien sent me a Book of Poems? I see... Please know that I appreciate his thoughtfulness, but... This is very difficult for me to say. I must write him a letter explaining that someone else has already captured my heart...",
+   "header": "Magister Greenis",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00002_WhatWomenWant/30157-03.html": {
+   "file": "Q00002_WhatWomenWant/30157-03.html",
+   "quest": 2,
+   "text": "Magister Greenis: You haven't delivered my reply to Arujien yet? Please...sometimes the kindest cut is the one delivered swiftly. Your hesitation simply prolongs a a painful situation. Please go to him at once.",
+   "header": "Magister Greenis",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00002_WhatWomenWant/30157-01.html": {
+   "file": "Q00002_WhatWomenWant/30157-01.html",
+   "quest": 2,
+   "text": "Magister Greenis: Arujien? I had heard rumors that he had feelings for me, but I never gave them any thought. I wish he had spoken to me personally rather than send a messenger! This is very awkward...",
+   "header": "Magister Greenis",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30157-01.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30157-01.html",
+   "quest": 408,
+   "text": "Magister Greenis: Oh...a letter from my godmother! How is she? I haven't seen her for ages... Hmm, I see you're searching for the Magical Powers Ruby. It has been the symbol of my family for 200 years; no one in all of Oren or Gludio knows it better than I do. Rubies were once mined throughout nort…",
+   "header": "Magister Greenis",
+   "when": [
+    "state STARTED; has items 1218; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00408_PathOfTheElvenWizard 30157-02.html",
+     "kind": "quest-event",
+     "script": "Q00408_PathOfTheElvenWizard",
+     "event": "30157-02.html",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30157-02.html"
+    }
+   ]
+  },
+  "Q00408_PathOfTheElvenWizard/30157-03.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30157-03.html",
+   "quest": 408,
+   "text": "Magister Greenis: Hunt Pincer Spiders and bring back 5 clumps of Red Down, and I will give you a Magical Powers Ruby. Even Human Mystics use the ruby in their magical studies; the Wizards of the Ivory tower use the refined red dust to summon elemental spirits.",
+   "header": "Magister Greenis",
+   "when": [
+    "state STARTED; has items 1272; lacks items 1218; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, RED_DOWN) < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30157-04.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30157-04.html",
+   "quest": 408,
+   "text": "Magister Greenis: Well done! Now I have all I need to fashion a Magical Powers Ruby. Here, take it! Before you leave, though, let me give you a word of advice. Talent will only take you so far in your Mystical studies. There is no substitute for hard work and disciplined study. The high-level Mysti…",
+   "header": "Magister Greenis",
+   "when": [
+    "state STARTED; has items 1272; lacks items 1218; !(qs.isCreated() || qs.isCompleted()); !getQuestItemsCount(player, RED_DOWN) < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30157-02.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30157-02.html",
+   "quest": 408,
+   "text": "Magister Greenis: Thank you. The Magical Powers Ruby contains a fiery force immensely valuable to those of us who study Elemental Magic. I would like to create more of these rubies, but to do so I need a vital ingredient that can only be found on the neck of a Pincer Spider: Red Down . If you bring…",
+   "header": "Magister Greenis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[What Women Want (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00002_WhatWomenWant",
+     "kind": "quest",
+     "quest": 2,
+     "to": "Q00002_WhatWomenWant/30157-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Elven Wizard (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00408_PathOfTheElvenWizard",
+     "kind": "quest",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30157-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

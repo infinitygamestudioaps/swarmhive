@@ -1,0 +1,1324 @@
+{
+ "npcId": 30612,
+ "name": "Casian",
+ "title": "Elder",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.018Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30612.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "130": {
+   "name": "Path To Hellbound",
+   "listText": [
+    "[Path to Hellbound]",
+    "[Path to Hellbound (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00130_PathToHellbound/30612-01.htm",
+     "when": "state CREATED; !HellboundEngine.getInstance().isLocked(); (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00130_PathToHellbound/30612-02.html",
+     "when": "state CREATED; !HellboundEngine.getInstance().isLocked(); NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00130_PathToHellbound/30612-03.html",
+     "when": "state CREATED; HellboundEngine.getInstance().isLocked()",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00130_PathToHellbound/30612-06.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00130_PathToHellbound/30612-07.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00130_PathToHellbound/30612-09.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "142": {
+   "name": "Fallen Angel - Request of Dawn",
+   "listText": [
+    "[Fallen Angel - Request of Dawn]",
+    "[Fallen Angel - Request of Dawn (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00142_FallenAngelRequestOfDawn/30612-01.html",
+     "when": "state STARTED; cond 1|2",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00142_FallenAngelRequestOfDawn/30612-03.html",
+     "when": "state STARTED; cond 3; st.getInt(\"talk\") == 1",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00142_FallenAngelRequestOfDawn/30612-06.html",
+     "when": "state STARTED; cond 3; !st.getInt(\"talk\") == 1; st.getInt(\"talk\") == 2",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00142_FallenAngelRequestOfDawn/30612-02.html",
+     "when": "state STARTED; cond 3; !st.getInt(\"talk\") == 1; !st.getInt(\"talk\") == 2",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00142_FallenAngelRequestOfDawn/30612-09.html",
+     "when": "state STARTED; cond 4|5|6",
+     "state": "STARTED",
+     "cond": [
+      4,
+      5,
+      6
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "143": {
+   "name": "Fallen Angel - Request of Dusk",
+   "listText": [
+    "[Fallen Angel - Request of Dusk]",
+    "[Fallen Angel - Request of Dusk (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00143_FallenAngelRequestOfDusk/30612-01.html",
+     "when": "state STARTED; cond 1|2",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00143_FallenAngelRequestOfDusk/30612-04.html",
+     "when": "state STARTED; cond 3; (st.isSet(\"talk\"))",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00143_FallenAngelRequestOfDusk/30612-02.html",
+     "when": "state STARTED; cond 3; NOT (st.isSet(\"talk\"))",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00143_FallenAngelRequestOfDusk/30612-10.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "214": {
+   "name": "Trial Of The Scholar",
+   "listText": [
+    "[Trial of the Scholar]",
+    "[Trial of the Scholar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00214_TrialOfTheScholar/30612-02.html",
+     "when": "state STARTED; has items 2705,2711,2706,2707,2708; lacks items 2715",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30612-01.html",
+     "when": "state STARTED; has items 2705,2711; lacks items 2715,2706,2707,2708",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30612-05.html",
+     "when": "state STARTED; has items 2705,2711,2715; !hasItemsAtLimit(player, GHOULS_SKIN, MEDUSAS_BLOOD, FETTERED_SOULS_ICHOR, ENCHANTED_GARGOYLES_NAIL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30612-06.html",
+     "when": "state STARTED; has items 2705,2711,2715; hasItemsAtLimit(player, GHOULS_SKIN, MEDUSAS_BLOOD, FETTERED_SOULS_ICHOR, ENCHANTED_GARGOYLES_NAIL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30612-08.html",
+     "when": "state STARTED; has items 2705,2706,2707,2708,2709; lacks items 2705,2711,2715",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "215": {
+   "name": "Trial Of The Pilgrim",
+   "listText": [
+    "[Trial of the Pilgrim]",
+    "[Trial of the Pilgrim (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00215_TrialOfThePilgrim/30612-01.html",
+     "when": "state STARTED; memo 16",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00215_TrialOfThePilgrim/30612-02.html",
+     "when": "state STARTED; memo 17",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "228": {
+   "name": "Test Of Magus",
+   "listText": [
+    "[Test of Magus]",
+    "[Test of Magus (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00228_TestOfMagus/30612-01.html",
+     "when": "state STARTED; has items 2842",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00228_TestOfMagus/30612-04.html",
+     "when": "state STARTED; has items 2843,2844,2845,2846; lacks items 2842",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30612-03.html",
+     "when": "state STARTED; has items 2843; lacks items 2842,2844,2845,2846",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30612-05.html",
+     "when": "state STARTED; has items 2847; lacks items 2842,2843",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "370": {
+   "name": "An Elder Sows Seeds",
+   "listText": [
+    "[An Elder Sows Seeds]",
+    "[An Elder Sows Seeds (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00370_AnElderSowsSeeds/30612-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00370_AnElderSowsSeeds/30612-05.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00370_AnElderSowsSeeds/30612-06.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "422": {
+   "name": "Repent Your Sins",
+   "listText": [
+    "[Repent Your Sins]",
+    "[Repent Your Sins (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00422_RepentYourSins/30612-01.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00422_RepentYourSins/30612-02.html",
+     "when": "state STARTED; memo 7; lacks items 4328",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00422_RepentYourSins/30612-03.html",
+     "when": "state STARTED; memo 7; has items 4328",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00422_RepentYourSins/30612-04.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30612.htm": {
+   "file": "default/30612.htm",
+   "quest": null,
+   "text": "Wiseman Casian Hello, traveler. My name is Casian, I am the so-called sage of the Wastelands. I am studying the origin of the Wastelands and the giant spiders here.",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00130_PathToHellbound/30612-01.htm": {
+   "file": "Q00130_PathToHellbound/30612-01.htm",
+   "quest": 130,
+   "text": "Elder Casian: How can I help you?",
+   "header": "Elder Casian",
+   "when": [
+    "state CREATED; !HellboundEngine.getInstance().isLocked(); (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I want to know how to get to Hellbound.\"",
+     "bypass": "Quest Q00130_PathToHellbound 30612-04.htm",
+     "kind": "quest-event",
+     "script": "Q00130_PathToHellbound",
+     "event": "30612-04.htm",
+     "quest": 130,
+     "to": "Q00130_PathToHellbound/30612-04.htm"
+    }
+   ]
+  },
+  "Q00130_PathToHellbound/30612-02.html": {
+   "file": "Q00130_PathToHellbound/30612-02.html",
+   "quest": 130,
+   "text": "Elder Casian: Ah, a traveler! Did you also feel the wave of magic that emanated from Hellbound a few days ago? No? Well, that's very odd. Perhaps we shouldn't be having this conversation. (Only characters level 78 and above may undertake this quest.)",
+   "header": "Elder Casian",
+   "when": [
+    "state CREATED; !HellboundEngine.getInstance().isLocked(); NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00130_PathToHellbound/30612-03.html": {
+   "file": "Q00130_PathToHellbound/30612-03.html",
+   "quest": 130,
+   "text": "Elder Casian: Traveler, I fear something strange and terrible is about to happen. I feel an odd energy... (Access is only possible when the road to Hellbound is open.)",
+   "header": "Elder Casian",
+   "when": [
+    "state CREATED; HellboundEngine.getInstance().isLocked()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00130_PathToHellbound/30612-06.html": {
+   "file": "Q00130_PathToHellbound/30612-06.html",
+   "quest": 130,
+   "text": "Elder Casian: I cannot help you. Seek out Galate .",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00130_PathToHellbound/30612-07.html": {
+   "file": "Q00130_PathToHellbound/30612-07.html",
+   "quest": 130,
+   "text": "Elder Casian: I thought I already told you what to do -- why have you come back to see me?",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"I need your Blue Crystal.\"",
+     "bypass": "Quest Q00130_PathToHellbound 30612-08.html",
+     "kind": "quest-event",
+     "script": "Q00130_PathToHellbound",
+     "event": "30612-08.html",
+     "quest": 130,
+     "to": "Q00130_PathToHellbound/30612-08.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00130_PathToHellbound/30612-09.html": {
+   "file": "Q00130_PathToHellbound/30612-09.html",
+   "quest": 130,
+   "text": "Elder Casian: What are you doing? Hurry and take the Blue Crystal to Galate . Otherwise, return it to me!",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00142_FallenAngelRequestOfDawn/30612-01.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30612-01.html",
+   "quest": 142,
+   "text": "Elder Casian: Fallen angel? I don't know what you're talking about... I'm very busy researching how to transform this barren desert into luscious fields of green. Unless you know how to help me with that, kindly do not waste my time...",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; cond 1|2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00142_FallenAngelRequestOfDawn/30612-03.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30612-03.html",
+   "quest": 142,
+   "text": "Elder Casian: Fallen angel? ... You're from the Temple, aren't you? I have nothing to say to you hyprocrites and friends of corruption!",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; cond 3; st.getInt(\"talk\") == 1"
+   ],
+   "links": [
+    {
+     "text": "\"You have been deceived by the Revolutionaries of Dusk. The fallen angel is dangerous.\"",
+     "bypass": "Quest Q00142_FallenAngelRequestOfDawn 30612-04.html",
+     "kind": "quest-event",
+     "script": "Q00142_FallenAngelRequestOfDawn",
+     "event": "30612-04.html",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30612-04.html"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30612-06.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30612-06.html",
+   "quest": 142,
+   "text": "Elder Casian: Justice begins by valuing individuals and their beliefs, something the Temple will never condone in its quest to bring everything under its heel. I stand against that kind of corrupt power-mongering in the name of religion. Nothing you do to me will shake that belief!",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; cond 3; !st.getInt(\"talk\") == 1; st.getInt(\"talk\") == 2"
+   ],
+   "links": [
+    {
+     "text": "\"My belief is that the weak and helpless of this land need a protector against the forces of chaos. I believe that I can bring peace and order through my strong leadership. Which of us truly has the best interests of others at heart?\"",
+     "bypass": "Quest Q00142_FallenAngelRequestOfDawn 30612-07.html",
+     "kind": "quest-event",
+     "script": "Q00142_FallenAngelRequestOfDawn",
+     "event": "30612-07.html",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30612-07.html"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30612-02.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30612-02.html",
+   "quest": 142,
+   "text": "Elder Casian: Fallen angel? I don't know what you're talking about... I'm very busy researching how to transform this barren desert into luscious fields of green. Unless you know how to help me with that, kindly do not waste my time...",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; cond 3; !st.getInt(\"talk\") == 1; !st.getInt(\"talk\") == 2"
+   ],
+   "links": [
+    {
+     "text": "\"I already know everything. I know that you're planning to help the wounded fallen angel...\"",
+     "bypass": "Quest Q00142_FallenAngelRequestOfDawn 30612-03.html",
+     "kind": "quest-event",
+     "script": "Q00142_FallenAngelRequestOfDawn",
+     "event": "30612-03.html",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30612-03.html"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30612-09.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30612-09.html",
+   "quest": 142,
+   "text": "Elder Casian: A preacher carrying the Sealed Prophecy - Path of the God was attacked in this wilderness by ants. He is missing, and without him we do not know how to determine the location of the angel... Perhaps you can recover some pieces of the Prophecy from the ants in the Ant Nest. Provided, o…",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; cond 4|5|6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00143_FallenAngelRequestOfDusk/30612-01.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30612-01.html",
+   "quest": 143,
+   "text": "Elder Casian: Fallen angel? I don't know what you're talking about... I'm very busy researching how to transform this barren desert into luscious fields of green. Unless you know how to help me with that, kindly do not waste my time...",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; cond 1|2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00143_FallenAngelRequestOfDusk/30612-04.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30612-04.html",
+   "quest": 143,
+   "text": "Elder Casian: Yes, the prophecies seemed to predict the arrival of the fallen angel through a series of metaphors. My knowledge is limited, but I will do my best to divine their true meaning. In fact, if I remember correctly, the prophecies even mention that an unknown adventurer helps the angel...…",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; cond 3; (st.isSet(\"talk\"))"
+   ],
+   "links": [
+    {
+     "text": "\"Unknown adventurer?\"",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 30612-06.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "30612-06.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/30612-06.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/30612-02.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30612-02.html",
+   "quest": 143,
+   "text": "Elder Casian: Fallen angel? I don't know what you're talking about... I'm very busy researching how to transform this barren desert into luscious fields of green. Unless you know how to help me with that, kindly do not waste my time...",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; cond 3; NOT (st.isSet(\"talk\"))"
+   ],
+   "links": [
+    {
+     "text": "Show him the Sealed Prophecy - Path of the God.",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 30612-03.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "30612-03.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/30612-03.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/30612-10.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30612-10.html",
+   "quest": 143,
+   "text": "Elder Casian: To find the fallen angel, climb to the Weathered Rock in the wilderness and sing a song of praise from the prophecy. Once the medicine has done its work, you will be able to speak with the angel. I have marked the location of the Weathered Rock on your map, adventurer. Good luck!",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30612-02.html": {
+   "file": "Q00214_TrialOfTheScholar/30612-02.html",
+   "quest": 214,
+   "text": "Elder Casian: You are looking for Chapter 4 of the sacred scripture? That is not something that I can hand over easily. Do you know what the scripture contains? Nothing less than all the knowledge of the world! This book may yet reveal the lost knowledge and science of the Giants, who have long sin…",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; has items 2705,2711,2706,2707,2708; lacks items 2715"
+   ],
+   "links": [
+    {
+     "text": "Tell him that you will show him chapter 1, 2 and 3 if he shows you chapter 4.",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30612-03.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30612-03.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30612-03.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30612-01.html": {
+   "file": "Q00214_TrialOfTheScholar/30612-01.html",
+   "quest": 214,
+   "text": "Elder Casian: So, you have come for the 4th volume of the Scriptures of Knowledge? I understand your situation but it is not something that I can give freely. Do you have any idea of the power of these volumes? . They contain the knowledge of the Giants' technology that was thought lost for millenn…",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; has items 2705,2711; lacks items 2715,2706,2707,2708"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30612-05.html": {
+   "file": "Q00214_TrialOfTheScholar/30612-05.html",
+   "quest": 214,
+   "text": "Elder Casian: When you bring all the materials that I have requested, I will make a copy of the texts. I will then give you the 4th volume.",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; has items 2705,2711,2715; !hasItemsAtLimit(player, GHOULS_SKIN, MEDUSAS_BLOOD, FETTERED_SOULS_ICHOR, ENCHANTED_GARGOYLES_NAIL)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30612-06.html": {
+   "file": "Q00214_TrialOfTheScholar/30612-06.html",
+   "quest": 214,
+   "text": "Elder Casian: I see that you have obtained all the materials! Good job! An old Sage like me is no good at chasing down magical creatures... Thank you very much. The copying will be finished soon. Please wait a minute... Here we go... All done. This is truly a momentous occasion. Here, I'll give you…",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; has items 2705,2711,2715; hasItemsAtLimit(player, GHOULS_SKIN, MEDUSAS_BLOOD, FETTERED_SOULS_ICHOR, ENCHANTED_GARGOYLES_NAIL)"
+   ],
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30612-07.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30612-07.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30612-07.html",
+     "effect": "cond:30"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30612-08.html": {
+   "file": "Q00214_TrialOfTheScholar/30612-08.html",
+   "quest": 214,
+   "text": "Elder Casian: So you have acquired the 4 original copies of the existing Scriptures. An admirable feat, but as I said, without the introduction and the 5th volume it will be impossible to fully understand its meaning. What a shame.",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; has items 2705,2706,2707,2708,2709; lacks items 2705,2711,2715"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00215_TrialOfThePilgrim/30612-01.html": {
+   "file": "Q00215_TrialOfThePilgrim/30612-01.html",
+   "quest": 215,
+   "text": "Elder Casian: Hello, my inquisitive friend. My name is Casian, known to some as 'the Sage of the Wastelands'. The Elves and the Dark Elves that you have met have told you things that could be true or not. The nature of the gods is not known to mankind, and even they are only one small part of a ver…",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; memo 16"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00215_TrialOfThePilgrim/30612-02.html": {
+   "file": "Q00215_TrialOfThePilgrim/30612-02.html",
+   "quest": 215,
+   "text": "Elder Casian: I will never understand the Human propensity to assign a value of right or wrong to everything, even the behavior of the gods! The worst offenders are the Priests... There is no crime as long as we act according to our feelings, am I right? After all, we are just the gods creations...…",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; memo 17"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30612-01.html": {
+   "file": "Q00228_TestOfMagus/30612-01.html",
+   "quest": 228,
+   "text": "Elder Casian: I have heard of Parina's suffering because of that monstrous flower ... I have thought of nothing else for days... The only solution I can come up with is to hunt down the vicious flower and kill it. I have heard that there are actually 3 flowers: The nightmare singing flower, the pha…",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; has items 2842"
+   ],
+   "links": [
+    {
+     "text": "\"Where are the singing flowers?\"",
+     "bypass": "Quest Q00228_TestOfMagus 30612-02.html",
+     "kind": "quest-event",
+     "script": "Q00228_TestOfMagus",
+     "event": "30612-02.html",
+     "quest": 228,
+     "to": "Q00228_TestOfMagus/30612-02.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00228_TestOfMagus/30612-04.html": {
+   "file": "Q00228_TestOfMagus/30612-04.html",
+   "quest": 228,
+   "text": "Elder Casian: Ah, all the seeds! Good, good...! You may go now. Take this to Bard Rukal.",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; has items 2843,2844,2845,2846; lacks items 2842"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30612-03.html": {
+   "file": "Q00228_TestOfMagus/30612-03.html",
+   "quest": 228,
+   "text": "Elder Casian: You still haven't found all the seeds... What are you doing? Hurry, go and find all 3! If this mission is too much for you, then give up! If you intend to complete the task, you must go to the Fellmere Lake in Gludio, the waterfalls near the Ivory Tower of Oren, and the southern part …",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; has items 2843; lacks items 2842,2844,2845,2846"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30612-05.html": {
+   "file": "Q00228_TestOfMagus/30612-05.html",
+   "quest": 228,
+   "text": "Elder Casian: The note of the element? Even I, an esteemed Sage, have never heard such a thing... Well, I must admit that I have heard of their stunning beauty...",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED; has items 2847; lacks items 2842,2843"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00370_AnElderSowsSeeds/30612-01.htm": {
+   "file": "Q00370_AnElderSowsSeeds/30612-01.htm",
+   "quest": 370,
+   "text": "Elder Casian: Did you know that at one time this barren wasteland was one of the most fertile places in Aden? For centuries farmers sowed their seeds and harvested abundant crops here. Ah, yes, those were the days... But then that devil Beleth and his minions arrived. We had to come up with a resol…",
+   "header": "Elder Casian",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"What can I do to help?\"",
+     "bypass": "Quest Q00370_AnElderSowsSeeds 30612-02.htm",
+     "kind": "quest-event",
+     "script": "Q00370_AnElderSowsSeeds",
+     "event": "30612-02.htm",
+     "quest": 370,
+     "to": "Q00370_AnElderSowsSeeds/30612-02.htm"
+    }
+   ]
+  },
+  "Q00370_AnElderSowsSeeds/30612-05.html": {
+   "file": "Q00370_AnElderSowsSeeds/30612-05.html",
+   "quest": 370,
+   "text": "Elder Casian: Did you know that at one time this barren wasteland was one of the most fertile places in Aden? For centuries, farmers sowed their seeds and harvested their abundant crops here. Ah, yes, those were the days... But then that devil Beleth and his minions arrived. We had to act quickly. …",
+   "header": "Elder Casian",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00370_AnElderSowsSeeds/30612-06.html": {
+   "file": "Q00370_AnElderSowsSeeds/30612-06.html",
+   "quest": 370,
+   "text": "Elder Casian: The wind is unusually scorching today... Do you feel it? The angry cries of the souls of those who perished here seem carried on the blistering breeze across the Wasteland... Forgive me. This place has that effect on me. By the way, how are things at the Ant Nest?",
+   "header": "Elder Casian",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"Where can I find the spellbook?\"",
+     "bypass": "Quest Q00370_AnElderSowsSeeds 30612-07.html",
+     "kind": "quest-event",
+     "script": "Q00370_AnElderSowsSeeds",
+     "event": "30612-07.html",
+     "quest": 370,
+     "to": "Q00370_AnElderSowsSeeds/30612-07.html"
+    },
+    {
+     "text": "\"I have brought all four chapters of \"Kranvel's Spellbook\".\"",
+     "bypass": "Quest Q00370_AnElderSowsSeeds REWARD",
+     "kind": "quest-event",
+     "script": "Q00370_AnElderSowsSeeds",
+     "event": "REWARD",
+     "quest": 370,
+     "to": "Q00370_AnElderSowsSeeds/30612-08.html",
+     "toAll": [
+      "Q00370_AnElderSowsSeeds/30612-08.html",
+      "Q00370_AnElderSowsSeeds/30612-11.html"
+     ]
+    },
+    {
+     "text": "\"I need to find more chapters.\"",
+     "bypass": "Quest Q00370_AnElderSowsSeeds 30612-09.html",
+     "kind": "quest-event",
+     "script": "Q00370_AnElderSowsSeeds",
+     "event": "30612-09.html",
+     "quest": 370,
+     "to": "Q00370_AnElderSowsSeeds/30612-09.html"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00370_AnElderSowsSeeds 30612-10.html",
+     "kind": "quest-event",
+     "script": "Q00370_AnElderSowsSeeds",
+     "event": "30612-10.html",
+     "quest": 370,
+     "to": "Q00370_AnElderSowsSeeds/30612-10.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00422_RepentYourSins/30612-01.html": {
+   "file": "Q00422_RepentYourSins/30612-01.html",
+   "quest": 422,
+   "text": "Sage Casian: Why would you want to help me?Someone up there must like me. Things keep happening that give me the impression that my penance is being watched over. So, will you do me a favor? I am researching different ways that this polluted Wasteland can be restored to its previous, verdant state.…",
+   "header": "Sage Casian",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30612-02.html": {
+   "file": "Q00422_RepentYourSins/30612-02.html",
+   "quest": 422,
+   "text": "Sage Casian: Why haven't you brought me the heart of a tyrant kingpin yet? I realize that this is not an easy task. My work shall continue for several years, so there is no hurry. Take your time... Oh, did I happen to mention that you can find quite a few tyrant kingpins in the western section of t…",
+   "header": "Sage Casian",
+   "when": [
+    "state STARTED; memo 7; lacks items 4328"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30612-03.html": {
+   "file": "Q00422_RepentYourSins/30612-03.html",
+   "quest": 422,
+   "text": "Sage Casian: Ah, the heart of a tyrant kingpin! Thank you! This will advance my research greatly. Now I must confess... In the past I was a terrible criminal. I undertook this project seeking redemption, but now I find that I am required to commit crimes to further my research! The importance of wh…",
+   "header": "Sage Casian",
+   "when": [
+    "state STARTED; memo 7; has items 4328"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30612-04.html": {
+   "file": "Q00422_RepentYourSins/30612-04.html",
+   "quest": 422,
+   "text": "Sage Casian: Thanks to you my research can continue... By the way, what inspired you to help a wretch such as I? I suppose we all have our own reasons...",
+   "header": "Sage Casian",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00130_PathToHellbound/30612-04.htm": {
+   "file": "Q00130_PathToHellbound/30612-04.htm",
+   "quest": 130,
+   "text": "Elder Casian: Did you also feel the wave of magic emanate from Hellbound a few days ago? Hmm, given your power level, it's odd that you didn't feel it... I have been conducting my own investigation recently. I discovered that the path to Hellbound has been opened. Fortunately, it is not due to Bele…",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "\"Is there another way?\"",
+     "bypass": "Quest Q00130_PathToHellbound 30612-05.html",
+     "kind": "quest-event",
+     "script": "Q00130_PathToHellbound",
+     "event": "30612-05.html",
+     "quest": 130,
+     "to": "Q00130_PathToHellbound/30612-05.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00130_PathToHellbound/30612-05.html": {
+   "file": "Q00130_PathToHellbound/30612-05.html",
+   "quest": 130,
+   "text": "Elder Casian: Another way... I do not know. My research did not reveal anything, but it was hardly comprehensive. I can, however, introduce to you someone who knows how to get there. Seek out a woman called Galate . I am sure that she will be able to help you.",
+   "header": "Elder Casian",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00130_PathToHellbound/30612-08.html": {
+   "file": "Q00130_PathToHellbound/30612-08.html",
+   "quest": 130,
+   "text": "Elder Casian: A Blue Crystal ... You ask for the gift I received from the Water Dragon itself when I was young. It is very precious to me. Tell me, did you think I would simply hand it over to you? Hmmph! But since Galate asked you to retrieve this not simply to test you, but because she actually n…",
+   "header": "Elder Casian",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00142_FallenAngelRequestOfDawn/30612-04.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30612-04.html",
+   "quest": 142,
+   "text": "Elder Casian: Dangerous? Of course... I cannot hear the angel's message because I do not know where the fallen angel is, only that it is severely wounded... But I do know that the angel will tell only the truth. Why are the Temple and its aristrocratic lackeys afraid of the truth? Or perhaps the tr…",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "\"I see that you've been seduced by the angel's lies... Very well, then. I don't have much time. I need to know where the angel is -- even if I have to hurt you to find out...\"",
+     "bypass": "Quest Q00142_FallenAngelRequestOfDawn 30612-05.html",
+     "kind": "quest-event",
+     "script": "Q00142_FallenAngelRequestOfDawn",
+     "event": "30612-05.html",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30612-05.html"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30612-05.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30612-05.html",
+   "quest": 142,
+   "text": "Elder Casian: Are you threatening me? I have nothing to say to you... You have no legal authority here. You do not represent justice!",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "\"Justice? What do you know of justice? Idealistic fool...\"",
+     "bypass": "Quest Q00142_FallenAngelRequestOfDawn 30612-06.html",
+     "kind": "quest-event",
+     "script": "Q00142_FallenAngelRequestOfDawn",
+     "event": "30612-06.html",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30612-06.html"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30612-07.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30612-07.html",
+   "quest": 142,
+   "text": "Elder Casian: So you believe you are the one? Very well... If you are so positive that yours is the best path, test yourself!",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "\"What are you talking about?\"",
+     "bypass": "Quest Q00142_FallenAngelRequestOfDawn 30612-08.html",
+     "kind": "quest-event",
+     "script": "Q00142_FallenAngelRequestOfDawn",
+     "event": "30612-08.html",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30612-08.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30612-08.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30612-08.html",
+   "quest": 142,
+   "text": "Elder Casian: A preacher carrying the Sealed Prophecy - Path of the God was attacked in this wilderness by ants. He is missing, and without him we do not know how to determine the location of the angel... Perhaps you can recover some pieces of the prophecy from the ants in the Ant Nest. Provided, o…",
+   "header": "Elder Casian",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00143_FallenAngelRequestOfDusk/30612-03.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30612-03.html",
+   "quest": 143,
+   "text": "Elder Casian: What's this? Ah, you must be the agent of Shadow Fox... I see you found the prophecy... A female preacher of the Revolutionaries of Dusk heard the angel pleading for help, but we were unable to determine the angel's location. We have healing medicine ready...",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "\"Tobias told me that you could locate the angel if I gave you this prophecy.\"",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 30612-05.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "30612-05.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/30612-05.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/30612-05.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30612-05.html",
+   "quest": 143,
+   "text": "Elder Casian: Yes, the prophecy spoke metaphorically about a fallen angel and a refugee. Perhaps I can decipher the metaphor. In fact, there is even a prophecy that an unknown adventurer will help the angel...",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "\"Unknown adventurer?\"",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 30612-06.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "30612-06.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/30612-06.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/30612-06.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30612-06.html",
+   "quest": 143,
+   "text": "Elder Casian: Yes, the prophecy says that an unknown adventurer will become an important figure in the salvation of the world. Ah! Here! I found the road to the angel's location. It is a dangerous place, full of monsters... Shadow Fox trusts you, however, so perhaps you can make it through... If so…",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "\"Me? Look, I'm just an ordinary adventurer.\"",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 30612-07.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "30612-07.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/30612-07.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/30612-07.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30612-07.html",
+   "quest": 143,
+   "text": "Elder Casian: Perhaps you are -- now. But your encounter with the angel may change you... Because the strong grow stronger and the weak become weaker, this world is waiting for a hero who is unafraid to speak truth to power and who will face the coming darkness without flinching. Whether that is yo…",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "\"I also hope a hero can bring us peace.\"",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 30612-08.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "30612-08.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/30612-08.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/30612-08.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30612-08.html",
+   "quest": 143,
+   "text": "Elder Casian: Then take this healing medicine... Making it was extremely difficult, since the angel is not a living creature born of this world. Many of my brethren sacrificed much to gather the materials I needed to create this. Take good care of it, and speed it to the angel as quickly as you can!",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "Take the healing medicine.",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 30612-09.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "30612-09.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/30612-09.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/30612-09.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30612-09.html",
+   "quest": 143,
+   "text": "Elder Casian: To find the fallen angel, climb to the Weathered Rock in the wilderness and sing a song of praise from the prophecy. Once the medicine has done its work, you will be able to speak with the angel. I have marked the location of the Weathered Rock on your map, adventurer. Good luck!",
+   "header": "Elder Casian",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30612-03.html": {
+   "file": "Q00214_TrialOfTheScholar/30612-03.html",
+   "quest": 214,
+   "text": "Elder Casian: What is that? You have the rest of the scripture? Could it be true? This sounds acceptable, but let me make a copy for myself. It won't take too long if we use magic instead transcribing it by hand. We will need some special materials for it, though. Would you help me gather the ingre…",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "\"I will help.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30612-04.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30612-04.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30612-04.html",
+     "effect": "cond:28"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30612-04.html": {
+   "file": "Q00214_TrialOfTheScholar/30612-04.html",
+   "quest": 214,
+   "text": "Elder Casian: Excellent. Here is what we'll need. 10 pieces of Ghoul's Skin, 12 bottles of Medusa's Blood, 5 bottles of Fettered Soul's Ichor, and 5 Enhanced Gargoyle Nails . You must get the Ghoul's Skin from the Ghoul himself. He can be found in the execution place of Dion. You must collect the M…",
+   "header": "Elder Casian",
+   "sets": {
+    "cond": "28"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30612-07.html": {
+   "file": "Q00214_TrialOfTheScholar/30612-07.html",
+   "quest": 214,
+   "text": "Elder Casian: What in blazes? I understood that there were only 4 volumes of the Scriptures of Knowledge... But now this! It says that there is one before the 1st and one after the 4th...! How could it be...? Without those two, we won't be able to understand the Scripture! What a blow! To find 4 vo…",
+   "header": "Elder Casian",
+   "sets": {
+    "cond": "30"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30612-02.html": {
+   "file": "Q00228_TestOfMagus/30612-02.html",
+   "quest": 228,
+   "text": "Elder Casian: The singing flowers are said to bloom near waterfalls or lakes, and seduce passersby with their beautiful voice. Different kinds of singing flowers will never bloom close to each other. Parina, Rukal and I searched for them and managed to agree on a few places. We are sure the flowers…",
+   "header": "Elder Casian",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00370_AnElderSowsSeeds/30612-02.htm": {
+   "file": "Q00370_AnElderSowsSeeds/30612-02.htm",
+   "quest": 370,
+   "text": "Elder Casian: The magic we unwittingly unleashed came from \"Kranvel's Spellbook\", one of the forbidden tomes of the Ivory Tower. Its fearsome power sucked the magic from all living organisms in the area, and then unleashed it all back upon us with a vengeance! Poor Spellsinger Diena saw the whole t…",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "\"Where should I look for the pieces of \"Kranvel's Spellbook\"?\"",
+     "bypass": "Quest Q00370_AnElderSowsSeeds 30612-03.htm",
+     "kind": "quest-event",
+     "script": "Q00370_AnElderSowsSeeds",
+     "event": "30612-03.htm",
+     "quest": 370,
+     "to": "Q00370_AnElderSowsSeeds/30612-03.htm"
+    }
+   ]
+  },
+  "Q00370_AnElderSowsSeeds/30612-03.htm": {
+   "file": "Q00370_AnElderSowsSeeds/30612-03.htm",
+   "quest": 370,
+   "text": "Elder Casian: Ironically, the deformed beasts around us hold the clues to finding the legacy of Kranvel. Giant ants are known to pick up anything they find and take it to their nests. It is said that they have collected a great number of ancient relics and taken them to their nest in the maze-like …",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "\"You can count on me.\"",
+     "bypass": "Quest Q00370_AnElderSowsSeeds 30612-04.htm",
+     "kind": "quest-event",
+     "script": "Q00370_AnElderSowsSeeds",
+     "event": "30612-04.htm",
+     "quest": 370,
+     "to": "Q00370_AnElderSowsSeeds/30612-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00370_AnElderSowsSeeds/30612-04.htm": {
+   "file": "Q00370_AnElderSowsSeeds/30612-04.htm",
+   "quest": 370,
+   "text": "Elder Casian: In order to obtain the pieces of the spellbook, you must conquer the ant recruits, ant patrols, ant guards, the noble ant and the noble ant leader . Check carefully any scraps of paper you come across . The pieces of \"Kranvel's Spellbook\" should be easy to identify. The spellbook has …",
+   "header": "Elder Casian",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00370_AnElderSowsSeeds/30612-07.html": {
+   "file": "Q00370_AnElderSowsSeeds/30612-07.html",
+   "quest": 370,
+   "text": "Elder Casian: How could you forget? You must slay ant recruits, ant patrols, ant guards, noble ants, and the noble ant leader in order to obtain the pieces of the spellbook. Examine any scraps of paper you come across carefully. The pieces of \"Kranvel's Spellbook\" should be instantly recognizable. …",
+   "header": "Elder Casian",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00370_AnElderSowsSeeds 30612-06.html",
+     "kind": "quest-event",
+     "script": "Q00370_AnElderSowsSeeds",
+     "event": "30612-06.html",
+     "quest": 370,
+     "to": "Q00370_AnElderSowsSeeds/30612-06.html"
+    }
+   ]
+  },
+  "Q00370_AnElderSowsSeeds/30612-08.html": {
+   "file": "Q00370_AnElderSowsSeeds/30612-08.html",
+   "quest": 370,
+   "text": "Elder Casian: Let's see, the Chapter of Fire, the Chapter of Water, the Chapter of Wind, and the Chapter of Earth... you have brought them all! Perhaps your discovery will lead to a way to restore this ruined place. At last I shall be redeemed... This is all thanks to you. Please accept this humble…",
+   "header": "Elder Casian",
+   "links": [
+    {
+     "text": "\"I will continue to help.\"",
+     "bypass": "Quest Q00370_AnElderSowsSeeds 30612-09.html",
+     "kind": "quest-event",
+     "script": "Q00370_AnElderSowsSeeds",
+     "event": "30612-09.html",
+     "quest": 370,
+     "to": "Q00370_AnElderSowsSeeds/30612-09.html"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00370_AnElderSowsSeeds 30612-10.html",
+     "kind": "quest-event",
+     "script": "Q00370_AnElderSowsSeeds",
+     "event": "30612-10.html",
+     "quest": 370,
+     "to": "Q00370_AnElderSowsSeeds/30612-10.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00370_AnElderSowsSeeds/30612-09.html": {
+   "file": "Q00370_AnElderSowsSeeds/30612-09.html",
+   "quest": 370,
+   "text": "Elder Casian: Thank you for helping us. Hopefully someday our efforts will pay off, and restore this wasteland to its former beauty. Bless you, my child...",
+   "header": "Elder Casian",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00370_AnElderSowsSeeds/30612-10.html": {
+   "file": "Q00370_AnElderSowsSeeds/30612-10.html",
+   "quest": 370,
+   "text": "Elder Casian: I understand. Your assistance has given me the opportunity to redeem myself. I don't know exactly where my research will lead, but hopefully to a better world... We all must do what we think is best. Only time will tell whether our choices are good ones... Thank you so very much for y…",
+   "header": "Elder Casian",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00370_AnElderSowsSeeds/30612-11.html": {
+   "file": "Q00370_AnElderSowsSeeds/30612-11.html",
+   "quest": 370,
+   "text": "Elder Casian: How could you have forgotten so quickly? \"Kranvel's Spellbook\" consists of four chapters: the Chapter of Fire, the Chapter of Water, the Chapter of Wind and the Chapter of Earth . The contents will not be discernible unless you find all four chapters. Please, you must help us! We're c…",
+   "header": "Elder Casian",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path to Hellbound]",
+     "bypass": "npc_%objectId%_Quest Q00130_PathToHellbound",
+     "kind": "quest",
+     "quest": 130,
+     "to": "Q00130_PathToHellbound/30612-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path to Hellbound (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00130_PathToHellbound",
+     "kind": "quest",
+     "quest": 130,
+     "to": "Q00130_PathToHellbound/30612-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Fallen Angel - Request of Dawn (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00142_FallenAngelRequestOfDawn",
+     "kind": "quest",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30612-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Fallen Angel - Request of Dusk (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00143_FallenAngelRequestOfDusk",
+     "kind": "quest",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/30612-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Trial of the Scholar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00214_TrialOfTheScholar",
+     "kind": "quest",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30612-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Trial of the Pilgrim (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00215_TrialOfThePilgrim",
+     "kind": "quest",
+     "quest": 215,
+     "to": "Q00215_TrialOfThePilgrim/30612-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of Magus (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00228_TestOfMagus",
+     "kind": "quest",
+     "quest": 228,
+     "to": "Q00228_TestOfMagus/30612-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[An Elder Sows Seeds]",
+     "bypass": "npc_%objectId%_Quest Q00370_AnElderSowsSeeds",
+     "kind": "quest",
+     "quest": 370,
+     "to": "Q00370_AnElderSowsSeeds/30612-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[An Elder Sows Seeds (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00370_AnElderSowsSeeds",
+     "kind": "quest",
+     "quest": 370,
+     "to": "Q00370_AnElderSowsSeeds/30612-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Repent Your Sins (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00422_RepentYourSins",
+     "kind": "quest",
+     "quest": 422,
+     "to": "Q00422_RepentYourSins/30612-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,480 @@
+{
+ "npcId": 31979,
+ "name": "Moira",
+ "title": "Seer",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.307Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/31979.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "113": {
+   "name": "Status of the Beacon Tower",
+   "listText": [
+    "[Status of the Beacon Tower]",
+    "[Status of the Beacon Tower (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00113_StatusOfTheBeaconTower/31979-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 80)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00113_StatusOfTheBeaconTower/31979-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 80)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00113_StatusOfTheBeaconTower/31979-03.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "122": {
+   "name": "Ominous News",
+   "listText": [
+    "[Ominous News]",
+    "[Ominous News (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00122_OminousNews/31979-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 20)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00122_OminousNews/31979-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 20)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00122_OminousNews/31979-03.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "415": {
+   "name": "Path Of The Orc Monk",
+   "listText": [
+    "[Path of the Orc Monk]",
+    "[Path of the Orc Monk (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00415_PathOfTheOrcMonk/31979-01.html",
+     "when": "state STARTED; memo 5; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "416": {
+   "name": "Path of the Orc Shaman",
+   "listText": [
+    "[Path of the Orc Shaman]",
+    "[Path of the Orc Shaman (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00416_PathOfTheOrcShaman/31979-01.html",
+     "when": "state STARTED; memo 100",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/31979-02.html",
+     "when": "state STARTED; memoState >= 101; memoState < 108",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/31979-03.html",
+     "when": "state STARTED; memo 110; !((memoState >= 101) && (memoState < 108))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/31979.htm": {
+   "file": "trainer/31979.htm",
+   "quest": null,
+   "text": "Seer Moira: Do not fear the coming darkness! Pa'agrio's flame will vanquish it, and his children will strike down the children of Shilen! The hour of our destiny is at hand, brothers and sisters of fire!",
+   "header": "Seer Moira",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/31979-noteach.htm": {
+   "file": "trainer/31979-noteach.htm",
+   "quest": null,
+   "text": "Seer Moira: A strong breeze would blow you away! You'll never endure the fire of Orcs! You'd better back off before you shame yourself!",
+   "header": "Seer Moira",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00113_StatusOfTheBeaconTower/31979-01.htm": {
+   "file": "Q00113_StatusOfTheBeaconTower/31979-01.htm",
+   "quest": 113,
+   "text": "Seer Moira: You are under the protection of Pa'agrio! I trust you. Please go to the Beacon Tower at the Den of Evil and take this box with you.",
+   "header": "Seer Moira",
+   "when": [
+    "state CREATED; (player.getLevel() >= 80)"
+   ],
+   "links": [
+    {
+     "text": "\"Why the Beacon Tower?\"",
+     "bypass": "Quest Q00113_StatusOfTheBeaconTower 31979-02.htm",
+     "kind": "quest-event",
+     "script": "Q00113_StatusOfTheBeaconTower",
+     "event": "31979-02.htm",
+     "quest": 113,
+     "to": "Q00113_StatusOfTheBeaconTower/31979-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00113_StatusOfTheBeaconTower/31979-00.htm": {
+   "file": "Q00113_StatusOfTheBeaconTower/31979-00.htm",
+   "quest": 113,
+   "text": "Seer Moira: Traveler, I cannot feel the protection of Pa'agrio on you. Come back to me after you have purified yourself with more training. (Only characters who are level 80 or higher may undertake this quest.)",
+   "header": "Seer Moira",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 80)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00113_StatusOfTheBeaconTower/31979-03.html": {
+   "file": "Q00113_StatusOfTheBeaconTower/31979-03.html",
+   "quest": 113,
+   "text": "Seer Moira: Hurry up! Go see Beacon Tower Manager Torrant and give this to him.",
+   "header": "Seer Moira",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00122_OminousNews/31979-01.htm": {
+   "file": "Q00122_OminousNews/31979-01.htm",
+   "quest": 122,
+   "text": "Seer Moira: Oh, sighing rock! I'd like to end your wandering for good. Do you wish to help me do that?",
+   "header": "Seer Moira",
+   "when": [
+    "state CREATED; (player.getLevel() >= 20)"
+   ],
+   "links": [
+    {
+     "text": "\"Do you know the path I have to follow?\"",
+     "bypass": "Quest Q00122_OminousNews 31979-02.htm",
+     "kind": "quest-event",
+     "script": "Q00122_OminousNews",
+     "event": "31979-02.htm",
+     "quest": 122,
+     "to": "Q00122_OminousNews/31979-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00122_OminousNews/31979-00.htm": {
+   "file": "Q00122_OminousNews/31979-00.htm",
+   "quest": 122,
+   "text": "Seer Moira: Are you qualified to receive the blessings of Pa'agrio? (Characters must have reached level 20 to undertake this quest.)",
+   "header": "Seer Moira",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 20)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00122_OminousNews/31979-03.html": {
+   "file": "Q00122_OminousNews/31979-03.html",
+   "quest": 122,
+   "text": "Seer Moira: Why are you still wandering around here? Follow the path in the western part of the village until you meet someone who'll stop your wandering. His name is Karuda. Don't forget.",
+   "header": "Seer Moira",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/31979-01.html": {
+   "file": "Q00415_PathOfTheOrcMonk/31979-01.html",
+   "quest": 415,
+   "text": "Seer Moira: What? You met Khavatari Aren? Docara Pa'agrio! Surprising indeed! I can't believe that you, a renegade Orc, met Khavatari Aren..... If you really met him, then prove it!",
+   "header": "Seer Moira",
+   "when": [
+    "state STARTED; memo 5; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "\"Let me tell you about the Culmination of Kabart.\"",
+     "bypass": "Quest Q00415_PathOfTheOrcMonk 31979-02.html",
+     "kind": "quest-event",
+     "script": "Q00415_PathOfTheOrcMonk",
+     "event": "31979-02.html",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/31979-02.html"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/31979-01.html": {
+   "file": "Q00416_PathOfTheOrcShaman/31979-01.html",
+   "quest": 416,
+   "text": "Seer Moira: Congratulations, young Orc, on taking the first step in this world! I want you to learn here in Schuttgart how to inherit the wisdom of the souls! Behold this Black Leopard in front of me! He's the Gandi Totem Spirit, the wisest of all Totem Spirits! Talk to him and receive his knowledg…",
+   "header": "Seer Moira",
+   "when": [
+    "state STARTED; memo 100"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/31979-02.html": {
+   "file": "Q00416_PathOfTheOrcShaman/31979-02.html",
+   "quest": 416,
+   "text": "Seer Moira: Look at the Black Leopard in front of me! He's the Gandi Totem Spirit, the wisest of all the Totem Spirits! Talk to him and receive his knowledge! He'll help you!",
+   "header": "Seer Moira",
+   "when": [
+    "state STARTED; memoState >= 101; memoState < 108"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/31979-03.html": {
+   "file": "Q00416_PathOfTheOrcShaman/31979-03.html",
+   "quest": 416,
+   "text": "Seer Moira: I've watched you, young Orc... You learned the Language of Flame from the Hestui Totem Spirit and the wisdom of souls from the Gandi Totem Spirit. You're now a legitimate Orc Shaman! I'll give you this Mask of Shaman as proof. Take it to the High Prefect and you'll be able to transfer c…",
+   "header": "Seer Moira",
+   "when": [
+    "state STARTED; memo 110; !((memoState >= 101) && (memoState < 108))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00113_StatusOfTheBeaconTower/31979-02.htm": {
+   "file": "Q00113_StatusOfTheBeaconTower/31979-02.htm",
+   "quest": 113,
+   "text": "Seer Moira: I don't know why, but the power from the Beacon Tower is weakening. They must be unable to light it! Take this box containing the power of fire to Beacon Tower Manager Torrant .",
+   "header": "Seer Moira",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00122_OminousNews/31979-02.htm": {
+   "file": "Q00122_OminousNews/31979-02.htm",
+   "quest": 122,
+   "text": "Seer Moira: If you follow the path from the western part of the village, you'll meet someone who'll stop your wandering. His name is Karuda . When you meet him, tell him to wait.",
+   "header": "Seer Moira",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/31979-02.html": {
+   "file": "Q00415_PathOfTheOrcMonk/31979-02.html",
+   "quest": 415,
+   "text": "Cabart's Geukeu What is Cabart's Geukeu?",
+   "links": [
+    {
+     "text": "Fairy Tale",
+     "bypass": "Quest Q00415_PathOfTheOrcMonk 31979-03.html",
+     "kind": "quest-event",
+     "script": "Q00415_PathOfTheOrcMonk",
+     "event": "31979-03.html",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/31979-03.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Harmony",
+     "bypass": "Quest Q00415_PathOfTheOrcMonk 31979-04.html",
+     "kind": "quest-event",
+     "script": "Q00415_PathOfTheOrcMonk",
+     "event": "31979-04.html",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/31979-04.html",
+     "effect": "cond:20"
+    },
+    {
+     "text": "Enforcement",
+     "bypass": "Quest Q00415_PathOfTheOrcMonk 31979-04.html",
+     "kind": "quest-event",
+     "script": "Q00415_PathOfTheOrcMonk",
+     "event": "31979-04.html",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/31979-04.html",
+     "effect": "cond:20"
+    }
+   ]
+  },
+  "Q00415_PathOfTheOrcMonk/31979-03.html": {
+   "file": "Q00415_PathOfTheOrcMonk/31979-03.html",
+   "quest": 415,
+   "text": "Seer Moira: You've done well! You're qualified, alright! Please accept this Khavatari Totem. If you take this to the High Prefect, he'll bestow the title of Orc Monk upon you.",
+   "header": "Seer Moira",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/31979-04.html": {
+   "file": "Q00415_PathOfTheOrcMonk/31979-04.html",
+   "quest": 415,
+   "text": "Seer Moira: What? Did you really meet Khavatari Aren? Your answer sounds good, but it's the answer of someone who doesn't know what he is! Come back after you've given it more thought.",
+   "header": "Seer Moira",
+   "sets": {
+    "cond": "20"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Status of the Beacon Tower]",
+     "bypass": "npc_%objectId%_Quest Q00113_StatusOfTheBeaconTower",
+     "kind": "quest",
+     "quest": 113,
+     "to": "Q00113_StatusOfTheBeaconTower/31979-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Status of the Beacon Tower (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00113_StatusOfTheBeaconTower",
+     "kind": "quest",
+     "quest": 113,
+     "to": "Q00113_StatusOfTheBeaconTower/31979-03.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Ominous News]",
+     "bypass": "npc_%objectId%_Quest Q00122_OminousNews",
+     "kind": "quest",
+     "quest": 122,
+     "to": "Q00122_OminousNews/31979-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Ominous News (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00122_OminousNews",
+     "kind": "quest",
+     "quest": 122,
+     "to": "Q00122_OminousNews/31979-03.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Orc Monk (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00415_PathOfTheOrcMonk",
+     "kind": "quest",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/31979-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Orc Shaman (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00416_PathOfTheOrcShaman",
+     "kind": "quest",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/31979-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

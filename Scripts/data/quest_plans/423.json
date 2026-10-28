@@ -2,7 +2,7 @@
  "id": 423,
  "name": "Take Your Best Shot!",
  "version": 1,
- "generated": "2026-10-27T11:15:39.905Z",
+ "generated": "2026-10-27T18:19:14.628Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 82,
@@ -38,11 +38,12 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
   }
  ],
- "expectedMin": 3,
+ "expectedMin": 4,
  "refLevel": 82,
  "steps": [
   {
@@ -181,8 +182,27 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:32740",
+   "key": "c1:manual",
    "cond": 1,
+   "kind": "special",
+   "text": "step 1",
+   "reasons": [
+    "engine-manual"
+   ],
+   "engineWhy": "the monsters (18862) only appear through the quest script and no trigger is known",
+   "expectedSec": 60,
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:32740",
+   "cond": 2,
    "kind": "talk",
    "to": "end",
    "links": [],
@@ -352,7 +372,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2
    ]
   }

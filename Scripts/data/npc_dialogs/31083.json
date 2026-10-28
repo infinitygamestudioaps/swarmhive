@@ -1,0 +1,126 @@
+{
+ "npcId": 31083,
+ "name": "Priest of Dawn",
+ "title": "",
+ "type": "L2DawnPriest",
+ "generated": "2026-10-27T18:18:03.135Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Teleports/HuntingGroundsTeleport/low_oren.htm": {
+   "file": "ai/npc/Teleports/HuntingGroundsTeleport/low_oren.htm",
+   "quest": null,
+   "text": "&$556;",
+   "when": [
+    "check"
+   ],
+   "links": [
+    {
+     "text": "Catacomb of the Apostate - 3000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 74672 78032 -3392 3000",
+     "kind": "other"
+    }
+   ]
+  },
+  "ai/npc/Teleports/HuntingGroundsTeleport/hg_oren.htm": {
+   "file": "ai/npc/Teleports/HuntingGroundsTeleport/hg_oren.htm",
+   "quest": null,
+   "text": "&$556;",
+   "when": [
+    "NOT check"
+   ],
+   "links": [
+    {
+     "text": "Catacomb of the Apostate - 5000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 74672 78032 -3392 5000",
+     "kind": "other"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Purchase Record of the Seven Signs. | Buy | Participation in the Seven Signs | Seal of Avarice | \"I wish to fight for the Seal of Avarice.\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Participation in the Seven Signs",
+   "n": 35,
+   "inDatapack": false,
+   "from": [
+    "Priest of Dawn: Glory to the twilight empire! The Seal of De"
+   ],
+   "to": [
+    "[Participation in the Seven Signs] Do you wish to participat"
+   ]
+  },
+  {
+   "text": "Seal of Avarice",
+   "n": 35,
+   "inDatapack": false,
+   "from": [
+    "[Participation in the Seven Signs] Do you wish to participat"
+   ],
+   "to": [
+    "[Seal of Avarice] The Seal of Avarice bestows the following "
+   ]
+  },
+  {
+   "text": "\"I wish to fight for the Seal of Avarice.\"",
+   "n": 35,
+   "inDatapack": false,
+   "from": [
+    "[Seal of Avarice] The Seal of Avarice bestows the following "
+   ],
+   "to": [
+    "Your application has been accepted. Congratulations! You're "
+   ]
+  },
+  {
+   "text": "Purchase Record of the Seven Signs.",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "Priest of Dawn: Glory to the twilight empire! The Seal of De"
+   ],
+   "to": [
+    "[Purchase the Record of the Seven Seals] The Record of Seven"
+   ]
+  },
+  {
+   "text": "Buy",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "[Purchase the Record of the Seven Seals] The Record of Seven"
+   ],
+   "to": []
+  }
+ ]
+}

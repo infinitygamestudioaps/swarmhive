@@ -23,6 +23,35 @@ archer). **Replaced starter gear** in the box says what happens to the piece an 
 in Giran, destroyed when the shop refuses it), *destroy it*, or *keep it in the bag* (then the junk sale leaves starter pieces alone too).
 Quest items, enchanted and S.A. items are never touched.
 
+## Distributors
+
+**What they do.** A distributor is a gear mule that waits in Giran with spare gear in its bag. When a character's gear-up needs a piece,
+the distributor hands it over (reserved, so two characters never wait for the same piece) before anything is bought. Add them in the box:
+**Distributors: + add…** (the "distributors" switch under *Before buying, use* must be on).
+
+**The grades each one holds.** Under the Distributors row every distributor has a grade picker: no-grade, D, C, B, A, S, S80, S84 (as the
+gear data names them), and optionally *weapons / armors / jewels* (nothing ticked = every kind). A distributor without a grade gets nothing
+passed to it. Saved in `Scripts/data/gear_sources.json` → `distributors.grades` / `kinds`.
+
+**How they get stocked.** Two ways:
+1. **By hand:** the Trade page — pick the items and the distributor as the receiver.
+2. **Through the collector** (tester request 2026-10-27, owner "Yes"): switch on **Collector passes gear to the distributors** (default
+   **OFF**: nothing changes until you switch it on). Then mark the gear:
+   - in a character's bag, tap an item → *otherwise* → **give to the distributor for its grade** (next to *give to the collector*), or
+   - in this box, *Other replaced gear* → a grade → **to the distributor for its grade** (pieces an upgrade replaced).
+
+   The marked piece goes to the collector exactly like *give to the collector* (the loot hand-over / the old-gear hand-over, when both
+   stand idle in the same town). The collector, idle in Giran, then hands each piece to the **nearest idle distributor whose grades match**,
+   with the normal hand-over (it walks over, trades only within reach and never through a wall, never during a raid, mission, trade or fight).
+   No distributor holds that grade (or none is free) = the piece **stays with the collector**; the collector's note and this box say why.
+   While the switch is on, the collector's "store the bag" leaves those marked pieces in its bag.
+
+**Never:** a piece +10 or higher, a worn piece, a quest item, or gear you did not mark. **Nothing is sold.**
+
+**Watching it.** Each distributor row shows its grades and **waiting for: N** (pieces the collector holds for it); below it, what stays
+with the collector and why, and the last hand-overs. Notes on both sides ("collector: gave Mithril Ring (D) to DistD" /
+"distributor: got Mithril Ring (D) from the collector …") and a `GEARPASS` line in `Logs/handover.log`.
+
 > New to the words used here (grade, Common item, S.A., set bonus, supply run)? See the [glossary](../06-glossary.md).
 > The old per-role Gear tab (2026-10-06) is what you see until the dashboard server has been restarted once; its choices keep working
 > (they show up in the planner as "from the old *role* choice").

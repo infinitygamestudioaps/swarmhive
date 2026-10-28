@@ -1,0 +1,151 @@
+{
+ "npcId": 32568,
+ "name": "Unidentified Body",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.387Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32568.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "192": {
+   "name": "Seven Signs, Series of Doubt",
+   "listText": [
+    "[Seven Signs, Series of Doubt]",
+    "[Seven Signs, Series of Doubt (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00192_SevenSignsSeriesOfDoubt/32568-04.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00192_SevenSignsSeriesOfDoubt/32568-04.html",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00192_SevenSignsSeriesOfDoubt/32568-01.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00192_SevenSignsSeriesOfDoubt/32568-03.html",
+     "when": "state STARTED; cond <5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32568.htm": {
+   "file": "default/32568.htm",
+   "quest": null,
+   "text": "Unidentifiable Body: You've found the body of a Dwarf. It's completely unidentifiable due the severe mauling and structural damage the corpse has undergone. However, the lack of decay indicates that whoever it was, they were killed recently. There's some strange energy emanating from the corpse. Hm…",
+   "header": "Unidentifiable Body",
+   "links": [
+    {
+     "text": "Examine the body.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/32568-04.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/32568-04.html",
+   "quest": 192,
+   "text": "Unidentifiable Body: You see the mauled body of a Dwarf. Although the lack of decay indicates recent death, the body is too damaged to easily identify who it was. (Only characters who are above level 79 and in the process of the Seven Signs and Series of Unknown Deaths quests may undertake this que…",
+   "header": "Unidentifiable Body",
+   "when": [
+    "state COMPLETED",
+    "state CREATED"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/32568-01.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/32568-01.html",
+   "quest": 192,
+   "text": "Unidentifiable Body: You search the body in an attempt to find out who the person was, but come up empty. Hmm, the right hand looks clenched. Maybe there's something in its grip worth noting.",
+   "header": "Unidentifiable Body",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "links": [
+    {
+     "text": "Prise the fingers open.",
+     "bypass": "Quest Q00192_SevenSignsSeriesOfDoubt 32568-02.html",
+     "kind": "quest-event",
+     "script": "Q00192_SevenSignsSeriesOfDoubt",
+     "event": "32568-02.html",
+     "quest": 192,
+     "to": "Q00192_SevenSignsSeriesOfDoubt/32568-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/32568-03.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/32568-03.html",
+   "quest": 192,
+   "text": "Unidentifiable Body: You see the mauled body of a Dwarf. Although the lack of decay indicates recent death, the body is too damaged to easily identify who it was, no matter how closely you examine it.",
+   "header": "Unidentifiable Body",
+   "when": [
+    "state STARTED; cond <5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/32568-02.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/32568-02.html",
+   "quest": 192,
+   "text": "Unidentifiable Body: You force the fingers open, and find a blood-stained necklace nestled within. Turning it over, you find a simple \"J\" engraving on the reverse of the necklace. J? Jacob? Is this him? Take the necklace.",
+   "header": "Unidentifiable Body",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Series of Doubt]",
+     "bypass": "npc_%objectId%_Quest Q00192_SevenSignsSeriesOfDoubt",
+     "kind": "quest",
+     "quest": 192,
+     "to": "Q00192_SevenSignsSeriesOfDoubt/32568-04.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, Series of Doubt (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00192_SevenSignsSeriesOfDoubt",
+     "kind": "quest",
+     "quest": 192,
+     "to": "Q00192_SevenSignsSeriesOfDoubt/32568-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

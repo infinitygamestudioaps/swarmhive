@@ -2,7 +2,7 @@
  "id": 418,
  "name": "Path Of The Artisan",
  "version": 1,
- "generated": "2026-10-27T11:15:39.789Z",
+ "generated": "2026-10-27T18:19:14.540Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 18,
@@ -24,16 +24,17 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
   },
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 1
+   "step": 9
   }
  ],
- "expectedMin": 25,
+ "expectedMin": 41,
  "refLevel": 18,
  "steps": [
   {
@@ -263,6 +264,1599 @@
    "i": 1,
    "key": "c1:hunt",
    "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20017,
+     "name": "Vuku Orc Fighter",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    },
+    {
+     "id": 20389,
+     "name": "Boogle Ratman",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 20390,
+     "name": "Boogle Ratman Leader",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1636,
+     "name": "Boogle Ratman Tooth",
+     "n": 10,
+     "from": [
+      {
+       "id": 20389,
+       "name": "Boogle Ratman",
+       "chance": 70
+      }
+     ]
+    },
+    {
+     "id": 1637,
+     "name": "Boogle Ratman Leader's Tooth",
+     "n": 2,
+     "from": [
+      {
+       "id": 20390,
+       "name": "Boogle Ratman Leader",
+       "chance": 50
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Vuku Orc Fighter, Boogle Ratman, Boogle Ratman Leader for Boogle Ratman Tooth x10, Boogle Ratman Leader's Tooth x2",
+   "places": [
+    {
+     "mobs": [
+      20389
+     ],
+     "items": [
+      1636
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "coalmines-1-left-d",
+      "name": "Abandoned Coal Mines: Lower pit, left: Akaste Bone Warlord room",
+      "at": [
+       145370,
+       -175589,
+       -1572
+      ],
+      "radius": 1733,
+      "levels": [
+       14,
+       17
+      ],
+      "count": 3,
+      "region": "Abandoned Coal Mines",
+      "atlasKey": "room:coalmines-1-left-d",
+      "status": "ok",
+      "sec": 251,
+      "danger": 17,
+      "reachable": true,
+      "score": -13.816666666666666,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "coalmines-1-left-c",
+        "name": "Abandoned Coal Mines: Lower pit, left: Akaste Bone Warlord room",
+        "at": [
+         143705,
+         -170626,
+         -1777
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "coalmines-1-left-a",
+        "name": "Abandoned Coal Mines: Lower pit, left: Mineshaft Bat room",
+        "at": [
+         141485,
+         -170368,
+         -1777
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "coalmines-1-left-b",
+        "name": "Abandoned Coal Mines: Lower pit, left: Mineshaft Bat room",
+        "at": [
+         141442,
+         -172185,
+         -1776
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:coalmines-1-left-d",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 21723,
+      "sec": 251,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Abandoned Coal Mines",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Abandoned Coal Mines",
+        "link": "abandoned coal mines",
+        "price": 690,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 21723,
+        "how": "dungeon-rooms",
+        "danger": 17
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        139714,
+        -177456,
+        -1536
+       ],
+       [
+        139714,
+        -177456,
+        -1536
+       ],
+       [
+        139720,
+        -176456,
+        -1536
+       ],
+       [
+        139560,
+        -175464,
+        -1640
+       ],
+       [
+        139512,
+        -175048,
+        -1696
+       ],
+       [
+        139208,
+        -174744,
+        -1728
+       ],
+       [
+        138856,
+        -174520,
+        -1728
+       ],
+       [
+        137864,
+        -174008,
+        -1776
+       ],
+       [
+        137704,
+        -173848,
+        -1776
+       ],
+       [
+        137416,
+        -173480,
+        -1776
+       ],
+       [
+        137144,
+        -172488,
+        -1776
+       ],
+       [
+        136232,
+        -171576,
+        -1776
+       ],
+       [
+        136184,
+        -171432,
+        -1776
+       ],
+       [
+        136232,
+        -170648,
+        -1728
+       ],
+       [
+        136552,
+        -170072,
+        -1728
+       ],
+       [
+        136808,
+        -169896,
+        -1728
+       ],
+       [
+        137016,
+        -169800,
+        -1688
+       ],
+       [
+        137304,
+        -169704,
+        -1648
+       ],
+       [
+        138296,
+        -169688,
+        -1536
+       ],
+       [
+        139176,
+        -169672,
+        -1552
+       ],
+       [
+        139816,
+        -169704,
+        -1680
+       ],
+       [
+        140040,
+        -169848,
+        -1776
+       ],
+       [
+        141032,
+        -170840,
+        -1776
+       ],
+       [
+        142024,
+        -171832,
+        -1776
+       ],
+       [
+        143016,
+        -171832,
+        -1776
+       ],
+       [
+        144008,
+        -171832,
+        -1776
+       ],
+       [
+        144280,
+        -171832,
+        -1768
+       ],
+       [
+        144904,
+        -172824,
+        -1552
+       ],
+       [
+        144904,
+        -173816,
+        -1520
+       ],
+       [
+        144904,
+        -173960,
+        -1520
+       ],
+       [
+        145368,
+        -174952,
+        -1520
+       ],
+       [
+        145368,
+        -175592,
+        -1520
+       ]
+      ],
+      "maxDanger": 17,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 17,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20390
+     ],
+     "items": [
+      1637
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "coalmines-1-left-e",
+      "name": "Abandoned Coal Mines: Lower pit, left: Corpse Candle room",
+      "at": [
+       151600,
+       -174740,
+       -1777
+      ],
+      "radius": 707,
+      "levels": [
+       17,
+       19
+      ],
+      "count": 2,
+      "region": "Abandoned Coal Mines",
+      "atlasKey": "room:coalmines-1-left-e",
+      "status": "ok",
+      "sec": 303,
+      "danger": 0,
+      "reachable": true,
+      "score": -6.95,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "coalmines-2-left-c",
+        "name": "Abandoned Coal Mines: Middle terraces, left: Boogle Ratman Leader room",
+        "at": [
+         142830,
+         -177867,
+         366
+        ],
+        "count": 4,
+        "status": "unverified"
+       },
+       {
+        "kind": "room",
+        "id": "coalmines-3-left-a",
+        "name": "Abandoned Coal Mines: Upper terraces, left: Boogle Ratman Leader room",
+        "at": [
+         147395,
+         -174202,
+         2216
+        ],
+        "count": 3,
+        "status": "unverified"
+       },
+       {
+        "kind": "room",
+        "id": "coalmines-3-right-a",
+        "name": "Abandoned Coal Mines: Upper terraces, right: Corpse Candle room",
+        "at": [
+         147960,
+         -169685,
+         2010
+        ],
+        "count": 3,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:coalmines-1-left-e",
+      "status": "ok",
+      "flags": [
+       "long-walk"
+      ],
+      "from": ".schuttgart",
+      "length": 27912,
+      "sec": 303,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Abandoned Coal Mines",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Abandoned Coal Mines",
+        "link": "abandoned coal mines",
+        "price": 690,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 27912,
+        "how": "dungeon-rooms",
+        "danger": 34
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        139714,
+        -177456,
+        -1536
+       ],
+       [
+        139714,
+        -177456,
+        -1536
+       ],
+       [
+        139720,
+        -176456,
+        -1536
+       ],
+       [
+        139560,
+        -175464,
+        -1640
+       ],
+       [
+        139512,
+        -175048,
+        -1696
+       ],
+       [
+        139208,
+        -174744,
+        -1728
+       ],
+       [
+        138856,
+        -174520,
+        -1728
+       ],
+       [
+        137864,
+        -174008,
+        -1776
+       ],
+       [
+        137704,
+        -173848,
+        -1776
+       ],
+       [
+        137416,
+        -173480,
+        -1776
+       ],
+       [
+        137144,
+        -172488,
+        -1776
+       ],
+       [
+        136232,
+        -171576,
+        -1776
+       ],
+       [
+        136184,
+        -171432,
+        -1776
+       ],
+       [
+        136232,
+        -170648,
+        -1728
+       ],
+       [
+        136552,
+        -170072,
+        -1728
+       ],
+       [
+        136808,
+        -169896,
+        -1728
+       ],
+       [
+        137016,
+        -169800,
+        -1688
+       ],
+       [
+        137304,
+        -169704,
+        -1648
+       ],
+       [
+        138296,
+        -169688,
+        -1536
+       ],
+       [
+        139176,
+        -169672,
+        -1552
+       ],
+       [
+        139816,
+        -169704,
+        -1680
+       ],
+       [
+        140040,
+        -169848,
+        -1776
+       ],
+       [
+        141032,
+        -170840,
+        -1776
+       ],
+       [
+        142024,
+        -171832,
+        -1776
+       ],
+       [
+        143016,
+        -171832,
+        -1776
+       ],
+       [
+        144008,
+        -171832,
+        -1776
+       ],
+       [
+        144280,
+        -171832,
+        -1768
+       ],
+       [
+        144904,
+        -172824,
+        -1552
+       ],
+       [
+        144904,
+        -173816,
+        -1520
+       ],
+       [
+        144904,
+        -173960,
+        -1520
+       ],
+       [
+        144968,
+        -174072,
+        -1520
+       ],
+       [
+        145960,
+        -174744,
+        -1520
+       ],
+       [
+        146952,
+        -175240,
+        -1520
+       ],
+       [
+        147224,
+        -175512,
+        -1520
+       ],
+       [
+        147320,
+        -175576,
+        -1520
+       ],
+       [
+        148312,
+        -175576,
+        -1520
+       ],
+       [
+        149304,
+        -175576,
+        -1520
+       ],
+       [
+        150296,
+        -175576,
+        -1528
+       ],
+       [
+        150776,
+        -175752,
+        -1576
+       ],
+       [
+        150920,
+        -175768,
+        -1648
+       ],
+       [
+        151080,
+        -175752,
+        -1704
+       ],
+       [
+        151272,
+        -175672,
+        -1776
+       ],
+       [
+        151608,
+        -174744,
+        -1776
+       ]
+      ],
+      "maxDanger": 34,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 34,
+       "dangerVsLevel": 16,
+       "aggro": [
+        {
+         "name": "Succubus Queen",
+         "lv": 34,
+         "n": 1
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "coalmines-1-left-d",
+    "name": "Abandoned Coal Mines: Lower pit, left: Akaste Bone Warlord room",
+    "at": [
+     145370,
+     -175589,
+     -1572
+    ],
+    "radius": 1733,
+    "levels": [
+     14,
+     17
+    ],
+    "count": 3,
+    "region": "Abandoned Coal Mines",
+    "atlasKey": "room:coalmines-1-left-d",
+    "status": "ok",
+    "sec": 251,
+    "danger": 17,
+    "reachable": true,
+    "score": -13.816666666666666,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "coalmines-1-left-c",
+      "name": "Abandoned Coal Mines: Lower pit, left: Akaste Bone Warlord room",
+      "at": [
+       143705,
+       -170626,
+       -1777
+      ],
+      "count": 2,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "coalmines-1-left-a",
+      "name": "Abandoned Coal Mines: Lower pit, left: Mineshaft Bat room",
+      "at": [
+       141485,
+       -170368,
+       -1777
+      ],
+      "count": 1,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "coalmines-1-left-b",
+      "name": "Abandoned Coal Mines: Lower pit, left: Mineshaft Bat room",
+      "at": [
+       141442,
+       -172185,
+       -1776
+      ],
+      "count": 1,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:coalmines-1-left-d",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 21723,
+    "sec": 251,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Abandoned Coal Mines",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Dwarven",
+      "desc": "Dwarven Village -> Abandoned Coal Mines",
+      "link": "abandoned coal mines",
+      "price": 690,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 21723,
+      "how": "dungeon-rooms",
+      "danger": 17
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      139714,
+      -177456,
+      -1536
+     ],
+     [
+      139714,
+      -177456,
+      -1536
+     ],
+     [
+      139720,
+      -176456,
+      -1536
+     ],
+     [
+      139560,
+      -175464,
+      -1640
+     ],
+     [
+      139512,
+      -175048,
+      -1696
+     ],
+     [
+      139208,
+      -174744,
+      -1728
+     ],
+     [
+      138856,
+      -174520,
+      -1728
+     ],
+     [
+      137864,
+      -174008,
+      -1776
+     ],
+     [
+      137704,
+      -173848,
+      -1776
+     ],
+     [
+      137416,
+      -173480,
+      -1776
+     ],
+     [
+      137144,
+      -172488,
+      -1776
+     ],
+     [
+      136232,
+      -171576,
+      -1776
+     ],
+     [
+      136184,
+      -171432,
+      -1776
+     ],
+     [
+      136232,
+      -170648,
+      -1728
+     ],
+     [
+      136552,
+      -170072,
+      -1728
+     ],
+     [
+      136808,
+      -169896,
+      -1728
+     ],
+     [
+      137016,
+      -169800,
+      -1688
+     ],
+     [
+      137304,
+      -169704,
+      -1648
+     ],
+     [
+      138296,
+      -169688,
+      -1536
+     ],
+     [
+      139176,
+      -169672,
+      -1552
+     ],
+     [
+      139816,
+      -169704,
+      -1680
+     ],
+     [
+      140040,
+      -169848,
+      -1776
+     ],
+     [
+      141032,
+      -170840,
+      -1776
+     ],
+     [
+      142024,
+      -171832,
+      -1776
+     ],
+     [
+      143016,
+      -171832,
+      -1776
+     ],
+     [
+      144008,
+      -171832,
+      -1776
+     ],
+     [
+      144280,
+      -171832,
+      -1768
+     ],
+     [
+      144904,
+      -172824,
+      -1552
+     ],
+     [
+      144904,
+      -173816,
+      -1520
+     ],
+     [
+      144904,
+      -173960,
+      -1520
+     ],
+     [
+      145368,
+      -174952,
+      -1520
+     ],
+     [
+      145368,
+      -175592,
+      -1520
+     ]
+    ],
+    "maxDanger": 17,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 17,
+     "dangerVsLevel": -1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 626,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30527",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "Gludio Territory"
+   ],
+   "npc": {
+    "id": 30527,
+    "name": "Silvera",
+    "title": "Blacksmith",
+    "town": "Dwarven Village",
+    "at": [
+     115271,
+     -182692,
+     -1440
+    ],
+    "alt": []
+   },
+   "text": "Talk to Silvera",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30527@115271,-182692",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6201,
+    "sec": 97,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6201,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178440,
+      -920
+     ],
+     [
+      115288,
+      -178712,
+      -920
+     ],
+     [
+      115336,
+      -178888,
+      -936
+     ],
+     [
+      115368,
+      -178920,
+      -944
+     ],
+     [
+      115384,
+      -178936,
+      -944
+     ],
+     [
+      115576,
+      -179128,
+      -968
+     ],
+     [
+      115768,
+      -179320,
+      -984
+     ],
+     [
+      116024,
+      -179384,
+      -1032
+     ],
+     [
+      116280,
+      -179448,
+      -1088
+     ],
+     [
+      116488,
+      -179576,
+      -1120
+     ],
+     [
+      116680,
+      -179768,
+      -1144
+     ],
+     [
+      116728,
+      -179976,
+      -1168
+     ],
+     [
+      116680,
+      -180248,
+      -1192
+     ],
+     [
+      116712,
+      -180520,
+      -1240
+     ],
+     [
+      116712,
+      -180792,
+      -1288
+     ],
+     [
+      116664,
+      -181064,
+      -1344
+     ],
+     [
+      116648,
+      -181336,
+      -1392
+     ],
+     [
+      116648,
+      -181400,
+      -1400
+     ],
+     [
+      116616,
+      -181672,
+      -1440
+     ],
+     [
+      116584,
+      -181944,
+      -1488
+     ],
+     [
+      116392,
+      -182136,
+      -1488
+     ],
+     [
+      116200,
+      -182328,
+      -1488
+     ],
+     [
+      116088,
+      -182440,
+      -1488
+     ],
+     [
+      115992,
+      -182536,
+      -1472
+     ],
+     [
+      115768,
+      -182696,
+      -1448
+     ],
+     [
+      115496,
+      -182680,
+      -1440
+     ],
+     [
+      115272,
+      -182696,
+      -1440
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 122,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:30317",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "Just give me the orders"
+   ],
+   "npc": {
+    "id": 30317,
+    "name": "Kluto",
+    "title": "Blacksmith",
+    "town": "Gludin",
+    "at": [
+     -83172,
+     155483,
+     -3174
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kluto",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30317@-83172,155483",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 6343,
+    "sec": 73,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 6343,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81224,
+      150552,
+      -3112
+     ],
+     [
+      -81720,
+      151048,
+      -3116
+     ],
+     [
+      -82216,
+      151544,
+      -3120
+     ],
+     [
+      -82616,
+      151672,
+      -3120
+     ],
+     [
+      -82776,
+      151752,
+      -3120
+     ],
+     [
+      -82912,
+      152248,
+      -3144
+     ],
+     [
+      -83048,
+      152744,
+      -3168
+     ],
+     [
+      -83048,
+      153736,
+      -3168
+     ],
+     [
+      -83048,
+      154728,
+      -3168
+     ],
+     [
+      -83048,
+      155320,
+      -3176
+     ],
+     [
+      -83176,
+      155480,
+      -3176
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:deliver:30298",
+   "cond": 4,
+   "kind": "deliver",
+   "to": 5,
+   "links": [
+    "I will find it"
+   ],
+   "npc": {
+    "id": 30298,
+    "name": "Pinter",
+    "title": "Blacksmith",
+    "town": "Gludio",
+    "at": [
+     -15349,
+     124763,
+     -3113
+    ],
+    "alt": []
+   },
+   "text": "Bring Kluto's Letter to Pinter",
+   "needs": [
+    {
+     "id": 1638,
+     "name": "Kluto's Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30298@-15349,124763",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5154,
+    "sec": 63,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 5154,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14360,
+      122904,
+      -3112
+     ],
+     [
+      -14408,
+      123160,
+      -3112
+     ],
+     [
+      -14408,
+      123432,
+      -3112
+     ],
+     [
+      -14504,
+      123608,
+      -3112
+     ],
+     [
+      -14696,
+      123800,
+      -3112
+     ],
+     [
+      -14952,
+      123896,
+      -3112
+     ],
+     [
+      -15176,
+      123976,
+      -3112
+     ],
+     [
+      -15272,
+      124152,
+      -3112
+     ],
+     [
+      -15160,
+      124296,
+      -3112
+     ],
+     [
+      -15288,
+      124312,
+      -3112
+     ],
+     [
+      -15304,
+      124568,
+      -3112
+     ],
+     [
+      -15352,
+      124760,
+      -3112
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c6:hunt",
+   "cond": 6,
    "kind": "hunt",
    "to": null,
    "monsters": [
@@ -1422,24 +3016,455 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
+    6
    ]
   },
   {
-   "i": 2,
-   "key": "c1:deliver:30317",
-   "cond": 1,
+   "i": 6,
+   "key": "c6:deliver:30298",
+   "cond": 6,
+   "kind": "deliver",
+   "to": 7,
+   "links": [
+    "Look here, shouldn't my efforts receive some kind of compensation?"
+   ],
+   "npc": {
+    "id": 30298,
+    "name": "Pinter",
+    "title": "Blacksmith",
+    "town": "Gludio",
+    "at": [
+     -15349,
+     124763,
+     -3113
+    ],
+    "alt": []
+   },
+   "text": "Bring Footprint of Thief, Stolen Secret Box to Pinter",
+   "needs": [
+    {
+     "id": 1639,
+     "name": "Footprint of Thief",
+     "n": 1
+    },
+    {
+     "id": 1640,
+     "name": "Stolen Secret Box",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30298@-15349,124763",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5154,
+    "sec": 63,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 5154,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14360,
+      122904,
+      -3112
+     ],
+     [
+      -14408,
+      123160,
+      -3112
+     ],
+     [
+      -14408,
+      123432,
+      -3112
+     ],
+     [
+      -14504,
+      123608,
+      -3112
+     ],
+     [
+      -14696,
+      123800,
+      -3112
+     ],
+     [
+      -14952,
+      123896,
+      -3112
+     ],
+     [
+      -15176,
+      123976,
+      -3112
+     ],
+     [
+      -15272,
+      124152,
+      -3112
+     ],
+     [
+      -15160,
+      124296,
+      -3112
+     ],
+     [
+      -15288,
+      124312,
+      -3112
+     ],
+     [
+      -15304,
+      124568,
+      -3112
+     ],
+     [
+      -15352,
+      124760,
+      -3112
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c7:talk:30527",
+   "cond": 7,
+   "kind": "talk",
+   "to": 8,
+   "links": [
+    "Schuttgart Territory"
+   ],
+   "npc": {
+    "id": 30527,
+    "name": "Silvera",
+    "title": "Blacksmith",
+    "town": "Dwarven Village",
+    "at": [
+     115271,
+     -182692,
+     -1440
+    ],
+    "alt": []
+   },
+   "text": "Talk to Silvera",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30527@115271,-182692",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6201,
+    "sec": 97,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6201,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178440,
+      -920
+     ],
+     [
+      115288,
+      -178712,
+      -920
+     ],
+     [
+      115336,
+      -178888,
+      -936
+     ],
+     [
+      115368,
+      -178920,
+      -944
+     ],
+     [
+      115384,
+      -178936,
+      -944
+     ],
+     [
+      115576,
+      -179128,
+      -968
+     ],
+     [
+      115768,
+      -179320,
+      -984
+     ],
+     [
+      116024,
+      -179384,
+      -1032
+     ],
+     [
+      116280,
+      -179448,
+      -1088
+     ],
+     [
+      116488,
+      -179576,
+      -1120
+     ],
+     [
+      116680,
+      -179768,
+      -1144
+     ],
+     [
+      116728,
+      -179976,
+      -1168
+     ],
+     [
+      116680,
+      -180248,
+      -1192
+     ],
+     [
+      116712,
+      -180520,
+      -1240
+     ],
+     [
+      116712,
+      -180792,
+      -1288
+     ],
+     [
+      116664,
+      -181064,
+      -1344
+     ],
+     [
+      116648,
+      -181336,
+      -1392
+     ],
+     [
+      116648,
+      -181400,
+      -1400
+     ],
+     [
+      116616,
+      -181672,
+      -1440
+     ],
+     [
+      116584,
+      -181944,
+      -1488
+     ],
+     [
+      116392,
+      -182136,
+      -1488
+     ],
+     [
+      116200,
+      -182328,
+      -1488
+     ],
+     [
+      116088,
+      -182440,
+      -1488
+     ],
+     [
+      115992,
+      -182536,
+      -1472
+     ],
+     [
+      115768,
+      -182696,
+      -1448
+     ],
+     [
+      115496,
+      -182680,
+      -1440
+     ],
+     [
+      115272,
+      -182696,
+      -1440
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 122,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c8:deliver:30317",
+   "cond": 8,
    "kind": "deliver",
    "to": "end",
    "links": [
@@ -1578,13 +3603,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
     8,
     9,
     10,
@@ -1593,37 +3611,37 @@
    ]
   },
   {
-   "i": 3,
-   "key": "c1:talk:30531",
-   "cond": 1,
+   "i": 9,
+   "key": "c8:talk:32052",
+   "cond": 8,
    "kind": "talk",
-   "to": "end",
+   "to": 9,
    "links": [
-    "\"I understand.\""
+    "\"I'm ready.\""
    ],
    "npc": {
-    "id": 30531,
-    "name": "Lockirin",
-    "title": "Iron Gate's",
+    "id": 32052,
+    "name": "Obi",
+    "title": "Railroad Worker",
     "town": "Dwarven Village",
     "at": [
-     116226,
-     -178529,
-     -944
+     113518,
+     -153755,
+     -1528
     ],
     "alt": []
    },
-   "text": "Talk to Lockirin",
+   "text": "Talk to Obi",
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:30531@116226,-178529",
+    "key": "npc:32052@113518,-153755",
     "status": "ok",
     "flags": [],
     "from": ".schuttgart",
-    "length": 1706,
+    "length": 1646,
     "sec": 59,
-    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "via": ".schuttgart > Schuttgart -> Plunderous Plains",
     "steps": [
      {
       "do": "town",
@@ -1633,74 +3651,44 @@
      {
       "do": "gk",
       "from": "Schuttgart",
-      "desc": "Schuttgart -> Dwarven Village",
-      "link": "dwarven village",
-      "price": 4400,
+      "desc": "Schuttgart -> Plunderous Plains",
+      "link": "plunderous plains",
+      "price": 1600,
       "live": true
      },
      {
       "do": "walk",
-      "len": 1706,
-      "how": "town-graph",
+      "len": 1646,
+      "how": "geodata",
       "danger": 0
      }
     ],
     "start": {
      "kind": "gk",
      "from": "Schuttgart",
-     "desc": "Schuttgart -> Dwarven Village"
+     "desc": "Schuttgart -> Plunderous Plains"
     },
     "simple": true,
     "pv": [
      [
-      115120,
-      -178224,
-      -880
+      111965,
+      -154172,
+      -1528
      ],
      [
-      115128,
-      -178216,
-      -896
+      112459,
+      -153946,
+      -1528
      ],
      [
-      115256,
-      -178456,
-      -920
+      112952,
+      -153720,
+      -1528
      ],
      [
-      115256,
-      -178728,
-      -920
-     ],
-     [
-      115256,
-      -178808,
-      -920
-     ],
-     [
-      115416,
-      -178648,
-      -936
-     ],
-     [
-      115624,
-      -178536,
-      -944
-     ],
-     [
-      115896,
-      -178536,
-      -944
-     ],
-     [
-      116168,
-      -178536,
-      -944
-     ],
-     [
-      116232,
-      -178536,
-      -944
+      113512,
+      -153752,
+      -1528
      ]
     ],
     "maxDanger": 0,
@@ -1721,243 +3709,13 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
+    8
    ]
   },
   {
-   "i": 4,
-   "key": "c1:talk:31956",
-   "cond": 1,
-   "kind": "talk",
-   "to": "end",
-   "links": [
-    "\"I've got it.\""
-   ],
-   "npc": {
-    "id": 31956,
-    "name": "Rydel",
-    "title": "Warehouse Keeper",
-    "town": "Schuttgart",
-    "at": [
-     88626,
-     -141206,
-     -1527
-    ],
-    "alt": []
-   },
-   "text": "Talk to Rydel",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:31956@88626,-141206",
-    "status": "ok",
-    "flags": [],
-    "from": ".schuttgart",
-    "length": 5063,
-    "sec": 62,
-    "via": ".schuttgart",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Schuttgart",
-      "cmd": ".schuttgart"
-     },
-     {
-      "do": "walk",
-      "len": 5063,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Schuttgart"
-    },
-    "simple": true,
-    "pv": [
-     [
-      87355,
-      -142095,
-      -1336
-     ],
-     [
-      87416,
-      -142296,
-      -1336
-     ],
-     [
-      87448,
-      -142328,
-      -1336
-     ],
-     [
-      87656,
-      -142488,
-      -1336
-     ],
-     [
-      87912,
-      -142600,
-      -1336
-     ],
-     [
-      88152,
-      -142648,
-      -1336
-     ],
-     [
-      88424,
-      -142616,
-      -1336
-     ],
-     [
-      88648,
-      -142472,
-      -1336
-     ],
-     [
-      88856,
-      -142312,
-      -1336
-     ],
-     [
-      89080,
-      -142168,
-      -1376
-     ],
-     [
-      89096,
-      -142152,
-      -1392
-     ],
-     [
-      89320,
-      -141992,
-      -1448
-     ],
-     [
-      89544,
-      -141832,
-      -1536
-     ],
-     [
-      89640,
-      -141928,
-      -1536
-     ],
-     [
-      89736,
-      -141752,
-      -1536
-     ],
-     [
-      89736,
-      -141480,
-      -1536
-     ],
-     [
-      89688,
-      -141272,
-      -1536
-     ],
-     [
-      89608,
-      -141192,
-      -1536
-     ],
-     [
-      89592,
-      -141128,
-      -1536
-     ],
-     [
-      89528,
-      -140952,
-      -1536
-     ],
-     [
-      89336,
-      -140760,
-      -1536
-     ],
-     [
-      89112,
-      -140712,
-      -1536
-     ],
-     [
-      88936,
-      -140808,
-      -1536
-     ],
-     [
-      88856,
-      -140808,
-      -1528
-     ],
-     [
-      88840,
-      -140840,
-      -1520
-     ],
-     [
-      88792,
-      -140936,
-      -1520
-     ],
-     [
-      88648,
-      -141160,
-      -1520
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 87,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
-   ]
-  },
-  {
-   "i": 5,
-   "key": "c1:talk:31963",
-   "cond": 1,
+   "i": 10,
+   "key": "c9:talk:31963",
+   "cond": 9,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -2179,24 +3937,145 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
+    9
    ]
   },
   {
-   "i": 6,
-   "key": "c1:talk:32052",
-   "cond": 1,
+   "i": 11,
+   "key": "c10:talk:30531",
+   "cond": 10,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I understand.\""
+   ],
+   "npc": {
+    "id": 30531,
+    "name": "Lockirin",
+    "title": "Iron Gate's",
+    "town": "Dwarven Village",
+    "at": [
+     116226,
+     -178529,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lockirin",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30531@116226,-178529",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1706,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1706,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116168,
+      -178536,
+      -944
+     ],
+     [
+      116232,
+      -178536,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c11:talk:32052",
+   "cond": 11,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -2292,52 +4171,41 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
+    11
    ]
   },
   {
-   "i": 7,
-   "key": "c1:talk:30527",
-   "cond": 1,
+   "i": 13,
+   "key": "c12:talk:31956",
+   "cond": 12,
    "kind": "talk",
-   "to": 8,
+   "to": "end",
    "links": [
-    "Schuttgart Territory"
+    "\"I've got it.\""
    ],
    "npc": {
-    "id": 30527,
-    "name": "Silvera",
-    "title": "Blacksmith",
-    "town": "Dwarven Village",
+    "id": 31956,
+    "name": "Rydel",
+    "title": "Warehouse Keeper",
+    "town": "Schuttgart",
     "at": [
-     115271,
-     -182692,
-     -1440
+     88626,
+     -141206,
+     -1527
     ],
     "alt": []
    },
-   "text": "Talk to Silvera",
+   "text": "Talk to Rydel",
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:30527@115271,-182692",
+    "key": "npc:31956@88626,-141206",
     "status": "ok",
     "flags": [],
     "from": ".schuttgart",
-    "length": 6201,
-    "sec": 97,
-    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "length": 5063,
+    "sec": 62,
+    "via": ".schuttgart",
     "steps": [
      {
       "do": "town",
@@ -2345,171 +4213,152 @@
       "cmd": ".schuttgart"
      },
      {
-      "do": "gk",
-      "from": "Schuttgart",
-      "desc": "Schuttgart -> Dwarven Village",
-      "link": "dwarven village",
-      "price": 4400,
-      "live": true
-     },
-     {
       "do": "walk",
-      "len": 6201,
+      "len": 5063,
       "how": "town-graph",
       "danger": 0
      }
     ],
     "start": {
-     "kind": "gk",
-     "from": "Schuttgart",
-     "desc": "Schuttgart -> Dwarven Village"
+     "kind": "town",
+     "town": "Schuttgart"
     },
     "simple": true,
     "pv": [
      [
-      115120,
-      -178224,
-      -880
+      87355,
+      -142095,
+      -1336
      ],
      [
-      115128,
-      -178216,
-      -896
+      87416,
+      -142296,
+      -1336
      ],
      [
-      115288,
-      -178440,
-      -920
+      87448,
+      -142328,
+      -1336
      ],
      [
-      115288,
-      -178712,
-      -920
+      87656,
+      -142488,
+      -1336
      ],
      [
-      115336,
-      -178888,
-      -936
+      87912,
+      -142600,
+      -1336
      ],
      [
-      115368,
-      -178920,
-      -944
+      88152,
+      -142648,
+      -1336
      ],
      [
-      115384,
-      -178936,
-      -944
+      88424,
+      -142616,
+      -1336
      ],
      [
-      115576,
-      -179128,
-      -968
+      88648,
+      -142472,
+      -1336
      ],
      [
-      115768,
-      -179320,
-      -984
+      88856,
+      -142312,
+      -1336
      ],
      [
-      116024,
-      -179384,
-      -1032
+      89080,
+      -142168,
+      -1376
      ],
      [
-      116280,
-      -179448,
-      -1088
-     ],
-     [
-      116488,
-      -179576,
-      -1120
-     ],
-     [
-      116680,
-      -179768,
-      -1144
-     ],
-     [
-      116728,
-      -179976,
-      -1168
-     ],
-     [
-      116680,
-      -180248,
-      -1192
-     ],
-     [
-      116712,
-      -180520,
-      -1240
-     ],
-     [
-      116712,
-      -180792,
-      -1288
-     ],
-     [
-      116664,
-      -181064,
-      -1344
-     ],
-     [
-      116648,
-      -181336,
+      89096,
+      -142152,
       -1392
      ],
      [
-      116648,
-      -181400,
-      -1400
-     ],
-     [
-      116616,
-      -181672,
-      -1440
-     ],
-     [
-      116584,
-      -181944,
-      -1488
-     ],
-     [
-      116392,
-      -182136,
-      -1488
-     ],
-     [
-      116200,
-      -182328,
-      -1488
-     ],
-     [
-      116088,
-      -182440,
-      -1488
-     ],
-     [
-      115992,
-      -182536,
-      -1472
-     ],
-     [
-      115768,
-      -182696,
+      89320,
+      -141992,
       -1448
      ],
      [
-      115496,
-      -182680,
-      -1440
+      89544,
+      -141832,
+      -1536
      ],
      [
-      115272,
-      -182696,
-      -1440
+      89640,
+      -141928,
+      -1536
+     ],
+     [
+      89736,
+      -141752,
+      -1536
+     ],
+     [
+      89736,
+      -141480,
+      -1536
+     ],
+     [
+      89688,
+      -141272,
+      -1536
+     ],
+     [
+      89608,
+      -141192,
+      -1536
+     ],
+     [
+      89592,
+      -141128,
+      -1536
+     ],
+     [
+      89528,
+      -140952,
+      -1536
+     ],
+     [
+      89336,
+      -140760,
+      -1536
+     ],
+     [
+      89112,
+      -140712,
+      -1536
+     ],
+     [
+      88936,
+      -140808,
+      -1536
+     ],
+     [
+      88856,
+      -140808,
+      -1528
+     ],
+     [
+      88840,
+      -140840,
+      -1520
+     ],
+     [
+      88792,
+      -140936,
+      -1520
+     ],
+     [
+      88648,
+      -141160,
+      -1520
      ]
     ],
     "maxDanger": 0,
@@ -2524,459 +4373,13 @@
      "aggro": []
     }
    },
-   "expectedSec": 122,
+   "expectedSec": 87,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
     12
-   ]
-  },
-  {
-   "i": 8,
-   "key": "c1:deliver:30298",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 7,
-   "links": [
-    "Look here, shouldn't my efforts receive some kind of compensation?"
-   ],
-   "npc": {
-    "id": 30298,
-    "name": "Pinter",
-    "title": "Blacksmith",
-    "town": "Gludio",
-    "at": [
-     -15349,
-     124763,
-     -3113
-    ],
-    "alt": []
-   },
-   "text": "Bring Footprint of Thief, Stolen Secret Box to Pinter",
-   "needs": [
-    {
-     "id": 1639,
-     "name": "Footprint of Thief",
-     "n": 1
-    },
-    {
-     "id": 1640,
-     "name": "Stolen Secret Box",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30298@-15349,124763",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 5154,
-    "sec": 63,
-    "via": ".gludio",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "walk",
-      "len": 5154,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludio"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -12712,
-      122776,
-      -3116
-     ],
-     [
-      -12792,
-      122776,
-      -3112
-     ],
-     [
-      -12856,
-      122712,
-      -3112
-     ],
-     [
-      -13112,
-      122664,
-      -3088
-     ],
-     [
-      -13320,
-      122712,
-      -3048
-     ],
-     [
-      -13288,
-      122440,
-      -2984
-     ],
-     [
-      -13368,
-      122264,
-      -2984
-     ],
-     [
-      -13640,
-      122248,
-      -2984
-     ],
-     [
-      -13864,
-      122200,
-      -2984
-     ],
-     [
-      -14040,
-      122136,
-      -2984
-     ],
-     [
-      -14136,
-      122216,
-      -2984
-     ],
-     [
-      -14136,
-      122488,
-      -3112
-     ],
-     [
-      -14248,
-      122728,
-      -3112
-     ],
-     [
-      -14280,
-      122760,
-      -3112
-     ],
-     [
-      -14360,
-      122904,
-      -3112
-     ],
-     [
-      -14408,
-      123160,
-      -3112
-     ],
-     [
-      -14408,
-      123432,
-      -3112
-     ],
-     [
-      -14504,
-      123608,
-      -3112
-     ],
-     [
-      -14696,
-      123800,
-      -3112
-     ],
-     [
-      -14952,
-      123896,
-      -3112
-     ],
-     [
-      -15176,
-      123976,
-      -3112
-     ],
-     [
-      -15272,
-      124152,
-      -3112
-     ],
-     [
-      -15160,
-      124296,
-      -3112
-     ],
-     [
-      -15288,
-      124312,
-      -3112
-     ],
-     [
-      -15304,
-      124568,
-      -3112
-     ],
-     [
-      -15352,
-      124760,
-      -3112
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 88,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    8,
-    9,
-    10,
-    11,
-    12
-   ]
-  },
-  {
-   "i": 9,
-   "key": "c7:deliver:30298",
-   "cond": 7,
-   "kind": "deliver",
-   "to": 5,
-   "links": [
-    "I will find it"
-   ],
-   "npc": {
-    "id": 30298,
-    "name": "Pinter",
-    "title": "Blacksmith",
-    "town": "Gludio",
-    "at": [
-     -15349,
-     124763,
-     -3113
-    ],
-    "alt": []
-   },
-   "text": "Bring Kluto's Letter to Pinter",
-   "needs": [
-    {
-     "id": 1638,
-     "name": "Kluto's Letter",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30298@-15349,124763",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 5154,
-    "sec": 63,
-    "via": ".gludio",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "walk",
-      "len": 5154,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludio"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -12712,
-      122776,
-      -3116
-     ],
-     [
-      -12792,
-      122776,
-      -3112
-     ],
-     [
-      -12856,
-      122712,
-      -3112
-     ],
-     [
-      -13112,
-      122664,
-      -3088
-     ],
-     [
-      -13320,
-      122712,
-      -3048
-     ],
-     [
-      -13288,
-      122440,
-      -2984
-     ],
-     [
-      -13368,
-      122264,
-      -2984
-     ],
-     [
-      -13640,
-      122248,
-      -2984
-     ],
-     [
-      -13864,
-      122200,
-      -2984
-     ],
-     [
-      -14040,
-      122136,
-      -2984
-     ],
-     [
-      -14136,
-      122216,
-      -2984
-     ],
-     [
-      -14136,
-      122488,
-      -3112
-     ],
-     [
-      -14248,
-      122728,
-      -3112
-     ],
-     [
-      -14280,
-      122760,
-      -3112
-     ],
-     [
-      -14360,
-      122904,
-      -3112
-     ],
-     [
-      -14408,
-      123160,
-      -3112
-     ],
-     [
-      -14408,
-      123432,
-      -3112
-     ],
-     [
-      -14504,
-      123608,
-      -3112
-     ],
-     [
-      -14696,
-      123800,
-      -3112
-     ],
-     [
-      -14952,
-      123896,
-      -3112
-     ],
-     [
-      -15176,
-      123976,
-      -3112
-     ],
-     [
-      -15272,
-      124152,
-      -3112
-     ],
-     [
-      -15160,
-      124296,
-      -3112
-     ],
-     [
-      -15288,
-      124312,
-      -3112
-     ],
-     [
-      -15304,
-      124568,
-      -3112
-     ],
-     [
-      -15352,
-      124760,
-      -3112
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 88,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    7
    ]
   }
  ],

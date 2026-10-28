@@ -1,0 +1,279 @@
+{
+ "npcId": 30033,
+ "name": "Baulro",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.790Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "trainer/30033.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "1": {
+   "name": "Letters of Love",
+   "listText": [
+    "[Letters of Love]",
+    "[Letters of Love (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00001_LettersOfLove/30033-01.html",
+     "when": "state STARTED; cond 3; has items 1079",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00001_LettersOfLove/30033-02.html",
+     "when": "state STARTED; cond 3; has items 1080; lacks items 1079",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00001_LettersOfLove/30033-02.html",
+     "when": "state STARTED; cond 4; has items 1080",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "6": {
+   "name": "Step Into the Future",
+   "listText": [
+    "[Step Into the Future]",
+    "[Step Into the Future (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00006_StepIntoTheFuture/30033-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00006_StepIntoTheFuture/30033-03.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30033.htm": {
+   "file": "trainer/30033.htm",
+   "quest": null,
+   "text": "Magister Baulro: I am Magister Baulro, in charge all magical instruction here. All beneficial magic has its origin in Einhasad, the goddess of nature and light. Through years of study, we can acquire the skill to tap into this awesome force. Do you wish to learn that skill?",
+   "header": "Magister Baulro",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Ask about Priest Johanes.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30033-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "trainer/30033-1.htm": {
+   "file": "trainer/30033-1.htm",
+   "quest": null,
+   "text": "Magister Baulo: Johanes, the priest of this place, is my twin brother. When we were young, we were expected to follow in the footsteps of our father, who was bishop. But I became fascinated by the power of magic, and opted to become a magister instead. I will be forever grateful to my brother for e…",
+   "header": "Magister Baulo",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "trainer/30033-noteach.htm": {
+   "file": "trainer/30033-noteach.htm",
+   "quest": null,
+   "text": "Magister Baulro: Unfortunately, I cannot teach someone in your profession. You must seek instruction elsewhere, my child.",
+   "header": "Magister Baulro",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00001_LettersOfLove/30033-01.html": {
+   "file": "Q00001_LettersOfLove/30033-01.html",
+   "quest": 1,
+   "text": "Magister Baulro: Darin sent you, eh? Well, well... He's a fine lad, but far too shy for his own good. I'm glad he's finally decided to tell Roxxy his feelings, though. None but the brave deserve the fair, eh! Here's the \"magic potion\" he ordered. Just between us, it's nothing more than water drawn …",
+   "header": "Magister Baulro",
+   "when": [
+    "state STARTED; cond 3; has items 1079"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00001_LettersOfLove/30033-02.html": {
+   "file": "Q00001_LettersOfLove/30033-02.html",
+   "quest": 1,
+   "text": "Magister Baulro: Take this potion to Darin. I'm sure he's waiting anxiously for your return!",
+   "header": "Magister Baulro",
+   "when": [
+    "state STARTED; cond 3; has items 1080; lacks items 1079",
+    "state STARTED; cond 4; has items 1080"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00006_StepIntoTheFuture/30033-01.html": {
+   "file": "Q00006_StepIntoTheFuture/30033-01.html",
+   "quest": 6,
+   "text": "Magister Baulro: You seem anxious, my child. I don't think you're here to learn magic... What's the matter? How can I help?",
+   "header": "Magister Baulro",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"I want to visit Giran in order to increase my knowledge, but I can't afford the journey.\"",
+     "bypass": "Quest Q00006_StepIntoTheFuture 30033-02.html",
+     "kind": "quest-event",
+     "script": "Q00006_StepIntoTheFuture",
+     "event": "30033-02.html",
+     "quest": 6,
+     "to": "Q00006_StepIntoTheFuture/30033-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00006_StepIntoTheFuture/30033-03.html": {
+   "file": "Q00006_StepIntoTheFuture/30033-03.html",
+   "quest": 6,
+   "text": "Magister Baulro: Take the letter of recommendation I gave you to Sir Colin Windawood at the Obelisk of Victory .",
+   "header": "Magister Baulro",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00006_StepIntoTheFuture/30033-02.html": {
+   "file": "Q00006_StepIntoTheFuture/30033-02.html",
+   "quest": 6,
+   "text": "Magister Baulro: Hmmm... I see. It is certainly expensive to travel to the mainland, especially to a place as far away as Giran. But I think it would be an invaluable experience for you. When I was about your age, I had the opportunity to spend some time abroad, and it did me a world of good. I hav…",
+   "header": "Magister Baulro",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Letters of Love (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00001_LettersOfLove",
+     "kind": "quest",
+     "quest": 1,
+     "to": "Q00001_LettersOfLove/30033-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Step Into the Future (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00006_StepIntoTheFuture",
+     "kind": "quest",
+     "quest": 6,
+     "to": "Q00006_StepIntoTheFuture/30033-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Sorcerer Baulro:I'm Sorcerer Baulro, and I'm in charge of te"
+   ],
+   "to": [
+    "Magister Baulro:Darin sent you, eh? Well, well... He's a fin"
+   ]
+  }
+ ]
+}

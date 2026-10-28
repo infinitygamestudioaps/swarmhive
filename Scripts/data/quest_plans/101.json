@@ -2,7 +2,7 @@
  "id": 101,
  "name": "Sword of Solidarity",
  "version": 1,
- "generated": "2026-10-27T11:14:57.590Z",
+ "generated": "2026-10-27T18:18:35.431Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 9,
@@ -39,7 +39,7 @@
    "step": 2
   }
  ],
- "expectedMin": 17,
+ "expectedMin": 18,
  "refLevel": 9,
  "steps": [
   {
@@ -561,8 +561,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    5
+    1
    ]
   },
   {
@@ -1759,6 +1758,158 @@
    },
    "fixedByOverride": [
     "no-route"
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:30283",
+   "cond": 5,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Wait until Altran finishes his task"
+   ],
+   "npc": {
+    "id": 30283,
+    "name": "Altran",
+    "title": "Blacksmith",
+    "town": "Talking Island",
+    "at": [
+     -85026,
+     242689,
+     -3720
+    ],
+    "alt": []
+   },
+   "text": "Claim Reward",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30283@-85026,242689",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 3124,
+    "sec": 71,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3124,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84504,
+      244392,
+      -3728
+     ],
+     [
+      -84744,
+      244248,
+      -3728
+     ],
+     [
+      -85000,
+      244152,
+      -3728
+     ],
+     [
+      -85208,
+      243992,
+      -3728
+     ],
+     [
+      -85256,
+      243768,
+      -3728
+     ],
+     [
+      -85112,
+      243528,
+      -3728
+     ],
+     [
+      -85016,
+      243416,
+      -3728
+     ],
+     [
+      -84856,
+      243272,
+      -3728
+     ],
+     [
+      -84712,
+      243048,
+      -3728
+     ],
+     [
+      -84680,
+      242776,
+      -3728
+     ],
+     [
+      -84856,
+      242600,
+      -3728
+     ],
+     [
+      -85032,
+      242696,
+      -3720
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 96,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
    ]
   }
  ],

@@ -1,0 +1,384 @@
+{
+ "npcId": 31614,
+ "name": "Radyss",
+ "title": "Head Summoner",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.244Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31614.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "92": {
+   "name": "Saga of the Elemental Master",
+   "listText": [
+    "[Saga of the Elemental Master]",
+    "[Saga of the Elemental Master (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/2-01.htm",
+     "when": "cond 1; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/2-02.htm",
+     "when": "cond 2; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/2-03.htm",
+     "when": "cond 4; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/2-04.htm",
+     "when": "cond 5; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/3-01.htm",
+     "when": "cond 10; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/3-06.htm",
+     "when": "cond 13; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/11-01.htm",
+     "when": "cond 14; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/11-02.htm",
+     "when": "cond 15; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31614.htm": {
+   "file": "default/31614.htm",
+   "quest": null,
+   "text": "High Summoner Radyss: Although I've lived over 1,000 years, I still have unfinished matters which haunt me... Until Eva takes my soul, I shall long to fulfill my aspirations...",
+   "header": "High Summoner Radyss",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/2-01.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/2-01.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: The young leaf of Mother Tree, you finally came... (Ack)... This old man has already lived for over 2000 years, and now the day is near when I return to the bosom of Eva. However, I have many things to teach you before I die. It is an obligation and the right way of the last E…",
+   "header": "Head Summoner Radyss",
+   "when": [
+    "cond 1; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How can I make the enzyme?\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 2-1",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "2-1",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/2-02.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/2-02.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: Go to the Goddard Castle (Ack)... find Elf Priest Cerenas and get some medicine for me! I must last long enough to train my successor!",
+   "header": "Head Summoner Radyss",
+   "when": [
+    "cond 2; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/2-03.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/2-03.htm",
+   "quest": 92,
+   "text": "Head Summoner: Hack! Cough... Oh, you brought the medicine... Did it buy me more time...? This medicine... will ease my pain for the moment... Now, I will tell you about the tablet pilgrimage, the trial you must pass to be an Elemental Master. Young leaf, listen to what I say from now on... Even El…",
+   "header": "Head Summoner",
+   "when": [
+    "cond 4; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What is the method?\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 2-2",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "2-2",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/2-04.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/2-04.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: The Stone of Commune I gave you, if you follow the lead of this Stone, you can find the first Tablet of Vision! If you don't know it well, find your way using the Map. I will pray that the wind of Shaiha leads you the right way.",
+   "header": "Head Summoner Radyss",
+   "when": [
+    "cond 5; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/3-01.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/3-01.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: Hack... Young leaf, welcome back. Maybe, the perverse Shilen is trying to take my life as soon as possible. My power is waning. I can barely stand even with Cerenas's medicine... Oh, Goddess of Eva! Please give me the power to endure this pain even for just one moment...! Come…",
+   "header": "Head Summoner Radyss",
+   "when": [
+    "cond 10; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Progress...?\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 3-5",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "3-5",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/3-07.htm"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/3-05.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/3-05.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: Hack... A fragment of the fourth Stone of Commune is actually worshipped by the barbarians in this area, who call it their \"Divine Stone of Wisdom\"! Now put these two stones together...",
+   "header": "Head Summoner Radyss",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Put the Divine Stone of Wisdom and Pamela's fragment together.\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 3-8",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "3-8",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/3-04.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/3-04.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: Hack... In order to properly operate the fourth Stone of Commune, we have to get the Divine Stone of Wisdom worshipped by the Ketra Orcs or the Varka Silenos. At first, you have to gain their trust, but it will never be easy, because they are wild and warlike tribes.",
+   "header": "Head Summoner Radyss",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/3-06.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/3-06.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: Hack... Young leaf, this is not the place you can stay. Quickly take the Stone of Commune and go to find the fourth Tablet of Vision. You will know its location intuitively, as long as you have the Stone of Commune. If it is difficult to find location, get the direction using …",
+   "header": "Head Summoner Radyss",
+   "when": [
+    "cond 13; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/11-01.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/11-01.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: Young leaf, I've been waiting for you! In your absence, I've examined several things. Yes, I found the fifth Stone of Commune. However, unfortunately, it lost its power. This is the Stone of Commune you sensed. But can't you tell that its power is weaker than before? Hack... F…",
+   "header": "Head Summoner Radyss",
+   "when": [
+    "cond 14; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"And?\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 11-9",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "11-9",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/11-02.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/11-02.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: Young leaf, you must destroy the Archon of Halisha to get the fifth Stone of Commune. Hack... Find the devil in the Imperial Tomb or at the Wall of Argos. If you go to the Imperial Tomb, you can confront him by entering the Four Sepulchers. If you go to the Shrine of the Loyal…",
+   "header": "Head Summoner Radyss",
+   "when": [
+    "cond 15; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/11-03.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/11-03.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: Either way, you must eventually confront the evil Archon of Halisha . Yes, Because he has the fifth Stone of Commune. If you go to the Imperial Tomb, you can confront him by entering the Four Sepulchers. If you go to the Shrine of the Loyal, you must attack his minions as you …",
+   "header": "Head Summoner Radyss",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/2-05.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/2-05.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: Hack... Go to the temple in the Goddard Castle, hack... And find the Elf Priest Cerenas. She will make a medicine for me. Help her get the materials necessary to make the medicine. Hack... Leave quickly. Time is running out. I will pray that the wind of Shaiha leads you the ri…",
+   "header": "Head Summoner Radyss",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/2-06.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/2-06.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: The solution is in this gem! This is what we call the stone of vision. If you use the power contained in it, you can understand the Gods' characters written on the Tablet of Vision. Also, if you grasp this gem, you will know intuitively the location where this tablet is hidden…",
+   "header": "Head Summoner Radyss",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/3-02.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/3-02.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: At first, go to the Messenger Wahkan of the Ketra Orcs. I heard that they are hiring the foreign mercenaries. If so, it is a good opportunity to gain their trust! The Divine Stone of Wisdom that we are looking for is possessed by the Soul Guide Asepha , the head shaman of the …",
+   "header": "Head Summoner Radyss",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/3-03.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/3-03.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: At first, go to the Messenger Naran Ashanuk of Varka Silenos. I heard that they are hiring the foreign mercenaries. If so, it is a good opportunity to gain their trust! The Divine Stone of Wisdom that we are looking for is possessed by the Soul Guide Udan Mardui , the head sha…",
+   "header": "Head Summoner Radyss",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/3-07.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/3-07.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: When you responded to the third tablet, you sensed the location of the next Stone of Commune, didn't you? At that time, you should have seen me. I also felt your existence...! Hack... What you sensed is this small piece of stone. This is the fragment of the fourth Stone of Com…",
+   "header": "Head Summoner Radyss",
+   "links": [
+    {
+     "text": "\"I'll approach the Ketra Orcs!\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 3-6",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "3-6",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'll approach the Varka Silenos!\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 3-7",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "3-7",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/3-03.htm"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/3-08.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/3-08.htm",
+   "quest": 92,
+   "text": "Head Summoner Radyss: The two pieces fit perfectly together! Now, young leaf, please accept this Stone of Commune. And start the pilgrimage again to find the fourth Tablet of Vision. Please become the successor of the Elemental Master as quickly as possible. I will pray to Eva for help.",
+   "header": "Head Summoner Radyss",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Elemental Master (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00092_SagaOfTheElementalMaster",
+     "kind": "quest",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

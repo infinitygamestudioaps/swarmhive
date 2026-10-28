@@ -1,0 +1,209 @@
+{
+ "npcId": 30075,
+ "name": "Xaber",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.803Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30075.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "65": {
+   "name": "Certified Soul Breaker",
+   "listText": [
+    "[Certified Soul Breaker]",
+    "[Certified Soul Breaker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30075-01.html",
+     "when": "state STARTED; memo 8; qs.getMemoStateEx(1) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30075-01a.html",
+     "when": "state STARTED; memo 8; !qs.getMemoStateEx(1) == 0; qs.getMemoStateEx(1) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30075-02.html",
+     "when": "state STARTED; memo 8; !qs.getMemoStateEx(1) == 0; !qs.getMemoStateEx(1) == 1; qs.getMemoStateEx(1) == 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30075-03.html",
+     "when": "state STARTED; memo 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "364": {
+   "name": "Jovial Accordion",
+   "listText": [
+    "[Jovial Accordion]",
+    "[Jovial Accordion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00364_JovialAccordion/30075-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00364_JovialAccordion/30075-02.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30075.htm": {
+   "file": "guard/30075.htm",
+   "quest": null,
+   "text": "Guard Xaber: Hey, stranger. If you are going to Giran, don't wander off this road along the way. If you leave the path for a even moment, you could suffer an unlucky mishap with the runaway troops. They are wicked and violent criminals, so before you leave, go to the temple and pray to Einhasad tha…",
+   "header": "Guard Xaber",
+   "links": [
+    {
+     "text": "Ask about the runaway troops.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30075-1.htm"
+    },
+    {
+     "text": "View the information about the lord and the tax rate of the manor.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30075-1.htm": {
+   "file": "guard/30075-1.htm",
+   "quest": null,
+   "text": "Guard Xaber: Gracia hired many criminals as mercenary soldiers for their war against us. Now, they don't even know or care that the war ended with a victory for the courageous troops of Aden. When Gracia was defeated, the rogues abandoned the mercenaries and fled. Those hiding in Horseshoe Valley a…",
+   "header": "Guard Xaber",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30075.htm"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/30075-01.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30075-01.html",
+   "quest": 65,
+   "text": "Xaber: Let me see... No, I haven't seen anyone like that. Ask Liam, who's there next to you. Hey Liam! There's a question here for you.",
+   "header": "Xaber",
+   "when": [
+    "state STARTED; memo 8; qs.getMemoStateEx(1) == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/30075-01a.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30075-01a.html",
+   "quest": 65,
+   "text": "Xaber: I haven't seen anyone like that. Ask Listto, who's there next to you. Hey Listto! There's a question here for you.",
+   "header": "Xaber",
+   "when": [
+    "state STARTED; memo 8; !qs.getMemoStateEx(1) == 0; qs.getMemoStateEx(1) == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/30075-02.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30075-02.html",
+   "quest": 65,
+   "text": "Xaber: What do you want? Hmm... Someone who fits that description went by here a little while ago. Looked like he was rushing to get to Giran. He didn't cause any trouble, so we let him pass. If you take this road, you'll arrive at the Giran North Gate. Ask Zerome when you get there.",
+   "header": "Xaber",
+   "when": [
+    "state STARTED; memo 8; !qs.getMemoStateEx(1) == 0; !qs.getMemoStateEx(1) == 1; qs.getMemoStateEx(1) == 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/30075-03.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30075-03.html",
+   "quest": 65,
+   "text": "Xaber: Didn't I already tell you? Someone who fits that description headed toward Giran a little while ago. If you take this road, you'll arrive at the Giran North Gate. Ask Zerome or Vesa when you get there.",
+   "header": "Xaber",
+   "when": [
+    "state STARTED; memo 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00364_JovialAccordion/30075-01.html": {
+   "file": "Q00364_JovialAccordion/30075-01.html",
+   "quest": 364,
+   "text": "Guard Xaber: I received the item. Please tell Swan that I will send someone to him tomorrow.",
+   "header": "Guard Xaber",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00364_JovialAccordion/30075-02.html": {
+   "file": "Q00364_JovialAccordion/30075-02.html",
+   "quest": 364,
+   "text": "Guard Xaber: Needless to say, the best kind of business is one that doesn't need any start-up capital!",
+   "header": "Guard Xaber",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Soul Breaker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00065_CertifiedSoulBreaker",
+     "kind": "quest",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/30075-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Jovial Accordion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00364_JovialAccordion",
+     "kind": "quest",
+     "quest": 364,
+     "to": "Q00364_JovialAccordion/30075-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,207 @@
+{
+ "npcId": 32549,
+ "name": "Dilios",
+ "title": "General",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.382Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32549.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "692": {
+   "name": "How to Oppose Evil",
+   "listText": [
+    "[How to Oppose Evil]",
+    "[How to Oppose Evil (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00692_HowtoOpposeEvil/32549-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00692_HowtoOpposeEvil/32549-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00692_HowtoOpposeEvil/32549-04.htm",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00692_HowtoOpposeEvil/32549-05.htm",
+     "when": "cond 2; !(st.isCond(1) && st.hasQuestItems(LEKONS_CERTIFICATE))",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32549.htm": {
+   "file": "default/32549.htm",
+   "quest": null,
+   "text": "Dilios: Even in the darkest despair, the light of hope shines somewhere. In fact, my predecessor Phelios used to say that it is always darkest just before the dawn.",
+   "header": "Dilios",
+   "links": [
+    {
+     "text": "Ask about the status for each Seed.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32549-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/32549-1.htm": {
+   "file": "default/32549-1.htm",
+   "quest": null,
+   "text": "Dilios The Keucereus clan is currently battling the rulers of the Seeds. It will help you to know the current status of each Seed. Which one do you want to know first?",
+   "links": [
+    {
+     "text": "Seed of Destruction",
+     "bypass": "Quest GeneralDilios SOD_STATE",
+     "kind": "quest-event",
+     "script": "GeneralDilios",
+     "event": "SOD_STATE"
+    },
+    {
+     "text": "Seed of Infinity",
+     "bypass": "Quest GeneralDilios SOI_STATE",
+     "kind": "quest-event",
+     "script": "GeneralDilios",
+     "event": "SOI_STATE"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32549-01.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32549-01.htm",
+   "quest": 692,
+   "text": "Dilios: I don't know how a stranger like you happened to come here, but this is a very different place than Aden. Here the only law is power. Gracia was originally a barren land, and the sudden appearance of monsters has made survival even tougher. The weak do not last long, and many envy the dead …",
+   "header": "Dilios",
+   "when": [
+    "state CREATED; (player.getLevel() >= 75)"
+   ],
+   "links": [
+    {
+     "text": "\"I will prove my worth.\"",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32549-02.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32549-02.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32549-02.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32549-00.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32549-00.htm",
+   "quest": 692,
+   "text": "Dilios: I don't know how a stranger like you happened to come here, but this is a very different place than Aden. Here the only law is power. Gracia was originally a barren land, and the sudden appearance of monsters has made survival even tougher. The weak do not last long, and many envy the dead …",
+   "header": "Dilios",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 75)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00692_HowtoOpposeEvil/32549-04.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32549-04.htm",
+   "quest": 692,
+   "text": "Dilios: Hmm... Although I can't read this scribble, it must be Lekon's Certificate . You managed to acquire the Aerial Transformed Object, eh? Now you are ready for a full-scale mission. Let me ask you a question. What do you think is the best methode to fight evil? There are many opinions, of cour…",
+   "header": "Dilios",
+   "when": [
+    "cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00692_HowtoOpposeEvil/32549-05.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32549-05.htm",
+   "quest": 692,
+   "text": "Dilios: A method to fight evil with evil... I wish I could explain it better, but there are many aspects a simple soldier like me just doesn't fully understand. Special Products Broker Kutran at Kucereus' clan outpost is a specialist in this field, however. Go visit him. He will tell you more.",
+   "header": "Dilios",
+   "when": [
+    "cond 2; !(st.isCond(1) && st.hasQuestItems(LEKONS_CERTIFICATE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00692_HowtoOpposeEvil/32549-02.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32549-02.htm",
+   "quest": 692,
+   "text": "Dilios: I hope you mean what you said. If not, you will regret it. So I will ask you one more time. Are you ready for this trial?",
+   "header": "Dilios",
+   "links": [
+    {
+     "text": "\"I'm prepared to prove my worth.\"",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32549-03.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32549-03.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32549-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32549-03.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32549-03.htm",
+   "quest": 692,
+   "text": "Dilios: Then you must acquire the Aerial Transformed Object. Go see Engineer Lekon at Kucereus' clan outpost and obtain Lekon's Certificate from him. If you can do this, you will have proven that you belong in this harsh land. There is no time to waste. Hurry!",
+   "header": "Dilios",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[How to Oppose Evil]",
+     "bypass": "npc_%objectId%_Quest Q00692_HowtoOpposeEvil",
+     "kind": "quest",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32549-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[How to Oppose Evil (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00692_HowtoOpposeEvil",
+     "kind": "quest",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32549-04.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

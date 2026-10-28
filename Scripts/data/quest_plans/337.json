@@ -2,7 +2,7 @@
  "id": 337,
  "name": "Audience With The Land Dragon",
  "version": 1,
- "generated": "2026-10-27T11:15:27.750Z",
+ "generated": "2026-10-27T18:19:02.080Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 50,
@@ -16,7 +16,7 @@
  "reasons": [
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 30753 \"30753-05.htm\": bit-flag memo (20000); event 30753 \"30753-09.html\": bit-flag memo (40000); event 30754 \"30754-03.html\": bit-flag memo (70000); event 30755 \"30755-05.html\": bit-flag memo (70000); talk 30753: bit-flag memo (50000, 60000); talk 30498: bit-flag memo (40000, 40001)"
   },
   {
    "code": "area-danger",
@@ -29,17 +29,27 @@
    "step": 1
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 2
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 29
   },
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 2
+   "step": 29
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 30
   }
  ],
- "expectedMin": 23,
+ "expectedMin": 32,
  "refLevel": 50,
  "steps": [
   {
@@ -261,6 +271,3569 @@
    "i": 1,
    "key": "c1:hunt",
    "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 27165,
+     "name": "Abyssal Jewel 1",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    },
+    {
+     "id": 27166,
+     "name": "Abyssal Jewel 2",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    },
+    {
+     "id": 20649,
+     "name": "Hamrut",
+     "level": 58,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 20650,
+     "name": "Kranrot",
+     "level": 59,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 20679,
+     "name": "Marsh Stalker",
+     "level": 54,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 20680,
+     "name": "Marsh Drake",
+     "level": 55,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3853,
+     "name": "Marsh Stalker Horn",
+     "n": 1,
+     "from": [
+      {
+       "id": 20679,
+       "name": "Marsh Stalker",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3854,
+     "name": "Marsh Drake Talons",
+     "n": 1,
+     "from": [
+      {
+       "id": 20680,
+       "name": "Marsh Drake",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3855,
+     "name": "Kranrot Skin",
+     "n": 1,
+     "from": [
+      {
+       "id": 20650,
+       "name": "Kranrot",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3856,
+     "name": "Hamrut Leg",
+     "n": 1,
+     "from": [
+      {
+       "id": 20649,
+       "name": "Hamrut",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3857,
+     "name": "Remains of Sacrifice",
+     "n": 1,
+     "from": [
+      {
+       "id": 27171,
+       "name": "Ghost of Offering",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3858,
+     "name": "Totem of Land Dragon",
+     "n": 1,
+     "from": [
+      {
+       "id": 27172,
+       "name": "Harit Lizardman Zealot",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3859,
+     "name": "1st Fragment of Abyss Jewel",
+     "n": 1,
+     "from": [
+      {
+       "id": 27165,
+       "name": "Abyssal Jewel 1",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3860,
+     "name": "2nd Fragment of Abyss Jewel",
+     "n": 1,
+     "from": [
+      {
+       "id": 27166,
+       "name": "Abyssal Jewel 2",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3862,
+     "name": "Mara Fang",
+     "n": 1,
+     "from": [
+      {
+       "id": 27168,
+       "name": "Jewel Guardian Mara",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3863,
+     "name": "Musfel Fang",
+     "n": 1,
+     "from": [
+      {
+       "id": 27169,
+       "name": "Jewel Guardian Musfel",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Abyssal Jewel 1, Abyssal Jewel 2, Hamrut for Marsh Stalker Horn x1, Marsh Drake Talons x1, Kranrot Skin x1, Hamrut Leg x1, Remains of Sacrifice x1, Totem of Land Dragon x1, 1st Fragment of Abyss Jewel x1, 2nd Fragment of Abyss Jewel x1, Mara Fang x1, Musfel Fang x1",
+   "places": [
+    {
+     "mobs": [
+      20679
+     ],
+     "items": [
+      3853
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "forsaken-plains-2",
+      "name": "Forsaken Plains 2: Marsh Stalker area (west)",
+      "at": [
+       164200,
+       38568,
+       -3480
+      ],
+      "radius": 1876,
+      "levels": [
+       54,
+       55
+      ],
+      "count": 3,
+      "region": "Forsaken Plains",
+      "atlasKey": "area:forsaken-plains-2",
+      "status": "ok",
+      "sec": 83,
+      "danger": 55,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -16.616666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forsaken-plains-7",
+        "name": "Forsaken Plains 7: Fallen Orc area (south)",
+        "at": [
+         165448,
+         44936,
+         -3592
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forsaken-plains-3",
+        "name": "Forsaken Plains 3: Yintzu area (south-east)",
+        "at": [
+         170872,
+         42120,
+         -4888
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "silent-valley-1",
+        "name": "Silent Valley 1: Ancient Gargoyle area (north-west)",
+        "at": [
+         166984,
+         50728,
+         -4112
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:forsaken-plains-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 4601,
+      "sec": 83,
+      "via": ".aden > Aden -> Forsaken Plains",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Forsaken Plains",
+        "link": "forsaken plains",
+        "price": 1900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4601,
+        "how": "field-areas",
+        "danger": 58
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Forsaken Plains"
+      },
+      "simple": true,
+      "pv": [
+       [
+        168216,
+        37992,
+        -4080
+       ],
+       [
+        167304,
+        37640,
+        -3968
+       ],
+       [
+        166392,
+        37352,
+        -3720
+       ],
+       [
+        166296,
+        37256,
+        -3640
+       ],
+       [
+        166024,
+        37320,
+        -3568
+       ],
+       [
+        165032,
+        37736,
+        -3608
+       ],
+       [
+        164200,
+        38568,
+        -3480
+       ]
+      ],
+      "maxDanger": 58,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 58,
+       "dangerVsLevel": 8,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20680
+     ],
+     "items": [
+      3854
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "forsaken-plains-3",
+      "name": "Forsaken Plains 3: Yintzu area (south-east)",
+      "at": [
+       170872,
+       42120,
+       -4888
+      ],
+      "radius": 3002,
+      "levels": [
+       55,
+       59
+      ],
+      "count": 6,
+      "region": "Forsaken Plains",
+      "atlasKey": "area:forsaken-plains-3",
+      "status": "ok",
+      "sec": 88,
+      "danger": 60,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -26.53333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forsaken-plains-2",
+        "name": "Forsaken Plains 2: Marsh Stalker area (west)",
+        "at": [
+         164200,
+         38568,
+         -3480
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forsaken-plains-7",
+        "name": "Forsaken Plains 7: Fallen Orc area (south)",
+        "at": [
+         165448,
+         44936,
+         -3592
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "silent-valley-1",
+        "name": "Silent Valley 1: Ancient Gargoyle area (north-west)",
+        "at": [
+         166984,
+         50728,
+         -4112
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:forsaken-plains-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 5190,
+      "sec": 88,
+      "via": ".aden > Aden -> Forsaken Plains",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Forsaken Plains",
+        "link": "forsaken plains",
+        "price": 1900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3681,
+        "how": "field-areas-gap",
+        "danger": 60
+       },
+       {
+        "do": "walk",
+        "len": 1509,
+        "how": "field-areas",
+        "danger": 60
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Forsaken Plains"
+      },
+      "simple": true,
+      "pv": [
+       [
+        168217,
+        37990,
+        -4072
+       ],
+       [
+        170040,
+        40872,
+        -4864
+       ],
+       [
+        170616,
+        41864,
+        -4880
+       ],
+       [
+        170872,
+        42120,
+        -4888
+       ]
+      ],
+      "maxDanger": 60,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 60,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Fallen Orc Captain",
+         "lv": 60,
+         "n": 1
+        },
+        {
+         "name": "Kranrot",
+         "lv": 59,
+         "n": 3
+        },
+        {
+         "name": "Sharp Talon Tiger",
+         "lv": 59,
+         "n": 2
+        },
+        {
+         "name": "Fallen Orc Shaman",
+         "lv": 58,
+         "n": 2
+        },
+        {
+         "name": "Hamrut",
+         "lv": 58,
+         "n": 2
+        },
+        {
+         "name": "Paliote",
+         "lv": 57,
+         "n": 8
+        },
+        {
+         "name": "Yintzu",
+         "lv": 56,
+         "n": 8
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Fallen Orc Shaman",
+       "lv": 58
+      },
+      {
+       "name": "Sharp Talon Tiger",
+       "lv": 59
+      },
+      {
+       "name": "Hamrut",
+       "lv": 58
+      },
+      {
+       "name": "Hamrut",
+       "lv": 58
+      },
+      {
+       "name": "Kranrot",
+       "lv": 59
+      },
+      {
+       "name": "Kranrot",
+       "lv": 59
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20650
+     ],
+     "items": [
+      3855
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "forsaken-plains-5",
+      "name": "Forsaken Plains 5: Kranrot area (south-east)",
+      "at": [
+       173752,
+       43752,
+       -4936
+      ],
+      "radius": 2585,
+      "levels": [
+       56,
+       60
+      ],
+      "count": 4,
+      "region": "Forsaken Plains",
+      "atlasKey": "area:forsaken-plains-5",
+      "status": "ok",
+      "sec": 112,
+      "danger": 60,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -14.133333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forsaken-plains-3",
+        "name": "Forsaken Plains 3: Yintzu area (south-east)",
+        "at": [
+         170872,
+         42120,
+         -4888
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:forsaken-plains-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 8032,
+      "sec": 112,
+      "via": ".aden > Aden -> Forsaken Plains",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Forsaken Plains",
+        "link": "forsaken plains",
+        "price": 1900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2491,
+        "how": "field-areas-gap",
+        "danger": 60
+       },
+       {
+        "do": "walk",
+        "len": 5541,
+        "how": "field-areas",
+        "danger": 60
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Forsaken Plains"
+      },
+      "simple": true,
+      "pv": [
+       [
+        168217,
+        37990,
+        -4072
+       ],
+       [
+        169736,
+        39944,
+        -4512
+       ],
+       [
+        170728,
+        40728,
+        -4864
+       ],
+       [
+        171720,
+        41720,
+        -4944
+       ],
+       [
+        172712,
+        42712,
+        -4936
+       ],
+       [
+        173704,
+        43704,
+        -4936
+       ],
+       [
+        173752,
+        43752,
+        -4936
+       ]
+      ],
+      "maxDanger": 60,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 60,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Fallen Orc Captain",
+         "lv": 60,
+         "n": 1
+        },
+        {
+         "name": "Kranrot",
+         "lv": 59,
+         "n": 4
+        },
+        {
+         "name": "Sharp Talon Tiger",
+         "lv": 59,
+         "n": 3
+        },
+        {
+         "name": "Hamrut",
+         "lv": 58,
+         "n": 6
+        },
+        {
+         "name": "Fallen Orc Shaman",
+         "lv": 58,
+         "n": 4
+        },
+        {
+         "name": "Paliote",
+         "lv": 57,
+         "n": 8
+        },
+        {
+         "name": "Yintzu",
+         "lv": 56,
+         "n": 12
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Fallen Orc Shaman",
+       "lv": 58
+      },
+      {
+       "name": "Hamrut",
+       "lv": 58
+      },
+      {
+       "name": "Hamrut",
+       "lv": 58
+      },
+      {
+       "name": "Hamrut",
+       "lv": 58
+      },
+      {
+       "name": "Hamrut",
+       "lv": 58
+      },
+      {
+       "name": "Fallen Orc Shaman",
+       "lv": 58
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20649
+     ],
+     "items": [
+      3856
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "forsaken-plains-5",
+      "name": "Forsaken Plains 5: Kranrot area (south-east)",
+      "at": [
+       173752,
+       43752,
+       -4936
+      ],
+      "radius": 2585,
+      "levels": [
+       56,
+       60
+      ],
+      "count": 3,
+      "region": "Forsaken Plains",
+      "atlasKey": "area:forsaken-plains-5",
+      "status": "ok",
+      "sec": 112,
+      "danger": 60,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -8.133333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forsaken-plains-3",
+        "name": "Forsaken Plains 3: Yintzu area (south-east)",
+        "at": [
+         170872,
+         42120,
+         -4888
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forsaken-plains-4",
+        "name": "Forsaken Plains 4: Hamrut area (south-east)",
+        "at": [
+         173768,
+         42136,
+         -4928
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:forsaken-plains-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 8032,
+      "sec": 112,
+      "via": ".aden > Aden -> Forsaken Plains",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Forsaken Plains",
+        "link": "forsaken plains",
+        "price": 1900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2491,
+        "how": "field-areas-gap",
+        "danger": 60
+       },
+       {
+        "do": "walk",
+        "len": 5541,
+        "how": "field-areas",
+        "danger": 60
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Forsaken Plains"
+      },
+      "simple": true,
+      "pv": [
+       [
+        168217,
+        37990,
+        -4072
+       ],
+       [
+        169736,
+        39944,
+        -4512
+       ],
+       [
+        170728,
+        40728,
+        -4864
+       ],
+       [
+        171720,
+        41720,
+        -4944
+       ],
+       [
+        172712,
+        42712,
+        -4936
+       ],
+       [
+        173704,
+        43704,
+        -4936
+       ],
+       [
+        173752,
+        43752,
+        -4936
+       ]
+      ],
+      "maxDanger": 60,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 60,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Fallen Orc Captain",
+         "lv": 60,
+         "n": 1
+        },
+        {
+         "name": "Kranrot",
+         "lv": 59,
+         "n": 4
+        },
+        {
+         "name": "Sharp Talon Tiger",
+         "lv": 59,
+         "n": 3
+        },
+        {
+         "name": "Hamrut",
+         "lv": 58,
+         "n": 6
+        },
+        {
+         "name": "Fallen Orc Shaman",
+         "lv": 58,
+         "n": 4
+        },
+        {
+         "name": "Paliote",
+         "lv": 57,
+         "n": 8
+        },
+        {
+         "name": "Yintzu",
+         "lv": 56,
+         "n": 12
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Kranrot",
+       "lv": 59
+      },
+      {
+       "name": "Kranrot",
+       "lv": 59
+      },
+      {
+       "name": "Kranrot",
+       "lv": 59
+      },
+      {
+       "name": "Fallen Orc Shaman",
+       "lv": 58
+      },
+      {
+       "name": "Kranrot",
+       "lv": 59
+      },
+      {
+       "name": "Kranrot",
+       "lv": 59
+      }
+     ]
+    },
+    {
+     "mobs": [
+      27165
+     ],
+     "items": [
+      3859
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "27165@-81247,75607",
+      "name": "Abyssal Jewel 1 (Windy Hill)",
+      "at": [
+       -81247,
+       75607,
+       -3360
+      ],
+      "radius": 1500,
+      "levels": [
+       60,
+       60
+      ],
+      "count": 1,
+      "region": "Windy Hill",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 84,
+      "alt": []
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:windy-hill-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 8719,
+      "sec": 118,
+      "via": ".gludin > Gludin -> Windy Hill",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Windy Hill",
+        "link": "windy hill",
+        "price": 2600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5957,
+        "how": "field-areas",
+        "danger": 30
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Windy Hill"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -88536,
+        83384,
+        -2872
+       ],
+       [
+        -88536,
+        82392,
+        -2736
+       ],
+       [
+        -87768,
+        81400,
+        -2744
+       ],
+       [
+        -86776,
+        80408,
+        -2864
+       ],
+       [
+        -85784,
+        79416,
+        -2976
+       ],
+       [
+        -85144,
+        78776,
+        -3096
+       ],
+       [
+        -83288,
+        77432,
+        -3248
+       ],
+       [
+        -82296,
+        76440,
+        -3400
+       ],
+       [
+        -81304,
+        75608,
+        -3360
+       ],
+       [
+        -81240,
+        75608,
+        -3368
+       ]
+      ],
+      "maxDanger": 60,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 60,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Abyssal Jewel 1",
+         "lv": 60,
+         "n": 1
+        }
+       ]
+      },
+      "anchor": {
+       "key": "area:windy-hill-3",
+       "name": "Windy Hill 3: Singing Wind area (north-east)"
+      },
+      "points": [
+       [
+        -88536,
+        83384,
+        -2872
+       ],
+       [
+        -88536,
+        82392,
+        -2736
+       ],
+       [
+        -87768,
+        81400,
+        -2744
+       ],
+       [
+        -86776,
+        80408,
+        -2864
+       ],
+       [
+        -85784,
+        79416,
+        -2976
+       ],
+       [
+        -85144,
+        78776,
+        -3096
+       ],
+       [
+        -83288,
+        77432,
+        -3248
+       ],
+       [
+        -82296,
+        76440,
+        -3400
+       ],
+       [
+        -81304,
+        75608,
+        -3360
+       ],
+       [
+        -81240,
+        75608,
+        -3368
+       ]
+      ]
+     }
+    },
+    {
+     "mobs": [
+      27166
+     ],
+     "items": [
+      3860
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "27166@63707,31164",
+      "name": "Abyssal Jewel 2 (Sea of Spores)",
+      "at": [
+       63707,
+       31164,
+       -3736
+      ],
+      "radius": 1500,
+      "levels": [
+       60,
+       60
+      ],
+      "count": 1,
+      "region": "Sea of Spores",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 84,
+      "alt": []
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:sea-of-spores-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 10261,
+      "sec": 131,
+      "via": ".oren > Oren -> Sea of Spores",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Sea of Spores",
+        "link": "sea of spores",
+        "price": 2500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3688,
+        "how": "field-areas",
+        "danger": 42
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Sea of Spores"
+      },
+      "simple": true,
+      "pv": [
+       [
+        64328,
+        26808,
+        -3768
+       ],
+       [
+        63784,
+        26488,
+        -3744
+       ],
+       [
+        63048,
+        26184,
+        -3760
+       ],
+       [
+        62056,
+        26184,
+        -3760
+       ],
+       [
+        61064,
+        26776,
+        -3816
+       ],
+       [
+        60984,
+        26856,
+        -3816
+       ],
+       [
+        60632,
+        26984,
+        -3832
+       ],
+       [
+        60584,
+        27032,
+        -3840
+       ],
+       [
+        60296,
+        27496,
+        -3808
+       ],
+       [
+        60168,
+        27624,
+        -3808
+       ],
+       [
+        60136,
+        27704,
+        -3808
+       ],
+       [
+        60120,
+        27816,
+        -3816
+       ],
+       [
+        60136,
+        28664,
+        -3784
+       ],
+       [
+        60184,
+        28792,
+        -3768
+       ],
+       [
+        60776,
+        29336,
+        -3704
+       ],
+       [
+        61656,
+        29128,
+        -3744
+       ],
+       [
+        62632,
+        30104,
+        -3744
+       ],
+       [
+        63624,
+        31096,
+        -3744
+       ],
+       [
+        63704,
+        31160,
+        -3736
+       ]
+      ],
+      "maxDanger": 60,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 60,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Abyssal Jewel 2",
+         "lv": 60,
+         "n": 1
+        }
+       ]
+      },
+      "anchor": {
+       "key": "area:sea-of-spores-1",
+       "name": "Sea of Spores 1: Giant Monstereye area (west)"
+      },
+      "points": [
+       [
+        64328,
+        26808,
+        -3768
+       ],
+       [
+        63784,
+        26488,
+        -3744
+       ],
+       [
+        63048,
+        26184,
+        -3760
+       ],
+       [
+        62056,
+        26184,
+        -3760
+       ],
+       [
+        61064,
+        26776,
+        -3816
+       ],
+       [
+        60984,
+        26856,
+        -3816
+       ],
+       [
+        60632,
+        26984,
+        -3832
+       ],
+       [
+        60584,
+        27032,
+        -3840
+       ],
+       [
+        60296,
+        27496,
+        -3808
+       ],
+       [
+        60168,
+        27624,
+        -3808
+       ],
+       [
+        60136,
+        27704,
+        -3808
+       ],
+       [
+        60120,
+        27816,
+        -3816
+       ],
+       [
+        60136,
+        28664,
+        -3784
+       ],
+       [
+        60184,
+        28792,
+        -3768
+       ],
+       [
+        60776,
+        29336,
+        -3704
+       ],
+       [
+        61656,
+        29128,
+        -3744
+       ],
+       [
+        62632,
+        30104,
+        -3744
+       ],
+       [
+        63624,
+        31096,
+        -3744
+       ],
+       [
+        63704,
+        31160,
+        -3736
+       ]
+      ]
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "forsaken-plains-2",
+    "name": "Forsaken Plains 2: Marsh Stalker area (west)",
+    "at": [
+     164200,
+     38568,
+     -3480
+    ],
+    "radius": 1876,
+    "levels": [
+     54,
+     55
+    ],
+    "count": 3,
+    "region": "Forsaken Plains",
+    "atlasKey": "area:forsaken-plains-2",
+    "status": "ok",
+    "sec": 83,
+    "danger": 55,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -16.616666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "forsaken-plains-7",
+      "name": "Forsaken Plains 7: Fallen Orc area (south)",
+      "at": [
+       165448,
+       44936,
+       -3592
+      ],
+      "count": 2,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forsaken-plains-3",
+      "name": "Forsaken Plains 3: Yintzu area (south-east)",
+      "at": [
+       170872,
+       42120,
+       -4888
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "silent-valley-1",
+      "name": "Silent Valley 1: Ancient Gargoyle area (north-west)",
+      "at": [
+       166984,
+       50728,
+       -4112
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:forsaken-plains-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 4601,
+    "sec": 83,
+    "via": ".aden > Aden -> Forsaken Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Forsaken Plains",
+      "link": "forsaken plains",
+      "price": 1900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4601,
+      "how": "field-areas",
+      "danger": 58
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Forsaken Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      168216,
+      37992,
+      -4080
+     ],
+     [
+      167304,
+      37640,
+      -3968
+     ],
+     [
+      166392,
+      37352,
+      -3720
+     ],
+     [
+      166296,
+      37256,
+      -3640
+     ],
+     [
+      166024,
+      37320,
+      -3568
+     ],
+     [
+      165032,
+      37736,
+      -3608
+     ],
+     [
+      164200,
+      38568,
+      -3480
+     ]
+    ],
+    "maxDanger": 58,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 58,
+     "dangerVsLevel": 8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 108,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:27167",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27167,
+     "name": "Abyssal Jewel 3",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27168,
+     "name": "Jewel Guardian Mara",
+     "level": 53,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27169,
+     "name": "Jewel Guardian Musfel",
+     "level": 53,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27171,
+     "name": "Ghost of Offering",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27172,
+     "name": "Harit Lizardman Zealot",
+     "level": 55,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 3853,
+     "name": "Marsh Stalker Horn",
+     "n": 1,
+     "from": [
+      {
+       "id": 20679,
+       "name": "Marsh Stalker",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3854,
+     "name": "Marsh Drake Talons",
+     "n": 1,
+     "from": [
+      {
+       "id": 20680,
+       "name": "Marsh Drake",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3855,
+     "name": "Kranrot Skin",
+     "n": 1,
+     "from": [
+      {
+       "id": 20650,
+       "name": "Kranrot",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3856,
+     "name": "Hamrut Leg",
+     "n": 1,
+     "from": [
+      {
+       "id": 20649,
+       "name": "Hamrut",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3857,
+     "name": "Remains of Sacrifice",
+     "n": 1,
+     "from": [
+      {
+       "id": 27171,
+       "name": "Ghost of Offering",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3858,
+     "name": "Totem of Land Dragon",
+     "n": 1,
+     "from": [
+      {
+       "id": 27172,
+       "name": "Harit Lizardman Zealot",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3859,
+     "name": "1st Fragment of Abyss Jewel",
+     "n": 1,
+     "from": [
+      {
+       "id": 27165,
+       "name": "Abyssal Jewel 1",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3860,
+     "name": "2nd Fragment of Abyss Jewel",
+     "n": 1,
+     "from": [
+      {
+       "id": 27166,
+       "name": "Abyssal Jewel 2",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3862,
+     "name": "Mara Fang",
+     "n": 1,
+     "from": [
+      {
+       "id": 27168,
+       "name": "Jewel Guardian Mara",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3863,
+     "name": "Musfel Fang",
+     "n": 1,
+     "from": [
+      {
+       "id": 27169,
+       "name": "Jewel Guardian Musfel",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     27165
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
+   },
+   "text": "Make Abyssal Jewel 3, Jewel Guardian Mara, Jewel Guardian Musfel, Ghost of Offering, Harit Lizardman Zealot appear and kill it",
+   "area": {
+    "kind": "cluster",
+    "id": "27165@-81247,75607",
+    "name": "Abyssal Jewel 1 (Windy Hill)",
+    "at": [
+     -81247,
+     75607,
+     -3360
+    ],
+    "radius": 1500,
+    "levels": [
+     60,
+     60
+    ],
+    "count": 1,
+    "region": "Windy Hill",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 84,
+    "alt": []
+   },
+   "travel": {
+    "src": "computed",
+    "key": "area:windy-hill-3",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 8719,
+    "sec": 118,
+    "via": ".gludin > Gludin -> Windy Hill",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Windy Hill",
+      "link": "windy hill",
+      "price": 2600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5957,
+      "how": "field-areas",
+      "danger": 30
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Windy Hill"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -88536,
+      83384,
+      -2872
+     ],
+     [
+      -88536,
+      82392,
+      -2736
+     ],
+     [
+      -87768,
+      81400,
+      -2744
+     ],
+     [
+      -86776,
+      80408,
+      -2864
+     ],
+     [
+      -85784,
+      79416,
+      -2976
+     ],
+     [
+      -85144,
+      78776,
+      -3096
+     ],
+     [
+      -83288,
+      77432,
+      -3248
+     ],
+     [
+      -82296,
+      76440,
+      -3400
+     ],
+     [
+      -81304,
+      75608,
+      -3360
+     ],
+     [
+      -81240,
+      75608,
+      -3368
+     ]
+    ],
+    "maxDanger": 60,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 60,
+     "dangerVsLevel": 10,
+     "aggro": [
+      {
+       "name": "Abyssal Jewel 1",
+       "lv": 60,
+       "n": 1
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:windy-hill-3",
+     "name": "Windy Hill 3: Singing Wind area (north-east)"
+    },
+    "points": [
+     [
+      -88536,
+      83384,
+      -2872
+     ],
+     [
+      -88536,
+      82392,
+      -2736
+     ],
+     [
+      -87768,
+      81400,
+      -2744
+     ],
+     [
+      -86776,
+      80408,
+      -2864
+     ],
+     [
+      -85784,
+      79416,
+      -2976
+     ],
+     [
+      -85144,
+      78776,
+      -3096
+     ],
+     [
+      -83288,
+      77432,
+      -3248
+     ],
+     [
+      -82296,
+      76440,
+      -3400
+     ],
+     [
+      -81304,
+      75608,
+      -3360
+     ],
+     [
+      -81240,
+      75608,
+      -3368
+     ]
+    ]
+   },
+   "expectedSec": 418,
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30753",
+   "cond": 1,
+   "kind": "talk",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 30753,
+    "name": "Gabrielle",
+    "title": "",
+    "town": "Giran",
+    "at": [
+     81296,
+     149728,
+     -3469
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gabrielle",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30767@81424,149728",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 2537,
+    "sec": 41,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 2537,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82792,
+      148664,
+      -3464
+     ],
+     [
+      82616,
+      148840,
+      -3464
+     ],
+     [
+      82600,
+      148856,
+      -3464
+     ],
+     [
+      82408,
+      149048,
+      -3464
+     ],
+     [
+      82200,
+      149208,
+      -3464
+     ],
+     [
+      81928,
+      149208,
+      -3464
+     ],
+     [
+      81912,
+      149224,
+      -3464
+     ],
+     [
+      81688,
+      149368,
+      -3464
+     ],
+     [
+      81496,
+      149560,
+      -3464
+     ],
+     [
+      81432,
+      149736,
+      -3464
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30767@81424,149728",
+     "name": "Auctioneer"
+    },
+    "points": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82792,
+      148664,
+      -3464
+     ],
+     [
+      82616,
+      148840,
+      -3464
+     ],
+     [
+      82600,
+      148856,
+      -3464
+     ],
+     [
+      82408,
+      149048,
+      -3464
+     ],
+     [
+      82200,
+      149208,
+      -3464
+     ],
+     [
+      81928,
+      149208,
+      -3464
+     ],
+     [
+      81912,
+      149224,
+      -3464
+     ],
+     [
+      81688,
+      149368,
+      -3464
+     ],
+     [
+      81496,
+      149560,
+      -3464
+     ],
+     [
+      81432,
+      149736,
+      -3464
+     ]
+    ]
+   },
+   "expectedSec": 66,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30498",
+   "cond": 1,
+   "kind": "deliver",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30498,
+    "name": "Moke",
+    "title": "Warehouse Chief",
+    "town": "Gludin",
+    "at": [
+     -81913,
+     153545,
+     -3171
+    ],
+    "alt": []
+   },
+   "text": "Bring 1st Fragment of Abyss Jewel, Mara Fang to Moke",
+   "needs": [
+    {
+     "id": 3859,
+     "name": "1st Fragment of Abyss Jewel",
+     "n": 1
+    },
+    {
+     "id": 3862,
+     "name": "Mara Fang",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30498@-81913,153545",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 8076,
+    "sec": 87,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 8076,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82104,
+      150936,
+      -3120
+     ],
+     [
+      -82328,
+      151096,
+      -3120
+     ],
+     [
+      -82568,
+      151240,
+      -3120
+     ],
+     [
+      -82760,
+      151416,
+      -3120
+     ],
+     [
+      -82936,
+      151608,
+      -3120
+     ],
+     [
+      -82952,
+      151880,
+      -3120
+     ],
+     [
+      -82968,
+      152152,
+      -3120
+     ],
+     [
+      -82984,
+      152168,
+      -3120
+     ],
+     [
+      -83032,
+      152424,
+      -3128
+     ],
+     [
+      -83032,
+      152696,
+      -3168
+     ],
+     [
+      -82904,
+      152888,
+      -3168
+     ],
+     [
+      -82904,
+      153000,
+      -3168
+     ],
+     [
+      -82904,
+      152888,
+      -3168
+     ],
+     [
+      -83032,
+      152888,
+      -3168
+     ],
+     [
+      -83080,
+      153160,
+      -3168
+     ],
+     [
+      -83208,
+      153320,
+      -3168
+     ],
+     [
+      -83368,
+      153480,
+      -3168
+     ],
+     [
+      -83336,
+      153752,
+      -3168
+     ],
+     [
+      -83336,
+      153880,
+      -3168
+     ],
+     [
+      -83128,
+      153944,
+      -3168
+     ],
+     [
+      -82856,
+      153928,
+      -3168
+     ],
+     [
+      -82856,
+      153864,
+      -3176
+     ],
+     [
+      -82856,
+      153896,
+      -3168
+     ],
+     [
+      -82584,
+      153944,
+      -3168
+     ],
+     [
+      -82376,
+      153768,
+      -3168
+     ],
+     [
+      -82360,
+      153672,
+      -3168
+     ],
+     [
+      -82328,
+      153688,
+      -3168
+     ],
+     [
+      -82280,
+      153608,
+      -3168
+     ],
+     [
+      -82248,
+      153336,
+      -3168
+     ],
+     [
+      -82008,
+      153320,
+      -3168
+     ],
+     [
+      -81912,
+      153496,
+      -3168
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 112,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30678",
+   "cond": 1,
+   "kind": "deliver",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30678,
+    "name": "Helton",
+    "title": "Blacksmith",
+    "town": "Oren",
+    "at": [
+     83684,
+     55631,
+     -1509
+    ],
+    "alt": []
+   },
+   "text": "Bring 2nd Fragment of Abyss Jewel, Musfel Fang to Helton",
+   "needs": [
+    {
+     "id": 3860,
+     "name": "2nd Fragment of Abyss Jewel",
+     "n": 1
+    },
+    {
+     "id": 3863,
+     "name": "Musfel Fang",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30678@83684,55631",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 3638,
+    "sec": 50,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 3638,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      55064,
+      -1520
+     ],
+     [
+      82312,
+      55336,
+      -1520
+     ],
+     [
+      82472,
+      55544,
+      -1520
+     ],
+     [
+      82680,
+      55720,
+      -1520
+     ],
+     [
+      82952,
+      55752,
+      -1520
+     ],
+     [
+      82984,
+      55784,
+      -1520
+     ],
+     [
+      83160,
+      55608,
+      -1520
+     ],
+     [
+      83432,
+      55592,
+      -1504
+     ],
+     [
+      83496,
+      55592,
+      -1512
+     ],
+     [
+      83688,
+      55624,
+      -1512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:deliver:30705",
+   "cond": 1,
+   "kind": "deliver",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30705,
+    "name": "Chakiris",
+    "title": "Prefect",
+    "town": "Hunters Village",
+    "at": [
+     120079,
+     74847,
+     -2374
+    ],
+    "alt": []
+   },
+   "text": "Bring Kranrot Skin, Hamrut Leg to Chakiris",
+   "needs": [
+    {
+     "id": 3855,
+     "name": "Kranrot Skin",
+     "n": 1
+    },
+    {
+     "id": 3856,
+     "name": "Hamrut Leg",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30705@120079,74847",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 9739,
+    "sec": 101,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 9739,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76280,
+      -2728
+     ],
+     [
+      116776,
+      76456,
+      -2728
+     ],
+     [
+      116792,
+      76728,
+      -2720
+     ],
+     [
+      116824,
+      77000,
+      -2704
+     ],
+     [
+      116616,
+      77160,
+      -2720
+     ],
+     [
+      116424,
+      77352,
+      -2704
+     ],
+     [
+      116360,
+      77416,
+      -2704
+     ],
+     [
+      116344,
+      77672,
+      -2680
+     ],
+     [
+      116392,
+      77944,
+      -2680
+     ],
+     [
+      116536,
+      78184,
+      -2648
+     ],
+     [
+      116616,
+      78312,
+      -2608
+     ],
+     [
+      116760,
+      78536,
+      -2496
+     ],
+     [
+      116824,
+      78648,
+      -2432
+     ],
+     [
+      116968,
+      78888,
+      -2256
+     ],
+     [
+      117000,
+      78968,
+      -2256
+     ],
+     [
+      117256,
+      78984,
+      -2256
+     ],
+     [
+      117528,
+      79000,
+      -2256
+     ],
+     [
+      117800,
+      79016,
+      -2256
+     ],
+     [
+      117976,
+      78808,
+      -2200
+     ],
+     [
+      117976,
+      78648,
+      -2168
+     ],
+     [
+      117976,
+      78664,
+      -2168
+     ],
+     [
+      118168,
+      78632,
+      -2176
+     ],
+     [
+      118344,
+      78424,
+      -2176
+     ],
+     [
+      118520,
+      78216,
+      -2176
+     ],
+     [
+      118696,
+      78024,
+      -2176
+     ],
+     [
+      118904,
+      77848,
+      -2200
+     ],
+     [
+      119016,
+      77720,
+      -2248
+     ],
+     [
+      119064,
+      77448,
+      -2272
+     ],
+     [
+      119112,
+      77208,
+      -2272
+     ],
+     [
+      119288,
+      77000,
+      -2272
+     ],
+     [
+      119352,
+      76920,
+      -2272
+     ],
+     [
+      119480,
+      76920,
+      -2272
+     ],
+     [
+      119720,
+      76792,
+      -2272
+     ],
+     [
+      119768,
+      76520,
+      -2272
+     ],
+     [
+      119640,
+      76280,
+      -2272
+     ],
+     [
+      119608,
+      76008,
+      -2272
+     ],
+     [
+      119704,
+      75912,
+      -2264
+     ],
+     [
+      119608,
+      75816,
+      -2272
+     ],
+     [
+      119768,
+      75592,
+      -2272
+     ],
+     [
+      119752,
+      75320,
+      -2344
+     ],
+     [
+      119736,
+      75288,
+      -2360
+     ],
+     [
+      119672,
+      75096,
+      -2368
+     ],
+     [
+      119816,
+      74952,
+      -2368
+     ],
+     [
+      120072,
+      74840,
+      -2368
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 126,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:deliver:30720",
+   "cond": 1,
+   "kind": "deliver",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30720,
+    "name": "Kaiena",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     85332,
+     16592,
+     -1769
+    ],
+    "alt": []
+   },
+   "text": "Bring Marsh Stalker Horn, Marsh Drake Talons to Kaiena",
+   "needs": [
+    {
+     "id": 3853,
+     "name": "Marsh Stalker Horn",
+     "n": 1
+    },
+    {
+     "id": 3854,
+     "name": "Marsh Drake Talons",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30720@85332,16592",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 408,
+    "sec": 63,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "4th Floor Dark Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 408,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -1776
+     ],
+     [
+      85336,
+      16600,
+      -1776
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c1:deliver:30851",
+   "cond": 1,
+   "kind": "deliver",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30851,
+    "name": "Kendra",
+    "title": "Master",
+    "town": "Aden",
+    "at": [
+     149216,
+     25648,
+     -2121
+    ],
+    "alt": []
+   },
+   "text": "Bring Totem of Land Dragon to Kendra",
+   "needs": [
+    {
+     "id": 3858,
+     "name": "Totem of Land Dragon",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30851@149216,25648",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 5546,
+    "sec": 66,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 5546,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147928,
+      25800,
+      -2008
+     ],
+     [
+      148200,
+      25800,
+      -2008
+     ],
+     [
+      148456,
+      25720,
+      -2008
+     ],
+     [
+      148568,
+      25480,
+      -2008
+     ],
+     [
+      148568,
+      25208,
+      -2008
+     ],
+     [
+      148504,
+      24936,
+      -2008
+     ],
+     [
+      148504,
+      24664,
+      -2008
+     ],
+     [
+      148552,
+      24392,
+      -2008
+     ],
+     [
+      148744,
+      24264,
+      -2008
+     ],
+     [
+      149016,
+      24264,
+      -2056
+     ],
+     [
+      149288,
+      24264,
+      -2104
+     ],
+     [
+      149464,
+      24264,
+      -2136
+     ],
+     [
+      149704,
+      24312,
+      -2136
+     ],
+     [
+      149896,
+      24504,
+      -2136
+     ],
+     [
+      149896,
+      24776,
+      -2136
+     ],
+     [
+      149928,
+      25048,
+      -2136
+     ],
+     [
+      149976,
+      25096,
+      -2136
+     ],
+     [
+      149864,
+      25208,
+      -2136
+     ],
+     [
+      149608,
+      25256,
+      -2120
+     ],
+     [
+      149480,
+      25256,
+      -2120
+     ],
+     [
+      149272,
+      25384,
+      -2120
+     ],
+     [
+      149224,
+      25656,
+      -2120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 91,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c1:deliver:30857",
+   "cond": 1,
+   "kind": "deliver",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30857,
+    "name": "Orven",
+    "title": "High Priest",
+    "town": "Aden",
+    "at": [
+     147456,
+     22576,
+     -1989
+    ],
+    "alt": []
+   },
+   "text": "Bring Remains of Sacrifice to Orven",
+   "needs": [
+    {
+     "id": 3857,
+     "name": "Remains of Sacrifice",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30857@147456,22576",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 3996,
+    "sec": 53,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 3996,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147624,
+      25752,
+      -2008
+     ],
+     [
+      147464,
+      25592,
+      -2008
+     ],
+     [
+      147480,
+      25320,
+      -1992
+     ],
+     [
+      147672,
+      25272,
+      -1992
+     ],
+     [
+      147496,
+      25224,
+      -1992
+     ],
+     [
+      147448,
+      24952,
+      -1984
+     ],
+     [
+      147448,
+      24680,
+      -1984
+     ],
+     [
+      147448,
+      24408,
+      -1984
+     ],
+     [
+      147448,
+      24296,
+      -1984
+     ],
+     [
+      147448,
+      24024,
+      -1984
+     ],
+     [
+      147464,
+      23752,
+      -1984
+     ],
+     [
+      147448,
+      23672,
+      -1984
+     ],
+     [
+      147448,
+      23400,
+      -1984
+     ],
+     [
+      147464,
+      23128,
+      -1984
+     ],
+     [
+      147464,
+      22856,
+      -1984
+     ],
+     [
+      147464,
+      22584,
+      -1984
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 78,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c3:talk:30754",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "\"Where is the abyssal jewel?\""
+   ],
+   "npc": {
+    "id": 30754,
+    "name": "Gilmore",
+    "title": "Antharas Watchman",
+    "town": "Giran",
+    "at": [
+     73211,
+     118492,
+     -3696
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gilmore",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30754@73211,118492",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 184,
+    "sec": 47,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 184,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73024,
+      118485,
+      -3696
+     ],
+     [
+      73208,
+      118488,
+      -3696
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 72,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c4:hunt",
+   "cond": 4,
    "kind": "hunt",
    "to": null,
    "monsters": [
@@ -1874,16 +5447,13 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
     4
    ]
   },
   {
-   "i": 2,
-   "key": "c1:spawn:27167",
-   "cond": 1,
+   "i": 12,
+   "key": "c4:spawn:27167",
+   "cond": 4,
    "kind": "spawn",
    "monsters": [
     {
@@ -2068,14 +5638,15 @@
    ],
    "kills": 1,
    "reasons": [
-    "item-from-quest-mob",
     "aggro-on-way"
    ],
    "engine": {
     "how": "kill",
     "trigger": [
      27165
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Abyssal Jewel 3, Jewel Guardian Mara, Jewel Guardian Musfel, Ghost of Offering, Harit Lizardman Zealot appear and kill it",
    "area": {
@@ -2266,16 +5837,13 @@
    },
    "expectedSec": 418,
    "conds": [
-    1,
-    2,
-    3,
     4
    ]
   },
   {
-   "i": 3,
-   "key": "c1:deliver:30755",
-   "cond": 1,
+   "i": 13,
+   "key": "c4:deliver:30755",
+   "cond": 4,
    "kind": "deliver",
    "to": "end",
    "links": [
@@ -2379,1584 +5947,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 4,
-   "key": "c1:talk:30754",
-   "cond": 1,
-   "kind": "talk",
-   "to": 4,
-   "links": [
-    "\"Where is the abyssal jewel?\""
-   ],
-   "npc": {
-    "id": 30754,
-    "name": "Gilmore",
-    "title": "Antharas Watchman",
-    "town": "Giran",
-    "at": [
-     73211,
-     118492,
-     -3696
-    ],
-    "alt": []
-   },
-   "text": "Talk to Gilmore",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30754@73211,118492",
-    "status": "ok",
-    "flags": [],
-    "from": ".hunters",
-    "length": 184,
-    "sec": 47,
-    "via": ".hunters > Hunters -> Dragon Valley",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Hunters",
-      "cmd": ".hunters"
-     },
-     {
-      "do": "gk",
-      "from": "Hunters",
-      "desc": "Hunters -> Dragon Valley",
-      "link": "dragon valley",
-      "price": 1800,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 184,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Hunters",
-     "desc": "Hunters -> Dragon Valley"
-    },
-    "simple": true,
-    "pv": [
-     [
-      73024,
-      118485,
-      -3696
-     ],
-     [
-      73208,
-      118488,
-      -3696
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 72,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3
-   ]
-  },
-  {
-   "i": 5,
-   "key": "c1:talk:30753",
-   "cond": 1,
-   "kind": "talk",
-   "to": 3,
-   "links": [],
-   "npc": {
-    "id": 30753,
-    "name": "Gabrielle",
-    "title": "",
-    "town": "Giran",
-    "at": [
-     81296,
-     149728,
-     -3469
-    ],
-    "alt": []
-   },
-   "text": "Talk to Gabrielle",
-   "reasons": [],
-   "travel": {
-    "src": "computed",
-    "key": "npc:30767@81424,149728",
-    "status": "ok",
-    "flags": [],
-    "from": ".giran",
-    "length": 2537,
-    "sec": 41,
-    "via": ".giran",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
-     },
-     {
-      "do": "walk",
-      "len": 2537,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Giran"
-    },
-    "simple": true,
-    "pv": [
-     [
-      83473,
-      148554,
-      -3400
-     ],
-     [
-      83480,
-      148552,
-      -3400
-     ],
-     [
-      83304,
-      148616,
-      -3400
-     ],
-     [
-      83032,
-      148616,
-      -3464
-     ],
-     [
-      82792,
-      148664,
-      -3464
-     ],
-     [
-      82616,
-      148840,
-      -3464
-     ],
-     [
-      82600,
-      148856,
-      -3464
-     ],
-     [
-      82408,
-      149048,
-      -3464
-     ],
-     [
-      82200,
-      149208,
-      -3464
-     ],
-     [
-      81928,
-      149208,
-      -3464
-     ],
-     [
-      81912,
-      149224,
-      -3464
-     ],
-     [
-      81688,
-      149368,
-      -3464
-     ],
-     [
-      81496,
-      149560,
-      -3464
-     ],
-     [
-      81432,
-      149736,
-      -3464
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    },
-    "anchor": {
-     "key": "npc:30767@81424,149728",
-     "name": "Auctioneer"
-    },
-    "points": [
-     [
-      83473,
-      148554,
-      -3400
-     ],
-     [
-      83480,
-      148552,
-      -3400
-     ],
-     [
-      83304,
-      148616,
-      -3400
-     ],
-     [
-      83032,
-      148616,
-      -3464
-     ],
-     [
-      82792,
-      148664,
-      -3464
-     ],
-     [
-      82616,
-      148840,
-      -3464
-     ],
-     [
-      82600,
-      148856,
-      -3464
-     ],
-     [
-      82408,
-      149048,
-      -3464
-     ],
-     [
-      82200,
-      149208,
-      -3464
-     ],
-     [
-      81928,
-      149208,
-      -3464
-     ],
-     [
-      81912,
-      149224,
-      -3464
-     ],
-     [
-      81688,
-      149368,
-      -3464
-     ],
-     [
-      81496,
-      149560,
-      -3464
-     ],
-     [
-      81432,
-      149736,
-      -3464
-     ]
-    ]
-   },
-   "expectedSec": 66,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 6,
-   "key": "c1:deliver:30498",
-   "cond": 1,
-   "kind": "deliver",
-   "to": null,
-   "links": [],
-   "npc": {
-    "id": 30498,
-    "name": "Moke",
-    "title": "Warehouse Chief",
-    "town": "Gludin",
-    "at": [
-     -81913,
-     153545,
-     -3171
-    ],
-    "alt": []
-   },
-   "text": "Bring 1st Fragment of Abyss Jewel, Mara Fang to Moke",
-   "needs": [
-    {
-     "id": 3859,
-     "name": "1st Fragment of Abyss Jewel",
-     "n": 1
-    },
-    {
-     "id": 3862,
-     "name": "Mara Fang",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30498@-81913,153545",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 8076,
-    "sec": 87,
-    "via": ".gludin",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "walk",
-      "len": 8076,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludin"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -80786,
-      150251,
-      -3040
-     ],
-     [
-      -80648,
-      149960,
-      -3040
-     ],
-     [
-      -80728,
-      150056,
-      -3040
-     ],
-     [
-      -80920,
-      150248,
-      -3040
-     ],
-     [
-      -81128,
-      150296,
-      -3056
-     ],
-     [
-      -81352,
-      150344,
-      -3120
-     ],
-     [
-      -81544,
-      150536,
-      -3120
-     ],
-     [
-      -81752,
-      150712,
-      -3120
-     ],
-     [
-      -81960,
-      150792,
-      -3120
-     ],
-     [
-      -82008,
-      150840,
-      -3120
-     ],
-     [
-      -82104,
-      150936,
-      -3120
-     ],
-     [
-      -82328,
-      151096,
-      -3120
-     ],
-     [
-      -82568,
-      151240,
-      -3120
-     ],
-     [
-      -82760,
-      151416,
-      -3120
-     ],
-     [
-      -82936,
-      151608,
-      -3120
-     ],
-     [
-      -82952,
-      151880,
-      -3120
-     ],
-     [
-      -82968,
-      152152,
-      -3120
-     ],
-     [
-      -82984,
-      152168,
-      -3120
-     ],
-     [
-      -83032,
-      152424,
-      -3128
-     ],
-     [
-      -83032,
-      152696,
-      -3168
-     ],
-     [
-      -82904,
-      152888,
-      -3168
-     ],
-     [
-      -82904,
-      153000,
-      -3168
-     ],
-     [
-      -82904,
-      152888,
-      -3168
-     ],
-     [
-      -83032,
-      152888,
-      -3168
-     ],
-     [
-      -83080,
-      153160,
-      -3168
-     ],
-     [
-      -83208,
-      153320,
-      -3168
-     ],
-     [
-      -83368,
-      153480,
-      -3168
-     ],
-     [
-      -83336,
-      153752,
-      -3168
-     ],
-     [
-      -83336,
-      153880,
-      -3168
-     ],
-     [
-      -83128,
-      153944,
-      -3168
-     ],
-     [
-      -82856,
-      153928,
-      -3168
-     ],
-     [
-      -82856,
-      153864,
-      -3176
-     ],
-     [
-      -82856,
-      153896,
-      -3168
-     ],
-     [
-      -82584,
-      153944,
-      -3168
-     ],
-     [
-      -82376,
-      153768,
-      -3168
-     ],
-     [
-      -82360,
-      153672,
-      -3168
-     ],
-     [
-      -82328,
-      153688,
-      -3168
-     ],
-     [
-      -82280,
-      153608,
-      -3168
-     ],
-     [
-      -82248,
-      153336,
-      -3168
-     ],
-     [
-      -82008,
-      153320,
-      -3168
-     ],
-     [
-      -81912,
-      153496,
-      -3168
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 112,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 7,
-   "key": "c1:deliver:30678",
-   "cond": 1,
-   "kind": "deliver",
-   "to": null,
-   "links": [],
-   "npc": {
-    "id": 30678,
-    "name": "Helton",
-    "title": "Blacksmith",
-    "town": "Oren",
-    "at": [
-     83684,
-     55631,
-     -1509
-    ],
-    "alt": []
-   },
-   "text": "Bring 2nd Fragment of Abyss Jewel, Musfel Fang to Helton",
-   "needs": [
-    {
-     "id": 3860,
-     "name": "2nd Fragment of Abyss Jewel",
-     "n": 1
-    },
-    {
-     "id": 3863,
-     "name": "Musfel Fang",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30678@83684,55631",
-    "status": "ok",
-    "flags": [],
-    "from": ".oren",
-    "length": 3638,
-    "sec": 50,
-    "via": ".oren",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "walk",
-      "len": 3638,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Oren"
-    },
-    "simple": true,
-    "pv": [
-     [
-      82760,
-      53578,
-      -1470
-     ],
-     [
-      82424,
-      53736,
-      -1488
-     ],
-     [
-      82408,
-      53752,
-      -1488
-     ],
-     [
-      82360,
-      54024,
-      -1488
-     ],
-     [
-      82360,
-      54296,
-      -1488
-     ],
-     [
-      82360,
-      54568,
-      -1520
-     ],
-     [
-      82264,
-      54792,
-      -1520
-     ],
-     [
-      82280,
-      55064,
-      -1520
-     ],
-     [
-      82312,
-      55336,
-      -1520
-     ],
-     [
-      82472,
-      55544,
-      -1520
-     ],
-     [
-      82680,
-      55720,
-      -1520
-     ],
-     [
-      82952,
-      55752,
-      -1520
-     ],
-     [
-      82984,
-      55784,
-      -1520
-     ],
-     [
-      83160,
-      55608,
-      -1520
-     ],
-     [
-      83432,
-      55592,
-      -1504
-     ],
-     [
-      83496,
-      55592,
-      -1512
-     ],
-     [
-      83688,
-      55624,
-      -1512
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 75,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 8,
-   "key": "c1:deliver:30705",
-   "cond": 1,
-   "kind": "deliver",
-   "to": null,
-   "links": [],
-   "npc": {
-    "id": 30705,
-    "name": "Chakiris",
-    "title": "Prefect",
-    "town": "Hunters Village",
-    "at": [
-     120079,
-     74847,
-     -2374
-    ],
-    "alt": []
-   },
-   "text": "Bring Kranrot Skin, Hamrut Leg to Chakiris",
-   "needs": [
-    {
-     "id": 3855,
-     "name": "Kranrot Skin",
-     "n": 1
-    },
-    {
-     "id": 3856,
-     "name": "Hamrut Leg",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30705@120079,74847",
-    "status": "ok",
-    "flags": [],
-    "from": ".hunters",
-    "length": 9739,
-    "sec": 101,
-    "via": ".hunters",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Hunters",
-      "cmd": ".hunters"
-     },
-     {
-      "do": "walk",
-      "len": 9739,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Hunters"
-    },
-    "simple": true,
-    "pv": [
-     [
-      116589,
-      76268,
-      -3000
-     ],
-     [
-      116568,
-      76152,
-      -2728
-     ],
-     [
-      116696,
-      76280,
-      -2728
-     ],
-     [
-      116776,
-      76456,
-      -2728
-     ],
-     [
-      116792,
-      76728,
-      -2720
-     ],
-     [
-      116824,
-      77000,
-      -2704
-     ],
-     [
-      116616,
-      77160,
-      -2720
-     ],
-     [
-      116424,
-      77352,
-      -2704
-     ],
-     [
-      116360,
-      77416,
-      -2704
-     ],
-     [
-      116344,
-      77672,
-      -2680
-     ],
-     [
-      116392,
-      77944,
-      -2680
-     ],
-     [
-      116536,
-      78184,
-      -2648
-     ],
-     [
-      116616,
-      78312,
-      -2608
-     ],
-     [
-      116760,
-      78536,
-      -2496
-     ],
-     [
-      116824,
-      78648,
-      -2432
-     ],
-     [
-      116968,
-      78888,
-      -2256
-     ],
-     [
-      117000,
-      78968,
-      -2256
-     ],
-     [
-      117256,
-      78984,
-      -2256
-     ],
-     [
-      117528,
-      79000,
-      -2256
-     ],
-     [
-      117800,
-      79016,
-      -2256
-     ],
-     [
-      117976,
-      78808,
-      -2200
-     ],
-     [
-      117976,
-      78648,
-      -2168
-     ],
-     [
-      117976,
-      78664,
-      -2168
-     ],
-     [
-      118168,
-      78632,
-      -2176
-     ],
-     [
-      118344,
-      78424,
-      -2176
-     ],
-     [
-      118520,
-      78216,
-      -2176
-     ],
-     [
-      118696,
-      78024,
-      -2176
-     ],
-     [
-      118904,
-      77848,
-      -2200
-     ],
-     [
-      119016,
-      77720,
-      -2248
-     ],
-     [
-      119064,
-      77448,
-      -2272
-     ],
-     [
-      119112,
-      77208,
-      -2272
-     ],
-     [
-      119288,
-      77000,
-      -2272
-     ],
-     [
-      119352,
-      76920,
-      -2272
-     ],
-     [
-      119480,
-      76920,
-      -2272
-     ],
-     [
-      119720,
-      76792,
-      -2272
-     ],
-     [
-      119768,
-      76520,
-      -2272
-     ],
-     [
-      119640,
-      76280,
-      -2272
-     ],
-     [
-      119608,
-      76008,
-      -2272
-     ],
-     [
-      119704,
-      75912,
-      -2264
-     ],
-     [
-      119608,
-      75816,
-      -2272
-     ],
-     [
-      119768,
-      75592,
-      -2272
-     ],
-     [
-      119752,
-      75320,
-      -2344
-     ],
-     [
-      119736,
-      75288,
-      -2360
-     ],
-     [
-      119672,
-      75096,
-      -2368
-     ],
-     [
-      119816,
-      74952,
-      -2368
-     ],
-     [
-      120072,
-      74840,
-      -2368
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 126,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 9,
-   "key": "c1:deliver:30720",
-   "cond": 1,
-   "kind": "deliver",
-   "to": null,
-   "links": [],
-   "npc": {
-    "id": 30720,
-    "name": "Kaiena",
-    "title": "Magister",
-    "town": "Oren",
-    "at": [
-     85332,
-     16592,
-     -1769
-    ],
-    "alt": []
-   },
-   "text": "Bring Marsh Stalker Horn, Marsh Drake Talons to Kaiena",
-   "needs": [
-    {
-     "id": 3853,
-     "name": "Marsh Stalker Horn",
-     "n": 1
-    },
-    {
-     "id": 3854,
-     "name": "Marsh Drake Talons",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30720@85332,16592",
-    "status": "ok",
-    "flags": [],
-    "from": ".oren",
-    "length": 408,
-    "sec": 63,
-    "via": ".oren > Oren -> Ivory Tower > enter Verona",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "gk",
-      "from": "Oren",
-      "desc": "Oren -> Ivory Tower",
-      "link": "ivory tower",
-      "price": 3700,
-      "live": true
-     },
-     {
-      "do": "enter",
-      "how": "npc-teleport",
-      "npc": "Verona",
-      "link": "4th Floor Dark Wizard Guild"
-     },
-     {
-      "do": "walk",
-      "len": 408,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Oren",
-     "desc": "Oren -> Ivory Tower"
-    },
-    "simple": false,
-    "pv": [
-     [
-      85399,
-      16197,
-      -1776
-     ],
-     [
-      85336,
-      16600,
-      -1776
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 88,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 10,
-   "key": "c1:deliver:30851",
-   "cond": 1,
-   "kind": "deliver",
-   "to": null,
-   "links": [],
-   "npc": {
-    "id": 30851,
-    "name": "Kendra",
-    "title": "Master",
-    "town": "Aden",
-    "at": [
-     149216,
-     25648,
-     -2121
-    ],
-    "alt": []
-   },
-   "text": "Bring Totem of Land Dragon to Kendra",
-   "needs": [
-    {
-     "id": 3858,
-     "name": "Totem of Land Dragon",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30851@149216,25648",
-    "status": "ok",
-    "flags": [],
-    "from": ".aden",
-    "length": 5546,
-    "sec": 66,
-    "via": ".aden",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Aden",
-      "cmd": ".aden"
-     },
-     {
-      "do": "walk",
-      "len": 5546,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Aden"
-    },
-    "simple": true,
-    "pv": [
-     [
-      147448,
-      25816,
-      -2008
-     ],
-     [
-      147768,
-      25752,
-      -2008
-     ],
-     [
-      147928,
-      25800,
-      -2008
-     ],
-     [
-      148200,
-      25800,
-      -2008
-     ],
-     [
-      148456,
-      25720,
-      -2008
-     ],
-     [
-      148568,
-      25480,
-      -2008
-     ],
-     [
-      148568,
-      25208,
-      -2008
-     ],
-     [
-      148504,
-      24936,
-      -2008
-     ],
-     [
-      148504,
-      24664,
-      -2008
-     ],
-     [
-      148552,
-      24392,
-      -2008
-     ],
-     [
-      148744,
-      24264,
-      -2008
-     ],
-     [
-      149016,
-      24264,
-      -2056
-     ],
-     [
-      149288,
-      24264,
-      -2104
-     ],
-     [
-      149464,
-      24264,
-      -2136
-     ],
-     [
-      149704,
-      24312,
-      -2136
-     ],
-     [
-      149896,
-      24504,
-      -2136
-     ],
-     [
-      149896,
-      24776,
-      -2136
-     ],
-     [
-      149928,
-      25048,
-      -2136
-     ],
-     [
-      149976,
-      25096,
-      -2136
-     ],
-     [
-      149864,
-      25208,
-      -2136
-     ],
-     [
-      149608,
-      25256,
-      -2120
-     ],
-     [
-      149480,
-      25256,
-      -2120
-     ],
-     [
-      149272,
-      25384,
-      -2120
-     ],
-     [
-      149224,
-      25656,
-      -2120
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 91,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 11,
-   "key": "c1:deliver:30857",
-   "cond": 1,
-   "kind": "deliver",
-   "to": null,
-   "links": [],
-   "npc": {
-    "id": 30857,
-    "name": "Orven",
-    "title": "High Priest",
-    "town": "Aden",
-    "at": [
-     147456,
-     22576,
-     -1989
-    ],
-    "alt": []
-   },
-   "text": "Bring Remains of Sacrifice to Orven",
-   "needs": [
-    {
-     "id": 3857,
-     "name": "Remains of Sacrifice",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30857@147456,22576",
-    "status": "ok",
-    "flags": [],
-    "from": ".aden",
-    "length": 3996,
-    "sec": 53,
-    "via": ".aden",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Aden",
-      "cmd": ".aden"
-     },
-     {
-      "do": "walk",
-      "len": 3996,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Aden"
-    },
-    "simple": true,
-    "pv": [
-     [
-      147448,
-      25816,
-      -2008
-     ],
-     [
-      147768,
-      25752,
-      -2008
-     ],
-     [
-      147624,
-      25752,
-      -2008
-     ],
-     [
-      147464,
-      25592,
-      -2008
-     ],
-     [
-      147480,
-      25320,
-      -1992
-     ],
-     [
-      147672,
-      25272,
-      -1992
-     ],
-     [
-      147496,
-      25224,
-      -1992
-     ],
-     [
-      147448,
-      24952,
-      -1984
-     ],
-     [
-      147448,
-      24680,
-      -1984
-     ],
-     [
-      147448,
-      24408,
-      -1984
-     ],
-     [
-      147448,
-      24296,
-      -1984
-     ],
-     [
-      147448,
-      24024,
-      -1984
-     ],
-     [
-      147464,
-      23752,
-      -1984
-     ],
-     [
-      147448,
-      23672,
-      -1984
-     ],
-     [
-      147448,
-      23400,
-      -1984
-     ],
-     [
-      147464,
-      23128,
-      -1984
-     ],
-     [
-      147464,
-      22856,
-      -1984
-     ],
-     [
-      147464,
-      22584,
-      -1984
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 78,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
     4
    ]
   }

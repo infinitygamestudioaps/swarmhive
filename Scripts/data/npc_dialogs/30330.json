@@ -1,0 +1,401 @@
+{
+ "npcId": 30330,
+ "name": "Sidra",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.936Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "413": {
+   "name": "Path of the Shillien Oracle",
+   "listText": [
+    "[Path of the Shillien Oracle]",
+    "[Path of the Shillien Oracle (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30330-01.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30330-07.html",
+     "when": "state STARTED; has items 1262; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30330-08.html",
+     "when": "state STARTED; has items 1263,1264; lacks items 1262; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30330-09.html",
+     "when": "state STARTED; has items 1266,1265,1267,1268; lacks items 1262,1263,1264,1269; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30330-10.html",
+     "when": "state STARTED; has items 1269,1265; lacks items 1262,1263,1264; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, ANDARIEL_BOOK) && hasAtLeastOneQuestItem(player, PRAYER_OF_ADONIUS, GARMIELS_BOOK, PENITENTS_MA",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00413_PathOfTheShillienOracle/30330-01.htm": {
+   "file": "Q00413_PathOfTheShillienOracle/30330-01.htm",
+   "quest": 413,
+   "text": "Magister Sidra: The Priests of Humans or Elves only look to the gods of light, and so their understanding is imperfect. The magic they use is only half and incomplete. However, the Shillien Oracles, the combat celebrants of the Dark Elves, understand both light and dark and command power from both.…",
+   "header": "Magister Sidra",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you want to become a Shillien Oracle",
+     "bypass": "Quest Q00413_PathOfTheShillienOracle ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00413_PathOfTheShillienOracle",
+     "event": "ACCEPT",
+     "quest": 413,
+     "to": "Q00413_PathOfTheShillienOracle/30330-05.htm",
+     "toAll": [
+      "Q00413_PathOfTheShillienOracle/30330-04.htm",
+      "Q00413_PathOfTheShillienOracle/30330-05.htm",
+      "Q00413_PathOfTheShillienOracle/30330-02.htm",
+      "Q00413_PathOfTheShillienOracle/30330-02a.htm",
+      "Q00413_PathOfTheShillienOracle/30330-03.htm"
+     ]
+    }
+   ]
+  },
+  "Q00413_PathOfTheShillienOracle/30330-07.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30330-07.html",
+   "quest": 413,
+   "text": "Magister Sidra: Meet with Magister Talbot and ask about Garmiel's Book . You can find him in the Dark Elf Guild of the village of Gludin , located on the west coast. Show him my letter and he will greet you with pleasure.",
+   "header": "Magister Sidra",
+   "when": [
+    "state STARTED; has items 1262; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30330-08.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30330-08.html",
+   "quest": 413,
+   "text": "Magister Sidra: As Talbot taught you, collect the runes and complete Garmiel's book.",
+   "header": "Magister Sidra",
+   "when": [
+    "state STARTED; has items 1263,1264; lacks items 1262; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30330-09.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30330-09.html",
+   "quest": 413,
+   "text": "Magister Sidra: The second level of the test is to find Andariel's Book, which contains the song phrases of creation sung by Einhasad.",
+   "header": "Magister Sidra",
+   "when": [
+    "state STARTED; has items 1266,1265,1267,1268; lacks items 1262,1263,1264,1269; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30330-10.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30330-10.html",
+   "quest": 413,
+   "text": "Magister Sidra: The two documents you hold in your hands contain parts of the song of creation sung by the Gods in the beginning. I trust that you discovered the power of the precious phrases and the truth of authority as you read them one by one. Now I am giving you the Orb of Abyss. With this, yo…",
+   "header": "Magister Sidra",
+   "when": [
+    "state STARTED; has items 1269,1265; lacks items 1262,1263,1264; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, ANDARIEL_BOOK) && hasAtLeastOneQuestItem(player, PRAYER_OF_ADONIUS, GARMIELS_BOOK, PENITENTS_MA"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30330-02.htm": {
+   "file": "Q00413_PathOfTheShillienOracle/30330-02.htm",
+   "quest": 413,
+   "text": "Magister Sidra: I have taught countless wizards. I can tell a candidate's aptitude simply by observing his aura. Yours tells me that you are not yet ready to become a Shillien Oracle. Return to me after you have deepened your understanding of the magic arts. (Only characters level 18 and above may …",
+   "header": "Magister Sidra",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30330-02a.htm": {
+   "file": "Q00413_PathOfTheShillienOracle/30330-02a.htm",
+   "quest": 413,
+   "text": "Magister Sidra: You are the Shillien Oracle, who has gained all the knowledge of that office. You do not need another ritual.",
+   "header": "Magister Sidra",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30330-03.htm": {
+   "file": "Q00413_PathOfTheShillienOracle/30330-03.htm",
+   "quest": 413,
+   "text": "Magister Sidra: The customary right to perform the ritual of becoming a Shillien Oracle are only given to Dark Mystics. I cannot give you this opportunity.",
+   "header": "Magister Sidra",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30330-04.htm": {
+   "file": "Q00413_PathOfTheShillienOracle/30330-04.htm",
+   "quest": 413,
+   "text": "Magister Sidra: The \"Orb of Abyss\" that you carry is a token that shows you have completed all requirements and are eligible to become a Shillien Oracle. Take the orb to a grand master of the Dark Elf Guild and he will give you help in obtaining the enlightenment regarding the truth between light a…",
+   "header": "Magister Sidra",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30330-05.htm": {
+   "file": "Q00413_PathOfTheShillienOracle/30330-05.htm",
+   "quest": 413,
+   "text": "Magister Sidra: Good. You have sufficient experience and skill to take the test. Above all, I feel your thirst for enlightenment and power. To step into the ranks of the Shillien Oracle, you must pass two customary tasks . This will be an opportunity to prove that you have the courage not to fear d…",
+   "header": "Magister Sidra",
+   "links": [
+    {
+     "text": "Ask about the two tests",
+     "bypass": "Quest Q00413_PathOfTheShillienOracle 30330-06.htm",
+     "kind": "quest-event",
+     "script": "Q00413_PathOfTheShillienOracle",
+     "event": "30330-06.htm",
+     "quest": 413,
+     "to": "Q00413_PathOfTheShillienOracle/30330-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00413_PathOfTheShillienOracle/30330-06.htm": {
+   "file": "Q00413_PathOfTheShillienOracle/30330-06.htm",
+   "quest": 413,
+   "text": "Magister Sidra: Before you become a Shillien Oracle that seeks the truth of all light and darkness, you must find the fragments of song that Gran Kain and Einhasad sang in the beginning. You must find two documents that have the song verses of creation written in ancient runes -- one is Garmiel's B…",
+   "header": "Magister Sidra",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Ask about the songs sung by Gods",
+     "bypass": "Quest Q00413_PathOfTheShillienOracle 30330-06a.html",
+     "kind": "quest-event",
+     "script": "Q00413_PathOfTheShillienOracle",
+     "event": "30330-06a.html",
+     "quest": 413,
+     "to": "Q00413_PathOfTheShillienOracle/30330-06a.html"
+    }
+   ]
+  },
+  "Q00413_PathOfTheShillienOracle/30330-06a.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30330-06a.html",
+   "quest": 413,
+   "text": "Magister Sidra: In the beginning, Einhasad and Gran Kain sang the song of creation and created the world. The songs of light sung by Einhasad and poems of darkness recited by Gran Kain formed a beautiful harmony to create all life in the universe. Afterwards, they taught the songs they had sung to …",
+   "header": "Magister Sidra",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00413_PathOfTheShillienOracle 30330-06.htm",
+     "kind": "quest-event",
+     "script": "Q00413_PathOfTheShillienOracle",
+     "event": "30330-06.htm",
+     "quest": 413,
+     "to": "Q00413_PathOfTheShillienOracle/30330-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/30330-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30330-noteach.html",
+   "quest": null,
+   "text": "Magister Sidra: I am a Sorceress of the Dark Elves, and cannot teach you. If you want to learn something, go and find a teacher that is right for you.",
+   "header": "Magister Sidra",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30330.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30330.html",
+   "quest": null,
+   "text": "Magister Sidra: Welcome, friend of darkness. May Shilen come again! I am Dark Elf Magister Sidra. Age and gender matter little when it comes to learning and practicing. What would you like to learn?",
+   "header": "Magister Sidra",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Shillien Oracle]",
+     "bypass": "npc_%objectId%_Quest Q00413_PathOfTheShillienOracle",
+     "kind": "quest",
+     "quest": 413,
+     "to": "Q00413_PathOfTheShillienOracle/30330-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Shillien Oracle (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00413_PathOfTheShillienOracle",
+     "kind": "quest",
+     "quest": 413,
+     "to": "Q00413_PathOfTheShillienOracle/30330-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30330-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30330-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

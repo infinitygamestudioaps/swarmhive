@@ -1,0 +1,62 @@
+{
+ "npcId": 31261,
+ "name": "Renee",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.145Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31261.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31261.htm": {
+   "file": "merchant/31261.htm",
+   "quest": null,
+   "text": "Trader Renee: Necklaces...rings... Ah, you don't want to buy them because they are glittering and pretty? Eh? As I expected, adventurers have different tastes. And there are certainly a great many adventurers in Goddard! But don't fear -- we only carry quality items.",
+   "header": "Trader Renee",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Buy 3126100",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy/Sell/Refund Common Items.",
+     "bypass": "npc_%objectId%_Buy 3126101",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/31261-pk.htm": {
+   "file": "merchant/31261-pk.htm",
+   "quest": null,
+   "text": "Trader Renee: Do you really think my lovely accessories would look good on a criminal like you? I can't believe this is happening... Get out of my store!",
+   "header": "Trader Renee",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

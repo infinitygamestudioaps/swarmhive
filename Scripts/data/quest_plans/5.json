@@ -2,7 +2,7 @@
  "id": 5,
  "name": "Miner's Favor",
  "version": 1,
- "generated": "2026-10-27T11:14:35.505Z",
+ "generated": "2026-10-27T18:18:15.447Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 2,
@@ -12,15 +12,9 @@
  "region": "Dwarven Village",
  "requirements": {},
  "restrictions": [],
- "status": "fixable",
- "reasons": [
-  {
-   "code": "engine-manual",
-   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
-   "step": 1
-  }
- ],
- "expectedMin": 4,
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 10,
  "refLevel": 2,
  "steps": [
   {
@@ -209,18 +203,219 @@
   },
   {
    "i": 1,
-   "key": "c1:manual",
+   "key": "c1:talk:30517",
    "cond": 1,
-   "kind": "special",
+   "kind": "talk",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30517,
+    "name": "Shari",
+    "title": "Armor Merchant",
+    "town": "Dwarven Village",
+    "at": [
+     116192,
+     -181072,
+     -1336
+    ],
+    "alt": []
+   },
    "text": "Collect supplies from Shari, Garita, Reed and Brunon",
-   "reasons": [
-    "engine-manual"
-   ],
-   "engineWhy": "no automatic step at cond 1 (Collect supplies from Shari, Garita, Reed and Brunon)",
-   "expectedSec": 60,
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30517@116192,-181072",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 5363,
+    "sec": 90,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5363,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178440,
+      -920
+     ],
+     [
+      115288,
+      -178712,
+      -920
+     ],
+     [
+      115336,
+      -178888,
+      -936
+     ],
+     [
+      115368,
+      -178920,
+      -944
+     ],
+     [
+      115384,
+      -178936,
+      -944
+     ],
+     [
+      115576,
+      -179128,
+      -968
+     ],
+     [
+      115768,
+      -179320,
+      -984
+     ],
+     [
+      116024,
+      -179384,
+      -1032
+     ],
+     [
+      116280,
+      -179448,
+      -1088
+     ],
+     [
+      116488,
+      -179576,
+      -1120
+     ],
+     [
+      116680,
+      -179768,
+      -1144
+     ],
+     [
+      116728,
+      -179976,
+      -1168
+     ],
+     [
+      116680,
+      -180248,
+      -1192
+     ],
+     [
+      116712,
+      -180520,
+      -1240
+     ],
+     [
+      116712,
+      -180792,
+      -1288
+     ],
+     [
+      116664,
+      -180888,
+      -1304
+     ],
+     [
+      116648,
+      -181096,
+      -1344
+     ],
+     [
+      116584,
+      -181352,
+      -1392
+     ],
+     [
+      116360,
+      -181512,
+      -1384
+     ],
+     [
+      116184,
+      -181592,
+      -1360
+     ],
+     [
+      115960,
+      -181560,
+      -1336
+     ],
+     [
+      115976,
+      -181560,
+      -1344
+     ],
+     [
+      116152,
+      -181496,
+      -1352
+     ],
+     [
+      116168,
+      -181272,
+      -1336
+     ],
+     [
+      116136,
+      -181192,
+      -1336
+     ],
+     [
+      116200,
+      -181064,
+      -1336
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 115,
    "engine": {
-    "act": "manual",
-    "hasItems": "manual"
+    "act": "talk",
+    "hasItems": "talk"
    },
    "conds": [
     1
@@ -228,6 +423,523 @@
   },
   {
    "i": 2,
+   "key": "c1:talk:30518",
+   "cond": 1,
+   "kind": "talk",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30518,
+    "name": "Garita",
+    "title": "Accessory Merchant",
+    "town": "Dwarven Village",
+    "at": [
+     115900,
+     -177316,
+     -880
+    ],
+    "alt": []
+   },
+   "text": "Collect supplies from Shari, Garita, Reed and Brunon",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30518@115900,-177316",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1328,
+    "sec": 56,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1328,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115384,
+      -178168,
+      -928
+     ],
+     [
+      115576,
+      -177976,
+      -912
+     ],
+     [
+      115624,
+      -177976,
+      -904
+     ],
+     [
+      115752,
+      -177800,
+      -888
+     ],
+     [
+      115768,
+      -177528,
+      -880
+     ],
+     [
+      115768,
+      -177512,
+      -880
+     ],
+     [
+      115896,
+      -177320,
+      -880
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30520",
+   "cond": 1,
+   "kind": "talk",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30520,
+    "name": "Reed",
+    "title": "Warehouse Chief",
+    "town": "Dwarven Village",
+    "at": [
+     115205,
+     -180024,
+     -872
+    ],
+    "alt": []
+   },
+   "text": "Collect supplies from Shari, Garita, Reed and Brunon",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30520@115205,-180024",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 2393,
+    "sec": 65,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2393,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178392,
+      -920
+     ],
+     [
+      115320,
+      -178664,
+      -928
+     ],
+     [
+      115400,
+      -178920,
+      -944
+     ],
+     [
+      115448,
+      -179192,
+      -936
+     ],
+     [
+      115400,
+      -179464,
+      -896
+     ],
+     [
+      115208,
+      -179640,
+      -880
+     ],
+     [
+      115016,
+      -179720,
+      -880
+     ],
+     [
+      115016,
+      -179672,
+      -880
+     ],
+     [
+      114968,
+      -179672,
+      -872
+     ],
+     [
+      115112,
+      -179736,
+      -880
+     ],
+     [
+      115112,
+      -179880,
+      -872
+     ],
+     [
+      115112,
+      -179928,
+      -872
+     ],
+     [
+      115208,
+      -180024,
+      -872
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 90,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:30526",
+   "cond": 1,
+   "kind": "talk",
+   "to": 1,
+   "links": [
+    "Take out Bolter's Smelly Socks."
+   ],
+   "npc": {
+    "id": 30526,
+    "name": "Brunon",
+    "title": "Blacksmith",
+    "town": "Dwarven Village",
+    "at": [
+     115315,
+     -182155,
+     -1440
+    ],
+    "alt": []
+   },
+   "text": "Collect supplies from Shari, Garita, Reed and Brunon",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30526@115315,-182155",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6583,
+    "sec": 100,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6583,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178440,
+      -920
+     ],
+     [
+      115288,
+      -178712,
+      -920
+     ],
+     [
+      115336,
+      -178888,
+      -936
+     ],
+     [
+      115368,
+      -178920,
+      -944
+     ],
+     [
+      115384,
+      -178936,
+      -944
+     ],
+     [
+      115576,
+      -179128,
+      -968
+     ],
+     [
+      115768,
+      -179320,
+      -984
+     ],
+     [
+      116024,
+      -179384,
+      -1032
+     ],
+     [
+      116280,
+      -179448,
+      -1088
+     ],
+     [
+      116488,
+      -179576,
+      -1120
+     ],
+     [
+      116680,
+      -179768,
+      -1144
+     ],
+     [
+      116728,
+      -179976,
+      -1168
+     ],
+     [
+      116680,
+      -180248,
+      -1192
+     ],
+     [
+      116712,
+      -180520,
+      -1240
+     ],
+     [
+      116712,
+      -180792,
+      -1288
+     ],
+     [
+      116664,
+      -181064,
+      -1344
+     ],
+     [
+      116648,
+      -181336,
+      -1392
+     ],
+     [
+      116648,
+      -181400,
+      -1400
+     ],
+     [
+      116616,
+      -181672,
+      -1440
+     ],
+     [
+      116584,
+      -181944,
+      -1488
+     ],
+     [
+      116392,
+      -182136,
+      -1488
+     ],
+     [
+      116200,
+      -182328,
+      -1488
+     ],
+     [
+      116088,
+      -182440,
+      -1488
+     ],
+     [
+      115992,
+      -182536,
+      -1472
+     ],
+     [
+      115768,
+      -182696,
+      -1448
+     ],
+     [
+      115496,
+      -182680,
+      -1440
+     ],
+     [
+      115416,
+      -182664,
+      -1440
+     ],
+     [
+      115336,
+      -182424,
+      -1440
+     ],
+     [
+      115320,
+      -182152,
+      -1440
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 125,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 5,
    "key": "c2:talk:30554",
    "cond": 2,
    "kind": "talk",
@@ -415,5 +1127,14 @@
  ],
  "override": {
   "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T18:18:15.674Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "route-detour"
+  ]
  }
 }

@@ -47,10 +47,12 @@ const RB = J(path.join(DATA, 'raidbosses_h5.json')).bosses.find(b => b.id === 25
 const L = { x: TP.x, y: TP.y, z: TP.z }, T = { x: RB.x, y: RB.y, z: RB.z };
 if (!HAS_GEO) noGeo('the Tillion route search (3)');
 else {
-const dry =fast.findPath(L, T, { swim: false, maxNodes: 6e6, maxMs: 120000, pad: 6000 });
+// LEARNEDFREE-2026-10-27: these checks are about the GEODATA route; the live-learned stuck spots (Scripts/data/geo_blocked.json, 5,282 by then, many around
+// the Devil Isle landing after the day's raids) are left out (noLearned), so the result does not depend on what the bots ran into that day
+const dry =fast.findPath(L, T, { swim: false, maxNodes: 6e6, maxMs: 120000, pad: 6000, noLearned: true });
 ok(!dry.ok, `land-only: no way to Tillion (${dry.reason || ''}) — why the atlas said "closed pocket"`);
 ok(fast.pocket(T.x, T.y, T.z, 60000, { swim: false }) < 60000 && fast.pocket(T.x, T.y, T.z, 60000) >= 60000, 'Tillion\'s beach: a closed pocket on land, open with swimming');
-const rs = geo.findPath(L, T, { maxNodes: 1.5e7, maxMs: 300000, pad: 6000 }), rf = fast.findPath(L, T, { maxNodes: 1.5e7, maxMs: 300000, pad: 6000 });
+const rs = geo.findPath(L, T, { maxNodes: 1.5e7, maxMs: 300000, pad: 6000, noLearned: true }), rf = fast.findPath(L, T, { maxNodes: 1.5e7, maxMs: 300000, pad: 6000, noLearned: true });
 ok(rs.ok && rf.ok, 'with swimming: geopath.js AND geopath_fast.js find the route');
 ok(rs.ok && rf.ok && Math.abs(rs.lengthUnits - rf.lengthUnits) / rs.lengthUnits < 0.05, `both finders agree (${rs.lengthUnits} / ${rf.lengthUnits})`);
 ok(rs.ok && rs.swimUnits > 2000 && rs.swimUnits < 8000, `the route swims ${rs.swimUnits} units (longest unbroken ${rs.maxSwimRun})`);

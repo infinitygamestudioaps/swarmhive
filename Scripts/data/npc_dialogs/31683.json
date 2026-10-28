@@ -1,0 +1,758 @@
+{
+ "npcId": 31683,
+ "name": "Eye of Argos",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.268Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31683.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "601": {
+   "name": "Watching Eyes",
+   "listText": [
+    "[Watching Eyes]",
+    "[Watching Eyes (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00601_WatchingEyes/31683-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 71)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00601_WatchingEyes/31683-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 71)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00601_WatchingEyes/31683-03.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00601_WatchingEyes/31683-04.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "602": {
+   "name": "Shadow of Light",
+   "listText": [
+    "[Shadow of Light]",
+    "[Shadow of Light (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00602_ShadowOfLight/31683-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 68)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00602_ShadowOfLight/31683-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 68)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00602_ShadowOfLight/31683-03.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00602_ShadowOfLight/31683-04.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "603": {
+   "name": "Daimon the White-Eyed - Part 1",
+   "listText": [
+    "[Daimon the White-Eyed - Part 1]",
+    "[Daimon the White-Eyed - Part 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00603_DaimonTheWhiteEyedPart1/31683-02.html",
+     "when": "state CREATED; (talker.getLevel() < MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00603_DaimonTheWhiteEyedPart1/31683-01.htm",
+     "when": "state CREATED; NOT (talker.getLevel() < MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00603_DaimonTheWhiteEyedPart1/31683-04.html",
+     "when": "state STARTED; cond 1|2|3|4|5",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00603_DaimonTheWhiteEyedPart1/31683-05.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00603_DaimonTheWhiteEyedPart1/31683-07.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00603_DaimonTheWhiteEyedPart1/31683-08.html",
+     "when": "state STARTED; cond 8",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "604": {
+   "name": "Daimon the White-Eyed - Part 2",
+   "listText": [
+    "[Daimon the White-Eyed - Part 2]",
+    "[Daimon the White-Eyed - Part 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00604_DaimonTheWhiteEyedPart2/31683-01.htm",
+     "when": "state CREATED; level < 73",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00604_DaimonTheWhiteEyedPart2/31683-02.htm",
+     "when": "state CREATED; NOT level < 73; lacks items 7192",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00604_DaimonTheWhiteEyedPart2/31683-03.htm",
+     "when": "state CREATED; NOT level < 73; has items 7192",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00604_DaimonTheWhiteEyedPart2/31683-05.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00604_DaimonTheWhiteEyedPart2/31683-06.html",
+     "when": "state STARTED; qs.getMemoState() >= 22; (hasQuestItems(player, ESSENCE_OF_DAIMON))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00604_DaimonTheWhiteEyedPart2/31683-09.html",
+     "when": "state STARTED; qs.getMemoState() >= 22; NOT (hasQuestItems(player, ESSENCE_OF_DAIMON))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31683.htm": {
+   "file": "default/31683.htm",
+   "quest": null,
+   "text": "Eye of Argos: The forest is quiet but the wind won't give me any peace!",
+   "header": "Eye of Argos",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00601_WatchingEyes/31683-01.htm": {
+   "file": "Q00601_WatchingEyes/31683-01.htm",
+   "quest": 601,
+   "text": "Eye of Argos: Even after my friends, the giants, perished, and the gods tore my body asunder and imprisoned me here, I stayed quiet. Now, to add insult to injury, they've posted their disciples as guards to watch over me, to humiliate what's left of me! I can't stand it any more! I'm not as evil as…",
+   "header": "Eye of Argos",
+   "when": [
+    "state CREATED; (player.getLevel() >= 71)"
+   ],
+   "links": [
+    {
+     "text": "\"We'll help you.\"",
+     "bypass": "Quest Q00601_WatchingEyes 31683-02.htm",
+     "kind": "quest-event",
+     "script": "Q00601_WatchingEyes",
+     "event": "31683-02.htm",
+     "quest": 601,
+     "to": "Q00601_WatchingEyes/31683-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00601_WatchingEyes/31683-00.htm": {
+   "file": "Q00601_WatchingEyes/31683-00.htm",
+   "quest": 601,
+   "text": "Eye of Argos: My dear soldier, I'm grateful for your enthusiasm, but I'm afraid that you're not ready to face the wrath of Einhasad! (This quest may only be undertaken by characters of level 71 or above.)",
+   "header": "Eye of Argos",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 71)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00601_WatchingEyes/31683-03.html": {
+   "file": "Q00601_WatchingEyes/31683-03.html",
+   "quest": 601,
+   "text": "Eye of Argos: You haven't collected 100 marks of disciple yet? You must kill them to soothe my anger! Save me from my own fury, brave warrior!",
+   "header": "Eye of Argos",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00601_WatchingEyes/31683-04.html": {
+   "file": "Q00601_WatchingEyes/31683-04.html",
+   "quest": 601,
+   "text": "Eye of Argos: Thanks to you, my brave soldier, the darkness in my heart is lifting! Give me the proofs you've collected.",
+   "header": "Eye of Argos",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the marks of disciple.\"",
+     "bypass": "Quest Q00601_WatchingEyes 31683-05.html",
+     "kind": "quest-event",
+     "script": "Q00601_WatchingEyes",
+     "event": "31683-05.html",
+     "quest": 601,
+     "to": "Q00601_WatchingEyes/31683-05.html",
+     "toAll": [
+      "Q00601_WatchingEyes/31683-05.html",
+      "Q00601_WatchingEyes/31683-06.html"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00602_ShadowOfLight/31683-01.htm": {
+   "file": "Q00602_ShadowOfLight/31683-01.htm",
+   "quest": 602,
+   "text": "Eye of Argos: Long ago, when I still had a complete body, my 1000 eyes told me everything that occurred in the world. It was I who told Einhasad of the relationship between Shilen and Gran Kain. When Eva abdicated as the goddess of water and went into hiding, it was I who exposed her. But with the …",
+   "header": "Eye of Argos",
+   "when": [
+    "state CREATED; (player.getLevel() >= 68)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it!\"",
+     "bypass": "Quest Q00602_ShadowOfLight 31683-02.htm",
+     "kind": "quest-event",
+     "script": "Q00602_ShadowOfLight",
+     "event": "31683-02.htm",
+     "quest": 602,
+     "to": "Q00602_ShadowOfLight/31683-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00602_ShadowOfLight/31683-00.htm": {
+   "file": "Q00602_ShadowOfLight/31683-00.htm",
+   "quest": 602,
+   "text": "Eye of Argos: Your courage is commendable, brave warrior, but you're not yet ready to confront Daimon and his evil forces. Improve your skills and come back! (This quest may only be undertaken by characters of level 68 or above.)",
+   "header": "Eye of Argos",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 68)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00602_ShadowOfLight/31683-03.html": {
+   "file": "Q00602_ShadowOfLight/31683-03.html",
+   "quest": 602,
+   "text": "Eye of Argos: Why haven't you collected 100 eyes of darkness yet? Act quickly or Daimon will become much more dangerous and powerful!",
+   "header": "Eye of Argos",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00602_ShadowOfLight/31683-04.html": {
+   "file": "Q00602_ShadowOfLight/31683-04.html",
+   "quest": 602,
+   "text": "Eye of Argos: Don't get too full of yourself, young warrior! Darkness grows stronger even as we speak! If you're truly concerned about the wellbeing of this world, defeat the forces of darkness!",
+   "header": "Eye of Argos",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the eyes of darkness.\"",
+     "bypass": "Quest Q00602_ShadowOfLight 31683-05.html",
+     "kind": "quest-event",
+     "script": "Q00602_ShadowOfLight",
+     "event": "31683-05.html",
+     "quest": 602,
+     "to": "Q00602_ShadowOfLight/31683-05.html",
+     "toAll": [
+      "Q00602_ShadowOfLight/31683-05.html",
+      "Q00602_ShadowOfLight/31683-06.html"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31683-02.html": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31683-02.html",
+   "quest": 603,
+   "text": "Eye of Argos: I'm waiting for an adventurer with adequate skills and courage. (This quest may only be undertaken by characters of level 73 or above.)",
+   "header": "Eye of Argos",
+   "when": [
+    "state CREATED; (talker.getLevel() < MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31683-01.htm": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31683-01.htm",
+   "quest": 603,
+   "text": "Eye of Argos: Welcome, traveler! My eyes see justice, courage and wisdom within you! Our meeting is not mere coincidence, my brave young warrior! A trial awaits you. Will you accept the challenge?",
+   "header": "Eye of Argos",
+   "when": [
+    "state CREATED; NOT (talker.getLevel() < MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"I accept the challenge!\"",
+     "bypass": "Quest Q00603_DaimonTheWhiteEyedPart1 31683-03.htm",
+     "kind": "quest-event",
+     "script": "Q00603_DaimonTheWhiteEyedPart1",
+     "event": "31683-03.htm",
+     "quest": 603,
+     "to": "Q00603_DaimonTheWhiteEyedPart1/31683-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31683-04.html": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31683-04.html",
+   "quest": 603,
+   "text": "Eye of Argos: Have you read all the inscriptions on the tablets? Daimon clouds my memory so that I can't remember the things about him. Thus, the only ways to defeat him are recorded on the tablets. They are left here and there throughout this area. But, Daimon's forces must have been destroying th…",
+   "header": "Eye of Argos",
+   "when": [
+    "state STARTED; cond 1|2|3|4|5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31683-05.html": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31683-05.html",
+   "quest": 603,
+   "text": "Eye of Argos: Oh, you came back! Did you find out how the heroes of the past defeated Daimon the White-Eyed?",
+   "header": "Eye of Argos",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, I did.\"",
+     "bypass": "Quest Q00603_DaimonTheWhiteEyedPart1 31683-06.html",
+     "kind": "quest-event",
+     "script": "Q00603_DaimonTheWhiteEyedPart1",
+     "event": "31683-06.html",
+     "quest": 603,
+     "to": "Q00603_DaimonTheWhiteEyedPart1/31683-06.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31683-07.html": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31683-07.html",
+   "quest": 603,
+   "text": "Eye of Argos: Where are the thoughts of darkness to make the bead to defeat Daimon of White Eye?",
+   "header": "Eye of Argos",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31683-08.html": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31683-08.html",
+   "quest": 603,
+   "text": "Eye of Argos: Have you collected all the thoughts of darkness you need?",
+   "header": "Eye of Argos",
+   "when": [
+    "state STARTED; cond 8"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the thoughts of darkness I've collected.\"",
+     "bypass": "Quest Q00603_DaimonTheWhiteEyedPart1 31683-10.html",
+     "kind": "quest-event",
+     "script": "Q00603_DaimonTheWhiteEyedPart1",
+     "event": "31683-10.html",
+     "quest": 603,
+     "to": "Q00603_DaimonTheWhiteEyedPart1/31683-10.html",
+     "toAll": [
+      "Q00603_DaimonTheWhiteEyedPart1/31683-10.html",
+      "Q00603_DaimonTheWhiteEyedPart1/31683-11.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31683-01.htm": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31683-01.htm",
+   "quest": 604,
+   "text": "Eye of Argos: Have you been neglecting your training? I'm reluctant to assign this critical mission to you! (This quest may only be undertaken by characters of level 73 or above.)",
+   "header": "Eye of Argos",
+   "when": [
+    "state CREATED; level < 73"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31683-02.htm": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31683-02.htm",
+   "quest": 604,
+   "text": "Eye of Argos: Where have you done with the Unfinished Bead of Summoning that I gave you?",
+   "header": "Eye of Argos",
+   "when": [
+    "state CREATED; NOT level < 73; lacks items 7192"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31683-03.htm": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31683-03.htm",
+   "quest": 604,
+   "text": "Eye of Argos: The bead containing my voice is now completed. Are you ready to confront Daimon the White-Eyed, dear warrior? Will you risk your life for the cause?",
+   "header": "Eye of Argos",
+   "when": [
+    "state CREATED; NOT level < 73; has items 7192"
+   ],
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00604_DaimonTheWhiteEyedPart2 31683-04.htm",
+     "kind": "quest-event",
+     "script": "Q00604_DaimonTheWhiteEyedPart2",
+     "event": "31683-04.htm",
+     "quest": 604,
+     "to": "Q00604_DaimonTheWhiteEyedPart2/31683-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31683-05.html": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31683-05.html",
+   "quest": 604,
+   "text": "Eye of Argos: Place the summoning orb onto the altar in the stronghold of Daimon the White-Eyed. Daimon will be drawn out by its power. Destroy him and return to me.",
+   "header": "Eye of Argos",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31683-06.html": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31683-06.html",
+   "quest": 604,
+   "text": "Eye of Argos: Dear soldier, I felt a weakening in his force around here! Did you kill Daimon the White-Eyed?",
+   "header": "Eye of Argos",
+   "when": [
+    "state STARTED; qs.getMemoState() >= 22; (hasQuestItems(player, ESSENCE_OF_DAIMON))"
+   ],
+   "links": [
+    {
+     "text": "\"I killed the beast.\"",
+     "bypass": "Quest Q00604_DaimonTheWhiteEyedPart2 31683-07.html",
+     "kind": "quest-event",
+     "script": "Q00604_DaimonTheWhiteEyedPart2",
+     "event": "31683-07.html",
+     "quest": 604,
+     "to": "Q00604_DaimonTheWhiteEyedPart2/31683-07.html",
+     "toAll": [
+      "Q00604_DaimonTheWhiteEyedPart2/31683-07.html",
+      "Q00604_DaimonTheWhiteEyedPart2/31683-08.html"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31683-09.html": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31683-09.html",
+   "quest": 604,
+   "text": "Eye of Argos: Does Daimon the White-Eyed live? I understand your hesitance, but by overcoming your fear, the path to true heroism will open up to you!",
+   "header": "Eye of Argos",
+   "when": [
+    "state STARTED; qs.getMemoState() >= 22; NOT (hasQuestItems(player, ESSENCE_OF_DAIMON))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00601_WatchingEyes/31683-02.htm": {
+   "file": "Q00601_WatchingEyes/31683-02.htm",
+   "quest": 601,
+   "text": "Eye of Argos: Punish the wicked disciples and then return to me! They're called the Disciples of Protection, the Disciples of Punishment and the Disciples of Authority.",
+   "header": "Eye of Argos",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00601_WatchingEyes/31683-05.html": {
+   "file": "Q00601_WatchingEyes/31683-05.html",
+   "quest": 601,
+   "text": "Eye of Argos: Your scruffy appearance belies the passionate sense of justice in your heart, brave warrior! Good deeds often go unnoticed and unrewarded, but over the millennia, your simple good deed will be returned a thousand-fold!",
+   "header": "Eye of Argos",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00601_WatchingEyes/31683-06.html": {
+   "file": "Q00601_WatchingEyes/31683-06.html",
+   "quest": 601,
+   "text": "Eye of Argos: Weren't you going to bring me the marks of disciple? Now you're telling me you won't do it? How dare you insult the mighty Argos!",
+   "header": "Eye of Argos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00602_ShadowOfLight/31683-02.htm": {
+   "file": "Q00602_ShadowOfLight/31683-02.htm",
+   "quest": 602,
+   "text": "Eye of Argos: Your courage may yet save the world! Daimon the White-Eyed uses his underlings to transform monsters into slaves. Once they've been transformed, they're beyond redemption. Kill them so they can rest in peace. You can get the eyes of darkness if you kill Buffalo Slaves and Grendel Slav…",
+   "header": "Eye of Argos",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00602_ShadowOfLight/31683-05.html": {
+   "file": "Q00602_ShadowOfLight/31683-05.html",
+   "quest": 602,
+   "text": "Eye of Argos: Your shouts of vengeance could be heard all the way over here! Excellent job, brave warrior!",
+   "header": "Eye of Argos",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00602_ShadowOfLight/31683-06.html": {
+   "file": "Q00602_ShadowOfLight/31683-06.html",
+   "quest": 602,
+   "text": "Eye of Argos: No one can hide from the allseeing eye! Bring me 100 eyes of darkness!",
+   "header": "Eye of Argos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31683-03.htm": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31683-03.htm",
+   "quest": 603,
+   "text": "Eye of Argos: Do you know about Daimon the White-Eyed? When Einhasad ripped Argos apart and scattered the pieces throughout the land, I became the bright side of Argos and Daimon became the dark side. Daimon has been expanding his powerbase, spreading his evil influence even further. He dreams of e…",
+   "header": "Eye of Argos",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31683-06.html": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31683-06.html",
+   "quest": 603,
+   "text": "Eye of Argos: The bead of summoning? Ah, yes, I haven't forgotten about that one yet! Good job, my hero! Now, you must make a bead of summoning! It has the power to summon him from the darkness. You must obtain 200 thoughts of darkness from valley Bandersnatch slaves, Buffalo Slaves and Grendel Sla…",
+   "header": "Eye of Argos",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31683-09.html": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31683-09.html",
+   "quest": 603,
+   "text": "Eye of Argos: I can feel his power growing every day! Have you collected enough thoughts of darkness to stop him? Could it be that he will prevail?",
+   "header": "Eye of Argos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31683-10.html": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31683-10.html",
+   "quest": 603,
+   "text": "Eye of Argos: You've created the vessel that will contain the power to draw him out. I shall put the voice to call him out in this thought of darkness. You, my hero, will you give me some time alone? I'll be ready shortly after. Come back to me then.. I hope we're not too late!",
+   "header": "Eye of Argos",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31683-11.html": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31683-11.html",
+   "quest": 603,
+   "text": "Eye of Argos: Where are the eyes of darkness you've collected?",
+   "header": "Eye of Argos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31683-04.htm": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31683-04.htm",
+   "quest": 604,
+   "text": "Eye of Argos: Go to the stronghold of Daimon the White-Eyed, find the altar used to make sacrifices and place the summoning orb upon it. One more thing! Occasionally, Daimon hides the altar. If this happens, wait until the altar reappears before taking action. Apply all your courage and faith to de…",
+   "header": "Eye of Argos",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31683-07.html": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31683-07.html",
+   "quest": 604,
+   "text": "Eye of Argos: You've vanquished the dreaded Daimon, but he's not gone forever. Someday, he shall rise and threaten the peace of the world again. I pray when he does that we have many heroes like you.",
+   "header": "Eye of Argos",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31683-08.html": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31683-08.html",
+   "quest": 604,
+   "text": "Eye of Argos: Where is the proof that you killed Daimon? Do you think I'll fall for your lie? You, fake heroes!",
+   "header": "Eye of Argos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Watching Eyes]",
+     "bypass": "npc_%objectId%_Quest Q00601_WatchingEyes",
+     "kind": "quest",
+     "quest": 601,
+     "to": "Q00601_WatchingEyes/31683-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Watching Eyes (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00601_WatchingEyes",
+     "kind": "quest",
+     "quest": 601,
+     "to": "Q00601_WatchingEyes/31683-03.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Shadow of Light]",
+     "bypass": "npc_%objectId%_Quest Q00602_ShadowOfLight",
+     "kind": "quest",
+     "quest": 602,
+     "to": "Q00602_ShadowOfLight/31683-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Shadow of Light (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00602_ShadowOfLight",
+     "kind": "quest",
+     "quest": 602,
+     "to": "Q00602_ShadowOfLight/31683-03.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Daimon the White-Eyed - Part 1]",
+     "bypass": "npc_%objectId%_Quest Q00603_DaimonTheWhiteEyedPart1",
+     "kind": "quest",
+     "quest": 603,
+     "to": "Q00603_DaimonTheWhiteEyedPart1/31683-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Daimon the White-Eyed - Part 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00603_DaimonTheWhiteEyedPart1",
+     "kind": "quest",
+     "quest": 603,
+     "to": "Q00603_DaimonTheWhiteEyedPart1/31683-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Daimon the White-Eyed - Part 2]",
+     "bypass": "npc_%objectId%_Quest Q00604_DaimonTheWhiteEyedPart2",
+     "kind": "quest",
+     "quest": 604,
+     "to": "Q00604_DaimonTheWhiteEyedPart2/31683-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Daimon the White-Eyed - Part 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00604_DaimonTheWhiteEyedPart2",
+     "kind": "quest",
+     "quest": 604,
+     "to": "Q00604_DaimonTheWhiteEyedPart2/31683-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

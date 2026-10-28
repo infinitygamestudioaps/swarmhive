@@ -2,7 +2,7 @@
  "id": 12,
  "name": "Secret Meeting With Varka Silenos",
  "version": 1,
- "generated": "2026-10-27T11:14:36.117Z",
+ "generated": "2026-10-27T18:18:16.497Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 74,
@@ -344,142 +344,6 @@
   },
   {
    "i": 1,
-   "key": "c1:deliver:31378",
-   "cond": 1,
-   "kind": "deliver",
-   "to": "end",
-   "links": [
-    "Hand over Helmut's chest of military supplies."
-   ],
-   "npc": {
-    "id": 31378,
-    "name": "Naran Ashanuk",
-    "title": "Varka's Messenger",
-    "town": "Goddard",
-    "at": [
-     125440,
-     -40944,
-     -3701
-    ],
-    "alt": []
-   },
-   "text": "Get the Munitions Box from Trader Helmut",
-   "needs": [
-    {
-     "id": 7232,
-     "name": "Munitions Box",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "computed",
-    "key": "area:varka-silenos-stronghold-1",
-    "status": "ok",
-    "flags": [],
-    "from": ".goddard",
-    "length": 1605,
-    "sec": 58,
-    "via": ".goddard > Goddard -> Varka Silenos Stronghold",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Goddard",
-      "cmd": ".goddard"
-     },
-     {
-      "do": "gk",
-      "from": "Goddard",
-      "desc": "Goddard -> Varka Silenos Stronghold",
-      "link": "varka silenos stronghold",
-      "price": 4200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 1605,
-      "how": "field-areas",
-      "danger": 78
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Goddard",
-     "desc": "Goddard -> Varka Silenos Stronghold"
-    },
-    "simple": true,
-    "pv": [
-     [
-      125736,
-      -40856,
-      -3744
-     ],
-     [
-      126408,
-      -39864,
-      -3600
-     ],
-     [
-      126696,
-      -39576,
-      -3560
-     ],
-     [
-      125448,
-      -40936,
-      -3696
-     ]
-    ],
-    "maxDanger": 78,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 78,
-     "dangerVsLevel": 4,
-     "aggro": []
-    },
-    "anchor": {
-     "key": "area:varka-silenos-stronghold-1",
-     "name": "Varka Silenos Stronghold 1: Varka Silenos Recruit area (south-east)"
-    },
-    "points": [
-     [
-      125736,
-      -40856,
-      -3744
-     ],
-     [
-      126408,
-      -39864,
-      -3600
-     ],
-     [
-      126696,
-      -39576,
-      -3560
-     ],
-     [
-      125448,
-      -40936,
-      -3696
-     ]
-    ]
-   },
-   "expectedSec": 83,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2
-   ]
-  },
-  {
-   "i": 2,
    "key": "c1:talk:31258",
    "cond": 1,
    "kind": "talk",
@@ -655,13 +519,148 @@
    "conds": [
     1
    ]
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:31378",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Hand over Helmut's chest of military supplies."
+   ],
+   "npc": {
+    "id": 31378,
+    "name": "Naran Ashanuk",
+    "title": "Varka's Messenger",
+    "town": "Goddard",
+    "at": [
+     125440,
+     -40944,
+     -3701
+    ],
+    "alt": []
+   },
+   "text": "Deliver Munitions Box to Naran Ashanuk",
+   "needs": [
+    {
+     "id": 7232,
+     "name": "Munitions Box",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:varka-silenos-stronghold-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 1605,
+    "sec": 58,
+    "via": ".goddard > Goddard -> Varka Silenos Stronghold",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Varka Silenos Stronghold",
+      "link": "varka silenos stronghold",
+      "price": 4200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1605,
+      "how": "field-areas",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Varka Silenos Stronghold"
+    },
+    "simple": true,
+    "pv": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:varka-silenos-stronghold-1",
+     "name": "Varka Silenos Stronghold 1: Varka Silenos Recruit area (south-east)"
+    },
+    "points": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ]
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
   }
  ],
  "override": {
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:14:36.144Z",
+  "at": "2026-10-27T18:18:16.534Z",
   "pass": true,
   "geo": true,
   "fails": [],

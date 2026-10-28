@@ -1,0 +1,96 @@
+{
+ "npcId": 30179,
+ "name": "Raudia",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.866Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30179.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30179.htm": {
+   "file": "merchant/30179.htm",
+   "quest": null,
+   "text": "Merchant Raudia: Oh my, are you a knight by any chance? How I have longed to meet one in person! I know that as long as the knights of the castle protect us, we will be safe, even if Elmore or some mad Wizard attacks us. How can I help you today?",
+   "header": "Merchant Raudia",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30179-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3017900",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3017901",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30179-1.htm": {
+   "file": "merchant/30179-1.htm",
+   "quest": null,
+   "text": "Merchant Raudia: What do you want, sir? Tell me what you want.",
+   "header": "Merchant Raudia",
+   "links": [
+    {
+     "text": "Buy Fighter equipment.",
+     "bypass": "npc_%objectId%_Buy 3017900",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard equipment.",
+     "bypass": "npc_%objectId%_Buy 3017901",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3017902",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3017903",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/30179-pk.htm": {
+   "file": "merchant/30179-pk.htm",
+   "quest": null,
+   "text": "Trader Raudia: Oh my! You are evil, aren't you? I do not do business with the likes of you. Why don't you go see Zenkin over there? You will find that you have a lot in common.",
+   "header": "Trader Raudia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

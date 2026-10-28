@@ -1,0 +1,318 @@
+{
+ "npcId": 30073,
+ "name": "Jacob",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.802Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30073.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "65": {
+   "name": "Certified Soul Breaker",
+   "listText": [
+    "[Certified Soul Breaker]",
+    "[Certified Soul Breaker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30073-01.html",
+     "when": "state STARTED; memo 6; qs.getMemoStateEx(1) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30073-01a.html",
+     "when": "state STARTED; memo 6; !qs.getMemoStateEx(1) == 0; qs.getMemoStateEx(1) == 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30073-02.html",
+     "when": "state STARTED; memo 6; !qs.getMemoStateEx(1) == 0; !qs.getMemoStateEx(1) == 10; qs.getMemoStateEx(1) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30073-03.html",
+     "when": "state STARTED; memo 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "330": {
+   "name": "Adept Of Taste",
+   "listText": [
+    "[Adept of Taste]",
+    "[Adept of Taste (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00330_AdeptOfTaste/30073-01.html",
+     "when": "state STARTED; has items 1420; lacks items 1426,1429,1430; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00330_AdeptOfTaste/30073-02.html",
+     "when": "state STARTED; has items 1420,1426; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; getQuestItemsCount(player, NECTAR) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00330_AdeptOfTaste/30073-03.html",
+     "when": "state STARTED; has items 1420,1426; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; !getQuestItemsCount(player, NECTAR) < 20; getQuestItemsCount(player, ROYAL_JELLY) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00330_AdeptOfTaste/30073-06.html",
+     "when": "state STARTED; has items 1420,1426; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; !getQuestItemsCount(player, NECTAR) < 20; !getQuestItemsCount(player, ROYAL_JELLY) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00330_AdeptOfTaste/30073-07.html",
+     "when": "state STARTED; has items 1420,1429,1430; lacks items 1426; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; !(hasQuestItems(player, INGREDIENT_LIST, JACOBS_INSECT_BOOK) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQu; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30073.htm": {
+   "file": "guard/30073.htm",
+   "quest": null,
+   "text": "Guard Jacob: How do you do, honored traveler? Have you come to our village to see the great shell of cruma ? If you have, then you'd be well advised to give up your search. Many have come to this village to view the shell of cruma, but I have rarely seen anyone return from that place intact. The Ma…",
+   "header": "Guard Jacob",
+   "links": [
+    {
+     "text": "Ask about cruma",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30073-1.htm"
+    },
+    {
+     "text": "Ask about the Marshlands",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30073-2.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30073-1.htm": {
+   "file": "guard/30073-1.htm",
+   "quest": null,
+   "text": "Guard Jacob: Crumas were a mystical race of beings, one of the first animals to be created in the beginning. They looked like turtles, and there were four crumas in all. Now they have all disappeared and only their shells remain, so we can only imagine what they must have been like. I have heard tr…",
+   "header": "Guard Jacob",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30073.htm"
+    }
+   ]
+  },
+  "guard/30073-2.htm": {
+   "file": "guard/30073-2.htm",
+   "quest": null,
+   "text": "Guard Jacob: The marshlands are where the cruma's shell is, so they are called the the Cruma Marshlands. The Marshlands are beyond that temple over there. If you keep walking north, you can easily find them. However, there are rarely people there and the place is swarming with frightening monsters.…",
+   "header": "Guard Jacob",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30073.htm"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/30073-01.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30073-01.html",
+   "quest": 65,
+   "text": "Jacob: Did I see anyone suspicious? Not that I remember. Go ask Harlan over there.",
+   "header": "Jacob",
+   "when": [
+    "state STARTED; memo 6; qs.getMemoStateEx(1) == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/30073-01a.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30073-01a.html",
+   "quest": 65,
+   "text": "Jacob: I haven't seen anyone suspicious. Go ask Harlan over there if he has.",
+   "header": "Jacob",
+   "when": [
+    "state STARTED; memo 6; !qs.getMemoStateEx(1) == 0; qs.getMemoStateEx(1) == 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/30073-02.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30073-02.html",
+   "quest": 65,
+   "text": "Jacob: Harlan didn't see anything either? Hmm... If there is anyone like you describe, he will soon attract the attention of our chief of security, Lucas. I would go talk to him, if I were you. You will find him at the south side castle gate.",
+   "header": "Jacob",
+   "when": [
+    "state STARTED; memo 6; !qs.getMemoStateEx(1) == 0; !qs.getMemoStateEx(1) == 10; qs.getMemoStateEx(1) == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/30073-03.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30073-03.html",
+   "quest": 65,
+   "text": "Jacob: I haven't seen anyone suspicious. If there is anyone like you describe, however, he will soon attract the attention of our chief of security, Lucas. I would go talk to him, if I were you. You will find him at the south side castle gate.",
+   "header": "Jacob",
+   "when": [
+    "state STARTED; memo 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30073-01.html": {
+   "file": "Q00330_AdeptOfTaste/30073-01.html",
+   "quest": 330,
+   "text": "Guard Jacob: Honey? Hmmm? How did you know? Actually, my family has been in the beekeeping business for many generations. Though I've become a guard, I still haven't forgotten the skills of making a good honey. To make premium honey, you must collect nectar from the giant bees that live here in Dio…",
+   "header": "Guard Jacob",
+   "when": [
+    "state STARTED; has items 1420; lacks items 1426,1429,1430; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount("
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30073-02.html": {
+   "file": "Q00330_AdeptOfTaste/30073-02.html",
+   "quest": 330,
+   "text": "Guard Jacob: To make the honey, I need enough nectar to fill twenty bottles. You can obtain the nectar by hunting giant bees like the bloody bee and the stinger wasp. But the stinger wasps are very large and ferocious, so be careful. If you are lucky, you may be able to obtain something called Roya…",
+   "header": "Guard Jacob",
+   "when": [
+    "state STARTED; has items 1420,1426; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; getQuestItemsCount(player, NECTAR) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30073-03.html": {
+   "file": "Q00330_AdeptOfTaste/30073-03.html",
+   "quest": 330,
+   "text": "Guard Jacob: You've brought me twenty bottles of nectar. I can make a honey from this. But if I add Royal Jelly to the nectar, I will be able to make a more flavorful, Golden Honey. For this, I need ten bottles of Royal Jelly. It is such a rare ingredient that you may have trouble finding it. What …",
+   "header": "Guard Jacob",
+   "when": [
+    "state STARTED; has items 1420,1426; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; !getQuestItemsCount(player, NECTAR) < 20; getQuestItemsCount(player, ROYAL_JELLY) < 10"
+   ],
+   "links": [
+    {
+     "text": "Say you will gather more Royal Jelly",
+     "bypass": "Quest Q00330_AdeptOfTaste 30073-04.html",
+     "kind": "quest-event",
+     "script": "Q00330_AdeptOfTaste",
+     "event": "30073-04.html",
+     "quest": 330,
+     "to": "Q00330_AdeptOfTaste/30073-04.html"
+    },
+    {
+     "text": "Ask him to make the honey",
+     "bypass": "Quest Q00330_AdeptOfTaste 30073-05.html",
+     "kind": "quest-event",
+     "script": "Q00330_AdeptOfTaste",
+     "event": "30073-05.html",
+     "quest": 330,
+     "to": "Q00330_AdeptOfTaste/30073-05.html"
+    }
+   ]
+  },
+  "Q00330_AdeptOfTaste/30073-06.html": {
+   "file": "Q00330_AdeptOfTaste/30073-06.html",
+   "quest": 330,
+   "text": "Guard Jacob: You've brought me twenty bottles of nectar. And ten bottles of Royal Jelly to boot! I will be able to make a delicious Golden Honey from this! Here you go. A honey so sweet that slumbering grizzly bears will awaken with a snap! Put some of this honey on freshly baked bread and eat it w…",
+   "header": "Guard Jacob",
+   "when": [
+    "state STARTED; has items 1420,1426; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; !getQuestItemsCount(player, NECTAR) < 20; !getQuestItemsCount(player, ROYAL_JELLY) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30073-07.html": {
+   "file": "Q00330_AdeptOfTaste/30073-07.html",
+   "quest": 330,
+   "text": "Guard Jacob: Ah, you still have the honey I made you. Please be careful, as the bottle may break rather easily.",
+   "header": "Guard Jacob",
+   "when": [
+    "state STARTED; has items 1420,1429,1430; lacks items 1426; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; !(hasQuestItems(player, INGREDIENT_LIST, JACOBS_INSECT_BOOK) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQu; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount("
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30073-04.html": {
+   "file": "Q00330_AdeptOfTaste/30073-04.html",
+   "quest": 330,
+   "text": "Guard Jacob: Please continue, then. Royal Jelly is an ingredient that is contained only within worker bees that are less than a week old, and it will be hard to find. But it is worth all the bother it takes to obtain this. Honey that contains Royal Jelly cannot compare in taste to ordinary honey.",
+   "header": "Guard Jacob",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30073-05.html": {
+   "file": "Q00330_AdeptOfTaste/30073-05.html",
+   "quest": 330,
+   "text": "Guard Jacob: I understand. I will make a honey from the ingredients you have brought me. It's a shame we don't have enough Royal Jelly. But it's quite all right. I can make plenty of good honey from this. Here you go. A honey so sweet that slumbering grizzly bears will awaken with a snap! Ha ha! Be…",
+   "header": "Guard Jacob",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Soul Breaker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00065_CertifiedSoulBreaker",
+     "kind": "quest",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/30073-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Adept of Taste (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00330_AdeptOfTaste",
+     "kind": "quest",
+     "quest": 330,
+     "to": "Q00330_AdeptOfTaste/30073-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

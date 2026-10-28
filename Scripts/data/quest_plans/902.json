@@ -2,7 +2,7 @@
  "id": 902,
  "name": "Reclaim Our Era",
  "version": 1,
- "generated": "2026-10-27T11:16:38.290Z",
+ "generated": "2026-10-27T18:20:04.385Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 80,
@@ -60,7 +60,7 @@
    "step": 4
   }
  ],
- "expectedMin": 17,
+ "expectedMin": 18,
  "refLevel": 80,
  "steps": [
   {
@@ -272,8 +272,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    5
+    1
    ]
   },
   {
@@ -524,6 +523,112 @@
    "engineWhy": "the monsters (25701) only appear through the quest script and no trigger is known",
    "conds": [
     4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:31340",
+   "cond": 5,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 31340,
+    "name": "Mathias",
+    "title": "Captain",
+    "town": "Rune",
+    "at": [
+     42596,
+     -47988,
+     -800
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mathias",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31340@42596,-47988",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 1449,
+    "sec": 32,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 1449,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      43640,
+      -48104,
+      -792
+     ],
+     [
+      43368,
+      -48104,
+      -792
+     ],
+     [
+      43096,
+      -48152,
+      -792
+     ],
+     [
+      42824,
+      -48136,
+      -792
+     ],
+     [
+      42600,
+      -47992,
+      -792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 57,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
    ]
   }
  ],

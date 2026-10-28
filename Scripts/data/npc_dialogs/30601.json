@@ -1,0 +1,1841 @@
+{
+ "npcId": 30601,
+ "name": "Newbie Guide",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.015Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-001.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-001.htm",
+   "quest": null,
+   "text": "Newbie Guide: Is there anything I can help you with? What do you wish to know?",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Ask for advice.",
+     "bypass": "Quest NewbieGuide -7;1",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "-7;1",
+     "to": null
+    },
+    {
+     "text": "NPC location information.",
+     "bypass": "Quest NewbieGuide 255;10",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;10",
+     "to": null
+    },
+    {
+     "text": "Get Blessing of Protection.",
+     "bypass": "Quest NewbieGuide pk-protection-001.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "pk-protection-001.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/pk-protection-001.htm"
+    },
+    {
+     "text": "Ask about teleporting to Newbie Town.",
+     "bypass": "Quest NewbieGuide newbie-token-001.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "newbie-token-001.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/newbie-token-001.htm"
+    },
+    {
+     "text": "Teleport to Newbie Town.",
+     "bypass": "Quest NewbieGuide teleport",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "teleport",
+     "to": null
+    },
+    {
+     "text": "Check the list of available Support Magic.",
+     "bypass": "Quest NewbieGuide buffs-player.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "buffs-player.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/buffs-player.htm"
+    },
+    {
+     "text": "Get support with a Newbie item.",
+     "bypass": "Quest NewbieGuide newbie-guide-001.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "newbie-guide-001.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/newbie-guide-001.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-002.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-002.htm",
+   "quest": null,
+   "text": "Newbie Guide: You don't look like a novice to me! I can see you've grown beyond my help. Be off with you now! Keep up the good work, and good fortune to you!",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-003.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-003.htm",
+   "quest": null,
+   "text": "Newbie Guide: It's been a long while since I've met one of your folk. I guide only Dwarf novices, so I'm afraid I can't be of help to you. You'll have to seek out a guide of your own race.",
+   "header": "Newbie Guide",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-04.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-04.htm",
+   "quest": null,
+   "text": "Newbie Guide: Which of the following best describes the one you seek?",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Teleporter",
+     "bypass": "Quest NewbieGuide 255;11",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;11",
+     "to": null
+    },
+    {
+     "text": "Guard",
+     "bypass": "Quest NewbieGuide 255;12",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;12",
+     "to": null
+    },
+    {
+     "text": "Guild Elder",
+     "bypass": "Quest NewbieGuide 255;13",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;13",
+     "to": null
+    },
+    {
+     "text": "Blacksmith",
+     "bypass": "Quest NewbieGuide 255;14",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;14",
+     "to": null
+    },
+    {
+     "text": "Magic Trader",
+     "bypass": "Quest NewbieGuide 255;15",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;15",
+     "to": null
+    },
+    {
+     "text": "Weapons Trader",
+     "bypass": "Quest NewbieGuide 255;16",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;16",
+     "to": null
+    },
+    {
+     "text": "Warehouse",
+     "bypass": "Quest NewbieGuide 255;17",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;17",
+     "to": null
+    },
+    {
+     "text": "Other",
+     "bypass": "Quest NewbieGuide 255;18",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;18",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-04a.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-04a.htm",
+   "quest": null,
+   "text": "Newbie Guide: Select the one you seek below. Their location will be indicated on the radar.",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Gatekeeper Wirphy",
+     "bypass": "Quest NewbieGuide 255;31",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;31",
+     "to": null
+    },
+    {
+     "text": "Back to the Main List",
+     "bypass": "Quest NewbieGuide 255;10",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;10",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-04b.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-04b.htm",
+   "quest": null,
+   "text": "Newbie Guide: Select the one you seek below. Their location will be indicated on the radar.",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Protector Paion",
+     "bypass": "Quest NewbieGuide 255;32",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;32",
+     "to": null
+    },
+    {
+     "text": "Defender Runant",
+     "bypass": "Quest NewbieGuide 255;33",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;33",
+     "to": null
+    },
+    {
+     "text": "Defender Ethan",
+     "bypass": "Quest NewbieGuide 255;34",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;34",
+     "to": null
+    },
+    {
+     "text": "Defender Cromwell",
+     "bypass": "Quest NewbieGuide 255;35",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;35",
+     "to": null
+    },
+    {
+     "text": "Defender Proton",
+     "bypass": "Quest NewbieGuide 255;36",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;36",
+     "to": null
+    },
+    {
+     "text": "Defender Dinkey",
+     "bypass": "Quest NewbieGuide 255;37",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;37",
+     "to": null
+    },
+    {
+     "text": "Defender Tardyon",
+     "bypass": "Quest NewbieGuide 255;38",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;38",
+     "to": null
+    },
+    {
+     "text": "Defender Nathan",
+     "bypass": "Quest NewbieGuide 255;39",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;39",
+     "to": null
+    },
+    {
+     "text": "Back To The Main List",
+     "bypass": "Quest NewbieGuide 255;10",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;10",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-04c.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-04c.htm",
+   "quest": null,
+   "text": "Newbie Guide: Select the one you seek below. Their location will be indicated on the radar.",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Iron Gate's Lockirin",
+     "bypass": "Quest NewbieGuide 255;40",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;40",
+     "to": null
+    },
+    {
+     "text": "Golden Wheel's Spiron",
+     "bypass": "Quest NewbieGuide 255;41",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;41",
+     "to": null
+    },
+    {
+     "text": "Silver Scale's Balanki",
+     "bypass": "Quest NewbieGuide 255;42",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;42",
+     "to": null
+    },
+    {
+     "text": "Bronze Key's Keef",
+     "bypass": "Quest NewbieGuide 255;43",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;43",
+     "to": null
+    },
+    {
+     "text": "Filaur of the Gray Pillar",
+     "bypass": "Quest NewbieGuide 255;44",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;44",
+     "to": null
+    },
+    {
+     "text": "Black Anvil's Arin",
+     "bypass": "Quest NewbieGuide 255;45",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;45",
+     "to": null
+    },
+    {
+     "text": "Back To The Main List",
+     "bypass": "Quest NewbieGuide 255;10",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;10",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-04d.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-04d.htm",
+   "quest": null,
+   "text": "Newbie Guide: Select the one you seek below. Their location will be indicated on the radar.",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Head Blacksmith Bronk",
+     "bypass": "Quest NewbieGuide 255;46",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;46",
+     "to": null
+    },
+    {
+     "text": "Blacksmith Brunon",
+     "bypass": "Quest NewbieGuide 255;47",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;47",
+     "to": null
+    },
+    {
+     "text": "Blacksmith Silvera",
+     "bypass": "Quest NewbieGuide 255;48",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;48",
+     "to": null
+    },
+    {
+     "text": "Back to the Main List",
+     "bypass": "Quest NewbieGuide 255;10",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;10",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-04e.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-04e.htm",
+   "quest": null,
+   "text": "Newbie Guide: Select the one you seek below. Their location will be indicated on the radar.",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Trader Garita",
+     "bypass": "Quest NewbieGuide 255;49",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;49",
+     "to": null
+    },
+    {
+     "text": "Trader Mion",
+     "bypass": "Quest NewbieGuide 255;50",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;50",
+     "to": null
+    },
+    {
+     "text": "Back To The Main List",
+     "bypass": "Quest NewbieGuide 255;10",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;10",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-04f.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-04f.htm",
+   "quest": null,
+   "text": "Newbie Guide: Select the one you seek below. Their location will be indicated on the radar.",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Trader Reep",
+     "bypass": "Quest NewbieGuide 255;51",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;51",
+     "to": null
+    },
+    {
+     "text": "Trader Shari",
+     "bypass": "Quest NewbieGuide 255;52",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;52",
+     "to": null
+    },
+    {
+     "text": "Back To The Main List",
+     "bypass": "Quest NewbieGuide 255;10",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;10",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-04g.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-04g.htm",
+   "quest": null,
+   "text": "Newbie Guide: Select the one you seek below. Their location will be indicated on the radar.",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Warehouse Chief Reed",
+     "bypass": "Quest NewbieGuide 255;53",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;53",
+     "to": null
+    },
+    {
+     "text": "Warehouse Freightman Murdoc",
+     "bypass": "Quest NewbieGuide 255;54",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;54",
+     "to": null
+    },
+    {
+     "text": "Warehouse Keeper Airy",
+     "bypass": "Quest NewbieGuide 255;55",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;55",
+     "to": null
+    },
+    {
+     "text": "Back To The Main List",
+     "bypass": "Quest NewbieGuide 255;10",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;10",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-04h.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-04h.htm",
+   "quest": null,
+   "text": "Newbie Guide: Select the one you seek below. Their location will be indicated on the radar.",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Collector Gouph",
+     "bypass": "Quest NewbieGuide 255;56",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;56",
+     "to": null
+    },
+    {
+     "text": "Collector Pippi",
+     "bypass": "Quest NewbieGuide 255;57",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;57",
+     "to": null
+    },
+    {
+     "text": "Daichir, Priest of the Earth",
+     "bypass": "Quest NewbieGuide 255;58",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;58",
+     "to": null
+    },
+    {
+     "text": "Priest of the Earth Gerald",
+     "bypass": "Quest NewbieGuide 255;59",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;59",
+     "to": null
+    },
+    {
+     "text": "Priest of the Earth Zimenf",
+     "bypass": "Quest NewbieGuide 255;60",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;60",
+     "to": null
+    },
+    {
+     "text": "Priestess of the Earth Chichirin",
+     "bypass": "Quest NewbieGuide 255;61",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;61",
+     "to": null
+    },
+    {
+     "text": "Captain Croto",
+     "bypass": "Quest NewbieGuide 255;62",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;62",
+     "to": null
+    },
+    {
+     "text": "Wanderer Dorf",
+     "bypass": "Quest NewbieGuide 255;63",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;63",
+     "to": null
+    },
+    {
+     "text": "Gauri Twinklerock",
+     "bypass": "Quest NewbieGuide 255;64",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;64",
+     "to": null
+    },
+    {
+     "text": "Miner Bolter",
+     "bypass": "Quest NewbieGuide 255;65",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;65",
+     "to": null
+    },
+    {
+     "text": "Maryse Redbonnet",
+     "bypass": "Quest NewbieGuide 255;66",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;66",
+     "to": null
+    },
+    {
+     "text": "Back to the main list.",
+     "bypass": "Quest NewbieGuide 255;10",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "255;10",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-05.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-05.htm",
+   "quest": null,
+   "text": "Newbie Guide: To find the person you seek, just follow the arrow above your head.",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f05-01.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f05-01.htm",
+   "quest": null,
+   "text": "Newbie Guide: Think about the long term, and that will show you the beginning. The Kingdom of Aden is in chaos, because of the war with Elmore to the north and Gracia across the sea. But hark ye now, there are always opportunities in times of chaos . We Dwarves are merchants, and that means we're o…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f05.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f05-02.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f05-02.htm",
+   "quest": null,
+   "text": "Newbie Guide: Unless your friends are rich and generous, I suppose you're still using the weapons and armor you were given by the guilds? For now, whatever you have will do. After defeating monsters, you'll often find armor they left behind. Sometimes weapons, too. If you're lucky, you may get your…",
+   "header": "Newbie Guide",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f05.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f05-03.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f05-03.htm",
+   "quest": null,
+   "text": "Newbie Guide: Right now, you should leave the village by the south gate and hunt longtail keltirs , Gremlin scavengers or wolves . Wolves are the most dangerous, so take care. If there are too many hunters on that side of the village, look to the east side of the bank after you exit the village fro…",
+   "header": "Newbie Guide",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f05.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f05-04.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f05-04.htm",
+   "quest": null,
+   "text": "Newbie Guide: When you reach Level 5 you'll start studying your skills. Skills are taught at the Iron Gate Guild -- the warehouse , as they call it -- by the east gate, or the Black Anvil Guild -- it looks like a blacksmith's shop if you look east from the square at the north gate. Now, this is imp…",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "I want to know more about skills.",
+     "bypass": "Quest NewbieGuide 30601-f05-041.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05-041.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05-041.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f05.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f05-041.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f05-041.htm",
+   "quest": null,
+   "text": "Newbie Guide: If you use your head while hunting, you should have about 60 SP by the time you reach Level 5. The elders at the Iron Gate Guild (or the warehouse, as they call it) or the Black Anvil Guild (that would be the blacksmith) can tell you the skills in which you can train. Skills are divid…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f05.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f05-05.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f05-05.htm",
+   "quest": null,
+   "text": "Newbie Guide: Several of the villagers here could use you to lend them a hand. Talk to them and click on Quest to see what missions they have to offer. Of course, even if they're looking for help they're not going to offer you a mission that's beyond your capabilities. If they refuse to offer you a…",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "I want to know more about the quests.",
+     "bypass": "Quest NewbieGuide 30601-f05-051.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05-051.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05-051.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f05.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f05-051.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f05-051.htm",
+   "quest": null,
+   "text": "Newbie Guide: I'll teach you all I can, but I don't know everything. You need to speak to all the villagers you can, and hear what they have to tell you. You can start with a visit to Maryse Redbonnet , who live near the north gate of the village. That girl's very upset about something, so maybe yo…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f05.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f05.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f05.htm",
+   "quest": null,
+   "text": "Newbie Guide: Where shall we start, eh? From the looks of you, I doubt your head is ready to burst from knowledge yet. Just heed my counsel, and we'll get you off on the right foot.",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "What should I do now?",
+     "bypass": "Quest NewbieGuide 30601-f05-01.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05-01.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05-01.htm"
+    },
+    {
+     "text": "What is the best equipment for me?",
+     "bypass": "Quest NewbieGuide 30601-f05-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05-02.htm"
+    },
+    {
+     "text": "What is the best hunting site for me?",
+     "bypass": "Quest NewbieGuide 30601-f05-03.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05-03.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05-03.htm"
+    },
+    {
+     "text": "Tell me about skills.",
+     "bypass": "Quest NewbieGuide 30601-f05-04.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05-04.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05-04.htm"
+    },
+    {
+     "text": "Which quests are available to me?",
+     "bypass": "Quest NewbieGuide 30601-f05-05.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f05-05.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f05-05.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-01.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-01.htm",
+   "quest": null,
+   "text": "Newbie Guide: For now, you should keep hunting the Spine Mines. If you've only hunted around the village so far, now's a good time to explore the east side of the mountains . Keep in mind, that at Level 10 you'll learn a skill that allows you to collect raw materials from monsters. If you ever want…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-02.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-02.htm",
+   "quest": null,
+   "text": "Newbie Guide: At Level 6, finding the right weapon is your most important task. What weapon are you using the most now? Are you sure it's the one you really want? Now we Dwarves are naturally fond of blunt weapons, but I suppose at your age you're wanting to try all sorts of new things. If a dagger…",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "I want to know about the characteristics of each weapon type.",
+     "bypass": "Quest NewbieGuide 30601-f10-021.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-021.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-021.htm"
+    },
+    {
+     "text": "I want to know about armor.",
+     "bypass": "Quest NewbieGuide 30601-f10-022.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-022.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-022.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-021.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-021.htm",
+   "quest": null,
+   "text": "Newbie Guide: Weapons are classified into seven categories. They are: one-handed swords, blunt weapons, two-handed swords and two-handed blunt weapons, daggers, polearms, fists and bows. I can teach you about swords, blunt weapons, daggers and bows.",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "One-handed Swords",
+     "bypass": "Quest NewbieGuide 30601-f10-0211.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-0211.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-0211.htm"
+    },
+    {
+     "text": "One-handed Blunt Weapons",
+     "bypass": "Quest NewbieGuide 30601-f10-0212.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-0212.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-0212.htm"
+    },
+    {
+     "text": "Two-handed Blunt Weapons and Swords",
+     "bypass": "Quest NewbieGuide 30601-f10-0213.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-0213.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-0213.htm"
+    },
+    {
+     "text": "Daggers",
+     "bypass": "Quest NewbieGuide 30601-f10-0214.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-0214.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-0214.htm"
+    },
+    {
+     "text": "Bows",
+     "bypass": "Quest NewbieGuide 30601-f10-0215.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-0215.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-0215.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-02.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-0211.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-0211.htm",
+   "quest": null,
+   "text": "Newbie Guide: One-handed swords are the most common weapons overall, though not necessarily with us Dwarves. Still, there are many who prefer them, because their abilities are well-balanced in every way.",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10-021.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-021.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-021.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-0212.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-0212.htm",
+   "quest": null,
+   "text": "Newbie Guide: One-handed blunt weapons are the traditional arms of us Dwarves. Their accuracy is higher than other weapon types, but their chance of inflicting critical damage is much lower. Blunt weapons reliably deliver consistent damage . As you advance, you'll be able to learn skills that only …",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10-021.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-021.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-021.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-0213.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-0213.htm",
+   "quest": null,
+   "text": "Newbie Guide: Two-handed blunts weapons and two-handed swords tell the world, \"I'm a powerful warrior, better not mess with me,\" don't you think? Well, it stands to reason that swinging a weapon with both hands makes it inflict more damage, and gives you a good reach in combat as well. The problem …",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10-021.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-021.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-021.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-0214.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-0214.htm",
+   "quest": null,
+   "text": "Newbie Guide: Dagger type weapons allow you to attack with unsurpassed speed. Also, they have the best chance of inflicting critical damage. Their accuracy is low, however, and of course their reach is short. Daggers also have a very small range of random damage.",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10-021.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-021.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-021.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-0215.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-0215.htm",
+   "quest": null,
+   "text": "Newbie Guide: Obviously, the advantage of bows is their ability to deliver damage at range, but there's more to them then that. Bows are the slowest weapons, but they can inflict the greatest damage. Most warriors use their bows as a backup weapon, though the Elves are especially good at archery, a…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10-021.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-021.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-021.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-022.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-022.htm",
+   "quest": null,
+   "text": "Newbie Guide: If you've done everything Spiron's asked of you, you should be wearing decent armor. Of course, if you want to spend the money, you can upgrade it piece by piece. Also, beginning at Level 6, you can wear Apprentice's Shoes, Cloth Caps and Short Gloves if you can find them. If you've b…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-02.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-03.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-03.htm",
+   "quest": null,
+   "text": "Newbie Guide: From the looks of you, I'd say you're ready for black timber wolves, Utuku Orcs and Utuku Orc grunts . You may need to hunt goblins as well, to complete some quests. If you need good hunting grounds, head straight north from the north gate, and follow the river to the estuary. You'll …",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-04.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-04.htm",
+   "quest": null,
+   "text": "Newbie Guide: It's true that Dwarves don't have the attack skills that some folk do, and there'll be times that you regret that fact. But I'm here to tell you that skills like Spoil and Search , that you can pick up at Level 10, are more useful than some of those attack skills that the other races …",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Explanation about the Create Item skill.",
+     "bypass": "Quest NewbieGuide 30601-f10-041.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-041.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-041.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-041.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-041.htm",
+   "quest": null,
+   "text": "Newbie Guide: Create Item is one of a Dwarf's mainstays. This passive skill makes it possible for you to Create Items . Since those items have levels, you must raise this skill level in order to create higher-level items. To create an item, first obtain a Recipe . Simply stated, a recipe is a bluep…",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Go back.",
+     "bypass": "Quest NewbieGuide 30601-f10.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-05.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-05.htm",
+   "quest": null,
+   "text": "Newbie Guide: It seems you've been busy helping out your neighbors here in the village. I've heard good reports from those whom you've aided. Ah, it does a teacher good to have a student like you.",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "I want to know more about the quests.",
+     "bypass": "Quest NewbieGuide 30601-f10-051.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-051.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-051.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10-051.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10-051.htm",
+   "quest": null,
+   "text": "Newbie Guide: Filaur of the Gray Pillar of the Gray Pillar Guild is recruiting a search team to uncover hidden veins of ore. He's with the other members of the council of elders near the village's south gate.",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f10.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f10.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f10.htm",
+   "quest": null,
+   "text": "Newbie Guide: Blast me, you've made some progress all right! But so far you haven't had to use your head for much more than a hat stand -- from now on, you'll need to think and plan if you want to survive. In particular, I want you to think about your equipment and skills. I want you to ask me ques…",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "What should I do now?",
+     "bypass": "Quest NewbieGuide 30601-f10-01.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-01.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-01.htm"
+    },
+    {
+     "text": "What is the best equipment for me?",
+     "bypass": "Quest NewbieGuide 30601-f10-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-02.htm"
+    },
+    {
+     "text": "What is the best hunting site for me?",
+     "bypass": "Quest NewbieGuide 30601-f10-03.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-03.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-03.htm"
+    },
+    {
+     "text": "Tell me about skills.",
+     "bypass": "Quest NewbieGuide 30601-f10-04.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-04.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-04.htm"
+    },
+    {
+     "text": "Which quests are available to me?",
+     "bypass": "Quest NewbieGuide 30601-f10-05.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f10-05.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f10-05.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f15-01.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f15-01.htm",
+   "quest": null,
+   "text": "Newbie Guide: You want to know why right now is a turning point in your life? Well, I'll tell you. Soon you'll be reaching Levels 18 and 19, and that's when you get to choose your next occupation. Before you get there, though, there are things you have to learn, and the single most important thing …",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "I want to know about fighting in groups.",
+     "bypass": "Quest NewbieGuide 30601-f15-011.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-011.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-011.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f15.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f15-011.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f15-011.htm",
+   "quest": null,
+   "text": "Newbie Guide: Let's talk about forming a party , a group of adventurers to hunt and travel with. Parties are created using Invite in the Action tab ( ALT + C ) of your Character Status window. First, click on the character you wish to invite into your party, then click the Invite icon. Next time yo…",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "I want to fight on my own.",
+     "bypass": "Quest NewbieGuide 30601-f15-0111.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-0111.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-0111.htm"
+    },
+    {
+     "text": "I want to fight in groups.",
+     "bypass": "Quest NewbieGuide 30601-f15-0112.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-0112.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-0112.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f15.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f15-0111.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f15-0111.htm",
+   "quest": null,
+   "text": "Newbie Guide: I see. Well, it's a difficult path you've chosen, though it does have its rewards. If you want to hunt solo, there are things you need to know. First, there's the matter of timing your battles while on the hunt. As you increase in level, you will need more and more time to rest betwee…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f15-011.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-011.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-011.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f15-0112.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f15-0112.htm",
+   "quest": null,
+   "text": "Newbie Guide: It requires serious preparation to be an effective part of a group. Experience is the best teacher, but I can tell you some of the basics. First, for now it doesn't matter whether you hunt with other Fighters or with some sort of Mystic, assuming you can find one. The most important t…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f15-011.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-011.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-011.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f15-02.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f15-02.htm",
+   "quest": null,
+   "text": "Newbie Guide: A broadsword or a mace will do for you until level 12, but after that you'll be needing more attack power. You can buy weapons in stores, of course, but it is usually more economical to trade with other adventurers. They're willing to sell items for less, and purchase your items for m…",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "I want to hear about weapons.",
+     "bypass": "Quest NewbieGuide 30601-f15-021.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-021.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-021.htm"
+    },
+    {
+     "text": "I want to hear about armor.",
+     "bypass": "Quest NewbieGuide 30601-f15-022.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-022.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-022.htm"
+    },
+    {
+     "text": "I want to hear about items.",
+     "bypass": "Quest NewbieGuide 30601-f15-023.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-023.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-023.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f15.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f15-021.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f15-021.htm",
+   "quest": null,
+   "text": "Newbie Guide: Have you thought about the next weapon you wish to purchase? Broadswords are just scrap metal to you now. At Level 12 or 13 the Gladius is an excellent choice for a sword, the dirk for a dagger, and the Dwarven Mace for a blunt weapon. You can find these weapons in stores, but they'll…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f15-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-02.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f15-022.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f15-022.htm",
+   "quest": null,
+   "text": "Newbie Guide: At your current level, a Wooden Breastplate and a Hard Leather Pants set are an effective combination. Leather Shoes, a Wooden Helmet and gloves will complete your set nicely. Of course, you won't be able to equip all this equipment immediately at Level 11, but you can start collectin…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f15-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-02.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f15-023.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f15-023.htm",
+   "quest": null,
+   "text": "Newbie Guide: It's time for you to learn about magic items. I'm sure that by now you've used Lesser Healing Potions, but there's far more that you must know about if you plan to survive. It's time that you began to acquire accessories . This is the general term for items that increase your magic de…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f15-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-02.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f15-03.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f15-03.htm",
+   "quest": null,
+   "text": "Newbie Guide: If you think you're ready for tougher battles, cross the river near the village and head east. Cross the second river to the east to find a good hunting ground for Utuku Orcs, garum werewolves, goblin brigands and others. Or if you want, you can follow the river north, and stay on the…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f15.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f15-04.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f15-04.htm",
+   "quest": null,
+   "text": "Newbie Guide: So have you used Spoil , or Search yet? The Spoil skill changes a monster's body so it can produce useful materials, and Search draws those materials out after the monster is dead. Taken together, these skills allow us Dwarves to collect materials that the other races can't have, and …",
+   "header": "Newbie Guide",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f15.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f15-05.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f15-05.htm",
+   "quest": null,
+   "text": "Newbie Guide: Let's see now ... what quests should you be taking on? You're a good deal stronger than you were -- we don't want to waste your time on tasks that are too easy. I believe Collector Gouph of the Bronze Key Guild is worried, because he's waiting for a delivery that hasn't arrived yet. A…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f15.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f15.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f15.htm",
+   "quest": null,
+   "text": "Newbie Guide: Hey, look at you! You've been making some excellent progress, my friend! I'm going to teach you some new things now, since you're ready to train in the Spine Mines. What you have to learn now is how to cooperate with other adventurers . This is a turning point of your life, because at…",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "What should I do now?",
+     "bypass": "Quest NewbieGuide 30601-f15-01.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-01.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-01.htm"
+    },
+    {
+     "text": "What is the best equipment for me?",
+     "bypass": "Quest NewbieGuide 30601-f15-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-02.htm"
+    },
+    {
+     "text": "What is the best hunting site for me?",
+     "bypass": "Quest NewbieGuide 30601-f15-03.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-03.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-03.htm"
+    },
+    {
+     "text": "Tell me about skills.",
+     "bypass": "Quest NewbieGuide 30601-f15-04.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-04.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-04.htm"
+    },
+    {
+     "text": "Which quests are available to me?",
+     "bypass": "Quest NewbieGuide 30601-f15-05.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f15-05.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f15-05.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f20-01.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f20-01.htm",
+   "quest": null,
+   "text": "Newbie Guide: As I've told you already, your choice of professional path is of great importance. The whole course of your future rests on this choice. If you want, I can explain what is involved when you select an occupation.",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "I want to know about the occupations available for me.",
+     "bypass": "Quest NewbieGuide 30601-f20-011.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-011.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-011.htm"
+    },
+    {
+     "text": "I want to know how to change occupations.",
+     "bypass": "Quest NewbieGuide 30601-f20-012.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-012.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-012.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f20.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f20-011.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f20-011.htm",
+   "quest": null,
+   "text": "Newbie Guide: A Dwarven Fighter like yourself might choose to become an Artisan , or maybe you'll be a Scavenger . Either way, it's time for you to leave the mines and head out to Aden. I advise you to go talk to a Grand Master to find out more. He'll examine your qualifications and give you advice…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f20-01.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-01.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-01.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f20-012.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f20-012.htm",
+   "quest": null,
+   "text": "Newbie Guide: To refine your profession, you'll have to leave the Spine Mines for Gludin , the port city of Aden, because that's the center of all trade for the continent. Talk to Warehouse Chief Reed or Head Blacksmith Bronk and they'll tell you more. By now, you should know that the only way to g…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f20-01.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-01.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-01.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f20-02.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f20-02.htm",
+   "quest": null,
+   "text": "Newbie Guide: We don't have a great deal of time left to teach you about items. I'll explain as much as I can in the time that remains. Some of the information may seem confusing, but you need to know it if you are to choose the best professional path for yourself. Where shall we begin?",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Would like to know recommended weapons and armor",
+     "bypass": "Quest NewbieGuide 30601-f20-021.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-021.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-021.htm"
+    },
+    {
+     "text": "Explanation about armor types.",
+     "bypass": "Quest NewbieGuide 30601-f20-022.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-022.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-022.htm"
+    },
+    {
+     "text": "Explanation about soulshot.",
+     "bypass": "Quest NewbieGuide 30601-f20-023.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-023.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-023.htm"
+    },
+    {
+     "text": "Explanation about item grade.",
+     "bypass": "Quest NewbieGuide 30601-f20-024.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-024.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-024.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f20.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f20-021.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f20-021.htm",
+   "quest": null,
+   "text": "Newbie Guide: Of course, blunt weapons are always the favorites with us Dwarves, but if you prefer something with an edge, a long sword or a dirk would both be a good choice for someone of your level. Even if you haven't been particularly lucking in hunting, you should be able to earn enough for a …",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f20-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-02.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f20-022.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f20-022.htm",
+   "quest": null,
+   "text": "Newbie Guide: Upper and lower body armor are classified as either robes , light gear or heavy gear . Robes are for Mystics and that ilk, so we'll skip them and move directly to light and heavy gear. When you refine your profession at Level 20, the armor you wear will influence your choice of skills…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f20-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-02.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f20-023.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f20-023.htm",
+   "quest": null,
+   "text": "Newbie Guide: Have you encountered soulshot yet in your adventures? You've heard me use the term before. It is a form of magical ammunition devised by our Artisans many years ago. You can use it like a potion while engaged in armed combat. Soulshot allows you to inflict greater damage, but they dis…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f20-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-02.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f20-024.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f20-024.htm",
+   "quest": null,
+   "text": "Newbie Guide: As a Dwarf, you must know that our race has the power to crystallize certain substances into Leaguam, Ravi, Ciel and Arch, through a process we call the \"Crystallization Ritual.\" Our craftsmen have assigned grades to every substance in the world, according to the types of crystal they…",
+   "header": "Newbie Guide",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f20-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-02.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f20-03.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f20-03.htm",
+   "quest": null,
+   "text": "Newbie Guide: At your level, you can hunt anywhere in the mines. Whinstone golems and tarantulas are probably your best targets. You'll find good hunting grounds as you travel east from the mines.",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f20.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f20-04.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f20-04.htm",
+   "quest": null,
+   "text": "Newbie Guide: You must refine your profession at level 20. If you don't, there is nothing more that you can be taught. Only after you select your professional path can you go on to learn new skills. I can tell you that as an Artisan, you can summon golems and learn item-producing skills. As a Scave…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f20.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f20-05.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f20-05.htm",
+   "quest": null,
+   "text": "Newbie Guide: Hmm, let's see ... did you say you were hunting tarantulas? Then I'm sure you've already talked to Trader Mion at the item store. If not, go visit her. I'm sure you can come to a mutually profitable understanding. Also, Gatekeeper Wirphy has been depressed lately. Go find out what's b…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest NewbieGuide 30601-f20.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-f20.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-f20.htm",
+   "quest": null,
+   "text": "Newbie Guide: Well, my friend, there's nothing more for you to learn here in our mines. Now you need to focus on your choice of occupation. You might choose to become an Artisan , with the ability to create powerful items, or you can be a Scavenger , exploring the wilderness looking for raw materia…",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "What should I do now?",
+     "bypass": "Quest NewbieGuide 30601-f20-01.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-01.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-01.htm"
+    },
+    {
+     "text": "What is the best equipment for me?",
+     "bypass": "Quest NewbieGuide 30601-f20-02.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-02.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-02.htm"
+    },
+    {
+     "text": "What is the best hunting site for me?",
+     "bypass": "Quest NewbieGuide 30601-f20-03.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-03.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-03.htm"
+    },
+    {
+     "text": "Tell me about skills.",
+     "bypass": "Quest NewbieGuide 30601-f20-04.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-04.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-04.htm"
+    },
+    {
+     "text": "Which quests are available to me?",
+     "bypass": "Quest NewbieGuide 30601-f20-05.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "30601-f20-05.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/30601-f20-05.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/30601-teleport.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/30601-teleport.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Dark Elf Village",
+     "bypass": "Quest NewbieGuide teleport_0",
+     "kind": "quest-event",
+     "confirm": "Dark Elf Village",
+     "script": "NewbieGuide",
+     "event": "teleport_0",
+     "to": null
+    },
+    {
+     "text": "Talking Island Village",
+     "bypass": "Quest NewbieGuide teleport_1",
+     "kind": "quest-event",
+     "confirm": "Talking Island",
+     "script": "NewbieGuide",
+     "event": "teleport_1",
+     "to": null
+    },
+    {
+     "text": "Elven Village",
+     "bypass": "Quest NewbieGuide teleport_2",
+     "kind": "quest-event",
+     "confirm": "Elven Village",
+     "script": "NewbieGuide",
+     "event": "teleport_2",
+     "to": null
+    },
+    {
+     "text": "Orc Village",
+     "bypass": "Quest NewbieGuide teleport_3",
+     "kind": "quest-event",
+     "confirm": "Orc Village",
+     "script": "NewbieGuide",
+     "event": "teleport_3",
+     "to": null
+    },
+    {
+     "text": "Kamael Village",
+     "bypass": "Quest NewbieGuide teleport_4",
+     "kind": "quest-event",
+     "confirm": "Kamael Village",
+     "script": "NewbieGuide",
+     "event": "teleport_4",
+     "to": null
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  },
+  "ai/npc/Teleports/NewbieGuide/pk-protection-001.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/pk-protection-001.htm",
+   "quest": null,
+   "text": "Newbie Guide: The Blessing of Protection is available to characters under level 39 who have not completed their second class transfer. Protected by its power, you cannot receive damage from (or inflict damage to) chaotic characters who are 10+ levels above you. It will not protect you on the battle…",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest NewbieGuide -7;3",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "-7;3",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/newbie-token-001.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/newbie-token-001.htm",
+   "quest": null,
+   "text": "Newbie Guide: Newbie Guides offer teleportation between Newbie Towns to any character below level 20. If you use this service, it is also possible to visit the starting village of another race through a Newbie Guide . But be careful how you use this advantage -- it is normal to learn a specific ski…",
+   "header": "Newbie Guide",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/NewbieGuide/buffs-player.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/buffs-player.htm",
+   "quest": null,
+   "text": "You are eligible to receive the following supplemental magic: Levels 6-75: Wind Walk Levels 6-75: Shield Levels 6-75: Magic Barrier Levels 6-75: Bless the Body (Fighter), Bless the Soul (Wizard) Levels 6-75: Vampiric Rage (Fighter), Acumen (Wizard) Levels 6-75: Regeneration (Fighter), Concentration…",
+   "header": "You are eligible to receive the following supplemental magic",
+   "links": [
+    {
+     "text": "Receive supplemental magic.",
+     "bypass": "Quest NewbieGuide -7;2",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "-7;2",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/newbie-guide-001.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/newbie-guide-001.htm",
+   "quest": null,
+   "text": "Newbie Guide: To congratulate you on your achievements, the Adventure Guild is pleased to open its warehouse to both apprentice adventurers who have reached level 6 as well as to travelers who have completed their first class transfer. At level 6, you can use the Apprentice Adventurer's Weapon Exch…",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Receive the Apprentice Adventurer's Weapon Exchange Coupon.",
+     "bypass": "Quest NewbieGuide -1000;1",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "-1000;1",
+     "to": null
+    },
+    {
+     "text": "Select a No-Grade Shadow Weapon.",
+     "bypass": "Quest NewbieGuide -303;528",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "-303;528",
+     "to": null
+    },
+    {
+     "text": "Receive the Adventurer's Magic Accessory Exchange Coupon.",
+     "bypass": "Quest NewbieGuide -1000;2",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "-1000;2",
+     "to": null
+    },
+    {
+     "text": "Select Magic Accessory.",
+     "bypass": "Quest NewbieGuide -303;529",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "-303;529",
+     "to": null
+    }
+   ]
+  }
+ }
+}

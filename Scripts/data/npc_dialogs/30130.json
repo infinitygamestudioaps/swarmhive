@@ -1,0 +1,326 @@
+{
+ "npcId": 30130,
+ "name": "Undrias",
+ "title": "Abyssal Celebrant",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.847Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30130.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "166": {
+   "name": "Mass of Darkness",
+   "listText": [
+    "[Mass of Darkness]",
+    "[Mass of Darkness (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00166_MassOfDarkness/30130-02.htm",
+     "when": "state CREATED; (player.getRace() == Race.DARK_ELF); (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30130-01.htm",
+     "when": "state CREATED; (player.getRace() == Race.DARK_ELF); NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30130-00.htm",
+     "when": "state CREATED; NOT (player.getRace() == Race.DARK_ELF)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30130-05.html",
+     "when": "state STARTED; cond 2; has items 1089,1090,1091",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30130-04.html",
+     "when": "state STARTED; !(st.isCond(2) && st.hasQuestItems(UNDRIAS_LETTER, CEREMONIAL_DAGGER, DREVIANT_WINE, GARMIELS_SCRIPTURE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "333": {
+   "name": "Hunt Of The Black Lion",
+   "listText": [
+    "[Hunt of the Black Lion]",
+    "[Hunt of the Black Lion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30130-02.html",
+     "when": "state STARTED; lacks items 3461; (getQuestItemsCount(player, STATUE_OF_SHILEN_HEAD) + getQuestItemsCount(player, STATUE_OF_SHILEN_TORSO) + getQuestItemsC",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30130-01.html",
+     "when": "state STARTED; lacks items 3461; !(getQuestItemsCount(player, STATUE_OF_SHILEN_HEAD) + getQuestItemsCount(player, STATUE_OF_SHILEN_TORSO) + getQuestItems",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30130-03.html",
+     "when": "state STARTED; has items 3461",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30130.htm": {
+   "file": "default/30130.htm",
+   "quest": null,
+   "text": "Abyssal Celebrant Undrias: May the blessing of the abyss be with you! The massive structure you see behind me is the Temple of Shilen where we serve Shilen, mother of the abyss. I am the Abyssal Celebrant Undrias who serves our goddess.",
+   "header": "Abyssal Celebrant Undrias",
+   "links": [
+    {
+     "text": "Ask about the Shilen Temple",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30130-1.htm"
+    },
+    {
+     "text": "Ask about the Dark Elf village",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30130-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30130-1.htm": {
+   "file": "default/30130-1.htm",
+   "quest": null,
+   "text": "Abyssal Celebrant Undrias: The Shilen Temple is a cultural treasure, with a history of more than 2,000 years. In the days when our race lived underground, the Harnea of the Arachne race spun silver spider webs and protected the temple by spinning a curtain around it. Here, all young Dark Elves unde…",
+   "header": "Abyssal Celebrant Undrias",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30130.htm"
+    }
+   ]
+  },
+  "default/30130-2.htm": {
+   "file": "default/30130-2.htm",
+   "quest": null,
+   "text": "Abyssal Celebrant Undrias: The Dark Elf village! The brilliant underground city and the product of our race's brilliant civilization and developed skills! The beauty is often compared to that of obsidian that shines a lucid light in the dark. To find the Dark Elf village, follow the road before me.…",
+   "header": "Abyssal Celebrant Undrias",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30130.htm"
+    }
+   ]
+  },
+  "Q00166_MassOfDarkness/30130-02.htm": {
+   "file": "Q00166_MassOfDarkness/30130-02.htm",
+   "quest": 166,
+   "text": "Abyssal Celebrant Undrias: Soon we will hold the Ceremony of Darkness , our most sacred ritual, in honor of Gran Kain and Shilen. The Human Mystics of the Ivory Tower who witnessed it last year were awed at its magnificence, so we must make it even grander this year! But there is still much to prep…",
+   "header": "Abyssal Celebrant Undrias",
+   "when": [
+    "state CREATED; (player.getRace() == Race.DARK_ELF); (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00166_MassOfDarkness 30130-03.htm",
+     "kind": "quest-event",
+     "script": "Q00166_MassOfDarkness",
+     "event": "30130-03.htm",
+     "quest": 166,
+     "to": "Q00166_MassOfDarkness/30130-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00166_MassOfDarkness/30130-01.htm": {
+   "file": "Q00166_MassOfDarkness/30130-01.htm",
+   "quest": 166,
+   "text": "Abyssal Celebrant Undrias: Soon we will hold the Ceremony of Darkness , our most sacred ritual, in honor of Gran Kain and Shilen. The Human Mystics of the Ivory Tower who witnessed it last year were awed at its magnificence, so we must make it even grander this year. But there is still much to prep…",
+   "header": "Abyssal Celebrant Undrias",
+   "when": [
+    "state CREATED; (player.getRace() == Race.DARK_ELF); NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30130-00.htm": {
+   "file": "Q00166_MassOfDarkness/30130-00.htm",
+   "quest": 166,
+   "text": "Abyssal Celebrant Undrias: Soon we will hold the Ceremony of Darkness , our most sacred ritual, in honor of Gran Kain and Shilen. But there is still much to prepare, and several of our under-clerics were recently eaten by Giant Spiders. Still, I cannot ask a guest such as yourself to help... (Only …",
+   "header": "Abyssal Celebrant Undrias",
+   "when": [
+    "state CREATED; NOT (player.getRace() == Race.DARK_ELF)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30130-05.html": {
+   "file": "Q00166_MassOfDarkness/30130-05.html",
+   "quest": 166,
+   "text": "Abyssal Celebrant Undrias: Ah, you have brought the items we require for the Ceremony of Darkness. Excellent! Truly, the goddess will be pleased with our efforts. Take your reward and continue to serve Shilen faithfully.",
+   "header": "Abyssal Celebrant Undrias",
+   "when": [
+    "state STARTED; cond 2; has items 1089,1090,1091"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30130-04.html": {
+   "file": "Q00166_MassOfDarkness/30130-04.html",
+   "quest": 166,
+   "text": "Abyssal Celebrant Undrias: Where are the items you were to bring me? Fool! I will tell you again -- for the last time. Bring back the Ceremonial Dagger from Trader Iria at the Weapons Shop, the Ritual Wine from Warehouse Keeper Dorankus at the Warehouse, and Garmiel's Scripture from Master Trudy at…",
+   "header": "Abyssal Celebrant Undrias",
+   "when": [
+    "state STARTED; !(st.isCond(2) && st.hasQuestItems(UNDRIAS_LETTER, CEREMONIAL_DAGGER, DREVIANT_WINE, GARMIELS_SCRIPTURE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30130-02.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30130-02.html",
+   "quest": 333,
+   "text": "Abyssal Celebrant Undrias: Is this a piece from one of the lost statues of Shilen? Where did you find it? If you can recover enough pieces to reconstruct a whole statue, you will be richly rewarded!",
+   "header": "Abyssal Celebrant Undrias",
+   "when": [
+    "state STARTED; lacks items 3461; (getQuestItemsCount(player, STATUE_OF_SHILEN_HEAD) + getQuestItemsCount(player, STATUE_OF_SHILEN_TORSO) + getQuestItemsC"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30130-01.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30130-01.html",
+   "quest": 333,
+   "text": "Abyssal Celebrant Undrias: This sacred shrine is the only one of its kind on the entire continent. Yet the Humans spread lies about the goddess Shilen, denying that she is the giver of both life and death. When they invaded the Temple alongside those filthy Elves, many sacred objects were plundered…",
+   "header": "Abyssal Celebrant Undrias",
+   "when": [
+    "state STARTED; lacks items 3461; !(getQuestItemsCount(player, STATUE_OF_SHILEN_HEAD) + getQuestItemsCount(player, STATUE_OF_SHILEN_TORSO) + getQuestItems"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30130-03.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30130-03.html",
+   "quest": 333,
+   "text": "Abyssal Celebrant Undrias: One of the lost statues of Shilen! Give it to me and you will be richly rewarded, that I promise you!",
+   "header": "Abyssal Celebrant Undrias",
+   "when": [
+    "state STARTED; has items 3461"
+   ],
+   "links": [
+    {
+     "text": "Give him the statue.",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30130-04.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30130-04.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30130-04.html"
+    },
+    {
+     "text": "Refuse to give him the statue.",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30130-05.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30130-05.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30130-05.html"
+    }
+   ]
+  },
+  "Q00166_MassOfDarkness/30130-03.htm": {
+   "file": "Q00166_MassOfDarkness/30130-03.htm",
+   "quest": 166,
+   "text": "Abyssal Celebrant Undrias: Excellent! First, retrieve the Ceremonial Dagger from Trader Iria at the Weapons Shop. Then acquire the Ritual Wine from Warehouse Keeper Dorankus at the Warehouse. Finally, collect Garmiel's Scripture from Master Trudy at the House of Elders. Take this letter as proof yo…",
+   "header": "Abyssal Celebrant Undrias",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30130-04.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30130-04.html",
+   "quest": 333,
+   "text": "Abyssal Celebrant Undrias: You have helped restore some of the splendor of the Temple of Shilen that was robbed from it by those Human and Elven vermin. Take this reward with my thanks. I will give you even more if you are able to recover any other lost statues. Go and serve your goddess faithfully!",
+   "header": "Abyssal Celebrant Undrias",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30130-05.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30130-05.html",
+   "quest": 333,
+   "text": "Abyssal Celebrant Undrias: This statue is sacred to us! It is of no use to you. In fact, the Humans would burn you at the stake if they found it in your possession! Now come to your senses and give me the statue. As I told you, you will be richly rewarded for your efforts.",
+   "header": "Abyssal Celebrant Undrias",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Mass of Darkness]",
+     "bypass": "npc_%objectId%_Quest Q00166_MassOfDarkness",
+     "kind": "quest",
+     "quest": 166,
+     "to": "Q00166_MassOfDarkness/30130-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Mass of Darkness (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00166_MassOfDarkness",
+     "kind": "quest",
+     "quest": 166,
+     "to": "Q00166_MassOfDarkness/30130-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Hunt of the Black Lion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00333_HuntOfTheBlackLion",
+     "kind": "quest",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30130-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

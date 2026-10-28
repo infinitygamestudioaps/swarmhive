@@ -1,0 +1,173 @@
+{
+ "npcId": 31822,
+ "name": "Adventure Guildsman",
+ "title": "",
+ "type": "L2Adventurer",
+ "generated": "2026-10-27T18:18:03.288Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "adventurer_guildsman/31822.htm",
+   "when": "",
+   "src": "html/adventurer_guildsman"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "adventurer_guildsman/31822.htm": {
+   "file": "adventurer_guildsman/31822.htm",
+   "quest": null,
+   "text": "Adventure Guildsman: Welcome, my friend! some astonishingly macabre adventures have just become available! You know, you can help someone in need while you attain the fame and fortune you seek!",
+   "header": "Adventure Guildsman",
+   "links": [
+    {
+     "text": "Quest Information",
+     "bypass": "npc_%objectId%_questlist",
+     "kind": "other"
+    },
+    {
+     "text": "Raid Monster Information",
+     "bypass": "npc_%objectId%_Link adventurer_guildsman/raid_boss_position.htm",
+     "kind": "page",
+     "to": "adventurer_guildsman/raid_boss_position.htm"
+    },
+    {
+     "text": "Use Life Crystals",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "adventurer_guildsman/31822-1.htm",
+     "live": true
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "adventurer_guildsman/31822-1.htm": {
+   "file": "adventurer_guildsman/31822-1.htm",
+   "quest": null,
+   "text": "Use Life Crystals",
+   "links": [
+    {
+     "text": "Listen to an explanation about the new Life Crystals.",
+     "bypass": "npc_%objectId%_Link adventurer_guildsman/AboutNewLifeCrystals.htm",
+     "kind": "page",
+     "to": "adventurer_guildsman/AboutNewLifeCrystals.htm"
+    },
+    {
+     "text": "Exchange previous Life Crystals for new Life Crystals.",
+     "bypass": "npc_%objectId%_multisell 317325003",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Craft Life Crystal.",
+     "bypass": "npc_%objectId%_multisell 318195007",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Craft Adventurer's Box.",
+     "bypass": "npc_%objectId%_multisell 317325002",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Ask about higher level crafting",
+     "bypass": "npc_%objectId%_Link adventurer_guildsman/AboutHighLevelGuilds.htm",
+     "kind": "page",
+     "to": "adventurer_guildsman/AboutHighLevelGuilds.htm"
+    }
+   ]
+  },
+  "adventurer_guildsman/raid_boss_position.htm": {
+   "file": "adventurer_guildsman/raid_boss_position.htm",
+   "quest": null,
+   "text": "Adventure Guildsman: We don't provide information about raid monsters any more. You can get the information from the Raid tab of World Info on the map.",
+   "header": "Adventure Guildsman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  },
+  "adventurer_guildsman/AboutNewLifeCrystals.htm": {
+   "file": "adventurer_guildsman/AboutNewLifeCrystals.htm",
+   "quest": null,
+   "text": "Perhaps you remember that in the past, Life Crystals were assigned grades based on the strength of the monsters. That was because a Life Crystal resembles the core energy of a powerful monster, and so different cores came from monsters of different strength. However, recent research has discovered …",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "adventurer_guildsman/AboutHighLevelGuilds.htm": {
+   "file": "adventurer_guildsman/AboutHighLevelGuilds.htm",
+   "quest": null,
+   "text": "Adventure Guild Member: Talk to the Manager of the Adventure Guild if you want to create a higher-quality item. He only comes to the town when the Lord or Clan of the castle destroys a certain type of monster to celebrate the occasion. He's most interested in: Master Anays High Priestess van Halter…",
+   "header": "Adventure Guild Member",
+   "outcome": "dead-end",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Purchase a Title Color Token (200,000 PC Bang)"
+ ],
+ "liveClicks": [
+  {
+   "text": "Use Life Crystals",
+   "n": 16,
+   "inDatapack": true,
+   "from": [
+    "Adventure Guildsman:Welcome, my friend! some astonishingly m",
+    "Adventure Guildsman:Welcome! Our guild provides information ",
+    "Adventure Guildsman:The world is a dark and scary place, my "
+   ],
+   "to": [
+    "Use Life CrystalsListen to an explanation about the new Life"
+   ]
+  },
+  {
+   "text": "Purchase a Title Color Token (200,000 PC Bang)",
+   "n": 4,
+   "inDatapack": false,
+   "from": [
+    "Adventure Guildsman:Welcome, my friend! some astonishingly m",
+    "Adventure Guildsman:Welcome! Our guild provides information ",
+    "Adventure Guildsman:The world is a dark and scary place, my "
+   ],
+   "to": []
+  },
+  {
+   "text": "Exchange previous Life Crystals for new Life Crystals.",
+   "n": 4,
+   "inDatapack": true,
+   "from": [
+    "Use Life CrystalsListen to an explanation about the new Life"
+   ],
+   "to": []
+  },
+  {
+   "text": "Craft Life Crystal.",
+   "n": 4,
+   "inDatapack": true,
+   "from": [
+    "Use Life CrystalsListen to an explanation about the new Life"
+   ],
+   "to": []
+  },
+  {
+   "text": "Craft Adventurer's Box.",
+   "n": 4,
+   "inDatapack": true,
+   "from": [
+    "Use Life CrystalsListen to an explanation about the new Life"
+   ],
+   "to": []
+  }
+ ]
+}

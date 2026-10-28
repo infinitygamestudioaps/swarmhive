@@ -1,0 +1,184 @@
+{
+ "npcId": 32243,
+ "name": "Cargo Box",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.363Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32243.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "65": {
+   "name": "Certified Soul Breaker",
+   "listText": [
+    "[Certified Soul Breaker]",
+    "[Certified Soul Breaker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32243-01.html",
+     "when": "state STARTED; memo 12; !npc.getVariables().getBoolean(\"SPAWNED\", false)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32243-03.html",
+     "when": "state STARTED; memo 12; npc.getVariables().getBoolean(\"SPAWNED\", false); npc.getVariables().getInt(\"PLAYER_ID\") == player.getObjectId()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32243-02.html",
+     "when": "state STARTED; memo 12; npc.getVariables().getBoolean(\"SPAWNED\", false); !npc.getVariables().getInt(\"PLAYER_ID\") == player.getObjectId()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32243-06.html",
+     "when": "state STARTED; memo 13; !npc.getVariables().getBoolean(\"SPAWNED\", false)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32243-04.html",
+     "when": "state STARTED; memo 13; npc.getVariables().getBoolean(\"SPAWNED\", false); npc.getVariables().getInt(\"PLAYER_ID\") == player.getObjectId()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32243-05.html",
+     "when": "state STARTED; memo 13; npc.getVariables().getBoolean(\"SPAWNED\", false); !npc.getVariables().getInt(\"PLAYER_ID\") == player.getObjectId()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32243-07.html",
+     "when": "state STARTED; memo 14",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32243.htm": {
+   "file": "default/32243.htm",
+   "quest": null,
+   "text": "Broken Cargo Box: You see a large box that appears somewhat damaged.",
+   "header": "Broken Cargo Box",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32243-01.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32243-01.html",
+   "quest": 65,
+   "text": "Broken Cargo Box: Just as you are about to examine the box, you feel a strange presence and someone appears.",
+   "header": "Broken Cargo Box",
+   "when": [
+    "state STARTED; memo 12; !npc.getVariables().getBoolean(\"SPAWNED\", false)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32243-03.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32243-03.html",
+   "quest": 65,
+   "text": "Broken Cargo Box: First, get rid of the person who is trying to take the box.",
+   "header": "Broken Cargo Box",
+   "when": [
+    "state STARTED; memo 12; npc.getVariables().getBoolean(\"SPAWNED\", false); npc.getVariables().getInt(\"PLAYER_ID\") == player.getObjectId()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32243-02.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32243-02.html",
+   "quest": 65,
+   "text": "Broken Cargo Box: Someone is inspecting the box. You mustn't reveal yourself, so wait until the coast is clear.",
+   "header": "Broken Cargo Box",
+   "when": [
+    "state STARTED; memo 12; npc.getVariables().getBoolean(\"SPAWNED\", false); !npc.getVariables().getInt(\"PLAYER_ID\") == player.getObjectId()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32243-06.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32243-06.html",
+   "quest": 65,
+   "text": "Broken Cargo Box: Someone has appeared behind you. Stop and speak with him.",
+   "header": "Broken Cargo Box",
+   "when": [
+    "state STARTED; memo 13; !npc.getVariables().getBoolean(\"SPAWNED\", false)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32243-04.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32243-04.html",
+   "quest": 65,
+   "text": "Broken Cargo Box: Who is that person up ahead? You should speak with them; you can examine the box later.",
+   "header": "Broken Cargo Box",
+   "when": [
+    "state STARTED; memo 13; npc.getVariables().getBoolean(\"SPAWNED\", false); npc.getVariables().getInt(\"PLAYER_ID\") == player.getObjectId()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32243-05.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32243-05.html",
+   "quest": 65,
+   "text": "Broken Cargo Box: Someone is examining the box. Wait until another member of your race appears.",
+   "header": "Broken Cargo Box",
+   "when": [
+    "state STARTED; memo 13; npc.getVariables().getBoolean(\"SPAWNED\", false); !npc.getVariables().getInt(\"PLAYER_ID\") == player.getObjectId()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32243-07.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32243-07.html",
+   "quest": 65,
+   "text": "Broken Cargo Box: There is nothing else to do concerning the box. Go to Elder Casca.",
+   "header": "Broken Cargo Box",
+   "when": [
+    "state STARTED; memo 14"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Soul Breaker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00065_CertifiedSoulBreaker",
+     "kind": "quest",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32243-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

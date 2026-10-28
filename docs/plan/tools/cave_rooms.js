@@ -10,6 +10,9 @@
 // Room ids: a new room that holds an old room's centre keeps the old id (party spots / claims stay valid); the rest get the next numbers.
 // Hand-edited rooms (manual / edited by the dashboard) are left as they are (manual_guard). Then run: room_graph.js --only <key>.
 //   node docs/plan/tools/cave_rooms.js [--only devils_isle_caves] [--T 9] [--min 120] [--dry]
+//   node docs/plan/tools/cave_rooms.js --only forgotten_temple --routes     (walk-in caves: room walk routes + floor entryPoints, see below)
+// Forgotten Temple chain (2026-10-27): cave_dungeon.js --only forgotten_temple -> cave_rooms.js --T 8 -> cave_rooms.js --routes -> safe_spots.js
+//   -> floor_maps.js --only "Forgotten Temple" -> room_graph.js --only forgotten_temple --stitch-ms 4000 --stitch-rooms-only -> nav_atlas.js --tag ft --keys ...
 'use strict';
 const fs = require('fs'), path = require('path');
 const RP = require('./room_polys'), MG = require('./manual_guard');
@@ -28,7 +31,40 @@ const nLevel = (id) => { const n = NPC[id] || {}; return Number(n.l || n.level) 
 const file = path.join(DATA, 'dungeon_rooms.json');
 const D = rd(file);
 const d = D.find(x => x.key === ONLY); if (!d) { console.log('no dungeon ' + ONLY); process.exit(1); }
-const box = (() => { const b = d.bbox; if (Array.isArray(b) && b.length === 4) return b; const xs = [], ys = []; d.floors.forEach(f => f.rooms.forEach(r => (r.poly || []).forEach(p => { xs.push(p[0]); ys.push(p[1]); }))); return [Math.min(...xs) - 3000, Math.max(...xs) + 3000, Math.min(...ys) - 3000, Math.max(...ys) + 3000]; })();
+// --routes (Forgotten Temple 2026-10-27): only add the walk routes of a WALK-IN cave (d.entrance / floors[].enter.from): every room gets
+// route [[x,y,z]...] (geopath from the way in to the room centre), routeLength, walkFromFloorEntry (pickRoom only offers rooms with a route), and
+// every floor its entryPoint (where most routes step onto the floor's band). Rooms stay as they are (ids, polygons, manual edits).
+if (argv.includes('--routes')) {
+  const geo = require('./geopath');
+  const D2 = rd(file), dd = D2.find(x => x.key === ONLY);
+  const inB = (z, b) => z >= b[0] && z <= b[1];
+  dd.floors.forEach((Fl, fi) => {
+    const en = (Fl.enter && Array.isArray(Fl.enter.from) && Fl.enter.from) || (dd.entrance && isFinite(dd.entrance.x) ? [dd.entrance.x, dd.entrance.y, dd.entrance.z] : null);
+    if (!en) { console.log(`${Fl.name}: no way in (enter.from / entrance) - no routes`); return; }
+    const firsts = [];
+    (Fl.rooms || []).forEach(r => {
+      if (MG.isManual && MG.isManual(r) && Array.isArray(r.route)) return;
+      const t0 = Date.now();
+      const p = geo.findPath({ x: en[0], y: en[1], z: en[2] }, { x: r.center[0], y: r.center[1], z: r.center[2] }, { pad: 12000, maxMs: 40000, maxNodes: 6e6 });
+      if (p.ok && Math.abs(p.points[p.points.length - 1].z - r.center[2]) <= 250) {
+        r.route = [[en[0], en[1], en[2]], ...p.points.map(q => [q.x, q.y, q.z])]; r.routeLength = Math.round(p.lengthUnits || 0);
+        const j = r.route.findIndex(q => inB(q[2], Fl.z)); if (j >= 0) firsts.push(r.route[j]);
+      } else { r.route = null; r.routeLength = null; r.notes = (r.notes || '') + '; NO walk route found from the way in (never picked automatically)'; }
+      console.log(`  ${r.id}: ${r.route ? r.routeLength + ' units, ' + r.route.length + ' pts' : 'NO ROUTE (' + (p.reason || '?') + ')'} ${Date.now() - t0} ms`);
+    });
+    // entryPoint = the first in-band route point that most routes pass within 1500 of
+    let best = null; firsts.forEach(a => { const n = firsts.filter(b => Math.hypot(a[0] - b[0], a[1] - b[1]) < 1500 && Math.abs(a[2] - b[2]) < 300).length; if (!best || n > best.n) best = { a, n }; });
+    if (best) Fl.entryPoint = { at: best.a, how: `first point of the walk routes inside this floor (${best.n}/${firsts.length} routes pass within 1500)` };
+    const door = Fl.entryPoint && Fl.entryPoint.at;
+    (Fl.rooms || []).forEach(r => { if (!r.route) { r.walkFromFloorEntry = null; return; } let w = r.routeLength;
+      if (door) { const j = r.route.findIndex(q => Math.hypot(q[0] - door[0], q[1] - door[1]) < 500 && Math.abs(q[2] - door[2]) < 300); if (j >= 0) { w = 0; for (let i = j + 1; i < r.route.length; i++) w += Math.hypot(r.route[i][0] - r.route[i - 1][0], r.route[i][1] - r.route[i - 1][1], r.route[i][2] - r.route[i - 1][2]); w = Math.round(w); } }
+      r.walkFromFloorEntry = w; });
+    console.log(`${Fl.name}: ${(Fl.rooms || []).filter(r => r.route).length}/${(Fl.rooms || []).length} rooms with a route, entryPoint ${door ? door.join(',') : '-'}`);
+  });
+  if (!DRY) { MG.writeGuarded(file, D2); console.log('written: ' + file); }
+  process.exit(0);
+}
+const box =(() => { const b = d.bbox; if (Array.isArray(b) && b.length === 4) return b; const xs = [], ys = []; d.floors.forEach(f => f.rooms.forEach(r => (r.poly || []).forEach(p => { xs.push(p[0]); ys.push(p[1]); }))); return [Math.min(...xs) - 3000, Math.max(...xs) + 3000, Math.min(...ys) - 3000, Math.max(...ys) + 3000]; })();
 const bx = box.length === 4 && box[0] < box[1] && box[2] < box[3] ? box : [box[0], box[2], box[1], box[3]];
 const spawns = rd(path.join(DATA, 'spawns_h5.json')).filter(s => s.x >= bx[0] && s.x <= bx[1] && s.y >= bx[2] && s.y <= bx[3]);
 const cellOf = (F, x, y) => { const gx = Math.floor((x - WX0) / CELL) - F.gx0, gy = Math.floor((y - WY0) / CELL) - F.gy0; return gx < 0 || gy < 0 || gx >= F.w || gy >= F.h ? -1 : gy * F.w + gx; };
@@ -60,7 +96,7 @@ d.floors.forEach((Fl, fi) => {
     const mon = {}; mine.forEach(s => { const m = mon[s.id] = mon[s.id] || { name: nName(s.id, s.name), id: s.id, level: nLevel(s.id), count: 0, aggressive: AGG[nName(s.id, s.name)] !== undefined }; m.count += s.count || 1; });
     const ml = Object.values(mon).sort((a, b) => b.count - a.count);
     const lv = ml.map(m => m.level).filter(Boolean);
-    const boss = BOSSES.find(b => { const i = cellOf(F, b.x, b.y); return i >= 0 && G.lab[i] === l; });
+    const boss = BOSSES.find(b => { if (isFinite(b.z) && (b.z < band[0] - 150 || b.z > band[1] + 150)) return false; const i = cellOf(F, b.x, b.y); return i >= 0 && G.lab[i] === l; });   // FT 2026-10-27: same floor band only (stacked levels: Tirak's pit lies under an upper-temple room)
     rooms.push({ l, cells: cells.length, set, center: [cx, cy, F.H[best]], poly, zRange: [Math.min(...zs), Math.max(...zs)], monsters: ml, spawnCount: ml.reduce((t, m) => t + m.count, 0), levelRange: lv.length ? [Math.min(...lv), Math.max(...lv)] : null, boss: boss ? boss.name : '' });
   });
   // ids: a new room holding an old room's centre keeps that id

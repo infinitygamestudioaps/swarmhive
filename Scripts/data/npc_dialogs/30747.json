@@ -1,0 +1,794 @@
+{
+ "npcId": 30747,
+ "name": "Mimyu",
+ "title": "Fairy",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.068Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30747.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "420": {
+   "name": "Little Wing",
+   "listText": [
+    "[Little Wing]",
+    "[Little Wing (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00420_LittleWing/30747-01.html",
+     "when": "state STARTED; cond 4; item 3816 >= 1",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30747-03.html",
+     "when": "state STARTED; cond 4; item 3817 >= 1; !getQuestItemsCount(talker, FAIRY_STONE) > 0",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30747-09.html",
+     "when": "state STARTED; cond 5; item 3821 >= 1",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30747-05.html",
+     "when": "state STARTED; cond 5; !getQuestItemsCount(talker, MONKSHOOD_JUICE) > 0; qs.getInt(\"fairy_stone\") == 1",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30747-06.html",
+     "when": "state STARTED; cond 5; !getQuestItemsCount(talker, MONKSHOOD_JUICE) > 0; !qs.getInt(\"fairy_stone\") == 1",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30747-10.html",
+     "when": "state STARTED; cond 6; ((getQuestItemsCount(talker, EXARION_EGG) >= 20) || (getQuestItemsCount(talker, ZWOV_EGG) >= 20) || (getQuestItemsCount(",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30747-09.html",
+     "when": "state STARTED; cond 6; !((getQuestItemsCount(talker, EXARION_EGG) >= 20) || (getQuestItemsCount(talker, ZWOV_EGG) >= 20) || (getQuestItemsCount",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30747-11.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30747-12.html",
+     "when": "state STARTED; cond 8",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": "end"
+    }
+   ]
+  },
+  "421": {
+   "name": "Little Wing's Big Adventure",
+   "listText": [
+    "[Little Wing's Big Adventure]",
+    "[Little Wing's Big Adventure (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-01.html",
+     "when": "memo 100",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-02.html",
+     "when": "memo 200; summon == null",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-03.html",
+     "when": "memo 200; !summon == null; summon.getControlObjectId() != qs.getInt(\"fluteObjectId\")",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-04.html",
+     "when": "memo 200; !summon == null; !summon.getControlObjectId() != qs.getInt(\"fluteObjectId\")",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-07.html",
+     "when": "memo 0",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-11.html",
+     "when": "memo 1|2|3|4|5|6|7|8|9|10|11|12|13|14; has items 4325",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-12.html",
+     "when": "memo 15; lacks items 4325; summon == null",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-13.html",
+     "when": "memo 15; lacks items 4325; !summon == null; summon.getControlObjectId() == qs.getInt(\"fluteObjectId\")",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-14.html",
+     "when": "memo 15; lacks items 4325; !summon == null; !summon.getControlObjectId() == qs.getInt(\"fluteObjectId\")",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-15.html",
+     "when": "memo 16; lacks items 4325; talker.hasSummon()",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-17.html",
+     "when": "memo 16; lacks items 4325; !talker.hasSummon(); fluteCount > 1",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-16.html",
+     "when": "memo 16; lacks items 4325; !talker.hasSummon(); !fluteCount > 1; fluteCount == 1; flute.getObjectId() == qs.getInt(\"fluteObjectId\")",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00421_LittleWingsBigAdventure/30747-18.html",
+     "when": "memo 16; lacks items 4325; !talker.hasSummon(); !fluteCount > 1; fluteCount == 1; !flute.getObjectId() == qs.getInt(\"fluteObjectId\")",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30747.htm": {
+   "file": "default/30747.htm",
+   "quest": null,
+   "text": "Fairy Mimyu: It has been many years since I visited this place... Why is it so busy? People everywhere... I am afraid some half-wit is going to try to catch and stuff me! Are there hunters about? How many more of us must die to satisfy their ignorant blood lust? It's dangerous I tell you! Don't let…",
+   "header": "Fairy Mimyu",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30747-01.html": {
+   "file": "Q00420_LittleWing/30747-01.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: What trouble! What trouble! What... Oh? I'm getting a good feeling from you. What do you have? What? What is it? Huh? What? Alright, I know that you've got something... Give it to me, give it to me, give it to me... OK? Huh? Huh?",
+   "header": "Fairy Mimyu",
+   "when": [
+    "state STARTED; cond 4; item 3816 >= 1"
+   ],
+   "links": [
+    {
+     "text": "Give Fairy Stone.",
+     "bypass": "Quest Q00420_LittleWing 30747-02.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30747-02.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30747-02.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30747-03.html": {
+   "file": "Q00420_LittleWing/30747-03.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: What trouble! What trouble! What... Oh? I'm getting a good feeling from you. It's a great feeling.... What do you have? What? What is it? Huh? What? Alright, I know that you've got something... Give it to me, give it to me, give it to me... OK? Huh? Huh?",
+   "header": "Fairy Mimyu",
+   "when": [
+    "state STARTED; cond 4; item 3817 >= 1; !getQuestItemsCount(talker, FAIRY_STONE) > 0"
+   ],
+   "links": [
+    {
+     "text": "Give white Fairy Stone.",
+     "bypass": "Quest Q00420_LittleWing 30747-04.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30747-04.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30747-04.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30747-09.html": {
+   "file": "Q00420_LittleWing/30747-09.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: Why are you standing about? The eggs could be in mortal peril! Please, you must go and rescue them right away! When you accomplish this I shall grant you a favor.",
+   "header": "Fairy Mimyu",
+   "when": [
+    "state STARTED; cond 5; item 3821 >= 1",
+    "state STARTED; cond 6; !((getQuestItemsCount(talker, EXARION_EGG) >= 20) || (getQuestItemsCount(talker, ZWOV_EGG) >= 20) || (getQuestItemsCount"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30747-05.html": {
+   "file": "Q00420_LittleWing/30747-05.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: Um...! OK... Yes, I know why you have come looking for me. It's because you want to get a hatchling, right? But that's not such an easy thing. To obtain a hatchling, you've got to get the egg of a wyvern and hatch it. But if it were you and someone asked you for your egg... Ah, your ra…",
+   "header": "Fairy Mimyu",
+   "when": [
+    "state STARTED; cond 5; !getQuestItemsCount(talker, MONKSHOOD_JUICE) > 0; qs.getInt(\"fairy_stone\") == 1"
+   ],
+   "links": [
+    {
+     "text": "Ask about what's happened to the drakes and wyverns.",
+     "bypass": "Quest Q00420_LittleWing 30747-07.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30747-07.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30747-07.html"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30747-06.html": {
+   "file": "Q00420_LittleWing/30747-06.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: Ah, yes, I know why you have come. You want a hatchling, don't you? Well, its not as easy as that. To obtain a hatchling, you must obtain the egg of a wyvern and hatch it. The wyvern will not surrender her egg without a fight... Your race gives live birth, doesn't it? Anyway, if someon…",
+   "header": "Fairy Mimyu",
+   "when": [
+    "state STARTED; cond 5; !getQuestItemsCount(talker, MONKSHOOD_JUICE) > 0; !qs.getInt(\"fairy_stone\") == 1"
+   ],
+   "links": [
+    {
+     "text": "\"What happened to the drakes and wyverns?\"",
+     "bypass": "Quest Q00420_LittleWing 30747-08.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30747-08.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30747-08.html"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30747-10.html": {
+   "file": "Q00420_LittleWing/30747-10.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: Oh, wonderful! Let me count... 1, 2, 3... Yes, you've found all of the eggs! How pretty they are! Right? Now you must hurry and take them to their mother! She will be waiting! Oh, won't she be happy! They seem no worse for the wear, but there is no use taking chances, it would be best …",
+   "header": "Fairy Mimyu",
+   "when": [
+    "state STARTED; cond 6; ((getQuestItemsCount(talker, EXARION_EGG) >= 20) || (getQuestItemsCount(talker, ZWOV_EGG) >= 20) || (getQuestItemsCount("
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30747-11.html": {
+   "file": "Q00420_LittleWing/30747-11.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: Ah, an egg! How cute! Will it hatch? I can hear its little heart beating. Can you hear it? Well, we can't just sit around staring at it. We must hurry up and hatch it. It seems the child is getting impatient...",
+   "header": "Fairy Mimyu",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "links": [
+    {
+     "text": "\"Here is the egg.\"",
+     "bypass": "Quest Q00420_LittleWing 30747-12.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30747-12.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30747-12.html",
+     "toAll": [
+      "Q00420_LittleWing/30747-12.html",
+      "Q00420_LittleWing/30747-16.html"
+     ],
+     "effect": "end|cond:8"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30747-12.html": {
+   "file": "Q00420_LittleWing/30747-12.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: Let's get started! OK.... It's moving. You're doing a good job... All right! There is the weak spot. Here you go... One, two, three..! Once more... One! Two! Three! Ah ha! A crack... Alright, now come out under your own power! Here is your mother, little one... She will feed you and te…",
+   "header": "Fairy Mimyu",
+   "when": [
+    "state STARTED; cond 8"
+   ],
+   "sets": {
+    "exit": true,
+    "cond": "8"
+   },
+   "outcome": "end",
+   "links": [
+    {
+     "text": "\"Here is the Fairy Dust.\"",
+     "bypass": "Quest Q00420_LittleWing 30747-15.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30747-15.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30747-15.html",
+     "toAll": [
+      "Q00420_LittleWing/30747-15.html",
+      "Q00420_LittleWing/30747-14.html"
+     ],
+     "effect": "reward"
+    },
+    {
+     "text": "\"You can't have the Fairy Dust.\"",
+     "bypass": "Quest Q00420_LittleWing 30747-13.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30747-13.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30747-13.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00421_LittleWingsBigAdventure/30747-01.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-01.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: This is so annoying! Please, leave me alone! Oh, its you! You're the one who brought me the Fairy Stone... What have you brought me this time? Nothing?! What a selfish brute! Why would you visit me emptyhanded? Oh, I remember! Cronos said that you would be visiting me...",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 100"
+   ],
+   "links": [
+    {
+     "text": "\"I wish to change a hatchling to a strider.\"",
+     "bypass": "Quest Q00421_LittleWingsBigAdventure 30747-04.html",
+     "kind": "quest-event",
+     "script": "Q00421_LittleWingsBigAdventure",
+     "event": "30747-04.html",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30747-04.html",
+     "toAll": [
+      "Q00421_LittleWingsBigAdventure/30747-04.html",
+      "Q00421_LittleWingsBigAdventure/30747-02.html",
+      "Q00421_LittleWingsBigAdventure/30747-03.html"
+     ]
+    }
+   ]
+  },
+  "Q00421_LittleWingsBigAdventure/30747-02.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-02.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: Oh, has the baby grown? Summon him, I wish to see him! Hurry!",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 200; summon == null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30747-03.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-03.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: This is not right! This is definitely not the hatchling Cronos mentioned! How dare you attempt to deceive me! I will take it from you now!",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 200; !summon == null; summon.getControlObjectId() != qs.getInt(\"fluteObjectId\")"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30747-04.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-04.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: Oh my, hasn't the baby grown! You've done an admirable job raising him. His mother will be so proud! Yes, he'll make a fine strider!",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 200; !summon == null; !summon.getControlObjectId() != qs.getInt(\"fluteObjectId\")"
+   ],
+   "links": [
+    {
+     "text": "\"Will you change my hatchling into a strider?\"",
+     "bypass": "Quest Q00421_LittleWingsBigAdventure 30747-05.html",
+     "kind": "quest-event",
+     "script": "Q00421_LittleWingsBigAdventure",
+     "event": "30747-05.html",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30747-05.html",
+     "toAll": [
+      "Q00421_LittleWingsBigAdventure/30747-05.html",
+      "Q00421_LittleWingsBigAdventure/30747-06.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00421_LittleWingsBigAdventure/30747-07.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-07.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: What more can I tell you?",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 0"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the four fairy trees.\"",
+     "bypass": "Quest Q00421_LittleWingsBigAdventure 30747-08.html",
+     "kind": "quest-event",
+     "script": "Q00421_LittleWingsBigAdventure",
+     "event": "30747-08.html",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30747-08.html"
+    },
+    {
+     "text": "\"Tell me about the ghosts of tree guardians.\"",
+     "bypass": "Quest Q00421_LittleWingsBigAdventure 30747-09.html",
+     "kind": "quest-event",
+     "script": "Q00421_LittleWingsBigAdventure",
+     "event": "30747-09.html",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30747-09.html"
+    },
+    {
+     "text": "\"Tell me about the Fairy Leaf.\"",
+     "bypass": "Quest Q00421_LittleWingsBigAdventure 30747-10.html",
+     "kind": "quest-event",
+     "script": "Q00421_LittleWingsBigAdventure",
+     "event": "30747-10.html",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30747-10.html"
+    }
+   ]
+  },
+  "Q00421_LittleWingsBigAdventure/30747-11.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-11.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: Why have you come back so soon? Your hatchling has not had enough sap! Surely you don't think that someone else will do your job for you? Go now and deal with your responsibilities! Remember, your hatchling must drink the sap of the four fairy trees in the forest south of the Town of A…",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 1|2|3|4|5|6|7|8|9|10|11|12|13|14; has items 4325"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30747-12.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-12.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: Go ahead and summon your hatchling! I trust that you completed your task successfully? If not, the forest must be in quite an uproar with those spirits careening about!",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 15; lacks items 4325; summon == null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30747-13.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-13.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: Let's have a look... Ah, yes! Good job! Your task was quite challenging. You've made your godmother proud! You've filled yourself with the sap of the fairy trees. Well, my friend, it is time to play your dragon flute and send this child to the other world. Soon he will grow too large t…",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 15; lacks items 4325; !summon == null; summon.getControlObjectId() == qs.getInt(\"fluteObjectId\")"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30747-14.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-14.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: Let's have a look. Oh my... Well, it is not your fault... Your master thinks himself too clever, and has been switching hatchlings on me. You are despicable! Although it is just a pet, you are obliged to treat it as a treasured gift! Yet you switch it around like it is no more than a p…",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 15; lacks items 4325; !summon == null; !summon.getControlObjectId() == qs.getInt(\"fluteObjectId\")"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30747-15.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-15.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: What is the holdup? You must send this youngster to the other world and give me the flute! Is that clear?",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 16; lacks items 4325; talker.hasSummon()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30747-17.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-17.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: Why would anyone carry more than one dragon flute? You aren't collecting hatchlings, are you? I hope you got this hatchling through the proper channels! I do not deal with those who traffic in pets! Pets are not chattel!",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 16; lacks items 4325; !talker.hasSummon(); fluteCount > 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30747-16.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-16.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: Give me the dragon flute. Your strider will no longer respond to it. You must now use this to call him. Although your pet looks very different now, if you just continue to give it the love and attention you did before, you will get along fine. Someday he will likely trust you enough to…",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 16; lacks items 4325; !talker.hasSummon(); !fluteCount > 1; fluteCount == 1; flute.getObjectId() == qs.getInt(\"fluteObjectId\")"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30747-18.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-18.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: You are getting on my last nerve! Did you think I wouldn't notice that you switched the dragon flutes? You are reprehensible! I am going to put a curse on you!",
+   "header": "Fairy Mimyu",
+   "when": [
+    "memo 16; lacks items 4325; !talker.hasSummon(); !fluteCount > 1; fluteCount == 1; !flute.getObjectId() == qs.getInt(\"fluteObjectId\")"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30747-02.html": {
+   "file": "Q00420_LittleWing/30747-02.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: Heh, heh... A Fairy Stone! It's a Fairy Stone... Ha, ha! Yeah, thank you, thank you. You're a really great person! Uh, huh... OK, I'm going to have to give you a gift of gratitude. If Mimyu gets a gift, she always gives a gift in return. What should I do for you? Huh? Huh? Well, ask me…",
+   "header": "Fairy Mimyu",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Ask immediately.",
+     "bypass": "Quest Q00420_LittleWing 30747-05.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30747-05.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30747-05.html"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30747-04.html": {
+   "file": "Q00420_LittleWing/30747-04.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: Heh, heh... A Fairy Stone! That's also a white Fairy Stone...! Ha, ha, ha, ha... Haaah. It's great, it's great, it's great! I don't know what it is, but thanks. Thank you so much for giving me this great thing! You're really just a really, super, great guy! I mean, really, really good!…",
+   "header": "Fairy Mimyu",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Explain the situation and ask immediately.",
+     "bypass": "Quest Q00420_LittleWing 30747-06.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30747-06.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30747-06.html"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30747-07.html": {
+   "file": "Q00420_LittleWing/30747-07.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: Nearby there are drakes and wyverns looking for their lost eggs. There is evil afoot... Why would anyone steal eggs? Really...! I know of at least five creatures who have had their eggs stolen. The closest one to us... is Drake Exarion, who lives at the top of the mountain to the west …",
+   "header": "Fairy Mimyu",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00420_LittleWing/30747-08.html": {
+   "file": "Q00420_LittleWing/30747-08.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: You haven't yet found the ones looking for their eggs? Why not? Is it because the mountain was too high? Or perhaps, you forget the locations that I told you? OK, I'll tell you again. Please remember it well! The closest one to us... is Drake Exarion, who lives at the top of the mounta…",
+   "header": "Fairy Mimyu",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00420_LittleWing/30747-13.html": {
+   "file": "Q00420_LittleWing/30747-13.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: You are a mean, greedy and selfish creature! What harm would it do to part with a little of the dust I gave you? Oh well, it seems to be moving normally. If it's well fed and cared for it should thrive. But the world is a very dangerous place, it can't be left unprotected. I shall hide…",
+   "header": "Fairy Mimyu",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00420_LittleWing/30747-14.html": {
+   "file": "Q00420_LittleWing/30747-14.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: This is armor for the hatchling. Would the new mother like to do the honors? OK... The movement of the arms and legs seems good. If it's well fed and cared for it should grow up normally. But the world is a very dangerous place, it can't be left unprotected. I shall hide the baby in th…",
+   "header": "Fairy Mimyu",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00420_LittleWing/30747-15.html": {
+   "file": "Q00420_LittleWing/30747-15.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: This is food for the hatchling. This will help the child grow strong. Would the new mother care to do the honors? OK... The movement of the arms and legs seems to be quite healthy. If it's well fed and cared for it should grow up normally. But the world is a very dangerous place, it ca…",
+   "header": "Fairy Mimyu",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00420_LittleWing/30747-16.html": {
+   "file": "Q00420_LittleWing/30747-16.html",
+   "quest": 420,
+   "text": "Fairy Mimyu: Shall we begin? OK.... It's moving. Good job... Alright! There's the weak spot. Together now... One, two, three..! Once more... One! Two! Three! There's a crack... Alright, now come out under your own power! Here is your mother, little one... She who will feed you and teach you many th…",
+   "header": "Fairy Mimyu",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30747-05.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-05.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: Nothing would make me happier, unfortunately, the hatchling is responsible for his own transformation. He must find the four fairy trees and gorge himself on their juice. This task is risky, for the trees are protected by the ghosts of tree guardians . You must see that this Fairy Leaf…",
+   "header": "Fairy Mimyu",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Please be more specific about what must be done for him to become a strider!\"",
+     "bypass": "Quest Q00421_LittleWingsBigAdventure 30747-07.html",
+     "kind": "quest-event",
+     "script": "Q00421_LittleWingsBigAdventure",
+     "event": "30747-07.html",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30747-07.html"
+    }
+   ]
+  },
+  "Q00421_LittleWingsBigAdventure/30747-06.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-06.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: What is the meaning of this? If you persist with your lying I will change the hatchling back into an egg! First let me see the child, then we'll talk!",
+   "header": "Fairy Mimyu",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00421_LittleWingsBigAdventure/30747-08.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-08.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: The four fairy trees are connected. Their roots traverse unimaginable depths to touch the Mother Tree Glade in the Elven Forest. The Essence of Wind, star, twilight and the abyss respectively flow within the trunks of these trees... These elements are essential for a hatchling to matur…",
+   "header": "Fairy Mimyu",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00421_LittleWingsBigAdventure 30747-07.html",
+     "kind": "quest-event",
+     "script": "Q00421_LittleWingsBigAdventure",
+     "event": "30747-07.html",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30747-07.html"
+    }
+   ]
+  },
+  "Q00421_LittleWingsBigAdventure/30747-09.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-09.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: These are the spirits of elves who protected the Mother Tree Glade in ancient times. In death they have lost their former discretion and attack indiscriminately anyone who ventures near. You will find many souls in each tree. Your hatchling is certain to be attacked by these spirits wh…",
+   "header": "Fairy Mimyu",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00421_LittleWingsBigAdventure 30747-07.html",
+     "kind": "quest-event",
+     "script": "Q00421_LittleWingsBigAdventure",
+     "event": "30747-07.html",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30747-07.html"
+    }
+   ]
+  },
+  "Q00421_LittleWingsBigAdventure/30747-10.html": {
+   "file": "Q00421_LittleWingsBigAdventure/30747-10.html",
+   "quest": 421,
+   "text": "Fairy Mimyu: When your hatchling has slaked his thirst, affix the Fairy Leaf I gave you to the tree from which he drank. This will heal the tree and quieten the spirits within it. You only have enough leaves to use one per tree. Is that clear?",
+   "header": "Fairy Mimyu",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00421_LittleWingsBigAdventure 30747-07.html",
+     "kind": "quest-event",
+     "script": "Q00421_LittleWingsBigAdventure",
+     "event": "30747-07.html",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30747-07.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Little Wing (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00420_LittleWing",
+     "kind": "quest",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30747-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Little Wing's Big Adventure (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00421_LittleWingsBigAdventure",
+     "kind": "quest",
+     "quest": 421,
+     "to": "Q00421_LittleWingsBigAdventure/30747-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

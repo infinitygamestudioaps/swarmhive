@@ -1,0 +1,147 @@
+{
+ "npcId": 30294,
+ "name": "Varan",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.925Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30294.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "34": {
+   "name": "In Search of Cloth",
+   "listText": [
+    "[In Search of Cloth]",
+    "[In Search of Cloth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00034_InSearchOfCloth/30294-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00034_InSearchOfCloth/30294-03.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30294.htm": {
+   "file": "merchant/30294.htm",
+   "quest": null,
+   "text": "Trader Varan: Welcome to our shop, run by my sister and me. Come inside and you won't be disappointed. We offer items in cooperation with Oren's famous magical Ivory Tower and the renowned Dwarven Breath of Flame Guild. My sister is a bit talkative, so coming to me was a wise choice.",
+   "header": "Trader Varan",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Buy 3029400",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy/Sell/Refund Common Items.",
+     "bypass": "npc_%objectId%_Buy 3029401",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30294-pk.htm": {
+   "file": "merchant/30294-pk.htm",
+   "quest": null,
+   "text": "Trader Varan: Our shop must be famous, seeing how wanted criminals brave the danger of town to visit us. Well, it's true that there aren't that many shops with such wonderful items or such a dashing owner. Nonetheless ... Recently, someone broke the law and sold an item to a wanted criminal. He was…",
+   "header": "Trader Varan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00034_InSearchOfCloth/30294-01.html": {
+   "file": "Q00034_InSearchOfCloth/30294-01.html",
+   "quest": 34,
+   "text": "Trader Varan: Ah, you mean Radia's order? Well, I haven't gotten the materials yet. The goods she wants have been rather scarce of late, making them difficult to obtain.",
+   "header": "Trader Varan",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "When can I get it then?",
+     "bypass": "Quest Q00034_InSearchOfCloth 30294-02.html",
+     "kind": "quest-event",
+     "script": "Q00034_InSearchOfCloth",
+     "event": "30294-02.html",
+     "quest": 34,
+     "to": "Q00034_InSearchOfCloth/30294-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00034_InSearchOfCloth/30294-03.html": {
+   "file": "Q00034_InSearchOfCloth/30294-03.html",
+   "quest": 34,
+   "text": "Trader Varan: Please tell Radia that I won't make a mistake like this again.",
+   "header": "Trader Varan",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00034_InSearchOfCloth/30294-02.html": {
+   "file": "Q00034_InSearchOfCloth/30294-02.html",
+   "quest": 34,
+   "text": "Trader Varan: Tell her I'm sorry I couldn't fill the order on time, and that I accept responsibility for the breach of Contract.",
+   "header": "Trader Varan",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[In Search of Cloth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00034_InSearchOfCloth",
+     "kind": "quest",
+     "quest": 34,
+     "to": "Q00034_InSearchOfCloth/30294-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

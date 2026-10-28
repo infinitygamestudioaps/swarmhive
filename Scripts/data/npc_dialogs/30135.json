@@ -1,0 +1,224 @@
+{
+ "npcId": 30135,
+ "name": "Iria",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.849Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30135.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "166": {
+   "name": "Mass of Darkness",
+   "listText": [
+    "[Mass of Darkness]",
+    "[Mass of Darkness (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00166_MassOfDarkness/30135-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30139-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30143-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30135-02.html",
+     "when": "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30139-02.html",
+     "when": "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30143-02.html",
+     "when": "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30135.htm": {
+   "file": "merchant/30135.htm",
+   "quest": null,
+   "text": "Trader Iria: Welcome! We have everything except what we don't have. Ha ha ha! If you want to buy, do so quickly. If you just want to browse...go away! We don't sell weapons that those dirty Humans make, so if you are looking for those you've come to the wrong shop. Ha ha!",
+   "header": "Trader Iria",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30135-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3013500",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3013501",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30135-1.htm": {
+   "file": "merchant/30135-1.htm",
+   "quest": null,
+   "text": "Trader Iria: What do you want to trade?",
+   "header": "Trader Iria",
+   "links": [
+    {
+     "text": "Trade Fighter equipment.",
+     "bypass": "npc_%objectId%_Buy 3013500",
+     "kind": "shop"
+    },
+    {
+     "text": "Trade Wizard equipment.",
+     "bypass": "npc_%objectId%_Buy 3013501",
+     "kind": "shop"
+    },
+    {
+     "text": "Trade equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "merchant/30135-pk.htm": {
+   "file": "merchant/30135-pk.htm",
+   "quest": null,
+   "text": "Trader Iria: Oh look, a victim of society. I have nothing to sell to the likes of you, so get out of my sight!",
+   "header": "Trader Iria",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30135-01.html": {
+   "file": "Q00166_MassOfDarkness/30135-01.html",
+   "quest": 166,
+   "text": "Trader Iria: Abyssal Celebrant Undrias has sent you, I see. Here is the special dagger crafted by Karrod for use in this year's Ceremony of Darkness. Beautiful, isn't it? Ah, be careful! It may be ceremonial, but its blade is still razor-sharp!",
+   "header": "Trader Iria",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30139-01.html": {
+   "file": "Q00166_MassOfDarkness/30139-01.html",
+   "quest": 166,
+   "text": "Warehouse Keeper Dorankus: Ah! You're here for the item Undrias entrusted to me last year? Here it is! Dreviant Wine, made from the poison of spiders. A rare vintage that even I have never tasted... Be sure to tell Undrias how faithfully I fulfilled my service to him!",
+   "header": "Warehouse Keeper Dorankus",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30143-01.html": {
+   "file": "Q00166_MassOfDarkness/30143-01.html",
+   "quest": 166,
+   "text": "Master Trudy: Undrias sent you? Very well; take this scripture to him. It was discovered in an abandoned mine in the Misty Mountains during a battle with those vile Orcs. Surprising, isn't it, to see something written by ancient Humans who also served Gran Kain? Undrias plans to recite a portion of…",
+   "header": "Master Trudy",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30135-02.html": {
+   "file": "Q00166_MassOfDarkness/30135-02.html",
+   "quest": 166,
+   "text": "Trader Iria: Take this Ceremonial Dagger to Abyssal Celebrant Undrias. It is needed for the Ceremony of Darkness, so guard it with your life. If something were to happen to it, I shudder to think of what Undrias would do to you...",
+   "header": "Trader Iria",
+   "when": [
+    "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30139-02.html": {
+   "file": "Q00166_MassOfDarkness/30139-02.html",
+   "quest": 166,
+   "text": "Warehouse Keeper Dorankus: You haven't left for the Temple of Shilen yet? Hurry and deliver the Dreviant Wine I gave you to Abyssal Celebrant Undrias! It is very precious, so take care not to break the bottle!",
+   "header": "Warehouse Keeper Dorankus",
+   "when": [
+    "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30143-02.html": {
+   "file": "Q00166_MassOfDarkness/30143-02.html",
+   "quest": 166,
+   "text": "Master Trudy: Why haven't you delivered Garmiel's Scripture to Abyssal Celebrant Undrias? Hurry, you fool! If the ceremony is delayed on your account, Undrias will flay the flesh from your bones!",
+   "header": "Master Trudy",
+   "when": [
+    "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Mass of Darkness (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00166_MassOfDarkness",
+     "kind": "quest",
+     "quest": 166,
+     "to": "Q00166_MassOfDarkness/30135-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

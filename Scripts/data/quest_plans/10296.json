@@ -2,7 +2,7 @@
  "id": 10296,
  "name": "Seven Signs, One Who Seeks the Power of the Seal",
  "version": 1,
- "generated": "2026-10-27T11:16:38.542Z",
+ "generated": "2026-10-27T18:20:04.696Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 81,
@@ -29,7 +29,7 @@
  "reasons": [
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 32784 \"32784-03.html\": fires at memo 3, which no transition sets"
   },
   {
    "code": "npc-no-spawn",
@@ -42,8 +42,8 @@
    "step": 1
   },
   {
-   "code": "route-unverified",
-   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
    "step": 2
   },
   {
@@ -54,15 +54,10 @@
   {
    "code": "npc-no-spawn",
    "text": "an NPC of a step has no spawn in the datapack",
-   "step": 4
-  },
-  {
-   "code": "npc-no-spawn",
-   "text": "an NPC of a step has no spawn in the datapack",
-   "step": 5
+   "step": 9
   }
  ],
- "expectedMin": 6,
+ "expectedMin": 3,
  "refLevel": 81,
  "steps": [
   {
@@ -94,142 +89,6 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:32597",
-   "cond": 1,
-   "kind": "talk",
-   "to": "end",
-   "links": [
-    "\"Great! Uh, do I get anything in return?\""
-   ],
-   "npc": {
-    "id": 32597,
-    "name": "Franz",
-    "title": "Witness of Dawn",
-    "town": "",
-    "at": null,
-    "alt": [],
-    "why": "npc-no-spawn"
-   },
-   "text": "Talk to Franz",
-   "reasons": [
-    "npc-no-spawn"
-   ],
-   "expectedSec": 25,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:30832",
-   "cond": 1,
-   "kind": "talk",
-   "to": 5,
-   "links": [
-    "\"Just get to the point.\""
-   ],
-   "npc": {
-    "id": 30832,
-    "name": "Hardin",
-    "title": "",
-    "town": "Hunters Village",
-    "at": [
-     105745,
-     114255,
-     -3136
-    ],
-    "alt": []
-   },
-   "text": "Talk to Hardin",
-   "reasons": [
-    "route-unverified"
-   ],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30832@105745,114255",
-    "status": "unverified",
-    "flags": [
-     "unverified-walk"
-    ],
-    "from": ".giran",
-    "length": 22123,
-    "sec": 229,
-    "via": ".giran > Giran -> Necropolis of Martyrdom",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
-     },
-     {
-      "do": "gk",
-      "from": "Giran",
-      "desc": "Giran -> Necropolis of Martyrdom",
-      "link": "necropolis of martyrdom",
-      "price": 5000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 22123,
-      "how": "straight",
-      "danger": 67
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Giran",
-     "desc": "Giran -> Necropolis of Martyrdom"
-    },
-    "simple": true,
-    "pv": [
-     [
-      117793,
-      132810,
-      -4835
-     ],
-     [
-      105745,
-      114255,
-      -3136
-     ]
-    ],
-    "maxDanger": 67,
-    "needs": [],
-    "why": [
-     "walk not on the geodata from 117793,132810 (the start is a closed pocket of 5237 cells on the geodata (platform / island / sealed room: no walk out))"
-    ],
-    "checks": {
-     "reachable": true,
-     "walls": "straight legs not wall-checked: 1",
-     "water": false,
-     "danger": 67,
-     "dangerVsLevel": -14,
-     "aggro": []
-    }
-   },
-   "expectedSec": 254,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 3,
    "key": "c1:talk:32784",
    "cond": 1,
    "kind": "talk",
@@ -263,7 +122,7 @@
    ]
   },
   {
-   "i": 4,
+   "i": 2,
    "key": "c1:talk:32787",
    "cond": 1,
    "kind": "talk",
@@ -295,7 +154,7 @@
    ]
   },
   {
-   "i": 5,
+   "i": 3,
    "key": "c1:talk:32792",
    "cond": 1,
    "kind": "talk",
@@ -320,14 +179,275 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    3,
-    4,
+    1
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:30832",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"Just get to the point.\""
+   ],
+   "npc": {
+    "id": 30832,
+    "name": "Hardin",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     105745,
+     114255,
+     -3136
+    ],
+    "alt": []
+   },
+   "text": "Talk to Hardin",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "",
+    "status": "ok",
+    "flags": [
+     "live-landing"
+    ],
+    "from": "Oren",
+    "length": 5261,
+    "sec": 44,
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Hardin's Private Academy",
+      "link": "Hardin's Private Academy",
+      "price": 6100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5261,
+      "how": "geodata"
+     }
+    ],
+    "via": ".oren > Oren -> Hardin's Private Academy",
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Hardin's Private Academy"
+    },
+    "simple": true,
+    "pv": [
+     [
+      105855,
+      109782,
+      -3200
+     ],
+     [
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
+    ],
+    "points": [
+     [
+      105855,
+      109782,
+      -3200
+     ],
+     [
+      105704,
+      110664,
+      -3064
+     ],
+     [
+      105704,
+      110760,
+      -3056
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
+    ],
+    "landing": {
+     "from": "Oren",
+     "dest": "Hardin's Private Academy",
+     "src": "nav_atlas_extra gkLinks (LIVE)"
+    },
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata leg from a live landing (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 69,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:32597",
+   "cond": 5,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Great! Uh, do I get anything in return?\""
+   ],
+   "npc": {
+    "id": 32597,
+    "name": "Franz",
+    "title": "Witness of Dawn",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Franz",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
     5
    ]
   }
  ],
  "override": {
-  "steps": {}
+  "steps": {},
+  "note": "Hardin Academy landing (live 2026-10-27, Spoiler15): Oren gk Valentina \"Hardin's Private Academy\" 6100 -> 105855,109782,-3200 (gk Minerva); walk N to Hardin/Cema/Kaspar 5.2-5.7k, geodata dry path OK. Also Giran Clarissa 4400, Hunters Esmeralda 3400. nav_atlas_extra.json gkLinks.",
+  "editedAt": "2026-10-27T12:23:02.720Z",
+  "by": "claude live test 2026-10-27"
  }
 }

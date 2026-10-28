@@ -3,7 +3,7 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 const src = fs.readFileSync(path.join(__dirname, '..', '..', '..', 'Scripts_dev', 'swarm.js'), 'utf8');
-const a = src.indexOf('let missionResult = null;'), b = src.indexOf('async function leaderMission(kind, arg) {');
+const a = src.indexOf('let missionResult = null;'), b = src.indexOf('async function leaderMission(kind, arg, opt) {');
 if (a < 0 || b < 0) { console.log('FAIL: block not found'); process.exit(1); }
 const block = src.slice(a, b);
 let fails = 0; const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); if (!c) fails++; };

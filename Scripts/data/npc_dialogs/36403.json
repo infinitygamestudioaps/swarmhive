@@ -1,0 +1,314 @@
+{
+ "npcId": 36403,
+ "name": "Warden",
+ "title": "Gludio",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.458Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "512": {
+   "name": "Blade Under Foot",
+   "listText": [
+    "[Hidden Blade]",
+    "[Hidden Blade (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00512_BladeUnderFoot/36403-01.htm",
+     "when": "state CREATED; level >= 70; (npc.isMyLord(player) || ((player.getClan() != null) && (npc.getCastle().getResidenceId() == player.",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00512_BladeUnderFoot/36403-03.htm",
+     "when": "state CREATED; level >= 70; NOT (npc.isMyLord(player) || ((player.getClan() != null) && (npc.getCastle().getResidenceId() == player.",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00512_BladeUnderFoot/36403-08.htm",
+     "when": "state CREATED; NOT level >= 70",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00512_BladeUnderFoot/36403-09.html",
+     "when": "state STARTED; has items 9798",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00512_BladeUnderFoot/36403-12.html",
+     "when": "state STARTED; lacks items 9798",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00512_BladeUnderFoot/36403-01.htm": {
+   "file": "Q00512_BladeUnderFoot/36403-01.htm",
+   "quest": 512,
+   "text": "Gludio Prison Warden: I am the warden of this castle prison. This monster dungeon was discovered only recently. I suspect that other castles also have such dungeons. My duty is to keep this basement prison area safe. Having monsters appear and disappear at will here would hardly let the castle inha…",
+   "header": "Gludio Prison Warden",
+   "when": [
+    "state CREATED; level >= 70; (npc.isMyLord(player) || ((player.getClan() != null) && (npc.getCastle().getResidenceId() == player."
+   ],
+   "links": [
+    {
+     "text": "Say you will help.",
+     "bypass": "Quest Q00512_BladeUnderFoot 36403-02.htm",
+     "kind": "quest-event",
+     "script": "Q00512_BladeUnderFoot",
+     "event": "36403-02.htm",
+     "quest": 512,
+     "to": "Q00512_BladeUnderFoot/36403-02.htm",
+     "toAll": [
+      "Q00512_BladeUnderFoot/36403-02.htm",
+      "Q00512_BladeUnderFoot/36403-03.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00512_BladeUnderFoot/36403-03.htm": {
+   "file": "Q00512_BladeUnderFoot/36403-03.htm",
+   "quest": 512,
+   "text": "Prison Warden: Who are you? I don't see your name on the list of clan members... (This quest is reserved for members of the clan that currently owns this castle.)",
+   "header": "Prison Warden",
+   "when": [
+    "state CREATED; level >= 70; NOT (npc.isMyLord(player) || ((player.getClan() != null) && (npc.getCastle().getResidenceId() == player."
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00512_BladeUnderFoot/36403-08.htm": {
+   "file": "Q00512_BladeUnderFoot/36403-08.htm",
+   "quest": 512,
+   "text": "Gludio Prison Warden: Thank you for volunteering to help, kind adventurer, but we can't allow inexperienced clan members to put themselves in jeopardy -- bad for our reputation, you know. Believe it or not, I was once a prominent adventurer before taking this job. If I can give you some advice, you…",
+   "header": "Gludio Prison Warden",
+   "when": [
+    "state CREATED; NOT level >= 70"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00512_BladeUnderFoot/36403-09.html": {
+   "file": "Q00512_BladeUnderFoot/36403-09.html",
+   "quest": 512,
+   "text": "Gludio Prison Warden: So you eradicated the leader of the monster prisoners in the dungeon? Well done! Thank you for your help in eliminating this threat to our safety. Here is the Knight's Epaulette as promised. You can exchange it with me for the castle clan supply. ... Would you like to continue…",
+   "header": "Gludio Prison Warden",
+   "when": [
+    "state STARTED; has items 9798"
+   ],
+   "links": [
+    {
+     "text": "Say that you will continue.",
+     "bypass": "Quest Q00512_BladeUnderFoot 36403-10.html",
+     "kind": "quest-event",
+     "script": "Q00512_BladeUnderFoot",
+     "event": "36403-10.html",
+     "quest": 512,
+     "to": "Q00512_BladeUnderFoot/36403-10.html"
+    },
+    {
+     "text": "Say that you will quit.",
+     "bypass": "Quest Q00512_BladeUnderFoot 36403-11.html",
+     "kind": "quest-event",
+     "script": "Q00512_BladeUnderFoot",
+     "event": "36403-11.html",
+     "quest": 512,
+     "to": "Q00512_BladeUnderFoot/36403-11.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"What are the monsters in the dungeon like?\"",
+     "bypass": "Quest Q00512_BladeUnderFoot 36403-05.html",
+     "kind": "quest-event",
+     "script": "Q00512_BladeUnderFoot",
+     "event": "36403-05.html",
+     "quest": 512,
+     "to": "Q00512_BladeUnderFoot/36403-05.html"
+    }
+   ]
+  },
+  "Q00512_BladeUnderFoot/36403-12.html": {
+   "file": "Q00512_BladeUnderFoot/36403-12.html",
+   "quest": 512,
+   "text": "Gludio Prison Warden: Enter the dungeon prison and slay the prisoners. Wipe out all 3 gangs to eradicate the monsters' entire organization in the dungeon. When you defeat the leader of the last gang, bring me a piece of the monster's rank badge and I will repay you with the Knight's Epaulette, whic…",
+   "header": "Gludio Prison Warden",
+   "when": [
+    "state STARTED; lacks items 9798"
+   ],
+   "links": [
+    {
+     "text": "\"Understood. I will start immediately.\"",
+     "bypass": "Quest Q00512_BladeUnderFoot 36403-04.html",
+     "kind": "quest-event",
+     "script": "Q00512_BladeUnderFoot",
+     "event": "36403-04.html",
+     "quest": 512,
+     "to": "Q00512_BladeUnderFoot/36403-04.html"
+    },
+    {
+     "text": "\"What are the monsters in the dungeon prison like?\"",
+     "bypass": "Quest Q00512_BladeUnderFoot 36403-05.html",
+     "kind": "quest-event",
+     "script": "Q00512_BladeUnderFoot",
+     "event": "36403-05.html",
+     "quest": 512,
+     "to": "Q00512_BladeUnderFoot/36403-05.html"
+    }
+   ]
+  },
+  "Q00512_BladeUnderFoot/36403-02.htm": {
+   "file": "Q00512_BladeUnderFoot/36403-02.htm",
+   "quest": 512,
+   "text": "Gludio Prison Warden: Excellent! I appreciate your offer, friend. This dungeon prison was only recently discovered, and no one knows its true purpose. Some legends say that some emperor long, long ago created this dungeon as a place to secretly breed monsters for magical experiments. Others say tha…",
+   "header": "Gludio Prison Warden",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Understood. I will start immediately.",
+     "bypass": "Quest Q00512_BladeUnderFoot 36403-04.html",
+     "kind": "quest-event",
+     "script": "Q00512_BladeUnderFoot",
+     "event": "36403-04.html",
+     "quest": 512,
+     "to": "Q00512_BladeUnderFoot/36403-04.html"
+    },
+    {
+     "text": "Can you tell me more about the monsters in the dungeon?",
+     "bypass": "Quest Q00512_BladeUnderFoot 36403-05.html",
+     "kind": "quest-event",
+     "script": "Q00512_BladeUnderFoot",
+     "event": "36403-05.html",
+     "quest": 512,
+     "to": "Q00512_BladeUnderFoot/36403-05.html"
+    }
+   ]
+  },
+  "Q00512_BladeUnderFoot/36403-04.html": {
+   "file": "Q00512_BladeUnderFoot/36403-04.html",
+   "quest": 512,
+   "text": "Gludio Prison Warden: I can grant you access to the castle dungeon prison right here. Thank you for your help!",
+   "header": "Gludio Prison Warden",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00512_BladeUnderFoot/36403-05.html": {
+   "file": "Q00512_BladeUnderFoot/36403-05.html",
+   "quest": 512,
+   "text": "Warden: Hmm... Since the dungeon was abandoned for so long, the prisoners -- monsters all -- eventually formed an independent society. This basement camp features a very complicated network of secret passageways, which the monsters now use to move at will throughout this dungeon and even to areas o…",
+   "header": "Warden",
+   "links": [
+    {
+     "text": "\"That certainly explains the endless stream of monsters in the basement prison despite years of bloody suppression...\"",
+     "bypass": "Quest Q00512_BladeUnderFoot 36403-06.html",
+     "kind": "quest-event",
+     "script": "Q00512_BladeUnderFoot",
+     "event": "36403-06.html",
+     "quest": 512,
+     "to": "Q00512_BladeUnderFoot/36403-06.html"
+    }
+   ]
+  },
+  "Q00512_BladeUnderFoot/36403-06.html": {
+   "file": "Q00512_BladeUnderFoot/36403-06.html",
+   "quest": 512,
+   "text": "Warden: Correct. That is why we seek assistance from the clan's adventurers. Undoubtedly, a permanent solution is being studied by high class strategists, scholars and mystics. But those efforts are hampered by the disharmony among the various castles. Unless there is some sort of ultimate resoluti…",
+   "header": "Warden",
+   "links": [
+    {
+     "text": "\"What do you want me to do?\"",
+     "bypass": "Quest Q00512_BladeUnderFoot 36403-07.html",
+     "kind": "quest-event",
+     "script": "Q00512_BladeUnderFoot",
+     "event": "36403-07.html",
+     "quest": 512,
+     "to": "Q00512_BladeUnderFoot/36403-07.html"
+    }
+   ]
+  },
+  "Q00512_BladeUnderFoot/36403-07.html": {
+   "file": "Q00512_BladeUnderFoot/36403-07.html",
+   "quest": 512,
+   "text": "Warden: Long ago, there was a great battle between monsters and a large punitive force. What a fight that was... Both sides suffered enormous casualties. In its aftermath, however, the monsters became more cautious in their movements. But recently we have observed 3 powerful gangs of monster ex-pri…",
+   "header": "Warden",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00512_BladeUnderFoot/36403-10.html": {
+   "file": "Q00512_BladeUnderFoot/36403-10.html",
+   "quest": 512,
+   "text": "Prison Warden: Continue to seek out and defeat Beautiful Atrielle, Nagen the Tomboy and Jax the Destroyer , who are the leaders of the 3 underground prison gangs that roam this prison . Bring me the rank badges of the monsters you defeat there and I will exchange them for a Knight's Epaulette. Good…",
+   "header": "Prison Warden",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00512_BladeUnderFoot/36403-11.html": {
+   "file": "Q00512_BladeUnderFoot/36403-11.html",
+   "quest": 512,
+   "text": "Gludio Prison Warden: Ah, I understand -- no doubt another adventure calls you... Thank you for all you've done here. If you'd like to lend a hand again, we'd be very grateful. Good luck on your journeys!",
+   "header": "Gludio Prison Warden",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Hidden Blade]",
+     "bypass": "npc_%objectId%_Quest Q00512_BladeUnderFoot",
+     "kind": "quest",
+     "quest": 512,
+     "to": "Q00512_BladeUnderFoot/36403-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Hidden Blade (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00512_BladeUnderFoot",
+     "kind": "quest",
+     "quest": 512,
+     "to": "Q00512_BladeUnderFoot/36403-09.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

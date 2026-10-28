@@ -1,0 +1,393 @@
+{
+ "npcId": 31349,
+ "name": "Benedict",
+ "title": "Priest",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.195Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31349.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "21": {
+   "name": "Hidden Truth",
+   "listText": [
+    "[Hidden Truth]",
+    "[Hidden Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00021_HiddenTruth/31349-03.html",
+     "when": "cond 6; st.getInt(\"AGRIPEL\") == 1; st.getInt(\"DOMINIC\") == 1; st.getInt(\"BENEDICT\") == 1",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00021_HiddenTruth/31349-02.html",
+     "when": "cond 6; !((st.getInt(\"AGRIPEL\") == 1) && (st.getInt(\"DOMINIC\") == 1) && (st.getInt(\"BENEDICT\") == 1)); ((st.getInt(\"AGRIPEL\") == 1) || (st.getInt(\"DOMINIC\") == 1))",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00021_HiddenTruth/31349-01.html",
+     "when": "cond 6; !((st.getInt(\"AGRIPEL\") == 1) && (st.getInt(\"DOMINIC\") == 1) && (st.getInt(\"BENEDICT\") == 1)); !((st.getInt(\"AGRIPEL\") == 1) || (st.getInt(\"DOMINIC\") == 1))",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00021_HiddenTruth/31349-03.html",
+     "when": "cond 7; !(st.hasQuestItems(CROSS_OF_EINHASAD) && st.isCond(6))",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "25": {
+   "name": "Hiding Behind the Truth",
+   "listText": [
+    "[Hiding Behind the Truth]",
+    "[Hiding Behind the Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00025_HidingBehindTheTruth/31349-01.htm",
+     "when": "state CREATED|COMPLETED; level >= 66; q24 != null",
+     "state": "CREATED|COMPLETED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31349-02.html",
+     "when": "state CREATED; !((q24 != null) && q24.isCompleted() && (talker.getLevel() >= MIN_LVL))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31349-03a.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31349-11.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31349.htm": {
+   "file": "default/31349.htm",
+   "quest": null,
+   "text": "Benedict: What are you doing here? I haven't seen you around here before. Is this your first time here? If you're here to give a donation, talk to Agripel over there. Why are you staring at me? Is there something stuck in my teeth?",
+   "header": "Benedict",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31349-03.html": {
+   "file": "Q00021_HiddenTruth/31349-03.html",
+   "quest": 21,
+   "text": "Benedict: Maybe the devil worshippers are hiding in a library somewhere, they still need to acquire knowledge. They couldn't be here in the temple!",
+   "header": "Benedict",
+   "when": [
+    "cond 6; st.getInt(\"AGRIPEL\") == 1; st.getInt(\"DOMINIC\") == 1; st.getInt(\"BENEDICT\") == 1",
+    "cond 7; !(st.hasQuestItems(CROSS_OF_EINHASAD) && st.isCond(6))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00021_HiddenTruth/31349-02.html": {
+   "file": "Q00021_HiddenTruth/31349-02.html",
+   "quest": 21,
+   "text": "Benedict: Maybe he was the guy who long ago was expelled for keeping a devil worshipper with him! He's probably a beggar now. I don't waste my time with such filth.",
+   "header": "Benedict",
+   "when": [
+    "cond 6; !((st.getInt(\"AGRIPEL\") == 1) && (st.getInt(\"DOMINIC\") == 1) && (st.getInt(\"BENEDICT\") == 1)); ((st.getInt(\"AGRIPEL\") == 1) || (st.getInt(\"DOMINIC\") == 1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00021_HiddenTruth/31349-01.html": {
+   "file": "Q00021_HiddenTruth/31349-01.html",
+   "quest": 21,
+   "text": "Benedict: Is Innocentin one of those devil worshippers executed in the old witch trials? I never heard of him, ask someone else.",
+   "header": "Benedict",
+   "when": [
+    "cond 6; !((st.getInt(\"AGRIPEL\") == 1) && (st.getInt(\"DOMINIC\") == 1) && (st.getInt(\"BENEDICT\") == 1)); !((st.getInt(\"AGRIPEL\") == 1) || (st.getInt(\"DOMINIC\") == 1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31349-01.htm": {
+   "file": "Q00025_HidingBehindTheTruth/31349-01.htm",
+   "quest": 25,
+   "text": "Priest Benedict: So, did you ever find Innocentin? He's probably a beggar by now. What brings you here?",
+   "header": "Priest Benedict",
+   "when": [
+    "state CREATED|COMPLETED; level >= 66; q24 != null"
+   ],
+   "links": [
+    {
+     "text": "\"I'm taking care of some business.\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31349-03.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31349-03.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31349-03.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31349-02.html": {
+   "file": "Q00025_HidingBehindTheTruth/31349-02.html",
+   "quest": 25,
+   "text": "Priest Benedict: What's your business here? (This quest may only be undertaken by a character who is of level 66 or above and has cleared the residents of the Forest of the Dead.)",
+   "header": "Priest Benedict",
+   "when": [
+    "state CREATED; !((q24 != null) && q24.isCompleted() && (talker.getLevel() >= MIN_LVL))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31349-03a.html": {
+   "file": "Q00025_HidingBehindTheTruth/31349-03a.html",
+   "quest": 25,
+   "text": "Priest Benedict: So, did you ever find Innocentin? He's probably a beggar by now. What's your business here?",
+   "header": "Priest Benedict",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "Show him the totem",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31349-05.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31349-05.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31349-05.html",
+     "toAll": [
+      "Q00025_HidingBehindTheTruth/31349-05.html",
+      "Q00025_HidingBehindTheTruth/31349-04.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31349-11.html": {
+   "file": "Q00025_HidingBehindTheTruth/31349-11.html",
+   "quest": 25,
+   "text": "Priest Benedict: I can't help you. You should call on Agripel, he holds the highest position here.",
+   "header": "Priest Benedict",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31349-03.html": {
+   "file": "Q00025_HidingBehindTheTruth/31349-03.html",
+   "quest": 25,
+   "text": "Priest Benedict: What business could you have with me?",
+   "header": "Priest Benedict",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Show him the totem",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31349-05.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31349-05.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31349-05.html",
+     "toAll": [
+      "Q00025_HidingBehindTheTruth/31349-05.html",
+      "Q00025_HidingBehindTheTruth/31349-04.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31349-04.html": {
+   "file": "Q00025_HidingBehindTheTruth/31349-04.html",
+   "quest": 25,
+   "text": "Priest Benedict: Where did you find such an ugly doll? By the gods, you should give it to me!",
+   "header": "Priest Benedict",
+   "links": [
+    {
+     "text": "\"No!\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31349-06.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31349-06.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31349-06.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31349-05.html": {
+   "file": "Q00025_HidingBehindTheTruth/31349-05.html",
+   "quest": 25,
+   "text": "Priest Benedict: Did you lose what you wanted to show me? You should be more careful!",
+   "header": "Priest Benedict",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31349-06.html": {
+   "file": "Q00025_HidingBehindTheTruth/31349-06.html",
+   "quest": 25,
+   "text": "Priest Benedict: You refuse? You could buy a nicer one at the blacksmith shop for 1000 Adena. I'll buy it for 10,000! What do you say?",
+   "header": "Priest Benedict",
+   "links": [
+    {
+     "text": "\"No!\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31349-07.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31349-07.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31349-07.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31349-07.html": {
+   "file": "Q00025_HidingBehindTheTruth/31349-07.html",
+   "quest": 25,
+   "text": "Priest Benedict: What do you want for the doll?",
+   "header": "Priest Benedict",
+   "links": [
+    {
+     "text": "\"Give me the key.\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31349-08.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31349-08.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31349-08.html"
+    },
+    {
+     "text": "\"Tell me the true nature of the doll.\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31349-10.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31349-10.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31349-10.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31349-08.html": {
+   "file": "Q00025_HidingBehindTheTruth/31349-08.html",
+   "quest": 25,
+   "text": "Priest Benedict: I don't know what key you're talking about.",
+   "header": "Priest Benedict",
+   "links": [
+    {
+     "text": "\"The dark Magus said I would find the key here.\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31349-09.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31349-09.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31349-09.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31349-09.html": {
+   "file": "Q00025_HidingBehindTheTruth/31349-09.html",
+   "quest": 25,
+   "text": "Priest Benedict: What dark Magus are you talking about?",
+   "header": "Priest Benedict",
+   "links": [
+    {
+     "text": "\"If you play dumb, then I'm leaving.\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31349-10.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31349-10.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31349-10.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31349-10.html": {
+   "file": "Q00025_HidingBehindTheTruth/31349-10.html",
+   "quest": 25,
+   "text": "Priest Benedict: I can't help you. You should call on Agripel, he holds the highest position here.",
+   "header": "Priest Benedict",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Hidden Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00021_HiddenTruth",
+     "kind": "quest",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31349-03.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Hiding Behind the Truth]",
+     "bypass": "npc_%objectId%_Quest Q00025_HidingBehindTheTruth",
+     "kind": "quest",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31349-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Hiding Behind the Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00025_HidingBehindTheTruth",
+     "kind": "quest",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31349-03a.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

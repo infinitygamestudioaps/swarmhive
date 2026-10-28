@@ -1,0 +1,65 @@
+{
+ "npcId": 31342,
+ "name": "Dimitri",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.194Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/31342.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/31342.htm": {
+   "file": "guard/31342.htm",
+   "quest": null,
+   "text": "Guard Dimitri: The pasture of wild beasts in the northern part of this village is one of our most popular attractions! I don't understand why anyone would want to keep such ferocious animals! Are they crazy or what?",
+   "header": "Guard Dimitri",
+   "links": [
+    {
+     "text": "\"Pasture of wild beasts? I wish to see it.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/31342-1.htm"
+    },
+    {
+     "text": "See the lord & tax rate info.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/31342-1.htm": {
+   "file": "guard/31342-1.htm",
+   "quest": null,
+   "text": "Guard Dimitri: It's a ranch on a pasture in the north of the village. You'll find such vicious creatures as kukaburros, cougars and Buffalos there. I've heard that it was established as some sort of military program. Therefore, it was supported by the country. Raising wild animals is not as easy as…",
+   "header": "Guard Dimitri",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31342.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

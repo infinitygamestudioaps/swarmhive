@@ -1,0 +1,465 @@
+{
+ "npcId": 30144,
+ "name": "Harne",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.850Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "8": {
+   "name": "An Adventure Begins",
+   "listText": [
+    "[An Adventure Begins]",
+    "[An Adventure Begins (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00008_AnAdventureBegins/30144-01.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00008_AnAdventureBegins/30144-04.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "103": {
+   "name": "Spirit of Craftsman",
+   "listText": [
+    "[Spirit of Craftsman]",
+    "[Spirit of Craftsman (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00103_SpiritOfCraftsman/30144-01.html",
+     "when": "state STARTED; has items 969",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00103_SpiritOfCraftsman/30144-03.html",
+     "when": "state STARTED; has items 970; lacks items 969; hasItemsAtLimit(talker, BONE_FRAGMENT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00103_SpiritOfCraftsman/30144-02.html",
+     "when": "state STARTED; has items 970; lacks items 969; !hasItemsAtLimit(talker, BONE_FRAGMENT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00103_SpiritOfCraftsman/30144-04.html",
+     "when": "state STARTED; has items 971; lacks items 969,970",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "348": {
+   "name": "An Arrogant Search",
+   "listText": [
+    "[An Arrogant Search]",
+    "[An Arrogant Search (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00348_AnArrogantSearch/30144-01.html",
+     "when": "state STARTED; has items 4288",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30144-03.html",
+     "when": "state STARTED; lacks items 4288,4291; st.getMemoState() < 8; ((st.getMemoStateEx(1) % 100) / 10) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30144-04.html",
+     "when": "state STARTED; has items 4291; lacks items 4288; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 100) / 10) == 1) && !hasQuestItems(player, FIRST_KEY_OF_ARK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30144-05.html",
+     "when": "state STARTED; has items 4398; lacks items 4288,4291; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 100) / 10) == 1) && !hasQuestItems(player, FIRST_KEY_OF_ARK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00008_AnAdventureBegins/30144-01.html": {
+   "file": "Q00008_AnAdventureBegins/30144-01.html",
+   "quest": 8,
+   "text": "Magister Harne: You're not here for training, are you? So what do you want with me?",
+   "header": "Magister Harne",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "Give her the note from Sentry Roselyn and explain the situation.",
+     "bypass": "Quest Q00008_AnAdventureBegins 30144-02.html",
+     "kind": "quest-event",
+     "script": "Q00008_AnAdventureBegins",
+     "event": "30144-02.html",
+     "quest": 8,
+     "to": "Q00008_AnAdventureBegins/30144-02.html",
+     "toAll": [
+      "Q00008_AnAdventureBegins/30144-02.html",
+      "Q00008_AnAdventureBegins/30144-03.html"
+     ],
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00008_AnAdventureBegins/30144-04.html": {
+   "file": "Q00008_AnAdventureBegins/30144-04.html",
+   "quest": 8,
+   "text": "Magister Harne: Go tell Gatekeeper Jasmine what I said. Her penalty is that she must grant your wish! Is that acceptable?",
+   "header": "Magister Harne",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00103_SpiritOfCraftsman/30144-01.html": {
+   "file": "Q00103_SpiritOfCraftsman/30144-01.html",
+   "quest": 103,
+   "text": "Magister Harne: You need a Soul Catcher? Planning on an exorcism ritual or something? The Abyssal Celebrants have conducted rituals to call the dead up from Shilen's kingdom for hundreds of years now, but I am always nervous -- long ago, the celebrants once called upon a dangerous entity that could…",
+   "header": "Magister Harne",
+   "when": [
+    "state STARTED; has items 969"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00103_SpiritOfCraftsman/30144-03.html": {
+   "file": "Q00103_SpiritOfCraftsman/30144-03.html",
+   "quest": 103,
+   "text": "Magister Harne: Good, now I can create a Soul Catcher from this. Like a fisherman catches fish with his net, the Abyssal Celebrants can capture the spirits of the dead from the well of souls. But unless the spirit is tied to this world, it flows back into the well. That's why a Soul Catcher is nece…",
+   "header": "Magister Harne",
+   "when": [
+    "state STARTED; has items 970; lacks items 969; hasItemsAtLimit(talker, BONE_FRAGMENT)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00103_SpiritOfCraftsman/30144-02.html": {
+   "file": "Q00103_SpiritOfCraftsman/30144-02.html",
+   "quest": 103,
+   "text": "Magister Harne: To create the Soul Catcher that Abyssal Celebrant Cecktinon has asked for, I need ten undead Bone Fragments. You can gather the Bone Fragments by hunting undead skeletons at the abandoned School of Dark Arts located southwest of the village.",
+   "header": "Magister Harne",
+   "when": [
+    "state STARTED; has items 970; lacks items 969; !hasItemsAtLimit(talker, BONE_FRAGMENT)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00103_SpiritOfCraftsman/30144-04.html": {
+   "file": "Q00103_SpiritOfCraftsman/30144-04.html",
+   "quest": 103,
+   "text": "Magister Harne: Take the Soul Catcher that I have made to Cecktinon at the Shilen Temple. Hurry! We shouldn't keep the Abyssal Celebrant waiting.",
+   "header": "Magister Harne",
+   "when": [
+    "state STARTED; has items 971; lacks items 969,970"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30144-01.html": {
+   "file": "Q00348_AnArrogantSearch/30144-01.html",
+   "quest": 348,
+   "text": "Magister Harne: Would you please give me the letter given to you by Magister Hanellin? Now you shall learn the results of our investigation. The ark can be found in the northern Marshland along the eastern edge of the Misty Mountains . We do not yet know its specific location as they do in Aden and…",
+   "header": "Magister Harne",
+   "when": [
+    "state STARTED; has items 4288"
+   ],
+   "links": [
+    {
+     "text": "\"Why do you and your people want this relic?\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30144-02.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30144-02.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30144-02.html"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30144-03.html": {
+   "file": "Q00348_AnArrogantSearch/30144-03.html",
+   "quest": 348,
+   "text": "Magister Harne: You still haven't found the ark and its key? If you are as capable as Magister Hanellin said, you should at least have obtained some clues by now... Perhaps I am being impatient. All right... I will monitor your progress a while longer.",
+   "header": "Magister Harne",
+   "when": [
+    "state STARTED; lacks items 4288,4291; st.getMemoState() < 8; ((st.getMemoStateEx(1) % 100) / 10) == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30144-04.html": {
+   "file": "Q00348_AnArrogantSearch/30144-04.html",
+   "quest": 348,
+   "text": "Magister Harne: The Guardian of the Ark has been murdered? How could Shilen allow such a thing to happen! I must learn more about this \"Angel Killer\". Its best you don't get involved any further. Open the ark and take the relic within to Magister Hanellin. I am far too busy to talk with you now. Th…",
+   "header": "Magister Harne",
+   "when": [
+    "state STARTED; has items 4291; lacks items 4288; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 100) / 10) == 1) && !hasQuestItems(player, FIRST_KEY_OF_ARK))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30144-05.html": {
+   "file": "Q00348_AnArrogantSearch/30144-05.html",
+   "quest": 348,
+   "text": "Magister Harne: A man entrusted with the blood of Baium, and the person who sent him to god... is this her blood? The blood is dried up and hardened. It doesn't seem to possess any powers... Perhaps this is a mere token that responds to the magical power of the tower. Since we found the blood of th…",
+   "header": "Magister Harne",
+   "when": [
+    "state STARTED; has items 4398; lacks items 4288,4291; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 100) / 10) == 1) && !hasQuestItems(player, FIRST_KEY_OF_ARK))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00008_AnAdventureBegins/30144-02.html": {
+   "file": "Q00008_AnAdventureBegins/30144-02.html",
+   "quest": 8,
+   "text": "Magister Harne: Oh no! Jasmine and Roselyn must both bear the responsibility for their actions this time. Last time I only blamed Jasmine, but it's become clear that they both need to be taught a lesson! You have a stake in this as well, my friend. You should go to Jasmine and give her this message…",
+   "header": "Magister Harne",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00008_AnAdventureBegins/30144-03.html": {
+   "file": "Q00008_AnAdventureBegins/30144-03.html",
+   "quest": 8,
+   "text": "Magister Harne: What note? If you don't have any business with me, don't waste my time. Go away!",
+   "header": "Magister Harne",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30144-02.html": {
+   "file": "Q00348_AnArrogantSearch/30144-02.html",
+   "quest": 348,
+   "text": "Magister Harne: What business is that of yours? Have you been listening to gossip? I suppose you didn't believe Magister Hanellin when she said we were doing it to achieve world peace, eh? Very well, I shall tell you the truth. We Dark Elves seek to break open the seal in order to free our great Hi…",
+   "header": "Magister Harne",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30144-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30144-noteach.html",
+   "quest": null,
+   "text": "Magister Harne: Only Dark Mystics come to me to seek my teaching. I have nothing to teach you.",
+   "header": "Magister Harne",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30144.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30144.html",
+   "quest": null,
+   "text": "Magister Harne: Welcome, fellow practitioner of the Dark Arts. Do you wish to gain the power to terrify the Spirits of Darkness into obeying your will? Do you want to learn the secrets only known to Gran Kain? Abandon your preconceptions and I will lead you down a road of new learning.",
+   "header": "Magister Harne",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[An Adventure Begins (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00008_AnAdventureBegins",
+     "kind": "quest",
+     "quest": 8,
+     "to": "Q00008_AnAdventureBegins/30144-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Spirit of Craftsman (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00103_SpiritOfCraftsman",
+     "kind": "quest",
+     "quest": 103,
+     "to": "Q00103_SpiritOfCraftsman/30144-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[An Arrogant Search (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00348_AnArrogantSearch",
+     "kind": "quest",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30144-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30144-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30144-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

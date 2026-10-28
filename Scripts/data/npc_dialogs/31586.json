@@ -1,0 +1,218 @@
+{
+ "npcId": 31586,
+ "name": "Sparky the Cat",
+ "title": "Keats Servitor",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.238Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00091_SagaOfTheArcanaLord/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 91"
+  },
+  {
+   "page": "Q00091_SagaOfTheArcanaLord/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 91"
+  },
+  {
+   "page": "Q00091_SagaOfTheArcanaLord/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 91"
+  },
+  {
+   "page": "Q00091_SagaOfTheArcanaLord/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 91"
+  },
+  {
+   "page": "Q00091_SagaOfTheArcanaLord/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 91"
+  },
+  {
+   "page": "Q00091_SagaOfTheArcanaLord/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 91"
+  },
+  {
+   "page": "Q00091_SagaOfTheArcanaLord/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 91"
+  },
+  {
+   "page": "Q00091_SagaOfTheArcanaLord/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 91"
+  }
+ ],
+ "quests": {
+  "91": {
+   "name": "Saga of the Arcana Lord",
+   "listText": [
+    "[Saga of the Arcana Lord]",
+    "[Saga of the Arcana Lord (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00091_SagaOfTheArcanaLord/4-04.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/4-04.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: I'll lose him! Meow~ Help me!Meow~",
+   "header": "Sparky the Cat",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/4-06.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/4-06.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Thanks for helping me. Meow~ That devil won't bother Belinda now! Meow~",
+   "header": "Sparky the Cat",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Your point?\"",
+     "bypass": "Quest Q00091_SagaOfTheArcanaLord 4-1",
+     "kind": "quest-event",
+     "script": "Q00091_SagaOfTheArcanaLord",
+     "event": "4-1",
+     "quest": 91,
+     "to": "Q00091_SagaOfTheArcanaLord/4-010.htm"
+    }
+   ]
+  },
+  "Q00091_SagaOfTheArcanaLord/4-01.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/4-01.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Meow~ I'll lose him! Meow~ Help me! Meow~",
+   "header": "Sparky the Cat",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/4-03.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/4-03.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: I lost him! Meow~ Better luck next time. Meow~",
+   "header": "Sparky the Cat",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/4-05.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/4-05.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Meow~ I'll lose him! Meow~",
+   "header": "Sparky the Cat",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/4-07.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/4-07.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Meow~!",
+   "header": "Sparky the Cat",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Cat got your tongue?\"",
+     "bypass": "Quest Q00091_SagaOfTheArcanaLord 4-2",
+     "kind": "quest-event",
+     "script": "Q00091_SagaOfTheArcanaLord",
+     "event": "4-2",
+     "quest": 91,
+     "to": "Q00091_SagaOfTheArcanaLord/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00091_SagaOfTheArcanaLord/4-02.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/4-02.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Meow~ I'll lose him! Meow~ Help me!Meow~",
+   "header": "Sparky the Cat",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/4-08.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/4-08.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Meow~ I'll lose him! Meow~ Don't you have the stone I gave you? Commune with the tablet! Meow~",
+   "header": "Sparky the Cat",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/4-010.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/4-010.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Meow~ He left this. Meow~ I have to go to my master now and find how to remove the curse. Meow~ Then he and Belinda can get married! Meow~ I'll send you an invitation!",
+   "header": "Sparky the Cat",
+   "links": [
+    {
+     "text": "\"Wait a minute.\"",
+     "bypass": "Quest Q00091_SagaOfTheArcanaLord 4-3",
+     "kind": "quest-event",
+     "script": "Q00091_SagaOfTheArcanaLord",
+     "event": "4-3",
+     "quest": 91,
+     "to": null
+    }
+   ]
+  },
+  "Q00091_SagaOfTheArcanaLord/4-011.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/4-011.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Meow~ He must have left this. Meow~",
+   "header": "Sparky the Cat",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/4-09.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/4-09.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Don't you have the stone I gave you? Commune with the tablet! Meow~",
+   "header": "Sparky the Cat",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Arcana Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00091_SagaOfTheArcanaLord",
+     "kind": "quest",
+     "quest": 91,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

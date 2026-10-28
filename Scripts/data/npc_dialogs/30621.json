@@ -1,0 +1,1069 @@
+{
+ "npcId": 30621,
+ "name": "Nikola",
+ "title": "Maestro",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.020Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30621.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "183": {
+   "name": "Relic Exploration",
+   "listText": [
+    "[Relics Exploration]",
+    "[Relics Exploration (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00183_RelicExploration/30621-01.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "184": {
+   "name": "Art Of Persuasion",
+   "listText": [
+    "[Art of Persuasion]",
+    "[Art of Persuasion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00184_ArtOfPersuasion/30621-01.htm",
+     "when": "state CREATED; player.hasQuestCompleted(Q00183_RelicExploration.class.getSimpleName()); q184 != null; q185 != null; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00184_ArtOfPersuasion/30621-07.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "185": {
+   "name": "Nikola's Cooperation",
+   "listText": [
+    "[Nikola's Cooperation]",
+    "[Nikola's Cooperation (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00185_NikolasCooperation/30621-01.htm",
+     "when": "state CREATED; player.hasQuestCompleted(Q00183_RelicExploration.class.getSimpleName()); q184 != null; q185 != null; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00185_NikolasCooperation/30621-07.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "186": {
+   "name": "Contract Execution",
+   "listText": [
+    "[Contract Execution]",
+    "[Contract Execution (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00186_ContractExecution/30621-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00186_ContractExecution/30621-04.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "187": {
+   "name": "Nikola's Heart",
+   "listText": [
+    "[Nikola's Heart]",
+    "[Nikola's Heart (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00187_NikolasHeart/30621-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00187_NikolasHeart/30621-04.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "188": {
+   "name": "Seal Removal",
+   "listText": [
+    "[Seal Removal]",
+    "[Seal Removal (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00188_SealRemoval/30621-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00188_SealRemoval/30621-05.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "190": {
+   "name": "Lost Dream",
+   "listText": [
+    "[Lost Dream]",
+    "[Lost Dream (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00190_LostDream/30621-01.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00190_LostDream/30621-02.html",
+     "when": "state STARTED; memo 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "217": {
+   "name": "Testimony Of Trust",
+   "listText": [
+    "[Testimony of Trust]",
+    "[Testimony of Trust (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00217_TestimonyOfTrust/30621-01.html",
+     "when": "state STARTED; memo 15; has items 2759",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30621-03.html",
+     "when": "state STARTED; memo 16; lacks items 2761",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30621-04.html",
+     "when": "state STARTED; memo 16; has items 2761",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30621-05.html",
+     "when": "state STARTED; memo 17",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30621-01.html",
+     "when": "state STARTED; has items 3240; lacks items 3270,3271,3272,3245",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30621-05.html",
+     "when": "state STARTED; has items 3240,3270,3271,3272,3245; lacks items 3271,3272,3245",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30621-06.html",
+     "when": "state STARTED; has items 3240,3270,3271,3272,3245; lacks items 3270,3272,3245; !(hasQuestItems(player, CLAY_DOUGH) && !hasAtLeastOneQuestItem(player, PATTERN_OF_KEYHOLE, NIKOLAS_LIST, MAPHR_TABLET_FR",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30621-07.html",
+     "when": "state STARTED; has items 3240,3270,3271,3272,3245; lacks items 3270,3271,3245,3030; !(hasQuestItems(player, CLAY_DOUGH) && !hasAtLeastOneQuestItem(player, PATTERN_OF_KEYHOLE, NIKOLAS_LIST, MAPHR_TABLET_FR; !(hasQuestItems(player, PATTERN_OF_KEYHOLE) && !hasAtLeastOneQuestItem(player, CLAY_DOUGH, NIKOLAS_LIST, MAPHR_TABLET_FR",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30621-08.html",
+     "when": "state STARTED; has items 3240,3270,3271,3272,3245,3030; lacks items 3270,3271,3245; !(hasQuestItems(player, CLAY_DOUGH) && !hasAtLeastOneQuestItem(player, PATTERN_OF_KEYHOLE, NIKOLAS_LIST, MAPHR_TABLET_FR; !(hasQuestItems(player, PATTERN_OF_KEYHOLE) && !hasAtLeastOneQuestItem(player, CLAY_DOUGH, NIKOLAS_LIST, MAPHR_TABLET_FR; !(hasQuestItems(player, NIKOLAS_LIST) && !hasAtLeastOneQuestItem(player, CLAY_DOUGH, PATTERN_OF_KEYHOLE, MAPHR_TABLET_FR",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30621-09.html",
+     "when": "state STARTED; has items 3240,3270,3271,3272,3245; lacks items 3270,3271,3272; !(hasQuestItems(player, CLAY_DOUGH) && !hasAtLeastOneQuestItem(player, PATTERN_OF_KEYHOLE, NIKOLAS_LIST, MAPHR_TABLET_FR; !(hasQuestItems(player, PATTERN_OF_KEYHOLE) && !hasAtLeastOneQuestItem(player, CLAY_DOUGH, NIKOLAS_LIST, MAPHR_TABLET_FR; !(hasQuestItems(player, NIKOLAS_LIST) && !hasAtLeastOneQuestItem(player, CLAY_DOUGH, PATTERN_OF_KEYHOLE, MAPHR_TABLET_FR; !(hasQuestItems(player, NIKOLAS_LIST, KEY_OF_TITAN) && !hasAtLeastOneQuestItem(player, CLAY_DOUGH, PATTERN_OF_KEYHOLE, M",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30621.htm": {
+   "file": "default/30621.htm",
+   "quest": null,
+   "text": "Maestro Nikola: Greetings. Have you come to explore the Cruma Tower? Isn t it gorgeous? Imagine the secrets that are hidden here in this building which was constructed by the mysterious science of the giants of ere. Isn t it interesting? My name is Maestro Nikola! I was sent by the Black Anvil guil…",
+   "header": "Maestro Nikola",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00183_RelicExploration/30621-01.html": {
+   "file": "Q00183_RelicExploration/30621-01.html",
+   "quest": 183,
+   "text": "Maestro Nikola: Welcome. How may I help you? I saw you meeting with Lorain, but I do not think that you are here to see me because of her.",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"I came here because of the work.\"",
+     "bypass": "Quest Q00183_RelicExploration 30621-02.html",
+     "kind": "quest-event",
+     "script": "Q00183_RelicExploration",
+     "event": "30621-02.html",
+     "quest": 183,
+     "to": "Q00183_RelicExploration/30621-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00184_ArtOfPersuasion/30621-01.htm": {
+   "file": "Q00184_ArtOfPersuasion/30621-01.htm",
+   "quest": 184,
+   "text": "Maestro Nikola: Why did you come to see me?",
+   "header": "Maestro Nikola",
+   "when": [
+    "state CREATED; player.hasQuestCompleted(Q00183_RelicExploration.class.getSimpleName()); q184 != null; q185 != null; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I came here to offer you something.\"",
+     "bypass": "Quest Q00184_ArtOfPersuasion 30621-03.htm",
+     "kind": "quest-event",
+     "script": "Q00184_ArtOfPersuasion",
+     "event": "30621-03.htm",
+     "quest": 184,
+     "to": "Q00184_ArtOfPersuasion/30621-03.htm",
+     "toAll": [
+      "Q00184_ArtOfPersuasion/30621-03.htm",
+      "Q00184_ArtOfPersuasion/30621-03a.htm"
+     ]
+    },
+    {
+     "text": "\"I came here to tell you something.\"",
+     "bypass": "Quest Q00185_NikolasCooperation 30621-03.htm",
+     "kind": "quest-event",
+     "script": "Q00185_NikolasCooperation",
+     "event": "30621-03.htm",
+     "quest": 185,
+     "to": "Q00185_NikolasCooperation/30621-03.htm",
+     "toAll": [
+      "Q00185_NikolasCooperation/30621-03.htm",
+      "Q00185_NikolasCooperation/30621-03a.htm"
+     ]
+    }
+   ]
+  },
+  "Q00184_ArtOfPersuasion/30621-07.html": {
+   "file": "Q00184_ArtOfPersuasion/30621-07.html",
+   "quest": 184,
+   "text": "Maestro Nikola: One more thing... The map I gave you is worth my life. Please return it after you use it.",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00185_NikolasCooperation/30621-01.htm": {
+   "file": "Q00185_NikolasCooperation/30621-01.htm",
+   "quest": 185,
+   "text": "Maestro Nikola: Why did you come to see me?",
+   "header": "Maestro Nikola",
+   "when": [
+    "state CREATED; player.hasQuestCompleted(Q00183_RelicExploration.class.getSimpleName()); q184 != null; q185 != null; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I came here to tell you something.\"",
+     "bypass": "Quest Q00185_NikolasCooperation 30621-03.htm",
+     "kind": "quest-event",
+     "script": "Q00185_NikolasCooperation",
+     "event": "30621-03.htm",
+     "quest": 185,
+     "to": "Q00185_NikolasCooperation/30621-03.htm",
+     "toAll": [
+      "Q00185_NikolasCooperation/30621-03.htm",
+      "Q00185_NikolasCooperation/30621-03a.htm"
+     ]
+    }
+   ]
+  },
+  "Q00185_NikolasCooperation/30621-07.html": {
+   "file": "Q00185_NikolasCooperation/30621-07.html",
+   "quest": 185,
+   "text": "Maestro Nikola: I trusted you enough to give you the map, which is the culmination of my explorations, didn't I? Don't forget that you are supposed to lend it to Lorain .",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00186_ContractExecution/30621-01.html": {
+   "file": "Q00186_ContractExecution/30621-01.html",
+   "quest": 186,
+   "text": "Maestro Nikola: I have been waiting for you. Do you have some good news for me?",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "Ask him to decode the password on the metal plate.",
+     "bypass": "Quest Q00186_ContractExecution 30621-02.html",
+     "kind": "quest-event",
+     "script": "Q00186_ContractExecution",
+     "event": "30621-02.html",
+     "quest": 186,
+     "to": "Q00186_ContractExecution/30621-02.html"
+    }
+   ]
+  },
+  "Q00186_ContractExecution/30621-04.html": {
+   "file": "Q00186_ContractExecution/30621-04.html",
+   "quest": 186,
+   "text": "Maestro Nikola: Go to Luka, a seller of blueprints at the smithy in the town of Oren . I'm only slightly acquainted with him, but I am sure that he will be able to decode this password. I feel I must warn you, though -- he is somewhat lazy and is unlikely to help you without some kind of compensati…",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00187_NikolasHeart/30621-01.html": {
+   "file": "Q00187_NikolasHeart/30621-01.html",
+   "quest": 187,
+   "text": "Maestro Nikola: I have been waiting for you. Do you have any good news for me?",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "Ask him to decode the password on the metal plate.",
+     "bypass": "Quest Q00187_NikolasHeart 30621-02.html",
+     "kind": "quest-event",
+     "script": "Q00187_NikolasHeart",
+     "event": "30621-02.html",
+     "quest": 187,
+     "to": "Q00187_NikolasHeart/30621-02.html"
+    }
+   ]
+  },
+  "Q00187_NikolasHeart/30621-04.html": {
+   "file": "Q00187_NikolasHeart/30621-04.html",
+   "quest": 187,
+   "text": "Maestro Nikola: I will introduce you to Head Blacksmith Kusto in the town of Giran , who I am confident can solve this riddle. Go visit him.",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00188_SealRemoval/30621-01.html": {
+   "file": "Q00188_SealRemoval/30621-01.html",
+   "quest": 188,
+   "text": "Maestro Nikola: Have you given Lorain a great deal of help?",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "Show him a metal piece and explain the situation to him.",
+     "bypass": "Quest Q00188_SealRemoval 30621-02.html",
+     "kind": "quest-event",
+     "script": "Q00188_SealRemoval",
+     "event": "30621-02.html",
+     "quest": 188,
+     "to": "Q00188_SealRemoval/30621-02.html"
+    }
+   ]
+  },
+  "Q00188_SealRemoval/30621-05.html": {
+   "file": "Q00188_SealRemoval/30621-05.html",
+   "quest": 188,
+   "text": "Maestro Nikola: Didn't you already tell me that? Go and find Dorothy .",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00190_LostDream/30621-01.html": {
+   "file": "Q00190_LostDream/30621-01.html",
+   "quest": 190,
+   "text": "Maestro Nikola: Ah, you've returned! You must have successfully finished the job. What did she say? Really? Hmm, perhaps she is not as odious as I believed. Thank you! I think our relationship has become better because of your help. Perhaps I should be more active in contacting her from now on...",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00190_LostDream/30621-02.html": {
+   "file": "Q00190_LostDream/30621-02.html",
+   "quest": 190,
+   "text": "Maestro Nikola: Your news has filled me with new hope. Thank you! I'll take care of the debt with Kusto. Farewell!",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30621-01.html": {
+   "file": "Q00217_TestimonyOfTrust/30621-01.html",
+   "quest": 217,
+   "text": "Maestro Nikola: Hello! Help from anyone is welcomed. Hidden away deep inside Cruma Tower is a mechanical brain known as the Core . For thousands of years, this artifact of Giant high-level technology slept. Recently, whether of its own volition or someone else's, it awoke. It began controlling crea…",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 15; has items 2759"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Core",
+     "bypass": "Quest Q00217_TestimonyOfTrust 30621-02.html",
+     "kind": "quest-event",
+     "script": "Q00217_TestimonyOfTrust",
+     "event": "30621-02.html",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30621-02.html",
+     "effect": "cond:19"
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30621-03.html": {
+   "file": "Q00217_TestimonyOfTrust/30621-03.html",
+   "quest": 217,
+   "text": "Maestro Nikola: Even as we talk, the people are suffering. And the daily count is...ugh! Hurry and get me 1 Heartstone of Porta .",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 16; lacks items 2761"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30621-04.html": {
+   "file": "Q00217_TestimonyOfTrust/30621-04.html",
+   "quest": 217,
+   "text": "Maestro Nikola: Ohh...! The Heartstones of Porta! With this sample, we will be able to discover how the core controls all the creatures in this region. I promise to share the research results with the humans as well -- this represents a danger to all of us. As a representative of the Black Anvil Gu…",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 16; has items 2761"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30621-05.html": {
+   "file": "Q00217_TestimonyOfTrust/30621-05.html",
+   "quest": 217,
+   "text": "Maestro Nikola: Thank you for your help. The results may take a while. You should go back to Lockirin now, he is expecting you.",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; memo 17"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30621-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30621-01.html",
+   "quest": 221,
+   "text": "Maestro Nikola: So, you were sent by the guild! We have been looking forward to meeting you! If you're ready I'll get right down to business. A week ago, I went into the tower alone to do research. I admit it was a dangerous thing to do, since field investigations are not my specialty. During the s…",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; has items 3240; lacks items 3270,3271,3272,3245"
+   ],
+   "links": [
+    {
+     "text": "Ask about the box",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30621-02.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30621-02.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30621-02.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30621-05.html": {
+   "file": "Q00221_TestimonyOfProsperity/30621-05.html",
+   "quest": 221,
+   "text": "Maestro Nikola: Now go into the tower and find the box. Do not try to open the box by yourself. All you have to do is make a copy of the keyhole with the clay I gave you!",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; has items 3240,3270,3271,3272,3245; lacks items 3271,3272,3245"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30621-06.html": {
+   "file": "Q00221_TestimonyOfProsperity/30621-06.html",
+   "quest": 221,
+   "text": "Maestro Nikola: Excellent! You have copied the keyhole! Well done! Now give me a moment while I write down the recipe for the key . Now... shall we get started Mapping the key's structure? Hmmm...I see that it is a very complicated structure in which many triple spirals are layered and connected to…",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; has items 3240,3270,3271,3272,3245; lacks items 3270,3272,3245; !(hasQuestItems(player, CLAY_DOUGH) && !hasAtLeastOneQuestItem(player, PATTERN_OF_KEYHOLE, NIKOLAS_LIST, MAPHR_TABLET_FR"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30621-07.html": {
+   "file": "Q00221_TestimonyOfProsperity/30621-07.html",
+   "quest": 221,
+   "text": "Maestro Nikola: Simply follow the recipe and you'll be able to make the key to open the box . Here is the list of the creatures that are needed and you will find the recipe materials in the Marshland of Cruma. If this is clear, then be on your way!",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; has items 3240,3270,3271,3272,3245; lacks items 3270,3271,3245,3030; !(hasQuestItems(player, CLAY_DOUGH) && !hasAtLeastOneQuestItem(player, PATTERN_OF_KEYHOLE, NIKOLAS_LIST, MAPHR_TABLET_FR; !(hasQuestItems(player, PATTERN_OF_KEYHOLE) && !hasAtLeastOneQuestItem(player, CLAY_DOUGH, NIKOLAS_LIST, MAPHR_TABLET_FR"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30621-08.html": {
+   "file": "Q00221_TestimonyOfProsperity/30621-08.html",
+   "quest": 221,
+   "text": "Maestro Nikola: Once the key is done, take it to the tower and open the box . Wouldn't you like to know what is in the box?",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; has items 3240,3270,3271,3272,3245,3030; lacks items 3270,3271,3245; !(hasQuestItems(player, CLAY_DOUGH) && !hasAtLeastOneQuestItem(player, PATTERN_OF_KEYHOLE, NIKOLAS_LIST, MAPHR_TABLET_FR; !(hasQuestItems(player, PATTERN_OF_KEYHOLE) && !hasAtLeastOneQuestItem(player, CLAY_DOUGH, NIKOLAS_LIST, MAPHR_TABLET_FR; !(hasQuestItems(player, NIKOLAS_LIST) && !hasAtLeastOneQuestItem(player, CLAY_DOUGH, PATTERN_OF_KEYHOLE, MAPHR_TABLET_FR"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30621-09.html": {
+   "file": "Q00221_TestimonyOfProsperity/30621-09.html",
+   "quest": 221,
+   "text": "Maestro Nikola: Yes, we have finally obtained Maphr's Tablet Fragment! This is amazing. let me see... Hmm... Could it be? Knowing the characters is not enough to decipher this language. It will be impossible for us to interpret the tablet without the help of the Elders... Very well, then! Now deliv…",
+   "header": "Maestro Nikola",
+   "when": [
+    "state STARTED; has items 3240,3270,3271,3272,3245; lacks items 3270,3271,3272; !(hasQuestItems(player, CLAY_DOUGH) && !hasAtLeastOneQuestItem(player, PATTERN_OF_KEYHOLE, NIKOLAS_LIST, MAPHR_TABLET_FR; !(hasQuestItems(player, PATTERN_OF_KEYHOLE) && !hasAtLeastOneQuestItem(player, CLAY_DOUGH, NIKOLAS_LIST, MAPHR_TABLET_FR; !(hasQuestItems(player, NIKOLAS_LIST) && !hasAtLeastOneQuestItem(player, CLAY_DOUGH, PATTERN_OF_KEYHOLE, MAPHR_TABLET_FR; !(hasQuestItems(player, NIKOLAS_LIST, KEY_OF_TITAN) && !hasAtLeastOneQuestItem(player, CLAY_DOUGH, PATTERN_OF_KEYHOLE, M"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00183_RelicExploration/30621-02.html": {
+   "file": "Q00183_RelicExploration/30621-02.html",
+   "quest": 183,
+   "text": "Maestro Nikola: I have no need of your help with my work, and since you are obviously in league with Lorain, I do not choose to help you with yours.",
+   "header": "Maestro Nikola",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "\"I'm not asking you to help me for free.\"",
+     "bypass": "Quest Q00183_RelicExploration Contract",
+     "kind": "quest-event",
+     "script": "Q00183_RelicExploration",
+     "event": "Contract",
+     "quest": 183,
+     "to": null
+    },
+    {
+     "text": "\"How long are you two going to fight?\"",
+     "bypass": "Quest Q00183_RelicExploration Consideration",
+     "kind": "quest-event",
+     "script": "Q00183_RelicExploration",
+     "event": "Consideration",
+     "quest": 183,
+     "to": null
+    }
+   ]
+  },
+  "Q00184_ArtOfPersuasion/30621-02.htm": {
+   "file": "Q00184_ArtOfPersuasion/30621-02.htm",
+   "quest": 184,
+   "text": "Maestro Nikola: Why did you come to see me? This place is far too dangerous for someone so inexperienced. (Only characters level 40 and above are permitted to undertake this quest.)",
+   "header": "Maestro Nikola",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00184_ArtOfPersuasion/30621-03.htm": {
+   "file": "Q00184_ArtOfPersuasion/30621-03.htm",
+   "quest": 184,
+   "text": "Maestro Nikola: What's in it for me? I think you are just wasting your time here...",
+   "header": "Maestro Nikola",
+   "links": [
+    {
+     "text": "\"The Tower of Cruma is no place to explore alone. I know you and Lorain have your differences, but can't you set them aside for the sake of the work at hand?\"",
+     "bypass": "Quest Q00184_ArtOfPersuasion 30621-04.htm",
+     "kind": "quest-event",
+     "script": "Q00184_ArtOfPersuasion",
+     "event": "30621-04.htm",
+     "quest": 184,
+     "to": "Q00184_ArtOfPersuasion/30621-04.htm"
+    }
+   ]
+  },
+  "Q00184_ArtOfPersuasion/30621-03a.htm": {
+   "file": "Q00184_ArtOfPersuasion/30621-03a.htm",
+   "quest": 184,
+   "text": "Maestro Nikola: Don't you think that it's too soon for you to join us? (Only characters level 40 and above are permitted to undertake this quest.)",
+   "header": "Maestro Nikola",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00184_ArtOfPersuasion/30621-04.htm": {
+   "file": "Q00184_ArtOfPersuasion/30621-04.htm",
+   "quest": 184,
+   "text": "Maestro Nikola: Work together? Undoubtedly she has made some minor strides in her studies that might possibly be of use to me, but... My pride would never allow me to conclude some sort of agreement with her. In fact, I can barely stand to even speak to her! Unfortunate, perhaps...",
+   "header": "Maestro Nikola",
+   "links": [
+    {
+     "text": "\"Perhaps you could enter into a contract with me, not with her. Then I will also make a separate contract with her. With me as a go-between you won't have to deal directly with each other.\"",
+     "bypass": "Quest Q00184_ArtOfPersuasion 30621-05.htm",
+     "kind": "quest-event",
+     "script": "Q00184_ArtOfPersuasion",
+     "event": "30621-05.htm",
+     "quest": 184,
+     "to": "Q00184_ArtOfPersuasion/30621-05.htm"
+    }
+   ]
+  },
+  "Q00184_ArtOfPersuasion/30621-05.htm": {
+   "file": "Q00184_ArtOfPersuasion/30621-05.htm",
+   "quest": 184,
+   "text": "Maestro Nikola: Hmm. An intriguing suggestion... Very well! Let us conclude a contract together. My condition, however, is that you share all information you discover about the matter. What is your condition?",
+   "header": "Maestro Nikola",
+   "links": [
+    {
+     "text": "\"Give me the information about the district that you failed to explore.\"",
+     "bypass": "Quest Q00184_ArtOfPersuasion 30621-06.htm",
+     "kind": "quest-event",
+     "script": "Q00184_ArtOfPersuasion",
+     "event": "30621-06.htm",
+     "quest": 184,
+     "to": "Q00184_ArtOfPersuasion/30621-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00184_ArtOfPersuasion/30621-06.htm": {
+   "file": "Q00184_ArtOfPersuasion/30621-06.htm",
+   "quest": 184,
+   "text": "Maestro Nikola: Ah, that is easily done. Here is the map showing the location of that district. Lorain will be able to find the place easily. Please note that Cruma Tower is not accessible after level 56.",
+   "header": "Maestro Nikola",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00185_NikolasCooperation/30621-02.htm": {
+   "file": "Q00185_NikolasCooperation/30621-02.htm",
+   "quest": 185,
+   "text": "Maestro Nikola: Why did you come to see me? This place is far too dangerous for someone so inexperienced. (Only characters level 40 and above are permitted to undertake this quest.)",
+   "header": "Maestro Nikola",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00185_NikolasCooperation/30621-03.htm": {
+   "file": "Q00185_NikolasCooperation/30621-03.htm",
+   "quest": 185,
+   "text": "Maestro Nikola: I have no idea what you are talking about. I have nothing to say on the matter.",
+   "header": "Maestro Nikola",
+   "links": [
+    {
+     "text": "\"Wouldn't you like to work together with Lorain in the future?\"",
+     "bypass": "Quest Q00185_NikolasCooperation 30621-04.htm",
+     "kind": "quest-event",
+     "script": "Q00185_NikolasCooperation",
+     "event": "30621-04.htm",
+     "quest": 185,
+     "to": "Q00185_NikolasCooperation/30621-04.htm"
+    }
+   ]
+  },
+  "Q00185_NikolasCooperation/30621-03a.htm": {
+   "file": "Q00185_NikolasCooperation/30621-03a.htm",
+   "quest": 185,
+   "text": "Maestro Nikola: Don't you think that it's too soon for you to join us? (Only characters level 40 and above are permitted to undertake this quest.)",
+   "header": "Maestro Nikola",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00185_NikolasCooperation/30621-04.htm": {
+   "file": "Q00185_NikolasCooperation/30621-04.htm",
+   "quest": 185,
+   "text": "Maestro Nikola: That was not my fault. I do not know what you heard, but I have nothing to say. I did nothing wrong!",
+   "header": "Maestro Nikola",
+   "links": [
+    {
+     "text": "\"Are you going to ignore her?\"",
+     "bypass": "Quest Q00185_NikolasCooperation 30621-05.htm",
+     "kind": "quest-event",
+     "script": "Q00185_NikolasCooperation",
+     "event": "30621-05.htm",
+     "quest": 185,
+     "to": "Q00185_NikolasCooperation/30621-05.htm"
+    }
+   ]
+  },
+  "Q00185_NikolasCooperation/30621-05.htm": {
+   "file": "Q00185_NikolasCooperation/30621-05.htm",
+   "quest": 185,
+   "text": "Maestro Nikola: How can I deal civilly with someone who is so unreasonable? You obviously know nothing about this. Why don't you just go away and leave me alone! I have a great deal of work to do.",
+   "header": "Maestro Nikola",
+   "links": [
+    {
+     "text": "\"Why not work with her? I can help you contact her.\"",
+     "bypass": "Quest Q00185_NikolasCooperation 30621-06.htm",
+     "kind": "quest-event",
+     "script": "Q00185_NikolasCooperation",
+     "event": "30621-06.htm",
+     "quest": 185,
+     "to": "Q00185_NikolasCooperation/30621-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00185_NikolasCooperation/30621-06.htm": {
+   "file": "Q00185_NikolasCooperation/30621-06.htm",
+   "quest": 185,
+   "text": "Maestro Nikola: You don't give up, do you? Very well. I will agree to help her in good faith. But you had best keep your promise as well! Here, take this map. It shows the last place that Lorain explored. I hope to hear good news from you soon! Please note that Cruma Tower is not accessible after l…",
+   "header": "Maestro Nikola",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00186_ContractExecution/30621-02.html": {
+   "file": "Q00186_ContractExecution/30621-02.html",
+   "quest": 186,
+   "text": "Maestro Nikola: Oh! Is this the research log? I'm afraid that cryptography is not my specialty. However, I know a Dwarf that can help you.",
+   "header": "Maestro Nikola",
+   "links": [
+    {
+     "text": "\"Who is it? Tell me.\"",
+     "bypass": "Quest Q00186_ContractExecution 30621-03.html",
+     "kind": "quest-event",
+     "script": "Q00186_ContractExecution",
+     "event": "30621-03.html",
+     "quest": 186,
+     "to": "Q00186_ContractExecution/30621-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00186_ContractExecution/30621-03.html": {
+   "file": "Q00186_ContractExecution/30621-03.html",
+   "quest": 186,
+   "text": "Maestro Nikola: His name is Luka, a seller of blueprints at the smithy in the town of Oren . I'm only slightly acquainted with him, but I am sure that he will be able to decode this password. I feel I must warn you, though -- he is somewhat lazy and is unlikely to help you without some kind of comp…",
+   "header": "Maestro Nikola",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00187_NikolasHeart/30621-02.html": {
+   "file": "Q00187_NikolasHeart/30621-02.html",
+   "quest": 187,
+   "text": "Maestro Nikola: She said that, eh? It was a good thing that I listened to you, I see. I will do my best to help you. May I see it? Hmm... this is beyond my abilities. But there is a Dwarf who can help you...",
+   "header": "Maestro Nikola",
+   "links": [
+    {
+     "text": "\"Who is it? Tell me.\"",
+     "bypass": "Quest Q00187_NikolasHeart 30621-03.html",
+     "kind": "quest-event",
+     "script": "Q00187_NikolasHeart",
+     "event": "30621-03.html",
+     "quest": 187,
+     "to": "Q00187_NikolasHeart/30621-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00187_NikolasHeart/30621-03.html": {
+   "file": "Q00187_NikolasHeart/30621-03.html",
+   "quest": 187,
+   "text": "Maestro Nikola: He is Head Blacksmith Kusto in the town of Giran . He will certainly be able to decode this password for sure. Surprised? You shouldn't be. But go visit him for yourself and you'll see why he is ideal for this task.",
+   "header": "Maestro Nikola",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00188_SealRemoval/30621-02.html": {
+   "file": "Q00188_SealRemoval/30621-02.html",
+   "quest": 188,
+   "text": "Maestro Nikola: Hmm... This damage is too extensive for me to repair, but I know a person who can do work of this kind.",
+   "header": "Maestro Nikola",
+   "links": [
+    {
+     "text": "\"Who is it? Tell me.\"",
+     "bypass": "Quest Q00188_SealRemoval 30621-03.html",
+     "kind": "quest-event",
+     "script": "Q00188_SealRemoval",
+     "event": "30621-03.html",
+     "quest": 188,
+     "to": "Q00188_SealRemoval/30621-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00188_SealRemoval/30621-03.html": {
+   "file": "Q00188_SealRemoval/30621-03.html",
+   "quest": 188,
+   "text": "Maestro Nikola: Locksmith Dorothy in Heine is the foremost expert for this kind of work. I know it's a long journey, but I think it would be worth your while to go visit her.",
+   "header": "Maestro Nikola",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"I understand. Dorothy, you said?\"",
+     "bypass": "Quest Q00188_SealRemoval 30621-04.html",
+     "kind": "quest-event",
+     "script": "Q00188_SealRemoval",
+     "event": "30621-04.html",
+     "quest": 188,
+     "to": "Q00188_SealRemoval/30621-04.html"
+    }
+   ]
+  },
+  "Q00188_SealRemoval/30621-04.html": {
+   "file": "Q00188_SealRemoval/30621-04.html",
+   "quest": 188,
+   "text": "Maestro Nikola: That's right. Locksmith Dorothy . I am sure she can help you in this matter.",
+   "header": "Maestro Nikola",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30621-02.html": {
+   "file": "Q00217_TestimonyOfTrust/30621-02.html",
+   "quest": 217,
+   "text": "Maestro Nikola: I want to find out the principle by which the Core controls the life forms. With your help, I might have a chance. Among the range of life forms in Cruma Tower is Porta , which seems to be a kind of Golem. We Dwarves may not know much about Elven magic or spirits, but believe me whe…",
+   "header": "Maestro Nikola",
+   "sets": {
+    "cond": "19"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30621-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30621-02.html",
+   "quest": 221,
+   "text": "Maestro Nikola: Totally fascinated by the locked box, I devoted all my time to investigating it. The lock was impossible to pick, and the box seemed unbreakable. The box remained unopened for a while as I investigated its surroundings. This tower is well known as a former research center in the age…",
+   "header": "Maestro Nikola",
+   "links": [
+    {
+     "text": "\"Why shouldn't I?\"",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30621-03.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30621-03.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30621-03.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30621-03.html": {
+   "file": "Q00221_TestimonyOfProsperity/30621-03.html",
+   "quest": 221,
+   "text": "Maestro Nikola: Well, actually, decoding of the Giant's characters is only allowed by the Elders of the guild. They keep all the knowledge from Giant records for themselves. I will probably not be suspected of breaking this rule since I secretly taught myself. It is an unfair rule anyway. I don't k…",
+   "header": "Maestro Nikola",
+   "links": [
+    {
+     "text": "Ask about the key manufacturing",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30621-04.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30621-04.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30621-04.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30621-04.html": {
+   "file": "Q00221_TestimonyOfProsperity/30621-04.html",
+   "quest": 221,
+   "text": "Maestro Nikola: I know the materials needed to create the key, but still lack the shape. I need your help with this. Please go to the tower and copy the pattern of the keyhole! If we have a copy of the keyhole we can write down the recipe for making the key. Now take this clay and copy the pattern …",
+   "header": "Maestro Nikola",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Relics Exploration (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00183_RelicExploration",
+     "kind": "quest",
+     "quest": 183,
+     "to": "Q00183_RelicExploration/30621-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Art of Persuasion]",
+     "bypass": "npc_%objectId%_Quest Q00184_ArtOfPersuasion",
+     "kind": "quest",
+     "quest": 184,
+     "to": "Q00184_ArtOfPersuasion/30621-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Art of Persuasion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00184_ArtOfPersuasion",
+     "kind": "quest",
+     "quest": 184,
+     "to": "Q00184_ArtOfPersuasion/30621-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Nikola's Cooperation]",
+     "bypass": "npc_%objectId%_Quest Q00185_NikolasCooperation",
+     "kind": "quest",
+     "quest": 185,
+     "to": "Q00185_NikolasCooperation/30621-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Nikola's Cooperation (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00185_NikolasCooperation",
+     "kind": "quest",
+     "quest": 185,
+     "to": "Q00185_NikolasCooperation/30621-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Contract Execution (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00186_ContractExecution",
+     "kind": "quest",
+     "quest": 186,
+     "to": "Q00186_ContractExecution/30621-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Nikola's Heart (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00187_NikolasHeart",
+     "kind": "quest",
+     "quest": 187,
+     "to": "Q00187_NikolasHeart/30621-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seal Removal (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00188_SealRemoval",
+     "kind": "quest",
+     "quest": 188,
+     "to": "Q00188_SealRemoval/30621-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Lost Dream (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00190_LostDream",
+     "kind": "quest",
+     "quest": 190,
+     "to": "Q00190_LostDream/30621-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Trust (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00217_TestimonyOfTrust",
+     "kind": "quest",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30621-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30621-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

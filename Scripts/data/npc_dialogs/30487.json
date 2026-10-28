@@ -1,0 +1,64 @@
+{
+ "npcId": 30487,
+ "name": "Penelope",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:02.984Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "teleporter/30487.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "teleporter/30487.htm": {
+   "file": "teleporter/30487.htm",
+   "quest": null,
+   "text": "Gatekeeper Penelope: Hey, there! Are you one of those who seeks the secrets of the giants of ere? Well wise up and get out of here! If you think you must get to the second floor of this tower -- which is teeming with monsters -- I can send you through the gate, but surely you have something better …",
+   "header": "Gatekeeper Penelope",
+   "live": {
+    "file": "Logs/floor_Penelope_Nuker3.html",
+    "at": "2026-10-22T16:44:17.000Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Teleport to the 2nd floor.",
+     "bypass": "npc_%objectId%_goto 23",
+     "kind": "teleport",
+     "live": true
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Teleport to the 2nd floor.",
+   "n": 514,
+   "inDatapack": true,
+   "from": [
+    "Gatekeeper Penelope:Hey, there! Are you one of those who see"
+   ],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

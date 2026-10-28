@@ -1,0 +1,436 @@
+{
+ "npcId": 31279,
+ "name": "Gregory",
+ "title": "High Priest",
+ "type": "L2VillageMasterPriest",
+ "generated": "2026-10-27T18:18:03.152Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/31279.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "94": {
+   "name": "Saga of the Soultaker",
+   "listText": [
+    "[Saga of the Soultaker]",
+    "[Saga of the Soultaker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00094_SagaOfTheSoultaker/2-01.htm",
+     "when": "cond 1; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/2-02.htm",
+     "when": "cond 2; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/2-03.htm",
+     "when": "cond 4; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/2-04.htm",
+     "when": "cond 5; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/3-01.htm",
+     "when": "cond 10; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/3-06.htm",
+     "when": "cond 13; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/11-01.htm",
+     "when": "cond 14; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/11-02.htm",
+     "when": "cond 15; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/31279.htm": {
+   "file": "villagemaster/31279.htm",
+   "quest": null,
+   "text": "High Priest Gregory: I am glad to meet a talented young person like yourself during these troubled times. I am High Priest Gregory. As you know, Goddard is all abuzz these days with rumors of war between the Varka Silenos and the Ketra Orcs, as well as news of the recent awakening of the fire drago…",
+   "header": "High Priest Gregory",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest ElfHumanClericChange2",
+     "kind": "quest",
+     "script": "ElfHumanClericChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00094_SagaOfTheSoultaker/2-01.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/2-01.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Ah, I heard that you were coming! Do you remember when Lich King Akron's gang slaughtered the priests of Goddard Castle Town, and then murdered the party sent out to search for them? I heard that Hindemith was seen with the gang at the site of the massacre, but why would he do …",
+   "header": "High Priest Gregory",
+   "when": [
+    "cond 1; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00094_SagaOfTheSoultaker 2-1",
+     "kind": "quest-event",
+     "script": "Q00094_SagaOfTheSoultaker",
+     "event": "2-1",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00094_SagaOfTheSoultaker/2-02.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/2-02.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Have you been to the hot springs resort yet? Please go there and speak with Information Broker Bavarin . Bring me the report I asked him for, then I'll tell you exactly what you need to do to find Hindemith.",
+   "header": "High Priest Gregory",
+   "when": [
+    "cond 2; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/2-03.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/2-03.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Ah, the report! Let me see that! Oh no! It seems my worst fears about Hindemith are true! He's actually joined Lich King Akron's gang! First, I suppose I should tell you about the pilgrimage that Hindemith is believed to have undertaken. It's the quest to become a Soultaker. Th…",
+   "header": "High Priest Gregory",
+   "when": [
+    "cond 4; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What do you mean?\"",
+     "bypass": "Quest Q00094_SagaOfTheSoultaker 2-2",
+     "kind": "quest-event",
+     "script": "Q00094_SagaOfTheSoultaker",
+     "event": "2-2",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00094_SagaOfTheSoultaker/2-04.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/2-04.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Try communicating with the Tablet of Vision south of the Tower of Insolence using the Stone of Commune that I gave you. The path will then be revealed to you.",
+   "header": "High Priest Gregory",
+   "when": [
+    "cond 5; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/3-01.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/3-01.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Ah, you're back! Do you bring news of Hindemith? Yes! So Waldstein saw him recently, eh? Well, now we can be certain that he's on the Pilgrimage of the Tablets of Vision. You're sure to meet up with him if you continue that path. I have a part of the next Stone of Commune, but …",
+   "header": "High Priest Gregory",
+   "when": [
+    "cond 10; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Where can I find the other piece?\"",
+     "bypass": "Quest Q00094_SagaOfTheSoultaker 3-5",
+     "kind": "quest-event",
+     "script": "Q00094_SagaOfTheSoultaker",
+     "event": "3-5",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/3-07.htm"
+    }
+   ]
+  },
+  "Q00094_SagaOfTheSoultaker/3-05.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/3-05.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Ah, the Divine Stone of Wisdom! Good job! I heard that Hindemith was seen yesterday in the Varka Silenos stronghold and the Ketra Orc advance base. He must've been looking for the Stone of Commune, too! He may be nearing the Tablet of Vision as we speak! We must hurry! Shall I …",
+   "header": "High Priest Gregory",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, by all means!\"",
+     "bypass": "Quest Q00094_SagaOfTheSoultaker 3-8",
+     "kind": "quest-event",
+     "script": "Q00094_SagaOfTheSoultaker",
+     "event": "3-8",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00094_SagaOfTheSoultaker/3-04.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/3-04.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Go to the Ketra Orcs or the Varka Silenos to get the missing fragment, the Divine Stone of Wisdom . They both know the mysterious knowledge of the stone, but not its exact use. They'll give it to the wisest of the tribe. So, it is presented as some kind of mark for &lsquo;the w…",
+   "header": "High Priest Gregory",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/3-06.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/3-06.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Take the Stone of Commune to the Tablet of Vision north of the Varka Silenos barracks. If you hurry, you may find Hindemith there!",
+   "header": "High Priest Gregory",
+   "when": [
+    "cond 13; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/11-01.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/11-01.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Oh, you're back! Did you find Hindemith? I suppose he'd already been there, eh? His pilgrimage of the stone tablets is nearing fulfillment. Once he's completed it, it will be impossible to find him! You must find him quickly! I'll search for him as well... I do have the Stone o…",
+   "header": "High Priest Gregory",
+   "when": [
+    "cond 14; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How can I get a Stone of Commune?\"",
+     "bypass": "Quest Q00094_SagaOfTheSoultaker 11-9",
+     "kind": "quest-event",
+     "script": "Q00094_SagaOfTheSoultaker",
+     "event": "11-9",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00094_SagaOfTheSoultaker/11-02.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/11-02.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Get your next Stone of Commune from the Archon of Halisha inside the Four Sepulchers . You must form a party before you attempt this! If you have trouble forming a party, go to the Shrine of the Loyal and attack the Archon's minions. Their deaths will provide marks of Halisha. …",
+   "header": "High Priest Gregory",
+   "when": [
+    "cond 15; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/11-03.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/11-03.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Get your next Stone of Commune from the Archon of Halisha inside the Four Sepulchers . You must form a party before you attempt this! If you have trouble forming a party, go to the Shrine of the Loyal and attack the Archon's minions. Their deaths will provide marks of Halisha. …",
+   "header": "High Priest Gregory",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/2-05.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/2-05.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Before you start after Hindemith, I need you to do something for me. Go see Information Broker Bavarin at the hot springs and get the report I asked him to prepare. Bring it to me and I'll tell you how to find Hindemith.",
+   "header": "High Priest Gregory",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/2-06.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/2-06.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Stones of commune and Tablets of Vision have a magical mutual attraction. You can use this force to locate the Tablets of Vision. Put simply, when you have a Stone of Commune, the location of the corresponding Tablet of Vision will appear in your mind. Once you find the next st…",
+   "header": "High Priest Gregory",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/3-02.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/3-02.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Then visit the Ketra Orcs to get the missing fragment, the Divine Stone of Wisdom . If you earn the trust of Asefa, guide of dead souls, through Ketra's Messenger Wahkan and prove to her your wisdom, you'll find it. If you change your mind halfway, you can get it from the best …",
+   "header": "High Priest Gregory",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/3-03.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/3-03.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Then visit the Varka Silenos to get the missing fragment, the Divine Stone of Wisdom . If you earn the Soul Guide Udan Mardui through Varka's Messenger Naran Ashanuk and prove to her your wisdom, you'll find it. If you change your mind halfway, you can get it from the best Sham…",
+   "header": "High Priest Gregory",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/3-07.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/3-07.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: Asefa is the chief shaman and guide of dead souls of the Ketra Orcs. Udan Mardui holds the same position among the Varka Silenos. Each of them possesses a Divine Stone of Wisdom which is a fragment of this Stone of Commune . Bring one of the stones to me. Both tribes seem vague…",
+   "header": "High Priest Gregory",
+   "links": [
+    {
+     "text": "\"I'll deal with the Ketra Orcs.\"",
+     "bypass": "Quest Q00094_SagaOfTheSoultaker 3-6",
+     "kind": "quest-event",
+     "script": "Q00094_SagaOfTheSoultaker",
+     "event": "3-6",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'll deal with the Varka Silenos.\"",
+     "bypass": "Quest Q00094_SagaOfTheSoultaker 3-7",
+     "kind": "quest-event",
+     "script": "Q00094_SagaOfTheSoultaker",
+     "event": "3-7",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/3-03.htm"
+    }
+   ]
+  },
+  "Q00094_SagaOfTheSoultaker/3-08.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/3-08.htm",
+   "quest": 94,
+   "text": "High Priest Gregory: The Stone of Commune is now complete. Go find the Tablet of Vision north of the Varka Silenos barracks. If you hurry, you may find Hindemith there!",
+   "header": "High Priest Gregory",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Soultaker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00094_SagaOfTheSoultaker",
+     "kind": "quest",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

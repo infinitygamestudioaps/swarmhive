@@ -1,0 +1,240 @@
+{
+ "npcId": 30125,
+ "name": "Belton",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.846Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30125.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "331": {
+   "name": "Arrow for Vengeance",
+   "listText": [
+    "[Arrow of Vengeance]",
+    "[Arrow of Vengeance (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00331_ArrowOfVengeance/30125-01.htm",
+     "when": "state CREATED; player.getLevel() < MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00331_ArrowOfVengeance/30125-02.htm",
+     "when": "state CREATED; NOT player.getLevel() < MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00331_ArrowOfVengeance/30125-05.html",
+     "when": "state STARTED; (harpyFeathers + medusaVenoms + wyrmsTeeth) > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00331_ArrowOfVengeance/30125-04.html",
+     "when": "state STARTED; !(harpyFeathers + medusaVenoms + wyrmsTeeth) > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30125.htm": {
+   "file": "guard/30125.htm",
+   "quest": null,
+   "text": "Guard Belton: Do you see the great mountain range to the north? The range forms two lines to the east and west, but we call it the Dragon Valley. It's called that because they say the green dragon Antharas nests at the end of the range. Well ... it's such a dangerous place that I don't know if I'd …",
+   "header": "Guard Belton",
+   "links": [
+    {
+     "text": "Ask about the green dragon Antharas",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30125-1.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30125-1.htm": {
+   "file": "guard/30125-1.htm",
+   "quest": null,
+   "text": "Guard Belton: You haven't heard of the green dragon Antharas? I have never seen it myself, and I know no more than what I was told by the elders when I was young. They say that when it moves, the axis of the earth shakes, and when it sighs the Dragon Valley becomes a sea of fire. Since no one has l…",
+   "header": "Guard Belton",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30125.htm"
+    }
+   ]
+  },
+  "Q00331_ArrowOfVengeance/30125-01.htm": {
+   "file": "Q00331_ArrowOfVengeance/30125-01.htm",
+   "quest": 331,
+   "text": "Guard Beltkam: My family all lost their lives to Antharas the Land Dragon. My mother and younger sister perished ten years ago, when many southern villages in Giran burned to the ground in the heat of Antharas' rampage. Then, three years ago, when the land dragon extermination force was formed at t…",
+   "header": "Guard Beltkam",
+   "when": [
+    "state CREATED; player.getLevel() < MIN_LVL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00331_ArrowOfVengeance/30125-02.htm": {
+   "file": "Q00331_ArrowOfVengeance/30125-02.htm",
+   "quest": 331,
+   "text": "Guard Beltkam: I lost my whole family to Antharas the Land Dragon. My mother and younger sister perished ten years ago, when many southern villages in Giran burned to the ground in the heat of Antharas' rampage. Then, three years ago, when the land dragon extermination force was formed at the lord'…",
+   "header": "Guard Beltkam",
+   "when": [
+    "state CREATED; NOT player.getLevel() < MIN_LVL"
+   ],
+   "links": [
+    {
+     "text": "Say that you will help him.",
+     "bypass": "Quest Q00331_ArrowOfVengeance 30125-03.htm",
+     "kind": "quest-event",
+     "script": "Q00331_ArrowOfVengeance",
+     "event": "30125-03.htm",
+     "quest": 331,
+     "to": "Q00331_ArrowOfVengeance/30125-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00331_ArrowOfVengeance/30125-05.html": {
+   "file": "Q00331_ArrowOfVengeance/30125-05.html",
+   "quest": 331,
+   "text": "Guard Belton: I'm feeling an exceptionally strong longing for my family today. But I cannot risk falling into my fancies and having my determination shaken or my will for revenge weakened. Every day as I make arrows, sharpen the teeth of the wyrms, and put feathers on my arrows, I think of my dead …",
+   "header": "Guard Belton",
+   "when": [
+    "state STARTED; (harpyFeathers + medusaVenoms + wyrmsTeeth) > 0"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00331_ArrowOfVengeance 30125-6.html",
+     "kind": "quest-event",
+     "script": "Q00331_ArrowOfVengeance",
+     "event": "30125-6.html",
+     "quest": 331,
+     "to": null
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00331_ArrowOfVengeance 30125-7.html",
+     "kind": "quest-event",
+     "script": "Q00331_ArrowOfVengeance",
+     "event": "30125-7.html",
+     "quest": 331,
+     "to": null
+    }
+   ]
+  },
+  "Q00331_ArrowOfVengeance/30125-04.html": {
+   "file": "Q00331_ArrowOfVengeance/30125-04.html",
+   "quest": 331,
+   "text": "Guard Belton: You've come back empty-handed. Did you not promise to bring me harpy's Silver Feathers, the teeth of a Wyrm and the venom of a medusa ? As soon as you obtain these three materials, bring them to me. I will reward you for each that you bring back. I've inherited quite a fortune from my…",
+   "header": "Guard Belton",
+   "when": [
+    "state STARTED; !(harpyFeathers + medusaVenoms + wyrmsTeeth) > 0"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00331_ArrowOfVengeance 30125-6.html",
+     "kind": "quest-event",
+     "script": "Q00331_ArrowOfVengeance",
+     "event": "30125-6.html",
+     "quest": 331,
+     "to": null
+    },
+    {
+     "text": "Say you will collect the materials",
+     "bypass": "Quest Q00331_ArrowOfVengeance 30125-7.html",
+     "kind": "quest-event",
+     "script": "Q00331_ArrowOfVengeance",
+     "event": "30125-7.html",
+     "quest": 331,
+     "to": null
+    }
+   ]
+  },
+  "Q00331_ArrowOfVengeance/30125-03.htm": {
+   "file": "Q00331_ArrowOfVengeance/30125-03.htm",
+   "quest": 331,
+   "text": "Guard Belton: I am not foolish enough to think that I can avenge the death of my family alone. I have received the aid of many, and will continue to ask favors of those like yourself. The materials you must find for me are the Silver Feathers of a Harpy, Wyrm Teeth and the venom from a Medusa . The…",
+   "header": "Guard Belton",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00331_ArrowOfVengeance/30125-06.html": {
+   "file": "Q00331_ArrowOfVengeance/30125-06.html",
+   "quest": 331,
+   "text": "Guard Belton: I understand. This revenge is mine alone, anyway. I cannot rely on the kindness of others forever. Are you planning to leave again? Then I guess this is goodbye. But a person's future is not certain. Perhaps I may be the one to come to your aid later. Or I may be slain by Antharas wit…",
+   "header": "Guard Belton",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00331_ArrowOfVengeance/30125-07.html": {
+   "file": "Q00331_ArrowOfVengeance/30125-07.html",
+   "quest": 331,
+   "text": "Guard Belton: Then please continue your efforts. I am certain that my revenge will be complete, thanks to those like you who have come to my aid. The gods control our fates, but I believe that if the will is strong enough and the conviction steadfast, the gods will be moved and allow one's fate to …",
+   "header": "Guard Belton",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Arrow of Vengeance]",
+     "bypass": "npc_%objectId%_Quest Q00331_ArrowOfVengeance",
+     "kind": "quest",
+     "quest": 331,
+     "to": "Q00331_ArrowOfVengeance/30125-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Arrow of Vengeance (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00331_ArrowOfVengeance",
+     "kind": "quest",
+     "quest": 331,
+     "to": "Q00331_ArrowOfVengeance/30125-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

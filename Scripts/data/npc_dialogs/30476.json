@@ -1,0 +1,615 @@
+{
+ "npcId": 30476,
+ "name": "Kaira",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.983Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "219": {
+   "name": "Testimony Of Fate",
+   "listText": [
+    "[Testimony of Fate]",
+    "[Testimony of Fate (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00219_TestimonyOfFate/30476-03.htm",
+     "when": "state CREATED; level >= 37; player.getRace() == Race.DARK_ELF; player.isInCategory(CategoryType.DELF_2ND_GROUP)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30476-01a.html",
+     "when": "state CREATED; level >= 37; player.getRace() == Race.DARK_ELF; !((player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.DELF_2ND_GROUP))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30476-02.html",
+     "when": "state CREATED; NOT level >= 37; player.getRace() == Race.DARK_ELF; !((player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.DELF_2ND_GROUP))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30476-01.html",
+     "when": "state CREATED; !player.getRace() == Race.DARK_ELF",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30476-06.html",
+     "when": "state STARTED; has items 3173",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30476-07.html",
+     "when": "state STARTED; has items 3174,3175; lacks items 3173",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30476-08.html",
+     "when": "state STARTED; has items 3176,3177; lacks items 3173,3174,3175",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30476-09.html",
+     "when": "state STARTED; has items 3184; lacks items 3173,3174,3175,3176,3177",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30476-10.html",
+     "when": "state STARTED; has items 3185,3186; lacks items 3173,3174,3175,3176,3177,3184",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30476-11.html",
+     "when": "state STARTED; has items 3187; lacks items 3173,3174,3175,3176,3177,3184,3185,3186",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30476-15.html",
+     "when": "state STARTED; has items 3188; lacks items 3173,3174,3175,3176,3177,3184,3185,3186,3187",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30476-16.html",
+     "when": "state STARTED; has items 3189; lacks items 3173,3174,3175,3176,3177,3184,3185,3186,3187,3188",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30476-17.html",
+     "when": "state STARTED; has items 3190; lacks items 3173,3174,3175,3176,3177,3184,3185,3186,3187,3188,3189",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "229": {
+   "name": "Test Of Witchcraft",
+   "listText": [
+    "[Test of Witchcraft]",
+    "[Test of Witchcraft (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00229_TestOfWitchcraft/30476-01.htm",
+     "when": "state STARTED; has items 3309; lacks items 3318",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30476-03.htm",
+     "when": "state STARTED; has items 3309,3318",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30476-04.htm",
+     "when": "state STARTED; has items 3323,3324; lacks items 3309",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00219_TestimonyOfFate/30476-03.htm": {
+   "file": "Q00219_TestimonyOfFate/30476-03.htm",
+   "quest": 219,
+   "text": "Magister Kaira: Our mission is to discover hidden facts and reveal forgotten truths. The Dark Elves have the shortest history and are the fewest in number among the 5 races, but we understand the power of darkness better than anybody else. We fearlessly explore and manage the very thing that other …",
+   "header": "Magister Kaira",
+   "when": [
+    "state CREATED; level >= 37; player.getRace() == Race.DARK_ELF; player.isInCategory(CategoryType.DELF_2ND_GROUP)"
+   ],
+   "links": [
+    {
+     "text": "\"I shall discover the Forbidden Knowledge.\"",
+     "bypass": "Quest Q00219_TestimonyOfFate 30476-04.htm",
+     "kind": "quest-event",
+     "script": "Q00219_TestimonyOfFate",
+     "event": "30476-04.htm",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30476-04.htm"
+    }
+   ]
+  },
+  "Q00219_TestimonyOfFate/30476-01a.html": {
+   "file": "Q00219_TestimonyOfFate/30476-01a.html",
+   "quest": 219,
+   "text": "Magister Kaira: Our task is to discover the hidden truths. The Dark Elves have the shortest history and are the fewest in number among the 5 races, but we understand the power of darkness better than anybody else. We fearlessly explore and manage the very thing that other tribes dread: the power of…",
+   "header": "Magister Kaira",
+   "when": [
+    "state CREATED; level >= 37; player.getRace() == Race.DARK_ELF; !((player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.DELF_2ND_GROUP))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-02.html": {
+   "file": "Q00219_TestimonyOfFate/30476-02.html",
+   "quest": 219,
+   "text": "Magister Kaira: Our mission is to discover hidden facts and truths. The Dark Elves have the shortest history and are the fewest in number among the 5 races, but understand the power of darkness better than anybody else. We fearlessly explore and manage the very thing that other tribes dread: the po…",
+   "header": "Magister Kaira",
+   "when": [
+    "state CREATED; NOT level >= 37; player.getRace() == Race.DARK_ELF; !((player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.DELF_2ND_GROUP))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-01.html": {
+   "file": "Q00219_TestimonyOfFate/30476-01.html",
+   "quest": 219,
+   "text": "Magister Kaira: We Dark Elves believe that hidden truths and new knowledge will make us stronger. The power of darkness that so frightens your tribe, the ultimate secrets veiled under the abyss of darkness.... We have explored and managed fearlessly. That is our strength. (Quest for Dark Elven char…",
+   "header": "Magister Kaira",
+   "when": [
+    "state CREATED; !player.getRace() == Race.DARK_ELF"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-06.html": {
+   "file": "Q00219_TestimonyOfFate/30476-06.html",
+   "quest": 219,
+   "text": "Magister Kaira: Go to Einhasad's Temple and meet Brother Metheus . He has offered to give us the Alder's remains. You must be careful and very discreet.",
+   "header": "Magister Kaira",
+   "when": [
+    "state STARTED; has items 3173"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-07.html": {
+   "file": "Q00219_TestimonyOfFate/30476-07.html",
+   "quest": 219,
+   "text": "Magister Kaira: I had a feeling that he expected something in return. Well, we have no choice. Do whatever he asks that is within your power. The most important thing is that we acquire the revelation.",
+   "header": "Magister Kaira",
+   "when": [
+    "state STARTED; has items 3174,3175; lacks items 3173"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-08.html": {
+   "file": "Q00219_TestimonyOfFate/30476-08.html",
+   "quest": 219,
+   "text": "Magister Kaira: Belladonna ? When it comes to poison, Master Ixia from the Town of Dion is the expert. You should consult her. By the way, this guy Metheus...he is more dangerous than I thought. I had no idea that his heart was so full of hatred and revenge.",
+   "header": "Magister Kaira",
+   "when": [
+    "state STARTED; has items 3176,3177; lacks items 3173,3174,3175"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-09.html": {
+   "file": "Q00219_TestimonyOfFate/30476-09.html",
+   "quest": 219,
+   "text": "Magister Kaira: At last you have brought Alder's Skull . With this we can perform the exorcism ritual and summon the spirit of Alder. Let us begin... In the name of Shilen, Master of hell, Queen of the dead, thou who hast crossed the waters of forgetfulness, spirit of Eldus Bricent... Cross the bor…",
+   "header": "Magister Kaira",
+   "when": [
+    "state STARTED; has items 3184; lacks items 3173,3174,3175,3176,3177"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-10.html": {
+   "file": "Q00219_TestimonyOfFate/30476-10.html",
+   "quest": 219,
+   "text": "Magister Kaira: You must find the descendant of Alder named 'Roa' immediately! Tell him the secret that Alder's spirit whispered to you and find out where the revelation is hidden.",
+   "header": "Magister Kaira",
+   "when": [
+    "state STARTED; has items 3185,3186; lacks items 3173,3174,3175,3176,3177,3184"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-11.html": {
+   "file": "Q00219_TestimonyOfFate/30476-11.html",
+   "quest": 219,
+   "text": "Magister Kaira: The complete copy of the revelation which was thought to be lost 200 years ago is in our hands at last! Good job, brother of darkness. Thanks to your efforts our tribe will have an even better understanding of the dark arts. In return for your efforts I will give you the opportunity…",
+   "header": "Magister Kaira",
+   "when": [
+    "state STARTED; has items 3187; lacks items 3173,3174,3175,3176,3177,3184,3185,3186"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, that is my wish.\"",
+     "bypass": "Quest Q00219_TestimonyOfFate 30476-12.html",
+     "kind": "quest-event",
+     "script": "Q00219_TestimonyOfFate",
+     "event": "30476-12.html",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30476-12.html",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00219_TestimonyOfFate/30476-15.html": {
+   "file": "Q00219_TestimonyOfFate/30476-15.html",
+   "quest": 219,
+   "text": "Magister Kaira: Good. Now you are ready! I will write a Letter of Recommendation for you. Take this letter to Tetrarch Thifiell in the Dark Elf Village . You will be given Shilen's Initiation and receive the Abyssal Mark.",
+   "header": "Magister Kaira",
+   "when": [
+    "state STARTED; has items 3188; lacks items 3173,3174,3175,3176,3177,3184,3185,3186,3187"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-16.html": {
+   "file": "Q00219_TestimonyOfFate/30476-16.html",
+   "quest": 219,
+   "text": "Magister Kaira: You must go back to the Dark Elven Forest and meet Tetrarch Thifiell . Follow his instructions and take 'Shilen's Initiation' . You will then receive the 'Mark of Fate' which is essential for advancement. Please hurry!",
+   "header": "Magister Kaira",
+   "when": [
+    "state STARTED; has items 3189; lacks items 3173,3174,3175,3176,3177,3184,3185,3186,3187,3188"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-17.html": {
+   "file": "Q00219_TestimonyOfFate/30476-17.html",
+   "quest": 219,
+   "text": "Magister Kaira: I pray you pass 'Shilen's Initiation' and are advanced to a higher rank. May the eye of the abyss lead you.",
+   "header": "Magister Kaira",
+   "when": [
+    "state STARTED; has items 3190; lacks items 3173,3174,3175,3176,3177,3184,3185,3186,3187,3188,3189"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30476-01.htm": {
+   "file": "Q00229_TestOfWitchcraft/30476-01.htm",
+   "quest": 229,
+   "text": "Magister Kaira: I heard that Orim of the Shadows is looking for this jewel.... Are you sent by him? No doubt, it is obvious. Do you know what kind of jewel this is? What did he tempt you with? Do you think that you can learn all the secrets of Black magic just from this jewel? If you are stupid eno…",
+   "header": "Magister Kaira",
+   "when": [
+    "state STARTED; has items 3309; lacks items 3318"
+   ],
+   "links": [
+    {
+     "text": "\"Give me the jewel.\"",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30476-02.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30476-02.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30476-02.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30476-03.htm": {
+   "file": "Q00229_TestOfWitchcraft/30476-03.htm",
+   "quest": 229,
+   "text": "Magister Kaira: Do you have any idea what the jewel you have taken is capable of? A wise Wizard would never give or take such an object so carelessly.",
+   "header": "Magister Kaira",
+   "when": [
+    "state STARTED; has items 3309,3318"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30476-04.htm": {
+   "file": "Q00229_TestOfWitchcraft/30476-04.htm",
+   "quest": 229,
+   "text": "Magister Kaira: Well, now you know of the evil that dwells in the jewel... You wouldn't have listened even if I had warned you. You people never trust Dark Elves!",
+   "header": "Magister Kaira",
+   "when": [
+    "state STARTED; has items 3323,3324; lacks items 3309"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-04.htm": {
+   "file": "Q00219_TestimonyOfFate/30476-04.htm",
+   "quest": 219,
+   "text": "Magister Kaira: At last there is news of 'Kaysha's Revelation' , which was thought lost. While the Human religious reformation distorted many facts about the goddess Shilen, this revelation contains the truth written in the Age of Giants. If only we could recover it we would gain a better understan…",
+   "header": "Magister Kaira",
+   "links": [
+    {
+     "text": "Ask about brother Alder.",
+     "bypass": "Quest Q00219_TestimonyOfFate ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00219_TestimonyOfFate",
+     "event": "ACCEPT",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30476-05a.htm",
+     "toAll": [
+      "Q00219_TestimonyOfFate/30476-05a.htm",
+      "Q00219_TestimonyOfFate/30476-05.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00219_TestimonyOfFate/30476-05.htm": {
+   "file": "Q00219_TestimonyOfFate/30476-05.htm",
+   "quest": 219,
+   "text": "Magister Kaira: Legend says that the Remains of Alder rest here in this village, in the shrine of Einhasad. If we acquire the remains, we could summon the spirit of Alder and ask him where he hid his copy of the revelation. Recently brother Metheus contacted us and offered to hand over the remains.…",
+   "header": "Magister Kaira",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-05a.htm": {
+   "file": "Q00219_TestimonyOfFate/30476-05a.htm",
+   "quest": 219,
+   "text": "Magister Kaira: Alder's Ash lies in the Einhasad Temple here in town. If you can obtain it, you can use the exorcism ritual to call the Alder's spirit from Purgatory and ask where the Revelations are kept. Not long ago, Brother Metheus contacted us and said that he could give the Alder's Ash to us.…",
+   "header": "Magister Kaira",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-12.html": {
+   "file": "Q00219_TestimonyOfFate/30476-12.html",
+   "quest": 219,
+   "text": "Magister Kaira: I shall write you a Recommendation letter. Take it to Tetrarch Thifiell in the Dark Elves' Village . You will be given 'Shilen's Initiation' . When you successfully complete this test, you will receive the 'Mark of Fate' from the Tetrarch.",
+   "header": "Magister Kaira",
+   "sets": {
+    "cond": "15"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-13.html": {
+   "file": "Q00219_TestimonyOfFate/30476-13.html",
+   "quest": 219,
+   "text": "Magister Kaira: Your ambition is admirable, but you are still unprepared to take 'Shilen's Initiation'. Come back after you have accumulated more experience, then I will write you the letter of Recommendation.",
+   "header": "Magister Kaira",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30476-14.html": {
+   "file": "Q00219_TestimonyOfFate/30476-14.html",
+   "quest": 219,
+   "text": "Magister Kaira: Your time has not yet come. You must prepare more to realize your ambitions. Come back after you have accumulated more experience, then I will write you the Recommendation letter you must have in order to take 'Shilen's Initiation'.",
+   "header": "Magister Kaira",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30476-02.htm": {
+   "file": "Q00229_TestOfWitchcraft/30476-02.htm",
+   "quest": 229,
+   "text": "Magister Kaira: Good. You may have it. Money will not purchase this, however. Instead you'll have to pay for it in another way .",
+   "header": "Magister Kaira",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30476-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30476-noteach.html",
+   "quest": null,
+   "text": "Magister Kaira: I do not receive students other than Mystics of Dark Elven race. I am sorry, but I don't have any business with you. Now if you'll excuse me.",
+   "header": "Magister Kaira",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30476.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30476.html",
+   "quest": null,
+   "text": "Magister Kaira: Rest easy, traveler. I can tell you've come a long way. I teach magic to my Dark Elf brothers. I also trace the whereabouts old relics or forgotten archeological sites in my spare time. Perhaps I will find clues concerning the lost Dark Magic of the ancient Giants.",
+   "header": "Magister Kaira",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Fate]",
+     "bypass": "npc_%objectId%_Quest Q00219_TestimonyOfFate",
+     "kind": "quest",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30476-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Testimony of Fate (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00219_TestimonyOfFate",
+     "kind": "quest",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30476-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of Witchcraft (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00229_TestOfWitchcraft",
+     "kind": "quest",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30476-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30476-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30476-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

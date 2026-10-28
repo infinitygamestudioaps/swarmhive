@@ -1,0 +1,1443 @@
+{
+ "npcId": 31149,
+ "name": "Alchemist's Mixing Urn",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.143Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31149.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "235": {
+   "name": "Mimir's Elixir",
+   "listText": [
+    "[Mimir's Elixir]",
+    "[Mimir's Elixir (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00235_MimirsElixir/31149-01.html",
+     "when": "state STARTED; memo 7; has items 5905",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "373": {
+   "name": "Supplier of Reagents",
+   "listText": [
+    "[Supplier of Reagents]",
+    "[Supplier of Reagents (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00373_SupplierOfReagents/31149-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31149.htm": {
+   "file": "default/31149.htm",
+   "quest": null,
+   "text": "Alchemical Mixing Urn: A plain-looking clay urn used for magic research and creating various reagents.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Read the memo.",
+     "bypass": "player_help 6317.htm",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/31149-01.html": {
+   "file": "Q00235_MimirsElixir/31149-01.html",
+   "quest": 235,
+   "text": "Mixing Urn: There is a small niche on the side of the urn.",
+   "header": "Mixing Urn",
+   "when": [
+    "state STARTED; memo 7; has items 5905"
+   ],
+   "links": [
+    {
+     "text": "Insert a Magister's Mixing Stone into the niche.",
+     "bypass": "Quest Q00235_MimirsElixir 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "31149-02.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/31149-02.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-01.html": {
+   "file": "Q00373_SupplierOfReagents/31149-01.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: A small dent is visible on the side of the urn.",
+   "header": "Alchemical Mixing Urn",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Insert a mixing stone into the dent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/31149-02.html": {
+   "file": "Q00235_MimirsElixir/31149-02.html",
+   "quest": 235,
+   "text": "Mixing Urn: The urn starts glowing faintly. Select the first ingredient:",
+   "header": "Mixing Urn",
+   "links": [
+    {
+     "text": "Pure Silver",
+     "bypass": "Quest Q00235_MimirsElixir PURE_SILVER",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "PURE_SILVER",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/31149-04.html",
+     "toAll": [
+      "Q00235_MimirsElixir/31149-04.html",
+      "Q00235_MimirsElixir/31149-03.html"
+     ]
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/31149-03.html": {
+   "file": "Q00235_MimirsElixir/31149-03.html",
+   "quest": 235,
+   "text": "Mixing Urn: You don't have enough ingredient.",
+   "header": "Mixing Urn",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00235_MimirsElixir/31149-04.html": {
+   "file": "Q00235_MimirsElixir/31149-04.html",
+   "quest": 235,
+   "text": "Mixing Urn: You've placed Pure Silver into the urn.",
+   "header": "Mixing Urn",
+   "links": [
+    {
+     "text": "Next step.",
+     "bypass": "Quest Q00235_MimirsElixir 31149-05.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "31149-05.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/31149-05.html"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/31149-05.html": {
+   "file": "Q00235_MimirsElixir/31149-05.html",
+   "quest": 235,
+   "text": "Mixing Urn: The urn starts to shake and emit a bright light. Select the second ingredient:",
+   "header": "Mixing Urn",
+   "links": [
+    {
+     "text": "True Gold",
+     "bypass": "Quest Q00235_MimirsElixir TRUE_GOLD",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "TRUE_GOLD",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/31149-06.html",
+     "toAll": [
+      "Q00235_MimirsElixir/31149-06.html",
+      "Q00235_MimirsElixir/31149-03.html"
+     ]
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/31149-06.html": {
+   "file": "Q00235_MimirsElixir/31149-06.html",
+   "quest": 235,
+   "text": "Mixing Urn: You've placed True Gold into the urn.",
+   "header": "Mixing Urn",
+   "links": [
+    {
+     "text": "Next step.",
+     "bypass": "Quest Q00235_MimirsElixir 31149-07.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "31149-07.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/31149-07.html"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/31149-07.html": {
+   "file": "Q00235_MimirsElixir/31149-07.html",
+   "quest": 235,
+   "text": "Mixing Urn: The urn emits a dazzling light and begins to shake violently. Select the catalyst ingredient:",
+   "header": "Mixing Urn",
+   "links": [
+    {
+     "text": "Blood Fire",
+     "bypass": "Quest Q00235_MimirsElixir BLOOD_FIRE",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "BLOOD_FIRE",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/31149-08.html",
+     "toAll": [
+      "Q00235_MimirsElixir/31149-08.html",
+      "Q00235_MimirsElixir/31149-03.html"
+     ]
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/31149-08.html": {
+   "file": "Q00235_MimirsElixir/31149-08.html",
+   "quest": 235,
+   "text": "Mixing Urn: Select the mixing temperature:",
+   "header": "Mixing Urn",
+   "links": [
+    {
+     "text": "#1 - Salamander",
+     "bypass": "Quest Q00235_MimirsElixir 31149-09.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "31149-09.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/31149-09.html"
+    },
+    {
+     "text": "#2 - Afrit",
+     "bypass": "Quest Q00235_MimirsElixir 31149-10.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "31149-10.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/31149-10.html"
+    },
+    {
+     "text": "#3 - Phoenix",
+     "bypass": "Quest Q00235_MimirsElixir 31149-11.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "31149-11.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/31149-11.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/31149-09.html": {
+   "file": "Q00235_MimirsElixir/31149-09.html",
+   "quest": 235,
+   "text": "Mixing Urn: The urn goes silent and dark. Mixing failed!",
+   "header": "Mixing Urn",
+   "links": [
+    {
+     "text": "Try mixing again.",
+     "bypass": "Quest Q00235_MimirsElixir 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "31149-02.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/31149-02.html"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/31149-10.html": {
+   "file": "Q00235_MimirsElixir/31149-10.html",
+   "quest": 235,
+   "text": "Mixing Urn: The urn has gone silent and dark. Mixing has failed!",
+   "header": "Mixing Urn",
+   "links": [
+    {
+     "text": "Try again.",
+     "bypass": "Quest Q00235_MimirsElixir 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "31149-02.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/31149-02.html"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/31149-11.html": {
+   "file": "Q00235_MimirsElixir/31149-11.html",
+   "quest": 235,
+   "text": "Mixing Urn: Mixing successful! Mimir's Elixir was produced.",
+   "header": "Mixing Urn",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00373_SupplierOfReagents/31149-02.html": {
+   "file": "Q00373_SupplierOfReagents/31149-02.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: The urn is glowing faintly. Please select your ingredients:",
+   "header": "Alchemical Mixing Urn",
+   "sets": {
+    "cond": "0"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Wyrm's Blood(10)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-03.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-03.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-03.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-03.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Lava Stone(10)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-04.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-04.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-04.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-04.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Moonstone Shard(10)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-05.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-05.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-05.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-05.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Rotten Bone Piece(10)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-06.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-06.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-06.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-06.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Demon's Blood(10)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-07.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-07.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-07.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-07.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Infernium Ore(10)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-08.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-08.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-08.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-08.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Dracoplasm(10)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-09.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-09.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-09.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-09.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Magma Dust(10)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-10.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-10.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-10.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-10.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Moon Dust(10)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-11.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-11.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-11.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-11.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Necroplasm(10)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-12.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-12.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-12.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-12.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Demonplasm(10)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-13.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-13.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-13.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-13.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Inferno Dust(10)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-14.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-14.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-14.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-14.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Fire Essence(1)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-15.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-15.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-15.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-15.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Lunargent(1)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-16.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-16.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-16.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-16.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-03.html": {
+   "file": "Q00373_SupplierOfReagents/31149-03.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: 10 units of Wyrm's Blood have been put into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-04.html": {
+   "file": "Q00373_SupplierOfReagents/31149-04.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: 10 Lava Stones have been put into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-05.html": {
+   "file": "Q00373_SupplierOfReagents/31149-05.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: 10 Moonstone Shards have been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-06.html": {
+   "file": "Q00373_SupplierOfReagents/31149-06.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: 10 Rotten Bone Pieces have been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-07.html": {
+   "file": "Q00373_SupplierOfReagents/31149-07.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: 10 units of Demon's Blood have been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-08.html": {
+   "file": "Q00373_SupplierOfReagents/31149-08.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: 10 pieces of Infernium Ore have been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-09.html": {
+   "file": "Q00373_SupplierOfReagents/31149-09.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: 10 units of Dracoplasm have been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-10.html": {
+   "file": "Q00373_SupplierOfReagents/31149-10.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: 10 units of Magma Dust have been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-11.html": {
+   "file": "Q00373_SupplierOfReagents/31149-11.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: 10 units of Moon Dust have been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-12.html": {
+   "file": "Q00373_SupplierOfReagents/31149-12.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: 10 units of Necroplasm have been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-13.html": {
+   "file": "Q00373_SupplierOfReagents/31149-13.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: 10 units of Demonplasm have been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-14.html": {
+   "file": "Q00373_SupplierOfReagents/31149-14.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: 10 units of Inferno Dust have been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-15.html": {
+   "file": "Q00373_SupplierOfReagents/31149-15.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: One Fire Essence has been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-16.html": {
+   "file": "Q00373_SupplierOfReagents/31149-16.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: One Lunargent has been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-18.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-18.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-18.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-17.html": {
+   "file": "Q00373_SupplierOfReagents/31149-17.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: You don't have the necessary ingredients.",
+   "header": "Alchemical Mixing Urn",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00373_SupplierOfReagents/31149-18.html": {
+   "file": "Q00373_SupplierOfReagents/31149-18.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: The urn is glowing brightly and has begun to vibrate. Please select your catalyst:",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Blood Root(1)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-19.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-19.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-19.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-19.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Volcanic Ash(1)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-20.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-20.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-20.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-20.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Quicksilver(1)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-21.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-21.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-21.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-21.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Sulfur(1)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-22.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-22.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-22.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-22.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Demonic Essence(1)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-23.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-23.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-23.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-23.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    },
+    {
+     "text": "Midnight Oil(1)",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-24.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-24.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-24.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-24.html",
+      "Q00373_SupplierOfReagents/31149-25.html",
+      "Q00373_SupplierOfReagents/31149-17.html"
+     ]
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-19.html": {
+   "file": "Q00373_SupplierOfReagents/31149-19.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: One Blood Root has been put into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-26.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-26.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-26.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-26.html",
+      "Q00373_SupplierOfReagents/31149-26a.html"
+     ]
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-20.html": {
+   "file": "Q00373_SupplierOfReagents/31149-20.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: One Volcanic Ash has been put into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-26.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-26.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-26.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-26.html",
+      "Q00373_SupplierOfReagents/31149-26a.html"
+     ]
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-21.html": {
+   "file": "Q00373_SupplierOfReagents/31149-21.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: One Quicksilver has been put into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-26.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-26.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-26.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-26.html",
+      "Q00373_SupplierOfReagents/31149-26a.html"
+     ]
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-22.html": {
+   "file": "Q00373_SupplierOfReagents/31149-22.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: One unit of Sulfur has been placed into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-26.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-26.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-26.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-26.html",
+      "Q00373_SupplierOfReagents/31149-26a.html"
+     ]
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-23.html": {
+   "file": "Q00373_SupplierOfReagents/31149-23.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: One Demonic Essence has been put into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-26.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-26.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-26.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-26.html",
+      "Q00373_SupplierOfReagents/31149-26a.html"
+     ]
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-24.html": {
+   "file": "Q00373_SupplierOfReagents/31149-24.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: One Midnight Oil has been put into the urn.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Next step",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-26.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-26.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-26.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-26.html",
+      "Q00373_SupplierOfReagents/31149-26a.html"
+     ]
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-25.html": {
+   "file": "Q00373_SupplierOfReagents/31149-25.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: You don't have enough ingredients. The urn has gone still and dark. The process has failed!",
+   "header": "Alchemical Mixing Urn",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00373_SupplierOfReagents/31149-26.html": {
+   "file": "Q00373_SupplierOfReagents/31149-26.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Select temperature:",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "1 degree - Salamander",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-27.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-27.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-27.html"
+    },
+    {
+     "text": "2 degrees - Ifrit",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-28a.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-28a.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-28a.html"
+    },
+    {
+     "text": "3 degrees - Phoenix",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-29a.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-29a.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-29a.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-26a.html": {
+   "file": "Q00373_SupplierOfReagents/31149-26a.html",
+   "quest": 373,
+   "text": "Mixing Urn: Select temperature:",
+   "header": "Mixing Urn",
+   "links": [
+    {
+     "text": "1 degree - Salamander",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-27.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-27.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-27.html"
+    },
+    {
+     "text": "2 degrees - Ifrit",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-27.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-27.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-27.html"
+    },
+    {
+     "text": "3 degrees - Phoenix",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-27.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-27.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-27.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-27.html": {
+   "file": "Q00373_SupplierOfReagents/31149-27.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: The urn is glowing red-hot.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix the ingredients.",
+     "bypass": "Quest Q00373_SupplierOfReagents mixitems",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "mixitems",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-44.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-44.html",
+      "Q00373_SupplierOfReagents/31149-45.html"
+     ],
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-28a.html": {
+   "file": "Q00373_SupplierOfReagents/31149-28a.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: The urn is glowing red-hot.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix the ingredients.",
+     "bypass": "Quest Q00373_SupplierOfReagents mixitems",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "mixitems",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-44.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-44.html",
+      "Q00373_SupplierOfReagents/31149-45.html"
+     ],
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-29a.html": {
+   "file": "Q00373_SupplierOfReagents/31149-29a.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: The urn is glowing red-hot.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix the ingredients.",
+     "bypass": "Quest Q00373_SupplierOfReagents mixitems",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "mixitems",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-44.html",
+     "toAll": [
+      "Q00373_SupplierOfReagents/31149-44.html",
+      "Q00373_SupplierOfReagents/31149-45.html"
+     ],
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-30.html": {
+   "file": "Q00373_SupplierOfReagents/31149-30.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! The Dracoplasm has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-31.html": {
+   "file": "Q00373_SupplierOfReagents/31149-31.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Magma Dust has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-32.html": {
+   "file": "Q00373_SupplierOfReagents/31149-32.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Moon Dust has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-33.html": {
+   "file": "Q00373_SupplierOfReagents/31149-33.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Necroplasm has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-34.html": {
+   "file": "Q00373_SupplierOfReagents/31149-34.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Demonplasm has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-35.html": {
+   "file": "Q00373_SupplierOfReagents/31149-35.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Inferno Dust has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-36.html": {
+   "file": "Q00373_SupplierOfReagents/31149-36.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Draconic Essence has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-37.html": {
+   "file": "Q00373_SupplierOfReagents/31149-37.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Fire Essence has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-38.html": {
+   "file": "Q00373_SupplierOfReagents/31149-38.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Lunargent has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-39.html": {
+   "file": "Q00373_SupplierOfReagents/31149-39.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Midnight Oil has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-40.html": {
+   "file": "Q00373_SupplierOfReagents/31149-40.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Demonic Essence has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-41.html": {
+   "file": "Q00373_SupplierOfReagents/31149-41.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Abyss Oil has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-42.html": {
+   "file": "Q00373_SupplierOfReagents/31149-42.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Hellfire Oil has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-43.html": {
+   "file": "Q00373_SupplierOfReagents/31149-43.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Nightmare Oil has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-44.html": {
+   "file": "Q00373_SupplierOfReagents/31149-44.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: The urn has gone still and dark. Mixing has failed!",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-45.html": {
+   "file": "Q00373_SupplierOfReagents/31149-45.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: The ingredient melted during mixing. The process failed!",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Mix a new reagent.",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/31149-46.html": {
+   "file": "Q00373_SupplierOfReagents/31149-46.html",
+   "quest": 373,
+   "text": "Alchemical Mixing Urn: Mixing successful! Pure Silver has been created.",
+   "header": "Alchemical Mixing Urn",
+   "links": [
+    {
+     "text": "Alchemical Mixing Urn",
+     "bypass": "Quest Q00373_SupplierOfReagents 31149-02.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "31149-02.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-02.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Mimir's Elixir (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00235_MimirsElixir",
+     "kind": "quest",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/31149-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Supplier of Reagents (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00373_SupplierOfReagents",
+     "kind": "quest",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/31149-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

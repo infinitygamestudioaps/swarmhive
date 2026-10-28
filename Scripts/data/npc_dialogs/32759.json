@@ -1,0 +1,262 @@
+{
+ "npcId": 32759,
+ "name": "Gumiel",
+ "title": "Treasure Seeker",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.404Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00457_LostAndFound/32759-08.html",
+   "when": "npc.getTarget() != null; npc.getTarget().equals(player)",
+   "src": "quest 457"
+  },
+  {
+   "page": "Q00457_LostAndFound/32759-01a.html",
+   "when": "npc.getTarget() != null; NOT npc.getTarget().equals(player)",
+   "src": "quest 457"
+  },
+  {
+   "page": "Q00457_LostAndFound/32759.html",
+   "when": "",
+   "src": "quest 457"
+  }
+ ],
+ "quests": {
+  "457": {
+   "name": "Lost and Found",
+   "listText": [
+    "[Lost and Found]",
+    "[Lost and Found (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00457_LostAndFound/32759-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LV)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00457_LostAndFound/32759-03.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LV)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00457_LostAndFound/32759-01.htm",
+     "when": "state COMPLETED; st.isNowAvailable(); (player.getLevel() >= MIN_LV)",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00457_LostAndFound/32759-03.html",
+     "when": "state COMPLETED; st.isNowAvailable(); NOT (player.getLevel() >= MIN_LV)",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00457_LostAndFound/32759-02.html",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "Q00457_LostAndFound/32759-08.html": {
+   "file": "Q00457_LostAndFound/32759-08.html",
+   "quest": 457,
+   "text": "Treasure Hunter Gumiel: Oh man... how much longer 'til we get there? I'm getting seriously thirsty. Maybe we should ask for directions? Ugh, I hope there's a bathroom around here somewhere.",
+   "header": "Treasure Hunter Gumiel",
+   "when": [
+    "npc.getTarget() != null; npc.getTarget().equals(player)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00457_LostAndFound/32759-01a.html": {
+   "file": "Q00457_LostAndFound/32759-01a.html",
+   "quest": 457,
+   "text": "Treasure hunter Gumiel: Well this is a strange problem to have. Someone is actually helping me out of this labyrinth right now. And I don't know if they'll like me talking to anyone, so please don't.",
+   "header": "Treasure hunter Gumiel",
+   "when": [
+    "npc.getTarget() != null; NOT npc.getTarget().equals(player)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00457_LostAndFound/32759.html": {
+   "file": "Q00457_LostAndFound/32759.html",
+   "quest": 457,
+   "text": "Treasure Hunter Gumiel Oh crap... I think I took a wrong turn back there... ugh, no treasure's worth this! And these monks, they're all so terribly weird. I'm sure you've had problems here too. Without food and rest, you're liable to pass out. Maybe, I should leave this place... anyway, what brough…",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest Q00457_LostAndFound",
+     "kind": "quest",
+     "script": "Q00457_LostAndFound",
+     "quest": 457,
+     "to": "Q00457_LostAndFound/32759-01.htm"
+    }
+   ]
+  },
+  "Q00457_LostAndFound/32759-01.htm": {
+   "file": "Q00457_LostAndFound/32759-01.htm",
+   "quest": 457,
+   "text": "Treasure Hunter Gumiel: Ah, so my eyes do not deceive me! You are real, aren't you? And you don't look like one of those bloody monks, thank goodness. I've got a story to tell, if you'd listen. Thing is... I'm in disguise. I snuck into this Monastery because I heard there was a great treasure here …",
+   "header": "Treasure Hunter Gumiel",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LV)",
+    "state COMPLETED; st.isNowAvailable(); (player.getLevel() >= MIN_LV)"
+   ],
+   "links": [
+    {
+     "text": "\"Okay. I will do that.\"",
+     "bypass": "Quest Q00457_LostAndFound 32759-04.html",
+     "kind": "quest-event",
+     "script": "Q00457_LostAndFound",
+     "event": "32759-04.html",
+     "quest": 457,
+     "to": "Q00457_LostAndFound/32759-04.html"
+    }
+   ]
+  },
+  "Q00457_LostAndFound/32759-03.html": {
+   "file": "Q00457_LostAndFound/32759-03.html",
+   "quest": 457,
+   "text": "Treasure Hunter Gumiel: Guh, OK, I know I've been in this room before, because I've seen that ugly painting and smelled that stinky monk. Seriously, that one monk stinks so bad, he's become a landmark in this place for a treasure hunter like me. They say to follow your nose, but I never really took…",
+   "header": "Treasure Hunter Gumiel",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LV)",
+    "state COMPLETED; st.isNowAvailable(); NOT (player.getLevel() >= MIN_LV)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00457_LostAndFound/32759-02.html": {
+   "file": "Q00457_LostAndFound/32759-02.html",
+   "quest": 457,
+   "text": "Treasure Hunter Gumiel: Hm... could it be over here? I think I saw that column before. In fact I'm sure of it. Blast, how do I tell the difference between a real wall and a fake wall! Oh, sorry, you have that look of someone who needs help but I really can't. I mean, don't I look pretty busy right …",
+   "header": "Treasure Hunter Gumiel",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00457_LostAndFound/32759-04.html": {
+   "file": "Q00457_LostAndFound/32759-04.html",
+   "quest": 457,
+   "text": "Treasure Hunter Gumiel: Oh thank you so much! I don't care which exit, west or east, just as long as I get out of here.",
+   "header": "Treasure Hunter Gumiel",
+   "links": [
+    {
+     "text": "\"Follow me then, and don't get lost.\"",
+     "bypass": "Quest Q00457_LostAndFound 32759-06.html",
+     "kind": "quest-event",
+     "script": "Q00457_LostAndFound",
+     "event": "32759-06.html",
+     "quest": 457,
+     "to": "Q00457_LostAndFound/32759-06.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"OK but wait a moment while I prepare.\"",
+     "bypass": "Quest Q00457_LostAndFound 32759-05.html",
+     "kind": "quest-event",
+     "script": "Q00457_LostAndFound",
+     "event": "32759-05.html",
+     "quest": 457,
+     "to": "Q00457_LostAndFound/32759-05.html"
+    }
+   ]
+  },
+  "Q00457_LostAndFound/32759-05.html": {
+   "file": "Q00457_LostAndFound/32759-05.html",
+   "quest": 457,
+   "text": "Treasure Hunter Gumiel: Seriously, I don't care which exit, I just want out of here. I NEED out of here. PLEASE.",
+   "header": "Treasure Hunter Gumiel",
+   "links": [
+    {
+     "text": "\"Then, follow me.\"",
+     "bypass": "Quest Q00457_LostAndFound 32759-06.html",
+     "kind": "quest-event",
+     "script": "Q00457_LostAndFound",
+     "event": "32759-06.html",
+     "quest": 457,
+     "to": "Q00457_LostAndFound/32759-06.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"OK but wait a moment while I prepare.\"",
+     "bypass": "Quest Q00457_LostAndFound 32759-07.html",
+     "kind": "quest-event",
+     "script": "Q00457_LostAndFound",
+     "event": "32759-07.html",
+     "quest": 457,
+     "to": "Q00457_LostAndFound/32759-07.html"
+    }
+   ]
+  },
+  "Q00457_LostAndFound/32759-06.html": {
+   "file": "Q00457_LostAndFound/32759-06.html",
+   "quest": 457,
+   "text": "Treasure Hunter Gumiel: Phew alright! Let's get going!",
+   "header": "Treasure Hunter Gumiel",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00457_LostAndFound/32759-07.html": {
+   "file": "Q00457_LostAndFound/32759-07.html",
+   "quest": 457,
+   "text": "Treasure Hunter Gumiel: Alright alright, I'll wait. But just for you!",
+   "header": "Treasure Hunter Gumiel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00457_LostAndFound/32759-09.html": {
+   "file": "Q00457_LostAndFound/32759-09.html",
+   "quest": 457,
+   "text": "Treasure Hunter Gumiel: Wow, great! We finally got out of that place! If I never see a monk again, it'll be too soon. Following rumors can be dangerous, eh? Well anyway, I did find SOMETHING that seems valuable, but since you helped me out of there, I think you deserve it.",
+   "header": "Treasure Hunter Gumiel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Lost and Found]",
+     "bypass": "npc_%objectId%_Quest Q00457_LostAndFound",
+     "kind": "quest",
+     "quest": 457,
+     "to": "Q00457_LostAndFound/32759-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Lost and Found (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00457_LostAndFound",
+     "kind": "quest",
+     "quest": 457,
+     "to": "Q00457_LostAndFound/32759-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

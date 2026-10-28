@@ -1,0 +1,245 @@
+{
+ "npcId": 32497,
+ "name": "Inspector Adler",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.376Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32497.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "128": {
+   "name": "Pailaka - Song of Ice and Fire",
+   "listText": [
+    "[Pailaka - Song of Ice and Fire]",
+    "[Pailaka - Song of Ice and Fire (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32497-05.htm",
+     "when": "state CREATED; level < 36",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32497-06.htm",
+     "when": "state CREATED; NOT level < 36; level > 42",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32497-01.htm",
+     "when": "state CREATED; NOT level < 36; NOT level > 42",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32497-00.htm",
+     "when": "state STARTED; cond >1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32497-03.htm",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "start"
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32497-07.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32497-01.htm",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32497.htm": {
+   "file": "default/32497.htm",
+   "quest": null,
+   "text": "Inspector Adler: I hear that strange omens have been observed near the Forgotten Temple. I can only hope it's nothing serious...",
+   "header": "Inspector Adler",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32497-05.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32497-05.htm",
+   "quest": 128,
+   "text": "Inspector Adler: You don't seem ready to solve the mystery of that place just yet. Come back when you are more experienced, and I will entrust you with this mission. (Only characters level 36 and higher may undertake this quest.)",
+   "header": "Inspector Adler",
+   "when": [
+    "state CREATED; level < 36"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00128_PailakaSongOfIceAndFire/32497-06.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32497-06.htm",
+   "quest": 128,
+   "text": "Inspector Adler: Your spirit is too strong to enter such an unstable region as Pailaka. (Only characters level 42 and lower may undertake this quest.)",
+   "header": "Inspector Adler",
+   "when": [
+    "state CREATED; NOT level < 36; level > 42"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00128_PailakaSongOfIceAndFire/32497-01.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32497-01.htm",
+   "quest": 128,
+   "text": "Inspector Adler: What do you know about Pailaka? The Ivory Tower discovered it shortly after Kamaloka. Apparently, it's a kind of \"pocket reality\" created by Kamaloka's energy acting on places that are filled with a high degree of chaos: old battlefields or the sites of powerful magical experiments…",
+   "header": "Inspector Adler",
+   "when": [
+    "state CREATED; NOT level < 36; NOT level > 42",
+    "always"
+   ],
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00128_PailakaSongOfIceAndFire 32497-02.htm",
+     "kind": "quest-event",
+     "script": "Q00128_PailakaSongOfIceAndFire",
+     "event": "32497-02.htm",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32497-02.htm"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32497-00.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32497-00.htm",
+   "quest": 128,
+   "text": "Inspector Adler: Ah, we meet again! Apparently the chaos caused by Pailaka has still not been resolved. If you are willing, I can send you to Pailaka again. What would you like to do?",
+   "header": "Inspector Adler",
+   "when": [
+    "state STARTED; cond >1"
+   ],
+   "links": [
+    {
+     "text": "Enter Pailaka.",
+     "bypass": "Quest PailakaSongOfIceAndFire enter",
+     "kind": "quest-event",
+     "script": "PailakaSongOfIceAndFire",
+     "event": "enter"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32497-03.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32497-03.htm",
+   "quest": 128,
+   "text": "Inspector Adler: We really don't know what you will encounter when you open the gateway to Pailaka. But as with Kamaloka, I suspect you will find an ally there willing to share information. You should have no difficulty learning what you must do. Good luck!",
+   "header": "Inspector Adler",
+   "when": [
+    "state STARTED"
+   ],
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Accept the challenge of Pailaka.",
+     "bypass": "Quest PailakaSongOfIceAndFire enter",
+     "kind": "quest-event",
+     "script": "PailakaSongOfIceAndFire",
+     "event": "enter"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32497-07.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32497-07.htm",
+   "quest": 128,
+   "text": "Inspector Adler: Ah, you are the adventurer I spoke to before! Thanks to your efforts, the strange omens we feared seem to have disappeared. But I worry that Pailaka may be different from Kamaloka... True, it has not shown any signs of reappearing. But I suspect this is not only Pailaka out there; …",
+   "header": "Inspector Adler",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00128_PailakaSongOfIceAndFire/32497-02.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32497-02.htm",
+   "quest": 128,
+   "text": "Inspector Adler: We inspectors were sent by the Ivory Tower to find more about that place. We followed the flow of mana and traced the energy of Kamaloka to find likely spots. At present, Pailaka has not affected our reality, but who knows what may happen in time? It may even impact next year's har…",
+   "header": "Inspector Adler",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00128_PailakaSongOfIceAndFire 32497-03.htm",
+     "kind": "quest-event",
+     "script": "Q00128_PailakaSongOfIceAndFire",
+     "event": "32497-03.htm",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32497-03.htm",
+     "effect": "start"
+    },
+    {
+     "text": "Say no.",
+     "bypass": "Quest Q00128_PailakaSongOfIceAndFire 32497-04.htm",
+     "kind": "quest-event",
+     "script": "Q00128_PailakaSongOfIceAndFire",
+     "event": "32497-04.htm",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32497-04.htm"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32497-04.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32497-04.htm",
+   "quest": 128,
+   "text": "Inspector Adler: That's your answer, eh? Well, there's nothing I can say to change your mind. But in my opinion, it would do you good to expand your horizons...",
+   "header": "Inspector Adler",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Pailaka - Song of Ice and Fire]",
+     "bypass": "npc_%objectId%_Quest Q00128_PailakaSongOfIceAndFire",
+     "kind": "quest",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32497-06.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Pailaka - Song of Ice and Fire (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00128_PailakaSongOfIceAndFire",
+     "kind": "quest",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32497-00.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

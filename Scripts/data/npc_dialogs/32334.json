@@ -1,0 +1,261 @@
+{
+ "npcId": 32334,
+ "name": "Harkilgamed",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.370Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "236": {
+   "name": "Seeds Of Chaos",
+   "listText": [
+    "[Seeds of Chaos]",
+    "[Seeds of Chaos (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00236_SeedsOfChaos/32334-08.html",
+     "when": "state STARTED; memo 22; player == c0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32334-09.html",
+     "when": "state STARTED; memo 22; !player == c0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32334-18.html",
+     "when": "state STARTED; memo 30",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32334-08.html": {
+   "file": "Q00236_SeedsOfChaos/32334-08.html",
+   "quest": 236,
+   "text": "Harkilgamed: Well done! That should confuse them for a while -- let us speak quickly. Where was I? Was I beginning to tell an old story?",
+   "header": "Harkilgamed",
+   "when": [
+    "state STARTED; memo 22; player == c0"
+   ],
+   "links": [
+    {
+     "text": "\"It was the story about the created ones.\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 32334-10.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32334-10.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32334-10.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32334-09.html": {
+   "file": "Q00236_SeedsOfChaos/32334-09.html",
+   "quest": 236,
+   "text": "Harkilgamed: Wait! This is not a good time -- we will speak of this later.",
+   "header": "Harkilgamed",
+   "when": [
+    "state STARTED; memo 22; !player == c0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32334-18.html": {
+   "file": "Q00236_SeedsOfChaos/32334-18.html",
+   "quest": 236,
+   "text": "Harkilgamed: We will meet again. But I have said all I care to now. Return to Kekropus and speak with him.",
+   "header": "Harkilgamed",
+   "when": [
+    "state STARTED; memo 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32334-10.html": {
+   "file": "Q00236_SeedsOfChaos/32334-10.html",
+   "quest": 236,
+   "text": "Harkilgamed: Yes. We are those creatures. And if we were not created by the gods, then by whom? Do you know? The gods and the Giants became enemies? I have heard that story, that the Giants tired of the gods' rulership and constant family squabbles. That is why the Giants sought the power to oppose…",
+   "header": "Harkilgamed",
+   "links": [
+    {
+     "text": "Family squabbles?",
+     "bypass": "Quest Q00236_SeedsOfChaos 32334-11.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32334-11.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32334-11.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32334-11.html": {
+   "file": "Q00236_SeedsOfChaos/32334-11.html",
+   "quest": 236,
+   "text": "Harkilgamed: Ask Kekropus about how the gods first fought with themselves, and only later with the Giants. Eventually, the Giants decided to create soldiers they could use to defend themselves against the gods. They were not successful until Mimir , the most brilliant scientist among the Giants, di…",
+   "header": "Harkilgamed",
+   "links": [
+    {
+     "text": "\"WHAT?!\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 32334-12.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32334-12.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32334-12.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32334-12.html": {
+   "file": "Q00236_SeedsOfChaos/32334-12.html",
+   "quest": 236,
+   "text": "Harkilgamed: Is it so surprising? In the course of your journeys you must have encountered some of the remaining Giants. In Krumatap, the cave of the Giants, many were born, like a race of prisoners... But the war between the Giants and the gods is beside the point right now. The important thing is…",
+   "header": "Harkilgamed",
+   "links": [
+    {
+     "text": "I don't know.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32334-13.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32334-13.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32334-13.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32334-13.html": {
+   "file": "Q00236_SeedsOfChaos/32334-13.html",
+   "quest": 236,
+   "text": "Harkilgamed: The Kamael, once created, fell short of their expectations. A dagger is only a dagger, after all. It does not suddenly become something more. The Giants then fashioned the sharpest sword and the most powerful cannon ever created, but even with their help the Kamael were of limited help…",
+   "header": "Harkilgamed",
+   "links": [
+    {
+     "text": "Because we are weak?",
+     "bypass": "Quest Q00236_SeedsOfChaos 32334-14.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32334-14.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32334-14.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32334-14.html": {
+   "file": "Q00236_SeedsOfChaos/32334-14.html",
+   "quest": 236,
+   "text": "Harkilgamed: Compared to the Kamael of that time, you are not weak. But compared to other constructs of the Giants and servants of the gods, your race was childish. You needed time to mature, to grow in strength. Two strains of Kamael were created. One was powerful beings, the Spiculan Kamael, who …",
+   "header": "Harkilgamed",
+   "links": [
+    {
+     "text": ".........",
+     "bypass": "Quest Q00236_SeedsOfChaos 32334-15.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32334-15.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32334-15.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32334-15.html": {
+   "file": "Q00236_SeedsOfChaos/32334-15.html",
+   "quest": 236,
+   "text": "Harkilgamed: As a child, you must have been protected and nourished by others. That is not the case for me. No Spicula has ever been weak. Nor do we love, marry or have children. Do not pity us! Neither do we grow old and die... But unlike us, you have the potential to be anything. We are kin, thou…",
+   "header": "Harkilgamed",
+   "links": [
+    {
+     "text": "I don't know how to become something else.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32334-16.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32334-16.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32334-16.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32334-16.html": {
+   "file": "Q00236_SeedsOfChaos/32334-16.html",
+   "quest": 236,
+   "text": "Harkilgamed: Nor do I. Of the Three Heroes, perhaps Rodenpicula will know. She is unique, even among our kind. Go speak with her.",
+   "header": "Harkilgamed",
+   "links": [
+    {
+     "text": "Ask where she is.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32334-17.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32334-17.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32334-17.html",
+     "effect": "cond:14"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32334-17.html": {
+   "file": "Q00236_SeedsOfChaos/32334-17.html",
+   "quest": 236,
+   "text": "Harkilgamed: She is... Hmm, perhaps it would be better for you to return to Kekropus and ask him. But if you do happen to meet her, it would be wise for you to be respectful. She is your figurative mother, after all. Farewell!",
+   "header": "Harkilgamed",
+   "sets": {
+    "cond": "14"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Mother?\"",
+     "bypass": "Quest Q00236_SeedsOfChaos HARKILGAMED_A_DESPAWN",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "HARKILGAMED_A_DESPAWN",
+     "quest": 236,
+     "to": null
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seeds of Chaos (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00236_SeedsOfChaos",
+     "kind": "quest",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32334-08.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

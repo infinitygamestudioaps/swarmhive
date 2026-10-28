@@ -1,0 +1,58 @@
+{
+ "npcId": 32180,
+ "name": "Kato",
+ "title": "Marksman",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.352Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/32180.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/32180.htm": {
+   "file": "guard/32180.htm",
+   "quest": null,
+   "text": "Marksman Kato: Yes, this is Kamael Village. If you go back the way you came, you will pass Mimir's Forest and arrive at the harbor. You should also pass Nornil's Cave.",
+   "header": "Marksman Kato",
+   "links": [
+    {
+     "text": "Ask about the harbor.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/32180-1.htm"
+    },
+    {
+     "text": "See information on permanent residence and tax rates.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/32180-1.htm": {
+   "file": "guard/32180-1.htm",
+   "quest": null,
+   "text": "Marksman Kato: The harbor was originally made to allow contact between the Isle of Souls and the mainland. Initially, there were many goods that flowed through here, but no ships come here now. It is better, you see, for the adventurers who come here to use the gatekeeper's side. If you go there, I…",
+   "header": "Marksman Kato",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

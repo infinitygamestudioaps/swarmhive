@@ -2,7 +2,7 @@
  "id": 85,
  "name": "Saga of the Cardinal",
  "version": 1,
- "generated": "2026-10-27T11:14:57.129Z",
+ "generated": "2026-10-27T18:18:35.165Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 76,
@@ -41,11 +41,6 @@
    "step": 7
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 8
-  },
-  {
    "code": "item-from-elsewhere",
    "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
    "step": 11
@@ -66,11 +61,6 @@
    "step": 15
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 16
-  },
-  {
    "code": "npc-quest-spawned",
    "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
    "step": 18
@@ -81,7 +71,7 @@
    "step": 21
   }
  ],
- "expectedMin": 363,
+ "expectedMin": 364,
  "refLevel": 76,
  "steps": [
   {
@@ -1511,14 +1501,14 @@
     }
    ],
    "kills": 1,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "talk",
     "trigger": [
      31651
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Examine the area at Tablet of Vision (spawns Fallen Angel Haures 27267 at 119518,-28658,-3811, 5 min), kill it ALONE (no party)",
    "npc": {
@@ -2364,8 +2354,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    10,
-    14
+    10
    ]
   },
   {
@@ -2681,6 +2670,179 @@
   },
   {
    "i": 13,
+   "key": "c14:talk:31280",
+   "cond": 14,
+   "kind": "talk",
+   "to": 15,
+   "links": [
+    "\"What did he say?\""
+   ],
+   "npc": {
+    "id": 31280,
+    "name": "Bastian",
+    "title": "Priest",
+    "town": "Goddard",
+    "at": [
+     148048,
+     -52416,
+     -2736
+    ],
+    "alt": []
+   },
+   "text": "Talk to Bastian",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31280@148048,-52416",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4378,
+    "sec": 56,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 4378,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56200,
+      -2776
+     ],
+     [
+      147704,
+      -55928,
+      -2760
+     ],
+     [
+      147704,
+      -55656,
+      -2736
+     ],
+     [
+      147704,
+      -55384,
+      -2728
+     ],
+     [
+      147704,
+      -55112,
+      -2728
+     ],
+     [
+      147704,
+      -54840,
+      -2728
+     ],
+     [
+      147704,
+      -54568,
+      -2728
+     ],
+     [
+      147576,
+      -54472,
+      -2728
+     ],
+     [
+      147704,
+      -54408,
+      -2728
+     ],
+     [
+      147704,
+      -54136,
+      -2728
+     ],
+     [
+      147704,
+      -53864,
+      -2728
+     ],
+     [
+      147704,
+      -53592,
+      -2728
+     ],
+     [
+      147752,
+      -53384,
+      -2728
+     ],
+     [
+      147816,
+      -53320,
+      -2728
+     ],
+     [
+      147816,
+      -53176,
+      -2728
+     ],
+     [
+      147928,
+      -52920,
+      -2728
+     ],
+     [
+      148056,
+      -52680,
+      -2728
+     ],
+     [
+      148056,
+      -52408,
+      -2728
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    14
+   ]
+  },
+  {
+   "i": 14,
    "key": "c15:hunt",
    "cond": 15,
    "kind": "hunt",
@@ -3275,7 +3437,7 @@
    ]
   },
   {
-   "i": 14,
+   "i": 15,
    "key": "c15:spawn:27234",
    "cond": 15,
    "kind": "spawn",
@@ -3367,9 +3529,7 @@
     }
    ],
    "kills": 234,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "kill",
     "trigger": [
@@ -3379,7 +3539,9 @@
      21649,
      21650,
      21651
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Kill Archon Minions 21646-21651 for Halisha's Marks 7500 (700), then the Archon of Halisha 27234 spawns at you (10 min): kill it ALONE",
    "area": {
@@ -3755,7 +3917,7 @@
    ]
   },
   {
-   "i": 15,
+   "i": 16,
    "key": "c16:deliver:31655",
    "cond": 16,
    "kind": "deliver",
@@ -4044,7 +4206,7 @@
    ]
   },
   {
-   "i": 16,
+   "i": 17,
    "key": "c17:talk:31644",
    "cond": 17,
    "kind": "talk",
@@ -4076,7 +4238,7 @@
    ]
   },
   {
-   "i": 17,
+   "i": 18,
    "key": "c18:deliver:31658",
    "cond": 18,
    "kind": "deliver",
@@ -4300,7 +4462,7 @@
    ]
   },
   {
-   "i": 18,
+   "i": 19,
    "key": "c19:talk:30191",
    "cond": 19,
    "kind": "talk",
@@ -4423,7 +4585,7 @@
    ]
   },
   {
-   "i": 19,
+   "i": 20,
    "key": "c20:manual",
    "cond": 20,
    "kind": "special",

@@ -1,0 +1,205 @@
+{
+ "npcId": 32508,
+ "name": "Dwarf Adventurer",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.377Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "129": {
+   "name": "Pailaka - Devil's Legacy",
+   "listText": [
+    "[Pailaka - Devil's Legacy]",
+    "[Pailaka - Devil's Legacy (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32508-07.htm",
+     "when": "player.hasSummon()",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32508-03.htm",
+     "when": "has items 13042,13046; !player.hasSummon()",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32508-02.htm",
+     "when": "has items 13042; lacks items 13046; !player.hasSummon()",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32508-05.htm",
+     "when": "has items 13043,13047; lacks items 13042; !player.hasSummon()",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32508-04.htm",
+     "when": "has items 13043; lacks items 13042; !player.hasSummon()",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32508-06.htm",
+     "when": "has items 13044; lacks items 13042,13043; !player.hasSummon()",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32508-00.htm",
+     "when": "lacks items 13042,13043,13044; !player.hasSummon()",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00129_PailakaDevilsLegacy/32508-07.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32508-07.htm",
+   "quest": 129,
+   "text": "Dwarf Adventurer: In order to enhance the sword, Tigress must first be returned to it. Any other summoned pets or servitors will also disrupt the process. Until they have been dismissed, we cannot begin. Let me know when you are ready.",
+   "header": "Dwarf Adventurer",
+   "when": [
+    "player.hasSummon()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32508-03.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32508-03.htm",
+   "quest": 129,
+   "text": "Dwarf Adventurer: Your weapon has been enhanced! In addition to allowing you to summon Tigress, it now also possesses a powerful long-range water attack called Ice Ball . If you wish to enhance the sword a final time, find the last remaining Scroll of Enchant Weapon!",
+   "header": "Dwarf Adventurer",
+   "when": [
+    "has items 13042,13046; !player.hasSummon()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32508-02.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32508-02.htm",
+   "quest": 129,
+   "text": "Dwarf Adventurer: Unless you have a Scroll of Enchant Weapon, I can't enchant either your weapon or your pet. Defeat the pirates and bring back the Scroll of Enchant Weapon!",
+   "header": "Dwarf Adventurer",
+   "when": [
+    "has items 13042; lacks items 13046; !player.hasSummon()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32508-05.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32508-05.htm",
+   "quest": 129,
+   "text": "Dwarf Adventurer: Your weapon has been enhanced! In addition to Ice Ball , your Complete Ancient Legacy Sword now possesses Chill Strike , which inflicts a powerful short-range water attack. Your Tigress has also been enhanced! She now possesses more power than ever!",
+   "header": "Dwarf Adventurer",
+   "when": [
+    "has items 13043,13047; lacks items 13042; !player.hasSummon()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32508-04.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32508-04.htm",
+   "quest": 129,
+   "text": "Dwarf Adventurer: Bring back the second Enchant Scroll. I'm sure some pirate thug has it!",
+   "header": "Dwarf Adventurer",
+   "when": [
+    "has items 13043; lacks items 13042; !player.hasSummon()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32508-06.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32508-06.htm",
+   "quest": 129,
+   "text": "Dwarf Adventurer: Your weapon has been enhanced! With this strengthened Ancient Legacy Sword, you're more than a match for any pirate!",
+   "header": "Dwarf Adventurer",
+   "when": [
+    "has items 13044; lacks items 13042,13043; !player.hasSummon()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32508-00.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32508-00.htm",
+   "quest": 129,
+   "text": "Dwarf Adventurer: You will need a special weapon to solve the problems facing us... The Devil's Isle Supporter is somewhere around here -- go find him!",
+   "header": "Dwarf Adventurer",
+   "when": [
+    "lacks items 13042,13043,13044; !player.hasSummon()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32508-01.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32508-01.htm",
+   "quest": 129,
+   "text": "Dwarf Adventurer: You will need a special weapon to solve the problems facing us... The Devil's Isle Supporter is somewhere around here -- go find him!",
+   "header": "Dwarf Adventurer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32508.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32508.htm",
+   "quest": 129,
+   "text": "Dwarf Adventurer: Ah, an adventurer who wields the Ancient Legacy Sword has finally come! Since you have made it this far, I will place my trust in you as well! If you have the Pailaka Scroll of Enchant Weapon , I will enhance both your Ancient Legacy Sword and your Tigress!",
+   "header": "Dwarf Adventurer",
+   "links": [
+    {
+     "text": "Enhance your weapon.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Pailaka - Devil's Legacy (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00129_PailakaDevilsLegacy",
+     "kind": "quest",
+     "quest": 129,
+     "to": "Q00129_PailakaDevilsLegacy/32508-07.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

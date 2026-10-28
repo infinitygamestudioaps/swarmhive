@@ -1,0 +1,49 @@
+{
+ "npcId": 31676,
+ "name": "Gregory Athebaldt",
+ "title": "Border Outpost Captain",
+ "type": "L2Doormen",
+ "generated": "2026-10-27T18:18:03.267Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "doormen/31676.htm",
+   "when": "",
+   "src": "html/doormen"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "doormen/31676.htm": {
+   "file": "doormen/31676.htm",
+   "quest": null,
+   "text": "Commander of the Border Patrol, Gregory Athebaldt: I'm Gregory Athebaldt, commander of the border patrol of Aden Kingdom. Currently, the forces of both countries are massing near the border. Although the border is open, the tension between the countries has resurfaced. You'd better watch your back,…",
+   "header": "Commander of the Border Patrol, Gregory Athebaldt",
+   "links": [
+    {
+     "text": "Open the gate",
+     "bypass": "npc_%objectId%_open_doors 1, 24170001",
+     "kind": "other"
+    },
+    {
+     "text": "Close the gate",
+     "bypass": "npc_%objectId%_close_doors 1, 24170001",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,1602 @@
+{
+ "npcId": 30094,
+ "name": "Gentler",
+ "title": "Wizard-use Equipment Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.837Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30094.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "32": {
+   "name": "An Obvious Lie",
+   "listText": [
+    "[An Obvious Lie]",
+    "[An Obvious Lie (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00032_AnObviousLie/30094-01.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00032_AnObviousLie/30094-03.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00032_AnObviousLie/30094-04.html",
+     "when": "cond 4; hasItem(player, MEDICINAL_HERB)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00032_AnObviousLie/30094-05.html",
+     "when": "cond 4; NOT hasItem(player, MEDICINAL_HERB)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00032_AnObviousLie/30094-07.html",
+     "when": "cond 5; hasItem(player, SPIRIT_ORE)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00032_AnObviousLie/30094-08.html",
+     "when": "cond 5; NOT hasItem(player, SPIRIT_ORE)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00032_AnObviousLie/30094-10.html",
+     "when": "cond 6",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00032_AnObviousLie/30094-11.html",
+     "when": "cond 7",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00032_AnObviousLie/30094-13.html",
+     "when": "cond 8; has items 1868,1866",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00032_AnObviousLie/30094-14.html",
+     "when": "cond 8; lacks items 1868,1866",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "45": {
+   "name": "To Talking Island",
+   "listText": [
+    "[To Talking Island]",
+    "[To Talking Island (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00045_ToTalkingIsland/30094-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30090-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30116-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30094-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30090-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30116-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "46": {
+   "name": "Once More In the Arms of the Mother Tree",
+   "listText": [
+    "[Once More In the Arms of the Mother Tree]",
+    "[Once More In the Arms of the Mother Tree (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30090-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30116-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30090-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30116-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "47": {
+   "name": "Into the Dark Elven Forest",
+   "listText": [
+    "[Into the Dark Elven Forest]",
+    "[Into the Dark Elven Forest (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30094-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30090-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30116-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30094-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30090-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30116-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "48": {
+   "name": "To The Immortal Plateau",
+   "listText": [
+    "[To the Immortal Plateau]",
+    "[To the Immortal Plateau (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30094-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30090-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30116-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30094-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30090-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30116-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "49": {
+   "name": "The Road Home",
+   "listText": [
+    "[The Road Home]",
+    "[The Road Home (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00049_TheRoadHome/30094-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00049_TheRoadHome/30090-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00049_TheRoadHome/30116-01.html",
+     "when": "state STARTED; st.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00049_TheRoadHome/30094-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00049_TheRoadHome/30090-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00049_TheRoadHome/30116-04.html",
+     "when": "state STARTED; !st.isCond(cond); st.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "173": {
+   "name": "To the Isle of Souls",
+   "listText": [
+    "[To the Isle of Souls]",
+    "[To the Isle of Souls (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00173_ToTheIsleOfSouls/30094-01.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00173_ToTheIsleOfSouls/30094-03.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30094.htm": {
+   "file": "merchant/30094.htm",
+   "quest": null,
+   "text": "Merchant Gentler: Welcome, young traveler. You look tired. Perhaps one of Groot's famous healing potions would be the thing for you, eh? No? Well, what can I help you find? A spellbook? A magic weapon? We sell anything and everything related to magic, so take a good look around.",
+   "header": "Merchant Gentler",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30094-1.htm",
+     "live": true
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3009401",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true,
+     "dpText": "Quest"
+    }
+   ]
+  },
+  "merchant/30094-1.htm": {
+   "file": "merchant/30094-1.htm",
+   "quest": null,
+   "text": "Merchant Gentler: What would you like to buy?",
+   "header": "Merchant Gentler",
+   "links": [
+    {
+     "text": "Buy Wizard equipment.",
+     "bypass": "npc_%objectId%_Buy 3009401",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Common Items.",
+     "bypass": "npc_%objectId%_Buy 3009402",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/30094-pk.htm": {
+   "file": "merchant/30094-pk.htm",
+   "quest": null,
+   "text": "Magic Trader Gentler: Look here, I've had my days in the dark shadows, like you. But look, now I'm in the light and living an honest life. Why don't you stop your wandering and come out into the bright world? I am truly sorry, but I will not trade with you now. But come and seek me out later.",
+   "header": "Magic Trader Gentler",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30094-01.html": {
+   "file": "Q00032_AnObviousLie/30094-01.html",
+   "quest": 32,
+   "text": "Magic Trader Gentler: Welcome. What can I do for you? Ah yes, I'd love to fulfill the high priest's request, but I don't think I can make that medicine. I sent Miki the Cat looking for Moretti's Herbs, but I lost contact with him.",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Should I look for him?\"",
+     "bypass": "Quest Q00032_AnObviousLie 30094-02.html",
+     "kind": "quest-event",
+     "script": "Q00032_AnObviousLie",
+     "event": "30094-02.html",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/30094-02.html",
+     "effect": "cond:2",
+     "live": true
+    }
+   ]
+  },
+  "Q00032_AnObviousLie/30094-03.html": {
+   "file": "Q00032_AnObviousLie/30094-03.html",
+   "quest": 32,
+   "text": "Trader Gentler: You forgot where the last message came from, didn't you? Miki the Cat was last seen at the entrance of Devil's Isle . Start your search there! Good luck!",
+   "header": "Trader Gentler",
+   "when": [
+    "cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30094-04.html": {
+   "file": "Q00032_AnObviousLie/30094-04.html",
+   "quest": 32,
+   "text": "Magic Trader Gentler: You found him? I was right! He was wandering about. May I have the herbs?",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "cond 4; hasItem(player, MEDICINAL_HERB)"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the herbs.\"",
+     "bypass": "Quest Q00032_AnObviousLie 30094-06.html",
+     "kind": "quest-event",
+     "script": "Q00032_AnObviousLie",
+     "event": "30094-06.html",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/30094-06.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00032_AnObviousLie/30094-05.html": {
+   "file": "Q00032_AnObviousLie/30094-05.html",
+   "quest": 32,
+   "text": "Magic Trader Gentler: You found Miki the Cat but lost the herbs? Can you hunt an alligator from Alligator Island , obtain the herbs and bring them back to me?",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "cond 4; NOT hasItem(player, MEDICINAL_HERB)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30094-07.html": {
+   "file": "Q00032_AnObviousLie/30094-07.html",
+   "quest": 32,
+   "text": "Magic Trader Gentler: Good, you brought back 500 Spirit Ore. Let me finish here. Let me have the ore.",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "cond 5; hasItem(player, SPIRIT_ORE)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00032_AnObviousLie 30094-09.html",
+     "kind": "quest-event",
+     "script": "Q00032_AnObviousLie",
+     "event": "30094-09.html",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/30094-09.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00032_AnObviousLie/30094-08.html": {
+   "file": "Q00032_AnObviousLie/30094-08.html",
+   "quest": 32,
+   "text": "Magic Trader Gentler: If you don't bring the Spirit Ore quickly, I'll lose the medicine. You'll have to pay for my loss! Go!",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "cond 5; NOT hasItem(player, SPIRIT_ORE)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30094-10.html": {
+   "file": "Q00032_AnObviousLie/30094-10.html",
+   "quest": 32,
+   "text": "Magic Trader Gentler: The Contract says Miki the Cat should pay for any additional expenses. Bother him, not me!",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30094-11.html": {
+   "file": "Q00032_AnObviousLie/30094-11.html",
+   "quest": 32,
+   "text": "Trader Gentler: What can I do for you? I think I told you to visit Miki the Cat. Hmm.. Did you meet him? Then, why did you come to me? Oh! You're smarter than I thought. I have to agree with that. However, I have no Adena to pay with.",
+   "header": "Trader Gentler",
+   "when": [
+    "cond 7"
+   ],
+   "links": [
+    {
+     "text": "Are you cheating me again?",
+     "bypass": "Quest Q00032_AnObviousLie 30094-12.html",
+     "kind": "quest-event",
+     "script": "Q00032_AnObviousLie",
+     "event": "30094-12.html",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/30094-12.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00032_AnObviousLie/30094-13.html": {
+   "file": "Q00032_AnObviousLie/30094-13.html",
+   "quest": 32,
+   "text": "Magic Trader Gentler: Now let me have them. Still don't trust me? It'll be worth it! What'll it be?",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "cond 8; has items 1868,1866"
+   ],
+   "links": [
+    {
+     "text": "\"Take them! But don't trick me again, or else!\"",
+     "bypass": "Quest Q00032_AnObviousLie 30094-15.html",
+     "kind": "quest-event",
+     "script": "Q00032_AnObviousLie",
+     "event": "30094-15.html",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/30094-15.html"
+    }
+   ]
+  },
+  "Q00032_AnObviousLie/30094-14.html": {
+   "file": "Q00032_AnObviousLie/30094-14.html",
+   "quest": 32,
+   "text": "Magic Trader Gentler: I requested 1000 threads and 500 Suedes.",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "cond 8; lacks items 1868,1866"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30094-01.html": {
+   "file": "Q00045_ToTalkingIsland/30094-01.html",
+   "quest": 45,
+   "text": "Magic Trader Gentler: You came from the boutique shop. Mr.Galladucci's order is ready. It was very hard for me to find. Do you have the order document?",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00045_ToTalkingIsland 30094-02.html",
+     "kind": "quest-event",
+     "script": "Q00045_ToTalkingIsland",
+     "event": "30094-02.html",
+     "quest": 45,
+     "to": "Q00045_ToTalkingIsland/30094-02.html",
+     "toAll": [
+      "Q00045_ToTalkingIsland/30094-02.html",
+      "Q00045_ToTalkingIsland/30094-03.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00045_ToTalkingIsland/30090-01.html": {
+   "file": "Q00045_ToTalkingIsland/30090-01.html",
+   "quest": 45,
+   "text": "Jeweler Sandra: You're from the country aren't you? Gludio Territory was once beautiful, but it's dangerous to travel nowadays. I have the earrings, you want to see? Beautiful and practical.",
+   "header": "Jeweler Sandra",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the order form.\"",
+     "bypass": "Quest Q00045_ToTalkingIsland 30090-02.html",
+     "kind": "quest-event",
+     "script": "Q00045_ToTalkingIsland",
+     "event": "30090-02.html",
+     "quest": 45,
+     "to": "Q00045_ToTalkingIsland/30090-02.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00045_ToTalkingIsland/30116-01.html": {
+   "file": "Q00045_ToTalkingIsland/30116-01.html",
+   "quest": 45,
+   "text": "Priest Dustin: This place is sacred, where people of faith come to worship. Please keep a respectful silence here. Why are you here, my child?",
+   "header": "Priest Dustin",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"I brought this order from Mr. Galladucci.\"",
+     "bypass": "Quest Q00045_ToTalkingIsland 30116-02.html",
+     "kind": "quest-event",
+     "script": "Q00045_ToTalkingIsland",
+     "event": "30116-02.html",
+     "quest": 45,
+     "to": "Q00045_ToTalkingIsland/30116-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00045_ToTalkingIsland/30094-04.html": {
+   "file": "Q00045_ToTalkingIsland/30094-04.html",
+   "quest": 45,
+   "text": "Magic Trader Gentler: I'm sure I gave you the item! Take the Magic Sword Hilt to Trader Galladucci at the boutique shop .",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30090-04.html": {
+   "file": "Q00045_ToTalkingIsland/30090-04.html",
+   "quest": 45,
+   "text": "Jeweler Sandra: Gemstone Powder is expensive, so please deliver it to Galladucci at the boutique store quickly. Don't get distracted!",
+   "header": "Jeweler Sandra",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30116-04.html": {
+   "file": "Q00045_ToTalkingIsland/30116-04.html",
+   "quest": 45,
+   "text": "Priest Dustin: The necklace is completely purified and safe. Please deliver it to Mr. Galladucci at the boutique shop . I pray that tranquility and happiness will follow you always.",
+   "header": "Priest Dustin",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-01.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-01.html",
+   "quest": 46,
+   "text": "Magic Trader Gentler: You came from the boutique shop. Mr.Galladucci's order is ready. It was very hard for me to find. Do you have the order document?",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00046_OnceMoreInTheArmsOfTheMotherTree 30094-02.html",
+     "kind": "quest-event",
+     "script": "Q00046_OnceMoreInTheArmsOfTheMotherTree",
+     "event": "30094-02.html",
+     "quest": 46,
+     "to": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-02.html",
+     "toAll": [
+      "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-02.html",
+      "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-03.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30090-01.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30090-01.html",
+   "quest": 46,
+   "text": "Jeweler Sandra: You're from the country aren't you? Gludio Territory was once beautiful, but it's dangerous to travel nowadays. I have the earrings, you want to see? Beautiful and practical.",
+   "header": "Jeweler Sandra",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the order form.\"",
+     "bypass": "Quest Q00046_OnceMoreInTheArmsOfTheMotherTree 30090-02.html",
+     "kind": "quest-event",
+     "script": "Q00046_OnceMoreInTheArmsOfTheMotherTree",
+     "event": "30090-02.html",
+     "quest": 46,
+     "to": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30090-02.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30116-01.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30116-01.html",
+   "quest": 46,
+   "text": "Priest Dustin: This place is sacred, where people of faith come to worship. Please keep a respectful silence here. Why are you here, my child?",
+   "header": "Priest Dustin",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"I brought this order from Mr. Galladucci.\"",
+     "bypass": "Quest Q00046_OnceMoreInTheArmsOfTheMotherTree 30116-02.html",
+     "kind": "quest-event",
+     "script": "Q00046_OnceMoreInTheArmsOfTheMotherTree",
+     "event": "30116-02.html",
+     "quest": 46,
+     "to": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30116-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-04.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-04.html",
+   "quest": 46,
+   "text": "Magic Trader Gentler: I'm sure I gave you the item! Take the Magic Sword Hilt to Trader Galladucci at the boutique shop .",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30090-04.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30090-04.html",
+   "quest": 46,
+   "text": "Jeweler Sandra: Gemstone Powder is expensive, so please deliver it to Galladucci at the boutique store quickly. Don't get distracted!",
+   "header": "Jeweler Sandra",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30116-04.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30116-04.html",
+   "quest": 46,
+   "text": "Priest Dustin: The necklace is completely purified and safe. Please deliver it to Mr. Galladucci at the boutique shop . I pray that tranquility and happiness will follow you always.",
+   "header": "Priest Dustin",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30094-01.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30094-01.html",
+   "quest": 47,
+   "text": "Magic Trader Gentler: You came from the boutique shop. Mr.Galladucci's order is ready. It was very hard for me to find. Do you have the order document?",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00047_IntoTheDarkElvenForest 30094-02.html",
+     "kind": "quest-event",
+     "script": "Q00047_IntoTheDarkElvenForest",
+     "event": "30094-02.html",
+     "quest": 47,
+     "to": "Q00047_IntoTheDarkElvenForest/30094-02.html",
+     "toAll": [
+      "Q00047_IntoTheDarkElvenForest/30094-02.html",
+      "Q00047_IntoTheDarkElvenForest/30094-03.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00047_IntoTheDarkElvenForest/30090-01.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30090-01.html",
+   "quest": 47,
+   "text": "Jeweler Sandra: You're from the country aren't you? Gludio Territory was once beautiful, but it's dangerous to travel nowadays. I have the earrings, you want to see? Beautiful and practical.",
+   "header": "Jeweler Sandra",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the order form.\"",
+     "bypass": "Quest Q00047_IntoTheDarkElvenForest 30090-02.html",
+     "kind": "quest-event",
+     "script": "Q00047_IntoTheDarkElvenForest",
+     "event": "30090-02.html",
+     "quest": 47,
+     "to": "Q00047_IntoTheDarkElvenForest/30090-02.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00047_IntoTheDarkElvenForest/30116-01.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30116-01.html",
+   "quest": 47,
+   "text": "Priest Dustin: This place is sacred, where people of faith come to worship. Please keep a respectful silence here. Why are you here, my child?",
+   "header": "Priest Dustin",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"I brought this order from Mr. Galladucci.\"",
+     "bypass": "Quest Q00047_IntoTheDarkElvenForest 30116-02.html",
+     "kind": "quest-event",
+     "script": "Q00047_IntoTheDarkElvenForest",
+     "event": "30116-02.html",
+     "quest": 47,
+     "to": "Q00047_IntoTheDarkElvenForest/30116-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00047_IntoTheDarkElvenForest/30094-04.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30094-04.html",
+   "quest": 47,
+   "text": "Magic Trader Gentler: I'm sure I gave you the item! Take the Magic Sword Hilt to Trader Galladucci at the boutique shop .",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30090-04.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30090-04.html",
+   "quest": 47,
+   "text": "Jeweler Sandra: Gemstone Powder is expensive, so please deliver it to Galladucci at the boutique store quickly. Don't get distracted!",
+   "header": "Jeweler Sandra",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30116-04.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30116-04.html",
+   "quest": 47,
+   "text": "Priest Dustin: The necklace is completely purified and safe. Please deliver it to Mr. Galladucci at the boutique shop . I pray that tranquility and happiness will follow you always.",
+   "header": "Priest Dustin",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30094-01.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30094-01.html",
+   "quest": 48,
+   "text": "Magic Trader Gentler: You came from the boutique shop. Mr.Galladucci's order is ready. It was very hard for me to find. Do you have the order document?",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00048_ToTheImmortalPlateau 30094-02.html",
+     "kind": "quest-event",
+     "script": "Q00048_ToTheImmortalPlateau",
+     "event": "30094-02.html",
+     "quest": 48,
+     "to": "Q00048_ToTheImmortalPlateau/30094-02.html",
+     "toAll": [
+      "Q00048_ToTheImmortalPlateau/30094-02.html",
+      "Q00048_ToTheImmortalPlateau/30094-03.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00048_ToTheImmortalPlateau/30090-01.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30090-01.html",
+   "quest": 48,
+   "text": "Jeweler Sandra: You're from the country aren't you? Gludio Territory was once beautiful, but it's dangerous to travel nowadays. I have the earrings, you want to see? Beautiful and practical.",
+   "header": "Jeweler Sandra",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the order form.\"",
+     "bypass": "Quest Q00048_ToTheImmortalPlateau 30090-02.html",
+     "kind": "quest-event",
+     "script": "Q00048_ToTheImmortalPlateau",
+     "event": "30090-02.html",
+     "quest": 48,
+     "to": "Q00048_ToTheImmortalPlateau/30090-02.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00048_ToTheImmortalPlateau/30116-01.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30116-01.html",
+   "quest": 48,
+   "text": "Priest Dustin: This place is sacred, where people of faith come to worship. Please keep a respectful silence here. Why are you here, my child?",
+   "header": "Priest Dustin",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"I brought this order from Mr. Galladucci.\"",
+     "bypass": "Quest Q00048_ToTheImmortalPlateau 30116-02.html",
+     "kind": "quest-event",
+     "script": "Q00048_ToTheImmortalPlateau",
+     "event": "30116-02.html",
+     "quest": 48,
+     "to": "Q00048_ToTheImmortalPlateau/30116-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00048_ToTheImmortalPlateau/30094-04.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30094-04.html",
+   "quest": 48,
+   "text": "Magic Trader Gentler: I'm sure I gave you the item! Take the Magic Sword Hilt to Trader Galladucci at the boutique shop .",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30090-04.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30090-04.html",
+   "quest": 48,
+   "text": "Jeweler Sandra: Gemstone Powder is expensive, so please deliver it to Galladucci at the boutique store quickly. Don't get distracted!",
+   "header": "Jeweler Sandra",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30116-04.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30116-04.html",
+   "quest": 48,
+   "text": "Priest Dustin: The necklace is completely purified and safe. Please deliver it to Mr. Galladucci at the boutique shop . I pray that tranquility and happiness will follow you always.",
+   "header": "Priest Dustin",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30094-01.html": {
+   "file": "Q00049_TheRoadHome/30094-01.html",
+   "quest": 49,
+   "text": "Magic Trader Gentler: You came from the boutique shop. Mr.Galladucci's order is ready. It was very hard for me to find. Do you have the order document?",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00049_TheRoadHome 30094-02.html",
+     "kind": "quest-event",
+     "script": "Q00049_TheRoadHome",
+     "event": "30094-02.html",
+     "quest": 49,
+     "to": "Q00049_TheRoadHome/30094-02.html",
+     "toAll": [
+      "Q00049_TheRoadHome/30094-02.html",
+      "Q00049_TheRoadHome/30094-03.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00049_TheRoadHome/30090-01.html": {
+   "file": "Q00049_TheRoadHome/30090-01.html",
+   "quest": 49,
+   "text": "Jeweler Sandra: You're from the country aren't you? Gludio Territory was once beautiful, but it's dangerous to travel nowadays. I have the earrings, you want to see? Beautiful and practical.",
+   "header": "Jeweler Sandra",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the order form.\"",
+     "bypass": "Quest Q00049_TheRoadHome 30090-02.html",
+     "kind": "quest-event",
+     "script": "Q00049_TheRoadHome",
+     "event": "30090-02.html",
+     "quest": 49,
+     "to": "Q00049_TheRoadHome/30090-02.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00049_TheRoadHome/30116-01.html": {
+   "file": "Q00049_TheRoadHome/30116-01.html",
+   "quest": 49,
+   "text": "Priest Dustin: This place is sacred, where people of faith come to worship. Please keep a respectful silence here. Why are you here, my child?",
+   "header": "Priest Dustin",
+   "when": [
+    "state STARTED; st.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"I brought this order from Mr. Galladucci.\"",
+     "bypass": "Quest Q00049_TheRoadHome 30116-02.html",
+     "kind": "quest-event",
+     "script": "Q00049_TheRoadHome",
+     "event": "30116-02.html",
+     "quest": 49,
+     "to": "Q00049_TheRoadHome/30116-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00049_TheRoadHome/30094-04.html": {
+   "file": "Q00049_TheRoadHome/30094-04.html",
+   "quest": 49,
+   "text": "Magic Trader Gentler: I'm sure I gave you the item! Take the Magic Sword Hilt to Trader Galladucci at the boutique shop .",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30090-04.html": {
+   "file": "Q00049_TheRoadHome/30090-04.html",
+   "quest": 49,
+   "text": "Jeweler Sandra: Gemstone Powder is expensive, so please deliver it to Galladucci at the boutique store quickly. Don't get distracted!",
+   "header": "Jeweler Sandra",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30116-04.html": {
+   "file": "Q00049_TheRoadHome/30116-04.html",
+   "quest": 49,
+   "text": "Priest Dustin: The necklace is completely purified and safe. Please deliver it to Mr. Galladucci at the boutique shop . I pray that tranquility and happiness will follow you always.",
+   "header": "Priest Dustin",
+   "when": [
+    "state STARTED; !st.isCond(cond); st.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00173_ToTheIsleOfSouls/30094-01.html": {
+   "file": "Q00173_ToTheIsleOfSouls/30094-01.html",
+   "quest": 173,
+   "text": "Magic Trader Gentler: Ah, you've come from the Luxury Shop, I see. Mr. Galladucci's order is ready. I will tell you that it was no easy task to procure it for him. Do you have the order sheet?",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "Hand him the order sheet.",
+     "bypass": "Quest Q00173_ToTheIsleOfSouls 30094-02.html",
+     "kind": "quest-event",
+     "script": "Q00173_ToTheIsleOfSouls",
+     "event": "30094-02.html",
+     "quest": 173,
+     "to": "Q00173_ToTheIsleOfSouls/30094-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00173_ToTheIsleOfSouls/30094-03.html": {
+   "file": "Q00173_ToTheIsleOfSouls/30094-03.html",
+   "quest": 173,
+   "text": "Magic Trader Gentler: I am pretty sure that I handed it to you. All you need to do is bring this Magic Sword Hilt to Trader Galladucci .",
+   "header": "Magic Trader Gentler",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30094-02.html": {
+   "file": "Q00032_AnObviousLie/30094-02.html",
+   "quest": 32,
+   "text": "Magic Trader Gentler: If you can find him for me, I'll give you a great reward. Actually, Miki the Cat gets lost easily, so I got him a Map, but he forgot it. Last I heard from him he was at the entrance to Devil's Isle . He went to get some other herbs, and hasn't been back. If you see him, give h…",
+   "header": "Magic Trader Gentler",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30094-06.html": {
+   "file": "Q00032_AnObviousLie/30094-06.html",
+   "quest": 32,
+   "text": "Trader Gentler: Thank you. Now I can make the medicine. First grind this herb into a fine powder. Then, I need to add some Spirit Ore powder. Rats! I don't have any Spirit Ore left. I'm sorry. Can you get 500 Spirit Ore for me? If I don't grind it in soon, the medicine will lose potency. Can you he…",
+   "header": "Trader Gentler",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30094-09.html": {
+   "file": "Q00032_AnObviousLie/30094-09.html",
+   "quest": 32,
+   "text": "Trader Gentler: What are you still doing here? You want payment? You should talk to Miki the Cat about your payment. It's not my responsibility! By the terms of the Contract, he's responsible for all additional costs due to any delay in delivery!",
+   "header": "Trader Gentler",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30094-12.html": {
+   "file": "Q00032_AnObviousLie/30094-12.html",
+   "quest": 32,
+   "text": "Magic Trader Gentler: I'm not lying! Call the guards, you still won't get any. I'll make you a very valuable ornament instead. Just find the raw materials. I'll need 1000 thread and 500 Suede . I have the rest. You can't find this just anywhere, it fetches a high price!",
+   "header": "Magic Trader Gentler",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30094-15.html": {
+   "file": "Q00032_AnObviousLie/30094-15.html",
+   "quest": 32,
+   "text": "Trader Gentler: Be patient! Still don't trust me? What kind of shape do you want? Please pick one.",
+   "header": "Trader Gentler",
+   "links": [
+    {
+     "text": "Cat's Ear",
+     "bypass": "Quest Q00032_AnObviousLie cat",
+     "kind": "quest-event",
+     "script": "Q00032_AnObviousLie",
+     "event": "cat",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/30094-16.html",
+     "toAll": [
+      "Q00032_AnObviousLie/30094-16.html",
+      "Q00032_AnObviousLie/30094-17.html"
+     ],
+     "effect": "end"
+    },
+    {
+     "text": "Raccoon's Ear",
+     "bypass": "Quest Q00032_AnObviousLie raccoon",
+     "kind": "quest-event",
+     "script": "Q00032_AnObviousLie",
+     "event": "raccoon",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/30094-16.html",
+     "toAll": [
+      "Q00032_AnObviousLie/30094-16.html",
+      "Q00032_AnObviousLie/30094-17.html"
+     ],
+     "effect": "end"
+    },
+    {
+     "text": "Rabbit's Ear",
+     "bypass": "Quest Q00032_AnObviousLie rabbit",
+     "kind": "quest-event",
+     "script": "Q00032_AnObviousLie",
+     "event": "rabbit",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/30094-16.html",
+     "toAll": [
+      "Q00032_AnObviousLie/30094-16.html",
+      "Q00032_AnObviousLie/30094-17.html"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00032_AnObviousLie/30094-16.html": {
+   "file": "Q00032_AnObviousLie/30094-16.html",
+   "quest": 32,
+   "text": "Trader Gentler: I made this accessory to redeem my debts. They have now been paid. Goodbye.",
+   "header": "Trader Gentler",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30094-17.html": {
+   "file": "Q00032_AnObviousLie/30094-17.html",
+   "quest": 32,
+   "text": "Trader Gentler: I'm not that gullible. This isn't 1000 threads and 500 Suedes!",
+   "header": "Trader Gentler",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30094-02.html": {
+   "file": "Q00045_ToTalkingIsland/30094-02.html",
+   "quest": 45,
+   "text": "Magic Trader Gentler: Everything is in order. Check it well, and be careful transporting this! Mr.Galladucci is very particular about the quality of his products. Please take this Magic Sword Hilt to Mr.Galladucci at his boutique shop .",
+   "header": "Magic Trader Gentler",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30094-03.html": {
+   "file": "Q00045_ToTalkingIsland/30094-03.html",
+   "quest": 45,
+   "text": "Magic Trader Gentler: If you don't have the order document, I can't give the item to you. You didn't drop it somewhere did you?",
+   "header": "Magic Trader Gentler",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-02.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-02.html",
+   "quest": 46,
+   "text": "Magic Trader Gentler: Everything is in order. Check it well, and be careful transporting this! Mr.Galladucci is very particular about the quality of his products. Please take this Magic Sword Hilt to Mr.Galladucci at his boutique shop .",
+   "header": "Magic Trader Gentler",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-03.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-03.html",
+   "quest": 46,
+   "text": "Magic Trader Gentler: If you don't have the order document, I can't give the item to you. You didn't drop it somewhere did you?",
+   "header": "Magic Trader Gentler",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30094-02.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30094-02.html",
+   "quest": 47,
+   "text": "Magic Trader Gentler: Everything is in order. Check it well, and be careful transporting this! Mr.Galladucci is very particular about the quality of his products. Please take this Magic Sword Hilt to Mr.Galladucci at his boutique shop .",
+   "header": "Magic Trader Gentler",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30094-03.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30094-03.html",
+   "quest": 47,
+   "text": "Magic Trader Gentler: If you don't have the order document, I can't give the item to you. You didn't drop it somewhere did you?",
+   "header": "Magic Trader Gentler",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30094-02.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30094-02.html",
+   "quest": 48,
+   "text": "Magic Trader Gentler: Everything is in order. Check it well, and be careful transporting this! Mr.Galladucci is very particular about the quality of his products. Please take this Magic Sword Hilt to Mr.Galladucci at his boutique shop .",
+   "header": "Magic Trader Gentler",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30094-03.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30094-03.html",
+   "quest": 48,
+   "text": "Magic Trader Gentler: If you don't have the order document, I can't give the item to you. You didn't drop it somewhere did you?",
+   "header": "Magic Trader Gentler",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30094-02.html": {
+   "file": "Q00049_TheRoadHome/30094-02.html",
+   "quest": 49,
+   "text": "Magic Trader Gentler: Everything is in order. Check it well, and be careful transporting this! Mr.Galladucci is very particular about the quality of his products. Please take this Magic Sword Hilt to Mr.Galladucci at his boutique shop .",
+   "header": "Magic Trader Gentler",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30094-03.html": {
+   "file": "Q00049_TheRoadHome/30094-03.html",
+   "quest": 49,
+   "text": "Magic Trader Gentler: If you don't have the order document, I can't give the item to you. You didn't drop it somewhere did you?",
+   "header": "Magic Trader Gentler",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00173_ToTheIsleOfSouls/30094-02.html": {
+   "file": "Q00173_ToTheIsleOfSouls/30094-02.html",
+   "quest": 173,
+   "text": "Magic Trader Gentler: Hm, yes. It's the right one. Well, check your merchandise. They are precious so be cautious when you take them with you. You should take extra care when you transport them. Galladucci is so meticulous about his merchandise. All you need to do is bring this Magic Sword Hilt to …",
+   "header": "Magic Trader Gentler",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[An Obvious Lie (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00032_AnObviousLie",
+     "kind": "quest",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/30094-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[To Talking Island (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00045_ToTalkingIsland",
+     "kind": "quest",
+     "quest": 45,
+     "to": "Q00045_ToTalkingIsland/30094-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Once More In the Arms of the Mother Tree (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00046_OnceMoreInTheArmsOfTheMotherTree",
+     "kind": "quest",
+     "quest": 46,
+     "to": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30094-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Into the Dark Elven Forest (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00047_IntoTheDarkElvenForest",
+     "kind": "quest",
+     "quest": 47,
+     "to": "Q00047_IntoTheDarkElvenForest/30094-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[To the Immortal Plateau (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00048_ToTheImmortalPlateau",
+     "kind": "quest",
+     "quest": 48,
+     "to": "Q00048_ToTheImmortalPlateau/30094-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Road Home (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00049_TheRoadHome",
+     "kind": "quest",
+     "quest": 49,
+     "to": "Q00049_TheRoadHome/30094-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[To the Isle of Souls (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00173_ToTheIsleOfSouls",
+     "kind": "quest",
+     "quest": 173,
+     "to": "Q00173_ToTheIsleOfSouls/30094-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "Q00045_ToTalkingIsland/30090-02.html": {
+   "file": "Q00045_ToTalkingIsland/30090-02.html",
+   "quest": 45,
+   "text": "Jeweler Sandra: I have prepared everything for you. It's mostly the magicians of the Ivory Tower at Oren Castle that are ordering the Gemstone Powder , so it's quite expensive. Watch out for pickpockets in the crowds! Deliver it to Trader Galladucci quickly.",
+   "header": "Jeweler Sandra",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30116-02.html": {
+   "file": "Q00045_ToTalkingIsland/30116-02.html",
+   "quest": 45,
+   "text": "Priest Dustin: Ah, you're from the boutique shop! Excellent timing, I just finished Mr. Galladucci's order! That curse was very powerful, and I had to ask several priests to help me remove it! I can't believe he was able to hold onto that thing the way it was! Well, now it's been completely purifie…",
+   "header": "Priest Dustin",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30090-02.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30090-02.html",
+   "quest": 46,
+   "text": "Jeweler Sandra: I have prepared everything for you. It's mostly the magicians of the Ivory Tower at Oren Castle that are ordering the Gemstone Powder , so it's quite expensive. Watch out for pickpockets in the crowds! Deliver it to Trader Galladucci quickly.",
+   "header": "Jeweler Sandra",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30116-02.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30116-02.html",
+   "quest": 46,
+   "text": "Priest Dustin: Ah, you're from the boutique shop! Excellent timing, I just finished Mr. Galladucci's order! That curse was very powerful, and I had to ask several priests to help me remove it! I can't believe he was able to hold onto that thing the way it was! Well, now it's been completely purifie…",
+   "header": "Priest Dustin",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30090-02.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30090-02.html",
+   "quest": 47,
+   "text": "Jeweler Sandra: I have prepared everything for you. It's mostly the magicians of the Ivory Tower at Oren Castle that are ordering the Gemstone Powder , so it's quite expensive. Watch out for pickpockets in the crowds! Deliver it to Trader Galladucci quickly.",
+   "header": "Jeweler Sandra",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30116-02.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30116-02.html",
+   "quest": 47,
+   "text": "Priest Dustin: Ah, you're from the boutique shop! Excellent timing, I just finished Mr. Galladucci's order! That curse was very powerful, and I had to ask several priests to help me remove it! I can't believe he was able to hold onto that thing the way it was! Well, now it's been completely purifie…",
+   "header": "Priest Dustin",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30090-02.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30090-02.html",
+   "quest": 48,
+   "text": "Jeweler Sandra: I have prepared everything for you. It's mostly the magicians of the Ivory Tower at Oren Castle that are ordering the Gemstone Powder , so it's quite expensive. Watch out for pickpockets in the crowds! Deliver it to Trader Galladucci quickly.",
+   "header": "Jeweler Sandra",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30116-02.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30116-02.html",
+   "quest": 48,
+   "text": "Priest Dustin: Ah, you're from the boutique shop! Excellent timing, I just finished Mr. Galladucci's order! That curse was very powerful, and I had to ask several priests to help me remove it! I can't believe he was able to hold onto that thing the way it was! Well, now it's been completely purifie…",
+   "header": "Priest Dustin",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30090-02.html": {
+   "file": "Q00049_TheRoadHome/30090-02.html",
+   "quest": 49,
+   "text": "Jeweler Sandra: I have prepared everything for you. It's mostly the magicians of the Ivory Tower at Oren Castle that are ordering the Gemstone Powder , so it's quite expensive. Watch out for pickpockets in the crowds! Deliver it to Trader Galladucci quickly.",
+   "header": "Jeweler Sandra",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30116-02.html": {
+   "file": "Q00049_TheRoadHome/30116-02.html",
+   "quest": 49,
+   "text": "Priest Dustin: Ah, you're from the boutique shop! Excellent timing, I just finished Mr. Galladucci's order! That curse was very powerful, and I had to ask several priests to help me remove it! I can't believe he was able to hold onto that thing the way it was! Well, now it's been completely purifie…",
+   "header": "Priest Dustin",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Try on Mystic equipment. | Trade equipment for Wizards. | Trade Common equipment for Wizards."
+ ],
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund.",
+   "n": 3,
+   "inDatapack": true,
+   "from": [
+    "Magic Trader Gentler:Welcome, young traveler. You look tired"
+   ],
+   "to": [
+    "Magic Trader Gentler:What would you like to purchase today?T"
+   ]
+  },
+  {
+   "text": "Quest.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Magic Trader Gentler:Welcome, young traveler. You look tired"
+   ],
+   "to": [
+    "Magic Trader Gentler:Welcome. What can I do for you?Ah yes, "
+   ]
+  },
+  {
+   "text": "\"Should I look for him?\"",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Magic Trader Gentler:Welcome. What can I do for you?Ah yes, "
+   ],
+   "to": [
+    "Magic Trader Gentler:If you can find him for me, I'll give y"
+   ]
+  },
+  {
+   "text": "Try on Mystic equipment.",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Magic Trader Gentler:Welcome, young traveler. You look tired"
+   ],
+   "to": []
+  },
+  {
+   "text": "Trade equipment for Wizards.",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Magic Trader Gentler:What would you like to purchase today?T"
+   ],
+   "to": []
+  },
+  {
+   "text": "Trade Common equipment for Wizards.",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Magic Trader Gentler:What would you like to purchase today?T"
+   ],
+   "to": []
+  }
+ ]
+}

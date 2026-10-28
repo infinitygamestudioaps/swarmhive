@@ -1,0 +1,1710 @@
+{
+ "npcId": 32041,
+ "name": "Yumi",
+ "title": "Collector",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.315Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32041.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "114": {
+   "name": "Resurrection of an Old Manager",
+   "listText": [
+    "[Resurrection of an Old Manager]",
+    "[Resurrection of an Old Manager (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-02.htm",
+     "when": "state CREATED; player.hasQuestCompleted(Q00121_PavelTheGiant.class.getSimpleName()); (player.getLevel() >= 70)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-03.htm",
+     "when": "state CREATED; player.hasQuestCompleted(Q00121_PavelTheGiant.class.getSimpleName()); NOT (player.getLevel() >= 70)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-01.htm",
+     "when": "state CREATED; !player.hasQuestCompleted(Q00121_PavelTheGiant.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-08.html",
+     "when": "state STARTED; cond 1; (talk == 1)",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-04.htm",
+     "when": "state STARTED; cond 1; NOT (talk == 1)",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "start"
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-10.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-11.html",
+     "when": "state STARTED; cond 3|4|5; switch(talk) case 0",
+     "state": "STARTED",
+     "cond": [
+      3,
+      4,
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-16.html",
+     "when": "state STARTED; cond 3|4|5; switch(talk) case 1",
+     "state": "STARTED",
+     "cond": [
+      3,
+      4,
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-24.html",
+     "when": "state STARTED; cond 3|4|5; switch(talk) case 2",
+     "state": "STARTED",
+     "cond": [
+      3,
+      4,
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-27.html",
+     "when": "state STARTED; cond 6|7|8|10|11|13|14|15",
+     "state": "STARTED",
+     "cond": [
+      6,
+      7,
+      8,
+      10,
+      11,
+      13,
+      14,
+      15
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-28.html",
+     "when": "state STARTED; cond 9|12|16",
+     "state": "STARTED",
+     "cond": [
+      9,
+      12,
+      16
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-32.html",
+     "when": "state STARTED; cond 17|18",
+     "state": "STARTED",
+     "cond": [
+      17,
+      18
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-34z.html",
+     "when": "state STARTED; cond 19; (talk == 1)",
+     "state": "STARTED",
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-33.html",
+     "when": "state STARTED; cond 19; NOT (talk == 1)",
+     "state": "STARTED",
+     "cond": [
+      19
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-39z.html",
+     "when": "state STARTED; cond 20",
+     "state": "STARTED",
+     "cond": [
+      20
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-40z.html",
+     "when": "state STARTED; cond 21",
+     "state": "STARTED",
+     "cond": [
+      21
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-41.html",
+     "when": "state STARTED; cond 22|25|26",
+     "state": "STARTED",
+     "cond": [
+      22,
+      25,
+      26
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32041-42.html",
+     "when": "state STARTED; cond 27",
+     "state": "STARTED",
+     "cond": [
+      27
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "120": {
+   "name": "Pavel's Last Research",
+   "listText": [
+    "[Pavel's Last Research]",
+    "[Pavel's Last Research (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00120_PavelsLastResearch/32041-01.html",
+     "when": "memo 2; switch(qs.getMemoStateEx(0)) case 0",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32041-04.html",
+     "when": "memo 2; switch(qs.getMemoStateEx(0)) case 1",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32041-06.html",
+     "when": "memo 2; switch(qs.getMemoStateEx(0)) case 2",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32041-07.html",
+     "when": "memo 5; qs.getMemoStateEx(0) > 0",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32041-08.html",
+     "when": "memo 5; !qs.getMemoStateEx(0) > 0",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32041-14.html",
+     "when": "memo 6",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32041-15.html",
+     "when": "memo 14; has items 8058",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32041-19.html",
+     "when": "memo 15; has items 8060,8059",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32041-18.html",
+     "when": "memo 15; has items 8060,8058; lacks items 8059",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32041-27.html",
+     "when": "memo 16; has items 8059",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32041-28.html",
+     "when": "memo 26; has items 8292",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "121": {
+   "name": "Pavel the Giant",
+   "listText": [
+    "[Pavel the Giant]",
+    "[Pavel the Giant (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00121_PavelTheGiant/32041-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32041.htm": {
+   "file": "default/32041.htm",
+   "quest": null,
+   "text": "Collector Yumi: This area is know as the Ruins of Pavel. It is one of the research labs the Giants established in the distant past. I've come here to research the Starstones that are being produced in this area. The roaming golems make it very risky to go outside of the barracks, however. In additi…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-02.htm": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-02.htm",
+   "quest": 114,
+   "text": "Collector Yumi: Hmmm... very well. I'll trust you, which is more than I can say of most people. Can you keep a secret? You must never reveal what I'm about to tell you: the legend of the shame of the Black Anvil Guild. This tale is really the shame of all Dwarves. I can't tell you anything at all u…",
+   "header": "Collector Yumi",
+   "when": [
+    "state CREATED; player.hasQuestCompleted(Q00121_PavelTheGiant.class.getSimpleName()); (player.getLevel() >= 70)"
+   ],
+   "links": [
+    {
+     "text": "\"I promise.\"",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-04.htm",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-04.htm",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-03.htm": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-03.htm",
+   "quest": 114,
+   "text": "Collector Yumi: What? Newyear sent you? I wonder what he was thinking... I told him I needed the best of the best. You're good, but not THAT good. Not yet anyways. (Only characters with level 70 and above, and who cleared Pavel the Giant quest are permitted to take on this quest.)",
+   "header": "Collector Yumi",
+   "when": [
+    "state CREATED; player.hasQuestCompleted(Q00121_PavelTheGiant.class.getSimpleName()); NOT (player.getLevel() >= 70)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-01.htm": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-01.htm",
+   "quest": 114,
+   "text": "Collector Yumi: What brings you HERE of all places? This isn't exactly a summer resort... Oh, I see... You want Starstones? Sorry, but the Golems have made that almost impossible. No offense, but you'd get squished. (Only characters with level 70 and above, and who cleared Pavel the Giant quest are…",
+   "header": "Collector Yumi",
+   "when": [
+    "state CREATED; !player.hasQuestCompleted(Q00121_PavelTheGiant.class.getSimpleName())"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-08.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-08.html",
+   "quest": 114,
+   "text": "Collector Yumi: Ah, that's right. I was talking about the incident at the lab. There was a great explosion in the north wing of the lab. After that, everything was in chaos. A gigantic golem suddenly appeared out of nowhere, forcing us to flee. By the time we returned, all of the golems we had made…",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 1; (talk == 1)"
+   ],
+   "links": [
+    {
+     "text": "\"So, what do I have to do?\"",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-09.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-09.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-09.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-04.htm": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-04.htm",
+   "quest": 114,
+   "text": "Collector Yumi: Very well. You've given me your word. Originally, this was a very important place for the Dwarven race. The Starstones continue to be harvested in the north, and where the Archaic Laboratory remains. Among the dwarves, the Gray Pillar is in charge of construction, the Black Anvil is…",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 1; NOT (talk == 1)"
+   ],
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"And?\"",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-05.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-05.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-05.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-10.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-10.html",
+   "quest": 114,
+   "text": "Collector Yumi: Please go and investigate the building to the south. If you find somebody there, question them closely.",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-11.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-11.html",
+   "quest": 114,
+   "text": "Collector Yumi: It's good to see you again! What do you know of the building to the south? Did you find something?",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 3|4|5; switch(talk) case 0"
+   ],
+   "links": [
+    {
+     "text": "Tell her what happened.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-12.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-12.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-12.html",
+     "toAll": [
+      "Q00114_ResurrectionOfAnOldManager/32041-12.html",
+      "Q00114_ResurrectionOfAnOldManager/32041-13.html",
+      "Q00114_ResurrectionOfAnOldManager/32041-14.html"
+     ]
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-16.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-16.html",
+   "quest": 114,
+   "text": "Collector Yumi: Dr. Chaos? Ah, yes. He was one of the two greatest masters in the Black Anvil Guild... until he was expelled for his involvement in a, um, questionable incident.",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 3|4|5; switch(talk) case 1"
+   ],
+   "links": [
+    {
+     "text": "Ask about the questionable incident.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-17.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-17.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-17.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-24.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-24.html",
+   "quest": 114,
+   "text": "Collector Yumi: Where was I? Oh, yes. Dr. Chaos ran away with the stolen blueprint. Master Toma, the elder chief at the time, took full responsibility for the failure of Big One and resigned his position. The elder committee issued an order of expulsion against Master Chaos for his misdeeds, but he…",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 3|4|5; switch(talk) case 2"
+   ],
+   "links": [
+    {
+     "text": "Ask why Dr. Chaos came here.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-25.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-25.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-25.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-27.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-27.html",
+   "quest": 114,
+   "text": "Collector Yumi: Did you encounter Wendy? No? Well, your task is then not yet finished! Go ask her how Dr. Chaos controlled his golems, and see if she knows anything about her origins.",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 6|7|8|10|11|13|14|15"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-28.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-28.html",
+   "quest": 114,
+   "text": "Collector Yumi: Excellent! So you spoke with Wendy, did you? Did you find out how Dr. Chaos controls so many golems? Did you learn how Wendy came to exist? I am bursting to hear your news!",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 9|12|16"
+   ],
+   "links": [
+    {
+     "text": "Talk about the relationship between Wendy and Toma.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-29.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-29.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-29.html"
+    },
+    {
+     "text": "Talk about controlling the golems.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-30.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-30.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-30.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-32.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-32.html",
+   "quest": 114,
+   "text": "Collector Yumi: You're back, but you haven't found what you're looking for? I can't help you. You have the electric wave detector, so go locate whatever it is reacting to and determine the exact nature of the object - or creature - causing the readings.",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 17|18"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-34z.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-34z.html",
+   "quest": 114,
+   "text": "Collector Yumi: This detector recorded a reading so high that it exceeded the meter's maximum level. Extraordinary! What made it react so strongly?",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 19; (talk == 1)"
+   ],
+   "links": [
+    {
+     "text": "Tell her about the stack of stones.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-35.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-35.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-35.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-33.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-33.html",
+   "quest": 114,
+   "text": "Collector Yumi: Did the detector work? Did you find the being?",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 19; NOT (talk == 1)"
+   ],
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return the detector.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-34.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-34.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-34.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-39z.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-39z.html",
+   "quest": 114,
+   "text": "Collector Yumi: Thank you for your help in this matter. Go speak with Wendy, and see if she will give us the Starstones we need.",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-40z.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-40z.html",
+   "quest": 114,
+   "text": "Collector Yumi: Hmmm... Then I will ask the blacksmith in the village. You've met Head Blacksmith Newyear already, haven't you? I will write you a letter to take to Newyear. He will give you some Starstones; bring them back to me.",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 21"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-41.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-41.html",
+   "quest": 114,
+   "text": "Collector Yumi: You came back with the Starstones! Excellent. Take them and place them around the stack of stones. If the mechanism has any ability to restore itself from an energy source, it should then return to life. I think we can learn much from it, if and when it does.",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 22|25|26"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-42.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-42.html",
+   "quest": 114,
+   "text": "Collector Yumi: Take these Starstones and put them around the stack of stones. If I'm right and it is a golem, it should detect the available energy and restore itself. If it does, I think we can learn a great deal from it.",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED; cond 27"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-01.html": {
+   "file": "Q00120_PavelsLastResearch/32041-01.html",
+   "quest": 120,
+   "text": "Collector Yumi: So, did the Starstones do the trick? Did the golem come to life?",
+   "header": "Collector Yumi",
+   "when": [
+    "memo 2; switch(qs.getMemoStateEx(0)) case 0"
+   ],
+   "links": [
+    {
+     "text": "Tell her about the conversation with Atlanta.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-02.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-02.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-02.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-04.html": {
+   "file": "Q00120_PavelsLastResearch/32041-04.html",
+   "quest": 120,
+   "text": "Collector Yumi: Yes, I think questioning Wendy is a promising place to begin. But then... no, never mind, I'm just guessing. Go see Wendy.",
+   "header": "Collector Yumi",
+   "when": [
+    "memo 2; switch(qs.getMemoStateEx(0)) case 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-06.html": {
+   "file": "Q00120_PavelsLastResearch/32041-06.html",
+   "quest": 120,
+   "text": "Collector Yumi: Go, now, and seek out Wendy. We need information about Atlanta, and it may be that she knows something.",
+   "header": "Collector Yumi",
+   "when": [
+    "memo 2; switch(qs.getMemoStateEx(0)) case 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-07.html": {
+   "file": "Q00120_PavelsLastResearch/32041-07.html",
+   "quest": 120,
+   "text": "Collector Yumi: Enter! Refresh yourselves! Now, what has happened thus far? What have you learned?",
+   "header": "Collector Yumi",
+   "when": [
+    "memo 5; qs.getMemoStateEx(0) > 0"
+   ],
+   "links": [
+    {
+     "text": "Tell her everything.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-09.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-09.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-09.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-08.html": {
+   "file": "Q00120_PavelsLastResearch/32041-08.html",
+   "quest": 120,
+   "text": "Collector Yumi: You have been away for some time! I am relieved to see you again. What happened? Did the Starstones work as we had hoped? What did you learn?",
+   "header": "Collector Yumi",
+   "when": [
+    "memo 5; !qs.getMemoStateEx(0) > 0"
+   ],
+   "links": [
+    {
+     "text": "Tell her everything you've learned so far.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-09.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-09.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-09.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-14.html": {
+   "file": "Q00120_PavelsLastResearch/32041-14.html",
+   "quest": 120,
+   "text": "Collector Yumi: Go, now, and seek out Wendy. Find out as much as you can from her about Dr. Chaos' past and present actions. We must put a stop to his evil.",
+   "header": "Collector Yumi",
+   "when": [
+    "memo 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-15.html": {
+   "file": "Q00120_PavelsLastResearch/32041-15.html",
+   "quest": 120,
+   "text": "Collector Yumi: Ah, enter! I see your travels have taken you to many places! What have you learned?",
+   "header": "Collector Yumi",
+   "when": [
+    "memo 14; has items 8058"
+   ],
+   "links": [
+    {
+     "text": "Tell her briefly.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-16.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-16.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-16.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-19.html": {
+   "file": "Q00120_PavelsLastResearch/32041-19.html",
+   "quest": 120,
+   "text": "Collector Yumi: Have you read the book?",
+   "header": "Collector Yumi",
+   "when": [
+    "memo 15; has items 8060,8059"
+   ],
+   "links": [
+    {
+     "text": "\"I have.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-20.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-20.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-20.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-18.html": {
+   "file": "Q00120_PavelsLastResearch/32041-18.html",
+   "quest": 120,
+   "text": "Collector Yumi: I gave you the key already, didn't I? Good, good. Use it and I am sure it will open the book. Come back here after you have finished reading it.",
+   "header": "Collector Yumi",
+   "when": [
+    "memo 15; has items 8060,8058; lacks items 8059"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-27.html": {
+   "file": "Q00120_PavelsLastResearch/32041-27.html",
+   "quest": 120,
+   "text": "Collector Yumi: Go, then, and investigate the east wing of the lab. You recall Atlanta's directions for going there, yes?",
+   "header": "Collector Yumi",
+   "when": [
+    "memo 16; has items 8059"
+   ],
+   "links": [
+    {
+     "text": "\"I remember.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-24.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-24.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-24.html"
+    },
+    {
+     "text": "\"I don't remember.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-26.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-26.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-26.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-28.html": {
+   "file": "Q00120_PavelsLastResearch/32041-28.html",
+   "quest": 120,
+   "text": "Collector Yumi: Again, well met! It seems the matter is almost resolved. Did you find out more about Pavel's Research? Did you put a stop to it?",
+   "header": "Collector Yumi",
+   "when": [
+    "memo 26; has items 8292"
+   ],
+   "links": [
+    {
+     "text": "\"I did.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-29.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-29.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-29.html"
+    }
+   ]
+  },
+  "Q00121_PavelTheGiant/32041-01.html": {
+   "file": "Q00121_PavelTheGiant/32041-01.html",
+   "quest": 121,
+   "text": "Collector Yumi: What brings you here? Ah, Newyear sent you, did he? I'm glad you came. I've been waiting for you. How is the old boy? Surely he could have sent some food with you. Would that have been too much to expect of him? Honestly. Well, no matter. Let's discuss business.",
+   "header": "Collector Yumi",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Ask what needs to be done.",
+     "bypass": "Quest Q00121_PavelTheGiant 32041-02.html",
+     "kind": "quest-event",
+     "script": "Q00121_PavelTheGiant",
+     "event": "32041-02.html",
+     "quest": 121,
+     "to": "Q00121_PavelTheGiant/32041-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-05.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-05.html",
+   "quest": 114,
+   "text": "Collector Yumi: Everything went smoothly for a time. The Bronze Key Guild opened the door that linked to Pavel's lab and dug up the excavator Pavel once used. Luckily, it was designed based on ancient Dwarven technology, so the Black Anvil Guild produced an Excavator Golem based on the earlier desi…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Ask about the great explosion",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-06.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-06.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-06.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-06.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-06.html",
+   "quest": 114,
+   "text": "Collector Yumi: The explosion came as a surprise. Like a comet shooting across the sky, it didn't seem to have a reason - it just happened. Maybe someone accidentally touched a machine in the lab. That was a popular theory at the time. On further inspection, however, the explosion seemed increasing…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Ask about the blueprint robbery.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-07.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-07.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-07.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-07.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-07.html",
+   "quest": 114,
+   "text": "Collector Yumi: Hmmm. Um. You know, I don't think it's the right time for you to learn that. I'm sure you'll learn about it eventually. Let's get back to the subject. Where was I?",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "\"The great explosion at the lab.\"",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-08.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-08.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-08.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-09.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-09.html",
+   "quest": 114,
+   "text": "Collector Yumi: I'm here to investigate why the golems attacked us and how the explosion happened. Sadly, I can't even go outside and walk around. Speaking of outside, I heard there's a strange building in the south. Do you think you could investigate? If anyone is there, then I want you to get som…",
+   "header": "Collector Yumi",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-12.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-12.html",
+   "quest": 114,
+   "text": "Collector Yumi: So it really was Dr. Chaos' lab. Fascinating... It's good that you've made friends with Wendy. We may need to ask her more questions in the future.",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Ask about Dr. Chaos.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-15.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-15.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-15.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-13.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-13.html",
+   "quest": 114,
+   "text": "Collector Yumi: Ah, Dr. Chaos... I thought it might be his lab. Unfortunately, I think we're at a dead end here. The golem Wendy almost certainly knows more than she's saying, but she's being cautious and defensive. If only we could get her to talk...",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Ask about Dr. Chaos.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-15.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-15.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-15.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-14.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-14.html",
+   "quest": 114,
+   "text": "Collector Yumi: What? You told her you Raffortysented the Dwarf Guild? Oh, dear. That was a mistake... Well, it's over and done with; we can't correct it now. But back to what you were saying about Dr. Chaos' lab - you say that incident was Dr. Chaos' fault?",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Ask about Dr. Chaos.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-15.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-15.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-15.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-15.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-15.html",
+   "quest": 114,
+   "text": "Collector Yumi: You ask about Dr. Chaos? He was one of the two greatest masters in the Black Anvil Guild... until he was expelled for his involvement in a, um, questionable incident.",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Ask about the questionable incident.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-17.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-17.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-17.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-17.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-17.html",
+   "quest": 114,
+   "text": "Collector Yumi: I've already alluded to the incident in question. It's the blueprint robbery . To tell Dr. Chaos' story, I need to first tell you about the robbery. Sit down; this will take a while.",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Sit down.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-18.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-18.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-18.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-18.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-18.html",
+   "quest": 114,
+   "text": "Collector Yumi: Master Chaos was the tragic genius of the Black Anvil Guild. He had an amazing gift for making golems, even as a young boy. Such a prodigy! He was the student of Master Tarziph, the famous creator of the Siege Golems. But he never received the recognition his genius probably deserve…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Ask why not.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-19.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-19.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-19.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-19.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-19.html",
+   "quest": 114,
+   "text": "Collector Yumi: He was overshadowed by Master Toma, the teleportation scientist. Master Chaos' work was brilliant in its way, but merely built upon the work others had done; Master Toma's work was a real breakthrough. Toma developed the theory behind the instant teleportation device. Nobody else un…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-20.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-20.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-20.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-20.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-20.html",
+   "quest": 114,
+   "text": "Collector Yumi: Unfortunately, Master Toma's theory was complex and subtle, not something to be understood in a hurry by even a very clever engineer. It was not merely an industrial process; it was a theory of space itself, of force fields, of physics that few could ever hope to understand. More of…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Keep listening",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-21.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-21.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-21.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-21.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-21.html",
+   "quest": 114,
+   "text": "Collector Yumi: Master Toma needed one thing for his teleportation device - a manner of collecting and converting the energy of several Starstones. It would require a very large and capable golem to accomplish this conversion. Master Chaos offered to design such a golem, and Master Toma accepted hi…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-22.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-22.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-22.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-22.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-22.html",
+   "quest": 114,
+   "text": "Collector Yumi: That is the origin of the Golem known as \"Big One.\" If it had been completed, it would have been the most revolutionary innovation in its field since Master Tarziph's Siege Golem. But when the blueprint of Big One was completed, Master Chaos stole it and ran away with it.",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Ask why.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-23.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-23.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-23.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-23.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-23.html",
+   "quest": 114,
+   "text": "Collector Yumi: Nobody knows why he ran away, not really. Master Toma, the elder chief at the time, took full responsibility for the failure of Big One and resigned his position. The elder committee issued an order of expulsion against Master Chaos for his misdeed, but he had disappeared. Nobody sa…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Ask why Dr. Chaos came here.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-25.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-25.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-25.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-25.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-25.html",
+   "quest": 114,
+   "text": "Collector Yumi: For a fact, I don't know why. That's something I need your help to find out. Pardon me for a moment while I collect my thoughts.",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Wait patiently.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-26.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-26.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-26.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-26.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-26.html",
+   "quest": 114,
+   "text": "Collector Yumi: I think you should see Wendy again. We are plagued with golems in these parts lately. If they are the Horrifying Golem Army , then I want to know how to control them. From what you have said, I gather that Wendy has assumed the form of a Gatekeeper. If so, then she must have been ma…",
+   "header": "Collector Yumi",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-29.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-29.html",
+   "quest": 114,
+   "text": "Collector Yumi: Ah, I see. We understand little of the relationship, if any, between Wendy and Toma. Then again, what creation knows much about its creator? We know little enough of Mapre, so why should we expect more from Wendy?",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Talk about controlling golems.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-30.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-30.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-30.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-30.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-30.html",
+   "quest": 114,
+   "text": "Collector Yumi: So there's a...being that controls golems. Interesting. I'm not sure how Dr. Chaos did it, but this being is almost certainly using an electric wave to control the golems. We should be looking for it; that's how we'll find out more.",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "\"I think so too.\"",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-31.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-31.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-31.html",
+     "effect": "cond:17"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-31.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-31.html",
+   "quest": 114,
+   "text": "Collector Yumi: Very well. I had hypothesized before that there must be some single will controlling all the golems. Nothing else would explain their degree of coordination and their singleness of purpose. To find this being, we can track it from the signals it sends to control the golems. Take thi…",
+   "header": "Collector Yumi",
+   "sets": {
+    "cond": "17"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-34.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-34.html",
+   "quest": 114,
+   "text": "Collector Yumi: My word! The detector pegged out at its maximum level. What did you find that made it react so strongly?",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Tell her about the stack of stones.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-35.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-35.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-35.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-35.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-35.html",
+   "quest": 114,
+   "text": "Collector Yumi: What? It reacted to a stack of stones? How strange. Wait a minute. Stones, stones... And the symbol of the Titans... dear heavens, no!",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Ask what's the matter?",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-36.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-36.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-36.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-36.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-36.html",
+   "quest": 114,
+   "text": "Collector Yumi: I just thought of something. That stack of stones you saw... it sounds like the remains of a type of golem the Titans used to employ as servants. Given how many years have passed since its creation, it may have lost its ability to control the force field that maintains its body. If …",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "\"Why don't we ask Wendy?\"",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-38.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-38.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-38.html",
+     "toAll": [
+      "Q00114_ResurrectionOfAnOldManager/32041-38.html",
+      "Q00114_ResurrectionOfAnOldManager/32041-37.html"
+     ]
+    },
+    {
+     "text": "\"I really don't have any particular idea about it.\"",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-40.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-40.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-40.html",
+     "effect": "cond:21"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-37.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-37.html",
+   "quest": 114,
+   "text": "Collector Yumi: I'm not sure that's a good idea. Wendy doesn't seem to trust us. Perhaps it would be better to ask the village folk for what we need. What do you think?",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "\"That sounds reasonable.\"",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-40.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-40.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-40.html",
+     "effect": "cond:21"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-38.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-38.html",
+   "quest": 114,
+   "text": "Collector Yumi: That sounds like a good idea. May I ask you for a favor?",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Agree to the request.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32041-39.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32041-39.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-39.html",
+     "effect": "cond:20"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-39.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-39.html",
+   "quest": 114,
+   "text": "Collector Yumi: Thank you for your help with this matter. Go to Wendy and bring back any Starstones she is willing to give us.",
+   "header": "Collector Yumi",
+   "sets": {
+    "cond": "20"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32041-40.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32041-40.html",
+   "quest": 114,
+   "text": "Collector Yumi: Let it be so. I will ask the blacksmith in the village. You have met the Head Blacksmith Newyear, yes? I will write you a letter to take to Newyear. He will give you some Starstones; bring them back to me.",
+   "header": "Collector Yumi",
+   "sets": {
+    "cond": "21"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-02.html": {
+   "file": "Q00120_PavelsLastResearch/32041-02.html",
+   "quest": 120,
+   "text": "Collector Yumi: Ah, my prediction was right! It was probably alive when its master was here in this lab. You mentioned a something about a child. Do you have any idea who that might have been?",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "\"Nothing comes to mind.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-03.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-03.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-03.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "\"I think it might be Wendy.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-05.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-05.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-05.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-03.html": {
+   "file": "Q00120_PavelsLastResearch/32041-03.html",
+   "quest": 120,
+   "text": "Collector Yumi: Alas, nothing occurs to me either. However, it's almost certain that the child is still alive somewhere, and that the child is in contact with the golem via electromagnetic waves. This would imply that the child is also a golem. I wonder if it's Wendy? That would be worth investigat…",
+   "header": "Collector Yumi",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-05.html": {
+   "file": "Q00120_PavelsLastResearch/32041-05.html",
+   "quest": 120,
+   "text": "Collector Yumi: You think so, too, eh? Very well. Go find Wendy and ask her about Atlanta. If we're lucky, maybe she'll tell you something.",
+   "header": "Collector Yumi",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-09.html": {
+   "file": "Q00120_PavelsLastResearch/32041-09.html",
+   "quest": 120,
+   "text": "Collector Yumi: Interesting. Wendy and Atlanta's memories, taken together, form parts of a coherent picture. I think they fell asleep at the same time and were reawakened by Dr. Chaos.",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Ask about Dr. Chaos.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-10.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-10.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-10.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-10.html": {
+   "file": "Q00120_PavelsLastResearch/32041-10.html",
+   "quest": 120,
+   "text": "Collector Yumi: I think I told you about the explosion near the ruins. We suspected Dr. Chaos of causing it. He resided here for a long time and was running several experiments, and he knew more than enough to have done it... as the Guild investigation later revealed.",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Ask if Pavel's study was already in progress.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-11.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-11.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-11.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-11.html": {
+   "file": "Q00120_PavelsLastResearch/32041-11.html",
+   "quest": 120,
+   "text": "Collector Yumi: Yes, it was, in fact. However, it wasn't the focus of our efforts. Most of the Dwarves were interested in the strip mines. Only a few members of the Bronze Key Guild were investigating the research lab. The rest of us were working in support of the Gray Pillar Guild, who needed us t…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Keep listening",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-12.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-12.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-12.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-12.html": {
+   "file": "Q00120_PavelsLastResearch/32041-12.html",
+   "quest": 120,
+   "text": "Collector Yumi: And then came the explosion. I think the Bronze Key Guild was getting too close to finding Dr. Chaos. We were investigating ways to enter the lab building, and it would have been only a matter of time before we found him. So he set off the explosion just as we were about to gain ent…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "\"Guardians?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-13.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-13.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-13.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-13.html": {
+   "file": "Q00120_PavelsLastResearch/32041-13.html",
+   "quest": 120,
+   "text": "Collector Yumi: The Guardian Golem was a huge and powerful being. Our Warsmiths fought valiantly against it, but we were finally forced to retreat. By the time we regrouped and returned, all the working golems were already under Dr. Chaos' control. We again had to retreat. I have remained here ever…",
+   "header": "Collector Yumi",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-16.html": {
+   "file": "Q00120_PavelsLastResearch/32041-16.html",
+   "quest": 120,
+   "text": "Collector Yumi: Oh, my. There is more to this matter than I had suspected. How fortunate that I found adventurers with your experience to investigate this! Had I been lucky enough to make it as far as the Weathermaster, I would have stood there dumbfounded, I fear. I see you have a book - is it the…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Show her the book.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-17.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-17.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-17.html",
+     "effect": "cond:16"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-17.html": {
+   "file": "Q00120_PavelsLastResearch/32041-17.html",
+   "quest": 120,
+   "text": "Collector Yumi: Hum! I think this is... hm... I recall finding a strange key in the lab building. It looks as if it would fit this lock. Should we get the key and try it?",
+   "header": "Collector Yumi",
+   "sets": {
+    "cond": "16"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-20.html": {
+   "file": "Q00120_PavelsLastResearch/32041-20.html",
+   "quest": 120,
+   "text": "Collector Yumi: I think there is a password somewhere in that book. Did you find mention of anything like that? If it helps, I recall that the north wing was named \"A.T.L.\".",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "PAVEL",
+     "bypass": "Quest Q00120_PavelsLastResearch pavel",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "pavel",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-21.html"
+    },
+    {
+     "text": "E=mC2",
+     "bypass": "Quest Q00120_PavelsLastResearch e=mc2",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "e=mc2",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-21.html"
+    },
+    {
+     "text": "W.D.L.",
+     "bypass": "Quest Q00120_PavelsLastResearch wdl",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wdl",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-22.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-21.html": {
+   "file": "Q00120_PavelsLastResearch/32041-21.html",
+   "quest": 120,
+   "text": "Collector Yumi: That doesn't sound right to me... it's too obvious. They were more clever than that.",
+   "header": "Collector Yumi",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-22.html": {
+   "file": "Q00120_PavelsLastResearch/32041-22.html",
+   "quest": 120,
+   "text": "Collector Yumi: Yes, that must be right! The north wing was a coded version of Atlanta's name, so the east wing should be a coded version of Wendy's. I think we can now open the terminal in the east wing. According to all that I have heard, there is great danger afoot there. Oh, and if you wouldn't…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Hand the key over.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-23.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-23.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-23.html",
+     "effect": "cond:17"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-23.html": {
+   "file": "Q00120_PavelsLastResearch/32041-23.html",
+   "quest": 120,
+   "text": "Collector Yumi: Thank you. The next place to investigate is the east wing, now that we know how to get in. You do recall how Atlanta told you to get in, yes?",
+   "header": "Collector Yumi",
+   "sets": {
+    "cond": "17"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"I remember.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-24.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-24.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-24.html"
+    },
+    {
+     "text": "\"I don't remember.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-26.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-26.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-26.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-24.html": {
+   "file": "Q00120_PavelsLastResearch/32041-24.html",
+   "quest": 120,
+   "text": "Collector Yumi: Very well... I will await your return with great anticipation!",
+   "header": "Collector Yumi",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-25.html": {
+   "file": "Q00120_PavelsLastResearch/32041-25.html",
+   "quest": 120,
+   "text": "Collector Yumi: Entrance Way Map",
+   "header": "Collector Yumi",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32041-26.html": {
+   "file": "Q00120_PavelsLastResearch/32041-26.html",
+   "quest": 120,
+   "text": "Collector Yumi: Oh, dear. How could you forget something so important? In order to open the eastern building entrance, you must take the middle road after entering through the western entrance and turning south at the first corner. That's right, isn't it? Here, look, this is the map.",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Look at the map.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-25.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-25.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-25.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-29.html": {
+   "file": "Q00120_PavelsLastResearch/32041-29.html",
+   "quest": 120,
+   "text": "Collector Yumi: Ah, that is good news! Although I admit I am curious how it worked. Can you explain it to me in more detail?",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Tell her about the destruction of the research lab building and Atlanta, the Gigantic Golem's current situation, and the Horrifying Golem Army.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-30.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-30.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-30.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-30.html": {
+   "file": "Q00120_PavelsLastResearch/32041-30.html",
+   "quest": 120,
+   "text": "Collector Yumi: Is that so? Then the danger is almost ended. We have only to contend with a few thousand violent golems and a powerful mad scientist, ha ha! I shouldn't complain, I suppose, but it seems that we have so many troubles that even eliminating as many as you have is not as much of a comf…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "\"Would you rather I had left it alone?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-31.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-31.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-31.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-31.html": {
+   "file": "Q00120_PavelsLastResearch/32041-31.html",
+   "quest": 120,
+   "text": "Collector Yumi: Well, yes. But I shouldn't complain. You did your very best, and in truth, you did more than I've managed to do in years. I never even met Atlanta or questioned Wendy... Er, excuse me, but what's that sparkling object?",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Show Wendy's necklace.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-32.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-32.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-32.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-32.html": {
+   "file": "Q00120_PavelsLastResearch/32041-32.html",
+   "quest": 120,
+   "text": "Collector Yumi: Oh, my heavens. This is a brooch from the Giant Age! And this one is especially made for Elves... no, I'm wrong, for Dwarves! The implications... It must have been made during the Middle Age of Titans... Please, may I buy this from you? There's not much of a market for it anywhere e…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Think about it.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-33.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-33.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-33.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-33.html": {
+   "file": "Q00120_PavelsLastResearch/32041-33.html",
+   "quest": 120,
+   "text": "Collector Yumi: Aagh! What is there to consider? I will give you the best price, I assure you! It can do nothing for you, and it will not sell anywhere else! No other shopkeeper would know what he was looking at and would price it as a bauble, if he offered you anything at all! If you want a keepsa…",
+   "header": "Collector Yumi",
+   "links": [
+    {
+     "text": "Hand it over.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32041-34.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32041-34.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-34.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32041-34.html": {
+   "file": "Q00120_PavelsLastResearch/32041-34.html",
+   "quest": 120,
+   "text": "Collector Yumi: My undying thanks! A thousand blessings upon you! Here is what I offer in exchange. It was a gift from my grandfather, Toma. He gave it to me when I left for here to make my investigation. I think you will find it helpful where you're going next - no, don't ask why. I just have a se…",
+   "header": "Collector Yumi",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00121_PavelTheGiant/32041-02.html": {
+   "file": "Q00121_PavelTheGiant/32041-02.html",
+   "quest": 121,
+   "text": "Collector Yumi: We have two problems. The first and most urgent is that we are beset by a mad scientist whose work is causing us great harm. I am not sure if you can prevail against him, and in good conscience I cannot send you against him until I am sure. Please go see Collector Gutenhagen. He has…",
+   "header": "Collector Yumi",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Resurrection of an Old Manager]",
+     "bypass": "npc_%objectId%_Quest Q00114_ResurrectionOfAnOldManager",
+     "kind": "quest",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Resurrection of an Old Manager (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00114_ResurrectionOfAnOldManager",
+     "kind": "quest",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32041-08.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Pavel's Last Research (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00120_PavelsLastResearch",
+     "kind": "quest",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32041-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Pavel the Giant (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00121_PavelTheGiant",
+     "kind": "quest",
+     "quest": 121,
+     "to": "Q00121_PavelTheGiant/32041-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

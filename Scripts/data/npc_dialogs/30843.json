@@ -1,0 +1,2174 @@
+{
+ "npcId": 30843,
+ "name": "Romp",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.080Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30843.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "386": {
+   "name": "Stolen Dignity",
+   "listText": [
+    "[Stolen Dignity]",
+    "[Stolen Dignity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00386_StolenDignity/30843-01.htm",
+     "when": "state CREATED; level >= 58",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00386_StolenDignity/30843-04.html",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00386_StolenDignity/30843-06.html",
+     "when": "qs.getQuestItemsCount(Q_STOLEN_INF_ORE) < 100",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00386_StolenDignity/30843-07.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30843.htm": {
+   "file": "warehouse/30843.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Romp: Even here near Aden Castle, if you let your guard down you can easily wind up dead. We are close to the border, after all. Of course, that only underscores the importance of a warehouse, don't you think? If you have valuable items, better to store them with us than carrying t…",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/privatewh.htm",
+     "kind": "page",
+     "to": "warehouse/privatewh.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/clanwh.htm",
+     "kind": "page",
+     "to": "warehouse/clanwh.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30843-noteach.htm": {
+   "file": "warehouse/30843-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Romp: I train Dwarven Fighters, Scavengers and Bounty Hunters. You don't fit any of those! Sorry, but I can't teach you.",
+   "header": "Warehouse Keeper Romp",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00386_StolenDignity/30843-01.htm": {
+   "file": "Q00386_StolenDignity/30843-01.htm",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: The Iron Gate Guild is dedicated to keeping its customers' goods safe and sound. Our warehouses are virtual fortresses, strong and solid. We now use Infernium for our warehouse doors, locks and exterior walls. There's nothing stronger that we know of. But...",
+   "header": "Warehouse Keeper Romp",
+   "when": [
+    "state CREATED; level >= 58"
+   ],
+   "links": [
+    {
+     "text": "\"But what?\"",
+     "bypass": "Quest Q00386_StolenDignity 5",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "5",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-03.html"
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-04.html": {
+   "file": "Q00386_StolenDignity/30843-04.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: The Iron Gate Guild is dedicated to keeping its customers' goods safe and sound. Our warehouses are virtual fortresses, strong and solid. We now use Infernium for our warehouse doors, locks and exterior walls. There's nothing stronger that we know of. But... Eh, no, never min…",
+   "header": "Warehouse Keeper Romp",
+   "when": [
+    "state CREATED"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00386_StolenDignity/30843-06.html": {
+   "file": "Q00386_StolenDignity/30843-06.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: As I told you, hunt Glow Wisps, Marsh Predators, Hames Orc Snipers, Cursed Guardians, Hames Orc Overlords, Wretched Archers, Grace Lichs, Grave Predators, Crimson Drakes, Kadios, Fallen Orc Shamans, Sharp Talon Tigers, Past Knights, Hungered Corpses, Bloody Lords, Bloody Ghos…",
+   "header": "Warehouse Keeper Romp",
+   "when": [
+    "qs.getQuestItemsCount(Q_STOLEN_INF_ORE) < 100"
+   ],
+   "links": [
+    {
+     "text": "Listen to the rules of bingo.",
+     "bypass": "Quest Q00386_StolenDignity 3",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "3",
+     "quest": 386,
+     "to": null
+    },
+    {
+     "text": "Say you want to quit.",
+     "bypass": "Quest Q00386_StolenDignity 6",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "6",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-08.html"
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-07.html": {
+   "file": "Q00386_StolenDignity/30843-07.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: Did you recover the Infernium Ores? Then let's play bingo! Oh, make sure you have enough spaces in your inventory before we start playing. I'd hate for you to do well and then not be able to actually receive the item!",
+   "header": "Warehouse Keeper Romp",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Use 100 Infernium Ores to play bingo.",
+     "bypass": "Quest Q00386_StolenDignity 8",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "8",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-12.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-12.html",
+      "Q00386_StolenDignity/30843-11.html"
+     ]
+    },
+    {
+     "text": "Listen to the rules of bingo.",
+     "bypass": "Quest Q00386_StolenDignity 9",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "9",
+     "quest": 386,
+     "to": null
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-03.html": {
+   "file": "Q00386_StolenDignity/30843-03.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: Something happened a few days ago. The Blacksmith who was refining Infernium was attacked by monsters , and all the Infernium ore were stolen. That ore was going to be used to construct a new, state-of-the-art warehouse. We must retrieve them at all costs! Will you help us re…",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00386_StolenDignity QUEST_ACCEPTED",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "QUEST_ACCEPTED",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-05.htm": {
+   "file": "Q00386_StolenDignity/30843-05.htm",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: Good! For every 100 Infernium Ores you recover, I will give you a chance to play bingo. If you do well in bingo you will also receive a nice reward: a necessary ingredient for the manufacture of an A-Grade weapon. Nice, eh? Oh! I forgot to tell you something important. From t…",
+   "header": "Warehouse Keeper Romp",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00386_StolenDignity/30843-08.html": {
+   "file": "Q00386_StolenDignity/30843-08.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: Ah well. You haven't yet recovered all the stolen Infernium Ores, but I suppose you have other concerns to deal with, too... If you change your mind and want to help us again, please come see me.",
+   "header": "Warehouse Keeper Romp",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00386_StolenDignity/30843-09.html": {
+   "file": "Q00386_StolenDignity/30843-09.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: I'll place numbers 1-9 on a 3x3 number pad. Then you need to pick 6 numbers out of 1-9. When you have finished making your choices, we count how many horizontal, vertical and diagonal lines were created by your choice of numbers. Is that clear enough? I think you'll understan…",
+   "header": "Warehouse Keeper Romp",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "30843-07.htm",
+     "kind": "page",
+     "to": null,
+     "missing": "30843-07.htm"
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-09a.htm": {
+   "file": "Q00386_StolenDignity/30843-09a.htm",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: I'll place numbers 1-9 on a 3x3 numberpad. Then you need to pick 6 numbers out of 1-9. When you have finished making your choices, we count how many horizontal, vertical and diagonal lines were created by your choice of numbers. Is that clear enough? I think you'll understand…",
+   "header": "Warehouse Keeper Romp",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00386_StolenDignity/30843-11.html": {
+   "file": "Q00386_StolenDignity/30843-11.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: Well? It looks like you have only a few Infernium Ores here. Is this all you brought? Please go back and collect more before seeing me again.",
+   "header": "Warehouse Keeper Romp",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00386_StolenDignity/30843-12.html": {
+   "file": "Q00386_StolenDignity/30843-12.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: I placed numbers ranging from 1-9 on a numberpad. Of course I won't show you what they are! But I will take 100 Infernium Ores in advance. If you quit midgame, I won't give them back! Understand? Now it's time for you to pick 6 numbers ranging from 1-9. Pick your first number.",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00386_StolenDignity 10",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "10",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-13.html"
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00386_StolenDignity 11",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "11",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-13.html"
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00386_StolenDignity 12",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "12",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-13.html"
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00386_StolenDignity 13",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "13",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-13.html"
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00386_StolenDignity 14",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "14",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-13.html"
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00386_StolenDignity 15",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "15",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-13.html"
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00386_StolenDignity 16",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "16",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-13.html"
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00386_StolenDignity 17",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "17",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-13.html"
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00386_StolenDignity 18",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "18",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-13.html"
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-13.html": {
+   "file": "Q00386_StolenDignity/30843-13.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: Now, pick your second number. Current status",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00386_StolenDignity 19",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "19",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00386_StolenDignity 20",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "20",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00386_StolenDignity 21",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "21",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00386_StolenDignity 22",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "22",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00386_StolenDignity 23",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "23",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00386_StolenDignity 24",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "24",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00386_StolenDignity 25",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "25",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00386_StolenDignity 26",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "26",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00386_StolenDignity 27",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "27",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-14.html": {
+   "file": "Q00386_StolenDignity/30843-14.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: Ready to pick your third number? Current status",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00386_StolenDignity 19",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "19",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00386_StolenDignity 20",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "20",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00386_StolenDignity 21",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "21",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00386_StolenDignity 22",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "22",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00386_StolenDignity 23",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "23",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00386_StolenDignity 24",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "24",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00386_StolenDignity 25",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "25",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00386_StolenDignity 26",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "26",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00386_StolenDignity 27",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "27",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-15.html": {
+   "file": "Q00386_StolenDignity/30843-15.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: That number has been picked already. Pick the second number again. Current status",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00386_StolenDignity 19",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "19",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00386_StolenDignity 20",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "20",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00386_StolenDignity 21",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "21",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00386_StolenDignity 22",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "22",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00386_StolenDignity 23",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "23",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00386_StolenDignity 24",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "24",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00386_StolenDignity 25",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "25",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00386_StolenDignity 26",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "26",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00386_StolenDignity 27",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "27",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-16.html": {
+   "file": "Q00386_StolenDignity/30843-16.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: Time for the fourth number. Pick it well... Current status",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00386_StolenDignity 19",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "19",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00386_StolenDignity 20",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "20",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00386_StolenDignity 21",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "21",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00386_StolenDignity 22",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "22",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00386_StolenDignity 23",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "23",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00386_StolenDignity 24",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "24",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00386_StolenDignity 25",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "25",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00386_StolenDignity 26",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "26",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00386_StolenDignity 27",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "27",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-17.html": {
+   "file": "Q00386_StolenDignity/30843-17.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: That number has been picked already. Pick the third number again. Current status",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00386_StolenDignity 19",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "19",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00386_StolenDignity 20",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "20",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00386_StolenDignity 21",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "21",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00386_StolenDignity 22",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "22",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00386_StolenDignity 23",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "23",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00386_StolenDignity 24",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "24",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00386_StolenDignity 25",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "25",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00386_StolenDignity 26",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "26",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00386_StolenDignity 27",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "27",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-18.html": {
+   "file": "Q00386_StolenDignity/30843-18.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: You're almost finished. Choose your fifth number carefully. Current status",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00386_StolenDignity 19",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "19",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00386_StolenDignity 20",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "20",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00386_StolenDignity 21",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "21",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00386_StolenDignity 22",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "22",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00386_StolenDignity 23",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "23",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00386_StolenDignity 24",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "24",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00386_StolenDignity 25",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "25",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00386_StolenDignity 26",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "26",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00386_StolenDignity 27",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "27",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-19.html": {
+   "file": "Q00386_StolenDignity/30843-19.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: The number you have picked has already been chosen. Pick the fourth number again. Current status",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00386_StolenDignity 19",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "19",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00386_StolenDignity 20",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "20",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00386_StolenDignity 21",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "21",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00386_StolenDignity 22",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "22",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00386_StolenDignity 23",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "23",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00386_StolenDignity 24",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "24",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00386_StolenDignity 25",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "25",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00386_StolenDignity 26",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "26",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00386_StolenDignity 27",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "27",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-20.html": {
+   "file": "Q00386_StolenDignity/30843-20.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: Good! Now, it's time to pick your sixth and final number. Current status",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00386_StolenDignity 55",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "55",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00386_StolenDignity 56",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "56",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00386_StolenDignity 57",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "57",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00386_StolenDignity 58",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "58",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00386_StolenDignity 59",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "59",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00386_StolenDignity 60",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "60",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00386_StolenDignity 61",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "61",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00386_StolenDignity 62",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "62",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00386_StolenDignity 63",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "63",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-21.html": {
+   "file": "Q00386_StolenDignity/30843-21.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: Are you starting to get a little confused because of all the numbers? You chose one that has already been picked. Pick the fifth number again. Current status",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00386_StolenDignity 19",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "19",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00386_StolenDignity 20",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "20",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00386_StolenDignity 21",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "21",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00386_StolenDignity 22",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "22",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00386_StolenDignity 23",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "23",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00386_StolenDignity 24",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "24",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00386_StolenDignity 25",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "25",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00386_StolenDignity 26",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "26",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00386_StolenDignity 27",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "27",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-14.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-14.html",
+      "Q00386_StolenDignity/30843-16.html",
+      "Q00386_StolenDignity/30843-18.html",
+      "Q00386_StolenDignity/30843-20.html",
+      "Q00386_StolenDignity/30843-15.html",
+      "Q00386_StolenDignity/30843-17.html",
+      "Q00386_StolenDignity/30843-19.html",
+      "Q00386_StolenDignity/30843-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00386_StolenDignity/30843-22.html": {
+   "file": "Q00386_StolenDignity/30843-22.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: Ah! Congratulations! You can see your choices in red on the bingo pad below. As you can see, you made 3 lines. Well done. As promised, here is your reward. \"> \"> \"> \"> \"> \"> \"> \"> \">",
+   "header": "Warehouse Keeper Romp",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00386_StolenDignity/30843-23.html": {
+   "file": "Q00386_StolenDignity/30843-23.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: Oh... You can see your choices in red on the bingo pad below. Unfortunately, you didn't end up with 3 lines. Better luck next time! \"> \"> \"> \"> \"> \"> \"> \"> \">",
+   "header": "Warehouse Keeper Romp",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00386_StolenDignity/30843-24.html": {
+   "file": "Q00386_StolenDignity/30843-24.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: You are a seriously unlucky person! Your choices are in red on the bingo pad below. As you can see, you didn't even make a single line! You know, that's actually harder to do than to complete all 3 lines. Usually, we only reward winners, but I want to do something nice for yo…",
+   "header": "Warehouse Keeper Romp",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00386_StolenDignity/30843-25.html": {
+   "file": "Q00386_StolenDignity/30843-25.html",
+   "quest": 386,
+   "text": "Warehouse Keeper Romp: The number you picked has already been chosen. Pick the sixth number again. Current status",
+   "header": "Warehouse Keeper Romp",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00386_StolenDignity 55",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "55",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00386_StolenDignity 56",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "56",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00386_StolenDignity 57",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "57",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00386_StolenDignity 58",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "58",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00386_StolenDignity 59",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "59",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00386_StolenDignity 60",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "60",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00386_StolenDignity 61",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "61",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00386_StolenDignity 62",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "62",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00386_StolenDignity 63",
+     "kind": "quest-event",
+     "script": "Q00386_StolenDignity",
+     "event": "63",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-22.html",
+     "toAll": [
+      "Q00386_StolenDignity/30843-22.html",
+      "Q00386_StolenDignity/30843-24.html",
+      "Q00386_StolenDignity/30843-23.html",
+      "Q00386_StolenDignity/30843-25.html"
+     ]
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Stolen Dignity]",
+     "bypass": "npc_%objectId%_Quest Q00386_StolenDignity",
+     "kind": "quest",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Stolen Dignity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00386_StolenDignity",
+     "kind": "quest",
+     "quest": 386,
+     "to": "Q00386_StolenDignity/30843-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "warehouse/privatewh.htm": {
+   "file": "warehouse/privatewh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Private Warehouse",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item from the Private Warehouse",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "warehouse/clanwh.htm": {
+   "file": "warehouse/clanwh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item from the Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

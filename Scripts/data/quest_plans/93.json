@@ -2,7 +2,7 @@
  "id": 93,
  "name": "Saga of the Spectral Master",
  "version": 1,
- "generated": "2026-10-27T11:14:57.427Z",
+ "generated": "2026-10-27T18:18:35.289Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 76,
@@ -36,11 +36,6 @@
    "step": 5
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 8
-  },
-  {
    "code": "item-from-elsewhere",
    "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
    "step": 11
@@ -61,11 +56,6 @@
    "step": 15
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 16
-  },
-  {
    "code": "npc-quest-spawned",
    "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
    "step": 18
@@ -76,7 +66,7 @@
    "step": 21
   }
  ],
- "expectedMin": 358,
+ "expectedMin": 361,
  "refLevel": 76,
  "steps": [
   {
@@ -550,8 +540,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    14
+    1
    ]
   },
   {
@@ -2225,14 +2214,14 @@
     }
    ],
    "kills": 1,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "talk",
     "trigger": [
      31653
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Examine the area at Tablet of Vision (spawns Vision Guardian Shakiel 27315 at 164650,-74121,-2871, 5 min), kill it ALONE (no party)",
    "npc": {
@@ -2783,8 +2772,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    10,
-    19
+    10
    ]
   },
   {
@@ -3025,6 +3013,385 @@
   },
   {
    "i": 13,
+   "key": "c14:talk:31613",
+   "cond": 14,
+   "kind": "talk",
+   "to": 15,
+   "links": [
+    "\"What did he say?\""
+   ],
+   "npc": {
+    "id": 31613,
+    "name": "Noctisse",
+    "title": "Summoner",
+    "town": "Aden",
+    "at": [
+     144172,
+     23664,
+     -2118
+    ],
+    "alt": []
+   },
+   "text": "Talk to Noctisse",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30864@144096,23584",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 6924,
+    "sec": 78,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 6924,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25768,
+      -2008
+     ],
+     [
+      147288,
+      25768,
+      -2008
+     ],
+     [
+      147016,
+      25800,
+      -2008
+     ],
+     [
+      146744,
+      25800,
+      -2008
+     ],
+     [
+      146488,
+      25752,
+      -2008
+     ],
+     [
+      146344,
+      25512,
+      -2008
+     ],
+     [
+      146344,
+      25272,
+      -2008
+     ],
+     [
+      146376,
+      25000,
+      -2008
+     ],
+     [
+      146424,
+      24728,
+      -2008
+     ],
+     [
+      146392,
+      24456,
+      -2008
+     ],
+     [
+      146200,
+      24264,
+      -2008
+     ],
+     [
+      145928,
+      24264,
+      -2048
+     ],
+     [
+      145768,
+      24264,
+      -2080
+     ],
+     [
+      145496,
+      24264,
+      -2128
+     ],
+     [
+      145320,
+      24200,
+      -2136
+     ],
+     [
+      145128,
+      24008,
+      -2136
+     ],
+     [
+      145016,
+      23944,
+      -2136
+     ],
+     [
+      144744,
+      23944,
+      -2136
+     ],
+     [
+      144520,
+      23784,
+      -2136
+     ],
+     [
+      144504,
+      23512,
+      -2136
+     ],
+     [
+      144456,
+      23336,
+      -2136
+     ],
+     [
+      144248,
+      23192,
+      -2136
+     ],
+     [
+      143976,
+      23192,
+      -2136
+     ],
+     [
+      143784,
+      23144,
+      -2136
+     ],
+     [
+      143896,
+      23256,
+      -2136
+     ],
+     [
+      143944,
+      23528,
+      -2120
+     ],
+     [
+      143992,
+      23640,
+      -2120
+     ],
+     [
+      144104,
+      23592,
+      -2120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30864@144096,23584",
+     "name": "Hanellin"
+    },
+    "points": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25768,
+      -2008
+     ],
+     [
+      147288,
+      25768,
+      -2008
+     ],
+     [
+      147016,
+      25800,
+      -2008
+     ],
+     [
+      146744,
+      25800,
+      -2008
+     ],
+     [
+      146488,
+      25752,
+      -2008
+     ],
+     [
+      146344,
+      25512,
+      -2008
+     ],
+     [
+      146344,
+      25272,
+      -2008
+     ],
+     [
+      146376,
+      25000,
+      -2008
+     ],
+     [
+      146424,
+      24728,
+      -2008
+     ],
+     [
+      146392,
+      24456,
+      -2008
+     ],
+     [
+      146200,
+      24264,
+      -2008
+     ],
+     [
+      145928,
+      24264,
+      -2048
+     ],
+     [
+      145768,
+      24264,
+      -2080
+     ],
+     [
+      145496,
+      24264,
+      -2128
+     ],
+     [
+      145320,
+      24200,
+      -2136
+     ],
+     [
+      145128,
+      24008,
+      -2136
+     ],
+     [
+      145016,
+      23944,
+      -2136
+     ],
+     [
+      144744,
+      23944,
+      -2136
+     ],
+     [
+      144520,
+      23784,
+      -2136
+     ],
+     [
+      144504,
+      23512,
+      -2136
+     ],
+     [
+      144456,
+      23336,
+      -2136
+     ],
+     [
+      144248,
+      23192,
+      -2136
+     ],
+     [
+      143976,
+      23192,
+      -2136
+     ],
+     [
+      143784,
+      23144,
+      -2136
+     ],
+     [
+      143896,
+      23256,
+      -2136
+     ],
+     [
+      143944,
+      23528,
+      -2120
+     ],
+     [
+      143992,
+      23640,
+      -2120
+     ],
+     [
+      144104,
+      23592,
+      -2120
+     ]
+    ]
+   },
+   "expectedSec": 103,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    14
+   ]
+  },
+  {
+   "i": 14,
    "key": "c15:hunt",
    "cond": 15,
    "kind": "hunt",
@@ -3619,7 +3986,7 @@
    ]
   },
   {
-   "i": 14,
+   "i": 15,
    "key": "c15:spawn:27242",
    "cond": 15,
    "kind": "spawn",
@@ -3711,9 +4078,7 @@
     }
    ],
    "kills": 234,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "kill",
     "trigger": [
@@ -3723,7 +4088,9 @@
      21649,
      21650,
      21651
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Kill Archon Minions 21646-21651 for Halisha's Marks 7508 (700), then the Archon of Halisha 27242 spawns at you (10 min): kill it ALONE",
    "area": {
@@ -4099,7 +4466,7 @@
    ]
   },
   {
-   "i": 15,
+   "i": 16,
    "key": "c16:deliver:31655",
    "cond": 16,
    "kind": "deliver",
@@ -4388,7 +4755,7 @@
    ]
   },
   {
-   "i": 16,
+   "i": 17,
    "key": "c17:talk:31632",
    "cond": 17,
    "kind": "talk",
@@ -4420,7 +4787,7 @@
    ]
   },
   {
-   "i": 17,
+   "i": 18,
    "key": "c18:deliver:31656",
    "cond": 18,
    "kind": "deliver",
@@ -4584,7 +4951,105 @@
    ]
   },
   {
-   "i": 18,
+   "i": 19,
+   "key": "c19:talk:30175",
+   "cond": 19,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I've gained a new understanding.\""
+   ],
+   "npc": {
+    "id": 30175,
+    "name": "Fairen",
+    "title": "Grand Magister",
+    "town": "Oren",
+    "at": [
+     85675,
+     15994,
+     -1769
+    ],
+    "alt": []
+   },
+   "text": "Talk to Fairen",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30175@85675,15994",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 341,
+    "sec": 63,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "4th Floor Dark Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 341,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -1776
+     ],
+     [
+      85672,
+      15992,
+      -1776
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    19
+   ]
+  },
+  {
+   "i": 20,
    "key": "c20:manual",
    "cond": 20,
    "kind": "special",

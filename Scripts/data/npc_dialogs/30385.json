@@ -1,0 +1,354 @@
+{
+ "npcId": 30385,
+ "name": "Weisz",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.961Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30385.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "340": {
+   "name": "Subjugation Of Lizardmen",
+   "listText": [
+    "[Subjugation of Lizardmen]",
+    "[Subjugation of Lizardmen (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30385-02.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30385-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30385-05.html",
+     "when": "state STARTED; memo 1; !hasItemsAtLimit(player, TRADE_CARGO)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30385-06.html",
+     "when": "state STARTED; memo 1; hasItemsAtLimit(player, TRADE_CARGO)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30385-11.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30385-12.html",
+     "when": "state STARTED; memoState >= 3; memoState < 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30385-13.html",
+     "when": "state STARTED; memo 7; !((memoState >= 3) && (memoState < 7))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30385.htm": {
+   "file": "guard/30385.htm",
+   "quest": null,
+   "text": "Guard Weisz: Be careful! This place is very crowded because of construction on the village wall. Wooden props may collapse or bricks may fall, so be on alert. Many are experiencing discomfort due to the construction. In particular, the Traders from Giran have many complaints. I hope the constructio…",
+   "header": "Guard Weisz",
+   "links": [
+    {
+     "text": "Ask about Giran.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30385-1.htm"
+    },
+    {
+     "text": "Ask about Forgotten Temple.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30385-2.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30385-1.htm": {
+   "file": "guard/30385-1.htm",
+   "quest": null,
+   "text": "Guard Weisz: They say Giran is the wealthiest region in the kingdom. Once, I traveled to Giran escorting the coaches of some traders, and their market was enormous. Traders from all over the continent were selling all sorts of novelties. I am thinking of going back there someday to buy a dress of A…",
+   "header": "Guard Weisz",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30385.htm"
+    }
+   ]
+  },
+  "guard/30385-2.htm": {
+   "file": "guard/30385-2.htm",
+   "quest": null,
+   "text": "Guard Weisz: Recently a very interesting archeological site has been discovered whose origins are still unclear. People who have seen it say that it is divided in two, a Temple of Fire and a Temple of Water. By all accounts the place is swarming with monsters. If you are interested, you should visi…",
+   "header": "Guard Weisz",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30385.htm"
+    }
+   ]
+  },
+  "Q00340_SubjugationOfLizardmen/30385-02.htm": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-02.htm",
+   "quest": 340,
+   "text": "Guard Weisz: Do you plan to follow the northern road on your voyage to Oren? If so, you must beware of the lizardmen. They are becoming more brazen with their atrocities. Those filthy reptiles! It wasn't enough to burn farms and slaughter livestock. Now they are looting in broad daylight! Something…",
+   "header": "Guard Weisz",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I will destroy the lizardmen!\"",
+     "bypass": "Quest Q00340_SubjugationOfLizardmen 30385-03.htm",
+     "kind": "quest-event",
+     "script": "Q00340_SubjugationOfLizardmen",
+     "event": "30385-03.htm",
+     "quest": 340,
+     "to": "Q00340_SubjugationOfLizardmen/30385-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00340_SubjugationOfLizardmen/30385-01.htm": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-01.htm",
+   "quest": 340,
+   "text": "Guard Weisz: Do you plan to follow the northern road on your voyage to Oren? If so, you must beware of the lizardmen. They are becoming more brazen in their atrocities. Those filthy reptiles! It wasn't enough to burn farms and slaughter livestock, now they are looting in broad daylight! Something m…",
+   "header": "Guard Weisz",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30385-05.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-05.html",
+   "quest": 340,
+   "text": "Guard Weisz: Please hurry! The trade guild is getting impatient. Their cargo wagons are still coming under attack from felim lizardmen at the Fellmere Harvesting Grounds. Go and recover 30 Cargo Boxes belonging to the trade guild .",
+   "header": "Guard Weisz",
+   "when": [
+    "state STARTED; memo 1; !hasItemsAtLimit(player, TRADE_CARGO)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30385-06.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-06.html",
+   "quest": 340,
+   "text": "Guard Weisz: Ah, you've recovered all of the guild's Cargo Boxes! Good job! I will return them to the Aden Trade Guild immediately. We really appreciate your hard work. However, despite the efforts of noble mercenaries like yourself, the lizardmen continue their despicable actions. The day before y…",
+   "header": "Guard Weisz",
+   "when": [
+    "state STARTED; memo 1; hasItemsAtLimit(player, TRADE_CARGO)"
+   ],
+   "links": [
+    {
+     "text": "\"I will join the mission.\"",
+     "bypass": "Quest Q00340_SubjugationOfLizardmen 30385-07.html",
+     "kind": "quest-event",
+     "script": "Q00340_SubjugationOfLizardmen",
+     "event": "30385-07.html",
+     "quest": 340,
+     "to": "Q00340_SubjugationOfLizardmen/30385-07.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "\"No.\"",
+     "bypass": "Quest Q00340_SubjugationOfLizardmen 30385-08.html",
+     "kind": "quest-event",
+     "script": "Q00340_SubjugationOfLizardmen",
+     "event": "30385-08.html",
+     "quest": 340,
+     "to": "Q00340_SubjugationOfLizardmen/30385-08.html"
+    }
+   ]
+  },
+  "Q00340_SubjugationOfLizardmen/30385-11.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-11.html",
+   "quest": 340,
+   "text": "Guard Weisz: Priest Adonius awaits! Leave for the temple of Einhasad immediately!",
+   "header": "Guard Weisz",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30385-12.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-12.html",
+   "quest": 340,
+   "text": "Guard Weisz: The people of Gludio put their faith in the priests of Einhasad. The murder of the pilgrims by Langk lizardmen will not be forgotten!",
+   "header": "Guard Weisz",
+   "when": [
+    "state STARTED; memoState >= 3; memoState < 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30385-13.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-13.html",
+   "quest": 340,
+   "text": "Guard Weisz: High Priestess Levian has spoken about you. She says that you stabbed to death the ringleader of the rampaging lizardmen, is that true? Very impressive! Please accept this gift on behalf of the people of Gludio! Perhaps one day, with the help of noble warriors like you, lizardmen will …",
+   "header": "Guard Weisz",
+   "when": [
+    "state STARTED; memo 7; !((memoState >= 3) && (memoState < 7))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30385-03.htm": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-03.htm",
+   "quest": 340,
+   "text": "Guard Weisz: Yes, I suppose you could be helpful. Recently, lizardmen have been attacking the cargo wagons of the Aden Trade Guild. They slaughter the traders and guards and plunder the cargo. The guild has filed a formal request for assistance in dealing with the lizardmen. This task falls to you.",
+   "header": "Guard Weisz",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Tell me more about this task.\"",
+     "bypass": "Quest Q00340_SubjugationOfLizardmen 30385-04.html",
+     "kind": "quest-event",
+     "script": "Q00340_SubjugationOfLizardmen",
+     "event": "30385-04.html",
+     "quest": 340,
+     "to": "Q00340_SubjugationOfLizardmen/30385-04.html"
+    }
+   ]
+  },
+  "Q00340_SubjugationOfLizardmen/30385-04.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-04.html",
+   "quest": 340,
+   "text": "Guard Weisz: You must recover 30 Cargo Boxes belonging to the trade guild from the felim lizardmen . They can be found at the Fellmere Harvesting Grounds between the Ruins of Agony and Windy Hill. Go and destroy those filthy reptiles and restore peace to the village!",
+   "header": "Guard Weisz",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30385-07.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-07.html",
+   "quest": 340,
+   "text": "Guard Weisz: You must speak with Priest Adonius of the Einhasad Temple. He knows the whole story.",
+   "header": "Guard Weisz",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30385-08.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-08.html",
+   "quest": 340,
+   "text": "Guard Weisz: Oh well, too bad. I'll have to find someone else to help the temple. Anyway, the guild is still suffering attacks from the felim lizardmen. Once again we must send a mercenary to recover stolen cargo from them. Are you interested?",
+   "header": "Guard Weisz",
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00340_SubjugationOfLizardmen 30385-09.html",
+     "kind": "quest-event",
+     "script": "Q00340_SubjugationOfLizardmen",
+     "event": "30385-09.html",
+     "quest": 340,
+     "to": "Q00340_SubjugationOfLizardmen/30385-09.html"
+    },
+    {
+     "text": "Quit",
+     "bypass": "Quest Q00340_SubjugationOfLizardmen 30385-10.html",
+     "kind": "quest-event",
+     "script": "Q00340_SubjugationOfLizardmen",
+     "event": "30385-10.html",
+     "quest": 340,
+     "to": "Q00340_SubjugationOfLizardmen/30385-10.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00340_SubjugationOfLizardmen/30385-09.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-09.html",
+   "quest": 340,
+   "text": "Guard Weisz: First, please accept this token of our appreciation for the work you've done so far... The task is the same as before. You must kill felim lizardmen at the Fellmere Harvesting Grounds between the Ruins of Agony and Windy Hill and recover 30 Cargo Boxes belonging to the trade guild . Th…",
+   "header": "Guard Weisz",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30385-10.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30385-10.html",
+   "quest": 340,
+   "text": "Guard Weisz: Very well. Please accept this token of appreciation for all of your hard work from the people of Gludio.",
+   "header": "Guard Weisz",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Subjugation of Lizardmen]",
+     "bypass": "npc_%objectId%_Quest Q00340_SubjugationOfLizardmen",
+     "kind": "quest",
+     "quest": 340,
+     "to": "Q00340_SubjugationOfLizardmen/30385-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Subjugation of Lizardmen (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00340_SubjugationOfLizardmen",
+     "kind": "quest",
+     "quest": 340,
+     "to": "Q00340_SubjugationOfLizardmen/30385-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

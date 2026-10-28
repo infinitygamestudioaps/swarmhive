@@ -2,7 +2,7 @@
  "id": 10295,
  "name": "Seven Signs, Solina's Tomb",
  "version": 1,
- "generated": "2026-10-27T11:16:38.535Z",
+ "generated": "2026-10-27T18:20:04.689Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 81,
@@ -29,7 +29,7 @@
  "reasons": [
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 32793 \"32793-04.html\": fires at memo 3, which no transition sets"
   },
   {
    "code": "npc-no-spawn",
@@ -45,9 +45,14 @@
    "code": "npc-no-spawn",
    "text": "an NPC of a step has no spawn in the datapack",
    "step": 2
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 3
   }
  ],
- "expectedMin": 1,
+ "expectedMin": 2,
  "refLevel": 81,
  "steps": [
   {
@@ -79,21 +84,23 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:32792",
+   "key": "c1:talk:32793",
    "cond": 1,
    "kind": "talk",
-   "to": "end",
-   "links": [],
+   "to": 2,
+   "links": [
+    "\"We came here to learn the true identity of Embryo.\""
+   ],
    "npc": {
-    "id": 32792,
-    "name": "Eris's Evil Thoughts",
-    "title": "Director",
+    "id": 32793,
+    "name": "Solina's Evil Thoughts",
+    "title": "Saintess of Elmore-Aden",
     "town": "",
     "at": null,
     "alt": [],
     "why": "npc-no-spawn"
    },
-   "text": "Talk to Eris's Evil Thoughts",
+   "text": "Talk to Solina's Evil Thoughts",
    "reasons": [
     "npc-no-spawn"
    ],
@@ -104,14 +111,13 @@
    },
    "conds": [
     1,
-    2,
     3
    ]
   },
   {
    "i": 2,
-   "key": "c1:talk:32793",
-   "cond": 1,
+   "key": "c2:talk:32793",
+   "cond": 2,
    "kind": "talk",
    "to": 3,
    "links": [
@@ -136,8 +142,35 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:32792",
+   "cond": 3,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32792,
+    "name": "Eris's Evil Thoughts",
+    "title": "Director",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Eris's Evil Thoughts",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
     3
    ]
   }

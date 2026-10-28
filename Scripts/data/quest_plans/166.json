@@ -2,7 +2,7 @@
  "id": 166,
  "name": "Mass of Darkness",
  "version": 1,
- "generated": "2026-10-27T11:15:13.521Z",
+ "generated": "2026-10-27T18:18:49.157Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 2,
@@ -21,14 +21,9 @@
    "text": "races: DARK_ELF"
   }
  ],
- "status": "fixable",
- "reasons": [
-  {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  }
- ],
- "expectedMin": 11,
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 14,
  "refLevel": 2,
  "steps": [
   {
@@ -699,6 +694,398 @@
   },
   {
    "i": 2,
+   "key": "c1:deliver:30139",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30139,
+    "name": "Dorankus",
+    "title": "Warehouse Keeper",
+    "town": "Dark Elf Village",
+    "at": [
+     13380,
+     17430,
+     -4536
+    ],
+    "alt": []
+   },
+   "text": "Bring Ceremonial Dagger to Dorankus",
+   "needs": [
+    {
+     "id": 1089,
+     "name": "Ceremonial Dagger",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30139@13380,17430",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 6187,
+    "sec": 97,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6187,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9944,
+      15800,
+      -4568
+     ],
+     [
+      9944,
+      16072,
+      -4568
+     ],
+     [
+      10008,
+      16344,
+      -4568
+     ],
+     [
+      10024,
+      16616,
+      -4568
+     ],
+     [
+      10200,
+      16808,
+      -4584
+     ],
+     [
+      10392,
+      17000,
+      -4584
+     ],
+     [
+      10504,
+      17048,
+      -4584
+     ],
+     [
+      10696,
+      16984,
+      -4584
+     ],
+     [
+      10968,
+      16936,
+      -4656
+     ],
+     [
+      11224,
+      16840,
+      -4656
+     ],
+     [
+      11256,
+      16984,
+      -4656
+     ],
+     [
+      11448,
+      17176,
+      -4656
+     ],
+     [
+      11496,
+      17448,
+      -4608
+     ],
+     [
+      11560,
+      17608,
+      -4584
+     ],
+     [
+      11752,
+      17784,
+      -4584
+     ],
+     [
+      11816,
+      18056,
+      -4584
+     ],
+     [
+      11944,
+      18248,
+      -4568
+     ],
+     [
+      12216,
+      18296,
+      -4568
+     ],
+     [
+      12488,
+      18248,
+      -4568
+     ],
+     [
+      12760,
+      18216,
+      -4568
+     ],
+     [
+      12760,
+      18168,
+      -4568
+     ],
+     [
+      12760,
+      17896,
+      -4568
+     ],
+     [
+      12872,
+      17736,
+      -4568
+     ],
+     [
+      13128,
+      17656,
+      -4536
+     ],
+     [
+      13368,
+      17544,
+      -4536
+     ],
+     [
+      13384,
+      17432,
+      -4536
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 122,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30135",
+   "cond": 1,
+   "kind": "talk",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30135,
+    "name": "Iria",
+    "title": "Weapon Merchant",
+    "town": "Dark Elf Village",
+    "at": [
+     10761,
+     17970,
+     -4554
+    ],
+    "alt": []
+   },
+   "text": "Talk to Iria",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30135@10761,17970",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3501,
+    "sec": 74,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3501,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9944,
+      15800,
+      -4568
+     ],
+     [
+      9944,
+      16072,
+      -4568
+     ],
+     [
+      10008,
+      16344,
+      -4568
+     ],
+     [
+      10024,
+      16616,
+      -4568
+     ],
+     [
+      10200,
+      16808,
+      -4584
+     ],
+     [
+      10392,
+      17000,
+      -4584
+     ],
+     [
+      10504,
+      17048,
+      -4584
+     ],
+     [
+      10312,
+      17240,
+      -4584
+     ],
+     [
+      10264,
+      17512,
+      -4568
+     ],
+     [
+      10184,
+      17768,
+      -4568
+     ],
+     [
+      10136,
+      17880,
+      -4568
+     ],
+     [
+      10232,
+      17784,
+      -4568
+     ],
+     [
+      10504,
+      17736,
+      -4552
+     ],
+     [
+      10600,
+      17720,
+      -4552
+     ],
+     [
+      10728,
+      17928,
+      -4552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 99,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 4,
    "key": "c2:deliver:30130",
    "cond": 2,
    "kind": "deliver",
@@ -1213,5 +1600,12 @@
  ],
  "override": {
   "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T18:18:49.174Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
  }
 }

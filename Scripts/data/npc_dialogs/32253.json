@@ -1,0 +1,114 @@
+{
+ "npcId": 32253,
+ "name": "Harkilgamed",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.364Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "64": {
+   "name": "Certified Berserker",
+   "listText": [
+    "[Certified Berserker]",
+    "[Certified Berserker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00064_CertifiedBerserker/32253-01.html",
+     "when": "state STARTED; memo 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00064_CertifiedBerserker/32253-03.html",
+     "when": "state STARTED; memo 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00064_CertifiedBerserker/32253-01.html": {
+   "file": "Q00064_CertifiedBerserker/32253-01.html",
+   "quest": 64,
+   "text": "Harkilgamed: Whew! Thank you, my friend! Thanks to you we were able to protect a legacy of the Kamael, Enuma Elish. We must make use of this brief respite to move it to a place of safety. Eh? I see that you are one of the hopefuls in the Berserker class. If you continue on this path, I am certain w…",
+   "header": "Harkilgamed",
+   "when": [
+    "state STARTED; memo 9"
+   ],
+   "links": [
+    {
+     "text": "\"Wait! What is Enuma Elish?\"",
+     "bypass": "Quest Q00064_CertifiedBerserker 32253-02.html",
+     "kind": "quest-event",
+     "script": "Q00064_CertifiedBerserker",
+     "event": "32253-02.html",
+     "quest": 64,
+     "to": "Q00064_CertifiedBerserker/32253-02.html",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00064_CertifiedBerserker/32253-03.html": {
+   "file": "Q00064_CertifiedBerserker/32253-03.html",
+   "quest": 64,
+   "text": "Harkilgamed: Deliver the letter I gave you to Master Tenain. He must be worried sick...",
+   "header": "Harkilgamed",
+   "when": [
+    "state STARTED; memo 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00064_CertifiedBerserker/32253-02.html": {
+   "file": "Q00064_CertifiedBerserker/32253-02.html",
+   "quest": 64,
+   "text": "Harkilgamed: I cannot say now, but there will come a day when you will know. I must go! Please deliver this letter to Master Tenain. He must be beside himself with worry...",
+   "header": "Harkilgamed",
+   "sets": {
+    "cond": "13"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Berserker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00064_CertifiedBerserker",
+     "kind": "quest",
+     "quest": 64,
+     "to": "Q00064_CertifiedBerserker/32253-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

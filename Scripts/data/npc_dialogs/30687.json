@@ -1,0 +1,280 @@
+{
+ "npcId": 30687,
+ "name": "Vergara",
+ "title": "Head Blacksmith",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:03.041Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30687.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "382": {
+   "name": "Kail's Magic Coin",
+   "listText": [
+    "[Kail's Magic Coin]",
+    "[Kail's Magic Coin (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00382_KailsMagicCoin/30687-02.htm",
+     "when": "state CREATED; ((talker.getLevel() >= MIN_LVL) && hasQuestItems(talker, ROYAL_MEMBERSHIP))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00382_KailsMagicCoin/30687-01.htm",
+     "when": "state CREATED; NOT ((talker.getLevel() >= MIN_LVL) && hasQuestItems(talker, ROYAL_MEMBERSHIP))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00382_KailsMagicCoin/30687-04.htm",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30687.htm": {
+   "file": "villagemaster/30687.htm",
+   "quest": null,
+   "text": "Head Blacksmith Vergara: I am Head Blacksmith Vergara of the Black Anvil guild's Hunters Village branch. I train skillful Artisans so they can become useful Warsmiths. Warsmith is the best occupation to earn great amounts of money. Do you wish to become a Warsmith?",
+   "header": "Head Blacksmith Vergara",
+   "live": {
+    "file": "Logs/clan_page_levelup_Vergara_0.html",
+    "at": "2026-10-09T20:51:30.000Z",
+    "score": 0.29
+   },
+   "dpText": "Head Blacksmith Vergara: I'm Head Blacksmith Vergara of the Black Anvil Guild here in Hunter Village. It's my job to take qualified Artisans and transform them into talented Warsmiths. If you want to make money, there's nothing better than being a Warsmith. Interested?",
+   "links": [
+    {
+     "text": "Hear information on 2nd occupational change.",
+     "bypass": "Quest DwarfBlacksmithChange2",
+     "kind": "quest",
+     "script": "DwarfBlacksmithChange2",
+     "live": true,
+     "dpText": "Listen to information about second class transfer."
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class",
+     "live": true
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan",
+     "live": true
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance",
+     "live": true
+    },
+    {
+     "text": "Shadow Weapon Ticket Exchange",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm",
+     "live": true,
+     "dpText": "Use Shadow Weapon Exchange Coupon."
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true,
+     "dpText": "Quest."
+    }
+   ]
+  },
+  "Q00382_KailsMagicCoin/30687-02.htm": {
+   "file": "Q00382_KailsMagicCoin/30687-02.htm",
+   "quest": 382,
+   "text": "Head Blacksmith Vergara: I'm honored to finally meet royalty! The heavens at last have smiled upon me! As a royal, you must have many rare coins, am I right? You know, I have many rare items, too. Would you be interested in trading with me? All my products are guaranteed top-notch.",
+   "header": "Head Blacksmith Vergara",
+   "when": [
+    "state CREATED; ((talker.getLevel() >= MIN_LVL) && hasQuestItems(talker, ROYAL_MEMBERSHIP))"
+   ],
+   "links": [
+    {
+     "text": "\"I will trade with you.\"",
+     "bypass": "Quest Q00382_KailsMagicCoin 30687-03.htm",
+     "kind": "quest-event",
+     "script": "Q00382_KailsMagicCoin",
+     "event": "30687-03.htm",
+     "quest": 382,
+     "to": "Q00382_KailsMagicCoin/30687-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00382_KailsMagicCoin/30687-01.htm": {
+   "file": "Q00382_KailsMagicCoin/30687-01.htm",
+   "quest": 382,
+   "text": "Head Blacksmith Vergara: I can't remember the last time I saw royalty! Sigh... (This quest may only be undertaken by a royal character of level 55 or above.)",
+   "header": "Head Blacksmith Vergara",
+   "when": [
+    "state CREATED; NOT ((talker.getLevel() >= MIN_LVL) && hasQuestItems(talker, ROYAL_MEMBERSHIP))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00382_KailsMagicCoin/30687-04.htm": {
+   "file": "Q00382_KailsMagicCoin/30687-04.htm",
+   "quest": 382,
+   "text": "Head Blacksmith Vergara: I have many kinds of weapons. Take one or take them all!",
+   "header": "Head Blacksmith Vergara",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"I'm interested in recipe list.\"",
+     "bypass": "npc_%objectId%_multisell 382",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"Where can I obtain Kail's Coins?\"",
+     "bypass": "Quest Q00382_KailsMagicCoin 30687-05.htm",
+     "kind": "quest-event",
+     "script": "Q00382_KailsMagicCoin",
+     "event": "30687-05.htm",
+     "quest": 382,
+     "to": "Q00382_KailsMagicCoin/30687-05.htm"
+    },
+    {
+     "text": "\"Tell me about the members of the coin collecting club.\"",
+     "bypass": "Quest Q00382_KailsMagicCoin 30687-06.htm",
+     "kind": "quest-event",
+     "script": "Q00382_KailsMagicCoin",
+     "event": "30687-06.htm",
+     "quest": 382,
+     "to": "Q00382_KailsMagicCoin/30687-06.htm"
+    }
+   ]
+  },
+  "Q00382_KailsMagicCoin/30687-03.htm": {
+   "file": "Q00382_KailsMagicCoin/30687-03.htm",
+   "quest": 382,
+   "text": "Head Blacksmith Vergara: Ah, yes! The forthrightness of a true royal! I'll get right to the point. Here is a list of the coins I want and what I have to offer in exchange. Being in the warehouse business, I've acquired many rare and precious items. I'm offering them to you at an exceptional price. …",
+   "header": "Head Blacksmith Vergara",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "View the list.",
+     "bypass": "Quest Q00382_KailsMagicCoin 30687-04.htm",
+     "kind": "quest-event",
+     "script": "Q00382_KailsMagicCoin",
+     "event": "30687-04.htm",
+     "quest": 382,
+     "to": "Q00382_KailsMagicCoin/30687-04.htm"
+    }
+   ]
+  },
+  "Q00382_KailsMagicCoin/30687-05.htm": {
+   "file": "Q00382_KailsMagicCoin/30687-05.htm",
+   "quest": 382,
+   "text": "Head Blacksmith Vergara: You'll find Sorcerer Kail on the Forsaken Plains, and there you'll find the coins as well, likely in the possession of the filthy orcs that infest that place. You could also probably win some by gambling with other players...",
+   "header": "Head Blacksmith Vergara",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00382_KailsMagicCoin 30687-04.htm",
+     "kind": "quest-event",
+     "script": "Q00382_KailsMagicCoin",
+     "event": "30687-04.htm",
+     "quest": 382,
+     "to": "Q00382_KailsMagicCoin/30687-04.htm"
+    }
+   ]
+  },
+  "Q00382_KailsMagicCoin/30687-06.htm": {
+   "file": "Q00382_KailsMagicCoin/30687-06.htm",
+   "quest": 382,
+   "text": "Head Blacksmith Vergara: Although I've only just joined, I already know all of our members by heart! Let's see, there's Magister Page of the Magic Guild in Hunters Village, Researcher Lorain , who can be found near the entrance of Cruma Tower, Warehouse Keeper Hagger and Guard Stan of Oren Castle T…",
+   "header": "Head Blacksmith Vergara",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00382_KailsMagicCoin 30687-04.htm",
+     "kind": "quest-event",
+     "script": "Q00382_KailsMagicCoin",
+     "event": "30687-04.htm",
+     "quest": 382,
+     "to": "Q00382_KailsMagicCoin/30687-04.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Kail's Magic Coin]",
+     "bypass": "npc_%objectId%_Quest Q00382_KailsMagicCoin",
+     "kind": "quest",
+     "quest": 382,
+     "to": "Q00382_KailsMagicCoin/30687-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Kail's Magic Coin (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00382_KailsMagicCoin",
+     "kind": "quest",
+     "quest": 382,
+     "to": "Q00382_KailsMagicCoin/30687-04.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of villagemaster/30687.htm differs: live \"Head Blacksmith Vergara: I am Head Blacksmith Vergara of the Black Anvil guild's Hunters …\" vs datapack \"Head Blacksmith Vergara: I'm Head Blacksmith Vergara of the Black Anvil Guild here in Hun…\"",
+  "villagemaster/30687.htm: link \"Listen to information about second class transfer.\" is \"Hear information on 2nd occupational change.\" live",
+  "villagemaster/30687.htm: link \"Use Shadow Weapon Exchange Coupon.\" is \"Shadow Weapon Ticket Exchange\" live",
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

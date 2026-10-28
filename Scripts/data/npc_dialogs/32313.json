@@ -1,0 +1,46 @@
+{
+ "npcId": 32313,
+ "name": "Deltuva",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.368Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32313.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32313.htm": {
+   "file": "default/32313.htm",
+   "quest": null,
+   "text": "Deltuva: Welcome, traveler! I am assuming that since you know this place you must have heard about me from someone. I am here to help adventurers secretly enter the Steel Citadel. Unless you are already familiar with the Steel Citadel, however, I cannot permit you to go inside. It is simply too dan…",
+   "header": "Deltuva",
+   "links": [
+    {
+     "text": "\"Let me into the Steel Citadel.\"",
+     "bypass": "Quest Deltuva teleport",
+     "kind": "quest-event",
+     "script": "Deltuva",
+     "event": "teleport"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

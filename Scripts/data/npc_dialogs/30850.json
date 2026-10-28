@@ -1,0 +1,361 @@
+{
+ "npcId": 30850,
+ "name": "Aiken",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.093Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "trainer/30850.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "74": {
+   "name": "Saga of the Dreadnought",
+   "listText": [
+    "[Saga of the Dreadnought]",
+    "[Saga of the Dreadnought (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00074_SagaOfTheDreadnought/0-01.htm",
+     "when": "cond 0; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00074_SagaOfTheDreadnought/0-04.htm",
+     "when": "cond 1; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00074_SagaOfTheDreadnought/0-06.htm",
+     "when": "cond 19; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00074_SagaOfTheDreadnought/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00074_SagaOfTheDreadnought/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30850.htm": {
+   "file": "trainer/30850.htm",
+   "quest": null,
+   "text": "Master Aiken: There's something afoot in the Cemetery. Some Dwarven bandits named the Magpie Brothers are tunneling into tombs and robbing the dead...and they're not alone. I doubt even Maphr would condone such behavior... A few days ago I gave a lecture on how to capture Dwarves alive. Would you l…",
+   "header": "Master Aiken",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "trainer/30850-noteach.htm": {
+   "file": "trainer/30850-noteach.htm",
+   "quest": null,
+   "text": "Master Aiken: Regretfully, I only teach Human warriors. All masters must teach only those of their own race. I wouldn't mind helping you if just have a personal request, but it would behoove you to find another master. Here in this mighty capital of the kingdom of Aden, surely you will find a suita…",
+   "header": "Master Aiken",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/0-01.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/0-01.htm",
+   "quest": 74,
+   "text": "Master Aiken: Warlords have always been at the forefront of major victories, from the war between Aden and Elmore to the recent conquest of the Tower of Insolence. We've had many nicknames, Terror of the Battlefield, Dragon's Descendants, and so on... Do you know which art of fighting the Warlords …",
+   "header": "Master Aiken",
+   "when": [
+    "cond 0; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"No, I don't.\"",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought 0-1",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "0-1",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/0-05.htm",
+     "toAll": [
+      "Q00074_SagaOfTheDreadnought/0-02.htm",
+      "Q00074_SagaOfTheDreadnought/0-05.htm"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/0-04.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/0-04.htm",
+   "quest": 74,
+   "text": "Master Aiken: Guard Ulrich in Goddard Castle Town knows all the details.",
+   "header": "Master Aiken",
+   "when": [
+    "cond 1; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/0-06.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/0-06.htm",
+   "quest": 74,
+   "text": "Master Aiken: Things were more orderly during the war with Elmore. We have entered an era of chaos. Have you met the Bride of the Fire Dragon and acquired the vision of the dragon?",
+   "header": "Master Aiken",
+   "when": [
+    "cond 19; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes I have.\"",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought 0-2",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "0-2",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/0-07.htm",
+     "toAll": [
+      "Q00074_SagaOfTheDreadnought/0-08.htm",
+      "Q00074_SagaOfTheDreadnought/0-07.htm"
+     ],
+     "effect": "cond:20|reward"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/0-09.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/0-09.htm",
+   "quest": 74,
+   "text": "Master Aiken: You have proven your strength and learned the vision of the dragon. I hereby bestow upon you the title of Dreadnought, dragon descendant!",
+   "header": "Master Aiken",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/0-010.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/0-010.htm",
+   "quest": 74,
+   "text": "Master Aiken: You must be stronger to control the energy of the dragon. To fulfill the vision in your mind you must have more experience. (Only a character of level 76 or above is allowed to do a class transfer. Do not abandon quest before transfer is complete!)",
+   "header": "Master Aiken",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/0-02.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/0-02.htm",
+   "quest": 74,
+   "text": "Master Aiken: I heard she was somewhere up north. You should take on a task more suited to your abilities. (This quest may only be undertaken by a Warlord of level 76 or above.)",
+   "header": "Master Aiken",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/0-03.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/0-03.htm",
+   "quest": 74,
+   "text": "Master Aiken: Meet with Guard Ulrich in Goddard Castle Town. He used to live in Giran. He sent me a letter about Leona, her battle and the fire dragon Valakas. He knows all the details. Read this book he sent me before you go.",
+   "header": "Master Aiken",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/0-05.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/0-05.htm",
+   "quest": 74,
+   "text": "Master Aiken: Warlords studied the fighting techniques of dragons during the war of the gods. That's why we're rumored to be descended from dragons! Leona Blackbird , also known as the Bride of the Fire Dragon , was once captain of the guards in Giran. Before the era of chaos began she was defeated…",
+   "header": "Master Aiken",
+   "links": [
+    {
+     "text": "\"Where can I find her?\"",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought accept",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "accept",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/0-07.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/0-07.htm",
+   "quest": 74,
+   "text": "Master Aiken: I felt that power in you. It can instill fear in people, but it can also help us maintain peace in this land. I hereby bestow upon you the title of Dreadnought, dragon descendant!",
+   "header": "Master Aiken",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/0-08.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/0-08.htm",
+   "quest": 74,
+   "text": "Master Aiken: You're not strong enough to control the energy of the dragon. Come back when you have more training. (Only characters level 76 or above are allowed to do a class transfer. Do not abandon quest before transfer is complete!)",
+   "header": "Master Aiken",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Dreadnought]",
+     "bypass": "npc_%objectId%_Quest Q00074_SagaOfTheDreadnought",
+     "kind": "quest",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Dreadnought (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00074_SagaOfTheDreadnought",
+     "kind": "quest",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/0-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "live:npclive_Aiken_e8f965e8.html": {
+   "file": "Logs/npclive_Aiken_e8f965e8.html",
+   "quest": null,
+   "header": "Master Aiken",
+   "text": "Master Aiken: Because of the Dwarven bandits called the Magpie Brothers, the National Cemetary has fallen into disrepair recently. And all kinds of followers have appeared too.. The divine protection given to the Dwarves by Maphr is not so that they can dig in the ground and get the things that are…",
+   "live": {
+    "file": "Logs/npclive_Aiken_e8f965e8.html",
+    "at": "2026-10-27T14:39:21.681Z"
+   },
+   "outcome": "info",
+   "serverCustom": true,
+   "links": [
+    {
+     "text": "Learn Skills",
+     "bypass": "live 00",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "live 01",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Quest",
+     "bypass": "live 02",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "server-custom page Logs/npclive_Aiken_e8f965e8.html: \"Master Aiken: Because of the Dwarven bandits called the Magpie Brothers, the Na…\" links: Learn Skills | Ask about Skill Enchanting. | Quest"
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Master Aiken:Because of the Dwarven bandits called the Magpi"
+   ],
+   "to": [
+    "You are either not on a quest that involves this NPC, or you"
+   ]
+  }
+ ]
+}

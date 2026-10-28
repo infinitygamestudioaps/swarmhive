@@ -2,7 +2,7 @@
  "id": 220,
  "name": "Testimony Of Glory",
  "version": 1,
- "generated": "2026-10-27T11:15:15.880Z",
+ "generated": "2026-10-27T18:18:51.347Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 37,
@@ -37,14 +37,9 @@
    "code": "area-danger",
    "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
    "step": 1
-  },
-  {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 2
   }
  ],
- "expectedMin": 57,
+ "expectedMin": 52,
  "refLevel": 37,
  "steps": [
   {
@@ -2826,15 +2821,15 @@
     }
    ],
    "kills": 1,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "kill",
     "trigger": [
      20778,
      20779
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Pashika Son Of Voltar, Vultus Son Of Voltar, Enku Orc Overlord, Makum Bugbear Thug, Revenant of Tantos Chief appear and kill it",
    "area": {
@@ -3631,7 +3626,8 @@
     7,
     8,
     9,
-    10
+    10,
+    11
    ]
   },
   {
@@ -3876,198 +3872,6 @@
     5,
     6,
     7,
-    9,
-    10,
-    11
-   ]
-  },
-  {
-   "i": 6,
-   "key": "c1:deliver:30618",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 5,
-   "links": [
-    "\"I am here to collect your Oath of Loyalty and the Scepter of Flame.\""
-   ],
-   "npc": {
-    "id": 30618,
-    "name": "Harak",
-    "title": "Leunt Chief",
-    "town": "Talking Island",
-    "at": [
-     -55217,
-     200628,
-     -3724
-    ],
-    "alt": []
-   },
-   "text": "Bring Kasman's 3rd Letter, Scepter of Turek, Scepter of Enku, Scepter of Breka, Scepter of Vuku to Harak",
-   "needs": [
-    {
-     "id": 3232,
-     "name": "Kasman's 3rd Letter",
-     "n": 1
-    },
-    {
-     "id": 3214,
-     "name": "Scepter of Turek",
-     "n": 1
-    },
-    {
-     "id": 3212,
-     "name": "Scepter of Enku",
-     "n": 1
-    },
-    {
-     "id": 3211,
-     "name": "Scepter of Breka",
-     "n": 1
-    },
-    {
-     "id": 3213,
-     "name": "Scepter of Vuku",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30618@-55217,200628",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 11617,
-    "sec": 142,
-    "via": ".gludin > Gludin -> Langk Lizardman Dwelling",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> Langk Lizardman Dwelling",
-      "link": "langk lizardman dwellings",
-      "price": 1800,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 11617,
-      "how": "geodata",
-      "danger": 25
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> Langk Lizardman Dwelling"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -44763,
-      203497,
-      -3592
-     ],
-     [
-      -45257,
-      203001,
-      -3628
-     ],
-     [
-      -45752,
-      202504,
-      -3664
-     ],
-     [
-      -46248,
-      202032,
-      -3688
-     ],
-     [
-      -46744,
-      201560,
-      -3712
-     ],
-     [
-      -47240,
-      201096,
-      -3704
-     ],
-     [
-      -47736,
-      200632,
-      -3696
-     ],
-     [
-      -48728,
-      200632,
-      -3544
-     ],
-     [
-      -49720,
-      200632,
-      -3360
-     ],
-     [
-      -50712,
-      200632,
-      -3344
-     ],
-     [
-      -51704,
-      200632,
-      -3448
-     ],
-     [
-      -52696,
-      200632,
-      -3464
-     ],
-     [
-      -53688,
-      200632,
-      -3648
-     ],
-     [
-      -54680,
-      200632,
-      -3704
-     ],
-     [
-      -55224,
-      200632,
-      -3720
-     ]
-    ],
-    "maxDanger": 25,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 25,
-     "dangerVsLevel": -12,
-     "aggro": []
-    }
-   },
-   "expectedSec": 167,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    6,
-    7,
     8,
     9,
     10,
@@ -4075,7 +3879,7 @@
    ]
   },
   {
-   "i": 7,
+   "i": 6,
    "key": "c1:deliver:30615",
    "cond": 1,
    "kind": "deliver",
@@ -4464,7 +4268,7 @@
    ]
   },
   {
-   "i": 8,
+   "i": 7,
    "key": "c1:deliver:30616",
    "cond": 1,
    "kind": "deliver",
@@ -4700,7 +4504,7 @@
    ]
   },
   {
-   "i": 9,
+   "i": 8,
    "key": "c1:deliver:30617",
    "cond": 1,
    "kind": "deliver",
@@ -4906,7 +4710,7 @@
    ]
   },
   {
-   "i": 10,
+   "i": 9,
    "key": "c1:deliver:30619",
    "cond": 1,
    "kind": "deliver",
@@ -5122,7 +4926,7 @@
    ]
   },
   {
-   "i": 11,
+   "i": 10,
    "key": "c1:deliver:30514",
    "cond": 1,
    "kind": "deliver",
@@ -5368,6 +5172,7 @@
    "conds": [
     1,
     2,
+    3,
     4,
     5,
     6,
@@ -5379,31 +5184,41 @@
    ]
   },
   {
-   "i": 12,
-   "key": "c8:deliver:30642",
-   "cond": 8,
+   "i": 11,
+   "key": "c4:deliver:30618",
+   "cond": 4,
    "kind": "deliver",
-   "to": 6,
+   "to": 5,
    "links": [
-    "\"I shall participate in the battle!\""
+    "\"I am here to collect your Oath of Loyalty and the Scepter of Flame.\""
    ],
    "npc": {
-    "id": 30642,
-    "name": "Chianta",
-    "title": "Gandi Chief",
-    "town": "Dion",
+    "id": 30618,
+    "name": "Harak",
+    "title": "Leunt Chief",
+    "town": "Talking Island",
     "at": [
-     20000,
-     143108,
-     -3040
+     -55217,
+     200628,
+     -3724
     ],
     "alt": []
    },
-   "text": "Bring Chianta's 1st Order, Scepter of Breka, Scepter of Vuku, Scepter of Turek, Scepter of Tunath, Scepter of Enku to Chianta",
+   "text": "Bring Kasman's 3rd Letter, Scepter of Turek, Scepter of Enku, Scepter of Breka, Scepter of Vuku to Harak",
    "needs": [
     {
-     "id": 3210,
-     "name": "Chianta's 1st Order",
+     "id": 3232,
+     "name": "Kasman's 3rd Letter",
+     "n": 1
+    },
+    {
+     "id": 3214,
+     "name": "Scepter of Turek",
+     "n": 1
+    },
+    {
+     "id": 3212,
+     "name": "Scepter of Enku",
      "n": 1
     },
     {
@@ -5415,556 +5230,141 @@
      "id": 3213,
      "name": "Scepter of Vuku",
      "n": 1
-    },
-    {
-     "id": 3214,
-     "name": "Scepter of Turek",
-     "n": 1
-    },
-    {
-     "id": 3215,
-     "name": "Scepter of Tunath",
-     "n": 1
-    },
-    {
-     "id": 3212,
-     "name": "Scepter of Enku",
-     "n": 1
     }
    ],
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:30642@20000,143108",
+    "key": "npc:30618@-55217,200628",
     "status": "ok",
     "flags": [],
-    "from": ".dion",
-    "length": 6407,
-    "sec": 73,
-    "via": ".dion",
+    "from": ".gludin",
+    "length": 11617,
+    "sec": 142,
+    "via": ".gludin > Gludin -> Langk Lizardman Dwelling",
     "steps": [
      {
       "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "walk",
-      "len": 6407,
-      "how": "town-graph",
-      "danger": 22
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Dion"
-    },
-    "simple": true,
-    "pv": [
-     [
-      15619,
-      143132,
-      -2688
-     ],
-     [
-      15480,
-      142888,
-      -2696
-     ],
-     [
-      15624,
-      142888,
-      -2696
-     ],
-     [
-      15784,
-      143112,
-      -2712
-     ],
-     [
-      15976,
-      143304,
-      -2768
-     ],
-     [
-      16168,
-      143496,
-      -2824
-     ],
-     [
-      16216,
-      143544,
-      -2832
-     ],
-     [
-      16312,
-      143640,
-      -2864
-     ],
-     [
-      16520,
-      143800,
-      -2912
-     ],
-     [
-      16712,
-      143992,
-      -2968
-     ],
-     [
-      16936,
-      144040,
-      -3008
-     ],
-     [
-      16968,
-      144184,
-      -3008
-     ],
-     [
-      17176,
-      144184,
-      -3024
-     ],
-     [
-      17416,
-      144088,
-      -3032
-     ],
-     [
-      17608,
-      143896,
-      -3032
-     ],
-     [
-      17608,
-      143736,
-      -3032
-     ],
-     [
-      17736,
-      143496,
-      -3040
-     ],
-     [
-      17960,
-      143336,
-      -3032
-     ],
-     [
-      18200,
-      143208,
-      -3016
-     ],
-     [
-      18392,
-      143016,
-      -3016
-     ],
-     [
-      18616,
-      142856,
-      -3024
-     ],
-     [
-      18808,
-      142808,
-      -3024
-     ],
-     [
-      19080,
-      142760,
-      -3048
-     ],
-     [
-      19336,
-      142696,
-      -3032
-     ],
-     [
-      19608,
-      142680,
-      -3032
-     ],
-     [
-      19688,
-      142680,
-      -3032
-     ],
-     [
-      19944,
-      142744,
-      -3040
-     ],
-     [
-      20088,
-      142968,
-      -3056
-     ],
-     [
-      20008,
-      143112,
-      -3040
-     ]
-    ],
-    "maxDanger": 22,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 22,
-     "dangerVsLevel": -15,
-     "aggro": []
-    }
-   },
-   "expectedSec": 98,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    8
-   ]
-  },
-  {
-   "i": 13,
-   "key": "c11:deliver:30571",
-   "cond": 11,
-   "kind": "deliver",
-   "to": 9,
-   "links": [
-    "\"I shall bring back the Scepter of Tantos!\""
-   ],
-   "npc": {
-    "id": 30571,
-    "name": "Tanapi",
-    "title": "Seer",
-    "town": "Orc Village",
-    "at": [
-     -45863,
-     -112621,
-     -200
-    ],
-    "alt": []
-   },
-   "text": "Bring Scepter Box to Tanapi",
-   "needs": [
-    {
-     "id": 3220,
-     "name": "Scepter Box",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30571@-45863,-112621",
-    "status": "ok",
-    "flags": [],
-    "from": ".schuttgart",
-    "length": 11922,
-    "sec": 144,
-    "via": ".schuttgart > Schuttgart -> Orc Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Schuttgart",
-      "cmd": ".schuttgart"
+      "town": "Gludin",
+      "cmd": ".gludin"
      },
      {
       "do": "gk",
-      "from": "Schuttgart",
-      "desc": "Schuttgart -> Orc Village",
-      "link": "orc village",
-      "price": 13000,
+      "from": "Gludin",
+      "desc": "Gludin -> Langk Lizardman Dwelling",
+      "link": "langk lizardman dwellings",
+      "price": 1800,
       "live": true
      },
      {
       "do": "walk",
-      "len": 11922,
-      "how": "town-graph",
-      "danger": 3
+      "len": 11617,
+      "how": "geodata",
+      "danger": 25
      }
     ],
     "start": {
      "kind": "gk",
-     "from": "Schuttgart",
-     "desc": "Schuttgart -> Orc Village"
+     "from": "Gludin",
+     "desc": "Gludin -> Langk Lizardman Dwelling"
     },
     "simple": true,
     "pv": [
      [
-      -45158,
-      -112583,
-      -240
+      -44763,
+      203497,
+      -3592
      ],
      [
-      -45160,
-      -112584,
-      -240
+      -45257,
+      203001,
+      -3628
      ],
      [
-      -45048,
-      -112408,
-      -240
+      -45752,
+      202504,
+      -3664
      ],
      [
-      -45048,
-      -112136,
-      -240
+      -46248,
+      202032,
+      -3688
      ],
      [
-      -45224,
-      -111944,
-      -240
+      -46744,
+      201560,
+      -3712
      ],
      [
-      -45592,
-      -111752,
-      -240
+      -47240,
+      201096,
+      -3704
      ],
      [
-      -45736,
-      -111528,
-      -240
+      -47736,
+      200632,
+      -3696
      ],
      [
-      -45832,
-      -111336,
-      -240
+      -48728,
+      200632,
+      -3544
      ],
      [
-      -45816,
-      -111064,
-      -240
+      -49720,
+      200632,
+      -3360
      ],
      [
-      -45816,
-      -110792,
-      -240
+      -50712,
+      200632,
+      -3344
      ],
      [
-      -46008,
-      -110600,
-      -240
+      -51704,
+      200632,
+      -3448
      ],
      [
-      -46088,
-      -110520,
-      -240
+      -52696,
+      200632,
+      -3464
      ],
      [
-      -46120,
-      -110248,
-      -264
+      -53688,
+      200632,
+      -3648
      ],
      [
-      -46136,
-      -109976,
-      -280
+      -54680,
+      200632,
+      -3704
      ],
      [
-      -46152,
-      -109704,
-      -288
-     ],
-     [
-      -46472,
-      -109384,
-      -232
-     ],
-     [
-      -46536,
-      -109448,
-      -232
-     ],
-     [
-      -46792,
-      -109544,
-      -240
-     ],
-     [
-      -47064,
-      -109544,
-      -240
-     ],
-     [
-      -47320,
-      -109624,
-      -240
-     ],
-     [
-      -47368,
-      -109448,
-      -224
-     ],
-     [
-      -47608,
-      -109480,
-      -240
-     ],
-     [
-      -47784,
-      -109688,
-      -240
-     ],
-     [
-      -47784,
-      -109960,
-      -240
-     ],
-     [
-      -47944,
-      -110184,
-      -240
-     ],
-     [
-      -47864,
-      -110728,
-      -240
-     ],
-     [
-      -47864,
-      -110856,
-      -240
-     ],
-     [
-      -47864,
-      -111016,
-      -240
-     ],
-     [
-      -47864,
-      -111288,
-      -240
-     ],
-     [
-      -47864,
-      -111560,
-      -240
-     ],
-     [
-      -47896,
-      -111832,
-      -240
-     ],
-     [
-      -47896,
-      -112104,
-      -240
-     ],
-     [
-      -47896,
-      -112376,
-      -240
-     ],
-     [
-      -47896,
-      -112648,
-      -240
-     ],
-     [
-      -47896,
-      -112728,
-      -240
-     ],
-     [
-      -47832,
-      -113016,
-      -240
-     ],
-     [
-      -47752,
-      -113272,
-      -240
-     ],
-     [
-      -47640,
-      -113448,
-      -224
-     ],
-     [
-      -47432,
-      -113608,
-      -224
-     ],
-     [
-      -47160,
-      -113608,
-      -208
-     ],
-     [
-      -46888,
-      -113608,
-      -200
-     ],
-     [
-      -46696,
-      -113464,
-      -200
-     ],
-     [
-      -46472,
-      -113464,
-      -200
-     ],
-     [
-      -46392,
-      -113208,
-      -200
-     ],
-     [
-      -46360,
-      -113144,
-      -200
-     ],
-     [
-      -46392,
-      -112936,
-      -200
-     ],
-     [
-      -46200,
-      -112744,
-      -200
-     ],
-     [
-      -46008,
-      -112552,
-      -200
-     ],
-     [
-      -45864,
-      -112536,
-      -200
-     ],
-     [
-      -45864,
-      -112616,
-      -200
+      -55224,
+      200632,
+      -3720
      ]
     ],
-    "maxDanger": 3,
+    "maxDanger": 25,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
      "water": false,
-     "danger": 3,
-     "dangerVsLevel": -34,
+     "danger": 25,
+     "dangerVsLevel": -12,
      "aggro": []
     }
    },
-   "expectedSec": 169,
+   "expectedSec": 167,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    11
+    4
    ]
   }
  ],

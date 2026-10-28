@@ -1,0 +1,539 @@
+{
+ "npcId": 30571,
+ "name": "Tanapi",
+ "title": "Seer",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.003Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30571.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "9": {
+   "name": "Into the City of Humans",
+   "listText": [
+    "[Into the City of Humans]",
+    "[Into the City of Humans (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00009_IntoTheCityOfHumans/30571-01.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00009_IntoTheCityOfHumans/30571-03.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "215": {
+   "name": "Trial Of The Pilgrim",
+   "listText": [
+    "[Trial of the Pilgrim]",
+    "[Trial of the Pilgrim (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00215_TrialOfThePilgrim/30571-01.html",
+     "when": "state STARTED; memo 1; has items 2723",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00215_TrialOfThePilgrim/30571-02.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00215_TrialOfThePilgrim/30571-03.html",
+     "when": "state STARTED; memo 5; has items 2724",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "220": {
+   "name": "Testimony Of Glory",
+   "listText": [
+    "[Testimony of Glory]",
+    "[Testimony of Glory (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00220_TestimonyOfGlory/30571-01.html",
+     "when": "state STARTED; has items 3220",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30571-04.html",
+     "when": "state STARTED; has items 3235; lacks items 3220,3236",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30571-05.html",
+     "when": "state STARTED; has items 3235,3236; lacks items 3220",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30571-06.html",
+     "when": "state STARTED; has items 3237; lacks items 3220,3235",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "276": {
+   "name": "Totem of the Hestui",
+   "listText": [
+    "[Totem of the Hestui]",
+    "[Totem of the Hestui (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00276_TotemOfTheHestui/30571-02.htm",
+     "when": "state CREATED; (player.getRace() == Race.ORC); (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00276_TotemOfTheHestui/30571-01.htm",
+     "when": "state CREATED; (player.getRace() == Race.ORC); NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00276_TotemOfTheHestui/30571-00.htm",
+     "when": "state CREATED; NOT (player.getRace() == Race.ORC)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00276_TotemOfTheHestui/30571-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00276_TotemOfTheHestui/30571-05.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30571.htm": {
+   "file": "trainer/30571.htm",
+   "quest": null,
+   "text": "Seer Tanapi: Youngster, what can I do for you? I am Tanapi of Hestui, and I am seeking a way to destroy the Spirit of Kasha . I have no time to waste, so speak quickly!",
+   "header": "Seer Tanapi",
+   "links": [
+    {
+     "text": "Ask about the Spirit of Kasha.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30571-1.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30571-1.htm": {
+   "file": "trainer/30571-1.htm",
+   "quest": null,
+   "text": "Seer Tanapi: The Spirit of Kasha is an evil entity that recently appeared in the Immortal Plateau. It is contaminating the Grizzly Bear , the symbol of our Hestui tribe. We must vanquish this spirit before it causes irreparable harm...",
+   "header": "Seer Tanapi",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30571.htm"
+    }
+   ]
+  },
+  "trainer/30571-noteach.htm": {
+   "file": "trainer/30571-noteach.htm",
+   "quest": null,
+   "text": "Seer Tanapi: I cannot teach you. I have to go now. Excuse me...",
+   "header": "Seer Tanapi",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00009_IntoTheCityOfHumans/30571-01.html": {
+   "file": "Q00009_IntoTheCityOfHumans/30571-01.html",
+   "quest": 9,
+   "text": "Seer Tanapi: Did Centurion Petukai send you? Our ancestors were driven to the Immortal Plateau after their defeat by the Humans. Are we not stronger than they are? You must prove yourself!",
+   "header": "Seer Tanapi",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "\"What should I do?\"",
+     "bypass": "Quest Q00009_IntoTheCityOfHumans 30571-02.html",
+     "kind": "quest-event",
+     "script": "Q00009_IntoTheCityOfHumans",
+     "event": "30571-02.html",
+     "quest": 9,
+     "to": "Q00009_IntoTheCityOfHumans/30571-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00009_IntoTheCityOfHumans/30571-03.html": {
+   "file": "Q00009_IntoTheCityOfHumans/30571-03.html",
+   "quest": 9,
+   "text": "Seer Tanapi: Find Gatekeeper Tamil , he'll give you the directions.",
+   "header": "Seer Tanapi",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00215_TrialOfThePilgrim/30571-01.html": {
+   "file": "Q00215_TrialOfThePilgrim/30571-01.html",
+   "quest": 215,
+   "text": "Seer Tanapi: Santiago... I am very weary of being sent these amateurs! Why would a person of my stature be required to deal with such greenhorns! Oh, well! I guess I have no choice... If you truly wish to understand the God of Flame then you must visit the ancestors' altar in the Cave of Trials and…",
+   "header": "Seer Tanapi",
+   "when": [
+    "state STARTED; memo 1; has items 2723"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00215_TrialOfThePilgrim/30571-02.html": {
+   "file": "Q00215_TrialOfThePilgrim/30571-02.html",
+   "quest": 215,
+   "text": "Seer Tanapi: Shouldn't you be on you way to the ancestors' altar in the Cave of Trials? You must go there and pray to Ancestor Martankus . What, are you afraid now? If that's the case I wouldn't blame you. Just go back and tell Santiago that you are too scared to complete the task...",
+   "header": "Seer Tanapi",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00215_TrialOfThePilgrim/30571-03.html": {
+   "file": "Q00215_TrialOfThePilgrim/30571-03.html",
+   "quest": 215,
+   "text": "Seer Tanapi: That is quite a surprise! You say that you felt the flames of Pa'agrio? Amazing! To tell you the truth, I wasn't very hopeful when I sent you to the Cave of Trials. These days, success seems rare from one so young as you... I shall remember this. So you want to learn about Maphr? You s…",
+   "header": "Seer Tanapi",
+   "when": [
+    "state STARTED; memo 5; has items 2724"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30571-01.html": {
+   "file": "Q00220_TestimonyOfGlory/30571-01.html",
+   "quest": 220,
+   "text": "Seer Tanapi: Oh, my! No other person has ever brought so many scepters at one time. However, the mark from the Lord is still not assured... The Lord has been very angry lately because of a few bad incidents that took place!",
+   "header": "Seer Tanapi",
+   "when": [
+    "state STARTED; has items 3220"
+   ],
+   "links": [
+    {
+     "text": "\"What bad incidents?\"",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30571-02.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30571-02.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30571-02.html"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30571-04.html": {
+   "file": "Q00220_TestimonyOfGlory/30571-04.html",
+   "quest": 220,
+   "text": "Seer Tanapi: We must hurry and find the Scepter of Tantos! It is being held by the Chief or Seer of the Ragna Tribe ! They are trying to conjure the spirit of the Tantos tribe leader, somewhere on the Immortal Plateau ! Time is of the essence! You must find them quickly, stop the ceremony and recov…",
+   "header": "Seer Tanapi",
+   "when": [
+    "state STARTED; has items 3235; lacks items 3220,3236"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30571-05.html": {
+   "file": "Q00220_TestimonyOfGlory/30571-05.html",
+   "quest": 220,
+   "text": "Seer Tanapi: Ah! At last we have recovered the Scepter of Tantos which was stolen from the ancestors' tombs by those filthy grave robbers! The betrayers of Ragna were trying to summon the spirit of Tantos and harm the Lord! Thanks to you, their wicked plan was foiled! I shall put the Scepter of Tan…",
+   "header": "Seer Tanapi",
+   "when": [
+    "state STARTED; has items 3235,3236; lacks items 3220"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30571-06.html": {
+   "file": "Q00220_TestimonyOfGlory/30571-06.html",
+   "quest": 220,
+   "text": "Seer Tanapi: I have sent word that you are coming to see the Flame Lord ! You must not keep him waiting! Hurry!",
+   "header": "Seer Tanapi",
+   "when": [
+    "state STARTED; has items 3237; lacks items 3220,3235"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00276_TotemOfTheHestui/30571-02.htm": {
+   "file": "Q00276_TotemOfTheHestui/30571-02.htm",
+   "quest": 276,
+   "text": "Seer Tanapi: Young Orc, have you seen an animal called the kasha bear ? It is a poor animal polluted by kasha , the evil spirit of death and decomposition. The animals contaminated by evil spirits die slowly because of the curse. However, that is not the only problem. The curse is terrible because …",
+   "header": "Seer Tanapi",
+   "when": [
+    "state CREATED; (player.getRace() == Race.ORC); (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will take the challenge",
+     "bypass": "Quest Q00276_TotemOfTheHestui 30571-03.htm",
+     "kind": "quest-event",
+     "script": "Q00276_TotemOfTheHestui",
+     "event": "30571-03.htm",
+     "quest": 276,
+     "to": "Q00276_TotemOfTheHestui/30571-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00276_TotemOfTheHestui/30571-01.htm": {
+   "file": "Q00276_TotemOfTheHestui/30571-01.htm",
+   "quest": 276,
+   "text": "Seer Tanapi: Young Orc, have you seen an animal called the kasha bear ? It is a poor animal polluted by kasha , the evil spirit of death and decomposition. Animals polluted by evil spirits die slowly because of the curse. However, that is not the only problem. The curse is terrible because it can b…",
+   "header": "Seer Tanapi",
+   "when": [
+    "state CREATED; (player.getRace() == Race.ORC); NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00276_TotemOfTheHestui/30571-00.htm": {
+   "file": "Q00276_TotemOfTheHestui/30571-00.htm",
+   "quest": 276,
+   "text": "Seer Tanapi: It is difficult for a foreign race such as yourself to understand the teachings of the flame that Pa'agrio gives us Orcs. One that cannot realize the truth within flame can be of no assistance to me! (Quest for Orc characters.)",
+   "header": "Seer Tanapi",
+   "when": [
+    "state CREATED; NOT (player.getRace() == Race.ORC)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00276_TotemOfTheHestui/30571-04.html": {
+   "file": "Q00276_TotemOfTheHestui/30571-04.html",
+   "quest": 276,
+   "text": "Seer Tanapi: Do not forget. When you kill the kasha bears, their bodies will become purified when the Kasha Parasites come out. If there are more parasites, their energy becomes stronger and the kasha totem spirit appears. When it appears, defeat it and obtain the crystal of the kasha totem spirit.",
+   "header": "Seer Tanapi",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00276_TotemOfTheHestui/30571-05.html": {
+   "file": "Q00276_TotemOfTheHestui/30571-05.html",
+   "quest": 276,
+   "text": "Seer Tanapi: You finally brought the crystal of the kasha totem spirit! Thank you. So I was right when I said the parasites were the key to calling forth the kasha totem spirit. Now I must study this crystal. I will make sure that we Hestuis do not forget your help. Here -- this is my small token o…",
+   "header": "Seer Tanapi",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00009_IntoTheCityOfHumans/30571-02.html": {
+   "file": "Q00009_IntoTheCityOfHumans/30571-02.html",
+   "quest": 9,
+   "text": "Seer Tanapi: You must find your own way. We seek a different power than the Humans. Giran is very different from our Immortal Plateau, yet you must start there. Tell Gatekeeper Tamil I sent you, he'll help you from there. May the Glory of Pa'agrio be with you!",
+   "header": "Seer Tanapi",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30571-02.html": {
+   "file": "Q00220_TestimonyOfGlory/30571-02.html",
+   "quest": 220,
+   "text": "Seer Tanapi: Many years ago our ancestors' tomb was desecrated and robbed by goblin grave robbers. They made off with the Scepter of Tantos . As you know, the whole Tantos tribe was executed for high treason 100 years ago by order of the Lord Pa'agrio. Later it turned out that the charges were erro…",
+   "header": "Seer Tanapi",
+   "links": [
+    {
+     "text": "\"I shall bring back the Scepter of Tantos!\"",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30571-03.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30571-03.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30571-03.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30571-03.html": {
+   "file": "Q00220_TestimonyOfGlory/30571-03.html",
+   "quest": 220,
+   "text": "Seer Tanapi: The goblin grave robbers were working at the behest of the Ragna tribe. The spirits of the wind whispered this into my ear. I don't have any information other than that the Chief or the Seer of the Ragna tribe has the scepter. They are trying to conjure the spirit of the leader of the …",
+   "header": "Seer Tanapi",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00276_TotemOfTheHestui/30571-03.htm": {
+   "file": "Q00276_TotemOfTheHestui/30571-03.htm",
+   "quest": 276,
+   "text": "Seer Tanapi: If you kill a kasha bear, you must cut open its abdomen and take out the Kasha Parasite . The evil spirit kasha contaminates the gray bears through the parasites. But the true enemy to defeat is the kasha totem spirit . They say that the evil kasha spirit takes the form of the gray bea…",
+   "header": "Seer Tanapi",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Into the City of Humans (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00009_IntoTheCityOfHumans",
+     "kind": "quest",
+     "quest": 9,
+     "to": "Q00009_IntoTheCityOfHumans/30571-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Trial of the Pilgrim (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00215_TrialOfThePilgrim",
+     "kind": "quest",
+     "quest": 215,
+     "to": "Q00215_TrialOfThePilgrim/30571-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Glory (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00220_TestimonyOfGlory",
+     "kind": "quest",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30571-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Totem of the Hestui]",
+     "bypass": "npc_%objectId%_Quest Q00276_TotemOfTheHestui",
+     "kind": "quest",
+     "quest": 276,
+     "to": "Q00276_TotemOfTheHestui/30571-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Totem of the Hestui (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00276_TotemOfTheHestui",
+     "kind": "quest",
+     "quest": 276,
+     "to": "Q00276_TotemOfTheHestui/30571-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

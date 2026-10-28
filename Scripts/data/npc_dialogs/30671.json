@@ -1,0 +1,147 @@
+{
+ "npcId": 30671,
+ "name": "Croto",
+ "title": "Chief",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.030Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30671.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "231": {
+   "name": "Test Of The Maestro",
+   "listText": [
+    "[Test of the Maestro]",
+    "[Test of the Maestro (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00231_TestOfTheMaestro/30671-01.html",
+     "when": "state STARTED; memo 2; lacks items 2869,2870,2868",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30671-03.html",
+     "when": "state STARTED; has items 2869; lacks items 2870; !((memoState == 2) && !hasAtLeastOneQuestItem(player, PAINT_OF_KAMURU, NECKLACE_OF_KAMUTU, LETTER_OF_SOLDER_DERACHMENT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30671-04.html",
+     "when": "state STARTED; has items 2870; !((memoState == 2) && !hasAtLeastOneQuestItem(player, PAINT_OF_KAMURU, NECKLACE_OF_KAMUTU, LETTER_OF_SOLDER_DERACHMENT)); !(hasQuestItems(player, PAINT_OF_KAMURU) && !hasQuestItems(player, NECKLACE_OF_KAMUTU))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30671-05.html",
+     "when": "state STARTED; has items 2868; lacks items 2870; !((memoState == 2) && !hasAtLeastOneQuestItem(player, PAINT_OF_KAMURU, NECKLACE_OF_KAMUTU, LETTER_OF_SOLDER_DERACHMENT)); !(hasQuestItems(player, PAINT_OF_KAMURU) && !hasQuestItems(player, NECKLACE_OF_KAMUTU))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30671.htm": {
+   "file": "default/30671.htm",
+   "quest": null,
+   "text": "Chief Croto: Our tribe is being treated like dogs to Dwarves after being ousted from the village by betrayers. But we are not dogs... We are wolves! One day we will get back the temple and paint the hills with the blood of betrayers.",
+   "header": "Chief Croto",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00231_TestOfTheMaestro/30671-01.html": {
+   "file": "Q00231_TestOfTheMaestro/30671-01.html",
+   "quest": 231,
+   "text": "Chief Croto: This old fool just doesn't understand... The Contract was over last month! You don't know how that Dwarf feels about Orcs? Oh, damn... Oh, well, believe what you will. Now leave, I am busy!",
+   "header": "Chief Croto",
+   "when": [
+    "state STARTED; memo 2; lacks items 2869,2870,2868"
+   ],
+   "links": [
+    {
+     "text": "Tell him that you will do whatever it takes.",
+     "bypass": "Quest Q00231_TestOfTheMaestro 30671-02.html",
+     "kind": "quest-event",
+     "script": "Q00231_TestOfTheMaestro",
+     "event": "30671-02.html",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30671-02.html"
+    }
+   ]
+  },
+  "Q00231_TestOfTheMaestro/30671-03.html": {
+   "file": "Q00231_TestOfTheMaestro/30671-03.html",
+   "quest": 231,
+   "text": "Chief Croto: The altar of our ancestors is in the Cave of Trial. It is a huge cave in an area frequented by Orcs. Our army was last seen heading there. My nephew was among them. If you search the cave, you may find the remains of my nephew. If he was killed by monsters, please bring his belongings …",
+   "header": "Chief Croto",
+   "when": [
+    "state STARTED; has items 2869; lacks items 2870; !((memoState == 2) && !hasAtLeastOneQuestItem(player, PAINT_OF_KAMURU, NECKLACE_OF_KAMUTU, LETTER_OF_SOLDER_DERACHMENT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30671-04.html": {
+   "file": "Q00231_TestOfTheMaestro/30671-04.html",
+   "quest": 231,
+   "text": "Chief Croto: I see. My nephew died a hero's death. I am jealous in a way... He was so tragically young. His name will be inscribed forever in Pa'agrio's temple. Now only bitter sorrow is left for this old man... I must send reinforcements to Elder Balanki. Well done!",
+   "header": "Chief Croto",
+   "when": [
+    "state STARTED; has items 2870; !((memoState == 2) && !hasAtLeastOneQuestItem(player, PAINT_OF_KAMURU, NECKLACE_OF_KAMUTU, LETTER_OF_SOLDER_DERACHMENT)); !(hasQuestItems(player, PAINT_OF_KAMURU) && !hasQuestItems(player, NECKLACE_OF_KAMUTU))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30671-05.html": {
+   "file": "Q00231_TestOfTheMaestro/30671-05.html",
+   "quest": 231,
+   "text": "Chief Croto: Thank you for letting me know of my nephew's fate! I have sent more soldiers to Elder Balanki. You may now leave safely!",
+   "header": "Chief Croto",
+   "when": [
+    "state STARTED; has items 2868; lacks items 2870; !((memoState == 2) && !hasAtLeastOneQuestItem(player, PAINT_OF_KAMURU, NECKLACE_OF_KAMUTU, LETTER_OF_SOLDER_DERACHMENT)); !(hasQuestItems(player, PAINT_OF_KAMURU) && !hasQuestItems(player, NECKLACE_OF_KAMUTU))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30671-02.html": {
+   "file": "Q00231_TestOfTheMaestro/30671-02.html",
+   "quest": 231,
+   "text": "Chief Croto: Truthfully, we were exiled from the Holy Land and have been living in a foreign village. The bitterest pill to swallow is that the altar of our ancestors is in the hands of our betrayers. I have tried and failed several times to retrieve the altar which is being kept in the Cave of Tri…",
+   "header": "Chief Croto",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Maestro (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00231_TestOfTheMaestro",
+     "kind": "quest",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30671-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

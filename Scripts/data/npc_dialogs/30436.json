@@ -1,0 +1,321 @@
+{
+ "npcId": 30436,
+ "name": "Sarien",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.977Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30436.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "233": {
+   "name": "Test Of The War Spirit",
+   "listText": [
+    "[Test of the War Spirit]",
+    "[Test of the War Spirit (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30436-01.html",
+     "when": "state STARTED; has items 2902,2903; lacks items 2904",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30436-02.html",
+     "when": "state STARTED; has items 2902,2904; lacks items 2903; !(hasQuestItems(player, RACOYS_TOTEM, VIVIANTES_LETTER) && !hasQuestItems(player, INSECT_DIAGRAM_BOOK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30436-03.html",
+     "when": "state STARTED; has items 2910,2914,2880; lacks items 2902; !(hasQuestItems(player, RACOYS_TOTEM, VIVIANTES_LETTER) && !hasQuestItems(player, INSECT_DIAGRAM_BOOK)); !(hasQuestItems(player, RACOYS_TOTEM, INSECT_DIAGRAM_BOOK) && !hasQuestItems(player, VIVIANTES_LETTER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "328": {
+   "name": "Sense for Business",
+   "listText": [
+    "[Sense for Business]",
+    "[Sense for Business (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00328_SenseForBusiness/30436-01.htm",
+     "when": "state CREATED; player.getLevel() < MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00328_SenseForBusiness/30436-02.htm",
+     "when": "state CREATED; NOT player.getLevel() < MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00328_SenseForBusiness/30436-05.html",
+     "when": "state STARTED; (carcass + lens + gizzards) > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00328_SenseForBusiness/30436-04.html",
+     "when": "state STARTED; !(carcass + lens + gizzards) > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30436.htm": {
+   "file": "merchant/30436.htm",
+   "quest": null,
+   "text": "Trader Sarien: I studied at Einhovant's School of Magic when I was just a wee lad. I quit when I realized that I didn't have any magical talent and became a trader, but my time there taught me a great deal about this business.",
+   "header": "Trader Sarien",
+   "links": [
+    {
+     "text": "Buy items and minerals.",
+     "bypass": "npc_%objectId%_Buy 3043600",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about magic materials.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30436-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30436-1.htm": {
+   "file": "merchant/30436-1.htm",
+   "quest": null,
+   "text": "Trader Sarien: Basically, there are eight main ingredients used in the research of magic. The eight ingredients are crimson mushrooms, Dragon's Tooth, green wild grapes, Mandragora Roots, monster eye meat, willow roots, bone powder and jade fragments. Knowledge of these magic ingredients are largel…",
+   "header": "Trader Sarien",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "merchant/30436.htm"
+    }
+   ]
+  },
+  "merchant/30436-pk.htm": {
+   "file": "merchant/30436-pk.htm",
+   "quest": null,
+   "text": "Trader Sarien: I do not deal with the wicked.",
+   "header": "Trader Sarien",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30436-01.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30436-01.html",
+   "quest": 233,
+   "text": "Trader Sarien: A letter from Priestess Vivyan? The grave of Paladin Kelhas and Commander Kiruna? Well... Surely there were many graves of the Elmoreden era here... But sandwind was vicious, and what's even more, the giant ants excavated the place... I bet that all the graves and the relics in it ha…",
+   "header": "Trader Sarien",
+   "when": [
+    "state STARTED; has items 2902,2903; lacks items 2904"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30436-02.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30436-02.html",
+   "quest": 233,
+   "text": "Trader Sarien: I bet that the grave of the Orc Warrior that you are looking for was already excavated and destroyed. But they say that once in a while, the ancient relics are found in the ant tunnel so if you are lucky enough you might find the bones that you are looking for. If my guesses aren't w…",
+   "header": "Trader Sarien",
+   "when": [
+    "state STARTED; has items 2902,2904; lacks items 2903; !(hasQuestItems(player, RACOYS_TOTEM, VIVIANTES_LETTER) && !hasQuestItems(player, INSECT_DIAGRAM_BOOK))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30436-03.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30436-03.html",
+   "quest": 233,
+   "text": "Trader Sarien: You finally got what you wanted from the Ant Nest. You Orcs are extremely brave! You will succeed in business if you apply the same patience and skill to it.",
+   "header": "Trader Sarien",
+   "when": [
+    "state STARTED; has items 2910,2914,2880; lacks items 2902; !(hasQuestItems(player, RACOYS_TOTEM, VIVIANTES_LETTER) && !hasQuestItems(player, INSECT_DIAGRAM_BOOK)); !(hasQuestItems(player, RACOYS_TOTEM, INSECT_DIAGRAM_BOOK) && !hasQuestItems(player, VIVIANTES_LETTER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00328_SenseForBusiness/30436-01.htm": {
+   "file": "Q00328_SenseForBusiness/30436-01.htm",
+   "quest": 328,
+   "text": "Trader Sarien: I know it is hard to believe, but a long time ago southern Gludio also used to be fertile farmland. However, as you can see, now it is nothing more than barren wasteland. It may seem like barren land to normal people, but true businessmen like me find opportunities in any place. I be…",
+   "header": "Trader Sarien",
+   "when": [
+    "state CREATED; player.getLevel() < MIN_LVL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00328_SenseForBusiness/30436-02.htm": {
+   "file": "Q00328_SenseForBusiness/30436-02.htm",
+   "quest": 328,
+   "text": "Trader Sarien: I know it is hard to believe, but a long time ago southern Gludio also used to be fertile farmland. However, as you can see, now it is nothing more than barren wastelands. It may seem like barren land to normal people, but true businessmen like me find opportunities in any place. In …",
+   "header": "Trader Sarien",
+   "when": [
+    "state CREATED; NOT player.getLevel() < MIN_LVL"
+   ],
+   "links": [
+    {
+     "text": "Accept proposal",
+     "bypass": "Quest Q00328_SenseForBusiness 30436-03.htm",
+     "kind": "quest-event",
+     "script": "Q00328_SenseForBusiness",
+     "event": "30436-03.htm",
+     "quest": 328,
+     "to": "Q00328_SenseForBusiness/30436-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00328_SenseForBusiness/30436-05.html": {
+   "file": "Q00328_SenseForBusiness/30436-05.html",
+   "quest": 328,
+   "text": "Trader Sarien: Come, partner. I am glad you have returned safely from the rugged land. First, relax and catch your breath. As your sack is bulging, you must have gathered quite a few products. Let us take a look at the outcome of the hunt! As promised, I will pay you according to how many items you…",
+   "header": "Trader Sarien",
+   "when": [
+    "state STARTED; (carcass + lens + gizzards) > 0"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00328_SenseForBusiness 30436-06.html",
+     "kind": "quest-event",
+     "script": "Q00328_SenseForBusiness",
+     "event": "30436-06.html",
+     "quest": 328,
+     "to": "Q00328_SenseForBusiness/30436-06.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00328_SenseForBusiness 30436-07.html",
+     "kind": "quest-event",
+     "script": "Q00328_SenseForBusiness",
+     "event": "30436-07.html",
+     "quest": 328,
+     "to": "Q00328_SenseForBusiness/30436-07.html"
+    }
+   ]
+  },
+  "Q00328_SenseForBusiness/30436-04.html": {
+   "file": "Q00328_SenseForBusiness/30436-04.html",
+   "quest": 328,
+   "text": "Trader Sarien: Ho, why are your hands empty, partner? Were you not supposed to find me monster eye carcasses and lenses , and the gizzards of the basilisk ? You aren't going to quit by any chance, are you?",
+   "header": "Trader Sarien",
+   "when": [
+    "state STARTED; !(carcass + lens + gizzards) > 0"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00328_SenseForBusiness 30436-06.html",
+     "kind": "quest-event",
+     "script": "Q00328_SenseForBusiness",
+     "event": "30436-06.html",
+     "quest": 328,
+     "to": "Q00328_SenseForBusiness/30436-06.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00328_SenseForBusiness 30436-07.html",
+     "kind": "quest-event",
+     "script": "Q00328_SenseForBusiness",
+     "event": "30436-07.html",
+     "quest": 328,
+     "to": "Q00328_SenseForBusiness/30436-07.html"
+    }
+   ]
+  },
+  "Q00328_SenseForBusiness/30436-03.htm": {
+   "file": "Q00328_SenseForBusiness/30436-03.htm",
+   "quest": 328,
+   "text": "Trader Sarien: Good. Spit on the ground and shake on it. Now we have a contract with the goddess of earth, Maphr, as our witness. Now listen to what I have to say. Do you remember the eight basic ingredients used for magic research I told you about earlier? We can find some of them in this area. If…",
+   "header": "Trader Sarien",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00328_SenseForBusiness/30436-06.html": {
+   "file": "Q00328_SenseForBusiness/30436-06.html",
+   "quest": 328,
+   "text": "Trader Sarien: I am sorry to hear that. And there I was, thinking I had met a partner whom I could work with for a long time. However, I have no choice but to look for another partner... Well, I wish you happiness in your future.",
+   "header": "Trader Sarien",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00328_SenseForBusiness/30436-07.html": {
+   "file": "Q00328_SenseForBusiness/30436-07.html",
+   "quest": 328,
+   "text": "Trader Sarien: Then please continue your efforts. I must look for a coach that will deliver the products to Oren's Ivory Tower. I must earn more money to achieve the large business I have planned in my head.",
+   "header": "Trader Sarien",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the War Spirit (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00233_TestOfTheWarSpirit",
+     "kind": "quest",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30436-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Sense for Business]",
+     "bypass": "npc_%objectId%_Quest Q00328_SenseForBusiness",
+     "kind": "quest",
+     "quest": 328,
+     "to": "Q00328_SenseForBusiness/30436-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Sense for Business (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00328_SenseForBusiness",
+     "kind": "quest",
+     "quest": 328,
+     "to": "Q00328_SenseForBusiness/30436-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

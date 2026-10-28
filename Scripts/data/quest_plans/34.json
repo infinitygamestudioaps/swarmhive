@@ -2,7 +2,7 @@
  "id": 34,
  "name": "In Search of Cloth",
  "version": 1,
- "generated": "2026-10-27T11:14:40.851Z",
+ "generated": "2026-10-27T18:18:21.078Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 60,
@@ -16,14 +16,14 @@
  "reasons": [
   {
    "code": "dryrun-fail",
-   "text": "dry run: flow-no-end"
+   "text": "dry run: flow-stuck"
   },
   {
-   "code": "dryrun:flow-no-end",
-   "text": "the simulation did not reach the end (last cond 6)"
+   "code": "dryrun:flow-stuck",
+   "text": "cond 6: talk to 30088 needs 1866x3000+1868x5000 — not in the bag"
   }
  ],
- "expectedMin": 22,
+ "expectedMin": 25,
  "refLevel": 60,
  "steps": [
   {
@@ -272,12 +272,215 @@
   },
   {
    "i": 1,
-   "key": "c1:deliver:30088",
+   "key": "c1:talk:30294",
    "cond": 1,
-   "kind": "deliver",
-   "to": "end",
+   "kind": "talk",
+   "to": 2,
    "links": [
-    "\"Here you go.\""
+    "When can I get it then?"
+   ],
+   "npc": {
+    "id": 30294,
+    "name": "Varan",
+    "title": "Accessory Merchant",
+    "town": "Gludio",
+    "at": [
+     -14933,
+     124540,
+     -3115
+    ],
+    "alt": []
+   },
+   "text": "Talk to Varan in Gludio",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30294@-14933,124540",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 4935,
+    "sec": 61,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 4935,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14408,
+      123000,
+      -3112
+     ],
+     [
+      -14408,
+      123272,
+      -3112
+     ],
+     [
+      -14440,
+      123544,
+      -3112
+     ],
+     [
+      -14632,
+      123736,
+      -3112
+     ],
+     [
+      -14872,
+      123880,
+      -3112
+     ],
+     [
+      -15144,
+      123944,
+      -3112
+     ],
+     [
+      -15304,
+      124168,
+      -3112
+     ],
+     [
+      -15192,
+      124392,
+      -3112
+     ],
+     [
+      -15112,
+      124456,
+      -3120
+     ],
+     [
+      -15112,
+      124472,
+      -3120
+     ],
+     [
+      -15080,
+      124472,
+      -3120
+     ],
+     [
+      -15000,
+      124536,
+      -3120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 86,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30088",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"He apologized.\""
    ],
    "npc": {
     "id": 30088,
@@ -291,19 +494,7 @@
     ],
     "alt": []
    },
-   "text": "Talk to Varan in Gludio",
-   "needs": [
-    {
-     "id": 1866,
-     "name": "Suede",
-     "n": 3000
-    },
-    {
-     "id": 1868,
-     "name": "Thread",
-     "n": 5000
-    }
-   ],
+   "text": "Return to Radia",
    "reasons": [],
    "travel": {
     "src": "atlas",
@@ -527,22 +718,17 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6
+    2
    ]
   },
   {
-   "i": 2,
-   "key": "c1:talk:30165",
-   "cond": 1,
+   "i": 3,
+   "key": "c3:talk:30165",
+   "cond": 3,
    "kind": "talk",
-   "to": 6,
+   "to": 4,
    "links": [
-    "\"Here they are.\""
+    "\"I'll help you.\""
    ],
    "npc": {
     "id": 30165,
@@ -556,7 +742,7 @@
     ],
     "alt": []
    },
-   "text": "Talk to Varan in Gludio",
+   "text": "Talk to Ralford at Ivory Tower",
    "reasons": [],
    "travel": {
     "src": "atlas",
@@ -630,219 +816,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6
-   ]
-  },
-  {
-   "i": 3,
-   "key": "c1:talk:30294",
-   "cond": 1,
-   "kind": "talk",
-   "to": 2,
-   "links": [
-    "When can I get it then?"
-   ],
-   "npc": {
-    "id": 30294,
-    "name": "Varan",
-    "title": "Accessory Merchant",
-    "town": "Gludio",
-    "at": [
-     -14933,
-     124540,
-     -3115
-    ],
-    "alt": []
-   },
-   "text": "Talk to Varan in Gludio",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30294@-14933,124540",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 4935,
-    "sec": 61,
-    "via": ".gludio",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "walk",
-      "len": 4935,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludio"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -12712,
-      122776,
-      -3116
-     ],
-     [
-      -12792,
-      122776,
-      -3112
-     ],
-     [
-      -12856,
-      122712,
-      -3112
-     ],
-     [
-      -13112,
-      122664,
-      -3088
-     ],
-     [
-      -13320,
-      122712,
-      -3048
-     ],
-     [
-      -13288,
-      122440,
-      -2984
-     ],
-     [
-      -13368,
-      122264,
-      -2984
-     ],
-     [
-      -13640,
-      122248,
-      -2984
-     ],
-     [
-      -13864,
-      122200,
-      -2984
-     ],
-     [
-      -14040,
-      122136,
-      -2984
-     ],
-     [
-      -14136,
-      122216,
-      -2984
-     ],
-     [
-      -14136,
-      122488,
-      -3112
-     ],
-     [
-      -14248,
-      122728,
-      -3112
-     ],
-     [
-      -14280,
-      122760,
-      -3112
-     ],
-     [
-      -14408,
-      123000,
-      -3112
-     ],
-     [
-      -14408,
-      123272,
-      -3112
-     ],
-     [
-      -14440,
-      123544,
-      -3112
-     ],
-     [
-      -14632,
-      123736,
-      -3112
-     ],
-     [
-      -14872,
-      123880,
-      -3112
-     ],
-     [
-      -15144,
-      123944,
-      -3112
-     ],
-     [
-      -15304,
-      124168,
-      -3112
-     ],
-     [
-      -15192,
-      124392,
-      -3112
-     ],
-     [
-      -15112,
-      124456,
-      -3120
-     ],
-     [
-      -15112,
-      124472,
-      -3120
-     ],
-     [
-      -15080,
-      124472,
-      -3120
-     ],
-     [
-      -15000,
-      124536,
-      -3120
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 86,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    3,
-    4,
-    5,
-    6
+    3
    ]
   },
   {
@@ -1334,10 +1308,368 @@
    "expectedSec": 913,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "hunt"
    },
    "conds": [
     4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:30165",
+   "cond": 5,
+   "kind": "talk",
+   "to": 6,
+   "links": [
+    "\"Here they are.\""
+   ],
+   "npc": {
+    "id": 30165,
+    "name": "Ralford",
+    "title": "Accessory Merchant",
+    "town": "Oren",
+    "at": [
+     85004,
+     16760,
+     -4271
+    ],
+    "alt": []
+   },
+   "text": "Give Ralford the Spinneret",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30165@85004,16760",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 796,
+    "sec": 67,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "Underground Shopping Area"
+     },
+     {
+      "do": "walk",
+      "len": 796,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      84915,
+      15969,
+      -4294
+     ],
+     [
+      85000,
+      16760,
+      -4272
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 92,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c6:deliver:30088",
+   "cond": 6,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "\"Here you go.\""
+   ],
+   "npc": {
+    "id": 30088,
+    "name": "Radia",
+    "title": "Warrior-use Armor Merchant",
+    "town": "Giran",
+    "at": [
+     79654,
+     150788,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Return to Radia – Complete the Quest",
+   "needs": [
+    {
+     "id": 1866,
+     "name": "Suede",
+     "n": 3000
+    },
+    {
+     "id": 1868,
+     "name": "Thread",
+     "n": 5000
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30088@79654,150788",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6886,
+    "sec": 77,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6886,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82792,
+      148664,
+      -3464
+     ],
+     [
+      82616,
+      148840,
+      -3464
+     ],
+     [
+      82600,
+      148856,
+      -3464
+     ],
+     [
+      82408,
+      149048,
+      -3464
+     ],
+     [
+      82200,
+      149208,
+      -3464
+     ],
+     [
+      81928,
+      149208,
+      -3464
+     ],
+     [
+      81656,
+      149208,
+      -3464
+     ],
+     [
+      81384,
+      149160,
+      -3464
+     ],
+     [
+      81192,
+      148984,
+      -3464
+     ],
+     [
+      81176,
+      148968,
+      -3464
+     ],
+     [
+      81096,
+      148856,
+      -3464
+     ],
+     [
+      80920,
+      148664,
+      -3464
+     ],
+     [
+      80696,
+      148616,
+      -3464
+     ],
+     [
+      80424,
+      148616,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80616,
+      148376,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80200,
+      148616,
+      -3528
+     ],
+     [
+      79928,
+      148616,
+      -3528
+     ],
+     [
+      79800,
+      148776,
+      -3528
+     ],
+     [
+      79800,
+      149048,
+      -3528
+     ],
+     [
+      79752,
+      149240,
+      -3528
+     ],
+     [
+      79656,
+      149416,
+      -3528
+     ],
+     [
+      79656,
+      149688,
+      -3528
+     ],
+     [
+      79656,
+      149752,
+      -3528
+     ],
+     [
+      79640,
+      149768,
+      -3528
+     ],
+     [
+      79560,
+      149960,
+      -3528
+     ],
+     [
+      79560,
+      150232,
+      -3520
+     ],
+     [
+      79560,
+      150264,
+      -3520
+     ],
+     [
+      79608,
+      150536,
+      -3520
+     ],
+     [
+      79656,
+      150728,
+      -3520
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
    ]
   }
  ],
@@ -1345,13 +1677,13 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:14:55.268Z",
+  "at": "2026-10-27T18:18:33.189Z",
   "pass": false,
   "geo": true,
   "fails": [
    {
-    "code": "flow-no-end",
-    "t": "the simulation did not reach the end (last cond 6)"
+    "code": "flow-stuck",
+    "t": "cond 6: talk to 30088 needs 1866x3000+1868x5000 — not in the bag"
    }
   ],
   "warns": [

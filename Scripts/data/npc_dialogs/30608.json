@@ -1,0 +1,684 @@
+{
+ "npcId": 30608,
+ "name": "Maria",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.017Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30608.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "214": {
+   "name": "Trial Of The Scholar",
+   "listText": [
+    "[Trial of the Scholar]",
+    "[Trial of the Scholar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-01.html",
+     "when": "state STARTED; has items 2675,2689,2692",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-03.html",
+     "when": "state STARTED; has items 2675,2689,2679; lacks items 2692",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-04.html",
+     "when": "state STARTED; has items 2675,2689,2681; lacks items 2692,2679",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-05.html",
+     "when": "state STARTED; has items 2675,2689,2680; lacks items 2692,2679,2681",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-06.html",
+     "when": "state STARTED; has items 2675,2689,2683; lacks items 2692,2679,2681,2680",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-09.html",
+     "when": "state STARTED; has items 2675,2689,2682; lacks items 2692,2679,2681,2680,2683",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-10.html",
+     "when": "state STARTED; has items 2675,2689,2684; lacks items 2692,2679,2681,2680,2683,2682",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-11.html",
+     "when": "state STARTED; has items 2675,2689,2685; lacks items 2692,2679,2681,2680,2683,2682,2684",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-12.html",
+     "when": "state STARTED; has items 2675,2689,2686; lacks items 2692,2679,2681,2680,2683,2682,2684,2685; !hasItemsAtLimit(player, BROWN_SCROLL_SCRAP)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-13.html",
+     "when": "state STARTED; has items 2675,2689,2686; lacks items 2692,2679,2681,2680,2683,2682,2684,2685; hasItemsAtLimit(player, BROWN_SCROLL_SCRAP)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-15.html",
+     "when": "state STARTED; has items 2675,2689,2688; lacks items 2692,2679,2681,2680,2683,2682,2684,2685,2686",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-16.html",
+     "when": "state STARTED; has items 2693,2676; lacks items 2675,2689",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-17.html",
+     "when": "state STARTED; has items 2677; lacks items 2675,2689,2693,2676,2710",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30608-18.html",
+     "when": "state STARTED; has items 2677,2710; lacks items 2675,2689,2693,2676",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "420": {
+   "name": "Little Wing",
+   "listText": [
+    "[Little Wing]",
+    "[Little Wing (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00420_LittleWing/30608-02.html",
+     "when": "state STARTED; cond 2; item 1870 >= 10; item 1871 >= 10; item 2130 >= 1; item 1873 >= 3; qs.getInt(\"fairy_stone\") == 1; getQuestItemsCount(talker, TOAD_SKIN.getId()) >= TOAD_SKIN_FAIRY_STONE_LIMIT",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30608-04.html",
+     "when": "state STARTED; cond 2; item 1870 >= 10; item 1871 >= 10; item 2131 >= 1; item 1875 >= 1; item 1873 >= 5; !((qs.getInt(\"fairy_stone\") == 1) && (getQuestItemsCount(talker, COAL) >= 10) && (getQuestItemsCount(talker, CHARCOAL) >; qs.getInt(\"fairy_stone\") == 2; getQuestItemsCount(talker, TOAD_SKIN.getId()) >= TOAD_SKIN_DELUXE_FAIRY_STONE_LIMIT",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30608-01.html",
+     "when": "state STARTED; cond 2; !((qs.getInt(\"fairy_stone\") == 1) && (getQuestItemsCount(talker, COAL) >= 10) && (getQuestItemsCount(talker, CHARCOAL) >; !((qs.getInt(\"fairy_stone\") == 2) && (getQuestItemsCount(talker, COAL) >= 10) && (getQuestItemsCount(talker, CHARCOAL) >",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30608-06.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "660": {
+   "name": "Aiding the Floran Village",
+   "listText": [
+    "[Aiding the Floran Village.]",
+    "[Aiding the Floran Village (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00660_AidingTheFloranVillage/30608-01.htm",
+     "when": "state CREATED; player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00660_AidingTheFloranVillage/30608-04.html",
+     "when": "state CREATED; NOT player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00660_AidingTheFloranVillage/30608-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30608.htm": {
+   "file": "default/30608.htm",
+   "quest": null,
+   "text": "Maria: Hello, traveler! Did you know that at one time Dion was considered the most beautiful place on the continent? Now, however, it has become spiritually and environmentally defiled. The souls of the unjustly slain call out to all that can hear... Do you hear them?",
+   "header": "Maria",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30608-01.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-01.html",
+   "quest": 214,
+   "text": "Maria: So, you seek the Crystal of Purity? Traditionally the first born daughter of our family inherits the recipe for the crystal. My aunt, who passed the recipe to me, died in a peasants' uprising. Since then I have given up making Crystals of Purity.",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2675,2689,2692"
+   ],
+   "links": [
+    {
+     "text": "We must have the crystal in order to purify the execution grounds!",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30608-02.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30608-02.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30608-02.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30608-03.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-03.html",
+   "quest": 214,
+   "text": "Maria: If you expect me to make the Crystal of Purity, you should go and ask Captain Lucas how the investigation is going. Without his help, it will be impossible to find the lost scrolls, and without the scrolls, the crystal cannot be made.",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2675,2689,2679; lacks items 2692"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-04.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-04.html",
+   "quest": 214,
+   "text": "Maria: I must have the scrolls in order to help you... Lucas's mention of the fortune-teller reminds me of something... I know an astrologer who is an old friend of my family. I haven't seen her since the peasant's uprising... Her name is Creta the Astrologer . You should be able to find her in Flo…",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2675,2689,2681; lacks items 2692,2679"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-05.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-05.html",
+   "quest": 214,
+   "text": "Maria: Go and meet the Astrologer Creta of Floran Village . He will help us to find the lost scrolls.",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2675,2689,2680; lacks items 2692,2679,2681"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-06.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-06.html",
+   "quest": 214,
+   "text": "Maria: How is Creta? I remember her as a kind woman, although she tends to mumble... Did she give you any clue as to the location of the scrolls? You mean Creta said so? Let me see... Ah, yes, I remember the day...",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2675,2689,2683; lacks items 2692,2679,2681,2680"
+   ],
+   "links": [
+    {
+     "text": "Ask for details about the day that the incident took place.",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30608-07.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30608-07.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30608-07.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30608-09.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-09.html",
+   "quest": 214,
+   "text": "Maria: You think Lucilla's Handbag could be a clue? Then by all means, take it to Astrologer Creta !",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2675,2689,2682; lacks items 2692,2679,2681,2680,2683"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-10.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-10.html",
+   "quest": 214,
+   "text": "Maria: So Creta drew this? Hmm... Look here! What is that strange shadow? Could it be the figure of the thief? It is very hard to make out. It appears to not be human... We should show this to Captain Lucas ... He is an expert in this field and should be able to help us.",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2675,2689,2684; lacks items 2692,2679,2681,2680,2683,2682"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-11.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-11.html",
+   "quest": 214,
+   "text": "Maria: Show Creta's painting to Captain Lucas . I'll wager Lucas can tell us who's shadow it is.",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2675,2689,2685; lacks items 2692,2679,2681,2680,2683,2682,2684"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-12.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-12.html",
+   "quest": 214,
+   "text": "Maria: The Leto Lizardman Warrior ? Lucas says this? Well, he should know... I beg you... Please track down the lizardmen and recover the scrolls.",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2675,2689,2686; lacks items 2692,2679,2681,2680,2683,2682,2684,2685; !hasItemsAtLimit(player, BROWN_SCROLL_SCRAP)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-13.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-13.html",
+   "quest": 214,
+   "text": "Maria: You've torn the scroll! How could you have been so careless?! Well, perhaps we can piece it together and make out what it says. How ironic that it should fall to me to create the crystal that will purify this land. I will reopen Maria's Crystal Workshop! And you shall have my first product..…",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2675,2689,2686; lacks items 2692,2679,2681,2680,2683,2682,2684,2685; hasItemsAtLimit(player, BROWN_SCROLL_SCRAP)"
+   ],
+   "links": [
+    {
+     "text": "Wait for the crystal to be completed",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30608-14.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30608-14.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30608-14.html",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30608-15.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-15.html",
+   "quest": 214,
+   "text": "Maria: You said that you would use this crystal to purge the dark energy from the Execution Grounds? You must hurry and give it to High Priest Sylvain . I hope that the purification of that place will soon be achieved.",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2675,2689,2688; lacks items 2692,2679,2681,2680,2683,2682,2684,2685,2686"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-16.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-16.html",
+   "quest": 214,
+   "text": "Maria: I am happy to see you again. How is your task coming along?",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2693,2676; lacks items 2675,2689"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-17.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-17.html",
+   "quest": 214,
+   "text": "Maria: I pray that the crystals I make will always be used for good.",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2677; lacks items 2675,2689,2693,2676,2710"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-18.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-18.html",
+   "quest": 214,
+   "text": "Maria: Ah, you seek the Crystal of Purity? Well, you helped me, so I can't say no. I will give you a Crystal of Purity. I want to be perfectly clear, you must not use this for any dark purpose! Take this Crystal of Purity.",
+   "header": "Maria",
+   "when": [
+    "state STARTED; has items 2677,2710; lacks items 2675,2689,2693,2676"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30608-02.html": {
+   "file": "Q00420_LittleWing/30608-02.html",
+   "quest": 420,
+   "text": "Maria: Hmm... A Fairy Stone, eh? It shouldn't be very difficult to make... Let's see what ingredients you have brought... Coal, Charcoal... gemstones... silver and Toad Lord Back Skins... It's all here! If you will wait a moment. I'll make it now. Gemstone with base.. Polish with silver. Umm, from …",
+   "header": "Maria",
+   "when": [
+    "state STARTED; cond 2; item 1870 >= 10; item 1871 >= 10; item 2130 >= 1; item 1873 >= 3; qs.getInt(\"fairy_stone\") == 1; getQuestItemsCount(talker, TOAD_SKIN.getId()) >= TOAD_SKIN_FAIRY_STONE_LIMIT"
+   ],
+   "links": [
+    {
+     "text": "Wait",
+     "bypass": "Quest Q00420_LittleWing 30608-03.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30608-03.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30608-03.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30608-04.html": {
+   "file": "Q00420_LittleWing/30608-04.html",
+   "quest": 420,
+   "text": "Maria: Hmm... A Fairy Stone, eh? It shouldn't be very difficult to make... Let's see what ingredients you have brought... Coal, Charcoal... gemstones... silver and Toad Lord Back Skins... It's all here! If you will wait a moment. I'll make it now. Gemstone with base.. Polish with silver. Umm, from …",
+   "header": "Maria",
+   "when": [
+    "state STARTED; cond 2; item 1870 >= 10; item 1871 >= 10; item 2131 >= 1; item 1875 >= 1; item 1873 >= 5; !((qs.getInt(\"fairy_stone\") == 1) && (getQuestItemsCount(talker, COAL) >= 10) && (getQuestItemsCount(talker, CHARCOAL) >; qs.getInt(\"fairy_stone\") == 2; getQuestItemsCount(talker, TOAD_SKIN.getId()) >= TOAD_SKIN_DELUXE_FAIRY_STONE_LIMIT"
+   ],
+   "links": [
+    {
+     "text": "Wait",
+     "bypass": "Quest Q00420_LittleWing 30608-05.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30608-05.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30608-05.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30608-01.html": {
+   "file": "Q00420_LittleWing/30608-01.html",
+   "quest": 420,
+   "text": "Maria: Hmm, as it is written here? A Fairy Stone? ...It shouldn't be very difficult to make it according to this... I will need you to get the ingredients for me. I don't have any of this stuff just laying around . Toad Lord Back Skin can be obtained by hunting toad lords near the Cruma Marshlands.…",
+   "header": "Maria",
+   "when": [
+    "state STARTED; cond 2; !((qs.getInt(\"fairy_stone\") == 1) && (getQuestItemsCount(talker, COAL) >= 10) && (getQuestItemsCount(talker, CHARCOAL) >; !((qs.getInt(\"fairy_stone\") == 2) && (getQuestItemsCount(talker, COAL) >= 10) && (getQuestItemsCount(talker, CHARCOAL) >"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30608-06.html": {
+   "file": "Q00420_LittleWing/30608-06.html",
+   "quest": 420,
+   "text": "Maria: That jewel that I made for you earlier was so curious... If it is too fragile it will be useless as an ornament. It seemed rather weak and sensitive... Do you suppose it was made for a special purpose? Oh, by the way, I have been asked to make something for Dwarves to use to craft Mithril an…",
+   "header": "Maria",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30608-01.htm": {
+   "file": "Q00660_AidingTheFloranVillage/30608-01.htm",
+   "quest": 660,
+   "text": "Maria: What do you think of the Dion Peasant Riot?",
+   "header": "Maria",
+   "when": [
+    "state CREATED; player.getLevel() >= MIN_LEVEL"
+   ],
+   "links": [
+    {
+     "text": "\"It was a result of the unusually bitter cold and the oppressive policies of the Lord. The riot was justified.\"",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30608-02.htm",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30608-02.htm",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30608-02.htm"
+    },
+    {
+     "text": "\"The situation was bad, but the peasants were disloyal and the actions of the Lord were justified.\"",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30608-03.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30608-03.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30608-03.html"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30608-04.html": {
+   "file": "Q00660_AidingTheFloranVillage/30608-04.html",
+   "quest": 660,
+   "text": "Maria: Did you know there were survivors of the Dion Peasant Riot? They're desperately in need of help from an adventurer like you! You should try to help them when you've had more experience! (This quest may only be undertaken by characters of level 30 and above.)",
+   "header": "Maria",
+   "when": [
+    "state CREATED; NOT player.getLevel() >= MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30608-05.html": {
+   "file": "Q00660_AidingTheFloranVillage/30608-05.html",
+   "quest": 660,
+   "text": "Maria: You're a true friend of the farmer! I expect great things from you! By the way, how is Alex in Floran Village?",
+   "header": "Maria",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-02.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-02.html",
+   "quest": 214,
+   "text": "Maria: The execution grounds...? Oh yes... Many lives were lost unjustly there. Most of my family was among them... I will help you in order to put their souls at rest. A month ago the recipe for the crystal was stolen from me. I reported this incident to the guards but have not heard anything from…",
+   "header": "Maria",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-07.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-07.html",
+   "quest": 214,
+   "text": "Maria: It wasn't very much different from any other day. I was alone, daydreaming as usual. As always, my thoughts eventually returned to that horrible day... Then my childhood friend Lucilla came to visit. We went out together and I had more fun than I have in years. We stayed the night in Gludin.…",
+   "header": "Maria",
+   "links": [
+    {
+     "text": "\"The handbag will give us some clue.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30608-08.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30608-08.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30608-08.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30608-08.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-08.html",
+   "quest": 214,
+   "text": "Maria: Do you really think that this could possibly be the clue that Creta had asked for ? Hmm... Maybe...! Then go ahead and take the handbag, but don't let Lucilla know, she would most likely be upset.",
+   "header": "Maria",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30608-14.html": {
+   "file": "Q00214_TrialOfTheScholar/30608-14.html",
+   "quest": 214,
+   "text": "Maria: The Crystal of Purity is complete... May this crystal pacify the souls of my family. Take it now. I shall continue making more. I wish you a future that shines as brightly as this crystal.",
+   "header": "Maria",
+   "sets": {
+    "cond": "13"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00420_LittleWing/30608-03.html": {
+   "file": "Q00420_LittleWing/30608-03.html",
+   "quest": 420,
+   "text": "Maria: Almost done. Once I absorb the impurities with the Toad Lord Back Skin... Alright! Finished! What a beautiful jewel! Not just physical beauty but something else... An inner power... At least it gives me a good feeling...",
+   "header": "Maria",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00420_LittleWing/30608-05.html": {
+   "file": "Q00420_LittleWing/30608-05.html",
+   "quest": 420,
+   "text": "Maria: Almost done.Now I will absorb the impurities with the Toad Lord Back Skin... OK! Finished! Look how clear it is! Like pure water, it has no color at all! I've never seen anything like this... Even though I made it, I'm still in awe. Here it is. In my experience, this kind of jewel is very fr…",
+   "header": "Maria",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30608-02.htm": {
+   "file": "Q00660_AidingTheFloranVillage/30608-02.htm",
+   "quest": 660,
+   "text": "Maria: Oh, really? Come closer, so no one will hear us... ...Some peasants actually survived that brutal repression! They've established an autonomous community called Floran Village. There they have been leading free lives, or at least as free as peasants' hard lives can be, that is... I'm so prou…",
+   "header": "Maria",
+   "links": [
+    {
+     "text": "\"What can I do to help?\"",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30608-06.htm",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30608-06.htm",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30608-06.htm",
+     "toAll": [
+      "Q00660_AidingTheFloranVillage/30608-06.htm",
+      "Q00660_AidingTheFloranVillage/30608-06a.htm"
+     ],
+     "effect": "start"
+    },
+    {
+     "text": "\"No, sorry, I don't have the time.\"",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30608-03.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30608-03.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30608-03.html"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30608-03.html": {
+   "file": "Q00660_AidingTheFloranVillage/30608-03.html",
+   "quest": 660,
+   "text": "Maria: Hmm... You should think about whether or not you're cut out to be an adventurer. Good deeds often come back as favors when you need them most! Humph!",
+   "header": "Maria",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30608-06.htm": {
+   "file": "Q00660_AidingTheFloranVillage/30608-06.htm",
+   "quest": 660,
+   "text": "Maria: I was right about you! You have a deep sense of what is right and wrong. We think you'll be a great help to us! Floran Village is autonomous, and has no protection against organized military attacks. But they've recently formed a militia to protect the village from the monsters... Go to Flor…",
+   "header": "Maria",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30608-06a.htm": {
+   "file": "Q00660_AidingTheFloranVillage/30608-06a.htm",
+   "quest": 660,
+   "text": "Maria: When you're more experienced, maybe I can show you how to help them. (Only characters of level 30 and above may undertake this quest.)",
+   "header": "Maria",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Scholar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00214_TrialOfTheScholar",
+     "kind": "quest",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30608-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Little Wing (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00420_LittleWing",
+     "kind": "quest",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30608-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Aiding the Floran Village.]",
+     "bypass": "npc_%objectId%_Quest Q00660_AidingTheFloranVillage",
+     "kind": "quest",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30608-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Aiding the Floran Village (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00660_AidingTheFloranVillage",
+     "kind": "quest",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30608-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

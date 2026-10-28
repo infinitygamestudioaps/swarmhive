@@ -1,0 +1,286 @@
+{
+ "npcId": 30106,
+ "name": "Dufner",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.841Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30106.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "213": {
+   "name": "Trial Of The Seeker",
+   "listText": [
+    "[Trial of the Seeker]",
+    "[Trial of the Seeker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00213_TrialOfTheSeeker/30106-02.html",
+     "when": "state CREATED; level < 35; ((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || ((player.getClassId() == Class",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30106-03.htm",
+     "when": "state CREATED; NOT level < 35; ((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || ((player.getClassId() == Class",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30106-01.html",
+     "when": "state CREATED; !((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || ((player.getClassId() == Clas",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30106-06.html",
+     "when": "state STARTED; has items 2647; lacks items 2672",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30106-07.html",
+     "when": "state STARTED; lacks items 2647,2672; !(hasQuestItems(player, DUFNERS_LETTER) && !hasQuestItems(player, TERRYS_REPORT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30106-08.html",
+     "when": "state STARTED; has items 2647,2672; lacks items 2647; !(hasQuestItems(player, DUFNERS_LETTER) && !hasQuestItems(player, TERRYS_REPORT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30106.htm": {
+   "file": "trainer/30106.htm",
+   "quest": null,
+   "text": "Master Dufner: It's a misperception to think that Giran is filled only with fat and idle merchants. In fact, because of those merchants, there are more guards and sentinels needed here than in most other cities. Most of the mercenaries hired by the Merchant Guild Association have been trained in th…",
+   "header": "Master Dufner",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30106-noteach.htm": {
+   "file": "trainer/30106-noteach.htm",
+   "quest": null,
+   "text": "Master Dufner: I'm sorry, but you came to the wrong man. I only accept Humans and only Fighters. You'll have to find someone else to teach you.",
+   "header": "Master Dufner",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30106-02.html": {
+   "file": "Q00213_TrialOfTheSeeker/30106-02.html",
+   "quest": 213,
+   "text": "Master Dufner: Our kingdom is being threatened by mutants! I am in need of guild members skilled in concealment and scouting. I think you will be very useful once you gain a bit more experience. If you successfully complete this task the guild will acknowledge your skills and you will find it easie…",
+   "header": "Master Dufner",
+   "when": [
+    "state CREATED; level < 35; ((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || ((player.getClassId() == Class"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30106-03.htm": {
+   "file": "Q00213_TrialOfTheSeeker/30106-03.htm",
+   "quest": 213,
+   "text": "Master Dufner: I am not sure if you are aware of this, but the mutants have been behaving strange lately. They have been forming gangs and looting local regions, and their recent movements have become more organized and accurate. I am sure this a very bad sign. Overwhelming force would probably be …",
+   "header": "Master Dufner",
+   "when": [
+    "state CREATED; NOT level < 35; ((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || ((player.getClassId() == Class"
+   ],
+   "links": [
+    {
+     "text": "Ask about the solution",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30106-04.htm",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30106-04.htm",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30106-04.htm"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30106-01.html": {
+   "file": "Q00213_TrialOfTheSeeker/30106-01.html",
+   "quest": 213,
+   "text": "Master Dufner: I 'm not sure if you are aware of it, but the magical creatures have been acting very strange lately. They seem to be organizing for something. I am sure this is a bad sign. We must find out what those mutants are up to! While it is important to have young volunteers like yourself in…",
+   "header": "Master Dufner",
+   "when": [
+    "state CREATED; !((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || ((player.getClassId() == Clas"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30106-06.html": {
+   "file": "Q00213_TrialOfTheSeeker/30106-06.html",
+   "quest": 213,
+   "text": "Master Dufner: You will find the name of the person you seek in this letter. You must leave at once! Don't forget, you must not be seen by anyone!",
+   "header": "Master Dufner",
+   "when": [
+    "state STARTED; has items 2647; lacks items 2672"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30106-07.html": {
+   "file": "Q00213_TrialOfTheSeeker/30106-07.html",
+   "quest": 213,
+   "text": "Master Dufner: I expect great things from you. Should this task go well, I shall acknowledge your talents and lend you my aid should you want to change to a higher level occupation. May the divine light of Einhasad shine on you always.",
+   "header": "Master Dufner",
+   "when": [
+    "state STARTED; lacks items 2647,2672; !(hasQuestItems(player, DUFNERS_LETTER) && !hasQuestItems(player, TERRYS_REPORT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30106-08.html": {
+   "file": "Q00213_TrialOfTheSeeker/30106-08.html",
+   "quest": 213,
+   "text": "Master Dufner: This is the report of Terry, the Hawkeye! Pardon me a moment while I peruse this . . . Hmmm . . . the children of Shilen! Oh my -- it seems as though they have finally begun to act on a large scale . . . Well, enough of that for now. My thanks for a job well done. We'll handle it fro…",
+   "header": "Master Dufner",
+   "when": [
+    "state STARTED; has items 2647,2672; lacks items 2647; !(hasQuestItems(player, DUFNERS_LETTER) && !hasQuestItems(player, TERRYS_REPORT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30106-04.htm": {
+   "file": "Q00213_TrialOfTheSeeker/30106-04.htm",
+   "quest": 213,
+   "text": "Master Dufner: For now, the guild has decided to keep our investigation of this matter secret. For that we must have the aid of guild members skilled in concealment and scouting, like yourself. Of course, you must also be able to defend yourself in dangerous situations. Conflict with the mutants wi…",
+   "header": "Master Dufner",
+   "links": [
+    {
+     "text": "Say that you are willing to help.",
+     "bypass": "Quest Q00213_TrialOfTheSeeker ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "ACCEPT",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30106-05a.htm",
+     "toAll": [
+      "Q00213_TrialOfTheSeeker/30106-05a.htm",
+      "Q00213_TrialOfTheSeeker/30106-05.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30106-05.htm": {
+   "file": "Q00213_TrialOfTheSeeker/30106-05.htm",
+   "quest": 213,
+   "text": "Master Dufner: Good! I think it'd be easier to investigate if you slayed a few of the mutant magical creatures first. But... once the investigation reaches a certain point, you'll run into problems that you can't handle by yourself. I'll introduce you to someone that may be of help to you. His name…",
+   "header": "Master Dufner",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30106-05a.htm": {
+   "file": "Q00213_TrialOfTheSeeker/30106-05a.htm",
+   "quest": 213,
+   "text": "Master Dufner: Very well! This is just my opinion, but I suspect that it will be easier for you to first find and kill some of those evil mutants and then investigate. Once your investigation reaches a certain point, howver, I'm reasonably certain that you will encounter a situation you cannot hand…",
+   "header": "Master Dufner",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Seeker]",
+     "bypass": "npc_%objectId%_Quest Q00213_TrialOfTheSeeker",
+     "kind": "quest",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30106-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Trial of the Seeker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00213_TrialOfTheSeeker",
+     "kind": "quest",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30106-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

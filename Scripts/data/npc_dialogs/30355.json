@@ -1,0 +1,231 @@
+{
+ "npcId": 30355,
+ "name": "Roselyn",
+ "title": "Sentry",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.954Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30355.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "8": {
+   "name": "An Adventure Begins",
+   "listText": [
+    "[An Adventure Begins]",
+    "[An Adventure Begins (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00008_AnAdventureBegins/30355-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00008_AnAdventureBegins/30355-03.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "168": {
+   "name": "Deliver Supplies",
+   "listText": [
+    "[Deliver Supplies]",
+    "[Deliver Supplies (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00168_DeliverSupplies/30355-01.html",
+     "when": "cond 3; st.hasQuestItems(SENTRIES.get(npc.getId()))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00168_DeliverSupplies/30357-01.html",
+     "when": "cond 3; st.hasQuestItems(SENTRIES.get(npc.getId()))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00168_DeliverSupplies/30355-02.html",
+     "when": "!(st.isCond(3) && st.hasQuestItems(SENTRIES.get(npc.getId()))); !st.hasQuestItems(SENTRIES.get(npc.getId()))",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00168_DeliverSupplies/30357-02.html",
+     "when": "!(st.isCond(3) && st.hasQuestItems(SENTRIES.get(npc.getId()))); !st.hasQuestItems(SENTRIES.get(npc.getId()))",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30355.htm": {
+   "file": "guard/30355.htm",
+   "quest": null,
+   "text": "Sentry Roselyn: May the blessing of darkness shelter you. I am Sentry Roselyn, one of the members of the glorious corps of sentries, who protect the Temple of Shilen and guard her people. This path that I am in charge of leads to the surface. Follow the path and go outside to get to the most sacred…",
+   "header": "Sentry Roselyn",
+   "links": [
+    {
+     "text": "Ask about the Shilen Temple.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30355-1.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30355-1.htm": {
+   "file": "guard/30355-1.htm",
+   "quest": null,
+   "text": "Sentry Roselyn: The temple serves Shilen, mother of the abyss. It is not only a sacred temple where rituals are held for the goddess, but also a place where young Dark Elves learn discipline, basic combat skills and magic. Within the deepest parts of the temple lies Patriarch Mitraell. To get to th…",
+   "header": "Sentry Roselyn",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00008_AnAdventureBegins/30355-01.html": {
+   "file": "Q00008_AnAdventureBegins/30355-01.html",
+   "quest": 8,
+   "text": "Sentry Roselyn: Don't you have anything better to do?",
+   "header": "Sentry Roselyn",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Gatekeeper Jasmine told me...\"",
+     "bypass": "Quest Q00008_AnAdventureBegins 30355-02.html",
+     "kind": "quest-event",
+     "script": "Q00008_AnAdventureBegins",
+     "event": "30355-02.html",
+     "quest": 8,
+     "to": "Q00008_AnAdventureBegins/30355-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00008_AnAdventureBegins/30355-03.html": {
+   "file": "Q00008_AnAdventureBegins/30355-03.html",
+   "quest": 8,
+   "text": "Sentry Roselyn: You're back? Please take this note to Magister Harne . It has some great gossip about Jasmine he'd love to hear.",
+   "header": "Sentry Roselyn",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00168_DeliverSupplies/30355-01.html": {
+   "file": "Q00168_DeliverSupplies/30355-01.html",
+   "quest": 168,
+   "text": "Sentry Roselyn: Is this the new sword? Master Harant's skills are the best, as always. This is an excellent weapon for the Sentries, who are responsible for the safety of the village, to use. Compared to this, the Old Bronze Sword seems primitive. Here, take it. It is of no use to me anymore.",
+   "header": "Sentry Roselyn",
+   "when": [
+    "cond 3; st.hasQuestItems(SENTRIES.get(npc.getId()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00168_DeliverSupplies/30357-01.html": {
+   "file": "Q00168_DeliverSupplies/30357-01.html",
+   "quest": 168,
+   "text": "Sentry Kristin: So this is the new Sentry Blade. A fine sword it is. Compared to this, the Old Bronze Sword is clunky and clumsy. Still, it is a bit sad -- though it may be old, I have grown attached to this sword, but I am sure it will be put to good use by someone else.",
+   "header": "Sentry Kristin",
+   "when": [
+    "cond 3; st.hasQuestItems(SENTRIES.get(npc.getId()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00168_DeliverSupplies/30355-02.html": {
+   "file": "Q00168_DeliverSupplies/30355-02.html",
+   "quest": 168,
+   "text": "Sentry Roselyn: Please give my Old Bronze Sword to Sentry Jenna. And please tell her that I am very satisfied with the new Sentry Blade.",
+   "header": "Sentry Roselyn",
+   "when": [
+    "!(st.isCond(3) && st.hasQuestItems(SENTRIES.get(npc.getId()))); !st.hasQuestItems(SENTRIES.get(npc.getId()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00168_DeliverSupplies/30357-02.html": {
+   "file": "Q00168_DeliverSupplies/30357-02.html",
+   "quest": 168,
+   "text": "Sentry Kristin: Please give my Old Bronze Sword to Sentry Jenna. Outdated weapons are to be sent to Blacksmith Karrod. I guess that my old sword will be melted down and used to make new weapons or armor. It's regrettable, but we cannot waste our resources at a time like this.",
+   "header": "Sentry Kristin",
+   "when": [
+    "!(st.isCond(3) && st.hasQuestItems(SENTRIES.get(npc.getId()))); !st.hasQuestItems(SENTRIES.get(npc.getId()))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00008_AnAdventureBegins/30355-02.html": {
+   "file": "Q00008_AnAdventureBegins/30355-02.html",
+   "quest": 8,
+   "text": "Sentry Roselyn: Jasmine, you just wait! I feel ashamed, but this is what happened to me a long time ago. How could she say that about her sister! Sounds like she had some words for you, too, the condescending blabbermouth. It's time for us to correct her. Even I can't stay indifferent after hearing…",
+   "header": "Sentry Roselyn",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[An Adventure Begins (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00008_AnAdventureBegins",
+     "kind": "quest",
+     "quest": 8,
+     "to": "Q00008_AnAdventureBegins/30355-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Deliver Supplies (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00168_DeliverSupplies",
+     "kind": "quest",
+     "quest": 168,
+     "to": "Q00168_DeliverSupplies/30355-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

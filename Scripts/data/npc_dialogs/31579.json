@@ -1,0 +1,270 @@
+{
+ "npcId": 31579,
+ "name": "Klaus",
+ "title": "Fishing Guild Member",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.236Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Fisherman/31579.htm",
+   "when": "normal (no karma); NOT player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman"
+  },
+  {
+   "page": "ai/npc/Fisherman/31579-pk.htm",
+   "when": "player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman",
+   "variant": "karma"
+  }
+ ],
+ "quests": {
+  "79": {
+   "name": "Saga of the Adventurer",
+   "listText": [
+    "[Saga of the Adventurer]",
+    "[Saga of the Adventurer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00079_SagaOfTheAdventurer/2-01.htm",
+     "when": "cond 1; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00079_SagaOfTheAdventurer/2-02.htm",
+     "when": "cond 2; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00079_SagaOfTheAdventurer/2-03.htm",
+     "when": "cond 4; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00079_SagaOfTheAdventurer/2-04.htm",
+     "when": "cond 5; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "426": {
+   "name": "Quest for Fishing Shot",
+   "listText": [
+    "[Quest for Fishing shot]",
+    "[Quest for Fishing shot (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "ai/npc/Fisherman/31579.htm": {
+   "file": "ai/npc/Fisherman/31579.htm",
+   "quest": null,
+   "text": "Fishing Guild Member Klaw: Thanks to its many mountain streams and lakes, Goddard is a prime fishing spot. People come from all over to test their skill and try their luck here. You interested?",
+   "header": "Fishing Guild Member Klaw",
+   "links": [
+    {
+     "text": "Ask how to fish.",
+     "bypass": "player_help 7561.htm#7561",
+     "kind": "other"
+    },
+    {
+     "text": "Fishing Contest",
+     "bypass": "Quest Fisherman fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "fishing_championship.htm",
+     "to": "ai/npc/Fisherman/fishing_championship.htm"
+    },
+    {
+     "text": "Learn fishing skill.",
+     "bypass": "Quest Fisherman LearnFishSkill",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "LearnFishSkill",
+     "to": null
+    },
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "Quest Fisherman BuySellRefund",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "BuySellRefund",
+     "to": null
+    },
+    {
+     "text": "Sell fish.",
+     "bypass": "npc_%objectId%_multisell 009",
+     "kind": "multisell"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/31579-pk.htm": {
+   "file": "ai/npc/Fisherman/31579-pk.htm",
+   "quest": null,
+   "text": "Fishermen's Guild Member Klaus: We don't cater to the likes of you!",
+   "header": "Fishermen's Guild Member Klaus",
+   "when": [
+    "player.getKarma() > 0; !character().karmaPlayerCanShop()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/2-01.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/2-01.htm",
+   "quest": 79,
+   "text": "Klaus: Ha Ha Ha! Has that old hag not given up yet? Do you want to end up like me? Just give up. Have a drink like I'm doing. If you drink this, all the cares of this world will go away. Ha Ha Ha!",
+   "header": "Klaus",
+   "when": [
+    "cond 1; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Ask him to give you the information regarding the forbidden power.",
+     "bypass": "Quest Q00079_SagaOfTheAdventurer 2-1",
+     "kind": "quest-event",
+     "script": "Q00079_SagaOfTheAdventurer",
+     "event": "2-1",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/2-02.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/2-02.htm",
+   "quest": 79,
+   "text": "Klaus : I am the best hunter among all the members of the Hunter's Guild! Ha Ha Ha! Uggh. I, ah... feel a little bit tipsy, now... Now, I've become a fisher... no, the best drunkard in Goddard! Bwa Ha Ha! Isn't it fun? Are you having fun, yet? I know how you can have even more fun. Well now, go to …",
+   "header": "Klaus",
+   "when": [
+    "cond 2; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/2-03.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/2-03.htm",
+   "quest": 79,
+   "text": "Klaus: Hey! All right, you brought the liquor! Come on, let me have it.",
+   "header": "Klaus",
+   "when": [
+    "cond 4; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Give him the ice liquor.",
+     "bypass": "Quest Q00079_SagaOfTheAdventurer 2-2",
+     "kind": "quest-event",
+     "script": "Q00079_SagaOfTheAdventurer",
+     "event": "2-2",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/2-04.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/2-04.htm",
+   "quest": 79,
+   "text": "Kalus: Didn't I tell you already? The first Tablet of Vision is located on the south side of the Tower of Insolence. Hiccup!",
+   "header": "Kalus",
+   "when": [
+    "cond 5; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/2-05.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/2-05.htm",
+   "quest": 79,
+   "text": "Kalus: All right! All right! I know the path to reach the first passage. However, it's hard for me to bring up the memory of that time while I'm sober. Go to Brewer Valentine in this village, obtain the ice liquor and bring it back to me. If I have a glass of that liquor, I just might be able to re…",
+   "header": "Kalus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/2-06.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/2-06.htm",
+   "quest": 79,
+   "text": "Kalus: Gulp! Gulp! Gulp! You must be more capable than I thought, huh? Ha Ha Ha! Now then, should I try to remember the old times? Hmm... Let me see... The forbidden power was obtained by a strange hermit. It was taken away and divided by the gods. It is sealed up in several Tablets of Vision. In o…",
+   "header": "Kalus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Adventurer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00079_SagaOfTheAdventurer",
+     "kind": "quest",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/2-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Quest for Fishing shot]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Quest for Fishing shot (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/fishing_championship.htm": {
+   "file": "ai/npc/Fisherman/fishing_championship.htm",
+   "quest": null,
+   "text": "Fishing King Championship Tournament Fishing Guild Member: Ahoy! Here are the results of last week's Fishing King Championship Tournament! Do you see your name on the list? If you do, claim your prize money! Remember, you have only one week to claim your prize. Don't fret if your name isn't listed …",
+   "header": "Fishing Guild Member",
+   "links": [
+    {
+     "text": "Claim Prize",
+     "bypass": "Quest Fisherman fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "fishing_championship.htm",
+     "to": "ai/npc/Fisherman/fishing_championship.htm"
+    }
+   ]
+  }
+ }
+}

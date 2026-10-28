@@ -1,0 +1,1423 @@
+{
+ "npcId": 32760,
+ "name": "Jinia",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.404Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32760.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10283": {
+   "name": "Request of Ice Merchant",
+   "listText": [
+    "[Request of Ice Merchant]",
+    "[Request of Ice Merchant (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10283_RequestOfIceMerchant/32760-06.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10283_RequestOfIceMerchant/32760-01.html",
+     "when": "state STARTED; memo 2; talker == player.getObjectId()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10283_RequestOfIceMerchant/32760-05.html",
+     "when": "state STARTED; memo 2; NOT talker == player.getObjectId()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10284": {
+   "name": "Acquisition of Divine Sword",
+   "listText": [
+    "[Acquisition of Divine Sword]",
+    "[Acquisition of Divine Sword (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32760-01.html",
+     "when": "state STARTED; memo 1; memoStateEx1 == 0; memoStateEx2 == 0; memoStateEx3 == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32760-01a.html",
+     "when": "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); memoStateEx1 == 1; memoStateEx2 == 0; memoStateEx3 == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32760-01b.html",
+     "when": "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); memoStateEx1 == 0; memoStateEx2 == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32760-01c.html",
+     "when": "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 1) && (memoStateEx3 == 0)); memoStateEx1 == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32760-01d.html",
+     "when": "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 1) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32760-01e.html",
+     "when": "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 1) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32760-01f.html",
+     "when": "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 1) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32760-01g.html",
+     "when": "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 1) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "10285": {
+   "name": "Meeting Sirra",
+   "listText": [
+    "[Meeting Sirra]",
+    "[Meeting Sirra (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10285_MeetingSirra/32760-01.html",
+     "when": "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10285_MeetingSirra/32760-03.html",
+     "when": "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10285_MeetingSirra/32760-04.html",
+     "when": "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10285_MeetingSirra/32760-07.html",
+     "when": "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10285_MeetingSirra/32760-08.html",
+     "when": "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10285_MeetingSirra/32760-15.html",
+     "when": "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "10286": {
+   "name": "Reunion with Sirra",
+   "listText": [
+    "[Reunion with Sirra]",
+    "[Reunion with Sirra (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10286_ReunionWithSirra/32760-01.html",
+     "when": "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10286_ReunionWithSirra/32760-05.html",
+     "when": "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    },
+    {
+     "page": "Q10286_ReunionWithSirra/32760-06.html",
+     "when": "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "10287": {
+   "name": "Story of Those Left",
+   "listText": [
+    "[Story of Those Left]",
+    "[Story of Those Left (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10287_StoryOfThoseLeft/32760-01.html",
+     "when": "state STARTED; memo 1; memoStateEx1 == 0; memoStateEx2 == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10287_StoryOfThoseLeft/32760-04.html",
+     "when": "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0)); memoStateEx1 == 1; memoStateEx2 == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10287_StoryOfThoseLeft/32760-05.html",
+     "when": "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0)); memoStateEx1 == 1; memoStateEx2 == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32760.htm": {
+   "file": "default/32760.htm",
+   "quest": null,
+   "text": "Jinia: I'm busy. Not now.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10283_RequestOfIceMerchant/32760-06.html": {
+   "file": "Q10283_RequestOfIceMerchant/32760-06.html",
+   "quest": 10283,
+   "text": "Jinia: Go back to Freya first. I'll see you there.",
+   "header": "Jinia",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10283_RequestOfIceMerchant/32760-01.html": {
+   "file": "Q10283_RequestOfIceMerchant/32760-01.html",
+   "quest": 10283,
+   "text": "Jinia: Who are you? What are you doing to Kier? Stay away from him, he's done nothing to deserve this disrespect.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 2; talker == player.getObjectId()"
+   ],
+   "links": [
+    {
+     "text": "\"I apologize. You have nothing to fear.\"",
+     "bypass": "Quest Q10283_RequestOfIceMerchant 32760-02.html",
+     "kind": "quest-event",
+     "script": "Q10283_RequestOfIceMerchant",
+     "event": "32760-02.html",
+     "quest": 10283,
+     "to": "Q10283_RequestOfIceMerchant/32760-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10283_RequestOfIceMerchant/32760-05.html": {
+   "file": "Q10283_RequestOfIceMerchant/32760-05.html",
+   "quest": 10283,
+   "text": "Jinia: Poor Kier... you were warned about the Ice Queen! But you wouldn't listen...",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 2; NOT talker == player.getObjectId()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-01.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-01.html",
+   "quest": 10284,
+   "text": "Jinia: Before I tell you about this mission, there's a lot we need to discuss. Our guild has a long history and it's important you understand what we're trying to accomplish.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; memoStateEx1 == 0; memoStateEx2 == 0; memoStateEx3 == 0"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Ice Queen.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-02a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-02a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-02a.html"
+    },
+    {
+     "text": "Ask about Jinia Guild.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-03a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-03a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-03a.html"
+    },
+    {
+     "text": "Ask about the Divine Sword.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-04a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-04a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-04a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-01a.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-01a.html",
+   "quest": 10284,
+   "text": "Jinia: What else would you like to know?",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); memoStateEx1 == 1; memoStateEx2 == 0; memoStateEx3 == 0"
+   ],
+   "links": [
+    {
+     "text": "Hear about Jinia Guild.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-03a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-03a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-03a.html"
+    },
+    {
+     "text": "Hear about Divine Sword.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-04a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-04a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-04a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-01b.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-01b.html",
+   "quest": 10284,
+   "text": "Jinia: Now what can I tell you about?",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); memoStateEx1 == 0; memoStateEx2 == 1"
+   ],
+   "links": [
+    {
+     "text": "Hear about Jinia Guild.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-02a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-02a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-02a.html"
+    },
+    {
+     "text": "Hear about Divine Sword.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-04a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-04a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-04a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-01c.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-01c.html",
+   "quest": 10284,
+   "text": "Jinia: What do you want to hear next?",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 1) && (memoStateEx3 == 0)); memoStateEx1 == 0"
+   ],
+   "links": [
+    {
+     "text": "Hear about the Ice Queen.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-02a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-02a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-02a.html"
+    },
+    {
+     "text": "Hear about Jinia Guild.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-03a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-03a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-03a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-01d.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-01d.html",
+   "quest": 10284,
+   "text": "Jinia: All I have left to tell you is about the Ice Queen. After that, I will ask something very important of you.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 1) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 1))"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Ice Queen.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-02a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-02a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-02a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-01e.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-01e.html",
+   "quest": 10284,
+   "text": "Jinia: All I have left to tell you is about the Jinia Guild. After that, I will ask something very important of you.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 1) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 1))"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Jinia Guild.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-03a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-03a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-03a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-01f.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-01f.html",
+   "quest": 10284,
+   "text": "Jinia: All I have left to tell you is about the Divine Sword. After that, I will ask something very important of you.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 1) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 1))"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Divine Sword.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-04a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-04a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-04a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-01g.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-01g.html",
+   "quest": 10284,
+   "text": "Jinia: You've heard the stories. Can I now discuss your mission?",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 1) && (memoStateEx3 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 0) && (memoStateEx3 == 1))"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-06.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-06.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-06.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32760-01.html": {
+   "file": "Q10285_MeetingSirra/32760-01.html",
+   "quest": 10285,
+   "text": "Jinia: Quite commendable! Kegor told me of your exploits. The Guild has much to thank you for. It is without saying that Jinia Guild is forever indebted to you. I... there is more to tell, however.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 0"
+   ],
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q10285_MeetingSirra 32760-02.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32760-02.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32760-02.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32760-03.html": {
+   "file": "Q10285_MeetingSirra/32760-03.html",
+   "quest": 10285,
+   "text": "Jinia: Why don't we talk to Kegor first? He must have much to say to you, adventurer.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32760-04.html": {
+   "file": "Q10285_MeetingSirra/32760-04.html",
+   "quest": 10285,
+   "text": "Jinia: As I told you, the Ice Queen Freya used to be a princess named Felicia of the old Elmoreden Empire. Her natural beauty, her magical talent, and her lust for knowledge and power helped make her the perfect host for Freya. When Sayan's Ice Cystal broke, her body became its vessel. Her love for…",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 2"
+   ],
+   "links": [
+    {
+     "text": "Ask if anything can be done.",
+     "bypass": "Quest Q10285_MeetingSirra 32760-05.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32760-05.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32760-05.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32760-07.html": {
+   "file": "Q10285_MeetingSirra/32760-07.html",
+   "quest": 10285,
+   "text": "Jinia: This is Sirra, formerly known as the Ice Fairy. Listen to her - she has some important things to say.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32760-08.html": {
+   "file": "Q10285_MeetingSirra/32760-08.html",
+   "quest": 10285,
+   "text": "Jinia: I understand how all this must sound but Sirra is not lying.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 4"
+   ],
+   "links": [
+    {
+     "text": "Ask about what happened.",
+     "bypass": "Quest Q10285_MeetingSirra 32760-09.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32760-09.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32760-09.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32760-15.html": {
+   "file": "Q10285_MeetingSirra/32760-15.html",
+   "quest": 10285,
+   "text": "Jinia: First, let's go to Freya's garden. I'll talk to the butler. We'll meet there.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 5"
+   ],
+   "links": [
+    {
+     "text": "Ok, we will.",
+     "bypass": "Quest Q10285_MeetingSirra 32760-13.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32760-13.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32760-13.html"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32760-01.html": {
+   "file": "Q10286_ReunionWithSirra/32760-01.html",
+   "quest": 10286,
+   "text": "Jinia: Thank the gods you survived. Are you all right?",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 0"
+   ],
+   "links": [
+    {
+     "text": "\"I'm OK.\"",
+     "bypass": "Quest Q10286_ReunionWithSirra 32760-02.html",
+     "kind": "quest-event",
+     "script": "Q10286_ReunionWithSirra",
+     "event": "32760-02.html",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32760-02.html"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32760-05.html": {
+   "file": "Q10286_ReunionWithSirra/32760-05.html",
+   "quest": 10286,
+   "text": "Jinia: Sirra's appeared in the nick of time. Decide after you speak with Sirra. See things our way...",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 1"
+   ],
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10286_ReunionWithSirra/32760-06.html": {
+   "file": "Q10286_ReunionWithSirra/32760-06.html",
+   "quest": 10286,
+   "text": "Jinia: I know she's not quite... right in the head, but it was right to keep the peace. To defeat Freya and save Felicia, we had to join forces with Sirra.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 2"
+   ],
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q10286_ReunionWithSirra 32760-07.html",
+     "kind": "quest-event",
+     "script": "Q10286_ReunionWithSirra",
+     "event": "32760-07.html",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32760-07.html"
+    }
+   ]
+  },
+  "Q10287_StoryOfThoseLeft/32760-01.html": {
+   "file": "Q10287_StoryOfThoseLeft/32760-01.html",
+   "quest": 10287,
+   "text": "Jinia: Sirra's become Freya... We didn't see that coming.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; memoStateEx1 == 0; memoStateEx2 == 0"
+   ],
+   "links": [
+    {
+     "text": "Listen to the story.",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 32760-02.html",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "32760-02.html",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32760-02.html"
+    }
+   ]
+  },
+  "Q10287_StoryOfThoseLeft/32760-04.html": {
+   "file": "Q10287_StoryOfThoseLeft/32760-04.html",
+   "quest": 10287,
+   "text": "Jinia: You look like you have something to say... Say it to Kier.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0)); memoStateEx1 == 1; memoStateEx2 == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10287_StoryOfThoseLeft/32760-05.html": {
+   "file": "Q10287_StoryOfThoseLeft/32760-05.html",
+   "quest": 10287,
+   "text": "Jinia: You've done so much for us. I'd like to compensate you for your effort so far. Please accept the Guild's gratitude when you get out and meet Rafforty.",
+   "header": "Jinia",
+   "when": [
+    "state STARTED; memo 1; !((memoStateEx1 == 0) && (memoStateEx2 == 0)); !((memoStateEx1 == 1) && (memoStateEx2 == 0)); memoStateEx1 == 1; memoStateEx2 == 1"
+   ],
+   "links": [
+    {
+     "text": "Go out of the hideout.",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 32760-06.html",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "32760-06.html",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32760-06.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q10283_RequestOfIceMerchant/32760-02.html": {
+   "file": "Q10283_RequestOfIceMerchant/32760-02.html",
+   "quest": 10283,
+   "text": "Jinia: Well, who are you? Identify yourself or away with you.",
+   "header": "Jinia",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "\"Rafforty sent me here\"",
+     "bypass": "Quest Q10283_RequestOfIceMerchant 32760-03.html",
+     "kind": "quest-event",
+     "script": "Q10283_RequestOfIceMerchant",
+     "event": "32760-03.html",
+     "quest": 10283,
+     "to": "Q10283_RequestOfIceMerchant/32760-03.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10283_RequestOfIceMerchant/32760-03.html": {
+   "file": "Q10283_RequestOfIceMerchant/32760-03.html",
+   "quest": 10283,
+   "text": "Jinia: Talk is cheap. Why am I to believe you? Give me a reason not to run you through right now for meddling with Kier.",
+   "header": "Jinia",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "\"I'm telling the truth. Rafforty sent me to look for clues about the Divine Sword.\"",
+     "bypass": "Quest Q10283_RequestOfIceMerchant 32760-04.html",
+     "kind": "quest-event",
+     "script": "Q10283_RequestOfIceMerchant",
+     "event": "32760-04.html",
+     "quest": 10283,
+     "to": "Q10283_RequestOfIceMerchant/32760-04.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10283_RequestOfIceMerchant/32760-04.html": {
+   "file": "Q10283_RequestOfIceMerchant/32760-04.html",
+   "quest": 10283,
+   "text": "Jinia: Ah, well, why didn't you say so to begin with? That information is known only to a select few amongst my Guild. I apologize for threatening you earlier, I have a lot on my mind just now. I will tell you though, you search Kier in vain. The Divine Sword is not here. You should go back to Raff…",
+   "header": "Jinia",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-02a.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-02a.html",
+   "quest": 10284,
+   "text": "Jinia: Before she became the dread Ice Queen, Freya had a different name. She was called Felicia and she was a princess of the old kingdom. She was a learned magician and pleasant enough, but she was expelled by her enemies within the court. A simple allegation of the study of dark magic was all it…",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Continue to listen.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-02b.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-02b.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-02b.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-02b.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-02b.html",
+   "quest": 10284,
+   "text": "Jinia: At the time, I had other priorities. I sought to train in the kingdom's Knights of Kanna to become the strongest in the land. At some point, a Sage named Sayan came before the royal court. He said he found a crystal that held within in it immense power of cold, and was looking for someone wh…",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Continue to listen.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-02c.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-02c.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-02c.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-02c.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-02c.html",
+   "quest": 10284,
+   "text": "Jinia: At the precise moment that Felicia and Sayan met, the crystal shattered and its energy washed over Felicia. Not long after, Sayan was nowhere to be found and Felicia soon began to change. She started insisting that others in the royal court call her Freya, and she became increasingly moody a…",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Listen to another story.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword another_story",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "another_story",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-05a.html",
+     "toAll": [
+      "Q10284_AcquisitionOfDivineSword/32760-05a.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05b.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05c.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05d.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05e.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05f.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05g.html"
+     ]
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-03a.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-03a.html",
+   "quest": 10284,
+   "text": "Jinia: We were not always the Jinia Guild. We were once called the Knights of Kanna and it was our job to protect the royal family. When Felicia was expelled by her conspiring enemies within the court, we loyally followed her. When she became Freya, our mission quickly changed. We swore that we wou…",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "\"What does the name Jinia mean?\"",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-03b.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-03b.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-03b.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-03b.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-03b.html",
+   "quest": 10284,
+   "text": "Jinia: The name Jinia is derived from a flower that used to bloom in this region. It was not rare, but beautiful nonetheless. When Freya began her reign as the Ice Queen, the Jinia flower stopped blooming because of the eternal winter. Always waiting for a spring that never comes. We named the guil…",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "\"And your name?\"",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-03c.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-03c.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-03c.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-03c.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-03c.html",
+   "quest": 10284,
+   "text": "Jinia: My name? Ah, it is an honor bestowed on each leader of the guild. I inherited the title from the previous leader, Kier, who led the Knights of Kanna in the days of old.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Listen to the last story.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword another_story",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "another_story",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-05a.html",
+     "toAll": [
+      "Q10284_AcquisitionOfDivineSword/32760-05a.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05b.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05c.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05d.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05e.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05f.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05g.html"
+     ]
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-04a.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-04a.html",
+   "quest": 10284,
+   "text": "Jinia: The Divine Sword was a symbol of loyalty in the old kingdom of Elmoreden. The leader of the Knights of Kanna, Kier, wielded it when he guarded Felicia and the rest of the royal court.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "\"Kier was turned to ice, though...\"",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-04b.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-04b.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-04b.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-04b.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-04b.html",
+   "quest": 10284,
+   "text": "Jinia: Yes… that was a tragedy. We thought Princess Felicia existed somewhere within the Ice Queen's mind. However, when Kier tried to convince her to give up her power and sway her from evil, she turned him to ice. I fear Felicia may be gone forever and now there is only Freya. Our mission to turn…",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "\"So what are we going to do?\"",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-04c.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-04c.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-04c.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-04c.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-04c.html",
+   "quest": 10284,
+   "text": "Jinia: Currently, one of our knights, Kegor, possesses the Divine Sword. I'm afraid this means trouble.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Listen to another story.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword another_story",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "another_story",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-05a.html",
+     "toAll": [
+      "Q10284_AcquisitionOfDivineSword/32760-05a.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05b.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05c.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05d.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05e.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05f.html",
+      "Q10284_AcquisitionOfDivineSword/32760-05g.html"
+     ]
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-05a.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-05a.html",
+   "quest": 10284,
+   "text": "Jinia: There is more to tell.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Ask about Jinia Guild.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-03a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-03a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-03a.html"
+    },
+    {
+     "text": "Ask about the Divine Sword.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-04a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-04a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-04a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-05b.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-05b.html",
+   "quest": 10284,
+   "text": "Jinia: There is more to tell.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Ask about Jinia Guild.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-02a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-02a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-02a.html"
+    },
+    {
+     "text": "Ask about the Divine Sword.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-04a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-04a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-04a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-05c.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-05c.html",
+   "quest": 10284,
+   "text": "Jinia: There is more to tell.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Ask about the Ice Queen.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-02a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-02a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-02a.html"
+    },
+    {
+     "text": "Ask about Jinia Guild.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-03a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-03a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-03a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-05d.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-05d.html",
+   "quest": 10284,
+   "text": "Jinia: All I have left to tell you is about the Ice Queen. After that, I will ask something very important of you.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Ask about the Ice Queen.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-02a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-02a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-02a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-05e.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-05e.html",
+   "quest": 10284,
+   "text": "Jinia: All I have left to tell you is about the Jinia Guild. After that, I will ask something very important of you.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Ask about the Jinia Guild.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-03a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-03a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-03a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-05f.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-05f.html",
+   "quest": 10284,
+   "text": "Jinia: All I have left to tell you is about the Divine Sword. After that, I will ask something very important of you.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Ask about the Divine Sword.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-04a.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-04a.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-04a.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-05g.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-05g.html",
+   "quest": 10284,
+   "text": "Jinia: I've told you all there is to say. Now it is time to discuss the mission.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Say you are ready.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-06.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-06.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-06.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-06.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-06.html",
+   "quest": 10284,
+   "text": "Jinia: So, I mentioned Kegor earlier. Currently, he is the only person in Jinia Guild who can handle the sword. He was following a clue about its whereabouts to the Mithril Mines. Unfortunately, Freya found out and cornered him there.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32760-07.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32760-07.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-07.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32760-07.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32760-07.html",
+   "quest": 10284,
+   "text": "Jinia: The problem is, he doesn't have an antidote to the poison she cast on him. You see, Kegor was Kier's pupil, and when he was turned to ice, Kegor lost his temper. Right before I found you at Kier's sculpture, Kegor heard the sword was at the mine and left in search of it. He traveled deep wit…",
+   "header": "Jinia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Alright, sounds like a plan.\"",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword exit_instance",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "exit_instance",
+     "quest": 10284,
+     "to": null
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32760-02.html": {
+   "file": "Q10285_MeetingSirra/32760-02.html",
+   "quest": 10285,
+   "text": "Jinia: The Guild exists to stop the Ice Queen Freya, but it's become clear that we aren't strong enough. Everyone we've sent against her has disappeared. Take a moment to talk with Kegor. He wanted to thank you again.",
+   "header": "Jinia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32760-05.html": {
+   "file": "Q10285_MeetingSirra/32760-05.html",
+   "quest": 10285,
+   "text": "Jinia: I am not sure. As I told you before, I fear that Felicia may be lost forever, since she froze even her best friend Kier. But it's possible Felicia's soul still exists somewhere within the Ice Queen, weakening Freya. We have an idea - we might strengthen Felicia's spirit through some sort of …",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "\"What's that idea?\"",
+     "bypass": "Quest Q10285_MeetingSirra 32760-06.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32760-06.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32760-06.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32760-06.html": {
+   "file": "Q10285_MeetingSirra/32760-06.html",
+   "quest": 10285,
+   "text": "Jinia: Who is this? What is this woman? Find out what she's doing here!",
+   "header": "Jinia",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32760-09.html": {
+   "file": "Q10285_MeetingSirra/32760-09.html",
+   "quest": 10285,
+   "text": "Jinia: Our guild has looked at every option. Nothing seems like it will work. It has been said that 'the enemy of the enemy is one's friend.' Sirra is certainly Freya's enemy, egomaniacal wizard though she may be. Her power would be of great help to us.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "\"Must we join with our enemy?\"",
+     "bypass": "Quest Q10285_MeetingSirra 32760-10.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32760-10.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32760-10.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32760-10.html": {
+   "file": "Q10285_MeetingSirra/32760-10.html",
+   "quest": 10285,
+   "text": "Jinia: I know, Sirra's not quite like us. Her aims are not the same. She's been our enemy before and I don't doubt that she might be again. But right now, Freya is the greater evil and we need Sirra's help. This is our best chance at stopping the Ice Queen.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "\"It doesn't make sense.\"",
+     "bypass": "Quest Q10285_MeetingSirra 32760-11.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32760-11.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32760-11.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32760-11.html": {
+   "file": "Q10285_MeetingSirra/32760-11.html",
+   "quest": 10285,
+   "text": "Jinia: We need your help. With your strength, this plan could work! The Ice Queen must be stopped... Please, I'll do anything.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "\"...there's no other choice.\"",
+     "bypass": "Quest Q10285_MeetingSirra 32760-12.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32760-12.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32760-12.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32760-12.html": {
+   "file": "Q10285_MeetingSirra/32760-12.html",
+   "quest": 10285,
+   "text": "Jinia: (Beams, her smile wide) Thank you so much. Freya's threat won't end here. Like I said, we have to stop her before she tries to conquer the world with her icy grip. Let us meet at the Queen's Garden. I'll talk to the butler and let him know you're coming. See you there.",
+   "header": "Jinia",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"See you.\"",
+     "bypass": "Quest Q10285_MeetingSirra 32760-13.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32760-13.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32760-13.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32760-13.html": {
+   "file": "Q10285_MeetingSirra/32760-13.html",
+   "quest": 10285,
+   "text": "Jinia: Let our visitor out, please.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Leave the Hall.",
+     "bypass": "Quest Q10285_MeetingSirra 32760-14.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32760-14.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32760-14.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32760-14.html": {
+   "file": "Q10285_MeetingSirra/32760-14.html",
+   "quest": 10285,
+   "text": "Jinia: Good luck to you!",
+   "header": "Jinia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10286_ReunionWithSirra/32760-02.html": {
+   "file": "Q10286_ReunionWithSirra/32760-02.html",
+   "quest": 10286,
+   "text": "Jinia: I am sure we approached Freya the wrong way. Like I said before... we probably aren't strong enough to confront her directly. She's just too powerful.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q10286_ReunionWithSirra 32760-03.html",
+     "kind": "quest-event",
+     "script": "Q10286_ReunionWithSirra",
+     "event": "32760-03.html",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32760-03.html"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32760-03.html": {
+   "file": "Q10286_ReunionWithSirra/32760-03.html",
+   "quest": 10286,
+   "text": "Jinia: Victory is ours only when we have separated Freya's spirit from Felicia's body. We'll need a medium that can absorb Freya's essence instantly.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q10286_ReunionWithSirra 32760-04.html",
+     "kind": "quest-event",
+     "script": "Q10286_ReunionWithSirra",
+     "event": "32760-04.html",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32760-04.html"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32760-04.html": {
+   "file": "Q10286_ReunionWithSirra/32760-04.html",
+   "quest": 10286,
+   "text": "Jinia: I truly believe we have to give Freya's chamberlain, Sirra, a real chance. If it wasn't for her, I wouldn't know such a medium even existed, and it's the one thing that could make this plan work.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "\"Alright...\"",
+     "bypass": "Quest Q10286_ReunionWithSirra 32760-05.html",
+     "kind": "quest-event",
+     "script": "Q10286_ReunionWithSirra",
+     "event": "32760-05.html",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32760-05.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32760-07.html": {
+   "file": "Q10286_ReunionWithSirra/32760-07.html",
+   "quest": 10286,
+   "text": "Jinia: When you are finished preparing, we will engage in a battle that will determine the fate of the world. Meet at the Ice Queen's castle garden again. This time we'll be ready.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Go outside of the hideout.",
+     "bypass": "Quest Q10286_ReunionWithSirra 32760-08.html",
+     "kind": "quest-event",
+     "script": "Q10286_ReunionWithSirra",
+     "event": "32760-08.html",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32760-08.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32760-08.html": {
+   "file": "Q10286_ReunionWithSirra/32760-08.html",
+   "quest": 10286,
+   "text": "Jinia:",
+   "header": "Jinia",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10287_StoryOfThoseLeft/32760-02.html": {
+   "file": "Q10287_StoryOfThoseLeft/32760-02.html",
+   "quest": 10287,
+   "text": "Jinia: I have the frozen core, the one Sirra used to have.",
+   "header": "Jinia",
+   "links": [
+    {
+     "text": "Listen to the story.",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 32760-03.html",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "32760-03.html",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32760-03.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q10287_StoryOfThoseLeft/32760-03.html": {
+   "file": "Q10287_StoryOfThoseLeft/32760-03.html",
+   "quest": 10287,
+   "text": "Jinia: I've waited a long time to fight for this land! Jinia Guild's objective is more clear now. Adventurer, I see words behind your closed lips... Why don't you have a talk with Kegor.",
+   "header": "Jinia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10287_StoryOfThoseLeft/32760-06.html": {
+   "file": "Q10287_StoryOfThoseLeft/32760-06.html",
+   "quest": 10287,
+   "text": "Jinia:",
+   "header": "Jinia",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Request of Ice Merchant (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10283_RequestOfIceMerchant",
+     "kind": "quest",
+     "quest": 10283,
+     "to": "Q10283_RequestOfIceMerchant/32760-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Acquisition of Divine Sword (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10284_AcquisitionOfDivineSword",
+     "kind": "quest",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32760-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Meeting Sirra (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10285_MeetingSirra",
+     "kind": "quest",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32760-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Reunion with Sirra (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10286_ReunionWithSirra",
+     "kind": "quest",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32760-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Story of Those Left (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10287_StoryOfThoseLeft",
+     "kind": "quest",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32760-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

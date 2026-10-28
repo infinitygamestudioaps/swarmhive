@@ -1,0 +1,380 @@
+{
+ "npcId": 35316,
+ "name": "Neurath",
+ "title": "Chamberlain",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.428Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35316-d.html": {
+   "file": "ai/npc/CastleChamberlain/35316-d.html",
+   "quest": null,
+   "text": "Outer gate / Inner gate / Mooring place / All gates /",
+   "links": [
+    {
+     "text": "Open",
+     "bypass": "Quest CastleChamberlain operate_door 1 23250002 23250001",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 23250002 23250001",
+     "to": null
+    },
+    {
+     "text": "Close",
+     "bypass": "Quest CastleChamberlain operate_door 0 23250002 23250001",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 23250002 23250001",
+     "to": null
+    },
+    {
+     "text": "Open",
+     "bypass": "Quest CastleChamberlain operate_door 1 23250006 23250005",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 23250006 23250005",
+     "to": null
+    },
+    {
+     "text": "Close",
+     "bypass": "Quest CastleChamberlain operate_door 0 23250006 23250005",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 23250006 23250005",
+     "to": null
+    },
+    {
+     "text": "Open",
+     "bypass": "Quest CastleChamberlain operate_door 1 23250008",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 23250008",
+     "to": null
+    },
+    {
+     "text": "Close",
+     "bypass": "Quest CastleChamberlain operate_door 0 23250008",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 23250008",
+     "to": null
+    },
+    {
+     "text": "Open",
+     "bypass": "Quest CastleChamberlain operate_door 1 23250002 23250001 23250006 23250005 23250008",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 23250002 23250001 23250006 23250005 23250008",
+     "to": null
+    },
+    {
+     "text": "Close",
+     "bypass": "Quest CastleChamberlain operate_door 0 23250002 23250001 23250006 23250005 23250008",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 23250002 23250001 23250006 23250005 23250008",
+     "to": null
+    },
+    {
+     "text": "Go back",
+     "bypass": "Quest CastleChamberlain chamberlain-01.html",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "chamberlain-01.html",
+     "to": "ai/npc/CastleChamberlain/chamberlain-01.html"
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35316-du.html": {
+   "file": "ai/npc/CastleChamberlain/35316-du.html",
+   "quest": null,
+   "text": "Reinforce castle gates: Strengthens gates and walls. Since it significantly enhances the durability of castle gates and castle walls, it is a good measure against the incursion of enemy troops into the castle.",
+   "header": "Reinforce castle gates",
+   "links": [
+    {
+     "text": "Reinforce outer castle gate.",
+     "bypass": "Quest CastleChamberlain manage_doors 1 23250002 23250001",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_doors 1 23250002 23250001",
+     "to": null
+    },
+    {
+     "text": "Reinforce inner castle gate.",
+     "bypass": "Quest CastleChamberlain manage_doors 2 23250006 23250005",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_doors 2 23250006 23250005",
+     "to": null
+    },
+    {
+     "text": "Reinforce castle walls.",
+     "bypass": "Quest CastleChamberlain manage_doors 3 23250003 23250004",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_doors 3 23250003 23250004",
+     "to": null
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest CastleChamberlain chamberlain-01.html",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "chamberlain-01.html",
+     "to": "ai/npc/CastleChamberlain/chamberlain-01.html"
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35316-t1.html": {
+   "file": "ai/npc/CastleChamberlain/35316-t1.html",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Front Of Innadril Castle",
+     "bypass": "Quest CastleChamberlain goto 13040",
+     "kind": "quest-event",
+     "confirm": "811;Front Of Innadril Castle",
+     "script": "CastleChamberlain",
+     "event": "goto 13040",
+     "to": null
+    },
+    {
+     "text": "Heine Town Square",
+     "bypass": "Quest CastleChamberlain goto 13041",
+     "kind": "quest-event",
+     "confirm": "811;Heine Town Square",
+     "script": "CastleChamberlain",
+     "event": "goto 13041",
+     "to": null
+    },
+    {
+     "text": "Front of the White Sands Fortress",
+     "bypass": "Quest CastleChamberlain goto 13042",
+     "kind": "quest-event",
+     "confirm": "811;Front of the White Sands Fortress",
+     "script": "CastleChamberlain",
+     "event": "goto 13042",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35316-t2.html": {
+   "file": "ai/npc/CastleChamberlain/35316-t2.html",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Front Of Innadril Castle",
+     "bypass": "Quest CastleChamberlain goto 13040",
+     "kind": "quest-event",
+     "confirm": "811;Front Of Innadril Castle",
+     "script": "CastleChamberlain",
+     "event": "goto 13040",
+     "to": null
+    },
+    {
+     "text": "Heine Town Square",
+     "bypass": "Quest CastleChamberlain goto 13041",
+     "kind": "quest-event",
+     "confirm": "811;Heine Town Square",
+     "script": "CastleChamberlain",
+     "event": "goto 13041",
+     "to": null
+    },
+    {
+     "text": "Front of the White Sands Fortress",
+     "bypass": "Quest CastleChamberlain goto 13042",
+     "kind": "quest-event",
+     "confirm": "811;Front of the White Sands Fortress",
+     "script": "CastleChamberlain",
+     "event": "goto 13042",
+     "to": null
+    },
+    {
+     "text": "The Center of Alligator Island - 500",
+     "bypass": "Quest CastleChamberlain goto 13043",
+     "kind": "quest-event",
+     "confirm": "811;The Center of Alligator Island",
+     "script": "CastleChamberlain",
+     "event": "goto 13043",
+     "to": null
+    },
+    {
+     "text": "Field of Silence - 500",
+     "bypass": "Quest CastleChamberlain goto 13044",
+     "kind": "quest-event",
+     "confirm": "811;Field of Silence",
+     "script": "CastleChamberlain",
+     "event": "goto 13044",
+     "to": null
+    },
+    {
+     "text": "Field of Whispers - 500",
+     "bypass": "Quest CastleChamberlain goto 13045",
+     "kind": "quest-event",
+     "confirm": "811;Field of Whispers",
+     "script": "CastleChamberlain",
+     "event": "goto 13045",
+     "to": null
+    },
+    {
+     "text": "Inside the Garden of Eva - 500",
+     "bypass": "Quest CastleChamberlain goto 13046",
+     "kind": "quest-event",
+     "confirm": "811;Inside the Garden of Eva",
+     "script": "CastleChamberlain",
+     "event": "goto 13046",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35316-tu.html": {
+   "file": "ai/npc/CastleChamberlain/35316-tu.html",
+   "quest": null,
+   "text": "Activate the traps located in the interior of the island. Once activated, the flames do not distinguish friend from foe. Used properly, the trap is a very effective deterrent to invasion. Of course, it costs a fortune!",
+   "links": [
+    {
+     "text": "Activate the trap near the entrance of the inner castle.",
+     "bypass": "Quest CastleChamberlain manage_trap 0",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_trap 0",
+     "to": null
+    },
+    {
+     "text": "Activate the trap behind the garden in the inner castle.",
+     "bypass": "Quest CastleChamberlain manage_trap 1",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_trap 1",
+     "to": null
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest CastleChamberlain chamberlain-01.html",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "chamberlain-01.html",
+     "to": "ai/npc/CastleChamberlain/chamberlain-01.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  },
+  "ai/npc/CastleChamberlain/chamberlain-01.html": {
+   "file": "ai/npc/CastleChamberlain/chamberlain-01.html",
+   "quest": null,
+   "text": "Greetings, my lord. How may I serve you today?",
+   "when": [
+    "(isOwner(player, npc))"
+   ],
+   "links": [
+    {
+     "text": "Receive report.",
+     "bypass": "Quest CastleChamberlain receive_report",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "receive_report",
+     "to": null
+    },
+    {
+     "text": "Adjust tax rate and confirm.",
+     "bypass": "Quest CastleChamberlain manage_tax",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_tax",
+     "to": null
+    },
+    {
+     "text": "Manage castle vault.",
+     "bypass": "Quest CastleChamberlain manage_vault",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_vault",
+     "to": null
+    },
+    {
+     "text": "Manage castle functions.",
+     "bypass": "Quest CastleChamberlain manage_functions",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_functions",
+     "to": null
+    },
+    {
+     "text": "Use castle functions.",
+     "bypass": "Quest CastleChamberlain functions",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "functions",
+     "to": null
+    },
+    {
+     "text": "View castle siege information.",
+     "bypass": "Quest CastleChamberlain list_siege_clans",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "list_siege_clans",
+     "to": null
+    },
+    {
+     "text": "View Territory War information.",
+     "bypass": "Quest CastleChamberlain list_territory_clans",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "list_territory_clans",
+     "to": null
+    },
+    {
+     "text": "Manage manor.",
+     "bypass": "Quest CastleChamberlain manor",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manor",
+     "to": null
+    },
+    {
+     "text": "Items",
+     "bypass": "Quest CastleChamberlain products",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "products",
+     "to": null
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  }
+ }
+}

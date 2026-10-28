@@ -1,0 +1,325 @@
+{
+ "npcId": 30839,
+ "name": "Holly",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.079Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30839.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "372": {
+   "name": "Legacy Of Insolence",
+   "listText": [
+    "[Legacy of Insolence]",
+    "[Legacy of Insolence (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00372_LegacyOfInsolence/30839-02.html",
+     "when": "state STARTED; has items 5984,5985,5986,5987,5988",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00372_LegacyOfInsolence/30839-01.html",
+     "when": "state STARTED; lacks items 5984,5985,5986,5987,5988",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10275": {
+   "name": "Containing the Attribute Power",
+   "listText": [
+    "[Containing the Attribute Power]",
+    "[Containing the Attribute Power (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10275_ContainingTheAttributePower/30839-01.htm",
+     "when": "state CREATED; (player.getLevel() > 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10275_ContainingTheAttributePower/30839-00.html",
+     "when": "state CREATED; NOT (player.getLevel() > 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10275_ContainingTheAttributePower/30839-03.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10275_ContainingTheAttributePower/30839-05.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "cond"
+    },
+    {
+     "page": "Q10275_ContainingTheAttributePower/30839-0a.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30839.htm": {
+   "file": "merchant/30839.htm",
+   "quest": null,
+   "text": "Trader Holly: Welcome, friend! How do you like Aden? Let me tell you, though: it might look splendid on the outside, but it is beset by many complicated problems within. If those greedy nobles and their military lackies who are after the throne aren't dealt with quickly, this whole land could fall …",
+   "header": "Trader Holly",
+   "links": [
+    {
+     "text": "Buy items and minerals.",
+     "bypass": "npc_%objectId%_Buy 3083900",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30839-pk.htm": {
+   "file": "merchant/30839-pk.htm",
+   "quest": null,
+   "text": "Trader Holly: You don't seem very threatening, but your name is on the list. I am prohibited from dealing with you.",
+   "header": "Trader Holly",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00372_LegacyOfInsolence/30839-02.html": {
+   "file": "Q00372_LegacyOfInsolence/30839-02.html",
+   "quest": 372,
+   "text": "Trader Holly: Amazing! Please give it to me. Hmm... I knew it! Baium wasn't the last emperor of the Elmoreden empire! Although his reign was brief, Printes, Baium's son, ruled the empire. He eventually went missing somewhere in the Goddard region... Thank you for bringing me the book! I find it so …",
+   "header": "Trader Holly",
+   "when": [
+    "state STARTED; has items 5984,5985,5986,5987,5988"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00372_LegacyOfInsolence/30839-01.html": {
+   "file": "Q00372_LegacyOfInsolence/30839-01.html",
+   "quest": 372,
+   "text": "Trader Holly: How did you know that I'm researching the history of the empire? I'm trying to convince everyone I'm just a pure and naive girl... History is my passion! My grandfather was also a researcher studying the history of the Elmoreden empire. I'm currently researching the genealogy of the r…",
+   "header": "Trader Holly",
+   "when": [
+    "state STARTED; lacks items 5984,5985,5986,5987,5988"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00464_Oath/30839-01.html": {
+   "file": "Q00464_Oath/30839-01.html",
+   "quest": 464,
+   "text": "Trader Holly: What is it?",
+   "header": "Trader Holly",
+   "when": [
+    "state STARTED; cond >1; st.getInt(\"npc\") == npcId"
+   ],
+   "links": [
+    {
+     "text": "Say you're here to deliver this book.",
+     "bypass": "Quest Q00464_Oath end_quest",
+     "kind": "quest-event",
+     "script": "Q00464_Oath",
+     "event": "end_quest",
+     "quest": 464,
+     "to": "Q00464_Oath/30839-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10275_ContainingTheAttributePower/30839-01.htm": {
+   "file": "Q10275_ContainingTheAttributePower/30839-01.htm",
+   "quest": 10275,
+   "text": "Trader Holly: Business is slow these days... My old sales methods just aren't working. I'm worried. Would you do me a favor?",
+   "header": "Trader Holly",
+   "when": [
+    "state CREATED; (player.getLevel() > 75)"
+   ],
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q10275_ContainingTheAttributePower 30839-02.html",
+     "kind": "quest-event",
+     "script": "Q10275_ContainingTheAttributePower",
+     "event": "30839-02.html",
+     "quest": 10275,
+     "to": "Q10275_ContainingTheAttributePower/30839-02.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10275_ContainingTheAttributePower/30839-00.html": {
+   "file": "Q10275_ContainingTheAttributePower/30839-00.html",
+   "quest": 10275,
+   "text": "Trader Holly: Business is slow these days... My old sales methods just aren't working. I'm worried. Oh, please forgive my complaining. Are you looking for any item in particular? (Only characters level 76 and higher may undertake this quest.)",
+   "header": "Trader Holly",
+   "when": [
+    "state CREATED; NOT (player.getLevel() > 75)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10275_ContainingTheAttributePower/30839-03.html": {
+   "file": "Q10275_ContainingTheAttributePower/30839-03.html",
+   "quest": 10275,
+   "text": "Trader Holly: Ah, you have business with me?",
+   "header": "Trader Holly",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"I hear you're in the market for a strong, strapping adventurer...\"",
+     "bypass": "Quest Q10275_ContainingTheAttributePower 30839-04.html",
+     "kind": "quest-event",
+     "script": "Q10275_ContainingTheAttributePower",
+     "event": "30839-04.html",
+     "quest": 10275,
+     "to": "Q10275_ContainingTheAttributePower/30839-04.html"
+    }
+   ]
+  },
+  "Q10275_ContainingTheAttributePower/30839-05.html": {
+   "file": "Q10275_ContainingTheAttributePower/30839-05.html",
+   "quest": 10275,
+   "text": "Trader Holly: You should be able to find Attribute Master Yin easily. Please help resolve her problem.",
+   "header": "Trader Holly",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10275_ContainingTheAttributePower/30839-0a.html": {
+   "file": "Q10275_ContainingTheAttributePower/30839-0a.html",
+   "quest": 10275,
+   "text": "Trader Holly: Ah, you're the same adventurer who resolved the Attribute Master's troubles... That was a neat piece of work. They often come to our shop and still speak highly of you. Now then, are you looking for anything in particular? (You have already completed this quest.)",
+   "header": "Trader Holly",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00464_Oath/30839-02.html": {
+   "file": "Q00464_Oath/30839-02.html",
+   "quest": 464,
+   "text": "Trader Holly: Thank you SO much!!",
+   "header": "Trader Holly",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10275_ContainingTheAttributePower/30839-02.html": {
+   "file": "Q10275_ContainingTheAttributePower/30839-02.html",
+   "quest": 10275,
+   "text": "Trader Holly: Do you know Attribute Master Yin here in the Town of Aden? She is one of our regulars. Her research keeps her very busy. Of course, her constant need for ingredients also makes her one of our best customers. But I rarely see her lately... Our sales have dropped, and her absence isn't …",
+   "header": "Trader Holly",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10275_ContainingTheAttributePower/30839-04.html": {
+   "file": "Q10275_ContainingTheAttributePower/30839-04.html",
+   "quest": 10275,
+   "text": "Trader Holly: Ah, I didn't recognize you! All I know is that Attribute Master Yin in the Town of Aden is in trouble. You'll need to ask her for more details.",
+   "header": "Trader Holly",
+   "links": [
+    {
+     "text": "\"I understand.\"",
+     "bypass": "Quest Q10275_ContainingTheAttributePower 30839-05.html",
+     "kind": "quest-event",
+     "script": "Q10275_ContainingTheAttributePower",
+     "event": "30839-05.html",
+     "quest": 10275,
+     "to": "Q10275_ContainingTheAttributePower/30839-05.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Legacy of Insolence (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00372_LegacyOfInsolence",
+     "kind": "quest",
+     "quest": 372,
+     "to": "Q00372_LegacyOfInsolence/30839-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Containing the Attribute Power]",
+     "bypass": "npc_%objectId%_Quest Q10275_ContainingTheAttributePower",
+     "kind": "quest",
+     "quest": 10275,
+     "to": "Q10275_ContainingTheAttributePower/30839-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Containing the Attribute Power (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10275_ContainingTheAttributePower",
+     "kind": "quest",
+     "quest": 10275,
+     "to": "Q10275_ContainingTheAttributePower/30839-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Buy/Sell/Refund General."
+ ],
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund General.",
+   "n": 17,
+   "inDatapack": false,
+   "from": [
+    "Trader Holly:Welcome to our store, sir. Are you enjoying you"
+   ],
+   "to": []
+  }
+ ]
+}

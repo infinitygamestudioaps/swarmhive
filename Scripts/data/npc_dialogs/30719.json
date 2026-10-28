@@ -1,0 +1,84 @@
+{
+ "npcId": 30719,
+ "name": "Mariell",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.061Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "teleporter/30719.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "teleporter/30719.htm": {
+   "file": "teleporter/30719.htm",
+   "quest": null,
+   "text": "Gatekeeper Mariell: Hi there. The Dark Elf Guild is located on the 4th floor, the Elves of Light are on the 3rd, and the Human Mystics are downstairs. With a history stained by blood, don't you think it is encouraging to see the different races gathered in a small tower like this? Now, what can I d…",
+   "header": "Gatekeeper Mariell",
+   "links": [
+    {
+     "text": "Go to another floor.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/30719-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "teleporter/30719-1.htm": {
+   "file": "teleporter/30719-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Underground Shopping Area",
+     "bypass": "npc_%objectId%_goto 31",
+     "kind": "teleport",
+     "confirm": "811;Underground Shopping Area"
+    },
+    {
+     "text": "1st Floor Lobby",
+     "bypass": "npc_%objectId%_goto 32",
+     "kind": "teleport",
+     "confirm": "811;1st Floor Lobby"
+    },
+    {
+     "text": "2nd Floor Human Wizard Guild",
+     "bypass": "npc_%objectId%_goto 33",
+     "kind": "teleport",
+     "confirm": "811;2nd Floor Human Wizard Guild"
+    },
+    {
+     "text": "4th Floor Dark Wizard Guild",
+     "bypass": "npc_%objectId%_goto 35",
+     "kind": "teleport",
+     "confirm": "811;4th Floor Dark Wizard Guild"
+    }
+   ]
+  },
+  "teleporter/30719-pk.htm": {
+   "file": "teleporter/30719-pk.htm",
+   "quest": null,
+   "text": "Gatekeeper Mariell: You may not enter The Ivory Tower. Go back the way you came.",
+   "header": "Gatekeeper Mariell",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

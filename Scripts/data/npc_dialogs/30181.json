@@ -1,0 +1,381 @@
+{
+ "npcId": 30181,
+ "name": "Galibredo",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.866Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30181.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "355": {
+   "name": "Family Honor",
+   "listText": [
+    "[Family Honor]",
+    "[Family Honor (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00355_FamilyHonor/30181-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00355_FamilyHonor/30181-04.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00355_FamilyHonor/30181-11.html",
+     "when": "state STARTED; has items 4350",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00355_FamilyHonor/30181-05.html",
+     "when": "state STARTED; lacks items 4350",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "653": {
+   "name": "Wild Maiden",
+   "listText": [
+    "[Wild Maiden]",
+    "[Wild Maiden (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00653_WildMaiden/30181-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30181.htm": {
+   "file": "merchant/30181.htm",
+   "quest": null,
+   "text": "Merchant Galibredo: Where are you from, youngster? What are you looking for? No, no, I'm not talking about goods... I want to know why you came here... Sorry -- I'm not speaking very clearly. Never mind! Can I help you find anything today?",
+   "header": "Merchant Galibredo",
+   "links": [
+    {
+     "text": "Buy accessories.",
+     "bypass": "npc_%objectId%_Buy 3018100",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy a common type accessory.",
+     "bypass": "npc_%objectId%_Buy 3018102",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30181-pk.htm": {
+   "file": "merchant/30181-pk.htm",
+   "quest": null,
+   "text": "Merchant Galibredo: You seem cursed... The smell of death is upon you. You should leave now. Can't have the likes of you around, bad luck. You are surely not long for this world... Beleth cannot say he lived long...",
+   "header": "Merchant Galibredo",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00355_FamilyHonor/30181-01.htm": {
+   "file": "Q00355_FamilyHonor/30181-01.htm",
+   "quest": 355,
+   "text": "Trader Galibredo: Although now I'm merely a merchant, at one time my family was prominent! Although I may not look it, the blood of kings courses through my veins! Whenever I say this, people laugh at me and think I'm lying. It's so very frustrating! But at last, now I have a chance to prove my nob…",
+   "header": "Trader Galibredo",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"How can I help you?\"",
+     "bypass": "Quest Q00355_FamilyHonor 30181-02.htm",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30181-02.htm",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-02.htm"
+    }
+   ]
+  },
+  "Q00355_FamilyHonor/30181-04.html": {
+   "file": "Q00355_FamilyHonor/30181-04.html",
+   "quest": 355,
+   "text": "Trader Galibredo: Although now I'm merely a merchant, at one time my family was prominent! Although I may not look it, the blood of kings courses through my veins! What's with the expression? Does it mean you don't believe me? You must think I'm just a crazy old man! Get away from me! (This quest c…",
+   "header": "Trader Galibredo",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00355_FamilyHonor/30181-11.html": {
+   "file": "Q00355_FamilyHonor/30181-11.html",
+   "quest": 355,
+   "text": "Trader Galibredo: Welcome back! I've been waiting for you. Were you successful? I trust that you destroyed the Timak Orc troop and brought back my goods? As I told you, all I want is \"Galfredo Romer's Busts\". You can keep the other works of sculptor Berona for yourself. You should be able to sell t…",
+   "header": "Trader Galibredo",
+   "when": [
+    "state STARTED; has items 4350"
+   ],
+   "links": [
+    {
+     "text": "Settle the account.",
+     "bypass": "Quest Q00355_FamilyHonor 30181-06.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30181-06.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-06.html",
+     "toAll": [
+      "Q00355_FamilyHonor/30181-06.html",
+      "Q00355_FamilyHonor/30181-07.html",
+      "Q00355_FamilyHonor/30181-08.html"
+     ]
+    },
+    {
+     "text": "Settle the account later.",
+     "bypass": "Quest Q00355_FamilyHonor 30181-09.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30181-09.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-09.html"
+    },
+    {
+     "text": "Quit",
+     "bypass": "Quest Q00355_FamilyHonor 30181-10.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30181-10.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-10.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00355_FamilyHonor/30181-05.html": {
+   "file": "Q00355_FamilyHonor/30181-05.html",
+   "quest": 355,
+   "text": "Trader Galibredo: Come on in! I've been waiting for you. How did you do? Let me say this to you again. The thieves who stole my precious antiques are the Timak Orc troop archers, timak Orc troop warriors, timak Orc troop leaders and the Timak Orc troop shaman . I trust that you destroyed them and r…",
+   "header": "Trader Galibredo",
+   "when": [
+    "state STARTED; lacks items 4350"
+   ],
+   "links": [
+    {
+     "text": "Settle the account now.",
+     "bypass": "Quest Q00355_FamilyHonor 30181-06.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30181-06.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-06.html",
+     "toAll": [
+      "Q00355_FamilyHonor/30181-06.html",
+      "Q00355_FamilyHonor/30181-07.html",
+      "Q00355_FamilyHonor/30181-08.html"
+     ]
+    },
+    {
+     "text": "Settle the account later.",
+     "bypass": "Quest Q00355_FamilyHonor 30181-09.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30181-09.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-09.html"
+    },
+    {
+     "text": "Quit.",
+     "bypass": "Quest Q00355_FamilyHonor 30181-10.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30181-10.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-10.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00653_WildMaiden/30181-01.html": {
+   "file": "Q00653_WildMaiden/30181-01.html",
+   "quest": 653,
+   "text": "Galibredo: Thank you so much! Thanks to you, my daughter made it home safely. I certainly gave her a good talking-to! I swear, I don't know what I'm going to do with that girl! I'm afraid something terrible will happen to her someday... Humph! By the way, Take this! It's not much, but think of it a…",
+   "header": "Galibredo",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00355_FamilyHonor/30181-02.htm": {
+   "file": "Q00355_FamilyHonor/30181-02.htm",
+   "quest": 355,
+   "text": "Trader Galibredo: Have you ever heard of Berona, a sculptor from the Elmoreden Empire? She is well-known among antique lovers... A few months ago, hundreds of her works were excavated in Innadril. \"Galfredo Romer's Bust\" was one of them. He was one of my ancestors who was as an aid to the Emperor! …",
+   "header": "Trader Galibredo",
+   "links": [
+    {
+     "text": "\"Yes I will!\"",
+     "bypass": "Quest Q00355_FamilyHonor 30181-03.htm",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30181-03.htm",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00355_FamilyHonor/30181-03.htm": {
+   "file": "Q00355_FamilyHonor/30181-03.htm",
+   "quest": 355,
+   "text": "Trader Galibredo: The thieves who stole my precious sculptures are the Timak Orc troop . According to my nephew, the troop consists of Timak Orc troop archers, timak Orc troop warriors, timak Orc troop leaders and the Timak Orc troop shaman . I doubt that those brutes even know the value of what th…",
+   "header": "Trader Galibredo",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00355_FamilyHonor/30181-06.html": {
+   "file": "Q00355_FamilyHonor/30181-06.html",
+   "quest": 355,
+   "text": "Trader Galibredo: What the...? Where are the statues of my ancestor...? Don't you know?! I mean, where are Galfredo Romer's Busts? Do you expect me to pay you for nothing?",
+   "header": "Trader Galibredo",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00355_FamilyHonor/30181-07.html": {
+   "file": "Q00355_FamilyHonor/30181-07.html",
+   "quest": 355,
+   "text": "Trader Galibredo: Oh, at last! The proof of the prestigious heritage of my family! The dignity of my great ancestors is restored! Let me see... how may busts did you bring me? 70... 80... 90... Oh, wonderful! It's more than 100! Then, in addition to your regular pay, I'll add a bonus ... Here you g…",
+   "header": "Trader Galibredo",
+   "links": [
+    {
+     "text": "Continue working for him.",
+     "bypass": "Quest Q00355_FamilyHonor 30181-09.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30181-09.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-09.html"
+    },
+    {
+     "text": "Quit working for him.",
+     "bypass": "Quest Q00355_FamilyHonor 30181-10.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30181-10.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-10.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00355_FamilyHonor/30181-08.html": {
+   "file": "Q00355_FamilyHonor/30181-08.html",
+   "quest": 355,
+   "text": "Trader Galibredo: Oh, at last! The proof of the prestigious heritage of my family! The dignity of my great ancestors is restored! Thank you very much young man! Let me see... how may busts did you bring me? Oh yes! Here is your reward!",
+   "header": "Trader Galibredo",
+   "links": [
+    {
+     "text": "Continue working for him.",
+     "bypass": "Quest Q00355_FamilyHonor 30181-09.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30181-09.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-09.html"
+    },
+    {
+     "text": "Quit working for him.",
+     "bypass": "Quest Q00355_FamilyHonor 30181-10.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30181-10.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-10.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00355_FamilyHonor/30181-09.html": {
+   "file": "Q00355_FamilyHonor/30181-09.html",
+   "quest": 355,
+   "text": "Trader Galibredo: I'm counting on you! Go punish those dastardly thieves and recover my precious antiques.",
+   "header": "Trader Galibredo",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00355_FamilyHonor/30181-10.html": {
+   "file": "Q00355_FamilyHonor/30181-10.html",
+   "quest": 355,
+   "text": "Trader Galibredo: You want to quit? Sigh...! That's the problem with today's young people... always hopping from job to job, they never stay in one place very long! Don't you know that once you accept a job, you should finish it? Dear me... Oh, well, if that is really what you want, I won't stop yo…",
+   "header": "Trader Galibredo",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Family Honor]",
+     "bypass": "npc_%objectId%_Quest Q00355_FamilyHonor",
+     "kind": "quest",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Family Honor (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00355_FamilyHonor",
+     "kind": "quest",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30181-11.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Wild Maiden (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00653_WildMaiden",
+     "kind": "quest",
+     "quest": 653,
+     "to": "Q00653_WildMaiden/30181-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

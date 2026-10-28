@@ -1,0 +1,190 @@
+{
+ "npcId": 30422,
+ "name": "Kalinta",
+ "title": "Abyssal Celebrant",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.975Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30422.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "410": {
+   "name": "Path Of The Palus Knight",
+   "listText": [
+    "[Path of the Palus Knight]",
+    "[Path of the Palus Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00410_PathOfThePalusKnight/30422-01.html",
+     "when": "state STARTED; has items 1239; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00410_PathOfThePalusKnight/30422-03.html",
+     "when": "state STARTED; has items 1240; lacks items 1239,1242,1241; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00410_PathOfThePalusKnight/30422-04.html",
+     "when": "state STARTED; has items 1240,1242,1241; lacks items 1239,1242; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00410_PathOfThePalusKnight/30422-05.html",
+     "when": "state STARTED; has items 1240,1242,1241; lacks items 1239; item 1242 >= 5; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, ARACHNID_TRACKER_SILK) && hasQuestItems(player, VENOMOUS_SPIDERS_CARAPACE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00410_PathOfThePalusKnight/30422-04.html",
+     "when": "state STARTED; has items 1240,1242,1241; lacks items 1239; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, ARACHNID_TRACKER_SILK) && hasQuestItems(player, VENOMOUS_SPIDERS_CARAPACE)); !((getQuestItemsCount(player, ARACHNID_TRACKER_SILK) >= 5) && hasQuestItems(player, VENOMOUS_SPIDERS_CARAPACE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00410_PathOfThePalusKnight/30422-06.html",
+     "when": "state STARTED; has items 1243; lacks items 1239,1240; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30422.htm": {
+   "file": "default/30422.htm",
+   "quest": null,
+   "text": "Kalinta: Welcome in the name of Shilen. Many think it is bad luck to invoke the name of Shilen, since she is the goddess that controls death. There are even those who say she is a devil and criticize her followers as pagans. However, all living things must one day die. No matter how much they fear …",
+   "header": "Kalinta",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00410_PathOfThePalusKnight/30422-01.html": {
+   "file": "Q00410_PathOfThePalusKnight/30422-01.html",
+   "quest": 410,
+   "text": "Kalinta: I welcome you in the name of Shilen, child of darkness. So you are a Palus Knight in training who received the Trial of the Red Coffin from Master Virgil. To complete the trial, you must make your own Coffin of Eternal Rest . This is not the crude wooden coffin, made by humans to bury thei…",
+   "header": "Kalinta",
+   "when": [
+    "state STARTED; has items 1239; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Ask about the materials",
+     "bypass": "Quest Q00410_PathOfThePalusKnight 30422-02.html",
+     "kind": "quest-event",
+     "script": "Q00410_PathOfThePalusKnight",
+     "event": "30422-02.html",
+     "quest": 410,
+     "to": "Q00410_PathOfThePalusKnight/30422-02.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00410_PathOfThePalusKnight/30422-03.html": {
+   "file": "Q00410_PathOfThePalusKnight/30422-03.html",
+   "quest": 410,
+   "text": "Kalinta: Still here, eh? Caution is a virtue, but a true knight knows that he must fulfill his commitments in a timely fashion. As you know, you must gather five Arachnid Tracker Silk skeins and one carapace of a giant poison spider to create a Coffin of Eternal Rest. Giant poison spiders and arach…",
+   "header": "Kalinta",
+   "when": [
+    "state STARTED; has items 1240; lacks items 1239,1242,1241; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30422-04.html": {
+   "file": "Q00410_PathOfThePalusKnight/30422-04.html",
+   "quest": 410,
+   "text": "Kalinta: I see you have not gathered all the materials yet. As I already told you, you must have five Arachnid Tracker Silk skeins and one large poison spider carapace to complete the Coffin of Eternal Rest.",
+   "header": "Kalinta",
+   "when": [
+    "state STARTED; has items 1240,1242,1241; lacks items 1239,1242; !(qs.isCreated() || qs.isCompleted())",
+    "state STARTED; has items 1240,1242,1241; lacks items 1239; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, ARACHNID_TRACKER_SILK) && hasQuestItems(player, VENOMOUS_SPIDERS_CARAPACE)); !((getQuestItemsCount(player, ARACHNID_TRACKER_SILK) >= 5) && hasQuestItems(player, VENOMOUS_SPIDERS_CARAPACE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30422-05.html": {
+   "file": "Q00410_PathOfThePalusKnight/30422-05.html",
+   "quest": 410,
+   "text": "Kalinta: Thank you. I will make you a Coffin of Eternal Rest with these materials. All living things must end their lives someday and return to the arms of Shilen. Someday, you will also cross the river never to return. Then your corpse will be put in this coffin and buried in the soul well. Here, …",
+   "header": "Kalinta",
+   "when": [
+    "state STARTED; has items 1240,1242,1241; lacks items 1239; item 1242 >= 5; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, ARACHNID_TRACKER_SILK) && hasQuestItems(player, VENOMOUS_SPIDERS_CARAPACE))"
+   ],
+   "links": [
+    {
+     "text": "Sign your name inside the coffin",
+     "bypass": "Quest Q00410_PathOfThePalusKnight 30422-06.html",
+     "kind": "quest-event",
+     "script": "Q00410_PathOfThePalusKnight",
+     "event": "30422-06.html",
+     "quest": 410,
+     "to": "Q00410_PathOfThePalusKnight/30422-06.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00410_PathOfThePalusKnight/30422-06.html": {
+   "file": "Q00410_PathOfThePalusKnight/30422-06.html",
+   "quest": 410,
+   "text": "Kalinta: Now you are the true owner of this Coffin of Eternal Rest . The last part of the trial is to carry this coffin and go back to the one who first gave you the trial. Go to Master Virgil in the Town of Gludio and give him your coffin. I hope you will safely complete your trial and be reborn a…",
+   "header": "Kalinta",
+   "when": [
+    "state STARTED; has items 1243; lacks items 1239,1240; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30422-02.html": {
+   "file": "Q00410_PathOfThePalusKnight/30422-02.html",
+   "quest": 410,
+   "text": "Kalinta: Making the coffin is part of the test. Therefore, you must find all the materials yourself. To make the body of the coffin, you must obtain a solid carapace of a giant poison spider. To fasten the coffin together you must gather five silk spider thread skeins that are produced by arachnid …",
+   "header": "Kalinta",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Palus Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00410_PathOfThePalusKnight",
+     "kind": "quest",
+     "quest": 410,
+     "to": "Q00410_PathOfThePalusKnight/30422-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

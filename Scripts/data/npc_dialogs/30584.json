@@ -1,0 +1,58 @@
+{
+ "npcId": 30584,
+ "name": "Vapook",
+ "title": "Centurion",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.006Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30584.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30584.htm": {
+   "file": "guard/30584.htm",
+   "quest": null,
+   "text": "Centurion Vapook: Behold, the domicile of Lord, Kakai ! You'll find the Lords gathered on the second floor of King's Hall. You must always remember to give them proper deference!",
+   "header": "Centurion Vapook",
+   "links": [
+    {
+     "text": "\"Tell me about the Lords.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30584-1.htm"
+    },
+    {
+     "text": "\"Who is the Lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30584-1.htm": {
+   "file": "guard/30584-1.htm",
+   "quest": null,
+   "text": "Centurion Vapook: Kakai, the Flame Lord, is a great Orc. It was amazing to see him duel with Raoul, the King of Men a long time ago. They were well-matched in combat. Raoul was a great man, too. He is responsible for uniting Aden. I can't believe such a great warrior died like that... When Lord Kak…",
+   "header": "Centurion Vapook",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

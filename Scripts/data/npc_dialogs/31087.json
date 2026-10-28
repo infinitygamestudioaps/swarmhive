@@ -1,0 +1,98 @@
+{
+ "npcId": 31087,
+ "name": "Dusk Priestess",
+ "title": "",
+ "type": "L2DuskPriest",
+ "generated": "2026-10-27T18:18:03.136Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Teleports/HuntingGroundsTeleport/low_dion.htm": {
+   "file": "ai/npc/Teleports/HuntingGroundsTeleport/low_dion.htm",
+   "quest": null,
+   "text": "&$556;",
+   "when": [
+    "check"
+   ],
+   "links": [
+    {
+     "text": "The Pilgrim's Necropolis - 2300 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 45600 126944 -3680 2300",
+     "kind": "other"
+    },
+    {
+     "text": "The Catacomb of the Heretic - 1500 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 39232 143568 -3648 1500",
+     "kind": "other"
+    },
+    {
+     "text": "Catacomb of the Branded - 3500 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 43200 170688 -3248 3500",
+     "kind": "other"
+    },
+    {
+     "text": "Necropolis of Worship - 6800 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 107514 174329 -3704 6800",
+     "kind": "other"
+    }
+   ]
+  },
+  "ai/npc/Teleports/HuntingGroundsTeleport/hg_dion.htm": {
+   "file": "ai/npc/Teleports/HuntingGroundsTeleport/hg_dion.htm",
+   "quest": null,
+   "text": "&$556;",
+   "when": [
+    "NOT check"
+   ],
+   "links": [
+    {
+     "text": "The Pilgrim's Necropolis - 3900 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 45600 126944 -3680 3900",
+     "kind": "other"
+    },
+    {
+     "text": "The Catacomb of the Heretic - 2600 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 39232 143568 -3648 2600",
+     "kind": "other"
+    },
+    {
+     "text": "Catacomb of the Branded - 5900 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 43200 170688 -3248 5900",
+     "kind": "other"
+    },
+    {
+     "text": "Necropolis of Worship - 11000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 107514 174329 -3704 11000",
+     "kind": "other"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

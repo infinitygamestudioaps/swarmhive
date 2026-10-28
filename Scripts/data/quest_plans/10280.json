@@ -2,7 +2,7 @@
  "id": 10280,
  "name": "Mutated Kaneus - Schuttgart",
  "version": 1,
- "generated": "2026-10-27T11:16:38.434Z",
+ "generated": "2026-10-27T18:20:04.535Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 58,
@@ -11,20 +11,14 @@
  "type": "one-time",
  "region": "Schuttgart",
  "requirements": {},
- "restrictions": [],
- "status": "fixable",
- "reasons": [
+ "restrictions": [
   {
-   "code": "spawn-script",
-   "text": "a monster / NPC is spawned by a timer / event / other script hook the engine does not do",
-   "step": 1
-  },
-  {
-   "code": "engine-manual",
-   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
-   "step": 2
+   "code": "party-instance",
+   "text": "Kamaloka level 63 boss: party mode (the leader runs the Kamaloka mission); one Hall a day on L2Toggle"
   }
  ],
+ "status": "ready",
+ "reasons": [],
  "expectedMin": 7,
  "refLevel": 58,
  "steps": [
@@ -225,11 +219,10 @@
     }
    ],
    "kills": 1,
-   "reasons": [
-    "spawn-script"
-   ],
+   "reasons": [],
    "engine": {
-    "manual": "spawn of Venomous Storace by \"other\" is not automated"
+    "instance": "kamaloka",
+    "level": 63
    },
    "text": "Kill Venomous Storace (Kamaloka Hall lv 63) and Kel Bilette (Kamaloka Hall lv 66), then report",
    "expectedSec": 300,
@@ -271,9 +264,7 @@
      "n": 1
     }
    ],
-   "reasons": [
-    "engine-manual"
-   ],
+   "reasons": [],
    "travel": {
     "src": "atlas",
     "key": "npc:31972@88660,-145083",
@@ -436,9 +427,8 @@
     }
    },
    "expectedSec": 86,
-   "engineWhy": "spawn of Venomous Storace by \"other\" is not automated",
    "engine": {
-    "act": "manual",
+    "act": "instance",
     "hasItems": "talk"
    },
    "conds": [
@@ -451,5 +441,15 @@
   "note": "Steps written from Q10280_MutatedKaneusSchuttgart.java. The two kills happen INSIDE Kamaloka (Hall of the Abyss lv 63 / 66, party instance, once a day): engine need, see docs/plan/quest_engine_needs/batch4.md",
   "editedAt": "2026-10-27T10:10:55.592Z",
   "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T18:20:04.546Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "level-max-missing",
+   "route-instance"
+  ]
  }
 }

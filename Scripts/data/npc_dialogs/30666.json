@@ -1,0 +1,434 @@
+{
+ "npcId": 30666,
+ "name": "Sla",
+ "title": "Preacher",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.029Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30666.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "138": {
+   "name": "Temple Champion - 2",
+   "listText": [
+    "[Temple Champion - 2]",
+    "[Temple Champion - 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00138_TempleChampionPart2/30666-02.html",
+     "when": "cond 6; switch(st.getInt(\"talk\")) case 1",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00138_TempleChampionPart2/30666-03.html",
+     "when": "cond 6; switch(st.getInt(\"talk\")) case 2",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00138_TempleChampionPart2/30666-01.html",
+     "when": "cond 6; switch(st.getInt(\"talk\")) case default",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00138_TempleChampionPart2/30666-09.html",
+     "when": "cond 7",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "227": {
+   "name": "Test Of The Reformer",
+   "listText": [
+    "[Test of the Reformer]",
+    "[Test of the Reformer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00227_TestOfTheReformer/30666-01.html",
+     "when": "state STARTED; memo 4; has items 2823",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30666-06b.html",
+     "when": "state STARTED; memoState >= 11; memoState < 18",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30666-05.html",
+     "when": "state STARTED; memo 5; has items 2824; !((memoState >= 11) && (memoState < 18))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30666-06.html",
+     "when": "state STARTED; memo 10; has items 2826; !((memoState >= 11) && (memoState < 18))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30666-06a.html",
+     "when": "state STARTED; memo 10; lacks items 2826; !((memoState >= 11) && (memoState < 18))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30666-07.html",
+     "when": "state STARTED; memo 18; has items 2827,3037,2828,2830; !((memoState >= 11) && (memoState < 18))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30666.htm": {
+   "file": "default/30666.htm",
+   "quest": null,
+   "text": "Preacher Sla: There is something wrong with the church. A Priest is a person who bridges humans with god. I don't understand why they shiver with fear when they hear the name of Grand Kain or Shilen... Their materialistic policies are turning the faint shadows into a total eclipse!",
+   "header": "Preacher Sla",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30666-02.html": {
+   "file": "Q00138_TempleChampionPart2/30666-02.html",
+   "quest": 138,
+   "text": "Preacher Sla: What's this, then? Hmm... (Preacher Sla reads Pupina's letter of recommendation.) Well, well. You might be a person I can civilly converse with after all. Tell me, stranger, why are you here?",
+   "header": "Preacher Sla",
+   "when": [
+    "cond 6; switch(st.getInt(\"talk\")) case 1"
+   ],
+   "links": [
+    {
+     "text": "Give him the Temple Manifesto.",
+     "bypass": "Quest Q00138_TempleChampionPart2 30666-03.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30666-03.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30666-03.html"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30666-03.html": {
+   "file": "Q00138_TempleChampionPart2/30666-03.html",
+   "quest": 138,
+   "text": "Preacher Sla: (Preacher Sla reads the manifesto.) So...the angel of Einhasad has fallen to earth... Amazing...",
+   "header": "Preacher Sla",
+   "when": [
+    "cond 6; switch(st.getInt(\"talk\")) case 2"
+   ],
+   "links": [
+    {
+     "text": "\"Then do you admit that the Temple holds the truth in these matters?\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30666-04.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30666-04.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30666-04.html"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30666-01.html": {
+   "file": "Q00138_TempleChampionPart2/30666-01.html",
+   "quest": 138,
+   "text": "Preacher Sla: Hmmph! By the look of you, you must be associated with the Temple of Einhasad. I have nothing to say to such a person. Even if we were to talk, I know how it would end...",
+   "header": "Preacher Sla",
+   "when": [
+    "cond 6; switch(st.getInt(\"talk\")) case default"
+   ],
+   "links": [
+    {
+     "text": "Show him Pupina's letter of recommendation.",
+     "bypass": "Quest Q00138_TempleChampionPart2 30666-02.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30666-02.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30666-02.html"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30666-09.html": {
+   "file": "Q00138_TempleChampionPart2/30666-09.html",
+   "quest": 138,
+   "text": "Preacher Sla: Don't lose your faith in the goddess. Regardless of race or rank, Einhasad's light and healing magic is still very much present in our world. I do not know what happened between Einhasad and Emperor Schuneimann, but... It is my belief that it is not the goddess who is at fault for the…",
+   "header": "Preacher Sla",
+   "when": [
+    "cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30666-01.html": {
+   "file": "Q00227_TestOfTheReformer/30666-01.html",
+   "quest": 227,
+   "text": "Preacher Sla: Ah, an introduction letter from Pupina... Oh that is just so Pupina... as proper as always. The way she frets over details is going to be the death of her... By the way, do you believe that the gods' will is responsible for our behavior?",
+   "header": "Preacher Sla",
+   "when": [
+    "state STARTED; memo 4; has items 2823"
+   ],
+   "links": [
+    {
+     "text": "\"Of course I do.\"",
+     "bypass": "Quest Q00227_TestOfTheReformer 30666-03.html",
+     "kind": "quest-event",
+     "script": "Q00227_TestOfTheReformer",
+     "event": "30666-03.html",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30666-03.html"
+    },
+    {
+     "text": "\"I do not believe that.\"",
+     "bypass": "Quest Q00227_TestOfTheReformer 30666-02.html",
+     "kind": "quest-event",
+     "script": "Q00227_TestOfTheReformer",
+     "event": "30666-02.html",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30666-02.html"
+    }
+   ]
+  },
+  "Q00227_TestOfTheReformer/30666-06b.html": {
+   "file": "Q00227_TestOfTheReformer/30666-06b.html",
+   "quest": 227,
+   "text": "Preacher Sla: You must meet my disciples before you can meet with me.",
+   "header": "Preacher Sla",
+   "when": [
+    "state STARTED; memoState >= 11; memoState < 18"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30666-05.html": {
+   "file": "Q00227_TestOfTheReformer/30666-05.html",
+   "quest": 227,
+   "text": "Preacher Sla: Please go and help my disciple Katari. She is a Dark Elf who follows the justice of Shilen, but in matters of faith she is no different from you and I. She is waiting for you near the waterfalls of the Neutral Zone.",
+   "header": "Preacher Sla",
+   "when": [
+    "state STARTED; memo 5; has items 2824; !((memoState >= 11) && (memoState < 18))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30666-06.html": {
+   "file": "Q00227_TestOfTheReformer/30666-06.html",
+   "quest": 227,
+   "text": "Preacher Sla: I am so very glad that I sent you. I was concerned about Katari having to deal with the Ol Mahums all alone... By the way, is that Ol Mahum money? It's useless. Just throw it away... . As you know, I have one more thing that requires your help... Recently, after giving a lecture on th…",
+   "header": "Preacher Sla",
+   "when": [
+    "state STARTED; memo 10; has items 2826; !((memoState >= 11) && (memoState < 18))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30666-06a.html": {
+   "file": "Q00227_TestOfTheReformer/30666-06a.html",
+   "quest": 227,
+   "text": "Preacher Sla: I am so very glad that I sent you. I was concerned about Katari having to deal with the Ol Mahums all alone... By the way, is that Ol Mahum money? It's useless. Just throw it away... . As you know, I have one more thing that requires your help... Recently, after giving a lecture on th…",
+   "header": "Preacher Sla",
+   "when": [
+    "state STARTED; memo 10; lacks items 2826; !((memoState >= 11) && (memoState < 18))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30666-07.html": {
+   "file": "Q00227_TestOfTheReformer/30666-07.html",
+   "quest": 227,
+   "text": "Preacher Sla: Well done! Thanks to your efforts our lives of quiet contemplation have been restored...We are so very grateful! I can tell from my disciples' letters that they took quite a liking to you as well... Please take this Mark of the Reformer as a symbol of our affection and esteem.",
+   "header": "Preacher Sla",
+   "when": [
+    "state STARTED; memo 18; has items 2827,3037,2828,2830; !((memoState >= 11) && (memoState < 18))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00138_TempleChampionPart2/30666-04.html": {
+   "file": "Q00138_TempleChampionPart2/30666-04.html",
+   "quest": 138,
+   "text": "Preacher Sla: See here... According to my studies, there is a distinct possibility that Einhasad is not the creator of the Humans after all... I have uncovered certain ancient sources that predate the Elmoreden period and survived Emperor Schuneimann's purges. They suggest that humanity was in fact…",
+   "header": "Preacher Sla",
+   "links": [
+    {
+     "text": "\"But isn't it true that an angel with 3 pairs of wings delivered both a message and a measure of the goddess' power to Emperor Schuneimann?\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30666-05.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30666-05.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30666-05.html"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30666-05.html": {
+   "file": "Q00138_TempleChampionPart2/30666-05.html",
+   "quest": 138,
+   "text": "Preacher Sla: Yes, I admit that miracle actually happened. Much of Emperor Schuneimann's recorded actions and abilities cannot be explained apart from whatever power he received from Einhasad. But I think the deal went both ways. I have discovered that Einhasad possibly required some kind of assist…",
+   "header": "Preacher Sla",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00138_TempleChampionPart2 30666-06.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30666-06.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30666-06.html"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30666-06.html": {
+   "file": "Q00138_TempleChampionPart2/30666-06.html",
+   "quest": 138,
+   "text": "Preacher Sla: It seems that Einhasad desperately wants to stop something...what exactly, we still don't know. Perhaps it has to do with the elimination of the followers of Shilen and the monsters spawned by the dark goddess... That makes sense, considering how harshly Emperor Schuneimann persecuted…",
+   "header": "Preacher Sla",
+   "links": [
+    {
+     "text": "\"What does this have to do with the manifesto I showed you?\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30666-07.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30666-07.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30666-07.html"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30666-07.html": {
+   "file": "Q00138_TempleChampionPart2/30666-07.html",
+   "quest": 138,
+   "text": "Preacher Sla: Since the beginning, the Temple has been deeply involved in politics, even as it continues to stubbornly insist on its divine legitimacy. But look closer at this manifesto... The possible presence of the angel here could either support their claims or be their ruin. What if the angel …",
+   "header": "Preacher Sla",
+   "links": [
+    {
+     "text": "\"I understand. I will deliver your message to my superiors.\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30666-08.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30666-08.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30666-08.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30666-08.html": {
+   "file": "Q00138_TempleChampionPart2/30666-08.html",
+   "quest": 138,
+   "text": "Preacher Sla: I can see your confusion. Despite what you may have heard me say, don't lose your faith in the goddess. Regardless of race or rank, Einhasad's light and healing magic is still very much present in our world. I do not know what happened between Einhasad and Emperor Schuneimann, but... …",
+   "header": "Preacher Sla",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30666-02.html": {
+   "file": "Q00227_TestOfTheReformer/30666-02.html",
+   "quest": 227,
+   "text": "Preacher Sla: Then what is our involvement as devotees? Can you answer this? I think you should go back and be a good little Priest who obeys what the other little Priests say. Perhaps at least you have learned something here that will keep you from turning rotten like they are... If you change you…",
+   "header": "Preacher Sla",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30666-03.html": {
+   "file": "Q00227_TestOfTheReformer/30666-03.html",
+   "quest": 227,
+   "text": "Preacher Sla: Do you believe that we should venerate the sons of Gran Kain as we do the sons of Einhasad?",
+   "header": "Preacher Sla",
+   "links": [
+    {
+     "text": "\"Yes\"",
+     "bypass": "Quest Q00227_TestOfTheReformer 30666-04.html",
+     "kind": "quest-event",
+     "script": "Q00227_TestOfTheReformer",
+     "event": "30666-04.html",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30666-04.html",
+     "effect": "cond:5"
+    },
+    {
+     "text": "\"No\"",
+     "bypass": "Quest Q00227_TestOfTheReformer 30666-02.html",
+     "kind": "quest-event",
+     "script": "Q00227_TestOfTheReformer",
+     "event": "30666-02.html",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30666-02.html"
+    }
+   ]
+  },
+  "Q00227_TestOfTheReformer/30666-04.html": {
+   "file": "Q00227_TestOfTheReformer/30666-04.html",
+   "quest": 227,
+   "text": "Preacher Sla: That is easier said than done, isn't it? Do you hear the heresy coming from your mouth? If the High Priests from the shrine heard your words you would already be smelling your burning flesh... I believe that Einhasad's will has brought you here. There is something that I need your hel…",
+   "header": "Preacher Sla",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Temple Champion - 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00138_TempleChampionPart2",
+     "kind": "quest",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30666-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Reformer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00227_TestOfTheReformer",
+     "kind": "quest",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30666-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

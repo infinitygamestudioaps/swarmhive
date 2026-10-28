@@ -1,0 +1,304 @@
+{
+ "npcId": 30037,
+ "name": "Levian",
+ "title": "High Priestess",
+ "type": "L2VillageMasterPriest",
+ "generated": "2026-10-27T18:18:02.791Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30037.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "340": {
+   "name": "Subjugation Of Lizardmen",
+   "listText": [
+    "[Subjugation of Lizardmen]",
+    "[Subjugation of Lizardmen (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30037-01.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30037-03.html",
+     "when": "state STARTED; memo 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30037-04.html",
+     "when": "state STARTED; memo 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30037-05.html",
+     "when": "state STARTED; memo 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "402": {
+   "name": "Path Of The Human Knight",
+   "listText": [
+    "[Path of the Human Knight]",
+    "[Path of the Human Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30037-01.html",
+     "when": "state STARTED; has items 1271; lacks items 1174,1165; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30037-03.html",
+     "when": "state STARTED; has items 1174; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_2ND_TEMPLE_BADGE, COIN_OF_LORDS4)); getQuestItemsCount(player, LIZARDMANS_TOTEM) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30037-04.html",
+     "when": "state STARTED; has items 1174; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_2ND_TEMPLE_BADGE, COIN_OF_LORDS4)); !getQuestItemsCount(player, LIZARDMANS_TOTEM) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30037-05.html",
+     "when": "state STARTED; has items 1165; lacks items 1174; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_2ND_TEMPLE_BADGE, COIN_OF_LORDS4))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30037.htm": {
+   "file": "villagemaster/30037.htm",
+   "quest": null,
+   "text": "High Priestess Levian: I perceive that you are wandering on a journey to seek and find your dream. Ah, my young friend...in this world, there are tens of thousands of dreams, and tens of thousands of disappointments as well. Perhaps you will one day realize the futility of chasing these dreams like…",
+   "header": "High Priestess Levian",
+   "links": [
+    {
+     "text": "Listen to information about first class transfer.",
+     "bypass": "Quest ElfHumanWizardChange1",
+     "kind": "quest",
+     "script": "ElfHumanWizardChange1"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00340_SubjugationOfLizardmen/30037-01.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30037-01.html",
+   "quest": 340,
+   "text": "High Priestess Levian: The followers of Einhasad will always be subject to trials. Now is no different, as the people of Gludio are being confronted by evil itself. Lizardmen are reptiles. They look somewhat like dragons. They are just the lackeys of Shilen. The true evil we must confront is evil s…",
+   "header": "High Priestess Levian",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "links": [
+    {
+     "text": "\"I will help.\"",
+     "bypass": "Quest Q00340_SubjugationOfLizardmen 30037-02.html",
+     "kind": "quest-event",
+     "script": "Q00340_SubjugationOfLizardmen",
+     "event": "30037-02.html",
+     "quest": 340,
+     "to": "Q00340_SubjugationOfLizardmen/30037-02.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00340_SubjugationOfLizardmen/30037-03.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30037-03.html",
+   "quest": 340,
+   "text": "High Priestess Levian: The evil spirit can be found on the south shore of Gludio . You must not confront Bifrons alone. Take comrades with you. After slaying the evil spirit, find the weird looking chest and bring me the mark of darkness that is contained within. Then we will destroy that blasphemo…",
+   "header": "High Priestess Levian",
+   "when": [
+    "state STARTED; memo 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30037-04.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30037-04.html",
+   "quest": 340,
+   "text": "High Priestess Levian: Ah, it is a pleasure to see you once again in bosom of the goddess. Now I must prepare for the ritual to destroy this evil object. I have let the guards know of your noble deeds in service to the temple. Guard Weisz wishes to meet with you. You should go and see him right awa…",
+   "header": "High Priestess Levian",
+   "when": [
+    "state STARTED; memo 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30037-05.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30037-05.html",
+   "quest": 340,
+   "text": "High Priestess Levian: The guards have been apprised of your noble service to the temple. You should go and meet Guard Weisz right away. May the blessing of Einhasad be with you...",
+   "header": "High Priestess Levian",
+   "when": [
+    "state STARTED; memo 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30037-01.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30037-01.html",
+   "quest": 402,
+   "text": "High Priestess Levian: This is the holy hall of Einhasad. How could you clad yourself with the tools of war and enter the most holy place? From your mark, I see you are a Knight in training. If that is the case, shouldn't you show all the more respect in the Temple of Einhasad? Next time, enter the…",
+   "header": "High Priestess Levian",
+   "when": [
+    "state STARTED; has items 1271; lacks items 1174,1165; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Ask if there is anything you can help with",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30037-02.html",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30037-02.html",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30037-02.html"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30037-03.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30037-03.html",
+   "quest": 402,
+   "text": "High Priestess Levian: How come you have returned so early? You must return with twenty tokens of proof that you have killed the evil creatures of Shilen in order for me to give you the Coin of Lords.",
+   "header": "High Priestess Levian",
+   "when": [
+    "state STARTED; has items 1174; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_2ND_TEMPLE_BADGE, COIN_OF_LORDS4)); getQuestItemsCount(player, LIZARDMANS_TOTEM) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30037-04.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30037-04.html",
+   "quest": 402,
+   "text": "High Priestess Levian: Thank you. Now the lizardmen will not dare covet the land of Gludio. When I look at the strange idols of the lizardmen, I get shivers. I am thinking of burning these unholy things. As we agreed, I will give you the Coin of Lords. May you always live by the will of Einhasad. O…",
+   "header": "High Priestess Levian",
+   "when": [
+    "state STARTED; has items 1174; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_2ND_TEMPLE_BADGE, COIN_OF_LORDS4)); !getQuestItemsCount(player, LIZARDMANS_TOTEM) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30037-05.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30037-05.html",
+   "quest": 402,
+   "text": "High Priestess Levian: May Einhasad bless your pilgrimage. By the way, have you been to Talking Island? As you know, that small and isolated island is also a part of the Gludio province. Therefore the captain of guards and High Priest there will also have the Coin of Lords.",
+   "header": "High Priestess Levian",
+   "when": [
+    "state STARTED; has items 1165; lacks items 1174; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_2ND_TEMPLE_BADGE, COIN_OF_LORDS4))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30037-02.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30037-02.html",
+   "quest": 340,
+   "text": "High Priestess Levian: From all accounts it seems that the lizardmen worship Bifrons as a god. I would not be surprised to discover that he was being controlled by an even higher being. I sense a great evil on the south shore of Gludio . You will not be able to deal with this menace alone, you must…",
+   "header": "High Priestess Levian",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30037-02.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30037-02.html",
+   "quest": 402,
+   "text": "High Priestess Levian: These days, I hear from the guards that the lizardmen appear in great numbers on the southern shore of the province ... As you know, they look like lizards but are all evil creatures made by Shilen. The lizard is the descendent of the dragon, which is the ultimate creature of…",
+   "header": "High Priestess Levian",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Subjugation of Lizardmen (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00340_SubjugationOfLizardmen",
+     "kind": "quest",
+     "quest": 340,
+     "to": "Q00340_SubjugationOfLizardmen/30037-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Human Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00402_PathOfTheHumanKnight",
+     "kind": "quest",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30037-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

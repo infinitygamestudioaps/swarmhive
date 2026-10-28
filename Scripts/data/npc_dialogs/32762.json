@@ -1,0 +1,439 @@
+{
+ "npcId": 32762,
+ "name": "Sirra",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.405Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Sirra/32762-easy.html",
+   "when": "world != null; world.getTemplateId() == FREYA_INSTID; (world.isStatus(0))",
+   "src": "ai Sirra"
+  },
+  {
+   "page": "ai/npc/Sirra/32762-easyfight.html",
+   "when": "world != null; world.getTemplateId() == FREYA_INSTID; NOT (world.isStatus(0))",
+   "src": "ai Sirra"
+  },
+  {
+   "page": "ai/npc/Sirra/32762-hard.html",
+   "when": "!((world != null) && (world.getTemplateId() == FREYA_INSTID)); world != null; world.getTemplateId() == FREYA_HARD_INSTID; (world.isStatus(0))",
+   "src": "ai Sirra"
+  },
+  {
+   "page": "ai/npc/Sirra/32762-hardfight.html",
+   "when": "!((world != null) && (world.getTemplateId() == FREYA_INSTID)); world != null; world.getTemplateId() == FREYA_HARD_INSTID; NOT (world.isStatus(0))",
+   "src": "ai Sirra"
+  },
+  {
+   "page": "ai/npc/Sirra/32762.html",
+   "when": "",
+   "src": "ai Sirra"
+  },
+  {
+   "page": "default/32762.htm",
+   "when": "when no script answers the first talk",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10285": {
+   "name": "Meeting Sirra",
+   "listText": [
+    "[Meeting Sirra]",
+    "[Meeting Sirra (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10285_MeetingSirra/32762-01.html",
+     "when": "state STARTED; memo 1; st.isMemoStateEx(1, 3)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10285_MeetingSirra/32762-09.html",
+     "when": "state STARTED; memo 1; !st.isMemoStateEx(1, 3); st.isMemoStateEx(1, 4)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10286": {
+   "name": "Reunion with Sirra",
+   "listText": [
+    "[Reunion with Sirra]",
+    "[Reunion with Sirra (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10286_ReunionWithSirra/32762-01.html",
+     "when": "state STARTED; memo 1; st.isMemoStateEx(1, 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10286_ReunionWithSirra/32762-05.html",
+     "when": "state STARTED; memo 1; !st.isMemoStateEx(1, 1); st.isMemoStateEx(1, 2)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "ai/npc/Sirra/32762-easy.html": {
+   "file": "ai/npc/Sirra/32762-easy.html",
+   "quest": null,
+   "text": "Sirra: This is the way to the Ice Queen's Throne room, where she awaits. As I've told you, Freya is powerful beyond all comprehension and can destroy you with a mere thought. I keep telling other would-be heroes this, but they keep going anyway. It's actually getting rather fun. But I'm SURE you're…",
+   "header": "Sirra",
+   "when": [
+    "world != null; world.getTemplateId() == FREYA_INSTID; (world.isStatus(0))"
+   ],
+   "links": [
+    {
+     "text": "Open door",
+     "bypass": "Quest IceQueensCastleNormalBattle openDoor",
+     "kind": "quest-event",
+     "script": "IceQueensCastleNormalBattle",
+     "event": "openDoor"
+    }
+   ]
+  },
+  "ai/npc/Sirra/32762-easyfight.html": {
+   "file": "ai/npc/Sirra/32762-easyfight.html",
+   "quest": null,
+   "text": "Sirra: Beyond this door the Ice Queen Freya is making ice sculptures from foolish adventurers. You're not trying to join them, are you? Tsk tsk. The smart ones run screaming about now.",
+   "header": "Sirra",
+   "when": [
+    "world != null; world.getTemplateId() == FREYA_INSTID; NOT (world.isStatus(0))"
+   ],
+   "links": [
+    {
+     "text": "I will go in.",
+     "bypass": "Quest IceQueensCastleNormalBattle portInside",
+     "kind": "quest-event",
+     "script": "IceQueensCastleNormalBattle",
+     "event": "portInside"
+    }
+   ]
+  },
+  "ai/npc/Sirra/32762-hard.html": {
+   "file": "ai/npc/Sirra/32762-hard.html",
+   "quest": null,
+   "text": "Sirra: This is the way to the Ice Queen's Throne room, where she awaits. As I've told you, Freya is powerful beyond all comprehension and can destroy you with a mere thought. I keep telling other would-be heroes this, but they keep going anyway. It's actually getting rather fun. But I'm SURE you're…",
+   "header": "Sirra",
+   "when": [
+    "!((world != null) && (world.getTemplateId() == FREYA_INSTID)); world != null; world.getTemplateId() == FREYA_HARD_INSTID; (world.isStatus(0))"
+   ],
+   "links": [
+    {
+     "text": "Open door",
+     "bypass": "Quest IceQueensCastleNormalBattle openDoor",
+     "kind": "quest-event",
+     "script": "IceQueensCastleNormalBattle",
+     "event": "openDoor"
+    }
+   ]
+  },
+  "ai/npc/Sirra/32762-hardfight.html": {
+   "file": "ai/npc/Sirra/32762-hardfight.html",
+   "quest": null,
+   "text": "Sirra: Beyond this door the Ice Queen Freya is making ice sculptures from foolish adventurers. You're not trying to join them, are you? Tsk tsk. The smart ones run screaming about now.",
+   "header": "Sirra",
+   "when": [
+    "!((world != null) && (world.getTemplateId() == FREYA_INSTID)); world != null; world.getTemplateId() == FREYA_HARD_INSTID; NOT (world.isStatus(0))"
+   ],
+   "links": [
+    {
+     "text": "I will go in.",
+     "bypass": "Quest IceQueensCastleNormalBattle portInside",
+     "kind": "quest-event",
+     "script": "IceQueensCastleNormalBattle",
+     "event": "portInside"
+    }
+   ]
+  },
+  "ai/npc/Sirra/32762.html": {
+   "file": "ai/npc/Sirra/32762.html",
+   "quest": null,
+   "text": "Sirra: I'm the great Sirra, Master Elven Magician and chamberlain to her majesty, the Ice Queen Freya. Some call me the Ice Fairy. No doubt you've heard of me.",
+   "header": "Sirra",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/32762.htm": {
+   "file": "default/32762.htm",
+   "quest": null,
+   "text": "Sirra: I'm the great Sirra, Master Elven Magician and chamberlain to her majesty, the Ice Queen Freya. Some call me the Ice Fairy. No doubt you've heard of me.",
+   "header": "Sirra",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32762-01.html": {
+   "file": "Q10285_MeetingSirra/32762-01.html",
+   "quest": 10285,
+   "text": "Sirr: Ah, you foolish humans. What beautiful ice sculptures you would all make, preserved for eternity in winter's grasp.",
+   "header": "Sirr",
+   "when": [
+    "state STARTED; memo 1; st.isMemoStateEx(1, 3)"
+   ],
+   "links": [
+    {
+     "text": "\"Who are you?!\"",
+     "bypass": "Quest Q10285_MeetingSirra 32762-02.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32762-02.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32762-02.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32762-09.html": {
+   "file": "Q10285_MeetingSirra/32762-09.html",
+   "quest": 10285,
+   "text": "Sirra: Have it your way. When you come to your senses, I'll be waiting right here. You're welcome.",
+   "header": "Sirra",
+   "when": [
+    "state STARTED; memo 1; !st.isMemoStateEx(1, 3); st.isMemoStateEx(1, 4)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10286_ReunionWithSirra/32762-01.html": {
+   "file": "Q10286_ReunionWithSirra/32762-01.html",
+   "quest": 10286,
+   "text": "Sirra: Having fun? I have to say, you surprised even me. The fact that you ignored my advice and yet still live is proof that you might have what it takes to defeat Freya. So, wasn't the Queen just a delight?",
+   "header": "Sirra",
+   "when": [
+    "state STARTED; memo 1; st.isMemoStateEx(1, 1)"
+   ],
+   "links": [
+    {
+     "text": "\"What do you want to say?\"",
+     "bypass": "Quest Q10286_ReunionWithSirra 32762-02.html",
+     "kind": "quest-event",
+     "script": "Q10286_ReunionWithSirra",
+     "event": "32762-02.html",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32762-02.html"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32762-05.html": {
+   "file": "Q10286_ReunionWithSirra/32762-05.html",
+   "quest": 10286,
+   "text": "Sirra: Well, those frozen cores I mentioned can make that deadly magic feel like a soft winter snow. Next time you fight her, wait until she tries to cast the spell and immediately use the frozen core when you start to feel the cold. Ah, I wish I could see the look on her face when her power proves…",
+   "header": "Sirra",
+   "when": [
+    "state STARTED; memo 1; !st.isMemoStateEx(1, 1); st.isMemoStateEx(1, 2)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32762-02.html": {
+   "file": "Q10285_MeetingSirra/32762-02.html",
+   "quest": 10285,
+   "text": "Sirra: I'm the great Sirra, Master Elven Magician and chamberlain to her majesty, the Ice Queen Freya. Some call me the Ice Fairy. No doubt you've heard of me.",
+   "header": "Sirra",
+   "links": [
+    {
+     "text": "\"What is Freya's chamberlain doing here?\"",
+     "bypass": "Quest Q10285_MeetingSirra 32762-03.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32762-03.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32762-03.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32762-03.html": {
+   "file": "Q10285_MeetingSirra/32762-03.html",
+   "quest": 10285,
+   "text": "Sirra: I will admit, I was not acting of my own free will as the Ice Fairy. As hard as it may be to believe, even one as great as Master Magician Sirra can be misled. That foolish Felicia! When she broke that ice crystal, she believed it a mistake and tried to hide the shards from the rest of us. E…",
+   "header": "Sirra",
+   "links": [
+    {
+     "text": "\"Sayan's crystals can influence people?\"",
+     "bypass": "Quest Q10285_MeetingSirra 32762-04.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32762-04.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32762-04.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32762-04.html": {
+   "file": "Q10285_MeetingSirra/32762-04.html",
+   "quest": 10285,
+   "text": "Sirra: Don't fool yourself and pity Felicia. Yes, she was just a normal human once. But she was never innocent. She unabashedly sought more and more power, and to say she was self-centered is an understatement. We were all merely characters in her universe. When she absorbed the power of Freya from…",
+   "header": "Sirra",
+   "links": [
+    {
+     "text": "\"Your point?\"",
+     "bypass": "Quest Q10285_MeetingSirra 32762-05.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32762-05.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32762-05.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32762-05.html": {
+   "file": "Q10285_MeetingSirra/32762-05.html",
+   "quest": 10285,
+   "text": "Sirra: I grew up with 'Licia' - Felicia - when she was a snot-nosed child. I know her better than she knows herself. Know this: fighting Freya alone is suicide. We may be able to help each other - I have a plan that just might work.",
+   "header": "Sirra",
+   "links": [
+    {
+     "text": "\"Work together with you?\"",
+     "bypass": "Quest Q10285_MeetingSirra 32762-06.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32762-06.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32762-06.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32762-06.html": {
+   "file": "Q10285_MeetingSirra/32762-06.html",
+   "quest": 10285,
+   "text": "Sirra: It's our castle and you'll need the help of those within to defeat her. We were all caught up in Freya's destructive web: not just the knights, soldiers, and nobles but also the butlers, servants, and cooks. Even myself, the Grand Head Chamberlain. While we cannot defy Freya's will, we know …",
+   "header": "Sirra",
+   "links": [
+    {
+     "text": "\"How do I defeat Freya?\"",
+     "bypass": "Quest Q10285_MeetingSirra 32762-07.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32762-07.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32762-07.html"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32762-07.html": {
+   "file": "Q10285_MeetingSirra/32762-07.html",
+   "quest": 10285,
+   "text": "Sirra: We can isolate Freya's essence and seal it in what is called a frozen core, a device not unlike the ice crystal that began this whole thing. It so happens I am capable of making this device! I assure you, it is not because I am fabulous, though I am. It is part of the curse Freya placed on m…",
+   "header": "Sirra",
+   "links": [
+    {
+     "text": "\"Give me a break. I won't fall into your trap, Sirra.\"",
+     "bypass": "Quest Q10285_MeetingSirra 32762-08.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32762-08.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32762-08.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32762-08.html": {
+   "file": "Q10285_MeetingSirra/32762-08.html",
+   "quest": 10285,
+   "text": "Sirra: You are a fool! But I'm not going to waste my breath trying to convince you. Go ahead and try to fight Freya. I assure you that you will fail. If you don't end up another sculpture in her garden, I suggest you come back and talk to me. Goodbye for now.",
+   "header": "Sirra",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10286_ReunionWithSirra/32762-02.html": {
+   "file": "Q10286_ReunionWithSirra/32762-02.html",
+   "quest": 10286,
+   "text": "Sirra: I know not everyone operates on the same level of genius as I do, so I don't mind explaining it to you. But you better listen because I'm not going to bother explaining again, got it? We need each other. Accept my help, and you may defeat Freya. There. You're welcome.",
+   "header": "Sirra",
+   "links": [
+    {
+     "text": "\"How can I trust you?\"",
+     "bypass": "Quest Q10286_ReunionWithSirra 32762-03.html",
+     "kind": "quest-event",
+     "script": "Q10286_ReunionWithSirra",
+     "event": "32762-03.html",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32762-03.html"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32762-03.html": {
+   "file": "Q10286_ReunionWithSirra/32762-03.html",
+   "quest": 10286,
+   "text": "Sirra: I told you already, but hey why not, let's just rehash a bit. Felicia broke Sayan's ice crystal into bits and tried to hide it from us. Then the power of the crystal leaked out and took control of everyone in the castle.",
+   "header": "Sirra",
+   "links": [
+    {
+     "text": "\"OK, but what do you want?\"",
+     "bypass": "Quest Q10286_ReunionWithSirra 32762-04.html",
+     "kind": "quest-event",
+     "script": "Q10286_ReunionWithSirra",
+     "event": "32762-04.html",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32762-04.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32762-04.html": {
+   "file": "Q10286_ReunionWithSirra/32762-04.html",
+   "quest": 10286,
+   "text": "Sirra: I have no hidden motive. You and I share a common goal. And THAT makes us partners. You are most honored by it... Have you figured out how to withstand her deadliest magic? As partners, I'll tell you. Use frozen core, and her eternal blizzard magic will feel like a slushy. Wait until Freya c…",
+   "header": "Sirra",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Meeting Sirra (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10285_MeetingSirra",
+     "kind": "quest",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32762-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Reunion with Sirra (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10286_ReunionWithSirra",
+     "kind": "quest",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32762-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

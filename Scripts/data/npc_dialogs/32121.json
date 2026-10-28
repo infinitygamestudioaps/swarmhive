@@ -1,0 +1,1181 @@
+{
+ "npcId": 32121,
+ "name": "Chuta Kaimu",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.341Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32121.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "125": {
+   "name": "The Name of Evil - 1",
+   "listText": [
+    "[The Name of Evil 1]",
+    "[The Name of Evil 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00125_TheNameOfEvil1/32121-01.html",
+     "when": "state STARTED; cond 1|2|3|4|5|6",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32121-02.html",
+     "when": "state STARTED; cond 7; st.get(\"Memo\") == null",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32121-09.html",
+     "when": "state STARTED; cond 7; !st.get(\"Memo\") == null; switch(st.getInt(\"Memo\")) case 1",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32121-19.html",
+     "when": "state STARTED; cond 7; !st.get(\"Memo\") == null; switch(st.getInt(\"Memo\")) case 2",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32121-20.html",
+     "when": "state STARTED; cond 7; !st.get(\"Memo\") == null; switch(st.getInt(\"Memo\")) case 3",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32121-21.html",
+     "when": "state STARTED; cond 8",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "126": {
+   "name": "The Name of Evil - 2",
+   "listText": [
+    "[The Name of Evil 2]",
+    "[The Name of Evil 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00126_TheNameOfEvil2/32121-1.html",
+     "when": "state STARTED; cond 1|2|3|4|5|6|7",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32121-2.html",
+     "when": "state STARTED; cond 8",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32121-3e.html",
+     "when": "state STARTED; cond 9",
+     "state": "STARTED",
+     "cond": [
+      9
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32121-4e.html",
+     "when": "state STARTED; cond 10",
+     "state": "STARTED",
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32121-5a.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32121.htm": {
+   "file": "default/32121.htm",
+   "quest": null,
+   "text": "Chuta Kaimu: The stone pillar looks like it was erected a long time ago. The top is worn and chipped in places, but the ancient letters on its face seem to be relatively bright and clear.",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-01.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-01.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: The Pillar of Wisdom looks like any other monument, but there is a feeling of some kind of hidden power. Perhaps it is one of the pillars created by Shilen... Since you don't know how to communicate with the pillar, perhaps it would be better to return after learning how to do so.",
+   "header": "Chuta Kaimu",
+   "when": [
+    "state STARTED; cond 1|2|3|4|5|6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32121-02.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-02.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: (Staring closely at the Pillar of Wisdom, the delicate letters on its face seem to move rhythmically. Given its location, this must be Chuta Kaimu....)",
+   "header": "Chuta Kaimu",
+   "when": [
+    "state STARTED; cond 7; st.get(\"Memo\") == null"
+   ],
+   "links": [
+    {
+     "text": "Touching the pillar seems to cause it to react. Try to communicate with it.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-03.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-03.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-03.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-09.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-09.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: Whoo...Who has awakened me from this silence you small and strange-looking creature has done it I have never seen such a strange-looking creature since Shilen gave me life...",
+   "header": "Chuta Kaimu",
+   "when": [
+    "state STARTED; cond 7; !st.get(\"Memo\") == null; switch(st.getInt(\"Memo\")) case 1"
+   ],
+   "links": [
+    {
+     "text": "The speech is so fast that it's impossible to understand. Ask it to say it again slowly.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-10.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-10.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-10.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-19.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-19.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: Your identity is confirmed! I sense a signal from my brother Balu Kaimu, who has also been awakened from his long slumber. He shares wisdom with me that confirms you are indeed the outsider fated to save this island.",
+   "header": "Chuta Kaimu",
+   "when": [
+    "state STARTED; cond 7; !st.get(\"Memo\") == null; switch(st.getInt(\"Memo\")) case 2"
+   ],
+   "links": [
+    {
+     "text": "It seems that your identity has been confirmed.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-12.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-12.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-12.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-20.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-20.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: The item you have brought here is surely a fragment of the weapon wielded by ancient Elrokian warriors to subjugate and control the vicious dinosaurs of the island. Blessed by Shilen herself, it was a powerful force for order in their hands.",
+   "header": "Chuta Kaimu",
+   "when": [
+    "state STARTED; cond 7; !st.get(\"Memo\") == null; switch(st.getInt(\"Memo\")) case 3"
+   ],
+   "links": [
+    {
+     "text": "Show Chuta Kaimu the relic youy received from Mushika.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-17.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-17.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-17.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-21.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-21.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: Take this written wisdom to the leader of the Elroki tribe. He too has an important role to play in averting this coming doom and will aid you in your quest.",
+   "header": "Chuta Kaimu",
+   "when": [
+    "state STARTED; cond 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32121-1.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-1.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: This is the Pillar of Wisdom known as Chuta Kaimu! Communication is not possible at the moment -- something is lacking.",
+   "header": "Chuta Kaimu",
+   "when": [
+    "state STARTED; cond 1|2|3|4|5|6|7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32121-2.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-2.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: To communicate with Chuta Kaimu, place your hands on the pillar and think about the question you wish to ask. As you do so, the ancient letters moving rhythmically on the face of the pillar seem to gather around your hands. You feel a sensation of warmth.",
+   "header": "Chuta Kaimu",
+   "when": [
+    "state STARTED; cond 8"
+   ],
+   "links": [
+    {
+     "text": "Chuta Kaimu has recognized you.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-3.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-3.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-3.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-3e.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-3e.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: Chuta Kaimu awaits your reaction after it has finished searching for Gazkh.and.abnormal.phenomena.",
+   "header": "Chuta Kaimu",
+   "when": [
+    "state STARTED; cond 9"
+   ],
+   "links": [
+    {
+     "text": "It seems like its search has been completed. Try to communicate with it.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-3a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-3a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-3a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-4e.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-4e.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: The melody sounds similar to the one that Balu Kaimu sang. Perhaps it is the next verse of the song; given its similarity to the other melody, it should be easy to memorize.",
+   "header": "Chuta Kaimu",
+   "when": [
+    "state STARTED; cond 10"
+   ],
+   "links": [
+    {
+     "text": "Listen to the melody.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-4a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-4a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-4a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-5a.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-5a.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: This is all the wisdom I can share with you. Follow this road to the Warrior's Grave at the southwest end. Once there, pray for his soul and you may receive what you require. If necessary, place the Gazkh fragment on the Warrior's Grave.",
+   "header": "Chuta Kaimu",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Listen to the third verse of the melody in order to confirm.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-5b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-5b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-5b.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-03.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-03.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: Try to enter the first letter of the ancient word.",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "p",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-04.html"
+    },
+    {
+     "text": "w",
+     "bypass": "Quest Q00125_TheNameOfEvil1 W_Three",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "W_Three",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-04.html"
+    },
+    {
+     "text": "o",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-04.html"
+    },
+    {
+     "text": "n",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-04.html"
+    },
+    {
+     "text": "t",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-04.html"
+    },
+    {
+     "text": "a",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-04.html"
+    },
+    {
+     "text": "u",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-04.html"
+    },
+    {
+     "text": "e",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-04.html"
+    },
+    {
+     "text": "g",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-04.html"
+    },
+    {
+     "text": "h",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-04.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-04.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-04.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: Try to enter the second letter of the ancient word.",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "p",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-05.html"
+    },
+    {
+     "text": "w",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-05.html"
+    },
+    {
+     "text": "o",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-05.html"
+    },
+    {
+     "text": "n",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-05.html"
+    },
+    {
+     "text": "t",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-05.html"
+    },
+    {
+     "text": "a",
+     "bypass": "Quest Q00125_TheNameOfEvil1 A_Three",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "A_Three",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-05.html"
+    },
+    {
+     "text": "u",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-05.html"
+    },
+    {
+     "text": "e",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-05.html"
+    },
+    {
+     "text": "g",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-05.html"
+    },
+    {
+     "text": "h",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-05.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-05.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-05.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: Try to enter the third letter of the ancient word.",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "p",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-06.html"
+    },
+    {
+     "text": "w",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-06.html"
+    },
+    {
+     "text": "o",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-06.html"
+    },
+    {
+     "text": "n",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-06.html"
+    },
+    {
+     "text": "t",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-06.html"
+    },
+    {
+     "text": "a",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-06.html"
+    },
+    {
+     "text": "u",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-06.html"
+    },
+    {
+     "text": "e",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-06.html"
+    },
+    {
+     "text": "g",
+     "bypass": "Quest Q00125_TheNameOfEvil1 G_Three",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "G_Three",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-06.html"
+    },
+    {
+     "text": "h",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-06.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-06.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-06.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: Try to enter the fourth letter of the ancient word.",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "p",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-07.html"
+    },
+    {
+     "text": "w",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-07.html"
+    },
+    {
+     "text": "o",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-07.html"
+    },
+    {
+     "text": "n",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-07.html"
+    },
+    {
+     "text": "t",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-07.html"
+    },
+    {
+     "text": "a",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-07.html"
+    },
+    {
+     "text": "u",
+     "bypass": "Quest Q00125_TheNameOfEvil1 U_Three",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "U_Three",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-08.html",
+     "toAll": [
+      "Q00125_TheNameOfEvil1/32121-08.html",
+      "Q00125_TheNameOfEvil1/32121-07.html"
+     ]
+    },
+    {
+     "text": "e",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-07.html"
+    },
+    {
+     "text": "g",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-07.html"
+    },
+    {
+     "text": "h",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-07.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-07.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-07.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: You have failed to communicate with Chuta Kaimu.",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "Go back to the first screen.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-03.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-03.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-03.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-08.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-08.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: ( The delicate letters on the face of the pillar begin organizing themselves into what seem to be sentences. )",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "The pillar appears to be pulsing slowly, almost as if it was breathing. What would happen if you gently put your hand on it?",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-09.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-09.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-09.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-10.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-10.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: I am Chuta Kaimu, a Pillar of Wisdom whose name means \"eyes watching heaven\" in the Elrokian tongue. You used Shilen's word to awaken me! Now you know how to communicate with me, so tell me: How is it that you came to know that word? It evoked a sacred oath between my mother Shilen and…",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "\"I'm an adventurer who came here to help the Elroki tribe. They call me the outsider of fate.\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-11.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-11.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-11.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-11.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-11.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: The outsider of fate! (The engraved letters on Chuta Kaimu's monument scatter, then begin to form a new pattern. You suspect that it may be searching for information regarding the outsider of fate. Finally the letters stop moving, having reassembled themselves into a new pattern.)",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "Ask if it is confirming your identity.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-12.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-12.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-12.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-12.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-12.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: Both the wisdom I possess and that of my brother Balu Kaimu confirms that you are whom you say you are. It was fated that we should meet. Outsider of fate, what wisdom do you seek from me? To repay you for awakening me from ages of silent slumber, ask me anything you wish to know.",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "Show Chuta Kaimu the relic you received from Mushika.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-13.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-13.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-13.html"
+    },
+    {
+     "text": "\"Why did the goddess Shilen abandon the Lost Nest?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-14.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-14.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-14.html"
+    },
+    {
+     "text": "\"Why did the Elroki tribe, who once controlled dinosaurs, become so weak?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-15.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-15.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-15.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-13.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-13.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: (Show the item to Chuta Kaimu.) This is... Long years have changed its shape and appearance, making recognition difficult. Wait while I access more stored wisdom regarding it.",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "Check for other wisdom.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-12.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-12.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-12.html"
+    },
+    {
+     "text": "Wait.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-16.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-16.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-16.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-14.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-14.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: It is not true that Shilen abandoned this island. The truth is that she was stripped of her right to govern after she was seduced by her father, Gran Kain. Although the crime was his, it was Shilen who was punished, and it was the Lost Nest that suffered most. History scorns Shilen for…",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "Check for other wisdom.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-12.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-12.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-12.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-15.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-15.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: With the Lost Nest no longer under Shilen's rule, the goddess was unable to continue to protect the Elroki tribe, and much of the Elrokians' power derived from her mighty magic was lost. Meanwhile, freed from Elrokian control, the dinosaurs roamed unfettered throughout the land, wreaki…",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "Check for other wisdom.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-12.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-12.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-12.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-16.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-16.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: The pride of the ancient Elrokian warriors -- in a sense, their other self, proof of Mother Shilen's blessing and faithfulness. Ah, this is! This must be a fragment of the weapon the Elrokian warriors once wielded. May I see it more closely?",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "Show Mushika's relic to Chuta Kaimu.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-17.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-17.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-17.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-17.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-17.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: This fragment is surely a remnant of the ax Gazkh, which was once wielded by Elrokian warriors at the peak of the tribe's power. Now I believe that you are truly the outsider of whom the prophecies speak. Blessed be the name of Shilen!",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "\"What do the prophecies say about this outsider of fate?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32121-18.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32121-18.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-18.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32121-18.html": {
+   "file": "Q00125_TheNameOfEvil1/32121-18.html",
+   "quest": 125,
+   "text": "Chuta Kaimu: May I see it more closely? (Place the relic near the Pillar.) This is indeed proof that you are the long-awaited outsider fated to save this island. Long ago, Shilen foretold that when the ancient evil of this island woke again from its slumber, fate would send an outsider, armed with …",
+   "header": "Chuta Kaimu",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32121-3.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-3.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: Welcome, outsider whose fated coming has been foretold! You, and only you, are granted the privilege of gaining wisdom directly from Chuta Kaimu. What do you seek?",
+   "header": "Chuta Kaimu",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"I wish to know how the relic Gazkh is connected to the strange happenings on this island.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-3a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-3a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-3a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-3a.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-3a.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: Instead of answering, the stone surface of the pillar seems to shimmer as words appear, forming a phrase that seems almost slightly raised, like button. Push on it gently.",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "Warrior song.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-3b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-3b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-3b.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-3b.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-3b.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: The dinosaurs closed ranks and resisted our attack. Blood of both men and beast stain the silver armor of the Elrokian warriors. But we are Gazkhs! Mother Shilen bestowed on us the power to seal and ordered us to serve the Elroki tribe.",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "The letters are reorganized.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-3c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-3c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-3c.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-3c.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-3c.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: The bravest of the Elrokian warriors, my master! My duty is to defend you from Sailren's claws, but you are wounded -- you fall! Your lifeless hand opens, and Gazkh falls to the ground, no longer a warrior's weapon.",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "The letters are reorganized.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-3d.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-3d.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-3d.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-3d.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-3d.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: Mother Shilen, I implore you! Before my life ends in sorrow for my master's death, Before I am destroyed by the wrath of Sailren, Use me to restore order! Though I be shattered to pieces, use my energy to seal up our enemy!",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "The letters are reorganized.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-4.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-4.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-4.html",
+     "effect": "cond:10"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-4.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-4.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: My hero, my master! Should my spirit ever return here, gather my shattered body and sing to me the warrior song of old.",
+   "header": "Chuta Kaimu",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "As the letters on the Pillar of Wisdom are reorganized, you hear a stirring, almost sad melody.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-4a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-4a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-4a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-4a.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-4a.html",
+   "quest": 126,
+   "text": "Chuta Kaimu:",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "Sol-Fa-Mi-Fa-Mi!",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-4b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-4b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-4b.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-4b.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-4b.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: This fragment of Gazkh floods me with its suffering! The pain! Another memory surfaces!",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "The letters on the pillar spell out the phrase \"Warrior's Grave.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-4c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-4c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-4c.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-4c.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-4c.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: With my body, the sacrifice of other Gazkhs, and the efforts of Shilen, we locked Sailren deep in the Lost Nest. But our shattered fragments are now buried in the cold ground or lodged in the skins of the dinosaurs themselves, and the magical seal has failed. With it, the power to cont…",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "The letters are reorganized.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-4d.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-4d.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-4d.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-4d.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-4d.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: O Shilen! Let this broken sentinel return to its master's side! Travel to a place where the thick trees lean against a cliff and hold their hands together. To a place where the Elrokian warriors of old cast off their worn bodies and left on the journey from which no man returns. Were i…",
+   "header": "Chuta Kaimu",
+   "links": [
+    {
+     "text": "The letters are reorganized faster and faster, until they finally stop, shining with a blue glow.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32121-5.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32121-5.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-5.html",
+     "effect": "cond:11"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32121-5.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-5.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: Here is the wisdom that you seek. Outsider of fate, Shilen's will is that you now travel to the Warrior's Grave and pray over it with a true heart. Then you will receive what you require. The grave lies at the end of the southwest area. Take this fragment of Gazkh that you showed me, w…",
+   "header": "Chuta Kaimu",
+   "sets": {
+    "cond": "11"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32121-5b.html": {
+   "file": "Q00126_TheNameOfEvil2/32121-5b.html",
+   "quest": 126,
+   "text": "Chuta Kaimu: Sol-Fa-Mi-Fa-Mi!",
+   "header": "Chuta Kaimu",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Name of Evil 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00125_TheNameOfEvil1",
+     "kind": "quest",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32121-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Name of Evil 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00126_TheNameOfEvil2",
+     "kind": "quest",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32121-1.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

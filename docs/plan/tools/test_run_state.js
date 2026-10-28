@@ -64,7 +64,7 @@ function world(o) {
     WriteAllText: (f, t) => { W.files[f] = { text: String(t), stamp: String(++W.t) }; },
   };
   const env = {
-    File, __DIR__: 'C:\\L2', now: () => W.t, fileStamp: (f) => (W.files[f] ? W.files[f].stamp : ''),
+    HOFF: { at: 0, on: false }, File, __DIR__: 'C:\\L2', now: () => W.t, fileStamp: (f) => (W.files[f] ? W.files[f].stamp : ''),
     Me: { Name: W.me }, CONFIG: { leader: W.leader, roster: {} }, isLeader: () => W.me === W.leader, teamNames: () => W.team.slice(), teamOf: (n) => W.teamOf ? W.teamOf(n) : W.leader,
     note: (m, say) => { W.notes.push(m); if (say) W.said.push(m); }, logError: (w, e) => { W.notes.push('ERROR ' + w + ' ' + e.message); },
     setInterval: (fn, ms) => { W.intervals.push({ fn, ms }); return W.intervals.length; },
@@ -128,6 +128,14 @@ function world(o) {
   W.files[W.F] = { text: JSON.stringify({ parties: { Tank1: { on: true } }, chars: { Bishop1: { on: false } } }), stamp: '1' };
   W.env.Options.FollowAtk = false; W.tick(); W.files[W.F] = { text: JSON.stringify({ parties: { Tank1: { on: true } } }), stamp: '2' }; W.t += 3000; W.tick();
   check(W.env.Options.FollowAtk === false, 'a healer never gets assist switched on by the un-hold');
+}
+{ const W = world({ me: 'Healer14', leader: 'Spoiler14', team: ['Spoiler14'] });   // HOFFRACE-2026-10-27: hands off is not the run switch's "stopped on its own"
+  W.files[W.F] = { text: JSON.stringify({ parties: { Spoiler14: { on: true } } }), stamp: '1' }; W.api.runData(); W.env.HOFF.at = W.t; W.env.HOFF.on = false;
+  W.files[W.F] = { text: JSON.stringify({ parties: { Spoiler14: { on: true } }, handsOff: { Healer14: { on: true } } }), stamp: '2' }; W.t += 2500; W.env.HOFF.at = W.t - 500;
+  W.intervals.forEach(iv => iv.fn());
+  check(!W.said.some(m => /stopped on its own/.test(m)) && W.api.RUNST.held === false && W.api.RUNST.atkSaved === null && W.env.Options.FollowAtk === false, 'hands off switched on (1 s cache race): no "stopped on its own" in party chat, no run-switch hold');
+  W.files[W.F] = { text: JSON.stringify({ parties: { Spoiler14: { on: true } } }), stamp: '3' }; W.t += 3000; W.tick();
+  check(W.env.Options.FollowAtk === true && W.env.Options.ActiveFollow === true, 'hands off OFF: a melee member assists + follows again');
 }
 { const W = world();   // the leader's watch
   W.env.autoLvl.active = true; W.tick();
@@ -195,7 +203,7 @@ has(/if \(!runAuto\('raid circuit'\)\) return;[^\n]*\n  const cfg0 = rcConfigOf/
 has(/async function leadLevel\(why\) \{\n  if \(!isLeader\(\)\) return;\n  if \(!runAuto\('leveling'\)\)/, 'leadLevel: entry gate');
 has(/runOff: !runOn\(\), now: now\(\) \}\);/, 'circuit keeper passes the switch');
 // survival / orders are NOT gated
-['async function leadSupply(why, opts) {', 'async function leaderMission(kind, arg) {', 'async function orderSupply('].forEach(h => { const b = fnBody(h); check(b && !/runAuto\(|runOn\(\)/.test(b), `order path ${h.split('(')[0].replace('async function ', '')} is never gated (your order runs while OFF)`); });
+['async function leadSupply(why, opts) {', 'async function leaderMission(kind, arg, opt) {', 'async function orderSupply('].forEach(h => { const b = fnBody(h); check(b && !/runAuto\(|runOn\(\)/.test(b), `order path ${h.split('(')[0].replace('async function ', '')} is never gated (your order runs while OFF)`); });
 { const i = src.indexOf('// THE WATCH (every 3 s)'); const b = src.slice(i, src.indexOf('}, 3000);', i));
   check(!/RequestRestartPoint|Mana Potion|healTick/.test(b), 'the watch never touches survival'); }
 // orders that switch ON / OFF

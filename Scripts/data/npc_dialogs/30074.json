@@ -1,0 +1,412 @@
+{
+ "npcId": 30074,
+ "name": "Harlan",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.802Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30074.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "65": {
+   "name": "Certified Soul Breaker",
+   "listText": [
+    "[Certified Soul Breaker]",
+    "[Certified Soul Breaker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30074-01.html",
+     "when": "state STARTED; memo 6; qs.getMemoStateEx(1) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30074-01a.html",
+     "when": "state STARTED; memo 6; !qs.getMemoStateEx(1) == 0; qs.getMemoStateEx(1) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30074-02.html",
+     "when": "state STARTED; memo 6; !qs.getMemoStateEx(1) == 0; !qs.getMemoStateEx(1) == 1; qs.getMemoStateEx(1) == 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/30074-03.html",
+     "when": "state STARTED; memo 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "379": {
+   "name": "Fantasy Wine",
+   "listText": [
+    "[Fantasy Wine]",
+    "[Fantasy Wine (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00379_FantasyWine/30074-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00379_FantasyWine/30074-06.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00379_FantasyWine/30074-07.html",
+     "when": "state STARTED; !hasLeafOfEucalyptus; !hasStoneOfChill",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00379_FantasyWine/30074-08.html",
+     "when": "state STARTED; !(!hasLeafOfEucalyptus && !hasStoneOfChill); hasLeafOfEucalyptus; !hasStoneOfChill",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00379_FantasyWine/30074-09.html",
+     "when": "state STARTED; !(!hasLeafOfEucalyptus && !hasStoneOfChill); !(hasLeafOfEucalyptus && !hasStoneOfChill); !hasLeafOfEucalyptus; hasStoneOfChill",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00379_FantasyWine/30074-10.html",
+     "when": "state STARTED; !(!hasLeafOfEucalyptus && !hasStoneOfChill); !(hasLeafOfEucalyptus && !hasStoneOfChill); !(!hasLeafOfEucalyptus && hasStoneOfChill)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30074.htm": {
+   "file": "guard/30074.htm",
+   "quest": null,
+   "text": "Guard Harlan: Greetings. I sincerely welcome you to our village. There are many dangerous areas around here, so you must be particularly careful when you travel. Be especially careful from that point past the temple in front of me, where you can see the ruins left by the giants of ere. You never kn…",
+   "header": "Guard Harlan",
+   "links": [
+    {
+     "text": "Ask about the giants of ere.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30074-1.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30074-1.htm": {
+   "file": "guard/30074-1.htm",
+   "quest": null,
+   "text": "Guard Harlan: You want to know about the giants of ere? I'm sorry, but I don't know much about them myself. All I know is that they lived in these lands a long time ago and that their knowledge was far greater than ours. Now that I think about it, perhaps the Elves know, since they've been around l…",
+   "header": "Guard Harlan",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30074.htm"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/30074-01.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30074-01.html",
+   "quest": 65,
+   "text": "Harlan: Did I see anyone suspicious? Well, I don't think so. Why don't you ask Jacob over there?",
+   "header": "Harlan",
+   "when": [
+    "state STARTED; memo 6; qs.getMemoStateEx(1) == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/30074-01a.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30074-01a.html",
+   "quest": 65,
+   "text": "Harlan: Well, I didn't see anyone suspicious. Why don't you ask Jacob over there?",
+   "header": "Harlan",
+   "when": [
+    "state STARTED; memo 6; !qs.getMemoStateEx(1) == 0; qs.getMemoStateEx(1) == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/30074-02.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30074-02.html",
+   "quest": 65,
+   "text": "Harlan: Jacob said he didn't see anyone either, eh? Well, if there is anyone like the person you're describing, I'm sure our chief of security, Lucas, would know as soon as anyone. Why don't you go talk to him? You can find him at the south side castle gate.",
+   "header": "Harlan",
+   "when": [
+    "state STARTED; memo 6; !qs.getMemoStateEx(1) == 0; !qs.getMemoStateEx(1) == 1; qs.getMemoStateEx(1) == 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/30074-03.html": {
+   "file": "Q00065_CertifiedSoulBreaker/30074-03.html",
+   "quest": 65,
+   "text": "Harlan: I haven't see anyone like that, I'm afraid. But if there is anyone like the person you're describing, I'm sure our chief of security, Lucas, would know as soon as anyone. Why don't you go talk to him? You can find him at the south side castle gate.",
+   "header": "Harlan",
+   "when": [
+    "state STARTED; memo 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00379_FantasyWine/30074-01.htm": {
+   "file": "Q00379_FantasyWine/30074-01.htm",
+   "quest": 379,
+   "text": "Guard Harlan: Hello, stranger! My wife just recently gave birth to a beautiful baby girl! The countless amusements of fatherhood fill me with indescribable joy... I just want to play peek-a-boo all day! I don't care if people laugh... I would do anything for my precious baby! I see that you disappr…",
+   "header": "Guard Harlan",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'm sorry.\"",
+     "bypass": "Quest Q00379_FantasyWine 30074-02.htm",
+     "kind": "quest-event",
+     "script": "Q00379_FantasyWine",
+     "event": "30074-02.htm",
+     "quest": 379,
+     "to": "Q00379_FantasyWine/30074-02.htm"
+    }
+   ]
+  },
+  "Q00379_FantasyWine/30074-06.html": {
+   "file": "Q00379_FantasyWine/30074-06.html",
+   "quest": 379,
+   "text": "Guard Harlan: Hello, stranger! My wife just recently gave birth to a beautiful baby girl! The countless amusements of fatherhood fill me with indescribable joy... I just want to play peek-a-boo all day! I don't care if people laugh... I would do anything for my precious baby! I need a favor, but yo…",
+   "header": "Guard Harlan",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00379_FantasyWine/30074-07.html": {
+   "file": "Q00379_FantasyWine/30074-07.html",
+   "quest": 379,
+   "text": "Guard Harlan: Have you brought the ingredients for the fantasy wine? I'll need 80 leaves of eucalyptus from the Enku Orc champions and 100 stones of chill from the Enku Orc shamans .",
+   "header": "Guard Harlan",
+   "when": [
+    "state STARTED; !hasLeafOfEucalyptus; !hasStoneOfChill"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00379_FantasyWine/30074-08.html": {
+   "file": "Q00379_FantasyWine/30074-08.html",
+   "quest": 379,
+   "text": "Guard Harlan: You've brought all the leaves of eucalyptus I need, but I still don't have enough stones of chill. As I said, I need 100 of them.",
+   "header": "Guard Harlan",
+   "when": [
+    "state STARTED; !(!hasLeafOfEucalyptus && !hasStoneOfChill); hasLeafOfEucalyptus; !hasStoneOfChill"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00379_FantasyWine/30074-09.html": {
+   "file": "Q00379_FantasyWine/30074-09.html",
+   "quest": 379,
+   "text": "Guard Harlan: You've brought enough stones of chill, but I still need more leaves of eucalyptus. As I said, I need 80 of them.",
+   "header": "Guard Harlan",
+   "when": [
+    "state STARTED; !(!hasLeafOfEucalyptus && !hasStoneOfChill); !(hasLeafOfEucalyptus && !hasStoneOfChill); !hasLeafOfEucalyptus; hasStoneOfChill"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00379_FantasyWine/30074-10.html": {
+   "file": "Q00379_FantasyWine/30074-10.html",
+   "quest": 379,
+   "text": "Guard Harlan: Do you have all the ingredients? Let me see them!",
+   "header": "Guard Harlan",
+   "when": [
+    "state STARTED; !(!hasLeafOfEucalyptus && !hasStoneOfChill); !(hasLeafOfEucalyptus && !hasStoneOfChill); !(!hasLeafOfEucalyptus && hasStoneOfChill)"
+   ],
+   "links": [
+    {
+     "text": "\"Here, take them...\"",
+     "bypass": "Quest Q00379_FantasyWine 30074-11.html",
+     "kind": "quest-event",
+     "script": "Q00379_FantasyWine",
+     "event": "30074-11.html",
+     "quest": 379,
+     "to": "Q00379_FantasyWine/30074-11.html",
+     "toAll": [
+      "Q00379_FantasyWine/30074-11.html",
+      "Q00379_FantasyWine/30074-12.html",
+      "Q00379_FantasyWine/30074-13.html"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00379_FantasyWine/30074-02.htm": {
+   "file": "Q00379_FantasyWine/30074-02.htm",
+   "quest": 379,
+   "text": "Guard Harlan: Apology accepted, my friend... I suppose I overreacted. To mark the birth of my daughter I want to make fantasy wine. The recipe has been in my family for many generations. When she marries I will serve it at her wedding! I am lacking some of the ingredients I need to make the wine. T…",
+   "header": "Guard Harlan",
+   "links": [
+    {
+     "text": "\"What are the ingredients?\"",
+     "bypass": "Quest Q00379_FantasyWine 30074-03.htm",
+     "kind": "quest-event",
+     "script": "Q00379_FantasyWine",
+     "event": "30074-03.htm",
+     "quest": 379,
+     "to": "Q00379_FantasyWine/30074-03.htm"
+    },
+    {
+     "text": "\"I can't help you. \"",
+     "bypass": "Quest Q00379_FantasyWine 30074-05.html",
+     "kind": "quest-event",
+     "script": "Q00379_FantasyWine",
+     "event": "30074-05.html",
+     "quest": 379,
+     "to": "Q00379_FantasyWine/30074-05.html"
+    }
+   ]
+  },
+  "Q00379_FantasyWine/30074-03.htm": {
+   "file": "Q00379_FantasyWine/30074-03.htm",
+   "quest": 379,
+   "text": "Guard Harlan: Well, let's see, I'll need some leaves of eucalyptus... They can be obtained from an Enku Orc champion . To properly age the wine I'll require some stones of chill... They're made and used by the Enku Orc shaman . Bring these items to me and I'll make the wine.",
+   "header": "Guard Harlan",
+   "links": [
+    {
+     "text": "\"I'll help you.\"",
+     "bypass": "Quest Q00379_FantasyWine 30074-04.htm",
+     "kind": "quest-event",
+     "script": "Q00379_FantasyWine",
+     "event": "30074-04.htm",
+     "quest": 379,
+     "to": "Q00379_FantasyWine/30074-04.htm",
+     "effect": "start"
+    },
+    {
+     "text": "\"I'm sorry. I can't help you.\"",
+     "bypass": "Quest Q00379_FantasyWine 30074-05.html",
+     "kind": "quest-event",
+     "script": "Q00379_FantasyWine",
+     "event": "30074-05.html",
+     "quest": 379,
+     "to": "Q00379_FantasyWine/30074-05.html"
+    }
+   ]
+  },
+  "Q00379_FantasyWine/30074-04.htm": {
+   "file": "Q00379_FantasyWine/30074-04.htm",
+   "quest": 379,
+   "text": "Guard Harlan: Oh, great! Please bring me 80 leaves of eucalyptus ... That should be enough for one barrel of wine. I'll need some stones of chill to properly age the wine... 100 should be enough. If you bring me these items, I'll give you a genuine bottle of Dion wine! No cost is too high for the s…",
+   "header": "Guard Harlan",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00379_FantasyWine/30074-05.html": {
+   "file": "Q00379_FantasyWine/30074-05.html",
+   "quest": 379,
+   "text": "Guard Harlan: I understand, you're busy. If you should change your mind and we meet again, I could really use the help. Have a safe journey.",
+   "header": "Guard Harlan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00379_FantasyWine/30074-11.html": {
+   "file": "Q00379_FantasyWine/30074-11.html",
+   "quest": 379,
+   "text": "Guard Harlan: These ingredients aren't the best you can get, but they'll do. At least I can make the fantasy wine to celebrate my daughter's wedding. Thank you for helping me with this. Here is some wine made by my father. This is truly a rare gift. Share it with your friends on a happy occasion.",
+   "header": "Guard Harlan",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00379_FantasyWine/30074-12.html": {
+   "file": "Q00379_FantasyWine/30074-12.html",
+   "quest": 379,
+   "text": "Guard Harlan: Now I can make the fantasy wine! I'll let it age and serve it when my daughter gets married. Thank you! Here is some excellent wine made by my father. Open it to celebrate a special occasion with your family and friends.",
+   "header": "Guard Harlan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00379_FantasyWine/30074-13.html": {
+   "file": "Q00379_FantasyWine/30074-13.html",
+   "quest": 379,
+   "text": "Guard Harlan: These are very high quality ingredients! Now I can make the very finest fantasy wine. What a wonderful gift for my daughter this will make! Here, take this excellent bottle of wine. It's very rare! In fact, there are only a few bottles of it in the entire kingdom!",
+   "header": "Guard Harlan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Soul Breaker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00065_CertifiedSoulBreaker",
+     "kind": "quest",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/30074-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Fantasy Wine]",
+     "bypass": "npc_%objectId%_Quest Q00379_FantasyWine",
+     "kind": "quest",
+     "quest": 379,
+     "to": "Q00379_FantasyWine/30074-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Fantasy Wine (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00379_FantasyWine",
+     "kind": "quest",
+     "quest": 379,
+     "to": "Q00379_FantasyWine/30074-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

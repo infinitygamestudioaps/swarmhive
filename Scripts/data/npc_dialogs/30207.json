@@ -1,0 +1,236 @@
+{
+ "npcId": 30207,
+ "name": "Arodin",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.911Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30207.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "171": {
+   "name": "Acts Of Evil",
+   "listText": [
+    "[Acts of Evil]",
+    "[Acts of Evil (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00171_ActsOfEvil/30207-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30207-02.html",
+     "when": "state STARTED; memo 2; getQuestItemsCount(player, BLADE_MOLD) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30207-03.html",
+     "when": "state STARTED; memo 2; !getQuestItemsCount(player, BLADE_MOLD) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30207-04.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30207-05.html",
+     "when": "state STARTED; memoState >= 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30207.htm": {
+   "file": "merchant/30207.htm",
+   "quest": null,
+   "text": "Trader Arodin: Welcome! Welcome to our shop, filled with 100 years of tradition. We have all the weapons any adventurer could ever need, so please take your time and have a look around. Just so you know, I've heard that undead monsters have been more frequently spotted in the ruins after the war wi…",
+   "header": "Trader Arodin",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30207-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3020700",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3020701",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30207-1.htm": {
+   "file": "merchant/30207-1.htm",
+   "quest": null,
+   "text": "Trader Arodin: What would you like to purchase?",
+   "header": "Trader Arodin",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3020700",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3020701",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3020702",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3020703",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "merchant/30207-pk.htm": {
+   "file": "merchant/30207-pk.htm",
+   "quest": null,
+   "text": "Trader Arodin: Our shop has a proud tradition, and does not trade with people like you. Please leave before I call the guards.",
+   "header": "Trader Arodin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30207-01.html": {
+   "file": "Q00171_ActsOfEvil/30207-01.html",
+   "quest": 171,
+   "text": "Trader Arodin: Are you a mercenary sent by the guards? I suppose you know about my situation? 20 sword blade molds that were to be delivered to the Dark Elves were stolen by orcs. Dark Elves are very strict about such things... If they don't receive their order on time, they might sever our busines…",
+   "header": "Trader Arodin",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the rumor!\"",
+     "bypass": "Quest Q00171_ActsOfEvil 30207-01a.html",
+     "kind": "quest-event",
+     "script": "Q00171_ActsOfEvil",
+     "event": "30207-01a.html",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30207-01a.html"
+    }
+   ]
+  },
+  "Q00171_ActsOfEvil/30207-02.html": {
+   "file": "Q00171_ActsOfEvil/30207-02.html",
+   "quest": 171,
+   "text": "Trader Arodin: You must recover the cargo stolen by Turek orcs . The cargo consists of 20 sword Blade Molds . When you have recovered all of them, take them to Dark Elven Trader Tyra . You will find her in her store in the western part of the Altar of Rites. Have you heard the rumor?",
+   "header": "Trader Arodin",
+   "when": [
+    "state STARTED; memo 2; getQuestItemsCount(player, BLADE_MOLD) < 20"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the rumor.\"",
+     "bypass": "Quest Q00171_ActsOfEvil 30207-01a.html",
+     "kind": "quest-event",
+     "script": "Q00171_ActsOfEvil",
+     "event": "30207-01a.html",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30207-01a.html"
+    }
+   ]
+  },
+  "Q00171_ActsOfEvil/30207-03.html": {
+   "file": "Q00171_ActsOfEvil/30207-03.html",
+   "quest": 171,
+   "text": "Trader Arodin: You have recovered all of the molds stolen by the Turek orcs! Thank you so much! Now, please deliver the recovered cargo to Dark Elven Trader Tyra. You will find her in her store in the western part of the Altar of Rites. Please be careful on your journey.",
+   "header": "Trader Arodin",
+   "when": [
+    "state STARTED; memo 2; !getQuestItemsCount(player, BLADE_MOLD) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30207-04.html": {
+   "file": "Q00171_ActsOfEvil/30207-04.html",
+   "quest": 171,
+   "text": "Trader Arodin: Good job! You have saved our business relationship with the Dark Elves. Guard Alvah is expecting you. You should report to him right away.",
+   "header": "Trader Arodin",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30207-05.html": {
+   "file": "Q00171_ActsOfEvil/30207-05.html",
+   "quest": 171,
+   "text": "Trader Arodin: You're the one who recovered the stolen cargo, aren't you? You look well! I really appreciate what you did for us. Thanks to you, our guild was able to sustain our business relationship with the Dark Elves.",
+   "header": "Trader Arodin",
+   "when": [
+    "state STARTED; memoState >= 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30207-01a.html": {
+   "file": "Q00171_ActsOfEvil/30207-01a.html",
+   "quest": 171,
+   "text": "Trader Arodin: Witnesses said that several Ol Mahums were with the orcs when they raided the cargo wagon. This is the first I've heard of orcs and Ol Mahums working cooperatively... Something strange is going on. Please be careful.",
+   "header": "Trader Arodin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Acts of Evil (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00171_ActsOfEvil",
+     "kind": "quest",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30207-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

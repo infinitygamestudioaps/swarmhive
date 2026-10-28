@@ -1,0 +1,142 @@
+{
+ "npcId": 32118,
+ "name": "Mantarasa Egg",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.339Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32118.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "124": {
+   "name": "Meeting the Elroki",
+   "listText": [
+    "[Meeting the Elroki]",
+    "[Meeting the Elroki (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00124_MeetingTheElroki/32118-01.html",
+     "when": "state STARTED; cond 1|2|3|4",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32118-03.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32118-02.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32118.htm": {
+   "file": "default/32118.htm",
+   "quest": null,
+   "text": "Mantarasa Egg: The egg emanates a feeling of ancient mystic power. It appears to be protected by some kind of energy field, but as you approach you the field flickers and dissipates -- as if in welcome...",
+   "header": "Mantarasa Egg",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32118-01.html": {
+   "file": "Q00124_MeetingTheElroki/32118-01.html",
+   "quest": 124,
+   "text": "Mantarasa Egg: Upon closer examination, it appears to be rooted to the ground almost like a large old tree. You think it must be some kind of sentient being, but can only wonder at its abilities right now.",
+   "header": "Mantarasa Egg",
+   "when": [
+    "state STARTED; cond 1|2|3|4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32118-03.html": {
+   "file": "Q00124_MeetingTheElroki/32118-03.html",
+   "quest": 124,
+   "text": "Mantarasa Egg: It may be the Mantarasa Egg. Its shell resembles that of a giant tortoise. When you touch it, it feels surprisingly warm.",
+   "header": "Mantarasa Egg",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "links": [
+    {
+     "text": "Take the egg.",
+     "bypass": "Quest Q00124_MeetingTheElroki 32118-04.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32118-04.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32118-04.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32118-02.html": {
+   "file": "Q00124_MeetingTheElroki/32118-02.html",
+   "quest": 124,
+   "text": "Mantarasa Egg: You've finally found the egg! Looking closer, it appears to be only a shell, however. What's happened to whatever was inside?",
+   "header": "Mantarasa Egg",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32118-04.html": {
+   "file": "Q00124_MeetingTheElroki/32118-04.html",
+   "quest": 124,
+   "text": "Mantarasa Egg: You carefully pick up the egg and place it in your bag.",
+   "header": "Mantarasa Egg",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Meeting the Elroki (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00124_MeetingTheElroki",
+     "kind": "quest",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32118-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,202 @@
+{
+ "npcId": 32238,
+ "name": "Rock",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.362Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "236": {
+   "name": "Seeds Of Chaos",
+   "listText": [
+    "[Seeds of Chaos]",
+    "[Seeds of Chaos (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00236_SeedsOfChaos/32238-01.html",
+     "when": "state STARTED; memo 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32238-04.html",
+     "when": "state STARTED; memo 21",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32238-05.html",
+     "when": "state STARTED; memo 22",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32238-09.html",
+     "when": "state STARTED; memo 30",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32238-01.html": {
+   "file": "Q00236_SeedsOfChaos/32238-01.html",
+   "quest": 236,
+   "text": "Rock: As you approach, you sense a presence near the rock.",
+   "header": "Rock",
+   "when": [
+    "state STARTED; memo 20"
+   ],
+   "links": [
+    {
+     "text": "Draw closer.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32238-02.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32238-02.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32238-02.html",
+     "toAll": [
+      "Q00236_SeedsOfChaos/32238-02.html",
+      "Q00236_SeedsOfChaos/32238-03.html",
+      "Q00236_SeedsOfChaos/32238-04z.html"
+     ]
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32238-04.html": {
+   "file": "Q00236_SeedsOfChaos/32238-04.html",
+   "quest": 236,
+   "text": "Rock: This is the rock where Harkilgamed is hiding. You have no business here. Go and bring back 62 Shining Medallions.",
+   "header": "Rock",
+   "when": [
+    "state STARTED; memo 21"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32238-05.html": {
+   "file": "Q00236_SeedsOfChaos/32238-05.html",
+   "quest": 236,
+   "text": "Rock: This is the rock where Harkilgamed is hiding. Do you want to call out to him?",
+   "header": "Rock",
+   "when": [
+    "state STARTED; memo 22"
+   ],
+   "links": [
+    {
+     "text": "Call him.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32238-06.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32238-06.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32238-06.html",
+     "toAll": [
+      "Q00236_SeedsOfChaos/32238-06.html",
+      "Q00236_SeedsOfChaos/32238-07.html",
+      "Q00236_SeedsOfChaos/32238-08.html"
+     ]
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32238-09.html": {
+   "file": "Q00236_SeedsOfChaos/32238-09.html",
+   "quest": 236,
+   "text": "Rock: This is the rock where Harkilgamed was hiding, but he moved elsewhere while the servants of the goddess were distracted. Before he left, he instructed you to find Hierarch Kekropus.",
+   "header": "Rock",
+   "when": [
+    "state STARTED; memo 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32238-02.html": {
+   "file": "Q00236_SeedsOfChaos/32238-02.html",
+   "quest": 236,
+   "text": "Rock: A man walks out from the shadow of the rock.",
+   "header": "Rock",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32238-03.html": {
+   "file": "Q00236_SeedsOfChaos/32238-03.html",
+   "quest": 236,
+   "text": "Rock: He has already appeared near the shadow of the rock. Speak with him.",
+   "header": "Rock",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32238-04z.html": {
+   "file": "Q00236_SeedsOfChaos/32238-04z.html",
+   "quest": 236,
+   "text": "Rock: A man standing in the shadow of the rock seems to be talking animatedly with Taine.",
+   "header": "Rock",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32238-06.html": {
+   "file": "Q00236_SeedsOfChaos/32238-06.html",
+   "quest": 236,
+   "text": "Harkilgamed has appeared. Speak with him.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32238-07.html": {
+   "file": "Q00236_SeedsOfChaos/32238-07.html",
+   "quest": 236,
+   "text": "Harkilgamed He is already close at hand. Speak with him.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32238-08.html": {
+   "file": "Q00236_SeedsOfChaos/32238-08.html",
+   "quest": 236,
+   "text": "Harkilgamed is already speaking with someone. Come back later.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seeds of Chaos (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00236_SeedsOfChaos",
+     "kind": "quest",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32238-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

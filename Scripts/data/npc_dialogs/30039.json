@@ -1,0 +1,348 @@
+{
+ "npcId": 30039,
+ "name": "Gilbert",
+ "title": "Captain",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.792Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30039.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "257": {
+   "name": "The Guard is Busy",
+   "listText": [
+    "[The Guard is Busy]",
+    "[The Guard is Busy (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00257_TheGuardIsBusy/30039-02.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00257_TheGuardIsBusy/30039-01.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00257_TheGuardIsBusy/30039-07.html",
+     "when": "state STARTED; has items 752,1085,1086",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00257_TheGuardIsBusy/30039-04.html",
+     "when": "state STARTED; lacks items 752,1085,1086",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "402": {
+   "name": "Path Of The Human Knight",
+   "listText": [
+    "[Path of the Human Knight]",
+    "[Path of the Human Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30039-01.html",
+     "when": "state STARTED; has items 1271; lacks items 1176,1166; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30039-03.html",
+     "when": "state STARTED; has items 1176; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_3RD_BADGE, COIN_OF_LORDS5)); getQuestItemsCount(player, GIANT_SPIDERS_HUSK) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30039-04.html",
+     "when": "state STARTED; has items 1176; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_3RD_BADGE, COIN_OF_LORDS5)); !getQuestItemsCount(player, GIANT_SPIDERS_HUSK) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30039-05.html",
+     "when": "state STARTED; has items 1166; lacks items 1176; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_3RD_BADGE, COIN_OF_LORDS5))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30039.htm": {
+   "file": "guard/30039.htm",
+   "quest": null,
+   "text": "Captain Gilbert: Nice to meet you, young friend. I am Captain Gilbert. Our guards maintain the peace in the village and work day and night to protect the residents from ferocious beasts or orcs, just like the lighthouse works constantly to protect ships from the rocks. If you are planning to leave …",
+   "header": "Captain Gilbert",
+   "links": [
+    {
+     "text": "Ask about the lighthouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30039-1.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30039-1.htm": {
+   "file": "guard/30039-1.htm",
+   "quest": null,
+   "text": "Captain Gilbert: The lighthouse was built by the Elves long ago, to safely guide ships and their crews to Talking Island. Now Rockswell manages the lighthouse. For the past thirty years, he hasn't missed a night, and so the sea is lit by the lighthouse's beams.",
+   "header": "Captain Gilbert",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30039.htm"
+    }
+   ]
+  },
+  "Q00257_TheGuardIsBusy/30039-02.htm": {
+   "file": "Q00257_TheGuardIsBusy/30039-02.htm",
+   "quest": 257,
+   "text": "Captain Gilbert: A few weeks ago, the lord announced that he will transfer all of the refugees from the Gracian wars to Talking Island. But, as you know, Talking Island still has many regions where it is too dangerous for people to live. The southern village of the island and regions surrounding th…",
+   "header": "Captain Gilbert",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will participate in the hunt",
+     "bypass": "Quest Q00257_TheGuardIsBusy 30039-03.htm",
+     "kind": "quest-event",
+     "script": "Q00257_TheGuardIsBusy",
+     "event": "30039-03.htm",
+     "quest": 257,
+     "to": "Q00257_TheGuardIsBusy/30039-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00257_TheGuardIsBusy/30039-01.html": {
+   "file": "Q00257_TheGuardIsBusy/30039-01.html",
+   "quest": 257,
+   "text": "Captain Gilbert: A few weeks ago, the lord announced that he will transfer all of the refugees from the Gracian wars to Talking Island. But, as you know, Talking Island still has many regions where it is too dangerous for people to live. The southern village of the island and regions surrounding th…",
+   "header": "Captain Gilbert",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00257_TheGuardIsBusy/30039-07.html": {
+   "file": "Q00257_TheGuardIsBusy/30039-07.html",
+   "quest": 257,
+   "text": "Captain Gilbert: Well done. I will reward you for every piece of proof you have brought me. This is a reward given to honor the fighters who have faithfully carried out the will of our lord. The lord's decree is still valid. There is still more Adena left for rewards. Will you continue your hunt, o…",
+   "header": "Captain Gilbert",
+   "when": [
+    "state STARTED; has items 752,1085,1086"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00257_TheGuardIsBusy 30039-05.html",
+     "kind": "quest-event",
+     "script": "Q00257_TheGuardIsBusy",
+     "event": "30039-05.html",
+     "quest": 257,
+     "to": "Q00257_TheGuardIsBusy/30039-05.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00257_TheGuardIsBusy 30039-06.html",
+     "kind": "quest-event",
+     "script": "Q00257_TheGuardIsBusy",
+     "event": "30039-06.html",
+     "quest": 257,
+     "to": "Q00257_TheGuardIsBusy/30039-06.html"
+    }
+   ]
+  },
+  "Q00257_TheGuardIsBusy/30039-04.html": {
+   "file": "Q00257_TheGuardIsBusy/30039-04.html",
+   "quest": 257,
+   "text": "Captain Gilbert: You cannot hope for any reward if you laze around in the village. Go outside the village immediately and join in on the hunt. This will be our chance to drive the orcs and werewolves from our lands and make Talking Island a suitable place for Humans to live in. Don't tell me you've…",
+   "header": "Captain Gilbert",
+   "when": [
+    "state STARTED; lacks items 752,1085,1086"
+   ],
+   "links": [
+    {
+     "text": "Say you will go on the hunt",
+     "bypass": "Quest Q00257_TheGuardIsBusy 30039-06.html",
+     "kind": "quest-event",
+     "script": "Q00257_TheGuardIsBusy",
+     "event": "30039-06.html",
+     "quest": 257,
+     "to": "Q00257_TheGuardIsBusy/30039-06.html"
+    },
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00257_TheGuardIsBusy 30039-05.html",
+     "kind": "quest-event",
+     "script": "Q00257_TheGuardIsBusy",
+     "event": "30039-05.html",
+     "quest": 257,
+     "to": "Q00257_TheGuardIsBusy/30039-05.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30039-01.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30039-01.html",
+   "quest": 402,
+   "text": "Captain Gilbert: We have not met in a long time. So you are an esquire in training... Anyway, I am glad to see you! I am Captain Gilbert.",
+   "header": "Captain Gilbert",
+   "when": [
+    "state STARTED; has items 1271; lacks items 1176,1166; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Ask if there is anything you can help with",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30039-02.html",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30039-02.html",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30039-02.html"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30039-03.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30039-03.html",
+   "quest": 402,
+   "text": "Captain Gilbert: Bring me twenty giant spider husks and I will give you the coin of the lords. I am sorry to ask you to do such a dangerous task, but I cannot think of anyone but you who could possibly manage this.",
+   "header": "Captain Gilbert",
+   "when": [
+    "state STARTED; has items 1176; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_3RD_BADGE, COIN_OF_LORDS5)); getQuestItemsCount(player, GIANT_SPIDERS_HUSK) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30039-04.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30039-04.html",
+   "quest": 402,
+   "text": "Captain Gilbert: Thank you, young esquire. As promised, I will give you the coin of the lords. I hope your pilgrimage is successful.",
+   "header": "Captain Gilbert",
+   "when": [
+    "state STARTED; has items 1176; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_3RD_BADGE, COIN_OF_LORDS5)); !getQuestItemsCount(player, GIANT_SPIDERS_HUSK) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30039-05.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30039-05.html",
+   "quest": 402,
+   "text": "Captain Gilbert: So we meet again, esquire!. Nice to see you! Is your pilgrimage going well? Have you been the Einhasad Temple, by any chance? High Priest Biotin may have need of your services.",
+   "header": "Captain Gilbert",
+   "when": [
+    "state STARTED; has items 1166; lacks items 1176; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_3RD_BADGE, COIN_OF_LORDS5))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00257_TheGuardIsBusy/30039-03.htm": {
+   "file": "Q00257_TheGuardIsBusy/30039-03.htm",
+   "quest": 257,
+   "text": "Captain Gilbert: Go and slay orcs and werewolves that live on Talking Island, and bring back proof of their deaths. Prizes will be awarded according to the amount of proof that you bring back. Bring back the feather Orc Amulet, werewolf fangs, or the Orc's Necklace that orcs of fighter rank carry. …",
+   "header": "Captain Gilbert",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00257_TheGuardIsBusy/30039-05.html": {
+   "file": "Q00257_TheGuardIsBusy/30039-05.html",
+   "quest": 257,
+   "text": "Captain Gilbert: You have done well. May the blessings of Einhasad be with you.",
+   "header": "Captain Gilbert",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00257_TheGuardIsBusy/30039-06.html": {
+   "file": "Q00257_TheGuardIsBusy/30039-06.html",
+   "quest": 257,
+   "text": "Captain Gilbert: Please continue, then. Pretty soon, our Talking Island will be a suitable place for peaceful citizens to live in, free of violent orcs and vicious werewolves.",
+   "header": "Captain Gilbert",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30039-02.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30039-02.html",
+   "quest": 402,
+   "text": "Captain Gilbert: Giant spiders have always existed on Talking Island. They used to only live on the northern part of the island, but lately incidents of their attacking homes and carrying off livestock have increased. They are so huge and ferocious that it is sometimes too difficult for the guard t…",
+   "header": "Captain Gilbert",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Guard is Busy]",
+     "bypass": "npc_%objectId%_Quest Q00257_TheGuardIsBusy",
+     "kind": "quest",
+     "quest": 257,
+     "to": "Q00257_TheGuardIsBusy/30039-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Guard is Busy (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00257_TheGuardIsBusy",
+     "kind": "quest",
+     "quest": 257,
+     "to": "Q00257_TheGuardIsBusy/30039-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Human Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00402_PathOfTheHumanKnight",
+     "kind": "quest",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30039-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

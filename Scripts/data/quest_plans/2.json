@@ -2,7 +2,7 @@
  "id": 2,
  "name": "What Women Want",
  "version": 1,
- "generated": "2026-10-27T11:14:35.265Z",
+ "generated": "2026-10-27T18:18:14.940Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 2,
@@ -24,7 +24,7 @@
  ],
  "status": "ready",
  "reasons": [],
- "expectedMin": 10,
+ "expectedMin": 12,
  "refLevel": 2,
  "steps": [
   {
@@ -423,12 +423,342 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:30223",
+   "key": "c1:talk:30146",
    "cond": 1,
    "kind": "talk",
-   "to": "end",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30146,
+    "name": "Mirabel",
+    "title": "Gatekeeper",
+    "town": "Elven Village",
+    "at": [
+     46926,
+     51511,
+     -2976
+    ],
+    "alt": []
+   },
+   "text": "Deliver Letter to Mirabel (Greenis's Sister)",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30146@46926,51511",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 51,
+    "sec": 45,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 51,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      46920,
+      51512,
+      -2976
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 70,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30150",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 30150,
+    "name": "Herbiel",
+    "title": "Grocer",
+    "town": "Elven Village",
+    "at": [
+     42766,
+     50037,
+     -2984
+    ],
+    "alt": []
+   },
+   "text": "Deliver Letter to Herbiel (Greenis's Uncle)",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30150@42766,50037",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 6662,
+    "sec": 101,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6662,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46344,
+      50024,
+      -3056
+     ],
+     [
+      46184,
+      49864,
+      -3064
+     ],
+     [
+      46152,
+      49896,
+      -3064
+     ],
+     [
+      45912,
+      50024,
+      -3056
+     ],
+     [
+      45640,
+      50056,
+      -3056
+     ],
+     [
+      45368,
+      50120,
+      -3056
+     ],
+     [
+      45096,
+      50056,
+      -3056
+     ],
+     [
+      44824,
+      50024,
+      -3056
+     ],
+     [
+      44568,
+      50008,
+      -3064
+     ],
+     [
+      44536,
+      50040,
+      -3056
+     ],
+     [
+      44312,
+      50200,
+      -3056
+     ],
+     [
+      44216,
+      50200,
+      -3056
+     ],
+     [
+      43944,
+      50216,
+      -3056
+     ],
+     [
+      43688,
+      50312,
+      -3024
+     ],
+     [
+      43432,
+      50392,
+      -2992
+     ],
+     [
+      43240,
+      50200,
+      -2992
+     ],
+     [
+      43224,
+      50056,
+      -2992
+     ],
+     [
+      43112,
+      49800,
+      -2992
+     ],
+     [
+      42936,
+      49704,
+      -2992
+     ],
+     [
+      42760,
+      49784,
+      -2992
+     ],
+     [
+      42744,
+      49976,
+      -2992
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 126,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:30223",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
    "links": [
-    "Tell him to forget Greenis."
+    "Tell him Greenis has feelings for him, too."
    ],
    "npc": {
     "id": 30223,
@@ -442,7 +772,7 @@
     ],
     "alt": []
    },
-   "text": "Deliver Letter to Mirabel (Greenis's Sister)",
+   "text": "Return to Arujien with Herbiel's Answer",
    "reasons": [],
    "travel": {
     "src": "computed",
@@ -816,341 +1146,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:30146",
-   "cond": 1,
-   "kind": "talk",
-   "to": 2,
-   "links": [],
-   "npc": {
-    "id": 30146,
-    "name": "Mirabel",
-    "title": "Gatekeeper",
-    "town": "Elven Village",
-    "at": [
-     46926,
-     51511,
-     -2976
-    ],
-    "alt": []
-   },
-   "text": "Deliver Letter to Mirabel (Greenis's Sister)",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30146@46926,51511",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 51,
-    "sec": 45,
-    "via": ".gludio > Gludio -> Elven Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> Elven Village",
-      "link": "elven village",
-      "price": 9200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 51,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> Elven Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      46951,
-      51550,
-      -2976
-     ],
-     [
-      46952,
-      51544,
-      -2976
-     ],
-     [
-      46920,
-      51512,
-      -2976
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 70,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1
-   ]
-  },
-  {
-   "i": 3,
-   "key": "c2:talk:30150",
-   "cond": 2,
-   "kind": "talk",
-   "to": 3,
-   "links": [],
-   "npc": {
-    "id": 30150,
-    "name": "Herbiel",
-    "title": "Grocer",
-    "town": "Elven Village",
-    "at": [
-     42766,
-     50037,
-     -2984
-    ],
-    "alt": []
-   },
-   "text": "Deliver Letter to Herbiel (Greenis's Uncle)",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30150@42766,50037",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 6662,
-    "sec": 101,
-    "via": ".gludio > Gludio -> Elven Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> Elven Village",
-      "link": "elven village",
-      "price": 9200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 6662,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> Elven Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      46951,
-      51550,
-      -2976
-     ],
-     [
-      46952,
-      51544,
-      -2976
-     ],
-     [
-      47112,
-      51320,
-      -2992
-     ],
-     [
-      47288,
-      51112,
-      -2992
-     ],
-     [
-      47304,
-      50984,
-      -2992
-     ],
-     [
-      47160,
-      50824,
-      -2992
-     ],
-     [
-      46968,
-      50648,
-      -2992
-     ],
-     [
-      46744,
-      50488,
-      -3056
-     ],
-     [
-      46472,
-      50488,
-      -3056
-     ],
-     [
-      46520,
-      50216,
-      -3056
-     ],
-     [
-      46344,
-      50024,
-      -3056
-     ],
-     [
-      46184,
-      49864,
-      -3064
-     ],
-     [
-      46152,
-      49896,
-      -3064
-     ],
-     [
-      45912,
-      50024,
-      -3056
-     ],
-     [
-      45640,
-      50056,
-      -3056
-     ],
-     [
-      45368,
-      50120,
-      -3056
-     ],
-     [
-      45096,
-      50056,
-      -3056
-     ],
-     [
-      44824,
-      50024,
-      -3056
-     ],
-     [
-      44568,
-      50008,
-      -3064
-     ],
-     [
-      44536,
-      50040,
-      -3056
-     ],
-     [
-      44312,
-      50200,
-      -3056
-     ],
-     [
-      44216,
-      50200,
-      -3056
-     ],
-     [
-      43944,
-      50216,
-      -3056
-     ],
-     [
-      43688,
-      50312,
-      -3024
-     ],
-     [
-      43432,
-      50392,
-      -2992
-     ],
-     [
-      43240,
-      50200,
-      -2992
-     ],
-     [
-      43224,
-      50056,
-      -2992
-     ],
-     [
-      43112,
-      49800,
-      -2992
-     ],
-     [
-      42936,
-      49704,
-      -2992
-     ],
-     [
-      42760,
-      49784,
-      -2992
-     ],
-     [
-      42744,
-      49976,
-      -2992
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 126,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    2
+    3
    ]
   },
   {
@@ -1437,13 +1433,411 @@
    "conds": [
     4
    ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:30223",
+   "cond": 5,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Tell him to forget Greenis."
+   ],
+   "npc": {
+    "id": 30223,
+    "name": "Arujien",
+    "title": "",
+    "town": "Elven Village",
+    "at": [
+     42978,
+     49115,
+     -2992
+    ],
+    "alt": []
+   },
+   "text": "Return to Arujien – Complete the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30150@42766,50037",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 6662,
+    "sec": 101,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6662,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46344,
+      50024,
+      -3056
+     ],
+     [
+      46184,
+      49864,
+      -3064
+     ],
+     [
+      46152,
+      49896,
+      -3064
+     ],
+     [
+      45912,
+      50024,
+      -3056
+     ],
+     [
+      45640,
+      50056,
+      -3056
+     ],
+     [
+      45368,
+      50120,
+      -3056
+     ],
+     [
+      45096,
+      50056,
+      -3056
+     ],
+     [
+      44824,
+      50024,
+      -3056
+     ],
+     [
+      44568,
+      50008,
+      -3064
+     ],
+     [
+      44536,
+      50040,
+      -3056
+     ],
+     [
+      44312,
+      50200,
+      -3056
+     ],
+     [
+      44216,
+      50200,
+      -3056
+     ],
+     [
+      43944,
+      50216,
+      -3056
+     ],
+     [
+      43688,
+      50312,
+      -3024
+     ],
+     [
+      43432,
+      50392,
+      -2992
+     ],
+     [
+      43240,
+      50200,
+      -2992
+     ],
+     [
+      43224,
+      50056,
+      -2992
+     ],
+     [
+      43112,
+      49800,
+      -2992
+     ],
+     [
+      42936,
+      49704,
+      -2992
+     ],
+     [
+      42760,
+      49784,
+      -2992
+     ],
+     [
+      42744,
+      49976,
+      -2992
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30150@42766,50037",
+     "name": "Herbiel"
+    },
+    "points": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46344,
+      50024,
+      -3056
+     ],
+     [
+      46184,
+      49864,
+      -3064
+     ],
+     [
+      46152,
+      49896,
+      -3064
+     ],
+     [
+      45912,
+      50024,
+      -3056
+     ],
+     [
+      45640,
+      50056,
+      -3056
+     ],
+     [
+      45368,
+      50120,
+      -3056
+     ],
+     [
+      45096,
+      50056,
+      -3056
+     ],
+     [
+      44824,
+      50024,
+      -3056
+     ],
+     [
+      44568,
+      50008,
+      -3064
+     ],
+     [
+      44536,
+      50040,
+      -3056
+     ],
+     [
+      44312,
+      50200,
+      -3056
+     ],
+     [
+      44216,
+      50200,
+      -3056
+     ],
+     [
+      43944,
+      50216,
+      -3056
+     ],
+     [
+      43688,
+      50312,
+      -3024
+     ],
+     [
+      43432,
+      50392,
+      -2992
+     ],
+     [
+      43240,
+      50200,
+      -2992
+     ],
+     [
+      43224,
+      50056,
+      -2992
+     ],
+     [
+      43112,
+      49800,
+      -2992
+     ],
+     [
+      42936,
+      49704,
+      -2992
+     ],
+     [
+      42760,
+      49784,
+      -2992
+     ],
+     [
+      42744,
+      49976,
+      -2992
+     ]
+    ]
+   },
+   "expectedSec": 126,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
   }
  ],
  "override": {
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:14:35.329Z",
+  "at": "2026-10-27T18:18:14.998Z",
   "pass": true,
   "geo": true,
   "fails": [],

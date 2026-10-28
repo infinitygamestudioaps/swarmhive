@@ -1,0 +1,456 @@
+{
+ "npcId": 31529,
+ "name": "Ghost of Adventurer",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.214Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31529.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "22": {
+   "name": "Tragedy in Von Hellmann Forest",
+   "listText": [
+    "[Tragedy in Von Hellmann Forest]",
+    "[Tragedy in Von Hellmann Forest (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31529-01.html",
+     "when": "cond 9; memo 0; has items 7143",
+     "state": null,
+     "cond": [
+      9
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31529-03a.html",
+     "when": "cond 9; memo 8; has items 7143",
+     "state": null,
+     "cond": [
+      9
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31529-10.html",
+     "when": "cond 9; memo 9; has items 7143",
+     "state": null,
+     "cond": [
+      9
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31529-12.html",
+     "when": "cond 10; has items 7144; id == 10",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31529-14.html",
+     "when": "cond 10; has items 7144; !id == 10; id == 11",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31529-15.html",
+     "when": "cond 11; has items 7145; lacks items 7146",
+     "state": null,
+     "cond": [
+      11
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31529-16.html",
+     "when": "cond 13; has items 7145,7146",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31529-17.html",
+     "when": "cond 14; has items 7147",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31529.htm": {
+   "file": "default/31529.htm",
+   "quest": null,
+   "text": "Ghost of an Adventurer: I can't even... sigh... Do other dead Humans have this problem?",
+   "header": "Ghost of an Adventurer",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-01.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-01.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: Do you have something to tell a ghost who is neither alive nor dead?",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "cond 9; memo 0; has items 7143"
+   ],
+   "links": [
+    {
+     "text": "\"I came to listen to you.\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-02.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-02.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-02.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-03a.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-03a.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: This is from the Priest of the Earth? He wants me to work even when I'm dead? Einhasad Temple must be worse off than I thought. Well, I don't have anything else to do, so what do you want to know?",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "cond 9; memo 8; has items 7143"
+   ],
+   "links": [
+    {
+     "text": "\"I want to know about the Mage of the dark arts.\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-04.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-04.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-04.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-10.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-10.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: They aren't very smart! They'll attack if you touch the well. All you have to do is fight them . While you're fighting, I'll lift up the gate of the well. You can back out if you want to...",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "cond 9; memo 9; has items 7143"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it!\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-11.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-11.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-11.html",
+     "effect": "cond:10"
+    },
+    {
+     "text": "\"I don't want to do it.\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-09.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-09.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-09.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-12.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-12.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: If you hit the well, the spirits will come out. While you are fighting with the spirits, I will break the seal of the hidden report in the well Just, don't kill the spirit while I'm working. Because they will come back to the well if they die. If I break the seal, the color of …",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "cond 10; has items 7144; id == 10"
+   ],
+   "links": [
+    {
+     "text": "\"I am not sure\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-13.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-13.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-13.html"
+    },
+    {
+     "text": "\"I see\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-13a.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-13a.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-13a.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-14.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-14.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: Hey, why don't you do a good job? You can't just hit once and then run away like a child! Real work isn't easy! You must call the soul by beating the well, fight until the jewil changes color, and then investigate the will! Is that clear?",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "cond 10; has items 7144; !id == 10; id == 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-15.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-15.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: The report is at the gate of the well. Since I'm a ghost, you'll have to get it.",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "cond 11; has items 7145; lacks items 7146"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-16.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-16.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: This is it! I'll break the first seal. Give it to Innocentin, only he can finish opening the lock. Until we meet again!",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "cond 13; has items 7145,7146"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-17.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-17.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: This is my life's work! Quickly, find Innocentin!",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "cond 14; has items 7147"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-02.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-02.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: What do you want to know?",
+   "header": "Ghost of Adventurer",
+   "links": [
+    {
+     "text": "\"Here's a letter from the High Priest of the Earth.\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-03.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-03.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-03.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-03.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-03.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: This is from High Priest Innocentin? He wants me to work even when I'm dead? Einhasad Temple must be worse off than I thought. Well, I don't have anything else to do, so what do you want to know?",
+   "header": "Ghost of Adventurer",
+   "links": [
+    {
+     "text": "\"I want to know about the Mage of the dark arts.\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-04.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-04.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-04.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-04.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-04.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: His name is Neid, short for Nidrah. I can't rest in peace until I find him.",
+   "header": "Ghost of Adventurer",
+   "links": [
+    {
+     "text": "\"Tell me about him.\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-05.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-05.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-05.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-05.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-05.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: The shock of decapitation has dulled my memory, so I don't remember him well, and his disciples burned all the records. I think I remember why I'm here.",
+   "header": "Ghost of Adventurer",
+   "links": [
+    {
+     "text": "\"Why?\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-06.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-06.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-06.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-06.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-06.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: I remember now! I hid the book about him in this well. The heads of those accused of following demons were thrown into it. If you enter the well, they'll attack you !",
+   "header": "Ghost of Adventurer",
+   "links": [
+    {
+     "text": "\"Is there no other way?\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-07.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-07.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-07.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-07.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-07.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: Of course! We just came up with another way.",
+   "header": "Ghost of Adventurer",
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-08.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-08.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-08.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-08.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-08.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: They aren't very smart! They'll attack if you touch the well. All you have to do is fight them . While you're fighting, I'll lift up the gate of the well. You can back out if you want to...",
+   "header": "Ghost of Adventurer",
+   "links": [
+    {
+     "text": "\"I'll do it!\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-11.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-11.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-11.html",
+     "effect": "cond:10"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-09.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-09.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-09.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-09.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-09.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: It's your loss, not mine.",
+   "header": "Ghost of Adventurer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-11.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-11.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: Ok. Then, let's talk about the method. First, take this jewelry. If you hit the well, the spirits will come out. While you are fighting with the spirits, I will break the seal of the hidden report in the well Just, don't kill the spirit while I'm working. Because they will come…",
+   "header": "Ghost of Adventurer",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"I am not sure\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-13.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-13.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-13.html"
+    },
+    {
+     "text": "\"I see\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31529-13a.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31529-13a.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-13a.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-13.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-13.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: What don't you get? Fight with them, don't kill them. When the jewelry changes color, find me. Don't kill the spirits before the jewelry changes color!",
+   "header": "Ghost of Adventurer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31529-13a.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31529-13a.html",
+   "quest": 22,
+   "text": "Ghost of Adventurer: OK! Go ahead!",
+   "header": "Ghost of Adventurer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Tragedy in Von Hellmann Forest (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00022_TragedyInVonHellmannForest",
+     "kind": "quest",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31529-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

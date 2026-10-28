@@ -1,0 +1,147 @@
+{
+ "npcId": 30641,
+ "name": "Takuna",
+ "title": "Duda-Mara Chief",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.025Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30641.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "232": {
+   "name": "Test Of The Lord",
+   "listText": [
+    "[Test of the Lord]",
+    "[Test of the Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00232_TestOfTheLord/30641-01.html",
+     "when": "state STARTED; has items 3391; lacks items 3409,3395",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30641-04.html",
+     "when": "state STARTED; has items 3391,3395; lacks items 3409; item 3407 >= 10; item 3408 >= 10; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, HANDIWORK_SPIDER_BROOCH, TAKUNA_CHARM))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30641-03.html",
+     "when": "state STARTED; has items 3391,3395; lacks items 3409; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, HANDIWORK_SPIDER_BROOCH, TAKUNA_CHARM)); !((getQuestItemsCount(player, MARSH_SPIDER_FEELER) >= 10) && (getQuestItemsCount(player, MARSH_SPIDER_FEET) >= 10))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30641-05.html",
+     "when": "state STARTED; has items 3391,3409; lacks items 3395; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, HANDIWORK_SPIDER_BROOCH, TAKUNA_CHARM)); !(hasQuestItems(player, ORDEAL_NECKLACE, TAKUNA_CHARM) && !hasQuestItems(player, HANDIWORK_SPIDER_BROOCH))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30641.htm": {
+   "file": "default/30641.htm",
+   "quest": null,
+   "text": "Duda-Mara Chief Takuna: Tejakar Oroka! Hooray to the glory of the great Orcs! I am the Chieftain Takuna, leading the Duda-Mara tribe! I've been sent to this land by order of the Paagrio Lord to find the tribes who betrayed us, seceding from the kingdom of Orcs long ago, and give them the ruthless p…",
+   "header": "Duda-Mara Chief Takuna",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30641-01.html": {
+   "file": "Q00232_TestOfTheLord/30641-01.html",
+   "quest": 232,
+   "text": "Dudamara Chief Takuna: Tejakar Oroka! I am Takuna, chieftain of the Dudamara tribe! I will punish betrayers by order of the Lord of Flame. I see by your necklace that you must be a Shaman on the Examination of the Lord! Since ancient times our tribe has been known as an 'intelligent' tribe because …",
+   "header": "Dudamara Chief Takuna",
+   "when": [
+    "state STARTED; has items 3391; lacks items 3409,3395"
+   ],
+   "links": [
+    {
+     "text": "Ask about the totem of Dudamara tribe",
+     "bypass": "Quest Q00232_TestOfTheLord 30641-02.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30641-02.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30641-02.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30641-04.html": {
+   "file": "Q00232_TestOfTheLord/30641-04.html",
+   "quest": 232,
+   "text": "Duda-Mara Chief Takuna: Tejakar Oroka! You've done a fine job! Spinning a web with intelligence, patience, and boldness reveals your warrior spirit of the spider! I shall give you this 'crafted spider brooch' as a symbol of your intelligence, akin to the spider's. Take it to Flame Lord Kakai and yo…",
+   "header": "Duda-Mara Chief Takuna",
+   "when": [
+    "state STARTED; has items 3391,3395; lacks items 3409; item 3407 >= 10; item 3408 >= 10; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, HANDIWORK_SPIDER_BROOCH, TAKUNA_CHARM))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30641-03.html": {
+   "file": "Q00232_TestOfTheLord/30641-03.html",
+   "quest": 232,
+   "text": "Duda-Mara Chief Takuna: Why are you back? 10 feelers and legs are required to create the Duda-Mara totem! Giant marsh spiders lurk in the Cruma Marshlands within the lands of Dion. Hunt the spiders and get the materials you need!",
+   "header": "Duda-Mara Chief Takuna",
+   "when": [
+    "state STARTED; has items 3391,3395; lacks items 3409; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, HANDIWORK_SPIDER_BROOCH, TAKUNA_CHARM)); !((getQuestItemsCount(player, MARSH_SPIDER_FEELER) >= 10) && (getQuestItemsCount(player, MARSH_SPIDER_FEET) >= 10))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30641-05.html": {
+   "file": "Q00232_TestOfTheLord/30641-05.html",
+   "quest": 232,
+   "text": "Duda-Mara Chief Takuna: The brooch that I gave you is a symbol of your intelligence akin to the spider's. If you want to complete the Trial of the Lord, go see Flame Lord Kakai and boastfully show him the totem of Duda-Mara right away.",
+   "header": "Duda-Mara Chief Takuna",
+   "when": [
+    "state STARTED; has items 3391,3409; lacks items 3395; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, HANDIWORK_SPIDER_BROOCH, TAKUNA_CHARM)); !(hasQuestItems(player, ORDEAL_NECKLACE, TAKUNA_CHARM) && !hasQuestItems(player, HANDIWORK_SPIDER_BROOCH))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30641-02.html": {
+   "file": "Q00232_TestOfTheLord/30641-02.html",
+   "quest": 232,
+   "text": "Duda-Mara Chief Takuna: Don't you know anything about the Duda-Mara tribe's totem? Our totem is the giant spider! Spinning a web and staying completely still with icy patience until the enemy falls into the trap. And once they do, we finish them off with stealth as only a predator can! This is the …",
+   "header": "Duda-Mara Chief Takuna",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00232_TestOfTheLord",
+     "kind": "quest",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30641-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

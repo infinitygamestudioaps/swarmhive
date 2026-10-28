@@ -1,0 +1,372 @@
+{
+ "npcId": 30030,
+ "name": "Vivyan",
+ "title": "Priestess",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.789Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "233": {
+   "name": "Test Of The War Spirit",
+   "listText": [
+    "[Test of the War Spirit]",
+    "[Test of the War Spirit (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30030-01.html",
+     "when": "state STARTED; has items 2902; lacks items 2903,2904",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30030-05.html",
+     "when": "state STARTED; has items 2902,2903; lacks items 2904; !(hasQuestItems(player, RACOYS_TOTEM) && !hasAtLeastOneQuestItem(player, VIVIANTES_LETTER, INSECT_DIAGRAM_BOOK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30030-06.html",
+     "when": "state STARTED; has items 2902,2904; lacks items 2903; !(hasQuestItems(player, RACOYS_TOTEM) && !hasAtLeastOneQuestItem(player, VIVIANTES_LETTER, INSECT_DIAGRAM_BOOK)); !(hasQuestItems(player, RACOYS_TOTEM, VIVIANTES_LETTER) && !hasQuestItems(player, INSECT_DIAGRAM_BOOK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30030-07.html",
+     "when": "state STARTED; has items 2910,2914,2880; lacks items 2902; !(hasQuestItems(player, RACOYS_TOTEM) && !hasAtLeastOneQuestItem(player, VIVIANTES_LETTER, INSECT_DIAGRAM_BOOK)); !(hasQuestItems(player, RACOYS_TOTEM, VIVIANTES_LETTER) && !hasQuestItems(player, INSECT_DIAGRAM_BOOK)); !(hasQuestItems(player, RACOYS_TOTEM, INSECT_DIAGRAM_BOOK) && !hasQuestItems(player, VIVIANTES_LETTER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "405": {
+   "name": "Path Of The Cleric",
+   "listText": [
+    "[Path of the Cleric]",
+    "[Path of the Cleric (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00405_PathOfTheCleric/30030-01.html",
+     "when": "state STARTED; has items 1191; lacks items 1194; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00405_PathOfTheCleric/30030-02.html",
+     "when": "state STARTED; has items 1191,1194; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30030-01.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30030-01.html",
+   "quest": 233,
+   "text": "Priestess Vivyan: What has an Orc Shaman to do with me? Just name it! I will help you in any way I can!",
+   "header": "Priestess Vivyan",
+   "when": [
+    "state STARTED; has items 2902; lacks items 2903,2904"
+   ],
+   "links": [
+    {
+     "text": "Ask about Kiruna the Brave",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30030-02.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30030-02.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30030-02.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30030-05.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30030-05.html",
+   "quest": 233,
+   "text": "Priestess Vivyan: It is said that the grave of Kiruna was built in the wasteland area. But that was a thousand years ago, so it might have disappeared already. Take the letter that I gave you to Sarien who lives in the southern border of the Wasteland. He knows the area well, so he will be able to …",
+   "header": "Priestess Vivyan",
+   "when": [
+    "state STARTED; has items 2902,2903; lacks items 2904; !(hasQuestItems(player, RACOYS_TOTEM) && !hasAtLeastOneQuestItem(player, VIVIANTES_LETTER, INSECT_DIAGRAM_BOOK))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30030-06.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30030-06.html",
+   "quest": 233,
+   "text": "Priestess Vivyan: What a pity. So the grave of Kiruna has disappeared already? It must be the Wasteland ants who dug up the grave. But her remains might still be preserved somewhere deep in the ant tunnel so do not lose hope.",
+   "header": "Priestess Vivyan",
+   "when": [
+    "state STARTED; has items 2902,2904; lacks items 2903; !(hasQuestItems(player, RACOYS_TOTEM) && !hasAtLeastOneQuestItem(player, VIVIANTES_LETTER, INSECT_DIAGRAM_BOOK)); !(hasQuestItems(player, RACOYS_TOTEM, VIVIANTES_LETTER) && !hasQuestItems(player, INSECT_DIAGRAM_BOOK))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30030-07.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30030-07.html",
+   "quest": 233,
+   "text": "Priestess Vivyan: You have recovered every piece of Kiruna's Remains in the Wasteland? That is awesome! I am really surprised at how devoted you Orcs are to respecting your ancestors!",
+   "header": "Priestess Vivyan",
+   "when": [
+    "state STARTED; has items 2910,2914,2880; lacks items 2902; !(hasQuestItems(player, RACOYS_TOTEM) && !hasAtLeastOneQuestItem(player, VIVIANTES_LETTER, INSECT_DIAGRAM_BOOK)); !(hasQuestItems(player, RACOYS_TOTEM, VIVIANTES_LETTER) && !hasQuestItems(player, INSECT_DIAGRAM_BOOK)); !(hasQuestItems(player, RACOYS_TOTEM, INSECT_DIAGRAM_BOOK) && !hasQuestItems(player, VIVIANTES_LETTER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30030-01.html": {
+   "file": "Q00405_PathOfTheCleric/30030-01.html",
+   "quest": 405,
+   "text": "Priestess Vivyan: Ehh?! The book was forbidden by the church? I had no idea! I didn't even know and recommended it to my friends ... Ah ... Now what do I do? What to do? Will the high priests forgive me? They will no doubt give me a terrible punishment ... From cleaning floors to laundry to cooking…",
+   "header": "Priestess Vivyan",
+   "when": [
+    "state STARTED; has items 1191; lacks items 1194; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30030-02.html": {
+   "file": "Q00405_PathOfTheCleric/30030-02.html",
+   "quest": 405,
+   "text": "Priestess Vivyan: Cleaning floors, laundry, cooking ... Doing laundry, cooking and cleaning floors ... Cooking, cleaning floors and doing laundry ... Ahhhhh ...!",
+   "header": "Priestess Vivyan",
+   "when": [
+    "state STARTED; has items 1191,1194; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30030-02.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30030-02.html",
+   "quest": 233,
+   "text": "Priestess Vivyan: Ah! Commander Kiruna, the only Commander in the whole Orc Kingdom. She fell in love with Paladin Kelhas... The love story of Kelhas and Kiruna is written in the history of the shrine, and I found it so touching that I read it several times. Oh, don't give me that look! I know you …",
+   "header": "Priestess Vivyan",
+   "links": [
+    {
+     "text": "How did Commander Kiruna die?",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30030-03.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30030-03.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30030-03.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30030-03.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30030-03.html",
+   "quest": 233,
+   "text": "Priestess Vivyan: Kiruna and Kelhas were Warriors who fought bravely against the army of the devil Beleth. They won every battle, but one day Kelhas was killed by the evil spirits of Beleth. Imagine Kiruna's sorrow when the news reached her that her lover had been killed. A few days after Kelhas's …",
+   "header": "Priestess Vivyan",
+   "links": [
+    {
+     "text": "Where was Kiruna buried?",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30030-04.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30030-04.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30030-04.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30030-04.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30030-04.html",
+   "quest": 233,
+   "text": "Priestess Vivyan: According to the records, the graves of Kelhas and Kiruna are in the south of Gludio, a place which has now turned into a Wasteland area. But that was already a thousand years ago... I am not sure if their remains will still be there... Perhaps Sarien who knows the area well, migh…",
+   "header": "Priestess Vivyan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30030-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30030-noteach.html",
+   "quest": null,
+   "text": "Ah, you have come to me to learn something? However, I cannot teach you. Find someone else.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30030.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30030.html",
+   "quest": null,
+   "text": "Priest Viviant: I'm sorry! I made another mistake! Forgive me, master! Oh! I was dreaming...I thought I was a new initiate again. (She shudders.) But who are you?",
+   "header": "Priest Viviant",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the War Spirit (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00233_TestOfTheWarSpirit",
+     "kind": "quest",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30030-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Cleric (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00405_PathOfTheCleric",
+     "kind": "quest",
+     "quest": 405,
+     "to": "Q00405_PathOfTheCleric/30030-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30030-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30030-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

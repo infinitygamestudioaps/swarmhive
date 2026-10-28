@@ -1,0 +1,228 @@
+{
+ "npcId": 32236,
+ "name": "Harkilgamed",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.362Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "236": {
+   "name": "Seeds Of Chaos",
+   "listText": [
+    "[Seeds of Chaos]",
+    "[Seeds of Chaos (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00236_SeedsOfChaos/32236-01.html",
+     "when": "state STARTED; memo 20; player == c0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32236-02.html",
+     "when": "state STARTED; memo 20; !player == c0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32236-07z.html",
+     "when": "state STARTED; memo 21",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32236-08z.html",
+     "when": "state STARTED; memo 22",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32236-01.html": {
+   "file": "Q00236_SeedsOfChaos/32236-01.html",
+   "quest": 236,
+   "text": "Harkilgamed: You must be Kamael... What brings you to this blasted place? Did you really lay your hands on the Star of Destiny?",
+   "header": "Harkilgamed",
+   "when": [
+    "state STARTED; memo 20; player == c0"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32236-03.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32236-03.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32236-03.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32236-02.html": {
+   "file": "Q00236_SeedsOfChaos/32236-02.html",
+   "quest": 236,
+   "text": "Harkilgamed: I am too busy to deal with you right now.",
+   "header": "Harkilgamed",
+   "when": [
+    "state STARTED; memo 20; !player == c0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32236-07z.html": {
+   "file": "Q00236_SeedsOfChaos/32236-07z.html",
+   "quest": 236,
+   "text": "Harkilgamed: Good! Then capture their leaders and their chain of command will be temporarily broken. Defeat Shout of Splendor, Alliance of Splendor, Signet of Splendor, Crown of Splendor, Fang of Splendor, and Wailing of Splendor and bring me 62 of the Shining Medallions they possess. Understand?",
+   "header": "Harkilgamed",
+   "when": [
+    "state STARTED; memo 21"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32236-08z.html": {
+   "file": "Q00236_SeedsOfChaos/32236-08z.html",
+   "quest": 236,
+   "text": "Harkilgamed: Did you obtain all items that you needed? I am occupied at the moment, but please visit me a little later and I will answer your questions then.",
+   "header": "Harkilgamed",
+   "when": [
+    "state STARTED; memo 22"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32236-03.html": {
+   "file": "Q00236_SeedsOfChaos/32236-03.html",
+   "quest": 236,
+   "text": "Harkilgamed: Hmmph. What kind of bad joke is this? Metusela, who was in such close proximity to the Spicula, appearing now? Could it be what that man told be was true? Ah, excuse me -- I was just talking to myself. I am shocked, quite frankly. I had no idea that someone like you would appear... Wha…",
+   "header": "Harkilgamed",
+   "links": [
+    {
+     "text": "Tell the story of meeting Katenar.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32236-04.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32236-04.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32236-04.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32236-04.html": {
+   "file": "Q00236_SeedsOfChaos/32236-04.html",
+   "quest": 236,
+   "text": "Harkilgamed: I see. I suppose that in your friend's situation, he didn't think to watch what he was saying. I don't have that luxury, unfortunately... But I do have a great deal to tell you. You already know that our Three Heroes and our Elders are different beings from yourselves, right?",
+   "header": "Harkilgamed",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32236-05.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32236-05.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32236-05.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32236-05.html": {
+   "file": "Q00236_SeedsOfChaos/32236-05.html",
+   "quest": 236,
+   "text": "Harkilgamed: As I have just said, there are a couple of conditions we must continually contend with. That gang in front of me, for example, are actually beings called Angels. They will kill me if they can...",
+   "header": "Harkilgamed",
+   "links": [
+    {
+     "text": "Is that because they are created beings?",
+     "bypass": "Quest Q00236_SeedsOfChaos 32236-06.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32236-06.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32236-06.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32236-06.html": {
+   "file": "Q00236_SeedsOfChaos/32236-06.html",
+   "quest": 236,
+   "text": "Harkilgamed: Yes. We do not have a creator god. Surprised? I will tell you more, but this is too public a place, with too many listening ears nearby. And we must eliminate those pesky Einhasad followers over there. Will you help me? Were I to do it personally, high-level angels-- or even demi-god l…",
+   "header": "Harkilgamed",
+   "links": [
+    {
+     "text": "Agree.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32236-07.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32236-07.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32236-07.html",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32236-07.html": {
+   "file": "Q00236_SeedsOfChaos/32236-07.html",
+   "quest": 236,
+   "text": "Harkilgamed: Good! Then capture their leaders and their chain of command will be temporarily broken. Defeat Shout of Splendor, Alliance of Splendor, Signet of Splendor, Crown of Splendor, Fang of Splendor, and Wailing of Splendor and bring me 62 of the Shining Medallions they possess. Understand? I…",
+   "header": "Harkilgamed",
+   "sets": {
+    "cond": "12"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Agree.",
+     "bypass": "Quest Q00236_SeedsOfChaos HARKILGAMED_DESPAWN",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "HARKILGAMED_DESPAWN",
+     "quest": 236,
+     "to": null
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seeds of Chaos (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00236_SeedsOfChaos",
+     "kind": "quest",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32236-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

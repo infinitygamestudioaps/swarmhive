@@ -1,0 +1,134 @@
+{
+ "npcId": 32594,
+ "name": "Leopard",
+ "title": "Password Decoder",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.390Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32594.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "197": {
+   "name": "Seven Signs, the Sacred Book of Seal",
+   "listText": [
+    "[Seven Signs, the Sacred Book of Seal]",
+    "[Seven Signs, the Sacred Book of Seal (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00197_SevenSignsTheSacredBookOfSeal/32594-01.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00197_SevenSignsTheSacredBookOfSeal/32594-04.html",
+     "when": "state STARTED; cond >=3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32594.htm": {
+   "file": "default/32594.htm",
+   "quest": null,
+   "text": "Cipher Officer Leopard: What do you know about cryptology? It the means by which we hide or uncover secret information Everything in this world contains hidden meanings. The challenge for a skilled cryptologist is to make deciphering the message neither too difficult nor too easy.",
+   "header": "Cipher Officer Leopard",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32594-01.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32594-01.html",
+   "quest": 197,
+   "text": "Cipher Officer Leopard: You're the adventurer that High Priest Orven sent word of! I owe a great deal to him, and if I can repay him by helping you, then I'll do all I can. Now, what can I do for you?",
+   "header": "Cipher Officer Leopard",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the prayer known as the Emperor's Key.\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32594-02.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32594-02.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32594-02.html"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32594-04.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32594-04.html",
+   "quest": 197,
+   "text": "Cipher Officer Leopard: Great Master Lawrence just went for a walk nearby, so he won't be far. Check outside the castle walls.",
+   "header": "Cipher Officer Leopard",
+   "when": [
+    "state STARTED; cond >=3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32594-02.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32594-02.html",
+   "quest": 197,
+   "text": "Cipher Officer Leopard: I know that prayer... it's very simple and straightforward. Why do you ask about it?",
+   "header": "Cipher Officer Leopard",
+   "links": [
+    {
+     "text": "\"I believe it may contain a hidden message...\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32594-03.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32594-03.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32594-03.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32594-03.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32594-03.html",
+   "quest": 197,
+   "text": "Cipher Officer Leopard: Really? That's... surprising. But some of the simplest-appearing ciphers are the hardest to decode. Hmm... let me think.... Sigh.... No, this is beyond my abilities, I'm afraid. However, my old cryptology teacher, Lawrence , is here in Goddard. If anyone can help, it's him. …",
+   "header": "Cipher Officer Leopard",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, the Sacred Book of Seal (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00197_SevenSignsTheSacredBookOfSeal",
+     "kind": "quest",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32594-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

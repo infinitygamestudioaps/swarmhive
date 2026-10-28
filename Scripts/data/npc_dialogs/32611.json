@@ -1,0 +1,49 @@
+{
+ "npcId": 32611,
+ "name": "Tolonis",
+ "title": "Officer",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.392Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32611.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32611.htm": {
+   "file": "default/32611.htm",
+   "quest": null,
+   "text": "Officer Tolonis: I am Officer Tolonis, and I'm in charge of delivering supplies like Energy Stones to adventurers. I used to be a platoon leader, but after I was injured they gave me this posting. I'm proud of what I do here, but I miss the life of battle. Oh well, I suppose somebody has to manage …",
+   "header": "Officer Tolonis",
+   "links": [
+    {
+     "text": "Buy supplies or books.",
+     "bypass": "npc_%objectId%_multisell 326110001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Learn collection skill.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

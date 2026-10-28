@@ -40,15 +40,19 @@ let staged = '', stagedFrom = 'none';
 if (!/function qePlanMatch\(/.test(SWARM.slice(pa, pb))) {
   try { const md = fs.readFileSync(EDITS, 'utf8'); const m = md.match(/## E1[\s\S]*?```js\r?\n([\s\S]*?)```/); if (m) { staged = m[1]; stagedFrom = EDITS; } } catch (e) { }
 } else stagedFrom = 'swarm.js (applied)';
-const E = new Function(SWARM.slice(pa, pb) + '\n' + staged + '\nreturn { qeDecide, qeStartTrans, qeTransAt, qeNeedList, qeNeedMet, qeDropsAt, qeDropMobs, qeSpawnOnly, qeHuntAction, qeLinksOf, qeIsQuit, qeTr, qeNeeds, qeDefaultBatch, qeRepeatable, qeTurnIn, qeEligible, qeHuntSpot, qePlanMatch: typeof qePlanMatch === "function" ? qePlanMatch : null, qePlanSpot: typeof qePlanSpot === "function" ? qePlanSpot : null, qePlanRoute: typeof qePlanRoute === "function" ? qePlanRoute : null };')();
+const E = new Function(SWARM.slice(pa, pb) + '\n' + staged + '\nreturn { qeDecide, qeStartTrans, qeTransAt, qeNeedList, qeNeedMet, qeDropsAt, qeDropMobs, qeSpawnOnly, qeHuntAction, qeLinksOf, qeIsQuit, qeTr, qeNeeds, qeDefaultBatch, qeRepeatable, qeTurnIn, qeEligible, qeHuntSpot, qePlanMatch: typeof qePlanMatch === "function" ? qePlanMatch : null, qePlanSpot: typeof qePlanSpot === "function" ? qePlanSpot : null, qePlanRoute: typeof qePlanRoute === "function" ? qePlanRoute : null, qeMemoCheck: typeof qeMemoCheck === "function" ? qeMemoCheck : null, qeGivesHeld: typeof qeGivesHeld === "function" ? qeGivesHeld : null, qeNpcSpawner: typeof qeNpcSpawner === "function" ? qeNpcSpawner : null, qeHuntRounds: typeof qeHuntRounds === "function" ? qeHuntRounds : null, qePlanRouteSteps: typeof qePlanRouteSteps === "function" ? qePlanRouteSteps : null, qeBuyAsk: typeof qeBuyAsk === "function" ? qeBuyAsk : null, qeInstanceOf: typeof qeInstanceOf === "function" ? qeInstanceOf : null, qeChainFor: typeof qeChainFor === "function" ? qeChainFor : null, qeHuntAlts: typeof qeHuntAlts === "function" ? qeHuntAlts : null, qeMemoInfo: typeof qeMemoInfo === "function" ? qeMemoInfo : null };')();
 const QE_HUNT_MAX_MIN = (() => { const m = SWARM.match(/huntMaxMs:\s*(\d+)\s*\*\s*60000/); return m ? Number(m[1]) : 45; })();
 const QE_SAME_MAX = (() => { const m = SWARM.match(/sameKeyMax:\s*(\d+)/); return m ? Number(m[1]) : 4; })();
+const QE_TOTAL_H = (() => { const m = SWARM.match(/huntTotalMaxH:\s*(\d+)/); return m ? Number(m[1]) : 0; })();   // QHUNTCAP-2026-10-27
+/** the rounds the engine gives this hunt step (swarm.js qeHuntRounds: the plan's expected time, at most huntTotalMaxH hours); the old engine = sameKeyMax */
+const huntRoundsOf = (s) => E.qeHuntRounds && QE_TOTAL_H ? E.qeHuntRounds(s.expectedSec, QE_HUNT_MAX_MIN, QE_SAME_MAX, QE_TOTAL_H) : QE_SAME_MAX;
 
 // ------------------------------------------------------------------------------------------------ data
 const STATUS = J(path.join(DATA, 'quest_status.json'));
 const NPCS = J(path.join(DATA, 'npcs_h5.json'));
 // + the datapack spawn XML lists (Scripts/data/spawns_xml_h5.json from docs/plan/tools/spawn_xml_h5.js: Turek Orcs 171 / 327 / 422, Sel Mahums)
 const SPAWNS = J(path.join(DATA, 'spawns_h5.json')).concat(tryJ(path.join(DATA, 'spawns_npc_h5.json'), []), tryJ(path.join(DATA, 'spawns_xml_h5.json'), []));
+const NAMEIDS = new Map(); Object.entries(NPCS).forEach(([id, n]) => { if (!n || !n.n) return; if (!NAMEIDS.has(n.n)) NAMEIDS.set(n.n, []); NAMEIDS.get(n.n).push(Number(id)); });   // LOOKALIKE-2026-10-27
 const SPID = new Map(); SPAWNS.forEach(s => { if (!SPID.has(s.id)) SPID.set(s.id, []); SPID.get(s.id).push(s); });
 const ATLASNPC = new Map(); (tryJ(path.join(DATA, 'npc_atlas.json'), { npcs: [] }).npcs || []).forEach(n => { if (!ATLASNPC.has(n.id)) ATLASNPC.set(n.id, []); ATLASNPC.get(n.id).push(n); });
 const GKLIVE = []; try { fs.readdirSync(path.join(DATA, 'gk_live')).filter(f => /\.json$/.test(f) && f[0] !== '_').forEach(f => { const g = tryJ(path.join(DATA, 'gk_live', f), null); if (g) GKLIVE.push(g); }); } catch (e) { }
@@ -88,6 +92,12 @@ function javaFacts(src) {
   while ((m = re.exec(code))) consts[m[2]] = { type: m[1].trim(), expr: m[3], nums: (m[3].match(/(?<![\w.])\d+(?:\.\d+)?(?![\w.])/g) || []).map(Number) };
   const setConds = new Set(); (code.match(/setCond\(\s*(\d+)/g) || []).forEach(t => setConds.add(Number(t.match(/(\d+)/)[1])));
   const condRuntime = /setCond\(\s*(?!\d)[^)]/.test(code);
+  // QCONDINC-2026-10-27 (batch3 C: 16 / 17 / 31): setCond(cond + 1) / setCond(st.getCond() + 1) behind a fixed NPC order sets every cond up to the
+  // highest one the script tests (isCond(N), getCond() == / < / <= N): those stages are real, not "never set"
+  const condInc = /setCond\(\s*(?:\w+\.getCond\(\)|cond)\s*\+\s*1\b/.test(code);
+  const condLits = []; let cm; const cre = /isCond\(\s*(\d+)\s*\)|getCond\(\)\s*(?:==|<=|<|>=|>)\s*(\d+)|\bcond\s*(?:==|<=|<)\s*(\d+)/g;
+  while ((cm = cre.exec(code))) condLits.push(Number(cm[1] || cm[2] || cm[3]));
+  const condsByInc = condInc ? new Set(Array.from({ length: Math.max(0, ...condLits, ...setConds) }, (x, i) => i + 1)) : null;
   const starts = /startQuest\(|setState\(State\.STARTED\)/.test(code);
   // level
   const lv = { min: [], max: [] };
@@ -103,12 +113,19 @@ function javaFacts(src) {
   const created = (() => { const t = body('onTalk'); const i = t.search(/(State\.)?CREATED\b/); if (i < 0) return ''; const r = t.slice(i); const e = r.slice(8).search(/case\s+(State\.)?(STARTED|COMPLETED)\b/); return e >= 0 ? r.slice(0, e + 8) : r.slice(0, 2500); })();
   if (!lv.min.length) (created.match(/getLevel\(\)\s*(>=|<)\s*(\w+)/g) || []).forEach(t => { const x = t.match(/getLevel\(\)\s*(>=|<)\s*(\w+)/), v = constVal(x[2]); if (v != null) lv.min.push(v); });
   if (!lv.max.length) (created.match(/getLevel\(\)\s*(>|<=)\s*(\w+)/g) || []).forEach(t => { const x = t.match(/getLevel\(\)\s*(>|<=)\s*(\w+)/), v = constVal(x[2]); if (v != null) lv.max.push(v); });
-  return { code, nums, strings, consts, setConds, condRuntime, starts, lv, races, classChecks, prereq, onKill: body('onKill'), onTalk: body('onTalk'), onAdv: body('onAdvEvent'), created, constVal };
+  return { code, nums, strings, consts, setConds, condRuntime, condInc, condsByInc, starts, lv, races, classChecks, prereq, onKill: body('onKill'), onTalk: body('onTalk'), onAdv: body('onAdvEvent'), created, constVal };
 }
 function eventBlock(F, ev) {
   const lit = '"' + ev + '"'; let out = [];
   let i = F.code.indexOf(lit);
-  while (i >= 0) { const r = F.code.slice(i, i + 1800); const e = r.slice(lit.length).search(/case\s+"|\bdefault\s*:|equals\("/); out.push(e >= 0 ? r.slice(0, e + lit.length) : r); i = F.code.indexOf(lit, i + 1); }
+  while (i >= 0) {
+    // QCONDINC-2026-10-27: an empty case label falls through ("case "a": case "b": { ... }"): its block is the next label's body
+    let j = i, len = lit.length, guard = 0;
+    for (;;) { const r = F.code.slice(j, j + 1800), e = r.slice(len).search(/case\s+"|\bdefault\s*:|equals\("/); if (e < 0) { out.push(F.code.slice(i, j + 1800)); break; }
+      const body = r.slice(len, len + e); if (/^\s*:\s*$/.test(body) && guard++ < 20) { const m = r.slice(len + e).match(/^case\s+"[^"]*"/); j = j + len + e; len = m ? m[0].length : 5; continue; }
+      out.push(F.code.slice(i, j + len + e)); break; }
+    i = F.code.indexOf(lit, i + 1);
+  }
   return out;
 }
 
@@ -214,18 +231,27 @@ function javaPathOf(id) {
 //   .area {at, radius, name}  -> the hunting place;  .npcAt  -> where the NPC is looked for;  .manual -> the run fails at that step;  override.skip -> not started
 //   a step with .area / .npcAt but no .route -> the engine's own travel (no plan route).  Plan travel: src 'computed' + points + start + status ok|unverified.
 // Fields the fixers write that the engine does NOT read yet (docs/plan/quest_engine_needs/batch1.md A, batch5.md) -> FAIL 'engine-gap:<field>'.
-const ovOf = (plan, s) => (plan && plan.override && plan.override.steps && s && plan.override.steps[s.key]) || null;
+const ovOf = (plan, s) => (plan && plan.override && plan.override.steps && s && (plan.override.steps[s.key] || (s.overrideFrom && plan.override.steps[s.overrideFrom]))) || null;   // + LIVETEST-2026-10-27 overrideFrom (swarm.js qePlanMatch)
 const ovRoute = (ov) => ov && Array.isArray(ov.route) && ov.route.filter(p => Array.isArray(p) && p.length >= 2).length >= 2 ? ov.route.filter(p => Array.isArray(p) && p.length >= 2) : null;
 function engineGaps(plan, q) {
   const out = [];
   const add = (field, t) => { if (!out.some(x => x.field === field && x.t === t)) out.push({ field, t }); };
+  // QPLANOV-2026-10-27: the engine reads start.kind atlas (+ then), start.via, forMobs, placeRoutes, routes, routeSteps (swarm.js qePlanRoute /
+  // qePlanRouteSteps / rsCustomTrip); what it still cannot run stays a gap: other start kinds, an atlas start whose route file is missing / blocked,
+  // routeSteps with an NPC step without its place, routeProposed (by design never walked: aggressive monsters 6+ on it)
+  const engineReads = !!(E.qePlanRouteSteps && /st\.kind === 'atlas'/.test(SWARM) && /st\.via/.test(SWARM));
   Object.entries((plan && plan.override && plan.override.steps) || {}).forEach(([k, ov]) => {
     if (!ov || typeof ov !== 'object') return;
-    const st = ov.start;
-    if (st && st.kind && !/^(town|gk)$/.test(st.kind)) add('start.kind=' + st.kind, `${k}: start "${st.kind}" (${st.desc || st.key || ''}) — rsCustomTrip knows only town / gk`);
-    if (st && st.via) add('start.via', `${k}: gatekeeper start via "${st.via}" — rsCustomTrip teleports to "${st.from || ''}" directly`);
-    if (st && !ovRoute(ov)) add('start-without-route', `${k}: an override start without a route is never used (qePlanRoute needs route)`);
-    ['forMobs', 'routeProposed', 'placeRoutes', 'routes', 'routeSteps'].forEach(f => { if (ov[f] != null && !(Array.isArray(ov[f]) && !ov[f].length)) add(f, `${k}: override.${f} is not read by the engine`); });
+    const st = ov.start, hasSteps = Array.isArray(ov.routeSteps) && ov.routeSteps.length;
+    const rsq = hasSteps && E.qePlanRouteSteps ? E.qePlanRouteSteps(ov.routeSteps, ov.route) : null;
+    const kinds = engineReads ? /^(town|gk|atlas)$/ : /^(town|gk)$/;
+    if (st && st.kind && !kinds.test(st.kind) && !(st.kind === 'npc-teleport' && rsq && rsq.points)) add('start.kind=' + st.kind, `${k}: start "${st.kind}" (${st.desc || st.key || ''}) — rsCustomTrip knows only town / gk${engineReads ? ' / atlas' : ''}`);
+    if (st && st.kind === 'atlas' && engineReads) { const ar = st.key ? atlasRoute(st.key) : null; if (!ar) add('start.atlas-route', `${k}: atlas start ${st.key || '(no key)'}: no nav atlas route file`); else if (/^(blocked|unreachable)$/.test(String(ar.status))) add('start.atlas-route', `${k}: atlas start ${st.key}: route ${ar.status}`); if (st.then && !(st.then.link || st.then.landing)) add('start.atlas-then', `${k}: atlas start "then" without a link / landing`); }
+    if (st && st.via && !engineReads) add('start.via', `${k}: gatekeeper start via "${st.via}" — rsCustomTrip teleports to "${st.from || ''}" directly`);
+    if (st && !ovRoute(ov) && !(rsq && rsq.points) && !(ov.routes || ov.placeRoutes)) add('start-without-route', `${k}: an override start without a route is never used (qePlanRoute needs route)`);
+    if (!engineReads) ['forMobs', 'placeRoutes', 'routes', 'routeSteps'].forEach(f => { if (ov[f] != null && !(Array.isArray(ov[f]) && !ov[f].length)) add(f, `${k}: override.${f} is not read by the engine`); });
+    else if (hasSteps && rsq && rsq.bad) add('routeSteps', `${k}: override.routeSteps cannot run: ${rsq.bad}`);
+    if (ov.routeProposed != null && !(Array.isArray(ov.routeProposed) && !ov.routeProposed.length)) add('routeProposed', `${k}: override.routeProposed is not read by the engine (by design: aggressive monsters 6+ touch it)`);
   });
   ((q && q.drops) || []).forEach(d => { if (d.needEquipped) add('needEquipped', `drop ${d.item}: equip ${JSON.stringify(d.needEquipped.items || d.needEquipped)} before the kill`); if (d.soloHits) add('soloHits', `drop ${d.item}: only this character may hit the monster`); });
   return out;
@@ -244,7 +270,28 @@ function gkLinkLive(from, link) {
   for (const g of gks) for (const page of Object.values(g.pages || {})) for (const t of page) { const n = gkn(t); if (!n) continue; if (n === L || (n.length > 5 && L.length > 5 && (n.indexOf(L) >= 0 || L.indexOf(n) >= 0))) return { ok: true, gk: g.name }; }
   return { ok: false, why: '"' + link + '" not on the live menu of ' + gks.map(g => g.name).join('/') };
 }
+const QDLG = (id) => tryJ(path.join(DATA, 'quest_dialogs', id + '.json'), null);   // QDIALOG-2026-10-27 (docs/plan/tools/quest_dialogs_split.js)
 const RACES = ['HUMAN', 'ELF', 'DARK_ELF', 'ORC', 'DWARF', 'KAMAEL'];
+// QSPAWNER-2026-10-27 mirror of swarm.js qeNpcSpawner + qeGoNpc: can the engine make a quest-spawned NPC appear? The trigger NPC / monster spawns
+// (spawns_h5), the trigger dialog event is in the script, the trigger monster is not a raid boss and not 9+ levels above the character. -> { ok, text } | null
+function spawnerVerdict(q, npcId, lvl, jf) {
+  const sp = E.qeNpcSpawner ? E.qeNpcSpawner(q, npcId) : null; if (!sp) return null;
+  const nm = (n) => (NPCS[n] && NPCS[n].n) || String(n);
+  if (sp.how === 'talk') {
+    const live = sp.npcs.filter(n => (SPID.get(Number(n)) || []).length);
+    if (!live.length) return { ok: false, text: 'its trigger NPC ' + sp.npcs.join('/') + ' has no spawn' };
+    const miss = jf ? sp.events.filter(e => !jf.strings.has(e)) : [];
+    if (miss.length) return { ok: false, text: 'its trigger event ' + miss.join(', ') + ' is not in the script' };
+    if (!sp.events.length && !sp.links.length) return { ok: false, text: 'its trigger dialog at ' + live.map(nm).join('/') + ' has no link / event in the data' };
+    return { ok: true, text: 'the engine talks to ' + live.map(nm).join('/') + (sp.links[0] ? ' ("' + sp.links[0] + '")' : '') + ' first' };
+  }
+  const live = sp.mobs.filter(n => (SPID.get(Number(n)) || []).length);
+  if (!live.length) return { ok: false, text: 'its trigger monsters ' + sp.mobs.join('/') + ' have no spawn' };
+  const raid = live.filter(n => /Raid|Grand/i.test((NPCS[n] || {}).ty || ''));
+  const ok = live.filter(n => !raid.includes(n) && !(Number((NPCS[n] || {}).l) >= Number(lvl) + 9));
+  if (!ok.length) return { ok: false, text: raid.length ? 'its trigger is a raid boss (' + raid.map(nm).join('/') + '): party / raid mode' : 'its trigger monsters are 9+ levels above the character' };
+  return { ok: true, text: 'the engine kills ' + ok.map(nm).join('/') + ' until it appears' };
+}
 
 // ------------------------------------------------------------------------------------------------ one quest
 function verify(id) {
@@ -308,21 +355,32 @@ function verify(id) {
   (q.transitions || []).forEach(t => { if (typeof t.to === 'number') planConds.add(t.to); });
   if (jf) {
     if (jf.condRuntime) W('script-runtime-cond', 'script sets a cond from a variable');
-    if (/setMemoState\(/.test(jf.code) && (q.transitions || []).some(t => t.to == null)) F('memo-state', 'the script steps by setMemoState (' + (jf.code.match(/setMemoState\(/g) || []).length + ' calls); transitions without a cond: the engine cannot see these stages');
+    // QMEMO-2026-10-27 mirror: the engine follows a memo step it can place (swarm.js qeMemoCheck: every transition changes the cond or sets a memo, every
+    // memo it fires at is set by a transition, no bit-flag memos, no memo-only kill without an item); a cond-less transition WITHOUT a memo stays a FAIL
+    if (/setMemoState\(/.test(jf.code)) {
+      const mc = E.qeMemoCheck ? E.qeMemoCheck(q) : null;
+      if (mc && !mc.ok) F('memo-state', 'the script steps by setMemoState (' + (jf.code.match(/setMemoState\(/g) || []).length + ' calls); the engine cannot follow: ' + mc.why.join('; '));
+      else if ((q.transitions || []).some(t => t.to == null && !(typeof t.memo === 'number'))) F('memo-state', 'the script steps by setMemoState (' + (jf.code.match(/setMemoState\(/g) || []).length + ' calls); transitions without a cond or memo: the engine cannot see these stages');
+    }
     if (/exitQuest\(/.test(jf.onTalk) && !jf.starts && !jf.setConds.size) F('dummy-quest', 'the script only exits the quest on talk (no start, no stage): nothing to run');
+    // PHASEC-2026-10-27: a drop the script accepts only as a FULL set (hasItemsAtLimit) must be asked for at its limit by the engine (swarm.js qeNeeds; data: quest_count_fix.js)
+    { const AL = require('./quest_count_fix.js').atLimitItems(jf.code); (q.drops || []).forEach(d => { if (!AL[Number(d.item)] || !(Number(d.limit) > 0)) return; (d.conds && d.conds.length ? d.conds : [1]).forEach(c => { const x = E.qeNeeds(q, Number(c), E.qeDefaultBatch(q)).find(y => y.id === Number(d.item)); if (x && x.n < Number(d.limit)) F('count-below-limit', `cond ${c}: the engine collects ${x.n} of item ${d.item}, the script wants the full ${d.limit} (${AL[Number(d.item)]})`); }); }); }
     const missing = [...jf.setConds].filter(c => !planConds.has(c));
     if (missing.length) F('script-stage-missing', `script setCond(${missing.join(', ')}) has no plan step / transition`);
-    const extra = [...planConds].filter(c => c > 1 && !jf.setConds.has(c));
+    const extra = [...planConds].filter(c => c > 1 && !jf.setConds.has(c) && !(jf.condsByInc && jf.condsByInc.has(c)));
     if (extra.length) F('plan-stage-unknown', `plan stage(s) ${extra.join(', ')} never set by the script`);
     // transitions: events + their cond
     (q.transitions || []).forEach(t => {
       const evs = t.to == null ? [] : (t.trigger && t.trigger.events) || [];
       evs.forEach(ev => {
         if (!jf.strings.has(ev)) { F('script-event-missing', `event "${ev}" (to ${t.to}) not in the script`); return; }
+        // QGIVES-2026-10-27: a transition that KEEPS its stage (from [c] to c: an exchange / a gives-only talk) sets no cond: only the event must exist
+        if (typeof t.to === 'number' && (t.from || []).map(Number).includes(t.to)) return;
         const blocks = eventBlock(jf, ev); if (!blocks.length) return;
         const want = t.to === 'end' ? /exitQuest\(|setState\(State\.COMPLETED/ : t.start || (t.to === 1 && !(t.from || []).length) ? /startQuest\(|setState\(State\.STARTED|setCond\(\s*1\b/ : new RegExp('setCond\\(\\s*' + t.to + '\\b');
         if (t.to === 'end' && blocks.some(b => /startQuest\(|setState\(State\.STARTED/.test(b)) && !blocks.some(b => /exitQuest\(|setState\(State\.COMPLETED/.test(b))) { F('start-merged-with-end', `event "${ev}" STARTS the quest in the script, the data says it ends it (switch cases merged by the extractor: the steps between are lost)`); return; }
-        if (!blocks.some(b => want.test(b))) {
+        const incOk = (b) => jf.condInc && typeof t.to === 'number' && (t.from || []).map(Number).includes(t.to - 1) && /setCond\(\s*(?:\w+\.getCond\(\)|cond)\s*\+\s*1\b/.test(b);   // QCONDINC-2026-10-27
+        if (!blocks.some(b => want.test(b) || incOk(b))) {
           if (t.to === 'end' || t.start || jf.setConds.has(Number(t.to))) W('script-flow-far', `event "${ev}": its case block does not show ${t.to === 'end' ? 'exitQuest' : 'setCond(' + t.to + ')'} (set elsewhere)`);
           else F('script-flow', `event "${ev}" -> cond ${t.to}: the script never sets it`);
         }
@@ -338,7 +396,10 @@ function verify(id) {
       const ovs = ovOf(plan, s), nat = ovs && Array.isArray(ovs.npcAt) ? ovs.npcAt.map(Number) : s.npc.at;   // qePlanNpcAt: your NPC place first
       if (!nat) F('npc-no-place', `${tag}: ${s.npc.name} has no place`);
       else if (!spawnsNear(s.npc.id, nat, 300).length) {
-        if (ovs && ovs.npcAt && !(SPID.get(Number(s.npc.id)) || []).length) F('engine-gap:npcAt-spawner', `${tag}: ${s.npc.name} ${s.npc.id} is spawned by the quest (override npcAt ${nat.join(',')}): the engine walks there but does not trigger the spawn`);
+        // QSPAWNER-2026-10-27 mirror (swarm.js qeNpcSpawner + qeGoNpc): a quest-spawned NPC with a known trigger the engine can do = ok
+        const sv = !(SPID.get(Number(s.npc.id)) || []).length ? spawnerVerdict(q, s.npc.id, lvl, jf) : null;
+        if (sv && sv.ok) W('npc-by-trigger', `${tag}: ${s.npc.name} ${s.npc.id} appears through the quest: ${sv.text}`);
+        else if (ovs && ovs.npcAt && !(SPID.get(Number(s.npc.id)) || []).length) F('engine-gap:npcAt-spawner', `${tag}: ${s.npc.name} ${s.npc.id} is spawned by the quest (override npcAt ${nat.join(',')}): ${sv ? sv.text : 'no trigger known in the record (spawns[])'}`);
         else F('npc-no-spawn', `${tag}: ${s.npc.name} ${s.npc.id} has no spawn at ${nat.join(',')}`);
       }
       if (jf && !jf.nums.has(Number(s.npc.id))) F('script-npc-unknown', `${tag}: NPC ${s.npc.id} not in the script`);
@@ -388,6 +449,8 @@ function verify(id) {
         const its = (s.items || []).filter(it => !(pl.items || []).length || (pl.items || []).includes(it.id));
         its.forEach(it => { const src = (it.from || []).map(f => Number(f.id)).filter(id => (pl.mobs || []).map(Number).includes(id)); if (src.length && !src.some(id => inA.has(id))) F('mob-not-in-area', `${tag}: no source of ${it.name} (${src.join(', ')}) spawns in "${ar.name}"`); });
         if (!its.length && !inA.size) F('mob-not-in-area', `${tag}: none of ${(pl.mobs || []).join(', ')} spawns in "${ar.name}"`);
+        // LOOKALIKE-2026-10-27 mirror: same-name monsters of another template in the area give nothing (the engine never attacks them: qeLiveMob = the ids)
+        (pl.mobs || []).forEach(id => { const nm = (NPCS[id] || {}).n; (NAMEIDS.get(nm) || []).filter(o => o !== Number(id) && !(pl.mobs || []).map(Number).includes(o)).forEach(o => { const n = spawnsNear(o, ar.at, (ar.radius || 1500) + 300, 1500).length; if (n) W('area-lookalike', `${tag}: ${n} ${nm} ${o} in "${ar.name}" are another template than ${id}: no item / kill credit, the bots leave them`); }); });
         const out = (pl.mobs || []).filter(id => !inA.has(Number(id))); if (out.length && inA.size) W('area-partial', `${tag}: ${out.map(id => (NPCS[id] || {}).n || id).join(', ')} not in "${ar.name}" (others are)`);
         if (tot && tot < 3) W('area-thin', `${tag}: only ${tot} target spawn(s) in "${ar.name}"`);
         if (lvs.length) { const lo = Math.min(...lvs); if (lo >= lvl + 9) F('mob-too-strong', `${tag}: weakest target is level ${lo}, character ${lvl}`); else if (lo >= lvl + 6) W('mob-strong', `${tag}: weakest target level ${lo} vs character ${lvl}`); }
@@ -397,17 +460,29 @@ function verify(id) {
         else if (inArea.length) W('area-aggro-few', `${tag}: ${inArea.length} aggressive spawn(s) ${[...new Set(inArea.map(m => m.name + ' ' + m.lv))].join(', ')} in the area`);
         void ag;
       });
+      // PHASEB-2026-10-27 mirror (swarm.js qeDoHunt + qeHuntAlts): no valid target for 6 min = the next place; a step with none = the run stops there with a why
+      if (E.qeHuntAlts && (s.places || [s]).length) { const pl0 = (s.places || [])[0] || s, sp0 = pl0.area && pl0.area.at ? { x: pl0.area.at[0], y: pl0.area.at[1] } : null; if (sp0 && !E.qeHuntAlts(q, (s.monsters || []).map(m => m.id), s, sp0).length) W('hunt-no-alternative', `${tag}: only one hunting place (${(pl0.area || {}).name || '?'}): when it is empty for 6 min the engine stops with a why`); }
       // time vs the engine hunt cap
       const needKills = Math.max(Number(s.kills) || 0, ...(s.items || []).map(it => { const cs = (it.from || []).map(f => Number(f.chance)).filter(c => c > 0 && c <= 100); const ch = cs.length ? Math.max(...cs) : 100; return Math.ceil(Number(it.n) * 100 / ch); }), 1);   // best source; unknown chance = counted as 100 % (optimistic)
-      const min = needKills * 25 / 60; if (min > QE_HUNT_MAX_MIN * QE_SAME_MAX) F('hunt-too-long', `${tag}: ~${needKills} kills (~${Math.round(min)} min) > the engine's ${QE_SAME_MAX} x ${QE_HUNT_MAX_MIN} min hunt cap`);
+      const min = needKills * 25 / 60, rounds = huntRoundsOf(s); if (min > QE_HUNT_MAX_MIN * rounds) F('hunt-too-long', `${tag}: ~${needKills} kills (~${Math.round(min)} min) > the engine's ${rounds} x ${QE_HUNT_MAX_MIN} min hunt cap (plan ~${Math.round((s.expectedSec || 0) / 60)} min, at most ${QE_TOTAL_H || '-'} h)`);
       else if (min > QE_HUNT_MAX_MIN) W('hunt-long', `${tag}: ~${needKills} kills (~${Math.round(min)} min): more than one ${QE_HUNT_MAX_MIN}-min hunt round`);
     }
     if (s.kind === 'spawn') {
       if (s.engine && s.engine.how === 'talk') (s.engine.trigger || []).forEach(n => { if (!(SPID.get(Number(n)) || []).length) F('npc-no-spawn', `${tag}: trigger NPC ${n} has no spawn`); });
       if (s.engine && s.engine.how === 'kill') (s.engine.trigger || []).forEach(n => { if (!(SPID.get(Number(n)) || []).length) F('mob-no-spawn', `${tag}: trigger monster ${n} has no spawn`); });
-      (s.monsters || []).forEach(m => { if (jf && !jf.nums.has(Number(m.id))) F('script-mob-unknown', `${tag}: ${m.id} not in the script`); if (jf && !/addSpawn\(/.test(jf.code)) F('spawn-not-in-script', `${tag}: the script never calls addSpawn`); if (NPCS[m.id] && NPCS[m.id].l >= lvl + 9) F('mob-too-strong', `${tag}: ${m.name} level ${NPCS[m.id].l}, character ${lvl}`); });
+      const inst = s.engine && s.engine.instance;   // QINSTANCE-2026-10-27: a Kamaloka boss is spawned by the instance script, not the quest
+      (s.monsters || []).forEach(m => { if (jf && !jf.nums.has(Number(m.id))) F('script-mob-unknown', `${tag}: ${m.id} not in the script`); if (jf && !inst && !/addSpawn\(/.test(jf.code)) F('spawn-not-in-script', `${tag}: the script never calls addSpawn`); if (NPCS[m.id] && NPCS[m.id].l >= lvl + 9) F('mob-too-strong', `${tag}: ${m.name} level ${NPCS[m.id].l}, character ${lvl}`); });
     }
   });
+  // FROMFIX-2026-10-27 (live 356: cond 2 <-> 3 ping-pong): the stages the engine can move between (swarm.js qeTransAt per stage, memo unknown) must not
+  // form a cycle through a kill / attack / dialog-event transition without its own 'from' (the engine would advance back and forth on its own record)
+  { const M = E.qeMemoInfo ? E.qeMemoInfo(q) : null, st = M ? Object.keys(M.stages).map(Number) : [], ed = {};
+    st.forEach(c => { ed[c] = E.qeTransAt(q, c, null).filter(t => t.trigger && /^(kill|attack|event)$/.test(t.trigger.type) && typeof t.to === 'number' && t.to !== c).map(t => ({ to: t.to, free: !(Array.isArray(t.from) && t.from.length), i: t.i })); });
+    const col = {}, path = []; let cyc = null;
+    const dfs = (u) => { col[u] = 1; for (const e of ed[u] || []) { if (cyc) return; path.push(e); if (col[e.to] === 1) { const k = path.findIndex(x => x.from === e.to); const loop = path.slice(k < 0 ? 0 : k); if (loop.some(x => x.free)) cyc = [e.to].concat(loop.map(x => x.to)); } else if (!col[e.to]) { e.from = u; dfs(e.to); } path.pop(); } col[u] = 2; };
+    st.forEach(c => { (ed[c] || []).forEach(e => { e.from = c; }); });
+    st.forEach(c => { if (!col[c] && !cyc) dfs(c); });
+    if (cyc) F('stage-cycle', 'the engine can move ' + cyc.join(' -> ') + ' through a kill / dialog transition without its own from (data: docs/plan/tools/quest_from_fix.js)'); }
   // ---- 4 FLOW SIMULATION (engine decisions against the transitions) ----
   simulate(q, plan, R, jf, F, W);
   // ---- 3 ROUTES ----
@@ -416,9 +491,13 @@ function verify(id) {
   return R;
 }
 function simulate(q, plan, R, jf, F, W) {
-  const T = E.qeTr(q), s = { started: false, cond: null, condKnown: true, have: { 57: 1e9 } };   // the character carries adena
+  const T = E.qeTr(q), s = { started: false, cond: null, condKnown: true, have: { 57: 1e9 }, memo: null };   // the character carries adena
   const acts = []; let ended = false, last = '', same = 0;
-  const apply = (t) => { (t.takes || []).forEach(x => { if (x && x.id) s.have[x.id] = Math.max(0, (s.have[x.id] || 0) - (Number(x.count) || 1)); }); (t.gives || []).forEach(x => { if (x && x.id) s.have[x.id] = (s.have[x.id] || 0) + (Number(x.count) || 1); }); if (t.to === 'end') ended = true; else if (t.to != null) s.cond = Number(t.to); };
+  // QMEMO-2026-10-27 mirror: the memo a fired transition sets is the engine's own memo record (swarm.js qeMemoAfter); setCond keeps the memo (L2J)
+  // (a count of -1 = "takeItems(id, -1)" = all of them)
+  const apply = (t) => { (t.takes || []).forEach(x => { if (x && x.id) s.have[x.id] = Number(x.count) < 0 ? 0 : Math.max(0, (s.have[x.id] || 0) - (Number(x.count) || 1)); }); (t.gives || []).forEach(x => { if (x && x.id) s.have[x.id] = (s.have[x.id] || 0) + (Number(x.count) || 1); }); if (t.to === 'end') ended = true; else if (t.to != null) s.cond = Number(t.to); if (typeof t.memo === 'number' && isFinite(t.memo)) s.memo = t.memo;
+    // QGIVES-2026-10-27 server model: every "any order" talk of the stage done (t.condAfterAll, its items held) = the server sets that cond
+    if (!ended && s.started) { const caa = E.qeTransAt(q, s.cond, s.memo).filter(x => x.condAfterAll != null); if (caa.length && E.qeGivesHeld && caa.every(x => E.qeGivesHeld(x, s.have))) s.cond = Number(caa[0].condAfterAll); } };
   for (let g = 0; g < 80 && !ended; g++) {
     const a = E.qeDecide(q, s), before = JSON.stringify(s);
     const label = a.act + (a.kind ? ':' + a.kind : '') + (a.npcs ? '@' + a.npcs[0] : a.monsters ? '@' + a.monsters.join('+') : a.target ? '@' + a.target : '');
@@ -434,7 +513,9 @@ function simulate(q, plan, R, jf, F, W) {
     }
     if (a.act === 'talk' || a.act === 'turnin') {
       const ids = (a.npcs || []).map(Number);
-      if (!ids.some(n => (SPID.get(n) || []).length)) F('npc-no-spawn', `cond ${s.cond}: engine talks to ${ids.join('/')} — no spawn`);
+      // QDIALOG-2026-10-27 mirror (swarm.js qeDialog): the engine clicks a talk by its dialogue chain (Scripts/data/quest_dialogs/<id>.json); none / partial = it stops there
+      if (E.qeChainFor) { const pm = E.qePlanMatch ? E.qePlanMatch(plan, a, a.kind === 'start' ? 0 : s.cond) : null, dc = ids.map(n => E.qeChainFor(QDLG(q.id), a, a.kind === 'start' ? 0 : s.cond, n, pm && pm.step && pm.step.npc && Number(pm.step.npc.id) === n ? pm.step.key : '')).find(Boolean); if (!dc || !(dc.dialog || []).length) F('no-dialog', `cond ${s.started ? s.cond : 0}: no dialogue chain for the talk to ${ids.join('/')} (Scripts/data/quest_dialogs/${q.id}.json)`); else if (dc.status && dc.status !== 'full') F('no-dialog', `cond ${s.started ? s.cond : 0}: the dialogue chain of ${dc.key} is ${dc.status}${dc.why ? ': ' + String(dc.why).slice(0, 160) : ''}`); }
+      if (!ids.some(n => (SPID.get(n) || []).length) && !ids.some(n => { const sv = spawnerVerdict(q, n, R.charLevel, jf); return sv && sv.ok; })) F('npc-no-spawn', `cond ${s.cond}: engine talks to ${ids.join('/')} — no spawn`);
       if (a.act === 'turnin') { ended = true; break; }
       const cands = (a.trans || []).map(i => T[i]).filter(Boolean);
       const t = cands.find(x => E.qeNeedMet(x, s.have)) || null;
@@ -446,14 +527,20 @@ function simulate(q, plan, R, jf, F, W) {
     } else if (a.act === 'hunt') {
       if (!E.qeHuntSpot(q, a.monsters, null)) F('hunt-spot-missing', `cond ${s.cond}: current engine (qeHuntSpot) knows no spawn cluster for ${a.monsters.join(', ')}`);
       (a.items || []).forEach(x => { s.have[x.id] = Math.max(s.have[x.id] || 0, x.n); });
-      const ks = E.qeTransAt(q, s.cond).filter(t => t.trigger && /^(kill|attack)$/.test(t.trigger.type) && (t.trigger.npcs || []).some(n => a.monsters.includes(Number(n))) && t.to !== s.cond && E.qeNeedMet(t, s.have));
+      const ks = E.qeTransAt(q, s.cond, s.memo).filter(t => t.trigger && /^(kill|attack)$/.test(t.trigger.type) && (t.trigger.npcs || []).some(n => a.monsters.includes(Number(n))) && t.to !== s.cond && E.qeNeedMet(t, s.have));
       if (ks.length) apply(ks.sort((x, y) => (y.to === 'end' ? 1e3 : y.to) - (x.to === 'end' ? 1e3 : x.to))[0]);
     } else if (a.act === 'spawn') {
-      if (a.how === 'talk') { const tt = E.qeTransAt(q, s.cond).find(t => t.trigger && /^(talk|event)$/.test(t.trigger.type) && (t.trigger.npcs || []).some(n => (a.npcs || []).includes(Number(n))) && E.qeNeedMet(t, s.have)); if (tt && tt.to !== s.cond) apply(tt); }
+      if (a.how === 'talk') { const tt = E.qeTransAt(q, s.cond, s.memo).find(t => t.trigger && /^(talk|event)$/.test(t.trigger.type) && (t.trigger.npcs || []).some(n => (a.npcs || []).includes(Number(n))) && E.qeNeedMet(t, s.have)); if (tt && tt.to !== s.cond) apply(tt); }
       (a.items || []).forEach(x => { s.have[x.id] = Math.max(s.have[x.id] || 0, x.n); });
-      const ks = E.qeTransAt(q, s.cond).filter(t => t.trigger && /^(kill|attack)$/.test(t.trigger.type) && (t.trigger.npcs || []).map(Number).includes(Number(a.target)) && E.qeNeedMet(t, s.have));
+      const ks = E.qeTransAt(q, s.cond, s.memo).filter(t => t.trigger && /^(kill|attack)$/.test(t.trigger.type) && (t.trigger.npcs || []).map(Number).includes(Number(a.target)) && E.qeNeedMet(t, s.have));
       if (ks.length) apply(ks[0]);
       if (jf && !/addSpawn\(/.test(jf.code)) F('spawn-not-in-script', 'the engine expects a quest spawn, the script has no addSpawn');
+    } else if (a.act === 'instance') {   // QINSTANCE-2026-10-27 mirror (swarm.js qeDoInstance): the party leader's Kamaloka mission at that level kills the boss
+      if (a.kind !== 'kamaloka') { F('engine-instance', `cond ${s.cond}: ${a.target} lives in the instance "${a.kind}": not automated`); break; }
+      if (Math.abs(Number(a.level) - Number(R.charLevel)) > 10) W('instance-level', `cond ${s.cond}: Kamaloka level ${a.level} vs character ${R.charLevel}`);
+      (a.items || []).forEach(x => { s.have[x.id] = Math.max(s.have[x.id] || 0, x.n); });
+      const ks = E.qeTransAt(q, s.cond, s.memo).filter(t => t.trigger && /^(kill|attack)$/.test(t.trigger.type) && (t.trigger.npcs || []).map(Number).includes(Number(a.target)) && t.to !== s.cond && E.qeNeedMet(t, s.have));
+      if (ks.length) apply(ks[0]);
     } else { F('engine-unknown-action', a.act); break; }
     const after = JSON.stringify(s);
     if (after === before) { if (label === last) same++; else { same = 1; last = label; } if (same >= 3) { F('flow-no-progress', `cond ${s.cond}: ${label} changes nothing (the engine stops after ${QE_SAME_MAX} tries)`); break; } }
@@ -467,20 +554,30 @@ function routes(plan, R, lvl, F, W) {
   plan.steps.forEach(s => {
     const tag = `step ${s.i + 1} (${s.key})`;
     const blocks = [];
-    const ov = ovOf(plan, s), ovr = ovRoute(ov);
+    if (s.engine && s.engine.instance) { W('route-instance', `${tag}: Kamaloka level ${s.engine.level}: the Kamaloka mission travels (captain, entry), not a plan route`); return; }   // QINSTANCE-2026-10-27
+    const ov = ovOf(plan, s);
     const npcEnd = s.npc ? { at: ov && Array.isArray(ov.npcAt) ? ov.npcAt.map(Number) : s.npc.at, radius: 0, name: s.npc.name } : null;
     const ovArea = ov && ov.area && Array.isArray(ov.area.at) ? { at: ov.area.at.map(Number), radius: Number(ov.area.radius) || 1500, name: ov.area.name || 'override area' } : null;
-    if (ovr) {   // qePlanRoute: the override route (with its town / gk start) is walked for this step, whatever place it hunts
-      const st = ov.start && ov.start.kind ? ov.start : null;
-      const gkSteps = st && st.kind === 'gk' ? [{ do: 'gk', from: st.from || String(st.desc || '').split('->')[0].trim(), link: String(st.desc || '').split('->').pop().trim(), desc: st.desc }] : [];
-      const ends = npcEnd ? [npcEnd] : ovArea ? [ovArea] : (s.places && s.places.length ? s.places.map(p => p.area).filter(Boolean) : [s.area]);
-      const end = ends.slice().sort((a, b) => (a && a.at ? d2(P3(ovr[ovr.length - 1]), a.at) : 1e9) - (b && b.at ? d2(P3(ovr[ovr.length - 1]), b.at) : 1e9))[0];
-      blocks.push({ t: { src: 'override', key: 'override ' + s.key, points: ovr, start: st, steps: gkSteps, status: 'ok' }, end, kind: npcEnd ? 'npc' : 'area' });
-    } else if (ov && (ovArea || ov.npcAt)) {   // your own place without your own route: the engine's normal travel (route switch / nav atlas) goes there
-      W('route-engine-own', `${tag}: override place without a route — the engine's own travel goes there (not checked on the geodata here)`);
-      return;
-    } else if (s.kind === 'hunt' && Array.isArray(s.places) && s.places.length) s.places.forEach((p, k) => blocks.push({ t: p.travel, end: p.area, kind: 'area', k }));
-    else if (s.travel) blocks.push({ t: s.travel, end: npcEnd || s.area, kind: s.npc ? 'npc' : 'area' });
+    // QPLANOV-2026-10-27 mirror of swarm.js qePlanRoute: per place of the step the route the engine picks for it (routes by monster, placeRoutes,
+    // forMobs, routeSteps, route; with its town / gk (+ via hops) / atlas start); a place it picks none for keeps the plan's own travel
+    const places = s.kind === 'hunt' && Array.isArray(s.places) && s.places.length ? s.places : null;
+    const ovBlock = (r, end0, k) => {
+      const st = r.start && r.start.kind ? r.start : null, gkSteps = [];
+      if (st && st.kind === 'gk') {
+        String(st.via || '').split('>').map(h => h.trim()).filter(h => h && h[0] !== '.' && /->/.test(h)).forEach(h => gkSteps.push({ do: 'gk', from: h.split('->')[0].trim(), link: h.split('->').pop().trim(), desc: 'via ' + h }));
+        gkSteps.push({ do: 'gk', from: st.from || String(st.desc || '').split('->')[0].trim(), link: String(st.desc || '').split('->').pop().trim(), desc: st.desc });
+      }
+      const P = r.points.map(p => p.do === 'floor' ? p : [p.x, p.y, p.z]), wps = P.filter(Array.isArray), lastP = wps[wps.length - 1];
+      const ends = end0 ? [end0] : npcEnd ? [npcEnd] : ovArea ? [ovArea] : (places ? places.map(p => p.area).filter(Boolean) : [s.area]);
+      const end = ends.slice().sort((a, b) => (a && a.at ? d2(lastP, a.at) : 1e9) - (b && b.at ? d2(lastP, b.at) : 1e9))[0];
+      return { t: { src: 'override', key: 'override ' + s.key + (r.which ? ' (' + r.which + ')' : ''), points: P, start: st, steps: gkSteps, status: 'ok' }, end, kind: npcEnd && !end0 ? 'npc' : 'area', k };
+    };
+    const pick = (p) => ov && E.qePlanRoute ? E.qePlanRoute({ ov, step: s, place: p }, p ? p.mobs : (s.monsters || []).map(m => m.id)) : (ovRoute(ov) ? { points: ovRoute(ov).map(x => ({ x: x[0], y: x[1], z: x[2] || 0 })), start: ov.start, src: 'override' } : null);
+    let own = false;
+    if (places) places.forEach((p, k) => { const r = pick(p); if (r && r.src === 'override') blocks.push(ovBlock(r, ovArea || p.area, k)); else if (ov && (ovArea || ov.npcAt)) own = true; else blocks.push({ t: p.travel, end: p.area, kind: 'area', k }); });
+    else { const r = pick(null); if (r && r.src === 'override') blocks.push(ovBlock(r, null)); else if (ov && (ovArea || ov.npcAt)) own = true; else if (s.travel) blocks.push({ t: s.travel, end: npcEnd || s.area, kind: s.npc ? 'npc' : 'area' }); }
+    if (own) W('route-engine-own', `${tag}: override place without a route — the engine's own travel goes there (not checked on the geodata here)`);
+    if (own && !blocks.length) return;
     if (!blocks.length) { if (s.kind !== 'special') F('route-missing', `${tag}: no travel block`); return; }
     blocks.forEach(b => {
       const t = b.t; if (!t) { F('route-missing', `${tag}: place ${(b.k || 0) + 1} has no travel`); return; }
@@ -488,7 +585,21 @@ function routes(plan, R, lvl, F, W) {
       if (t.status && t.status !== 'ok') F('route-status', `${tag}: route ${t.key} status ${t.status}`);
       // gatekeeper / town start
       (t.steps || []).forEach(x => { if (x.do === 'gk') { const L = gkLinkLive(x.from, x.link); if (L.ok === false) F('gk-link-not-live', `${tag}: ${x.desc}: ${L.why}`); else if (L.ok === null) W('gk-menu-unknown', `${tag}: ${x.desc}: ${L.why}`); } });
-      const tp = t.src === 'override' ? Object.assign({ src: 'override', steps: t.steps }, splitJumps(t.points.map(P3), new Set())) : travelPoints(t);
+      // QPLANOV-2026-10-27: an override route is cut at its NPC-teleport / floor steps (routeSteps); every step NPC must spawn there and its landing
+      // must be the next walk's start; an atlas start must land at the route's first point
+      let tp;
+      if (t.src === 'override') {
+        tp = { src: 'override', steps: t.steps, segs: [], jumps: [] }; let cur = [];
+        const flush = () => { if (cur.length) { const sj = splitJumps(cur, new Set()); tp.segs.push(...sj.segs); tp.jumps.push(...sj.jumps); } cur = []; };
+        t.points.forEach((p, i) => {
+          if (Array.isArray(p)) { cur.push(P3(p)); return; }
+          flush();
+          const n = p.npc || {}; if (!spawnsNear(n.id, [n.x, n.y, n.z], 300).length) F('npc-no-spawn', `${tag}: route step "${p.how || p.do}" ${n.name} ${n.id} has no spawn at ${[n.x, n.y].join(',')}`);
+          const nx = t.points.slice(i + 1).find(Array.isArray); if (p.landing && nx && d2(P3(nx), p.landing) > 1500) F('route-start-far', `${tag}: after ${n.name} "${p.link}" the walk starts ${Math.round(d2(P3(nx), p.landing))} from its landing`);
+        });
+        flush();
+        const st = t.start; if (st && st.kind === 'atlas' && st.then && Array.isArray(st.then.landing)) { const f = t.points.find(Array.isArray); if (f && d2(P3(f), st.then.landing) > 1500) F('route-start-far', `${tag}: the atlas start lands ${Math.round(d2(P3(f), st.then.landing))} from the route's first point`); }
+      } else tp = travelPoints(t);
       if (!tp || !tp.segs.length) { F('route-no-points', `${tag}: ${tp && tp.why || 'no walk points'}`); return; }
       // ONE stored point list that jumps like a teleport: the staged qePlanWalk -> rsCustomTrip walks it as one route (no teleport in between)
       if (tp.jumps.length && (tp.src === 'override' || (s.kind === 'hunt' || s.kind === 'spawn') || true)) {

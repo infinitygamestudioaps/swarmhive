@@ -1,0 +1,862 @@
+{
+ "npcId": 32559,
+ "name": "Artius",
+ "title": "War Mage",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.384Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32559.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "701": {
+   "name": "Proof of Existence",
+   "listText": [
+    "[Proof of Existence]",
+    "[Proof of Existence (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00701_ProofOfExistence/32559-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10273_GoodDayToFly.class.getSimpleNam",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00701_ProofOfExistence/32559-02.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10273_GoodDayToFly.class.getSimpleNam",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00701_ProofOfExistence/32559-07.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00701_ProofOfExistence/32559-06.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00701_ProofOfExistence/32559-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "10270": {
+   "name": "Birth of the Seed",
+   "listText": [
+    "[Birth of the Seed]",
+    "[Birth of the Seed (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10270_BirthOfTheSeed/32559-03.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10270_BirthOfTheSeed/32559-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10270_BirthOfTheSeed/32559-04.html",
+     "when": "state STARTED; memo 2; has items 13868,13869,13870",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10270_BirthOfTheSeed/32559-05.html",
+     "when": "state STARTED; memo 2; lacks items 13868,13869,13870",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10270_BirthOfTheSeed/32559-06.html",
+     "when": "state STARTED; memo 2; lacks items 13868,13869,13870; !(!hasQuestItems(player, YEHAN_KLODEKUS_BADGE) && !hasQuestItems(player, YEHAN_KLANIKUS_BADGE) && !hasQuestItems(player,",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10270_BirthOfTheSeed/32559-07.html",
+     "when": "state STARTED; memo 3; ((st1 == null) || (st1.isStarted() && (st1.getMemoState() < 10)))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10270_BirthOfTheSeed/32559-09.html",
+     "when": "state STARTED; memo 3; !((st1 == null) || (st1.isStarted() && (st1.getMemoState() < 10))); ((st1.isStarted() && (st1.getMemoState() >= 10)) || st1.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10270_BirthOfTheSeed/32559-11.html",
+     "when": "state STARTED; memo 20; level >= 75",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10272": {
+   "name": "Light Fragment",
+   "listText": [
+    "[Light Fragment]",
+    "[Light Fragment (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10272_LightFragment/32559-19.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10272_LightFragment/32559-01.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10272_LightFragment/32559-04.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10272_LightFragment/32559-08.html",
+     "when": "cond 3",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10272_LightFragment/32559-10.html",
+     "when": "cond 4",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10272_LightFragment/32559-15.html",
+     "when": "cond 5; hasItemsAtLimit(st.getPlayer(), FRAGMENT_POWDER)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10272_LightFragment/32559-14.html",
+     "when": "cond 5; !hasItemsAtLimit(st.getPlayer(), FRAGMENT_POWDER); st.hasQuestItems(FRAGMENT_POWDER.getId())",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10272_LightFragment/32559-13.html",
+     "when": "cond 5; !hasItemsAtLimit(st.getPlayer(), FRAGMENT_POWDER); NOT st.hasQuestItems(FRAGMENT_POWDER.getId())",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10272_LightFragment/32559-16.html",
+     "when": "cond 6; st.getQuestItemsCount(LIGHT_FRAGMENT_POWDER) < 100",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10272_LightFragment/32559-17.html",
+     "when": "cond 6; !st.getQuestItemsCount(LIGHT_FRAGMENT_POWDER) < 100",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10272_LightFragment/32559-18.html",
+     "when": "cond 8",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32559.htm": {
+   "file": "default/32559.htm",
+   "quest": null,
+   "text": "War Mage Artius: The Barrier Orb protects this fortress. Without it, we would have been overwhelmed by the enemy and the harsh environment long ago.",
+   "header": "War Mage Artius",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00701_ProofOfExistence/32559-01.htm": {
+   "file": "Q00701_ProofOfExistence/32559-01.htm",
+   "quest": 701,
+   "text": "War Mage Artius: We've recently seen a drop in the morale of the soldiers of Gracia. There is a rumor that some soldiers who ventured near the Seed of Immotality saw something strange . Perhaps it was a ghost or an evil spirit; some say they saw a beautiful woman. But when they approached it, it di…",
+   "header": "War Mage Artius",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10273_GoodDayToFly.class.getSimpleNam"
+   ],
+   "links": [
+    {
+     "text": "\"What should I do?\"",
+     "bypass": "Quest Q00701_ProofOfExistence 32559-03.htm",
+     "kind": "quest-event",
+     "script": "Q00701_ProofOfExistence",
+     "event": "32559-03.htm",
+     "quest": 701,
+     "to": "Q00701_ProofOfExistence/32559-03.htm"
+    }
+   ]
+  },
+  "Q00701_ProofOfExistence/32559-02.htm": {
+   "file": "Q00701_ProofOfExistence/32559-02.htm",
+   "quest": 701,
+   "text": "War Mage Artius: We've recently seen a drop in the morale of the soldiers of Gracia. There is a rumor that some soldiers who ventured near the Seed of Immotality saw something strange . Perhaps it was a ghost or an evil spirit; some say they saw a beautiful woman. But when they approached it, it di…",
+   "header": "War Mage Artius",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10273_GoodDayToFly.class.getSimpleNam"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00701_ProofOfExistence/32559-07.html": {
+   "file": "Q00701_ProofOfExistence/32559-07.html",
+   "quest": 701,
+   "text": "War Mage Artius: Oh! You've returned? Ah, you have the Banshee Queen's Eye! Thanks to this proof, I'm sure the soldiers will feel better about the whole situation. Thank you very much! Don't worry about the reward. I will give more for destroying the Floating Skulls and Floating Zombies. Can you al…",
+   "header": "War Mage Artius",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"I'll head back out.\"",
+     "bypass": "Quest Q00701_ProofOfExistence 32559-08.html",
+     "kind": "quest-event",
+     "script": "Q00701_ProofOfExistence",
+     "event": "32559-08.html",
+     "quest": 701,
+     "to": "Q00701_ProofOfExistence/32559-08.html"
+    },
+    {
+     "text": "\"That's all for me.\"",
+     "bypass": "Quest Q00701_ProofOfExistence 32559-09.html",
+     "kind": "quest-event",
+     "script": "Q00701_ProofOfExistence",
+     "event": "32559-09.html",
+     "quest": 701,
+     "to": "Q00701_ProofOfExistence/32559-09.html"
+    }
+   ]
+  },
+  "Q00701_ProofOfExistence/32559-06.html": {
+   "file": "Q00701_ProofOfExistence/32559-06.html",
+   "quest": 701,
+   "text": "War Mage Artius: Ah! You're back? What's this? You couldn't defeat that vile monster? That's unfortunate, but a promise is a promise. Here's a reward for your other efforts in this matter. But you're not giving up already, are you? Please destroy Banshee Queen Enira ! I'll also reward you for elimi…",
+   "header": "War Mage Artius",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"I'll try again.\"",
+     "bypass": "Quest Q00701_ProofOfExistence 32559-08.html",
+     "kind": "quest-event",
+     "script": "Q00701_ProofOfExistence",
+     "event": "32559-08.html",
+     "quest": 701,
+     "to": "Q00701_ProofOfExistence/32559-08.html"
+    },
+    {
+     "text": "\"I don't really feel like it. I think I'll quit.\"",
+     "bypass": "Quest Q00701_ProofOfExistence 32559-09.html",
+     "kind": "quest-event",
+     "script": "Q00701_ProofOfExistence",
+     "event": "32559-09.html",
+     "quest": 701,
+     "to": "Q00701_ProofOfExistence/32559-09.html"
+    }
+   ]
+  },
+  "Q00701_ProofOfExistence/32559-05.html": {
+   "file": "Q00701_ProofOfExistence/32559-05.html",
+   "quest": 701,
+   "text": "War Mage Artius: You haven't left yet?! You promised to go destroy Banshee Queen Enira . I'll also reward you for destroying the Floating Skulls and Floating Zombies . Remember, you'll have to go at night. I can't believe an adventurer like you would have second thoughts about this mission!",
+   "header": "War Mage Artius",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"Not a problem. Leave it to me.\"",
+     "bypass": "Quest Q00701_ProofOfExistence 32559-08.html",
+     "kind": "quest-event",
+     "script": "Q00701_ProofOfExistence",
+     "event": "32559-08.html",
+     "quest": 701,
+     "to": "Q00701_ProofOfExistence/32559-08.html"
+    },
+    {
+     "text": "\"I have a bad feeling about this. Count me out.\"",
+     "bypass": "Quest Q00701_ProofOfExistence 32559-09.html",
+     "kind": "quest-event",
+     "script": "Q00701_ProofOfExistence",
+     "event": "32559-09.html",
+     "quest": 701,
+     "to": "Q00701_ProofOfExistence/32559-09.html"
+    }
+   ]
+  },
+  "Q10270_BirthOfTheSeed/32559-03.html": {
+   "file": "Q10270_BirthOfTheSeed/32559-03.html",
+   "quest": 10270,
+   "text": "War Mage Artius: Thanks to you, we were able to learn much more about the Seed of Infinity. Now we will have an easier time defeating it. (You have already completed this quest.)",
+   "header": "War Mage Artius",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10270_BirthOfTheSeed/32559-01.html": {
+   "file": "Q10270_BirthOfTheSeed/32559-01.html",
+   "quest": 10270,
+   "text": "War Mage Artius: Can't you see that I'm busy? What is it?",
+   "header": "War Mage Artius",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "I'm here because of the mission Plenos mentioned",
+     "bypass": "Quest Q10270_BirthOfTheSeed 32559-02.html",
+     "kind": "quest-event",
+     "script": "Q10270_BirthOfTheSeed",
+     "event": "32559-02.html",
+     "quest": 10270,
+     "to": "Q10270_BirthOfTheSeed/32559-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q10270_BirthOfTheSeed/32559-04.html": {
+   "file": "Q10270_BirthOfTheSeed/32559-04.html",
+   "quest": 10270,
+   "text": "War Mage Artius: Ah, you've done well! Show me what you brought. Hmm...this will take some time to analyze. Come back later.",
+   "header": "War Mage Artius",
+   "when": [
+    "state STARTED; memo 2; has items 13868,13869,13870"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10270_BirthOfTheSeed/32559-05.html": {
+   "file": "Q10270_BirthOfTheSeed/32559-05.html",
+   "quest": 10270,
+   "text": "War Mage Artius: You haven't brought it all! I'm sure you worked hard to collect these, but unless you get them all, it's all meaningless. You must bring back the rest of the evidence.",
+   "header": "War Mage Artius",
+   "when": [
+    "state STARTED; memo 2; lacks items 13868,13869,13870"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10270_BirthOfTheSeed/32559-06.html": {
+   "file": "Q10270_BirthOfTheSeed/32559-06.html",
+   "quest": 10270,
+   "text": "War Mage Artius: Defeat the chief gatekeepers that guard the major areas of the Seed of Infinity . Defeat Yehan Klodekus and Yehan Klanikus, who guard the Hall of Suffering, and Cohemenes, who guards the Hall of Erosion, and bring back the proof we need. When we inspect it, we may learn some vital …",
+   "header": "War Mage Artius",
+   "when": [
+    "state STARTED; memo 2; lacks items 13868,13869,13870; !(!hasQuestItems(player, YEHAN_KLODEKUS_BADGE) && !hasQuestItems(player, YEHAN_KLANIKUS_BADGE) && !hasQuestItems(player,"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10270_BirthOfTheSeed/32559-07.html": {
+   "file": "Q10270_BirthOfTheSeed/32559-07.html",
+   "quest": 10270,
+   "text": "War Mage Artius: This is very surprising. Not just their bodies, but even the things left behind by them after death possess great magic power. I've never seen anything like it. I know they were chief gatekeepers, but they were once living, breathing Humans. How can they possess such power? I can h…",
+   "header": "War Mage Artius",
+   "when": [
+    "state STARTED; memo 3; ((st1 == null) || (st1.isStarted() && (st1.getMemoState() < 10)))"
+   ],
+   "links": [
+    {
+     "text": "\"His?\"",
+     "bypass": "Quest Q10270_BirthOfTheSeed 32559-08.html",
+     "kind": "quest-event",
+     "script": "Q10270_BirthOfTheSeed",
+     "event": "32559-08.html",
+     "quest": 10270,
+     "to": "Q10270_BirthOfTheSeed/32559-08.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q10270_BirthOfTheSeed/32559-09.html": {
+   "file": "Q10270_BirthOfTheSeed/32559-09.html",
+   "quest": 10270,
+   "text": "War Mage Artius: This is very surprising. Not just their bodies, but even the things left behind by them after death possess great magic power. I've never seen anything like it. I know they were chief gatekeepers, but they were once living, breathing Humans. How can they possess such power? I can h…",
+   "header": "War Mage Artius",
+   "when": [
+    "state STARTED; memo 3; !((st1 == null) || (st1.isStarted() && (st1.getMemoState() < 10))); ((st1.isStarted() && (st1.getMemoState() >= 10)) || st1.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "\"Are you talking about Shilen's Priest Lelrikia in the secret fortress?\"",
+     "bypass": "Quest Q10270_BirthOfTheSeed 32559-10.html",
+     "kind": "quest-event",
+     "script": "Q10270_BirthOfTheSeed",
+     "event": "32559-10.html",
+     "quest": 10270,
+     "to": "Q10270_BirthOfTheSeed/32559-10.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q10270_BirthOfTheSeed/32559-11.html": {
+   "file": "Q10270_BirthOfTheSeed/32559-11.html",
+   "quest": 10270,
+   "text": "War Mage Artius: Thank you. That was important information.",
+   "header": "War Mage Artius",
+   "when": [
+    "state STARTED; memo 20; level >= 75"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32559-19.html": {
+   "file": "Q10272_LightFragment/32559-19.html",
+   "quest": 10272,
+   "text": "War Mage Artius: (You have already completed this quest.)",
+   "header": "War Mage Artius",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32559-01.html": {
+   "file": "Q10272_LightFragment/32559-01.html",
+   "quest": 10272,
+   "text": "War Mage Artius: It takes my full concentration to control the Barrier Orb. I don't have time for chit-chat. Do you have any pressing business with me?",
+   "header": "War Mage Artius",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"I brought the documents from Inspector Medibal.\"",
+     "bypass": "Quest Q10272_LightFragment 32559-02.html",
+     "kind": "quest-event",
+     "script": "Q10272_LightFragment",
+     "event": "32559-02.html",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32559-02.html"
+    }
+   ]
+  },
+  "Q10272_LightFragment/32559-04.html": {
+   "file": "Q10272_LightFragment/32559-04.html",
+   "quest": 10272,
+   "text": "War Mage Artius: Hmm, as I expected... These are indeed very valuable documents. They contain detailed information about the Mounted Troop that is occupying the Seed of Destruction. This will give us a considerable tactical advantage. Ah, I see he also recorded his observations of the magic power a…",
+   "header": "War Mage Artius",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"What does it say?\"",
+     "bypass": "Quest Q10272_LightFragment 32559-05.html",
+     "kind": "quest-event",
+     "script": "Q10272_LightFragment",
+     "event": "32559-05.html",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32559-05.html"
+    }
+   ]
+  },
+  "Q10272_LightFragment/32559-08.html": {
+   "file": "Q10272_LightFragment/32559-08.html",
+   "quest": 10272,
+   "text": "War Mage Artius: Actually, there is Temple of Shilen Temple here in Keucereus Alliance Base. Inside, a priest named Lelrikia is in hiding. Even before catastrophe befell Gracia, the priests of Shilen tried to delude many of our people. What bothers me is that I don't know his purpose. He surrendere…",
+   "header": "War Mage Artius",
+   "when": [
+    "cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32559-10.html": {
+   "file": "Q10272_LightFragment/32559-10.html",
+   "quest": 10272,
+   "text": "War mage Artius: So did you meet Lelrikia? What did he say?",
+   "header": "War mage Artius",
+   "when": [
+    "cond 4"
+   ],
+   "links": [
+    {
+     "text": "Tell the truth.",
+     "bypass": "Quest Q10272_LightFragment 32559-11.html",
+     "kind": "quest-event",
+     "script": "Q10272_LightFragment",
+     "event": "32559-11.html",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32559-11.html"
+    }
+   ]
+  },
+  "Q10272_LightFragment/32559-15.html": {
+   "file": "Q10272_LightFragment/32559-15.html",
+   "quest": 10272,
+   "text": "War Mage Artius: You collected them all. Well done! Now listen carefully. Now we must purify this substance. To do so, we will need help from the Mother Tree. You must approach with care -- the residents of the Elven Village may well attack you rather than allow you to bring so dark a power near th…",
+   "header": "War Mage Artius",
+   "when": [
+    "cond 5; hasItemsAtLimit(st.getPlayer(), FRAGMENT_POWDER)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32559-14.html": {
+   "file": "Q10272_LightFragment/32559-14.html",
+   "quest": 10272,
+   "text": "War Mage Artius: We need 100 Powders of Broken Darkenss . You haven't brought enough.",
+   "header": "War Mage Artius",
+   "when": [
+    "cond 5; !hasItemsAtLimit(st.getPlayer(), FRAGMENT_POWDER); st.hasQuestItems(FRAGMENT_POWDER.getId())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32559-13.html": {
+   "file": "Q10272_LightFragment/32559-13.html",
+   "quest": 10272,
+   "text": "War Mage Artius: Leave now for the Seed of Destruction. Don't forget that we need at least 100 Powders of Broken Darkness .",
+   "header": "War Mage Artius",
+   "when": [
+    "cond 5; !hasItemsAtLimit(st.getPlayer(), FRAGMENT_POWDER); NOT st.hasQuestItems(FRAGMENT_POWDER.getId())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32559-16.html": {
+   "file": "Q10272_LightFragment/32559-16.html",
+   "quest": 10272,
+   "text": "War Mage Artius: We need 100 Powders of Broken Light. Bring more, quickly! Purify Powders of Broken Darkness in the shadow of the Mother Tree north of the Elven Village to create Powder of Broken Light . Then bring it to me.",
+   "header": "War Mage Artius",
+   "when": [
+    "cond 6; st.getQuestItemsCount(LIGHT_FRAGMENT_POWDER) < 100"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32559-17.html": {
+   "file": "Q10272_LightFragment/32559-17.html",
+   "quest": 10272,
+   "text": "War Mage Artius: Ah, you've brought it! Well done! I can already feel the sacred energy of the Mother Tree in this powder. Now we have a chance to defeat Tiat. Of course, it is still not in a very practical form. Go to Engineer Lekon and ask him to turn this powder into a solid weapon. If anyone ca…",
+   "header": "War Mage Artius",
+   "when": [
+    "cond 6; !st.getQuestItemsCount(LIGHT_FRAGMENT_POWDER) < 100"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32559-18.html": {
+   "file": "Q10272_LightFragment/32559-18.html",
+   "quest": 10272,
+   "text": "War Mage Artius: Very well done. I'm sure it was a difficult trip, but you exceeded my expectations. This now contains the sacred energy of the Mother Tree. It will not be particularly effective against normal undead, but it can strike a great blow against Tiat. Keep this sacred sign with you in ca…",
+   "header": "War Mage Artius",
+   "when": [
+    "cond 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00701_ProofOfExistence/32559-03.htm": {
+   "file": "Q00701_ProofOfExistence/32559-03.htm",
+   "quest": 701,
+   "text": "War Mage Artius: We think that what the soldiers saw might have been a monster called Banshee Queen Enira . If so, that would be a dangerous enemy. In can create fear using Floating Zombies and Floating Skulls . Still, experienced soldiers shouldn't be reduced to a gaggle of frightened children! If…",
+   "header": "War Mage Artius",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00701_ProofOfExistence 32559-04.htm",
+     "kind": "quest-event",
+     "script": "Q00701_ProofOfExistence",
+     "event": "32559-04.htm",
+     "quest": 701,
+     "to": "Q00701_ProofOfExistence/32559-04.htm",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00701_ProofOfExistence/32559-04.htm": {
+   "file": "Q00701_ProofOfExistence/32559-04.htm",
+   "quest": 701,
+   "text": "War Mage Artius: Excellent! Then go defeat Banshee Queen Enira that lurks near the Seed of Infinity. You should also destroy the Floating Zombies and Floating Skulls that always accompany this monster. As evidence of your victory, bring back the Banshee Queen's Eye as well as Skeletal Remains from …",
+   "header": "War Mage Artius",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00701_ProofOfExistence/32559-08.html": {
+   "file": "Q00701_ProofOfExistence/32559-08.html",
+   "quest": 701,
+   "text": "War Mage Artius: Thank you! I will give you a generous reward for the Banshee Queen's Eye and the Deadman's Remains you obtained in your hunting. Good luck!",
+   "header": "War Mage Artius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00701_ProofOfExistence/32559-09.html": {
+   "file": "Q00701_ProofOfExistence/32559-09.html",
+   "quest": 701,
+   "text": "War Mage Artius: I'm sorry to hear that, but I suppose there's nothing I can say to change your mind. You must have your reasons. Well, good luck to you.",
+   "header": "War Mage Artius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10270_BirthOfTheSeed/32559-02.html": {
+   "file": "Q10270_BirthOfTheSeed/32559-02.html",
+   "quest": 10270,
+   "text": "War Mage Artius: Ah! You came because of the favor I asked of Plenos. There's an important mission I have in mind, but I must stay here to safeguard the Barrier Orb . That's why I asked him to gather some capable adventurers. We must gather information about the Seed of Infinity . You know that the…",
+   "header": "War Mage Artius",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10270_BirthOfTheSeed/32559-08.html": {
+   "file": "Q10270_BirthOfTheSeed/32559-08.html",
+   "quest": 10270,
+   "text": "War Mage Artius: Actually, there is a Temple of Shilen beneath Keucereus Alliance Base. It is so secret that nobody knows about it. There is a priest of Shilen in hiding there. His name is Lelrikia. I think we need to ask him about this. The entrace is guarded by Soldier Ginby . He seems to be in t…",
+   "header": "War Mage Artius",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10270_BirthOfTheSeed/32559-10.html": {
+   "file": "Q10270_BirthOfTheSeed/32559-10.html",
+   "quest": 10270,
+   "text": "War Mage Artius: That's right. Since you know already, I don't need to tell you any more. Go to Soldier Ginby and ask him to let you in.",
+   "header": "War Mage Artius",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10272_LightFragment/32559-02.html": {
+   "file": "Q10272_LightFragment/32559-02.html",
+   "quest": 10272,
+   "text": "War Mage Artius: Ah, you mean the inspector who went to investigate the Seed of Destruction. You retrieved his documents? Well done! Hand them over right away.",
+   "header": "War Mage Artius",
+   "links": [
+    {
+     "text": "Hand them over.",
+     "bypass": "Quest Q10272_LightFragment 32559-03.html",
+     "kind": "quest-event",
+     "script": "Q10272_LightFragment",
+     "event": "32559-03.html",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32559-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q10272_LightFragment/32559-03.html": {
+   "file": "Q10272_LightFragment/32559-03.html",
+   "quest": 10272,
+   "text": "War Mage Artius: Very interesting... These definitely merit a closer look. Give me some time to read this thoroughly. It won't take too long. Visit me again soon.",
+   "header": "War Mage Artius",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10272_LightFragment/32559-05.html": {
+   "file": "Q10272_LightFragment/32559-05.html",
+   "quest": 10272,
+   "text": "War Mage Artius: It concerns a girl dressed in witch's clothing who apparently controls the Fleet Steed Troop. See here! The Mounted Troop seems to be a group of soldiers controlled by someone called Tiat. Interesting... How can such a formidable group follow such a slight girl? Ah, she is surround…",
+   "header": "War Mage Artius",
+   "links": [
+    {
+     "text": "\"Do you mean Shilen Priest Lelrikia?\"",
+     "bypass": "Quest Q10272_LightFragment 32559-06.html",
+     "kind": "quest-event",
+     "script": "Q10272_LightFragment",
+     "event": "32559-06.html",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32559-06.html"
+    }
+   ]
+  },
+  "Q10272_LightFragment/32559-06.html": {
+   "file": "Q10272_LightFragment/32559-06.html",
+   "quest": 10272,
+   "text": "War Mage Artius: It concerns a girl dressed in witch's clothing who apparently controls the Fleet Steed Troop. See here! The Mounted Troop seems to be a group of soldiers controlled by someone called Tiat. Interesting... How can such a formidable group follow such a slight girl? Ah, she is surround…",
+   "header": "War Mage Artius",
+   "links": [
+    {
+     "text": "\"That fellow?\"",
+     "bypass": "Quest Q10272_LightFragment 32559-07.html",
+     "kind": "quest-event",
+     "script": "Q10272_LightFragment",
+     "event": "32559-07.html",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32559-07.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q10272_LightFragment/32559-07.html": {
+   "file": "Q10272_LightFragment/32559-07.html",
+   "quest": 10272,
+   "text": "War Mage Artius: That's right. Since you already know, I won't go into the details. Go to him and obtain information about Tiat. In order to meet Lelrikia, you must first bribe Soldier Ginby in Keucereus Alliance Base.",
+   "header": "War Mage Artius",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10272_LightFragment/32559-09.html": {
+   "file": "Q10272_LightFragment/32559-09.html",
+   "quest": 10272,
+   "text": "War Mage Artius: Go to Soldier Ginby in Keucereus Alliance Base and bribe him to lead you to Lelrikia.",
+   "header": "War Mage Artius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32559-11.html": {
+   "file": "Q10272_LightFragment/32559-11.html",
+   "quest": 10272,
+   "text": "War Mage Artius: So it's true that Tiat draws her power from the Dark Black Dragon! That is not good news. Still, there might be a way...",
+   "header": "War Mage Artius",
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q10272_LightFragment 32559-12.html",
+     "kind": "quest-event",
+     "script": "Q10272_LightFragment",
+     "event": "32559-12.html",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32559-12.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q10272_LightFragment/32559-12.html": {
+   "file": "Q10272_LightFragment/32559-12.html",
+   "quest": 10272,
+   "text": "War Mage Artius: The power of the Dark Black Dragon is extremely potent. If she somehow acquired the power, she will be a formidable adversary. But there may be a chance... We must act quickly. I will explain more later. Right now, you must go to the Seed of Destruction, hunt members of the Mounted…",
+   "header": "War Mage Artius",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Proof of Existence]",
+     "bypass": "npc_%objectId%_Quest Q00701_ProofOfExistence",
+     "kind": "quest",
+     "quest": 701,
+     "to": "Q00701_ProofOfExistence/32559-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Proof of Existence (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00701_ProofOfExistence",
+     "kind": "quest",
+     "quest": 701,
+     "to": "Q00701_ProofOfExistence/32559-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Birth of the Seed (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10270_BirthOfTheSeed",
+     "kind": "quest",
+     "quest": 10270,
+     "to": "Q10270_BirthOfTheSeed/32559-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Light Fragment (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10272_LightFragment",
+     "kind": "quest",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32559-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

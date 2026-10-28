@@ -1,0 +1,554 @@
+{
+ "npcId": 32548,
+ "name": "Keucereus",
+ "title": "Admiral",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.382Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32548.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10267": {
+   "name": "Journey to Gracia",
+   "listText": [
+    "[Journey to Gracia]",
+    "[Journey to Gracia (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10267_JourneyToGracia/32548-01.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10267_JourneyToGracia/32548-03.html",
+     "when": "state COMPLETED; !(st.isStarted() && st.isCond(2))",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10268": {
+   "name": "To the Seed of Infinity",
+   "listText": [
+    "[To the Seed of Infinity]",
+    "[To the Seed of Infinity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10268_ToTheSeedOfInfinity/32548-00.html",
+     "when": "state CREATED; (player.getLevel() < 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10268_ToTheSeedOfInfinity/32548-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() < 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10268_ToTheSeedOfInfinity/32548-06.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10268_ToTheSeedOfInfinity/32548-0a.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10269": {
+   "name": "To the Seed of Destruction",
+   "listText": [
+    "[To the Seed of Destruction]",
+    "[To the Seed of Destruction (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10269_ToTheSeedOfDestruction/32548-00.html",
+     "when": "state CREATED; (player.getLevel() < 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10269_ToTheSeedOfDestruction/32548-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() < 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10269_ToTheSeedOfDestruction/32548-06.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10269_ToTheSeedOfDestruction/32548-0a.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32548.htm": {
+   "file": "default/32548.htm",
+   "quest": null,
+   "text": "Keucereus: Are you an adventurer from Aden? Many of your comrades have already traveled here. I am truly grateful. Despite our lands' ancient hostility towards each other, it warms my heart to see these new bonds of friendship form between us. With your help, I hope to restore Gracia to its former …",
+   "header": "Keucereus",
+   "links": [
+    {
+     "text": "Ask about the current situation in Gracia.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32548-1.htm"
+    },
+    {
+     "text": "Ask about the Seed.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/32548-2.htm"
+    },
+    {
+     "text": "Ask about the occupation status of the Seed.",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/32548-3.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/32548-1.htm": {
+   "file": "default/32548-1.htm",
+   "quest": null,
+   "text": "Keucereus: Gracia is in a very precarious situation. After my father, King Paris, passed away, Gracia was engulfed in civil war. It finally ended, but the peace that followed was hardly complete. It was...a breathing space to llow the two sides to regain their strength. Before that happened, howeve…",
+   "header": "Keucereus",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/32548.htm"
+    }
+   ]
+  },
+  "default/32548-2.htm": {
+   "file": "default/32548-2.htm",
+   "quest": null,
+   "text": "Keucereus: There are many things we do not understand about the Seed. What we do know is that its interior is vastly different from the continent on which we live. We also know that its interior changes depending on who its lord is. In discussing the Seeds of Infinity and Destruction, think of the …",
+   "header": "Keucereus",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/32548.htm"
+    }
+   ]
+  },
+  "default/32548-3.htm": {
+   "file": "default/32548-3.htm",
+   "quest": null,
+   "text": "Keucereus: My military commander, General Dilios, will know the occupation status of the Seed. Ask him for the details.",
+   "header": "Keucereus",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/32548.htm"
+    }
+   ]
+  },
+  "Q10267_JourneyToGracia/32548-01.html": {
+   "file": "Q10267_JourneyToGracia/32548-01.html",
+   "quest": 10267,
+   "text": "Keucereus: Bring death to the betrayer, Karneia! Bring death to the Army of Darkness who violated Gracia! Strange adventurer, what brought you here? You have something to say?",
+   "header": "Keucereus",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "Show him the letter from high Priest Orven.",
+     "bypass": "Quest Q10267_JourneyToGracia 32548-02.html",
+     "kind": "quest-event",
+     "script": "Q10267_JourneyToGracia",
+     "event": "32548-02.html",
+     "quest": 10267,
+     "to": "Q10267_JourneyToGracia/32548-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10267_JourneyToGracia/32548-03.html": {
+   "file": "Q10267_JourneyToGracia/32548-03.html",
+   "quest": 10267,
+   "text": "Keucereus: As I mentioned before, you must have the will to fight and defeat our enemies. That's all I require from you. If you can do that, I will happily tell you more. Prepare yourself for the trials to come. Return to me when you are ready to begin. (You have already completed this quest.)",
+   "header": "Keucereus",
+   "when": [
+    "state COMPLETED; !(st.isStarted() && st.isCond(2))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10268_ToTheSeedOfInfinity/32548-00.html": {
+   "file": "Q10268_ToTheSeedOfInfinity/32548-00.html",
+   "quest": 10268,
+   "text": "Keucereus: I'm sorry, but I can't possibly send you there. With your inexperience, it would be a death sentence. (Only characters who are level 75 or above may undertake this quest.)",
+   "header": "Keucereus",
+   "when": [
+    "state CREATED; (player.getLevel() < 75)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10268_ToTheSeedOfInfinity/32548-01.htm": {
+   "file": "Q10268_ToTheSeedOfInfinity/32548-01.htm",
+   "quest": 10268,
+   "text": "Keucereus: Are you prepared in both body and mind? If so, I have a mission for you. Go to the Seed of Infinity . A fierce battle is underway there with the undead who control the area. A skilled adventurer like you will be a tremendous help.",
+   "header": "Keucereus",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < 75)"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more about Seed of Infinity.\"",
+     "bypass": "Quest Q10268_ToTheSeedOfInfinity 32548-02.htm",
+     "kind": "quest-event",
+     "script": "Q10268_ToTheSeedOfInfinity",
+     "event": "32548-02.htm",
+     "quest": 10268,
+     "to": "Q10268_ToTheSeedOfInfinity/32548-02.htm"
+    },
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q10268_ToTheSeedOfInfinity 32548-04.htm",
+     "kind": "quest-event",
+     "script": "Q10268_ToTheSeedOfInfinity",
+     "event": "32548-04.htm",
+     "quest": 10268,
+     "to": "Q10268_ToTheSeedOfInfinity/32548-04.htm"
+    },
+    {
+     "text": "\"Uh, not today. Maybe some other time...\"",
+     "bypass": "Quest Q10268_ToTheSeedOfInfinity 32548-03.html",
+     "kind": "quest-event",
+     "script": "Q10268_ToTheSeedOfInfinity",
+     "event": "32548-03.html",
+     "quest": 10268,
+     "to": "Q10268_ToTheSeedOfInfinity/32548-03.html"
+    }
+   ]
+  },
+  "Q10268_ToTheSeedOfInfinity/32548-06.html": {
+   "file": "Q10268_ToTheSeedOfInfinity/32548-06.html",
+   "quest": 10268,
+   "text": "Keucereus: When you enter the Seed from the Dock of the Seed of Infinity , you will see my subordinate, Officer Tepios at a place called the Death Gate . Give him this letter of recommendation. To enter the Seed of Infinity, remember that you'll first need to teleport there through a person named J…",
+   "header": "Keucereus",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10268_ToTheSeedOfInfinity/32548-0a.html": {
+   "file": "Q10268_ToTheSeedOfInfinity/32548-0a.html",
+   "quest": 10268,
+   "text": "Keucereus: There's nothing left for you to do there. Your skills are better used elsewhere. (You have already completed this quest.)",
+   "header": "Keucereus",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10269_ToTheSeedOfDestruction/32548-00.html": {
+   "file": "Q10269_ToTheSeedOfDestruction/32548-00.html",
+   "quest": 10269,
+   "text": "Keucereus: I'm sorry, but I can't possibly send you there. I need adventurers, but I only want those capable of facing the dangers. Given your inexperience, it would be a death sentence. (Only characters who are level 75 or above may undertake this quest.)",
+   "header": "Keucereus",
+   "when": [
+    "state CREATED; (player.getLevel() < 75)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10269_ToTheSeedOfDestruction/32548-01.htm": {
+   "file": "Q10269_ToTheSeedOfDestruction/32548-01.htm",
+   "quest": 10269,
+   "text": "Keucereus: You look like you're ready for action. If so, I have a mission for you. I'd like you to enter the Seed of Destruction . Since Dragonkin assumed power there, it has become a extremely violent and dangerous place. A skilled adventurer like you may do a great deal of good there.",
+   "header": "Keucereus",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < 75)"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more about Seed of Destruction.\"",
+     "bypass": "Quest Q10269_ToTheSeedOfDestruction 32548-02.htm",
+     "kind": "quest-event",
+     "script": "Q10269_ToTheSeedOfDestruction",
+     "event": "32548-02.htm",
+     "quest": 10269,
+     "to": "Q10269_ToTheSeedOfDestruction/32548-02.htm"
+    },
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q10269_ToTheSeedOfDestruction 32548-04.htm",
+     "kind": "quest-event",
+     "script": "Q10269_ToTheSeedOfDestruction",
+     "event": "32548-04.htm",
+     "quest": 10269,
+     "to": "Q10269_ToTheSeedOfDestruction/32548-04.htm"
+    },
+    {
+     "text": "\"Uh, not today. Maybe some other time...\"",
+     "bypass": "Quest Q10269_ToTheSeedOfDestruction 32548-03.html",
+     "kind": "quest-event",
+     "script": "Q10269_ToTheSeedOfDestruction",
+     "event": "32548-03.html",
+     "quest": 10269,
+     "to": "Q10269_ToTheSeedOfDestruction/32548-03.html"
+    }
+   ]
+  },
+  "Q10269_ToTheSeedOfDestruction/32548-06.html": {
+   "file": "Q10269_ToTheSeedOfDestruction/32548-06.html",
+   "quest": 10269,
+   "text": "Keucereus: Deliver the letter of recommendation I gave you to Sergeant Allenos inside the Seed of Destruction. Then he'll give you a small reward and assign you an important mission. If you wish to move freely through the skies of Gracia, complete a simple mission assigned by Engineer Lekon , a Dwa…",
+   "header": "Keucereus",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10269_ToTheSeedOfDestruction/32548-0a.html": {
+   "file": "Q10269_ToTheSeedOfDestruction/32548-0a.html",
+   "quest": 10269,
+   "text": "Keucereus: There's nothing left for you to do there. Your skills are better used elsewhere. (You have already completed this quest.)",
+   "header": "Keucereus",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10267_JourneyToGracia/32548-02.html": {
+   "file": "Q10267_JourneyToGracia/32548-02.html",
+   "quest": 10267,
+   "text": "Keucereus: Are you one of the soldiers from Aden? You deserve a reward simply for coming such a long way to help us. Unfortunately, things are happening very quickly here, and I'm afraid I don't have the luxury for long conversations. Even as we speak, monsters unlike any we've ever seen or heard o…",
+   "header": "Keucereus",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q10268_ToTheSeedOfInfinity/32548-02.htm": {
+   "file": "Q10268_ToTheSeedOfInfinity/32548-02.htm",
+   "quest": 10268,
+   "text": "Keucereus: The Seed of Infinity, located to the north of my Alliance Base, is a land of death governed by Ekimus , the Lord of the Dead and a devout follower of Shilen. It is inhabited by the undead. The surrounding land has also been contaminated, so the only safe way to approach it is by air, eit…",
+   "header": "Keucereus",
+   "links": [
+    {
+     "text": "\"Tell me about the mission.\"",
+     "bypass": "Quest Q10268_ToTheSeedOfInfinity 32548-04.htm",
+     "kind": "quest-event",
+     "script": "Q10268_ToTheSeedOfInfinity",
+     "event": "32548-04.htm",
+     "quest": 10268,
+     "to": "Q10268_ToTheSeedOfInfinity/32548-04.htm"
+    },
+    {
+     "text": "\"Hmm, I think I need some time to consider what you've said...\"",
+     "bypass": "Quest Q10268_ToTheSeedOfInfinity 32548-03.html",
+     "kind": "quest-event",
+     "script": "Q10268_ToTheSeedOfInfinity",
+     "event": "32548-03.html",
+     "quest": 10268,
+     "to": "Q10268_ToTheSeedOfInfinity/32548-03.html"
+    }
+   ]
+  },
+  "Q10268_ToTheSeedOfInfinity/32548-03.html": {
+   "file": "Q10268_ToTheSeedOfInfinity/32548-03.html",
+   "quest": 10268,
+   "text": "Keucereus: Really? It grieves me to hear you speak so. If you change your mind, there will always be a place for you in my army.",
+   "header": "Keucereus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10268_ToTheSeedOfInfinity/32548-04.htm": {
+   "file": "Q10268_ToTheSeedOfInfinity/32548-04.htm",
+   "quest": 10268,
+   "text": "Keucereus: Then I'll tell you about the mission. When you enter the Seed of Infinity region, you'll be given either an attack order against Seed of Infinity's undead army or a defense order. If you wish, join the mission. Because it is so dangerous, though, you are restricted to only 1 enlistment p…",
+   "header": "Keucereus",
+   "links": [
+    {
+     "text": "\"What's the mission?\"",
+     "bypass": "Quest Q10268_ToTheSeedOfInfinity 32548-05.html",
+     "kind": "quest-event",
+     "script": "Q10268_ToTheSeedOfInfinity",
+     "event": "32548-05.html",
+     "quest": 10268,
+     "to": "Q10268_ToTheSeedOfInfinity/32548-05.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10268_ToTheSeedOfInfinity/32548-05.html": {
+   "file": "Q10268_ToTheSeedOfInfinity/32548-05.html",
+   "quest": 10268,
+   "text": "Keucereus: Take this letter of introduction , which authorizes you to engage in action within the Seed of Infinity. It is a dangerous region, but this letter says that an adventurer like you can be trusted to carry out missions there. Deliver this letter to Officer Tepios inside the Seed of Infinit…",
+   "header": "Keucereus",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10269_ToTheSeedOfDestruction/32548-02.htm": {
+   "file": "Q10269_ToTheSeedOfDestruction/32548-02.htm",
+   "quest": 10269,
+   "text": "Keucereus: The Seed of Destruction, located to the west of my Alliance Base, is ruled by Tiat , Lord of the Dragonkin and a follower of Shilen. She is called the wife of the Dragon of Darkness , and when she appeared here, the monsters in the region were transformed into the likeness of Dragonkin -…",
+   "header": "Keucereus",
+   "links": [
+    {
+     "text": "\"Tell me about the mission.\"",
+     "bypass": "Quest Q10269_ToTheSeedOfDestruction 32548-04.htm",
+     "kind": "quest-event",
+     "script": "Q10269_ToTheSeedOfDestruction",
+     "event": "32548-04.htm",
+     "quest": 10269,
+     "to": "Q10269_ToTheSeedOfDestruction/32548-04.htm"
+    },
+    {
+     "text": "\"Hmm, I think I need some time to consider what you've said...\"",
+     "bypass": "Quest Q10269_ToTheSeedOfDestruction 32548-03.html",
+     "kind": "quest-event",
+     "script": "Q10269_ToTheSeedOfDestruction",
+     "event": "32548-03.html",
+     "quest": 10269,
+     "to": "Q10269_ToTheSeedOfDestruction/32548-03.html"
+    }
+   ]
+  },
+  "Q10269_ToTheSeedOfDestruction/32548-03.html": {
+   "file": "Q10269_ToTheSeedOfDestruction/32548-03.html",
+   "quest": 10269,
+   "text": "Keucereus: Really? It grieves me to hear you speak so. If you change your mind, there will always be a place for you in my army.",
+   "header": "Keucereus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10269_ToTheSeedOfDestruction/32548-04.htm": {
+   "file": "Q10269_ToTheSeedOfDestruction/32548-04.htm",
+   "quest": 10269,
+   "text": "Keucereus: Very well. When you enter the Seed of Destruction, you will be assigned to either attack or defend the Dragonkin's stronghold depending on the situation. Either way, we need your help to stabilize this area. Whatever your mission, there will likely be a time limit in which to complete it…",
+   "header": "Keucereus",
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q10269_ToTheSeedOfDestruction 32548-05.html",
+     "kind": "quest-event",
+     "script": "Q10269_ToTheSeedOfDestruction",
+     "event": "32548-05.html",
+     "quest": 10269,
+     "to": "Q10269_ToTheSeedOfDestruction/32548-05.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10269_ToTheSeedOfDestruction/32548-05.html": {
+   "file": "Q10269_ToTheSeedOfDestruction/32548-05.html",
+   "quest": 10269,
+   "text": "Keucereus: This letter of recommendation authorizes you to be active within the Seed of Destruction. It says an adventurer like you can be trusted to take care of yourself. Give this letter to Sergeant Allenos inside the Seed of Destruction. Then he'll assign you an important mission. If you wish t…",
+   "header": "Keucereus",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Journey to Gracia (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10267_JourneyToGracia",
+     "kind": "quest",
+     "quest": 10267,
+     "to": "Q10267_JourneyToGracia/32548-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[To the Seed of Infinity]",
+     "bypass": "npc_%objectId%_Quest Q10268_ToTheSeedOfInfinity",
+     "kind": "quest",
+     "quest": 10268,
+     "to": "Q10268_ToTheSeedOfInfinity/32548-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[To the Seed of Infinity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10268_ToTheSeedOfInfinity",
+     "kind": "quest",
+     "quest": 10268,
+     "to": "Q10268_ToTheSeedOfInfinity/32548-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[To the Seed of Destruction]",
+     "bypass": "npc_%objectId%_Quest Q10269_ToTheSeedOfDestruction",
+     "kind": "quest",
+     "quest": 10269,
+     "to": "Q10269_ToTheSeedOfDestruction/32548-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[To the Seed of Destruction (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10269_ToTheSeedOfDestruction",
+     "kind": "quest",
+     "quest": 10269,
+     "to": "Q10269_ToTheSeedOfDestruction/32548-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

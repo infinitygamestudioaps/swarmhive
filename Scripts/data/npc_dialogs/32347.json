@@ -1,0 +1,73 @@
+{
+ "npcId": 32347,
+ "name": "Shadai",
+ "title": "Legendary Blacksmith",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.371Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/32347.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/32347.htm": {
+   "file": "merchant/32347.htm",
+   "quest": null,
+   "text": "Shadai: Greetings, traveler! I am Shadai of Hellbound, the legendary Dwarven blacksmith. Ah, I know I may look a bit shabby, but you mustn't judge a sword by its sheath! Ha ha ha! You are a lucky fellow, my friend, to have bumped into me. Interested in turning that luck into wealth? I'll make you a…",
+   "header": "Shadai",
+   "links": [
+    {
+     "text": "Ask about Ancient Text of the Demon.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/32347-1.htm"
+    },
+    {
+     "text": "Process the cursed Seal Stones.",
+     "bypass": "npc_%objectId%_multisell 323470001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Exchange a shoulder ornament to enhance the power of armor.",
+     "bypass": "npc_%objectId%_multisell 323470002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Enhance power of armor.",
+     "bypass": "npc_%objectId%_exc_multisell 323470003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Remove power of armor.",
+     "bypass": "npc_%objectId%_exc_multisell 323470004",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/32347-1.htm": {
+   "file": "merchant/32347-1.htm",
+   "quest": null,
+   "text": "Shhadai: The Ancient Text of the Demon is an old tome regarded as an unholy scripture by the Demons of Hellbound. It was created through the power of darkness and contains a mysterious energy, which can be very useful -- if you can obtain it, of course. You can find the Hidden First Page, the Hidde…",
+   "header": "Shhadai",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

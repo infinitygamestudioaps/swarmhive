@@ -1,0 +1,86 @@
+{
+ "npcId": 31501,
+ "name": "Dimensional Gate Keeper",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.206Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31501.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "634": {
+   "name": "In Search of Fragments of Dimension",
+   "listText": [
+    "[In Search of Fragments of Dimension]",
+    "[In Search of Fragments of Dimension (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "default/31501.htm": {
+   "file": "default/31501.htm",
+   "quest": null,
+   "text": "Dimension Keeper: I exist to guard this world. You're fighting to get the power of the seal, aren't you? Do you have any idea of the peril you're putting us in? You probably don't know this, but the seal has been broken before! It opened a dimension gap, through which escaped terrible demons from t…",
+   "header": "Dimension Keeper",
+   "links": [
+    {
+     "text": "\"I'll join the fight!\"",
+     "bypass": "npc_%objectId%_Quest OracleTeleport",
+     "kind": "quest",
+     "script": "OracleTeleport",
+     "to": null
+    },
+    {
+     "text": "\"What is a dimension gap?\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/31501-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/31501-1.htm": {
+   "file": "default/31501-1.htm",
+   "quest": null,
+   "text": "Dimension Keeper: Did you know that these catacombs and necropolises were originally sealed in another dimension by the seal of Shunaiman, along with the magic that obscured the chasm that Lilith created to entice Shilen? When the seal was broken, these structures appeared in this dimension! As a r…",
+   "header": "Dimension Keeper",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[In Search of Fragments of Dimension]",
+     "bypass": "npc_%objectId%_Quest Q00634_InSearchOfFragmentsOfDimension",
+     "kind": "quest",
+     "quest": 634,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[In Search of Fragments of Dimension (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00634_InSearchOfFragmentsOfDimension",
+     "kind": "quest",
+     "quest": 634,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

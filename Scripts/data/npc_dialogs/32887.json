@@ -1,0 +1,49 @@
+{
+ "npcId": 32887,
+ "name": "Metar",
+ "title": "Recipe Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.420Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/32887.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/32887.htm": {
+   "file": "merchant/32887.htm",
+   "quest": null,
+   "text": "Recipe Merchant Metar: We get so many people here! Location, location, location! You also heard it from Blacksmith Duning, right? Bounty hunters, information dealers, and even ruin explorers are coming here. Now all these little shops are having a heyday. How about it? Do you want to see, too?",
+   "header": "Recipe Merchant Metar",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "npc_%objectId%_Buy 3288700",
+     "kind": "shop"
+    },
+    {
+     "text": "View the lord and tax rate information",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,46 @@
+{
+ "npcId": 4326,
+ "name": "Nevit's Herald",
+ "title": "Invoker",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.774Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/NevitsHerald/4326.html",
+   "when": "",
+   "src": "ai NevitsHerald"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/NevitsHerald/4326.html": {
+   "file": "ai/npc/NevitsHerald/4326.html",
+   "quest": null,
+   "text": "Nevit's Herald: The first offspring of the goddess of destruction! The evil dragons were defeated by the courageous warriors. In order to commemorate the deeds of those warriors, Nevit blessed all the people of Aden for 3 hours with the hand of blessing. Praise the glory of those warriors!!",
+   "header": "Nevit's Herald",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "\"Glory to the warriors who defeated the evil dragons!!\"",
+     "bypass": "Quest NevitsHerald buff",
+     "kind": "quest-event",
+     "script": "NevitsHerald",
+     "event": "buff",
+     "to": "ai/npc/NevitsHerald/4326-1.html"
+    }
+   ]
+  },
+  "ai/npc/NevitsHerald/4326-1.html": {
+   "file": "ai/npc/NevitsHerald/4326-1.html",
+   "quest": null,
+   "text": "Nevit's Herald: I can already feel the energy of Nevit's Blessing emanating from you. Please come back when Nevit's hand of blessing has been taken from you. (Come back when the effects of Nevit's Blessing have subsided.)",
+   "header": "Nevit's Herald",
+   "outcome": "refusal",
+   "links": []
+  }
+ }
+}

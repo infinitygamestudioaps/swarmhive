@@ -1,0 +1,1404 @@
+{
+ "npcId": 31328,
+ "name": "Innocentin",
+ "title": "High Priest",
+ "type": "L2VillageMasterPriest",
+ "generated": "2026-10-27T18:18:03.189Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/31328.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "21": {
+   "name": "Hidden Truth",
+   "listText": [
+    "[Hidden Truth]",
+    "[Hidden Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00021_HiddenTruth/31328-01.html",
+     "when": "cond 7",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00021_HiddenTruth/31328-06.html",
+     "when": "state COMPLETED; !(st.isCond(7) && st.hasQuestItems(CROSS_OF_EINHASAD)); st == null",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "22": {
+   "name": "Tragedy in Von Hellmann Forest",
+   "listText": [
+    "[Tragedy in Von Hellmann Forest]",
+    "[Tragedy in Von Hellmann Forest (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31328-01.html",
+     "when": "cond 2; lacks items 7141",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31328-01b.html",
+     "when": "cond 3; has items 7141",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31328-02.html",
+     "when": "cond 8; has items 7141",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31328-04.html",
+     "when": "cond 8; lacks items 7141",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31328-09a.html",
+     "when": "cond 9",
+     "state": null,
+     "cond": [
+      9
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31328-10.html",
+     "when": "cond 14; has items 7147",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31328-12.html",
+     "when": "cond 15",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31328-20.html",
+     "when": "cond 16; level >= 63",
+     "state": null,
+     "cond": [
+      16
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31328-21.html",
+     "when": "cond 16; NOT level >= 63",
+     "state": null,
+     "cond": [
+      16
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "23": {
+   "name": "Lidia's Heart",
+   "listText": [
+    "[Lidia's Heart]",
+    "[Lidia's Heart (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00023_LidiasHeart/31328-01.htm",
+     "when": "state CREATED; (player.hasQuestCompleted(Q00022_TragedyInVonHellmannForest.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00023_LidiasHeart/31328-01a.html",
+     "when": "state CREATED; NOT (player.hasQuestCompleted(Q00022_TragedyInVonHellmannForest.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00023_LidiasHeart/31328-04.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00023_LidiasHeart/31328-08.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00023_LidiasHeart/31328-09.html",
+     "when": "state STARTED; memo 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00023_LidiasHeart/31328-14.html",
+     "when": "state STARTED; memo 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00023_LidiasHeart/31328-15.html",
+     "when": "state STARTED; memo 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00023_LidiasHeart/31328-22.html",
+     "when": "state STARTED; memo 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "638": {
+   "name": "Seekers Of The Holy Grail",
+   "listText": [
+    "[Seekers of the Holy Grail]",
+    "[Seekers of the Holy Grail (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00638_SeekersOfTheHolyGrail/31328-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00638_SeekersOfTheHolyGrail/31328-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00638_SeekersOfTheHolyGrail/31328-04.html",
+     "when": "state STARTED; (getQuestItemsCount(player, TOTEM) >= TOTEMS_REQUIRED_COUNT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00638_SeekersOfTheHolyGrail/31328-05.html",
+     "when": "state STARTED; NOT (getQuestItemsCount(player, TOTEM) >= TOTEMS_REQUIRED_COUNT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/31328.htm": {
+   "file": "villagemaster/31328.htm",
+   "quest": null,
+   "text": "High Priest Innocentin: I can no longer hear the goddess' voice; I can only recite with my lips the knowledge my mind was once granted. I am nothing more than an empty vessel... Nevertheless, if you seek my teaching, I will try to help you.",
+   "header": "High Priest Innocentin",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest ElfHumanClericChange2",
+     "kind": "quest",
+     "script": "ElfHumanClericChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31328-01.html": {
+   "file": "Q00021_HiddenTruth/31328-01.html",
+   "quest": 21,
+   "text": "Innocentin: You came all this way just to find me? Yes, I was once a high priest, until some unfortunate political developments landed me here in this blasted library! But lately, I've seen signs that my luck might be changing...",
+   "header": "Innocentin",
+   "when": [
+    "cond 7"
+   ],
+   "links": [
+    {
+     "text": "\"Check out this crucifix!\"",
+     "bypass": "Quest Q00021_HiddenTruth 31328-02.html",
+     "kind": "quest-event",
+     "script": "Q00021_HiddenTruth",
+     "event": "31328-02.html",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31328-02.html"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31328-06.html": {
+   "file": "Q00021_HiddenTruth/31328-06.html",
+   "quest": 21,
+   "text": "Innocentin: Take the crucifix to Grand Magister Tifaren of the Dark Elves and perform the necromancy to summon the soul of the priest. Ask him what happened in the Forest of the Dead...",
+   "header": "Innocentin",
+   "when": [
+    "state COMPLETED; !(st.isCond(7) && st.hasQuestItems(CROSS_OF_EINHASAD)); st == null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-01.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-01.html",
+   "quest": 22,
+   "text": "Innocentin: Ah, hello again! Sometime ago, a priest here doing volunteer work found a crucifix and brought it to me . It was the very same crucifix I gave you! Did you drop it? Take this crucifix to Magister Tifaren immediately!",
+   "header": "Innocentin",
+   "when": [
+    "cond 2; lacks items 7141"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-01b.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-01b.html",
+   "quest": 22,
+   "text": "Innocentin: Take this crucifix to Magister Tifaren and ask her to perform necromancy. She tends to be quite wary of strangers, so you may need to prove your sincerity to her. Keep trying, she'll come around.",
+   "header": "Innocentin",
+   "when": [
+    "cond 3; has items 7141"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-02.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-02.html",
+   "quest": 22,
+   "text": "Innocentin: Come on in! Did he tell you anything?",
+   "header": "Innocentin",
+   "when": [
+    "cond 8; has items 7141"
+   ],
+   "links": [
+    {
+     "text": "\"Well, he said...\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-03.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-03.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-03.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-04.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-04.html",
+   "quest": 22,
+   "text": "Innocentin: Do you want to ask me something?",
+   "header": "Innocentin",
+   "when": [
+    "cond 8; lacks items 7141"
+   ],
+   "links": [
+    {
+     "text": "\"Who is behind the tragedy?\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-05.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-05.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-05.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-09a.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-09a.html",
+   "quest": 22,
+   "text": "Innocentin: The ghost of the treasure hunter is said to appear around the well in the northwest part of the village. Take the letter to him and come back to me with his reply.",
+   "header": "Innocentin",
+   "when": [
+    "cond 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-10.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-10.html",
+   "quest": 22,
+   "text": "Innocentin: Oh, you're back? Did you bring any news?",
+   "header": "Innocentin",
+   "when": [
+    "cond 14; has items 7147"
+   ],
+   "links": [
+    {
+     "text": "\"Check out this box.\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-11.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-11.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-11.html",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-12.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-12.html",
+   "quest": 22,
+   "text": "Innocentin: It's the report of the Mystic Neidrahu, the instigator of the insurrection! Do you care to read it?",
+   "header": "Innocentin",
+   "when": [
+    "cond 15"
+   ],
+   "links": [
+    {
+     "text": "\"Yes!\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-13.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-13.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-13.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-20.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-20.html",
+   "quest": 22,
+   "text": "Innocentin: Did you finish it? It's the true account of the terrible tragedy that occurred in Hellmann Forest... But it doesn't answer all of my questions... Would you do something for me? I'm afraid it won't be easy, and you look very tired! Why don't you take a break and come back when you're ref…",
+   "header": "Innocentin",
+   "when": [
+    "cond 16; level >= 63"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-21.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-21.html",
+   "quest": 22,
+   "text": "Innocentin: Did you finish it? It's the true account of the terrible tragedy that occurred in Hellmann Forest... But it doesn't answer all of my questions... Would you do something for me? I'm afraid it won't be easy, and you look very tired! Why don't you take a break and come back later when you'…",
+   "header": "Innocentin",
+   "when": [
+    "cond 16; NOT level >= 63"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00023_LidiasHeart/31328-01.htm": {
+   "file": "Q00023_LidiasHeart/31328-01.htm",
+   "quest": 23,
+   "text": "Innocentin: You've been a great help to me in the past, and I'd like to thank you again for bringing me that report! There's one more thing... Could you help me out again?",
+   "header": "Innocentin",
+   "when": [
+    "state CREATED; (player.hasQuestCompleted(Q00022_TragedyInVonHellmannForest.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "\"OK, whatever.\"",
+     "bypass": "Quest Q00023_LidiasHeart ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "ACCEPT",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-03.htm",
+     "toAll": [
+      "Q00023_LidiasHeart/31328-02.htm",
+      "Q00023_LidiasHeart/31328-03.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-01a.html": {
+   "file": "Q00023_LidiasHeart/31328-01a.html",
+   "quest": 23,
+   "text": "Innocentin: This is something you can get started on immediately! There's a vast conspiracy afoot in the Rune Township and the Forest of the Dead! The roots of this conspiracy lie in that forest, and you should seek the truth there. (This quest may only be undertaken by a character of level 64 or a…",
+   "header": "Innocentin",
+   "when": [
+    "state CREATED; NOT (player.hasQuestCompleted(Q00022_TragedyInVonHellmannForest.class.getSimpleName()))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00023_LidiasHeart/31328-04.html": {
+   "file": "Q00023_LidiasHeart/31328-04.html",
+   "quest": 23,
+   "text": "Innocentin: He probably drew this Map while exploring the Forest of the Dead. As for the key... I'm not sure. The only clue I've found is the Silver Spear engraved upon it.",
+   "header": "Innocentin",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more about the Silver Spear.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-06.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-06.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-06.html"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-08.html": {
+   "file": "Q00023_LidiasHeart/31328-08.html",
+   "quest": 23,
+   "text": "Innocentin: You must find the lock that matches that key! It would probably be in the possession of a family worthy of the spear!",
+   "header": "Innocentin",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00023_LidiasHeart/31328-09.html": {
+   "file": "Q00023_LidiasHeart/31328-09.html",
+   "quest": 23,
+   "text": "Innocentin: So, did you find anything?",
+   "header": "Innocentin",
+   "when": [
+    "state STARTED; memo 5"
+   ],
+   "links": [
+    {
+     "text": "\"Here is the diary and the hairpin.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-10.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-10.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-10.html"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-14.html": {
+   "file": "Q00023_LidiasHeart/31328-14.html",
+   "quest": 23,
+   "text": "Innocentin: Have you read the document?",
+   "header": "Innocentin",
+   "when": [
+    "state STARTED; memo 6"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, I read it.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-13.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-13.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-13.html"
+    },
+    {
+     "text": "No, I didn't read it.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-12.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-12.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-12.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-15.html": {
+   "file": "Q00023_LidiasHeart/31328-15.html",
+   "quest": 23,
+   "text": "Innocentin: Then answer me... What is it?",
+   "header": "Innocentin",
+   "when": [
+    "state STARTED; memo 7"
+   ],
+   "links": [
+    {
+     "text": "\"Lidia's Diary.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-16.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-16.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-16.html"
+    },
+    {
+     "text": "\"Alfred's Diary.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-21.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-21.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-21.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-22.html": {
+   "file": "Q00023_LidiasHeart/31328-22.html",
+   "quest": 23,
+   "text": "Innocentin: I don't think your journey's over yet. Someone close to her wants to see you. He'll show you the path that leads to your next adventure.",
+   "header": "Innocentin",
+   "when": [
+    "state STARTED; memo 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00638_SeekersOfTheHolyGrail/31328-01.htm": {
+   "file": "Q00638_SeekersOfTheHolyGrail/31328-01.htm",
+   "quest": 638,
+   "text": "High Priest Innocentin: Recent activities at the Pagan Temple have raised my concerns. Considering the shenanigans that normally go on there, you must surely understand the peril! You see, they've set their sights on Saint Solina's Grail of Splendor ! I'm sure that if we don't stop them, something …",
+   "header": "High Priest Innocentin",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "I'll do it.",
+     "bypass": "Quest Q00638_SeekersOfTheHolyGrail 31328-03.htm",
+     "kind": "quest-event",
+     "script": "Q00638_SeekersOfTheHolyGrail",
+     "event": "31328-03.htm",
+     "quest": 638,
+     "to": "Q00638_SeekersOfTheHolyGrail/31328-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00638_SeekersOfTheHolyGrail/31328-02.htm": {
+   "file": "Q00638_SeekersOfTheHolyGrail/31328-02.htm",
+   "quest": 638,
+   "text": "High Priest Innocentin: Recent activities at the Pagan Temple have raised my concerns. Considering the shenanigans that normally go on there, you must surely understand the peril! Would you consider coming back to help me when you've had more experience? (This quest may only be undertaken by charac…",
+   "header": "High Priest Innocentin",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00638_SeekersOfTheHolyGrail/31328-04.html": {
+   "file": "Q00638_SeekersOfTheHolyGrail/31328-04.html",
+   "quest": 638,
+   "text": "High Priest Innocentin: Did they put up much of a fight? Well, your efforts have saved the grail! And I see you brought some Pagan Totems! Are you ready for your reward?",
+   "header": "High Priest Innocentin",
+   "when": [
+    "state STARTED; (getQuestItemsCount(player, TOTEM) >= TOTEMS_REQUIRED_COUNT)"
+   ],
+   "links": [
+    {
+     "text": "Not right now, thanks.",
+     "bypass": "Quest Q00638_SeekersOfTheHolyGrail 31328-06.html",
+     "kind": "quest-event",
+     "script": "Q00638_SeekersOfTheHolyGrail",
+     "event": "31328-06.html",
+     "quest": 638,
+     "to": "Q00638_SeekersOfTheHolyGrail/31328-06.html"
+    },
+    {
+     "text": "Yes, I'm ready for my reward.",
+     "bypass": "Quest Q00638_SeekersOfTheHolyGrail reward",
+     "kind": "quest-event",
+     "script": "Q00638_SeekersOfTheHolyGrail",
+     "event": "reward",
+     "quest": 638,
+     "to": "Q00638_SeekersOfTheHolyGrail/31328-07.html",
+     "toAll": [
+      "Q00638_SeekersOfTheHolyGrail/31328-07.html",
+      "Q00638_SeekersOfTheHolyGrail/31328-08.html"
+     ]
+    }
+   ]
+  },
+  "Q00638_SeekersOfTheHolyGrail/31328-05.html": {
+   "file": "Q00638_SeekersOfTheHolyGrail/31328-05.html",
+   "quest": 638,
+   "text": "High Priest Innocentin: Please go to the Pagan Temple and defeat the evil ones that inhabit it! After you've destroyed them, bring me their Pagan Totems . You'll be well-rewarded if you bring more than 2000 of them! Of course, our definitions of large rewards might differ... As you must have guesse…",
+   "header": "High Priest Innocentin",
+   "when": [
+    "state STARTED; NOT (getQuestItemsCount(player, TOTEM) >= TOTEMS_REQUIRED_COUNT)"
+   ],
+   "links": [
+    {
+     "text": "I'll continue.",
+     "bypass": "Quest Q00638_SeekersOfTheHolyGrail 31328-06.html",
+     "kind": "quest-event",
+     "script": "Q00638_SeekersOfTheHolyGrail",
+     "event": "31328-06.html",
+     "quest": 638,
+     "to": "Q00638_SeekersOfTheHolyGrail/31328-06.html"
+    },
+    {
+     "text": "I want to quit.",
+     "bypass": "Quest Q00638_SeekersOfTheHolyGrail 31328-09.html",
+     "kind": "quest-event",
+     "script": "Q00638_SeekersOfTheHolyGrail",
+     "event": "31328-09.html",
+     "quest": 638,
+     "to": "Q00638_SeekersOfTheHolyGrail/31328-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31328-02.html": {
+   "file": "Q00021_HiddenTruth/31328-02.html",
+   "quest": 21,
+   "text": "Innocentin: Zounds! Where did you find this?",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"Truthfully, ...\"",
+     "bypass": "Quest Q00021_HiddenTruth 31328-03.html",
+     "kind": "quest-event",
+     "script": "Q00021_HiddenTruth",
+     "event": "31328-03.html",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31328-03.html"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31328-03.html": {
+   "file": "Q00021_HiddenTruth/31328-03.html",
+   "quest": 21,
+   "text": "Innocentin: He was always a dutiful Warrior, even after his death... may the gods watch over his soul! ... Why would he have you deliver this to me in person? Lately I've been having the same dream every night...",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"What is in your dream?\"",
+     "bypass": "Quest Q00021_HiddenTruth 31328-04.html",
+     "kind": "quest-event",
+     "script": "Q00021_HiddenTruth",
+     "event": "31328-04.html",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31328-04.html"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31328-04.html": {
+   "file": "Q00021_HiddenTruth/31328-04.html",
+   "quest": 21,
+   "text": "Innocentin: In my dream, I'm looking down upon the Forest of the Dead... Suddenly, huge explosions rock the forest, and an army of undead rush towards me... This is bound to be a message from the gods! That's why I sent the one who held this crucifix there!",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"But he's dead!\"",
+     "bypass": "Quest Q00021_HiddenTruth 31328-05.html",
+     "kind": "quest-event",
+     "script": "Q00021_HiddenTruth",
+     "event": "31328-05.html",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31328-05.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31328-05.html": {
+   "file": "Q00021_HiddenTruth/31328-05.html",
+   "quest": 21,
+   "text": "Innocentin: I've learned much of the ways of the wild since my days at the temple. In times like these, dead souls must be appeased! Take this crucifix to Grand Magister Tifaren of the Dark Elves and ask her to perform necromancy. She should be able to tell us what actually happened in the Forest o…",
+   "header": "Innocentin",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-03.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-03.html",
+   "quest": 22,
+   "text": "Innocentin I see.. Lidia von Hellmann was lord of the Forest of the Dead! She was Alfred's daughter, a survivor of the tragedy of Hellmann Forest... Thank you. Thanks to you, we know that his death wasn't in vain... I will treasure this crucifix always! Hmm..? Was there something else?",
+   "links": [
+    {
+     "text": "\"Who's behind all of this?\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-05.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-05.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-05.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-05.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-05.html",
+   "quest": 22,
+   "text": "Innocentin: Who's behind the tragedy? Well, there are several theories, I'm sure you've heard them all! Why don't I tell you one you probably haven't heard... Alfred von Hellmann and I were very close friends and he shared with me the terrible dissatisfaction he had in his heart...",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"I heard that he didn't intentionally become a traitor.\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-06.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-06.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-06.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-06.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-06.html",
+   "quest": 22,
+   "text": "Innocentin: Exactly! He only meant to encourage the lame duck king! He never even considered treason until his meeting with a mystic in the forest! Around that time I hired a treasure hunter to find out exactly what was going on with Alfred... That didn't go well at all!",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"What happened?\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-07.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-07.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-07.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-07.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-07.html",
+   "quest": 22,
+   "text": "Innocentin: He was accused of worshipping the devil! His secretive nature, along with the sensitivity of the mission, led to his downfall. I was occupied elsewhere and couldn't protect him... He was charged, convicted and executed on the square of Rune Castle! The evidence he had gathered for me wa…",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"Tell me more!\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-08.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-08.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-08.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-08.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-08.html",
+   "quest": 22,
+   "text": "Innocentin: It's said that his ghost visits that well every night. I'd always believed that all ghosts were evil, but after my experiences with necromancy, the realm of the gods is denied to me. I must find out what actually happened! Would you meet with him and ask him what he found out?",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-09.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-09.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-09.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-09.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-09.html",
+   "quest": 22,
+   "text": "Innocentin: You'll find the well in the northwest part of the village. Show the ghost the letter and he'll grant your request.",
+   "header": "Innocentin",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-11.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-11.html",
+   "quest": 22,
+   "text": "Innocentin: Indeed! Is this the box he told you about? He told me once, in case something happened to him, he would store all his most important documents in a box! Hmm... I can't help but think... Perhaps it's fortunate that I left the temple and came here! Ah... but that's not important... Now gi…",
+   "header": "Innocentin",
+   "sets": {
+    "cond": "15"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-13.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-13.html",
+   "quest": 22,
+   "text": "Regarding Neidrahu \"... No one knows for sure how deeply Alfred von Hellmann was influenced by his magic, for his eloquence was certainly equal to his magic ability. Alfred wasn't the only one swayed by his words. Neidrahu called himself a messenger, and personally gathered many supporters for the …",
+   "links": [
+    {
+     "text": "Turn the page",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-14.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-14.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-14.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-14.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-14.html",
+   "quest": 22,
+   "text": "\"Nidrah's preaching persuaded his followers of the awesome power of the dark arts. He often spoke of a powerful magus known as a devil, who practiced magic in Gludio. He convinced them that his own power was equal to the devil's! Information regarding Beleth, Black Magus and the pastoral history of…",
+   "links": [
+    {
+     "text": "Turn the page",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-15.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-15.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-15.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-15.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-15.html",
+   "quest": 22,
+   "text": "\"This was to be his greatest accomplishment! The army of undead that he conjured played a pivotal role in the tragedy that occurred in the Hellmann Forest, but the outcome wasn't as he expected... Before his army was ready, the King learned of the Hellmann family's treason. In a fit of rage, and wi…",
+   "links": [
+    {
+     "text": "Next Page",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-16.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-16.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-16.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-16.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-16.html",
+   "quest": 22,
+   "text": "\"The supporters of the von Hellmann family fought bravely, but their lack of organization was their undoing. As the King's army approached, the family finally realized that they had failed. By then, most of their sympathizers had been beheaded or taken prisoner by the King's army. The von Hellmanns…",
+   "links": [
+    {
+     "text": "Turn the page",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-17.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-17.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-17.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-17.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-17.html",
+   "quest": 22,
+   "text": "\"It was then that Nidrah's magic sprang into action! At dusk, as the King's army took inventory of the treasures of the Hellmann family, a huge army of undead fighters rushed the castle! They were the souls of the executed vassals, led by Alfred's children Lidia and Eilhalder von Hellmann! All were…",
+   "links": [
+    {
+     "text": "Turn the page",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-18.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-18.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-18.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-18.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-18.html",
+   "quest": 22,
+   "text": "\"What happened next was a repeat of the events of the war with Beleth. Those killed by an undead were resurrected and enlisted in Lidia's force. The higher-level vassals of the Hellmann family became vampires, or high level undead. They possessed indescribable power! It seemed the battle was over, …",
+   "links": [
+    {
+     "text": "Next Page",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31328-19.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31328-19.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-19.html",
+     "effect": "cond:16"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31328-19.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31328-19.html",
+   "quest": 22,
+   "text": "\"I had my doubts about Lidia. If she was resurrected, how did she become Lord of the Forest of the Dead? Why not Alfred? I think she conspired with Nidrah! I'll investigate this further.\" Hmm...",
+   "sets": {
+    "cond": "16"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00023_LidiasHeart/31328-02.htm": {
+   "file": "Q00023_LidiasHeart/31328-02.htm",
+   "quest": 23,
+   "text": "Innocentin: You look tired, my friend! Why don't you take a break, improve your ability and then come back! This next mission is much more challenging than the last one... (This quest may only be undertaken by a character of level 64 or above who has completed the Tragedy of Hellmann Forest quest.)",
+   "header": "Innocentin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00023_LidiasHeart/31328-03.htm": {
+   "file": "Q00023_LidiasHeart/31328-03.htm",
+   "quest": 23,
+   "text": "Innocentin: Here's the Map and key he left behind. Take them and find out what he was searching for.",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"Tell me more about the Map and key.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-05.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-05.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-05.html"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-05.html": {
+   "file": "Q00023_LidiasHeart/31328-05.html",
+   "quest": 23,
+   "text": "Innocentin: He probably drew this Map while exploring the Forest of the Dead. As for the key... I'm not sure. The only clue I've found is the Silver Spear engraved upon it.",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"Tell me more about the Silver Spear.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-06.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-06.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-06.html"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-06.html": {
+   "file": "Q00023_LidiasHeart/31328-06.html",
+   "quest": 23,
+   "text": "Innocentin: According to a custom from the Elmoreden period, a Silver Spear was the symbol of the family responsible for guarding the royal family. An ancient proverb says, \"A jeweled scepter for the mighty King of Elmore and two Silver Spears for his protectors\" . I'll wager that somewhere is a lo…",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"Who holds the spear now?\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-07.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-07.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-07.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-07.html": {
+   "file": "Q00023_LidiasHeart/31328-07.html",
+   "quest": 23,
+   "text": "High Priestess Innocentin: Today's silver spears are dedicated to the people who worked hard to suppress the rebellion. One is for the protectors of the royal family, who captured and punished the rebels, and one is for those who fought against the undead and captured the demon's followers... and i…",
+   "header": "High Priestess Innocentin",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00023_LidiasHeart/31328-10.html": {
+   "file": "Q00023_LidiasHeart/31328-10.html",
+   "quest": 23,
+   "text": "Innocentin: Please! Put those things away...Please! I'm sorry, but the power of darkness contained in them is overpowering! I can't even look at them... How about you? Are you okay?",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"I'm fine.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-11.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-11.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-11.html"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-11.html": {
+   "file": "Q00023_LidiasHeart/31328-11.html",
+   "quest": 23,
+   "text": "Innocentin: Really? Have you read it?",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"Yes, I read it.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-13.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-13.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-13.html"
+    },
+    {
+     "text": "\"No, I haven't read it.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-12.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-12.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-12.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-12.html": {
+   "file": "Q00023_LidiasHeart/31328-12.html",
+   "quest": 23,
+   "text": "Innocentin: Read it and come back to me... I have many questions!",
+   "header": "Innocentin",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00023_LidiasHeart/31328-13.html": {
+   "file": "Q00023_LidiasHeart/31328-13.html",
+   "quest": 23,
+   "text": "Innocentin: Then answer me... What is it?",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"Lidia's Diary.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-16.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-16.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-16.html"
+    },
+    {
+     "text": "\"Alfred's Diary.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-21.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-21.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-21.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-16.html": {
+   "file": "Q00023_LidiasHeart/31328-16.html",
+   "quest": 23,
+   "text": "Innocentin: Lidia's Diary? Lidia was dear Alfred's precious daughter... They led an idyllic life, until that tragic day... Does her diary cover the period after she became lord of the forest?",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"Yes, it does.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-17.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-17.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-17.html"
+    },
+    {
+     "text": "\"No, it doesn't.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-21.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-21.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-21.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-17.html": {
+   "file": "Q00023_LidiasHeart/31328-17.html",
+   "quest": 23,
+   "text": "Innocentin: What did you learn from the diary?",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"Lidia was bitten by a vampire.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-21.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-21.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-21.html",
+     "effect": "cond:5"
+    },
+    {
+     "text": "\"Lidia signed some sort of contract.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-18.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-18.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-18.html"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-18.html": {
+   "file": "Q00023_LidiasHeart/31328-18.html",
+   "quest": 23,
+   "text": "Innocentin: A contract?! I'll bet that rascal Nidrah was behind this! Was he involved?",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"Yes, he forced her to sign the contract.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-21.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-21.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-21.html",
+     "effect": "cond:5"
+    },
+    {
+     "text": "\"Lidia approached Nidrah.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-19.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-19.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-19.html"
+    },
+    {
+     "text": "\"Nidrah wasn't involved.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-21.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-21.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-21.html",
+     "effect": "cond:5"
+    },
+    {
+     "text": "\"As I said before, Lidia was bitten by a vampire! Don't you get it?\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-21.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-21.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-21.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-19.html": {
+   "file": "Q00023_LidiasHeart/31328-19.html",
+   "quest": 23,
+   "text": "Innocentin: Oh really? Then let me ask you one more question. Have you ever heard the expression \"Owner of a Moon Face Flower\" ?",
+   "header": "Innocentin",
+   "links": [
+    {
+     "text": "\"It's the Lord of the Forest of the Dead.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-20.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-20.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-20.html",
+     "effect": "cond:6"
+    },
+    {
+     "text": "\"It's Lidia von Hellmann.\"",
+     "bypass": "Quest Q00023_LidiasHeart 31328-20.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31328-20.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-20.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31328-20.html": {
+   "file": "Q00023_LidiasHeart/31328-20.html",
+   "quest": 23,
+   "text": "Innocentin: Ah ha! Then that hairpin must belong to Lidia! Now I remember it! She used to wear it in her hair! Sigh... She was so beautiful then... Thank you for your help! I suppose our business is done now, but your journey continues... I'll always be here for you if you have any questions.",
+   "header": "Innocentin",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00023_LidiasHeart/31328-21.html": {
+   "file": "Q00023_LidiasHeart/31328-21.html",
+   "quest": 23,
+   "text": "The moment the words leave your lips, you feel an electric current shoot through your head, buzzing like 5000 wyverns in flight! Deep within your heart wells an emotion, small but growing more intense by the moment... It's remorse! Lidia must have been angered by your answer!",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00638_SeekersOfTheHolyGrail/31328-03.htm": {
+   "file": "Q00638_SeekersOfTheHolyGrail/31328-03.htm",
+   "quest": 638,
+   "text": "High Priest Innocentin: Splendid! Please go to the Pagan Temple and defeat the evil ones that inhabit it! After you've destroyed them, bring me their Pagan Totems . You'll be well-rewarded if you bring more than 2000 of them! Of course, our definitions of large rewards might differ... As you must h…",
+   "header": "High Priest Innocentin",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00638_SeekersOfTheHolyGrail/31328-06.html": {
+   "file": "Q00638_SeekersOfTheHolyGrail/31328-06.html",
+   "quest": 638,
+   "text": "High Priest Innocentin: Thank you!",
+   "header": "High Priest Innocentin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00638_SeekersOfTheHolyGrail/31328-07.html": {
+   "file": "Q00638_SeekersOfTheHolyGrail/31328-07.html",
+   "quest": 638,
+   "text": "High Priest Innocentin: Thank you! Let's see... What's this? The Totem of a high-ranking Pagan is mixed in here! Your efforts have thwarted their evil plan! Please take this as a token of my appreciation. Keep up the good work!",
+   "header": "High Priest Innocentin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00638_SeekersOfTheHolyGrail/31328-08.html": {
+   "file": "Q00638_SeekersOfTheHolyGrail/31328-08.html",
+   "quest": 638,
+   "text": "High Priest Innocentin: Thank you! Your efforts have definitely put a crimp in the evil plans of the Pagans!",
+   "header": "High Priest Innocentin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00638_SeekersOfTheHolyGrail/31328-09.html": {
+   "file": "Q00638_SeekersOfTheHolyGrail/31328-09.html",
+   "quest": 638,
+   "text": "Priest Innocentin: Oh, I'm sorry to see you go! Your efforts have done much to thwart the evil plans of the Pagans! If you have some spare time in the future, come back and help us again!",
+   "header": "Priest Innocentin",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Hidden Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00021_HiddenTruth",
+     "kind": "quest",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31328-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Tragedy in Von Hellmann Forest (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00022_TragedyInVonHellmannForest",
+     "kind": "quest",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31328-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Lidia's Heart]",
+     "bypass": "npc_%objectId%_Quest Q00023_LidiasHeart",
+     "kind": "quest",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Lidia's Heart (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00023_LidiasHeart",
+     "kind": "quest",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31328-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seekers of the Holy Grail]",
+     "bypass": "npc_%objectId%_Quest Q00638_SeekersOfTheHolyGrail",
+     "kind": "quest",
+     "quest": 638,
+     "to": "Q00638_SeekersOfTheHolyGrail/31328-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seekers of the Holy Grail (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00638_SeekersOfTheHolyGrail",
+     "kind": "quest",
+     "quest": 638,
+     "to": "Q00638_SeekersOfTheHolyGrail/31328-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

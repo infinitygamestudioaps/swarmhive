@@ -2,7 +2,7 @@
  "id": 225,
  "name": "Test Of The Searcher",
  "version": 1,
- "generated": "2026-10-27T11:15:16.079Z",
+ "generated": "2026-10-27T18:18:51.526Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 39,
@@ -38,9 +38,19 @@
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 1
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 43
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 43
   }
  ],
- "expectedMin": 41,
+ "expectedMin": 36,
  "refLevel": 39,
  "steps": [
   {
@@ -296,6 +306,3686 @@
    "i": 1,
    "key": "c1:hunt",
    "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20144,
+     "name": "Hangman Tree",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20551,
+     "name": "Road Scavenger",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20555,
+     "name": "Giant Fungus",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20781,
+     "name": "Delu Lizardman Shaman",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 27093,
+     "name": "Delu Chief Kalkis",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2787,
+     "name": "Delu Totem",
+     "n": 10,
+     "from": [
+      {
+       "id": 20781,
+       "name": "Delu Lizardman Shaman",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2789,
+     "name": "Chief Kalki's Fang",
+     "n": 1,
+     "from": [
+      {
+       "id": 27093,
+       "name": "Delu Chief Kalkis",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2797,
+     "name": "Red Spore Dust",
+     "n": 10,
+     "from": [
+      {
+       "id": 20555,
+       "name": "Giant Fungus",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2801,
+     "name": "1st Torn Map Piece",
+     "n": 4,
+     "from": [
+      {
+       "id": 20551,
+       "name": "Road Scavenger",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2802,
+     "name": "2nd Torn Map Piece",
+     "n": 4,
+     "from": [
+      {
+       "id": 20144,
+       "name": "Hangman Tree",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 2803,
+     "name": "Solt's Map",
+     "n": 1,
+     "from": [
+      {
+       "id": 20551,
+       "name": "Road Scavenger",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2804,
+     "name": "Makel's Map",
+     "n": 1,
+     "from": [
+      {
+       "id": 20144,
+       "name": "Hangman Tree",
+       "chance": 50
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Hangman Tree, Road Scavenger, Giant Fungus for Delu Totem x10, Chief Kalki's Fang x1, Red Spore Dust x10, 1st Torn Map Piece x4, 2nd Torn Map Piece x4, Solt's Map x1, Makel's Map x1",
+   "places": [
+    {
+     "mobs": [
+      20781
+     ],
+     "items": [
+      2787
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-dion-29",
+      "name": "Plains of Dion 29: Delu Lizardman Supplier area (north-east)",
+      "at": [
+       8632,
+       163320,
+       -3624
+      ],
+      "radius": 5522,
+      "levels": [
+       31,
+       35
+      ],
+      "count": 4,
+      "region": "Plains of Dion",
+      "atlasKey": "area:plains-of-dion-29",
+      "status": "ok",
+      "sec": 220,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -20.333333333333332,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "plains-of-dion-23",
+        "name": "Plains of Dion 23: Delu Lizardman Commander area (north-east)",
+        "at": [
+         13112,
+         171496,
+         -3544
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-31",
+        "name": "Plains of Dion 31: Delu Lizardman Shaman area (north-east)",
+        "at": [
+         13112,
+         163976,
+         -3632
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "bee-hive-7",
+        "name": "Bee Hive 7: Delu Lizardman Shaman area (north)",
+        "at": [
+         27928,
+         168504,
+         -3264
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-dion-29",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".dion",
+      "length": 18967,
+      "sec": 220,
+      "via": ".dion > Dion -> Plains of Dion",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Plains of Dion",
+        "link": "plains of dion",
+        "price": 1500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 18967,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Plains of Dion"
+      },
+      "simple": true,
+      "pv": [
+       [
+        632,
+        179192,
+        -3720
+       ],
+       [
+        632,
+        178200,
+        -3664
+       ],
+       [
+        632,
+        177208,
+        -3576
+       ],
+       [
+        632,
+        176216,
+        -3416
+       ],
+       [
+        632,
+        175224,
+        -3184
+       ],
+       [
+        632,
+        174232,
+        -2928
+       ],
+       [
+        632,
+        173240,
+        -2856
+       ],
+       [
+        632,
+        172248,
+        -2976
+       ],
+       [
+        1384,
+        171256,
+        -3304
+       ],
+       [
+        2376,
+        170264,
+        -3352
+       ],
+       [
+        3368,
+        169272,
+        -3440
+       ],
+       [
+        4104,
+        168536,
+        -3448
+       ],
+       [
+        4840,
+        167544,
+        -3456
+       ],
+       [
+        5096,
+        167288,
+        -3456
+       ],
+       [
+        5736,
+        166296,
+        -3560
+       ],
+       [
+        6728,
+        165304,
+        -3800
+       ],
+       [
+        7288,
+        164744,
+        -3680
+       ],
+       [
+        7304,
+        164728,
+        -3664
+       ],
+       [
+        8216,
+        163736,
+        -3584
+       ],
+       [
+        8632,
+        163320,
+        -3624
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 1423,
+        "maxSwim": 1423,
+        "overBreath": false
+       },
+       "danger": 35,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      27093
+     ],
+     "items": [
+      2789
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "27093@28448,174080",
+      "name": "Delu Chief Kalkis (Plains of Dion / Hive Fortress)",
+      "at": [
+       28448,
+       174080,
+       -3408
+      ],
+      "radius": 1500,
+      "levels": [
+       37,
+       37
+      ],
+      "count": 1,
+      "region": "Plains of Dion / Hive Fortress",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 84,
+      "alt": []
+     },
+     "travel": {
+      "src": "computed",
+      "key": "raid:25360",
+      "status": "ok",
+      "flags": [
+       "raid-policy"
+      ],
+      "from": ".dion",
+      "length": 20361,
+      "sec": 215,
+      "via": ".dion > Dion -> Bee Hive",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Bee Hive",
+        "link": "bee hive",
+        "price": 2900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 14156,
+        "how": "geodata",
+        "danger": 40
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Bee Hive"
+      },
+      "simple": true,
+      "pv": [
+       [
+        34475,
+        188095,
+        -2976
+       ],
+       [
+        34472,
+        188088,
+        -2976
+       ],
+       [
+        34888,
+        187240,
+        -2968
+       ],
+       [
+        34872,
+        186248,
+        -3136
+       ],
+       [
+        34248,
+        185912,
+        -3200
+       ],
+       [
+        34248,
+        184920,
+        -3184
+       ],
+       [
+        34248,
+        183928,
+        -3120
+       ],
+       [
+        34248,
+        183512,
+        -3160
+       ],
+       [
+        34248,
+        182520,
+        -3272
+       ],
+       [
+        34248,
+        181528,
+        -3232
+       ],
+       [
+        34248,
+        181112,
+        -3248
+       ],
+       [
+        34248,
+        180120,
+        -3240
+       ],
+       [
+        34088,
+        179288,
+        -3392
+       ],
+       [
+        33672,
+        179288,
+        -3360
+       ],
+       [
+        32680,
+        179288,
+        -3400
+       ],
+       [
+        31688,
+        179288,
+        -3528
+       ],
+       [
+        31272,
+        179288,
+        -3688
+       ],
+       [
+        30280,
+        179288,
+        -3616
+       ],
+       [
+        29288,
+        179288,
+        -3616
+       ],
+       [
+        29224,
+        179288,
+        -3616
+       ],
+       [
+        28776,
+        178664,
+        -3616
+       ],
+       [
+        28744,
+        178552,
+        -3624
+       ],
+       [
+        28744,
+        177560,
+        -3696
+       ],
+       [
+        29128,
+        177096,
+        -3784
+       ],
+       [
+        29000,
+        177112,
+        -3840
+       ],
+       [
+        29176,
+        177128,
+        -3736
+       ],
+       [
+        29272,
+        177208,
+        -3696
+       ],
+       [
+        30136,
+        176424,
+        -3808
+       ],
+       [
+        29624,
+        175432,
+        -3552
+       ],
+       [
+        29000,
+        174712,
+        -3448
+       ],
+       [
+        28456,
+        174088,
+        -3424
+       ]
+      ],
+      "maxDanger": 40,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 40,
+       "dangerVsLevel": 1,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "raid:25360",
+       "name": "Tiger Hornet"
+      },
+      "points": [
+       [
+        34475,
+        188095,
+        -2976
+       ],
+       [
+        34472,
+        188088,
+        -2976
+       ],
+       [
+        34888,
+        187240,
+        -2968
+       ],
+       [
+        34872,
+        186248,
+        -3136
+       ],
+       [
+        34248,
+        185912,
+        -3200
+       ],
+       [
+        34248,
+        184920,
+        -3184
+       ],
+       [
+        34248,
+        183928,
+        -3120
+       ],
+       [
+        34248,
+        183512,
+        -3160
+       ],
+       [
+        34248,
+        182520,
+        -3272
+       ],
+       [
+        34248,
+        181528,
+        -3232
+       ],
+       [
+        34248,
+        181112,
+        -3248
+       ],
+       [
+        34248,
+        180120,
+        -3240
+       ],
+       [
+        34088,
+        179288,
+        -3392
+       ],
+       [
+        33672,
+        179288,
+        -3360
+       ],
+       [
+        32680,
+        179288,
+        -3400
+       ],
+       [
+        31688,
+        179288,
+        -3528
+       ],
+       [
+        31272,
+        179288,
+        -3688
+       ],
+       [
+        30280,
+        179288,
+        -3616
+       ],
+       [
+        29288,
+        179288,
+        -3616
+       ],
+       [
+        29224,
+        179288,
+        -3616
+       ],
+       [
+        28776,
+        178664,
+        -3616
+       ],
+       [
+        28744,
+        178552,
+        -3624
+       ],
+       [
+        28744,
+        177560,
+        -3696
+       ],
+       [
+        29128,
+        177096,
+        -3784
+       ],
+       [
+        29000,
+        177112,
+        -3840
+       ],
+       [
+        29176,
+        177128,
+        -3736
+       ],
+       [
+        29272,
+        177208,
+        -3696
+       ],
+       [
+        30136,
+        176424,
+        -3808
+       ],
+       [
+        29624,
+        175432,
+        -3552
+       ],
+       [
+        29000,
+        174712,
+        -3448
+       ],
+       [
+        28456,
+        174088,
+        -3424
+       ]
+      ]
+     }
+    },
+    {
+     "mobs": [
+      20555
+     ],
+     "items": [
+      2797
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "sea-of-spores-7",
+      "name": "Sea of Spores 7: Giant Monstereye area (north)",
+      "at": [
+       61240,
+       17480,
+       -3960
+      ],
+      "radius": 5815,
+      "levels": [
+       40,
+       42
+      ],
+      "count": 8,
+      "region": "Sea of Spores",
+      "atlasKey": "area:sea-of-spores-7",
+      "status": "ok",
+      "sec": 135,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -45.75,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "sea-of-spores-1",
+        "name": "Sea of Spores 1: Giant Monstereye area (west)",
+        "at": [
+         60984,
+         26856,
+         -3816
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-21",
+        "name": "Sea of Spores 21: Giant Monstereye area (north)",
+        "at": [
+         59784,
+         11128,
+         -3776
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-6",
+        "name": "Sea of Spores 6: Giant Fungus area (south-west)",
+        "at": [
+         57480,
+         30744,
+         -3760
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:sea-of-spores-7",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 10842,
+      "sec": 135,
+      "via": ".oren > Oren -> Sea of Spores",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Sea of Spores",
+        "link": "sea of spores",
+        "price": 2500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3993,
+        "how": "field-areas-gap",
+        "danger": 42
+       },
+       {
+        "do": "walk",
+        "len": 6849,
+        "how": "field-areas",
+        "danger": 42
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Sea of Spores"
+      },
+      "simple": true,
+      "pv": [
+       [
+        64328,
+        26803,
+        -3768
+       ],
+       [
+        64376,
+        22968,
+        -3784
+       ],
+       [
+        64312,
+        22840,
+        -3768
+       ],
+       [
+        63368,
+        22296,
+        -3752
+       ],
+       [
+        63320,
+        22152,
+        -3752
+       ],
+       [
+        63320,
+        21160,
+        -3760
+       ],
+       [
+        63320,
+        20168,
+        -3752
+       ],
+       [
+        63064,
+        19304,
+        -3600
+       ],
+       [
+        63048,
+        19288,
+        -3584
+       ],
+       [
+        63032,
+        19272,
+        -3568
+       ],
+       [
+        63016,
+        19256,
+        -3552
+       ],
+       [
+        63000,
+        19240,
+        -3536
+       ],
+       [
+        62984,
+        19224,
+        -3512
+       ],
+       [
+        62968,
+        19208,
+        -3496
+       ],
+       [
+        61976,
+        18216,
+        -3808
+       ],
+       [
+        61240,
+        17480,
+        -3960
+       ]
+      ],
+      "maxDanger": 42,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 42,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20551
+     ],
+     "items": [
+      2801,
+      2803
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dragon-valley-2",
+      "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+      "at": [
+       69032,
+       113624,
+       -3664
+      ],
+      "radius": 4241,
+      "levels": [
+       35,
+       37
+      ],
+      "count": 7,
+      "region": "Dragon Valley",
+      "atlasKey": "area:dragon-valley-2",
+      "status": "ok",
+      "sec": 98,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -40.36666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-1",
+        "name": "Dragon Valley 1: Wyrm area (south-west)",
+        "at": [
+         68888,
+         120904,
+         -3656
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-11",
+        "name": "Dragon Valley 11: Wyrm area (north)",
+        "at": [
+         69048,
+         105992,
+         -3720
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-4",
+        "name": "Dragon Valley 4: Fettered Soul area (south)",
+        "at": [
+         71624,
+         125672,
+         -3624
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dragon-valley-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 6389,
+      "sec": 98,
+      "via": ".hunters > Hunters -> Dragon Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Dragon Valley",
+        "link": "dragon valley",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6389,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Dragon Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        73032,
+        118488,
+        -3696
+       ],
+       [
+        72664,
+        117496,
+        -3672
+       ],
+       [
+        71672,
+        116504,
+        -3616
+       ],
+       [
+        71416,
+        116248,
+        -3584
+       ],
+       [
+        71128,
+        115720,
+        -3560
+       ],
+       [
+        70136,
+        114728,
+        -3560
+       ],
+       [
+        69144,
+        113736,
+        -3648
+       ],
+       [
+        69032,
+        113624,
+        -3664
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20144
+     ],
+     "items": [
+      2802,
+      2804
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "tanor-canyon-8",
+      "name": "Tanor Canyon 8: Dead Seeker area (north-west)",
+      "at": [
+       46776,
+       150968,
+       -2808
+      ],
+      "radius": 5224,
+      "levels": [
+       28,
+       35
+      ],
+      "count": 4,
+      "region": "Tanor Canyon",
+      "atlasKey": "area:tanor-canyon-8",
+      "status": "ok",
+      "sec": 236,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -20.066666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-5",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 5: Hangman Tree area (north-west)",
+        "at": [
+         48008,
+         144920,
+         -3608
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-9",
+        "name": "Tanor Canyon 9: Hangman Tree area (north-west)",
+        "at": [
+         49480,
+         146728,
+         -3464
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-9",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 9: Amber Basilisk area (north-west)",
+        "at": [
+         43256,
+         142888,
+         -3280
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:tanor-canyon-8",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 22934,
+      "sec": 236,
+      "via": ".dion > Dion -> Tanor Canyon",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Tanor Canyon",
+        "link": "tanor canyon",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 18144,
+        "how": "field-areas-gap",
+        "danger": 47
+       },
+       {
+        "do": "walk",
+        "len": 4790,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Tanor Canyon"
+      },
+      "simple": true,
+      "pv": [
+       [
+        60374,
+        164301,
+        -2856
+       ],
+       [
+        48504,
+        155128,
+        -2528
+       ],
+       [
+        48504,
+        154136,
+        -2720
+       ],
+       [
+        48504,
+        153144,
+        -2736
+       ],
+       [
+        47960,
+        152152,
+        -2760
+       ],
+       [
+        46968,
+        151160,
+        -2808
+       ],
+       [
+        46776,
+        150968,
+        -2808
+       ]
+      ],
+      "maxDanger": 47,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 47,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Nightmare Lord",
+         "lv": 47,
+         "n": 7
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "plains-of-dion-29",
+    "name": "Plains of Dion 29: Delu Lizardman Supplier area (north-east)",
+    "at": [
+     8632,
+     163320,
+     -3624
+    ],
+    "radius": 5522,
+    "levels": [
+     31,
+     35
+    ],
+    "count": 4,
+    "region": "Plains of Dion",
+    "atlasKey": "area:plains-of-dion-29",
+    "status": "ok",
+    "sec": 220,
+    "danger": 35,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -20.333333333333332,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "plains-of-dion-23",
+      "name": "Plains of Dion 23: Delu Lizardman Commander area (north-east)",
+      "at": [
+       13112,
+       171496,
+       -3544
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "plains-of-dion-31",
+      "name": "Plains of Dion 31: Delu Lizardman Shaman area (north-east)",
+      "at": [
+       13112,
+       163976,
+       -3632
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "bee-hive-7",
+      "name": "Bee Hive 7: Delu Lizardman Shaman area (north)",
+      "at": [
+       27928,
+       168504,
+       -3264
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:plains-of-dion-29",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".dion",
+    "length": 18967,
+    "sec": 220,
+    "via": ".dion > Dion -> Plains of Dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Plains of Dion",
+      "link": "plains of dion",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18967,
+      "how": "field-areas",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      632,
+      179192,
+      -3720
+     ],
+     [
+      632,
+      178200,
+      -3664
+     ],
+     [
+      632,
+      177208,
+      -3576
+     ],
+     [
+      632,
+      176216,
+      -3416
+     ],
+     [
+      632,
+      175224,
+      -3184
+     ],
+     [
+      632,
+      174232,
+      -2928
+     ],
+     [
+      632,
+      173240,
+      -2856
+     ],
+     [
+      632,
+      172248,
+      -2976
+     ],
+     [
+      1384,
+      171256,
+      -3304
+     ],
+     [
+      2376,
+      170264,
+      -3352
+     ],
+     [
+      3368,
+      169272,
+      -3440
+     ],
+     [
+      4104,
+      168536,
+      -3448
+     ],
+     [
+      4840,
+      167544,
+      -3456
+     ],
+     [
+      5096,
+      167288,
+      -3456
+     ],
+     [
+      5736,
+      166296,
+      -3560
+     ],
+     [
+      6728,
+      165304,
+      -3800
+     ],
+     [
+      7288,
+      164744,
+      -3680
+     ],
+     [
+      7304,
+      164728,
+      -3664
+     ],
+     [
+      8216,
+      163736,
+      -3584
+     ],
+     [
+      8632,
+      163320,
+      -3624
+     ]
+    ],
+    "maxDanger": 35,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 1423,
+      "maxSwim": 1423,
+      "overBreath": false
+     },
+     "danger": 35,
+     "dangerVsLevel": -4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 470,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30690",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30690,
+    "name": "Luther",
+    "title": "Master",
+    "town": "Hunters Village",
+    "at": [
+     119472,
+     77835,
+     -2243
+    ],
+    "alt": []
+   },
+   "text": "Bring Luther's Letter, Alex's Recommend to Luther",
+   "needs": [
+    {
+     "id": 2784,
+     "name": "Luther's Letter",
+     "n": 1
+    },
+    {
+     "id": 2808,
+     "name": "Alex's Recommend",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30690@119472,77835",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 7500,
+    "sec": 83,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 7500,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76280,
+      -2728
+     ],
+     [
+      116776,
+      76456,
+      -2728
+     ],
+     [
+      116792,
+      76728,
+      -2720
+     ],
+     [
+      116824,
+      77000,
+      -2704
+     ],
+     [
+      116616,
+      77160,
+      -2720
+     ],
+     [
+      116424,
+      77352,
+      -2704
+     ],
+     [
+      116360,
+      77416,
+      -2704
+     ],
+     [
+      116344,
+      77672,
+      -2680
+     ],
+     [
+      116392,
+      77944,
+      -2680
+     ],
+     [
+      116536,
+      78184,
+      -2648
+     ],
+     [
+      116616,
+      78312,
+      -2608
+     ],
+     [
+      116760,
+      78536,
+      -2496
+     ],
+     [
+      116824,
+      78648,
+      -2432
+     ],
+     [
+      116968,
+      78888,
+      -2256
+     ],
+     [
+      117000,
+      78968,
+      -2256
+     ],
+     [
+      117256,
+      78984,
+      -2256
+     ],
+     [
+      117528,
+      79000,
+      -2256
+     ],
+     [
+      117800,
+      79016,
+      -2256
+     ],
+     [
+      117976,
+      78808,
+      -2200
+     ],
+     [
+      117976,
+      78648,
+      -2168
+     ],
+     [
+      117976,
+      78664,
+      -2168
+     ],
+     [
+      118168,
+      78632,
+      -2176
+     ],
+     [
+      118344,
+      78424,
+      -2176
+     ],
+     [
+      118520,
+      78216,
+      -2176
+     ],
+     [
+      118696,
+      78024,
+      -2176
+     ],
+     [
+      118904,
+      77848,
+      -2200
+     ],
+     [
+      119016,
+      77720,
+      -2248
+     ],
+     [
+      119080,
+      77592,
+      -2272
+     ],
+     [
+      119064,
+      77320,
+      -2272
+     ],
+     [
+      119208,
+      77176,
+      -2272
+     ],
+     [
+      119432,
+      77336,
+      -2240
+     ],
+     [
+      119528,
+      77512,
+      -2240
+     ],
+     [
+      119480,
+      77784,
+      -2240
+     ],
+     [
+      119480,
+      77832,
+      -2240
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 108,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30291",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 19,
+   "links": [],
+   "npc": {
+    "id": 30291,
+    "name": "Alex",
+    "title": "Captain",
+    "town": "Floran",
+    "at": [
+     20943,
+     171358,
+     -3548
+    ],
+    "alt": []
+   },
+   "text": "Bring Gold Bar x20, Alex's Order, Combined Map to Alex",
+   "needs": [
+    {
+     "id": 2807,
+     "name": "Gold Bar",
+     "n": 20
+    },
+    {
+     "id": 2794,
+     "name": "Alex's Order",
+     "n": 1
+    },
+    {
+     "id": 2805,
+     "name": "Combined Map",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30291@20943,171358",
+    "status": "ok",
+    "flags": [
+     "swim",
+     "over-breath"
+    ],
+    "from": ".dion",
+    "length": 22347,
+    "sec": 264,
+    "via": ".dion > Dion -> Bee Hive",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Bee Hive",
+      "link": "bee hive",
+      "price": 2900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 22347,
+      "how": "geodata",
+      "danger": 40
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Bee Hive"
+    },
+    "simple": true,
+    "pv": [
+     [
+      34475,
+      188095,
+      -2976
+     ],
+     [
+      34296,
+      187896,
+      -2992
+     ],
+     [
+      33800,
+      187400,
+      -3108
+     ],
+     [
+      33304,
+      186904,
+      -3224
+     ],
+     [
+      32808,
+      186408,
+      -3308
+     ],
+     [
+      32312,
+      185912,
+      -3392
+     ],
+     [
+      31816,
+      185416,
+      -3528
+     ],
+     [
+      31320,
+      184920,
+      -3664
+     ],
+     [
+      30848,
+      184480,
+      -3668
+     ],
+     [
+      30376,
+      184040,
+      -3672
+     ],
+     [
+      29880,
+      183544,
+      -3564
+     ],
+     [
+      29384,
+      183048,
+      -3456
+     ],
+     [
+      29024,
+      182680,
+      -3544
+     ],
+     [
+      28664,
+      182312,
+      -3632
+     ],
+     [
+      28424,
+      181816,
+      -3528
+     ],
+     [
+      28552,
+      181656,
+      -3528
+     ],
+     [
+      28552,
+      181624,
+      -3512
+     ],
+     [
+      28056,
+      181128,
+      -3388
+     ],
+     [
+      27560,
+      180632,
+      -3264
+     ],
+     [
+      27064,
+      180136,
+      -3216
+     ],
+     [
+      26568,
+      179640,
+      -3168
+     ],
+     [
+      26072,
+      179144,
+      -3084
+     ],
+     [
+      25576,
+      178648,
+      -3000
+     ],
+     [
+      25080,
+      178160,
+      -3000
+     ],
+     [
+      24584,
+      177672,
+      -3000
+     ],
+     [
+      24552,
+      177656,
+      -3008
+     ],
+     [
+      24200,
+      177304,
+      -3472
+     ],
+     [
+      24200,
+      177144,
+      -3720
+     ],
+     [
+      23704,
+      176648,
+      -3760
+     ],
+     [
+      23208,
+      176152,
+      -3800
+     ],
+     [
+      22712,
+      175656,
+      -3816
+     ],
+     [
+      22216,
+      175160,
+      -3832
+     ],
+     [
+      21720,
+      174664,
+      -3784
+     ],
+     [
+      21224,
+      174168,
+      -3736
+     ],
+     [
+      21080,
+      173672,
+      -3652
+     ],
+     [
+      20936,
+      173176,
+      -3568
+     ],
+     [
+      20936,
+      172184,
+      -3568
+     ],
+     [
+      20936,
+      171352,
+      -3552
+     ]
+    ],
+    "maxDanger": 40,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 2809,
+      "maxSwim": 2809,
+      "overBreath": true
+     },
+     "danger": 40,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 289,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+   ],
+   "override": {
+    "route": [
+     [
+      632,
+      179192,
+      -3720
+     ],
+     [
+      1032,
+      178904,
+      -3712
+     ],
+     [
+      2024,
+      178968,
+      -3672
+     ],
+     [
+      2808,
+      178968,
+      -3704
+     ],
+     [
+      3800,
+      178968,
+      -3632
+     ],
+     [
+      4792,
+      178968,
+      -3520
+     ],
+     [
+      5208,
+      178968,
+      -3472
+     ],
+     [
+      5928,
+      178168,
+      -3448
+     ],
+     [
+      6168,
+      177528,
+      -3528
+     ],
+     [
+      6600,
+      176760,
+      -3608
+     ],
+     [
+      6568,
+      176584,
+      -3616
+     ],
+     [
+      6232,
+      175976,
+      -3648
+     ],
+     [
+      6232,
+      175192,
+      -3648
+     ],
+     [
+      7128,
+      174200,
+      -3608
+     ],
+     [
+      7384,
+      173944,
+      -3624
+     ],
+     [
+      8024,
+      173864,
+      -3688
+     ],
+     [
+      8376,
+      173960,
+      -3712
+     ],
+     [
+      9000,
+      174008,
+      -3712
+     ],
+     [
+      9464,
+      173672,
+      -3720
+     ],
+     [
+      9464,
+      173624,
+      -3720
+     ],
+     [
+      9608,
+      173560,
+      -3720
+     ],
+     [
+      9624,
+      173560,
+      -3776
+     ],
+     [
+      10616,
+      173480,
+      -3616
+     ],
+     [
+      10792,
+      173352,
+      -3576
+     ],
+     [
+      11096,
+      172840,
+      -3560
+     ],
+     [
+      11096,
+      172760,
+      -3552
+     ],
+     [
+      11112,
+      172760,
+      -3552
+     ],
+     [
+      11128,
+      172712,
+      -3560
+     ],
+     [
+      11128,
+      172664,
+      -3608
+     ],
+     [
+      11192,
+      172536,
+      -3592
+     ],
+     [
+      12184,
+      172504,
+      -3440
+     ],
+     [
+      13176,
+      172504,
+      -3432
+     ],
+     [
+      13368,
+      172504,
+      -3440
+     ],
+     [
+      13512,
+      172584,
+      -3448
+     ],
+     [
+      13880,
+      172376,
+      -3448
+     ],
+     [
+      14872,
+      172456,
+      -3504
+     ],
+     [
+      15592,
+      172584,
+      -3544
+     ],
+     [
+      15672,
+      172504,
+      -3544
+     ],
+     [
+      15608,
+      172344,
+      -3552
+     ],
+     [
+      15640,
+      172408,
+      -3552
+     ],
+     [
+      16632,
+      172312,
+      -3560
+     ],
+     [
+      17080,
+      172584,
+      -3536
+     ],
+     [
+      17240,
+      172504,
+      -3536
+     ],
+     [
+      17720,
+      172056,
+      -3536
+     ],
+     [
+      18472,
+      171720,
+      -3544
+     ],
+     [
+      19112,
+      171832,
+      -3544
+     ],
+     [
+      19480,
+      172168,
+      -3536
+     ],
+     [
+      19688,
+      172136,
+      -3536
+     ],
+     [
+      19912,
+      171864,
+      -3528
+     ],
+     [
+      19848,
+      171784,
+      -3528
+     ],
+     [
+      20760,
+      171896,
+      -3576
+     ],
+     [
+      20936,
+      171352,
+      -3552
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
+    },
+    "note": "route: Dion gatekeeper Trisha (live menu \"Plains of Dion\") -> Plains of Dion landing (630,179184,-3720, teleports_h5 id 1053), one DRY geodata leg by raid_policy.policyLeg (dry, walls block) to Captain Alex (30291 at 20943,171358,-3548): 26576 units, no swimming (the atlas way via Dion -> Bee Hive had a swim longer than one breath). Aggressive max on it: Delu Lizardman Commander lv 35.",
+    "editedAt": "2026-10-27T10:00:54.796Z",
+    "by": "quest-fixer batch 5"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
+    },
+    "points": [
+     [
+      632,
+      179192,
+      -3720
+     ],
+     [
+      1032,
+      178904,
+      -3712
+     ],
+     [
+      2024,
+      178968,
+      -3672
+     ],
+     [
+      2808,
+      178968,
+      -3704
+     ],
+     [
+      3800,
+      178968,
+      -3632
+     ],
+     [
+      4792,
+      178968,
+      -3520
+     ],
+     [
+      5208,
+      178968,
+      -3472
+     ],
+     [
+      5928,
+      178168,
+      -3448
+     ],
+     [
+      6168,
+      177528,
+      -3528
+     ],
+     [
+      6600,
+      176760,
+      -3608
+     ],
+     [
+      6568,
+      176584,
+      -3616
+     ],
+     [
+      6232,
+      175976,
+      -3648
+     ],
+     [
+      6232,
+      175192,
+      -3648
+     ],
+     [
+      7128,
+      174200,
+      -3608
+     ],
+     [
+      7384,
+      173944,
+      -3624
+     ],
+     [
+      8024,
+      173864,
+      -3688
+     ],
+     [
+      8376,
+      173960,
+      -3712
+     ],
+     [
+      9000,
+      174008,
+      -3712
+     ],
+     [
+      9464,
+      173672,
+      -3720
+     ],
+     [
+      9464,
+      173624,
+      -3720
+     ],
+     [
+      9608,
+      173560,
+      -3720
+     ],
+     [
+      9624,
+      173560,
+      -3776
+     ],
+     [
+      10616,
+      173480,
+      -3616
+     ],
+     [
+      10792,
+      173352,
+      -3576
+     ],
+     [
+      11096,
+      172840,
+      -3560
+     ],
+     [
+      11096,
+      172760,
+      -3552
+     ],
+     [
+      11112,
+      172760,
+      -3552
+     ],
+     [
+      11128,
+      172712,
+      -3560
+     ],
+     [
+      11128,
+      172664,
+      -3608
+     ],
+     [
+      11192,
+      172536,
+      -3592
+     ],
+     [
+      12184,
+      172504,
+      -3440
+     ],
+     [
+      13176,
+      172504,
+      -3432
+     ],
+     [
+      13368,
+      172504,
+      -3440
+     ],
+     [
+      13512,
+      172584,
+      -3448
+     ],
+     [
+      13880,
+      172376,
+      -3448
+     ],
+     [
+      14872,
+      172456,
+      -3504
+     ],
+     [
+      15592,
+      172584,
+      -3544
+     ],
+     [
+      15672,
+      172504,
+      -3544
+     ],
+     [
+      15608,
+      172344,
+      -3552
+     ],
+     [
+      15640,
+      172408,
+      -3552
+     ],
+     [
+      16632,
+      172312,
+      -3560
+     ],
+     [
+      17080,
+      172584,
+      -3536
+     ],
+     [
+      17240,
+      172504,
+      -3536
+     ],
+     [
+      17720,
+      172056,
+      -3536
+     ],
+     [
+      18472,
+      171720,
+      -3544
+     ],
+     [
+      19112,
+      171832,
+      -3544
+     ],
+     [
+      19480,
+      172168,
+      -3536
+     ],
+     [
+      19688,
+      172136,
+      -3536
+     ],
+     [
+      19912,
+      171864,
+      -3528
+     ],
+     [
+      19848,
+      171784,
+      -3528
+     ],
+     [
+      20760,
+      171896,
+      -3576
+     ],
+     [
+      20936,
+      171352,
+      -3552
+     ]
+    ],
+    "pv": [
+     [
+      632,
+      179192,
+      -3720
+     ],
+     [
+      1032,
+      178904,
+      -3712
+     ],
+     [
+      2024,
+      178968,
+      -3672
+     ],
+     [
+      2808,
+      178968,
+      -3704
+     ],
+     [
+      3800,
+      178968,
+      -3632
+     ],
+     [
+      4792,
+      178968,
+      -3520
+     ],
+     [
+      5208,
+      178968,
+      -3472
+     ],
+     [
+      5928,
+      178168,
+      -3448
+     ],
+     [
+      6168,
+      177528,
+      -3528
+     ],
+     [
+      6600,
+      176760,
+      -3608
+     ],
+     [
+      6568,
+      176584,
+      -3616
+     ],
+     [
+      6232,
+      175976,
+      -3648
+     ],
+     [
+      6232,
+      175192,
+      -3648
+     ],
+     [
+      7384,
+      173944,
+      -3624
+     ],
+     [
+      8024,
+      173864,
+      -3688
+     ],
+     [
+      8376,
+      173960,
+      -3712
+     ],
+     [
+      9000,
+      174008,
+      -3712
+     ],
+     [
+      9464,
+      173672,
+      -3720
+     ],
+     [
+      9464,
+      173624,
+      -3720
+     ],
+     [
+      9608,
+      173560,
+      -3720
+     ],
+     [
+      9624,
+      173560,
+      -3776
+     ],
+     [
+      10616,
+      173480,
+      -3616
+     ],
+     [
+      10792,
+      173352,
+      -3576
+     ],
+     [
+      11096,
+      172840,
+      -3560
+     ],
+     [
+      11096,
+      172760,
+      -3552
+     ],
+     [
+      11112,
+      172760,
+      -3552
+     ],
+     [
+      11128,
+      172712,
+      -3560
+     ],
+     [
+      11128,
+      172664,
+      -3608
+     ],
+     [
+      11192,
+      172536,
+      -3592
+     ],
+     [
+      12184,
+      172504,
+      -3440
+     ],
+     [
+      13176,
+      172504,
+      -3432
+     ],
+     [
+      13368,
+      172504,
+      -3440
+     ],
+     [
+      13512,
+      172584,
+      -3448
+     ],
+     [
+      13880,
+      172376,
+      -3448
+     ],
+     [
+      14872,
+      172456,
+      -3504
+     ],
+     [
+      15592,
+      172584,
+      -3544
+     ],
+     [
+      15672,
+      172504,
+      -3544
+     ],
+     [
+      15640,
+      172408,
+      -3552
+     ],
+     [
+      16632,
+      172312,
+      -3560
+     ],
+     [
+      17080,
+      172584,
+      -3536
+     ],
+     [
+      17240,
+      172504,
+      -3536
+     ],
+     [
+      17720,
+      172056,
+      -3536
+     ],
+     [
+      18472,
+      171720,
+      -3544
+     ],
+     [
+      19112,
+      171832,
+      -3544
+     ],
+     [
+      19480,
+      172168,
+      -3536
+     ],
+     [
+      19688,
+      172136,
+      -3536
+     ],
+     [
+      19912,
+      171864,
+      -3528
+     ],
+     [
+      19848,
+      171784,
+      -3528
+     ],
+     [
+      20760,
+      171896,
+      -3576
+     ],
+     [
+      20936,
+      171352,
+      -3552
+     ]
+    ],
+    "length": 26576,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-swim"
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30730",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 16,
+   "links": [],
+   "npc": {
+    "id": 30730,
+    "name": "Jax",
+    "title": "Bodyguard",
+    "town": "Floran",
+    "at": [
+     -17305,
+     209742,
+     -3660
+    ],
+    "alt": []
+   },
+   "text": "Bring Jax's Diary to Jax",
+   "needs": [
+    {
+     "id": 2800,
+     "name": "Jax's Diary",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30730@-17305,209742",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 1971,
+    "sec": 61,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1971,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16915,
+      208532,
+      -3664
+     ],
+     [
+      -17304,
+      209032,
+      -3664
+     ],
+     [
+      -17304,
+      209736,
+      -3664
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 86,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30729",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 13,
+   "links": [],
+   "npc": {
+    "id": 30729,
+    "name": "Borys",
+    "title": "Drunkard",
+    "town": "Gludio",
+    "at": [
+     -15443,
+     124913,
+     -3130
+    ],
+    "alt": []
+   },
+   "text": "Bring Malrukian Wine to Borys",
+   "needs": [
+    {
+     "id": 2798,
+     "name": "Malrukian Wine",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30729@-15443,124913",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5797,
+    "sec": 68,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 5797,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14344,
+      123016,
+      -3112
+     ],
+     [
+      -14392,
+      123288,
+      -3112
+     ],
+     [
+      -14408,
+      123560,
+      -3112
+     ],
+     [
+      -14424,
+      123624,
+      -3112
+     ],
+     [
+      -14472,
+      123672,
+      -3112
+     ],
+     [
+      -14696,
+      123816,
+      -3112
+     ],
+     [
+      -14952,
+      123896,
+      -3112
+     ],
+     [
+      -15224,
+      123960,
+      -3112
+     ],
+     [
+      -15432,
+      124120,
+      -3112
+     ],
+     [
+      -15512,
+      124296,
+      -3112
+     ],
+     [
+      -15656,
+      124264,
+      -3112
+     ],
+     [
+      -15704,
+      124488,
+      -3112
+     ],
+     [
+      -15688,
+      124648,
+      -3120
+     ],
+     [
+      -15688,
+      124824,
+      -3120
+     ],
+     [
+      -15624,
+      124984,
+      -3128
+     ],
+     [
+      -15448,
+      124920,
+      -3120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 93,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:deliver:30420",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 12,
+   "links": [],
+   "npc": {
+    "id": 30420,
+    "name": "Tyra",
+    "title": "",
+    "town": "Kamael Village",
+    "at": [
+     -61717,
+     75401,
+     -3352
+    ],
+    "alt": []
+   },
+   "text": "Bring Tyra's Contract to Tyra",
+   "needs": [
+    {
+     "id": 2796,
+     "name": "Tyra's Contract",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30420@-61717,75401",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 692,
+    "sec": 76,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Spider Nest",
+      "link": "spider nest",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 692,
+      "how": "geodata",
+      "danger": 18
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -61720,
+      75400,
+      -3352
+     ]
+    ],
+    "maxDanger": 18,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 18,
+     "dangerVsLevel": -21,
+     "aggro": []
+    }
+   },
+   "expectedSec": 101,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:deliver:30728",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 7,
+   "links": [],
+   "npc": {
+    "id": 30728,
+    "name": "Leirynn",
+    "title": "Militiaman",
+    "town": "Floran",
+    "at": [
+     10699,
+     171474,
+     -3572
+    ],
+    "alt": []
+   },
+   "text": "Bring Leirynn's 2nd Order, Chief Kalki's Fang to Leirynn",
+   "needs": [
+    {
+     "id": 2788,
+     "name": "Leirynn's 2nd Order",
+     "n": 1
+    },
+    {
+     "id": 2789,
+     "name": "Chief Kalki's Fang",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30728@10699,171474",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".dion",
+    "length": 13199,
+    "sec": 174,
+    "via": ".dion > Dion -> Plains of Dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Plains of Dion",
+      "link": "plains of dion",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 13199,
+      "how": "geodata",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      630,
+      179184,
+      -3720
+     ],
+     [
+      1127,
+      178692,
+      -3684
+     ],
+     [
+      1624,
+      178200,
+      -3648
+     ],
+     [
+      2120,
+      177704,
+      -3604
+     ],
+     [
+      2616,
+      177208,
+      -3560
+     ],
+     [
+      3112,
+      176712,
+      -3452
+     ],
+     [
+      3608,
+      176216,
+      -3344
+     ],
+     [
+      4104,
+      175720,
+      -3376
+     ],
+     [
+      4600,
+      175224,
+      -3408
+     ],
+     [
+      5096,
+      174728,
+      -3420
+     ],
+     [
+      5592,
+      174232,
+      -3432
+     ],
+     [
+      6088,
+      173736,
+      -3460
+     ],
+     [
+      6584,
+      173240,
+      -3488
+     ],
+     [
+      7080,
+      172744,
+      -3532
+     ],
+     [
+      7576,
+      172248,
+      -3576
+     ],
+     [
+      8072,
+      171864,
+      -3704
+     ],
+     [
+      8568,
+      171480,
+      -3832
+     ],
+     [
+      9560,
+      171480,
+      -3848
+     ],
+     [
+      10552,
+      171480,
+      -3624
+     ],
+     [
+      10696,
+      171480,
+      -3568
+     ]
+    ],
+    "maxDanger": 35,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 1632,
+      "maxSwim": 1632,
+      "overBreath": false
+     },
+     "danger": 35,
+     "dangerVsLevel": -4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 199,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c7:hunt",
+   "cond": 7,
    "kind": "hunt",
    "to": null,
    "monsters": [
@@ -1861,358 +5551,41 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19
+    7
    ]
   },
   {
-   "i": 2,
-   "key": "c1:deliver:30690",
-   "cond": 1,
-   "kind": "deliver",
-   "to": "end",
-   "links": [],
-   "npc": {
-    "id": 30690,
-    "name": "Luther",
-    "title": "Master",
-    "town": "Hunters Village",
-    "at": [
-     119472,
-     77835,
-     -2243
-    ],
-    "alt": []
-   },
-   "text": "Bring Luther's Letter, Alex's Recommend to Luther",
-   "needs": [
-    {
-     "id": 2784,
-     "name": "Luther's Letter",
-     "n": 1
-    },
-    {
-     "id": 2808,
-     "name": "Alex's Recommend",
-     "n": 1
-    }
+   "i": 9,
+   "key": "c16:talk:30627",
+   "cond": 16,
+   "kind": "talk",
+   "to": 17,
+   "links": [
+    "Dig the root of the tree"
    ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30690@119472,77835",
-    "status": "ok",
-    "flags": [],
-    "from": ".hunters",
-    "length": 7500,
-    "sec": 83,
-    "via": ".hunters",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Hunters",
-      "cmd": ".hunters"
-     },
-     {
-      "do": "walk",
-      "len": 7500,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Hunters"
-    },
-    "simple": true,
-    "pv": [
-     [
-      116589,
-      76268,
-      -3000
-     ],
-     [
-      116568,
-      76152,
-      -2728
-     ],
-     [
-      116696,
-      76280,
-      -2728
-     ],
-     [
-      116776,
-      76456,
-      -2728
-     ],
-     [
-      116792,
-      76728,
-      -2720
-     ],
-     [
-      116824,
-      77000,
-      -2704
-     ],
-     [
-      116616,
-      77160,
-      -2720
-     ],
-     [
-      116424,
-      77352,
-      -2704
-     ],
-     [
-      116360,
-      77416,
-      -2704
-     ],
-     [
-      116344,
-      77672,
-      -2680
-     ],
-     [
-      116392,
-      77944,
-      -2680
-     ],
-     [
-      116536,
-      78184,
-      -2648
-     ],
-     [
-      116616,
-      78312,
-      -2608
-     ],
-     [
-      116760,
-      78536,
-      -2496
-     ],
-     [
-      116824,
-      78648,
-      -2432
-     ],
-     [
-      116968,
-      78888,
-      -2256
-     ],
-     [
-      117000,
-      78968,
-      -2256
-     ],
-     [
-      117256,
-      78984,
-      -2256
-     ],
-     [
-      117528,
-      79000,
-      -2256
-     ],
-     [
-      117800,
-      79016,
-      -2256
-     ],
-     [
-      117976,
-      78808,
-      -2200
-     ],
-     [
-      117976,
-      78648,
-      -2168
-     ],
-     [
-      117976,
-      78664,
-      -2168
-     ],
-     [
-      118168,
-      78632,
-      -2176
-     ],
-     [
-      118344,
-      78424,
-      -2176
-     ],
-     [
-      118520,
-      78216,
-      -2176
-     ],
-     [
-      118696,
-      78024,
-      -2176
-     ],
-     [
-      118904,
-      77848,
-      -2200
-     ],
-     [
-      119016,
-      77720,
-      -2248
-     ],
-     [
-      119080,
-      77592,
-      -2272
-     ],
-     [
-      119064,
-      77320,
-      -2272
-     ],
-     [
-      119208,
-      77176,
-      -2272
-     ],
-     [
-      119432,
-      77336,
-      -2240
-     ],
-     [
-      119528,
-      77512,
-      -2240
-     ],
-     [
-      119480,
-      77784,
-      -2240
-     ],
-     [
-      119480,
-      77832,
-      -2240
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 108,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19
-   ]
-  },
-  {
-   "i": 3,
-   "key": "c1:deliver:30291",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 19,
-   "links": [],
    "npc": {
-    "id": 30291,
-    "name": "Alex",
-    "title": "Captain",
+    "id": 30627,
+    "name": "Tree",
+    "title": "",
     "town": "Floran",
     "at": [
-     20943,
-     171358,
-     -3548
+     10133,
+     157155,
+     -2383
     ],
     "alt": []
    },
-   "text": "Bring Gold Bar x20, Alex's Order, Combined Map to Alex",
-   "needs": [
-    {
-     "id": 2807,
-     "name": "Gold Bar",
-     "n": 20
-    },
-    {
-     "id": 2794,
-     "name": "Alex's Order",
-     "n": 1
-    },
-    {
-     "id": 2805,
-     "name": "Combined Map",
-     "n": 1
-    }
-   ],
+   "text": "Talk to Tree",
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:30291@20943,171358",
+    "key": "npc:30627@10133,157155",
     "status": "ok",
-    "flags": [
-     "swim",
-     "over-breath"
-    ],
+    "flags": [],
     "from": ".dion",
-    "length": 22347,
-    "sec": 264,
-    "via": ".dion > Dion -> Bee Hive",
+    "length": 16244,
+    "sec": 155,
+    "via": ".dion",
     "steps": [
      {
       "do": "town",
@@ -2220,1065 +5593,169 @@
       "cmd": ".dion"
      },
      {
-      "do": "gk",
-      "from": "Dion",
-      "desc": "Dion -> Bee Hive",
-      "link": "bee hive",
-      "price": 2900,
-      "live": true
-     },
-     {
       "do": "walk",
-      "len": 22347,
+      "len": 16244,
       "how": "geodata",
-      "danger": 40
+      "danger": 34
      }
     ],
     "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Bee Hive"
+     "kind": "town",
+     "town": "Dion"
     },
     "simple": true,
     "pv": [
      [
-      34475,
-      188095,
-      -2976
+      15619,
+      143132,
+      -2688
      ],
      [
-      34296,
-      187896,
-      -2992
+      15126,
+      143626,
+      -2856
      ],
      [
-      33800,
-      187400,
-      -3108
+      14632,
+      144120,
+      -3024
      ],
      [
-      33304,
-      186904,
-      -3224
+      14136,
+      144616,
+      -3020
      ],
      [
-      32808,
-      186408,
-      -3308
+      13640,
+      145112,
+      -3016
      ],
      [
-      32312,
-      185912,
-      -3392
+      13144,
+      145608,
+      -2936
      ],
      [
-      31816,
-      185416,
-      -3528
+      12648,
+      146104,
+      -2856
      ],
      [
-      31320,
-      184920,
-      -3664
+      12160,
+      146600,
+      -2856
      ],
      [
-      30848,
-      184480,
-      -3668
+      11672,
+      147096,
+      -2856
      ],
      [
-      30376,
-      184040,
-      -3672
+      11672,
+      147144,
+      -2864
      ],
      [
-      29880,
-      183544,
-      -3564
+      11280,
+      147640,
+      -2892
      ],
      [
-      29384,
-      183048,
-      -3456
+      10888,
+      148136,
+      -2920
      ],
      [
-      29024,
-      182680,
-      -3544
+      10512,
+      148632,
+      -3060
      ],
      [
-      28664,
-      182312,
-      -3632
+      10136,
+      149128,
+      -3200
      ],
      [
-      28424,
-      181816,
-      -3528
+      10136,
+      150120,
+      -3368
      ],
      [
-      28552,
-      181656,
-      -3528
+      10136,
+      151112,
+      -3296
      ],
      [
-      28552,
-      181624,
-      -3512
+      10136,
+      152104,
+      -3192
      ],
      [
-      28056,
-      181128,
-      -3388
+      10136,
+      153096,
+      -3200
      ],
      [
-      27560,
-      180632,
-      -3264
-     ],
-     [
-      27064,
-      180136,
-      -3216
-     ],
-     [
-      26568,
-      179640,
-      -3168
-     ],
-     [
-      26072,
-      179144,
-      -3084
-     ],
-     [
-      25576,
-      178648,
+      10248,
+      153352,
       -3000
      ],
      [
-      25080,
-      178160,
-      -3000
+      10248,
+      153592,
+      -2864
      ],
      [
-      24584,
-      177672,
-      -3000
+      10136,
+      154584,
+      -2616
      ],
      [
-      24552,
-      177656,
-      -3008
+      10136,
+      155576,
+      -2448
      ],
      [
-      24200,
-      177304,
-      -3472
+      9992,
+      156104,
+      -2472
      ],
      [
-      24200,
-      177144,
-      -3720
+      9992,
+      156264,
+      -2472
      ],
      [
-      23704,
-      176648,
-      -3760
-     ],
-     [
-      23208,
-      176152,
-      -3800
-     ],
-     [
-      22712,
-      175656,
-      -3816
-     ],
-     [
-      22216,
-      175160,
-      -3832
-     ],
-     [
-      21720,
-      174664,
-      -3784
-     ],
-     [
-      21224,
-      174168,
-      -3736
-     ],
-     [
-      21080,
-      173672,
-      -3652
-     ],
-     [
-      20936,
-      173176,
-      -3568
-     ],
-     [
-      20936,
-      172184,
-      -3568
-     ],
-     [
-      20936,
-      171352,
-      -3552
+      10136,
+      157160,
+      -2384
      ]
     ],
-    "maxDanger": 40,
+    "maxDanger": 34,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
-     "water": {
-      "swimLen": 2809,
-      "maxSwim": 2809,
-      "overBreath": true
-     },
-     "danger": 40,
-     "dangerVsLevel": 1,
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -5,
      "aggro": []
     }
    },
-   "expectedSec": 289,
+   "expectedSec": 180,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18
-   ],
-   "override": {
-    "route": [
-     [
-      632,
-      179192,
-      -3720
-     ],
-     [
-      1032,
-      178904,
-      -3712
-     ],
-     [
-      2024,
-      178968,
-      -3672
-     ],
-     [
-      2808,
-      178968,
-      -3704
-     ],
-     [
-      3800,
-      178968,
-      -3632
-     ],
-     [
-      4792,
-      178968,
-      -3520
-     ],
-     [
-      5208,
-      178968,
-      -3472
-     ],
-     [
-      5928,
-      178168,
-      -3448
-     ],
-     [
-      6168,
-      177528,
-      -3528
-     ],
-     [
-      6600,
-      176760,
-      -3608
-     ],
-     [
-      6568,
-      176584,
-      -3616
-     ],
-     [
-      6232,
-      175976,
-      -3648
-     ],
-     [
-      6232,
-      175192,
-      -3648
-     ],
-     [
-      7128,
-      174200,
-      -3608
-     ],
-     [
-      7384,
-      173944,
-      -3624
-     ],
-     [
-      8024,
-      173864,
-      -3688
-     ],
-     [
-      8376,
-      173960,
-      -3712
-     ],
-     [
-      9000,
-      174008,
-      -3712
-     ],
-     [
-      9464,
-      173672,
-      -3720
-     ],
-     [
-      9464,
-      173624,
-      -3720
-     ],
-     [
-      9608,
-      173560,
-      -3720
-     ],
-     [
-      9624,
-      173560,
-      -3776
-     ],
-     [
-      10616,
-      173480,
-      -3616
-     ],
-     [
-      10792,
-      173352,
-      -3576
-     ],
-     [
-      11096,
-      172840,
-      -3560
-     ],
-     [
-      11096,
-      172760,
-      -3552
-     ],
-     [
-      11112,
-      172760,
-      -3552
-     ],
-     [
-      11128,
-      172712,
-      -3560
-     ],
-     [
-      11128,
-      172664,
-      -3608
-     ],
-     [
-      11192,
-      172536,
-      -3592
-     ],
-     [
-      12184,
-      172504,
-      -3440
-     ],
-     [
-      13176,
-      172504,
-      -3432
-     ],
-     [
-      13368,
-      172504,
-      -3440
-     ],
-     [
-      13512,
-      172584,
-      -3448
-     ],
-     [
-      13880,
-      172376,
-      -3448
-     ],
-     [
-      14872,
-      172456,
-      -3504
-     ],
-     [
-      15592,
-      172584,
-      -3544
-     ],
-     [
-      15672,
-      172504,
-      -3544
-     ],
-     [
-      15608,
-      172344,
-      -3552
-     ],
-     [
-      15640,
-      172408,
-      -3552
-     ],
-     [
-      16632,
-      172312,
-      -3560
-     ],
-     [
-      17080,
-      172584,
-      -3536
-     ],
-     [
-      17240,
-      172504,
-      -3536
-     ],
-     [
-      17720,
-      172056,
-      -3536
-     ],
-     [
-      18472,
-      171720,
-      -3544
-     ],
-     [
-      19112,
-      171832,
-      -3544
-     ],
-     [
-      19480,
-      172168,
-      -3536
-     ],
-     [
-      19688,
-      172136,
-      -3536
-     ],
-     [
-      19912,
-      171864,
-      -3528
-     ],
-     [
-      19848,
-      171784,
-      -3528
-     ],
-     [
-      20760,
-      171896,
-      -3576
-     ],
-     [
-      20936,
-      171352,
-      -3552
-     ]
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Plains of Dion"
-    },
-    "note": "route: Dion gatekeeper Trisha (live menu \"Plains of Dion\") -> Plains of Dion landing (630,179184,-3720, teleports_h5 id 1053), one DRY geodata leg by raid_policy.policyLeg (dry, walls block) to Captain Alex (30291 at 20943,171358,-3548): 26576 units, no swimming (the atlas way via Dion -> Bee Hive had a swim longer than one breath). Aggressive max on it: Delu Lizardman Commander lv 35.",
-    "editedAt": "2026-10-27T10:00:54.796Z",
-    "by": "quest-fixer batch 5"
-   },
-   "travelOverride": {
-    "src": "override",
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Plains of Dion"
-    },
-    "points": [
-     [
-      632,
-      179192,
-      -3720
-     ],
-     [
-      1032,
-      178904,
-      -3712
-     ],
-     [
-      2024,
-      178968,
-      -3672
-     ],
-     [
-      2808,
-      178968,
-      -3704
-     ],
-     [
-      3800,
-      178968,
-      -3632
-     ],
-     [
-      4792,
-      178968,
-      -3520
-     ],
-     [
-      5208,
-      178968,
-      -3472
-     ],
-     [
-      5928,
-      178168,
-      -3448
-     ],
-     [
-      6168,
-      177528,
-      -3528
-     ],
-     [
-      6600,
-      176760,
-      -3608
-     ],
-     [
-      6568,
-      176584,
-      -3616
-     ],
-     [
-      6232,
-      175976,
-      -3648
-     ],
-     [
-      6232,
-      175192,
-      -3648
-     ],
-     [
-      7128,
-      174200,
-      -3608
-     ],
-     [
-      7384,
-      173944,
-      -3624
-     ],
-     [
-      8024,
-      173864,
-      -3688
-     ],
-     [
-      8376,
-      173960,
-      -3712
-     ],
-     [
-      9000,
-      174008,
-      -3712
-     ],
-     [
-      9464,
-      173672,
-      -3720
-     ],
-     [
-      9464,
-      173624,
-      -3720
-     ],
-     [
-      9608,
-      173560,
-      -3720
-     ],
-     [
-      9624,
-      173560,
-      -3776
-     ],
-     [
-      10616,
-      173480,
-      -3616
-     ],
-     [
-      10792,
-      173352,
-      -3576
-     ],
-     [
-      11096,
-      172840,
-      -3560
-     ],
-     [
-      11096,
-      172760,
-      -3552
-     ],
-     [
-      11112,
-      172760,
-      -3552
-     ],
-     [
-      11128,
-      172712,
-      -3560
-     ],
-     [
-      11128,
-      172664,
-      -3608
-     ],
-     [
-      11192,
-      172536,
-      -3592
-     ],
-     [
-      12184,
-      172504,
-      -3440
-     ],
-     [
-      13176,
-      172504,
-      -3432
-     ],
-     [
-      13368,
-      172504,
-      -3440
-     ],
-     [
-      13512,
-      172584,
-      -3448
-     ],
-     [
-      13880,
-      172376,
-      -3448
-     ],
-     [
-      14872,
-      172456,
-      -3504
-     ],
-     [
-      15592,
-      172584,
-      -3544
-     ],
-     [
-      15672,
-      172504,
-      -3544
-     ],
-     [
-      15608,
-      172344,
-      -3552
-     ],
-     [
-      15640,
-      172408,
-      -3552
-     ],
-     [
-      16632,
-      172312,
-      -3560
-     ],
-     [
-      17080,
-      172584,
-      -3536
-     ],
-     [
-      17240,
-      172504,
-      -3536
-     ],
-     [
-      17720,
-      172056,
-      -3536
-     ],
-     [
-      18472,
-      171720,
-      -3544
-     ],
-     [
-      19112,
-      171832,
-      -3544
-     ],
-     [
-      19480,
-      172168,
-      -3536
-     ],
-     [
-      19688,
-      172136,
-      -3536
-     ],
-     [
-      19912,
-      171864,
-      -3528
-     ],
-     [
-      19848,
-      171784,
-      -3528
-     ],
-     [
-      20760,
-      171896,
-      -3576
-     ],
-     [
-      20936,
-      171352,
-      -3552
-     ]
-    ],
-    "pv": [
-     [
-      632,
-      179192,
-      -3720
-     ],
-     [
-      1032,
-      178904,
-      -3712
-     ],
-     [
-      2024,
-      178968,
-      -3672
-     ],
-     [
-      2808,
-      178968,
-      -3704
-     ],
-     [
-      3800,
-      178968,
-      -3632
-     ],
-     [
-      4792,
-      178968,
-      -3520
-     ],
-     [
-      5208,
-      178968,
-      -3472
-     ],
-     [
-      5928,
-      178168,
-      -3448
-     ],
-     [
-      6168,
-      177528,
-      -3528
-     ],
-     [
-      6600,
-      176760,
-      -3608
-     ],
-     [
-      6568,
-      176584,
-      -3616
-     ],
-     [
-      6232,
-      175976,
-      -3648
-     ],
-     [
-      6232,
-      175192,
-      -3648
-     ],
-     [
-      7384,
-      173944,
-      -3624
-     ],
-     [
-      8024,
-      173864,
-      -3688
-     ],
-     [
-      8376,
-      173960,
-      -3712
-     ],
-     [
-      9000,
-      174008,
-      -3712
-     ],
-     [
-      9464,
-      173672,
-      -3720
-     ],
-     [
-      9464,
-      173624,
-      -3720
-     ],
-     [
-      9608,
-      173560,
-      -3720
-     ],
-     [
-      9624,
-      173560,
-      -3776
-     ],
-     [
-      10616,
-      173480,
-      -3616
-     ],
-     [
-      10792,
-      173352,
-      -3576
-     ],
-     [
-      11096,
-      172840,
-      -3560
-     ],
-     [
-      11096,
-      172760,
-      -3552
-     ],
-     [
-      11112,
-      172760,
-      -3552
-     ],
-     [
-      11128,
-      172712,
-      -3560
-     ],
-     [
-      11128,
-      172664,
-      -3608
-     ],
-     [
-      11192,
-      172536,
-      -3592
-     ],
-     [
-      12184,
-      172504,
-      -3440
-     ],
-     [
-      13176,
-      172504,
-      -3432
-     ],
-     [
-      13368,
-      172504,
-      -3440
-     ],
-     [
-      13512,
-      172584,
-      -3448
-     ],
-     [
-      13880,
-      172376,
-      -3448
-     ],
-     [
-      14872,
-      172456,
-      -3504
-     ],
-     [
-      15592,
-      172584,
-      -3544
-     ],
-     [
-      15672,
-      172504,
-      -3544
-     ],
-     [
-      15640,
-      172408,
-      -3552
-     ],
-     [
-      16632,
-      172312,
-      -3560
-     ],
-     [
-      17080,
-      172584,
-      -3536
-     ],
-     [
-      17240,
-      172504,
-      -3536
-     ],
-     [
-      17720,
-      172056,
-      -3536
-     ],
-     [
-      18472,
-      171720,
-      -3544
-     ],
-     [
-      19112,
-      171832,
-      -3544
-     ],
-     [
-      19480,
-      172168,
-      -3536
-     ],
-     [
-      19688,
-      172136,
-      -3536
-     ],
-     [
-      19912,
-      171864,
-      -3528
-     ],
-     [
-      19848,
-      171784,
-      -3528
-     ],
-     [
-      20760,
-      171896,
-      -3576
-     ],
-     [
-      20936,
-      171352,
-      -3552
-     ]
-    ],
-    "length": 26576,
-    "checks": {
-     "aggro": []
-    }
-   },
-   "fixedByOverride": [
-    "route-swim"
+    16
    ]
   },
   {
-   "i": 4,
-   "key": "c1:talk:30628",
-   "cond": 1,
+   "i": 10,
+   "key": "c17:talk:30628",
+   "cond": 17,
    "kind": "talk",
    "to": 18,
    "links": [
@@ -3305,25 +5782,9 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    19
+    17
    ],
+   "overrideFrom": "c1:talk:30628",
    "override": {
     "npcAt": [
      10133,
@@ -3633,2656 +6094,6 @@
    },
    "fixedByOverride": [
     "npc-no-spawn"
-   ]
-  },
-  {
-   "i": 5,
-   "key": "c1:talk:30627",
-   "cond": 1,
-   "kind": "talk",
-   "to": 17,
-   "links": [
-    "Dig the root of the tree"
-   ],
-   "npc": {
-    "id": 30627,
-    "name": "Tree",
-    "title": "",
-    "town": "Floran",
-    "at": [
-     10133,
-     157155,
-     -2383
-    ],
-    "alt": []
-   },
-   "text": "Talk to Tree",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30627@10133,157155",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 16244,
-    "sec": 155,
-    "via": ".dion",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "walk",
-      "len": 16244,
-      "how": "geodata",
-      "danger": 34
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Dion"
-    },
-    "simple": true,
-    "pv": [
-     [
-      15619,
-      143132,
-      -2688
-     ],
-     [
-      15126,
-      143626,
-      -2856
-     ],
-     [
-      14632,
-      144120,
-      -3024
-     ],
-     [
-      14136,
-      144616,
-      -3020
-     ],
-     [
-      13640,
-      145112,
-      -3016
-     ],
-     [
-      13144,
-      145608,
-      -2936
-     ],
-     [
-      12648,
-      146104,
-      -2856
-     ],
-     [
-      12160,
-      146600,
-      -2856
-     ],
-     [
-      11672,
-      147096,
-      -2856
-     ],
-     [
-      11672,
-      147144,
-      -2864
-     ],
-     [
-      11280,
-      147640,
-      -2892
-     ],
-     [
-      10888,
-      148136,
-      -2920
-     ],
-     [
-      10512,
-      148632,
-      -3060
-     ],
-     [
-      10136,
-      149128,
-      -3200
-     ],
-     [
-      10136,
-      150120,
-      -3368
-     ],
-     [
-      10136,
-      151112,
-      -3296
-     ],
-     [
-      10136,
-      152104,
-      -3192
-     ],
-     [
-      10136,
-      153096,
-      -3200
-     ],
-     [
-      10248,
-      153352,
-      -3000
-     ],
-     [
-      10248,
-      153592,
-      -2864
-     ],
-     [
-      10136,
-      154584,
-      -2616
-     ],
-     [
-      10136,
-      155576,
-      -2448
-     ],
-     [
-      9992,
-      156104,
-      -2472
-     ],
-     [
-      9992,
-      156264,
-      -2472
-     ],
-     [
-      10136,
-      157160,
-      -2384
-     ]
-    ],
-    "maxDanger": 34,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 34,
-     "dangerVsLevel": -5,
-     "aggro": []
-    }
-   },
-   "expectedSec": 180,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    18,
-    19
-   ]
-  },
-  {
-   "i": 6,
-   "key": "c1:deliver:30730",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 16,
-   "links": [],
-   "npc": {
-    "id": 30730,
-    "name": "Jax",
-    "title": "Bodyguard",
-    "town": "Floran",
-    "at": [
-     -17305,
-     209742,
-     -3660
-    ],
-    "alt": []
-   },
-   "text": "Bring Jax's Diary to Jax",
-   "needs": [
-    {
-     "id": 2800,
-     "name": "Jax's Diary",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30730@-17305,209742",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 1971,
-    "sec": 61,
-    "via": ".gludin > Gludin -> Wastelands",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> Wastelands",
-      "link": "wastelands",
-      "price": 3400,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 1971,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> Wastelands"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -16526,
-      208032,
-      -3664
-     ],
-     [
-      -16915,
-      208532,
-      -3664
-     ],
-     [
-      -17304,
-      209032,
-      -3664
-     ],
-     [
-      -17304,
-      209736,
-      -3664
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 86,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    17,
-    18,
-    19
-   ]
-  },
-  {
-   "i": 7,
-   "key": "c1:deliver:30729",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 13,
-   "links": [],
-   "npc": {
-    "id": 30729,
-    "name": "Borys",
-    "title": "Drunkard",
-    "town": "Gludio",
-    "at": [
-     -15443,
-     124913,
-     -3130
-    ],
-    "alt": []
-   },
-   "text": "Bring Malrukian Wine to Borys",
-   "needs": [
-    {
-     "id": 2798,
-     "name": "Malrukian Wine",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30729@-15443,124913",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 5797,
-    "sec": 68,
-    "via": ".gludio",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "walk",
-      "len": 5797,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludio"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -12712,
-      122776,
-      -3116
-     ],
-     [
-      -12792,
-      122776,
-      -3112
-     ],
-     [
-      -12856,
-      122712,
-      -3112
-     ],
-     [
-      -13112,
-      122664,
-      -3088
-     ],
-     [
-      -13320,
-      122712,
-      -3048
-     ],
-     [
-      -13288,
-      122440,
-      -2984
-     ],
-     [
-      -13368,
-      122264,
-      -2984
-     ],
-     [
-      -13640,
-      122248,
-      -2984
-     ],
-     [
-      -13864,
-      122200,
-      -2984
-     ],
-     [
-      -14040,
-      122136,
-      -2984
-     ],
-     [
-      -14136,
-      122216,
-      -2984
-     ],
-     [
-      -14136,
-      122488,
-      -3112
-     ],
-     [
-      -14248,
-      122728,
-      -3112
-     ],
-     [
-      -14280,
-      122760,
-      -3112
-     ],
-     [
-      -14344,
-      123016,
-      -3112
-     ],
-     [
-      -14392,
-      123288,
-      -3112
-     ],
-     [
-      -14408,
-      123560,
-      -3112
-     ],
-     [
-      -14424,
-      123624,
-      -3112
-     ],
-     [
-      -14472,
-      123672,
-      -3112
-     ],
-     [
-      -14696,
-      123816,
-      -3112
-     ],
-     [
-      -14952,
-      123896,
-      -3112
-     ],
-     [
-      -15224,
-      123960,
-      -3112
-     ],
-     [
-      -15432,
-      124120,
-      -3112
-     ],
-     [
-      -15512,
-      124296,
-      -3112
-     ],
-     [
-      -15656,
-      124264,
-      -3112
-     ],
-     [
-      -15704,
-      124488,
-      -3112
-     ],
-     [
-      -15688,
-      124648,
-      -3120
-     ],
-     [
-      -15688,
-      124824,
-      -3120
-     ],
-     [
-      -15624,
-      124984,
-      -3128
-     ],
-     [
-      -15448,
-      124920,
-      -3120
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 93,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19
-   ]
-  },
-  {
-   "i": 8,
-   "key": "c1:deliver:30420",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 12,
-   "links": [],
-   "npc": {
-    "id": 30420,
-    "name": "Tyra",
-    "title": "",
-    "town": "Kamael Village",
-    "at": [
-     -61717,
-     75401,
-     -3352
-    ],
-    "alt": []
-   },
-   "text": "Bring Tyra's Contract to Tyra",
-   "needs": [
-    {
-     "id": 2796,
-     "name": "Tyra's Contract",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30420@-61717,75401",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 692,
-    "sec": 76,
-    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> DE Village",
-      "link": "dark elf village",
-      "price": 10000,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "DarkElf",
-      "desc": "DE Village -> Spider Nest",
-      "link": "spider nest",
-      "price": 3600,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 692,
-      "how": "geodata",
-      "danger": 18
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> DE Village"
-    },
-    "simple": false,
-    "pv": [
-     [
-      -61095,
-      75104,
-      -3352
-     ],
-     [
-      -61720,
-      75400,
-      -3352
-     ]
-    ],
-    "maxDanger": 18,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 18,
-     "dangerVsLevel": -21,
-     "aggro": []
-    }
-   },
-   "expectedSec": 101,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19
-   ]
-  },
-  {
-   "i": 9,
-   "key": "c1:deliver:30728",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 7,
-   "links": [],
-   "npc": {
-    "id": 30728,
-    "name": "Leirynn",
-    "title": "Militiaman",
-    "town": "Floran",
-    "at": [
-     10699,
-     171474,
-     -3572
-    ],
-    "alt": []
-   },
-   "text": "Bring Leirynn's 2nd Order, Chief Kalki's Fang to Leirynn",
-   "needs": [
-    {
-     "id": 2788,
-     "name": "Leirynn's 2nd Order",
-     "n": 1
-    },
-    {
-     "id": 2789,
-     "name": "Chief Kalki's Fang",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30728@10699,171474",
-    "status": "ok",
-    "flags": [
-     "swim"
-    ],
-    "from": ".dion",
-    "length": 13199,
-    "sec": 174,
-    "via": ".dion > Dion -> Plains of Dion",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "gk",
-      "from": "Dion",
-      "desc": "Dion -> Plains of Dion",
-      "link": "plains of dion",
-      "price": 1500,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 13199,
-      "how": "geodata",
-      "danger": 35
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Plains of Dion"
-    },
-    "simple": true,
-    "pv": [
-     [
-      630,
-      179184,
-      -3720
-     ],
-     [
-      1127,
-      178692,
-      -3684
-     ],
-     [
-      1624,
-      178200,
-      -3648
-     ],
-     [
-      2120,
-      177704,
-      -3604
-     ],
-     [
-      2616,
-      177208,
-      -3560
-     ],
-     [
-      3112,
-      176712,
-      -3452
-     ],
-     [
-      3608,
-      176216,
-      -3344
-     ],
-     [
-      4104,
-      175720,
-      -3376
-     ],
-     [
-      4600,
-      175224,
-      -3408
-     ],
-     [
-      5096,
-      174728,
-      -3420
-     ],
-     [
-      5592,
-      174232,
-      -3432
-     ],
-     [
-      6088,
-      173736,
-      -3460
-     ],
-     [
-      6584,
-      173240,
-      -3488
-     ],
-     [
-      7080,
-      172744,
-      -3532
-     ],
-     [
-      7576,
-      172248,
-      -3576
-     ],
-     [
-      8072,
-      171864,
-      -3704
-     ],
-     [
-      8568,
-      171480,
-      -3832
-     ],
-     [
-      9560,
-      171480,
-      -3848
-     ],
-     [
-      10552,
-      171480,
-      -3624
-     ],
-     [
-      10696,
-      171480,
-      -3568
-     ]
-    ],
-    "maxDanger": 35,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": {
-      "swimLen": 1632,
-      "maxSwim": 1632,
-      "overBreath": false
-     },
-     "danger": 35,
-     "dangerVsLevel": -4,
-     "aggro": []
-    }
-   },
-   "expectedSec": 199,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19
-   ]
-  },
-  {
-   "i": 10,
-   "key": "c7:deliver:30728",
-   "cond": 7,
-   "kind": "deliver",
-   "to": 5,
-   "links": [],
-   "npc": {
-    "id": 30728,
-    "name": "Leirynn",
-    "title": "Militiaman",
-    "town": "Floran",
-    "at": [
-     10699,
-     171474,
-     -3572
-    ],
-    "alt": []
-   },
-   "text": "Bring Leirynn's 1st Order to Leirynn",
-   "needs": [
-    {
-     "id": 2786,
-     "name": "Leirynn's 1st Order",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30728@10699,171474",
-    "status": "ok",
-    "flags": [
-     "swim"
-    ],
-    "from": ".dion",
-    "length": 13199,
-    "sec": 174,
-    "via": ".dion > Dion -> Plains of Dion",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "gk",
-      "from": "Dion",
-      "desc": "Dion -> Plains of Dion",
-      "link": "plains of dion",
-      "price": 1500,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 13199,
-      "how": "geodata",
-      "danger": 35
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Plains of Dion"
-    },
-    "simple": true,
-    "pv": [
-     [
-      630,
-      179184,
-      -3720
-     ],
-     [
-      1127,
-      178692,
-      -3684
-     ],
-     [
-      1624,
-      178200,
-      -3648
-     ],
-     [
-      2120,
-      177704,
-      -3604
-     ],
-     [
-      2616,
-      177208,
-      -3560
-     ],
-     [
-      3112,
-      176712,
-      -3452
-     ],
-     [
-      3608,
-      176216,
-      -3344
-     ],
-     [
-      4104,
-      175720,
-      -3376
-     ],
-     [
-      4600,
-      175224,
-      -3408
-     ],
-     [
-      5096,
-      174728,
-      -3420
-     ],
-     [
-      5592,
-      174232,
-      -3432
-     ],
-     [
-      6088,
-      173736,
-      -3460
-     ],
-     [
-      6584,
-      173240,
-      -3488
-     ],
-     [
-      7080,
-      172744,
-      -3532
-     ],
-     [
-      7576,
-      172248,
-      -3576
-     ],
-     [
-      8072,
-      171864,
-      -3704
-     ],
-     [
-      8568,
-      171480,
-      -3832
-     ],
-     [
-      9560,
-      171480,
-      -3848
-     ],
-     [
-      10552,
-      171480,
-      -3624
-     ],
-     [
-      10696,
-      171480,
-      -3568
-     ]
-    ],
-    "maxDanger": 35,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": {
-      "swimLen": 1632,
-      "maxSwim": 1632,
-      "overBreath": false
-     },
-     "danger": 35,
-     "dangerVsLevel": -4,
-     "aggro": []
-    }
-   },
-   "expectedSec": 199,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    7
-   ]
-  },
-  {
-   "i": 11,
-   "key": "c12:deliver:30420",
-   "cond": 12,
-   "kind": "deliver",
-   "to": 10,
-   "links": [
-    "I accept the proposal."
-   ],
-   "npc": {
-    "id": 30420,
-    "name": "Tyra",
-    "title": "",
-    "town": "Kamael Village",
-    "at": [
-     -61717,
-     75401,
-     -3352
-    ],
-    "alt": []
-   },
-   "text": "Bring Wine Catalog to Tyra",
-   "needs": [
-    {
-     "id": 2795,
-     "name": "Wine Catalog",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30420@-61717,75401",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 692,
-    "sec": 76,
-    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "gk",
-      "from": "Gludio",
-      "desc": "Gludio -> DE Village",
-      "link": "dark elf village",
-      "price": 10000,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "DarkElf",
-      "desc": "DE Village -> Spider Nest",
-      "link": "spider nest",
-      "price": 3600,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 692,
-      "how": "geodata",
-      "danger": 18
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludio",
-     "desc": "Gludio -> DE Village"
-    },
-    "simple": false,
-    "pv": [
-     [
-      -61095,
-      75104,
-      -3352
-     ],
-     [
-      -61720,
-      75400,
-      -3352
-     ]
-    ],
-    "maxDanger": 18,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 18,
-     "dangerVsLevel": -21,
-     "aggro": []
-    }
-   },
-   "expectedSec": 101,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    12
-   ]
-  },
-  {
-   "i": 12,
-   "key": "c13:deliver:30729",
-   "cond": 13,
-   "kind": "deliver",
-   "to": 9,
-   "links": [],
-   "npc": {
-    "id": 30729,
-    "name": "Borys",
-    "title": "Drunkard",
-    "town": "Gludio",
-    "at": [
-     -15443,
-     124913,
-     -3130
-    ],
-    "alt": []
-   },
-   "text": "Bring Alex's Letter to Borys",
-   "needs": [
-    {
-     "id": 2793,
-     "name": "Alex's Letter",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30729@-15443,124913",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 5797,
-    "sec": 68,
-    "via": ".gludio",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "walk",
-      "len": 5797,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludio"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -12712,
-      122776,
-      -3116
-     ],
-     [
-      -12792,
-      122776,
-      -3112
-     ],
-     [
-      -12856,
-      122712,
-      -3112
-     ],
-     [
-      -13112,
-      122664,
-      -3088
-     ],
-     [
-      -13320,
-      122712,
-      -3048
-     ],
-     [
-      -13288,
-      122440,
-      -2984
-     ],
-     [
-      -13368,
-      122264,
-      -2984
-     ],
-     [
-      -13640,
-      122248,
-      -2984
-     ],
-     [
-      -13864,
-      122200,
-      -2984
-     ],
-     [
-      -14040,
-      122136,
-      -2984
-     ],
-     [
-      -14136,
-      122216,
-      -2984
-     ],
-     [
-      -14136,
-      122488,
-      -3112
-     ],
-     [
-      -14248,
-      122728,
-      -3112
-     ],
-     [
-      -14280,
-      122760,
-      -3112
-     ],
-     [
-      -14344,
-      123016,
-      -3112
-     ],
-     [
-      -14392,
-      123288,
-      -3112
-     ],
-     [
-      -14408,
-      123560,
-      -3112
-     ],
-     [
-      -14424,
-      123624,
-      -3112
-     ],
-     [
-      -14472,
-      123672,
-      -3112
-     ],
-     [
-      -14696,
-      123816,
-      -3112
-     ],
-     [
-      -14952,
-      123896,
-      -3112
-     ],
-     [
-      -15224,
-      123960,
-      -3112
-     ],
-     [
-      -15432,
-      124120,
-      -3112
-     ],
-     [
-      -15512,
-      124296,
-      -3112
-     ],
-     [
-      -15656,
-      124264,
-      -3112
-     ],
-     [
-      -15704,
-      124488,
-      -3112
-     ],
-     [
-      -15688,
-      124648,
-      -3120
-     ],
-     [
-      -15688,
-      124824,
-      -3120
-     ],
-     [
-      -15624,
-      124984,
-      -3128
-     ],
-     [
-      -15448,
-      124920,
-      -3120
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 93,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    13
-   ]
-  },
-  {
-   "i": 13,
-   "key": "c16:deliver:30730",
-   "cond": 16,
-   "kind": "deliver",
-   "to": 14,
-   "links": [
-    "Say you want other pieces"
-   ],
-   "npc": {
-    "id": 30730,
-    "name": "Jax",
-    "title": "Bodyguard",
-    "town": "Floran",
-    "at": [
-     -17305,
-     209742,
-     -3660
-    ],
-    "alt": []
-   },
-   "text": "Bring Old Order to Jax",
-   "needs": [
-    {
-     "id": 2799,
-     "name": "Old Order",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30730@-17305,209742",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 1971,
-    "sec": 61,
-    "via": ".gludin > Gludin -> Wastelands",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> Wastelands",
-      "link": "wastelands",
-      "price": 3400,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 1971,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> Wastelands"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -16526,
-      208032,
-      -3664
-     ],
-     [
-      -16915,
-      208532,
-      -3664
-     ],
-     [
-      -17304,
-      209032,
-      -3664
-     ],
-     [
-      -17304,
-      209736,
-      -3664
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 86,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    16
-   ]
-  },
-  {
-   "i": 14,
-   "key": "c19:deliver:30291",
-   "cond": 19,
-   "kind": "deliver",
-   "to": 8,
-   "links": [
-    "Agree to search for the Gold Bar"
-   ],
-   "npc": {
-    "id": 30291,
-    "name": "Alex",
-    "title": "Captain",
-    "town": "Floran",
-    "at": [
-     20943,
-     171358,
-     -3548
-    ],
-    "alt": []
-   },
-   "text": "Bring Leirynn's Report, Strange Map to Alex",
-   "needs": [
-    {
-     "id": 2790,
-     "name": "Leirynn's Report",
-     "n": 1
-    },
-    {
-     "id": 2791,
-     "name": "Strange Map",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30291@20943,171358",
-    "status": "ok",
-    "flags": [
-     "swim",
-     "over-breath"
-    ],
-    "from": ".dion",
-    "length": 22347,
-    "sec": 264,
-    "via": ".dion > Dion -> Bee Hive",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "gk",
-      "from": "Dion",
-      "desc": "Dion -> Bee Hive",
-      "link": "bee hive",
-      "price": 2900,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 22347,
-      "how": "geodata",
-      "danger": 40
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Bee Hive"
-    },
-    "simple": true,
-    "pv": [
-     [
-      34475,
-      188095,
-      -2976
-     ],
-     [
-      34296,
-      187896,
-      -2992
-     ],
-     [
-      33800,
-      187400,
-      -3108
-     ],
-     [
-      33304,
-      186904,
-      -3224
-     ],
-     [
-      32808,
-      186408,
-      -3308
-     ],
-     [
-      32312,
-      185912,
-      -3392
-     ],
-     [
-      31816,
-      185416,
-      -3528
-     ],
-     [
-      31320,
-      184920,
-      -3664
-     ],
-     [
-      30848,
-      184480,
-      -3668
-     ],
-     [
-      30376,
-      184040,
-      -3672
-     ],
-     [
-      29880,
-      183544,
-      -3564
-     ],
-     [
-      29384,
-      183048,
-      -3456
-     ],
-     [
-      29024,
-      182680,
-      -3544
-     ],
-     [
-      28664,
-      182312,
-      -3632
-     ],
-     [
-      28424,
-      181816,
-      -3528
-     ],
-     [
-      28552,
-      181656,
-      -3528
-     ],
-     [
-      28552,
-      181624,
-      -3512
-     ],
-     [
-      28056,
-      181128,
-      -3388
-     ],
-     [
-      27560,
-      180632,
-      -3264
-     ],
-     [
-      27064,
-      180136,
-      -3216
-     ],
-     [
-      26568,
-      179640,
-      -3168
-     ],
-     [
-      26072,
-      179144,
-      -3084
-     ],
-     [
-      25576,
-      178648,
-      -3000
-     ],
-     [
-      25080,
-      178160,
-      -3000
-     ],
-     [
-      24584,
-      177672,
-      -3000
-     ],
-     [
-      24552,
-      177656,
-      -3008
-     ],
-     [
-      24200,
-      177304,
-      -3472
-     ],
-     [
-      24200,
-      177144,
-      -3720
-     ],
-     [
-      23704,
-      176648,
-      -3760
-     ],
-     [
-      23208,
-      176152,
-      -3800
-     ],
-     [
-      22712,
-      175656,
-      -3816
-     ],
-     [
-      22216,
-      175160,
-      -3832
-     ],
-     [
-      21720,
-      174664,
-      -3784
-     ],
-     [
-      21224,
-      174168,
-      -3736
-     ],
-     [
-      21080,
-      173672,
-      -3652
-     ],
-     [
-      20936,
-      173176,
-      -3568
-     ],
-     [
-      20936,
-      172184,
-      -3568
-     ],
-     [
-      20936,
-      171352,
-      -3552
-     ]
-    ],
-    "maxDanger": 40,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": {
-      "swimLen": 2809,
-      "maxSwim": 2809,
-      "overBreath": true
-     },
-     "danger": 40,
-     "dangerVsLevel": 1,
-     "aggro": []
-    }
-   },
-   "expectedSec": 289,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    19
-   ],
-   "override": {
-    "route": [
-     [
-      632,
-      179192,
-      -3720
-     ],
-     [
-      1032,
-      178904,
-      -3712
-     ],
-     [
-      2024,
-      178968,
-      -3672
-     ],
-     [
-      2808,
-      178968,
-      -3704
-     ],
-     [
-      3800,
-      178968,
-      -3632
-     ],
-     [
-      4792,
-      178968,
-      -3520
-     ],
-     [
-      5208,
-      178968,
-      -3472
-     ],
-     [
-      5928,
-      178168,
-      -3448
-     ],
-     [
-      6168,
-      177528,
-      -3528
-     ],
-     [
-      6600,
-      176760,
-      -3608
-     ],
-     [
-      6568,
-      176584,
-      -3616
-     ],
-     [
-      6232,
-      175976,
-      -3648
-     ],
-     [
-      6232,
-      175192,
-      -3648
-     ],
-     [
-      7128,
-      174200,
-      -3608
-     ],
-     [
-      7384,
-      173944,
-      -3624
-     ],
-     [
-      8024,
-      173864,
-      -3688
-     ],
-     [
-      8376,
-      173960,
-      -3712
-     ],
-     [
-      9000,
-      174008,
-      -3712
-     ],
-     [
-      9464,
-      173672,
-      -3720
-     ],
-     [
-      9464,
-      173624,
-      -3720
-     ],
-     [
-      9608,
-      173560,
-      -3720
-     ],
-     [
-      9624,
-      173560,
-      -3776
-     ],
-     [
-      10616,
-      173480,
-      -3616
-     ],
-     [
-      10792,
-      173352,
-      -3576
-     ],
-     [
-      11096,
-      172840,
-      -3560
-     ],
-     [
-      11096,
-      172760,
-      -3552
-     ],
-     [
-      11112,
-      172760,
-      -3552
-     ],
-     [
-      11128,
-      172712,
-      -3560
-     ],
-     [
-      11128,
-      172664,
-      -3608
-     ],
-     [
-      11192,
-      172536,
-      -3592
-     ],
-     [
-      12184,
-      172504,
-      -3440
-     ],
-     [
-      13176,
-      172504,
-      -3432
-     ],
-     [
-      13368,
-      172504,
-      -3440
-     ],
-     [
-      13512,
-      172584,
-      -3448
-     ],
-     [
-      13880,
-      172376,
-      -3448
-     ],
-     [
-      14872,
-      172456,
-      -3504
-     ],
-     [
-      15592,
-      172584,
-      -3544
-     ],
-     [
-      15672,
-      172504,
-      -3544
-     ],
-     [
-      15608,
-      172344,
-      -3552
-     ],
-     [
-      15640,
-      172408,
-      -3552
-     ],
-     [
-      16632,
-      172312,
-      -3560
-     ],
-     [
-      17080,
-      172584,
-      -3536
-     ],
-     [
-      17240,
-      172504,
-      -3536
-     ],
-     [
-      17720,
-      172056,
-      -3536
-     ],
-     [
-      18472,
-      171720,
-      -3544
-     ],
-     [
-      19112,
-      171832,
-      -3544
-     ],
-     [
-      19480,
-      172168,
-      -3536
-     ],
-     [
-      19688,
-      172136,
-      -3536
-     ],
-     [
-      19912,
-      171864,
-      -3528
-     ],
-     [
-      19848,
-      171784,
-      -3528
-     ],
-     [
-      20760,
-      171896,
-      -3576
-     ],
-     [
-      20936,
-      171352,
-      -3552
-     ]
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Plains of Dion"
-    },
-    "note": "route: Dion gatekeeper Trisha (live menu \"Plains of Dion\") -> Plains of Dion landing (630,179184,-3720, teleports_h5 id 1053), one DRY geodata leg by raid_policy.policyLeg (dry, walls block) to Captain Alex (30291 at 20943,171358,-3548): 26576 units, no swimming (the atlas way via Dion -> Bee Hive had a swim longer than one breath). Aggressive max on it: Delu Lizardman Commander lv 35.",
-    "editedAt": "2026-10-27T10:00:54.800Z",
-    "by": "quest-fixer batch 5"
-   },
-   "travelOverride": {
-    "src": "override",
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Plains of Dion"
-    },
-    "points": [
-     [
-      632,
-      179192,
-      -3720
-     ],
-     [
-      1032,
-      178904,
-      -3712
-     ],
-     [
-      2024,
-      178968,
-      -3672
-     ],
-     [
-      2808,
-      178968,
-      -3704
-     ],
-     [
-      3800,
-      178968,
-      -3632
-     ],
-     [
-      4792,
-      178968,
-      -3520
-     ],
-     [
-      5208,
-      178968,
-      -3472
-     ],
-     [
-      5928,
-      178168,
-      -3448
-     ],
-     [
-      6168,
-      177528,
-      -3528
-     ],
-     [
-      6600,
-      176760,
-      -3608
-     ],
-     [
-      6568,
-      176584,
-      -3616
-     ],
-     [
-      6232,
-      175976,
-      -3648
-     ],
-     [
-      6232,
-      175192,
-      -3648
-     ],
-     [
-      7128,
-      174200,
-      -3608
-     ],
-     [
-      7384,
-      173944,
-      -3624
-     ],
-     [
-      8024,
-      173864,
-      -3688
-     ],
-     [
-      8376,
-      173960,
-      -3712
-     ],
-     [
-      9000,
-      174008,
-      -3712
-     ],
-     [
-      9464,
-      173672,
-      -3720
-     ],
-     [
-      9464,
-      173624,
-      -3720
-     ],
-     [
-      9608,
-      173560,
-      -3720
-     ],
-     [
-      9624,
-      173560,
-      -3776
-     ],
-     [
-      10616,
-      173480,
-      -3616
-     ],
-     [
-      10792,
-      173352,
-      -3576
-     ],
-     [
-      11096,
-      172840,
-      -3560
-     ],
-     [
-      11096,
-      172760,
-      -3552
-     ],
-     [
-      11112,
-      172760,
-      -3552
-     ],
-     [
-      11128,
-      172712,
-      -3560
-     ],
-     [
-      11128,
-      172664,
-      -3608
-     ],
-     [
-      11192,
-      172536,
-      -3592
-     ],
-     [
-      12184,
-      172504,
-      -3440
-     ],
-     [
-      13176,
-      172504,
-      -3432
-     ],
-     [
-      13368,
-      172504,
-      -3440
-     ],
-     [
-      13512,
-      172584,
-      -3448
-     ],
-     [
-      13880,
-      172376,
-      -3448
-     ],
-     [
-      14872,
-      172456,
-      -3504
-     ],
-     [
-      15592,
-      172584,
-      -3544
-     ],
-     [
-      15672,
-      172504,
-      -3544
-     ],
-     [
-      15608,
-      172344,
-      -3552
-     ],
-     [
-      15640,
-      172408,
-      -3552
-     ],
-     [
-      16632,
-      172312,
-      -3560
-     ],
-     [
-      17080,
-      172584,
-      -3536
-     ],
-     [
-      17240,
-      172504,
-      -3536
-     ],
-     [
-      17720,
-      172056,
-      -3536
-     ],
-     [
-      18472,
-      171720,
-      -3544
-     ],
-     [
-      19112,
-      171832,
-      -3544
-     ],
-     [
-      19480,
-      172168,
-      -3536
-     ],
-     [
-      19688,
-      172136,
-      -3536
-     ],
-     [
-      19912,
-      171864,
-      -3528
-     ],
-     [
-      19848,
-      171784,
-      -3528
-     ],
-     [
-      20760,
-      171896,
-      -3576
-     ],
-     [
-      20936,
-      171352,
-      -3552
-     ]
-    ],
-    "pv": [
-     [
-      632,
-      179192,
-      -3720
-     ],
-     [
-      1032,
-      178904,
-      -3712
-     ],
-     [
-      2024,
-      178968,
-      -3672
-     ],
-     [
-      2808,
-      178968,
-      -3704
-     ],
-     [
-      3800,
-      178968,
-      -3632
-     ],
-     [
-      4792,
-      178968,
-      -3520
-     ],
-     [
-      5208,
-      178968,
-      -3472
-     ],
-     [
-      5928,
-      178168,
-      -3448
-     ],
-     [
-      6168,
-      177528,
-      -3528
-     ],
-     [
-      6600,
-      176760,
-      -3608
-     ],
-     [
-      6568,
-      176584,
-      -3616
-     ],
-     [
-      6232,
-      175976,
-      -3648
-     ],
-     [
-      6232,
-      175192,
-      -3648
-     ],
-     [
-      7384,
-      173944,
-      -3624
-     ],
-     [
-      8024,
-      173864,
-      -3688
-     ],
-     [
-      8376,
-      173960,
-      -3712
-     ],
-     [
-      9000,
-      174008,
-      -3712
-     ],
-     [
-      9464,
-      173672,
-      -3720
-     ],
-     [
-      9464,
-      173624,
-      -3720
-     ],
-     [
-      9608,
-      173560,
-      -3720
-     ],
-     [
-      9624,
-      173560,
-      -3776
-     ],
-     [
-      10616,
-      173480,
-      -3616
-     ],
-     [
-      10792,
-      173352,
-      -3576
-     ],
-     [
-      11096,
-      172840,
-      -3560
-     ],
-     [
-      11096,
-      172760,
-      -3552
-     ],
-     [
-      11112,
-      172760,
-      -3552
-     ],
-     [
-      11128,
-      172712,
-      -3560
-     ],
-     [
-      11128,
-      172664,
-      -3608
-     ],
-     [
-      11192,
-      172536,
-      -3592
-     ],
-     [
-      12184,
-      172504,
-      -3440
-     ],
-     [
-      13176,
-      172504,
-      -3432
-     ],
-     [
-      13368,
-      172504,
-      -3440
-     ],
-     [
-      13512,
-      172584,
-      -3448
-     ],
-     [
-      13880,
-      172376,
-      -3448
-     ],
-     [
-      14872,
-      172456,
-      -3504
-     ],
-     [
-      15592,
-      172584,
-      -3544
-     ],
-     [
-      15672,
-      172504,
-      -3544
-     ],
-     [
-      15640,
-      172408,
-      -3552
-     ],
-     [
-      16632,
-      172312,
-      -3560
-     ],
-     [
-      17080,
-      172584,
-      -3536
-     ],
-     [
-      17240,
-      172504,
-      -3536
-     ],
-     [
-      17720,
-      172056,
-      -3536
-     ],
-     [
-      18472,
-      171720,
-      -3544
-     ],
-     [
-      19112,
-      171832,
-      -3544
-     ],
-     [
-      19480,
-      172168,
-      -3536
-     ],
-     [
-      19688,
-      172136,
-      -3536
-     ],
-     [
-      19912,
-      171864,
-      -3528
-     ],
-     [
-      19848,
-      171784,
-      -3528
-     ],
-     [
-      20760,
-      171896,
-      -3576
-     ],
-     [
-      20936,
-      171352,
-      -3552
-     ]
-    ],
-    "length": 26576,
-    "checks": {
-     "aggro": []
-    }
-   },
-   "fixedByOverride": [
-    "route-swim"
    ]
   }
  ],

@@ -1,0 +1,294 @@
+{
+ "npcId": 32214,
+ "name": "Meldina",
+ "title": "Grand Master",
+ "type": "L2VillageMasterKamael",
+ "generated": "2026-10-27T18:18:03.358Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/32214.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "65": {
+   "name": "Certified Soul Breaker",
+   "listText": [
+    "[Certified Soul Breaker]",
+    "[Certified Soul Breaker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32214-01.html",
+     "when": "state STARTED; memo 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32214-03.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "66": {
+   "name": "Certified Arbalester",
+   "listText": [
+    "[Certified Arbalester]",
+    "[Certified Arbalester (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00066_CertifiedArbalester/32214-01.html",
+     "when": "state STARTED; memoState < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32214-02.html",
+     "when": "state STARTED; memo 10; !memoState < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32214-05.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32214-06.html",
+     "when": "state STARTED; memoState > 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/32214.htm": {
+   "file": "villagemaster/32214.htm",
+   "quest": null,
+   "text": "Grand Master Meldina: Have you heard the news? Apparently all Giran is abuzz about our Kamael Guild; everyone, it seems, is on fire to know more about the Kamael, our abilities and our intentions. And interesting situation, to be sure. I could almost wish that another held this position...",
+   "header": "Grand Master Meldina",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest KamaelChange2",
+     "kind": "quest",
+     "script": "KamaelChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32214-01.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32214-01.html",
+   "quest": 65,
+   "text": "Grand Master Meldina: Why have you come to me? Ah, the one you seek has already departed with the information. Why are you looking for him?",
+   "header": "Grand Master Meldina",
+   "when": [
+    "state STARTED; memo 10"
+   ],
+   "links": [
+    {
+     "text": "What did you ask?",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 32214-02.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "32214-02.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32214-02.html",
+     "effect": "cond:11"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32214-03.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32214-03.html",
+   "quest": 65,
+   "text": "Meldina: The man you asked about said that he is on his way to the pier in Giran. Go there if you want to find him. Ask the wharf manager, Felton, about the freight itself.",
+   "header": "Meldina",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32214-01.html": {
+   "file": "Q00066_CertifiedArbalester/32214-01.html",
+   "quest": 66,
+   "text": "Grand Master Meldina: What is it? We are occupied with more urgent issues at the moment. Come again later...",
+   "header": "Grand Master Meldina",
+   "when": [
+    "state STARTED; memoState < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32214-02.html": {
+   "file": "Q00066_CertifiedArbalester/32214-02.html",
+   "quest": 66,
+   "text": "Grand Master Meldina: Hmm... I know who you are and why you have come. Truth be told, We have been watching you since you went to Master Rindy. In fact, we were preparing to contact you when you obtained the manuscript. And now you have come to me...",
+   "header": "Grand Master Meldina",
+   "when": [
+    "state STARTED; memo 10; !memoState < 10"
+   ],
+   "links": [
+    {
+     "text": "What do you mean?",
+     "bypass": "Quest Q00066_CertifiedArbalester 32214-03.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32214-03.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32214-03.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32214-05.html": {
+   "file": "Q00066_CertifiedArbalester/32214-05.html",
+   "quest": 66,
+   "text": "Grand Master Meldina: Go find Celsia and take the test...",
+   "header": "Grand Master Meldina",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32214-06.html": {
+   "file": "Q00066_CertifiedArbalester/32214-06.html",
+   "quest": 66,
+   "text": "Grand Master Meldina: How is the test progressing? Good luck, my young friend...",
+   "header": "Grand Master Meldina",
+   "when": [
+    "state STARTED; memoState > 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32214-02.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32214-02.html",
+   "quest": 65,
+   "text": "Grand Master Meldina: Nothing important. He just asked when the freight will arrive -- at the pier in Giran tomorrow, as it happens. Perhaps you will be able to find him there. Ask the wharf manager, Felton, about the freight itself if you are curious.",
+   "header": "Grand Master Meldina",
+   "sets": {
+    "cond": "11"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32214-03.html": {
+   "file": "Q00066_CertifiedArbalester/32214-03.html",
+   "quest": 66,
+   "text": "Grand Master Meldina: I am a member of the secret society you have been investigating... We are called Inquisitors among those who know of our existence. It is our responsibility to protect the secrets of the Kamael, as well as to unearth conspiracies that might threaten our people. Our work is hig…",
+   "header": "Grand Master Meldina",
+   "links": [
+    {
+     "text": "Yes, I want to take the test.",
+     "bypass": "Quest Q00066_CertifiedArbalester 32214-04.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32214-04.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32214-04.html",
+     "effect": "cond:10"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32214-04.html": {
+   "file": "Q00066_CertifiedArbalester/32214-04.html",
+   "quest": 66,
+   "text": "Grand Master Meldina: Very well... Hand me the encrypted manuscript you have brought. I know the contents of the manuscript, but it is something not suited for you...yet. Do not be disappointed, however. You will have an opportunity to learn it later for yourself. In the meantime, take this badge a…",
+   "header": "Grand Master Meldina",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Soul Breaker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00065_CertifiedSoulBreaker",
+     "kind": "quest",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32214-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Certified Arbalester (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00066_CertifiedArbalester",
+     "kind": "quest",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32214-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

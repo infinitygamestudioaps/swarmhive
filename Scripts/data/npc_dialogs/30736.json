@@ -1,0 +1,1016 @@
+{
+ "npcId": 30736,
+ "name": "Redfoot",
+ "title": "Mercenary",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.065Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30736.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "333": {
+   "name": "Hunt Of The Black Lion",
+   "listText": [
+    "[Hunt of the Black Lion]",
+    "[Hunt of the Black Lion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30736-02.html",
+     "when": "state STARTED; (getQuestItemsCount(player, CARGO_BOX_1ST) + getQuestItemsCount(player, CARGO_BOX_2ND) + getQuestItemsCount(player, CARG",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30736-01.html",
+     "when": "state STARTED; !(getQuestItemsCount(player, CARGO_BOX_1ST) + getQuestItemsCount(player, CARGO_BOX_2ND) + getQuestItemsCount(player, CAR",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30736.htm": {
+   "file": "default/30736.htm",
+   "quest": null,
+   "text": "Mercenary Redfoot: Greetings, sire! What brings a nobleman such as you to this dark alleyway? I am Redfoot, a soldier of the Black Lion Mercenary Troop. I am not a fighter, but instead am in charge of delivering war supplies.",
+   "header": "Mercenary Redfoot",
+   "links": [
+    {
+     "text": "\"Tell me about the Black Lion Mercenary Troop.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30736-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30736-1.htm": {
+   "file": "default/30736-1.htm",
+   "quest": null,
+   "text": "Mercenary Redfoot: Currently our 3rd platoon, the main force of our mercenary troop, is fighting an important battle in Gludio against the ol mahum stragglers. The 2nd platoon has been dispatched to drive out the evil spirits of the Wasteland. Captain Leopold , who is stationed in Gludin, is better…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30736.htm"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-02.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-02.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Hey friend, did you say that you are on active duty? I salute your honorable service! Is there anything I can do to help? What kind of box is that...? Oh, I recognize it now. That's a Cargo Box used by traders. Since you brought it to me I assume you have no intention of returnin…",
+   "header": "Mercenary Redfoot",
+   "when": [
+    "state STARTED; (getQuestItemsCount(player, CARGO_BOX_1ST) + getQuestItemsCount(player, CARGO_BOX_2ND) + getQuestItemsCount(player, CARG"
+   ],
+   "links": [
+    {
+     "text": "\"Please open the box for me.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-03.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-03.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-03.html",
+     "toAll": [
+      "Q00333_HuntOfTheBlackLion/30736-03.html",
+      "Q00333_HuntOfTheBlackLion/30736-04a.html",
+      "Q00333_HuntOfTheBlackLion/30736-04b.html",
+      "Q00333_HuntOfTheBlackLion/30736-04c.html",
+      "Q00333_HuntOfTheBlackLion/30736-04d.html",
+      "Q00333_HuntOfTheBlackLion/30736-04e.html",
+      "Q00333_HuntOfTheBlackLion/30736-04f.html",
+      "Q00333_HuntOfTheBlackLion/30736-04g.html",
+      "Q00333_HuntOfTheBlackLion/30736-04h.html",
+      "Q00333_HuntOfTheBlackLion/30736-04i.html",
+      "Q00333_HuntOfTheBlackLion/30736-04j.html",
+      "Q00333_HuntOfTheBlackLion/30736-04k.html",
+      "Q00333_HuntOfTheBlackLion/30736-04l.html",
+      "Q00333_HuntOfTheBlackLion/30736-04m.html",
+      "Q00333_HuntOfTheBlackLion/30736-04n.html",
+      "Q00333_HuntOfTheBlackLion/30736-04o.html",
+      "Q00333_HuntOfTheBlackLion/30736-05.html"
+     ]
+    },
+    {
+     "text": "\"Do you have any useful information?\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-07.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-07.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-07.html",
+     "toAll": [
+      "Q00333_HuntOfTheBlackLion/30736-07.html",
+      "Q00333_HuntOfTheBlackLion/30736-08.html",
+      "Q00333_HuntOfTheBlackLion/30736-08a.html",
+      "Q00333_HuntOfTheBlackLion/30736-08b.html",
+      "Q00333_HuntOfTheBlackLion/30736-08c.html",
+      "Q00333_HuntOfTheBlackLion/30736-08d.html",
+      "Q00333_HuntOfTheBlackLion/30736-08e.html",
+      "Q00333_HuntOfTheBlackLion/30736-08f.html",
+      "Q00333_HuntOfTheBlackLion/30736-08g.html",
+      "Q00333_HuntOfTheBlackLion/30736-08h.html",
+      "Q00333_HuntOfTheBlackLion/30736-08i.html",
+      "Q00333_HuntOfTheBlackLion/30736-08j.html",
+      "Q00333_HuntOfTheBlackLion/30736-08k.html",
+      "Q00333_HuntOfTheBlackLion/30736-08l.html",
+      "Q00333_HuntOfTheBlackLion/30736-08m.html",
+      "Q00333_HuntOfTheBlackLion/30736-08n.html",
+      "Q00333_HuntOfTheBlackLion/30736-08o.html",
+      "Q00333_HuntOfTheBlackLion/30736-08p.html",
+      "Q00333_HuntOfTheBlackLion/30736-08q.html",
+      "Q00333_HuntOfTheBlackLion/30736-08r.html",
+      "Q00333_HuntOfTheBlackLion/30736-08s.html",
+      "Q00333_HuntOfTheBlackLion/30736-08t.html"
+     ]
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-01.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-01.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Hey friend, did you say that you are on active duty? I salute your honorable service! Is there anything I can do to help?",
+   "header": "Mercenary Redfoot",
+   "when": [
+    "state STARTED; !(getQuestItemsCount(player, CARGO_BOX_1ST) + getQuestItemsCount(player, CARGO_BOX_2ND) + getQuestItemsCount(player, CAR"
+   ],
+   "links": [
+    {
+     "text": "\"Do you have any useful information?\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-07.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-07.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-07.html",
+     "toAll": [
+      "Q00333_HuntOfTheBlackLion/30736-07.html",
+      "Q00333_HuntOfTheBlackLion/30736-08.html",
+      "Q00333_HuntOfTheBlackLion/30736-08a.html",
+      "Q00333_HuntOfTheBlackLion/30736-08b.html",
+      "Q00333_HuntOfTheBlackLion/30736-08c.html",
+      "Q00333_HuntOfTheBlackLion/30736-08d.html",
+      "Q00333_HuntOfTheBlackLion/30736-08e.html",
+      "Q00333_HuntOfTheBlackLion/30736-08f.html",
+      "Q00333_HuntOfTheBlackLion/30736-08g.html",
+      "Q00333_HuntOfTheBlackLion/30736-08h.html",
+      "Q00333_HuntOfTheBlackLion/30736-08i.html",
+      "Q00333_HuntOfTheBlackLion/30736-08j.html",
+      "Q00333_HuntOfTheBlackLion/30736-08k.html",
+      "Q00333_HuntOfTheBlackLion/30736-08l.html",
+      "Q00333_HuntOfTheBlackLion/30736-08m.html",
+      "Q00333_HuntOfTheBlackLion/30736-08n.html",
+      "Q00333_HuntOfTheBlackLion/30736-08o.html",
+      "Q00333_HuntOfTheBlackLion/30736-08p.html",
+      "Q00333_HuntOfTheBlackLion/30736-08q.html",
+      "Q00333_HuntOfTheBlackLion/30736-08r.html",
+      "Q00333_HuntOfTheBlackLion/30736-08s.html",
+      "Q00333_HuntOfTheBlackLion/30736-08t.html"
+     ]
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-03.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-03.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: You don't have enough money! Come back when you have 650 Adena.",
+   "header": "Mercenary Redfoot",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04a.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04a.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? Fruit...? Ah, apples from Gludio! Yum, they look delicious. If you can get them to market before they spoil, you should be able to make some money.",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04b.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04b.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? Hmm, isn't this corn meal? Pig food! You should take it to the market and sell it since it is of no use to you.",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04c.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04c.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? What's this, Dire Wolf Pelts? They appear to have been tanned by a leather craftman, but not very well. They could possibly be used to make hats. You shoul…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04d.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04d.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? A gem? Ah, a Moonstone! This should fetch a good price at the market.",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04e.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04e.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? Hmm? What's this powder...? Do I dare taste it? Ah, this must be Gludio Wheat Flour! It can be used for baking bread. You should be able to get a decent pr…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04f.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04f.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? It's Spidersilk Rope! It's a very strong and light rope that is made from the spidersilk that is collected from the tarantula's webs in the Spine Mountain …",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04g.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04g.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here?",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04h.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04h.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? A silver bowl and a teacup? They seem to be of high quality! It appears that they were made by Elven Artisans. I don't buy such exquisite items but if you …",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04i.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04i.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? Machine parts? This appears to be the mark of the Black Anvil Guild. I'm not sure, but I think these parts are used by Dwarves to repair golems. If you tak…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04j.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04j.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? A gem...? Ah, a Fire Emerald! It's a rare and precious gemstone that gives off a red light when exposed to sunlight. You are very lucky! This will fetch a …",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04k.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04k.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? Ah, a silk dress, and a very expensive one by the looks of it! Notice the design. This was imported from Avella of the east. Who would order such an expens…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04l.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04l.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here?",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04m.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04m.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? Oh, my, I don't believe it! An Imperial Diamond! I believe this stone once decorated the crown of the king of Elmoreden! Isn't it beautiful! You are extrem…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04n.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04n.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? A fragment of stone? It appears to be a piece of a statue of the goddess Shilen. Isn't she the goddess of death? I have a bad feeling about this. If this w…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-04o.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-04o.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shall we open the box? This lock should be no problem for me... There we go... That was too easy. Now, what do we have here? A broken tablet fragment? Hmm... What are these symbols? Could this be a relic from ancient times? If this were a complete tablet, it would be a very valua…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-05.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-05.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: What sort of idiot asks to have a box opened when he doesn't have one?",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-06.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-06.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-06.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Is there anything else I can help you with?",
+   "header": "Mercenary Redfoot",
+   "links": [
+    {
+     "text": "\"Please open the Cargo Box for me.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-03.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-03.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-03.html",
+     "toAll": [
+      "Q00333_HuntOfTheBlackLion/30736-03.html",
+      "Q00333_HuntOfTheBlackLion/30736-04a.html",
+      "Q00333_HuntOfTheBlackLion/30736-04b.html",
+      "Q00333_HuntOfTheBlackLion/30736-04c.html",
+      "Q00333_HuntOfTheBlackLion/30736-04d.html",
+      "Q00333_HuntOfTheBlackLion/30736-04e.html",
+      "Q00333_HuntOfTheBlackLion/30736-04f.html",
+      "Q00333_HuntOfTheBlackLion/30736-04g.html",
+      "Q00333_HuntOfTheBlackLion/30736-04h.html",
+      "Q00333_HuntOfTheBlackLion/30736-04i.html",
+      "Q00333_HuntOfTheBlackLion/30736-04j.html",
+      "Q00333_HuntOfTheBlackLion/30736-04k.html",
+      "Q00333_HuntOfTheBlackLion/30736-04l.html",
+      "Q00333_HuntOfTheBlackLion/30736-04m.html",
+      "Q00333_HuntOfTheBlackLion/30736-04n.html",
+      "Q00333_HuntOfTheBlackLion/30736-04o.html",
+      "Q00333_HuntOfTheBlackLion/30736-05.html"
+     ]
+    },
+    {
+     "text": "\"Do you have any useful information for me?\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-07.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-07.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-07.html",
+     "toAll": [
+      "Q00333_HuntOfTheBlackLion/30736-07.html",
+      "Q00333_HuntOfTheBlackLion/30736-08.html",
+      "Q00333_HuntOfTheBlackLion/30736-08a.html",
+      "Q00333_HuntOfTheBlackLion/30736-08b.html",
+      "Q00333_HuntOfTheBlackLion/30736-08c.html",
+      "Q00333_HuntOfTheBlackLion/30736-08d.html",
+      "Q00333_HuntOfTheBlackLion/30736-08e.html",
+      "Q00333_HuntOfTheBlackLion/30736-08f.html",
+      "Q00333_HuntOfTheBlackLion/30736-08g.html",
+      "Q00333_HuntOfTheBlackLion/30736-08h.html",
+      "Q00333_HuntOfTheBlackLion/30736-08i.html",
+      "Q00333_HuntOfTheBlackLion/30736-08j.html",
+      "Q00333_HuntOfTheBlackLion/30736-08k.html",
+      "Q00333_HuntOfTheBlackLion/30736-08l.html",
+      "Q00333_HuntOfTheBlackLion/30736-08m.html",
+      "Q00333_HuntOfTheBlackLion/30736-08n.html",
+      "Q00333_HuntOfTheBlackLion/30736-08o.html",
+      "Q00333_HuntOfTheBlackLion/30736-08p.html",
+      "Q00333_HuntOfTheBlackLion/30736-08q.html",
+      "Q00333_HuntOfTheBlackLion/30736-08r.html",
+      "Q00333_HuntOfTheBlackLion/30736-08s.html",
+      "Q00333_HuntOfTheBlackLion/30736-08t.html"
+     ]
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-07.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-07.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Hey, you don't have enough money! You didn't think I would give you information for free, did you? This is business!",
+   "header": "Mercenary Redfoot",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Sorry, I don't have any new information for you. You might try again later.",
+   "header": "Mercenary Redfoot",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08a.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08a.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Once I overheard some Dwarves talking in a blacksmith's shop... The one that seemed to be in charge was desperately seeking a scroll, something about hieroglyphs. I couldn't make out the details, but it had something to do with ancient technology. Until then I had thought that Dw…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08b.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08b.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: One time while talking with some friends in the Dark Elf Guild, I learned that Dark Elves worship the Goddess Shilen! You say everyone already knows that? Well I find it shocking. Why would anyone want to worship a goddess of death? It doesn't make sense! I have heard that the Da…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08c.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08c.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: A hatchling is a cute baby dragon hatched from the egg of a Wyrm or a drake. I have heard of a pet handler named Cooper who knows how to raise a hatchling as a pet. He is the man to see if you are interested in obtaining a hatchling.",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08d.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08d.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: I can tell you things that would be very useful for a clan leader to know. There are aristocrats in all areas who support small clans. These aristocrats include Sir Kristof Rodemai in the Town of Giran and Sir Gustav Athebaldt of the Town of Oren. They are not exactly philanthrop…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08e.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08e.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: I know of a society of ancient coin collectors. Once I thought they were collectors of cheap novelty coins, but I have discovered since that the objects of their affection have great value. They will trade very valuable things for coins that strike their fancy! If you are interes…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08f.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08f.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Near the Ivory Tower in Oren you will find a false alchemist. She claims to be able to create a magic potion to make wishes come true... Many have fallen victim to his trickery. Amazingly, occasionally the potion actually seems to work. The problem is that this only happens very …",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08g.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08g.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Shhh! Come closer and I'll tell you a secret. You will find this very useful. Recently I overheard some traders discussing the theft of a priceless gem known as the Imperial Diamond from the cargo wagon of the Aden Business Association. How I would love to gaze upon it just once …",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08h.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08h.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Have you heard the rumor that Antharas the Land Dragon has awoken? This is terrible news! If it emerges from its lair in Dragon Valley, all of the Giran region will fall into a state of pandemonium! A woman named Gabrielle in the Town of Giran is recruiting people for a militia t…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08i.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08i.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: In this village there is a young man named Jonas who dreams of becoming the best chef in the kingdom. He is preparing for a culinary competition and seeks an adventurer to find ingredients for some exotic dishes...",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08j.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08j.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: There is a young guard named Belton in the Town of Giran whose heart burns for revenge on Antharas. He will not listen to reason. Every day he can be found making his special arrows. He pays well for the raw materials he needs. If you're interested, why don't you go and see him?",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08k.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08k.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: I will tell you something every traveler should know. The law says that traders of this kingdom are prohibited from dealing with criminals. But some traders such as the grocer Pano of Floran Village and Tyra, a trader in the west part of the Dark Forest flaunt this law. Even thou…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08l.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08l.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Are you looking for a job? In the northwest part of Gludio there is a farmer named Piotur who is hiring mercenaries to drive the Turek orcs away from his farm... This sounds like a good job for you, doesn't it? By the way, are you aware that ancient relics are often found there? …",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08m.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08m.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Have you heard of the association of human traders known as the Aden Business Guild? They became aware of the great profits that Dwarven traders and warehouse keepers were generating. They decided to form a guild of their own. They don't realize how important the Dwarven business…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08n.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08n.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: One time while talking with some friends in the Dark Elf Guild, I learned that Dark Elves worship the Goddess Shilen! You say everyone already knows that? Well I find it shocking. Why would anyone want to worship a goddess of death? It doesn't make sense! I have heard that the Da…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08o.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08o.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: A hatchling is a cute baby dragon hatched from the egg of a Wyrm or a drake. I have heard of a pet handler named Cooper who knows how to raise a hatchling as a pet. He is the man to see if you are interested in obtaining a hatchling!",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08p.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08p.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: I can tell you things that would be very useful for a clan leader to know. There are aristocrats in all areas who support small clans. These aristocrats include Sir Kristof Rodemai in the Town of Giran and Sir Gustav Athebaldt of the Town of Oren. They are not exactly philanthrop…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08q.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08q.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: I know of a society of ancient coin collectors. Once I thought they were collectors of cheap novelty coins, but I have discovered since that the objects of their affection have great value. They will trade very valuable things for coins that strike their fancy! If you are interes…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08r.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08r.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Near the Ivory Tower in Oren you will find a false alchemist. She claims to be able to create a magic potion to make wishes come true... Many have fallen victim to his trickery. Amazingly, occasionally the potion actually seems to work. The problem is that this only happens very …",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08s.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08s.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Mercenary Redfoot",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-08t.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-08t.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Have you heard the rumor that Antharas the Land Dragon has awoken? This is terrible news! If it emerges from its lair in Dragon Valley, all of Giran region will fall into a state of pandemonium! A woman named Gabrielle in the Town of Giran is recruiting people for a militia to ca…",
+   "header": "Mercenary Redfoot",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30736-09.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30736-09.html",
+   "quest": 333,
+   "text": "Mercenary Redfoot: Is there anything else I can do for you?",
+   "header": "Mercenary Redfoot",
+   "links": [
+    {
+     "text": "\"Please open the box.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30736-03.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30736-03.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-03.html",
+     "toAll": [
+      "Q00333_HuntOfTheBlackLion/30736-03.html",
+      "Q00333_HuntOfTheBlackLion/30736-04a.html",
+      "Q00333_HuntOfTheBlackLion/30736-04b.html",
+      "Q00333_HuntOfTheBlackLion/30736-04c.html",
+      "Q00333_HuntOfTheBlackLion/30736-04d.html",
+      "Q00333_HuntOfTheBlackLion/30736-04e.html",
+      "Q00333_HuntOfTheBlackLion/30736-04f.html",
+      "Q00333_HuntOfTheBlackLion/30736-04g.html",
+      "Q00333_HuntOfTheBlackLion/30736-04h.html",
+      "Q00333_HuntOfTheBlackLion/30736-04i.html",
+      "Q00333_HuntOfTheBlackLion/30736-04j.html",
+      "Q00333_HuntOfTheBlackLion/30736-04k.html",
+      "Q00333_HuntOfTheBlackLion/30736-04l.html",
+      "Q00333_HuntOfTheBlackLion/30736-04m.html",
+      "Q00333_HuntOfTheBlackLion/30736-04n.html",
+      "Q00333_HuntOfTheBlackLion/30736-04o.html",
+      "Q00333_HuntOfTheBlackLion/30736-05.html"
+     ]
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Hunt of the Black Lion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00333_HuntOfTheBlackLion",
+     "kind": "quest",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30736-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

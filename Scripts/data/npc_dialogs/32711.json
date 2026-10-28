@@ -1,0 +1,382 @@
+{
+ "npcId": 32711,
+ "name": "Droph",
+ "title": "Dwarf Adventurer",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.400Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "teleporter/32711.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {
+  "307": {
+   "name": "Control Device of the Giants",
+   "listText": [
+    "[Control Device of the Giants]",
+    "[Control Device of the Giants (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00307_ControlDeviceOfTheGiants/32711-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 79)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00307_ControlDeviceOfTheGiants/32711-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 79)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00307_ControlDeviceOfTheGiants/32711-09.html",
+     "when": "state STARTED; hekaton != null; !hekaton.isDead()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00307_ControlDeviceOfTheGiants/32711-07.html",
+     "when": "state STARTED; cond 1; !((hekaton != null) && !hekaton.isDead()); (!hasQuestItems(player, CET_1_SHEET, CET_2_SHEET, CET_3_SHEET))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00307_ControlDeviceOfTheGiants/32711-08.html",
+     "when": "state STARTED; cond 1; !((hekaton != null) && !hekaton.isDead()); NOT (!hasQuestItems(player, CET_1_SHEET, CET_2_SHEET, CET_3_SHEET))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00307_ControlDeviceOfTheGiants/32711-10.html",
+     "when": "state STARTED; cond 2; !((hekaton != null) && !hekaton.isDead())",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "teleporter/32711.htm": {
+   "file": "teleporter/32711.htm",
+   "quest": null,
+   "text": "Dwarf Explorer Droph: What a predicament... I was just given permission by the Guild to explore the Giant's Cave in response to all these recent troubles. How bad has it become out there? Wait, how long have you been here? What's happened?",
+   "header": "Dwarf Explorer Droph",
+   "links": [
+    {
+     "text": "Move to the upper level.",
+     "bypass": "npc_%objectId%_goto 200920",
+     "kind": "teleport"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-01.htm": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-01.htm",
+   "quest": 307,
+   "text": "Dwarf Explorer Droph: Did you feel it too? Something has happened in this Giant's Cave! I spent a long time exploring this place without success. Finally I discovered its secret...",
+   "header": "Dwarf Explorer Droph",
+   "when": [
+    "state CREATED; (player.getLevel() >= 79)"
+   ],
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q00307_ControlDeviceOfTheGiants 32711-03.htm",
+     "kind": "quest-event",
+     "script": "Q00307_ControlDeviceOfTheGiants",
+     "event": "32711-03.htm",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-03.htm"
+    }
+   ]
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-02.htm": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-02.htm",
+   "quest": 307,
+   "text": "Dwarf Explorer Droph: Did you feel it too? Something has happened in this Giant's Cave! This is far too dangerous a place for someone like you -- you better leave at once! (Only characters who are level 79 or higher may undertake this quest.)",
+   "header": "Dwarf Explorer Droph",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 79)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-09.html": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-09.html",
+   "quest": 307,
+   "text": "Dwarf Explorer Droph: Well, I have activated the necessary equipment. Behold, Hekaton Prime approaches! You and your colleagues must defeat him. If 2 of you can do so without help, you will be richly rewarded. Good luck!",
+   "header": "Dwarf Explorer Droph",
+   "when": [
+    "state STARTED; hekaton != null; !hekaton.isDead()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-07.html": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-07.html",
+   "quest": 307,
+   "text": "Dwarf Explorer Droph: You must defeat Gorgolos, last Giant ???? and Giant ????? before facing Hekaton Prime. If you want to know where they are, I am more than willing to tell you. Which one are you interested in?",
+   "header": "Dwarf Explorer Droph",
+   "when": [
+    "state STARTED; cond 1; !((hekaton != null) && !hekaton.isDead()); (!hasQuestItems(player, CET_1_SHEET, CET_2_SHEET, CET_3_SHEET))"
+   ],
+   "links": [
+    {
+     "text": "Gorgolos",
+     "bypass": "Quest Q00307_ControlDeviceOfTheGiants 32711-05a.html",
+     "kind": "quest-event",
+     "script": "Q00307_ControlDeviceOfTheGiants",
+     "event": "32711-05a.html",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-05a.html"
+    },
+    {
+     "text": "Last Giant ????",
+     "bypass": "Quest Q00307_ControlDeviceOfTheGiants 32711-05b.html",
+     "kind": "quest-event",
+     "script": "Q00307_ControlDeviceOfTheGiants",
+     "event": "32711-05b.html",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-05b.html"
+    },
+    {
+     "text": "Giant ?????",
+     "bypass": "Quest Q00307_ControlDeviceOfTheGiants 32711-05c.html",
+     "kind": "quest-event",
+     "script": "Q00307_ControlDeviceOfTheGiants",
+     "event": "32711-05c.html",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-05c.html"
+    }
+   ]
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-08.html": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-08.html",
+   "quest": 307,
+   "text": "Dwarf Explorer Droph: You have collected all 3 Cave Exploration Texts ! Ah, now we can summon Hekaton Prime using them. Are you ready?",
+   "header": "Dwarf Explorer Droph",
+   "when": [
+    "state STARTED; cond 1; !((hekaton != null) && !hekaton.isDead()); NOT (!hasQuestItems(player, CET_1_SHEET, CET_2_SHEET, CET_3_SHEET))"
+   ],
+   "links": [
+    {
+     "text": "Summon Hekaton Prime.",
+     "bypass": "Quest Q00307_ControlDeviceOfTheGiants spawn",
+     "kind": "quest-event",
+     "script": "Q00307_ControlDeviceOfTheGiants",
+     "event": "spawn",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-09.html",
+     "toAll": [
+      "Q00307_ControlDeviceOfTheGiants/32711-09.html",
+      "Q00307_ControlDeviceOfTheGiants/32711-09a.html"
+     ]
+    }
+   ]
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-10.html": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-10.html",
+   "quest": 307,
+   "text": "Dwarf Explorer Droph: Well done. This is my supply prepared for those who have done a great job in catching Hekaton Prime. If you open it, you will be able to obtain the ancient Adena which has been collected in the Giant's cave by our dwarf explorers for a very long time.",
+   "header": "Dwarf Explorer Droph",
+   "when": [
+    "state STARTED; cond 2; !((hekaton != null) && !hekaton.isDead())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-03.htm": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-03.htm",
+   "quest": 307,
+   "text": "Dwarf Explorer Droph: There is a Raid Monster named Hekaton Prime in the deep substratum of this Giants' Cave. In fact, it is the central core that controls this area! If we can expel it, our exploration will be much easier. Doing so is beyond my power, though. Perhaps you have some equally powerfu…",
+   "header": "Dwarf Explorer Droph",
+   "links": [
+    {
+     "text": "Accept.",
+     "bypass": "Quest Q00307_ControlDeviceOfTheGiants 32711-04.html",
+     "kind": "quest-event",
+     "script": "Q00307_ControlDeviceOfTheGiants",
+     "event": "32711-04.html",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-04a.html",
+     "toAll": [
+      "Q00307_ControlDeviceOfTheGiants/32711-04a.html",
+      "Q00307_ControlDeviceOfTheGiants/32711-04.html"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-04.html": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-04.html",
+   "quest": 307,
+   "text": "Dwarf Adventurer Droph: Good decision! I'll fill you in on the information then, aye? This Hekaton Prime does not show itself often: it's a controling unit that prefers to work at the back, see? He has three monsters... that's Gorgos, the Last Titan Utenes, and Giant Marpanak , and each guard Hekat…",
+   "header": "Dwarf Adventurer Droph",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Tell me the about the monsters I need to capture.\"",
+     "bypass": "Quest Q00307_ControlDeviceOfTheGiants 32711-05.html",
+     "kind": "quest-event",
+     "script": "Q00307_ControlDeviceOfTheGiants",
+     "event": "32711-05.html",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-05.html"
+    },
+    {
+     "text": "\"I'll get started now.\"",
+     "bypass": "Quest Q00307_ControlDeviceOfTheGiants 32711-06.html",
+     "kind": "quest-event",
+     "script": "Q00307_ControlDeviceOfTheGiants",
+     "event": "32711-06.html",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-06.html"
+    }
+   ]
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-04a.html": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-04a.html",
+   "quest": 307,
+   "text": "Dwarf Explorer Droph: You have collected all 3 Cave Exploration Texts ! Ah, now we can summon Hekaton Prime using them. Are you ready?",
+   "header": "Dwarf Explorer Droph",
+   "links": [
+    {
+     "text": "Summon Hekaton Prime.",
+     "bypass": "Quest Q00307_ControlDeviceOfTheGiants spawn",
+     "kind": "quest-event",
+     "script": "Q00307_ControlDeviceOfTheGiants",
+     "event": "spawn",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-09.html",
+     "toAll": [
+      "Q00307_ControlDeviceOfTheGiants/32711-09.html",
+      "Q00307_ControlDeviceOfTheGiants/32711-09a.html"
+     ]
+    }
+   ]
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-05.html": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-05.html",
+   "quest": 307,
+   "text": "Dwarf Adventurer Droph: They are the right-hand creatures of Hekaton Prime: Gorgos, the Last Titan Utenes, and the Giant Marpanak. If you want to know where they are, I'd be more than willing to help. Which would you like to face first?",
+   "header": "Dwarf Adventurer Droph",
+   "links": [
+    {
+     "text": "\"Where's the Gorgos?\"",
+     "bypass": "Quest Q00307_ControlDeviceOfTheGiants 32711-05a.html",
+     "kind": "quest-event",
+     "script": "Q00307_ControlDeviceOfTheGiants",
+     "event": "32711-05a.html",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-05a.html"
+    },
+    {
+     "text": "\"I want Utenes.\"",
+     "bypass": "Quest Q00307_ControlDeviceOfTheGiants 32711-05b.html",
+     "kind": "quest-event",
+     "script": "Q00307_ControlDeviceOfTheGiants",
+     "event": "32711-05b.html",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-05b.html"
+    },
+    {
+     "text": "\"Where's the Giant Marpanak?\"",
+     "bypass": "Quest Q00307_ControlDeviceOfTheGiants 32711-05c.html",
+     "kind": "quest-event",
+     "script": "Q00307_ControlDeviceOfTheGiants",
+     "event": "32711-05c.html",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-05c.html"
+    }
+   ]
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-05a.html": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-05a.html",
+   "quest": 307,
+   "text": "Dwarf Explorer Droph: Gorgolos is a mutated creature originally created to defeat the servants of Einhasad. I will mark its location on your map. Once you defeat it, bring me the Cave Exploration Text 1 , which details the origins of the cave.",
+   "header": "Dwarf Explorer Droph",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-05b.html": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-05b.html",
+   "quest": 307,
+   "text": "Dwarf Adventurer Droph: Are you talking about the Last Titan, Utenes? It spends its days hiding deep inside the cave and while it isn't physically different from other Titans, it knows a great many secrets. I'll mark its location on the map. Once you capture the monster, you'll be free to look for …",
+   "header": "Dwarf Adventurer Droph",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-05c.html": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-05c.html",
+   "quest": 307,
+   "text": "Dwarf Explorer Droph: The Giant Marpanak was cloned from the ancient Giants, created by the wizards of the Ivory Tower with one purpose: to fight and assert the wizards' authority. I will mark his location on your map, but once you defeat him you must remember to bring me the Cave Exploration Text …",
+   "header": "Dwarf Explorer Droph",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-06.html": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-06.html",
+   "quest": 307,
+   "text": "Dwarf Explorer Droph: Then there is nothing more I can tell you. Farewell and good luck!",
+   "header": "Dwarf Explorer Droph",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00307_ControlDeviceOfTheGiants/32711-09a.html": {
+   "file": "Q00307_ControlDeviceOfTheGiants/32711-09a.html",
+   "quest": 307,
+   "text": "Dwarf Explorer Droph: You've brought what I asked for, but it is still too early to summon Hekaton Prime. We must wait a little longer...",
+   "header": "Dwarf Explorer Droph",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Control Device of the Giants]",
+     "bypass": "npc_%objectId%_Quest Q00307_ControlDeviceOfTheGiants",
+     "kind": "quest",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Control Device of the Giants (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00307_ControlDeviceOfTheGiants",
+     "kind": "quest",
+     "quest": 307,
+     "to": "Q00307_ControlDeviceOfTheGiants/32711-09.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,72 @@
+{
+ "npcId": 30841,
+ "name": "Carson",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.079Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30841.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30841.htm": {
+   "file": "merchant/30841.htm",
+   "quest": null,
+   "text": "Trader Carson: Welcome, customer! Is there anything specific that you're looking for today? We have a wide selection of earrings, necklaces, rings and more. In fact, I daresay that we have any accessory worth having. That's the difference between Elmore and Aden, eh? Here in Aden, we believe elegan…",
+   "header": "Trader Carson",
+   "links": [
+    {
+     "text": "Trade accessories",
+     "bypass": "npc_%objectId%_Buy 3084100",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy/Sell/Refund Dyes.",
+     "bypass": "npc_%objectId%_Buy 3084101",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy a bracelet or talisman.",
+     "bypass": "npc_%objectId%_multisell 300900001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Buy a common type accessory.",
+     "bypass": "npc_%objectId%_Buy 3084102",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30841-pk.htm": {
+   "file": "merchant/30841-pk.htm",
+   "quest": null,
+   "text": "Trader Carson: Oh my! I'm dreadfully sorry, sir! We don't have what you're looking for. Maybe you should try somewhere else. Alexis has a well-stocked jewelry store right next door..",
+   "header": "Trader Carson",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

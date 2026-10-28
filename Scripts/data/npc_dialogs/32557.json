@@ -1,0 +1,984 @@
+{
+ "npcId": 32557,
+ "name": "Lekon",
+ "title": "Engineer",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.384Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "699": {
+   "name": "Guardian of the Skies",
+   "listText": [
+    "[Guardian of the Skies]",
+    "[Guardian of the Skies (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00699_GuardianOfTheSkies/32557-02.htm",
+     "when": "state CREATED; ((st == null) || (!st.isCompleted()) || (player.getLevel() < MIN_LVL))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00699_GuardianOfTheSkies/32557-01.htm",
+     "when": "state CREATED; NOT ((st == null) || (!st.isCompleted()) || (player.getLevel() < MIN_LVL))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00699_GuardianOfTheSkies/32557-07.html",
+     "when": "state STARTED; feathers > 0; (feathers > BONUS_COUNT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00699_GuardianOfTheSkies/32557-06.html",
+     "when": "state STARTED; feathers > 0; NOT (feathers > BONUS_COUNT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00699_GuardianOfTheSkies/32557-05.html",
+     "when": "state STARTED; !feathers > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "702": {
+   "name": "A Trap for Revenge",
+   "listText": [
+    "[A Trap for Revenge]",
+    "[A Trap for Revenge (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00702_ATrapForRevenge/32557-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00702_ATrapForRevenge/32557-02.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "10272": {
+   "name": "Light Fragment",
+   "listText": [
+    "[Light Fragment]",
+    "[Light Fragment (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10272_LightFragment/32557-05.html",
+     "when": "cond 7; st.getInt(\"wait\") == 1",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10272_LightFragment/32557-01.html",
+     "when": "cond 7; !st.getInt(\"wait\") == 1",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10272_LightFragment/32557-06.html",
+     "when": "cond 8",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10273": {
+   "name": "Good Day to Fly",
+   "listText": [
+    "[Good Day to Fly]",
+    "[Good Day to Fly (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10273_GoodDayToFly/32557-0a.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10273_GoodDayToFly/32557-00.html",
+     "when": "state CREATED; (player.getLevel() < 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10273_GoodDayToFly/32557-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() < 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10273_GoodDayToFly/32557-14.html",
+     "when": "item 13856 >= 5",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10273_GoodDayToFly/32557-07.html",
+     "when": "!st.getQuestItemsCount(MARK) >= 5; transform == 0",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10273_GoodDayToFly/32557-11.html",
+     "when": "!st.getQuestItemsCount(MARK) >= 5; !transform == 0",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "10274": {
+   "name": "Collecting in the Air",
+   "listText": [
+    "[Collecting in the Air]",
+    "[Collecting in the Air (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10274_CollectingInTheAir/32557-0a.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10274_CollectingInTheAir/32557-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= 75) && player.hasQuestCompleted(Q10273_GoodDayToFly.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10274_CollectingInTheAir/32557-00.html",
+     "when": "state CREATED; NOT ((player.getLevel() >= 75) && player.hasQuestCompleted(Q10273_GoodDayToFly.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10274_CollectingInTheAir/32557-05.html",
+     "when": "state STARTED; (st.getQuestItemsCount(RED) + st.getQuestItemsCount(BLUE) + st.getQuestItemsCount(GREEN)) >= 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10274_CollectingInTheAir/32557-04.html",
+     "when": "state STARTED; !(st.getQuestItemsCount(RED) + st.getQuestItemsCount(BLUE) + st.getQuestItemsCount(GREEN)) >= 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00699_GuardianOfTheSkies/32557-02.htm": {
+   "file": "Q00699_GuardianOfTheSkies/32557-02.htm",
+   "quest": 699,
+   "text": "Engineer Lekon: Combat experience and skill are both very important. My task is also important, however. Do not take it personally when I say you have not yet proven your worth or earned my trust. (Only characters who are level 75 or above and who have completed the \"Good Day to Fly\" quest may unde…",
+   "header": "Engineer Lekon",
+   "when": [
+    "state CREATED; ((st == null) || (!st.isCompleted()) || (player.getLevel() < MIN_LVL))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00699_GuardianOfTheSkies/32557-01.htm": {
+   "file": "Q00699_GuardianOfTheSkies/32557-01.htm",
+   "quest": 699,
+   "text": "Engineer Lekon: I'm asking you this because you've proved that you have the qualifications to fly... Will you help me full time? It's been a struggle to maintain and repair Keucereus Alliance Base. Finding quality help isn't easy in times like these, you know... I have a good feeling about you, tho…",
+   "header": "Engineer Lekon",
+   "when": [
+    "state CREATED; NOT ((st == null) || (!st.isCompleted()) || (player.getLevel() < MIN_LVL))"
+   ],
+   "links": [
+    {
+     "text": "\"What would I be doing?\"",
+     "bypass": "Quest Q00699_GuardianOfTheSkies 32557-03.htm",
+     "kind": "quest-event",
+     "script": "Q00699_GuardianOfTheSkies",
+     "event": "32557-03.htm",
+     "quest": 699,
+     "to": "Q00699_GuardianOfTheSkies/32557-03.htm"
+    }
+   ]
+  },
+  "Q00699_GuardianOfTheSkies/32557-07.html": {
+   "file": "Q00699_GuardianOfTheSkies/32557-07.html",
+   "quest": 699,
+   "text": "Engineer Lekon: You're back! Let's see here... Ah, you've brought quite a few Vulture's Golden Feathers . You must have succeeded in defeating Master Rider Valdstone , or have defeated a great many Vulture Riders or Elite Riders . Ha ha! This will put a dent in their plans. I'm delighted with your …",
+   "header": "Engineer Lekon",
+   "when": [
+    "state STARTED; feathers > 0; (feathers > BONUS_COUNT)"
+   ],
+   "links": [
+    {
+     "text": "\"Sure.\"",
+     "bypass": "Quest Q00699_GuardianOfTheSkies 32557-08.html",
+     "kind": "quest-event",
+     "script": "Q00699_GuardianOfTheSkies",
+     "event": "32557-08.html",
+     "quest": 699,
+     "to": "Q00699_GuardianOfTheSkies/32557-08.html"
+    },
+    {
+     "text": "\"No, I've had enough.\"",
+     "bypass": "Quest Q00699_GuardianOfTheSkies 32557-09.html",
+     "kind": "quest-event",
+     "script": "Q00699_GuardianOfTheSkies",
+     "event": "32557-09.html",
+     "quest": 699,
+     "to": "Q00699_GuardianOfTheSkies/32557-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00699_GuardianOfTheSkies/32557-06.html": {
+   "file": "Q00699_GuardianOfTheSkies/32557-06.html",
+   "quest": 699,
+   "text": "Engineer Lekon: Ah, you're back. Well? What's this? Judging from the lack of Vulture's Golden Feathers , it looks as if you defeated only a few Vulture Riders and Elite Riders but did not face their leader, Master Rider Valdstone . Here's the reward I promised you, but unless you defeat the Valdsto…",
+   "header": "Engineer Lekon",
+   "when": [
+    "state STARTED; feathers > 0; NOT (feathers > BONUS_COUNT)"
+   ],
+   "links": [
+    {
+     "text": "\"Of course, I was just getting warmed up.\"",
+     "bypass": "Quest Q00699_GuardianOfTheSkies 32557-08.html",
+     "kind": "quest-event",
+     "script": "Q00699_GuardianOfTheSkies",
+     "event": "32557-08.html",
+     "quest": 699,
+     "to": "Q00699_GuardianOfTheSkies/32557-08.html"
+    },
+    {
+     "text": "\"No, I've had enough.\"",
+     "bypass": "Quest Q00699_GuardianOfTheSkies 32557-09.html",
+     "kind": "quest-event",
+     "script": "Q00699_GuardianOfTheSkies",
+     "event": "32557-09.html",
+     "quest": 699,
+     "to": "Q00699_GuardianOfTheSkies/32557-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00699_GuardianOfTheSkies/32557-05.html": {
+   "file": "Q00699_GuardianOfTheSkies/32557-05.html",
+   "quest": 699,
+   "text": "Engineer Lekon: Why haven't you left yet? Hurry! Bring me the Vulture's Golden Feather as evidence that you've defeated Master Rider Valdstone and scattered his followers, the Vulture Riders and Elite Riders . You must defeat these pirates and protect the safety of our air space! You're not thinkin…",
+   "header": "Engineer Lekon",
+   "when": [
+    "state STARTED; !feathers > 0"
+   ],
+   "links": [
+    {
+     "text": "\"Of course not. Have the reward ready.\"",
+     "bypass": "Quest Q00699_GuardianOfTheSkies 32557-08.html",
+     "kind": "quest-event",
+     "script": "Q00699_GuardianOfTheSkies",
+     "event": "32557-08.html",
+     "quest": 699,
+     "to": "Q00699_GuardianOfTheSkies/32557-08.html"
+    },
+    {
+     "text": "\"I have another urgent matter to attend to.\"",
+     "bypass": "Quest Q00699_GuardianOfTheSkies 32557-09.html",
+     "kind": "quest-event",
+     "script": "Q00699_GuardianOfTheSkies",
+     "event": "32557-09.html",
+     "quest": 699,
+     "to": "Q00699_GuardianOfTheSkies/32557-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32557-01.html": {
+   "file": "Q00702_ATrapForRevenge/32557-01.html",
+   "quest": 702,
+   "text": "Engineer Lekon: Can't you see I'm busy! What business do you have with me? C'mon, speak up. Time is money, you know.",
+   "header": "Engineer Lekon",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32557-02.html": {
+   "file": "Q00702_ATrapForRevenge/32557-02.html",
+   "quest": 702,
+   "text": "Engineer Lekon: I think I know what you're talking about. Tenius mentioned it... It's not beautiful, but I'll do it. But I need 100 Red Star Stone Extraction Stones to make it. Just let me know when you have them ready.",
+   "header": "Engineer Lekon",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Everything is prepared.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32557-03.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32557-03.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32557-03.html",
+     "toAll": [
+      "Q00702_ATrapForRevenge/32557-03.html",
+      "Q00702_ATrapForRevenge/32557-04.html",
+      "Q00702_ATrapForRevenge/32557-05.html",
+      "Q00702_ATrapForRevenge/32557-06.html"
+     ]
+    }
+   ]
+  },
+  "Q10272_LightFragment/32557-05.html": {
+   "file": "Q10272_LightFragment/32557-05.html",
+   "quest": 10272,
+   "text": "Engineer Lekon: Finished! It's more fragile than I would have wished, but that's the nature of the original materials. I can guess how you plan to use this... Perhaps you had better speak with War Mage Artius first, though.",
+   "header": "Engineer Lekon",
+   "when": [
+    "cond 7; st.getInt(\"wait\") == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32557-01.html": {
+   "file": "Q10272_LightFragment/32557-01.html",
+   "quest": 10272,
+   "text": "Engineer Lekon: Uh, I'm so busy! Hey, what's going on over there?",
+   "header": "Engineer Lekon",
+   "when": [
+    "cond 7; !st.getInt(\"wait\") == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Can you use the fragment power of Broken Light to make me a weapon capable of defeating Tiat?\"",
+     "bypass": "Quest Q10272_LightFragment 32557-02.html",
+     "kind": "quest-event",
+     "script": "Q10272_LightFragment",
+     "event": "32557-02.html",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32557-02.html"
+    }
+   ]
+  },
+  "Q10272_LightFragment/32557-06.html": {
+   "file": "Q10272_LightFragment/32557-06.html",
+   "quest": 10272,
+   "text": "Engineer Lekon: Does the item meet with your approval? Then go see War Mage Artius.",
+   "header": "Engineer Lekon",
+   "when": [
+    "cond 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10273_GoodDayToFly/32557-0a.html": {
+   "file": "Q10273_GoodDayToFly/32557-0a.html",
+   "quest": 10273,
+   "text": "Engineer Lekon: Say, didn't you already earn the qualification? You don't need my permission to fly anymore -- you're free to do so whenever you want. Now go! (You have already completed this quest.)",
+   "header": "Engineer Lekon",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10273_GoodDayToFly/32557-00.html": {
+   "file": "Q10273_GoodDayToFly/32557-00.html",
+   "quest": 10273,
+   "text": "Engineer Lekon: Even at my busiest, I see the sky now and again -- it's so beautiful! Look at it! Not a cloud to be seen, a gentle breeze... Don't you agree that it's a perfect day to fly? You don't have any idea what I'm talking about, do you? Well, with some more experience I'm sure you will unde…",
+   "header": "Engineer Lekon",
+   "when": [
+    "state CREATED; (player.getLevel() < 75)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10273_GoodDayToFly/32557-01.htm": {
+   "file": "Q10273_GoodDayToFly/32557-01.htm",
+   "quest": 10273,
+   "text": "Engineer Lekon: Even at my busiest, I see the sky now and again -- it's so beautiful! Look at it! Not a cloud to be seen, a gentle breeze... Don't you agree that it's a perfect day to fly?",
+   "header": "Engineer Lekon",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < 75)"
+   ],
+   "links": [
+    {
+     "text": "\"Perfect day to fly?!\"",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-02.htm",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-02.htm",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-02.htm"
+    }
+   ]
+  },
+  "Q10273_GoodDayToFly/32557-14.html": {
+   "file": "Q10273_GoodDayToFly/32557-14.html",
+   "quest": 10273,
+   "text": "Engineer Lekon: How did it go? Ah, I was right about you. I knew you would succeed! (Ah, this one will be very useful to us...) Huh? What's that? Oh, it's nothing -- just talking to myself. Very well, let me write out your certificate. (He writes something on a paper.) With this, nobody will questi…",
+   "header": "Engineer Lekon",
+   "when": [
+    "item 13856 >= 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10273_GoodDayToFly/32557-07.html": {
+   "file": "Q10273_GoodDayToFly/32557-07.html",
+   "quest": 10273,
+   "text": "Engineer Lekon: In order to prove yourself, you need to bring 5 Rider Marks as proof that you defeated the Vulture Riders . So, should I transform you into an Aurabird Falcon or an Aurabird Owl ?",
+   "header": "Engineer Lekon",
+   "when": [
+    "!st.getQuestItemsCount(MARK) >= 5; transform == 0"
+   ],
+   "links": [
+    {
+     "text": "Aurabird Falcon",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-09.html",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-09.html",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-09.html"
+    },
+    {
+     "text": "Aurabird Owl",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-10.html",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-10.html",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-10.html"
+    },
+    {
+     "text": "\"I need to think about it.\"",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-08.html",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-08.html",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-08.html"
+    }
+   ]
+  },
+  "Q10273_GoodDayToFly/32557-11.html": {
+   "file": "Q10273_GoodDayToFly/32557-11.html",
+   "quest": 10273,
+   "text": "Engineer Lekon: Eh? The transformation has ended? Then I will transform you again into your choice of Aurabird.",
+   "header": "Engineer Lekon",
+   "when": [
+    "!st.getQuestItemsCount(MARK) >= 5; !transform == 0"
+   ],
+   "links": [
+    {
+     "text": "Transform",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-13.html",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-13.html",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-13.html"
+    },
+    {
+     "text": "\"I need a moment to prepare.\"",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-12.html",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-12.html",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-12.html"
+    }
+   ]
+  },
+  "Q10274_CollectingInTheAir/32557-0a.html": {
+   "file": "Q10274_CollectingInTheAir/32557-0a.html",
+   "quest": 10274,
+   "text": "Engineer Lekon: You've already finished this mission. Collect Star Stones in the sky and they will be useful to our cause. (You have already completed this quest.)",
+   "header": "Engineer Lekon",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10274_CollectingInTheAir/32557-01.htm": {
+   "file": "Q10274_CollectingInTheAir/32557-01.htm",
+   "quest": 10274,
+   "text": "Engineer Lekon: Now that you are authorized to fly, there's something you should know...",
+   "header": "Engineer Lekon",
+   "when": [
+    "state CREATED; ((player.getLevel() >= 75) && player.hasQuestCompleted(Q10273_GoodDayToFly.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q10274_CollectingInTheAir 32557-02.htm",
+     "kind": "quest-event",
+     "script": "Q10274_CollectingInTheAir",
+     "event": "32557-02.htm",
+     "quest": 10274,
+     "to": "Q10274_CollectingInTheAir/32557-02.htm"
+    }
+   ]
+  },
+  "Q10274_CollectingInTheAir/32557-00.html": {
+   "file": "Q10274_CollectingInTheAir/32557-00.html",
+   "quest": 10274,
+   "text": "Engineer Lekon: Hmm... I'm afraid I can't share the information with someone so inexperienced. Come back when you're more seasoned. (Only characters who are level 75 or above and have completed the \"Good Day To Fly\" quest may undertake this quest.)",
+   "header": "Engineer Lekon",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= 75) && player.hasQuestCompleted(Q10273_GoodDayToFly.class.getSimpleName()))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10274_CollectingInTheAir/32557-05.html": {
+   "file": "Q10274_CollectingInTheAir/32557-05.html",
+   "quest": 10274,
+   "text": "Engineer Lekon: Excellent! For a beginner, you've done very well. I guess this proves that you learned the collection skill after all. Congratulations! These are very valuable, so collect as many as possible.",
+   "header": "Engineer Lekon",
+   "when": [
+    "state STARTED; (st.getQuestItemsCount(RED) + st.getQuestItemsCount(BLUE) + st.getQuestItemsCount(GREEN)) >= 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10274_CollectingInTheAir/32557-04.html": {
+   "file": "Q10274_CollectingInTheAir/32557-04.html",
+   "quest": 10274,
+   "text": "Engineer Lekon: You haven't left yet? Hurry and collect 8 Crude Red Star Stone Extraction Stones, Crude Blue Star Stone Extraction Stones or Crude Green Star Stone Extraction Stones using the Star Stone Collection Scroll I gave you. Go on!",
+   "header": "Engineer Lekon",
+   "when": [
+    "state STARTED; !(st.getQuestItemsCount(RED) + st.getQuestItemsCount(BLUE) + st.getQuestItemsCount(GREEN)) >= 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00699_GuardianOfTheSkies/32557-03.htm": {
+   "file": "Q00699_GuardianOfTheSkies/32557-03.htm",
+   "quest": 699,
+   "text": "Engineer Lekon: You've already dealt with the Vulture Riders or Elite Riders before, so you know how dangerous they are. Fortunately, they can't directly attack Keucereus Alliance Base because of the Barrier Orb handed down from the Giants. But they roam the area as pirates, attacking merchants or …",
+   "header": "Engineer Lekon",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00699_GuardianOfTheSkies 32557-04.htm",
+     "kind": "quest-event",
+     "script": "Q00699_GuardianOfTheSkies",
+     "event": "32557-04.htm",
+     "quest": 699,
+     "to": "Q00699_GuardianOfTheSkies/32557-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00699_GuardianOfTheSkies/32557-04.htm": {
+   "file": "Q00699_GuardianOfTheSkies/32557-04.htm",
+   "quest": 699,
+   "text": "Engineer Lekon: You certainly don't lack for bravery. Now go defeat bring Master Rider Valdstone near the Keucereus Alliance Base and bring me a Vulture's Golden Feather from his mount as proof. According to what I've heard, the vulture that Valdstone rides is much larger and fiercer than the other…",
+   "header": "Engineer Lekon",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00699_GuardianOfTheSkies/32557-08.html": {
+   "file": "Q00699_GuardianOfTheSkies/32557-08.html",
+   "quest": 699,
+   "text": "Engineer Lekon: Excellent! I'm very happy to hear you say that. I'll reward you further if you bring me the Vulture's Golden Feather after defeating Master Rider Valdstone and his followers, the Vulture Riders and Elite Riders , who are roaming near Keucereus Alliance Base. Please protect the safet…",
+   "header": "Engineer Lekon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00699_GuardianOfTheSkies/32557-09.html": {
+   "file": "Q00699_GuardianOfTheSkies/32557-09.html",
+   "quest": 699,
+   "text": "Engineer Lekon: Too bad! I suppose I can't force you to help us, though. Thanks for what you've done, and good luck in your travels. Farewell!",
+   "header": "Engineer Lekon",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32557-03.html": {
+   "file": "Q00702_ATrapForRevenge/32557-03.html",
+   "quest": 702,
+   "text": "Engineer Lekon: Where are the materials? What I am supposed to work with? There's nothing here!",
+   "header": "Engineer Lekon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32557-04.html": {
+   "file": "Q00702_ATrapForRevenge/32557-04.html",
+   "quest": 702,
+   "text": "Engineer Lekon: I told you that I need 100 Red Star Stone Extraction Stones . You don't have enough here.",
+   "header": "Engineer Lekon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32557-05.html": {
+   "file": "Q00702_ATrapForRevenge/32557-05.html",
+   "quest": 702,
+   "text": "Engineer Lekon: I think there is an item you need to get from Tenius.",
+   "header": "Engineer Lekon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32557-06.html": {
+   "file": "Q00702_ATrapForRevenge/32557-06.html",
+   "quest": 702,
+   "text": "Engineer Lekon: Here! It's finished. It radiates intense energy now that the blood energy has been added to the original energy of the Red Star Stone Extraction Stones. You should be able to use it to lure out Dius, the Messenger of Destruction. Do you know how to use it? Find some Baby Drake Wings…",
+   "header": "Engineer Lekon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32557-02.html": {
+   "file": "Q10272_LightFragment/32557-02.html",
+   "quest": 10272,
+   "text": "Engineer Lekon: Well, nothing is impossible...say, did you really bring the materials I need? May I see them? Then we can get started...",
+   "header": "Engineer Lekon",
+   "links": [
+    {
+     "text": "Give him the materials.",
+     "bypass": "Quest Q10272_LightFragment 32557-03.html",
+     "kind": "quest-event",
+     "script": "Q10272_LightFragment",
+     "event": "32557-03.html",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32557-03.html",
+     "toAll": [
+      "Q10272_LightFragment/32557-03.html",
+      "Q10272_LightFragment/32557-04.html"
+     ]
+    }
+   ]
+  },
+  "Q10272_LightFragment/32557-03.html": {
+   "file": "Q10272_LightFragment/32557-03.html",
+   "quest": 10272,
+   "text": "Engineer Lekon: Ah, you really brought the necessary materials! I must have taken you a great deal of effort to collect so much... I must think about how to proceed. Will you give me a moment?",
+   "header": "Engineer Lekon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32557-04.html": {
+   "file": "Q10272_LightFragment/32557-04.html",
+   "quest": 10272,
+   "text": "Engineer Lekon: Is this some kind of joke? I cannot do anything without the necessary materials. Why are you wasting my time?",
+   "header": "Engineer Lekon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10273_GoodDayToFly/32557-02.htm": {
+   "file": "Q10273_GoodDayToFly/32557-02.htm",
+   "quest": 10273,
+   "text": "Engineer Lecon: A skilled adventurer like you doesn't know about this? You don't know about the flying creature named Aurabird ? Hmm. Well, listen carefully. Long, long ago the Aurabirds were the pet birds of the Giants. They were believed extinct until very recently. But it appears that at least a…",
+   "header": "Engineer Lecon",
+   "links": [
+    {
+     "text": "Listen to the story.",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-03.htm",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-03.htm",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-03.htm"
+    }
+   ]
+  },
+  "Q10273_GoodDayToFly/32557-03.htm": {
+   "file": "Q10273_GoodDayToFly/32557-03.htm",
+   "quest": 10273,
+   "text": "Engineer Lekon: When the Seed suddenly appeared in Gracia, the Aurabirds' spirit protected them from the contamination that affected the other creatures. They flew here to the Keucereus Alliance Base, where the power of the Seed is weakest. I guess they wanted to survive. A few of us were intereste…",
+   "header": "Engineer Lekon",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-04.htm",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-04.htm",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-04.htm"
+    }
+   ]
+  },
+  "Q10273_GoodDayToFly/32557-04.htm": {
+   "file": "Q10273_GoodDayToFly/32557-04.htm",
+   "quest": 10273,
+   "text": "Engineer Lekon: If the method was easy, we would have certainly have used it before now. We did find some ancient historical documents, but until recently we were unable to successfully duplicate the process. Only through the efforts of several Necromancers, the Wizards of the Ivory Tower and Dwarv…",
+   "header": "Engineer Lekon",
+   "links": [
+    {
+     "text": "\"Then what do I need to do to fly?\"",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-05.htm",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-05.htm",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-05.htm"
+    }
+   ]
+  },
+  "Q10273_GoodDayToFly/32557-05.htm": {
+   "file": "Q10273_GoodDayToFly/32557-05.htm",
+   "quest": 10273,
+   "text": "Engineer Lekon: Any skilled adventurer in Gracia is permitted to fly. Hunting and collecting are possible up there too. Of course, you will need to pass a simple test to prove that you're a match for any of the monsters you might encounter. I'm not worried about you, though! So how about it? Would …",
+   "header": "Engineer Lekon",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-06.htm",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-06.htm",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10273_GoodDayToFly/32557-06.htm": {
+   "file": "Q10273_GoodDayToFly/32557-06.htm",
+   "quest": 10273,
+   "text": "Engineer Lekon: You must select a type of Aurabird. There are two types to choose from. When the Aurabird was first created during the Age of the Giants, it is said they altered several species. However, only two types survived after the fall of the Giants. One is called the Aurabird Falcon , which…",
+   "header": "Engineer Lekon",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Aurabird Falcon",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-09.html",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-09.html",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-09.html"
+    },
+    {
+     "text": "Aurabird Owl",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-10.html",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-10.html",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-10.html"
+    },
+    {
+     "text": "\"I need to think about it.\"",
+     "bypass": "Quest Q10273_GoodDayToFly 32557-08.html",
+     "kind": "quest-event",
+     "script": "Q10273_GoodDayToFly",
+     "event": "32557-08.html",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-08.html"
+    }
+   ]
+  },
+  "Q10273_GoodDayToFly/32557-08.html": {
+   "file": "Q10273_GoodDayToFly/32557-08.html",
+   "quest": 10273,
+   "text": "Engineer Lekon: Hmm... Can't make a decision, eh? Indecision won't help you up there, that's for sure. Are you sure you're ready for this? Well, make up your mind and talk to me when you've decided. Hurry up, though. I don't have all day!",
+   "header": "Engineer Lekon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10273_GoodDayToFly/32557-09.html": {
+   "file": "Q10273_GoodDayToFly/32557-09.html",
+   "quest": 10273,
+   "text": "Engineer Lekon: You chose an Aurabird Falcon, eh? A good choice... The sight of it streaking across the sky, closing in on its prey, is a beautiful thing. Good hunting!",
+   "header": "Engineer Lekon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10273_GoodDayToFly/32557-10.html": {
+   "file": "Q10273_GoodDayToFly/32557-10.html",
+   "quest": 10273,
+   "text": "Engineer Lekon: You chose an Aurabird Owl, eh? A good choice... The sight of it silently sneaking up on its enemy is a beautiful thing. Good hunting!",
+   "header": "Engineer Lekon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10273_GoodDayToFly/32557-12.html": {
+   "file": "Q10273_GoodDayToFly/32557-12.html",
+   "quest": 10273,
+   "text": "Engineer Lekon: You're just wasting my time. Get ready or get out!",
+   "header": "Engineer Lekon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10273_GoodDayToFly/32557-13.html": {
+   "file": "Q10273_GoodDayToFly/32557-13.html",
+   "quest": 10273,
+   "text": "Engineer Lekon: You're all set -- good hunting!",
+   "header": "Engineer Lekon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10274_CollectingInTheAir/32557-02.htm": {
+   "file": "Q10274_CollectingInTheAir/32557-02.htm",
+   "quest": 10274,
+   "text": "Engineer Lekon: Do you know what powers the Airships? It's ancient Giant technology. But you need Star Stones to power, maintain and repair a Airship. They can only be found in the skies of Gracia. It's not easy to collect these stones, especially since they tend to attract some rather nasty monste…",
+   "header": "Engineer Lekon",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q10274_CollectingInTheAir 32557-03.html",
+     "kind": "quest-event",
+     "script": "Q10274_CollectingInTheAir",
+     "event": "32557-03.html",
+     "quest": 10274,
+     "to": "Q10274_CollectingInTheAir/32557-03.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10274_CollectingInTheAir/32557-03.html": {
+   "file": "Q10274_CollectingInTheAir/32557-03.html",
+   "quest": 10274,
+   "text": "Engineer Lekon: It would be easier if I went with you, but unfortunately I'm far too busy. I've prepared this Star Stone Collection Scroll to help beginners like you. Use it near a target and you'll do fine. It's not cheap, though, so I hope you'll learn the collection skill while using it. Your ta…",
+   "header": "Engineer Lekon",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Guardian of the Skies]",
+     "bypass": "npc_%objectId%_Quest Q00699_GuardianOfTheSkies",
+     "kind": "quest",
+     "quest": 699,
+     "to": "Q00699_GuardianOfTheSkies/32557-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Guardian of the Skies (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00699_GuardianOfTheSkies",
+     "kind": "quest",
+     "quest": 699,
+     "to": "Q00699_GuardianOfTheSkies/32557-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[A Trap for Revenge (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00702_ATrapForRevenge",
+     "kind": "quest",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32557-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Light Fragment (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10272_LightFragment",
+     "kind": "quest",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32557-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Good Day to Fly]",
+     "bypass": "npc_%objectId%_Quest Q10273_GoodDayToFly",
+     "kind": "quest",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Good Day to Fly (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10273_GoodDayToFly",
+     "kind": "quest",
+     "quest": 10273,
+     "to": "Q10273_GoodDayToFly/32557-14.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Collecting in the Air]",
+     "bypass": "npc_%objectId%_Quest Q10274_CollectingInTheAir",
+     "kind": "quest",
+     "quest": 10274,
+     "to": "Q10274_CollectingInTheAir/32557-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Collecting in the Air (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10274_CollectingInTheAir",
+     "kind": "quest",
+     "quest": 10274,
+     "to": "Q10274_CollectingInTheAir/32557-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

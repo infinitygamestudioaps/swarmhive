@@ -1,0 +1,73 @@
+{
+ "npcId": 32616,
+ "name": "Mine",
+ "title": "Fortune Teller",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.392Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32616.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32616.htm": {
+   "file": "default/32616.htm",
+   "quest": null,
+   "text": "Fortune-Teller Mine: The future is enshrouded by a dark mist. Are you curious as to what it holds? For a small price, I can show you your future...",
+   "header": "Fortune-Teller Mine",
+   "links": [
+    {
+     "text": "Have your fortune read.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32616-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/32616-1.htm": {
+   "file": "default/32616-1.htm",
+   "quest": null,
+   "text": "Fortune-Teller Mine: Your soul shines with a bright light. I see a dim image of a person walking, illuminated by that light... To see more, you must pay me an additional 1000 Adena . What do you say?",
+   "header": "Fortune-Teller Mine",
+   "links": [
+    {
+     "text": "Pay the money.",
+     "bypass": "npc_%objectId%_Quest FortuneTelling",
+     "kind": "quest",
+     "script": "FortuneTelling"
+    },
+    {
+     "text": "Stop now.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/32616-2.htm"
+    }
+   ]
+  },
+  "default/32616-2.htm": {
+   "file": "default/32616-2.htm",
+   "quest": null,
+   "text": "Fortune-teller Mine: Ah, well, perhaps it is better that you not know. Knowledge of the future can be a dangerous weapon... If you change your mind, come see me again. You must decide how closely you wish to peer into the mists of time...",
+   "header": "Fortune-teller Mine",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

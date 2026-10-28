@@ -1,0 +1,299 @@
+{
+ "npcId": 32498,
+ "name": "Devil's Isle Survivor",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.376Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32498.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "129": {
+   "name": "Pailaka - Devil's Legacy",
+   "listText": [
+    "[Pailaka - Devil's Legacy]",
+    "[Pailaka - Devil's Legacy (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32498-11.htm",
+     "when": "state CREATED; level < 61",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32498-12.htm",
+     "when": "state CREATED; NOT level < 61; level > 67",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32498-01.htm",
+     "when": "state CREATED; NOT level < 61; NOT level > 67",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32498-08.htm",
+     "when": "state STARTED; cond >1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32498-06.htm",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32498-10.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32498-01.htm",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32498.htm": {
+   "file": "default/32498.htm",
+   "quest": null,
+   "text": "Devil's Isle Survivor: You know about Devil's Isle? I guess if you're from around here you must have heard about it... It was the hideout of that legendary pirate king, Zaken -- only the bravest of the brave dare to venture there now. But be warned...",
+   "header": "Devil's Isle Survivor",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00129_PailakaDevilsLegacy/32498-11.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498-11.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: What's the use of knowing more? If you try your luck there now, there'll just be one more corpse: yours! (Only characters level 61 and higher may undertake this quest)",
+   "header": "Devil's Isle Survivor",
+   "when": [
+    "state CREATED; level < 61"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32498-12.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498-12.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: Why do you want to know? There are better ways to spend your time, believe me! (Only characters level 67 and lower may undertake this quest)",
+   "header": "Devil's Isle Survivor",
+   "when": [
+    "state CREATED; NOT level < 61; level > 67"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32498-01.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498-01.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: Devil's Isle... Oh, I am the sole survivor from that awful place... I don't want to mislead you -- many adventurers still go to Devil's Isle and return. But I am the only one to return from the worst spot on that accursed island: Lematan's Fleet.",
+   "header": "Devil's Isle Survivor",
+   "when": [
+    "state CREATED; NOT level < 61; NOT level > 67",
+    "always"
+   ],
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Ask about Lematan's Fleet.",
+     "bypass": "Quest Q00129_PailakaDevilsLegacy 32498-02.htm",
+     "kind": "quest-event",
+     "script": "Q00129_PailakaDevilsLegacy",
+     "event": "32498-02.htm",
+     "quest": 129,
+     "to": "Q00129_PailakaDevilsLegacy/32498-02.htm"
+    }
+   ]
+  },
+  "Q00129_PailakaDevilsLegacy/32498-08.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498-08.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: Do you want to enter Pailaka again? Don't forget what I told you before!",
+   "header": "Devil's Isle Survivor",
+   "when": [
+    "state STARTED; cond >1"
+   ],
+   "links": [
+    {
+     "text": "Enter Pailaka.",
+     "bypass": "Quest PailakaDevilsLegacy enter",
+     "kind": "quest-event",
+     "script": "PailakaDevilsLegacy",
+     "event": "enter"
+    }
+   ]
+  },
+  "Q00129_PailakaDevilsLegacy/32498-06.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498-06.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: I looked into it while you were gone -- even the scholars can't agree about the nature of Pailaka... But most think, as I do, that you should find an ally once you cross over. We just don't know the specifics! Stay alert and you'll do fine. Now then, we've talked long enough!…",
+   "header": "Devil's Isle Survivor",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Enter Pailaka.",
+     "bypass": "Quest PailakaDevilsLegacy enter",
+     "kind": "quest-event",
+     "script": "PailakaDevilsLegacy",
+     "event": "enter"
+    }
+   ]
+  },
+  "Q00129_PailakaDevilsLegacy/32498-10.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498-10.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: Uh... it was very difficult... But thanks to you, I think my nightmares may finally stop... (This quest has already been completed)",
+   "header": "Devil's Isle Survivor",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32498-02.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498-02.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: Uh... I suppose I can talk about Lematan's Fleet with someone of your skill and experience... Lematan was a pirate who lusted after Zaken's treasure... But instead of making him rich, it brought him only evil. As soon as he touched the treasure, a powerful curse was cast abou…",
+   "header": "Devil's Isle Survivor",
+   "links": [
+    {
+     "text": "Ask him to tell you more.",
+     "bypass": "Quest Q00129_PailakaDevilsLegacy 32498-03.htm",
+     "kind": "quest-event",
+     "script": "Q00129_PailakaDevilsLegacy",
+     "event": "32498-03.htm",
+     "quest": 129,
+     "to": "Q00129_PailakaDevilsLegacy/32498-03.htm"
+    }
+   ]
+  },
+  "Q00129_PailakaDevilsLegacy/32498-03.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498-03.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: Chaos... That's right. That's the best word I can use to describe it... It was like something ripped a hole in reality itself. Both captain and crew were sucked in... I later heard that that power is called Kamaloka or Pailaka or somesuch. They say that it will engulf the ent…",
+   "header": "Devil's Isle Survivor",
+   "links": [
+    {
+     "text": "Ask him to tell you.",
+     "bypass": "Quest Q00129_PailakaDevilsLegacy 32498-04.htm",
+     "kind": "quest-event",
+     "script": "Q00129_PailakaDevilsLegacy",
+     "event": "32498-04.htm",
+     "quest": 129,
+     "to": "Q00129_PailakaDevilsLegacy/32498-04.htm"
+    }
+   ]
+  },
+  "Q00129_PailakaDevilsLegacy/32498-04.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498-04.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: I'm not the only one who has these nightmares! And all of us are both emotionally -- and, strangely enough, even physically -- drained upon waking. I thought it was this Kamaloka I've heard about, but they say it's something else. It couldn't be entered in the same way as Kam…",
+   "header": "Devil's Isle Survivor",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00129_PailakaDevilsLegacy 32498-05.htm",
+     "kind": "quest-event",
+     "script": "Q00129_PailakaDevilsLegacy",
+     "event": "32498-05.htm",
+     "quest": 129,
+     "to": "Q00129_PailakaDevilsLegacy/32498-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00129_PailakaDevilsLegacy/32498-05.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498-05.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: Thank you! When you're ready, come find me.",
+   "header": "Devil's Isle Survivor",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32498-07.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498-07.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: Keep your eyes open for someone who can help you there. Good luck -- we're all counting on you!",
+   "header": "Devil's Isle Survivor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32498-09.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498-09.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: Remember what needs to be done!",
+   "header": "Devil's Isle Survivor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32498.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32498.htm",
+   "quest": 129,
+   "text": "Devil's Isle Survivor: You know about Devil's Isle? I guess if you're from around here you must have heard about it... It was the hideout of that legendary pirate king, Zaken -- only the bravest of the brave dare to venture there now. But be warned...",
+   "header": "Devil's Isle Survivor",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Pailaka - Devil's Legacy]",
+     "bypass": "npc_%objectId%_Quest Q00129_PailakaDevilsLegacy",
+     "kind": "quest",
+     "quest": 129,
+     "to": "Q00129_PailakaDevilsLegacy/32498-12.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Pailaka - Devil's Legacy (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00129_PailakaDevilsLegacy",
+     "kind": "quest",
+     "quest": 129,
+     "to": "Q00129_PailakaDevilsLegacy/32498-08.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

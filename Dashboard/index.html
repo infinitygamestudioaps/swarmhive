@@ -4492,7 +4492,7 @@ async function refresh() {
   try {
     STATE = await api('/api/state');
     const alive = STATE.chars.filter(c => c.ageSec <= 30).length;
-    $('sum').textContent = `${alive}/${STATE.chars.length} characters reporting · updated ${clock(STATE.now)}`;
+    $('sum').textContent = `${STATE.version ? 'SwarmHive v' + STATE.version + ' · ' : ''}${alive}/${STATE.chars.length} characters reporting · updated ${clock(STATE.now)}`;   // VERSIONHDR-2026-10-27
     // CURSED 2026-10-13: a cursed weapon holder (renamed Zariche / Akamanah by the server) gets its own red line instead of 'not reporting'
     try { const cu = STATE.cursed || [], skip = new Set(cu.map(x => x.holder).concat(cu.map(x => x.weapon), ['Zariche', 'Akamanah'])); renderBrake(STATE.brake, STATE.chars.filter(c => c.ageSec > 30 && !skip.has(c.name)).map(c => c.name), cu); } catch (e) { }
     try { renderFull(STATE.full); } catch (e) { }   // FULLWARN 2026-10-14

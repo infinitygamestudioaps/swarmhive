@@ -1,0 +1,96 @@
+{
+ "npcId": 32515,
+ "name": "Leo",
+ "title": "Entrance Manager",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.378Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32515.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32515.htm": {
+   "file": "default/32515.htm",
+   "quest": null,
+   "text": "Arena Manager: This arena is reserved for characters who are level 60-69. Only the victors survive! Are you confident enough to accept the challenge?",
+   "header": "Arena Manager",
+   "links": [
+    {
+     "text": "Register team.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32515-1.htm"
+    },
+    {
+     "text": "Cancel team registration.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/32515.htm"
+    },
+    {
+     "text": "View participating teams.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/32515-2.htm"
+    },
+    {
+     "text": "View game rules.",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/32515-3.htm"
+    },
+    {
+     "text": "View team with the most wins.",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "default/32515-4.htm"
+    },
+    {
+     "text": "Move to Fantasy Isle.",
+     "bypass": "npc_%objectId%_Quest TeleportToUndergroundColiseum",
+     "kind": "quest",
+     "script": "TeleportToUndergroundColiseum",
+     "to": null
+    }
+   ]
+  },
+  "default/32515-1.htm": {
+   "file": "default/32515-1.htm",
+   "quest": null,
+   "text": "Arena Manager: What's that? You want to enter by yourself? Sorry, kid -- it doesn't work that way. If you want to participate, go find yourself a team.",
+   "header": "Arena Manager",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "default/32515-2.htm": {
+   "file": "default/32515-2.htm",
+   "quest": null,
+   "text": "Arena Manager: This is a list of the teams planning to participate in this match. Impressive, aren't they? But don't be intimidated. Knowing your opponents and their capabilities is good strategy in fact. === List of Participating Teams === 1. (Participating Team: Team) 2. (Participating Team: Team…",
+   "header": "Arena Manager",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "default/32515-3.htm": {
+   "file": "default/32515-3.htm",
+   "quest": null,
+   "text": "Arena Manager: Only parties with more than 7 members can participate in the game and, if they win, keep playing. You can also only participate in the arena reserved for your level. When you enter the arena, you will see a Tower of Resurrection for each team. Until you destroy your opponents' tower,…",
+   "header": "Arena Manager",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "default/32515-4.htm": {
+   "file": "default/32515-4.htm",
+   "quest": null,
+   "text": "Arena Manager: No team currently has consecutive wins. Just goes to show you how hard it is to find a really skilled team these days...",
+   "header": "Arena Manager",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

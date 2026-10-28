@@ -1,0 +1,425 @@
+{
+ "npcId": 30381,
+ "name": "Alvah",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.960Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30381.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "171": {
+   "name": "Acts Of Evil",
+   "listText": [
+    "[Acts of Evil]",
+    "[Acts of Evil (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00171_ActsOfEvil/30381-01.htm",
+     "when": "state CREATED; level < 27",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-02.htm",
+     "when": "state CREATED; NOT level < 27",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-05.html",
+     "when": "state STARTED; cond 2|3",
+     "state": "STARTED",
+     "cond": [
+      2,
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-06.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-09.html",
+     "when": "state STARTED; cond 5; has items 4241,4242,4243,4244",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-08.html",
+     "when": "state STARTED; cond 5; lacks items 4241,4242,4243,4244",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-11.html",
+     "when": "state STARTED; cond 6; has items 4245,4246",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-10.html",
+     "when": "state STARTED; cond 6; lacks items 4245,4246",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-13.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-14.html",
+     "when": "state STARTED; cond 8",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-15.html",
+     "when": "state STARTED; cond 9",
+     "state": "STARTED",
+     "cond": [
+      9
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-16.html",
+     "when": "state STARTED; cond 10",
+     "state": "STARTED",
+     "cond": [
+      10
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30381-17.html",
+     "when": "state STARTED; cond 11",
+     "state": "STARTED",
+     "cond": [
+      11
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30381.htm": {
+   "file": "guard/30381.htm",
+   "quest": null,
+   "text": "Guard Alvah: Young traveler, welcome to the most historic village in Gludio! This is the first village that the Humans established after moving to this area and driving out the lizardmen and the orcs. We have been through great misfortune, such as the domination of the demon Beleth and the battle w…",
+   "header": "Guard Alvah",
+   "links": [
+    {
+     "text": "\"Tell me more about Turek orcs.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30381-1.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30381-1.htm": {
+   "file": "guard/30381-1.htm",
+   "quest": null,
+   "text": "Guard Alvah: Long ago, Orc tribes lived freely in Gludio. When we Humans came to this place we drove them out. As of yet there have been no reprisals for our actions. But now they are under the sway of a new chief, Burai, and the situation has changed. They now occupy the fertile farmland located i…",
+   "header": "Guard Alvah",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-01.htm": {
+   "file": "Q00171_ActsOfEvil/30381-01.htm",
+   "quest": 171,
+   "text": "Guard Alvah: We have had many problems lately from the Turek orcs. The worst has been their looting and pillaging! Recently a wagon crossing the Dark Elven Forest was attacked and all the cargo stolen. The Aden Trade Union has filed a formal request for assistance from the Gludio Guards! Unfortunat…",
+   "header": "Guard Alvah",
+   "when": [
+    "state CREATED; level < 27"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-02.htm": {
+   "file": "Q00171_ActsOfEvil/30381-02.htm",
+   "quest": 171,
+   "text": "Guard Alvah: We have had many problems lately from the Turek orcs. The worst has been their looting and pillaging! Recently a wagon crossing the Dark Elven Forest was attacked and all the cargo stolen. The Aden Trade Union has filed a formal request for assistance from the Gludio Guards! Unfortunat…",
+   "header": "Guard Alvah",
+   "when": [
+    "state CREATED; NOT level < 27"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, I will help.\"",
+     "bypass": "Quest Q00171_ActsOfEvil 30381-03.htm",
+     "kind": "quest-event",
+     "script": "Q00171_ActsOfEvil",
+     "event": "30381-03.htm",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30381-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00171_ActsOfEvil/30381-04.html": {
+   "file": "Q00171_ActsOfEvil/30381-04.html",
+   "quest": 171,
+   "text": "Guard Alvah: Surely you couldn't have forgotten already!? You must meet with Trader Arodin at the Weapons Store . He will tell you exactly which items were stolen from the cargo wagon by the Turek orcs. Please do this quickly, before the guild files a complaint!",
+   "header": "Guard Alvah",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-05.html": {
+   "file": "Q00171_ActsOfEvil/30381-05.html",
+   "quest": 171,
+   "text": "Guard Alvah: I trust that you met with Trader Arodin and found out what was stolen from the cargo wagon? Good! Now there is just the task of killing the Turek orcs and recovering the cargo!",
+   "header": "Guard Alvah",
+   "when": [
+    "state STARTED; cond 2|3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-06.html": {
+   "file": "Q00171_ActsOfEvil/30381-06.html",
+   "quest": 171,
+   "text": "Guard Alvah: I just received a message from Trader Arodin detailing the success of your mission! He asked me to extend his gratitude to you for your efforts. Good job! Unfortunately, now we have another, even more dangerous problem! Word has come that the Ol Mahums are planning an all-out attack on…",
+   "header": "Guard Alvah",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"It appears that the Turek orcs have joined forces with the Ol Mahums.\"",
+     "bypass": "Quest Q00171_ActsOfEvil 30381-07.html",
+     "kind": "quest-event",
+     "script": "Q00171_ActsOfEvil",
+     "event": "30381-07.html",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30381-07.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00171_ActsOfEvil/30381-09.html": {
+   "file": "Q00171_ActsOfEvil/30381-09.html",
+   "quest": 171,
+   "text": "Guard Alvah: So sad. Those heroic patrolmen gave their lives for this information... Let's see... What's this? Ol Mahums allied with Dwarves...?! What treachery! This is treason! We must tread carefully, my friend. The influence of the Dwarven Guild cannot be ignored. If we rushed in and made such …",
+   "header": "Guard Alvah",
+   "when": [
+    "state STARTED; cond 5; has items 4241,4242,4243,4244"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-08.html": {
+   "file": "Q00171_ActsOfEvil/30381-08.html",
+   "quest": 171,
+   "text": "Guard Alvah: The patrols that we sent to spy on the Ol Mahums must have gotten some valuable information about them. The last message we got from them said that they were hiding from the Ol Mahums in the Ruins of Agony . I fear that they may have been killed by the Tumran bugbears that frequent tha…",
+   "header": "Guard Alvah",
+   "when": [
+    "state STARTED; cond 5; lacks items 4241,4242,4243,4244"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-11.html": {
+   "file": "Q00171_ActsOfEvil/30381-11.html",
+   "quest": 171,
+   "text": "Guard Alvah: Have you found proof of the alliance? What's this? Ol mahum's operation orders? Let me see that... This is unbelievable...! The Ol Mahums' target is not Gludin Village after all! They intend to seize the Orc Barracks! Those deceitful beasts plan to falsely pledge an alliance with the o…",
+   "header": "Guard Alvah",
+   "when": [
+    "state STARTED; cond 6; has items 4245,4246"
+   ],
+   "links": [
+    {
+     "text": "Show him the Weapons Trade Contract.",
+     "bypass": "Quest Q00171_ActsOfEvil 30381-12.html",
+     "kind": "quest-event",
+     "script": "Q00171_ActsOfEvil",
+     "event": "30381-12.html",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30381-12.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00171_ActsOfEvil/30381-10.html": {
+   "file": "Q00171_ActsOfEvil/30381-10.html",
+   "quest": 171,
+   "text": "Guard Alvah: Don't you realize how important this is? You must find proof of the alliance between Dwarves and Ol Mahums! Go to the Abandoned Camp and check out the Ol Mahum generals . You will find the proof there.",
+   "header": "Guard Alvah",
+   "when": [
+    "state STARTED; cond 6; lacks items 4245,4246"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-13.html": {
+   "file": "Q00171_ActsOfEvil/30381-13.html",
+   "quest": 171,
+   "text": "Guard Alvah: Ask Neti about the Dwarven Guild seal on the weapons Contract. We must determine which guild is aiding the Ol Mahums!",
+   "header": "Guard Alvah",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-14.html": {
+   "file": "Q00171_ActsOfEvil/30381-14.html",
+   "quest": 171,
+   "text": "Guard Alvah: What did Neti say? Trader Rolento ? That Dwarf with the business near the southern entrance of the Wasteland drafted the Weapons Trade Contract? I knew that guy wasn't on the level... Such an odd place for a business... He must have done that to avoid notice of his nefarious dealings..…",
+   "header": "Guard Alvah",
+   "when": [
+    "state STARTED; cond 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-15.html": {
+   "file": "Q00171_ActsOfEvil/30381-15.html",
+   "quest": 171,
+   "text": "Guard Alvah: We must take Trader Rolento's word for now. First you must visit the Orc Barracks and meet with Turek Chief Burai . Show him the Ol Mahums' Operation Order, he'll call off his dogs. Better these evil ones attack each other than us.",
+   "header": "Guard Alvah",
+   "when": [
+    "state STARTED; cond 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-16.html": {
+   "file": "Q00171_ActsOfEvil/30381-16.html",
+   "quest": 171,
+   "text": "Guard Alvah: Well that explains everything! The Turek Chief, eh? This is brilliant! It sets both of our enemies back on their heels with one stroke!",
+   "header": "Guard Alvah",
+   "when": [
+    "state STARTED; cond 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-17.html": {
+   "file": "Q00171_ActsOfEvil/30381-17.html",
+   "quest": 171,
+   "text": "Guard Alvah: Good job! The invasion has failed! Now Turek orcs and ol mahums will only be concerned with killing each other. What a turn of fate. It has been said that one dedicated warrior can defeat an army, and you have proven this to be true. Please accept this token of appreciation from the Gl…",
+   "header": "Guard Alvah",
+   "when": [
+    "state STARTED; cond 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-03.htm": {
+   "file": "Q00171_ActsOfEvil/30381-03.htm",
+   "quest": 171,
+   "text": "Guard Alvah: Excellent! Now listen carefully. First you must meet with Trader Arodin and get the details of the raid that occurred day before yesterday. Determine exactly which items were stolen from the cargo wagon. Trader Arodin can be found in the Weapons Store .",
+   "header": "Guard Alvah",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-07.html": {
+   "file": "Q00171_ActsOfEvil/30381-07.html",
+   "quest": 171,
+   "text": "Guard Alvah: What's that? Ol Mahums in the Orc Barracks...? Certainly this proves they are planning an attack! This is most distressing! ... I fear this still won't be enough to persuade Sir Klaus Vasper. We must try to get more information from the patrols that were sent to spy on the Ol Mahums...…",
+   "header": "Guard Alvah",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30381-12.html": {
+   "file": "Q00171_ActsOfEvil/30381-12.html",
+   "quest": 171,
+   "text": "Guard Alvah: A Contract? What's this? Hmmm, a Contract to purchase a large supplies of weapons. Look at this seal at the bottom! The mark of a Dwarven Guild! Could this be the proof we need that Dwarves are providing ol mahums with weapons? We must find out which guild uses this seal, but we can't …",
+   "header": "Guard Alvah",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Acts of Evil]",
+     "bypass": "npc_%objectId%_Quest Q00171_ActsOfEvil",
+     "kind": "quest",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30381-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Acts of Evil (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00171_ActsOfEvil",
+     "kind": "quest",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30381-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,746 @@
+{
+ "npcId": 30849,
+ "name": "Sedrick",
+ "title": "Grand Master",
+ "type": "L2VillageMasterFighter",
+ "generated": "2026-10-27T18:18:03.092Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30849.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "70": {
+   "name": "Saga of the Phoenix Knight",
+   "listText": [
+    "[Saga of the Phoenix Knight]",
+    "[Saga of the Phoenix Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/0-01.htm",
+     "when": "cond 0; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/0-04.htm",
+     "when": "cond 1; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/3-01.htm",
+     "when": "cond 10; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/3-06.htm",
+     "when": "cond 13; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/0-06.htm",
+     "when": "cond 19; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00070_SagaOfThePhoenixKnight/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "73": {
+   "name": "Saga of the Duelist",
+   "listText": [
+    "[Saga of the Duelist]",
+    "[Saga of the Duelist (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00073_SagaOfTheDuelist/0-01.htm",
+     "when": "cond 0; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00073_SagaOfTheDuelist/0-04.htm",
+     "when": "cond 1; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00073_SagaOfTheDuelist/0-06.htm",
+     "when": "cond 19; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00073_SagaOfTheDuelist/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00073_SagaOfTheDuelist/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30849.htm": {
+   "file": "villagemaster/30849.htm",
+   "quest": null,
+   "text": "Grand Master Sedrick: Welcome to Aden, young one. My name is Sedrick. I welcome you on behalf of the worriors of the Castle of Aden and its dominion.",
+   "header": "Grand Master Sedrick",
+   "live": {
+    "file": "Logs/npclive_Sedrick_c60ced0e.html",
+    "at": "2026-10-27T14:38:08.330Z",
+    "score": 0.88
+   },
+   "dpText": "Grand Master Sedrick: Welcome to Aden, young one. My name is Sedrick. I welcome you on behalf of the warriors of the Castle of Aden and its dominion.",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest ElfHumanFighterChange2",
+     "kind": "quest",
+     "script": "ElfHumanFighterChange2",
+     "live": true
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class",
+     "live": true
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan",
+     "live": true
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance",
+     "live": true
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm",
+     "live": true
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00070_SagaOfThePhoenixKnight/0-01.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/0-01.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: I'm sure you've felt the dilemma of being a Paladin by now. How do you act when life, honor, truth, justice, faith and belief seem in conflict with each other? How can you reconcile that? It's not easy to find justice.",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 0; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What do you mean?\"",
+     "bypass": "Quest Q00070_SagaOfThePhoenixKnight 0-1",
+     "kind": "quest-event",
+     "script": "Q00070_SagaOfThePhoenixKnight",
+     "event": "0-1",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/0-05.htm",
+     "toAll": [
+      "Q00070_SagaOfThePhoenixKnight/0-02.htm",
+      "Q00070_SagaOfThePhoenixKnight/0-05.htm"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00070_SagaOfThePhoenixKnight/0-04.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/0-04.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: See Felix in Goddard. With his skills, he might be working as a guard or master. He will know of the ancient training.",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 1; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/3-01.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/3-01.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: From your wounds, I'd say you've fought with Adil. I wondered why we would undertake the pilgrimage when we couldn't even comprehend the inscriptions on the Tablets of Vision. I found out about the Stone of Commune in the ancient texts. I hit a wall, and my Stone of Commune wa…",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 10; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How do I repair it?\"",
+     "bypass": "Quest Q00070_SagaOfThePhoenixKnight 3-5",
+     "kind": "quest-event",
+     "script": "Q00070_SagaOfThePhoenixKnight",
+     "event": "3-5",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/3-07.htm"
+    }
+   ]
+  },
+  "Q00070_SagaOfThePhoenixKnight/3-05.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/3-05.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: Did you have to make a sacrifice to get the Divine Stone of Wisdom? Did you choose to defend your mission, the Ketra Orcs or the Varka Silenos? Sometimes you must make difficult choices.",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "......",
+     "bypass": "Quest Q00070_SagaOfThePhoenixKnight 3-8",
+     "kind": "quest-event",
+     "script": "Q00070_SagaOfThePhoenixKnight",
+     "event": "3-8",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00070_SagaOfThePhoenixKnight/3-04.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/3-04.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: Go get the Divine Stone of Wisdom either from the Ketra Orcs or the Varka Silenos. Only then will this Stone of Commune work.",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/3-06.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/3-06.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: Go to the forth tablet in the north of the Varka Silenos Camp. Don't forget your new friendship or your sacrifice.",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 13; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/0-06.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/0-06.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: You seem different. Do you think you know about trust? What is most important is to be trusted by others and to trust yourself. Can you answer my question now?",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 19; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I must conduct myself honorably and practice justice.\"",
+     "bypass": "Quest Q00070_SagaOfThePhoenixKnight 0-2",
+     "kind": "quest-event",
+     "script": "Q00070_SagaOfThePhoenixKnight",
+     "event": "0-2",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/0-07.htm",
+     "toAll": [
+      "Q00070_SagaOfThePhoenixKnight/0-08.htm",
+      "Q00070_SagaOfThePhoenixKnight/0-07.htm"
+     ],
+     "effect": "cond:20|reward"
+    }
+   ]
+  },
+  "Q00070_SagaOfThePhoenixKnight/0-09.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/0-09.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: As long as the light in your heart is not extinguished, you may guard and protect justice without being bound by the rules of any organization. Hold the fire in your heart and live your life as a Knight re-born!",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/0-010.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/0-010.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: Come back when your body is as strong as your faith. (Only a character of level 76 or above may transfer classes. Don't abandon the quest until class transfer is complete.)",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/0-01.htm": {
+   "file": "Q00073_SagaOfTheDuelist/0-01.htm",
+   "quest": 73,
+   "text": "Grand Master Sedrick: You learn quickly! Your skills remind me of Duelist Kaien of Oren! By the way, do you know Kaien? He's the best gladiator ever! But I've been hearing some strange stories about him lately.",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 0; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What have you heard?\"",
+     "bypass": "Quest Q00073_SagaOfTheDuelist 0-1",
+     "kind": "quest-event",
+     "script": "Q00073_SagaOfTheDuelist",
+     "event": "0-1",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/0-05.htm",
+     "toAll": [
+      "Q00073_SagaOfTheDuelist/0-02.htm",
+      "Q00073_SagaOfTheDuelist/0-05.htm"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00073_SagaOfTheDuelist/0-04.htm": {
+   "file": "Q00073_SagaOfTheDuelist/0-04.htm",
+   "quest": 73,
+   "text": "Grand Master Sedrick: See the Arena Manager at the Coliseum. His stories of the countless duels he's witnessed are worth listening to!",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 1; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/0-06.htm": {
+   "file": "Q00073_SagaOfTheDuelist/0-06.htm",
+   "quest": 73,
+   "text": "Grand Master Sedrick: You remind me of Kaien, Duelist of Oren, who strived for high ideals. When he couldn't reach them, he quit.",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 19; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Anything else?\"",
+     "bypass": "Quest Q00073_SagaOfTheDuelist 0-2",
+     "kind": "quest-event",
+     "script": "Q00073_SagaOfTheDuelist",
+     "event": "0-2",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/0-07.htm",
+     "toAll": [
+      "Q00073_SagaOfTheDuelist/0-08.htm",
+      "Q00073_SagaOfTheDuelist/0-07.htm"
+     ],
+     "effect": "cond:20|reward"
+    }
+   ]
+  },
+  "Q00073_SagaOfTheDuelist/0-09.htm": {
+   "file": "Q00073_SagaOfTheDuelist/0-09.htm",
+   "quest": 73,
+   "text": "Grand Master Sedrick: You obviously seek your absolute limit. Kaien said a Duelist is covered in scars and fights on. You would be worthy of the title!",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/0-010.htm": {
+   "file": "Q00073_SagaOfTheDuelist/0-010.htm",
+   "quest": 73,
+   "text": "Grand Master Sedrick: You have a resolve like Kaien's, but you're skills are still lacking. Work a little bit harder. You don't want to end up like Iron! (Only a character of level 76 or above is allowed to do a class transfer. Be careful. You cannot change occupation if you stop Quest!)",
+   "header": "Grand Master Sedrick",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/0-02.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/0-02.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: Come back when your sword is shinier! (This quest may only be undertaken by a Paladin level is 76 or above.)",
+   "header": "Grand Master Sedrick",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/0-03.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/0-03.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: Find Felix in Goddard. He was a Knight of Dion and fell in love with a maiden there. He betrayed his knighthood and ran away with her when the uprising of the peasants led to the oppression of the Knights. The records of the Knights Guild speak of the most powerful Knight bein…",
+   "header": "Grand Master Sedrick",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/0-05.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/0-05.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: Long ago, a peasant revolt broke out in a small village in Dion Territory. When talks failed, the local manor lord resorted to force. Obeying their orders, the top Knights of the guild fought for him. However, many young Knights followed their conscience and sided with the pea…",
+   "header": "Grand Master Sedrick",
+   "links": [
+    {
+     "text": "\"I will!\"",
+     "bypass": "Quest Q00070_SagaOfThePhoenixKnight accept",
+     "kind": "quest-event",
+     "script": "Q00070_SagaOfThePhoenixKnight",
+     "event": "accept",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00070_SagaOfThePhoenixKnight/0-07.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/0-07.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: There are many perspectives on justice. You have to fight by the light of the justice in your heart. My traveling days are over. You have transcended your country or religion as a Knight or Paladin with your values. Lead your life by the candle in your heart!",
+   "header": "Grand Master Sedrick",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/0-08.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/0-08.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: You need skill to protect justice. You have obtained enlightenment but still need the protection as a Knight of the temple. (Only a character of level 76 or above can transfer class. Do not abandon the quest until class transfer is complete!)",
+   "header": "Grand Master Sedrick",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/3-02.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/3-02.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: The advance base of the Ketra Orcs is in the northern part of Goddard Castle Town. Meet with Ketra's Messenger Wahkan . You can still change sides. Do you remember what a Knight seeks to defend? This task is relevant to that! If you fight for one side, you are fighting against…",
+   "header": "Grand Master Sedrick",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/3-03.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/3-03.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: The Varka Silenos stronghold is located in the western section of Goddard Castle Town. Meet with Varka's Messenger Naran Ashanuk . You can still change sides. Do you remember what a Knight seeks to defend? This task is relevant to that! If you fight for one side, you are fight…",
+   "header": "Grand Master Sedrick",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00070_SagaOfThePhoenixKnight/3-07.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/3-07.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: The Orc shaman Tarkai recently gave me instructions on how to activate the Stone of Commune. The Ketra Orcs and the Varka Silenos both possess and worship magical fragments called the Divine Stone of Wisdom . You need one of these fragments to restore power to the Stone of Com…",
+   "header": "Grand Master Sedrick",
+   "links": [
+    {
+     "text": "The Ketra Orcs",
+     "bypass": "Quest Q00070_SagaOfThePhoenixKnight 3-6",
+     "kind": "quest-event",
+     "script": "Q00070_SagaOfThePhoenixKnight",
+     "event": "3-6",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "The Varka Silenos",
+     "bypass": "Quest Q00070_SagaOfThePhoenixKnight 3-7",
+     "kind": "quest-event",
+     "script": "Q00070_SagaOfThePhoenixKnight",
+     "event": "3-7",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/3-03.htm",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00070_SagaOfThePhoenixKnight/3-08.htm": {
+   "file": "Q00070_SagaOfThePhoenixKnight/3-08.htm",
+   "quest": 70,
+   "text": "Grand Master Sedrick: The Stone of Commune is whole once again! You can feel it, right? Take it and go to the forth tablet in the north of the Varka Silenos Camp. But don't forget. The works you've done to get this... and the lessons from your trials!",
+   "header": "Grand Master Sedrick",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/0-02.htm": {
+   "file": "Q00073_SagaOfTheDuelist/0-02.htm",
+   "quest": 73,
+   "text": "Grand Master Bernhard: Thank you, but I'm afraid you're not ready to meet him yet. He says that only a warrior who seeks his absolute limits will understand what he says. Do you understand that? I don't! (This quest may only be undertaken by Gladiators of level 76 or above.)",
+   "header": "Grand Master Bernhard",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/0-03.htm": {
+   "file": "Q00073_SagaOfTheDuelist/0-03.htm",
+   "quest": 73,
+   "text": "Grand Master Sedrick: He's watched the games for generations! He says that only a warrior who seeks to venture beyond the horizon will understand him. If you knew Iron's history, you'd understand... But he criticized the Duelists and chose Sword Master Iron as the worst! I couldn't understand! See …",
+   "header": "Grand Master Sedrick",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/0-05.htm": {
+   "file": "Q00073_SagaOfTheDuelist/0-05.htm",
+   "quest": 73,
+   "text": "Grand Master Sedrick: He said that the title of Duelist is nothing but a sham! He also said that becoming a Duelist is not a popularity contest. He says that Swordmaster Iron, with his incredible reputation, shouldn't even be called a Duelist! He called him a fake! Will you go and see him for me?",
+   "header": "Grand Master Sedrick",
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00073_SagaOfTheDuelist accept",
+     "kind": "quest-event",
+     "script": "Q00073_SagaOfTheDuelist",
+     "event": "accept",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00073_SagaOfTheDuelist/0-07.htm": {
+   "file": "Q00073_SagaOfTheDuelist/0-07.htm",
+   "quest": 73,
+   "text": "Grand Master Sedrick: Kain said, a Duelist is covered in scars and fights on. You would be worthy of the title!",
+   "header": "Grand Master Sedrick",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/0-08.htm": {
+   "file": "Q00073_SagaOfTheDuelist/0-08.htm",
+   "quest": 73,
+   "text": "Grand Master Sedrick: He said that the path of a Duelist is like walking a mountain pass made of countless sharp blades. You must sharpen your skills more. (Only a character of level 76 or above is allowed to do class transfer. Be careful. You cannot change occupation if you stop Quest!)",
+   "header": "Grand Master Sedrick",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Phoenix Knight]",
+     "bypass": "npc_%objectId%_Quest Q00070_SagaOfThePhoenixKnight",
+     "kind": "quest",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/0-01.htm",
+     "when": "quest not started",
+     "live": true
+    },
+    {
+     "text": "[Saga of the Phoenix Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00070_SagaOfThePhoenixKnight",
+     "kind": "quest",
+     "quest": 70,
+     "to": "Q00070_SagaOfThePhoenixKnight/0-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Duelist]",
+     "bypass": "npc_%objectId%_Quest Q00073_SagaOfTheDuelist",
+     "kind": "quest",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/0-01.htm",
+     "when": "quest not started",
+     "live": true
+    },
+    {
+     "text": "[Saga of the Duelist (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00073_SagaOfTheDuelist",
+     "kind": "quest",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/0-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of villagemaster/30849.htm differs: live \"Grand Master Sedrick: Welcome to Aden, young one. My name is Sedrick. I welcome you on be…\" vs datapack \"Grand Master Sedrick: Welcome to Aden, young one. My name is Sedrick. I welcome you on be…\"",
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest.",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "Grand Master Sedrick:Welcome to Aden, young one. My name is "
+   ],
+   "to": [
+    "[Saga of the Phoenix Knight][Saga of the Duelist]"
+   ]
+  },
+  {
+   "text": "Listen to information about second class transfer.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Grand Master Sedrick:Welcome to Aden, young one. My name is "
+   ],
+   "to": [
+    "I only teach higher level Human and Elven Fighters, you have"
+   ]
+  },
+  {
+   "text": "Clan.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Grand Master Sedrick:Welcome to Aden, young one. My name is "
+   ],
+   "to": [
+    "What would you like to do?Create New Clan.Increase Clan Leve"
+   ]
+  },
+  {
+   "text": "Alliance.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Grand Master Sedrick:Welcome to Aden, young one. My name is "
+   ],
+   "to": [
+    "What would you like to do? Create an Alliance"
+   ]
+  },
+  {
+   "text": "Use Shadow Weapon Exchange Coupon.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Grand Master Sedrick:Welcome to Aden, young one. My name is "
+   ],
+   "to": [
+    "A Shadow Weapon is special weapon that is made in cooperatio"
+   ]
+  },
+  {
+   "text": "[Saga of the Phoenix Knight]",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "[Saga of the Phoenix Knight][Saga of the Duelist]"
+   ],
+   "to": [
+    "You are either not on a quest that involves this NPC, or you"
+   ]
+  },
+  {
+   "text": "[Saga of the Duelist]",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "[Saga of the Phoenix Knight][Saga of the Duelist]"
+   ],
+   "to": [
+    "You are either not on a quest that involves this NPC, or you"
+   ]
+  }
+ ]
+}

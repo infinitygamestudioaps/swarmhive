@@ -1,0 +1,463 @@
+{
+ "npcId": 31574,
+ "name": "Willie",
+ "title": "Fishing Guild Member",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.235Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Fisherman/31574.htm",
+   "when": "normal (no karma); NOT player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman"
+  },
+  {
+   "page": "ai/npc/Fisherman/31574-pk.htm",
+   "when": "player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman",
+   "variant": "karma"
+  }
+ ],
+ "quests": {
+  "29": {
+   "name": "Chest Caught With A Bait Of Earth",
+   "listText": [
+    "[Chest Caught with a Bait of Earth]",
+    "[Chest Caught with a Bait of Earth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00029_ChestCaughtWithABaitOfEarth/31574-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= 48) && player.hasQuestCompleted(Q00052_WilliesSpecialBait.class.getSimpleName",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00029_ChestCaughtWithABaitOfEarth/31574-02.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= 48) && player.hasQuestCompleted(Q00052_WilliesSpecialBait.class.getSimpleName",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00029_ChestCaughtWithABaitOfEarth/31574-06.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00029_ChestCaughtWithABaitOfEarth/31574-05.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00029_ChestCaughtWithABaitOfEarth/31574-09.htm",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "52": {
+   "name": "Willie's Special Bait",
+   "listText": [
+    "[Willie's Special Bait]",
+    "[Willie's Special Bait (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00052_WilliesSpecialBait/31574-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 48)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00052_WilliesSpecialBait/31574-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= 48)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00052_WilliesSpecialBait/31574-05.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00052_WilliesSpecialBait/31574-04.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "426": {
+   "name": "Quest for Fishing Shot",
+   "listText": [
+    "[Quest for Fishing shot]",
+    "[Quest for Fishing shot (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "ai/npc/Fisherman/31574.htm": {
+   "file": "ai/npc/Fisherman/31574.htm",
+   "quest": null,
+   "text": "Fishing Guild Member Willeri: Fishing has become all the rage in these parts! Of course, there are the serious fishermen, and then there are those who just want an excuse to daydream drowsily in the sun. Which one are you, I wonder?",
+   "header": "Fishing Guild Member Willeri",
+   "links": [
+    {
+     "text": "Ask how to fish.",
+     "bypass": "player_help 7561.htm#7561",
+     "kind": "other"
+    },
+    {
+     "text": "Fishing Contest",
+     "bypass": "Quest Fisherman fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "fishing_championship.htm",
+     "to": "ai/npc/Fisherman/fishing_championship.htm"
+    },
+    {
+     "text": "Learn fishing skill.",
+     "bypass": "Quest Fisherman LearnFishSkill",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "LearnFishSkill",
+     "to": null
+    },
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "Quest Fisherman BuySellRefund",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "BuySellRefund",
+     "to": null
+    },
+    {
+     "text": "Sell fish.",
+     "bypass": "npc_%objectId%_multisell 009",
+     "kind": "multisell"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/31574-pk.htm": {
+   "file": "ai/npc/Fisherman/31574-pk.htm",
+   "quest": null,
+   "text": "Fishermen's Guild Member Willie: We don't cater to the likes of you!",
+   "header": "Fishermen's Guild Member Willie",
+   "when": [
+    "player.getKarma() > 0; !character().karmaPlayerCanShop()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00029_ChestCaughtWithABaitOfEarth/31574-01.htm": {
+   "file": "Q00029_ChestCaughtWithABaitOfEarth/31574-01.htm",
+   "quest": 29,
+   "text": "Fishermen's Guild Member Willie: Did the bait of land that I gave you work? Mastering the spirits of land can be tricky, but it's worth the effort. You may find that you catch more than you bargained for! Actually, this bait isn't intended to catch fish at all! We've had a few complaints about that…",
+   "header": "Fishermen's Guild Member Willie",
+   "when": [
+    "state CREATED; ((player.getLevel() >= 48) && player.hasQuestCompleted(Q00052_WilliesSpecialBait.class.getSimpleName"
+   ],
+   "links": [
+    {
+     "text": "\"What's it good for, then?\"",
+     "bypass": "Quest Q00029_ChestCaughtWithABaitOfEarth 31574-04.htm",
+     "kind": "quest-event",
+     "script": "Q00029_ChestCaughtWithABaitOfEarth",
+     "event": "31574-04.htm",
+     "quest": 29,
+     "to": "Q00029_ChestCaughtWithABaitOfEarth/31574-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00029_ChestCaughtWithABaitOfEarth/31574-02.htm": {
+   "file": "Q00029_ChestCaughtWithABaitOfEarth/31574-02.htm",
+   "quest": 29,
+   "text": "Fishermen's Guild Member Willie: Well, it's obvious you're not here to buy fishing gear! Have you ever been fishing? Try it once, you'll be hooked! Heh heh! I'm the man to think of when you need bait! (This quest may only be undertaken by characters of level 48 or above who have completed Willie's …",
+   "header": "Fishermen's Guild Member Willie",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= 48) && player.hasQuestCompleted(Q00052_WilliesSpecialBait.class.getSimpleName"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00029_ChestCaughtWithABaitOfEarth/31574-06.htm": {
+   "file": "Q00029_ChestCaughtWithABaitOfEarth/31574-06.htm",
+   "quest": 29,
+   "text": "Fishermen's Guild Member Willie: Welcome back! You've already finished, eh? No? Well, I don't have all day, buddy! Bring me the small purple treasure box . I realize it's like looking for a needle in a haystack, but I'm counting on you! Maybe you should ask around in the market... Someone may have …",
+   "header": "Fishermen's Guild Member Willie",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00029_ChestCaughtWithABaitOfEarth/31574-05.htm": {
+   "file": "Q00029_ChestCaughtWithABaitOfEarth/31574-05.htm",
+   "quest": 29,
+   "text": "Fishermen's Guild Member Willie: Certainly you're not finished already! I don't believe it! Have you already found the small purple treasure box ? Let me see it!",
+   "header": "Fishermen's Guild Member Willie",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00029_ChestCaughtWithABaitOfEarth 31574-08.htm",
+     "kind": "quest-event",
+     "script": "Q00029_ChestCaughtWithABaitOfEarth",
+     "event": "31574-08.htm",
+     "quest": 29,
+     "to": "Q00029_ChestCaughtWithABaitOfEarth/31574-08.htm",
+     "toAll": [
+      "Q00029_ChestCaughtWithABaitOfEarth/31574-08.htm",
+      "Q00029_ChestCaughtWithABaitOfEarth/31574-07.htm"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00029_ChestCaughtWithABaitOfEarth/31574-09.htm": {
+   "file": "Q00029_ChestCaughtWithABaitOfEarth/31574-09.htm",
+   "quest": 29,
+   "text": "Fishermen's Guild Member Willie: Why haven't you taken the glass box to Anabel in Heine Castle Town? She's been waiting for it an awful long time. I'm sure she's anxious to get it back!",
+   "header": "Fishermen's Guild Member Willie",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00052_WilliesSpecialBait/31574-01.htm": {
+   "file": "Q00052_WilliesSpecialBait/31574-01.htm",
+   "quest": 52,
+   "text": "Fishermen's Guild Member Willie: Hi, traveler! You look like an experienced fisherman! You know, if you want to catch something really special, you've got to use special bait! I think you're ready for the big time, my friend! I suggest you try this bait made of Tarlk basilisk's eyes! It pulls the m…",
+   "header": "Fishermen's Guild Member Willie",
+   "when": [
+    "state CREATED; (player.getLevel() >= 48)"
+   ],
+   "links": [
+    {
+     "text": "What is it for anyways?",
+     "bypass": "Quest Q00052_WilliesSpecialBait 31574-03.htm",
+     "kind": "quest-event",
+     "script": "Q00052_WilliesSpecialBait",
+     "event": "31574-03.htm",
+     "quest": 52,
+     "to": "Q00052_WilliesSpecialBait/31574-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00052_WilliesSpecialBait/31574-02.html": {
+   "file": "Q00052_WilliesSpecialBait/31574-02.html",
+   "quest": 52,
+   "text": "Fishermen's Guild Member Willie: Hi, traveler! Have you ever been fishing? You'll find it much more relaxing than the life of a soldier! Why don't you come back and let me teach you to fish when you have the time. It won't be free, but your fishing skill should be exactly level 16. (This quest may …",
+   "header": "Fishermen's Guild Member Willie",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 48)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00052_WilliesSpecialBait/31574-05.html": {
+   "file": "Q00052_WilliesSpecialBait/31574-05.html",
+   "quest": 52,
+   "text": "Fishermen's Guild Member Willie: I need 100 Tarlk basilisk's eyes to make the bait. I'm working for free, so the least you can do it bring me the materials I need! Go to the Forest of Outlaws, slaughter the Tarlk basilisks and bring me their eyes.",
+   "header": "Fishermen's Guild Member Willie",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00052_WilliesSpecialBait/31574-04.html": {
+   "file": "Q00052_WilliesSpecialBait/31574-04.html",
+   "quest": 52,
+   "text": "Fishermen's Guild Member Willie: Good job, my friend! You brought everything I need to make the bait! You're really getting a good deal! Well, our guild wants to build our customer base, so we work for free! OK, give me the eyes...",
+   "header": "Fishermen's Guild Member Willie",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "\"Here they are.\"",
+     "bypass": "Quest Q00052_WilliesSpecialBait 31574-07.html",
+     "kind": "quest-event",
+     "script": "Q00052_WilliesSpecialBait",
+     "event": "31574-07.html",
+     "quest": 52,
+     "to": "Q00052_WilliesSpecialBait/31574-07.html",
+     "toAll": [
+      "Q00052_WilliesSpecialBait/31574-07.html",
+      "Q00052_WilliesSpecialBait/31574-06.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00029_ChestCaughtWithABaitOfEarth/31574-04.htm": {
+   "file": "Q00029_ChestCaughtWithABaitOfEarth/31574-04.htm",
+   "quest": 29,
+   "text": "Fishermen's Guild Member Willie: A while back someone was here asking about a small purple treasure box . The bait that I gave you before was designed to find it. The problem is that the bait occasionally catches other things, but it's the best hope you have of recovering the box. If you've found t…",
+   "header": "Fishermen's Guild Member Willie",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00029_ChestCaughtWithABaitOfEarth/31574-07.htm": {
+   "file": "Q00029_ChestCaughtWithABaitOfEarth/31574-07.htm",
+   "quest": 29,
+   "text": "Fishermen's Guild Member Willie: This seems to be the small purple treasure box that my client lost. When I opened it, I found this Small Glass Box . It has the names of Anabel and Liesel engraved on it. I don't know who Liesel is, but Anabel is my client. Anabel is a Magister in Heine Castle Town.…",
+   "header": "Fishermen's Guild Member Willie",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00029_ChestCaughtWithABaitOfEarth/31574-08.htm": {
+   "file": "Q00029_ChestCaughtWithABaitOfEarth/31574-08.htm",
+   "quest": 29,
+   "text": "Fishermen's Guild Member Willie: Didn't you say you found the small purple treasure box ? I must authenticate its contents. If you opened it, it's useless! You'll need to bring another one. You don't seem to have the box.",
+   "header": "Fishermen's Guild Member Willie",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00052_WilliesSpecialBait/31574-03.htm": {
+   "file": "Q00052_WilliesSpecialBait/31574-03.htm",
+   "quest": 52,
+   "text": "Fishermen's Guild Member Willie: The powers of attraction of elements lie within the elements themselves. The elements are wind, ice, land and flame. Me and some of my buddies at the guild have figured out how to make bait from the elements! I use the power of land. To use it, you must travel all t…",
+   "header": "Fishermen's Guild Member Willie",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00052_WilliesSpecialBait/31574-06.htm": {
+   "file": "Q00052_WilliesSpecialBait/31574-06.htm",
+   "quest": 52,
+   "text": "Fishermen's Guild Member Willie: Thanks for the eyes. Take this bait of land . It finds more valuable items than baits of wind or chill. Remember, this bait only works when your fishing level is exactly 16. Whether or not you land your catch will depend on your skill. Remember, if you catch anythin…",
+   "header": "Fishermen's Guild Member Willie",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00052_WilliesSpecialBait/31574-07.html": {
+   "file": "Q00052_WilliesSpecialBait/31574-07.html",
+   "quest": 52,
+   "text": "Fishermen's Guild Member Willie: There aren't 100 Tarlk basilisk's eyes here. This isn't enough to make bait!",
+   "header": "Fishermen's Guild Member Willie",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Chest Caught with a Bait of Earth]",
+     "bypass": "npc_%objectId%_Quest Q00029_ChestCaughtWithABaitOfEarth",
+     "kind": "quest",
+     "quest": 29,
+     "to": "Q00029_ChestCaughtWithABaitOfEarth/31574-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Chest Caught with a Bait of Earth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00029_ChestCaughtWithABaitOfEarth",
+     "kind": "quest",
+     "quest": 29,
+     "to": "Q00029_ChestCaughtWithABaitOfEarth/31574-06.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Willie's Special Bait]",
+     "bypass": "npc_%objectId%_Quest Q00052_WilliesSpecialBait",
+     "kind": "quest",
+     "quest": 52,
+     "to": "Q00052_WilliesSpecialBait/31574-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Willie's Special Bait (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00052_WilliesSpecialBait",
+     "kind": "quest",
+     "quest": 52,
+     "to": "Q00052_WilliesSpecialBait/31574-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Quest for Fishing shot]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Quest for Fishing shot (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/fishing_championship.htm": {
+   "file": "ai/npc/Fisherman/fishing_championship.htm",
+   "quest": null,
+   "text": "Fishing King Championship Tournament Fishing Guild Member: Ahoy! Here are the results of last week's Fishing King Championship Tournament! Do you see your name on the list? If you do, claim your prize money! Remember, you have only one week to claim your prize. Don't fret if your name isn't listed …",
+   "header": "Fishing Guild Member",
+   "links": [
+    {
+     "text": "Claim Prize",
+     "bypass": "Quest Fisherman fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "fishing_championship.htm",
+     "to": "ai/npc/Fisherman/fishing_championship.htm"
+    }
+   ]
+  }
+ }
+}

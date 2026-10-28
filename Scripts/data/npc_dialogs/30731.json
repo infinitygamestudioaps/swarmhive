@@ -1,0 +1,656 @@
+{
+ "npcId": 30731,
+ "name": "Martin",
+ "title": "Pet Manager",
+ "type": "L2PetManager",
+ "generated": "2026-10-27T18:18:03.063Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "petmanager/30731.htm",
+   "when": "",
+   "src": "html/petmanager"
+  }
+ ],
+ "quests": {
+  "419": {
+   "name": "Get A Pet",
+   "listText": [
+    "[Get a Pet]",
+    "[Get a Pet (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00419_GetAPet/30731-01.htm",
+     "when": "state CREATED; level < 15",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-02.htm",
+     "when": "state CREATED; NOT level < 15",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00419_GetAPet/30731-09.html",
+     "when": "state STARTED; has items 10164; lacks items 10165; !hasItemsAtLimit(player, BLOODY_RED_CLAW)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-10.html",
+     "when": "state STARTED; has items 10164,10165; !hasItemsAtLimit(player, BLOODY_RED_CLAW)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-11.html",
+     "when": "state STARTED; has items 10164; hasItemsAtLimit(player, BLOODY_RED_CLAW)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00419_GetAPet/30731-09.html",
+     "when": "state STARTED; has items 3418; lacks items 10164,3423; !hasItemsAtLimit(player, BLOODY_FANG)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-10.html",
+     "when": "state STARTED; has items 3418,3423; lacks items 10164; !hasItemsAtLimit(player, BLOODY_FANG)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-11.html",
+     "when": "state STARTED; has items 3418; lacks items 10164; hasItemsAtLimit(player, BLOODY_FANG)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00419_GetAPet/30731-09.html",
+     "when": "state STARTED; has items 3419; lacks items 10164,3418,3424; !hasItemsAtLimit(player, BLOODY_CLAW)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-10.html",
+     "when": "state STARTED; has items 3419,3424; lacks items 10164,3418; !hasItemsAtLimit(player, BLOODY_CLAW)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-11.html",
+     "when": "state STARTED; has items 3419; lacks items 10164,3418; hasItemsAtLimit(player, BLOODY_CLAW)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00419_GetAPet/30731-09.html",
+     "when": "state STARTED; has items 3420; lacks items 10164,3418,3419,3425; !hasItemsAtLimit(player, BLOODY_NAIL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-10.html",
+     "when": "state STARTED; has items 3420,3425; lacks items 10164,3418,3419; !hasItemsAtLimit(player, BLOODY_NAIL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-11.html",
+     "when": "state STARTED; has items 3420; lacks items 10164,3418,3419; hasItemsAtLimit(player, BLOODY_NAIL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00419_GetAPet/30731-09.html",
+     "when": "state STARTED; has items 3421; lacks items 10164,3418,3419,3420,3426; !hasItemsAtLimit(player, BLOODY_KASHA_FANG)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-10.html",
+     "when": "state STARTED; has items 3421,3426; lacks items 10164,3418,3419,3420; !hasItemsAtLimit(player, BLOODY_KASHA_FANG)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-11.html",
+     "when": "state STARTED; has items 3421; lacks items 10164,3418,3419,3420; hasItemsAtLimit(player, BLOODY_KASHA_FANG)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00419_GetAPet/30731-09.html",
+     "when": "state STARTED; has items 3422; lacks items 10164,3418,3419,3420,3421,3427; !hasItemsAtLimit(player, BLOODY_TARANTULA_NAIL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-10.html",
+     "when": "state STARTED; has items 3422,3427; lacks items 10164,3418,3419,3420,3421; !hasItemsAtLimit(player, BLOODY_TARANTULA_NAIL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-11.html",
+     "when": "state STARTED; has items 3422; lacks items 10164,3418,3419,3420,3421; hasItemsAtLimit(player, BLOODY_TARANTULA_NAIL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00419_GetAPet/30731-16.html",
+     "when": "state STARTED; has items 3417; lacks items 10164,3418,3419,3420,3421,3422; qs.getMemoState() != 14; qs.getMemoState() != 1879048192",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00419_GetAPet/30731-13.html",
+     "when": "state STARTED; has items 3417; lacks items 10164,3418,3419,3420,3421,3422; !((qs.getMemoState() != 14) && (qs.getMemoState() != 1879048192))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "petmanager/30731.htm": {
+   "file": "petmanager/30731.htm",
+   "quest": null,
+   "text": "Pet Manager Martin: Glad to see you! I love pets so much that I became a pet manager. What can I do for you?",
+   "header": "Pet Manager Martin",
+   "links": [
+    {
+     "text": "Listen to instructions for raising a pet.",
+     "bypass": "npc_%objectId%_Link petmanager/instructions.htm",
+     "kind": "page",
+     "to": "petmanager/instructions.htm"
+    },
+    {
+     "text": "Buy pet equipment.",
+     "bypass": "npc_%objectId%_Buy 3073100",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange pet equipment for higher grade equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 1000",
+     "kind": "multisell"
+    },
+    {
+     "text": "Exchange Hatchling equipment for Strider equipment.",
+     "bypass": "npc_%objectId%_multisell 999",
+     "kind": "multisell"
+    },
+    {
+     "text": "Evolve pet.",
+     "bypass": "npc_%objectId%_Link petmanager/evolve.htm",
+     "kind": "page",
+     "to": "petmanager/evolve.htm"
+    },
+    {
+     "text": "Exchange pet exchange ticket for a pet.",
+     "bypass": "npc_%objectId%_Link petmanager/exchange.htm",
+     "kind": "page",
+     "to": "petmanager/exchange.htm"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00419_GetAPet/30731-01.htm": {
+   "file": "Q00419_GetAPet/30731-01.htm",
+   "quest": 419,
+   "text": "Pet Manager Martin: Ah, so you want a pet! A good idea, but you are not ready to have one. Come back when you have more experience. (Quest for characters level 15 and above.)",
+   "header": "Pet Manager Martin",
+   "when": [
+    "state CREATED; level < 15"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-02.htm": {
+   "file": "Q00419_GetAPet/30731-02.htm",
+   "quest": 419,
+   "text": "Pet Manager Martin: Ah, so you want a pet! I see you have the experience needed to keep a pet, but even so, we don't distribute pets to just anyone. First, you must demonstrate that you are qualified to raise a pet.",
+   "header": "Pet Manager Martin",
+   "when": [
+    "state CREATED; NOT level < 15"
+   ],
+   "links": [
+    {
+     "text": "Ask detailed questions.",
+     "bypass": "Quest Q00419_GetAPet 30731-03.htm",
+     "kind": "quest-event",
+     "script": "Q00419_GetAPet",
+     "event": "30731-03.htm",
+     "quest": 419,
+     "to": "Q00419_GetAPet/30731-03.htm"
+    }
+   ]
+  },
+  "Q00419_GetAPet/30731-09.html": {
+   "file": "Q00419_GetAPet/30731-09.html",
+   "quest": 419,
+   "text": "Pet Manager Martin: What, you're still here? Didn't I give you the list of the monsters you must kill? Go now and get rid of those filthy animal killers! Leave now!",
+   "header": "Pet Manager Martin",
+   "when": [
+    "state STARTED; has items 10164; lacks items 10165; !hasItemsAtLimit(player, BLOODY_RED_CLAW)",
+    "state STARTED; has items 3418; lacks items 10164,3423; !hasItemsAtLimit(player, BLOODY_FANG)",
+    "state STARTED; has items 3419; lacks items 10164,3418,3424; !hasItemsAtLimit(player, BLOODY_CLAW)",
+    "state STARTED; has items 3420; lacks items 10164,3418,3419,3425; !hasItemsAtLimit(player, BLOODY_NAIL)",
+    "state STARTED; has items 3421; lacks items 10164,3418,3419,3420,3426; !hasItemsAtLimit(player, BLOODY_KASHA_FANG)",
+    "state STARTED; has items 3422; lacks items 10164,3418,3419,3420,3421,3427; !hasItemsAtLimit(player, BLOODY_TARANTULA_NAIL)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-10.html": {
+   "file": "Q00419_GetAPet/30731-10.html",
+   "quest": 419,
+   "text": "Pet Manager Martin: Is that the best you can do? That is not nearly enough! Go and slay some more of the evil animal killers.",
+   "header": "Pet Manager Martin",
+   "when": [
+    "state STARTED; has items 10164,10165; !hasItemsAtLimit(player, BLOODY_RED_CLAW)",
+    "state STARTED; has items 3418,3423; lacks items 10164; !hasItemsAtLimit(player, BLOODY_FANG)",
+    "state STARTED; has items 3419,3424; lacks items 10164,3418; !hasItemsAtLimit(player, BLOODY_CLAW)",
+    "state STARTED; has items 3420,3425; lacks items 10164,3418,3419; !hasItemsAtLimit(player, BLOODY_NAIL)",
+    "state STARTED; has items 3421,3426; lacks items 10164,3418,3419,3420; !hasItemsAtLimit(player, BLOODY_KASHA_FANG)",
+    "state STARTED; has items 3422,3427; lacks items 10164,3418,3419,3420,3421; !hasItemsAtLimit(player, BLOODY_TARANTULA_NAIL)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-11.html": {
+   "file": "Q00419_GetAPet/30731-11.html",
+   "quest": 419,
+   "text": "Pet Manager Martin: Ah, yes, I see! You have brought 50 of them! Well done! Soon you will be ready to own your own pet! I hope you didn't think that was the only thing you had to do to prove that you were ready! Oh, no, my friend... You are just ready for the next task...",
+   "header": "Pet Manager Martin",
+   "when": [
+    "state STARTED; has items 10164; hasItemsAtLimit(player, BLOODY_RED_CLAW)",
+    "state STARTED; has items 3418; lacks items 10164; hasItemsAtLimit(player, BLOODY_FANG)",
+    "state STARTED; has items 3419; lacks items 10164,3418; hasItemsAtLimit(player, BLOODY_CLAW)",
+    "state STARTED; has items 3420; lacks items 10164,3418,3419; hasItemsAtLimit(player, BLOODY_NAIL)",
+    "state STARTED; has items 3421; lacks items 10164,3418,3419,3420; hasItemsAtLimit(player, BLOODY_KASHA_FANG)",
+    "state STARTED; has items 3422; lacks items 10164,3418,3419,3420,3421; hasItemsAtLimit(player, BLOODY_TARANTULA_NAIL)"
+   ],
+   "links": [
+    {
+     "text": "Ask about the next task",
+     "bypass": "Quest Q00419_GetAPet 30731-12.html",
+     "kind": "quest-event",
+     "script": "Q00419_GetAPet",
+     "event": "30731-12.html",
+     "quest": 419,
+     "to": "Q00419_GetAPet/30731-12.html",
+     "effect": "cond:0"
+    }
+   ]
+  },
+  "Q00419_GetAPet/30731-16.html": {
+   "file": "Q00419_GetAPet/30731-16.html",
+   "quest": 419,
+   "text": "Pet Manager Martin: Hey, aren't you supposed to be meeting with the animal lovers association members? Did you forget? OK, I'll repeat it one more time. Go and meet the Gatekeeper Bella of the Town of Gludio, the Guard Metty of the Town of Dion, and the Jeweler Ellie in the Town of Giran. Is that c…",
+   "header": "Pet Manager Martin",
+   "when": [
+    "state STARTED; has items 3417; lacks items 10164,3418,3419,3420,3421,3422; qs.getMemoState() != 14; qs.getMemoState() != 1879048192"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-13.html": {
+   "file": "Q00419_GetAPet/30731-13.html",
+   "quest": 419,
+   "text": "Pet Manager Martin: So, have you met the members of the Animal Lovers Association like I asked? Well done! Now I will test the knowledge that you've learned from our members. There are ten questions in all. If you make even one mistake, you'll fail the examination and won't be able to get a pet! As…",
+   "header": "Pet Manager Martin",
+   "when": [
+    "state STARTED; has items 3417; lacks items 10164,3418,3419,3420,3421,3422; !((qs.getMemoState() != 14) && (qs.getMemoState() != 1879048192))"
+   ],
+   "links": [
+    {
+     "text": "I am ready for the test.",
+     "bypass": "Quest Q00419_GetAPet QUESTIONS",
+     "kind": "quest-event",
+     "script": "Q00419_GetAPet",
+     "event": "QUESTIONS",
+     "quest": 419,
+     "to": "Q00419_GetAPet/30731-15.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00419_GetAPet/30731-03.htm": {
+   "file": "Q00419_GetAPet/30731-03.htm",
+   "quest": 419,
+   "text": "Pet Manager Martin: First there is something I'd like you to do for your pet and other pet lovers. Recently, there have been monsters who have been stalking the animals and attacking them as prey. I would like for you to get rid of these monsters. If you wish to have a pet, you must know how to lov…",
+   "header": "Pet Manager Martin",
+   "links": [
+    {
+     "text": "I will take the task.",
+     "bypass": "Quest Q00419_GetAPet ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00419_GetAPet",
+     "event": "ACCEPT",
+     "quest": 419,
+     "to": "Q00419_GetAPet/30731-04.htm",
+     "toAll": [
+      "Q00419_GetAPet/30731-04.htm",
+      "Q00419_GetAPet/30731-05.htm",
+      "Q00419_GetAPet/30731-06.htm",
+      "Q00419_GetAPet/30731-07.htm",
+      "Q00419_GetAPet/30731-08.htm",
+      "Q00419_GetAPet/30731-08a.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00419_GetAPet/30731-04.htm": {
+   "file": "Q00419_GetAPet/30731-04.htm",
+   "quest": 419,
+   "text": "Pet Manager Martin: Let's see...There are so many! You are from Talking Island, am I correct? In that case, you must go to your hometown and stop the slaughter of innocent animals there. Can you handle that? Talking Island is infested with giant spiders, talon spiders and blade spiders . They are t…",
+   "header": "Pet Manager Martin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-05.htm": {
+   "file": "Q00419_GetAPet/30731-05.htm",
+   "quest": 419,
+   "text": "Pet Manager Martin: Let's see...There are so many of them... Oh yes, you are an Elf, aren't you? In that case, you must go to your hometown and stop the slaughter of the animals there. Can you handle that? In the Elven Forest you will find the crimson spider, the hook spider and the pincer spider .…",
+   "header": "Pet Manager Martin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-06.htm": {
+   "file": "Q00419_GetAPet/30731-06.htm",
+   "quest": 419,
+   "text": "Pet Manager Martin: Let's see...There are so many of them... Oh, yes, you are a Dark Elf, aren't you? In that case, you must go to your hometown and stop the slaughter of the animals there. Do you think you can handle this task? In the Dark Elven Forest, you will find the lesser dark horror, the da…",
+   "header": "Pet Manager Martin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-07.htm": {
+   "file": "Q00419_GetAPet/30731-07.htm",
+   "quest": 419,
+   "text": "Pet Manager Martin: Let's see...There are so many of them... Oh yes, you are an Orc, aren't you? In that case, you must go to your hometown and stop the slaughter of innocent animals there. Can you handle that? If you go to the Immortal Plateau you will find the kasha spider, kasha fang spiders and…",
+   "header": "Pet Manager Martin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-08.htm": {
+   "file": "Q00419_GetAPet/30731-08.htm",
+   "quest": 419,
+   "text": "Pet Manager Martin: Let's see...There are so many of them... Oh, yes, you are a Dwarf, aren't you? In that case, you must go to your hometown and stop the slaughter of innocent animals there. Do you think you can handle this task? In the Spine Mountains Mining Zone you will find the hunter tarantul…",
+   "header": "Pet Manager Martin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-08a.htm": {
+   "file": "Q00419_GetAPet/30731-08a.htm",
+   "quest": 419,
+   "text": "Pet Manager Martin: Let me see... There are several of those who abuse animals... Hey you -- Kamael! Why don't you go back to your homeland and take care of those animal killers? It's a simple quest, but worthwhile. In Mimir's Forest, you will find Crimson Spiders , who are the worst trasgressors. …",
+   "header": "Pet Manager Martin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-12.html": {
+   "file": "Q00419_GetAPet/30731-12.html",
+   "quest": 419,
+   "text": "Pet Manager Martin: Your next task is to learn the basics about the pets. Without basic knowledge, you'll never be able to care for a pet. You may not know it, but I am the branch office manager of the Animal Lovers Association. We take care of everything concerning pets, and screen all candidates …",
+   "header": "Pet Manager Martin",
+   "sets": {
+    "cond": "0"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-14.html": {
+   "file": "Q00419_GetAPet/30731-14.html",
+   "quest": 419,
+   "text": "Pet Manager Martin: No, sorry...You failed the test! You made a worthy effort but it wasn't enough. No pet for you. Oh, I hate to see you look so sad, I suppose I can give you one more chance. You can take the test again, but it won't be the same, of course... First you must meet with the animal lo…",
+   "header": "Pet Manager Martin",
+   "sets": {
+    "cond": "0"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-15.html": {
+   "file": "Q00419_GetAPet/30731-15.html",
+   "quest": 419,
+   "text": "Pet Manager Martin: Congratulations! You answered every question correctly! I acknowledge that you are qualified to keep a pet. May you always keep a loving and caring mind for animals and never forget the true value of your pet. If you have any questions at all feel free to come here to consult wi…",
+   "header": "Pet Manager Martin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-20.htm": {
+   "file": "Q00419_GetAPet/30731-20.htm",
+   "quest": 419,
+   "text": "Question: Pets are very useful to their owners. Which of the following is not an appropriate use of a pet?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-21.htm": {
+   "file": "Q00419_GetAPet/30731-21.htm",
+   "quest": 419,
+   "text": "Question: What is the best way to train your pet?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-22.htm": {
+   "file": "Q00419_GetAPet/30731-22.htm",
+   "quest": 419,
+   "text": "Question: Pets can disappear forever unless resurrected within a certain time after death. What is the maximum time available in which to resurrect pets?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-23.htm": {
+   "file": "Q00419_GetAPet/30731-23.htm",
+   "quest": 419,
+   "text": "Question: What are the oldest and most primitive type of wolves found in Aden?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-24.htm": {
+   "file": "Q00419_GetAPet/30731-24.htm",
+   "quest": 419,
+   "text": "Question: How is a wolf's tail normally positioned?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-25.htm": {
+   "file": "Q00419_GetAPet/30731-25.htm",
+   "quest": 419,
+   "text": "Question: The wolf is a meat-eating mammal of the canine family. Which animal among the following is not a meat-eating mammal of the canine family?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-26.htm": {
+   "file": "Q00419_GetAPet/30731-26.htm",
+   "quest": 419,
+   "text": "Question: How far (in kilometers) can a wolf's smell reach?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-27.htm": {
+   "file": "Q00419_GetAPet/30731-27.htm",
+   "quest": 419,
+   "text": "Question: What kind of wolf leads the rest when hunting in a pack?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-28.htm": {
+   "file": "Q00419_GetAPet/30731-28.htm",
+   "quest": 419,
+   "text": "Question: Which of the following is not a part of the wolf's diet?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-29.htm": {
+   "file": "Q00419_GetAPet/30731-29.htm",
+   "quest": 419,
+   "text": "Question: Which is not a proper description of the breeding of wolves?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-30.htm": {
+   "file": "Q00419_GetAPet/30731-30.htm",
+   "quest": 419,
+   "text": "Question: What is the normal lifespan of a wolf in captivity?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-31.htm": {
+   "file": "Q00419_GetAPet/30731-31.htm",
+   "quest": 419,
+   "text": "Question: Which of the following do not describe the life of a wolf?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-32.htm": {
+   "file": "Q00419_GetAPet/30731-32.htm",
+   "quest": 419,
+   "text": "Question: Which of the following is the correct description of a wolf?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30731-33.htm": {
+   "file": "Q00419_GetAPet/30731-33.htm",
+   "quest": 419,
+   "text": "Question: The following connections are made between the wolves and their habitats. Which is not correct?",
+   "header": "Question",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Get a Pet]",
+     "bypass": "npc_%objectId%_Quest Q00419_GetAPet",
+     "kind": "quest",
+     "quest": 419,
+     "to": "Q00419_GetAPet/30731-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Get a Pet (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00419_GetAPet",
+     "kind": "quest",
+     "quest": 419,
+     "to": "Q00419_GetAPet/30731-09.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "petmanager/instructions.htm": {
+   "file": "petmanager/instructions.htm",
+   "quest": null,
+   "text": "There are a few things you should know before deciding to raise a pet. Let me tell you what they are. First, you should know how to acquire a pet's experience. A pet gains a portion of the experience that its master obtains. The specific amount will vary depending on whether the master's own level …",
+   "outcome": "refusal",
+   "links": []
+  },
+  "petmanager/evolve.htm": {
+   "file": "petmanager/evolve.htm",
+   "quest": null,
+   "text": "Depending on its type, you may be able to evolve your pet. Evolution is only possible when the pet is summoned. Also, since the process transfers the experience value, evolving a high level pet might actually result in a decrease in the pet's level. Any items in the pet's inventory will be transfer…",
+   "links": [
+    {
+     "text": "Evolve a Wolf into a Great Wolf.",
+     "bypass": "npc_%objectId%_evolve 1",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Great Wolf into a Fenrir.",
+     "bypass": "npc_%objectId%_evolve 2",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Baby Buffalo into an Improved Baby Buffalo (for Warriors).",
+     "bypass": "npc_%objectId%_evolve 3",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Baby Kookaburra into an Improved Baby Kookaburra (for Mystics).",
+     "bypass": "npc_%objectId%_evolve 4",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Baby Cougar into an Improved Baby Cougar (for mixed professions).",
+     "bypass": "npc_%objectId%_evolve 5",
+     "kind": "other"
+    }
+   ]
+  },
+  "petmanager/exchange.htm": {
+   "file": "petmanager/exchange.htm",
+   "quest": null,
+   "text": "Pet exchange tickets allow their bearer to purchase pets, such as Kookaburra, Buffaloes or Cougars. Sales of the tickets are strictly limited to members. What kind of ticket would you like?",
+   "links": [
+    {
+     "text": "Pet Exchange Ticket: Kookaburra",
+     "bypass": "npc_%objectId%_exchange 1",
+     "kind": "other"
+    },
+    {
+     "text": "Pet Exchange Ticket: Buffalo",
+     "bypass": "npc_%objectId%_exchange 2",
+     "kind": "other"
+    },
+    {
+     "text": "Pet Exchange Ticket: Cougar",
+     "bypass": "npc_%objectId%_exchange 3",
+     "kind": "other"
+    }
+   ]
+  }
+ }
+}

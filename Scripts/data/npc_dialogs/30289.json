@@ -1,0 +1,618 @@
+{
+ "npcId": 30289,
+ "name": "Raymond",
+ "title": "High Priest",
+ "type": "L2VillageMasterPriest",
+ "generated": "2026-10-27T18:18:02.923Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30289.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "142": {
+   "name": "Fallen Angel - Request of Dawn",
+   "listText": [
+    "[Fallen Angel - Request of Dawn]",
+    "[Fallen Angel - Request of Dawn (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00142_FallenAngelRequestOfDawn/30289-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00142_FallenAngelRequestOfDawn/30289-03.html",
+     "when": "state STARTED; cond 2; st.isSet(\"talk\")",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00142_FallenAngelRequestOfDawn/30289-02.html",
+     "when": "state STARTED; cond 2; !st.isSet(\"talk\")",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00142_FallenAngelRequestOfDawn/30289-06.html",
+     "when": "state STARTED; cond 3|4|5",
+     "state": "STARTED",
+     "cond": [
+      3,
+      4,
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00142_FallenAngelRequestOfDawn/30289-07.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "195": {
+   "name": "Seven Signs, Secret Ritual of the Priests",
+   "listText": [
+    "[Seven Signs, Secret Ritual of the Priests]",
+    "[Seven Signs, Secret Ritual of the Priests (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00195_SevenSignsSecretRitualOfThePriests/30289-01.html",
+     "when": "state STARTED; cond 2; player.getTransformationId() != 113",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00195_SevenSignsSecretRitualOfThePriests/30289-06.html",
+     "when": "state STARTED; cond 3; st.hasQuestItems(SHUNAIMANS_CONTRACT)",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00195_SevenSignsSecretRitualOfThePriests/30289-09.html",
+     "when": "state STARTED; cond 3; NOT st.hasQuestItems(SHUNAIMANS_CONTRACT)",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00195_SevenSignsSecretRitualOfThePriests/30289-12.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "402": {
+   "name": "Path Of The Human Knight",
+   "listText": [
+    "[Path of the Human Knight]",
+    "[Path of the Human Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30289-01.html",
+     "when": "state STARTED; has items 1271; lacks items 1170,1163; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30289-04.html",
+     "when": "state STARTED; has items 1170; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_1ST_TEMPLE_BADGE, COIN_OF_LORDS2)); getQuestItemsCount(player, EINHASAD_CRUCIFIX) < 12",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30289-05.html",
+     "when": "state STARTED; has items 1170; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_1ST_TEMPLE_BADGE, COIN_OF_LORDS2)); !getQuestItemsCount(player, EINHASAD_CRUCIFIX) < 12",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30289-06.html",
+     "when": "state STARTED; has items 1163; lacks items 1170; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_1ST_TEMPLE_BADGE, COIN_OF_LORDS2))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30289.htm": {
+   "file": "villagemaster/30289.htm",
+   "quest": null,
+   "text": "High Priest Raymond: May Einhasad's blessing be upon you... O brother, what has led you into the power of this divine light? What business has brought you to me? I will gladly help you if by doing so Einhasad's light might be further spread through this darkened world.",
+   "header": "High Priest Raymond",
+   "links": [
+    {
+     "text": "Listen to information about first class transfer.",
+     "bypass": "Quest ElfHumanWizardChange1",
+     "kind": "quest",
+     "script": "ElfHumanWizardChange1"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30289-01.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30289-01.html",
+   "quest": 142,
+   "text": "High Priest Raymond: The fallen monster from Angel Search? Your words are nonsense, my child; I haven't the faintest notion of what you are talking about. Oh gracious Einhasad, have mercy the child before me, their mind has clearly come unhinged!",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00142_FallenAngelRequestOfDawn/30289-03.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30289-03.html",
+   "quest": 142,
+   "text": "High Priest Raymond: Ah, so you are the one sent by Shadow Fox.... Rumors have spread like wildfire, you know. From what we have learned, a fallen angel rebelled against Einhasad, and sought to displace her god. Fortunately, she was defeated, but unfortunately... not killed. Now this fallen angel s…",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; cond 2; st.isSet(\"talk\")"
+   ],
+   "links": [
+    {
+     "text": "\"Do we know exactly where she is?\"",
+     "bypass": "Quest Q00142_FallenAngelRequestOfDawn 30289-04.html",
+     "kind": "quest-event",
+     "script": "Q00142_FallenAngelRequestOfDawn",
+     "event": "30289-04.html",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30289-04.html"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30289-02.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30289-02.html",
+   "quest": 142,
+   "text": "High Priest Raymond: The fallen monster from Angel Search? I haven't the faintest notion of what you are talking about, my child.",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; cond 2; !st.isSet(\"talk\")"
+   ],
+   "links": [
+    {
+     "text": "Tell him the password.",
+     "bypass": "Quest Q00142_FallenAngelRequestOfDawn 30289-03.html",
+     "kind": "quest-event",
+     "script": "Q00142_FallenAngelRequestOfDawn",
+     "event": "30289-03.html",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30289-03.html"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30289-06.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30289-06.html",
+   "quest": 142,
+   "text": "High Priest Raymond: Elder Casian is rumored to be hiding somewhere in the wilderness. I want you to go there and find him, and get him to tell you where this fallen angel is so you can rid our world of her pox. Prepare yourself both physically and mentally--although wounded, she will still be a mi…",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; cond 3|4|5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00142_FallenAngelRequestOfDawn/30289-07.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30289-07.html",
+   "quest": 142,
+   "text": "High Priest Raymond: Well done! Well done indeed! You have served Einhasad impeccably... silencing the blasphemous tongue of this sad, fallen creature was no easy task but still you handled your duties to perfection. That fallen angel--no, devil is a better word--would undoubtedly have led many ast…",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30289-01.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30289-01.html",
+   "quest": 195,
+   "text": "High Priest Raymond: Ah, you're our agent aren't you! Quickly, come here! I'm afraid Agent Collin has been assigned elsewhere, and I've been tasked to complete your transformation in his stead. Now, the guards will be unsuspecting, but you must keep your distance , else your disguise will fail. Ste…",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; cond 2; player.getTransformationId() != 113"
+   ],
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 30289-02.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "30289-02.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/30289-02.html"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30289-06.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30289-06.html",
+   "quest": 195,
+   "text": "High Priest Raymond: You made it back! Do you have the missing page?",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; cond 3; st.hasQuestItems(SHUNAIMANS_CONTRACT)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, I think so. Here.\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 30289-07.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "30289-07.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/30289-07.html"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30289-09.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30289-09.html",
+   "quest": 195,
+   "text": "High Priest Raymond: Why are you still here? You need to steal the last page of that contract!",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; cond 3; NOT st.hasQuestItems(SHUNAIMANS_CONTRACT)"
+   ],
+   "links": [
+    {
+     "text": "\"I need you to transform me again!\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 30289-10.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "30289-10.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/30289-10.html"
+    },
+    {
+     "text": "\"Remove the transformation magic.\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 30289-11.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "30289-11.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/30289-11.html"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30289-12.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30289-12.html",
+   "quest": 195,
+   "text": "High Priest Raymond: Hurry to the city of Heine and find Iason Heine . Ask him to translate the text for us, and perhaps he'll be able to help us along our path.",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30289-01.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30289-01.html",
+   "quest": 402,
+   "text": "High Priest Raymond: May the blessings of Einhasad be with you always. Long ago the knights alliance protected the church of Einhasad. Not many know this, but in the chaos that followed the fall of the empire, it was that very alliance that protected the church from raiders and pagans, while still …",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; has items 1271; lacks items 1170,1163; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "\"Is this relevant?\"",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30289-02.html",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30289-02.html",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30289-02.html"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30289-04.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30289-04.html",
+   "quest": 402,
+   "text": "High Priest Raymond: Even now, I can hear the cries and groans of despair from my priest brothers who cannot find rest. Please bring me twelve Silver Crosses of Einhasad from the Undead Priests at the Ruins of Despair, which is to the south of the village, so that I may offer a service to appease t…",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; has items 1170; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_1ST_TEMPLE_BADGE, COIN_OF_LORDS2)); getQuestItemsCount(player, EINHASAD_CRUCIFIX) < 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30289-05.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30289-05.html",
+   "quest": 402,
+   "text": "High Priest Raymond: Now I can finally pray for the brothers who have perished while answering the summons of the gods. May Einhasad admit their souls ... Esquire, on behalf of the priests, I thank you. Here, take this coin of the lords. May the light of Einhasad guide you.",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; has items 1170; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_1ST_TEMPLE_BADGE, COIN_OF_LORDS2)); !getQuestItemsCount(player, EINHASAD_CRUCIFIX) < 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30289-06.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30289-06.html",
+   "quest": 402,
+   "text": "High Priest Raymond: Esquire, I see your pilgrimage is not yet finished. Please take a moment to kneel in front of the altar and offer a silent prayer of reverence. The light of Einhasad will bring the strength back into your weary soul.",
+   "header": "High Priest Raymond",
+   "when": [
+    "state STARTED; has items 1163; lacks items 1170; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, EINHASADS_1ST_TEMPLE_BADGE, COIN_OF_LORDS2))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00142_FallenAngelRequestOfDawn/30289-04.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30289-04.html",
+   "quest": 142,
+   "text": "High Priest Raymond: We have an idea, yes. Rather, we've been able to find someone who knows where she is....",
+   "header": "High Priest Raymond",
+   "links": [
+    {
+     "text": "\"Who?\"",
+     "bypass": "Quest Q00142_FallenAngelRequestOfDawn 30289-05.html",
+     "kind": "quest-event",
+     "script": "Q00142_FallenAngelRequestOfDawn",
+     "event": "30289-05.html",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30289-05.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30289-05.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30289-05.html",
+   "quest": 142,
+   "text": "High Priest Raymond: We intercepted a messaged sent by Elder Casian, a lifetime supporter of the Revolutionaries of Dusk . It appears he is attempting to render assistance to the wounded fallen angel and that... that means he must know where the creature can be found. Elder Casian is rumored to be …",
+   "header": "High Priest Raymond",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30289-02.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30289-02.html",
+   "quest": 195,
+   "text": "High Priest Raymond: Now you'll need to know the password for the Storage Room's Code Input device .It's 72.79.78.71. Do not, under any circumstances, forget it. Good men died getting that code; forgetting it would be a disservice to all that they sacrificed. Now, what's the code?",
+   "header": "High Priest Raymond",
+   "links": [
+    {
+     "text": "\"72.79.78.71.\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 30289-03.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "30289-03.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/30289-03.html"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30289-03.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30289-03.html",
+   "quest": 195,
+   "text": "High Priest Raymond: Perfect. Just don't forget it. Now are you ready to be transformed?",
+   "header": "High Priest Raymond",
+   "links": [
+    {
+     "text": "\"Yes. Let's do this.\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 30289-04.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "30289-04.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/30289-04.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "\"Not now.\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 30289-05.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "30289-05.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/30289-05.html"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30289-04.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30289-04.html",
+   "quest": 195,
+   "text": "High Priest Raymond: There we go! Now you'll need to use the Light of Dawn teleporter here in the Temple to get to the Sanctum. Once there use your invisibility skills, move fast , and steer clear from the guards . Oh, and the code! 72.79.78.71. 72.79.78.71. 72.79.78.71. DO NOT forget it! (See High…",
+   "header": "High Priest Raymond",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30289-05.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30289-05.html",
+   "quest": 195,
+   "text": "High Priest Raymond: If not now, then when? Time is running out, child. You must hurry!",
+   "header": "High Priest Raymond",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30289-07.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30289-07.html",
+   "quest": 195,
+   "text": "High Priest Raymond: Well, let me see it then! Oh, after all that! I can make out the odd word, but this is written in Elmoreden. It's an ancient language conceived by merchants so as to hide their plans from outsiders. Clever.... It was rarely spoken then, but is almost unheard of now. In fact, I …",
+   "header": "High Priest Raymond",
+   "links": [
+    {
+     "text": "\"Who?\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 30289-08.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "30289-08.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/30289-08.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30289-08.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30289-08.html",
+   "quest": 195,
+   "text": "High Priest Raymond: He works as an accountant for the Lords of Dawn in the city of Heine . He's had a long, long fascination with the Elmoreden language, and I'm sure he'll be thrilled to have this contract to decipher. Here's a small token of our appreciation. Now if you could please take it to h…",
+   "header": "High Priest Raymond",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30289-10.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30289-10.html",
+   "quest": 195,
+   "text": "High Priest Raymond: There - now go! Hurry, and don't forget what I said! Use your invisibility skills, move fast, and steer clear from the guards! Oh, and 72.79.78.71!",
+   "header": "High Priest Raymond",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30289-11.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30289-11.html",
+   "quest": 195,
+   "text": "High Priest Raymond: If you need to be transformed into a Sentry, just come and see me!",
+   "header": "High Priest Raymond",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30289-02.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30289-02.html",
+   "quest": 402,
+   "text": "High Priest Raymond: Of course! You see, we must ask the alliance's help again. A few years ago, during the war with Gracia, we sent several priests to a small village in the south. The priest treated the wounded and performed funerals for the dead there, but one day the village was attacked by mer…",
+   "header": "High Priest Raymond",
+   "links": [
+    {
+     "text": "Say you will do the favor",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30289-03.html",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30289-03.html",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30289-03.html"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30289-03.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30289-03.html",
+   "quest": 402,
+   "text": "High Priest Raymond: Esquire, I beg you! Please go to the Ruins of Despair to the south of the village and find the departed spirits of the priests that have turned into the undead. Destroy them with your sword and recover the Einhasad crosses that are somewhere on their bodies. If you bring back t…",
+   "header": "High Priest Raymond",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Fallen Angel - Request of Dawn (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00142_FallenAngelRequestOfDawn",
+     "kind": "quest",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30289-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, Secret Ritual of the Priests (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00195_SevenSignsSecretRitualOfThePriests",
+     "kind": "quest",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/30289-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Human Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00402_PathOfTheHumanKnight",
+     "kind": "quest",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30289-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

@@ -1,0 +1,409 @@
+{
+ "npcId": 30753,
+ "name": "Gabrielle",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.069Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/30753.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "241": {
+   "name": "Possessor Of A Precious Soul 1",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 1]",
+    "[Path of the Noblesse, Precious Soul - 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/30753-01.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/30753-03.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "337": {
+   "name": "Audience With The Land Dragon",
+   "listText": [
+    "[Audience with the Land Dragon]",
+    "[Audience with the Land Dragon  (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30753-01.htm",
+     "when": "state CREATED; level < 50",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30753-02.htm",
+     "when": "state CREATED; NOT level < 50",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30753-06.html",
+     "when": "state STARTED; memoState >= 20000; memoState < 30000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30753-08.html",
+     "when": "state STARTED; memo 30000; !((memoState >= 20000) && (memoState < 30000))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30753-10.html",
+     "when": "state STARTED; !((memoState >= 20000) && (memoState < 30000)); memoState >= 40000; memoState < 50000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30753-11.html",
+     "when": "state STARTED; memo 50000; !((memoState >= 20000) && (memoState < 30000)); !((memoState >= 40000) && (memoState < 50000))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30753-12.html",
+     "when": "state STARTED; memo 60000; !((memoState >= 20000) && (memoState < 30000)); !((memoState >= 40000) && (memoState < 50000))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30753-13.html",
+     "when": "state STARTED; memo 70000; !((memoState >= 20000) && (memoState < 30000)); !((memoState >= 40000) && (memoState < 50000))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30753.htm": {
+   "file": "default/30753.htm",
+   "quest": null,
+   "text": "Gabrielle: Giran is an immensely rich land. She appears bright and vital on the outside, but there are dark undercurrents visible in the eyes of her inhabitants. They live in mortal fear of a tyrant they know as the disaster of Giran, otherwise known as the Land Dragon Antharas. If he stretches out…",
+   "header": "Gabrielle",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/30753-01.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/30753-01.html",
+   "quest": 241,
+   "text": "Gabrielle: One of my ancestors participated in the Antharas conquest. People call them the Seventeen Nemeses of the Land Dragon. All I know is pieces of stories that I heard from my grandparents. There are many tales, and I don't know which is true. The poet may know, if you can get him to talk.",
+   "header": "Gabrielle",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Who is he?\"",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 30753-02.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "30753-02.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/30753-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/30753-03.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/30753-03.html",
+   "quest": 241,
+   "text": "Gabrielle: Go to the entrance of the Dragon Valley and meet Gilmore, the watchman of the Land Dragon Antharas. Since he was there, he must know the story.",
+   "header": "Gabrielle",
+   "when": [
+    "cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-01.htm": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-01.htm",
+   "quest": 337,
+   "text": "Gabrielle: I am one of the guardians of the seal of the Emperor of Light Shunaiman that restrain the evil creatures of Shilen. We recently had a meeting of grave importance. We are now threatened by one of the most fearsome of all evil creatures! The tyrant of the land, the disaster of Giran, the d…",
+   "header": "Gabrielle",
+   "when": [
+    "state CREATED; level < 50"
+   ],
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "\"I will join your expedition!\"",
+     "bypass": "Quest Q00337_AudienceWithTheLandDragon 30753-01a.html",
+     "kind": "quest-event",
+     "script": "Q00337_AudienceWithTheLandDragon",
+     "event": "30753-01a.html",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30753-01a.html"
+    }
+   ]
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-02.htm": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-02.htm",
+   "quest": 337,
+   "text": "Gabrielle: I am one of the guardians of the seal of the Emperor of Light Shunaiman that restrain the evil creatures of Shilen. We recently had a meeting of grave importance. We are now threatened by one of the most fearsome of all evil creatures! The tyrant of the land, the disaster of Giran, the d…",
+   "header": "Gabrielle",
+   "when": [
+    "state CREATED; NOT level < 50"
+   ],
+   "links": [
+    {
+     "text": "\"I will join your expedition!\"",
+     "bypass": "Quest Q00337_AudienceWithTheLandDragon 30753-03.htm",
+     "kind": "quest-event",
+     "script": "Q00337_AudienceWithTheLandDragon",
+     "event": "30753-03.htm",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30753-03.htm"
+    }
+   ]
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-06.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-06.html",
+   "quest": 337,
+   "text": "Gabrielle: Time is short! You must hurry and meet each of the guardians. When you receive the Mark of Watchman from each of them and return to me, I shall give you the Herald of Slayer and show you how to enter Antharas' Lair.",
+   "header": "Gabrielle",
+   "when": [
+    "state STARTED; memoState >= 20000; memoState < 30000"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the guardians.\"",
+     "bypass": "Quest Q00337_AudienceWithTheLandDragon 30753-06a.html",
+     "kind": "quest-event",
+     "script": "Q00337_AudienceWithTheLandDragon",
+     "event": "30753-06a.html",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30753-06a.html"
+    }
+   ]
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-08.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-08.html",
+   "quest": 337,
+   "text": "Gabrielle: We have high expectations for you. If your comrades are having trouble gaining the recognition of each guardian and obtaining the marks, it is your duty to help them. Once they have collected four marks each, you will be ready to proceed to the next stage of the trial.",
+   "header": "Gabrielle",
+   "when": [
+    "state STARTED; memo 30000; !((memoState >= 20000) && (memoState < 30000))"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the next stage.\"",
+     "bypass": "Quest Q00337_AudienceWithTheLandDragon 30753-09.html",
+     "kind": "quest-event",
+     "script": "Q00337_AudienceWithTheLandDragon",
+     "event": "30753-09.html",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30753-09.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-10.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-10.html",
+   "quest": 337,
+   "text": "Gabrielle: Please, you must hurry! Time is of the essence. If the aura collapses the beast will be released!",
+   "header": "Gabrielle",
+   "when": [
+    "state STARTED; !((memoState >= 20000) && (memoState < 30000)); memoState >= 40000; memoState < 50000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-11.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-11.html",
+   "quest": 337,
+   "text": "Gabrielle: Thanks to you, the evil plan to free Antharas has been thwarted. Unfortunately the conspirators escaped, but for the time being they will not threaten us again. I hereby bestow upon you the Herald of Slayer. You must now confront the tyrant of the land, the disaster of Giran, the evil dr…",
+   "header": "Gabrielle",
+   "when": [
+    "state STARTED; memo 50000; !((memoState >= 20000) && (memoState < 30000)); !((memoState >= 40000) && (memoState < 50000))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-12.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-12.html",
+   "quest": 337,
+   "text": "Gabrielle: At the entrance to Dragon Valley you will find Land Dragon Watchman Gilmore. Don't be put off by his wicked appearance. He is one of the original 17 guardians that sealed Antharas. He became an undead in order to faithfully carry out his duty. He will show you how to enter Antharas' Lair.",
+   "header": "Gabrielle",
+   "when": [
+    "state STARTED; memo 60000; !((memoState >= 20000) && (memoState < 30000)); !((memoState >= 40000) && (memoState < 50000))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-13.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-13.html",
+   "quest": 337,
+   "text": "Gabrielle: It's the place that Land Dragon Watchman Gilmore spoke of. It is the central part of the aura that restrains Antharas in Dragon Valley. Our time is very limited. You must hurry and destroy the Abyssal Jewel!",
+   "header": "Gabrielle",
+   "when": [
+    "state STARTED; memo 70000; !((memoState >= 20000) && (memoState < 30000)); !((memoState >= 40000) && (memoState < 50000))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/30753-02.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/30753-02.html",
+   "quest": 241,
+   "text": "Gabrielle: I don't know if you met Gilmore, the Watchman of the Land Dragon Antharas. He's one of the Seventeen Nemeses. He sacrificed himself and became undead to monitor Antharas' movements in the Dragon Valley and to protect the seal made by the Founding Emperor Shunaiman. He would know what hap…",
+   "header": "Gabrielle",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-01a.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-01a.html",
+   "quest": 337,
+   "text": "Gabrielle: Your spirit is admirable, but honestly, Antharas would cut you down like a dog! (This quest can only be undertaken by players of level 50 and above.)",
+   "header": "Gabrielle",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-03.htm": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-03.htm",
+   "quest": 337,
+   "text": "Gabrielle: Oh... Your bravery is impressive but Antharas is much stronger than any creature you've come up against. Dragons are fearsomely powerful creatures! They aren't even afraid of the gods! From ancient times countless brave warriors have lost their lives to this menace. I'm afraid you would …",
+   "header": "Gabrielle",
+   "links": [
+    {
+     "text": "\"Tell me more about the force field.\"",
+     "bypass": "Quest Q00337_AudienceWithTheLandDragon 30753-04.htm",
+     "kind": "quest-event",
+     "script": "Q00337_AudienceWithTheLandDragon",
+     "event": "30753-04.htm",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30753-04.htm"
+    }
+   ]
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-04.htm": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-04.htm",
+   "quest": 337,
+   "text": "Gabrielle: In ancient times, when Shilen's minions fought the gods of the heavens, The dragon Antharas was gravely injured and came to rest in the middle of what is now called Dragon Valley in the Giran region. He fell into a deep sleep for thousands of years as his injuries healed. The guardians o…",
+   "header": "Gabrielle",
+   "links": [
+    {
+     "text": "\"I will take the test.\"",
+     "bypass": "Quest Q00337_AudienceWithTheLandDragon 30753-05.htm",
+     "kind": "quest-event",
+     "script": "Q00337_AudienceWithTheLandDragon",
+     "event": "30753-05.htm",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30753-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-05.htm": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-05.htm",
+   "quest": 337,
+   "text": "Gabrielle: You must visit each guardian of the seal and perform whatever task they ask of you. The guardians are quite reserved, but are brothers joined in strong union with a clear sense of mission. Show them this feather and they will know of your intention to join the expedition against Antharas…",
+   "header": "Gabrielle",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Tell me about the guardians.\"",
+     "bypass": "Quest Q00337_AudienceWithTheLandDragon 30753-06a.html",
+     "kind": "quest-event",
+     "script": "Q00337_AudienceWithTheLandDragon",
+     "event": "30753-06a.html",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30753-06a.html"
+    }
+   ]
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-06a.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-06a.html",
+   "quest": 337,
+   "text": "Gabrielle: Originally seventeen guardians participated in the sealing of Antharas. Seven Humans, three Elves, five Dwarven Artisans and two Orc soldiers. The Dwarves formed the Gray Pillar Guild and taught generations of guild members how to guard the pillar that supports the force field. The three…",
+   "header": "Gabrielle",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30753-09.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30753-09.html",
+   "quest": 337,
+   "text": "Gabrielle: You have obtained the recognition of the four guardians. This demonstrates that you have the strength to confront and fight Antharas. Only one task awaits before you can set out to slay the dragon. Evil forces have appeared, threatening the force field that restrains Antharas. Those evil…",
+   "header": "Gabrielle",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00241_PossessorOfAPreciousSoul1",
+     "kind": "quest",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/30753-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Audience with the Land Dragon]",
+     "bypass": "npc_%objectId%_Quest Q00337_AudienceWithTheLandDragon",
+     "kind": "quest",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30753-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Audience with the Land Dragon  (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00337_AudienceWithTheLandDragon",
+     "kind": "quest",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30753-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

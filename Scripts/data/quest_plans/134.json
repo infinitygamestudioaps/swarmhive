@@ -2,7 +2,7 @@
  "id": 134,
  "name": "Temple Missionary",
  "version": 1,
- "generated": "2026-10-27T11:15:12.737Z",
+ "generated": "2026-10-27T18:18:47.725Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 35,
@@ -12,15 +12,9 @@
  "region": "Dion",
  "requirements": {},
  "restrictions": [],
- "status": "fixable",
- "reasons": [
-  {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 6
-  }
- ],
- "expectedMin": 19,
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 21,
  "refLevel": 35,
  "steps": [
   {
@@ -152,9 +146,9 @@
    "key": "c1:talk:30067",
    "cond": 1,
    "kind": "talk",
-   "to": "end",
+   "to": 2,
    "links": [
-    "\"I understand. I will help as much as I can.\""
+    "\"What am I supposed to do?\""
    ],
    "npc": {
     "id": 30067,
@@ -272,21 +266,17 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5
+    1
    ]
   },
   {
    "i": 2,
-   "key": "c1:talk:31418",
-   "cond": 1,
+   "key": "c2:talk:31418",
+   "cond": 2,
    "kind": "talk",
-   "to": 5,
+   "to": 3,
    "links": [
-    "Receive the report from Rouke."
+    "Listen."
    ],
    "npc": {
     "id": 31418,
@@ -414,11 +404,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5
+    2
    ]
   },
   {
@@ -867,7 +853,7 @@
    "expectedSec": 482,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "spawn"
    },
    "conds": [
     3
@@ -946,9 +932,7 @@
     }
    ],
    "kills": 1,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "kill",
     "trigger": [
@@ -959,7 +943,9 @@
      20232,
      20233,
      20234
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Cruma Marshlands Traitor appear and kill it",
    "area": {
@@ -1114,9 +1100,282 @@
    "conds": [
     3
    ]
+  },
+  {
+   "i": 5,
+   "key": "c4:talk:31418",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "Receive the report from Rouke."
+   ],
+   "npc": {
+    "id": 31418,
+    "name": "Rouke",
+    "title": "Spellbook Seller",
+    "town": "Dion",
+    "at": [
+     16694,
+     142336,
+     -2691
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rouke",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31418@16694,142336",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 2225,
+    "sec": 39,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 2225,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      16104,
+      142312,
+      -2688
+     ],
+     [
+      16376,
+      142312,
+      -2688
+     ],
+     [
+      16456,
+      142440,
+      -2688
+     ],
+     [
+      16472,
+      142392,
+      -2688
+     ],
+     [
+      16696,
+      142344,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 64,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c5:talk:30067",
+   "cond": 5,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I understand. I will help as much as I can.\""
+   ],
+   "npc": {
+    "id": 30067,
+    "name": "Glyvka",
+    "title": "Priestess",
+    "town": "Dion",
+    "at": [
+     16269,
+     142461,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Talk to Glyvka",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30067@16269,142461",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1741,
+    "sec": 35,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 1741,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      16088,
+      142328,
+      -2688
+     ],
+     [
+      16264,
+      142408,
+      -2688
+     ],
+     [
+      16264,
+      142456,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 60,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
   }
  ],
  "override": {
   "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T18:18:48.531Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
  }
 }

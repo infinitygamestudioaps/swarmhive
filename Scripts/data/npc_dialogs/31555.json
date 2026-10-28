@@ -1,0 +1,352 @@
+{
+ "npcId": 31555,
+ "name": "Abercrombie",
+ "title": "Mercenary Supplier",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.221Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Abercrombie/31555-07.html",
+   "when": "has items 7247",
+   "src": "ai Abercrombie"
+  },
+  {
+   "page": "ai/npc/Abercrombie/31555-01.html",
+   "when": "has items 7246; lacks items 7247",
+   "src": "ai Abercrombie"
+  },
+  {
+   "page": "ai/npc/Abercrombie/31555-09.html",
+   "when": "lacks items 7247,7246",
+   "src": "ai Abercrombie"
+  }
+ ],
+ "quests": {
+  "18": {
+   "name": "Meeting With The Golden Ram",
+   "listText": [
+    "[Meeting with the Golden Ram]",
+    "[Meeting with the Golden Ram (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00018_MeetingWithTheGoldenRam/31555-01.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "31": {
+   "name": "Secret Buried in the Swamp",
+   "listText": [
+    "[Secret Buried in the Swamp]",
+    "[Secret Buried in the Swamp (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00031_SecretBuriedInTheSwamp/31555-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00031_SecretBuriedInTheSwamp/31555-03.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00031_SecretBuriedInTheSwamp/31555-02.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "start"
+    },
+    {
+     "page": "Q00031_SecretBuriedInTheSwamp/31555-04.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00031_SecretBuriedInTheSwamp/31555-06.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00031_SecretBuriedInTheSwamp/31555-07.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "ai/npc/Abercrombie/31555-07.html": {
+   "file": "ai/npc/Abercrombie/31555-07.html",
+   "quest": null,
+   "text": "Mercenary Supplier Abercrombie: Everyone's talking about the excellence you showed in battle again today! You're winning all the bonuses! Ha! It's good to see someone succeed in this godforsaken place! Now tell me! Is there anything in particular you want? Although only a few types of supplies are …",
+   "header": "Mercenary Supplier Abercrombie",
+   "when": [
+    "has items 7247"
+   ],
+   "links": [
+    {
+     "text": "\"I want to trade a chit of Golden Ram for an item.\"",
+     "bypass": "npc_%objectId%_multisell 521",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Abercrombie/31555-01.html": {
+   "file": "ai/npc/Abercrombie/31555-01.html",
+   "quest": null,
+   "text": "Mercenary Supplier Abercrombie: As usual, the delivery of supplies are very unreliable in this godforsaken swampland! My life is totally miserable! The monsters around here are a real pain! I should've known when they sent me out here to the northernmost corner of nowhere... Dammit! What am I doing…",
+   "header": "Mercenary Supplier Abercrombie",
+   "when": [
+    "has items 7246; lacks items 7247"
+   ],
+   "links": [
+    {
+     "text": "\"I want to trade a chit of Golden Ram for an item.\"",
+     "bypass": "npc_%objectId%_multisell 526",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Abercrombie/31555-09.html": {
+   "file": "ai/npc/Abercrombie/31555-09.html",
+   "quest": null,
+   "text": "Mercenary Supplier Abercrombie: Jeesh! Why are you turning into such a pain?! Can't you see I'm busy? It's more than enough for me to deal with the mercenaries! I don't have the time to deal with an outsider like you! If you want to serve in our Golden Ram Mercenary force, why don't you go see Kado…",
+   "header": "Mercenary Supplier Abercrombie",
+   "when": [
+    "lacks items 7247,7246"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00018_MeetingWithTheGoldenRam/31555-01.html": {
+   "file": "Q00018_MeetingWithTheGoldenRam/31555-01.html",
+   "quest": 18,
+   "text": "Mercenary Supplier Abercrombie: Are these the supplies from Daisy?",
+   "header": "Mercenary Supplier Abercrombie",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the box.\"",
+     "bypass": "Quest Q00018_MeetingWithTheGoldenRam 31555-02.html",
+     "kind": "quest-event",
+     "script": "Q00018_MeetingWithTheGoldenRam",
+     "event": "31555-02.html",
+     "quest": 18,
+     "to": "Q00018_MeetingWithTheGoldenRam/31555-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00031_SecretBuriedInTheSwamp/31555-01.htm": {
+   "file": "Q00031_SecretBuriedInTheSwamp/31555-01.htm",
+   "quest": 31,
+   "text": "Mercenary Supplier Abercrombie: The person we sent to investigate the ancient monument is missing. Can you help us find him?",
+   "header": "Mercenary Supplier Abercrombie",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "Quest Q00031_SecretBuriedInTheSwamp 31555-02.html",
+     "kind": "quest-event",
+     "script": "Q00031_SecretBuriedInTheSwamp",
+     "event": "31555-02.html",
+     "quest": 31,
+     "to": "Q00031_SecretBuriedInTheSwamp/31555-02.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00031_SecretBuriedInTheSwamp/31555-03.htm": {
+   "file": "Q00031_SecretBuriedInTheSwamp/31555-03.htm",
+   "quest": 31,
+   "text": "Mercenary Supplier Abercrombie: The Swamp of Screams is very dangerous. This is too difficult a mission for you. (This quest may only be undertaken by a character level 66 or above.)",
+   "header": "Mercenary Supplier Abercrombie",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00031_SecretBuriedInTheSwamp/31555-02.html": {
+   "file": "Q00031_SecretBuriedInTheSwamp/31555-02.html",
+   "quest": 31,
+   "text": "Mercenary Supplier Abercrombie: Rangers reported that Krorin went missing somewhere in the Swamp of Screams. Look for him there. If he is dead find his diary. It might hold a clue about the ancient monuments hidden there. The swamp is a dangerous place, but I'm sure you can handle it. Good luck!",
+   "header": "Mercenary Supplier Abercrombie",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00031_SecretBuriedInTheSwamp/31555-04.html": {
+   "file": "Q00031_SecretBuriedInTheSwamp/31555-04.html",
+   "quest": 31,
+   "text": "Mercenary Supplier Abercrombie: He was a good guild member, he will be missed. Captain Pierce thinks this could be why the Golden Ram are here. Would you complete his research so his death is not in vain?",
+   "header": "Mercenary Supplier Abercrombie",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help.\"",
+     "bypass": "Quest Q00031_SecretBuriedInTheSwamp 31555-05.html",
+     "kind": "quest-event",
+     "script": "Q00031_SecretBuriedInTheSwamp",
+     "event": "31555-05.html",
+     "quest": 31,
+     "to": "Q00031_SecretBuriedInTheSwamp/31555-05.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00031_SecretBuriedInTheSwamp/31555-06.html": {
+   "file": "Q00031_SecretBuriedInTheSwamp/31555-06.html",
+   "quest": 31,
+   "text": "Mercenary Supplier Abercrombie: According to Krorin's journal, there should be four monuments left behind by the people of the ancient empire. They must be scattered around the swamp... I've heard that the monuments were used as datum points for making astronomical observations. It seems that Krori…",
+   "header": "Mercenary Supplier Abercrombie",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00031_SecretBuriedInTheSwamp/31555-07.html": {
+   "file": "Q00031_SecretBuriedInTheSwamp/31555-07.html",
+   "quest": 31,
+   "text": "Mercenary Supplier Abercrombie: You've returned! Did you find the monuments?",
+   "header": "Mercenary Supplier Abercrombie",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "links": [
+    {
+     "text": "\"I found all four\"",
+     "bypass": "Quest Q00031_SecretBuriedInTheSwamp 31555-08.html",
+     "kind": "quest-event",
+     "script": "Q00031_SecretBuriedInTheSwamp",
+     "event": "31555-08.html",
+     "quest": 31,
+     "to": "Q00031_SecretBuriedInTheSwamp/31555-08.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00018_MeetingWithTheGoldenRam/31555-02.html": {
+   "file": "Q00018_MeetingWithTheGoldenRam/31555-02.html",
+   "quest": 18,
+   "text": "Mercenary Supplier Abercrombie: Hey, ale and mutton pie! You want a drink? What do you think of mercenary life? We're recruiting!",
+   "header": "Mercenary Supplier Abercrombie",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00031_SecretBuriedInTheSwamp/31555-05.html": {
+   "file": "Q00031_SecretBuriedInTheSwamp/31555-05.html",
+   "quest": 31,
+   "text": "Mercenary Supplier Abercrombie: Krorin's diary tells of four ancient monuments scattered in the swamp. Priests of the Elmoreden Empire used them for astronomical observation. He must have found the first monument! I'll mark it on your Map. Deciphering the ancient hieroglyphs on it will lead you to …",
+   "header": "Mercenary Supplier Abercrombie",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00031_SecretBuriedInTheSwamp/31555-08.html": {
+   "file": "Q00031_SecretBuriedInTheSwamp/31555-08.html",
+   "quest": 31,
+   "text": "Mercenary Supplier Abercrombie: Very good! With help like yours, we'd be done with this swamp in no time. So they are related to astronomy. Krorin would be proud of you. Please take this as a small token of my thanks, I'd have something better for you if I weren't stuck in this swamp!",
+   "header": "Mercenary Supplier Abercrombie",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Meeting with the Golden Ram (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00018_MeetingWithTheGoldenRam",
+     "kind": "quest",
+     "quest": 18,
+     "to": "Q00018_MeetingWithTheGoldenRam/31555-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Secret Buried in the Swamp]",
+     "bypass": "npc_%objectId%_Quest Q00031_SecretBuriedInTheSwamp",
+     "kind": "quest",
+     "quest": 31,
+     "to": "Q00031_SecretBuriedInTheSwamp/31555-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Secret Buried in the Swamp (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00031_SecretBuriedInTheSwamp",
+     "kind": "quest",
+     "quest": 31,
+     "to": "Q00031_SecretBuriedInTheSwamp/31555-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

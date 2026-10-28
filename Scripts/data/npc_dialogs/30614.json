@@ -1,0 +1,166 @@
+{
+ "npcId": 30614,
+ "name": "Metheus",
+ "title": "Brother",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.019Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30614.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "219": {
+   "name": "Testimony Of Fate",
+   "listText": [
+    "[Testimony of Fate]",
+    "[Testimony of Fate (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00219_TestimonyOfFate/30614-01.html",
+     "when": "state STARTED; has items 3173",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30614-02.html",
+     "when": "state STARTED; has items 3174; lacks items 3173,3175",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30614-03.html",
+     "when": "state STARTED; has items 3175; lacks items 3173,3174; !(hasQuestItems(player, METHEUSS_FUNERAL_JAR) && !hasQuestItems(player, KASANDRAS_REMAINS))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30614-04.html",
+     "when": "state STARTED; has items 3176,3177; lacks items 3173; !(hasQuestItems(player, METHEUSS_FUNERAL_JAR) && !hasQuestItems(player, KASANDRAS_REMAINS)); !(hasQuestItems(player, KASANDRAS_REMAINS) && !hasQuestItems(player, METHEUSS_FUNERAL_JAR))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30614-05.html",
+     "when": "state STARTED; has items 3183; lacks items 3173,3176,3177; !(hasQuestItems(player, METHEUSS_FUNERAL_JAR) && !hasQuestItems(player, KASANDRAS_REMAINS)); !(hasQuestItems(player, KASANDRAS_REMAINS) && !hasQuestItems(player, METHEUSS_FUNERAL_JAR))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30614-06.html",
+     "when": "state STARTED; has items 3184,3185,3186,3187,3188,3189; lacks items 3173,3176,3177,3183; !(hasQuestItems(player, METHEUSS_FUNERAL_JAR) && !hasQuestItems(player, KASANDRAS_REMAINS)); !(hasQuestItems(player, KASANDRAS_REMAINS) && !hasQuestItems(player, METHEUSS_FUNERAL_JAR))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30614.htm": {
+   "file": "default/30614.htm",
+   "quest": null,
+   "text": "Brother Metheus: There is no truly righteous person in this world. Everyone is confuting their own crooked justice and narrow-minded rules!",
+   "header": "Brother Metheus",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00219_TestimonyOfFate/30614-01.html": {
+   "file": "Q00219_TestimonyOfFate/30614-01.html",
+   "quest": 219,
+   "text": "Brother Metheus: Come in, Dark Elf. Do you know why I've asked you here? Once I had a beloved sister. She was the only family I had left. She was executed during the rebellion of farmers because of her relationship with the Bishops. And this after she was excommunicated! The High Priest said that h…",
+   "header": "Brother Metheus",
+   "when": [
+    "state STARTED; has items 3173"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30614-02.html": {
+   "file": "Q00219_TestimonyOfFate/30614-02.html",
+   "quest": 219,
+   "text": "Brother Metheus: Go and find the remains of my sister in the Execution Grounds. I cannot bear the thought of her body hanging from the branches of the Hangman Tree . Please bring my sister's body back to me!",
+   "header": "Brother Metheus",
+   "when": [
+    "state STARTED; has items 3174; lacks items 3173,3175"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30614-03.html": {
+   "file": "Q00219_TestimonyOfFate/30614-03.html",
+   "quest": 219,
+   "text": "Brother Metheus: Thank you so much. At last my sister can have a decent burial... If you could please help me with one more thing, I need you to bring me some 'Belladonna' . I have read that this poison can kill a bull with just one droplet! I intend to kill Priest Criton, who executed my sister wi…",
+   "header": "Brother Metheus",
+   "when": [
+    "state STARTED; has items 3175; lacks items 3173,3174; !(hasQuestItems(player, METHEUSS_FUNERAL_JAR) && !hasQuestItems(player, KASANDRAS_REMAINS))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30614-04.html": {
+   "file": "Q00219_TestimonyOfFate/30614-04.html",
+   "quest": 219,
+   "text": "Brother Metheus: Please bring me the 'Belladonna' . I intend to use it to avenge the death of my sister. I know that your race has some familiarity with poisons. From what I hear, there is a Dark Elf called 'Iksia' who is a real poison expert! If you will bring me Belladonna, you will receive the s…",
+   "header": "Brother Metheus",
+   "when": [
+    "state STARTED; has items 3176,3177; lacks items 3173; !(hasQuestItems(player, METHEUSS_FUNERAL_JAR) && !hasQuestItems(player, KASANDRAS_REMAINS)); !(hasQuestItems(player, KASANDRAS_REMAINS) && !hasQuestItems(player, METHEUSS_FUNERAL_JAR))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30614-05.html": {
+   "file": "Q00219_TestimonyOfFate/30614-05.html",
+   "quest": 219,
+   "text": "Brother Metheus: Thank you so much! At last my sister's death will be avenged! Although I shall surely be damned for it, I intend to personally see the beast get what he gave to my beloved sister. Here is the skull of Alders from the crypt of the temple as I promised. Take it.",
+   "header": "Brother Metheus",
+   "when": [
+    "state STARTED; has items 3183; lacks items 3173,3176,3177; !(hasQuestItems(player, METHEUSS_FUNERAL_JAR) && !hasQuestItems(player, KASANDRAS_REMAINS)); !(hasQuestItems(player, KASANDRAS_REMAINS) && !hasQuestItems(player, METHEUSS_FUNERAL_JAR))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30614-06.html": {
+   "file": "Q00219_TestimonyOfFate/30614-06.html",
+   "quest": 219,
+   "text": "Brother Metheus: After I bury my sister I shall avenge her death. You Dark Elves have been very useful to my preparations for this day, but I will take it from here.",
+   "header": "Brother Metheus",
+   "when": [
+    "state STARTED; has items 3184,3185,3186,3187,3188,3189; lacks items 3173,3176,3177,3183; !(hasQuestItems(player, METHEUSS_FUNERAL_JAR) && !hasQuestItems(player, KASANDRAS_REMAINS)); !(hasQuestItems(player, KASANDRAS_REMAINS) && !hasQuestItems(player, METHEUSS_FUNERAL_JAR))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Fate (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00219_TestimonyOfFate",
+     "kind": "quest",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30614-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

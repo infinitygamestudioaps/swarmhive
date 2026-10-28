@@ -1,0 +1,49 @@
+{
+ "npcId": 32874,
+ "name": "Lyann",
+ "title": "Recipe Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.419Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/32874.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/32874.htm": {
+   "file": "merchant/32874.htm",
+   "quest": null,
+   "text": "Recipe Merchant Lian: It's so boring here. It doesn't agree with a hip person like me. I can't even find a cute little corning around here... Don't you think I should have something cute and adorable? Once I complete the recipe for the absolute cutest thing, I'll show you!",
+   "header": "Recipe Merchant Lian",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "npc_%objectId%_Buy 3287400",
+     "kind": "shop"
+    },
+    {
+     "text": "View the lord and tax rate information",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

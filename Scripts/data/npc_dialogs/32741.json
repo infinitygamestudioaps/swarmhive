@@ -1,0 +1,252 @@
+{
+ "npcId": 32741,
+ "name": "Ankumi",
+ "title": "Researcher",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.401Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32741.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "288": {
+   "name": "Handle With Care",
+   "listText": [
+    "[Handle With Care]",
+    "[Handle With Care (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00288_HandleWithCare/32741-01.html",
+     "when": "state CREATED; (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00288_HandleWithCare/32741-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00288_HandleWithCare/32741-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00288_HandleWithCare/32741-06.html",
+     "when": "state STARTED; cond 2; !(st.isCond(1) && !st.hasQuestItems(HIGH_GRADE_LIZARD_SCALE) && !st.hasQuestItems(MIDDLE_GRADE_LIZARD_SCALE))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00288_HandleWithCare/32741-07.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32741.htm": {
+   "file": "default/32741.htm",
+   "quest": null,
+   "text": "Researcher Ankumi: Hey there, have you come to experience the Plains of the Lizardmen? There's no place like it in the world! Especially to a very skilled researcher like me. Unfortunately, I study more than I swordfight, so I never stray from the investigators. Never hurts to have some muscle, rig…",
+   "header": "Researcher Ankumi",
+   "links": [
+    {
+     "text": "Ask about Plains of the Lizardmen",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32741-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/32741-1.htm": {
+   "file": "default/32741-1.htm",
+   "quest": null,
+   "text": "Researcher Ankumi: This place is cursed. The dark blood of Antharas was spilt here. These lands have suffered ever since. The Plains of the Lizardmen certainly look beautiful. But by now you know not to trust your eyes alone. Here the Blood of Antharas taints us all. Waiting... wanting...",
+   "header": "Researcher Ankumi",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/32741.htm"
+    }
+   ]
+  },
+  "Q00288_HandleWithCare/32741-01.html": {
+   "file": "Q00288_HandleWithCare/32741-01.html",
+   "quest": 288,
+   "text": "Researcher Ankumi: Good day traveler! I happen to be in need of a sword. You at least look the type... (Only characters level 82 and above are permitted to take on this quest.)",
+   "header": "Researcher Ankumi",
+   "when": [
+    "state CREATED; (player.getLevel() < MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00288_HandleWithCare/32741-02.htm": {
+   "file": "Q00288_HandleWithCare/32741-02.htm",
+   "quest": 288,
+   "text": "Researcher Ankumi: Have you ever seen Tanta Seer Ugoros? The scales on Seer Ugoros are of the highest quality of scales I have ever seen. Unfortunately, they are very hard to come by and causing a bit of strain on documenting and cataloging the different types of scales on the Lizardmen. Don't supp…",
+   "header": "Researcher Ankumi",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Ask about how to obtain it.",
+     "bypass": "Quest Q00288_HandleWithCare 32741-03.htm",
+     "kind": "quest-event",
+     "script": "Q00288_HandleWithCare",
+     "event": "32741-03.htm",
+     "quest": 288,
+     "to": "Q00288_HandleWithCare/32741-03.htm"
+    }
+   ]
+  },
+  "Q00288_HandleWithCare/32741-05.html": {
+   "file": "Q00288_HandleWithCare/32741-05.html",
+   "quest": 288,
+   "text": "Researcher Ankumi: What is taking so long? Having a hard time finding Seer Ugoros? I told you that this would take a while.",
+   "header": "Researcher Ankumi",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00288_HandleWithCare/32741-06.html": {
+   "file": "Q00288_HandleWithCare/32741-06.html",
+   "quest": 288,
+   "text": "Researcher Ankumi: Amazing! This is the best scale I've seen yet! I can now see why Johnny has been envious of your skills. But you are not here to listen to my flattery... you are here to get paid. Don't suppose you would be interested in working for me from time to time?",
+   "header": "Researcher Ankumi",
+   "when": [
+    "state STARTED; cond 2; !(st.isCond(1) && !st.hasQuestItems(HIGH_GRADE_LIZARD_SCALE) && !st.hasQuestItems(MIDDLE_GRADE_LIZARD_SCALE))"
+   ],
+   "links": [
+    {
+     "text": "Agree to work for her when you can.",
+     "bypass": "Quest Q00288_HandleWithCare 32741-08.html",
+     "kind": "quest-event",
+     "script": "Q00288_HandleWithCare",
+     "event": "32741-08.html",
+     "quest": 288,
+     "to": "Q00288_HandleWithCare/32741-08.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00288_HandleWithCare/32741-07.html": {
+   "file": "Q00288_HandleWithCare/32741-07.html",
+   "quest": 288,
+   "text": "Researcher Ankumi: Amazing! This is the best scale I've seen yet! I can now see why Johnny has been envious of your skills. But you are not here to listen to my flattery... you are here to get paid. Don't suppose you would be interested in working for me from time to time?",
+   "header": "Researcher Ankumi",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "Agree to work for her when you can.",
+     "bypass": "Quest Q00288_HandleWithCare 32741-08.html",
+     "kind": "quest-event",
+     "script": "Q00288_HandleWithCare",
+     "event": "32741-08.html",
+     "quest": 288,
+     "to": "Q00288_HandleWithCare/32741-08.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00288_HandleWithCare/32741-03.htm": {
+   "file": "Q00288_HandleWithCare/32741-03.htm",
+   "quest": 288,
+   "text": "Researcher Ankumi: Oh, one last thing before you go. There are these plants called Abyss Weed that grow around Tanta Seer Ugoros . When he eats these plants it restores him and turns his scales into armor. His scales are of the best quality when he has NOT eaten the abyss weed. If you can get me th…",
+   "header": "Researcher Ankumi",
+   "links": [
+    {
+     "text": "Say you will acquire the scale for her.",
+     "bypass": "Quest Q00288_HandleWithCare 32741-04.html",
+     "kind": "quest-event",
+     "script": "Q00288_HandleWithCare",
+     "event": "32741-04.html",
+     "quest": 288,
+     "to": "Q00288_HandleWithCare/32741-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00288_HandleWithCare/32741-04.html": {
+   "file": "Q00288_HandleWithCare/32741-04.html",
+   "quest": 288,
+   "text": "Researcher Ankumi: It's a deal! If you haven't already, speak with Chief Investigator Johnny. He knows a way to see Tanta Seer Ugoros.",
+   "header": "Researcher Ankumi",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00288_HandleWithCare/32741-08.html": {
+   "file": "Q00288_HandleWithCare/32741-08.html",
+   "quest": 288,
+   "text": "Researcher Ankumi: I greatly appreciate it. You said that you would help me again, so stop by when you can, okay?",
+   "header": "Researcher Ankumi",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Handle With Care]",
+     "bypass": "npc_%objectId%_Quest Q00288_HandleWithCare",
+     "kind": "quest",
+     "quest": 288,
+     "to": "Q00288_HandleWithCare/32741-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Handle With Care (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00288_HandleWithCare",
+     "kind": "quest",
+     "quest": 288,
+     "to": "Q00288_HandleWithCare/32741-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

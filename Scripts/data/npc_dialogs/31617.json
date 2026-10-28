@@ -1,0 +1,218 @@
+{
+ "npcId": 31617,
+ "name": "Aria Firstmatter",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.245Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00081_SagaOfTheGhostHunter/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 81"
+  },
+  {
+   "page": "Q00081_SagaOfTheGhostHunter/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 81"
+  },
+  {
+   "page": "Q00081_SagaOfTheGhostHunter/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 81"
+  },
+  {
+   "page": "Q00081_SagaOfTheGhostHunter/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 81"
+  },
+  {
+   "page": "Q00081_SagaOfTheGhostHunter/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 81"
+  },
+  {
+   "page": "Q00081_SagaOfTheGhostHunter/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 81"
+  },
+  {
+   "page": "Q00081_SagaOfTheGhostHunter/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 81"
+  },
+  {
+   "page": "Q00081_SagaOfTheGhostHunter/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 81"
+  }
+ ],
+ "quests": {
+  "81": {
+   "name": "Saga of the Ghost Hunter",
+   "listText": [
+    "[Saga of the Ghost Hunter]",
+    "[Saga of the Ghost Hunter (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00081_SagaOfTheGhostHunter/4-04.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/4-04.htm",
+   "quest": 81,
+   "text": "Aria Firstmatter: You've got long way to go! Is that the best you can do?",
+   "header": "Aria Firstmatter",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/4-06.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/4-06.htm",
+   "quest": 81,
+   "text": "Aria Firstmatter: Not bad, newbie! Of course, you've still got a lot to learn, but you show promise! I helped you out this time. Don't expect it to happen again!",
+   "header": "Aria Firstmatter",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"I could've done it without you!\"",
+     "bypass": "Quest Q00081_SagaOfTheGhostHunter 4-1",
+     "kind": "quest-event",
+     "script": "Q00081_SagaOfTheGhostHunter",
+     "event": "4-1",
+     "quest": 81,
+     "to": "Q00081_SagaOfTheGhostHunter/4-010.htm"
+    }
+   ]
+  },
+  "Q00081_SagaOfTheGhostHunter/4-01.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/4-01.htm",
+   "quest": 81,
+   "text": "Aria Firstmatter: That's the very least you could do! Pay attention! Don't you have any sense of responsibility?",
+   "header": "Aria Firstmatter",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/4-03.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/4-03.htm",
+   "quest": 81,
+   "text": "Aria Firstmatter: Oh, I missed it! I must be losing my touch! Age is slowing me down... Oh, well...I'll just have to wait for another chance!",
+   "header": "Aria Firstmatter",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/4-05.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/4-05.htm",
+   "quest": 81,
+   "text": "Aria Firstmatter: Stop bugging me! If I wanted your help I would've told you so! Wait your turn!",
+   "header": "Aria Firstmatter",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/4-07.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/4-07.htm",
+   "quest": 81,
+   "text": "Aria Firstmatter: Wow, not too bad! Careful you don't lose your diaper, newbie! Ha! Did I embarrass you? Here, take this Stone of Commune, and don't say I never did anything for you!",
+   "header": "Aria Firstmatter",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "Take the Stone of Commune",
+     "bypass": "Quest Q00081_SagaOfTheGhostHunter 4-2",
+     "kind": "quest-event",
+     "script": "Q00081_SagaOfTheGhostHunter",
+     "event": "4-2",
+     "quest": 81,
+     "to": "Q00081_SagaOfTheGhostHunter/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00081_SagaOfTheGhostHunter/4-02.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/4-02.htm",
+   "quest": 81,
+   "text": "Aria Firstmatter: If I wanted your help I would've demanded it! Wait your turn!",
+   "header": "Aria Firstmatter",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/4-08.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/4-08.htm",
+   "quest": 81,
+   "text": "Aria Firstmatter: That's enough, Mr. Azrael! So, you want to help little old me? Never mind that! Just commune with the tablet!",
+   "header": "Aria Firstmatter",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/4-010.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/4-010.htm",
+   "quest": 81,
+   "text": "Aria Firstmatter: Oh, really? Is that right? Hmmm! Hey, newbie! Here's the Stone of Commune! You've been looking for it, haven't you? Well, here you go! Enjoy!",
+   "header": "Aria Firstmatter",
+   "links": [
+    {
+     "text": "\"Wait! Hold on!\"",
+     "bypass": "Quest Q00081_SagaOfTheGhostHunter 4-3",
+     "kind": "quest-event",
+     "script": "Q00081_SagaOfTheGhostHunter",
+     "event": "4-3",
+     "quest": 81,
+     "to": null
+    }
+   ]
+  },
+  "Q00081_SagaOfTheGhostHunter/4-011.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/4-011.htm",
+   "quest": 81,
+   "text": "Aria Firstmatter: This is the Stone of Commune. If we're lucky, we shall never meet again. Now, if you'll excuse me, I have more newbies that need their diapers changed. Good luck!",
+   "header": "Aria Firstmatter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/4-09.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/4-09.htm",
+   "quest": 81,
+   "text": "Aria Firstmatter: Do you see that stone of vision? Commune with it! By the way, I think we'll be seeing each other more often! You've joined the game of the gods! Welcome!",
+   "header": "Aria Firstmatter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Ghost Hunter (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00081_SagaOfTheGhostHunter",
+     "kind": "quest",
+     "quest": 81,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

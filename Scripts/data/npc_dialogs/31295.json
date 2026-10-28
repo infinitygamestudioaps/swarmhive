@@ -1,0 +1,65 @@
+{
+ "npcId": 31295,
+ "name": "Henrik",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.156Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/31295.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/31295.htm": {
+   "file": "guard/31295.htm",
+   "quest": null,
+   "text": "Guard Henrik: Hey! What are you doing here? Just passing through, eh? Okay, you can pass. You should keep your head down! I've got a bad feeling about this place! I don't know why they had to name it the Gateway of Evil Spirits ! What were they thinking?!",
+   "header": "Guard Henrik",
+   "links": [
+    {
+     "text": "\"Yeah, that's a spooky name, alright!\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/31295-1.htm"
+    },
+    {
+     "text": "\"Who is the lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/31295-1.htm": {
+   "file": "guard/31295-1.htm",
+   "quest": null,
+   "text": "Guard Henrik: No kidding! I'll tell ya, this place really lives up to its name! Do you know about the uprising in Rune? They executed the rebels here! This place has been accursed ever since! They say the ghosts here have a taste for flesh! This is the only way to Rune, but nobody will travel this …",
+   "header": "Guard Henrik",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31295.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

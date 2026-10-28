@@ -1,0 +1,72 @@
+{
+ "npcId": 32281,
+ "name": "Oracle Guide",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.367Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32281.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32281.htm": {
+   "file": "default/32281.htm",
+   "quest": null,
+   "text": "Oracle Guide: A mysterious five-colored whirlwind swirls within an aquamarine sphere, and you hear a clear, cultured voice. Welcome. I am the first child of the Oracle. My mistress ia Parme , the Shamaness of the Water Dragon. She is currently under the enemy's control, but an Oracle led me to this…",
+   "header": "Oracle Guide",
+   "links": [
+    {
+     "text": "Ask what you need to prepare.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32281-1.htm"
+    },
+    {
+     "text": "Touch the sphere.",
+     "bypass": "npc_%objectId%_Quest CrystalCaverns",
+     "kind": "quest",
+     "script": "CrystalCaverns"
+    }
+   ]
+  },
+  "default/32281-1.htm": {
+   "file": "default/32281-1.htm",
+   "quest": null,
+   "text": "Oracle Guide: You see a once-beatiful room made of crystal and coral, filled with jewels, and surrounded by black watery. The Crystal Caverns, where Parme is being held captive, used to be a beautiful palace. However, it has been contaminated by the Demons, and they are the only beings able to ente…",
+   "header": "Oracle Guide",
+   "links": [
+    {
+     "text": "Ask about Contaminated Crystal",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/32281-2.htm"
+    },
+    {
+     "text": "Lay hands on the sphere.",
+     "bypass": "npc_%objectId%_Quest CrystalCaverns",
+     "kind": "quest",
+     "script": "CrystalCaverns"
+    }
+   ]
+  },
+  "default/32281-2.htm": {
+   "file": "default/32281-2.htm",
+   "quest": null,
+   "text": "[You feel a chill and hear a voice...] Oracle Guide: A Demon who remained on the island gathered the most beautiful crystals he could find and cast a spell on them. As a result, they are now known as the Contaminated Crystals. [You see a building surrounded by a black fog in the spehere.] In this p…",
+   "links": [
+    {
+     "text": "Touch the sphere.",
+     "bypass": "npc_%objectId%_Quest CrystalCaverns",
+     "kind": "quest",
+     "script": "CrystalCaverns"
+    }
+   ]
+  }
+ }
+}

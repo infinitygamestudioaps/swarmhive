@@ -2,7 +2,7 @@
  "id": 381,
  "name": "Let's Become a Royal Member!",
  "version": 1,
- "generated": "2026-10-27T11:15:38.903Z",
+ "generated": "2026-10-27T18:19:13.577Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 55,
@@ -31,8 +31,16 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "code": "dryrun-fail",
+   "text": "dry run: plan-stage-unknown, script-flow"
+  },
+  {
+   "code": "dryrun:plan-stage-unknown",
+   "text": "plan stage(s) 2 never set by the script"
+  },
+  {
+   "code": "dryrun:script-flow",
+   "text": "event \"30090-02.html\" -> cond 2: the script never sets it"
   }
  ],
  "expectedMin": 26,
@@ -2024,5 +2032,23 @@
  ],
  "override": {
   "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T18:19:13.674Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "plan-stage-unknown",
+    "t": "plan stage(s) 2 never set by the script"
+   },
+   {
+    "code": "script-flow",
+    "t": "event \"30090-02.html\" -> cond 2: the script never sets it"
+   }
+  ],
+  "warns": [
+   "area-partial"
+  ]
  }
 }

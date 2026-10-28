@@ -1,0 +1,114 @@
+{
+ "npcId": 32526,
+ "name": "Allenos",
+ "title": "Sergeant",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.381Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32526.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10269": {
+   "name": "To the Seed of Destruction",
+   "listText": [
+    "[To the Seed of Destruction]",
+    "[To the Seed of Destruction (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10269_ToTheSeedOfDestruction/32526-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10269_ToTheSeedOfDestruction/32526-02.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32526.htm": {
+   "file": "default/32526.htm",
+   "quest": null,
+   "text": "Sergeant Allenos: Shhh! Be quiet! There are Dragonkins not far from the Secret Airstrip !",
+   "header": "Sergeant Allenos",
+   "links": [
+    {
+     "text": "Enter the Seed of Destruction.",
+     "bypass": "npc_%objectId%_Quest Stage1",
+     "kind": "quest",
+     "script": "Stage1"
+    },
+    {
+     "text": "Learn about the Seed of Destruction.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32526-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/32526-1.htm": {
+   "file": "default/32526-1.htm",
+   "quest": null,
+   "text": "Sergeant Allenos: The Seed of Destruction is essentially a gigantic fortress. Throughout its corridors are barriers and doors controlled by several devices guarded by Mounted Troop soldiers. To penetrate into the interior, you must attack those devices. Even then, you'll need to force open the door…",
+   "header": "Sergeant Allenos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10269_ToTheSeedOfDestruction/32526-01.html": {
+   "file": "Q10269_ToTheSeedOfDestruction/32526-01.html",
+   "quest": 10269,
+   "text": "Sergeant Allenos: Oh! This letter is from Admiral Keucereus. Thank you! Allow me to show you me gratitude. You certainly are qualified to enter. (Whew! This place would be much safer with more like this one...) Yes? Oh, nothing. Ha! Just talking to myself...",
+   "header": "Sergeant Allenos",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10269_ToTheSeedOfDestruction/32526-02.html": {
+   "file": "Q10269_ToTheSeedOfDestruction/32526-02.html",
+   "quest": 10269,
+   "text": "Sergeant Allenos: I have already given you the reward for this mission. Instead of worrying about that, you should start thinking about your next mission. It involves entering the Death Gate. Begin preparing for that! (You have already completed this quest.)",
+   "header": "Sergeant Allenos",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[To the Seed of Destruction (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10269_ToTheSeedOfDestruction",
+     "kind": "quest",
+     "quest": 10269,
+     "to": "Q10269_ToTheSeedOfDestruction/32526-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

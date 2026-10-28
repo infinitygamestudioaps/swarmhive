@@ -1,0 +1,305 @@
+{
+ "npcId": 30424,
+ "name": "Allana",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.975Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30424.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "226": {
+   "name": "Test Of The Healer",
+   "listText": [
+    "[Test of the Healer]",
+    "[Test of the Healer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00226_TestOfTheHealer/30424-01.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30424-02.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "409": {
+   "name": "Path of the Elven Oracle",
+   "listText": [
+    "[Path of the Elven Oracle]",
+    "[Path of the Elven Oracle (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30424-05.html",
+     "when": "state STARTED; memo 2; has items 1231; lacks items 1232,1233,1234,1236; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30424-01.html",
+     "when": "state STARTED; memo 1; has items 1231; lacks items 1232,1233,1234,1236; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30424-02.html",
+     "when": "state STARTED; has items 1231,1232,1233,1234,1236; lacks items 1232,1233,1236; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30424-06.html",
+     "when": "state STARTED; memo 3; has items 1231,1232,1233,1234,1236; lacks items 1232,1233,1275; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, SWINDLERS_MONEY, ALLANA_OF_DAIRY, HALF_OF_DAIRY) && hasQuestItems(player, LIZARD_CAPTA",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30424-03.html",
+     "when": "state STARTED; has items 1231,1232,1233,1234,1236; lacks items 1232,1233; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, SWINDLERS_MONEY, ALLANA_OF_DAIRY, HALF_OF_DAIRY) && hasQuestItems(player, LIZARD_CAPTA; !((qs.isMemoState(3)) && !hasQuestItems(player, TAMIL_NECKLACE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30424-04.html",
+     "when": "state STARTED; has items 1231,1232,1233,1234,1236; lacks items 1233; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, SWINDLERS_MONEY, ALLANA_OF_DAIRY, HALF_OF_DAIRY) && hasQuestItems(player, LIZARD_CAPTA; !(!hasAtLeastOneQuestItem(player, SWINDLERS_MONEY, ALLANA_OF_DAIRY) && hasQuestItems(player, LIZARD_CAPTAIN_ORDER, HALF_",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00409_PathOfTheElvenOracle/30424-05.html",
+     "when": "state STARTED; has items 1231,1232,1233,1234,1236; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, SWINDLERS_MONEY, ALLANA_OF_DAIRY, HALF_OF_DAIRY) && hasQuestItems(player, LIZARD_CAPTA; !(!hasAtLeastOneQuestItem(player, SWINDLERS_MONEY, ALLANA_OF_DAIRY) && hasQuestItems(player, LIZARD_CAPTAIN_ORDER, HALF_; !(hasQuestItems(player, SWINDLERS_MONEY, LIZARD_CAPTAIN_ORDER, HALF_OF_DAIRY) && !hasQuestItems(player, ALLANA_OF_DAIRY)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30424.htm": {
+   "file": "default/30424.htm",
+   "quest": null,
+   "text": "Allana: Darkness pre... prevails in the wo... world! I, the sacred flame of prophecy, will drive out da... darkness! I, I... shall perform miracles of light... to pu... purify the world..!",
+   "header": "Allana",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00226_TestOfTheHealer/30424-01.html": {
+   "file": "Q00226_TestOfTheHealer/30424-01.html",
+   "quest": 226,
+   "text": "Allana: How could I have possibly incited Perrin? I remember mentioning in conversation a girl with strange powers who grew up with me in the orphanage. Soon afterward, Perrin asked me about her. I told him everything I knew... We were in an orphanage near Gludio Castle ...",
+   "header": "Allana",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30424-02.html": {
+   "file": "Q00226_TestOfTheHealer/30424-02.html",
+   "quest": 226,
+   "text": "Allana : We grew up together in an orphanage near Gludio Castle that was operated by a Dwarven Father.",
+   "header": "Allana",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30424-05.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30424-05.html",
+   "quest": 409,
+   "text": "Allana: (From the crystal necklace, all of a sudden, a voice comes out). This is Priest Manuel. I have something urgent to tell you. So, please come back into the temple.",
+   "header": "Allana",
+   "when": [
+    "state STARTED; memo 2; has items 1231; lacks items 1232,1233,1234,1236; !(qs.isCreated() || qs.isCompleted())",
+    "state STARTED; has items 1231,1232,1233,1234,1236; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, SWINDLERS_MONEY, ALLANA_OF_DAIRY, HALF_OF_DAIRY) && hasQuestItems(player, LIZARD_CAPTA; !(!hasAtLeastOneQuestItem(player, SWINDLERS_MONEY, ALLANA_OF_DAIRY) && hasQuestItems(player, LIZARD_CAPTAIN_ORDER, HALF_; !(hasQuestItems(player, SWINDLERS_MONEY, LIZARD_CAPTAIN_ORDER, HALF_OF_DAIRY) && !hasQuestItems(player, ALLANA_OF_DAIRY)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30424-01.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30424-01.html",
+   "quest": 409,
+   "text": "Allana: Darkness prevails in the world... I, sacred flame of prophecy will drive... drive out darkness! I perform miracles of light... Purify the world!",
+   "header": "Allana",
+   "when": [
+    "state STARTED; memo 1; has items 1231; lacks items 1232,1233,1234,1236; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Show me a miracle",
+     "bypass": "Quest Q00409_PathOfTheElvenOracle 30424-07.html",
+     "kind": "quest-event",
+     "script": "Q00409_PathOfTheElvenOracle",
+     "event": "30424-07.html",
+     "quest": 409,
+     "to": "Q00409_PathOfTheElvenOracle/30424-07.html"
+    },
+    {
+     "text": "It is dangerous here, let us go to the temple",
+     "bypass": "Quest Q00409_PathOfTheElvenOracle 30424-08.html",
+     "kind": "quest-event",
+     "script": "Q00409_PathOfTheElvenOracle",
+     "event": "30424-08.html",
+     "quest": 409,
+     "to": "Q00409_PathOfTheElvenOracle/30424-08.html"
+    }
+   ]
+  },
+  "Q00409_PathOfTheElvenOracle/30424-02.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30424-02.html",
+   "quest": 409,
+   "text": "Allana: What was that monster? I'm afraid... I don't want to die... I don't want to abandon my brother and die! I don't want to trick people anymore! However, Perrin didn't give me the money he owes me yet. I wrote down all the work I've done until now in my diary. I will give this to you... Please…",
+   "header": "Allana",
+   "when": [
+    "state STARTED; has items 1231,1232,1233,1234,1236; lacks items 1232,1233,1236; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30424-06.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30424-06.html",
+   "quest": 409,
+   "text": "Allana: How can you come empty-handed? You said you would meet Perrin. You said you would help me... Didn't you?",
+   "header": "Allana",
+   "when": [
+    "state STARTED; memo 3; has items 1231,1232,1233,1234,1236; lacks items 1232,1233,1275; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, SWINDLERS_MONEY, ALLANA_OF_DAIRY, HALF_OF_DAIRY) && hasQuestItems(player, LIZARD_CAPTA"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30424-03.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30424-03.html",
+   "quest": 409,
+   "text": "Allana: Please... Please help me get my money from Perrin... I need that money to help my brother get well...",
+   "header": "Allana",
+   "when": [
+    "state STARTED; has items 1231,1232,1233,1234,1236; lacks items 1232,1233; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, SWINDLERS_MONEY, ALLANA_OF_DAIRY, HALF_OF_DAIRY) && hasQuestItems(player, LIZARD_CAPTA; !((qs.isMemoState(3)) && !hasQuestItems(player, TAMIL_NECKLACE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30424-04.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30424-04.html",
+   "quest": 409,
+   "text": "Allana: Sob... It is too late... I couldn't minister medicine at the proper time... My brother... is dead. He was so kind... and with such a pure heart. My poor brother... When he was tortured with sickness... Where was your god? Sob... I don't need money any more! Go! I want to be alone!",
+   "header": "Allana",
+   "when": [
+    "state STARTED; has items 1231,1232,1233,1234,1236; lacks items 1233; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, SWINDLERS_MONEY, ALLANA_OF_DAIRY, HALF_OF_DAIRY) && hasQuestItems(player, LIZARD_CAPTA; !(!hasAtLeastOneQuestItem(player, SWINDLERS_MONEY, ALLANA_OF_DAIRY) && hasQuestItems(player, LIZARD_CAPTAIN_ORDER, HALF_"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00409_PathOfTheElvenOracle/30424-07.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30424-07.html",
+   "quest": 409,
+   "text": "Allana: How dare you! Do you doubt me? To the sacred flame of prophecy... Are you giving a command? How, how dare you!",
+   "header": "Allana",
+   "links": [
+    {
+     "text": "False sacred flames are severely punished by the church.",
+     "bypass": "Quest Q00409_PathOfTheElvenOracle 30424-09.html",
+     "kind": "quest-event",
+     "script": "Q00409_PathOfTheElvenOracle",
+     "event": "30424-09.html",
+     "quest": 409,
+     "to": "Q00409_PathOfTheElvenOracle/30424-09.html"
+    },
+    {
+     "text": "I am sorry to have doubted, it is dangerous here, let's go.",
+     "bypass": "Quest Q00409_PathOfTheElvenOracle 30424-08.html",
+     "kind": "quest-event",
+     "script": "Q00409_PathOfTheElvenOracle",
+     "event": "30424-08.html",
+     "quest": 409,
+     "to": "Q00409_PathOfTheElvenOracle/30424-08.html"
+    }
+   ]
+  },
+  "Q00409_PathOfTheElvenOracle/30424-08.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30424-08.html",
+   "quest": 409,
+   "text": "Allana: We must go... together? No! I don't want to go! I must take care of my little brother. Miracles and sacred flame of prophecy... they were all lies! Perrin made me do it... He brought fake patients and acted like we prayed for treatment... And acted like a miracle had happened. I knew it was…",
+   "header": "Allana",
+   "links": [
+    {
+     "text": "So those were your circumstances",
+     "bypass": "Quest Q00409_PathOfTheElvenOracle replay_1",
+     "kind": "quest-event",
+     "script": "Q00409_PathOfTheElvenOracle",
+     "event": "replay_1",
+     "quest": 409,
+     "to": null
+    }
+   ]
+  },
+  "Q00409_PathOfTheElvenOracle/30424-09.html": {
+   "file": "Q00409_PathOfTheElvenOracle/30424-09.html",
+   "quest": 409,
+   "text": "Allana: Pu... punished? Like a witch... Will I be burnt at the stake? I, I'm sorry... They are all lies! Miracle and sacred flame of prophecy... they are all made up! I just wanted to care for my brother... Perrin made me do it! He brought fake patients and we prayed for treatment and acted like a …",
+   "header": "Allana",
+   "links": [
+    {
+     "text": "So those were your circumstances",
+     "bypass": "Quest Q00409_PathOfTheElvenOracle replay_1",
+     "kind": "quest-event",
+     "script": "Q00409_PathOfTheElvenOracle",
+     "event": "replay_1",
+     "quest": 409,
+     "to": null
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Healer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00226_TestOfTheHealer",
+     "kind": "quest",
+     "quest": 226,
+     "to": "Q00226_TestOfTheHealer/30424-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Elven Oracle (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00409_PathOfTheElvenOracle",
+     "kind": "quest",
+     "quest": 409,
+     "to": "Q00409_PathOfTheElvenOracle/30424-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

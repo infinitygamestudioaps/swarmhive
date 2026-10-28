@@ -1,0 +1,1440 @@
+{
+ "npcId": 30298,
+ "name": "Pinter",
+ "title": "Blacksmith",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.926Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "trainer/30298.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "118": {
+   "name": "To Lead And Be Led",
+   "listText": [
+    "[To Lead and Be Led]",
+    "[To Lead and Be Led (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-02b.html",
+     "when": "state CREATED|STARTED; q123 != null",
+     "state": "CREATED|STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-02a.htm",
+     "when": "state CREATED|COMPLETED; !((q123 != null) && q123.isStarted()); q123 != null",
+     "state": "CREATED|COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-01.htm",
+     "when": "state CREATED; level >= 19; !((q123 != null) && q123.isStarted()); !((q123 != null) && q123.isCompleted()); player.getPledgeType() == -1; player.getSponsor() > 0",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-02.htm",
+     "when": "state CREATED; !((q123 != null) && q123.isStarted()); !((q123 != null) && q123.isCompleted()); !((player.getLevel() >= MIN_LEVEL) && (player.getPledgeType() == -1) && (player.getSponsor() > 0))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-04.html",
+     "when": "state STARTED; memo 1; !hasItemsAtLimit(player, BLOOD_OF_MAILLE_LIZARDMAN)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-05.html",
+     "when": "state STARTED; memo 1; hasItemsAtLimit(player, BLOOD_OF_MAILLE_LIZARDMAN)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-06a.html",
+     "when": "state STARTED; memo 2; player.getSponsor() == 0; qs.getMemoStateEx(1) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-06b.html",
+     "when": "state STARTED; memo 2; player.getSponsor() == 0; !qs.getMemoStateEx(1) == 1; qs.getMemoStateEx(1) == 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-06c.html",
+     "when": "state STARTED; memo 2; player.getSponsor() == 0; !qs.getMemoStateEx(1) == 1; !qs.getMemoStateEx(1) == 2; qs.getMemoStateEx(1) == 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-07.html",
+     "when": "state STARTED; memo 2; !player.getSponsor() == 0; Util.checkIfInRange(1500, npc, sponsor, true)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-06.html",
+     "when": "state STARTED; memo 2; !player.getSponsor() == 0; !Util.checkIfInRange(1500, npc, sponsor, true); qs.getMemoStateEx(1) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-06d.html",
+     "when": "state STARTED; memo 2; !player.getSponsor() == 0; !Util.checkIfInRange(1500, npc, sponsor, true); !qs.getMemoStateEx(1) == 1; qs.getMemoStateEx(1) == 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-06e.html",
+     "when": "state STARTED; memo 2; !player.getSponsor() == 0; !Util.checkIfInRange(1500, npc, sponsor, true); !qs.getMemoStateEx(1) == 1; !qs.getMemoStateEx(1) == 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-15.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-16.html",
+     "when": "state STARTED; memo 4; !hasItemsAtLimit(player, LEG_OF_KING_ARANEID)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00118_ToLeadAndBeLed/30298-17.html",
+     "when": "state STARTED; memo 4; hasItemsAtLimit(player, LEG_OF_KING_ARANEID)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "216": {
+   "name": "Trial Of The Guildsman",
+   "listText": [
+    "[Trial of the Guildsman]",
+    "[Trial of the Guildsman (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30298-02.html",
+     "when": "state STARTED; has items 3122,3124",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30298-06.html",
+     "when": "state STARTED; has items 3122,3135; lacks items 3124; !hasItemsAtLimit(player, AMBER_BEAD)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30298-07.html",
+     "when": "state STARTED; has items 3122,3135; lacks items 3124; hasItemsAtLimit(player, AMBER_BEAD)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30298-08.html",
+     "when": "state STARTED; has items 3122,3138,3139; lacks items 3124,3135",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "418": {
+   "name": "Path Of The Artisan",
+   "listText": [
+    "[Path of the Artisan]",
+    "[Path of the Artisan (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00418_PathOfTheArtisan/30298-01.html",
+     "when": "state STARTED; has items 1633,1638; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/30298-04.html",
+     "when": "state STARTED; has items 1633,1639; lacks items 1633,1638,1640; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/30298-05.html",
+     "when": "state STARTED; has items 1633,1639,1640; lacks items 1633,1638; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PASS_1ST_CERTIFICATE, FOOTPRINT_OF_THIEF) && !hasQuestItems(player, STOLEN_SECRET_BOX))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/30298-07.html",
+     "when": "state STARTED; has items 1633,1634,1641; lacks items 1633,1638,1639,1640; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PASS_1ST_CERTIFICATE, FOOTPRINT_OF_THIEF) && !hasQuestItems(player, STOLEN_SECRET_BOX))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "708": {
+   "name": "Path To Becoming A Lord - Gludio",
+   "listText": [
+    "[Path to Becoming a Lord - Gludio]",
+    "[Path to Becoming a Lord - Gludio (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00708_PathToBecomingALordGludio/30298-02.html",
+     "when": "state STARTED; !npc.isMyLord(player); qsLeader != null; qsLeader.hasMemoState(); qsLeader.getMemoState() <= 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/30298-03.html",
+     "when": "state STARTED; memo 4; !npc.isMyLord(player); qsLeader != null; !(qsLeader.hasMemoState() && (qsLeader.getMemoState() <= 3)); player.getObjectId() == qs.getMemoStateEx(1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/30298-03a.html",
+     "when": "state STARTED; memo 4; !npc.isMyLord(player); qsLeader != null; !(qsLeader.hasMemoState() && (qsLeader.getMemoState() <= 3)); !player.getObjectId() == qs.getMemoStateEx(1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/30298-08.html",
+     "when": "state STARTED; item 1867 >= 100; item 1865 >= 100; item 1869 >= 100; item 1879 >= 50; !npc.isMyLord(player); qsLeader != null; !(qsLeader.hasMemoState() && (qsLeader.getMemoState() <= 3)); (qsLeader.getMemoState() % 10) == 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/30298-07.html",
+     "when": "state STARTED; !npc.isMyLord(player); qsLeader != null; !(qsLeader.hasMemoState() && (qsLeader.getMemoState() <= 3)); (qsLeader.getMemoState() % 10) == 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/30298-12.html",
+     "when": "state STARTED; !npc.isMyLord(player); qsLeader != null; !(qsLeader.hasMemoState() && (qsLeader.getMemoState() <= 3)); !(qsLeader.getMemoState() % 10) == 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/30298-01.html",
+     "when": "state STARTED; !npc.isMyLord(player); !qsLeader != null",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/30298-13.html",
+     "when": "state STARTED; npc.isMyLord(player); npc.isMyLord(player)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30298.htm": {
+   "file": "trainer/30298.htm",
+   "quest": null,
+   "text": "Blacksmith Pinter: Welcome. What brings you here? My name's Pinter, and I'm one of the proud dwarves who has carried on this family business for three generations now! I'm sure I can do anything you ask.",
+   "header": "Blacksmith Pinter",
+   "links": [
+    {
+     "text": "Craft a dualsword",
+     "bypass": "npc_%objectId%_Link common/duals_01.htm",
+     "kind": "page",
+     "to": "common/duals_01.htm"
+    },
+    {
+     "text": "Bestow special ability on a weapon",
+     "bypass": "npc_%objectId%_Link common/weapon_sa_01.htm",
+     "kind": "page",
+     "to": "common/weapon_sa_01.htm"
+    },
+    {
+     "text": "Craft an item",
+     "bypass": "npc_%objectId%_Link common/crafting_01.htm",
+     "kind": "page",
+     "to": "common/crafting_01.htm"
+    },
+    {
+     "text": "Seal/Unseal armor and accessories",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "trainer/30298-4.htm"
+    },
+    {
+     "text": "Augment an item",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "trainer/30298-5.htm"
+    },
+    {
+     "text": "Learn skills",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about skill enchantment",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "View information about the lord and tax rate",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30298-1.htm": {
+   "file": "trainer/30298-1.htm",
+   "quest": null,
+   "text": "Blacksmith Pinter: Welcome. What brings you here? My name's Pinter, and I'm one of the proud dwarves who has carried on this family business for three generations now! I'm sure I can do anything you ask.",
+   "header": "Blacksmith Pinter",
+   "links": [
+    {
+     "text": "Craft a dualsword",
+     "bypass": "npc_%objectId%_Link common/duals_01.htm",
+     "kind": "page",
+     "to": "common/duals_01.htm"
+    },
+    {
+     "text": "Bestow special ability on a weapon",
+     "bypass": "npc_%objectId%_Link common/weapon_sa_01.htm",
+     "kind": "page",
+     "to": "common/weapon_sa_01.htm"
+    },
+    {
+     "text": "Craft an item",
+     "bypass": "npc_%objectId%_Link common/crafting_01.htm",
+     "kind": "page",
+     "to": "common/crafting_01.htm"
+    },
+    {
+     "text": "Seal/Unseal armor and accessories",
+     "bypass": "npc_%objectId%_Link trainer/30298-4.htm",
+     "kind": "page",
+     "to": "trainer/30298-4.htm"
+    },
+    {
+     "text": "Augment an item",
+     "bypass": "npc_%objectId%_Link trainer/30298-5.htm",
+     "kind": "page",
+     "to": "trainer/30298-5.htm"
+    },
+    {
+     "text": "Purchase Academy equipment.",
+     "bypass": "npc_%objectId%_multisell 620",
+     "kind": "multisell"
+    },
+    {
+     "text": "Learn skills",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "View information about the lord and tax rate",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30298-4.htm": {
+   "file": "trainer/30298-4.htm",
+   "quest": null,
+   "text": "Blacksmith Pinter: You wish to remove seals on gloves, boots, or accessories? Just say the word.",
+   "header": "Blacksmith Pinter",
+   "links": [
+    {
+     "text": "Release seal on B-grade gloves and boots.",
+     "bypass": "npc_%objectId%_exc_multisell 1002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Put seal back on B-grade gloves and boots.",
+     "bypass": "npc_%objectId%_exc_multisell 1003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Release seal on A-grade armor.",
+     "bypass": "npc_%objectId%_exc_multisell 311262506",
+     "kind": "multisell"
+    },
+    {
+     "text": "Release seal on A-grade accessory.",
+     "bypass": "npc_%objectId%_exc_multisell 311262507",
+     "kind": "multisell"
+    },
+    {
+     "text": "Put seal back on A-grade armor.",
+     "bypass": "npc_%objectId%_exc_multisell 311262508",
+     "kind": "multisell"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30298.htm"
+    }
+   ]
+  },
+  "trainer/30298-5.htm": {
+   "file": "trainer/30298-5.htm",
+   "quest": null,
+   "text": "Blacksmith Pinter: You wish to augment an item? Well, you've come to the right place!",
+   "header": "Blacksmith Pinter",
+   "links": [
+    {
+     "text": "Augment an item",
+     "bypass": "npc_%objectId%_Link common/augmentation_01.htm",
+     "kind": "page",
+     "to": "common/augmentation_01.htm"
+    },
+    {
+     "text": "Remove Augment",
+     "bypass": "npc_%objectId%_Link common/augmentation_02.htm",
+     "kind": "page",
+     "to": "common/augmentation_02.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30298.htm"
+    }
+   ]
+  },
+  "trainer/30298-noteach.htm": {
+   "file": "trainer/30298-noteach.htm",
+   "quest": null,
+   "text": "Blacksmith Pinter: Hmm, I cannot teach you. I only teach Dwarf Fighters and Artisans. Screw your head on straight and go find the right Master for you.",
+   "header": "Blacksmith Pinter",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-02b.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-02b.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Hmm, how strange...!? You should've already gotten the special Armor for Academy members from Blacksmith Newyear in Schuttgart! (Characters who have undertaken 'To Lead and Be Led' are not permitted to take on this quest.)",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state CREATED|STARTED; q123 != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-02a.htm": {
+   "file": "Q00118_ToLeadAndBeLed/30298-02a.htm",
+   "quest": 118,
+   "text": "Blacksmith Pinter: It seems you've already gotten some of the special Armor for Academy members from Blacksmith Newyear in Schuttgart! (Characters who have undertaken 'To Lead and Be Led' are not permitted to take on this quest.)",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state CREATED|COMPLETED; !((q123 != null) && q123.isStarted()); q123 != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-01.htm": {
+   "file": "Q00118_ToLeadAndBeLed/30298-01.htm",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Have you heard? A new type of Armor has been designed exclusively for members of the Clan Academy ! Do you want some? I'd be happy to make it for you, just say the word!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state CREATED; level >= 19; !((q123 != null) && q123.isStarted()); !((q123 != null) && q123.isCompleted()); player.getPledgeType() == -1; player.getSponsor() > 0"
+   ],
+   "links": [
+    {
+     "text": "\"Please make some new Armor for me.\"",
+     "bypass": "Quest Q00118_ToLeadAndBeLed 30298-03.htm",
+     "kind": "quest-event",
+     "script": "Q00118_ToLeadAndBeLed",
+     "event": "30298-03.htm",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00118_ToLeadAndBeLed/30298-02.htm": {
+   "file": "Q00118_ToLeadAndBeLed/30298-02.htm",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Have you heard? A new type of Armor has been designed exclusively for members of the Clan Academy ! Do you want some? Uh oh, it seems you're not ready for it yet... (This quest is limited to sponsored Clan Academy members of level 19 and above.)",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state CREATED; !((q123 != null) && q123.isStarted()); !((q123 != null) && q123.isCompleted()); !((player.getLevel() >= MIN_LEVEL) && (player.getPledgeType() == -1) && (player.getSponsor() > 0))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-04.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-04.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: You must slaughter the Maille Lizardmen and their Scouts and Guards in the Maille Lizardman Barracks and bring me 10 bottles of their blood . I can't make the special Armor without it! Get going!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; memo 1; !hasItemsAtLimit(player, BLOOD_OF_MAILLE_LIZARDMAN)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-05.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-05.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Good job! Now I'll need some Crystals: D-Gra... Oh, I'm getting ahead of myself! What kind of Armor is it that you want?",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; memo 1; hasItemsAtLimit(player, BLOOD_OF_MAILLE_LIZARDMAN)"
+   ],
+   "links": [
+    {
+     "text": "Heavy Armor",
+     "bypass": "Quest Q00118_ToLeadAndBeLed 30298-05a.html",
+     "kind": "quest-event",
+     "script": "Q00118_ToLeadAndBeLed",
+     "event": "30298-05a.html",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-05a.html"
+    },
+    {
+     "text": "Light Armor",
+     "bypass": "Quest Q00118_ToLeadAndBeLed 30298-05b.html",
+     "kind": "quest-event",
+     "script": "Q00118_ToLeadAndBeLed",
+     "event": "30298-05b.html",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-05b.html"
+    },
+    {
+     "text": "Robe",
+     "bypass": "Quest Q00118_ToLeadAndBeLed 30298-05c.html",
+     "kind": "quest-event",
+     "script": "Q00118_ToLeadAndBeLed",
+     "event": "30298-05c.html",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-05c.html"
+    }
+   ]
+  },
+  "Q00118_ToLeadAndBeLed/30298-06a.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-06a.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Go and ask your Sponsor to bring me 922 D-Grade Crystals! Stop whining! I'm not running a charity here! What? You don't have a Sponsor? Why the hell didn't you say something earlier? Come back when you're sponsored!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; memo 2; player.getSponsor() == 0; qs.getMemoStateEx(1) == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-06b.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-06b.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Go and ask your Sponsor to bring me 771 D-Grade Crystals. Stop whining! I'm not running a charity here! What? You don't have a Sponsor? Why the hell didn't you say something earlier? Come back when you're sponsored!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; memo 2; player.getSponsor() == 0; !qs.getMemoStateEx(1) == 1; qs.getMemoStateEx(1) == 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-06c.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-06c.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Go and ask your Sponsor to bring me 771 D-Grade Crystals. Stop whining! I'm not running a charity here! What? You don't have a Sponsor? Why the hell didn't you say something earlier? Come back when you're sponsored!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; memo 2; player.getSponsor() == 0; !qs.getMemoStateEx(1) == 1; !qs.getMemoStateEx(1) == 2; qs.getMemoStateEx(1) == 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-07.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-07.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Hmmm, did you bring your Sponsor? Well, who is it? Tell him to come and see me!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; memo 2; !player.getSponsor() == 0; Util.checkIfInRange(1500, npc, sponsor, true)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-06.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-06.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Go and ask your Sponsor to bring me 922 D-Grade Crystals . Stop whining! I'm not running a charity here! By the way... You must return with your Sponsor . How else will I know who to make the Armor for?",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; memo 2; !player.getSponsor() == 0; !Util.checkIfInRange(1500, npc, sponsor, true); qs.getMemoStateEx(1) == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-06d.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-06d.html",
+   "quest": 118,
+   "text": "Go and ask your Sponsor to bring 771 D-Grade Crystals . Stop whining! I'm not running a charity here! Oh, by the way... You've got to come back with your Sponsor ! How else will I know who to make the Armor for?",
+   "when": [
+    "state STARTED; memo 2; !player.getSponsor() == 0; !Util.checkIfInRange(1500, npc, sponsor, true); !qs.getMemoStateEx(1) == 1; qs.getMemoStateEx(1) == 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-06e.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-06e.html",
+   "quest": 118,
+   "text": "Go and ask your Sponsor to bring 771 D-Grade Crystals . Stop whining! I'm not running a charity here! Oh, by the way... You've got to come back with your Sponsor ! How else will I know who he's sponsoring?",
+   "when": [
+    "state STARTED; memo 2; !player.getSponsor() == 0; !Util.checkIfInRange(1500, npc, sponsor, true); !qs.getMemoStateEx(1) == 1; !qs.getMemoStateEx(1) == 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-15.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-15.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Well, I have all the ingredients I need, but I have one more favor to ask of you... I want to test the bond between you and your Sponsor. Go to the Maille Lizardmen Barracks and defeat the King of the Araneid and bring me all 8 of his legs ! Also, you must defeat the King of the …",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-16.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-16.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Go to the Maille Lizardmen Barracks and defeat the King of the Araneid and bring me his 8 legs . You must defeat him while your Sponsor looks on ! This of this as an opportunity to prove yourself to him! Naturally, if you get in trouble, he'll be there to help you! This experienc…",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; memo 4; !hasItemsAtLimit(player, LEG_OF_KING_ARANEID)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-17.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-17.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Hmmm? What do you think? Was your Sponsor impressed? Good! Here's your Armor, as promised! Wear it in good health, my friend!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; memo 4; hasItemsAtLimit(player, LEG_OF_KING_ARANEID)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30298-02.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30298-02.html",
+   "quest": 216,
+   "text": "Blacksmith Pinter: Trial of the Guildsman? Deco beads? Hey, everyone has problems, I've got mine, too! I am swamped with too much work! 30 Mithril Breastplates and 30 Bastard Swords! The dogs of war are howling! How can I possibly finish all of this?",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; has items 3122,3124"
+   ],
+   "links": [
+    {
+     "text": "Help him",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30298-03.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30298-03.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30298-03.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30298-06.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30298-06.html",
+   "quest": 216,
+   "text": "Blacksmith Pinter: How many beads have you collected? That is not enough! Are you sure that you are looking in the Wastelands? Hurry and collect 70 Amber Beads . I will see to the preparations for making the decoration bead. Hurry back with the beads!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; has items 3122,3135; lacks items 3124; !hasItemsAtLimit(player, AMBER_BEAD)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30298-07.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30298-07.html",
+   "quest": 216,
+   "text": "Blacksmith Pinter: Good job! Aren't they beautiful! First separate 50 of them...! Now, shall I start? I will drill these and make splendid Journeyman Decoration Beads . OK, all done! Here are your beads. Good luck!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; has items 3122,3135; lacks items 3124; hasItemsAtLimit(player, AMBER_BEAD)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30298-08.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30298-08.html",
+   "quest": 216,
+   "text": "Blacksmith Pinter: Good luck on the Trial of Guild, my friend! Could I bother you for a drink if you are passing by? I will pay if you can't, ha ha. I have much work to do, and little time to do it.",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; has items 3122,3138,3139; lacks items 3124,3135"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30298-01.html": {
+   "file": "Q00418_PathOfTheArtisan/30298-01.html",
+   "quest": 418,
+   "text": "Blacksmith Pinter: Ah, this letter! Have you really brought this from Kluto? It is beyond my power, what should I do ...",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; has items 1633,1638; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "What is the matter?",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30298-02.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30298-02.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30298-02.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30298-04.html": {
+   "file": "Q00418_PathOfTheArtisan/30298-04.html",
+   "quest": 418,
+   "text": "Blacksmith Pinter: I see you have not found the stolen item yet. Please hurry and find it. My life depends upon your success. You know who the thieves are, right? We strongly suspect the Vuku Orc Fighters . Hurry and catch them!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; has items 1633,1639; lacks items 1633,1638,1640; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30298-05.html": {
+   "file": "Q00418_PathOfTheArtisan/30298-05.html",
+   "quest": 418,
+   "text": "Blacksmith Pinter: Yes, this is it! Thank you so much. Let me look it over once more, then I hope you will take it to Kluto .",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; has items 1633,1639,1640; lacks items 1633,1638; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PASS_1ST_CERTIFICATE, FOOTPRINT_OF_THIEF) && !hasQuestItems(player, STOLEN_SECRET_BOX))"
+   ],
+   "links": [
+    {
+     "text": "Look here, shouldn't my efforts receive some kind of compensation?",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30298-06.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30298-06.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30298-06.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30298-07.html": {
+   "file": "Q00418_PathOfTheArtisan/30298-07.html",
+   "quest": 418,
+   "text": "Blacksmith Pinter: Go and take the item to him. Isn't that enough compensation? I tell you again, this task is an absolute secret. If things go wrong, I'll be ruined for the rest of my life!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; has items 1633,1634,1641; lacks items 1633,1638,1639,1640; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PASS_1ST_CERTIFICATE, FOOTPRINT_OF_THIEF) && !hasQuestItems(player, STOLEN_SECRET_BOX))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30298-02.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-02.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: Aren't you a member of the Gludio Castle Clan? What brings you here? I'm very busy, so unless it's important, leave me alone!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; !npc.isMyLord(player); qsLeader != null; qsLeader.hasMemoState(); qsLeader.getMemoState() <= 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30298-03.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-03.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: Aren't you a member of the Gludio Castle Clan? What brings you here? I'm very busy, so unless it's important, leave me alone!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; memo 4; !npc.isMyLord(player); qsLeader != null; !(qsLeader.hasMemoState() && (qsLeader.getMemoState() <= 3)); player.getObjectId() == qs.getMemoStateEx(1)"
+   ],
+   "links": [
+    {
+     "text": "\"I've come to solve your problem.\"",
+     "bypass": "Quest Q00708_PathToBecomingALordGludio 30298-04.html",
+     "kind": "quest-event",
+     "script": "Q00708_PathToBecomingALordGludio",
+     "event": "30298-04.html",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/30298-04.html"
+    }
+   ]
+  },
+  "Q00708_PathToBecomingALordGludio/30298-03a.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-03a.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: Aren't you a member of the Gludio Castle Clan? What brings you here? I'm very busy, so unless it's important, leave me alone! (This quest may only be undertaken by castle clan members designated as stewards.)",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; memo 4; !npc.isMyLord(player); qsLeader != null; !(qsLeader.hasMemoState() && (qsLeader.getMemoState() <= 3)); !player.getObjectId() == qs.getMemoStateEx(1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30298-08.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-08.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: Were you able to obtain the materials that I requested? If so, please give them to me. Our work cannot be halted even for a single day.",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; item 1867 >= 100; item 1865 >= 100; item 1869 >= 100; item 1879 >= 50; !npc.isMyLord(player); qsLeader != null; !(qsLeader.hasMemoState() && (qsLeader.getMemoState() <= 3)); (qsLeader.getMemoState() % 10) == 5"
+   ],
+   "links": [
+    {
+     "text": "Give him the materials.",
+     "bypass": "Quest Q00708_PathToBecomingALordGludio 30298-09.html",
+     "kind": "quest-event",
+     "script": "Q00708_PathToBecomingALordGludio",
+     "event": "30298-09.html",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/30298-09.html",
+     "toAll": [
+      "Q00708_PathToBecomingALordGludio/30298-09.html",
+      "Q00708_PathToBecomingALordGludio/30298-10.html",
+      "Q00708_PathToBecomingALordGludio/30298-11.html"
+     ]
+    }
+   ]
+  },
+  "Q00708_PathToBecomingALordGludio/30298-07.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-07.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: What are you doing? Unless you supply us with materials, the reconstruction work will have to stop. We are relying on you. Don't let us down! You do know what's needed, right? The materials that we need now are 100 pieces of animal skin, 100 varnish, 100 iron ore, and 50 cokes .",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; !npc.isMyLord(player); qsLeader != null; !(qsLeader.hasMemoState() && (qsLeader.getMemoState() <= 3)); (qsLeader.getMemoState() % 10) == 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30298-12.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-12.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: Thanks to you, our reconstruction work went smoothly. Thank you, my friend!",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; !npc.isMyLord(player); qsLeader != null; !(qsLeader.hasMemoState() && (qsLeader.getMemoState() <= 3)); !(qsLeader.getMemoState() % 10) == 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30298-01.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-01.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: Aren't you a member of the Gludio Castle Clan? What brings you here? I'm very busy, so unless it's important, leave me alone! (You can continue only if the castle lord is logged on.)",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; !npc.isMyLord(player); !qsLeader != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30298-13.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-13.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: Why has someone like you come looking for someone like me? (Only stewards designated by the lord may undertake this quest.)",
+   "header": "Blacksmith Pinter",
+   "when": [
+    "state STARTED; npc.isMyLord(player); npc.isMyLord(player)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-03.htm": {
+   "file": "Q00118_ToLeadAndBeLed/30298-03.htm",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Oh really? Nothing in life is free, my friend! This will be no exception! You may as well get ready to pay through the nose for every little piece of material I need! Ha! That look on your face is priceless! You won't find this stuff easily, I can promise you that! Nothing I need…",
+   "header": "Blacksmith Pinter",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-05a.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-05a.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Heavy Armor, eh? Make sure that's what you want, because once I get started, there's no turning back!",
+   "header": "Blacksmith Pinter",
+   "links": [
+    {
+     "text": "\"I want Heavy Armor.\"",
+     "bypass": "Quest Q00118_ToLeadAndBeLed 30298-05d.html",
+     "kind": "quest-event",
+     "script": "Q00118_ToLeadAndBeLed",
+     "event": "30298-05d.html",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-05d.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "\"I need to think about it some more.\"",
+     "bypass": "Quest Q00118_ToLeadAndBeLed 30298-05g.html",
+     "kind": "quest-event",
+     "script": "Q00118_ToLeadAndBeLed",
+     "event": "30298-05g.html",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-05g.html"
+    }
+   ]
+  },
+  "Q00118_ToLeadAndBeLed/30298-05b.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-05b.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Light Armor, eh? Make sure that's what you want, because once I start making it, there's no going back!",
+   "header": "Blacksmith Pinter",
+   "links": [
+    {
+     "text": "\"I want Light Armor.\"",
+     "bypass": "Quest Q00118_ToLeadAndBeLed 30298-05e.html",
+     "kind": "quest-event",
+     "script": "Q00118_ToLeadAndBeLed",
+     "event": "30298-05e.html",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-05e.html",
+     "effect": "cond:4"
+    },
+    {
+     "text": "\"I need to think about it some more.\"",
+     "bypass": "Quest Q00118_ToLeadAndBeLed 30298-05g.html",
+     "kind": "quest-event",
+     "script": "Q00118_ToLeadAndBeLed",
+     "event": "30298-05g.html",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-05g.html"
+    }
+   ]
+  },
+  "Q00118_ToLeadAndBeLed/30298-05c.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-05c.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Robe Armor, eh? Make sure that's what you want, because once I start making it, there's no going back!",
+   "header": "Blacksmith Pinter",
+   "links": [
+    {
+     "text": "\"I want Robe Armor.\"",
+     "bypass": "Quest Q00118_ToLeadAndBeLed 30298-05f.html",
+     "kind": "quest-event",
+     "script": "Q00118_ToLeadAndBeLed",
+     "event": "30298-05f.html",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-05f.html",
+     "effect": "cond:5"
+    },
+    {
+     "text": "\"I need to think about it some more.\"",
+     "bypass": "Quest Q00118_ToLeadAndBeLed 30298-05g.html",
+     "kind": "quest-event",
+     "script": "Q00118_ToLeadAndBeLed",
+     "event": "30298-05g.html",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-05g.html"
+    }
+   ]
+  },
+  "Q00118_ToLeadAndBeLed/30298-05d.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-05d.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Heavy Armor it is, then! I'll need some D-Grade Crystals, but I know better than to ask a lightweight like you to bring them to me! Tell your Sponsor to bring me 922 D-Grade Crystals . Stop whining! I'm not running a charity here! Oh, by the way... You've got to come back with yo…",
+   "header": "Blacksmith Pinter",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-05e.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-05e.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Now I can get started making the Light Armor! I'll need some D-Grade Crystals, but I know better than to ask a lightweight like you to bring them to me! Go and ask your Sponsor to bring me 771 D-Grade Crystals . Stop whining! I'm not running a charity here! Oh, by the way... You'…",
+   "header": "Blacksmith Pinter",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-05f.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-05f.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Now I can get started making Robe Armor. I'll need some D-Grade Crystals, but I know better than to ask a lightweight like you to bring them to me! Have your Sponsor bring me 771 D-Grade Crystals. Stop whining! I'm not running a charity here! Oh, by the way... You've got to come …",
+   "header": "Blacksmith Pinter",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-05g.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-05g.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: You need to think about it? Fine! Let me know what you decide!",
+   "header": "Blacksmith Pinter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-08.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-08.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Oh, you're back! Did you bring what I asked for?",
+   "header": "Blacksmith Pinter",
+   "links": [
+    {
+     "text": "\"Here are the D-Grade Crystals.\"",
+     "bypass": "Quest Q00118_ToLeadAndBeLed 30298-10.html",
+     "kind": "quest-event",
+     "script": "Q00118_ToLeadAndBeLed",
+     "event": "30298-10.html",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-10.html",
+     "toAll": [
+      "Q00118_ToLeadAndBeLed/30298-10.html",
+      "Q00118_ToLeadAndBeLed/30298-11.html",
+      "Q00118_ToLeadAndBeLed/30298-11a.html"
+     ],
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00118_ToLeadAndBeLed/30298-09.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-09.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: You claim to be a Sponsor, but you stand here alone! How am I to know who you've sponsored? Bring your apprentice with you next time!",
+   "header": "Blacksmith Pinter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-10.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-10.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Ah yes, thank you! Now, I'd like to speak with your apprentice.",
+   "header": "Blacksmith Pinter",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-11.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-11.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: This isn't enough! Bring me 922 D-Grade Crystals .",
+   "header": "Blacksmith Pinter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-11a.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-11a.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: This isn't enough! Bring me 771 D-Grade Crystals .",
+   "header": "Blacksmith Pinter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-12.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-12.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Now I'd like to speak with your apprentice.",
+   "header": "Blacksmith Pinter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00118_ToLeadAndBeLed/30298-14.html": {
+   "file": "Q00118_ToLeadAndBeLed/30298-14.html",
+   "quest": 118,
+   "text": "Blacksmith Pinter: Stop wasting my time! I have nothing to say to you!",
+   "header": "Blacksmith Pinter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30298-03.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30298-03.html",
+   "quest": 216,
+   "text": "Blacksmith Pinter: Stop whining! You sound like a spoiled child! You say you need a Journeyman Deco Bead? To make that we need Amber Beads . I don't have any of these. I must cast a spell on Elmore's side... It will take a few weeks..",
+   "header": "Blacksmith Pinter",
+   "links": [
+    {
+     "text": "\"I'll find it by myself.\"",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30298-04.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30298-04.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30298-04.html",
+     "toAll": [
+      "Q00216_TrialOfTheGuildsman/30298-04.html",
+      "Q00216_TrialOfTheGuildsman/30298-05.html"
+     ]
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30298-04.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30298-04.html",
+   "quest": 216,
+   "text": "Blacksmith Pinter: You think you can get the Amber Beads by yourself...? Oho! Indeed you are a Scavenger! I can tell you where to look. There are giant ants living in the Wastelands , in the southern part of Gludio. They mine the Amber Beads, which are plentiful there. To get the beads you must kil…",
+   "header": "Blacksmith Pinter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30298-05.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30298-05.html",
+   "quest": 216,
+   "text": "Blacksmith Pinter: You think you can get the Amber Beads by yourself? Oho! You are not even a Scavenger! Oh, well, if you want to try I can tell you where to find them.. There are giant ants living in the Wastelands , in the southern part of Gludio. They mine the Amber Beads which are plentiful in …",
+   "header": "Blacksmith Pinter",
+   "links": [
+    {
+     "text": "Ask about the recipe.",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30298-05a.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30298-05a.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30298-05a.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30298-05a.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30298-05a.html",
+   "quest": 216,
+   "text": "Blacksmith Pinter: You will find Amber Lump after killing the worker ants. If you grind the Amber Lump as in this recipe, you can make 5 Amber Beads. Good luck!",
+   "header": "Blacksmith Pinter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30298-02.html": {
+   "file": "Q00418_PathOfTheArtisan/30298-02.html",
+   "quest": 418,
+   "text": "Blacksmith Pinter: Actually, Kluto asked me for something before... I kept it hidden in the corner of the blacksmith's shop for a long time, but oh dear, the item has been stolen! If I don't have it, Kluto will be terribly angry... he may seem like a gentleman but he has a temper like fire. When he…",
+   "header": "Blacksmith Pinter",
+   "links": [
+    {
+     "text": "I will find it",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30298-03.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30298-03.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30298-03.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30298-03.html": {
+   "file": "Q00418_PathOfTheArtisan/30298-03.html",
+   "quest": 418,
+   "text": "Blacksmith Pinter: Are you sure? Could you do that? If so, I can give you one clue. This is a footprint that was discovered on the floor of the blacksmith shop on the night of the robbery. I think that it is probably the footprint of the thief. Looking at the footprint, there is no doubt that it is…",
+   "header": "Blacksmith Pinter",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30298-06.html": {
+   "file": "Q00418_PathOfTheArtisan/30298-06.html",
+   "quest": 418,
+   "text": "Blacksmith Pinter: Compensation ... right. Dwarves do not operate without something in return ... Hmm, what would you like? Ah, you are in the midst of taking the test of the Artisan, aren't you? If that is so, then I will give you this. However, you must not tell anyone what you have done. If this…",
+   "header": "Blacksmith Pinter",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30298-04.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-04.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: Ha ha ha! You want to help us? You do know the current situation of Gludio Territory, right? Destruction is everywhere; a great deal is needed if we are to rebuild. Oh, I'm sure you already know all -- what did you have in mind?",
+   "header": "Blacksmith Pinter",
+   "links": [
+    {
+     "text": "\"We've come to do whatever we can to help you.\"",
+     "bypass": "Quest Q00708_PathToBecomingALordGludio 30298-05.html",
+     "kind": "quest-event",
+     "script": "Q00708_PathToBecomingALordGludio",
+     "event": "30298-05.html",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/30298-05.html",
+     "toAll": [
+      "Q00708_PathToBecomingALordGludio/30298-05.html",
+      "Q00708_PathToBecomingALordGludio/30298-06.html"
+     ],
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00708_PathToBecomingALordGludio/30298-05.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-05.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: Well, I like your can-do attitude! We'll gladly accept your help. We were supposed to received some construction materials, but they are long overdue. Something must have happened. We must find out what's happened, but I can't spare anyone to investigate. Most importantly, we nee…",
+   "header": "Blacksmith Pinter",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30298-06.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-06.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: I like your can-do attitude! But do you really think your lord will allow this? (You can proceed only if the lord is in the game.)",
+   "header": "Blacksmith Pinter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30298-09.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-09.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: These materials will last us for a while. Thank you! We will never forget what you have done for us here. You have the makings of a wise ruler, in fact. Are you perhaps interested in working for our territory? No? Well then, I must return to my work and let you go back to yours.",
+   "header": "Blacksmith Pinter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30298-10.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-10.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: Where are the materials I asked you for? Please obtain them quickly!",
+   "header": "Blacksmith Pinter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/30298-11.html": {
+   "file": "Q00708_PathToBecomingALordGludio/30298-11.html",
+   "quest": 708,
+   "text": "Blacksmith Pinter: Did you get permission from your lord for this mission? Sorry to doubt you, but I need to be sure for both our sakes. (You can proceed only if the lord is in the game.)",
+   "header": "Blacksmith Pinter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[To Lead and Be Led]",
+     "bypass": "npc_%objectId%_Quest Q00118_ToLeadAndBeLed",
+     "kind": "quest",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-02b.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[To Lead and Be Led (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00118_ToLeadAndBeLed",
+     "kind": "quest",
+     "quest": 118,
+     "to": "Q00118_ToLeadAndBeLed/30298-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Trial of the Guildsman (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00216_TrialOfTheGuildsman",
+     "kind": "quest",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30298-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Artisan (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00418_PathOfTheArtisan",
+     "kind": "quest",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30298-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path to Becoming a Lord - Gludio (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00708_PathToBecomingALordGludio",
+     "kind": "quest",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/30298-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/duals_01.htm": {
+   "file": "common/duals_01.htm",
+   "quest": null,
+   "text": "Needless to say, in order to make a Dualsword, you first need two swords. They can be either Regular weapons, Standard weapons or Rare weapons. Regular weapons can only be combined with other Regular weapons, Standard weapons can only be combined with other Standard weapons, and Rare weapons can on…",
+   "links": [
+    {
+     "text": "View the list.",
+     "bypass": "npc_%objectId%_multisell 1001",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/weapon_sa_01.htm": {
+   "file": "common/weapon_sa_01.htm",
+   "quest": null,
+   "text": "Ah, so you wish to enhance your weapon! Well, it's the next-best thing to buying a new one, I say... But remember, a higher price doesn't necessarily mean a better product. There are many excellent weapons that are reasonably priced. As I'm sure you know, capabilities added to your weapon don't int…",
+   "live": {
+    "file": "Logs/npclive_Helton_e05f98c9.html",
+    "at": "2026-10-27T14:45:13.618Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "View list.",
+     "bypass": "npc_%objectId%_exc_multisell 1005",
+     "kind": "multisell",
+     "live": true
+    }
+   ]
+  },
+  "common/crafting_01.htm": {
+   "file": "common/crafting_01.htm",
+   "quest": null,
+   "text": "[Create ingredient item] Our Blacksmith Guild creates items at a very reasonable price. You may entrust your precious materials to our Blacksmiths. They have a long-standing tradition of integrity. We will do our best to serve you. The creation of the ingredient for A-grade items is the pride of ou…",
+   "links": [
+    {
+     "text": "See the list.",
+     "bypass": "npc_%objectId%_multisell 1004",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/augmentation_01.htm": {
+   "file": "common/augmentation_01.htm",
+   "quest": null,
+   "text": "Augmenting means give energy to weapons or accessories. Augmenting is simple, but it isn't always accurate. A few days ago, a mysterious ore called Life Stone, which has a very similar characteristic to Soul Crystals, was found in Black Anvil. If you bring this Life Stone and some other necessities…",
+   "links": [
+    {
+     "text": "Start augmenting.",
+     "bypass": "npc_%objectId%_Augment 1",
+     "kind": "other"
+    },
+    {
+     "text": "Exchange Life Stone for augmenting accesorries.",
+     "bypass": "npc_%objectId%_multisell 1008",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/augmentation_02.htm": {
+   "file": "common/augmentation_02.htm",
+   "quest": null,
+   "text": "You wish to remove the refined Life Stone? That's fine. But understand that this smelting method offers both improvement and potential penalties. It is difficult to restore the original weapon when removing the Life Stone. It requires a special chemical process and a special tool. It's also expensi…",
+   "links": [
+    {
+     "text": "Remove the refined Life Stone.",
+     "bypass": "npc_%objectId%_Augment 2",
+     "kind": "other"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,401 @@
+{
+ "npcId": 35555,
+ "name": "August",
+ "title": "Chamberlain",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.436Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35555-d.html": {
+   "file": "ai/npc/CastleChamberlain/35555-d.html",
+   "quest": null,
+   "text": "Outer castle gate is / Inner castle gate on the 1st floor is / Inner castle gate on the 2nd floor is / Entrance to the mooring is / All the castle gates are /",
+   "links": [
+    {
+     "text": "open.",
+     "bypass": "Quest CastleChamberlain operate_door 1 22130002 22130001",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 22130002 22130001",
+     "to": null
+    },
+    {
+     "text": "closed.",
+     "bypass": "Quest CastleChamberlain operate_door 0 22130002 22130001",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 22130002 22130001",
+     "to": null
+    },
+    {
+     "text": "open.",
+     "bypass": "Quest CastleChamberlain operate_door 1 22130007 22130006",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 22130007 22130006",
+     "to": null
+    },
+    {
+     "text": "closed.",
+     "bypass": "Quest CastleChamberlain operate_door 0 22130007 22130006",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 22130007 22130006",
+     "to": null
+    },
+    {
+     "text": "open.",
+     "bypass": "Quest CastleChamberlain operate_door 1 22130009 22130008",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 22130009 22130008",
+     "to": null
+    },
+    {
+     "text": "closed.",
+     "bypass": "Quest CastleChamberlain operate_door 0 22130009 22130008",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 22130009 22130008",
+     "to": null
+    },
+    {
+     "text": "open.",
+     "bypass": "Quest CastleChamberlain operate_door 1 22130015 22130014",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 22130015 22130014",
+     "to": null
+    },
+    {
+     "text": "closed.",
+     "bypass": "Quest CastleChamberlain operate_door 0 22130015 22130014",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 22130015 22130014",
+     "to": null
+    },
+    {
+     "text": "open.",
+     "bypass": "Quest CastleChamberlain operate_door 1 22130002 22130001 22130007 22130006 22130009 22130008 22130015 22130014",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 22130002 22130001 22130007 22130006 22130009 22130008 22130015 22130014",
+     "to": null
+    },
+    {
+     "text": "closed.",
+     "bypass": "Quest CastleChamberlain operate_door 0 22130002 22130001 22130007 22130006 22130009 22130008 22130015 22130014",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 22130002 22130001 22130007 22130006 22130009 22130008 22130015 22130014",
+     "to": null
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest CastleChamberlain chamberlain-01.html",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "chamberlain-01.html",
+     "to": "ai/npc/CastleChamberlain/chamberlain-01.html"
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35555-du.html": {
+   "file": "ai/npc/CastleChamberlain/35555-du.html",
+   "quest": null,
+   "text": "Door Reinforcement: The doors or walls of the castle are currently being reinforced. This will help defend against enemy attacks.",
+   "header": "Door Reinforcement",
+   "links": [
+    {
+     "text": "Outer Door Reinforcement",
+     "bypass": "bypass -h Quest CastleChamberlain manage_doors 1 22130002 22130001",
+     "kind": "other"
+    },
+    {
+     "text": "Inner Door Reinforcement 1F",
+     "bypass": "bypass -h Quest CastleChamberlain manage_doors 2 22130007 22130006",
+     "kind": "other"
+    },
+    {
+     "text": "Inner Door Reinforcement 2F",
+     "bypass": "bypass -h Quest CastleChamberlain manage_doors 2 22130009 22130008",
+     "kind": "other"
+    },
+    {
+     "text": "Wall Reinforcement",
+     "bypass": "bypass -h Quest CastleChamberlain manage_doors 3 22130005 22130004",
+     "kind": "other"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest CastleChamberlain chamberlain-01.html",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "chamberlain-01.html",
+     "to": "ai/npc/CastleChamberlain/chamberlain-01.html"
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35555-t1.html": {
+   "file": "ai/npc/CastleChamberlain/35555-t1.html",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Front Of Schuttgart Castle",
+     "bypass": "Quest CastleChamberlain goto 13063",
+     "kind": "quest-event",
+     "confirm": "811;Front Of Schuttgart Castle",
+     "script": "CastleChamberlain",
+     "event": "goto 13063",
+     "to": null
+    },
+    {
+     "text": "Schuttgart Town Square",
+     "bypass": "Quest CastleChamberlain goto 13064",
+     "kind": "quest-event",
+     "confirm": "811;Schuttgart Town Square",
+     "script": "CastleChamberlain",
+     "event": "goto 13064",
+     "to": null
+    },
+    {
+     "text": "Front of the Archaic Fortress",
+     "bypass": "Quest CastleChamberlain goto 13065",
+     "kind": "quest-event",
+     "confirm": "811;Front of the Archaic Fortress",
+     "script": "CastleChamberlain",
+     "event": "goto 13065",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35555-t2.html": {
+   "file": "ai/npc/CastleChamberlain/35555-t2.html",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Front Of Schuttgart Castle",
+     "bypass": "Quest CastleChamberlain goto 13063",
+     "kind": "quest-event",
+     "confirm": "811;Front Of Schuttgart Castle",
+     "script": "CastleChamberlain",
+     "event": "goto 13063",
+     "to": null
+    },
+    {
+     "text": "Schuttgart Town Square",
+     "bypass": "Quest CastleChamberlain goto 13064",
+     "kind": "quest-event",
+     "confirm": "811;Schuttgart Town Square",
+     "script": "CastleChamberlain",
+     "event": "goto 13064",
+     "to": null
+    },
+    {
+     "text": "Front of the Archaic Fortress",
+     "bypass": "Quest CastleChamberlain goto 13065",
+     "kind": "quest-event",
+     "confirm": "811;Front of the Archaic Fortress",
+     "script": "CastleChamberlain",
+     "event": "goto 13065",
+     "to": null
+    },
+    {
+     "text": "The Center of the Abandoned Coal Mines - 500",
+     "bypass": "Quest CastleChamberlain goto 13066",
+     "kind": "quest-event",
+     "confirm": "811;The Center of the Abandoned Coal Mines",
+     "script": "CastleChamberlain",
+     "event": "goto 13066",
+     "to": null
+    },
+    {
+     "text": "Plunderous Plains - 500",
+     "bypass": "Quest CastleChamberlain goto 13067",
+     "kind": "quest-event",
+     "confirm": "811;Plunderous Plains",
+     "script": "CastleChamberlain",
+     "event": "goto 13067",
+     "to": null
+    },
+    {
+     "text": "Den of Evil - 500",
+     "bypass": "Quest CastleChamberlain goto 13068",
+     "kind": "quest-event",
+     "confirm": "811;Den of Evil",
+     "script": "CastleChamberlain",
+     "event": "goto 13068",
+     "to": null
+    },
+    {
+     "text": "Ice Merchant Cabin - 500",
+     "bypass": "Quest CastleChamberlain goto 13069",
+     "kind": "quest-event",
+     "confirm": "811;Ice Merchant Cabin",
+     "script": "CastleChamberlain",
+     "event": "goto 13069",
+     "to": null
+    },
+    {
+     "text": "Crypts of Disgrace - 500",
+     "bypass": "Quest CastleChamberlain goto 13070",
+     "kind": "quest-event",
+     "confirm": "811;Crypts of Disgrace",
+     "script": "CastleChamberlain",
+     "event": "goto 13070",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35555-tu.html": {
+   "file": "ai/npc/CastleChamberlain/35555-tu.html",
+   "quest": null,
+   "text": "Activates a trap inside the castle. When activated, magic fire shoots from the trap, slowing those crossing it and engulfing them in flames. These flames will consume friends as well as foes. Used with great care, this is one of the most effective security devices available. Of course, it's not che…",
+   "links": [
+    {
+     "text": "Activate the trap near the east entrance of the 2nd floor.",
+     "bypass": "Quest CastleChamberlain manage_trap 0",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_trap 0",
+     "to": null
+    },
+    {
+     "text": "Activate the trap near the west entrance of the 2nd floor.",
+     "bypass": "Quest CastleChamberlain manage_trap 1",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_trap 1",
+     "to": null
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest CastleChamberlain chamberlain-01.html",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "chamberlain-01.html",
+     "to": "ai/npc/CastleChamberlain/chamberlain-01.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  },
+  "ai/npc/CastleChamberlain/chamberlain-01.html": {
+   "file": "ai/npc/CastleChamberlain/chamberlain-01.html",
+   "quest": null,
+   "text": "Greetings, my lord. How may I serve you today?",
+   "when": [
+    "(isOwner(player, npc))"
+   ],
+   "links": [
+    {
+     "text": "Receive report.",
+     "bypass": "Quest CastleChamberlain receive_report",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "receive_report",
+     "to": null
+    },
+    {
+     "text": "Adjust tax rate and confirm.",
+     "bypass": "Quest CastleChamberlain manage_tax",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_tax",
+     "to": null
+    },
+    {
+     "text": "Manage castle vault.",
+     "bypass": "Quest CastleChamberlain manage_vault",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_vault",
+     "to": null
+    },
+    {
+     "text": "Manage castle functions.",
+     "bypass": "Quest CastleChamberlain manage_functions",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_functions",
+     "to": null
+    },
+    {
+     "text": "Use castle functions.",
+     "bypass": "Quest CastleChamberlain functions",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "functions",
+     "to": null
+    },
+    {
+     "text": "View castle siege information.",
+     "bypass": "Quest CastleChamberlain list_siege_clans",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "list_siege_clans",
+     "to": null
+    },
+    {
+     "text": "View Territory War information.",
+     "bypass": "Quest CastleChamberlain list_territory_clans",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "list_territory_clans",
+     "to": null
+    },
+    {
+     "text": "Manage manor.",
+     "bypass": "Quest CastleChamberlain manor",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manor",
+     "to": null
+    },
+    {
+     "text": "Items",
+     "bypass": "Quest CastleChamberlain products",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "products",
+     "to": null
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  }
+ }
+}

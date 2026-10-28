@@ -1,0 +1,769 @@
+{
+ "npcId": 30210,
+ "name": "Norman",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.912Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30210.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "167": {
+   "name": "Dwarven Kinship",
+   "listText": [
+    "[Dwarven Kinship]",
+    "[Dwarven Kinship (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00167_DwarvenKinship/30210-01.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "216": {
+   "name": "Trial Of The Guildsman",
+   "listText": [
+    "[Trial of the Guildsman]",
+    "[Trial of the Guildsman (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30210-01.html",
+     "when": "state STARTED; has items 3122,3123",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30210-05.html",
+     "when": "state STARTED; has items 3122,3125,3126; lacks items 3123",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30210-06.html",
+     "when": "state STARTED; has items 3122,3125,3127; lacks items 3123,3125,3126",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30210-07.html",
+     "when": "state STARTED; has items 3122,3125; lacks items 3123,3125,3126,3127; item 3128 >= 30",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30210-12.html",
+     "when": "state STARTED; has items 3122,3129; lacks items 3123,3125,3126,3127; !(hasQuestItems(player, NORMANS_INSTRUCTIONS) && (getQuestItemsCount(player, DUNINGS_KEY) >= 30)); hasItemsAtLimit(player, GRAY_BONE_POWDER, GRANITE_WHETSTONE, RED_PIGMENT, BRAIDED_YARN)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30210-11.html",
+     "when": "state STARTED; has items 3122,3129; lacks items 3123,3125,3126,3127; !(hasQuestItems(player, NORMANS_INSTRUCTIONS) && (getQuestItemsCount(player, DUNINGS_KEY) >= 30)); !hasItemsAtLimit(player, GRAY_BONE_POWDER, GRANITE_WHETSTONE, RED_PIGMENT, BRAIDED_YARN)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00216_TrialOfTheGuildsman/30210-13.html",
+     "when": "state STARTED; has items 3122,3134,3139; lacks items 3123,3125,3126,3127,3129; !(hasQuestItems(player, NORMANS_INSTRUCTIONS) && (getQuestItemsCount(player, DUNINGS_KEY) >= 30))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "219": {
+   "name": "Testimony Of Fate",
+   "listText": [
+    "[Testimony of Fate]",
+    "[Testimony of Fate (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00219_TestimonyOfFate/30210-01.html",
+     "when": "state STARTED; has items 3186",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30210-02.html",
+     "when": "state STARTED; has items 3187; lacks items 3186",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30358-01.html",
+     "when": "state STARTED; has items 3189",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30358-02.html",
+     "when": "state STARTED; has items 3190,3191; lacks items 3189",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30358-03.html",
+     "when": "state STARTED; has items 3190,3192; lacks items 3189,3191",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30358-04.html",
+     "when": "state STARTED; has items 3190,3202; lacks items 3189,3191,3192",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "661": {
+   "name": "Making the Harvest Grounds Safe",
+   "listText": [
+    "[Making the Harvest Grounds Safe]",
+    "[Making the Harvest Grounds Safe (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00661_MakingTheHarvestGroundsSafe/30210-01.htm",
+     "when": "state CREATED; (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00661_MakingTheHarvestGroundsSafe/30210-02.htm",
+     "when": "state CREATED; NOT (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00661_MakingTheHarvestGroundsSafe/30210-04.html",
+     "when": "state STARTED; has items 8283,8284,8285",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00661_MakingTheHarvestGroundsSafe/30210-05.html",
+     "when": "state STARTED; lacks items 8283,8284,8285",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30210.htm": {
+   "file": "warehouse/30210.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Norman: Welcome to the Iron Gate Guild, adventurer. Nothing can compare to us in size, scope or security. Because we are the best and largest warehouse consortium on the continent, you can deposit any important item here without worry.",
+   "header": "Warehouse Keeper Norman",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/30210-1.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/30210-2.htm"
+    },
+    {
+     "text": "Learn Skills",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30210-1.htm": {
+   "file": "warehouse/30210-1.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Norman:",
+   "header": "Warehouse Keeper Norman",
+   "links": [
+    {
+     "text": "Deposit an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30210.htm"
+    }
+   ]
+  },
+  "warehouse/30210-2.htm": {
+   "file": "warehouse/30210-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Norman:",
+   "header": "Warehouse Keeper Norman",
+   "links": [
+    {
+     "text": "Deposit an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30210.htm"
+    }
+   ]
+  },
+  "warehouse/30210-noteach.htm": {
+   "file": "warehouse/30210-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Nornman: Where's your head? I only teach Dwarven fighters, scavengers and bounty hunters. If you are an artisan, get thee to a blacksmithy!",
+   "header": "Warehouse Keeper Nornman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00167_DwarvenKinship/30210-01.html": {
+   "file": "Q00167_DwarvenKinship/30210-01.html",
+   "quest": 167,
+   "text": "Warehouse Keeper Norman: Hmm, a letter from my wife? What? But I'm not married ... Ah! Yes! A letter from my dear wife ...! Oh, how I've waited for this ...! Thank you!",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "Is it something like a guild financial statement now?",
+     "bypass": "Quest Q00167_DwarvenKinship 30210-02.html",
+     "kind": "quest-event",
+     "script": "Q00167_DwarvenKinship",
+     "event": "30210-02.html",
+     "quest": 167,
+     "to": "Q00167_DwarvenKinship/30210-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30210-01.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-01.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: I have no idea what Altran told you, but I am too busy these days to keep you company.",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state STARTED; has items 3122,3123"
+   ],
+   "links": [
+    {
+     "text": "Please help me.",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30210-02.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30210-02.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30210-02.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30210-05.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-05.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: Please visit Blacksmith Duning of Hunters Village and fetch the keys that I have ordered. Please hurry.",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state STARTED; has items 3122,3125,3126; lacks items 3123"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30210-06.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-06.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: What? He lost the keys? How does that idiot expect me to use the locks without keys? I intend to report this to the Guild Association right away! Go back to Duning of Hunters Village and find out more about the lost keys. Let's see what his excuse is!",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state STARTED; has items 3122,3125,3127; lacks items 3123,3125,3126"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30210-07.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-07.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: Thank you for your trouble. Now we will have to start changing the locks. I guess it will take quite a while to take care of 30 lockers each... Today will be another busy day. Now! Shall we get started!",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state STARTED; has items 3122,3125; lacks items 3123,3125,3126,3127; item 3128 >= 30"
+   ],
+   "links": [
+    {
+     "text": "Did you forget anything?",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30210-08.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30210-08.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30210-08.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30210-12.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-12.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: Good job! The hardest part is gathering the materials, the rest of it is simple! Believe it or not, when I was young... Oh! The jewels have already formed while we were talking! Here, look! It is a Journeyman Gem ! 7 of them altogether, right? Use them well.",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state STARTED; has items 3122,3129; lacks items 3123,3125,3126,3127; !(hasQuestItems(player, NORMANS_INSTRUCTIONS) && (getQuestItemsCount(player, DUNINGS_KEY) >= 30)); hasItemsAtLimit(player, GRAY_BONE_POWDER, GRANITE_WHETSTONE, RED_PIGMENT, BRAIDED_YARN)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30210-11.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-11.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: Hey, you! These are not enough materials! It can't be... You didn't forget what materials I requested, did you?",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state STARTED; has items 3122,3129; lacks items 3123,3125,3126,3127; !(hasQuestItems(player, NORMANS_INSTRUCTIONS) && (getQuestItemsCount(player, DUNINGS_KEY) >= 30)); !hasItemsAtLimit(player, GRAY_BONE_POWDER, GRANITE_WHETSTONE, RED_PIGMENT, BRAIDED_YARN)"
+   ],
+   "links": [
+    {
+     "text": "Ask about the materials",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30210-11a.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30210-11a.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30210-11a.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30210-13.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-13.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: Hey, you shouldn't be lazing around like that. You should hurry and make the rings in order to pass the exam!",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state STARTED; has items 3122,3134,3139; lacks items 3123,3125,3126,3127,3129; !(hasQuestItems(player, NORMANS_INSTRUCTIONS) && (getQuestItemsCount(player, DUNINGS_KEY) >= 30))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30210-01.html": {
+   "file": "Q00219_TestimonyOfFate/30210-01.html",
+   "quest": 219,
+   "text": "Warehouse Keeper Norman: I remember... I saw it in an Old Account Book... We Dwarves are very precise record keepers. It is recorded that when my predecessor first came here to the town's warehouse, a pale man in a priest gown left a scroll with him. It is the Steel Gate Guild's purpose to protect …",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state STARTED; has items 3186"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30210-02.html": {
+   "file": "Q00219_TestimonyOfFate/30210-02.html",
+   "quest": 219,
+   "text": "Warehouse Keeper Norman: I don't know what that document refers to, but please remember that it has been kept safe by our Steel Gate Guild for over 200 years. To us, credibility is the greatest virtue!",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state STARTED; has items 3187; lacks items 3186"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30358-01.html": {
+   "file": "Q00219_TestimonyOfFate/30358-01.html",
+   "quest": 219,
+   "text": "Tetrarch Thifiell: Welcome home, young brother. It seems like only yesterday when you came here after you finished training in the shrine of Shilen. My, haven't you grown! This document you have found is known as 'Kaysha's Revelation'. It contains the truth about Shilen! It contains the truth of th…",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state STARTED; has items 3189"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30358-02.html": {
+   "file": "Q00219_TestimonyOfFate/30358-02.html",
+   "quest": 219,
+   "text": "Tetrarch Thifiell: It is time for you to take the Initiation Ceremony of Shilen. Take the letter and charm that I gave you to Witch Arkenia of the Dark Elves Initiation Altar . She will perform your ceremony.",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state STARTED; has items 3190,3191; lacks items 3189"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30358-03.html": {
+   "file": "Q00219_TestimonyOfFate/30358-03.html",
+   "quest": 219,
+   "text": "Tetrarch Thifiell: The Book of the Abyss is the living history of our past and future. It is where all our tribal knowledge and experience is recorded. To complete the Initiation Ceremony you must write your own phrase in the book. Good luck!",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state STARTED; has items 3190,3192; lacks items 3189,3191"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30358-04.html": {
+   "file": "Q00219_TestimonyOfFate/30358-04.html",
+   "quest": 219,
+   "text": "Tetrarch Thifiell: Brother of darkness, you now know the truth of abyss. My congratulations on your newfound awakening. You have glimpsed the dark fate our tribe must endure during the coming age of chaos. Do not be despondent, however! Your task now, like all of ours, is to concentrate on the miss…",
+   "header": "Tetrarch Thifiell",
+   "when": [
+    "state STARTED; has items 3190,3202; lacks items 3189,3191,3192"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00661_MakingTheHarvestGroundsSafe/30210-01.htm": {
+   "file": "Q00661_MakingTheHarvestGroundsSafe/30210-01.htm",
+   "quest": 661,
+   "text": "Warehouse Keeper Norman: We of the Iron Gate Guild are currently participating in various reconstruction works to restore Gludio Territory from the devastation of war... We've obtained permission from the Lord to start a construction project in this area. We've been having problems with monsters ra…",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state CREATED; (talker.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help you.\"",
+     "bypass": "Quest Q00661_MakingTheHarvestGroundsSafe 30210-03.htm",
+     "kind": "quest-event",
+     "script": "Q00661_MakingTheHarvestGroundsSafe",
+     "event": "30210-03.htm",
+     "quest": 661,
+     "to": "Q00661_MakingTheHarvestGroundsSafe/30210-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00661_MakingTheHarvestGroundsSafe/30210-02.htm": {
+   "file": "Q00661_MakingTheHarvestGroundsSafe/30210-02.htm",
+   "quest": 661,
+   "text": "Warehouse Keeper Norman: Our guild, The Iron Gate, is involved with various reconstruction efforts to restore Gludio Territory from the devastation of war. We've gotten the Lord's permission to begin reconstruction in this area... But monsters have begun appearing in the Fellmere Harvesting Grounds…",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state CREATED; NOT (talker.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00661_MakingTheHarvestGroundsSafe/30210-04.html": {
+   "file": "Q00661_MakingTheHarvestGroundsSafe/30210-04.html",
+   "quest": 661,
+   "text": "Warehouse Keeper Norman: Oh, you're back so soon? The Lord wants the reconstruction effort started as soon as possible... We really need your help! Cam you prove that you're valuable enough for the reconstruction effort?",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state STARTED; has items 8283,8284,8285"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the proof.\"",
+     "bypass": "Quest Q00661_MakingTheHarvestGroundsSafe 30210-08.html",
+     "kind": "quest-event",
+     "script": "Q00661_MakingTheHarvestGroundsSafe",
+     "event": "30210-08.html",
+     "quest": 661,
+     "to": "Q00661_MakingTheHarvestGroundsSafe/30210-08.html"
+    }
+   ]
+  },
+  "Q00661_MakingTheHarvestGroundsSafe/30210-05.html": {
+   "file": "Q00661_MakingTheHarvestGroundsSafe/30210-05.html",
+   "quest": 661,
+   "text": "Warehouse Keeper Norman: Oh, how was it? The Lord wants us to proceed with the reconstruction project as soon as possible... We must have your help! Go to the Fellmere Harvesting Grounds quickly and bring me the evidence that you eliminated those nasty, vile monsters.",
+   "header": "Warehouse Keeper Norman",
+   "when": [
+    "state STARTED; lacks items 8283,8284,8285"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00167_DwarvenKinship/30210-02.html": {
+   "file": "Q00167_DwarvenKinship/30210-02.html",
+   "quest": 167,
+   "text": "Warehouse Keeper Norman: Tsk tsk. Did you know already ...? My, how embarrassing ... We did not mean any harm, so please don't be offended. Actually, it's such an urgent letter ... I'm sure Haprock had no choice but to ask you. Usually, he would have delivered it through the guild carriage that tra…",
+   "header": "Warehouse Keeper Norman",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30210-02.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-02.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: Ah, I am sorry... I told you, I am too busy!",
+   "header": "Warehouse Keeper Norman",
+   "links": [
+    {
+     "text": "Is there anything I can help you with?",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30210-03.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30210-03.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30210-03.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30210-03.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-03.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: Hmm? So you are willing to assist with my work? I would really appreciate that... But it could be quite difficult... is that all right with you?",
+   "header": "Warehouse Keeper Norman",
+   "links": [
+    {
+     "text": "\"My pleasure.\"",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30210-04.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30210-04.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30210-04.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30210-04.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-04.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: Well, if you say so... At the moment I have something you can help me with. I am having many difficulties these days because of the gangs nearby town. Especially the Ol Mahum theives, called Cat's Eye... I wonder why the guards won't protect us from them... Anyway, I am thi…",
+   "header": "Warehouse Keeper Norman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30210-08.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-08.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: Hmm? What, you haven't gone yet? Is there anything I can help you with...?",
+   "header": "Warehouse Keeper Norman",
+   "links": [
+    {
+     "text": "You promised that you would help me...",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30210-09.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30210-09.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30210-09.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30210-09.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-09.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: Oh yes! That's right. You said that you were in the middle of taking a test to be a union member? A Journeyman Gem is not something you can get from somewhere, you have to make it yourself. But the skills of making it is not something that can be taught in a short time... I…",
+   "header": "Warehouse Keeper Norman",
+   "links": [
+    {
+     "text": "I shall bring the materials.",
+     "bypass": "Quest Q00216_TrialOfTheGuildsman 30210-10.html",
+     "kind": "quest-event",
+     "script": "Q00216_TrialOfTheGuildsman",
+     "event": "30210-10.html",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30210-10.html"
+    }
+   ]
+  },
+  "Q00216_TrialOfTheGuildsman/30210-10.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-10.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: Yes, that's a good boy. Now I shall give you the list of materials that you must find. First, we need some Gray Bone Powder to use as an abrasive. You can get it from undead monsters such as ghouls or strains . You will find plenty in the Execution Grounds of Dion. I also n…",
+   "header": "Warehouse Keeper Norman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00216_TrialOfTheGuildsman/30210-11a.html": {
+   "file": "Q00216_TrialOfTheGuildsman/30210-11a.html",
+   "quest": 216,
+   "text": "Warehouse Keeper Norman: First, we need some Gray Bone Powder to use as an abrasive. You can get it from undead monsters such as ghouls or strains . You will find plenty in the Execution Grounds of Dion. I also need a Granite Whetstone , which is for polishing the surface of the jewel... You must f…",
+   "header": "Warehouse Keeper Norman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00661_MakingTheHarvestGroundsSafe/30210-03.htm": {
+   "file": "Q00661_MakingTheHarvestGroundsSafe/30210-03.htm",
+   "quest": 661,
+   "text": "Warehouse Keeper Norman: Excellent! Go to the Fellmere Harvesting Grounds and defeat the Giant Poison Bee, Cloudy Beast and Young Araneid that are impeding our work. And don't forget to bring me proof of your kills... Good luck!",
+   "header": "Warehouse Keeper Norman",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00661_MakingTheHarvestGroundsSafe/30210-06.html": {
+   "file": "Q00661_MakingTheHarvestGroundsSafe/30210-06.html",
+   "quest": 661,
+   "text": "Warehouse Keeper Norman: Thank you! We'll engrave your name on the cornerstone of a building when we begin the reconstruction! Go to the Fellmere Harvesting Grounds quickly and bring me the evidence that you've eliminated those monsters.",
+   "header": "Warehouse Keeper Norman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00661_MakingTheHarvestGroundsSafe/30210-07.html": {
+   "file": "Q00661_MakingTheHarvestGroundsSafe/30210-07.html",
+   "quest": 661,
+   "text": "Warehouse Keeper Norman: Oh, how was it? The Lord wants us to proceed with the reconstruction project as soon as possible... We must have your help! Go to the Fellmere Harvesting Grounds quickly and bring me the evidence that you eliminated those monsters.",
+   "header": "Warehouse Keeper Norman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00661_MakingTheHarvestGroundsSafe/30210-08.html": {
+   "file": "Q00661_MakingTheHarvestGroundsSafe/30210-08.html",
+   "quest": 661,
+   "text": "Warehouse Keeper Norman: Here is the reward for your hard work... The reward is provided by the Iron Gate Guild and the Gludio Territory Reconstruction Fund... What! It's not enough? Then kill some more monsters and bring me the proofs!",
+   "header": "Warehouse Keeper Norman",
+   "links": [
+    {
+     "text": "\"I'll keep working for you.\"",
+     "bypass": "Quest Q00661_MakingTheHarvestGroundsSafe 30210-06.html",
+     "kind": "quest-event",
+     "script": "Q00661_MakingTheHarvestGroundsSafe",
+     "event": "30210-06.html",
+     "quest": 661,
+     "to": "Q00661_MakingTheHarvestGroundsSafe/30210-06.html"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00661_MakingTheHarvestGroundsSafe 30210-09.html",
+     "kind": "quest-event",
+     "script": "Q00661_MakingTheHarvestGroundsSafe",
+     "event": "30210-09.html",
+     "quest": 661,
+     "to": "Q00661_MakingTheHarvestGroundsSafe/30210-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00661_MakingTheHarvestGroundsSafe/30210-09.html": {
+   "file": "Q00661_MakingTheHarvestGroundsSafe/30210-09.html",
+   "quest": 661,
+   "text": "Warehouse Keeper Norman: Hmmm, perhaps you have a better source for making Adena... Or are you just going on to more exciting adventures? Please remember us, the Iron Gate Guild that strives to reconstruct Gludio Territory. Good luck!",
+   "header": "Warehouse Keeper Norman",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Dwarven Kinship (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00167_DwarvenKinship",
+     "kind": "quest",
+     "quest": 167,
+     "to": "Q00167_DwarvenKinship/30210-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Trial of the Guildsman (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00216_TrialOfTheGuildsman",
+     "kind": "quest",
+     "quest": 216,
+     "to": "Q00216_TrialOfTheGuildsman/30210-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Fate (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00219_TestimonyOfFate",
+     "kind": "quest",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30210-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Making the Harvest Grounds Safe]",
+     "bypass": "npc_%objectId%_Quest Q00661_MakingTheHarvestGroundsSafe",
+     "kind": "quest",
+     "quest": 661,
+     "to": "Q00661_MakingTheHarvestGroundsSafe/30210-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Making the Harvest Grounds Safe (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00661_MakingTheHarvestGroundsSafe",
+     "kind": "quest",
+     "quest": 661,
+     "to": "Q00661_MakingTheHarvestGroundsSafe/30210-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

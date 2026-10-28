@@ -1,0 +1,182 @@
+{
+ "npcId": 30129,
+ "name": "Mitraell",
+ "title": "Hierarch",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.847Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00255_Tutorial/30129-001.htm",
+   "when": "",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30129-004.htm",
+   "when": "qs.getMemoStateEx(1) > 3",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30129-003.htm",
+   "when": "!(!qs.hasQuestItems(BLOOD_OF_MITRAELL) && (qs.getMemoStateEx(1) > 3)); qs.getMemoStateEx(1) <= 3",
+   "src": "quest 255"
+  },
+  {
+   "page": "villagemaster/30129.htm",
+   "when": "when no script answers the first talk",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "255": {
+   "name": "Tutorial",
+   "listText": [
+    "[Tutorial]",
+    "[Tutorial (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00255_Tutorial/30129-001.htm": {
+   "file": "Q00255_Tutorial/30129-001.htm",
+   "quest": 255,
+   "text": "Hierarch Mitraell: I, the Hierarch of all Dark Elves offer you the blessings of the abyss. I am the prisoner of a magic seal, barely able to function, but I still manage to teach my students. Have you brought the Blood of Mitraell from the Newbie Helper?",
+   "header": "Hierarch Mitraell",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "\"I brought the Blood of Mitraell.\"",
+     "bypass": "Quest Q00255_Tutorial 31",
+     "kind": "quest-event",
+     "script": "Q00255_Tutorial",
+     "event": "31",
+     "quest": 255,
+     "to": "Q00255_Tutorial/30129-002.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00255_Tutorial/30129-004.htm": {
+   "file": "Q00255_Tutorial/30129-004.htm",
+   "quest": 255,
+   "text": "Hierarch Mitraell: Go to the Dark Elf Village and meet the newbie helper. The newbie helper will teach you many useful things.",
+   "header": "Hierarch Mitraell",
+   "when": [
+    "qs.getMemoStateEx(1) > 3"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00255_Tutorial/30129-003.htm": {
+   "file": "Q00255_Tutorial/30129-003.htm",
+   "quest": 255,
+   "text": "Hierarch Mitraell: First, you must learn the basic methods of control in the game. Let me introduce my little friend, the newbie helper . Follow his instructions, you'll quickly learn things that you'll need in the game.",
+   "header": "Hierarch Mitraell",
+   "when": [
+    "!(!qs.hasQuestItems(BLOOD_OF_MITRAELL) && (qs.getMemoStateEx(1) > 3)); qs.getMemoStateEx(1) <= 3"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "villagemaster/30129.htm": {
+   "file": "villagemaster/30129.htm",
+   "quest": null,
+   "text": "Hierarch Mitraell: Greetings. I am Mitraell, the Hierarch of all Dark Elves. We Dark Elves have grasped the powers of black magic through the teachings of the Human Sorcerer Dasparion, but he has betrayed us, leading to my present situation. I am entrapped within a magic seal and am barely able to …",
+   "header": "Hierarch Mitraell",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00255_Tutorial/30129-002.htm": {
+   "file": "Q00255_Tutorial/30129-002.htm",
+   "quest": 255,
+   "text": "Dark Elf Chief Mitrael: You have learned the basic operations of the game well. From here on out, you will be able to really enjoy the adventure! Take this gift -- I presume you have already heard instructions about how to use it? You now have a choice to make. You can either start your adventure h…",
+   "header": "Dark Elf Chief Mitrael",
+   "links": [
+    {
+     "text": "\"I will go to the Dark Elven Village.\"",
+     "bypass": "Quest Q00255_Tutorial 42",
+     "kind": "quest-event",
+     "script": "Q00255_Tutorial",
+     "event": "42",
+     "quest": 255,
+     "to": "Q00255_Tutorial/30129-006.htm"
+    },
+    {
+     "text": "\"I will go to the Kamael Village.\"",
+     "bypass": "Quest Q00255_Tutorial 41",
+     "kind": "quest-event",
+     "script": "Q00255_Tutorial",
+     "event": "41",
+     "quest": 255,
+     "to": "Q00255_Tutorial/30129-005.htm"
+    }
+   ]
+  },
+  "Q00255_Tutorial/30129-005.htm": {
+   "file": "Q00255_Tutorial/30129-005.htm",
+   "quest": 255,
+   "text": "Hierarch Mitraell: Go speak to the Newbie Guide in Kamael Village . He will advise you about what to do next, as well as give you a useful gift. To find him, just follow the arrow above your head. Farewell and good luck!",
+   "header": "Hierarch Mitraell",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00255_Tutorial/30129-006.htm": {
+   "file": "Q00255_Tutorial/30129-006.htm",
+   "quest": 255,
+   "text": "Hierarch Mitraell: Go to the Dark Elven Village and speak to the Newbie Guide there. He will advise you about what to do next, as well as give you a useful gift. To find him, just follow the arrow above your head. Farewell and good luck!",
+   "header": "Hierarch Mitraell",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Tutorial]",
+     "bypass": "npc_%objectId%_Quest Q00255_Tutorial",
+     "kind": "quest",
+     "quest": 255,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Tutorial (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00255_Tutorial",
+     "kind": "quest",
+     "quest": 255,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

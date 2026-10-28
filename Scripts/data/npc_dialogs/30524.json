@@ -1,0 +1,229 @@
+{
+ "npcId": 30524,
+ "name": "Pippi",
+ "title": "Collector",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.991Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30524.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "417": {
+   "name": "Path Of The Scavenger",
+   "listText": [
+    "[Path of the Scavenger]",
+    "[Path of the Scavenger (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00417_PathOfTheScavenger/30524-01.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30524-06.html",
+     "when": "state STARTED; has items 1643; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30524-07.html",
+     "when": "state STARTED; lacks items 1643; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30524.htm": {
+   "file": "default/30524.htm",
+   "quest": null,
+   "text": "Collector Pippi: Just east of the village you will find the Mithril Mine. It was created by our ancestors who survived the ouslaught of the Orc savages. They dreamed of one day restoring the kingdom of the Dwarves here in the Spine Mountains.",
+   "header": "Collector Pippi",
+   "links": [
+    {
+     "text": "\"Tell me about the Mithril Mine.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30524-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30524-1.htm": {
+   "file": "default/30524-1.htm",
+   "quest": null,
+   "text": "Collector Pippi: The mine useds to be a vast expanse consisting of hundreds of tunnels, but most of them were destroyed after the attack of the Earth Wyrm and he mithril is collected from very few tunnels now. Currently, our guild is working to restore destroyed tunnels and greatly increase the out…",
+   "header": "Collector Pippi",
+   "links": [
+    {
+     "text": "Ask about the Earth Wyrm.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30524-2.htm"
+    }
+   ]
+  },
+  "default/30524-2.htm": {
+   "file": "default/30524-2.htm",
+   "quest": null,
+   "text": "Collector Pippi: I haven't seen it, but isn't the Earth Worm a big worm? Priestess Chichirin in the temple knows all about the Earth Wyrm. You should visit Chichirin.",
+   "header": "Collector Pippi",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30524.htm"
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30524-01.htm": {
+   "file": "Q00417_PathOfTheScavenger/30524-01.htm",
+   "quest": 417,
+   "text": "Collector Pippi: You wish to become a Scavenger? How commendable of you! There should be more bright youngsters like yourself, but they are all too rare ... What good is an Artisan anyway? All you do is work your back off under someone else all your life. When would you even touch a stuffed money p…",
+   "header": "Collector Pippi",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you want to become a Scavenger",
+     "bypass": "Quest Q00417_PathOfTheScavenger ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "ACCEPT",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30524-04.htm",
+     "toAll": [
+      "Q00417_PathOfTheScavenger/30524-04.htm",
+      "Q00417_PathOfTheScavenger/30524-05.htm",
+      "Q00417_PathOfTheScavenger/30524-02.htm",
+      "Q00417_PathOfTheScavenger/30524-02a.htm",
+      "Q00417_PathOfTheScavenger/30524-08.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30524-06.html": {
+   "file": "Q00417_PathOfTheScavenger/30524-06.html",
+   "quest": 417,
+   "text": "Collector Pippi: If you want to know where Master Toma is, go to Trader Mion ! Didn't I give you a Letter of Introduction?",
+   "header": "Collector Pippi",
+   "when": [
+    "state STARTED; has items 1643; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30524-07.html": {
+   "file": "Q00417_PathOfTheScavenger/30524-07.html",
+   "quest": 417,
+   "text": "Collector Pippi: Haven't you become a Scavenger yet? Try working a little harder!",
+   "header": "Collector Pippi",
+   "when": [
+    "state STARTED; lacks items 1643; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30524-02.htm": {
+   "file": "Q00417_PathOfTheScavenger/30524-02.htm",
+   "quest": 417,
+   "text": "Collector Pippi: Excuse me. Your shoelace is untied!",
+   "header": "Collector Pippi",
+   "links": [
+    {
+     "text": "Look down at shoelace",
+     "bypass": "Quest Q00417_PathOfTheScavenger 30524-03.html",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "30524-03.html",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30524-03.html"
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30524-02a.htm": {
+   "file": "Q00417_PathOfTheScavenger/30524-02a.htm",
+   "quest": 417,
+   "text": "Collector Pippi: What? But you are already a Scavenger! You haven't forgotten the most important thing, have you? That's right! Tithe! Don't forget!",
+   "header": "Collector Pippi",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30524-03.html": {
+   "file": "Q00417_PathOfTheScavenger/30524-03.html",
+   "quest": 417,
+   "text": "Collector Pippi: That's a lie! Come back after your nose stops running, eh? (Only characters who are level 18 or above may undertake this quest.)",
+   "header": "Collector Pippi",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30524-04.htm": {
+   "file": "Q00417_PathOfTheScavenger/30524-04.htm",
+   "quest": 417,
+   "text": "Collector Pippi: What's the most important thing when you become a Scavenger? That's it! Tithe! Don't forget!",
+   "header": "Collector Pippi",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30524-05.htm": {
+   "file": "Q00417_PathOfTheScavenger/30524-05.htm",
+   "quest": 417,
+   "text": "Collector Pippi: Well, I will tell you ... I don't know anything about the test. But really, I don't think that the test is important. The one really important thing, if you ask me, is tithing . Do you know how much money the guild spends on managing just one member? From guild uniforms to insuranc…",
+   "header": "Collector Pippi",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30524-08.htm": {
+   "file": "Q00417_PathOfTheScavenger/30524-08.htm",
+   "quest": 417,
+   "text": "Dwarven Collector Pippi: How about an Orc Shaman instead of a Scavenger? Go to the Orc Village.",
+   "header": "Dwarven Collector Pippi",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Scavenger]",
+     "bypass": "npc_%objectId%_Quest Q00417_PathOfTheScavenger",
+     "kind": "quest",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30524-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Scavenger (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00417_PathOfTheScavenger",
+     "kind": "quest",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30524-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

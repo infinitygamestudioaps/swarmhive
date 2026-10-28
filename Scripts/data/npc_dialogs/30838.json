@@ -1,0 +1,375 @@
+{
+ "npcId": 30838,
+ "name": "Woodley",
+ "title": "Armor Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.078Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30838.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "33": {
+   "name": "Make a Pair of Dress Shoes",
+   "listText": [
+    "[Make a Pair of Dress Shoes]",
+    "[Make a Pair of Dress Shoes (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00033_MakeAPairOfDressShoes/30838-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00033_MakeAPairOfDressShoes/30838-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00033_MakeAPairOfDressShoes/30838-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00033_MakeAPairOfDressShoes/30838-05.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00033_MakeAPairOfDressShoes/30838-07.html",
+     "when": "state STARTED; cond 3; ((st.getQuestItemsCount(LEATHER) >= LEATHER_COUNT) && (st.getQuestItemsCount(THREAD) >= THREAD_COUNT",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00033_MakeAPairOfDressShoes/30838-08.html",
+     "when": "state STARTED; cond 3; NOT ((st.getQuestItemsCount(LEATHER) >= LEATHER_COUNT) && (st.getQuestItemsCount(THREAD) >= THREAD_COUNT",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00033_MakeAPairOfDressShoes/30838-11.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00033_MakeAPairOfDressShoes/30838-12.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30838.htm": {
+   "file": "merchant/30838.htm",
+   "quest": null,
+   "text": "Trader Woodley: Hello, customer! My name is Woodley. That person over there selling a weapon is my twin, Woodrow. Our temperaments aren't exactly the same, though... Ha ha! Well, please have a look around and let me know if you see anything you like.",
+   "header": "Trader Woodley",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30838-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3083800",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3083801",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30838-1.htm": {
+   "file": "merchant/30838-1.htm",
+   "quest": null,
+   "text": "Trader Woodley: Please tell me what you need.",
+   "header": "Trader Woodley",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3083800",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3083801",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3083802",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3083803",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/30838-pk.htm": {
+   "file": "merchant/30838-pk.htm",
+   "quest": null,
+   "text": "Trader Woodley: I'm done talking with you. Get out of my store. Outward appearances mean little to me, its what is on the inside that is important. You come up short in that department. Leave!",
+   "header": "Trader Woodley",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-01.htm": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-01.htm",
+   "quest": 33,
+   "text": "Trader Woodley: Welcome. What can I do for you? Looking for formal shoes? If you want the shoes to match the order you placed with Leikar, I need some of the same material. Bring it, then I can start.",
+   "header": "Trader Woodley",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "Quest Q00033_MakeAPairOfDressShoes 30838-03.htm",
+     "kind": "quest-event",
+     "script": "Q00033_MakeAPairOfDressShoes",
+     "event": "30838-03.htm",
+     "quest": 33,
+     "to": "Q00033_MakeAPairOfDressShoes/30838-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-02.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-02.html",
+   "quest": 33,
+   "text": "Trader Woodley: Welcome. What can I do for you? Looking for formal shoes? Come back when you have enough class to shop here! (This quest may only be undertaken by a character of level 60 or above.)",
+   "header": "Trader Woodley",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-04.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-04.html",
+   "quest": 33,
+   "text": "Trader Woodley: Welcome. If you get some of the same material from your order with Leikar, I can make you shoes to match.",
+   "header": "Trader Woodley",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-05.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-05.html",
+   "quest": 33,
+   "text": "Trader Woodley: Leikar's short on fabric? It's hard to make something using the color but not the fabric. Can you help?",
+   "header": "Trader Woodley",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"I'll try.\"",
+     "bypass": "Quest Q00033_MakeAPairOfDressShoes 30838-06.html",
+     "kind": "quest-event",
+     "script": "Q00033_MakeAPairOfDressShoes",
+     "event": "30838-06.html",
+     "quest": 33,
+     "to": "Q00033_MakeAPairOfDressShoes/30838-06.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-07.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-07.html",
+   "quest": 33,
+   "text": "Trader Woodley: You brought it all! Give me two hundred thousand Adena and we'll call it good.",
+   "header": "Trader Woodley",
+   "when": [
+    "state STARTED; cond 3; ((st.getQuestItemsCount(LEATHER) >= LEATHER_COUNT) && (st.getQuestItemsCount(THREAD) >= THREAD_COUNT"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the money and the goods.\"",
+     "bypass": "Quest Q00033_MakeAPairOfDressShoes 30838-09.html",
+     "kind": "quest-event",
+     "script": "Q00033_MakeAPairOfDressShoes",
+     "event": "30838-09.html",
+     "quest": 33,
+     "to": "Q00033_MakeAPairOfDressShoes/30838-09.html",
+     "toAll": [
+      "Q00033_MakeAPairOfDressShoes/30838-09.html",
+      "Q00033_MakeAPairOfDressShoes/30838-10.html"
+     ],
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-08.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-08.html",
+   "quest": 33,
+   "text": "Trader Woodley: Look like you don't have all the materials. I know that they are not something that ordinary people should expect to obtain, but you're not exactly an ordinary person, eh? Please go get them for me.",
+   "header": "Trader Woodley",
+   "when": [
+    "state STARTED; cond 3; NOT ((st.getQuestItemsCount(LEATHER) >= LEATHER_COUNT) && (st.getQuestItemsCount(THREAD) >= THREAD_COUNT"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-11.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-11.html",
+   "quest": 33,
+   "text": "Trader Woodley: I'm still working on the shoes. Did you deliver three hundred thousand Adena to Ian?",
+   "header": "Trader Woodley",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-12.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-12.html",
+   "quest": 33,
+   "text": "Trader Woodley: What did Ian say? I'll respect his requests.",
+   "header": "Trader Woodley",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"Can I have the shoes?\"",
+     "bypass": "Quest Q00033_MakeAPairOfDressShoes 30838-13.html",
+     "kind": "quest-event",
+     "script": "Q00033_MakeAPairOfDressShoes",
+     "event": "30838-13.html",
+     "quest": 33,
+     "to": "Q00033_MakeAPairOfDressShoes/30838-13.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-03.htm": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-03.htm",
+   "quest": 33,
+   "text": "Trader Woodley: If you get some of the same material from your order with Leikar, I can make you shoes to match.",
+   "header": "Trader Woodley",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-06.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-06.html",
+   "quest": 33,
+   "text": "Trader Woodley: I need 200 leather and 600 thread for the shoes. You also have to pay for them. It's about five hundred thousand Adena. Don't forget!",
+   "header": "Trader Woodley",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-09.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-09.html",
+   "quest": 33,
+   "text": "Trader Woodley: This will take a while to make. Deliver three hundred thousand Adena to Trader Ian for the materials.",
+   "header": "Trader Woodley",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-10.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-10.html",
+   "quest": 33,
+   "text": "Trader Woodley: I know these materials are hard to get now, but hurry!",
+   "header": "Trader Woodley",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/30838-13.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30838-13.html",
+   "quest": 33,
+   "text": "Trader Woodley: They should be well protected in this box. Be careful!",
+   "header": "Trader Woodley",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Make a Pair of Dress Shoes]",
+     "bypass": "npc_%objectId%_Quest Q00033_MakeAPairOfDressShoes",
+     "kind": "quest",
+     "quest": 33,
+     "to": "Q00033_MakeAPairOfDressShoes/30838-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Make a Pair of Dress Shoes (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00033_MakeAPairOfDressShoes",
+     "kind": "quest",
+     "quest": 33,
+     "to": "Q00033_MakeAPairOfDressShoes/30838-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

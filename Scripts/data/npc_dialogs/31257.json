@@ -1,0 +1,101 @@
+{
+ "npcId": 31257,
+ "name": "Veronica",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.144Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31257.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31257.htm": {
+   "file": "merchant/31257.htm",
+   "quest": null,
+   "text": "Trader Veronica: Welcome! We carry every weapon you could need, from steel swords to stout staffs. Please have a look around!",
+   "header": "Trader Veronica",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/31257-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3125700",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3125701",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/31257-1.htm": {
+   "file": "merchant/31257-1.htm",
+   "quest": null,
+   "text": "Trader Veronica: Well then, how about this item?",
+   "header": "Trader Veronica",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3125700",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3125701",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3125702",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3125703",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy a Shadow item.",
+     "bypass": "npc_%objectId%_BuyShadowItem",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/31257-pk.htm": {
+   "file": "merchant/31257-pk.htm",
+   "quest": null,
+   "text": "Trader Veronica: I don't know what you were thinking when you came into my store, but I have only two words for you: Get out!!!",
+   "header": "Trader Veronica",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

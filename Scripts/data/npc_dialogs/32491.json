@@ -1,0 +1,110 @@
+{
+ "npcId": 32491,
+ "name": "Underground Coliseum Helper",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.376Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Teleports/TeleportToUndergroundColiseum/32491.htm",
+   "when": "",
+   "src": "ai TeleportToUndergroundColiseum"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/Teleports/TeleportToUndergroundColiseum/32491.htm": {
+   "file": "ai/npc/Teleports/TeleportToUndergroundColiseum/32491.htm",
+   "quest": null,
+   "text": "Stadium Manager: What would you like to do?",
+   "header": "Stadium Manager",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Hear about the game.",
+     "bypass": "Quest TeleportToUndergroundColiseum 32491-1.htm",
+     "kind": "quest-event",
+     "script": "TeleportToUndergroundColiseum",
+     "event": "32491-1.htm",
+     "to": "ai/npc/Teleports/TeleportToUndergroundColiseum/32491-1.htm"
+    },
+    {
+     "text": "Move to the stadium.",
+     "bypass": "Quest TeleportToUndergroundColiseum 32491-2.htm",
+     "kind": "quest-event",
+     "script": "TeleportToUndergroundColiseum",
+     "event": "32491-2.htm",
+     "to": "ai/npc/Teleports/TeleportToUndergroundColiseum/32491-2.htm"
+    },
+    {
+     "text": "Move to Fantasy Isle.",
+     "bypass": "Quest TeleportToUndergroundColiseum return",
+     "kind": "quest-event",
+     "script": "TeleportToUndergroundColiseum",
+     "event": "return",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/TeleportToUndergroundColiseum/32491-1.htm": {
+   "file": "ai/npc/Teleports/TeleportToUndergroundColiseum/32491-1.htm",
+   "quest": null,
+   "text": "Arena Manager: Only parties with more than 7 members can participate in the game and, if they win, keep playing. You can also only participate in the arena reserved for your level. When you enter the arena, you will see a Tower of Resurrection for each team. Until you destroy your opponents' tower,…",
+   "header": "Arena Manager",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/TeleportToUndergroundColiseum/32491-2.htm": {
+   "file": "ai/npc/Teleports/TeleportToUndergroundColiseum/32491-2.htm",
+   "quest": null,
+   "text": "Stadium Manager: Select the stadium appropriate for your level.",
+   "header": "Stadium Manager",
+   "links": [
+    {
+     "text": "Level 40-49",
+     "bypass": "Quest TeleportToUndergroundColiseum 1",
+     "kind": "quest-event",
+     "script": "TeleportToUndergroundColiseum",
+     "event": "1",
+     "to": null
+    },
+    {
+     "text": "Level 50-59",
+     "bypass": "Quest TeleportToUndergroundColiseum 2",
+     "kind": "quest-event",
+     "script": "TeleportToUndergroundColiseum",
+     "event": "2",
+     "to": null
+    },
+    {
+     "text": "Level 60-69",
+     "bypass": "Quest TeleportToUndergroundColiseum 3",
+     "kind": "quest-event",
+     "script": "TeleportToUndergroundColiseum",
+     "event": "3",
+     "to": null
+    },
+    {
+     "text": "Level 70-79",
+     "bypass": "Quest TeleportToUndergroundColiseum 4",
+     "kind": "quest-event",
+     "script": "TeleportToUndergroundColiseum",
+     "event": "4",
+     "to": null
+    },
+    {
+     "text": "No level limit",
+     "bypass": "Quest TeleportToUndergroundColiseum 5",
+     "kind": "quest-event",
+     "script": "TeleportToUndergroundColiseum",
+     "event": "5",
+     "to": null
+    }
+   ]
+  }
+ }
+}

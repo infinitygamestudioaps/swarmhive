@@ -1,0 +1,1092 @@
+{
+ "npcId": 32115,
+ "name": "Asamah",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.338Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Asamah/32115-01.htm",
+   "when": "((st != null) && (st.isCompleted()))",
+   "src": "ai Asamah"
+  },
+  {
+   "page": "ai/npc/Asamah/32115-02.htm",
+   "when": "NOT ((st != null) && (st.isCompleted()))",
+   "src": "ai Asamah"
+  }
+ ],
+ "quests": {
+  "111": {
+   "name": "Elrokian Hunter's Proof",
+   "listText": [
+    "[Elrokian Hunters]",
+    "[Elrokian Hunter's Proof (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00111_ElrokianHuntersProof/32115-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32115-02.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32115-04.html",
+     "when": "state STARTED; memo 3|4|5|6|7|8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32115-05.html",
+     "when": "state STARTED; memo 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32115-07.html",
+     "when": "state STARTED; memo 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32115-10.html",
+     "when": "state STARTED; memo 11; !hasItemsAtLimit(player, ORNITHOMINUS_CLAW, DEINONYCHUS_BONE, PACHYCEPHALOSAURUS_SKIN)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32115-11.html",
+     "when": "state STARTED; memo 11; hasItemsAtLimit(player, ORNITHOMINUS_CLAW, DEINONYCHUS_BONE, PACHYCEPHALOSAURUS_SKIN)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32115-12.html",
+     "when": "state STARTED; memo 12",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "124": {
+   "name": "Meeting the Elroki",
+   "listText": [
+    "[Meeting the Elroki]",
+    "[Meeting the Elroki (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00124_MeetingTheElroki/32115-01.html",
+     "when": "state STARTED; cond 1|2",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32115-02.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32115-07.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32115-08.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32115-09.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "126": {
+   "name": "The Name of Evil - 2",
+   "listText": [
+    "[The Name of Evil 2]",
+    "[The Name of Evil 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00126_TheNameOfEvil2/32115-0.htm",
+     "when": "state CREATED; level < 77",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32115-0a.htm",
+     "when": "state CREATED; NOT level < 77; (player.hasQuestCompleted(Q00125_TheNameOfEvil1.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32115-0b.htm",
+     "when": "state CREATED; NOT level < 77; NOT (player.hasQuestCompleted(Q00125_TheNameOfEvil1.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32115-1d.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32115-1c.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32115-2.html",
+     "when": "state STARTED; cond 3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19",
+     "state": "STARTED",
+     "cond": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32115-3.html",
+     "when": "state STARTED; cond 20",
+     "state": "STARTED",
+     "cond": [
+      20
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32115-4j.html",
+     "when": "state STARTED; cond 21",
+     "state": "STARTED",
+     "cond": [
+      21
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32115-5a.html",
+     "when": "state STARTED; cond 22",
+     "state": "STARTED",
+     "cond": [
+      22
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "ai/npc/Asamah/32115-01.htm": {
+   "file": "ai/npc/Asamah/32115-01.htm",
+   "quest": null,
+   "text": "Asamah: I am Asamah, son of Mushika, chief of the Elroki tribe. These are our lands. In them lies perhaps our last hope to return to our ancient ancestral home. But these days are evil, and our hope is waning before this threat. Our strength has run out like water from a broken pot, and although my…",
+   "header": "Asamah",
+   "when": [
+    "((st != null) && (st.isCompleted()))"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    },
+    {
+     "text": "Find out how to use the capture skill.",
+     "bypass": "Quest Asamah 32115-03.htm",
+     "kind": "quest-event",
+     "script": "Asamah",
+     "event": "32115-03.htm",
+     "to": "ai/npc/Asamah/32115-03.htm"
+    },
+    {
+     "text": "Equip the trap.",
+     "bypass": "npc_%objectId%_multisell 577",
+     "kind": "multisell"
+    },
+    {
+     "text": "Buy",
+     "bypass": "npc_%objectId%_multisell 578",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "ai/npc/Asamah/32115-02.htm": {
+   "file": "ai/npc/Asamah/32115-02.htm",
+   "quest": null,
+   "text": "Asamah: I am Asamah, son of Mushika, chief of the Elroki tribe. These are our lands. In them lies perhaps our last hope to return to our ancient ancestral home. But these days are evil, and our hope is waning before this threat. Our strength has run out like water from a broken pot, and although my…",
+   "header": "Asamah",
+   "when": [
+    "NOT ((st != null) && (st.isCompleted()))"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    },
+    {
+     "text": "Find out how to use the capture skill.",
+     "bypass": "Quest Asamah 32115-03.htm",
+     "kind": "quest-event",
+     "script": "Asamah",
+     "event": "32115-03.htm",
+     "to": "ai/npc/Asamah/32115-03.htm"
+    },
+    {
+     "text": "Buy",
+     "bypass": "npc_%objectId%_multisell 578",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32115-01.html": {
+   "file": "Q00111_ElrokianHuntersProof/32115-01.html",
+   "quest": 111,
+   "text": "Asamah: Are you looking for my father, Chief Mushika? He is very ill, and you may have a difficult time understanding him. But I suppose there is no harm in trying. For myself, I am forbidden from speaking with outsiders unless my father so orders it.",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32115-02.html": {
+   "file": "Q00111_ElrokianHuntersProof/32115-02.html",
+   "quest": 111,
+   "text": "Asamah: Marquez sent you? Why?",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"I would like to learn the mysterious skill of the Elroki for controlling dinosaurs.\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32115-03.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32115-03.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32115-03.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32115-04.html": {
+   "file": "Q00111_ElrokianHuntersProof/32115-04.html",
+   "quest": 111,
+   "text": "Asamah: I cannot speak about those skills unless you are one of us or have proven yourself a worthy friend of the Elroki tribe!",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; memo 3|4|5|6|7|8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32115-05.html": {
+   "file": "Q00111_ElrokianHuntersProof/32115-05.html",
+   "quest": 111,
+   "text": "Asamah: Stubborn, aren't you? I still have nothing to say to you about those skills!",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; memo 9"
+   ],
+   "links": [
+    {
+     "text": "Sing despite Asamah's hostility.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32115-06.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32115-06.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32115-06.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32115-07.html": {
+   "file": "Q00111_ElrokianHuntersProof/32115-07.html",
+   "quest": 111,
+   "text": "Asamah: Where did you learn this song? It seems like you not only know the melody of it, but that you also understand the spirit and meaning of the song. When I hear you sing, in fact, it's plain to me that you understand!",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; memo 10"
+   ],
+   "links": [
+    {
+     "text": "Explain how you learned about Kirikachin and an outsider's friendship.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32115-08.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32115-08.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32115-08.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32115-10.html": {
+   "file": "Q00111_ElrokianHuntersProof/32115-10.html",
+   "quest": 111,
+   "text": "Asamah: The materials I need are 10 Ornithomimus claws, 10 Deinonychus bones, and 10 Pachycephalosaurus skins . Go and bring me those items!",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; memo 11; !hasItemsAtLimit(player, ORNITHOMINUS_CLAW, DEINONYCHUS_BONE, PACHYCEPHALOSAURUS_SKIN)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32115-11.html": {
+   "file": "Q00111_ElrokianHuntersProof/32115-11.html",
+   "quest": 111,
+   "text": "Asamah: Excellent, you have brought all the necessary materials. Now I ask for your patience while I work. This one like this... And this one, like this... Then combine all these.. Whew! Here it is...finished at last. Take this to Kirikachin, and he will teach you the skill. Be sure to tell him tha…",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; memo 11; hasItemsAtLimit(player, ORNITHOMINUS_CLAW, DEINONYCHUS_BONE, PACHYCEPHALOSAURUS_SKIN)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32115-12.html": {
+   "file": "Q00111_ElrokianHuntersProof/32115-12.html",
+   "quest": 111,
+   "text": "Asamah: Has Kirikachin taught you well? The skill is not easy to master, of that there can be no doubt. But I have faith in you!",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; memo 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32115-01.html": {
+   "file": "Q00124_MeetingTheElroki/32115-01.html",
+   "quest": 124,
+   "text": "Asamah: It is no easy task for any outsider to come and find the Elroki tribe these days. Personally, I have no quarrel with outsiders, but I can't say that our warriors share that sentiment. In any event, you have invaded the chief's barracks, and that is an insult for which they will wish to puni…",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; cond 1|2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32115-02.html": {
+   "file": "Q00124_MeetingTheElroki/32115-02.html",
+   "quest": 124,
+   "text": "Asamah: Marquez sent you? Thanks be to Shilen! I am Asamah, who asked Marquez to send an adventurer to help us. You spoke a little while ago with my father, Chief Mushika. He is only a shadow of his former self, tied to this life only by his will and his warrior pride. He is in such agony of body a…",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "Ask him to provide more details regarding the situation.",
+     "bypass": "Quest Q00124_MeetingTheElroki 32115-03.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32115-03.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32115-03.html"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32115-07.html": {
+   "file": "Q00124_MeetingTheElroki/32115-07.html",
+   "quest": 124,
+   "text": "Asamah: We cannot waste any more time! Please go straight to Karakawei and ask for his help. I suspect that you will likely find him praying near the barracks.",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32115-08.html": {
+   "file": "Q00124_MeetingTheElroki/32115-08.html",
+   "quest": 124,
+   "text": "Asamah: You received no help from Karakawei? Or were you simply too frightened to take the medicine? Courage! You are under the protection of Shilen and the ancient Elrokians. Simply listen to your instincts and fate will guide your course. Calm your worries and concentrate on finding the medicine,…",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32115-09.html": {
+   "file": "Q00124_MeetingTheElroki/32115-09.html",
+   "quest": 124,
+   "text": "Asamah: Is this the mysterious medicine? Blessed are you, Shilen! Thank you, my friend. Now we must wait to see if it is Shilen's will whether my father recovers or perishes. Whatever the result, you will be a friend of the Elroki forever, always present in our hearts and welcome at our hearths. If…",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32115-0.htm": {
+   "file": "Q00126_TheNameOfEvil2/32115-0.htm",
+   "quest": 126,
+   "text": "Asamah: That an outsider like you would come all this way to render aid to our Elkrohki tribe... please know that we are truly grateful. But unfortunately, only the outsider selected by fate itself can help our tribe now. (Only characters level 77 and above are permitted to take on this quest.)",
+   "header": "Asamah",
+   "when": [
+    "state CREATED; level < 77"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32115-0a.htm": {
+   "file": "Q00126_TheNameOfEvil2/32115-0a.htm",
+   "quest": 126,
+   "text": "Asamah: Welcome, benefactor of the Elkrohki tribe! My father and I were just thanking the gods for your arrival. Had you not come when you did, both he and the whole future of the Elroki tribe would have perished. We are in your debt. How can we repay you?",
+   "header": "Asamah",
+   "when": [
+    "state CREATED; NOT level < 77; (player.hasQuestCompleted(Q00125_TheNameOfEvil1.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "\"I am glad I was able to help.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-0c.htm",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-0c.htm",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-0c.htm"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-0b.htm": {
+   "file": "Q00126_TheNameOfEvil2/32115-0b.htm",
+   "quest": 126,
+   "text": "Asamah: These few moments may determine the fate of the Elroki tribe itself. Every second is precious! Had I more time, I would tell you of the hardships and trials facing us right now. I might even enlist your help! But sadly I cannot spare even the time for that. Farewell! (This quest can only be…",
+   "header": "Asamah",
+   "when": [
+    "state CREATED; NOT level < 77; NOT (player.hasQuestCompleted(Q00125_TheNameOfEvil1.class.getSimpleName()))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32115-1d.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-1d.html",
+   "quest": 126,
+   "text": "Asamah: The sacred ax known as Gazkh was originally bestowed upon the ancient Elkrokhian warriors by Shilen. It had the power to seal dinosaurs in their prison to preserve the safety of the island. When it was broken, we think there was a backlash of negative energy.",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"What negative energy?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-1a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-1a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-1a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-1c.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-1c.html",
+   "quest": 126,
+   "text": "Asamah: I suspect that both my father's illness and the strange phenomena we've witnessed on the island are related to the Lost Nest and Gazkh. Unfortunately, I don't think the epitaph itself provides us enough information to link all of these events together. I have an idea -- go and examine each …",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32115-2.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-2.html",
+   "quest": 126,
+   "text": "Asamah: Back so soon? Are you sure that you've really visited the Pillars of Wisdom and the Statue of Shilen? I mean no offense, but you seem to lack the confidence of one who has completed this arduous journey. If you bypassed one of the 3 Pillars of Wisdom or the Statue of Shilen, please go back …",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; cond 3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32115-3.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-3.html",
+   "quest": 126,
+   "text": "Asamah: You're here! I've been waiting for you. What befell you during your adventure? Did you discover any relics concerning the Elroki tribe?",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; cond 20"
+   ],
+   "links": [
+    {
+     "text": "Tell him about your adventure.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-3a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-3a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-3a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-4j.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-4j.html",
+   "quest": 126,
+   "text": "Asamah: Ha! Well done, indeed! And you are so humble... My thanks for your help. I will use what you have just told me to share the knowledge of the lost history of the Elroki tribe.",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; cond 21"
+   ],
+   "links": [
+    {
+     "text": "\"Do you know where the fragments of Gazkh might be?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-4a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-4a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-4a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-5a.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-5a.html",
+   "quest": 126,
+   "text": "Asamah: My father, Chief Mushika, has found a very important clue about Gazkh. Since his discovery, he has been anxiously waiting for you. Go quickly to meet him.",
+   "header": "Asamah",
+   "when": [
+    "state STARTED; cond 22"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32115-03.html": {
+   "file": "Q00111_ElrokianHuntersProof/32115-03.html",
+   "quest": 111,
+   "text": "Asamah: How would you know about that skill? Hmm... I assume Marquez probably told you about it. I'm sorry, but the skill can only be taught to members of our tribe. It is forbidden to teach it to outsiders. If you understood our tribe better, as Marquez does, it might be a different matter... (It …",
+   "header": "Asamah",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32115-06.html": {
+   "file": "Q00111_ElrokianHuntersProof/32115-06.html",
+   "quest": 111,
+   "text": "Asamah: This...this...song!!! The surrounding Elrokians perk up and suddenly begin singing together. (When the excitement dies down, you'll have to face them.)",
+   "header": "Asamah",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32115-08.html": {
+   "file": "Q00111_ElrokianHuntersProof/32115-08.html",
+   "quest": 111,
+   "text": "Asamah: Oh, that's what happened... I am truly sorry about Kirikachin's friend. On a happier note... by understanding that song you have shown yourself a true friend of the Elroki tribe. How can we help you further my friend?",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "\"I want to learn the mysterious skill the Elroki possess for controlling dinosaurs.\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32115-09.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32115-09.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32115-09.html",
+     "effect": "cond:10"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32115-09.html": {
+   "file": "Q00111_ElrokianHuntersProof/32115-09.html",
+   "quest": 111,
+   "text": "Asamah: Ah, I see -- you need a tool to use the skill. I can make the tool you need if you can bring me the right materials. The materials I will require are 10 Ornithomimus claws, 10 Deinonychus bones, and 10 Pachycephalosaurus skins . Good luck!",
+   "header": "Asamah",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32115-03.html": {
+   "file": "Q00124_MeetingTheElroki/32115-03.html",
+   "quest": 124,
+   "text": "Asamah: Perhaps you should listen to this story to better understand the situation. You have already heard the tale of how my father and Marquez met, haven't you? The Lost Nest where they met is a very important place for the Elroki tribe. According to legend, it is the place where the goddess of w…",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "\"Tell me more about the Elroki tribe.\"",
+     "bypass": "Quest Q00124_MeetingTheElroki 32115-04.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32115-04.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32115-04.html"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32115-04.html": {
+   "file": "Q00124_MeetingTheElroki/32115-04.html",
+   "quest": 124,
+   "text": "Asamah: Long, long ago, Shilen placed ancient creatures on the Primeval Isle. While her power kept these dangerous beings known as dinosaurs in check, she also, in her wisdom, allowed our ancestors to govern them. If we had more time, I could tell you fantastic tales about the ancient Elrokian warr…",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "Ask if his father's illness has anything to do with the Lost Nest.",
+     "bypass": "Quest Q00124_MeetingTheElroki 32115-05.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32115-05.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32115-05.html"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32115-05.html": {
+   "file": "Q00124_MeetingTheElroki/32115-05.html",
+   "quest": 124,
+   "text": "Asamah: Yes, or so the shaman Karakawei and I believe. My father is the only Elrokian to have explored the Lost Nest, bringing back the ancient relic. He has truly devoted his entire life to restoring the lost stature of the Elroki tribe. Despite his efforts, some malcontents accused him of dwellin…",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "Ask about the mysterious medicine in detail.",
+     "bypass": "Quest Q00124_MeetingTheElroki 32115-06.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32115-06.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32115-06.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32115-06.html": {
+   "file": "Q00124_MeetingTheElroki/32115-06.html",
+   "quest": 124,
+   "text": "Asamah: Unfortunately, all I could discover was when the medicine existed. So I asked the shaman Karakawei to summon the spirits of the Elrokians of that time and ask them where the medicine is. Karakawei knew the risks, but for my sake he attempted to summon our ancestors' spirits. For many days, …",
+   "header": "Asamah",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32115-0c.htm": {
+   "file": "Q00126_TheNameOfEvil2/32115-0c.htm",
+   "quest": 126,
+   "text": "Asamah: In particular, the epitaph of wisdom that you brought me is truly a mysterious and valuable item. The letters inside it seem to have a life of their own! They have assembled themselves to tell me of an ancient relic, Gazkh. My father, Mushika, the high priest Karakawei and I are all beside …",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "\"Did you find the information that you were seeking?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-0d.htm",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-0d.htm",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-0d.htm"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-0d.htm": {
+   "file": "Q00126_TheNameOfEvil2/32115-0d.htm",
+   "quest": 126,
+   "text": "Asamah: In fact, we have been able to use this opportunity to make sense of the few fragmented pieces of our history. As a student of that history, it has been very rewarding for me. But we have stumbled upon a mystery surrounding the sacred axe, named Gazkh. Sadly, our wisdom and strength are not …",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "Say that you will help.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-1.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-1.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-1.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-1.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-1.html",
+   "quest": 126,
+   "text": "Asamah: Apparently our ancestors wielded a powerful ax called Gazkh. More than just a weapon, it was a sacred relic granted to our tribe by the goddess Shilen herself. Gazkh's most important power was the ability to keep the dinosaurs of the Lost Nest sealed within their prison. But somehow the ax'…",
+   "header": "Asamah",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"What side effects?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-1a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-1a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-1a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-1a.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-1a.html",
+   "quest": 126,
+   "text": "Asamah: In brief, my father found a fragment of the ax within the Lost Nest. Somehow the fragment injured him, and soon after he succumbed to this mysterious illness. I'm sure that you have also heard of the strange occurrences that have been witnessed here of late. I'm almost sure that both they a…",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "Listen to more details.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-1b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-1b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-1b.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-1b.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-1b.html",
+   "quest": 126,
+   "text": "Asamah: Let us not risk that my suspicions are clouding your judgment! I will let you draw your own conclusions. This will be an arduous task, but my heart tells me that the best course of action is for you to return to the Pillars of Wisdom, one by one, and search for some clue about the strange p…",
+   "header": "Asamah",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32115-3a.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-3a.html",
+   "quest": 126,
+   "text": "Asamah: Amazing! I am bewildered by hearing all that you have endured. Listening to your tale just now, I can't help but wonder if you are the one the prophecies speak of, the one destined to save our Elroki tribe and restore us to glory. The Warrior's Oath you invoked is so ancient that we have lo…",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "\"I just did what I had to do as best I could.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-4.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-4.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-4.html",
+     "effect": "cond:21"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-4.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-4.html",
+   "quest": 126,
+   "text": "Asamah: Ah! You completed a great feat, and yet you are so humble! I -- no, we -- are truly thankful. The information you discovered will help me uncover vital parts of the lost history of our Elroki tribe.",
+   "header": "Asamah",
+   "sets": {
+    "cond": "21"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"But have you discovered the whereabouts of the fragments of Gazkh?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-4a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-4a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-4a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-4a.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-4a.html",
+   "quest": 126,
+   "text": "Asamah: I have personally studied all we know regarding Gazkh, but all I know is that its fragments disappeared following its destruction during the battle with Sailren. You said that you had something else to ask me?",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "\"What can you tell me about why Shilen was cast out as the goddess of water?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-4b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-4b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-4b.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-4b.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-4b.html",
+   "quest": 126,
+   "text": "Asamah: Well, as it happens I have gleaned a few insights about that terrible time from some of the documents I have studied and the ancient stories I have heard. Do you have a specific reason for asking me this?",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "\"Actually...\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-4c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-4c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-4c.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-4c.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-4c.html",
+   "quest": 126,
+   "text": "Asamah: Ah, so you have heard part of the tale, eh? I'm not surprised that you didn't hear more -- many consider it blasphemy, after all. Besides, a creature that considers itself an avatar of Shilen would be loathe to reveal the goddess' error, especially to an outsider. You must understand that s…",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "\"Please, tell me of Shilen's origin and the reason she was exiled from her position as goddess of water.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-4d.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-4d.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-4d.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-4d.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-4d.html",
+   "quest": 126,
+   "text": "Asamah: I see. Then let me tell you who Shilen once was. Untold ages ago, the union of the Goddess of Creation, Einhasad, and the God of Destruction, Gran Kain, produced 5 God-Children. Shilen was first-born, and she grew wiser daily, more courageous, more beautiful and more skilled. Loved by her s…",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "Next",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-4e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-4e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-4e.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-4e.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-4e.html",
+   "quest": 126,
+   "text": "Asamah: Einhasad and Gran Kain watched their 5 children grow, assigning each a duty suited to their individual abilities and strengths. Two of the God-Childs gave them worry, though. One was Shilen, whose many talents made any single duty seem too small. The other was Eva, whose quiet, passive natu…",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "Next",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-4f.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-4f.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-4f.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-4f.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-4f.html",
+   "quest": 126,
+   "text": "Asamah: After great deliberation, the two gods made Shilen the goddess of water, a role they considered suitable for her many talents. Eva, however, was only given the task of composing poems and songs to commemorate her siblings' rule. As the goddess of water, Shilen showed herself to be wise and …",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "Next.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-4g.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-4g.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-4g.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-4g.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-4g.html",
+   "quest": 126,
+   "text": "Asamah: Shilen commanded my Elkrokhian ancestors to rule over the dinosaurs, using powerful magic to control and restrain them. It was the peak of Shilen's glory, and the world owed her a debt it could never repay. But the other gods envied Shilen, and sought a chance to discredit her. At last she …",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "Next.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-4h.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-4h.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-4h.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-4h.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-4h.html",
+   "quest": 126,
+   "text": "Asamah: Einhasad cast her from the continent, installing in her place as the goddess of water the weak and timid Eva. The primitive creatures who called her mother were suddenly abandoned, forever disrupting the balance of this island. As a result, we Elrokians were forced to migrate to these Prime…",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "Next",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-4i.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-4i.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-4i.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-4i.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-4i.html",
+   "quest": 126,
+   "text": "Asamah: When Eva became the goddess of water, it was the single most unfortunate thing to befall our tribe up to that time. Shilen's misfortune continued from that day onward, and eventually she became slanderously known as a goddess of evil or a goddess of death. Some historians also began describ…",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "\"That's enough information. Where is Gazkh?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32115-5.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32115-5.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-5.html",
+     "effect": "cond:22"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32115-5.html": {
+   "file": "Q00126_TheNameOfEvil2/32115-5.html",
+   "quest": 126,
+   "text": "Asamah: I actually haven't found anything to indicate where Gazkh is. Fortunately, my father, Chief Mushika, has found some clues about Gazkh's whereabouts. He told me that he wanted tell you personally upon your return, so go talk to him. Don't waste a minute!",
+   "header": "Asamah",
+   "sets": {
+    "cond": "22"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "ai/npc/Asamah/32115-03.htm": {
+   "file": "ai/npc/Asamah/32115-03.htm",
+   "quest": null,
+   "text": "Asamah: If you have a trap, then you may use at least 3 types of capture skills. You can only use a capture skill on the predatory Tyrannosaurus. If you are capturing a Tyrannosaurus for the first time, you will use the Kabokula technique most among the three capture skills. But you cannot complete…",
+   "header": "Asamah",
+   "links": [
+    {
+     "text": "Next.",
+     "bypass": "Quest Asamah 32115-04.htm",
+     "kind": "quest-event",
+     "script": "Asamah",
+     "event": "32115-04.htm",
+     "to": "ai/npc/Asamah/32115-04.htm"
+    }
+   ]
+  },
+  "ai/npc/Asamah/32115-04.htm": {
+   "file": "ai/npc/Asamah/32115-04.htm",
+   "quest": null,
+   "text": "Asamah: You must know which action to use when a Tyrannosaurus tries to cancel a capture skill. When the beast roars, shakes and writhes , the appropriate capture skills to use are kabokula, tapirawa and shabonoba . Watch each action of the Tyrannosaurus carefully and respond with the correct skill…",
+   "header": "Asamah",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Elrokian Hunter's Proof (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00111_ElrokianHuntersProof",
+     "kind": "quest",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32115-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Meeting the Elroki (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00124_MeetingTheElroki",
+     "kind": "quest",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32115-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Name of Evil 2]",
+     "bypass": "npc_%objectId%_Quest Q00126_TheNameOfEvil2",
+     "kind": "quest",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-0a.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Name of Evil 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00126_TheNameOfEvil2",
+     "kind": "quest",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32115-1d.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

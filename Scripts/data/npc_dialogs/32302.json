@@ -1,0 +1,240 @@
+{
+ "npcId": 32302,
+ "name": "Jerian",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.368Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32302.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "279": {
+   "name": "Target of Opportunity",
+   "listText": [
+    "[Target of Opportunity]",
+    "[Target of Opportunity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00279_TargetOfOpportunity/32302-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 82)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00279_TargetOfOpportunity/32302-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= 82)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00279_TargetOfOpportunity/32302-07.html",
+     "when": "state STARTED; st.getInt(\"progress\") == 1; hasQuestItems(st.getPlayer(), SEAL_COMPONENTS_PART1.getId(), SEAL_COMPONENTS_PART2.getId(), SEAL_COM",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00279_TargetOfOpportunity/32302-06.html",
+     "when": "state STARTED; st.getInt(\"progress\") == 1; NOT hasQuestItems(st.getPlayer(), SEAL_COMPONENTS_PART1.getId(), SEAL_COMPONENTS_PART2.getId(), SEAL_COM",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32302.htm": {
+   "file": "default/32302.htm",
+   "quest": null,
+   "text": "Jerian: Welcome! I have waited so long for you to come here. I must tell you that there is a strong magic barrier on the Tower of Infinitum. If someone who is not a devil enters the tower, this magic will be activated and break everything into pieces. The only way to avoid it is to disguise yoursel…",
+   "header": "Jerian",
+   "links": [
+    {
+     "text": "\"Please let me enter.\"",
+     "bypass": "Quest TowerOfInfinitum enter",
+     "kind": "quest-event",
+     "script": "TowerOfInfinitum",
+     "event": "enter"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00279_TargetOfOpportunity/32302-01.htm": {
+   "file": "Q00279_TargetOfOpportunity/32302-01.htm",
+   "quest": 279,
+   "text": "Jerian: Hm... Are you here to face Ranku and Demon Prince? You may want to listen to what I have to say.",
+   "header": "Jerian",
+   "when": [
+    "state CREATED; (player.getLevel() >= 82)"
+   ],
+   "links": [
+    {
+     "text": "Listen carefully.",
+     "bypass": "Quest Q00279_TargetOfOpportunity 32302-03.htm",
+     "kind": "quest-event",
+     "script": "Q00279_TargetOfOpportunity",
+     "event": "32302-03.htm",
+     "quest": 279,
+     "to": "Q00279_TargetOfOpportunity/32302-03.htm"
+    }
+   ]
+  },
+  "Q00279_TargetOfOpportunity/32302-02.html": {
+   "file": "Q00279_TargetOfOpportunity/32302-02.html",
+   "quest": 279,
+   "text": "Jerian: Hm... Are you here to face Ranku and Demon Prince? Trust me, if I were you, I'd improve myself a little more first. Call it a little friendly advice on the house. (Only characters level 82 or above can take this quest.)",
+   "header": "Jerian",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 82)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00279_TargetOfOpportunity/32302-07.html": {
+   "file": "Q00279_TargetOfOpportunity/32302-07.html",
+   "quest": 279,
+   "text": "Jerian: I hope you didn't come all the way back to me just to assemble the Seal Breaker. Ah well, you're here and I don't mind the visit, company is always pleasant. Give me the fragments and I'll make you a Seal Breaker.",
+   "header": "Jerian",
+   "when": [
+    "state STARTED; st.getInt(\"progress\") == 1; hasQuestItems(st.getPlayer(), SEAL_COMPONENTS_PART1.getId(), SEAL_COMPONENTS_PART2.getId(), SEAL_COM"
+   ],
+   "links": [
+    {
+     "text": "Hand over the fragments.",
+     "bypass": "Quest Q00279_TargetOfOpportunity 32302-08.html",
+     "kind": "quest-event",
+     "script": "Q00279_TargetOfOpportunity",
+     "event": "32302-08.html",
+     "quest": 279,
+     "to": "Q00279_TargetOfOpportunity/32302-08.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00279_TargetOfOpportunity/32302-06.html": {
+   "file": "Q00279_TargetOfOpportunity/32302-06.html",
+   "quest": 279,
+   "text": "Jerian: Defeat the Cosmic Scout, Cosmic Watcher, Cosmic Priest, and Cosmic Lord . You will pick up a fragment of their essence after defeating them. Assemble these parts and you will have a Seal Breaker, a stone that will allow you to travel directly to Ranku and Demon Prince by fooling the Tower's…",
+   "header": "Jerian",
+   "when": [
+    "state STARTED; st.getInt(\"progress\") == 1; NOT hasQuestItems(st.getPlayer(), SEAL_COMPONENTS_PART1.getId(), SEAL_COMPONENTS_PART2.getId(), SEAL_COM"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, let me go inside.\"",
+     "bypass": "Quest Q00279_TargetOfOpportunity enter",
+     "kind": "quest-event",
+     "script": "Q00279_TargetOfOpportunity",
+     "event": "enter",
+     "quest": 279,
+     "to": null
+    }
+   ]
+  },
+  "Q00279_TargetOfOpportunity/32302-03.htm": {
+   "file": "Q00279_TargetOfOpportunity/32302-03.htm",
+   "quest": 279,
+   "text": "Jerian: The Teleport Device was created in order to transport visitors up to Ranku and Demon Prince instantly. It may sound strange, but it works rather well.",
+   "header": "Jerian",
+   "links": [
+    {
+     "text": "\"So there is a way to move up the tower quickly.\"",
+     "bypass": "Quest Q00279_TargetOfOpportunity 32302-04.htm",
+     "kind": "quest-event",
+     "script": "Q00279_TargetOfOpportunity",
+     "event": "32302-04.htm",
+     "quest": 279,
+     "to": "Q00279_TargetOfOpportunity/32302-04.htm"
+    }
+   ]
+  },
+  "Q00279_TargetOfOpportunity/32302-04.htm": {
+   "file": "Q00279_TargetOfOpportunity/32302-04.htm",
+   "quest": 279,
+   "text": "Jerian: Yes, there is a way to break through the Force Field. You need to defeat four particular beasts in a particular order to harness their aura and fool the Tower of Infinitum into believing you to be one of its denizens.",
+   "header": "Jerian",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q00279_TargetOfOpportunity 32302-05.html",
+     "kind": "quest-event",
+     "script": "Q00279_TargetOfOpportunity",
+     "event": "32302-05.html",
+     "quest": 279,
+     "to": "Q00279_TargetOfOpportunity/32302-05.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00279_TargetOfOpportunity/32302-05.html": {
+   "file": "Q00279_TargetOfOpportunity/32302-05.html",
+   "quest": 279,
+   "text": "Jerian: Alright, here's what you need to do. Defeat the Cosmic Scout, Cosmic Watcher, Cosmic Priest, and Cosmic Lord . You will pick up a fragment of their essence after defeating them. Assemble these parts and you will have a Seal Breaker, a stone that will allow you to travel directly to Ranku an…",
+   "header": "Jerian",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Yes, let me go inside.\"",
+     "bypass": "Quest Q00279_TargetOfOpportunity enter",
+     "kind": "quest-event",
+     "script": "Q00279_TargetOfOpportunity",
+     "event": "enter",
+     "quest": 279,
+     "to": null
+    }
+   ]
+  },
+  "Q00279_TargetOfOpportunity/32302-08.html": {
+   "file": "Q00279_TargetOfOpportunity/32302-08.html",
+   "quest": 279,
+   "text": "Jerian: Wait a moment, please... (As Jerian chants a spell you've never heard, the four fragments begin to float in the air rotating around one another until coming together in a bright flash. When the light fades, you see a red and blue stone floating back into Jerian's hands. It is a complete Sea…",
+   "header": "Jerian",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Target of Opportunity]",
+     "bypass": "npc_%objectId%_Quest Q00279_TargetOfOpportunity",
+     "kind": "quest",
+     "quest": 279,
+     "to": "Q00279_TargetOfOpportunity/32302-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Target of Opportunity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00279_TargetOfOpportunity",
+     "kind": "quest",
+     "quest": 279,
+     "to": "Q00279_TargetOfOpportunity/32302-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,582 @@
+{
+ "npcId": 30064,
+ "name": "Terry",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.799Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30064.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "213": {
+   "name": "Trial Of The Seeker",
+   "listText": [
+    "[Trial of the Seeker]",
+    "[Trial of the Seeker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-01.html",
+     "when": "state STARTED; has items 2647",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-04.html",
+     "when": "state STARTED; has items 2648; lacks items 2647,2653",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-05.html",
+     "when": "state STARTED; has items 2648,2653; lacks items 2647",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-08.html",
+     "when": "state STARTED; has items 2649; lacks items 2647,2648; (getQuestItemsCount(player, OL_MAHUM_SPIRIT_ORE) + getQuestItemsCount(player, TUREK_SPIRIT_ORE) + getQuestItemsCount(pla",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-09.html",
+     "when": "state STARTED; has items 2649; lacks items 2647,2648; !(getQuestItemsCount(player, OL_MAHUM_SPIRIT_ORE) + getQuestItemsCount(player, TUREK_SPIRIT_ORE) + getQuestItemsCount(pl",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-11.html",
+     "when": "state STARTED; has items 2650; lacks items 2647,2648,2649",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-12.html",
+     "when": "state STARTED; has items 2651; lacks items 2647,2648,2649,2650",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-13.html",
+     "when": "state STARTED; has items 2652; lacks items 2647,2648,2649,2650,2651",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-14.html",
+     "when": "state STARTED; has items 2659,2662,2663,2664; lacks items 2647,2648,2649,2650,2651,2652",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-15.html",
+     "when": "state STARTED; has items 2665; lacks items 2647,2648,2649,2650,2651,2652,2659,2662,2663,2664",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-20.html",
+     "when": "state STARTED; level < 36; has items 2666; lacks items 2647,2648,2649,2650,2651,2652,2659,2662,2663,2664,2665",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-21.html",
+     "when": "state STARTED; NOT level < 36; has items 2666; lacks items 2647,2648,2649,2650,2651,2652,2659,2662,2663,2664,2665",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-22.html",
+     "when": "state STARTED; has items 2667; lacks items 2647,2648,2649,2650,2651,2652,2659,2662,2663,2664,2665,2666; (getQuestItemsCount(player, ABYSS_SPIRIT_ORE1) + getQuestItemsCount(player, ABYSS_SPIRIT_ORE2) + getQuestItemsCount(play",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-23.html",
+     "when": "state STARTED; has items 2667; lacks items 2647,2648,2649,2650,2651,2652,2659,2662,2663,2664,2665,2666; !(getQuestItemsCount(player, ABYSS_SPIRIT_ORE1) + getQuestItemsCount(player, ABYSS_SPIRIT_ORE2) + getQuestItemsCount(pla",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30064-24.html",
+     "when": "state STARTED; has items 2672; lacks items 2647,2648,2649,2650,2651,2652,2659,2662,2663,2664,2665,2666,2667",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30064.htm": {
+   "file": "trainer/30064.htm",
+   "quest": null,
+   "text": "Master Terry: A wise person knows how to be generous to others. Let me share this thought with you: true power can be realized only through true self-discipline.",
+   "header": "Master Terry",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30064-noteach.htm": {
+   "file": "trainer/30064-noteach.htm",
+   "quest": null,
+   "text": "Master Terry: There is nothing I can teach you. Look for a guild that better suits you.",
+   "header": "Master Terry",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-01.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-01.html",
+   "quest": 213,
+   "text": "Master Terry: Ah, a letter from Master Dufner... Yes, I am he who was once called the 'Hawkeye'. But Hawkeye is no more... You can't possibly expect me to revive Hawkeye now... That is too much. ...Only Master Dufner would ask such a favor... It was he who helped me abandon Hawkeye and settle down …",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2647"
+   ],
+   "links": [
+    {
+     "text": "\"Please help me.\"",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30064-02.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30064-02.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30064-02.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30064-04.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-04.html",
+   "quest": 213,
+   "text": "Master Terry: Why are you still here? You must go to the eastern Execution Grounds and catch the Neer Ghoul Berserker among the flock of Neer Crawlers. Search him and bring back to me anything that you find.",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2648; lacks items 2647,2653"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-05.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-05.html",
+   "quest": 213,
+   "text": "Master Terry: Any good news? Oh, what is this? A bezoar?! Hmm, no wonder Dufner asked me to investigate. Hmm... Wait a moment... If this is how it turns out, I'll just have to push ahead with the plan... However, this plan might be a bit tough for you. Will that be okay?",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2648,2653; lacks items 2647"
+   ],
+   "links": [
+    {
+     "text": "Ask about the plan.",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30064-06.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30064-06.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30064-06.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30064-08.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-08.html",
+   "quest": 213,
+   "text": "Master Terry: I hope your investigation is going well? Time is short so you must hurry. Do you remember your task? You must hunt Ol Mahum Captains , Turek Orc Warlords , Ant Captain , and Turak Bugbear Warriors ... Catch them and collect the bezoars from their bodies. I am not sure if it is due to …",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2649; lacks items 2647,2648; (getQuestItemsCount(player, OL_MAHUM_SPIRIT_ORE) + getQuestItemsCount(player, TUREK_SPIRIT_ORE) + getQuestItemsCount(pla"
+   ],
+   "links": [
+    {
+     "text": "\"I need more information.\"",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30064-07.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30064-07.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30064-07.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30064-09.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-09.html",
+   "quest": 213,
+   "text": "Master Terry: All right, I see that you were successful! Now we can start to work on the investigation. I have been to Giran Castle where I acquired the secret documents necessary for solving this case... Now, I must do more research on these documents. Can I ask you one more favor?",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2649; lacks items 2647,2648; !(getQuestItemsCount(player, OL_MAHUM_SPIRIT_ORE) + getQuestItemsCount(player, TUREK_SPIRIT_ORE) + getQuestItemsCount(pl"
+   ],
+   "links": [
+    {
+     "text": "\"What do you want me to do?\"",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30064-10.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30064-10.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30064-10.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30064-11.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-11.html",
+   "quest": 213,
+   "text": "Master Terry: Take the letter and box to Viktor in the Hunter's Village . I already told you my real name, right? Do you remember it?",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2650; lacks items 2647,2648,2649"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-12.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-12.html",
+   "quest": 213,
+   "text": "Master Terry: What did you say to Viktor? He thinks you are a liar! Did you forget my real name, by any chance? I shall repeat it once more! My true name is Altebar Karryos . I took my current moniker 'Terry' from the second letters in my real name. Anyway, I shall write you another letter. Go and …",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2651; lacks items 2647,2648,2649,2650"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-13.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-13.html",
+   "quest": 213,
+   "text": "Master Terry: Hurry! You must go to Viktor from the Hunter's Village ! Don't forget to take special care of the box containing the bezoars. Viktor is very skilled and knowledgeable and will be of great help in the investigation of the bezoars.",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2652; lacks items 2647,2648,2649,2650,2651"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-14.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-14.html",
+   "quest": 213,
+   "text": "Master Terry: We must hurry and discover the meaning of the bezoars! Now that we have Viktor's trust we should get to the bottom of this!",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2659,2662,2663,2664; lacks items 2647,2648,2649,2650,2651,2652"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-15.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-15.html",
+   "quest": 213,
+   "text": "Master Terry: So, this is the report on the findings about the bezoar! Good job. I mean it! It must not have been easy to get information from that hard-to-please Viktor. How is he doing? Dufner, me and Viktor used to hang around together way back when. That brings back memories... Are his explanat…",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2665; lacks items 2647,2648,2649,2650,2651,2652,2659,2662,2663,2664"
+   ],
+   "links": [
+    {
+     "text": "Ask what is wrong.",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30064-16.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30064-16.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30064-16.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30064-20.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-20.html",
+   "quest": 213,
+   "text": "Master Terry: I appreciate your enthusiasm, but you are not ready yet. Come back when you have completed more training.",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; level < 36; has items 2666; lacks items 2647,2648,2649,2650,2651,2652,2659,2662,2663,2664,2665"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-21.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-21.html",
+   "quest": 213,
+   "text": "Trainer Terry: I think you are sufficiently prepared now. I will tell you about the next task. Being contaminated by a Dark Bezoar is something to worry about; however, according to Marina's research, the contamination seems to be limited to only a few creatures. I want you to be in charge of getti…",
+   "header": "Trainer Terry",
+   "when": [
+    "state STARTED; NOT level < 36; has items 2666; lacks items 2647,2648,2649,2650,2651,2652,2659,2662,2663,2664,2665"
+   ],
+   "links": [
+    {
+     "text": "Ask for detailed information",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30064-19.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30064-19.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30064-19.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30064-22.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-22.html",
+   "quest": 213,
+   "text": "Master Terry: How is the hunting going? Being contaminated by a Dark Bezoar is something to worry about; however, according to Marina's research, the contamination seems to be limited to only a few creatures. I want you to be in charge of getting rid of those hosts. Marsh Stakato Drones, Breka Orc …",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2667; lacks items 2647,2648,2649,2650,2651,2652,2659,2662,2663,2664,2665,2666; (getQuestItemsCount(player, ABYSS_SPIRIT_ORE1) + getQuestItemsCount(player, ABYSS_SPIRIT_ORE2) + getQuestItemsCount(play"
+   ],
+   "links": [
+    {
+     "text": "Ask for detailed information",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30064-19.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30064-19.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30064-19.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30064-23.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-23.html",
+   "quest": 213,
+   "text": "Master Terry: So, there are 4 Dark Bezoars altogether! I am so glad to see you alive. Master Dufner, he still has the sense for recognizing talented people. Thanks to you, I could solve the problem in a short hour. Oh, I guess you must also be curious about the results? I secretly found out that th…",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2667; lacks items 2647,2648,2649,2650,2651,2652,2659,2662,2663,2664,2665,2666; !(getQuestItemsCount(player, ABYSS_SPIRIT_ORE1) + getQuestItemsCount(player, ABYSS_SPIRIT_ORE2) + getQuestItemsCount(pla"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-24.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-24.html",
+   "quest": 213,
+   "text": "Master Terry: I thought that you had returned to Giran! Master Dufner must be wondering where you are. Go there now. We will meet again...",
+   "header": "Master Terry",
+   "when": [
+    "state STARTED; has items 2672; lacks items 2647,2648,2649,2650,2651,2652,2659,2662,2663,2664,2665,2666,2667"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-02.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-02.html",
+   "quest": 213,
+   "text": "Master Terry: Well... I guess I have no choice. I have been curious about the increase in those mutations... But first you must do me a favor. I will need some time to revive Hawkeye. In the meantime, I need you to do some planning and scout the area. We need a rough Map of the monsters' mutations.…",
+   "header": "Master Terry",
+   "links": [
+    {
+     "text": "\"Which monster should I investigate?\"",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30064-03.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30064-03.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30064-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30064-03.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-03.html",
+   "quest": 213,
+   "text": "Master Terry: We'll begin with the one living closest to this town. That would be Neer Ghoul Berserker . At the east Execution Grounds you will find many neer crawlers. Among them you will find Neer Ghoul Berserker . Catch him, take anything you find on him and come back to me right away.",
+   "header": "Master Terry",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-06.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-06.html",
+   "quest": 213,
+   "text": "Master Terry: You must heed my every word. We each have our own tasks to do. While I am away you must investigate the mutations one at a time. They are Ol Mahum Captain , Turek Orc Warlord , Ant Captain , and Turak Bugbear Warrior ... That's it. I expect that they each have a bezoar planted in thei…",
+   "header": "Master Terry",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"I need more information.\"",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30064-07.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30064-07.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30064-07.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30064-07.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-07.html",
+   "quest": 213,
+   "text": "Master Terry: Since time is of the essence we must attack them systematically. Now listen carefully! The Ol Mahum Captain can be found near the Fortress of Resistance in the northeast. Next you must go to Gludio, which is quite a distance away. I guess it is becoming obvious that these mutations ha…",
+   "header": "Master Terry",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-10.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-10.html",
+   "quest": 213,
+   "text": "Master Terry: Take this letter and the box containing the bezoars to Viktor of the Hunter's Village . He is an expert in such matters. Back when I was called Hawkeye, he was known as the clairvoyant. He is quite well known for being an excellent source of information, even to this day. I am sure he…",
+   "header": "Master Terry",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-16.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-16.html",
+   "quest": 213,
+   "text": "Master Terry: I am sure you are aware that creatures who have an Abyss Spirit Ore inside them have exceptional intelligence... The matter would not be so dangerous if that's all there was to it, but these creatures are extremely hostile towards Elves, Dark Elves, Orcs, Dwarves and Humans. Do you un…",
+   "header": "Master Terry",
+   "links": [
+    {
+     "text": "Ask about the next tasks",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30064-18.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30064-18.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30064-18.html",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30064-17.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-17.html",
+   "quest": 213,
+   "text": "Master Terry: The next part of the task holds more danger than you have ever seen. Regardless of the urgency I cannot pressure you to make such a momentous decision. I don't think you will survive... Why don't you go and get more training?",
+   "header": "Master Terry",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30064-18.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-18.html",
+   "quest": 213,
+   "text": "Master Terry: I think you are ready for the next task. Being contaminated by a Dark Bezoar is somewhat worrisome, but according to Marina's research, the contamination is limited to only a few creatures. You must destroy those hosts. Marsh Stakato Drones , Breka Orc Overlords , Ant Warrior Captains…",
+   "header": "Master Terry",
+   "sets": {
+    "cond": "15"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Where are they?\"",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30064-19.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30064-19.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30064-19.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30064-19.html": {
+   "file": "Q00213_TrialOfTheSeeker/30064-19.html",
+   "quest": 213,
+   "text": "Trainer Terry: Marsh Stakato Drones can be found in the Cruma Marshlands north of Dion. It is a dangerous monster, so take care. You must try to avoid attacking them from a close distance when they are in groups. You must lure them away before fighting. You have already seen many Breka Orc Overlord…",
+   "header": "Trainer Terry",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Seeker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00213_TrialOfTheSeeker",
+     "kind": "quest",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30064-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

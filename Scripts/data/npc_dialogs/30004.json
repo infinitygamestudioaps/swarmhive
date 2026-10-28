@@ -1,0 +1,234 @@
+{
+ "npcId": 30004,
+ "name": "Katerina",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.783Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30004.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "306": {
+   "name": "Crystals of Fire and Ice",
+   "listText": [
+    "[Crystals of Fire and Ice]",
+    "[Crystals of Fire and Ice (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00306_CrystalOfFireAndIce/30004-03.htm",
+     "when": "state CREATED; player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00306_CrystalOfFireAndIce/30004-02.htm",
+     "when": "state CREATED; NOT player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00306_CrystalOfFireAndIce/30004-07.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00306_CrystalOfFireAndIce/30004-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30004.htm": {
+   "file": "merchant/30004.htm",
+   "quest": null,
+   "text": "Trader Katerina: May the Goddess of Fortune pour out good luck upon you! Are you looking for anything specific? The items we sell here may not be flashy, but they can be very useful in the right circumstances.",
+   "header": "Trader Katerina",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund General.",
+     "bypass": "npc_%objectId%_Buy 3000400",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30004-pk.htm": {
+   "file": "merchant/30004-pk.htm",
+   "quest": null,
+   "text": "Trader Katerina: You have done great wrong. Come back when you have repented. Then I will show you my items.",
+   "header": "Trader Katerina",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00306_CrystalOfFireAndIce/30004-03.htm": {
+   "file": "Q00306_CrystalOfFireAndIce/30004-03.htm",
+   "quest": 306,
+   "text": "Trader Katerina: Although I work as a merchant now, my specialty used to be collecting and dealing in jewels. I would ask travelers like you to obtain rare jewels, and I would sell them at Giran or Aden. A little while ago, I found some entertaining information while looking through some ancient do…",
+   "header": "Trader Katerina",
+   "when": [
+    "state CREATED; player.getLevel() >= MIN_LEVEL"
+   ],
+   "links": [
+    {
+     "text": "Say that you'll do it.",
+     "bypass": "Quest Q00306_CrystalOfFireAndIce 30004-04.htm",
+     "kind": "quest-event",
+     "script": "Q00306_CrystalOfFireAndIce",
+     "event": "30004-04.htm",
+     "quest": 306,
+     "to": "Q00306_CrystalOfFireAndIce/30004-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00306_CrystalOfFireAndIce/30004-02.htm": {
+   "file": "Q00306_CrystalOfFireAndIce/30004-02.htm",
+   "quest": 306,
+   "text": "Trader Katerina: I am working as a trader now, but actually my expertise is collecting and trading jewels. I find rare jewels by asking favors of travelers like you and sell them at Giran or Aden. Not long ago, I heard that one can find precious jewels at the Elven Ruins of Talking Island. It is an…",
+   "header": "Trader Katerina",
+   "when": [
+    "state CREATED; NOT player.getLevel() >= MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00306_CrystalOfFireAndIce/30004-07.html": {
+   "file": "Q00306_CrystalOfFireAndIce/30004-07.html",
+   "quest": 306,
+   "text": "Trader Katerina: Thank you very much. I think I can feel a warmth at the tip of my fingers because the jewel contains the power of the spirits. How fascinating. As I promised, I will compensate you according to the number of jewels you brought me. Will you go back to the ruins to bring more jewels?…",
+   "header": "Trader Katerina",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00306_CrystalOfFireAndIce 30004-09.html",
+     "kind": "quest-event",
+     "script": "Q00306_CrystalOfFireAndIce",
+     "event": "30004-09.html",
+     "quest": 306,
+     "to": "Q00306_CrystalOfFireAndIce/30004-09.html"
+    },
+    {
+     "text": "Say you will end the Contract",
+     "bypass": "Quest Q00306_CrystalOfFireAndIce 30004-08.html",
+     "kind": "quest-event",
+     "script": "Q00306_CrystalOfFireAndIce",
+     "event": "30004-08.html",
+     "quest": 306,
+     "to": "Q00306_CrystalOfFireAndIce/30004-08.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00306_CrystalOfFireAndIce/30004-05.html": {
+   "file": "Q00306_CrystalOfFireAndIce/30004-05.html",
+   "quest": 306,
+   "text": "Trader Katerina: You have not brought any fragments of elemental stone. As I already told you, you must go to the underground Elven Ruins to find the fragments of elemental stone. Inside the fire spirit salamanders and water spirit undines , you will be able to find the Flame Shard and Ice Shard , …",
+   "header": "Trader Katerina",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Say you will bring the jewel",
+     "bypass": "Quest Q00306_CrystalOfFireAndIce 30004-09.html",
+     "kind": "quest-event",
+     "script": "Q00306_CrystalOfFireAndIce",
+     "event": "30004-09.html",
+     "quest": 306,
+     "to": "Q00306_CrystalOfFireAndIce/30004-09.html"
+    },
+    {
+     "text": "Say you will end the Contract",
+     "bypass": "Quest Q00306_CrystalOfFireAndIce 30004-08.html",
+     "kind": "quest-event",
+     "script": "Q00306_CrystalOfFireAndIce",
+     "event": "30004-08.html",
+     "quest": 306,
+     "to": "Q00306_CrystalOfFireAndIce/30004-08.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00306_CrystalOfFireAndIce/30004-04.htm": {
+   "file": "Q00306_CrystalOfFireAndIce/30004-04.htm",
+   "quest": 306,
+   "text": "Trader Katerina: Thank you so much for granting my request. Now please listen carefully to my account. The Elven Ruins here on Talking Island used to be a place where the Elves taught the Humans magic a long time ago. They say that underground, there used to be a temple where the Elves performed sa…",
+   "header": "Trader Katerina",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00306_CrystalOfFireAndIce/30004-08.html": {
+   "file": "Q00306_CrystalOfFireAndIce/30004-08.html",
+   "quest": 306,
+   "text": "Trader Katerina: If I come across any information on rare jewels in the future, I may ask you for your services again. I hope you will help me then, too.",
+   "header": "Trader Katerina",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00306_CrystalOfFireAndIce/30004-09.html": {
+   "file": "Q00306_CrystalOfFireAndIce/30004-09.html",
+   "quest": 306,
+   "text": "Trader Katerina: Thank you. I thank you in advance. And don't worry about compensation. I will truly compensate you for as much as you bring back. I may not look it, but I always keep my word.",
+   "header": "Trader Katerina",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Crystals of Fire and Ice]",
+     "bypass": "npc_%objectId%_Quest Q00306_CrystalOfFireAndIce",
+     "kind": "quest",
+     "quest": 306,
+     "to": "Q00306_CrystalOfFireAndIce/30004-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Crystals of Fire and Ice (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00306_CrystalOfFireAndIce",
+     "kind": "quest",
+     "quest": 306,
+     "to": "Q00306_CrystalOfFireAndIce/30004-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

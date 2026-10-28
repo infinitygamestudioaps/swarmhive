@@ -1,0 +1,268 @@
+{
+ "npcId": 31743,
+ "name": "Kassandra",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.274Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31743.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "241": {
+   "name": "Possessor Of A Precious Soul 1",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 1]",
+    "[Path of the Noblesse, Precious Soul - 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31743-01.html",
+     "when": "cond 16",
+     "state": null,
+     "cond": [
+      16
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31743-03.html",
+     "when": "cond 17",
+     "state": null,
+     "cond": [
+      17
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "242": {
+   "name": "Possessor Of A Precious Soul 2",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 2]",
+    "[Path of the Noblesse, Precious Soul - 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/31743-01.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/31743-06.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/31743-07.html",
+     "when": "cond 11",
+     "state": null,
+     "cond": [
+      11
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31743.htm": {
+   "file": "default/31743.htm",
+   "quest": null,
+   "text": "Kassandra: ... I'm so sleepy... I need to sleep... But... but I can't... The dream will return... the dream about terrible things... things that haven't happened yet...",
+   "header": "Kassandra",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31743-01.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31743-01.html",
+   "quest": 241,
+   "text": "Kassandra: What is this...? Oh, it smells rancid! No way I'll take that!",
+   "header": "Kassandra",
+   "when": [
+    "cond 16"
+   ],
+   "links": [
+    {
+     "text": "\"But you must!\"",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 31743-02.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "31743-02.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31743-02.html",
+     "effect": "cond:17"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31743-03.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31743-03.html",
+   "quest": 241,
+   "text": "Kassandra: My grandfather wants to see you right now! Hurry up!",
+   "header": "Kassandra",
+   "when": [
+    "cond 17"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00242_PossessorOfAPreciousSoul2/31743-01.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/31743-01.html",
+   "quest": 242,
+   "text": "Kassandra: I'm scared. What should I do?",
+   "header": "Kassandra",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Come on, get going!\"",
+     "bypass": "Quest Q00242_PossessorOfAPreciousSoul2 31743-02.html",
+     "kind": "quest-event",
+     "script": "Q00242_PossessorOfAPreciousSoul2",
+     "event": "31743-02.html",
+     "quest": 242,
+     "to": "Q00242_PossessorOfAPreciousSoul2/31743-02.html"
+    }
+   ]
+  },
+  "Q00242_PossessorOfAPreciousSoul2/31743-06.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/31743-06.html",
+   "quest": 242,
+   "text": "Kassandra: You must go see Uncle Ogmar. Hurry!",
+   "header": "Kassandra",
+   "when": [
+    "cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00242_PossessorOfAPreciousSoul2/31743-07.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/31743-07.html",
+   "quest": 242,
+   "text": "Kassandra: Thank you! Grandpa Virgil, Uncle Ogmar! The princess is safe!",
+   "header": "Kassandra",
+   "when": [
+    "cond 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31743-02.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31743-02.html",
+   "quest": 241,
+   "text": "Kassandra: Eww! It's bitter. I think my headache is going away! My grandpa wants you to go see him.",
+   "header": "Kassandra",
+   "sets": {
+    "cond": "17"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00242_PossessorOfAPreciousSoul2/31743-02.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/31743-02.html",
+   "quest": 242,
+   "text": "Kassandra: But... the golden princess... the princess...!",
+   "header": "Kassandra",
+   "links": [
+    {
+     "text": "\"What's happening to her? What did you see in your dream?\"",
+     "bypass": "Quest Q00242_PossessorOfAPreciousSoul2 31743-03.html",
+     "kind": "quest-event",
+     "script": "Q00242_PossessorOfAPreciousSoul2",
+     "event": "31743-03.html",
+     "quest": 242,
+     "to": "Q00242_PossessorOfAPreciousSoul2/31743-03.html"
+    }
+   ]
+  },
+  "Q00242_PossessorOfAPreciousSoul2/31743-03.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/31743-03.html",
+   "quest": 242,
+   "text": "Kassandra: They had swords... so many... the princess is trying to escape, but she's caught... No! Don't hurt her! White feathers everywhere...! The princess is crying... she looks so sad... She is taken away!",
+   "header": "Kassandra",
+   "links": [
+    {
+     "text": "\"Where to? What do you see around there? Please tell me!\"",
+     "bypass": "Quest Q00242_PossessorOfAPreciousSoul2 31743-04.html",
+     "kind": "quest-event",
+     "script": "Q00242_PossessorOfAPreciousSoul2",
+     "event": "31743-04.html",
+     "quest": 242,
+     "to": "Q00242_PossessorOfAPreciousSoul2/31743-04.html"
+    }
+   ]
+  },
+  "Q00242_PossessorOfAPreciousSoul2/31743-04.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/31743-04.html",
+   "quest": 242,
+   "text": "Kassandra: Green... brown... strange-looking trees...",
+   "header": "Kassandra",
+   "links": [
+    {
+     "text": "\"What else? Tell me everything.\"",
+     "bypass": "Quest Q00242_PossessorOfAPreciousSoul2 31743-05.html",
+     "kind": "quest-event",
+     "script": "Q00242_PossessorOfAPreciousSoul2",
+     "event": "31743-05.html",
+     "quest": 242,
+     "to": "Q00242_PossessorOfAPreciousSoul2/31743-05.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00242_PossessorOfAPreciousSoul2/31743-05.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/31743-05.html",
+   "quest": 242,
+   "text": "Kassandra: That's all I can see. Ask Uncle Ogmar, he used to travel a lot, maybe he would know where it is. Please help the princess!",
+   "header": "Kassandra",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00241_PossessorOfAPreciousSoul1",
+     "kind": "quest",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31743-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00242_PossessorOfAPreciousSoul2",
+     "kind": "quest",
+     "quest": 242,
+     "to": "Q00242_PossessorOfAPreciousSoul2/31743-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

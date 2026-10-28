@@ -1,0 +1,81 @@
+{
+ "npcId": 30406,
+ "name": "Matheo",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.972Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30406.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/30406.htm": {
+   "file": "default/30406.htm",
+   "quest": null,
+   "text": "Matheo: Ah, to meet a traveler in a place like this! I am Matheo, a scholar of folkish lore, dispatched from the Ivory Tower. These days I am researching the history of the Talking Island. Do, can you believe that the structure you are looking at now was erected thousands of years ago? There are se…",
+   "header": "Matheo",
+   "links": [
+    {
+     "text": "Ask about the Ivory Tower.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30406-1.htm"
+    },
+    {
+     "text": "Ask about Hieros.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30406-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30406-1.htm": {
+   "file": "default/30406-1.htm",
+   "quest": null,
+   "text": "Matheo: To make a long story short, it is a high ranking spirit with strong powers. According to documentary records, the religion of the ancient Elves had more shamanistic elements than other Elven races, including performing sacrificial rites to the spirit kings and building megalithic structures…",
+   "header": "Matheo",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30406.htm"
+    }
+   ]
+  },
+  "default/30406-2.htm": {
+   "file": "default/30406-2.htm",
+   "quest": null,
+   "text": "Matheo: You don't know about Oren's Ivory Tower? Oren's Ivory Tower was built in the days of the Ancient Kingdom of Elmoreden, and is the chief temple of magic. These days its authority isn't what it once was, but still, most decent Mystics are trained there. Also, there is a rumor that a mysteriou…",
+   "header": "Matheo",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30406.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,217 @@
+{
+ "npcId": 30141,
+ "name": "Talloth",
+ "title": "Tetrarch",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.850Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30141.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "3": {
+   "name": "Will the Seal be Broken?",
+   "listText": [
+    "[Will the Seal be Broken?]",
+    "[Will the Seal be Broken? (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00003_WillTheSealBeBroken/30141-00.htm",
+     "when": "state CREATED; (player.getRace() != Race.DARK_ELF)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00003_WillTheSealBeBroken/30141-02.htm",
+     "when": "state CREATED; NOT (player.getRace() != Race.DARK_ELF); (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00003_WillTheSealBeBroken/30141-01.html",
+     "when": "state CREATED; NOT (player.getRace() != Race.DARK_ELF); NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00003_WillTheSealBeBroken/30141-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00003_WillTheSealBeBroken/30141-06.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30141.htm": {
+   "file": "default/30141.htm",
+   "quest": null,
+   "text": "Tetrarch Talloth: May the authority of Gran Kain command the world. I am Tetrarch Talloth of the Dark Elves -- heir of the dark Runsord Vellisark and the royal knight of Hierarch Mitraell . I am the envoy of Gran Kain who leads the hosts of darkness to the battlefield. A thousand years have passed …",
+   "header": "Tetrarch Talloth",
+   "links": [
+    {
+     "text": "Ask about Hierarch Mitraell",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30141-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30141-1.htm": {
+   "file": "default/30141-1.htm",
+   "quest": null,
+   "text": "Tetrarch Talloth: Hierarch Mitraell is our leader who rules the entire clan. He is the Sorcerer who inherited the secrets of black magic from the powerful Dasparion. He also holds the ultimate magical power, due to a contract with Drevanul. When war with the Elves of light was at its height, Human …",
+   "header": "Tetrarch Talloth",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30141.htm"
+    }
+   ]
+  },
+  "Q00003_WillTheSealBeBroken/30141-00.htm": {
+   "file": "Q00003_WillTheSealBeBroken/30141-00.htm",
+   "quest": 3,
+   "text": "Tetrarch Talloth: I have no task reserved for those of foreign races. Begone.",
+   "header": "Tetrarch Talloth",
+   "when": [
+    "state CREATED; (player.getRace() != Race.DARK_ELF)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00003_WillTheSealBeBroken/30141-02.htm": {
+   "file": "Q00003_WillTheSealBeBroken/30141-02.htm",
+   "quest": 3,
+   "text": "Tetrarch Talloth: For hundreds of years I have devoted myself to researching magic that could break the seal placed on our Hierarch, Mitraell. But we are still uncertain of the exact magic that created the seal -- all we are certain of is that the magic used for the seal is entirely different from …",
+   "header": "Tetrarch Talloth",
+   "when": [
+    "state CREATED; NOT (player.getRace() != Race.DARK_ELF); (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will gather the materials",
+     "bypass": "Quest Q00003_WillTheSealBeBroken 30141-03.htm",
+     "kind": "quest-event",
+     "script": "Q00003_WillTheSealBeBroken",
+     "event": "30141-03.htm",
+     "quest": 3,
+     "to": "Q00003_WillTheSealBeBroken/30141-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00003_WillTheSealBeBroken/30141-01.html": {
+   "file": "Q00003_WillTheSealBeBroken/30141-01.html",
+   "quest": 3,
+   "text": "Tetrarch Talloth: For hundreds of years, I have devoted my life to researching a method to break the seal that was placed on our Hierarch. I've received news that ancient magic scrolls have been discovered in the northern lands of Pabel, and they say that the scrolls contain secrets of dark arts th…",
+   "header": "Tetrarch Talloth",
+   "when": [
+    "state CREATED; NOT (player.getRace() != Race.DARK_ELF); NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00003_WillTheSealBeBroken/30141-04.html": {
+   "file": "Q00003_WillTheSealBeBroken/30141-04.html",
+   "quest": 3,
+   "text": "Tetrarch Talloth: You haven't been able to gather all three materials yet? Don't tell me that you've forgotten what materials you need to gather?",
+   "header": "Tetrarch Talloth",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Ask about the materials",
+     "bypass": "Quest Q00003_WillTheSealBeBroken 30141-05.html",
+     "kind": "quest-event",
+     "script": "Q00003_WillTheSealBeBroken",
+     "event": "30141-05.html",
+     "quest": 3,
+     "to": "Q00003_WillTheSealBeBroken/30141-05.html"
+    }
+   ]
+  },
+  "Q00003_WillTheSealBeBroken/30141-06.html": {
+   "file": "Q00003_WillTheSealBeBroken/30141-06.html",
+   "quest": 3,
+   "text": "Tetrarch Talloth: You've found all three materials. Well done! Now I can start my research to undo the 'spiritual chains.' We need further observation to see if the research will yield any results, but I believe that the seals placed on our Hierarch will one day be broken. I will give you this as a…",
+   "header": "Tetrarch Talloth",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00003_WillTheSealBeBroken/30141-03.htm": {
+   "file": "Q00003_WillTheSealBeBroken/30141-03.htm",
+   "quest": 3,
+   "text": "Tetrarch Talloth: The materials that I require for my magic are the omen beast's eye , Taint Stone and succubus' blood . You can find all three materials at the abandoned School of Dark Arts . If you do not know the way, ask Sentry Kayleen. You can obtain the first component by killing the omen bea…",
+   "header": "Tetrarch Talloth",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00003_WillTheSealBeBroken/30141-05.html": {
+   "file": "Q00003_WillTheSealBeBroken/30141-05.html",
+   "quest": 3,
+   "text": "Tetrarch Talloth: Tsk tsk. I will tell you one more time. I need the omen beast's eye , Taint Stone and succubus' blood . You can obtain the first component by killing the omen beast and taking the jewel that is embedded in its eye. The second material can be gathered by hunting stink zombies or ta…",
+   "header": "Tetrarch Talloth",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Will the Seal be Broken?]",
+     "bypass": "npc_%objectId%_Quest Q00003_WillTheSealBeBroken",
+     "kind": "quest",
+     "quest": 3,
+     "to": "Q00003_WillTheSealBeBroken/30141-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Will the Seal be Broken? (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00003_WillTheSealBeBroken",
+     "kind": "quest",
+     "quest": 3,
+     "to": "Q00003_WillTheSealBeBroken/30141-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,50 @@
+{
+ "npcId": 35361,
+ "name": "Blacksmith",
+ "title": "Goddard",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.429Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/CastleBlacksmith/35361-01.html",
+   "when": "(hasRights(player, npc))",
+   "src": "ai CastleBlacksmith"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/CastleBlacksmith/35361-01.html": {
+   "file": "ai/npc/CastleBlacksmith/35361-01.html",
+   "quest": null,
+   "text": "Blacksmith: What brings you here? Our Blacksmiths Guild has learned a new technique, so we can use more diverse crops. Our Dwarven dexterity is truly unequaled! If you want something made, just give us the order!",
+   "header": "Blacksmith",
+   "when": [
+    "(hasRights(player, npc))"
+   ],
+   "links": [
+    {
+     "text": "Crop Processing",
+     "bypass": "Quest CastleBlacksmith 35361-02.html",
+     "kind": "quest-event",
+     "script": "CastleBlacksmith",
+     "event": "35361-02.html",
+     "to": "ai/npc/CastleBlacksmith/35361-02.html"
+    }
+   ]
+  },
+  "ai/npc/CastleBlacksmith/35361-02.html": {
+   "file": "ai/npc/CastleBlacksmith/35361-02.html",
+   "quest": null,
+   "text": "If you provide the materials, it won't take anytime! What do you want made?",
+   "links": [
+    {
+     "text": "See the list",
+     "bypass": "npc_%objectId%_multisell 350980007",
+     "kind": "multisell"
+    }
+   ]
+  }
+ }
+}

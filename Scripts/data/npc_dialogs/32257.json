@@ -1,0 +1,804 @@
+{
+ "npcId": 32257,
+ "name": "Icon of the Future",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.365Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32257.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "178": {
+   "name": "Iconic Trinity",
+   "listText": [
+    "[Iconic Trinity]",
+    "[Iconic Trinity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00178_IconicTrinity/32257-01.html",
+     "when": "state STARTED; memo 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00178_IconicTrinity/32257-03.html",
+     "when": "state STARTED; memo 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00178_IconicTrinity/32257-10.html",
+     "when": "state STARTED; memo 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00178_IconicTrinity/32257-13.html",
+     "when": "state STARTED; memo 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32257.htm": {
+   "file": "default/32257.htm",
+   "quest": null,
+   "text": "The Statue of the Goddess of Future: It is the Statue of the Goddess which seems to peer into my future.",
+   "header": "The Statue of the Goddess of Future",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32257-01.html": {
+   "file": "Q00178_IconicTrinity/32257-01.html",
+   "quest": 178,
+   "text": "Statue of Future: ...? There's something that looks like a button on the front of the Goddess Statue.",
+   "header": "Statue of Future",
+   "when": [
+    "state STARTED; memo 7"
+   ],
+   "links": [
+    {
+     "text": "Push the button.",
+     "bypass": "Quest Q00178_IconicTrinity 32257-02.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-02.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-02.html"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32257-03.html": {
+   "file": "Q00178_IconicTrinity/32257-03.html",
+   "quest": 178,
+   "text": "Statue of Future: ######################## Please enter the password in order to open communication. Password: ######################## Eh, I remember the first letter of the password was...",
+   "header": "Statue of Future",
+   "when": [
+    "state STARTED; memo 8"
+   ],
+   "links": [
+    {
+     "text": "A",
+     "bypass": "Quest Q00178_IconicTrinity 32257-04.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-04.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-04.html"
+    },
+    {
+     "text": "B",
+     "bypass": "Quest Q00178_IconicTrinity 32257-04.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-04.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-04.html"
+    },
+    {
+     "text": "C",
+     "bypass": "Quest Q00178_IconicTrinity PASS3_1",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "PASS3_1",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-04.html"
+    },
+    {
+     "text": "H",
+     "bypass": "Quest Q00178_IconicTrinity 32257-04.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-04.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-04.html"
+    },
+    {
+     "text": "I",
+     "bypass": "Quest Q00178_IconicTrinity 32257-04.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-04.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-04.html"
+    },
+    {
+     "text": "J",
+     "bypass": "Quest Q00178_IconicTrinity 32257-04.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-04.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-04.html"
+    },
+    {
+     "text": "O",
+     "bypass": "Quest Q00178_IconicTrinity 32257-04.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-04.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-04.html"
+    },
+    {
+     "text": "P",
+     "bypass": "Quest Q00178_IconicTrinity 32257-04.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-04.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-04.html"
+    },
+    {
+     "text": "Q",
+     "bypass": "Quest Q00178_IconicTrinity 32257-04.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-04.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-04.html"
+    },
+    {
+     "text": "R",
+     "bypass": "Quest Q00178_IconicTrinity 32257-04.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-04.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-04.html"
+    },
+    {
+     "text": "S",
+     "bypass": "Quest Q00178_IconicTrinity 32257-04.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-04.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-04.html"
+    },
+    {
+     "text": "T",
+     "bypass": "Quest Q00178_IconicTrinity 32257-04.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-04.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-04.html"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32257-10.html": {
+   "file": "Q00178_IconicTrinity/32257-10.html",
+   "quest": 178,
+   "text": "Statue of Future: ######################## N: Ah! You came! Let us continue our conversation, then. ######################### N's message appears on the screen.",
+   "header": "Statue of Future",
+   "when": [
+    "state STARTED; memo 9"
+   ],
+   "links": [
+    {
+     "text": "Watch the screen.",
+     "bypass": "Quest Q00178_IconicTrinity 32257-11.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-11.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-11.html"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32257-13.html": {
+   "file": "Q00178_IconicTrinity/32257-13.html",
+   "quest": 178,
+   "text": "Statue of Future: ######################## N: I can tell you nothing more; return to Kekropus. Farewell! ########################",
+   "header": "Statue of Future",
+   "when": [
+    "state STARTED; memo 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00178_IconicTrinity/32257-02.html": {
+   "file": "Q00178_IconicTrinity/32257-02.html",
+   "quest": 178,
+   "text": "Statue of Future: The front panel of the statue opens, revealing some sort of machinery. A screen seems to display the overall situation, while a complicated-looking group of buttons are located just beneath it.",
+   "header": "Statue of Future",
+   "links": [
+    {
+     "text": "Look at the screen.",
+     "bypass": "Quest Q00178_IconicTrinity 32257-03.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-03.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-03.html"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32257-04.html": {
+   "file": "Q00178_IconicTrinity/32257-04.html",
+   "quest": 178,
+   "text": "Statue of Future: ######################## Please enter the password to open communication. Password: * ######################### The second letter of the password is...",
+   "header": "Statue of Future",
+   "links": [
+    {
+     "text": "A",
+     "bypass": "Quest Q00178_IconicTrinity 32257-05.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-05.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-05.html"
+    },
+    {
+     "text": "B",
+     "bypass": "Quest Q00178_IconicTrinity 32257-05.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-05.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-05.html"
+    },
+    {
+     "text": "C",
+     "bypass": "Quest Q00178_IconicTrinity 32257-05.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-05.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-05.html"
+    },
+    {
+     "text": "H",
+     "bypass": "Quest Q00178_IconicTrinity PASS3_2",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "PASS3_2",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-05.html"
+    },
+    {
+     "text": "I",
+     "bypass": "Quest Q00178_IconicTrinity 32257-05.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-05.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-05.html"
+    },
+    {
+     "text": "J",
+     "bypass": "Quest Q00178_IconicTrinity 32257-05.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-05.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-05.html"
+    },
+    {
+     "text": "O",
+     "bypass": "Quest Q00178_IconicTrinity 32257-05.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-05.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-05.html"
+    },
+    {
+     "text": "P",
+     "bypass": "Quest Q00178_IconicTrinity 32257-05.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-05.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-05.html"
+    },
+    {
+     "text": "Q",
+     "bypass": "Quest Q00178_IconicTrinity 32257-05.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-05.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-05.html"
+    },
+    {
+     "text": "R",
+     "bypass": "Quest Q00178_IconicTrinity 32257-05.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-05.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-05.html"
+    },
+    {
+     "text": "S",
+     "bypass": "Quest Q00178_IconicTrinity 32257-05.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-05.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-05.html"
+    },
+    {
+     "text": "T",
+     "bypass": "Quest Q00178_IconicTrinity 32257-05.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-05.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-05.html"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32257-05.html": {
+   "file": "Q00178_IconicTrinity/32257-05.html",
+   "quest": 178,
+   "text": "Statue of Future: ######################## Please enter the password to open communication. Password: ** ######################### The third letter of the password is...",
+   "header": "Statue of Future",
+   "links": [
+    {
+     "text": "A",
+     "bypass": "Quest Q00178_IconicTrinity PASS3_3",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "PASS3_3",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-06.html"
+    },
+    {
+     "text": "B",
+     "bypass": "Quest Q00178_IconicTrinity 32257-06.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-06.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-06.html"
+    },
+    {
+     "text": "C",
+     "bypass": "Quest Q00178_IconicTrinity 32257-06.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-06.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-06.html"
+    },
+    {
+     "text": "H",
+     "bypass": "Quest Q00178_IconicTrinity 32257-06.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-06.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-06.html"
+    },
+    {
+     "text": "I",
+     "bypass": "Quest Q00178_IconicTrinity 32257-06.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-06.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-06.html"
+    },
+    {
+     "text": "J",
+     "bypass": "Quest Q00178_IconicTrinity 32257-06.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-06.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-06.html"
+    },
+    {
+     "text": "O",
+     "bypass": "Quest Q00178_IconicTrinity 32257-06.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-06.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-06.html"
+    },
+    {
+     "text": "P",
+     "bypass": "Quest Q00178_IconicTrinity 32257-06.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-06.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-06.html"
+    },
+    {
+     "text": "Q",
+     "bypass": "Quest Q00178_IconicTrinity 32257-06.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-06.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-06.html"
+    },
+    {
+     "text": "R",
+     "bypass": "Quest Q00178_IconicTrinity 32257-06.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-06.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-06.html"
+    },
+    {
+     "text": "S",
+     "bypass": "Quest Q00178_IconicTrinity 32257-06.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-06.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-06.html"
+    },
+    {
+     "text": "T",
+     "bypass": "Quest Q00178_IconicTrinity 32257-06.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-06.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-06.html"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32257-06.html": {
+   "file": "Q00178_IconicTrinity/32257-06.html",
+   "quest": 178,
+   "text": "Statue of Future: ######################## Please enter the password to open communication. Password: *** ######################### The fourth letter of the password is...",
+   "header": "Statue of Future",
+   "links": [
+    {
+     "text": "A",
+     "bypass": "Quest Q00178_IconicTrinity 32257-07.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-07.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-07.html"
+    },
+    {
+     "text": "B",
+     "bypass": "Quest Q00178_IconicTrinity 32257-07.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-07.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-07.html"
+    },
+    {
+     "text": "C",
+     "bypass": "Quest Q00178_IconicTrinity 32257-07.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-07.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-07.html"
+    },
+    {
+     "text": "H",
+     "bypass": "Quest Q00178_IconicTrinity 32257-07.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-07.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-07.html"
+    },
+    {
+     "text": "I",
+     "bypass": "Quest Q00178_IconicTrinity 32257-07.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-07.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-07.html"
+    },
+    {
+     "text": "J",
+     "bypass": "Quest Q00178_IconicTrinity 32257-07.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-07.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-07.html"
+    },
+    {
+     "text": "O",
+     "bypass": "Quest Q00178_IconicTrinity PASS3_4",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "PASS3_4",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-07.html"
+    },
+    {
+     "text": "P",
+     "bypass": "Quest Q00178_IconicTrinity 32257-07.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-07.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-07.html"
+    },
+    {
+     "text": "Q",
+     "bypass": "Quest Q00178_IconicTrinity 32257-07.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-07.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-07.html"
+    },
+    {
+     "text": "R",
+     "bypass": "Quest Q00178_IconicTrinity 32257-07.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-07.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-07.html"
+    },
+    {
+     "text": "S",
+     "bypass": "Quest Q00178_IconicTrinity 32257-07.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-07.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-07.html"
+    },
+    {
+     "text": "T",
+     "bypass": "Quest Q00178_IconicTrinity 32257-07.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-07.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-07.html"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32257-07.html": {
+   "file": "Q00178_IconicTrinity/32257-07.html",
+   "quest": 178,
+   "text": "Statue of Future: ######################## Please enter the password to open communication. Password: **** ######################### The final letter of the password is...",
+   "header": "Statue of Future",
+   "links": [
+    {
+     "text": "A",
+     "bypass": "Quest Q00178_IconicTrinity 32257-09.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-09.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-09.html"
+    },
+    {
+     "text": "B",
+     "bypass": "Quest Q00178_IconicTrinity 32257-09.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-09.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-09.html"
+    },
+    {
+     "text": "C",
+     "bypass": "Quest Q00178_IconicTrinity 32257-09.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-09.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-09.html"
+    },
+    {
+     "text": "H",
+     "bypass": "Quest Q00178_IconicTrinity 32257-09.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-09.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-09.html"
+    },
+    {
+     "text": "I",
+     "bypass": "Quest Q00178_IconicTrinity 32257-09.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-09.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-09.html"
+    },
+    {
+     "text": "J",
+     "bypass": "Quest Q00178_IconicTrinity 32257-09.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-09.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-09.html"
+    },
+    {
+     "text": "O",
+     "bypass": "Quest Q00178_IconicTrinity 32257-09.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-09.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-09.html"
+    },
+    {
+     "text": "P",
+     "bypass": "Quest Q00178_IconicTrinity 32257-09.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-09.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-09.html"
+    },
+    {
+     "text": "Q",
+     "bypass": "Quest Q00178_IconicTrinity 32257-09.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-09.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-09.html"
+    },
+    {
+     "text": "R",
+     "bypass": "Quest Q00178_IconicTrinity 32257-09.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-09.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-09.html"
+    },
+    {
+     "text": "S",
+     "bypass": "Quest Q00178_IconicTrinity PASS3_5",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "PASS3_5",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-08.html",
+     "toAll": [
+      "Q00178_IconicTrinity/32257-08.html",
+      "Q00178_IconicTrinity/32257-09.html"
+     ]
+    },
+    {
+     "text": "T",
+     "bypass": "Quest Q00178_IconicTrinity 32257-09.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-09.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-09.html"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32257-08.html": {
+   "file": "Q00178_IconicTrinity/32257-08.html",
+   "quest": 178,
+   "text": "Statue of Future: ######################## Please enter the password to open communication. Password: ***** [Authentication Successful] Connecting... ######################## You have entered the correct password.",
+   "header": "Statue of Future",
+   "links": [
+    {
+     "text": "Wait to be connected.",
+     "bypass": "Quest Q00178_IconicTrinity 32257-10.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-10.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-10.html"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32257-09.html": {
+   "file": "Q00178_IconicTrinity/32257-09.html",
+   "quest": 178,
+   "text": "Statue of Future: ######################## Please enter the password to open communication. Password: ***** [Authentication Failed] ######################## You have entered an incorrect password.",
+   "header": "Statue of Future",
+   "links": [
+    {
+     "text": "Reenter the password.",
+     "bypass": "Quest Q00178_IconicTrinity 32257-03.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-03.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-03.html"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32257-11.html": {
+   "file": "Q00178_IconicTrinity/32257-11.html",
+   "quest": 178,
+   "text": "Statue of Future: ######################## N: For ages, this Isle of Souls acted as a seal between dimensions, but as you can see, the island and its inhabitants, the Kamael, have now been unsealed. It is unknown who was reponsible for unsealing the island, but the first outsiders to set foot on th…",
+   "header": "Statue of Future",
+   "links": [
+    {
+     "text": "\"If the Isle of Souls was hidden to avoid discovery, why would it be revealed now?\"",
+     "bypass": "Quest Q00178_IconicTrinity 32257-12.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32257-12.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-12.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32257-12.html": {
+   "file": "Q00178_IconicTrinity/32257-12.html",
+   "quest": 178,
+   "text": "Statue of Future: ######################## %name1%: If the Isle of Souls was hidden to avoid discovery, why would it be revealed now? N: That is a mystery. Perhaps the original reason for hiding the island is no longer necessary -- or perhaps there is an even more compelling reason to risk unsealin…",
+   "header": "Statue of Future",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Iconic Trinity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00178_IconicTrinity",
+     "kind": "quest",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32257-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

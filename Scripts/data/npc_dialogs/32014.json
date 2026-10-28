@@ -1,0 +1,170 @@
+{
+ "npcId": 32014,
+ "name": "Ivan",
+ "title": "Runaway Youth",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.311Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32014.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "651": {
+   "name": "Runaway Youth",
+   "listText": [
+    "[Runaway Youth]",
+    "[Runaway Youth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00651_RunawayYouth/32014-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00651_RunawayYouth/32014-01a.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00651_RunawayYouth/32014-02.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32014.htm": {
+   "file": "default/32014.htm",
+   "quest": null,
+   "text": "Ivan: The boy in shabby clothing looks very anxious. He appears to have slept outdoors in this dangerous place.",
+   "header": "Ivan",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00651_RunawayYouth/32014-01.htm": {
+   "file": "Q00651_RunawayYouth/32014-01.htm",
+   "quest": 651,
+   "text": "Ivan: Oh, you're an adventurer, aren't you? Phew... I'm Ivan. I'm a fisherman like my father! But to tell you the truth, I hate the smell of fish! So I left home... I've been wandering around this dangerous place, and now I'm thinking that maybe my father was right after all! I wish I could go back…",
+   "header": "Ivan",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Here's a Scroll of Escape.\"",
+     "bypass": "Quest Q00651_RunawayYouth 32014-04.htm",
+     "kind": "quest-event",
+     "script": "Q00651_RunawayYouth",
+     "event": "32014-04.htm",
+     "quest": 651,
+     "to": "Q00651_RunawayYouth/32014-04.htm",
+     "toAll": [
+      "Q00651_RunawayYouth/32014-04.htm",
+      "Q00651_RunawayYouth/32014-05.htm"
+     ],
+     "effect": "start"
+    },
+    {
+     "text": "\"Get lost! I've got my own problems.\"",
+     "bypass": "Quest Q00651_RunawayYouth 32014-03.html",
+     "kind": "quest-event",
+     "script": "Q00651_RunawayYouth",
+     "event": "32014-03.html",
+     "quest": 651,
+     "to": "Q00651_RunawayYouth/32014-03.html"
+    }
+   ]
+  },
+  "Q00651_RunawayYouth/32014-01a.htm": {
+   "file": "Q00651_RunawayYouth/32014-01a.htm",
+   "quest": 651,
+   "text": "Ivan: The boy appears not to trust you. He doesn't want to talk to you. (Only characters level 26 and above are permitted to take on this quest.)",
+   "header": "Ivan",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00651_RunawayYouth/32014-02.html": {
+   "file": "Q00651_RunawayYouth/32014-02.html",
+   "quest": 651,
+   "text": "Ivan: Thanks to you, I can get home safely. Thank you again! My father is Batidae, a Fishing Guild Member of the Town of Schuttgart . If you go there, please look for my father. He'll reward you. I'm leaving now... Good luck!",
+   "header": "Ivan",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00651_RunawayYouth/32014-03.html": {
+   "file": "Q00651_RunawayYouth/32014-03.html",
+   "quest": 651,
+   "text": "Ivan: You're such a cold person... I never should've left home.... If I die out here, I will curse you and haunt you forever!",
+   "header": "Ivan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00651_RunawayYouth/32014-04.htm": {
+   "file": "Q00651_RunawayYouth/32014-04.htm",
+   "quest": 651,
+   "text": "Ivan: Thank you so much! Now I can now get home safely. Again, thank you. My father is Batidae, a Fishing Guild Member of the Town of Schuttgart . If you go there, please look for my father. He'll reward you. I'm leaving now... Good luck!",
+   "header": "Ivan",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00651_RunawayYouth/32014-05.htm": {
+   "file": "Q00651_RunawayYouth/32014-05.htm",
+   "quest": 651,
+   "text": "Ivan: You don't have the Scroll of Escape... If you ever meet someone who has one, please ask them to help me! By all that is Holy, I beg you!",
+   "header": "Ivan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Runaway Youth]",
+     "bypass": "npc_%objectId%_Quest Q00651_RunawayYouth",
+     "kind": "quest",
+     "quest": 651,
+     "to": "Q00651_RunawayYouth/32014-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Runaway Youth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00651_RunawayYouth",
+     "kind": "quest",
+     "quest": 651,
+     "to": "Q00651_RunawayYouth/32014-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

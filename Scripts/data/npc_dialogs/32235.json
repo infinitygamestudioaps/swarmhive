@@ -1,0 +1,423 @@
+{
+ "npcId": 32235,
+ "name": "Katenar",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.362Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00068_SagaOfTheSoulHound/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 68"
+  },
+  {
+   "page": "Q00068_SagaOfTheSoulHound/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 68"
+  },
+  {
+   "page": "Q00068_SagaOfTheSoulHound/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 68"
+  },
+  {
+   "page": "Q00068_SagaOfTheSoulHound/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 68"
+  },
+  {
+   "page": "Q00068_SagaOfTheSoulHound/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 68"
+  },
+  {
+   "page": "Q00068_SagaOfTheSoulHound/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 68"
+  },
+  {
+   "page": "Q00068_SagaOfTheSoulHound/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 68"
+  },
+  {
+   "page": "Q00068_SagaOfTheSoulHound/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 68"
+  }
+ ],
+ "quests": {
+  "68": {
+   "name": "Saga of the Soul Hound",
+   "listText": [
+    "[Saga of the Soul Hound]",
+    "[Saga of the Soul Hound (In Progress)]"
+   ],
+   "onTalk": []
+  },
+  "236": {
+   "name": "Seeds Of Chaos",
+   "listText": [
+    "[Seeds of Chaos]",
+    "[Seeds of Chaos (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00236_SeedsOfChaos/32235-01a.html",
+     "when": "state STARTED; memo 6; player == c0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32235-01z.html",
+     "when": "state STARTED; memo 6; !player == c0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32235-09z.html",
+     "when": "state STARTED; memo 20; qs.getMemoStateEx(1) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "Q00068_SagaOfTheSoulHound/4-04.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/4-04.htm",
+   "quest": 68,
+   "text": "Katenar: Don't hesitate to kill!",
+   "header": "Katenar",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/4-06.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/4-06.htm",
+   "quest": 68,
+   "text": "Katenar: Whew, that was too close for comfort! Thank you! My name is Katenar. Have we met before? It is my duty to deliver this final Resonance Amulet to the pilgrims, and one of Einhasad's followers was trying to steal it before I could give it to you. You have already heard, haven't you? There is…",
+   "header": "Katenar",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "Ask why Einhasad is searching for Leopold.",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 4-1",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "4-1",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/4-010.htm"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/4-01.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/4-01.htm",
+   "quest": 68,
+   "text": "Katenar: Finally, someone shows up! I knew it would happen sooner or later!",
+   "header": "Katenar",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/4-03.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/4-03.htm",
+   "quest": 68,
+   "text": "Katenar: ............ Damn the bad luck.....! He got away again! I think I'm in over my head...! .... If only some capable person would offer to help me....",
+   "header": "Katenar",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/4-05.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/4-05.htm",
+   "quest": 68,
+   "text": "Katenar: You're brave, but this isn't the time for you to fight! Stay away for now!",
+   "header": "Katenar",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/4-07.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/4-07.htm",
+   "quest": 68,
+   "text": "Katenar: Whew, that was too close for comfort! Thank you! My name is Katenar. Have we met before? It is my duty to deliver this final Resonance Amulet to the pilgrims, and one of Einhasad's followers was trying to steal it before I could give it to you. You have already heard, haven't you? There is…",
+   "header": "Katenar",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "Ask why Einhasad is searching for Enuma Elish.",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 4-2",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "4-2",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/4-02.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/4-02.htm",
+   "quest": 68,
+   "text": "Katenar: Don't talk to me now! It's too dangerous! Stay away!",
+   "header": "Katenar",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/4-08.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/4-08.htm",
+   "quest": 68,
+   "text": "Katenar: I've already given you everything I have to give! Don't listen to me! Get your answer from that stone tablet over there!",
+   "header": "Katenar",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32235-01a.html": {
+   "file": "Q00236_SeedsOfChaos/32235-01a.html",
+   "quest": 236,
+   "text": "Katenar: I am sorry to have kept you waiting. My name is Katenar -- have you heard of me? Thank you for agreeing to meet me in such a remote place. I am being pursued and must take every precaution I can. I think we are safe for the moment, in any event. What do wish to ask me?",
+   "header": "Katenar",
+   "when": [
+    "state STARTED; memo 6; player == c0"
+   ],
+   "links": [
+    {
+     "text": "\"What are you doing in a place like this?\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 32235-02a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32235-02a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32235-02a.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32235-01z.html": {
+   "file": "Q00236_SeedsOfChaos/32235-01z.html",
+   "quest": 236,
+   "text": "Katenar: Unfortunately, the timing simply isn't optimal. I hope we will be able to meet again, but this is not the time or place.",
+   "header": "Katenar",
+   "when": [
+    "state STARTED; memo 6; !player == c0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32235-09z.html": {
+   "file": "Q00236_SeedsOfChaos/32235-09z.html",
+   "quest": 236,
+   "text": "Katenar: Ah, we meet again. But as you can see, I am occupied with other matters -- and you are pressed for time as well. Seek Harkilgamed, who is hiding in Saint's Valley .",
+   "header": "Katenar",
+   "when": [
+    "state STARTED; memo 20; qs.getMemoStateEx(1) == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/4-010.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/4-010.htm",
+   "quest": 68,
+   "text": "Katenar: His goal is to prevent the Kamael from regaining their rightful innate power. All the problems you've had stem from his efforts, in fact. Here is what he dropped when he fled. Take it -- you'll need it. Ah, I see that you're wondering whether you will achieve the same level of power I have…",
+   "header": "Katenar",
+   "links": [
+    {
+     "text": "\"Wait...\"",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 4-3",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "4-3",
+     "quest": 68,
+     "to": null,
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/4-011.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/4-011.htm",
+   "quest": 68,
+   "text": "Katenar: His goal is to prevent the Kamael from regaining their rightful innate power. All the problems you've had stem from his efforts, in fact. Here is what he dropped when he fled. Take it -- you'll need it. Ah, I see that you're wondering whether you will achieve the same level of power I have…",
+   "header": "Katenar",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/4-09.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/4-09.htm",
+   "quest": 68,
+   "text": "Katenar: I've already given you everything I have to give! Don't listen to me! Get your answer from that stone tablet over there!",
+   "header": "Katenar",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32235-02a.html": {
+   "file": "Q00236_SeedsOfChaos/32235-02a.html",
+   "quest": 236,
+   "text": "Katenar: Hmm, I see that wizard has put you in a bad mood. I too am extremely busy, you must understand. My kind are very different from you.",
+   "header": "Katenar",
+   "links": [
+    {
+     "text": "Tell him that you both look the same on the outside.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32235-03a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32235-03a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32235-03a.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32235-03a.html": {
+   "file": "Q00236_SeedsOfChaos/32235-03a.html",
+   "quest": 236,
+   "text": "Katenar: Perhaps. However, my 2 brethren and I are different beings than you. Can you not perceive the difference? The truth is, that is the reason I agreed to meet with you. It is important that you understand that despite the similarities, we are fundamentally different. Nor is it simply a matter…",
+   "header": "Katenar",
+   "links": [
+    {
+     "text": "\"I don't understand.\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 32235-04a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32235-04a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32235-04a.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32235-04a.html": {
+   "file": "Q00236_SeedsOfChaos/32235-04a.html",
+   "quest": 236,
+   "text": "Katenar: Do you still not understand? It is the truth! You must have felt it in your journey. Why do our ancient ones not decay, physically or mentally? How is it that even compared to the other elders, Kekropus has lived so long -- ten thousand years and more, an unimaginable span even for those s…",
+   "header": "Katenar",
+   "links": [
+    {
+     "text": "Tell him to stop changing the subject.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32235-05a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32235-05a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32235-05a.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32235-05a.html": {
+   "file": "Q00236_SeedsOfChaos/32235-05a.html",
+   "quest": 236,
+   "text": "Katenar: Unfortunately, I do not know everything -- and I cannot tell you everything that I do know. Knowledge can be a burden as well as a key! Know this, then: you and I are both Kamael, but in truth we are different in nature. Confused? Dark Elves may be Elves, but they are not called Elves, are…",
+   "header": "Katenar",
+   "links": [
+    {
+     "text": "Asks why he wanted to see you.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32235-06a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32235-06a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32235-06a.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32235-06a.html": {
+   "file": "Q00236_SeedsOfChaos/32235-06a.html",
+   "quest": 236,
+   "text": "Katenar: I came here at the request of Hierarch Kekropus, who instructed me to reveal to you the secret of the Kamael... Truthfully, I do not know why Kekropus asked me to do so, but I respect his wisdom.",
+   "header": "Katenar",
+   "links": [
+    {
+     "text": "Ask what the secret is.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32235-08a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32235-08a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32235-08a.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32235-08a.html": {
+   "file": "Q00236_SeedsOfChaos/32235-08a.html",
+   "quest": 236,
+   "text": "Katenar: You already know that our race was created for a specific goal, don't you? I'm sure you have uncovered at least an inkling during your journey. But my information concerns that less than it does how we were created...and by whom.",
+   "header": "Katenar",
+   "links": [
+    {
+     "text": "Wait.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32235-09a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32235-09a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32235-09a.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32235-09a.html": {
+   "file": "Q00236_SeedsOfChaos/32235-09a.html",
+   "quest": 236,
+   "text": "Katenar: Ah... If only time permitted, I would like to tell you everything... But it does not, unfortunately, and even now time is growing short. Are you familiar with the word \" Spicula ?\" Go ask one of my brethren, Harkilgamed about it and listen to his reply... I can speak no more -- I must disa…",
+   "header": "Katenar",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00236_SeedsOfChaos KEITNAR_DESPAWN",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "KEITNAR_DESPAWN",
+     "quest": 236,
+     "to": null
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Soul Hound (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00068_SagaOfTheSoulHound",
+     "kind": "quest",
+     "quest": 68,
+     "to": null,
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seeds of Chaos (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00236_SeedsOfChaos",
+     "kind": "quest",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32235-01a.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

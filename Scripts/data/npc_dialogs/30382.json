@@ -1,0 +1,434 @@
+{
+ "npcId": 30382,
+ "name": "Leikan",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.961Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30382.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "327": {
+   "name": "Recover the Farmland",
+   "listText": [
+    "[Recover the Farmland]",
+    "[Recover the Farmland (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00327_RecoverTheFarmland/30382-02.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00327_RecoverTheFarmland/30382-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00327_RecoverTheFarmland/30382-04.html",
+     "when": "state STARTED; has items 5012",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00327_RecoverTheFarmland/30382-05.html",
+     "when": "state STARTED; lacks items 5012",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "411": {
+   "name": "Path Of The Assassin",
+   "listText": [
+    "[Path of the Assassin]",
+    "[Path of the Assassin (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00411_PathOfTheAssassin/30382-01.html",
+     "when": "state STARTED; has items 1246; lacks items 1247,1250,1251,1252,1245,1248; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30382-05.html",
+     "when": "state STARTED; has items 1247; lacks items 1246,1250,1251,1252,1245,1248; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOONST",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30382-06.html",
+     "when": "state STARTED; has items 1247,1248; lacks items 1246,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOONST; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOO; getQuestItemsCount(player, MOONSTONE_BEASTS_MOLAR) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30382-07.html",
+     "when": "state STARTED; has items 1247; lacks items 1246,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOONST; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOO; !(hasQuestItems(player, MOONSTONE_BEASTS_MOLAR) && (getQuestItemsCount(player, MOONSTONE_BEASTS_MOLAR) < 10))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30382-08.html",
+     "when": "state STARTED; has items 1250; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOONST; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOO; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && ",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30382-09.html",
+     "when": "state STARTED; lacks items 1250,1246,1247,1251,1252,1245,1248; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOONST; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOO; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && ",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30382.htm": {
+   "file": "guard/30382.htm",
+   "quest": null,
+   "text": "Guard Leikan: If you follow this road northeast, you will come to the Ruins of Agony. Originally, it was the village of Bernice, where I was born, but it was reduced to ashes by the war. If you see its ghastly state, you will understand why it's now called the Ruins of Agony. If you pass the ruins …",
+   "header": "Guard Leikan",
+   "links": [
+    {
+     "text": "Ask about the 'Ruins of Agony'.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30382-1.htm"
+    },
+    {
+     "text": "Ask about the Dark Forest.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30382-2.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30382-1.htm": {
+   "file": "guard/30382-1.htm",
+   "quest": null,
+   "text": "Guard Leikan: The Ruins of Agony used to be a vineyard. It was a beautiful, peaceful place where they tended grapevines and olive trees. However, the village was burnt by the Gracian army, led by ol mahum mercenaries, and most of the people were slaughtered. Recently, the lord sent engineers to the…",
+   "header": "Guard Leikan",
+   "links": [
+    {
+     "text": "Ask about the undead",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "guard/30382-3.htm"
+    }
+   ]
+  },
+  "guard/30382-2.htm": {
+   "file": "guard/30382-2.htm",
+   "quest": null,
+   "text": "Guard Leikan: It is a vast forest to the northeast in Oren and is the headquarters of the Dark Elves. They have a deep-rooted feud against the Elves of light, and so the two enemies have come to blows on occasion, but now they have signed a peace agreement. I shudder when I look at the Dark Elves, …",
+   "header": "Guard Leikan",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30382.htm"
+    }
+   ]
+  },
+  "guard/30382-3.htm": {
+   "file": "guard/30382-3.htm",
+   "quest": null,
+   "text": "Guard Leikan: When the war broke out, the people who were unable to escape to Gludio Castle all flocked to the village of Bernice. They thought they could withstand the attack of the invaders because the village had a stone outer wall. The lord's men, who suffered retreat after retreat, positioned …",
+   "header": "Guard Leikan",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30382.htm"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30382-02.htm": {
+   "file": "Q00327_RecoverTheFarmland/30382-02.htm",
+   "quest": 327,
+   "text": "Guard Leikan: At one time the land northwest of Gludio was fertile farmland, yielding bountiful harvests of wheat and barley. During the dark days of the invasion of Gracia, when the farmers were in hiding, the land was taken over by the filthy Turek orcs. Some day, my people will drive them out an…",
+   "header": "Guard Leikan",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"I will aid the farmers.\"",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30382-03.htm",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30382-03.htm",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30382-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30382-01.htm": {
+   "file": "Q00327_RecoverTheFarmland/30382-01.htm",
+   "quest": 327,
+   "text": "Guard Leikan: At one time the land northwest of Gludio was fertile farmland, yielding bountiful harvests of wheat and barley. During the dark days of the invasion of Gracia, when the farmers were in hiding, the land was taken over by the filthy Turek orcs. Some day, my people will drive them out an…",
+   "header": "Guard Leikan",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00327_RecoverTheFarmland/30382-04.html": {
+   "file": "Q00327_RecoverTheFarmland/30382-04.html",
+   "quest": 327,
+   "text": "Guard Leikan: You must hurry and take this letter to Piotur . His farm is near the east entrance of the Orc Barracks . I pray that you are able to recover the lands for the farmers of Gludio.",
+   "header": "Guard Leikan",
+   "when": [
+    "state STARTED; has items 5012"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00327_RecoverTheFarmland/30382-05.html": {
+   "file": "Q00327_RecoverTheFarmland/30382-05.html",
+   "quest": 327,
+   "text": "Guard Leikan: Ah, you again! How was Piotur? By the way, in case you're interested, I've heard that some relics from the ancient empire have been discovered near the Orc Barracks. You could make quite a bit of money selling those.",
+   "header": "Guard Leikan",
+   "when": [
+    "state STARTED; lacks items 5012"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the relics from the ancient empire.\"",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30382-05a.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30382-05a.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30382-05a.html"
+    }
+   ]
+  },
+  "Q00411_PathOfTheAssassin/30382-01.html": {
+   "file": "Q00411_PathOfTheAssassin/30382-01.html",
+   "quest": 411,
+   "text": "Guard Leikan: Ha ha! Welcome. So Arkenia sent you. What can your humble servant do for you?",
+   "header": "Guard Leikan",
+   "when": [
+    "state STARTED; has items 1246; lacks items 1247,1250,1251,1252,1245,1248; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Ask about the thieves.",
+     "bypass": "Quest Q00411_PathOfTheAssassin 30382-02.html",
+     "kind": "quest-event",
+     "script": "Q00411_PathOfTheAssassin",
+     "event": "30382-02.html",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30382-02.html"
+    }
+   ]
+  },
+  "Q00411_PathOfTheAssassin/30382-05.html": {
+   "file": "Q00411_PathOfTheAssassin/30382-05.html",
+   "quest": 411,
+   "text": "Guard Leikan: If you want to hear my information about the thieves, then quickly go to the Neutral Zone and find me ten Moonstone beast molars. Now, hurry up please!",
+   "header": "Guard Leikan",
+   "when": [
+    "state STARTED; has items 1247; lacks items 1246,1250,1251,1252,1245,1248; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOONST"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30382-06.html": {
+   "file": "Q00411_PathOfTheAssassin/30382-06.html",
+   "quest": 411,
+   "text": "Guard Leikan: Look now, I clearly remember saying ten . Maybe you need to review your fundamental math skills? More is acknowledged but less is not. Hurry and go find the remaining molars.",
+   "header": "Guard Leikan",
+   "when": [
+    "state STARTED; has items 1247,1248; lacks items 1246,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOONST; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOO; getQuestItemsCount(player, MOONSTONE_BEASTS_MOLAR) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30382-07.html": {
+   "file": "Q00411_PathOfTheAssassin/30382-07.html",
+   "quest": 411,
+   "text": "Guard Leikan: Oh, great! Thank you for your trouble. Now I will tell you about the thieves. The ringleader is an Orc named Calpico . The fellow is very elusive, so you never know when he will show up or where, but a few days ago a report said that he was seen near the School of Dark Arts in the Dar…",
+   "header": "Guard Leikan",
+   "when": [
+    "state STARTED; has items 1247; lacks items 1246,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOONST; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOO; !(hasQuestItems(player, MOONSTONE_BEASTS_MOLAR) && (getQuestItemsCount(player, MOONSTONE_BEASTS_MOLAR) < 10))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30382-08.html": {
+   "file": "Q00411_PathOfTheAssassin/30382-08.html",
+   "quest": 411,
+   "text": "Guard Leikan: You have recovered Shilen's Tears. How could someone take such little care of such a valuable holy relic ... Tsk tsk ... If you take that to Arkenia , she will be pleased. Give her my regards!",
+   "header": "Guard Leikan",
+   "when": [
+    "state STARTED; has items 1250; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOONST; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOO; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && "
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30382-09.html": {
+   "file": "Q00411_PathOfTheAssassin/30382-09.html",
+   "quest": 411,
+   "text": "Guard Leikan: As I told you, the thief's identity is an Orc named Calpico . The fellow is very elusive, so you never know when he will show up or where, but a few days ago a report said that he was seen near the School of Dark Arts in the Dark Forest. If you search in the vicinity of the School of …",
+   "header": "Guard Leikan",
+   "when": [
+    "state STARTED; lacks items 1250,1246,1247,1251,1252,1245,1248; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOONST; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL, MOO; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && "
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00327_RecoverTheFarmland/30382-03.htm": {
+   "file": "Q00327_RecoverTheFarmland/30382-03.htm",
+   "quest": 327,
+   "text": "Guard Leikan: Excellent. Take this letter to Farmer Piotur . He is bravely tending his crops while being overrun by filthy orcs. His farm is near the east entrance of the Orc Barracks .",
+   "header": "Guard Leikan",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00327_RecoverTheFarmland/30382-05a.html": {
+   "file": "Q00327_RecoverTheFarmland/30382-05a.html",
+   "quest": 327,
+   "text": "Guard Leikan: Bear in mind that this is a rumor, I've not seen it myself. I was told that mercenaries have been seen returning from the area near the Orc Barracks with relics from the Elmo-Aden period. Although they are little more than pottery shards, they fetch a high price. If you are interested…",
+   "header": "Guard Leikan",
+   "links": [
+    {
+     "text": "\"Where can I find a relics expert?\"",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30382-05b.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30382-05b.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30382-05b.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30382-05b.html": {
+   "file": "Q00327_RecoverTheFarmland/30382-05b.html",
+   "quest": 327,
+   "text": "Guard Leikan: I know that Trader Asha is an expert in the restoration of relics. He can be found at his magic store. Magister Iris is researching relics of ancient empires at the temple... Also, Trader Nestle is an avid collector of relics. He can be found at the grocery store in the southwest part…",
+   "header": "Guard Leikan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30382-02.html": {
+   "file": "Q00411_PathOfTheAssassin/30382-02.html",
+   "quest": 411,
+   "text": "Guard Leikan: The thieves that stole your race's treasures? Ah ... I do know roughly where they live, but ... I could tell you, but there is one condition. If you accept one request, I will give you information on the thieves. Please don't think I am stingy. A man must do something to survive. Noth…",
+   "header": "Guard Leikan",
+   "links": [
+    {
+     "text": "Accept his request",
+     "bypass": "Quest Q00411_PathOfTheAssassin 30382-03.html",
+     "kind": "quest-event",
+     "script": "Q00411_PathOfTheAssassin",
+     "event": "30382-03.html",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30382-03.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "Do not have time to accept his request",
+     "bypass": "Quest Q00411_PathOfTheAssassin 30382-04.html",
+     "kind": "quest-event",
+     "script": "Q00411_PathOfTheAssassin",
+     "event": "30382-04.html",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30382-04.html"
+    }
+   ]
+  },
+  "Q00411_PathOfTheAssassin/30382-03.html": {
+   "file": "Q00411_PathOfTheAssassin/30382-03.html",
+   "quest": 411,
+   "text": "Guard Leikan: Actually, I recently boasted to my colleagues that I was attacked by Moonstone beasts while returning from the Dark Forest, and that I killed several. My colleagues didn't believe me and asked to see proof. This put me in a rather ... awkward position. So you see, I need ten Moonstone…",
+   "header": "Guard Leikan",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30382-04.html": {
+   "file": "Q00411_PathOfTheAssassin/30382-04.html",
+   "quest": 411,
+   "text": "Guard Leikan: If you don't want to grant my request, I cannot give you information on the thieves. I don't do business that doesn't earn a reasonable profit.",
+   "header": "Guard Leikan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Recover the Farmland]",
+     "bypass": "npc_%objectId%_Quest Q00327_RecoverTheFarmland",
+     "kind": "quest",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30382-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Recover the Farmland (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00327_RecoverTheFarmland",
+     "kind": "quest",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30382-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Assassin (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00411_PathOfTheAssassin",
+     "kind": "quest",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30382-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

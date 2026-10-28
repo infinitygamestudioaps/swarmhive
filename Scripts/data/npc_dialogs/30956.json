@@ -1,0 +1,323 @@
+{
+ "npcId": 30956,
+ "name": "Nanarin",
+ "title": "Musician",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.115Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30956.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "362": {
+   "name": "Bard's Mandolin",
+   "listText": [
+    "[Bard's Mandolin]",
+    "[Bard's Mandolin (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00362_BardsMandolin/30956-01.html",
+     "when": "state STARTED; memo 4; has items 4317",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00362_BardsMandolin/30956-02.html",
+     "when": "state STARTED; !(st.isMemoState(4) && st.hasQuestItems(SWANS_FLUTE, SWANS_LETTER)); st.getMemoState() >= 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "363": {
+   "name": "Sorrowful Sound of Flute",
+   "listText": [
+    "[Sorrowful Sound of Flute]",
+    "[Sorrowful Sound of Flute (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30956-01.htm",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30956-04.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30956-08.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30956-09.html",
+     "when": "state STARTED; memo 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30956-10.html",
+     "when": "state STARTED; memo 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30956.htm": {
+   "file": "default/30956.htm",
+   "quest": null,
+   "text": "Musician Nanarin: Everyone in this world has a soul mate, another half, their lifelong companion, their true love. This may sound like a silly love song, but it's true. Once more I am dreaming of my prince with a song in my heart.",
+   "header": "Musician Nanarin",
+   "links": [
+    {
+     "text": "\"Tell me about your prince.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30956-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30956-1.htm": {
+   "file": "default/30956-1.htm",
+   "quest": null,
+   "text": "Musician Nanarin: The man I love has broad shoulders, a thick, lush beard and a beautifully weathered face, seasoned by a life of adventure. Why? Does this shock you?",
+   "header": "Musician Nanarin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30956.htm"
+    }
+   ]
+  },
+  "Q00362_BardsMandolin/30956-01.html": {
+   "file": "Q00362_BardsMandolin/30956-01.html",
+   "quest": 362,
+   "text": "Musician Nanarin: What, another package from Bard Swan ? Oh, my, this is especially beautiful! Hey, you aren't waiting around for a reply, are you? I appreciate all the flutes, but the Bard really isn't my type! Please tell him that my knight in shining armor is someone else!",
+   "header": "Musician Nanarin",
+   "when": [
+    "state STARTED; memo 4; has items 4317"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00362_BardsMandolin/30956-02.html": {
+   "file": "Q00362_BardsMandolin/30956-02.html",
+   "quest": 362,
+   "text": "Musician Nanarin: What am I to do about Bard Swan? I don't want to hurt his feelings but I am not attracted to him at all!",
+   "header": "Musician Nanarin",
+   "when": [
+    "state STARTED; !(st.isMemoState(4) && st.hasQuestItems(SWANS_FLUTE, SWANS_LETTER)); st.getMemoState() >= 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30956-01.htm": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30956-01.htm",
+   "quest": 363,
+   "text": "Musician Nanarin: I must admit that his broad shoulders take my breath away, and that lovely beard of his has captured my soul... What can I do? I've never felt this way before... Could you please help me?",
+   "header": "Musician Nanarin",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "\"I will help you.\"",
+     "bypass": "Quest Q00363_SorrowfulSoundOfFlute START",
+     "kind": "quest-event",
+     "script": "Q00363_SorrowfulSoundOfFlute",
+     "event": "START",
+     "quest": 363,
+     "to": "Q00363_SorrowfulSoundOfFlute/30956-02.htm",
+     "toAll": [
+      "Q00363_SorrowfulSoundOfFlute/30956-02.htm",
+      "Q00363_SorrowfulSoundOfFlute/30956-03.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00363_SorrowfulSoundOfFlute/30956-04.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30956-04.html",
+   "quest": 363,
+   "text": "Musician Nanarin: So? What does Barbado want?",
+   "header": "Musician Nanarin",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"He wants a new outfit.\"",
+     "bypass": "Quest Q00363_SorrowfulSoundOfFlute 30956-05.html",
+     "kind": "quest-event",
+     "script": "Q00363_SorrowfulSoundOfFlute",
+     "event": "30956-05.html",
+     "quest": 363,
+     "to": "Q00363_SorrowfulSoundOfFlute/30956-05.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "\"He would like to have a flute.\"",
+     "bypass": "Quest Q00363_SorrowfulSoundOfFlute 30956-06.html",
+     "kind": "quest-event",
+     "script": "Q00363_SorrowfulSoundOfFlute",
+     "event": "30956-06.html",
+     "quest": 363,
+     "to": "Q00363_SorrowfulSoundOfFlute/30956-06.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "\"He would like a black beer.\"",
+     "bypass": "Quest Q00363_SorrowfulSoundOfFlute 30956-07.html",
+     "kind": "quest-event",
+     "script": "Q00363_SorrowfulSoundOfFlute",
+     "event": "30956-07.html",
+     "quest": 363,
+     "to": "Q00363_SorrowfulSoundOfFlute/30956-07.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00363_SorrowfulSoundOfFlute/30956-08.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30956-08.html",
+   "quest": 363,
+   "text": "Musician Nanarin: Oh, my sweet Barbado... How I pray that my gift will make him happy...",
+   "header": "Musician Nanarin",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30956-09.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30956-09.html",
+   "quest": 363,
+   "text": "Musician Nanarin: Oh, yes, no need to tell me. I've already heard. Take this as a token of my appreciation. It's a score of some music that I enjoy playing on my flute. Take it to a Melody Maestro and she will make an Echo Crystal for you.",
+   "header": "Musician Nanarin",
+   "when": [
+    "state STARTED; memo 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30956-10.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30956-10.html",
+   "quest": 363,
+   "text": "Musician Nanarin: What a loser! I was a fool to trust you with such an important errand! Why are you standing there with your mouth hanging open? Get out of my sight, right now!!!",
+   "header": "Musician Nanarin",
+   "when": [
+    "state STARTED; memo 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30956-02.htm": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30956-02.htm",
+   "quest": 363,
+   "text": "Musician Nanarin: Could you perhaps find out what would make him happy? I love Barbado... Please ask his friends what he wants the most. Start with the Dwarves in this village, and don't you dare mention my name! Will you please do this for me?",
+   "header": "Musician Nanarin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30956-03.htm": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30956-03.htm",
+   "quest": 363,
+   "text": "Musician Nanarin: You know, come to think of it, I don't think that you are the right person for this job. (This quest can only be undertaken by a character of level 15 or higher.)",
+   "header": "Musician Nanarin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30956-05.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30956-05.html",
+   "quest": 363,
+   "text": "Musician Nanarin: Splendid! Please take him these clothes. If he asks, tell him they are from his secret admirer.",
+   "header": "Musician Nanarin",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30956-06.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30956-06.html",
+   "quest": 363,
+   "text": "Musician Nanarin: Oh, marvelous! Please take him this flute. If he asks you who sent it, just say that it is from his secret admirer.",
+   "header": "Musician Nanarin",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30956-07.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30956-07.html",
+   "quest": 363,
+   "text": "Musician Nanarin: Oh, great! Please take him this black beer. If he asks who sent it, tell him it is from his secret admirer.",
+   "header": "Musician Nanarin",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Bard's Mandolin (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00362_BardsMandolin",
+     "kind": "quest",
+     "quest": 362,
+     "to": "Q00362_BardsMandolin/30956-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Sorrowful Sound of Flute]",
+     "bypass": "npc_%objectId%_Quest Q00363_SorrowfulSoundOfFlute",
+     "kind": "quest",
+     "quest": 363,
+     "to": "Q00363_SorrowfulSoundOfFlute/30956-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Sorrowful Sound of Flute (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00363_SorrowfulSoundOfFlute",
+     "kind": "quest",
+     "quest": 363,
+     "to": "Q00363_SorrowfulSoundOfFlute/30956-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

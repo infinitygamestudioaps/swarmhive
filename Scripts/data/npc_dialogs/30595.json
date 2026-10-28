@@ -1,0 +1,177 @@
+{
+ "npcId": 30595,
+ "name": "Opix",
+ "title": "Head Blacksmith",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:03.008Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30595.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "363": {
+   "name": "Sorrowful Sound of Flute",
+   "listText": [
+    "[Sorrowful Sound of Flute]",
+    "[Sorrowful Sound of Flute (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30595-01.html",
+     "when": "state STARTED; memo 2; st.getInt(\"ex\") < 100000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30595-02.html",
+     "when": "state STARTED; memo 2; st.getInt(\"ex\") < 100000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30595-03.html",
+     "when": "state STARTED; memo 2; st.getInt(\"ex\") < 100000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30595-04.html",
+     "when": "state STARTED; !(st.isMemoState(2) && (st.getInt(\"ex\") < 100000)); st.getMemoState() >= 2; st.getInt(\"ex\") >= 100000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30595.htm": {
+   "file": "villagemaster/30595.htm",
+   "quest": null,
+   "text": "Head Blacksmith Opix: I'm Head Blacksmith Mendio of the Black Anvil Guild here in Gludin territory. In all sincerity, I can tell you that without the Black Anvil Guild, Human civilization would still be in a very primitive condition. Do you think the races could march out to war or lay siege to ene…",
+   "header": "Head Blacksmith Opix",
+   "links": [
+    {
+     "text": "Listen to information about first class transfer.",
+     "bypass": "Quest DwarfBlacksmithChange1",
+     "kind": "quest",
+     "script": "DwarfBlacksmithChange1"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00363_SorrowfulSoundOfFlute/30595-01.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30595-01.html",
+   "quest": 363,
+   "text": "Head Blacksmith Opix: What would Barbado like? Well, I did hear him mention not too long ago that he wished he had something nice to wear to an event. Perhaps he would like a new outfit?",
+   "header": "Head Blacksmith Opix",
+   "when": [
+    "state STARTED; memo 2; st.getInt(\"ex\") < 100000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30595-02.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30595-02.html",
+   "quest": 363,
+   "text": "Head Blacksmith Opix: What would Barbado like? Well, he is a musician. I have often heard him say that he would like to learn a new instrument... What was it? Ah, yes! It was a flute!",
+   "header": "Head Blacksmith Opix",
+   "when": [
+    "state STARTED; memo 2; st.getInt(\"ex\") < 100000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30595-03.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30595-03.html",
+   "quest": 363,
+   "text": "Head Blacksmith Opix: What would Barbado like to have? I happen to know that his favorite thing in the whole world is a cold black beer after one of his musical performances.",
+   "header": "Head Blacksmith Opix",
+   "when": [
+    "state STARTED; memo 2; st.getInt(\"ex\") < 100000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30595-04.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30595-04.html",
+   "quest": 363,
+   "text": "Head Blacksmith Opix: I'm extremely busy. Please stop bothering me.",
+   "header": "Head Blacksmith Opix",
+   "when": [
+    "state STARTED; !(st.isMemoState(2) && (st.getInt(\"ex\") < 100000)); st.getMemoState() >= 2; st.getInt(\"ex\") >= 100000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Sorrowful Sound of Flute (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00363_SorrowfulSoundOfFlute",
+     "kind": "quest",
+     "quest": 363,
+     "to": "Q00363_SorrowfulSoundOfFlute/30595-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

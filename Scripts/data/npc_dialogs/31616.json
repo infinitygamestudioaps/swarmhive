@@ -1,0 +1,266 @@
+{
+ "npcId": 31616,
+ "name": "Hermit",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.244Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31616.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "79": {
+   "name": "Saga of the Adventurer",
+   "listText": [
+    "[Saga of the Adventurer]",
+    "[Saga of the Adventurer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00079_SagaOfTheAdventurer/11-01.htm",
+     "when": "cond 14; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00079_SagaOfTheAdventurer/11-02.htm",
+     "when": "cond 15; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "80": {
+   "name": "Saga of the Wind Rider",
+   "listText": [
+    "[Saga of the Wind Rider]",
+    "[Saga of the Wind Rider (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00080_SagaOfTheWindRider/11-01.htm",
+     "when": "cond 14; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00080_SagaOfTheWindRider/11-02.htm",
+     "when": "cond 15; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "81": {
+   "name": "Saga of the Ghost Hunter",
+   "listText": [
+    "[Saga of the Ghost Hunter]",
+    "[Saga of the Ghost Hunter (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00081_SagaOfTheGhostHunter/11-01.htm",
+     "when": "cond 14; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00081_SagaOfTheGhostHunter/11-02.htm",
+     "when": "cond 15; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31616.htm": {
+   "file": "default/31616.htm",
+   "quest": null,
+   "text": "Hermit: I await the successor of fate. Eva told me to guide his way. Don't look at me like that! We all have to wait for something, right?",
+   "header": "Hermit",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/11-01.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/11-01.htm",
+   "quest": 79,
+   "text": "Hermit: I can't remember the last time anyone came this far just to see me! Are you ready for the second test?",
+   "header": "Hermit",
+   "when": [
+    "cond 14; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00079_SagaOfTheAdventurer 11-9",
+     "kind": "quest-event",
+     "script": "Q00079_SagaOfTheAdventurer",
+     "event": "11-9",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/11-02.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/11-02.htm",
+   "quest": 79,
+   "text": "Hermit: Kill the Archon of Halisha! He can be found in the Sepulchers, or by attacking his minions on the north side of the Wall of Argos. Kill him and take possession of the fifth Stone of Commune.",
+   "header": "Hermit",
+   "when": [
+    "cond 15; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00080_SagaOfTheWindRider/11-01.htm": {
+   "file": "Q00080_SagaOfTheWindRider/11-01.htm",
+   "quest": 80,
+   "text": "Hermit: I can't remember the last time anyone came this far just to see me! Are you ready for the second test?",
+   "header": "Hermit",
+   "when": [
+    "cond 14; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00080_SagaOfTheWindRider 11-9",
+     "kind": "quest-event",
+     "script": "Q00080_SagaOfTheWindRider",
+     "event": "11-9",
+     "quest": 80,
+     "to": "Q00080_SagaOfTheWindRider/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00080_SagaOfTheWindRider/11-02.htm": {
+   "file": "Q00080_SagaOfTheWindRider/11-02.htm",
+   "quest": 80,
+   "text": "Hermit: Kill the Archon of Halisha! He can be found in the Sepulchers, or by attacking his minions on the north side of the Wall of Argos. Kill him and take possession of the fifth Stone of Commune.",
+   "header": "Hermit",
+   "when": [
+    "cond 15; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/11-01.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/11-01.htm",
+   "quest": 81,
+   "text": "Hermit: I can't remember the last time anyone came this far just to see me! Are you ready for the second test?",
+   "header": "Hermit",
+   "when": [
+    "cond 14; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00081_SagaOfTheGhostHunter 11-9",
+     "kind": "quest-event",
+     "script": "Q00081_SagaOfTheGhostHunter",
+     "event": "11-9",
+     "quest": 81,
+     "to": "Q00081_SagaOfTheGhostHunter/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00081_SagaOfTheGhostHunter/11-02.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/11-02.htm",
+   "quest": 81,
+   "text": "Hermit: Kill the Archon of Halisha! He can be found in the Sepulchers, or by attacking his minions on the north side of the Wall of Argos. Kill him and take possession of the fifth Stone of Commune.",
+   "header": "Hermit",
+   "when": [
+    "cond 15; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/11-03.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/11-03.htm",
+   "quest": 79,
+   "text": "Hermit: Ah, yes, the second test... the Archon of Halisha has the fifth Stone of Commune. After you get it from him, take it to the northwestern end of the Wall of Argos. Commune with the Tablet of Vision there. Slaying the Archon of Halisha isn't going to be easy! He can usually be found inside th…",
+   "header": "Hermit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00080_SagaOfTheWindRider/11-03.htm": {
+   "file": "Q00080_SagaOfTheWindRider/11-03.htm",
+   "quest": 80,
+   "text": "Hermit: Ah, yes, the second test... the Archon of Halisha has the fifth Stone of Commune. After you get it from him, take it to the northwestern end of the Wall of Argos. Commune with the Tablet of Vision there. Slaying the Archon of Halisha isn't going to be easy! He can usually be found inside th…",
+   "header": "Hermit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/11-03.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/11-03.htm",
+   "quest": 81,
+   "text": "Hermit: Ah, yes, the second test... the Archon of Halisha has the fifth Stone of Commune. After you get it from him, take it to the northwestern end of the Wall of Argos. Commune with the Tablet of Vision there. Slaying the Archon of Halisha isn't going to be easy! He can usually be found inside th…",
+   "header": "Hermit",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Adventurer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00079_SagaOfTheAdventurer",
+     "kind": "quest",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/11-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Wind Rider (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00080_SagaOfTheWindRider",
+     "kind": "quest",
+     "quest": 80,
+     "to": "Q00080_SagaOfTheWindRider/11-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Ghost Hunter (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00081_SagaOfTheGhostHunter",
+     "kind": "quest",
+     "quest": 81,
+     "to": "Q00081_SagaOfTheGhostHunter/11-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,832 @@
+{
+ "npcId": 30868,
+ "name": "Sir Eric Rodemai",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.099Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/30868.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "503": {
+   "name": "Pursuit Of Clan Ambition",
+   "listText": [
+    "[Pursuit of Clan Ambition!]",
+    "[Pursuit of Clan Ambition! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30868-01.html",
+     "when": "state STARTED; memo 7000; !(qs.isCreated() || qs.isCompleted()); lqs != null; !player.isClanLeader()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30868-02.html",
+     "when": "state STARTED; memo 7000; !(qs.isCreated() || qs.isCompleted()); lqs != null; player.isClanLeader()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30868-05.html",
+     "when": "state STARTED; memo 8000; !(qs.isCreated() || qs.isCompleted()); lqs != null",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30868-06.html",
+     "when": "state STARTED; memo 8100; !(qs.isCreated() || qs.isCompleted()); lqs != null; player.isClanLeader()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30868-07.html",
+     "when": "state STARTED; memo 8100; !(qs.isCreated() || qs.isCompleted()); lqs != null; !player.isClanLeader()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30868-08.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; qs.getMemoState() < 8511; qs.getMemoState() >= 8500",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30868-09.html",
+     "when": "state STARTED; memo 8700; !(qs.isCreated() || qs.isCompleted()); lqs != null; !((qs.getMemoState() < 8511) && (qs.getMemoState() >= 8500))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30868-11.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; !((qs.getMemoState() < 8511) && (qs.getMemoState() >= 8500)); qs.getMemoState() >= 9000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "508": {
+   "name": "A Clan's Reputation",
+   "listText": [
+    "[A Clan's Reputation]",
+    "[A Clan's Reputation (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00508_AClansReputation/30868-0a.htm",
+     "when": "state CREATED; ((clan == null) || !player.isClanLeader() || (clan.getLevel() < 5))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00508_AClansReputation/30868-0b.htm",
+     "when": "state CREATED; NOT ((clan == null) || !player.isClanLeader() || (clan.getLevel() < 5))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00508_AClansReputation/30868-8.html",
+     "when": "state STARTED; ((clan == null) || !player.isClanLeader())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00508_AClansReputation/30868-0.html",
+     "when": "state STARTED; !REWARD_POINTS.containsKey(raid)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "start"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30868.htm": {
+   "file": "default/30868.htm",
+   "quest": null,
+   "text": "Sir Eric Rodemai: Welcome to Aden Castle Town. I am Eric Rodemai, one of the court guards. Oren is the center of military affairs and Giran is the center of commerce& And here, Aden is considered the center of politics, culture and religion. Hearing this, you may think that the place has the bustli…",
+   "header": "Sir Eric Rodemai",
+   "live": {
+    "file": "Logs/npclive_Sir_Eric_Rodemai_7433d0df.html",
+    "at": "2026-10-27T14:36:04.355Z",
+    "score": 0.42
+   },
+   "dpText": "Sir Eric Rodemai: Welcome to the Town of Aden. I am Eric Rodemai, a guard of the court. While Oren is the center of military affairs and Giran is the center of commerce, Aden is the center of politics, culture and religion. This distinction should make Aden a bustling, metropolitan city, but it is …",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30868-01.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30868-01.html",
+   "quest": 503,
+   "text": "Sir Eric Rodemai: Gustav Athebaldt told me about you. It's an honor to finally get to work with you. Actually my father Sir Kristof Rodemai often speaks of you. He says that you and your race have embarked on a great mission, and I should watch you carefully and learn. I wish to meet the lord of yo…",
+   "header": "Sir Eric Rodemai",
+   "when": [
+    "state STARTED; memo 7000; !(qs.isCreated() || qs.isCompleted()); lqs != null; !player.isClanLeader()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30868-02.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30868-02.html",
+   "quest": 503,
+   "text": "Sir Eric Rodemai: Gustav Athebaldt told me about you. It's an honor to finally get to work with you. Actually my father Sir Kristof Rodemai often speaks of you. He says that you and your race have embarked on a great mission, and I should watch you carefully and learn. I wish to meet the lord of yo…",
+   "header": "Sir Eric Rodemai",
+   "when": [
+    "state STARTED; memo 7000; !(qs.isCreated() || qs.isCompleted()); lqs != null; player.isClanLeader()"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more about the scepter of judgement.\"",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30868-03.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30868-03.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30868-03.html"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30868-05.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30868-05.html",
+   "quest": 503,
+   "text": "Sir Eric Rodemai: Please find Cleo and ask her advice on the Scepter of Judgment. East of the village you will find a bridge. Cross it and you will find her.",
+   "header": "Sir Eric Rodemai",
+   "when": [
+    "state STARTED; memo 8000; !(qs.isCreated() || qs.isCompleted()); lqs != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30868-06.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30868-06.html",
+   "quest": 503,
+   "text": "Sir Eric Rodemai: An Imperial grave? A grave keeper? Guardian of a key? Traveling freely through time and space? Must be pierced with two-pronged lance? I've got a pretty good idea what they mean...",
+   "header": "Sir Eric Rodemai",
+   "when": [
+    "state STARTED; memo 8100; !(qs.isCreated() || qs.isCompleted()); lqs != null; player.isClanLeader()"
+   ],
+   "links": [
+    {
+     "text": "\"What do these words mean?\"",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30868-06a.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30868-06a.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30868-06a.html"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30868-07.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30868-07.html",
+   "quest": 503,
+   "text": "Sir Eric Rodemai: You have obtained an important clue from the witch regarding the Scepter of Judgment? Now you must go and find it! I must speak with your clan lord regarding this matter. Please bring him to me at once!",
+   "header": "Sir Eric Rodemai",
+   "when": [
+    "state STARTED; memo 8100; !(qs.isCreated() || qs.isCompleted()); lqs != null; !player.isClanLeader()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30868-08.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30868-08.html",
+   "quest": 503,
+   "text": "Sir Eric Rodemai: Will it be possible to find the Scepter of Judgment by following the obscure clues of the witches?",
+   "header": "Sir Eric Rodemai",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; qs.getMemoState() < 8511; qs.getMemoState() >= 8500"
+   ],
+   "links": [
+    {
+     "text": "\"What do the clues mean?\"",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30868-06a.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30868-06a.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30868-06a.html"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30868-09.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30868-09.html",
+   "quest": 503,
+   "text": "Sir Eric Rodemai: Ah, at last, the Scepter of Judgment ! It truly does exist! This is a great accomplishment... Sir Gustav Athebaldt sends word that he would like for all of you to bring the scepter to him. However, I must ask you something... Why are you allowing yourselves to be taken advantage o…",
+   "header": "Sir Eric Rodemai",
+   "when": [
+    "state STARTED; memo 8700; !(qs.isCreated() || qs.isCompleted()); lqs != null; !((qs.getMemoState() < 8511) && (qs.getMemoState() >= 8500))"
+   ],
+   "links": [
+    {
+     "text": "\"What do you mean by this?\"",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30868-10.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30868-10.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30868-10.html",
+     "effect": "cond:11"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30868-11.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30868-11.html",
+   "quest": 503,
+   "text": "Sir Eric Rodemai: Despite his outward appearance Sir Athebaldt is a very crafty man. You must take care that he doesn't take advantage of you.",
+   "header": "Sir Eric Rodemai",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; !((qs.getMemoState() < 8511) && (qs.getMemoState() >= 8500)); qs.getMemoState() >= 9000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00508_AClansReputation/30868-0a.htm": {
+   "file": "Q00508_AClansReputation/30868-0a.htm",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: The townsfolk of Aden Castle live in mortal fear of the Raid Bosses in this area. If they were to actually make it into the village... I must find a Clan Leader who leads a very powerful Clan. Can you recommend anyone? (Only Clan Leaders of Clans of level 5 and above may undertake…",
+   "header": "Sir Eric Rodemai",
+   "when": [
+    "state CREATED; ((clan == null) || !player.isClanLeader() || (clan.getLevel() < 5))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00508_AClansReputation/30868-0b.htm": {
+   "file": "Q00508_AClansReputation/30868-0b.htm",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: It hasn't been long since I saw you, but your Clan has certainly grown! Would you and your Clan be interested in raising your reputation ? We could really use some help here!",
+   "header": "Sir Eric Rodemai",
+   "when": [
+    "state CREATED; NOT ((clan == null) || !player.isClanLeader() || (clan.getLevel() < 5))"
+   ],
+   "links": [
+    {
+     "text": "\"What's the problem?\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-0c.htm",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0c.htm",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0c.htm"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-8.html": {
+   "file": "Q00508_AClansReputation/30868-8.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Now that you are no longer a clan lord, I have nothing to ask of you. Go in peace.",
+   "header": "Sir Eric Rodemai",
+   "when": [
+    "state STARTED; ((clan == null) || !player.isClanLeader())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00508_AClansReputation/30868-0.html": {
+   "file": "Q00508_AClansReputation/30868-0.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Thank you! There are several Raid Bosses near the village. Which one can you defeat? Remember, you don't have to kill the Raid Boss by yourself. There is no rule that says the clan leader has to use his sword. If your clan members defeat the Raid Boss, simply bring back proof of y…",
+   "header": "Sir Eric Rodemai",
+   "when": [
+    "state STARTED; !REWARD_POINTS.containsKey(raid)"
+   ],
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Palibati Queen Themis",
+     "bypass": "Quest Q00508_AClansReputation 30868-1.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-1.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-1.html"
+    },
+    {
+     "text": "Shilen's Priest Hisilrome",
+     "bypass": "Quest Q00508_AClansReputation 30868-2.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-2.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-2.html"
+    },
+    {
+     "text": "Gargoyle Lord Tiphon",
+     "bypass": "Quest Q00508_AClansReputation 30868-3.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-3.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-3.html"
+    },
+    {
+     "text": "Last Lesser Giant Glaki",
+     "bypass": "Quest Q00508_AClansReputation 30868-4.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-4.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-4.html"
+    },
+    {
+     "text": "Rahha",
+     "bypass": "Quest Q00508_AClansReputation 30868-5.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-5.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-5.html"
+    },
+    {
+     "text": "Flamestone Giant",
+     "bypass": "Quest Q00508_AClansReputation 30868-6.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-6.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-6.html"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30868-03.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30868-03.html",
+   "quest": 503,
+   "text": "Sir Eric Rodemai: As you may know, it is said that the scepter makes its possessor invincible in battle. Although this is probably just a legend, having it will greatly boost our soldiers' morale. However, we are losing hope of finding it. We hired Dwarven Bounty Hunters to find it and they have ha…",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "\"Tell me more about the witches.\"",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30868-04.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30868-04.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30868-04.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30868-04.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30868-04.html",
+   "quest": 503,
+   "text": "Sir Eric Rodemai: It is impossible to guess how old these three women are. They typically show up, mumble some incomprehensible incantations and vanish. My father has become obsessed by their remarks. I'm not sure if these witches have been of any help to my family in the past. If it was up to me I…",
+   "header": "Sir Eric Rodemai",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30868-06a.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30868-06a.html",
+   "quest": 503,
+   "text": "Sir Eric Rodemai: Let me see if I can put them together... It is at the National Cemetery... Once you defeat the grave keeper a key master will show up and give you a key... When you collect all six keys, you must overpower the imperial grave keeper and find the scepter... You must take care, as th…",
+   "header": "Sir Eric Rodemai",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30868-10.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30868-10.html",
+   "quest": 503,
+   "text": "Sir Eric Rodemai: Sir Gustav Athebaldt is an uncle of King Amadeo Cadmus. He is next in succession to the royal throne. He feigns a disinterest in politics to dispel people's suspicions, while in reality he controls many cliques which are undermining the power of the king. He ulimately plans to sei…",
+   "header": "Sir Eric Rodemai",
+   "sets": {
+    "cond": "11"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00508_AClansReputation/30868-0c.htm": {
+   "file": "Q00508_AClansReputation/30868-0c.htm",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: The townsfolk of Aden Castle live in mortal fear of the Raid Bosses in this area. If they were to actually make it into the village... Naturally, we have guards posted, but there aren't any guarantees! Please, use the power of your Clan to set the townsfolk free from fear! Help us…",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-1.html": {
+   "file": "Q00508_AClansReputation/30868-1.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Very good! Slaughter Palibati Queen Themis and bring me her scale! As I told you before, you don't have to kill her yourself! There's no rule that says the Clan Leader has to get his hands bloody! Just stand in a safe place and watch your Clan kill Palibati Queen Themis and then b…",
+   "header": "Sir Eric Rodemai",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00508_AClansReputation/30868-1a.html": {
+   "file": "Q00508_AClansReputation/30868-1a.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Very well! Slay Palibati Queen Themis and bring me her scale. Remember, you don't have to kill Palibati Queen Themis yourself. There's no rule that says a Clan Leader must get his hands bloody! Just stand in a safe place and watch your Clan kill Palibati Queen Themis and then brin…",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "\"I want a new mission.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-1b.html": {
+   "file": "Q00508_AClansReputation/30868-1b.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Well done! I'll spread the news that your brave Clan has defeated Palibati Queen Themis.",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "\"I want to continue killing Raid Bosses.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    },
+    {
+     "text": "Quit",
+     "bypass": "Quest Q00508_AClansReputation 30868-7.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-7.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-7.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-2.html": {
+   "file": "Q00508_AClansReputation/30868-2.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Then kill Shillien Priest Hisilrome and bring me his heart. As I mentioned before, you don't have to kill Hisilrome yourself. There is no rule that says the clan leader has to use his sword personally. If your clan members defeat Hisilrome, simply bring back proof of the victory.",
+   "header": "Sir Eric Rodemai",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00508_AClansReputation/30868-2a.html": {
+   "file": "Q00508_AClansReputation/30868-2a.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Kill Shillien Priest Hisilrome and bring me his heart. A word of advice: you don't have to kill Hisilrome yourself. There is no rule that says the clan leader has to use his sword personally. If your clan members defeat Hisilrome, simply bring back proof of the victory.",
+   "header": "Sir Eric Rodemai",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Quit this mission and take on a new one.",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-2b.html": {
+   "file": "Q00508_AClansReputation/30868-2b.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Well done! I'll tell everyone how bravely your clan defeated Shillien Priest Hisilrome.",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "Choose another Raid Boss to fight.",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    },
+    {
+     "text": "Say you want to quit.",
+     "bypass": "Quest Q00508_AClansReputation 30868-7.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-7.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-7.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-3.html": {
+   "file": "Q00508_AClansReputation/30868-3.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Fine! Then go and kill Gargoyle Lord Tiphon and bring me the Tiphon Shard. As I have said, you don't have to kill Gargoyle Lord Tiphon yourself. There's no rule that says the Clan Leader has to get his hands bloody! Just stand in a safe place and watch your Clan kill Gargoyle Lord…",
+   "header": "Sir Eric Rodemai",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00508_AClansReputation/30868-3a.html": {
+   "file": "Q00508_AClansReputation/30868-3a.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Fine! Then go and kill Gargoyle Lord Tiphon and bring me the Tiphon Shard. Just so we're clear, I'll tell you this once more. You don't have to kill Gargoyle Lord Tiphon yourself. There's no rule that says a Clan Leader must get his hands bloody! Just stand in a safe place and wat…",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "\"I want a new mission.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-3b.html": {
+   "file": "Q00508_AClansReputation/30868-3b.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Thank you. I'll spread the word of your brave Clan's defeat of the Gargoyle Lord Tiphon.",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "\"I'll keep slaying Raid Bosses.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"I want to quit this mission.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-7.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-7.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-7.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-4.html": {
+   "file": "Q00508_AClansReputation/30868-4.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Very well, go and kill Last Lesser Giant Glaki and bring me Glaki's Nucleus. As I have said, you don't have to kill Last Lesser Giant Glaki yourself. There's no rule that says the Clan Leader has to get his hands bloody! Just stand in a safe place and watch your Clan kill Last Les…",
+   "header": "Sir Eric Rodemai",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00508_AClansReputation/30868-4a.html": {
+   "file": "Q00508_AClansReputation/30868-4a.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Very well, go and kill the Last Lesser Giant Glaki and bring me Glaki's Nucleus. Remember, you don't have to kill the Last Lesser Giant Glaki yourself. There's no rule that says a Clan Leader must get his hands bloody! Just stand in a safe place and watch your Clan kill Last Lesse…",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "\"I want a new mission.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-4b.html": {
+   "file": "Q00508_AClansReputation/30868-4b.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Thank you. I'll spread the word of your brave Clan's defeat of Last Lesser Giant Glaki.",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "\"I'll keep slaying Raid Bosses.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"I want to quit this mission.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-7.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-7.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-7.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-5.html": {
+   "file": "Q00508_AClansReputation/30868-5.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Go defeat Rahha and bring me Rahha's Fang. As I have said, you don't have to kill Rahha yourself. There's no rule that says the Clan Leader has to get his hands bloody! Just stand in a safe place and watch your Clan kill Rahha and then bring back Rahha's Fang.",
+   "header": "Sir Eric Rodemai",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00508_AClansReputation/30868-5a.html": {
+   "file": "Q00508_AClansReputation/30868-5a.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Very well, go and kill Rahha and bring me Rahha's Fang. Just so we're clear, I'll tell you this once more. You don't have to kill Rahha yourself. There's no rule that says a Clan Leader must get his hands bloody! Just stand in a safe place and watch your Clan kill Rahha and then b…",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "\"I want a new mission.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-5b.html": {
+   "file": "Q00508_AClansReputation/30868-5b.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Thank you. I'll spread the word of your brave Clan's defeat of Rahha.",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "\"I want to quit this mission.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-6.html": {
+   "file": "Q00508_AClansReputation/30868-6.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Very well, go and kill the Flamestone Giant and bring me the Nucleus of Flamestone Giant. As I have said, you don't have to kill Flamestone Giant yourself. There's no rule that says the Clan Leader has to get his hands bloody! Just stand in a safe place and watch your Clan kill Fl…",
+   "header": "Sir Eric Rodemai",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00508_AClansReputation/30868-6a.html": {
+   "file": "Q00508_AClansReputation/30868-6a.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Very well, go and kill the Flamestone Giant and bring me the Nucleus of Flamestone Giant. Remember, you don't have to kill Flamestone Giant yourself. There's no rule that says a Clan Leader must get his hands bloody! Just stand in a safe place and watch your Clan kill Flamestone G…",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "\"I want a new mission.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-6b.html": {
+   "file": "Q00508_AClansReputation/30868-6b.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: Well done! I'll spread the news that your brave Clan has defeated the Flamestone Giant.",
+   "header": "Sir Eric Rodemai",
+   "links": [
+    {
+     "text": "\"I want to continue killing Raid Bosses.\"",
+     "bypass": "Quest Q00508_AClansReputation 30868-0.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-0.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0.html",
+     "effect": "start"
+    },
+    {
+     "text": "Quit",
+     "bypass": "Quest Q00508_AClansReputation 30868-7.html",
+     "kind": "quest-event",
+     "script": "Q00508_AClansReputation",
+     "event": "30868-7.html",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-7.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00508_AClansReputation/30868-7.html": {
+   "file": "Q00508_AClansReputation/30868-7.html",
+   "quest": 508,
+   "text": "Sir Eric Rodemai: You're quitting? That's too bad, but I can't help it. I'm sure that you and your Clan know what you're doing.",
+   "header": "Sir Eric Rodemai",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Pursuit of Clan Ambition! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00503_PursuitOfClanAmbition",
+     "kind": "quest",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30868-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[A Clan's Reputation]",
+     "bypass": "npc_%objectId%_Quest Q00508_AClansReputation",
+     "kind": "quest",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-0b.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[A Clan's Reputation (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00508_AClansReputation",
+     "kind": "quest",
+     "quest": 508,
+     "to": "Q00508_AClansReputation/30868-8.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "live:npclive_Sir_Eric_Rodemai_cf571d39.html": {
+   "file": "Logs/npclive_Sir_Eric_Rodemai_cf571d39.html",
+   "quest": null,
+   "header": "Sir Eric Rodemai",
+   "text": "Sir Eric Rodemai: Hearing this, you may think that the place has the bustling atmosphere of a metropolitan area. But due to its proximity to the border with Elmore, it always tends to maintain a somewhat tense atmosphere. The two types of atmosphere were always co-mingling and created a unique bala…",
+   "live": {
+    "file": "Logs/npclive_Sir_Eric_Rodemai_cf571d39.html",
+    "at": "2026-10-27T14:36:04.578Z"
+   },
+   "outcome": "info",
+   "serverCustom": true,
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "text of default/30868.htm differs: live \"Sir Eric Rodemai: Welcome to Aden Castle Town. I am Eric Rodemai, one of the court guards…\" vs datapack \"Sir Eric Rodemai: Welcome to the Town of Aden. I am Eric Rodemai, a guard of the court. W…\"",
+  "server-custom page Logs/npclive_Sir_Eric_Rodemai_cf571d39.html: \"Sir Eric Rodemai: Hearing this, you may think that the place has the bustling a…\" links: "
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Sir Eric Rodemai:Welcome to Aden Castle Town. I am Eric Rode"
+   ],
+   "to": [
+    "Sir Eric Rodemai:Hearing this, you may think that the place "
+   ]
+  }
+ ]
+}

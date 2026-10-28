@@ -79,7 +79,8 @@
         <p><b>MP.</b> The attack skills wait while the target still needs its Spoil, and below the MP reserve, so there is always MP for the next Spoil. The Elven Elder recharges a Bounty Hunter below 60 % MP.</p>
         <p><b>Lists.</b> "All parties" is the list every Bounty Hunter uses. Pick "Only this party" to give one party its own ticks; its own tick beats the all-parties one. Monsters on no list follow "Monsters not on the list".</p>
         <p>Drops and chances come from the High Five datapack; the server may differ a little. Monsters with no spoil drops cannot be ticked.</p>
-        <p>This only works while the party's "Hive picks my skills" switch is on. When it is off, the character's own L2Swarm battle settings decide.</p>
+        <p>This only works while the party's "Hive picks my skills" switch is on. When it is off, the character's own L2Swarm battle settings decide. While it is on, a Spoil / Sweeper row in L2Swarm's own Combat Skills is switched off in memory (it cut the Hive's casts) and comes back when the switch is off.</p>
+        <p><b>The numbers.</b> <i>Resisted</i> = the monster resisted the Spoil; the hit rate is spoiled / (spoiled + resisted). <i>No answer</i> = the cast got no answer at all (the target died during the cast, the target was switched, the cast was cut short) and is not in the rate. <i>Already spoiled</i> = another Spoil (a second spoiler, or L2Swarm's own) landed first. Many "target died" = the spoiler starts too late: the party kills faster than it spoils.</p>
       </div></details>`;
     (document.querySelector('main') || document.body).appendChild(s);
     s.addEventListener('change', onChange);
@@ -100,17 +101,33 @@
     renderStats(); renderPick(); renderSet();
     renderArea(); if (keepArea) renderSearch();
   }
+  // SPOILSTAT-2026-10-27 (tester Vykaax: "405 spoiled, 232 missed, 33% hit" could not be read): the card's numbers.
+  // v2 stats (swarm.js SPOILSTAT): failed = resisted (#139), rate = landed / (landed + resisted), no-answer casts listed apart with their reasons.
+  // Older stats: 'missed' counted every cast without a #612 within 0.5 s, so only the plain numbers are shown, marked "old counter".
+  // SPOILNUMS-BEGIN
+  function spoilStatNums(s) {
+    const o = s && typeof s === 'object' ? s : {}, n = (v) => Math.max(0, Number(v) || 0);
+    const landed = n(o.spoiled), failed = n(o.failed), na = o.noAns && typeof o.noAns === 'object' ? o.noAns : {};
+    if (!(Number(o.v) >= 2)) return { old: true, landed, failed, rate: null, noAnswer: 0, why: '', already: 0 };
+    const words = { died: 'target died', switched: 'target switched', cut: 'cut short', silent: 'silent' };
+    const why = Object.keys(words).filter(k => n(na[k]) > 0).sort((a, b) => n(na[b]) - n(na[a])).map(k => `${n(na[k])} ${words[k]}`).join(', ');
+    return { old: false, landed, failed, rate: landed + failed ? Math.round(landed * 100 / (landed + failed)) : null, noAnswer: n(o.noAnswer), why, already: n(o.already) };
+  }
+  // SPOILNUMS-END
   function renderStats() {
     const el = $id('splStats'); if (!el) return;
     const L = (SP.info && SP.info.stats) || [];
     if (!L.length) { el.innerHTML = '<div class="muted">No numbers yet. They appear about 30 seconds after the new spoil code runs on a Bounty Hunter.</div>'; return; }
     el.innerHTML = `<div class="spl-stats">${L.map(s => {
       const age = s.at ? Math.round((Date.now() - Date.parse(s.at)) / 60000) : null;
-      const tries = (s.spoilCasts || 0), landed = (s.spoiled || 0) + (s.festSpoiled || 0), rate = tries ? Math.round((s.spoiled || 0) * 100 / tries) : null;
+      const landed = (s.spoiled || 0) + (s.festSpoiled || 0), R = spoilStatNums(s);
       const sk = Object.entries(obj(s.skipped)).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([n]) => n);
       return `<div class="spl-st"><div class="spl-st-n"><b>${h(s.name)}</b> <span class="muted">${h(s.leader && s.leader !== s.name ? 'party ' + s.leader : '')}${age !== null ? ` · ${age < 1 ? 'just now' : age + ' min ago'}` : ''}</span></div>
         <div class="spl-st-row"><span title="Monsters spoiled (Spoil + Spoil Festival)"><img src="${ico('icon/skill0254')}" alt=""> ${landed} spoiled</span>
-        <span title="Spoil casts that did not land">${s.failed || 0} missed${rate !== null ? ` (${rate}% hit)` : ''}</span>
+        ${R.old ? `<span title="Older Hive version: 'missed' also counts casts that got no answer at all">${R.failed} missed (old counter)</span>`
+          : `<span title="Spoil casts the monster resisted. Hit rate = landed / (landed + resisted); casts with no answer are not in it">${R.failed} resisted${R.rate !== null ? ` (${R.rate}% hit)` : ''}</span>`}
+        ${R.noAnswer ? `<span class="muted" title="Spoil casts that got no answer from the server (not counted in the hit rate)">${R.noAnswer} no answer${R.why ? ` (${h(R.why)})` : ''}</span>` : ''}
+        ${R.already ? `<span class="muted" title="#357 'already spoiled': another Spoil (a second spoiler, or L2Swarm's own Combat Skills) landed first">${R.already} already spoiled</span>` : ''}
         <span title="Spoil Festival casts"><img src="${ico('icon/skill0302')}" alt=""> ${s.festCasts || 0}</span>
         <span title="Sweeper + Sweeper Festival"><img src="${ico('icon/skill0042')}" alt=""> ${(s.sweeps || 0) + (s.sweepFests || 0)} sweeps</span>
         ${s.notSpoiled ? `<span class="muted" title="Sweeper on a corpse that was not spoiled">${s.notSpoiled} empty</span>` : ''}</div>

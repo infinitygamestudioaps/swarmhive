@@ -1,0 +1,188 @@
+{
+ "npcId": 31585,
+ "name": "Sparky the Cat",
+ "title": "Keats Servitor",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.238Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31585.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "91": {
+   "name": "Saga of the Arcana Lord",
+   "listText": [
+    "[Saga of the Arcana Lord]",
+    "[Saga of the Arcana Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00091_SagaOfTheArcanaLord/2-01.htm",
+     "when": "cond 1; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00091_SagaOfTheArcanaLord/2-02.htm",
+     "when": "cond 2; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00091_SagaOfTheArcanaLord/2-03.htm",
+     "when": "cond 4; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00091_SagaOfTheArcanaLord/2-04.htm",
+     "when": "cond 5; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31585.htm": {
+   "file": "default/31585.htm",
+   "quest": null,
+   "text": "Sparky the Cat: Please tell me, magister! How can I be released from the curse? Meoow! I'm very busy! I must run an errand for my master! Meow!",
+   "header": "Sparky the Cat",
+   "links": [
+    {
+     "text": "\"Who is your master?\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/31585-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/31585-1.htm": {
+   "file": "default/31585-1.htm",
+   "quest": null,
+   "text": "Sparky the Cat: Meow? My master? His name is Keats, the first level summoner of the Ivory Tower! Meow! But, my master is uh... for personal reasons... is currently recuperating at the hot springs!",
+   "header": "Sparky the Cat",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/2-01.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/2-01.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Meow. Kinsley sent you here, didn't he? Are you training to become an Arcana Lord just like my master? But my master...my master was... ...cursed and turned into a frog! Miss Belinda whom my master had loved for a long time put him under a curse by chanting an ancient spell! She tur…",
+   "header": "Sparky the Cat",
+   "when": [
+    "cond 1; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Don't worry. I'll help you.\"",
+     "bypass": "Quest Q00091_SagaOfTheArcanaLord 2-1",
+     "kind": "quest-event",
+     "script": "Q00091_SagaOfTheArcanaLord",
+     "event": "2-1",
+     "quest": 91,
+     "to": "Q00091_SagaOfTheArcanaLord/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00091_SagaOfTheArcanaLord/2-02.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/2-02.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Meow! My master went to the hot spring area in Northern Goddard to find a cure for the curse himself~! Please go and help my master Summoner Keats ! It will be easy to find him since he's in frog form, Meow!",
+   "header": "Sparky the Cat",
+   "when": [
+    "cond 2; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/2-03.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/2-03.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Meow, even the remedy found in the hot spring region couldn't lift the curse. This is so sad, Meow! When will my master be transformed back into his regular form? Although the curse wasn't lifted, thank you very much for helping my master, Meow! My master has ordered me to help you!…",
+   "header": "Sparky the Cat",
+   "when": [
+    "cond 4; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q00091_SagaOfTheArcanaLord 2-2",
+     "kind": "quest-event",
+     "script": "Q00091_SagaOfTheArcanaLord",
+     "event": "2-2",
+     "quest": 91,
+     "to": "Q00091_SagaOfTheArcanaLord/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00091_SagaOfTheArcanaLord/2-04.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/2-04.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Meow! The Stone of Commune you received! If you follow the Stone of Commune, you can find the first Tablet of Vision, Meow! Follow the Map if you are not sure! Good luck!",
+   "header": "Sparky the Cat",
+   "when": [
+    "cond 5; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/2-05.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/2-05.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: Meow! My master went to the hot spring area in Northern Goddard to find a cure for the curse himself~! Please go and help my master Summoner Keats ! It will be easy to find him since he's in frog form, Meow!",
+   "header": "Sparky the Cat",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/2-06.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/2-06.htm",
+   "quest": 91,
+   "text": "Sparky the Cat: This precious stone is the answer! This is what my master said, Meow! 'Sparky, this is a precious stone called the Stone of Commune. You can decipher the gods' letters on the Tablet of Vision if you use its power. Furthermore, you intuitively know where the tablet is hidden if you h…",
+   "header": "Sparky the Cat",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Arcana Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00091_SagaOfTheArcanaLord",
+     "kind": "quest",
+     "quest": 91,
+     "to": "Q00091_SagaOfTheArcanaLord/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

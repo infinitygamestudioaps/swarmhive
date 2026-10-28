@@ -1,0 +1,102 @@
+{
+ "npcId": 32833,
+ "name": "Reading Desk",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.415Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32833.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10294": {
+   "name": "Seven Signs, To the Monastery of Silence",
+   "listText": [
+    "[Seven Signs, To the Monastery of Silence]",
+    "[Seven Signs, To the Monastery of Silence (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32821-03.html",
+     "when": "(qs.getInt(\"good4\") == 1)",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32833-01.html",
+     "when": "NOT (qs.getInt(\"good4\") == 1)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32833.htm": {
+   "file": "default/32833.htm",
+   "quest": null,
+   "text": "There's a book emitting holy light on what appears to be a stone coffin.",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32821-03.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32821-03.html",
+   "quest": 10294,
+   "text": "Abyssal Saintess Elcadia: This book was read already. Wake up!",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "(qs.getInt(\"good4\") == 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32833-01.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32833-01.html",
+   "quest": 10294,
+   "text": "Reading Platform: Solina pledged to right the wrongs her father had committed against the Goddess Einhasad. Eventually, Solina became the Saintess of Elmore-Aden and was known for being the saintess who would bear the weight of other people's sin across her back.",
+   "header": "Reading Platform",
+   "when": [
+    "NOT (qs.getInt(\"good4\") == 1)"
+   ],
+   "links": [
+    {
+     "text": "Select the book from this platform.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence RIGHT_BOOK4",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "RIGHT_BOOK4",
+     "quest": 10294,
+     "to": null
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, To the Monastery of Silence (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10294_SevenSignsToTheMonasteryOfSilence",
+     "kind": "quest",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32821-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,112 @@
+{
+ "npcId": 30977,
+ "name": "Holy Ark of Secrecy 1",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.122Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30977.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "348": {
+   "name": "An Arrogant Search",
+   "listText": [
+    "[An Arrogant Search]",
+    "[An Arrogant Search (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00348_AnArrogantSearch/30977-01.html",
+     "when": "state STARTED; has items 4291",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30977-02.html",
+     "when": "state STARTED; has items 4398; lacks items 4291; st.getMemoState() <= 8; ((st.getMemoStateEx(1) % 100) / 10) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30977-03.html",
+     "when": "state STARTED; lacks items 4291,4398; !((st.getMemoState() <= 8) && (((st.getMemoStateEx(1) % 100) / 10) == 0) && hasQuestItems(player, BLOOD_OF_SAINT)); st.getMemoState() < 8; ((st.getMemoStateEx(1) % 100) / 10) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30977.htm": {
+   "file": "default/30977.htm",
+   "quest": null,
+   "text": "Holy Ark: An old, beat-up chest. As you approach you feel its magical power.",
+   "header": "Holy Ark",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30977-01.html": {
+   "file": "Q00348_AnArrogantSearch/30977-01.html",
+   "quest": 348,
+   "text": "Holy Ark: The key fits the lock on the chest perfectly. When the chest is opened, the key begins to glow red-hot and then melts away, burning your hand. In the chest is an odd-looking glass bowl with what appears to be dried blood inside.",
+   "header": "Holy Ark",
+   "when": [
+    "state STARTED; has items 4291"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30977-02.html": {
+   "file": "Q00348_AnArrogantSearch/30977-02.html",
+   "quest": 348,
+   "text": "Holy Ark: The chest does not contain anything else.",
+   "header": "Holy Ark",
+   "when": [
+    "state STARTED; has items 4398; lacks items 4291; st.getMemoState() <= 8; ((st.getMemoStateEx(1) % 100) / 10) == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30977-03.html": {
+   "file": "Q00348_AnArrogantSearch/30977-03.html",
+   "quest": 348,
+   "text": "Holy Ark: This seems to be the chest Magister Harne mentioned. It is locked and cannot be opened.",
+   "header": "Holy Ark",
+   "when": [
+    "state STARTED; lacks items 4291,4398; !((st.getMemoState() <= 8) && (((st.getMemoStateEx(1) % 100) / 10) == 0) && hasQuestItems(player, BLOOD_OF_SAINT)); st.getMemoState() < 8; ((st.getMemoStateEx(1) % 100) / 10) == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[An Arrogant Search (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00348_AnArrogantSearch",
+     "kind": "quest",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30977-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

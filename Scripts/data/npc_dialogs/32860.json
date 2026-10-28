@@ -1,0 +1,101 @@
+{
+ "npcId": 32860,
+ "name": "Altar of Hallows",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.416Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32860.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10295": {
+   "name": "Seven Signs, Solina's Tomb",
+   "listText": [
+    "[Seven Signs, Solina's Tomb]",
+    "[Seven Signs, Solina's Tomb (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10295_SevenSignsSolinasTomb/32860-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32860.htm": {
+   "file": "default/32860.htm",
+   "quest": null,
+   "text": "A sacred object in the shape of a huge shield floats above the altar, slowly rotating.",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10295_SevenSignsSolinasTomb/32860-01.html": {
+   "file": "Q10295_SevenSignsSolinasTomb/32860-01.html",
+   "quest": 10295,
+   "text": "A sacred object shaped like a huge shield is floating above the altar. It tingles with an aura of power just by looking at it.",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "Take the shield",
+     "bypass": "Quest Q10295_SevenSignsSolinasTomb 32860-02.html",
+     "kind": "quest-event",
+     "script": "Q10295_SevenSignsSolinasTomb",
+     "event": "32860-02.html",
+     "quest": 10295,
+     "to": "Q10295_SevenSignsSolinasTomb/32860-02.html",
+     "toAll": [
+      "Q10295_SevenSignsSolinasTomb/32860-02.html",
+      "Q10295_SevenSignsSolinasTomb/32860-03.html"
+     ]
+    }
+   ]
+  },
+  "Q10295_SevenSignsSolinasTomb/32860-02.html": {
+   "file": "Q10295_SevenSignsSolinasTomb/32860-02.html",
+   "quest": 10295,
+   "text": "You already possess the sacred object. Let's take a look at the inventory.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10295_SevenSignsSolinasTomb/32860-03.html": {
+   "file": "Q10295_SevenSignsSolinasTomb/32860-03.html",
+   "quest": 10295,
+   "text": "The object shaped like a huge shield is lifted and taken from the altar. Intense light beams from the sacred object, squinting you see that it matches the grooves on the Powerful Device.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Solina's Tomb (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10295_SevenSignsSolinasTomb",
+     "kind": "quest",
+     "quest": 10295,
+     "to": "Q10295_SevenSignsSolinasTomb/32860-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

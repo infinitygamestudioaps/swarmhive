@@ -1,0 +1,520 @@
+{
+ "npcId": 31271,
+ "name": "Hilda",
+ "title": "Blacksmith",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.148Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "trainer/31271.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "617": {
+   "name": "Gather the Flames",
+   "listText": [
+    "[Gather the Flames]",
+    "[Gather the Flames (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00617_GatherTheFlames/31271-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 74)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00617_GatherTheFlames/31271-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 74)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00617_GatherTheFlames/31271-04.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "618": {
+   "name": "Into the Flame",
+   "listText": [
+    "[Into the Flames]",
+    "[Into the Flames (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00618_IntoTheFlame/31271-01.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00618_IntoTheFlame/31271-03.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00618_IntoTheFlame/31271-04.html",
+     "when": "cond 3",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00618_IntoTheFlame/31271-06.html",
+     "when": "cond 4",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/31271.htm": {
+   "file": "trainer/31271.htm",
+   "quest": null,
+   "text": "Blacksmith Hilda: Do you have any business for blacksmith Hilda? Hilda is busy! I need to make swords, plows, polearms, and armor! If you came here to visit, don't talk to Hilda, just look. Hilda doesn't make any mistakes even if someone is watching, but if someone talks to Hilda while Hilda is wor…",
+   "header": "Blacksmith Hilda",
+   "links": [
+    {
+     "text": "Craft a dualsword",
+     "bypass": "npc_%objectId%_Link common/duals_03.htm",
+     "kind": "page",
+     "to": "common/duals_03.htm"
+    },
+    {
+     "text": "Bestow special ability on a weapon",
+     "bypass": "npc_%objectId%_Link common/weapon_sa_01.htm",
+     "kind": "page",
+     "to": "common/weapon_sa_01.htm"
+    },
+    {
+     "text": "Craft an item",
+     "bypass": "npc_%objectId%_Link common/crafting_01.htm",
+     "kind": "page",
+     "to": "common/crafting_01.htm"
+    },
+    {
+     "text": "Seal/Unseal armor and accessories",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "trainer/31271-4.htm"
+    },
+    {
+     "text": "Augment an item",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "trainer/31271-5.htm"
+    },
+    {
+     "text": "Learn skills",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about skill enchantment",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "View information about the lord and tax rate",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/31271-4.htm": {
+   "file": "trainer/31271-4.htm",
+   "quest": null,
+   "text": "Blacksmith Hilda: Hilda is very busy, but you can still request a sealing or a seal removal of gloves, boots, and accessories.",
+   "header": "Blacksmith Hilda",
+   "links": [
+    {
+     "text": "Release seal on B-grade gloves and boots.",
+     "bypass": "npc_%objectId%_exc_multisell 1002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Put seal back on B-grade gloves and boots.",
+     "bypass": "npc_%objectId%_exc_multisell 1003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Release seal on A-grade armor.",
+     "bypass": "npc_%objectId%_exc_multisell 311262506",
+     "kind": "multisell"
+    },
+    {
+     "text": "Release seal on A-grade accessory.",
+     "bypass": "npc_%objectId%_exc_multisell 311262507",
+     "kind": "multisell"
+    },
+    {
+     "text": "Put seal back on A-grade armor.",
+     "bypass": "npc_%objectId%_exc_multisell 311262508",
+     "kind": "multisell"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/31271.htm"
+    }
+   ]
+  },
+  "trainer/31271-5.htm": {
+   "file": "trainer/31271-5.htm",
+   "quest": null,
+   "text": "Blacksmith Hilda: Do you have a request for Hilda? I can augment an item or remove augment.",
+   "header": "Blacksmith Hilda",
+   "links": [
+    {
+     "text": "Augment an item",
+     "bypass": "npc_%objectId%_Link common/augmentation_01.htm",
+     "kind": "page",
+     "to": "common/augmentation_01.htm"
+    },
+    {
+     "text": "Remove Augment",
+     "bypass": "npc_%objectId%_Link common/augmentation_02.htm",
+     "kind": "page",
+     "to": "common/augmentation_02.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/31271.htm"
+    }
+   ]
+  },
+  "trainer/31271-noteach.htm": {
+   "file": "trainer/31271-noteach.htm",
+   "quest": null,
+   "text": "Blacksmith Hilda: I'm a blacksmith! I only teach blacksmithing skills, such as artisan or warsmithing. If you don't want to be a blacksmith, go bother someone else!",
+   "header": "Blacksmith Hilda",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00617_GatherTheFlames/31271-01.htm": {
+   "file": "Q00617_GatherTheFlames/31271-01.htm",
+   "quest": 617,
+   "text": "Blacksmith Hilda: I've a tale to interest you. Have you heard tell of Vulcan , the blacksmith? Now, all us blacksmiths have much to say about fire — we depend on it for our livelihood. Vulcan, though, he spoke of nothing else, and his talk was the marvel of all who heard it. He said that the fire w…",
+   "header": "Blacksmith Hilda",
+   "when": [
+    "state CREATED; (player.getLevel() >= 74)"
+   ],
+   "links": [
+    {
+     "text": "Express interest in the venture.",
+     "bypass": "Quest Q00617_GatherTheFlames 31271-03.htm",
+     "kind": "quest-event",
+     "script": "Q00617_GatherTheFlames",
+     "event": "31271-03.htm",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/31271-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00617_GatherTheFlames/31271-02.htm": {
+   "file": "Q00617_GatherTheFlames/31271-02.htm",
+   "quest": 617,
+   "text": "Blacksmith Hilda: Ho, there! I'm Hilda the Blacksmith, and if you want good, solid work done, there's none better here. Don't pay any attention to the claims of that crackpot Vulcan . He's mad through and through. Fire is his obsession — he's forever searching for ways to make fire hotter and fierc…",
+   "header": "Blacksmith Hilda",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 74)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00617_GatherTheFlames/31271-04.html": {
+   "file": "Q00617_GatherTheFlames/31271-04.html",
+   "quest": 617,
+   "text": "Blacksmith Hilda: So you met with Vulcan, did you? Did he give you an earful of his madness? Well, he's mad about flame, but the rewards he offers are real. Defeat the monsters in the Gods' Forge , collect the flames you find, and go to him; he will give you an S-grade weapon recipe if you bring hi…",
+   "header": "Blacksmith Hilda",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00618_IntoTheFlame/31271-01.html": {
+   "file": "Q00618_IntoTheFlame/31271-01.html",
+   "quest": 618,
+   "text": "Blacksmith Hilda: Klein sent you here for a Vacualite, didn't he? ... I'm sorry, but I don't seem to have one at the moment. I could make one, however. You can get the ore. Bring me some Vacualite ore and I'll make a Vacualite for you.",
+   "header": "Blacksmith Hilda",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Where can I find Vacualite ore?\"",
+     "bypass": "Quest Q00618_IntoTheFlame 31271-02.html",
+     "kind": "quest-event",
+     "script": "Q00618_IntoTheFlame",
+     "event": "31271-02.html",
+     "quest": 618,
+     "to": "Q00618_IntoTheFlame/31271-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00618_IntoTheFlame/31271-03.html": {
+   "file": "Q00618_IntoTheFlame/31271-03.html",
+   "quest": 618,
+   "text": "Blacksmith Hilda: You haven't brought enough! As I said, open the bellies of the Kookaburra, Bandersnatch and Grendel in the Garden of Wild Beasts. Sometimes their entrails contain Vacualite ore . This is probably due to their strange diet... Bring me 50 pieces of Vacualite ore and I'll make you a …",
+   "header": "Blacksmith Hilda",
+   "when": [
+    "cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00618_IntoTheFlame/31271-04.html": {
+   "file": "Q00618_IntoTheFlame/31271-04.html",
+   "quest": 618,
+   "text": "Blacksmith Hilda: You've brought them all? Let me see! Excellent! I can get started on your Vacualite right away! Now, let me have that Vacualite ore...",
+   "header": "Blacksmith Hilda",
+   "when": [
+    "cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"Here you go.\"",
+     "bypass": "Quest Q00618_IntoTheFlame 31271-05.html",
+     "kind": "quest-event",
+     "script": "Q00618_IntoTheFlame",
+     "event": "31271-05.html",
+     "quest": 618,
+     "to": "Q00618_IntoTheFlame/31271-05.html",
+     "toAll": [
+      "Q00618_IntoTheFlame/31271-05.html",
+      "Q00618_IntoTheFlame/31271-03.html"
+     ],
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00618_IntoTheFlame/31271-06.html": {
+   "file": "Q00618_IntoTheFlame/31271-06.html",
+   "quest": 618,
+   "text": "Blacksmith Hilda: Take the Vacualite to Klein .",
+   "header": "Blacksmith Hilda",
+   "when": [
+    "cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00617_GatherTheFlames/31271-03.htm": {
+   "file": "Q00617_GatherTheFlames/31271-03.htm",
+   "quest": 617,
+   "text": "Blacksmith Hilda: Very well, then. Defeat the monsters in the Gods' Forge , collect the flames you find there, and bring them to Vulcan. He's mad, but he's a canny blacksmith; he'll give you an S-grade weapon recipe if you can bring him 1000 flames . You may have heard tell of Vulcan's younger brot…",
+   "header": "Blacksmith Hilda",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00618_IntoTheFlame/31271-02.html": {
+   "file": "Q00618_IntoTheFlame/31271-02.html",
+   "quest": 618,
+   "text": "Blacksmith Hilda: Open the bellies of the Kookaburra, Bandersnatch and Grendel in the Garden of Wild Beasts. Occasionally their entrails contain Vacualite ore . It's probably due to their bizarre diet! Bring 50 pieces of Vacualite ore to me and I'll make a Vacualite for you.",
+   "header": "Blacksmith Hilda",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00618_IntoTheFlame/31271-05.html": {
+   "file": "Q00618_IntoTheFlame/31271-05.html",
+   "quest": 618,
+   "text": "Blacksmith Hilda: Where should I begin? First I must melt it in the furnace to separate the impurities and extract pure Vacualite. Then, once cooled... It's done! Here it is! Take this Vacualite to Klein .",
+   "header": "Blacksmith Hilda",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Gather the Flames]",
+     "bypass": "npc_%objectId%_Quest Q00617_GatherTheFlames",
+     "kind": "quest",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/31271-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Gather the Flames (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00617_GatherTheFlames",
+     "kind": "quest",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/31271-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Into the Flames (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00618_IntoTheFlame",
+     "kind": "quest",
+     "quest": 618,
+     "to": "Q00618_IntoTheFlame/31271-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/duals_03.htm": {
+   "file": "common/duals_03.htm",
+   "quest": null,
+   "text": "Ah! You wish to have a Dualsword made? That is our specialty! In fact, we can make every type of Dualsword except the A-grade! If there's anyone better than us, it could only be the legendary Blacksmith of Mammon ! You don't have to bring me a stamp, either. Just bring me the swords you want combin…",
+   "links": [
+    {
+     "text": "View the list.",
+     "bypass": "npc_%objectId%_multisell 1007",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/weapon_sa_01.htm": {
+   "file": "common/weapon_sa_01.htm",
+   "quest": null,
+   "text": "Ah, so you wish to enhance your weapon! Well, it's the next-best thing to buying a new one, I say... But remember, a higher price doesn't necessarily mean a better product. There are many excellent weapons that are reasonably priced. As I'm sure you know, capabilities added to your weapon don't int…",
+   "live": {
+    "file": "Logs/npclive_Helton_e05f98c9.html",
+    "at": "2026-10-27T14:45:13.618Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "View list.",
+     "bypass": "npc_%objectId%_exc_multisell 1005",
+     "kind": "multisell",
+     "live": true
+    }
+   ]
+  },
+  "common/crafting_01.htm": {
+   "file": "common/crafting_01.htm",
+   "quest": null,
+   "text": "[Create ingredient item] Our Blacksmith Guild creates items at a very reasonable price. You may entrust your precious materials to our Blacksmiths. They have a long-standing tradition of integrity. We will do our best to serve you. The creation of the ingredient for A-grade items is the pride of ou…",
+   "links": [
+    {
+     "text": "See the list.",
+     "bypass": "npc_%objectId%_multisell 1004",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/augmentation_01.htm": {
+   "file": "common/augmentation_01.htm",
+   "quest": null,
+   "text": "Augmenting means give energy to weapons or accessories. Augmenting is simple, but it isn't always accurate. A few days ago, a mysterious ore called Life Stone, which has a very similar characteristic to Soul Crystals, was found in Black Anvil. If you bring this Life Stone and some other necessities…",
+   "links": [
+    {
+     "text": "Start augmenting.",
+     "bypass": "npc_%objectId%_Augment 1",
+     "kind": "other"
+    },
+    {
+     "text": "Exchange Life Stone for augmenting accesorries.",
+     "bypass": "npc_%objectId%_multisell 1008",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/augmentation_02.htm": {
+   "file": "common/augmentation_02.htm",
+   "quest": null,
+   "text": "You wish to remove the refined Life Stone? That's fine. But understand that this smelting method offers both improvement and potential penalties. It is difficult to restore the original weapon when removing the Life Stone. It requires a special chemical process and a special tool. It's also expensi…",
+   "links": [
+    {
+     "text": "Remove the refined Life Stone.",
+     "bypass": "npc_%objectId%_Augment 2",
+     "kind": "other"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

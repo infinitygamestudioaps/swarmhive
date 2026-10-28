@@ -1,0 +1,219 @@
+{
+ "npcId": 31638,
+ "name": "Starling Knight Kastien",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.249Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00071_SagaOfEvasTemplar/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 71"
+  },
+  {
+   "page": "Q00071_SagaOfEvasTemplar/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 71"
+  },
+  {
+   "page": "Q00071_SagaOfEvasTemplar/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 71"
+  },
+  {
+   "page": "Q00071_SagaOfEvasTemplar/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 71"
+  },
+  {
+   "page": "Q00071_SagaOfEvasTemplar/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 71"
+  },
+  {
+   "page": "Q00071_SagaOfEvasTemplar/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 71"
+  },
+  {
+   "page": "Q00071_SagaOfEvasTemplar/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 71"
+  },
+  {
+   "page": "Q00071_SagaOfEvasTemplar/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 71"
+  }
+ ],
+ "quests": {
+  "71": {
+   "name": "Saga of Eva's Templar",
+   "listText": [
+    "[Saga of Eva's Templar]",
+    "[Saga of Eva's Templar (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00071_SagaOfEvasTemplar/4-04.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/4-04.htm",
+   "quest": 71,
+   "text": "Starling Knight Kastien: Why are you hesitating? Raise your sword, Knight, and help break the chains that bind us to this darkness! Let's fight this together!",
+   "header": "Starling Knight Kastien",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/4-06.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/4-06.htm",
+   "quest": 71,
+   "text": "Starling Knight Kastien: The devil is defeated! My brother's chains are broken. That beast represented the wall we Elves built to hide our broken pride. After being betrayed, we had to separate ourselves from other races. That's not our true nature. As a Knight, you must understand about the true p…",
+   "header": "Starling Knight Kastien",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"True pride?\"",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar 4-1",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "4-1",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/4-010.htm"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/4-01.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/4-01.htm",
+   "quest": 71,
+   "text": "Starling Knight Kastien: That's the darkness we Elves bear from our negligence! It allowed the Humans to betray us. Brother, we must succeed for the sake of our future!",
+   "header": "Starling Knight Kastien",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/4-03.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/4-03.htm",
+   "quest": 71,
+   "text": "Starling Knight Kastien: I missed again! I can't do this alone, I need help.",
+   "header": "Starling Knight Kastien",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/4-05.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/4-05.htm",
+   "quest": 71,
+   "text": "Starling Knight Kastien: Can't you see I'm busy! Stand back!",
+   "header": "Starling Knight Kastien",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/4-07.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/4-07.htm",
+   "quest": 71,
+   "text": "Starling Knight Kastien: The devil is defeated! My brother's chains are broken. That beast represented the wall we Elves built to hide our broken pride. After being betrayed, we had to separate ourselves from other races. That's not our true nature. As a Knight, you must understand about the true p…",
+   "header": "Starling Knight Kastien",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"True pride?\"",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar 4-2",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "4-2",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/4-02.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/4-02.htm",
+   "quest": 71,
+   "text": "Starling Knight Kastien: Stand back! This isn't your fight!",
+   "header": "Starling Knight Kastien",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/4-08.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/4-08.htm",
+   "quest": 71,
+   "text": "Starling Knight Kastien: You've already broken the chains. You don't need to join this fight. Find the answers you seek from the tablet!",
+   "header": "Starling Knight Kastien",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/4-010.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/4-010.htm",
+   "quest": 71,
+   "text": "Starling Knight Kastien: The pride that comes from leading all the races. Elves had to hold a vision for the future. That's why the goddess Eva created this pilgrimage. The betrayal caused us to separate ourselves from others, but we can't go on this way. Use this stone to commune with the tablet. …",
+   "header": "Starling Knight Kastien",
+   "links": [
+    {
+     "text": "\"Thanks for the stone.\"",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar 4-3",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "4-3",
+     "quest": 71,
+     "to": null,
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/4-011.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/4-011.htm",
+   "quest": 71,
+   "text": "Starling Knight Kastien: The pride that comes from leading all the races. Elves had to hold a vision for the future. That's why the goddess Eva created this pilgrimage. The betrayal caused us to separate ourselves from others, but we can't go on this way. Use this stone to commune with the tablet. …",
+   "header": "Starling Knight Kastien",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/4-09.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/4-09.htm",
+   "quest": 71,
+   "text": "Starling Knight Kastien: I can't help you anymore. Find the answers you seek from the tablet!",
+   "header": "Starling Knight Kastien",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of Eva's Templar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00071_SagaOfEvasTemplar",
+     "kind": "quest",
+     "quest": 71,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,66 @@
+{
+ "npcId": 31699,
+ "name": "Stanislava",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.270Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "teleporter/31699.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "teleporter/31699.htm": {
+   "file": "teleporter/31699.htm",
+   "quest": null,
+   "text": "Gatekeeper Stanislava: Since the Rune Township is so big, Alicia and I were picked to help in a crisis. I have to stay inside, but she is out in the weather in front of the temple! I see I'm boring you. Shall I guide you to the temple?",
+   "header": "Gatekeeper Stanislava",
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/31699-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "teleporter/31699-1.htm": {
+   "file": "teleporter/31699-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Rune Township Temple - 150 Adena",
+     "bypass": "npc_%objectId%_goto 123",
+     "kind": "teleport",
+     "confirm": "811;Rune Township Temple"
+    }
+   ]
+  },
+  "teleporter/31699-pk.htm": {
+   "file": "teleporter/31699-pk.htm",
+   "quest": null,
+   "text": "Gatekeeper Stanislava: You don't have permission to use the gate of time and space! Get lost or I'll call the guards!",
+   "header": "Gatekeeper Stanislava",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

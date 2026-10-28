@@ -1,0 +1,245 @@
+{
+ "npcId": 30862,
+ "name": "Oltran",
+ "title": "Grand Master",
+ "type": "L2VillageMasterDElf",
+ "generated": "2026-10-27T18:18:03.096Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30862.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "358": {
+   "name": "Illegitimate Child of the Goddess",
+   "listText": [
+    "[Illegitimate Child of a Goddess]",
+    "[Illegitimate Child of a Goddess (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00358_IllegitimateChildOfTheGoddess/30862-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00358_IllegitimateChildOfTheGoddess/30862-05.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00358_IllegitimateChildOfTheGoddess/30862-06.html",
+     "when": "state STARTED; !hasItemsAtLimit(player, SNAKE_SCALE)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00358_IllegitimateChildOfTheGoddess/30862-07.html",
+     "when": "state STARTED; hasItemsAtLimit(player, SNAKE_SCALE)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30862.htm": {
+   "file": "villagemaster/30862.htm",
+   "quest": null,
+   "text": "Grand Master Oltlin: You have left your village and have come a long way, young child of Shilen. How do you feel, now that you see the great castle and the ever-changing streets that are the pride of the Humans? Even though you would appreciate and admire them, do not be enticed by their allure. Th…",
+   "header": "Grand Master Oltlin",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "npc_%objectId%_Quest DarkElfChange2",
+     "kind": "quest",
+     "script": "DarkElfChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00358_IllegitimateChildOfTheGoddess/30862-01.htm": {
+   "file": "Q00358_IllegitimateChildOfTheGoddess/30862-01.htm",
+   "quest": 358,
+   "text": "Grand Master Oltlin: Have you seen the sights of the city? The wonderful castles built by humans, in spite of countless errors and obstacles. Do you have any idea what is beneath them? Often, long shadows are cast under the glow of glory. You always find the darkest shadows under strong light. Thos…",
+   "header": "Grand Master Oltlin",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Gee, I didn't expect to hear this sort of thing from someone like you!\"",
+     "bypass": "Quest Q00358_IllegitimateChildOfTheGoddess 30862-02.htm",
+     "kind": "quest-event",
+     "script": "Q00358_IllegitimateChildOfTheGoddess",
+     "event": "30862-02.htm",
+     "quest": 358,
+     "to": "Q00358_IllegitimateChildOfTheGoddess/30862-02.htm"
+    }
+   ]
+  },
+  "Q00358_IllegitimateChildOfTheGoddess/30862-05.html": {
+   "file": "Q00358_IllegitimateChildOfTheGoddess/30862-05.html",
+   "quest": 358,
+   "text": "Grand Master Oltlin: Have you seen the sights of the city? The wonderful castles built by humans, in spite of countless errors and obstacles. Do you have any idea what is beneath them? Often, long shadows are cast under the glow of glory. You always find the darkest shadows under strong light. Does…",
+   "header": "Grand Master Oltlin",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00358_IllegitimateChildOfTheGoddess/30862-06.html": {
+   "file": "Q00358_IllegitimateChildOfTheGoddess/30862-06.html",
+   "quest": 358,
+   "text": "Grand Master Oltlin: To restore the dignity and glory of the goddess you must kill Falibati and Trives , the illegitimate children born of her wrath, and bring back 108 Snake Scales .",
+   "header": "Grand Master Oltlin",
+   "when": [
+    "state STARTED; !hasItemsAtLimit(player, SNAKE_SCALE)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00358_IllegitimateChildOfTheGoddess/30862-07.html": {
+   "file": "Q00358_IllegitimateChildOfTheGoddess/30862-07.html",
+   "quest": 358,
+   "text": "Grand Master Oltlin: Thank you for your efforts. I know it was not easy... Needless to say, please don't tell other people that you have done this for me. Above all my children must never learn of it... In exchange for your efforts, I will give you this Secret Book in which ancient secret creation …",
+   "header": "Grand Master Oltlin",
+   "when": [
+    "state STARTED; hasItemsAtLimit(player, SNAKE_SCALE)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00358_IllegitimateChildOfTheGoddess/30862-02.htm": {
+   "file": "Q00358_IllegitimateChildOfTheGoddess/30862-02.htm",
+   "quest": 358,
+   "text": "Grand Master Oltlin: Ah, yes, the bitter ramblings of an old man. As you approach true enlightenment, the shadows grow darker. Among those who pursue glory, some work diligently against the shadow at every opportunity. At the same time, they must know that their efforts are as futile as covering up…",
+   "header": "Grand Master Oltlin",
+   "links": [
+    {
+     "text": "\"Is this a story about... Shilen?\"",
+     "bypass": "Quest Q00358_IllegitimateChildOfTheGoddess 30862-03.htm",
+     "kind": "quest-event",
+     "script": "Q00358_IllegitimateChildOfTheGoddess",
+     "event": "30862-03.htm",
+     "quest": 358,
+     "to": "Q00358_IllegitimateChildOfTheGoddess/30862-03.htm"
+    }
+   ]
+  },
+  "Q00358_IllegitimateChildOfTheGoddess/30862-03.htm": {
+   "file": "Q00358_IllegitimateChildOfTheGoddess/30862-03.htm",
+   "quest": 358,
+   "text": "Grand Master Oltlin: Her anger towards Gran Kain and Einhasad for a time turned Shilen into a pure and perfect being. That is, she became the literal incarnation of destruction. As she achieved the purest form of fury, her benevolence and austerity left her completely. Her perfect wrath is the sour…",
+   "header": "Grand Master Oltlin",
+   "links": [
+    {
+     "text": "\"Why can't we kill those creatures?\"",
+     "bypass": "Quest Q00358_IllegitimateChildOfTheGoddess 30862-04.htm",
+     "kind": "quest-event",
+     "script": "Q00358_IllegitimateChildOfTheGoddess",
+     "event": "30862-04.htm",
+     "quest": 358,
+     "to": "Q00358_IllegitimateChildOfTheGoddess/30862-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00358_IllegitimateChildOfTheGoddess/30862-04.htm": {
+   "file": "Q00358_IllegitimateChildOfTheGoddess/30862-04.htm",
+   "quest": 358,
+   "text": "Grand Master Oltlin: There are evil creatures close to her. These are the illegitimate children she bore while her fury was at its fiercest... Go slay Falibati and Trives who bear a striking resemblence to her. Bring back their Snake Scales . If you bring me 108 Snake Scales, I will teach you a sec…",
+   "header": "Grand Master Oltlin",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Illegitimate Child of a Goddess]",
+     "bypass": "npc_%objectId%_Quest Q00358_IllegitimateChildOfTheGoddess",
+     "kind": "quest",
+     "quest": 358,
+     "to": "Q00358_IllegitimateChildOfTheGoddess/30862-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Illegitimate Child of a Goddess (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00358_IllegitimateChildOfTheGoddess",
+     "kind": "quest",
+     "quest": 358,
+     "to": "Q00358_IllegitimateChildOfTheGoddess/30862-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

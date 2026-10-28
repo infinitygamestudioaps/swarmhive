@@ -1,0 +1,487 @@
+{
+ "npcId": 32245,
+ "name": "Matras",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.364Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32245.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "132": {
+   "name": "Matras' Curiosity",
+   "listText": [
+    "[Curiosity of a Matras]",
+    "[Curiosity of a Matras (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00132_MatrasCuriosity/32245-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 76)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00132_MatrasCuriosity/32245-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 76)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00132_MatrasCuriosity/32245-05.htm",
+     "when": "state STARTED; cond 1|2",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00132_MatrasCuriosity/32245-04.htm",
+     "when": "state STARTED; cond 1|2; !(st.hasQuestItems(BLUEPRINT_RANKU) && st.hasQuestItems(BLUEPRINT_PRINCE))",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00132_MatrasCuriosity/32245-06.htm",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "691": {
+   "name": "Matras' Suspicious Request",
+   "listText": [
+    "[Matras' Suspicious Request]",
+    "[Matras' Suspicious Request (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00691_MatrasSuspiciousRequest/32245-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00691_MatrasSuspiciousRequest/32245-03.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00691_MatrasSuspiciousRequest/32245-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00691_MatrasSuspiciousRequest/32245-07.html",
+     "when": "state STARTED; st.getInt(\"submitted_gems\") > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00691_MatrasSuspiciousRequest/32245-06.html",
+     "when": "state STARTED; !st.getInt(\"submitted_gems\") > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32245.htm": {
+   "file": "default/32245.htm",
+   "quest": null,
+   "text": "Matras: I am Matras, the famous architect. You have heard of me, I trust? No? Ah, well... See that building over there? I designed it! What do you think of that?",
+   "header": "Matras",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00132_MatrasCuriosity/32245-01.htm": {
+   "file": "Q00132_MatrasCuriosity/32245-01.htm",
+   "quest": 132,
+   "text": "Matras: You know I am keenly interested in the magnificent structure called the Steel Citadel. I have been researching it, but strangely I have found no complete blueprints. It seems that it was built independently by a number of different parties... I am still searching for additional information,…",
+   "header": "Matras",
+   "when": [
+    "state CREATED; (player.getLevel() >= 76)"
+   ],
+   "links": [
+    {
+     "text": "\"Please explain.\"",
+     "bypass": "Quest Q00132_MatrasCuriosity 32245-03.htm",
+     "kind": "quest-event",
+     "script": "Q00132_MatrasCuriosity",
+     "event": "32245-03.htm",
+     "quest": 132,
+     "to": "Q00132_MatrasCuriosity/32245-03.htm",
+     "toAll": [
+      "Q00132_MatrasCuriosity/32245-03.htm",
+      "Q00132_MatrasCuriosity/32245-03a.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00132_MatrasCuriosity/32245-02.htm": {
+   "file": "Q00132_MatrasCuriosity/32245-02.htm",
+   "quest": 132,
+   "text": "Matras: I am very interested in this magnificent structure called the Steel Citadel, so I have been researching it. Ah, but I think you are too inexperienced to help me. Perhaps you will come again some day. (Only characters level 76 and higher may embark on this quest.)",
+   "header": "Matras",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 76)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00132_MatrasCuriosity/32245-05.htm": {
+   "file": "Q00132_MatrasCuriosity/32245-05.htm",
+   "quest": 132,
+   "text": "Matras: Ah, you have brought the blueprints I needed! Thank you! Now my research may progress as I had hoped. Ah, but let me just check to ensure that it is authentic... In my line of work, forgeries occur far too often. If it is the real item, I will reward you as I promised.",
+   "header": "Matras",
+   "when": [
+    "state STARTED; cond 1|2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00132_MatrasCuriosity/32245-04.htm": {
+   "file": "Q00132_MatrasCuriosity/32245-04.htm",
+   "quest": 132,
+   "text": "Matras: Have you brought the blueprints? No? Then go to the Tower and get the Tower blueprints from Demon Prince and Ranku . I will reward you for your risk!",
+   "header": "Matras",
+   "when": [
+    "state STARTED; cond 1|2; !(st.hasQuestItems(BLUEPRINT_RANKU) && st.hasQuestItems(BLUEPRINT_PRINCE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00132_MatrasCuriosity/32245-06.htm": {
+   "file": "Q00132_MatrasCuriosity/32245-06.htm",
+   "quest": 132,
+   "text": "Matras: Excellent -- the blueprints are authentic! Many thanks. I have already discovered several items of interest, including a secret passage...",
+   "header": "Matras",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"Secret passage?\"",
+     "bypass": "Quest Q00132_MatrasCuriosity 32245-07.htm",
+     "kind": "quest-event",
+     "script": "Q00132_MatrasCuriosity",
+     "event": "32245-07.htm",
+     "quest": 132,
+     "to": "Q00132_MatrasCuriosity/32245-07.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00691_MatrasSuspiciousRequest/32245-01.htm": {
+   "file": "Q00691_MatrasSuspiciousRequest/32245-01.htm",
+   "quest": 691,
+   "text": "Matras: Welcome, traveler! Would you be interested in a job, by any chance?",
+   "header": "Matras",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Ask him for details.",
+     "bypass": "Quest Q00691_MatrasSuspiciousRequest 32245-02.htm",
+     "kind": "quest-event",
+     "script": "Q00691_MatrasSuspiciousRequest",
+     "event": "32245-02.htm",
+     "quest": 691,
+     "to": "Q00691_MatrasSuspiciousRequest/32245-02.htm"
+    }
+   ]
+  },
+  "Q00691_MatrasSuspiciousRequest/32245-03.html": {
+   "file": "Q00691_MatrasSuspiciousRequest/32245-03.html",
+   "quest": 691,
+   "text": "Matras: I am desperate for help, true, but still not so foolish as to engage someone of your obvious inexperience. Come back to me when you are a little more seasoned! (Only characters level 76 and above are permitted to undertake this quest.)",
+   "header": "Matras",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00691_MatrasSuspiciousRequest/32245-05.html": {
+   "file": "Q00691_MatrasSuspiciousRequest/32245-05.html",
+   "quest": 691,
+   "text": "Matras: Thanks to your help, it has definitely already become easier for me to go in and out. You did well, my friend. Now, do you have the Red Stones I asked for?",
+   "header": "Matras",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Show him the Red Stones.",
+     "bypass": "Quest Q00691_MatrasSuspiciousRequest 32245-08.html",
+     "kind": "quest-event",
+     "script": "Q00691_MatrasSuspiciousRequest",
+     "event": "32245-08.html",
+     "quest": 691,
+     "to": "Q00691_MatrasSuspiciousRequest/32245-08.html"
+    }
+   ]
+  },
+  "Q00691_MatrasSuspiciousRequest/32245-07.html": {
+   "file": "Q00691_MatrasSuspiciousRequest/32245-07.html",
+   "quest": 691,
+   "text": "Matras: Ah, I see that you've brought me %itemcount% Red Stones. What sort of reward would you like?",
+   "header": "Matras",
+   "when": [
+    "state STARTED; st.getInt(\"submitted_gems\") > 0"
+   ],
+   "links": [
+    {
+     "text": "\"Give me what you promised for bringing you 744 stones.\"",
+     "bypass": "Quest Q00691_MatrasSuspiciousRequest take_reward",
+     "kind": "quest-event",
+     "script": "Q00691_MatrasSuspiciousRequest",
+     "event": "take_reward",
+     "quest": 691,
+     "to": "Q00691_MatrasSuspiciousRequest/32245-09.html",
+     "toAll": [
+      "Q00691_MatrasSuspiciousRequest/32245-09.html",
+      "Q00691_MatrasSuspiciousRequest/32245-10.html"
+     ]
+    },
+    {
+     "text": "\"I will go back and get some more stones.\"",
+     "bypass": "Quest Q00691_MatrasSuspiciousRequest 32245-11.html",
+     "kind": "quest-event",
+     "script": "Q00691_MatrasSuspiciousRequest",
+     "event": "32245-11.html",
+     "quest": 691,
+     "to": "Q00691_MatrasSuspiciousRequest/32245-11.html"
+    },
+    {
+     "text": "\"I've had enough of this. Give me a reward for the stones I have brought you.\"",
+     "bypass": "Quest Q00691_MatrasSuspiciousRequest 32245-12.html",
+     "kind": "quest-event",
+     "script": "Q00691_MatrasSuspiciousRequest",
+     "event": "32245-12.html",
+     "quest": 691,
+     "to": "Q00691_MatrasSuspiciousRequest/32245-12.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00691_MatrasSuspiciousRequest/32245-06.html": {
+   "file": "Q00691_MatrasSuspiciousRequest/32245-06.html",
+   "quest": 691,
+   "text": "Matras: Go do what I asked of you: get rid of the tower guards and bring me the Red Stones they carry. Hurry!",
+   "header": "Matras",
+   "when": [
+    "state STARTED; !st.getInt(\"submitted_gems\") > 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00132_MatrasCuriosity/32245-03.htm": {
+   "file": "Q00132_MatrasCuriosity/32245-03.htm",
+   "quest": 132,
+   "text": "Matras: Actually, I need a blueprint of the structure of the tower of the Steel Citadel. I have learned who possesses the information I need, but I can't get it on my own. Perhaps...someone like you could go into the tower, find that blueprint and bring it to me. Apparently the Demon Prince and Ran…",
+   "header": "Matras",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00132_MatrasCuriosity/32245-03a.htm": {
+   "file": "Q00132_MatrasCuriosity/32245-03a.htm",
+   "quest": 132,
+   "text": "Matras: Actually, I need a blueprint of the structure of the tower of the Steel Citadel. I have learned who possesses the information I need, but I can't get it on my own. Perhaps...someone like you could go into the tower, find that blueprint and bring it to me. Apparently the Demon Prince and Ran…",
+   "header": "Matras",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00132_MatrasCuriosity/32245-07.htm": {
+   "file": "Q00132_MatrasCuriosity/32245-07.htm",
+   "quest": 132,
+   "text": "Matras: I am going to tell you this secret because I only found out about it thanks to your help. Apparently, there is a passage that leads directly to the second tower of the Steel Citadel . I found it easily enough, and I think you will, too. In fact, if you want to use that passage, go speak wit…",
+   "header": "Matras",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00691_MatrasSuspiciousRequest/32245-02.htm": {
+   "file": "Q00691_MatrasSuspiciousRequest/32245-02.htm",
+   "quest": 691,
+   "text": "Matras: I must go up to the tower of the Steel Citadel, but to do so requires passing Bate Tower. The guards there refused to let me enter. That's why I need your help...",
+   "header": "Matras",
+   "links": [
+    {
+     "text": "\"How can I help you?\"",
+     "bypass": "Quest Q00691_MatrasSuspiciousRequest 32245-04.htm",
+     "kind": "quest-event",
+     "script": "Q00691_MatrasSuspiciousRequest",
+     "event": "32245-04.htm",
+     "quest": 691,
+     "to": "Q00691_MatrasSuspiciousRequest/32245-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00691_MatrasSuspiciousRequest/32245-04.htm": {
+   "file": "Q00691_MatrasSuspiciousRequest/32245-04.htm",
+   "quest": 691,
+   "text": "Matras: All you have to do is simply draw their attention and I will take care of the rest. Although now that I think it through, it would be even better if you could, uh, get rid of them. Do so and bring me the Red Stones that they carry. No questions! I told you I would reward you well for your t…",
+   "header": "Matras",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00691_MatrasSuspiciousRequest/32245-08.html": {
+   "file": "Q00691_MatrasSuspiciousRequest/32245-08.html",
+   "quest": 691,
+   "text": "Matras: You have brought %itemcount% Red Stones. I wish it were more, but it looks like you have worked hard to get these. What do you want me to do with these?",
+   "header": "Matras",
+   "links": [
+    {
+     "text": "\"Give me what you promised for bringing you 744 stones.\"",
+     "bypass": "Quest Q00691_MatrasSuspiciousRequest take_reward",
+     "kind": "quest-event",
+     "script": "Q00691_MatrasSuspiciousRequest",
+     "event": "take_reward",
+     "quest": 691,
+     "to": "Q00691_MatrasSuspiciousRequest/32245-09.html",
+     "toAll": [
+      "Q00691_MatrasSuspiciousRequest/32245-09.html",
+      "Q00691_MatrasSuspiciousRequest/32245-10.html"
+     ]
+    },
+    {
+     "text": "\"I will go back and get some more stones.\"",
+     "bypass": "Quest Q00691_MatrasSuspiciousRequest 32245-11.html",
+     "kind": "quest-event",
+     "script": "Q00691_MatrasSuspiciousRequest",
+     "event": "32245-11.html",
+     "quest": 691,
+     "to": "Q00691_MatrasSuspiciousRequest/32245-11.html"
+    },
+    {
+     "text": "\"I've had enough of this. Give me a reward for the stones I have brought you.\"",
+     "bypass": "Quest Q00691_MatrasSuspiciousRequest 32245-12.html",
+     "kind": "quest-event",
+     "script": "Q00691_MatrasSuspiciousRequest",
+     "event": "32245-12.html",
+     "quest": 691,
+     "to": "Q00691_MatrasSuspiciousRequest/32245-12.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00691_MatrasSuspiciousRequest/32245-09.html": {
+   "file": "Q00691_MatrasSuspiciousRequest/32245-09.html",
+   "quest": 691,
+   "text": "Matras: Here you go. I hope this will help you in your travels. Take care!",
+   "header": "Matras",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00691_MatrasSuspiciousRequest/32245-10.html": {
+   "file": "Q00691_MatrasSuspiciousRequest/32245-10.html",
+   "quest": 691,
+   "text": "Matras: Look, I've told you many times that I need 744 Red Stones. However, you've given me only %itemcount% so far. Go get some more if you expect me to reward you.",
+   "header": "Matras",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00691_MatrasSuspiciousRequest/32245-11.html": {
+   "file": "Q00691_MatrasSuspiciousRequest/32245-11.html",
+   "quest": 691,
+   "text": "Matras: Thank you! I will not forget your help. Allow me to compensate you for your excellent work.",
+   "header": "Matras",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00691_MatrasSuspiciousRequest/32245-12.html": {
+   "file": "Q00691_MatrasSuspiciousRequest/32245-12.html",
+   "quest": 691,
+   "text": "Matras: Good work! If I need your services again, I won't hesitate to call on you.",
+   "header": "Matras",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Curiosity of a Matras]",
+     "bypass": "npc_%objectId%_Quest Q00132_MatrasCuriosity",
+     "kind": "quest",
+     "quest": 132,
+     "to": "Q00132_MatrasCuriosity/32245-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Curiosity of a Matras (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00132_MatrasCuriosity",
+     "kind": "quest",
+     "quest": 132,
+     "to": "Q00132_MatrasCuriosity/32245-05.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Matras' Suspicious Request]",
+     "bypass": "npc_%objectId%_Quest Q00691_MatrasSuspiciousRequest",
+     "kind": "quest",
+     "quest": 691,
+     "to": "Q00691_MatrasSuspiciousRequest/32245-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Matras' Suspicious Request (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00691_MatrasSuspiciousRequest",
+     "kind": "quest",
+     "quest": 691,
+     "to": "Q00691_MatrasSuspiciousRequest/32245-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

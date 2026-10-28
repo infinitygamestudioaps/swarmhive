@@ -49,11 +49,10 @@
   const SEC_NAME = { server: 'Server', res: 'Resurrection', money: 'Money', supplies: 'Supplies', combat: 'Combat', gear: 'Gear', storage: 'Storage', loot: 'Loot', tactics: 'Fighting', routes: 'Routes', daily: 'Daily (Kamaloka)', ss: 'Daily (Seven Signs)', clan: 'Clan' };
   // PARTYAUTO 2026-10-13: the switches of the Supplies section (the same list as Dashboard/partyauto_api.js KINDS; the API's own list wins)
   const PA_KINDS = [
-    { key: 'supplyWatch', char: false, label: 'Supply runs when someone runs low', help: 'The leader goes to Giran by himself when a character is low on escape / resurrection scrolls, shots, potions or arrows (or the bag is full), buys for everyone and hands it out.' },
-    { key: 'shotsOutRun', char: false, def: true, label: 'Supply run when shots run out (also with supply runs off)', help: 'On (default): when a character\'s shots really run out (fewer than 30) and a shop sells them, the leader makes a supply run even while "Supply runs when someone runs low" is off. Off: with supply runs off nobody goes to Giran by himself, also not for shots (they fight without; your Supply run now order still works).' },   // SHOTSOUTOPT-2026-10-26
-    { key: 'sell', char: true, label: 'Sell junk on town visits', help: 'Items you marked "sell" are sold whenever a character idles in a town, and old gear + marked items are sold during supply runs (also the ones you order).' },
+    { key: 'supplyWatch', char: false, label: 'Supply runs when someone runs low', help: 'The leader goes to Giran by himself when a character is low on escape / resurrection scrolls, shots, potions or arrows (or the bag is full), buys for everyone and hands it out. Off: nothing is bought by itself, also not when shots run out: the character fights on without shots and you get a warning (party card + notes). Your Supply run now order, a plan Supplies step and Upgrade orders still work.' },
+    { key: 'sell', char: true, label: 'Sell marked items (automatic)', help: 'Off (default): nothing is ever sold by itself. On: only the items on your sell list (Trade page marks) are sold when a character idles in a town, during supply runs, and the collector sells marked items from the clan warehouse. Gear you did not mark is never sold; replaced gear stays in the bag. Your own !sell / !whsell orders always work.' },   // NOAUTOSELL-TEXT-2026-10-27
     { key: 'dyes', char: true, label: 'Draw symbols (dyes) in supply runs', help: 'During supply runs each character with a symbol plan buys the dyes and draws its next planned symbol at the Symbol Maker in Giran (also in the supply runs you order).' }];
-  const PA_SHORT = { supplyWatch: 'supply runs', sell: 'selling', dyes: 'symbols', unload: 'loot to a teammate', storeCov: 'Chant of Victory', storeMagnus: "Magnus' Chant", vitality: 'Gift of Vitality' };   // UNLOADGATE-2026-10-16
+  const PA_SHORT = { supplyWatch: 'supply runs', sell: 'selling', dyes: 'symbols', unload: 'loot to a teammate', storeCov: 'Chant of Victory', storeMagnus: "Magnus' Chant", vitality: 'Gift of Vitality', circuitResupply: 'circuit resupply', dpScrolls: 'DP scrolls', missionSupplies: 'mission supplies' };   // UNLOADGATE-2026-10-16   // RESUPOPT-2026-10-27
   // HIVESW-2026-10-15: the Combat section's switches (= partyauto_api.js KINDS group 'combat'; default ON when nothing is set)
   const CB_KINDS = [
     { key: 'skills', char: true, def: true, group: 'combat', label: 'Hive picks my skills', help: 'On: Hive chooses and casts attacks, area attacks, debuffs, buffs, songs / dances, toggles and the raid role skills. Off: Hive casts nothing by itself — your L2Swarm profile (Combat Skills tab) fights; Hive still walks, follows, resupplies and shows everything here.' },
@@ -388,9 +387,10 @@
       const own = s.party[k.key] !== null, eff = paParty(k.key), d = paDef(k.key);
       let onTxt = (own ? 'On' : 'On — the setting for all parties') + (run ? '' : ' (works once you press Start)');
       let offTxt = own ? OFF : 'Off — nothing happens until you switch it on (the setting for all parties).';
-      // SHOTSOUTOPT-2026-10-26: the shots-out run is ON by default (today's rule); the supply-watch line says what still happens while it is off
-      if (k.key === 'shotsOutRun') { onTxt = 'On — shots that really run out start a supply run, also with supply runs off' + (own ? '' : ' (the setting for all parties)'); offTxt = 'Off — with supply runs off nobody goes to Giran for shots either' + (own ? '' : ' (the setting for all parties)'); }
-      else if (k.key === 'supplyWatch' && K.some(x => x.key === 'shotsOutRun')) offTxt += paParty('shotsOutRun') ? ' Only shots that really ran out still start a run (switch below).' : ' Shots that run out do not start a run either (switch below).';
+      // ONESWITCH-2026-10-27 (owner: "One switch"): supply runs off = nothing is bought by itself, also not when shots run out (a warning instead)
+      if (k.key === 'supplyWatch') offTxt += ' Nothing is bought by itself, also not when shots run out: they fight on without shots and you get a warning.';
+      // RESUPOPT-2026-10-27 (owner: "Make the resupply optional"): default ON; off = this path buys nothing by itself (a note says so), your orders still buy
+      if (/^(circuitResupply|dpScrolls|missionSupplies)$/.test(k.key)) offTxt = (own ? 'Off' : 'Off (the setting for all parties)') + ' — nothing is bought here by itself (a note says so); your orders still buy.';
       const reset = own ? `<button type="button" class="uk-btn ghost ps-reset" data-psreset="supplies.party.${E(k.key)}">Use the all-parties setting (${d ? 'on' : 'off'})</button>` : '';
       return item(sw('supplies.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset + allLine('supplies', k.key, eff, d));   // ALLPARTIES
     }).join('');
@@ -399,7 +399,7 @@
       return `<div class="ps-mrow"><span class="ps-mn">${E(n)}${ck.some(k => c[k.key] !== null && c[k.key] !== undefined) ? ' <small>own</small>' : ''}</span>${ck.map(k => {
         const v = c[k.key], pe = paParty(k.key);
         return sel(`supplies.chars.${n}.${k.key}`, v === null || v === undefined ? '' : v ? 'on' : 'off', [['', `Like the party (${pe ? 'on' : 'off'})`], ['on', 'On'], ['off', 'Off']], k.key === 'sell' ? 'Selling' : 'Symbols', { kind: 'tri' }); }).join('')}</div>`; }).join('');
-    const onK = K.filter(k => k.key !== 'shotsOutRun' && paParty(k.key)).map(k => PA_SHORT[k.key] || k.key);   // SHOTSOUTOPT-2026-10-26: on by default, not listed (the summary stays as it was)
+    const onK = K.filter(k => paParty(k.key)).map(k => PA_SHORT[k.key] || k.key);
     if (s.pshop && s.pshop.on) onK.push('player-shop shots');   // PSHOP
     const sum = !onK.length ? 'Off — nothing by itself' : `${onK.join(' · ')}${run ? '' : ' (waits for Start)'}`;
     // SUPPLYAMT 2026-10-14: how much each character carries (every member uses the row of its own level)

@@ -2,7 +2,7 @@
  "id": 74,
  "name": "Saga of the Dreadnought",
  "version": 1,
- "generated": "2026-10-27T11:14:56.890Z",
+ "generated": "2026-10-27T18:18:34.892Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 76,
@@ -28,8 +28,18 @@
    "step": 9
   },
   {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 9
+  },
+  {
    "code": "mob-no-spawn",
    "text": "a monster of a step has no spawn and no known trigger",
+   "step": 17
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
    "step": 17
   }
  ],
@@ -2120,7 +2130,7 @@
    "expectedSec": 18132,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "hunt"
    },
    "conds": [
     6
@@ -2183,13 +2193,15 @@
    ],
    "kills": 1,
    "reasons": [
-    "mob-no-spawn"
+    "mob-no-spawn",
+    "engine-manual"
    ],
    "engine": {
     "manual": "spawn of White Wing Commander by \"event\" is not automated"
    },
    "text": "Make White Wing Commander appear and kill it",
    "expectedSec": 300,
+   "engineWhy": "spawn of White Wing Commander by \"event\" is not automated",
    "conds": [
     8
    ]
@@ -2306,13 +2318,15 @@
    ],
    "kills": 1,
    "reasons": [
-    "mob-no-spawn"
+    "mob-no-spawn",
+    "engine-manual"
    ],
    "engine": {
     "manual": "the monsters (18212, 18214, 18215, 18216, 18218, 27223) only appear through the quest script and no trigger is known"
    },
    "text": "Make Archon of Halisha, Archon of Halisha, Archon of Halisha, Archon of Halisha, Archon of Halisha, Archon of Halisha appear and kill it",
    "expectedSec": 300,
+   "engineWhy": "the monsters (18212, 18214, 18215, 18216, 18218) only appear through the quest script and no trigger is known",
    "conds": [
     15
    ]

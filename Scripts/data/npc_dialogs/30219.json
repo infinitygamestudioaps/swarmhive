@@ -1,0 +1,149 @@
+{
+ "npcId": 30219,
+ "name": "Veltress",
+ "title": "Sentinel",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.912Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30219.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "102": {
+   "name": "Sea of Spores Fever",
+   "listText": [
+    "[Sea of Spores Fever]",
+    "[Sea of Spores Fever (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00102_SeaOfSporesFever/30285-01.html",
+     "when": "st.hasQuestItems(ALBERIUS_LIST, SENTINELS.get(npc.getId()))",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00102_SeaOfSporesFever/30221-01.html",
+     "when": "st.hasQuestItems(ALBERIUS_LIST, SENTINELS.get(npc.getId()))",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00102_SeaOfSporesFever/30219-01.html",
+     "when": "st.hasQuestItems(ALBERIUS_LIST, SENTINELS.get(npc.getId()))",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00102_SeaOfSporesFever/30217-01.html",
+     "when": "st.hasQuestItems(ALBERIUS_LIST, SENTINELS.get(npc.getId()))",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30219.htm": {
+   "file": "guard/30219.htm",
+   "quest": null,
+   "text": "Sentinel Veltress: May the blessing of moonlight be with you... My name is Veltress, one of the sentinels. We are called the watch of the forest. If you cross the bridge you see here, you can follow the road to Lake Iris. Legend has it that the lake was formed from the tears of the goddess Eva.",
+   "header": "Sentinel Veltress",
+   "links": [
+    {
+     "text": "Ask about Lake Iris.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30219-1.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30219-1.htm": {
+   "file": "guard/30219-1.htm",
+   "quest": null,
+   "text": "Sentinel Veltress: In the age of great disaster, our goddess was filled with sadness at seeing so many deaths. They say her tears formed Lake Iris. A long time ago, just once, I saw the lake nymphs dancing on the ripples as if they were gliding. Now all the lake nymphs have left, but sometimes if y…",
+   "header": "Sentinel Veltress",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00102_SeaOfSporesFever/30285-01.html": {
+   "file": "Q00102_SeaOfSporesFever/30285-01.html",
+   "quest": 102,
+   "text": "Sentinel Gartrandell: I don't think anything's wrong with me ... But Alberius has ordered me to take this medicine, and I must follow my orders.",
+   "header": "Sentinel Gartrandell",
+   "when": [
+    "st.hasQuestItems(ALBERIUS_LIST, SENTINELS.get(npc.getId()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00102_SeaOfSporesFever/30221-01.html": {
+   "file": "Q00102_SeaOfSporesFever/30221-01.html",
+   "quest": 102,
+   "text": "Sentinel Rayen: Ah, is this the fever medication? If only this could also erase the horrendous memories of my experiences in the Sea of Spores.",
+   "header": "Sentinel Rayen",
+   "when": [
+    "st.hasQuestItems(ALBERIUS_LIST, SENTINELS.get(npc.getId()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00102_SeaOfSporesFever/30219-01.html": {
+   "file": "Q00102_SeaOfSporesFever/30219-01.html",
+   "quest": 102,
+   "text": "Sentinel Veltress: Is this the medicine to treat the fever? Please tell Cobendell thank you for me.",
+   "header": "Sentinel Veltress",
+   "when": [
+    "st.hasQuestItems(ALBERIUS_LIST, SENTINELS.get(npc.getId()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00102_SeaOfSporesFever/30217-01.html": {
+   "file": "Q00102_SeaOfSporesFever/30217-01.html",
+   "quest": 102,
+   "text": "Sentinel Berros: Ah, the medicine concocted by Cobendell. Thank you. Thank you.",
+   "header": "Sentinel Berros",
+   "when": [
+    "st.hasQuestItems(ALBERIUS_LIST, SENTINELS.get(npc.getId()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Sea of Spores Fever (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00102_SeaOfSporesFever",
+     "kind": "quest",
+     "quest": 102,
+     "to": "Q00102_SeaOfSporesFever/30285-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

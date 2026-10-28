@@ -1,0 +1,356 @@
+{
+ "npcId": 30587,
+ "name": "Gantaki Zu Urutu",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.007Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30587.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "4": {
+   "name": "Long Live the Pa'agrio Lord",
+   "listText": [
+    "[Long Live the Pa'agrio Lord]",
+    "[Long Live the Pa'agrio Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00004_LongLiveThePaagrioLord/30587-02.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00004_LongLiveThePaagrioLord/30587-01.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "415": {
+   "name": "Path Of The Orc Monk",
+   "listText": [
+    "[Path of the Orc Monk]",
+    "[Path of the Orc Monk (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30587-01.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30587-09c.html",
+     "when": "state STARTED; memo 2; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30587-07.html",
+     "when": "state STARTED; has items 1593; lacks items 1603,1605,1604; !(qs.isCreated() || qs.isCompleted()); letterCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30587-08.html",
+     "when": "state STARTED; lacks items 1603,1593,1605,1604; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, POMEGRANATE) && !hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, GANTAKIS_LETTRT_OF_RECOMMEN; letterCount == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30587-09a.html",
+     "when": "state STARTED; has items 1603,1604; lacks items 1593,1605; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, POMEGRANATE) && !hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, GANTAKIS_LETTRT_OF_RECOMMEN; !(!hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, POMEGRANATE, GANTAKIS_LETTRT_OF_RECOMMENDATION, ROSHEEKS_LETTER) ; letterCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30587-10.html",
+     "when": "state STARTED; has items 1603,1605; lacks items 1593,1604; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, POMEGRANATE) && !hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, GANTAKIS_LETTRT_OF_RECOMMEN; !(!hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, POMEGRANATE, GANTAKIS_LETTRT_OF_RECOMMENDATION, ROSHEEKS_LETTER) ; !(hasQuestItems(player, FIERY_SPIRIT_SCROLL, ROSHEEKS_LETTER) && !hasAtLeastOneQuestItem(player, POMEGRANATE, GANTAKIS_L",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30587-11.html",
+     "when": "state STARTED; has items 1603; lacks items 1593,1605,1604; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, POMEGRANATE) && !hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, GANTAKIS_LETTRT_OF_RECOMMEN; !(!hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, POMEGRANATE, GANTAKIS_LETTRT_OF_RECOMMENDATION, ROSHEEKS_LETTER) ; !(hasQuestItems(player, FIERY_SPIRIT_SCROLL, ROSHEEKS_LETTER) && !hasAtLeastOneQuestItem(player, POMEGRANATE, GANTAKIS_L",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30587.htm": {
+   "file": "default/30587.htm",
+   "quest": null,
+   "text": "Gantaki Zu Urutu: Hear, young Orc!! Let me explain the origin of our race! In the beginning, there was Paagrio of the flame, and from the hot flame Paagrio brought forth the the father of the Orcs. His hair was a red blaze, his eyes a pure white flame, ashen smoke rushed out of his nose and mouth a…",
+   "header": "Gantaki Zu Urutu",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00004_LongLiveThePaagrioLord/30587-02.html": {
+   "file": "Q00004_LongLiveThePaagrioLord/30587-02.html",
+   "quest": 4,
+   "text": "Gantaki Zu Urutu: Have you delivered the Deep Sea Orb to Centurion Nakusin? Unless you do so immediately, he will be unable to present it to Flame Lord Kakai on behalf of the Urutu tribe. We will be shamed!",
+   "header": "Gantaki Zu Urutu",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00004_LongLiveThePaagrioLord/30587-01.html": {
+   "file": "Q00004_LongLiveThePaagrioLord/30587-01.html",
+   "quest": 4,
+   "text": "Gantaki Zu Urutu: On behalf of the Urutu tribe, I present you with this gift for the Flame Lord: a rare Deep Sea Orb Fished from the depths of the Black Seas of the west, it is prized even by the Humans, who call it \"pearl.\" Those who carry it on their person gain the ability to part the mists of t…",
+   "header": "Gantaki Zu Urutu",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30587-01.htm": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-01.htm",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: Young one, do you know of the Monks that follow the secret teachings of Pa'agrio? They do not rely on weapons other than their own bodies, believing that through this training they will gain ultimate strength. They have practiced Kabart, the traditional martial art of the Orcs, fo…",
+   "header": "Gantaki Zu Urutu",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you want to become a Monk.",
+     "bypass": "Quest Q00415_PathOfTheOrcMonk ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00415_PathOfTheOrcMonk",
+     "event": "ACCEPT",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/30587-05.htm",
+     "toAll": [
+      "Q00415_PathOfTheOrcMonk/30587-04.htm",
+      "Q00415_PathOfTheOrcMonk/30587-05.htm",
+      "Q00415_PathOfTheOrcMonk/30587-03.htm",
+      "Q00415_PathOfTheOrcMonk/30587-02a.htm",
+      "Q00415_PathOfTheOrcMonk/30587-02.htm"
+     ]
+    }
+   ]
+  },
+  "Q00415_PathOfTheOrcMonk/30587-09c.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-09c.html",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: Ah, Khavatari Aren... That name has been almost forgotten for many years now. Not only did she teach Prefect Kasman, but Flame Successor Akkan as well. But she went into seclusion a long time ago, and Khavatari Hubai took her place. Khavatari Aren lives as a hermit near the Valley…",
+   "header": "Gantaki Zu Urutu",
+   "when": [
+    "state STARTED; memo 2; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "sets": {
+    "cond": "14"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30587-07.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-07.html",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: To obtain the Fiery Spirit Scroll, seek out Khavatari Rosheek near the Frozen Waterfall in the northern part of the Immortal Plateau . Give him the Pomegranate I gave you and follow all his instructions perfectly!",
+   "header": "Gantaki Zu Urutu",
+   "when": [
+    "state STARTED; has items 1593; lacks items 1603,1605,1604; !(qs.isCreated() || qs.isCompleted()); letterCount == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30587-08.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-08.html",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: You haven't obtained the Fiery Spirit Scroll yet? No wonder! Khavatari Rosheek, above all others, esteems the traditions of Kabart. He will not give the scroll to just anyone who asks! If you truly wish to become a Monk, you must steel yourself to the task and try again. Did you r…",
+   "header": "Gantaki Zu Urutu",
+   "when": [
+    "state STARTED; lacks items 1603,1593,1605,1604; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, POMEGRANATE) && !hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, GANTAKIS_LETTRT_OF_RECOMMEN; letterCount == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30587-09a.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-09a.html",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: Tejakar Oroca! You have brought the Fiery Spirit Scroll! Well done! Now you have the first of the 2 scrolls necessary to become an Orc Monk. There are two ways to find the second scroll. You may either obtain it from Prefect Kasman of the Human village of Gludin, or you may seek o…",
+   "header": "Gantaki Zu Urutu",
+   "when": [
+    "state STARTED; has items 1603,1604; lacks items 1593,1605; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, POMEGRANATE) && !hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, GANTAKIS_LETTRT_OF_RECOMMEN; !(!hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, POMEGRANATE, GANTAKIS_LETTRT_OF_RECOMMENDATION, ROSHEEKS_LETTER) ; letterCount == 0"
+   ],
+   "links": [
+    {
+     "text": "Obtain the scroll from Prefect Kasman.",
+     "bypass": "Quest Q00415_PathOfTheOrcMonk 30587-09b.html",
+     "kind": "quest-event",
+     "script": "Q00415_PathOfTheOrcMonk",
+     "event": "30587-09b.html",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/30587-09b.html",
+     "effect": "cond:9"
+    },
+    {
+     "text": "Seek Khavatari Aren.",
+     "bypass": "Quest Q00415_PathOfTheOrcMonk 30587-09c.html",
+     "kind": "quest-event",
+     "script": "Q00415_PathOfTheOrcMonk",
+     "event": "30587-09c.html",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/30587-09c.html",
+     "effect": "cond:14"
+    }
+   ]
+  },
+  "Q00415_PathOfTheOrcMonk/30587-10.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-10.html",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: You haven't left yet? Why do you delay? To find the second scroll, go to the Human land of Gludio and give this letter to Prefect Kasman in the village known as Gludin . He will tell you how to find the second scroll. Waste no more time!",
+   "header": "Gantaki Zu Urutu",
+   "when": [
+    "state STARTED; has items 1603,1605; lacks items 1593,1604; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, POMEGRANATE) && !hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, GANTAKIS_LETTRT_OF_RECOMMEN; !(!hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, POMEGRANATE, GANTAKIS_LETTRT_OF_RECOMMENDATION, ROSHEEKS_LETTER) ; !(hasQuestItems(player, FIERY_SPIRIT_SCROLL, ROSHEEKS_LETTER) && !hasAtLeastOneQuestItem(player, POMEGRANATE, GANTAKIS_L"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30587-11.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-11.html",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: Ah, you have not yet obtained the second scroll? Ha ha! I well know that how difficult it is to do so. But if you cannot overcome this trial, you are certainly not fit to be a Monk. Steel yourself to the task at hand and try again!",
+   "header": "Gantaki Zu Urutu",
+   "when": [
+    "state STARTED; has items 1603; lacks items 1593,1605,1604; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, POMEGRANATE) && !hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, GANTAKIS_LETTRT_OF_RECOMMEN; !(!hasAtLeastOneQuestItem(player, FIERY_SPIRIT_SCROLL, POMEGRANATE, GANTAKIS_LETTRT_OF_RECOMMENDATION, ROSHEEKS_LETTER) ; !(hasQuestItems(player, FIERY_SPIRIT_SCROLL, ROSHEEKS_LETTER) && !hasAtLeastOneQuestItem(player, POMEGRANATE, GANTAKIS_L"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30587-02.htm": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-02.htm",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: Only the strongest and most skilled Orc Fighters may attempt to learn our traditional martial art, Kabart. You are simply not fit to become a Monk. Ambition is good, but a wise warrior acknowledges his limitations.",
+   "header": "Gantaki Zu Urutu",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30587-02a.htm": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-02a.htm",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: Why do you waste your time and mine speaking on such matters? I see that you are already a Monk who holds the 2 scrolls! Return to your training and allow me to go about my duty.",
+   "header": "Gantaki Zu Urutu",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30587-03.htm": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-03.htm",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: Only the strongest and most skilled Orc Fighters may attempt to learn our traditional martial art, Kabart. You are neither physically nor mentally ready to become a Monk. Ambition is good, but a wise warrior acknowledges his limitations. Continue your training and come see me agai…",
+   "header": "Gantaki Zu Urutu",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30587-04.htm": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-04.htm",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: Don't you already have the Khavatari Totem? Take it to the Human kingdom and show it to any Orc high prefect. He will allow you to change your class to Monk. Tejakar Pa'agrio!",
+   "header": "Gantaki Zu Urutu",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30587-05.htm": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-05.htm",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: To become a Monk, you must possess the 2 scrolls containing the basic secrets of Kabart, the traditional Orc martial art. The first scroll is called the Fiery Spirit Scroll. To obtain it, seek out Khavatari Rosheek .",
+   "header": "Gantaki Zu Urutu",
+   "links": [
+    {
+     "text": "Ask about Khavatari Rosheek.",
+     "bypass": "Quest Q00415_PathOfTheOrcMonk 30587-06.htm",
+     "kind": "quest-event",
+     "script": "Q00415_PathOfTheOrcMonk",
+     "event": "30587-06.htm",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/30587-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00415_PathOfTheOrcMonk/30587-06.htm": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-06.htm",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: As you know, Khavatari is a title bestowed on only the greatest Kabart martial art masters. Khavatari Rosheek left our village some time ago to further develop his skills. I have heard rumors that he is near the Frozen Waterfalls in the northern part of the Immortal Plateau . But …",
+   "header": "Gantaki Zu Urutu",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30587-09b.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30587-09b.html",
+   "quest": 415,
+   "text": "Gantaki Zu Urutu: Then go to the Human land of Gludio and find Prefect Kasman in the village called Gludin . Show him this letter, and he will tell you how to obtain the scroll. May the sacred flame guide you to success!",
+   "header": "Gantaki Zu Urutu",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Long Live the Pa'agrio Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00004_LongLiveThePaagrioLord",
+     "kind": "quest",
+     "quest": 4,
+     "to": "Q00004_LongLiveThePaagrioLord/30587-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Orc Monk]",
+     "bypass": "npc_%objectId%_Quest Q00415_PathOfTheOrcMonk",
+     "kind": "quest",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/30587-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Orc Monk (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00415_PathOfTheOrcMonk",
+     "kind": "quest",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/30587-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

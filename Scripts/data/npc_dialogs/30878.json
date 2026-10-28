@@ -1,0 +1,178 @@
+{
+ "npcId": 30878,
+ "name": "Angelina",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.100Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "teleporter/30878.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "teleporter/30878.htm": {
+   "file": "teleporter/30878.htm",
+   "quest": null,
+   "text": "Gatekeeper Angelina: This is Giran port! Everything shipped in, or being shipped out of Giran comes through here. It is impossible to move large amounts of freight at once using our gatekeepers' magic. If that were become possible, then... No, No. That cannot happen.... Now, where should I send you…",
+   "header": "Gatekeeper Angelina",
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/30878-1.htm"
+    },
+    {
+     "text": "Exchange Dimension Diamonds",
+     "bypass": "npc_%objectId%_multisell 002",
+     "kind": "multisell"
+    },
+    {
+     "text": "[Noblesse Exclusive] Teleport",
+     "bypass": "npc_%objectId%_Quest NoblesseTeleport",
+     "kind": "quest",
+     "script": "NoblesseTeleport",
+     "to": null
+    },
+    {
+     "text": "Call Alegria",
+     "bypass": "npc_%objectId%_Quest CharacterBirthday",
+     "kind": "quest",
+     "script": "CharacterBirthday"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "teleporter/30878-1.htm": {
+   "file": "teleporter/30878-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Giran - 6300 Adena",
+     "bypass": "npc_%objectId%_goto 63",
+     "kind": "teleport",
+     "confirm": "811;The Town of Giran"
+    },
+    {
+     "text": "Heine - 8500 Adena",
+     "bypass": "npc_%objectId%_goto 107",
+     "kind": "teleport",
+     "confirm": "811;Heine"
+    }
+   ]
+  },
+  "teleporter/30878-2.htm": {
+   "file": "teleporter/30878-2.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9000",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9002",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "Coliseum - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9001",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/30878-3.htm": {
+   "file": "teleporter/30878-3.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9900",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9902",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "Coliseum - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9901",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/30878-pk.htm": {
+   "file": "teleporter/30878-pk.htm",
+   "quest": null,
+   "text": "Gatekeeper Angelina: Hey, you look suspiciously familiar! I am certain that you are a fugitive from justice. The Gate to Space and Time will not be opened to you. We gatekeepers cannot assist in the flight of a fugitive... However, don't forget, this is a harbor. Perhaps you could be a stowaway?",
+   "header": "Gatekeeper Angelina",
+   "outcome": "refusal",
+   "links": []
+  },
+  "teleporter/free/30878.htm": {
+   "file": "teleporter/free/30878.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Giran",
+     "bypass": "npc_%objectId%_goto 63",
+     "kind": "teleport",
+     "confirm": "811;The Town of Giran"
+    },
+    {
+     "text": "Heine",
+     "bypass": "npc_%objectId%_goto 107",
+     "kind": "teleport",
+     "confirm": "811;Heine"
+    }
+   ]
+  },
+  "teleporter/half/30878.htm": {
+   "file": "teleporter/half/30878.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Giran - 3150 Adena",
+     "bypass": "npc_%objectId%_goto 63",
+     "kind": "teleport",
+     "confirm": "811;The Town of Giran"
+    },
+    {
+     "text": "Heine - 4250 Adena",
+     "bypass": "npc_%objectId%_goto 107",
+     "kind": "teleport",
+     "confirm": "811;Heine"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,441 @@
+{
+ "npcId": 32563,
+ "name": "Plenos",
+ "title": "Soldier",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.386Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32563.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "702": {
+   "name": "A Trap for Revenge",
+   "listText": [
+    "[A Trap for Revenge]",
+    "[A Trap for Revenge (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00702_ATrapForRevenge/32563-01.htm",
+     "when": "state CREATED; (player.hasQuestCompleted(Q10273_GoodDayToFly.class.getSimpleName()) && (player.getLevel() >= 78))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00702_ATrapForRevenge/32563-02.htm",
+     "when": "state CREATED; NOT (player.hasQuestCompleted(Q10273_GoodDayToFly.class.getSimpleName()) && (player.getLevel() >= 78))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00702_ATrapForRevenge/32563-05.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00702_ATrapForRevenge/32563-06.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "10270": {
+   "name": "Birth of the Seed",
+   "listText": [
+    "[Birth of the Seed]",
+    "[Birth of the Seed (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10270_BirthOfTheSeed/32563-05.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10270_BirthOfTheSeed/32563-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10270_BirthOfTheSeed/32563-04.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10270_BirthOfTheSeed/32563-06.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32563.htm": {
+   "file": "default/32563.htm",
+   "quest": null,
+   "text": "Soldier Plenos: Welcome to Keucereus Alliance Base. We need all the soldiers we can get. Your missions here will be mainly in the sky. My advice is to obtain an Airship, but I see some adventurers from Aden also fight using their ability of transformation. Go ask Engineer Lekon about which method i…",
+   "header": "Soldier Plenos",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32563-01.htm": {
+   "file": "Q00702_ATrapForRevenge/32563-01.htm",
+   "quest": 702,
+   "text": "Soldier Plenos: This is a special mission that can only be undertaken by capable adventurers. Do you want to prove your worth? Then accept this mission!",
+   "header": "Soldier Plenos",
+   "when": [
+    "state CREATED; (player.hasQuestCompleted(Q10273_GoodDayToFly.class.getSimpleName()) && (player.getLevel() >= 78))"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00702_ATrapForRevenge 32563-03.htm",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32563-03.htm",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32563-03.htm"
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32563-02.htm": {
+   "file": "Q00702_ATrapForRevenge/32563-02.htm",
+   "quest": 702,
+   "text": "Soldier Plenos: This mission is too difficult for someone with your limited experience. (Only characters who are level 78 or higher and who have completed the \"Good Day to Fly\" Quest may undertake this quest.)",
+   "header": "Soldier Plenos",
+   "when": [
+    "state CREATED; NOT (player.hasQuestCompleted(Q10273_GoodDayToFly.class.getSimpleName()) && (player.getLevel() >= 78))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32563-05.html": {
+   "file": "Q00702_ATrapForRevenge/32563-05.html",
+   "quest": 702,
+   "text": "Soldier Plenos: You haven't forgotten about the mission, have you? Go see Soldier Tenius in the center of Keucereus Alliance Base . He can tell you what you need to know to successfully hunt Dius, the Deadman of Destruction .",
+   "header": "Soldier Plenos",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32563-06.html": {
+   "file": "Q00702_ATrapForRevenge/32563-06.html",
+   "quest": 702,
+   "text": "Soldier Plenos: What did you do?",
+   "header": "Soldier Plenos",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "\"I defeated the subordinates of Dius, the Deadman of Destruction.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32563-07.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32563-07.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32563-08.html",
+     "toAll": [
+      "Q00702_ATrapForRevenge/32563-08.html",
+      "Q00702_ATrapForRevenge/32563-07.html"
+     ]
+    },
+    {
+     "text": "\"I defeated Dius, the Deadman of Destruction.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32563-11.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32563-11.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32563-12.html",
+     "toAll": [
+      "Q00702_ATrapForRevenge/32563-12.html",
+      "Q00702_ATrapForRevenge/32563-11.html"
+     ]
+    }
+   ]
+  },
+  "Q10270_BirthOfTheSeed/32563-05.html": {
+   "file": "Q10270_BirthOfTheSeed/32563-05.html",
+   "quest": 10270,
+   "text": "Soldier Plenos: I heard that you successfully completed the mission Artius assigned you. If more adventurers like you help us, Gracia will no doubt soon recover its former glory. Thank you on behalf of all the soldiers at Kureceus' Alliance Base. (You have already completed this quest.)",
+   "header": "Soldier Plenos",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10270_BirthOfTheSeed/32563-01.htm": {
+   "file": "Q10270_BirthOfTheSeed/32563-01.htm",
+   "quest": 10270,
+   "text": "Soldier Plenos: I need strong adventurers willing to volunteer for a mission from War Mage Artius. Are you interested? If you plan to go to the Seed of Infinity , you can take care of this mission when you go.",
+   "header": "Soldier Plenos",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Tell me what it is",
+     "bypass": "Quest Q10270_BirthOfTheSeed 32563-02.htm",
+     "kind": "quest-event",
+     "script": "Q10270_BirthOfTheSeed",
+     "event": "32563-02.htm",
+     "quest": 10270,
+     "to": "Q10270_BirthOfTheSeed/32563-02.htm"
+    }
+   ]
+  },
+  "Q10270_BirthOfTheSeed/32563-04.htm": {
+   "file": "Q10270_BirthOfTheSeed/32563-04.htm",
+   "quest": 10270,
+   "text": "Soldier Plenos: I need strong adventurers willing to volunteer for a mission from War Mage Artius. Do you know any you can recommend? (You must be level 75 or above to start this quest.)",
+   "header": "Soldier Plenos",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10270_BirthOfTheSeed/32563-06.html": {
+   "file": "Q10270_BirthOfTheSeed/32563-06.html",
+   "quest": 10270,
+   "text": "Soldier Plenos: Hurry to War Mage Artius . He will give you the details. You will find him at the highest area in the center of Keucereus Alliance Base.",
+   "header": "Soldier Plenos",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32563-03.htm": {
+   "file": "Q00702_ATrapForRevenge/32563-03.htm",
+   "quest": 702,
+   "text": "Soldier Plenos: I hoped that you would accept this challenge! You won't find a better opportunity to enhance your reputation and make a tidy pile of money. Let's cut to the chase. Hunt the Deadman of Destruction, Dius that appears in the sky above the Seed of Destruction . It is a type of mutant Dr…",
+   "header": "Soldier Plenos",
+   "links": [
+    {
+     "text": "\"Sure.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32563-04.htm",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32563-04.htm",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32563-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32563-04.htm": {
+   "file": "Q00702_ATrapForRevenge/32563-04.htm",
+   "quest": 702,
+   "text": "Soldier Plenos: Good! But don't expect this to be easy. Its spirit is so strong that it doesn't succumb to the power of the Seed. Many have promised to hunt them, but few have succeeded. Most are killed or seriously wounded in the attempt. But you look like the type who likes a challenge, eh? I'd r…",
+   "header": "Soldier Plenos",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32563-07.html": {
+   "file": "Q00702_ATrapForRevenge/32563-07.html",
+   "quest": 702,
+   "text": "Soldier Plenos: Really? Show me the evidence. No proof, eh? What are you trying to pull? Unless you bring proof, I can't just accept your word for it.",
+   "header": "Soldier Plenos",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32563-08.html": {
+   "file": "Q00702_ATrapForRevenge/32563-08.html",
+   "quest": 702,
+   "text": "Soldier Plenos: Hmm...These are definitely the creatures who follow Dius... Of course, these aren't the real problem, so I can't give you much of a reward. Will you still accept it?",
+   "header": "Soldier Plenos",
+   "links": [
+    {
+     "text": "\"Give it to me.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32563-09.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32563-09.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32563-09.html"
+    },
+    {
+     "text": "\"No, I'll think it over.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32563-10.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32563-10.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32563-10.html"
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32563-09.html": {
+   "file": "Q00702_ATrapForRevenge/32563-09.html",
+   "quest": 702,
+   "text": "Soldier Plenos: Here it is. It's not much, but I hope it brings you luck. And I pray that you have better luck hunting Dius, the Lion of Destruction .",
+   "header": "Soldier Plenos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32563-10.html": {
+   "file": "Q00702_ATrapForRevenge/32563-10.html",
+   "quest": 702,
+   "text": "Soldier Plenos: Fine. That's what I want too. Before you go, I heard Tenius mention something about using this to make some kind of bait... It might be a good idea for you to talk to him about it.",
+   "header": "Soldier Plenos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32563-11.html": {
+   "file": "Q00702_ATrapForRevenge/32563-11.html",
+   "quest": 702,
+   "text": "Soldier Plenos: Really? Show me the evidence. No proof, eh? What are you trying to pull? Unless you bring proof, I can't just accept your word for it.",
+   "header": "Soldier Plenos",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32563-12.html": {
+   "file": "Q00702_ATrapForRevenge/32563-12.html",
+   "quest": 702,
+   "text": "Soldier Plenos: Ah, a horn from Dius, the Lion of Destruction! What a fight that must have been! Marvelous! Your skill is very impressive. Here is the reward I promised. I only wish it could be more. Could I persuade you to continue hunting?",
+   "header": "Soldier Plenos",
+   "links": [
+    {
+     "text": "\"Sure.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32563-13.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32563-13.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32563-13.html"
+    },
+    {
+     "text": "\"No, I'm ready to quit.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32563-14.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32563-14.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32563-14.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32563-13.html": {
+   "file": "Q00702_ATrapForRevenge/32563-13.html",
+   "quest": 702,
+   "text": "Soldier Plenos: Thank you! Then go hunt Dius, the Lion of Destruction in the sky above the the Seed of Destruction and bring back its horn as proof.",
+   "header": "Soldier Plenos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32563-14.html": {
+   "file": "Q00702_ATrapForRevenge/32563-14.html",
+   "quest": 702,
+   "text": "Soldier Plenos: Are you sure you want to quit? I guess there's nothing I can say to change your mind, eh? I haven't met anyone else as skilled in hunting Dius as you are. What a waste...",
+   "header": "Soldier Plenos",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q10270_BirthOfTheSeed/32563-02.htm": {
+   "file": "Q10270_BirthOfTheSeed/32563-02.htm",
+   "quest": 10270,
+   "text": "Soldier Plenos: In war, knowledge is power. War Mage Artius wants information about the place called the Seed of Infinity . All we know now is that it's a land of death ruled by the Lord of the Undead. Learning more might give us the key to winning this war. That's why War Mage Artius is looking fo…",
+   "header": "Soldier Plenos",
+   "links": [
+    {
+     "text": "Say yes",
+     "bypass": "Quest Q10270_BirthOfTheSeed 32563-03.htm",
+     "kind": "quest-event",
+     "script": "Q10270_BirthOfTheSeed",
+     "event": "32563-03.htm",
+     "quest": 10270,
+     "to": "Q10270_BirthOfTheSeed/32563-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10270_BirthOfTheSeed/32563-03.htm": {
+   "file": "Q10270_BirthOfTheSeed/32563-03.htm",
+   "quest": 10270,
+   "text": "Soldier Plenos: Then go see War Mage Artius . He will give you the mission details. I wish you luck!",
+   "header": "Soldier Plenos",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[A Trap for Revenge]",
+     "bypass": "npc_%objectId%_Quest Q00702_ATrapForRevenge",
+     "kind": "quest",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32563-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[A Trap for Revenge (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00702_ATrapForRevenge",
+     "kind": "quest",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32563-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Birth of the Seed]",
+     "bypass": "npc_%objectId%_Quest Q10270_BirthOfTheSeed",
+     "kind": "quest",
+     "quest": 10270,
+     "to": "Q10270_BirthOfTheSeed/32563-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Birth of the Seed (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10270_BirthOfTheSeed",
+     "kind": "quest",
+     "quest": 10270,
+     "to": "Q10270_BirthOfTheSeed/32563-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

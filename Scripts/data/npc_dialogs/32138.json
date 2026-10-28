@@ -1,0 +1,2610 @@
+{
+ "npcId": 32138,
+ "name": "Kekropus",
+ "title": "Hierarch",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.345Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32138.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "61": {
+   "name": "Law Enforcement",
+   "listText": [
+    "[Law Enforcement]",
+    "[Law Enforcement (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00061_LawEnforcement/32138-01.html",
+     "when": "state STARTED; memo 1; !(qs.isCompleted() && (npc.getId() == LIANE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00061_LawEnforcement/32138-03.html",
+     "when": "state STARTED; memo 2; !(qs.isCompleted() && (npc.getId() == LIANE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00061_LawEnforcement/32138-10.html",
+     "when": "state STARTED; memo 3; !(qs.isCompleted() && (npc.getId() == LIANE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00061_LawEnforcement/32138-10.html",
+     "when": "state STARTED; memo 4; !(qs.isCompleted() && (npc.getId() == LIANE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "65": {
+   "name": "Certified Soul Breaker",
+   "listText": [
+    "[Certified Soul Breaker]",
+    "[Certified Soul Breaker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32138-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32138-05.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32138-06.html",
+     "when": "state STARTED; memo 21",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32138-08.html",
+     "when": "state STARTED; memo 22",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32138-09.html",
+     "when": "state STARTED; memo 23",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32138-13.html",
+     "when": "state STARTED; memo 24",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "67": {
+   "name": "Saga of the Doombringer",
+   "listText": [
+    "[Saga of the Doombringer]",
+    "[Saga of the Doombringer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00067_SagaOfTheDoombringer/0-01.htm",
+     "when": "cond 0; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00067_SagaOfTheDoombringer/0-04.htm",
+     "when": "cond 1; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00067_SagaOfTheDoombringer/0-06.htm",
+     "when": "cond 19; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00067_SagaOfTheDoombringer/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00067_SagaOfTheDoombringer/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "68": {
+   "name": "Saga of the Soul Hound",
+   "listText": [
+    "[Saga of the Soul Hound]",
+    "[Saga of the Soul Hound (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00068_SagaOfTheSoulHound/0-01.htm",
+     "when": "cond 0; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00068_SagaOfTheSoulHound/0-04.htm",
+     "when": "cond 1; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00068_SagaOfTheSoulHound/0-06.htm",
+     "when": "cond 19; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00068_SagaOfTheSoulHound/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00068_SagaOfTheSoulHound/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "69": {
+   "name": "Saga of the Trickster",
+   "listText": [
+    "[Saga of the Trickster]",
+    "[Saga of the Trickster (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00069_SagaOfTheTrickster/0-01.htm",
+     "when": "cond 0; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00069_SagaOfTheTrickster/0-04.htm",
+     "when": "cond 1; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00069_SagaOfTheTrickster/0-06.htm",
+     "when": "cond 19; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00069_SagaOfTheTrickster/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00069_SagaOfTheTrickster/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "175": {
+   "name": "The Way of the Warrior",
+   "listText": [
+    "[The Way of the Warrior]",
+    "[The Way of the Warrior (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00175_TheWayOfTheWarrior/32138-04.htm",
+     "when": "state CREATED; player.getRace() != Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00175_TheWayOfTheWarrior/32138-01.htm",
+     "when": "state CREATED; level >= 10; !player.getRace() != Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00175_TheWayOfTheWarrior/32138-03.htm",
+     "when": "state CREATED; NOT level >= 10; !player.getRace() != Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00175_TheWayOfTheWarrior/32138-06.html",
+     "when": "state STARTED; cond 1|2|3",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00175_TheWayOfTheWarrior/32138-07.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00175_TheWayOfTheWarrior/32138-08.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00175_TheWayOfTheWarrior/32138-09.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00175_TheWayOfTheWarrior/32138-11.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00175_TheWayOfTheWarrior/32138-12.html",
+     "when": "state STARTED; cond 8; has items 9808",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "178": {
+   "name": "Iconic Trinity",
+   "listText": [
+    "[Iconic Trinity]",
+    "[Iconic Trinity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00178_IconicTrinity/32138-03.htm",
+     "when": "state CREATED; player.getRace() != Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00178_IconicTrinity/32138-01.htm",
+     "when": "state CREATED; level >= 17; !player.getRace() != Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00178_IconicTrinity/32138-02.htm",
+     "when": "state CREATED; NOT level >= 17; !player.getRace() != Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00178_IconicTrinity/32138-06.html",
+     "when": "state STARTED; memo 1|2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00178_IconicTrinity/32138-07.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00178_IconicTrinity/32138-08.html",
+     "when": "state STARTED; memo 4|5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00178_IconicTrinity/32138-09.html",
+     "when": "state STARTED; memo 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00178_IconicTrinity/32138-10.html",
+     "when": "state STARTED; memo 7|8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00178_IconicTrinity/32138-11.html",
+     "when": "state STARTED; memo 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00178_IconicTrinity/32138-12.html",
+     "when": "state STARTED; memo 10; (((player.getLevel() <= TWENTY_LEVEL) && (player.getClassId() == ClassId.maleSoldier)) || (player.getClassId() == ClassI",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00178_IconicTrinity/32138-15.html",
+     "when": "state STARTED; memo 10; !(((player.getLevel() <= TWENTY_LEVEL) && (player.getClassId() == ClassId.maleSoldier)) || (player.getClassId() == Class",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "179": {
+   "name": "Into The Large Cavern",
+   "listText": [
+    "[Into the Large Cavern]",
+    "[Into the Large Cavern (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00179_IntoTheLargeCavern/32138-00b.html",
+     "when": "state CREATED; player.getRace() != Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00179_IntoTheLargeCavern/32138-01.htm",
+     "when": "state CREATED; !player.getRace() != Race.KAMAEL; player.hasQuestCompleted(Q00178_IconicTrinity.class.getSimpleName()); level >= MIN_LEVEL; level <= MAX_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00179_IntoTheLargeCavern/32138-00.html",
+     "when": "state CREATED; !player.getRace() != Race.KAMAEL; !(player.hasQuestCompleted(Q00178_IconicTrinity.class.getSimpleName()) && (level >= MIN_LEVEL) && (level <= MAX_LEVEL) &; level < MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00179_IntoTheLargeCavern/32138-00c.html",
+     "when": "state CREATED; !player.getRace() != Race.KAMAEL; !(player.hasQuestCompleted(Q00178_IconicTrinity.class.getSimpleName()) && (level >= MIN_LEVEL) && (level <= MAX_LEVEL) &; !level < MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "182": {
+   "name": "New Recruits",
+   "listText": [
+    "[New Recruits]",
+    "[New Recruits (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00182_NewRecruits/32138-01.htm",
+     "when": "state CREATED; player.getRace() == Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00182_NewRecruits/32138-02.htm",
+     "when": "state CREATED; level >= 17; level <= 21; !player.getRace() == Race.KAMAEL; player.isInCategory(CategoryType.FIRST_CLASS_GROUP)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00182_NewRecruits/32138-05.htm",
+     "when": "state CREATED; !player.getRace() == Race.KAMAEL; !((player.getLevel() >= MIN_LEVEL) && (player.getLevel() <= MAX_LEVEL) && player.isInCategory(CategoryType.FIRST_CLASS_G; ((player.getLevel() < MIN_LEVEL) || (player.getLevel() > MAX_LEVEL) || !player.isInCategory(CategoryType.FIRST_CLASS_GRO",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00182_NewRecruits/32138-06.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "236": {
+   "name": "Seeds Of Chaos",
+   "listText": [
+    "[Seeds of Chaos]",
+    "[Seeds of Chaos (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00236_SeedsOfChaos/32138-01.htm",
+     "when": "state CREATED; level >= 75; has items 5011; player.getRace() == Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32138-01x.html",
+     "when": "state CREATED; level >= 75; lacks items 5011; player.getRace() == Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32138-01y.html",
+     "when": "state CREATED; level >= 75; !player.getRace() == Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32138-01z.html",
+     "when": "state CREATED; NOT level >= 75",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32138-05.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32138-06.html",
+     "when": "state STARTED; memo 30",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32138-13.html",
+     "when": "state STARTED; memo 40",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32138.htm": {
+   "file": "default/32138.htm",
+   "quest": null,
+   "text": "Hierarch Kekropus: May the grace of the great ones be with you... I am Kekropus, the Hierarch of the Kamael. I am the oldest living Kamael, experienced beyond your ken. Until recently, we Kamael were hidden from the wider world, sealed between dimensions for ages. Now that we have emerged, the powe…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32138-01.html": {
+   "file": "Q00061_LawEnforcement/32138-01.html",
+   "quest": 61,
+   "text": "Kekropus: Are you an Inspector? Ah! I don't know how long it has been since I saw one who has mastered all the Kamael battle skills and reached the summit of our natural abilities. Since you've opted to become an Inspector, I suspect you have a healthy curiosity. Good! It will serve you well as you…",
+   "header": "Kekropus",
+   "when": [
+    "state STARTED; memo 1; !(qs.isCompleted() && (npc.getId() == LIANE))"
+   ],
+   "links": [
+    {
+     "text": "Ask about your abilities.",
+     "bypass": "Quest Q00061_LawEnforcement 32138-02.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32138-02.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32138-02.html"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32138-03.html": {
+   "file": "Q00061_LawEnforcement/32138-03.html",
+   "quest": 61,
+   "text": "Kekropus: Ah, then we shall begin. As you know, the 3 Spiculas -- the 3 Heroes -- were the progenitors of our race, and the reason for our skill in battle. During the war against the gods, they fought valiantly, even slaying some of the daughters of Einhasad. Though they fell in that war, their pow…",
+   "header": "Kekropus",
+   "when": [
+    "state STARTED; memo 2; !(qs.isCompleted() && (npc.getId() == LIANE))"
+   ],
+   "links": [
+    {
+     "text": "Listen to the story.",
+     "bypass": "Quest Q00061_LawEnforcement 32138-04.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32138-04.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32138-04.html"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32138-10.html": {
+   "file": "Q00061_LawEnforcement/32138-10.html",
+   "quest": 61,
+   "text": "Kekropus: Speak with Vice Hierarch Eindburgh, who himself learned the ultimate skill of an Inspector and became a Soulmaster. He is at the end of the stairs behind you.",
+   "header": "Kekropus",
+   "when": [
+    "state STARTED; memo 3; !(qs.isCompleted() && (npc.getId() == LIANE))",
+    "state STARTED; memo 4; !(qs.isCompleted() && (npc.getId() == LIANE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32138-01.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-01.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: %name1% Ah, it's you. What brings you here to me?",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "I want to walk the path of a Soul Breaker.",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 32138-02.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "32138-02.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32138-02.html"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32138-05.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-05.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: Do you wish to abandon the path of a Soul Breaker? Are you so easily discouraged? If not, go to Casca and ask him to test your temperament.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32138-06.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-06.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: If Casca has given you his approval, there's no need for more confirmation. But this is not the end of the process. What Casca has acknowledged is but a fraction of your potential. To be a Soul Breaker, proper magical control is vital. I have prepared a ceremony to ascertain whet…",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 21"
+   ],
+   "links": [
+    {
+     "text": "\"Magical powers?\"",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 32138-07.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "32138-07.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32138-07.html",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32138-08.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-08.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: Go to the south side of Dragon Valley, kill the Wyrm you find there and bring back 10 of his hearts.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 22"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32138-09.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-09.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: I se that you have returned with the Wyrm's hearts. Now we may begin the ceremony. Take a seat here and compose your mind for the trial ahead...",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 23"
+   ],
+   "links": [
+    {
+     "text": "Take a seat and compose yourself.",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 32138-10.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "32138-10.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32138-10.html"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32138-13.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-13.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: Why are you here? You must go to Vitus, who is in the Town of Giran.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 24"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/0-01.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-01.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: Ah, you. I have been expecting you. So you are unsatisfied with your present position? That is understandable. As you are, you cannot reach your full potential as a Kamael. Now, however, you will be able to access the power in you that, as mentioned in the \"Forgotten History,\" wa…",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 0; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Forgotten History? Sealed? Please tell me the story in more detail.\"",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 0-011.htm",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "0-011.htm",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/0-011.htm"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/0-04.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-04.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: Visit Master Duroga in the Town of Aden. He will give you additional details.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 1; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/0-06.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-06.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: Ah, you are back. Good! How was your journey? Have you learned the truth at last?",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 19; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Ask if Enuma Elish was really created as a weapon to oppose the gods, and whether the Kamael once warred with the gods.",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 0-012.htm",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "0-012.htm",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/0-012.htm"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/0-09.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-09.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: Ah, you are back. Good! How was your journey? Have you learned the truth at last?",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Ask if Enuma Elish was really created as a weapon to oppose the gods, and whether the Kamael once warred with the gods.",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 0-012.htm",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "0-012.htm",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/0-012.htm"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/0-010.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-010.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: You need more training as a Berserker. Come back later. (Only a character of level 76 or above can transfer class. Do not abandon the quest until class transfer is complete!)",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/0-01.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-01.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: Oh, Soul Breaker -- how you must have suffered walking your path in silence all this time. What obstacles did you face? Did the power you pursue ultimately fail to meet your expectations?",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 0; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How did you know?\"",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 0-011.htm",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "0-011.htm",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/0-011.htm"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/0-04.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-04.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: Go to Head Warehouse Keeper Mona in Goddard Castle Village. She will give you the first Resonance Amulet.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 1; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/0-06.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-06.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: I was waiting for you to return. I sense that you have reclaimed the sealed power. I know that it was not an easy path, but I congratulate you you on having persevered in discovering the truth. Tell me of your quest, my young friend.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 19; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Tell him about your adventures.",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 0-012.htm",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "0-012.htm",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/0-012.htm"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/0-09.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-09.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: I was waiting for you to return. I sense that you have reclaimed the sealed power. I know that it was not an easy path, but I congratulate you you on having persevered in discovering the truth. Tell me of your quest, my young friend.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Tell him about your adventures.",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 0-012.htm",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "0-012.htm",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/0-012.htm"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/0-010.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-010.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: You need more training as a Soul Breaker. Come back later. (Only a character of level 76 or above can transfer class. Do not abandon the quest until class transfer is complete!)",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/0-01.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-01.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: You are an Arbalester, are you not? Thenyou must have learned many secrets in your missions, among them something about our race's ability and purpose... No doubt, though, you have been frustrated that so much was still hidden from you. That was no accident. Even within our race …",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 0; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Wait, wait -- what are you saying?\"",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 0-011.htm",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "0-011.htm",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/0-011.htm"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/0-04.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-04.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: Visit Magister Justin in Goddard Castle Town. He will give you additional details.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 1; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/0-06.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-06.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: You have thwarted Beleth's intentions and completed the quest for the Tablets of Vision. Well done! You have justified my faith in you.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 19; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "During the quest, I met one of the 3 heroes of the Kamael, Rodenpicula, and was told that we were created in order to oppose the gods.",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 0-012.htm",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "0-012.htm",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/0-012.htm"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/0-09.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-09.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: You have thwarted Beleth's intentions and completed the quest for the Tablets of Vision. Well done! You have justified my faith in you.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Ask if Enuma Elish was really created as a weapon to oppose the gods, and whether the Kamael once warred with the gods.",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 0-012.htm",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "0-012.htm",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/0-012.htm"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/0-010.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-010.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: You need more training as an Arbalester. Come back later. (Only a character of level 76 or above can transfer class. Do not abandon the quest until class transfer is complete!)",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00175_TheWayOfTheWarrior/32138-04.htm": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-04.htm",
+   "quest": 175,
+   "text": "Hierarch Kekropus: It may be that we have entered into an alliance with them, but they dare not enter our holy sanctuary. (Only Kamael clans above level 10 may embark on this quest.)",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; player.getRace() != Race.KAMAEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00175_TheWayOfTheWarrior/32138-01.htm": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-01.htm",
+   "quest": 175,
+   "text": "Hierarch Kekropus: What brings you to me?",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; level >= 10; !player.getRace() != Race.KAMAEL"
+   ],
+   "links": [
+    {
+     "text": "\"I would like to become a Kamael warrior.\"",
+     "bypass": "Quest Q00175_TheWayOfTheWarrior 32138-02.htm",
+     "kind": "quest-event",
+     "script": "Q00175_TheWayOfTheWarrior",
+     "event": "32138-02.htm",
+     "quest": 175,
+     "to": "Q00175_TheWayOfTheWarrior/32138-02.htm"
+    }
+   ]
+  },
+  "Q00175_TheWayOfTheWarrior/32138-03.htm": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-03.htm",
+   "quest": 175,
+   "text": "Hierarch Kekropus: My child, you are too young to take the Fighter's exam. Come back to me when you are more experienced. (Only Kamael clans above level 10 may embark on this quest.)",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; NOT level >= 10; !player.getRace() != Race.KAMAEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00175_TheWayOfTheWarrior/32138-06.html": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-06.html",
+   "quest": 175,
+   "text": "Hierarch Kekropus: Did you meet Assistant Elder Peruwan ? In order to perform the ceremony, certain basic preparations must be undertaken. Come back when they have been completed.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; cond 1|2|3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00175_TheWayOfTheWarrior/32138-07.html": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-07.html",
+   "quest": 175,
+   "text": "Hierarch Kekropus: How are the preparations progressing? I see that you are curious about why we are preparing for this ceremony rather than simply leaving for the hunt. But you have hunted outside before, so you must know that you may meet a foe stronger than you are or be overcome by a poison you…",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00175_TheWayOfTheWarrior/32138-08.html": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-08.html",
+   "quest": 175,
+   "text": "Hierarch Kekropus: The preparations have been completed; return to Peruwan if you still wish to be acknowledged as one of the Fighters. Go quickly to Assistant Elder Peruwan at the Grotto .",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00175_TheWayOfTheWarrior/32138-09.html": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-09.html",
+   "quest": 175,
+   "text": "Hierarch Kekropus: In you, I see hope for our people's future as a race. Are you prepared to take the test?",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"I am ready.\"",
+     "bypass": "Quest Q00175_TheWayOfTheWarrior 32138-10.html",
+     "kind": "quest-event",
+     "script": "Q00175_TheWayOfTheWarrior",
+     "event": "32138-10.html",
+     "quest": 175,
+     "to": "Q00175_TheWayOfTheWarrior/32138-10.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00175_TheWayOfTheWarrior/32138-11.html": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-11.html",
+   "quest": 175,
+   "text": "Hierarch Kekropus: The test has now begun. If you have a Fighter's pride and will, prove it to me now. Go to Hills of Gold and bring back 10 Muertos Claws .",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00175_TheWayOfTheWarrior/32138-12.html": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-12.html",
+   "quest": 175,
+   "text": "Hierarch Kekropus: I perceive this was a difficult task for you. Did you bring the Muertos claws?",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; cond 8; has items 9808"
+   ],
+   "links": [
+    {
+     "text": "Show him the claws.",
+     "bypass": "Quest Q00175_TheWayOfTheWarrior 32138-13.html",
+     "kind": "quest-event",
+     "script": "Q00175_TheWayOfTheWarrior",
+     "event": "32138-13.html",
+     "quest": 175,
+     "to": "Q00175_TheWayOfTheWarrior/32138-13.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32138-03.htm": {
+   "file": "Q00178_IconicTrinity/32138-03.htm",
+   "quest": 178,
+   "text": "Hierarch Kekropus: I am sorry, but this does not concern outsiders. (Only Kamael characters may undertake this quest.)",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; player.getRace() != Race.KAMAEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00178_IconicTrinity/32138-01.htm": {
+   "file": "Q00178_IconicTrinity/32138-01.htm",
+   "quest": 178,
+   "text": "Hierarch Kekropus: The time has come for you to leave this Island. Before you leave, there is something you must know, a hidden truth about the Kamael. Knowing this truth may place you in danger, which is why only those who have exhibited exceptional courage and skill are offered the chance to lear…",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; level >= 17; !player.getRace() != Race.KAMAEL"
+   ],
+   "links": [
+    {
+     "text": "Tell him that you are interested.",
+     "bypass": "Quest Q00178_IconicTrinity 32138-05.htm",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32138-05.htm",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32138-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32138-02.htm": {
+   "file": "Q00178_IconicTrinity/32138-02.htm",
+   "quest": 178,
+   "text": "Hierarch Kekropus: The time has come for you to leave this Island. Before you leave, there is something you must know, a hidden truth about the Kamael. Knowing this truth may place you in danger, which is why only those who have exhibited exceptional courage and skill are offered the chance to lear…",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; NOT level >= 17; !player.getRace() != Race.KAMAEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00178_IconicTrinity/32138-06.html": {
+   "file": "Q00178_IconicTrinity/32138-06.html",
+   "quest": 178,
+   "text": "Hierarch Kekropus: First, seek the Statue of History within the Nornil's Cave. Know that it is more than it appears. It is a kind of terminal to allow you to communicate with another. Do this and you will discover the key to unlock the secret you seek. To communicate with the statue, use the passwo…",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 1|2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00178_IconicTrinity/32138-07.html": {
+   "file": "Q00178_IconicTrinity/32138-07.html",
+   "quest": 178,
+   "text": "Hierarch Kekropus: You are in the midst of conversing through the Statue of History? Oh my! Why are you here? Hurry back to the Statue!",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00178_IconicTrinity/32138-08.html": {
+   "file": "Q00178_IconicTrinity/32138-08.html",
+   "quest": 178,
+   "text": "Hierarch Kekropus: You learned that you should go to the Icon of the Present? Then why are you here? Go!",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 4|5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00178_IconicTrinity/32138-09.html": {
+   "file": "Q00178_IconicTrinity/32138-09.html",
+   "quest": 178,
+   "text": "Hierarch Kekropus: You are in the midst of conversing through the Statue of the Present? Oh my! Why are you here? Hurry back to the Statue!",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00178_IconicTrinity/32138-10.html": {
+   "file": "Q00178_IconicTrinity/32138-10.html",
+   "quest": 178,
+   "text": "Hierarch Kekropus: You learned that you should go to the Icon of the Present? Then why are you here? Go!",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 7|8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00178_IconicTrinity/32138-11.html": {
+   "file": "Q00178_IconicTrinity/32138-11.html",
+   "quest": 178,
+   "text": "Hierarch Kekropus: You learned that you should go to the Statue of the Future? Then why are you here in the middle of that conversation? Go! Hurry back to the Statue!",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00178_IconicTrinity/32138-12.html": {
+   "file": "Q00178_IconicTrinity/32138-12.html",
+   "quest": 178,
+   "text": "Hierarch Kekropus: that expression... guess you have heard everything. Good job. To us Kamael, there exists an \"Erased History\" that can not be told to the public. Of course, I can not tell you everything about the \"Erased History\" here. However, as long as you were born a Kamael, I thought you had…",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 10; (((player.getLevel() <= TWENTY_LEVEL) && (player.getClassId() == ClassId.maleSoldier)) || (player.getClassId() == ClassI"
+   ],
+   "links": [
+    {
+     "text": "Asks why was it necessary to go to the Nornil's Cave to hear that story.",
+     "bypass": "Quest Q00178_IconicTrinity 32138-13.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32138-13.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32138-13.html"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32138-15.html": {
+   "file": "Q00178_IconicTrinity/32138-15.html",
+   "quest": 178,
+   "text": "Hierarch Kekropus: Your expression...you must not have heard everything. For we Kamael, there exists a \"Lost History\" that cannot be shared with the public. Nor can I tell you everything about it here and now. But as a true Kamael, there are at least a few things you should know before leaving the …",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 10; !(((player.getLevel() <= TWENTY_LEVEL) && (player.getClassId() == ClassId.maleSoldier)) || (player.getClassId() == Class"
+   ],
+   "links": [
+    {
+     "text": "Ask why it was necessary to go to Nornil's Cave to hear the story.",
+     "bypass": "Quest Q00178_IconicTrinity 32138-16.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32138-16.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32138-16.html"
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32138-00b.html": {
+   "file": "Q00179_IntoTheLargeCavern/32138-00b.html",
+   "quest": 179,
+   "text": "Hierarch Kekropus: I am sorry, but this is not the concern of outsiders. (Only Kamael characters may undertake this quest.)",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; player.getRace() != Race.KAMAEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00179_IntoTheLargeCavern/32138-01.htm": {
+   "file": "Q00179_IntoTheLargeCavern/32138-01.htm",
+   "quest": 179,
+   "text": "Hierarch Kekropus: Ah, you've come. So you have decided that you wish to meet N, eh?",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; !player.getRace() != Race.KAMAEL; player.hasQuestCompleted(Q00178_IconicTrinity.class.getSimpleName()); level >= MIN_LEVEL; level <= MAX_LEVEL"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00179_IntoTheLargeCavern 32138-02.htm",
+     "kind": "quest-event",
+     "script": "Q00179_IntoTheLargeCavern",
+     "event": "32138-02.htm",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32138-02.htm"
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32138-00.html": {
+   "file": "Q00179_IntoTheLargeCavern/32138-00.html",
+   "quest": 179,
+   "text": "Hierarch Kekropus: Ah, you've come. So you have decided that you wish to meet N, eh? I am afraid that your skills are not sufficient to withstand the dangers... (Only Kamael characters who have completed 3 Statue quests, are over level 17 and have fewer than 21 first class transfers may undertake t…",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; !player.getRace() != Race.KAMAEL; !(player.hasQuestCompleted(Q00178_IconicTrinity.class.getSimpleName()) && (level >= MIN_LEVEL) && (level <= MAX_LEVEL) &; level < MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00179_IntoTheLargeCavern/32138-00c.html": {
+   "file": "Q00179_IntoTheLargeCavern/32138-00c.html",
+   "quest": 179,
+   "text": "Hierarch Kekropus: Ah, you've come. So you have decided that you wish to meet N, eh? I am afraid that if you have already reached level 21 or completed your first class transfer, N will not wish to meet you. (Only Kamael over level 17 who have completed the Iconic Trinity quest and have fewer than …",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; !player.getRace() != Race.KAMAEL; !(player.hasQuestCompleted(Q00178_IconicTrinity.class.getSimpleName()) && (level >= MIN_LEVEL) && (level <= MAX_LEVEL) &; !level < MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00182_NewRecruits/32138-01.htm": {
+   "file": "Q00182_NewRecruits/32138-01.htm",
+   "quest": 182,
+   "text": "Hierarch Kekropus: I am sorry but this has nothing to do with our race. (Only non-Kamael characters may embark on this quest.)",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; player.getRace() == Race.KAMAEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00182_NewRecruits/32138-02.htm": {
+   "file": "Q00182_NewRecruits/32138-02.htm",
+   "quest": 182,
+   "text": "Hierarch Kekropus: Good to see you. As luck would have it, I could use your help... Perhaps you could help me with the Rites which are organized for our Kamael youth; the number of youth has increased dramatically and we are forced to ask for help even from other races.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; level >= 17; level <= 21; !player.getRace() == Race.KAMAEL; player.isInCategory(CategoryType.FIRST_CLASS_GROUP)"
+   ],
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Listen to details.",
+     "bypass": "Quest Q00182_NewRecruits 32138-03.htm",
+     "kind": "quest-event",
+     "script": "Q00182_NewRecruits",
+     "event": "32138-03.htm",
+     "quest": 182,
+     "to": "Q00182_NewRecruits/32138-03.htm"
+    }
+   ]
+  },
+  "Q00182_NewRecruits/32138-05.htm": {
+   "file": "Q00182_NewRecruits/32138-05.htm",
+   "quest": 182,
+   "text": "Hierarch Kekropus: We are looking for foreigners that can help the youth of our race. Do you know anyone who would be suitable? (Only non-Kamael characters between level 18 and 20 who have not completed their first class transfer may embark on this quest.)",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; !player.getRace() == Race.KAMAEL; !((player.getLevel() >= MIN_LEVEL) && (player.getLevel() <= MAX_LEVEL) && player.isInCategory(CategoryType.FIRST_CLASS_G; ((player.getLevel() < MIN_LEVEL) || (player.getLevel() > MAX_LEVEL) || !player.isInCategory(CategoryType.FIRST_CLASS_GRO"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00182_NewRecruits/32138-06.html": {
+   "file": "Q00182_NewRecruits/32138-06.html",
+   "quest": 182,
+   "text": "Hierarch Kekropus: Thank you. The person they should meet within the Nornil's Garden is called N. Please help us find people to accompany our youth to meet N. N is in the deepest part of the Nornil's Garden, inside the big cavern. If you help the youth meet N, you will also be able to speak with N,…",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32138-01.htm": {
+   "file": "Q00236_SeedsOfChaos/32138-01.htm",
+   "quest": 236,
+   "text": "Kekropus: The expression in your eyes is familiar somehow... (The Star of Destiny flares brightly.) Can it be? The Star of Destiny? Impossible... how is it that you have obtained it? Please show it to me.",
+   "header": "Kekropus",
+   "when": [
+    "state CREATED; level >= 75; has items 5011; player.getRace() == Race.KAMAEL"
+   ],
+   "links": [
+    {
+     "text": "Show him the Star of Destiny.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32138-02.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32138-02.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32138-02.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32138-01x.html": {
+   "file": "Q00236_SeedsOfChaos/32138-01x.html",
+   "quest": 236,
+   "text": "Kekropus: Your qualifications are more than sufficient, but... I do not believe that you are ready to truly face your fate... (Only a Kamael over level 75 who possesses the Star of Destiny may embark on this quest.)",
+   "header": "Kekropus",
+   "when": [
+    "state CREATED; level >= 75; lacks items 5011; player.getRace() == Race.KAMAEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32138-01y.html": {
+   "file": "Q00236_SeedsOfChaos/32138-01y.html",
+   "quest": 236,
+   "text": "Hierarch Kekropus: I do not know why you are here, nor did I receive word of your intentions. If you desire to speak with me, please do so through official channels. (Only a Kamael over level 75 who possesses the Star of Destiny may undertake this quest.)",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; level >= 75; !player.getRace() == Race.KAMAEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32138-01z.html": {
+   "file": "Q00236_SeedsOfChaos/32138-01z.html",
+   "quest": 236,
+   "text": "Hierarch Kekropus: Ah, you youngsters always seek out the old for wisdom. But the wisdom of the ancients is often like a riddle, difficult to understand -- is this not true? (Only a Kamael over level 75 who possesses the Star of Destiny may undertake this quest.)",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state CREATED; NOT level >= 75"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32138-05.html": {
+   "file": "Q00236_SeedsOfChaos/32138-05.html",
+   "quest": 236,
+   "text": "Hierarch Kekropus: Go to the land in the north, Rune, to meet your fate. The Wizard in the Forest of the Dead will tell you more.",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32138-06.html": {
+   "file": "Q00236_SeedsOfChaos/32138-06.html",
+   "quest": 236,
+   "text": "Hierarch Kekropus: Did you discover your fate? Then you must have an inkling about my true identity... What more is there to say? Before I guide you to the next step, I will tell you what I can...",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 30"
+   ],
+   "links": [
+    {
+     "text": "Ask about the goal of the journey.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32138-07.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32138-07.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32138-07.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32138-13.html": {
+   "file": "Q00236_SeedsOfChaos/32138-13.html",
+   "quest": 236,
+   "text": "Hierarch Kekropus: You must meet the last of the 3 great Spicula heroes, Rodenpicula. Unlike the others, she has a deep relationship with you Metusela Kamael... She will be able to tell you about the limitations you feel right now... She is in the heart of the island, the Nornil's Garden. But first…",
+   "header": "Hierarch Kekropus",
+   "when": [
+    "state STARTED; memo 40"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00061_LawEnforcement/32138-02.html": {
+   "file": "Q00061_LawEnforcement/32138-02.html",
+   "quest": 61,
+   "text": "Kekropus: Before speak of that, I must ask you if you already know the origins and purpose of the Kamael.",
+   "header": "Kekropus",
+   "links": [
+    {
+     "text": "I know.",
+     "bypass": "Quest Q00061_LawEnforcement 32138-03.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32138-03.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32138-03.html"
+    },
+    {
+     "text": "I don't know.",
+     "bypass": "Quest Q00061_LawEnforcement 32138-09.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32138-09.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32138-09.html"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32138-04.html": {
+   "file": "Q00061_LawEnforcement/32138-04.html",
+   "quest": 61,
+   "text": "Kekropus: Before the advent of the 3 Heroes, we were created with certain unrealized spiritual potential, but no particular physical or martial abilities. Our creators, the Giants, had little need of protection from ordinary physical threats -- we were an interesting experiment they conducted, litt…",
+   "header": "Kekropus",
+   "links": [
+    {
+     "text": ".........",
+     "bypass": "Quest Q00061_LawEnforcement 32138-05.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32138-05.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32138-05.html"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32138-05.html": {
+   "file": "Q00061_LawEnforcement/32138-05.html",
+   "quest": 61,
+   "text": "Kekropus: Because our natural powers were so weak, we were forced to develop other skills. Over time, and in order to inherit the abilities of the 3 Heroes, we learned the skill of manipulating souls. In doing so, however, we were confronted with a new question: why did we in fact possess this skil…",
+   "header": "Kekropus",
+   "links": [
+    {
+     "text": "\"Is that what an Inspector is?\"",
+     "bypass": "Quest Q00061_LawEnforcement 32138-06.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32138-06.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32138-06.html"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32138-06.html": {
+   "file": "Q00061_LawEnforcement/32138-06.html",
+   "quest": 61,
+   "text": "Kekropus: Yes. However, Inspectors are not the only ones adept at manipulating soul energy. The Kamael Nostra -- a genius born of time and chaos -- was the most skilled of all of us at manipulating soul energy. He realized that the skills of the 3 Heroes were fundamentally incompatible, and that on…",
+   "header": "Kekropus",
+   "links": [
+    {
+     "text": "\"Tell me more about him.\"",
+     "bypass": "Quest Q00061_LawEnforcement 32138-07.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32138-07.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32138-07.html"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32138-07.html": {
+   "file": "Q00061_LawEnforcement/32138-07.html",
+   "quest": 61,
+   "text": "Kekropus: As I just said, he was a genius produced by time and chaos. He was not a Spicula like myself or the 3 Heroes, but a Metucela Kamael like you... No one knows what became of him. Certainly a Metucela Kamael's life span is long by the standards of other races, but even he must be long dead b…",
+   "header": "Kekropus",
+   "links": [
+    {
+     "text": "Ask what to do.",
+     "bypass": "Quest Q00061_LawEnforcement 32138-08.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32138-08.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32138-08.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32138-08.html": {
+   "file": "Q00061_LawEnforcement/32138-08.html",
+   "quest": 61,
+   "text": "Kekropus: Occasionally a Kamael is born who inherits his advanced skills. These individuals are very rare, but when they appear we honor his memory by granting them a position in the Hierarchy. These are Metucela Kamael, of course, not Spicula -- in other words, Inspectors just like yourself. To le…",
+   "header": "Kekropus",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00061_LawEnforcement/32138-09.html": {
+   "file": "Q00061_LawEnforcement/32138-09.html",
+   "quest": 61,
+   "text": "Kekropus: Hmm, you have advanced this far without learning the truth of our people's origin? You have never heard of the 3 Heroes, then. All our martial skill is rooted in their tale...",
+   "header": "Kekropus",
+   "links": [
+    {
+     "text": "Listen to the story.",
+     "bypass": "Quest Q00061_LawEnforcement 32138-04.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32138-04.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32138-04.html"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32138-02.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-02.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: Ah, the qualifications to walk the path of a Soul Breaker... Yes, Vitus must have sent you. If that is indeed your wish, your path will follow that of Katenar, one of the three heroes you have heard about. I must warn you, it will not be easy. This is not something to be embarked…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 32138-03.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "32138-03.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32138-03.html"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32138-03.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-03.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: Then I must confirm that you have the ability to control magical powers. Other key areas will also be tested. Go to Casca and, if you gain his approval, return here and I will test you. Are you ready?",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "\"Yes, I am ready.\"",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 32138-04.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "32138-04.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32138-04.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32138-04.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-04.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: Your enthusiasm is infectious! Go then straightaway to Casca and ask him to test your temperament.",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32138-07.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-07.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: You must have felt that the magic we use is of a fundamentally different form than the magic used by the other races. Our power is channelled not through songs or gestures, but through a distinct source. To tap into it, you must be able to feel and control the magical power withi…",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "cond": "15"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32138-10.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-10.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: This will release the magical powers nestled within the Wyrm's heart. Concentrate and tell me what you feel.",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "You feel something sticky.",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 32138-11.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "32138-11.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32138-11.html"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32138-11.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-11.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: You have just felt the gathering of power around you. Focus your mind and try exerting control over that power.",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Try to control the power.",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 32138-12.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "32138-12.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32138-12.html",
+     "effect": "cond:17"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32138-12.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32138-12.html",
+   "quest": 65,
+   "text": "Hierarch Kekropus: Excellent! You have done well. With your natural skill, I believe you can successfully walk the path of a Soul Breaker. If you apply yourself, your future as a warrior is bright. Take this certificate of acknowledgement to Vitus.",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "cond": "17"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/0-011.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-011.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: The \"Forgoten History\" was never revealed to the other races. Even now, the only ones who know its details are myself and a few of our Elders and the three great heroes of the Kamael. The world believes that we were sealed on the island because of the threat posed by our combat s…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 0-1",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "0-1",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/0-05.htm",
+     "toAll": [
+      "Q00067_SagaOfTheDoombringer/0-02.htm",
+      "Q00067_SagaOfTheDoombringer/0-05.htm"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/0-012.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-012.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: Well then, I will relate the basics. Long, long ago, the gods entrusted the rulership of this world to the Giants, who grew in strength and knowledge. Then the gods became embroiled in a vicious civil war, which spread to this world and caused a great deal of destruction. As a re…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 0-013.htm",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "0-013.htm",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/0-013.htm"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/0-013.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-013.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: Many of the Giants began to clamor for more active opposition to the gods. They began to experiment with life itself, ultimately creating a new, innocent, living being free from the restraints imposed on other mortals by the gods. That is how the Kamael came into this world, incl…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 0-014.htm",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "0-014.htm",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/0-014.htm"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/0-014.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-014.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: The Giants used the Kamael as soldiers in the war, particularly our three great Kamael heroes, Harkilgamed, Katenar and Rodenpicular. Each wielded a special weapon against the forces of Einhasad, and they fought well, even forcing the goddess an dher nine daughters to retreat aft…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 0-015.htm",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "0-015.htm",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/0-015.htm"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/0-015.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-015.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: That is how the Age of the Giants ended. After they passed, the Elves became dominant, then the Orcs, and now the Humans. But for those of us sealed within Arviterre Laboratory, which became known as the Isle of Souls, it was as if time had stopped. Only thanks to a man in black …",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 0-2",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "0-2",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/0-07.htm",
+     "toAll": [
+      "Q00067_SagaOfTheDoombringer/0-08.htm",
+      "Q00067_SagaOfTheDoombringer/0-07.htm"
+     ],
+     "effect": "cond:20|reward"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/0-02.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-02.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: Come back when your sword is shinier! (This quest may only be undertaken by a Berserker of level 76 or above.)",
+   "header": "Hierarch Kekropus",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/0-03.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-03.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: Then you must embark upon a journey to unleash your sealed power. Scattered throughout the world there are magical objects that can help unlock your potential called Tablets of Vision. These 6 Tablets of Vision should provide you the insight necessary to break the seal. Visit Mas…",
+   "header": "Hierarch Kekropus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/0-05.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-05.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: I do not have the time to tell you everything now, but this at least you should know: We Kamael were not sealed on the Isle of Souls because of our combat prowess, as is generally believed, but rather to disguise our true identity and origin. A man in black armor and a woman in a…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "\"I will!\"",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer accept",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "accept",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/0-07.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-07.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: That is indeed the substance of the \"Forgotten History.\" We were living weapons, beings created by the Giants to battle the gods themselves. Released from the restraints of the gods, the Kamael could not be ruled by them. But remember, our history is just that: history. The Giant…",
+   "header": "Hierarch Kekropus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/0-08.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/0-08.htm",
+   "quest": 67,
+   "text": "Hierarch Kekropus: You need more training as a Berserker. Come back later. (Only a character of level 76 or above can transfer class. Do not abandon the quest until class transfer is complete!)",
+   "header": "Hierarch Kekropus",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/0-011.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-011.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: Because I knew that you would come to me, I want to tell you about a question that will appear at the end of the road that you intend to travel. I suspect that once you hear what I have to say the answer will become plain. We Kamael re-entered this world with certain limitations,…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "\"Does that mean I can find that power?\"",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 0-1",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "0-1",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/0-05.htm",
+     "toAll": [
+      "Q00068_SagaOfTheSoulHound/0-02.htm",
+      "Q00068_SagaOfTheSoulHound/0-05.htm"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/0-012.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-012.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: Yes! But be warned: Einhasad's enmity towards us had not diminished. She understands the implications of the power that we wield, a power that stems from our very origin. Because we were not created by the gods, we are not bound by the wheel of fate that governs their other creat…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "\"What do you mean that we're not bound by the wheel of fate?\"",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 0-013.htm",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "0-013.htm",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/0-013.htm"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/0-013.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-013.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: Since we were created by the Giants, not the gods, we stand outside the natural order of things as established by the gods. Although individually our powers do not compare to those of the gods, we can nevertheless harm them -- just as a poisoned needle can slay the mightiest beas…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Wait.",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 0-014.htm",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "0-014.htm",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/0-014.htm"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/0-014.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-014.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: When the gods laid the foundations of this world, they appointed the Giants -- strongest of all their creations -- to rule it as their stewards. Gradually, though, the Giants became disillusioned with their masters, until they could only see the gods' flaws and none of their virt…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Listen closely.",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 0-015.htm",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "0-015.htm",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/0-015.htm"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/0-015.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-015.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: Beside herself with sorrow and fury, Einhasad used the Hammer of the Stars to cast massive fireballs down the Giants' capital, Grande Perion. Within a day, the empire had for all practical purposes perished. The survivors, Giant and Kamael alike, were hunted mercilessly by Einhas…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "\"Do we have to oppose the gods?\"",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 0-2",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "0-2",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/0-07.htm",
+     "toAll": [
+      "Q00068_SagaOfTheSoulHound/0-08.htm",
+      "Q00068_SagaOfTheSoulHound/0-07.htm"
+     ],
+     "effect": "cond:20|reward"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/0-02.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-02.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: Come back when your sword is shinier! (This quest may only be undertaken by a Soul Breaker of level 76 or above.)",
+   "header": "Hierarch Kekropus",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/0-03.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-03.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: I see. When you finally unbind all the seals and reclaim the power, come and find me. Then we will talk about the fate that lies before you. Until then, there is a total of 6 seals that you are under. You can unbind them at the Tablets of Vision using the Resonance Amulets. I can…",
+   "header": "Hierarch Kekropus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/0-05.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-05.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: When we Kamael were revealed to the world, it was agreed that that power would remain sealed. Unless... should one of our own prove worthy to wield it, it would be permitted. If you are that person, you will be able to unbind the seals and obtain the power you seek. I can only sh…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "\"Yes, I do.\"",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound accept",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "accept",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/0-07.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-07.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: Once we were created as weapons to oppose the gods, but now, I think we must shape our own destiny as a race. I hope you are the one to free us from the constraints of the wheel of fate, the one who is able to see beyond limitations placed on us. I have faith in you, Soul Hound.",
+   "header": "Hierarch Kekropus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/0-08.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/0-08.htm",
+   "quest": 68,
+   "text": "Hierarch Kekropus: Once we were created as weapons to oppose the gods, but now, I think we must shape our own destiny as a race. I hope you are the one to free us from the constraints of the wheel of fate, the one who is able to see beyond limitations placed on us. I will watch your progress with g…",
+   "header": "Hierarch Kekropus",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/0-011.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-011.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: I cannot say for certain, but... Listen carefully to what I have to say. Several decades before the seal was unbound, a man in black armor and a woman in a blue dress came to me. and said that Shilen's power was growing greater. To oppose her, our power was needed. They said that…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "\"So there's a hidden power that can make us stronger... how do I acquire it?\"",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 0-1",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "0-1",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/0-05.htm",
+     "toAll": [
+      "Q00069_SagaOfTheTrickster/0-02.htm",
+      "Q00069_SagaOfTheTrickster/0-05.htm"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/0-012.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-012.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: Hmm...something like that happened, eh? ... Then I should tell you the truth... Long, long ago, we were created to be living weapons with which the Giants might oppose the gods. That is the secret of our race. Because of this, we were sealed between dimensions for ages... (Kekrop…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 0-013.htm",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "0-013.htm",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/0-013.htm"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/0-013.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-013.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: I myself was born in the Giants' great laboratory, Arviterre, and even assisted in the creation of an improved version of the Kamael like yourself... However, the gods eventually discovered the Giants' secret. Einhasad was enraged, seeing this as an act of rebellion. The other go…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 0-014.htm",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "0-014.htm",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/0-014.htm"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/0-014.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-014.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: When war broke out, the 3 heroes of the Kamael, the Spicula, joined the Giants along with other Kamael. They fought well, helping shift the tide of battle in the Giants' favor. Mighty Harkilgamed wielded the great sword Enuma Elisha and slew Einhasad's second daughter, while Kate…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 0-015.htm",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "0-015.htm",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/0-015.htm"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/0-015.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-015.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: While Einhasad's forces mercilessly hunted the survivng Giants, the head of the Arviterre research facility struck a deal with another powerful being to hide the remaining Kamael from Einhasad by sealing this island between dimensions. That is how we were removed from the world f…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "\"So...are we still at war with the gods, now that we have been unsealed?\"",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 0-2",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "0-2",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/0-07.htm",
+     "toAll": [
+      "Q00069_SagaOfTheTrickster/0-08.htm",
+      "Q00069_SagaOfTheTrickster/0-07.htm"
+     ],
+     "effect": "cond:20|reward"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/0-02.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-02.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: Come back when your sword is shinier! (This quest may only be undertaken by a Arbalester of level 76 or above.)",
+   "header": "Hierarch Kekropus",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/0-03.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-03.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: This will be a very dangerous and difficult journey. But from what I have seen of you thus far, I think you are up to the challenge. ... As I have already said, you will need an object called the Resonance Amulet in order to communicate with the Tablet of Vision. This was created…",
+   "header": "Hierarch Kekropus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/0-05.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-05.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: The woman in the blue dress distributed these Tablets of Vision all over the world. It will be very difficult to find the locations of them all, hidden as they are in the secret and dangerous places. Even if you do find their locations, you will still require a mystical object ca…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "\"I will find the Tablets before Beleth does.\"",
+     "bypass": "Quest Q00069_SagaOfTheTrickster accept",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "accept",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/0-07.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-07.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: The Giants who created us are long gone, and we are beings with free will. Once the Isle of Souls was unsealed, my obligation to our former masters ended. The only thing I still feel compelled to do is share the truth with you... Our future as a race will depend on the strength a…",
+   "header": "Hierarch Kekropus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/0-08.htm": {
+   "file": "Q00069_SagaOfTheTrickster/0-08.htm",
+   "quest": 69,
+   "text": "Hierarch Kekropus: You need more training as an Arbalester. Come back later. (Only a character of level 76 or above can transfer class. Do not abandon the quest until class transfer is complete!)",
+   "header": "Hierarch Kekropus",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00175_TheWayOfTheWarrior/32138-02.htm": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-02.htm",
+   "quest": 175,
+   "text": "Hierarch Kekropus: I admire your confidence! To be acknowledged as a Kamael warrior is no easy task. Are you prepared to risk both body and spirit?",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "\"I can do anything.\"",
+     "bypass": "Quest Q00175_TheWayOfTheWarrior 32138-05.htm",
+     "kind": "quest-event",
+     "script": "Q00175_TheWayOfTheWarrior",
+     "event": "32138-05.htm",
+     "quest": 175,
+     "to": "Q00175_TheWayOfTheWarrior/32138-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00175_TheWayOfTheWarrior/32138-05.htm": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-05.htm",
+   "quest": 175,
+   "text": "Hierarch Kekropus: Yes, with that kind of will, you may overcome any hardship. You have the spirit and pride necessary for a Fighter. You must prepare for the ceremony. Go to Vice Hierarch Perwan at the Cave of Souls and seek his assistance; then return to me when your preparations have been comple…",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00175_TheWayOfTheWarrior/32138-10.html": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-10.html",
+   "quest": 175,
+   "text": "Hierarch Kekropus: Very well. You must now prove that you have the necessary traits to be a Fighter: bravery and strength. Go to the Hills of Gold , hunt Muertos and bring back 10 Muertos Claws .",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00175_TheWayOfTheWarrior/32138-13.html": {
+   "file": "Q00175_TheWayOfTheWarrior/32138-13.html",
+   "quest": 175,
+   "text": "Hierarch Kekropus: Well done! You are now a Kamael warrior. Take this Fighter's Sword as proof of your new station. May it aid you in you training and your journeys. Bring honor to the Kamael people, my young friend!",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00178_IconicTrinity/32138-05.htm": {
+   "file": "Q00178_IconicTrinity/32138-05.htm",
+   "quest": 178,
+   "text": "Hierarch Kekropus: Excellent! As a Kamael, you should know the truth of what I am about to tell you. Seek the Statue of History within the Nornil's Cave. Know that it is more than it appears. It is a kind of terminal to allow you to communicate with another. Do this and you will discover the key to…",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00178_IconicTrinity/32138-13.html": {
+   "file": "Q00178_IconicTrinity/32138-13.html",
+   "quest": 178,
+   "text": "Hierarch Kekropus: The more you know, the more danger you will be in. Because I deemed that only those able to protect themselves against this danger should hear this story, I deliberately chose a dangerous place like the Nornil's Cave. If you were able to enter and exit that place safely, you have…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Ask why it was necessary to be acknowledged by N in order to enter the Nornil's Garden, and ask who N is.",
+     "bypass": "Quest Q00178_IconicTrinity 32138-14.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32138-14.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32138-14.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32138-14.html": {
+   "file": "Q00178_IconicTrinity/32138-14.html",
+   "quest": 178,
+   "text": "Hierarch Kekropus: Who is N? Ha ha! Why not ask him personally? N seemed to have more to say to you... If you really wish to meet him again, let me know. Well done so far! Take this as a token of our congratulations.",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00178_IconicTrinity/32138-16.html": {
+   "file": "Q00178_IconicTrinity/32138-16.html",
+   "quest": 178,
+   "text": "Hierarch Kekropus: The more you know, the more danger you will be in. Because I deemed that only those able to protect themselves against this danger should hear this story, I deliberately chose a dangerous place like the Nornil's Cave. If you were able to enter and exit that place safely, you have…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Ask who N is.",
+     "bypass": "Quest Q00178_IconicTrinity 32138-17.html",
+     "kind": "quest-event",
+     "script": "Q00178_IconicTrinity",
+     "event": "32138-17.html",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32138-17.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00178_IconicTrinity/32138-17.html": {
+   "file": "Q00178_IconicTrinity/32138-17.html",
+   "quest": 178,
+   "text": "Hierarch Kekropus: N is none other than Mother Nornil! Surprised? Did you think she was simply a myth? Perhaps you will have the opportunity to speak to her again at greater length someday. Regardless, well done, my friend. Take this as a token of our congratulations.",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00179_IntoTheLargeCavern/32138-02.htm": {
+   "file": "Q00179_IntoTheLargeCavern/32138-02.htm",
+   "quest": 179,
+   "text": "Hierarch Kekropus: Very well. But it will not be easy to meet N, who resides in the most secret, most inaccessible and most dangerous region in the Isle of Souls. Do you still wish to make the attempt?",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Say that you do.",
+     "bypass": "Quest Q00179_IntoTheLargeCavern 32138-03.html",
+     "kind": "quest-event",
+     "script": "Q00179_IntoTheLargeCavern",
+     "event": "32138-03.html",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32138-03.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32138-03.html": {
+   "file": "Q00179_IntoTheLargeCavern/32138-03.html",
+   "quest": 179,
+   "text": "Hierarch Kekropus: I am glad to hear you say so. N is in the furthest recesses of the Nornil's Garden, within the large cave. As I told you before, now that you have been acknowledged by N, you may enter the Nornil's Garden and take your comrades, whether or not they have been personally acknowledg…",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Tell him that you do not remember the password.",
+     "bypass": "Quest Q00179_IntoTheLargeCavern 32138-04.html",
+     "kind": "quest-event",
+     "script": "Q00179_IntoTheLargeCavern",
+     "event": "32138-04.html",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32138-04.html"
+    }
+   ]
+  },
+  "Q00179_IntoTheLargeCavern/32138-04.html": {
+   "file": "Q00179_IntoTheLargeCavern/32138-04.html",
+   "quest": 179,
+   "text": "Hierarch Kekropus: You have already forgotten it? The password for the Statue of the Past was \"CRTR\"; the password for the Statue of the Present was \"CNCL\"; and the password for the Statue of the Future was \"CHAOS\". Now you remember? Good. Enter these passwords into the Doors of the Past, Present a…",
+   "header": "Hierarch Kekropus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00182_NewRecruits/32138-03.htm": {
+   "file": "Q00182_NewRecruits/32138-03.htm",
+   "quest": 182,
+   "text": "Hierarch Kekropus: It is called the Rite of Youth -- in reality a series of tests that the young of our race must traditionally pass in order to reach maturity. One involves entering Nornil's Garden and meeting someone within. Normally, several should go at once, but the young do not always coopera…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Say that you will help.",
+     "bypass": "Quest Q00182_NewRecruits 32138-04.htm",
+     "kind": "quest-event",
+     "script": "Q00182_NewRecruits",
+     "event": "32138-04.htm",
+     "quest": 182,
+     "to": "Q00182_NewRecruits/32138-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00182_NewRecruits/32138-04.htm": {
+   "file": "Q00182_NewRecruits/32138-04.htm",
+   "quest": 182,
+   "text": "Hierarch Kekropus: Thank you. The person they should meet within the Nornil's Garden is called N. Please help us find people to accompany our youth to meet N. N is in the deepest part of the Nornil's Garden, inside the big cavern. If you help the youth meet N, you will also be able to speak with N,…",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32138-02.html": {
+   "file": "Q00236_SeedsOfChaos/32138-02.html",
+   "quest": 236,
+   "text": "Hierarch Kekropus: The Star of Destiny... When I first learned of it from the woman in the blue dress, I thought it was a myth. The fact that something so extraordinarily evil could exist, and that so many would give their lives to possess it... But how would it be possible to penetrate the tower o…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "......",
+     "bypass": "Quest Q00236_SeedsOfChaos 32138-03.htm",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32138-03.htm",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32138-03.htm"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32138-03.htm": {
+   "file": "Q00236_SeedsOfChaos/32138-03.htm",
+   "quest": 236,
+   "text": "Kekropus: But the Star of Destiny you have brought makes me question... This world can only be shaped by the woman in the blue dress and the ones guided by her, the ones who bear her proofs... If that is indeed you, then you know of our fate, don't you? Are you ready to face the threat to our futur…",
+   "header": "Kekropus",
+   "links": [
+    {
+     "text": "Tell him that you are ready.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32138-04.htm",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32138-04.htm",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32138-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32138-04.htm": {
+   "file": "Q00236_SeedsOfChaos/32138-04.htm",
+   "quest": 236,
+   "text": "Hierarch Kekropus: Then prepare to leave. Fate cannot be bargained with or avoided, only faced with courage and conviction. Go to the land in the north, Rune, to meet your fate. The Wizard in the Forest of the Dead will tell you more.",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32138-07.html": {
+   "file": "Q00236_SeedsOfChaos/32138-07.html",
+   "quest": 236,
+   "text": "Kekropus: The goal of the journey... As I told you before, I wanted to know about our fate... Our 3 great heroes, the Spicula of old, for all their skill are incapable of becoming anything other than what they are. There can be no improvement, no change. That is what we were made to be, Kamael...an…",
+   "header": "Kekropus",
+   "links": [
+    {
+     "text": "...............",
+     "bypass": "Quest Q00236_SeedsOfChaos 32138-08.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32138-08.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32138-08.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32138-08.html": {
+   "file": "Q00236_SeedsOfChaos/32138-08.html",
+   "quest": 236,
+   "text": "Hierarch Kekropus: Do you not sense that as well? Look at the Elves, the Humans. Regardless of their birth, they can aspire to do anything: wizard, fighter, shaman, trader. The Humans, undoubtedly the weakest of the races, were nevertheless able to obtain the Elves' magic, the Dwarves' greed and th…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "......",
+     "bypass": "Quest Q00236_SeedsOfChaos 32138-09.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32138-09.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32138-09.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32138-09.html": {
+   "file": "Q00236_SeedsOfChaos/32138-09.html",
+   "quest": 236,
+   "text": "Hierarch Kekropus: On the other hand, we Kamael are limited in our birth and our destiny. We may only wield the sword; we do not have a god so we cannot use holy powers, nor can we sing the song of magic... You younger Kamael have a few more options, but not many. Why is it that only the women have…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Can something be done?",
+     "bypass": "Quest Q00236_SeedsOfChaos 32138-10.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32138-10.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32138-10.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32138-10.html": {
+   "file": "Q00236_SeedsOfChaos/32138-10.html",
+   "quest": 236,
+   "text": "Hierarch Kekropus: We will speak of that later. In the meantime, if you have nothing else to ask...",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "About the civil war of the gods.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32138-11.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32138-11.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32138-11.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32138-11.html": {
+   "file": "Q00236_SeedsOfChaos/32138-11.html",
+   "quest": 236,
+   "text": "Hierarch Kekropus: Where did you hear that? Did Harkilgamed tell you? That story is too dangerous for me to tell you in full right now. But it is true that ages ago the gods fought mightily with each other, bringing great destruction upon this world. The Giants, the greatest of their created beings…",
+   "header": "Hierarch Kekropus",
+   "links": [
+    {
+     "text": "Ask what you must do now.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32138-12.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32138-12.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32138-12.html",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32138-12.html": {
+   "file": "Q00236_SeedsOfChaos/32138-12.html",
+   "quest": 236,
+   "text": "Hierarch Kekropus: You must meet the last of the 3 great Spicula heroes, Rodenpicula. Unlike the others, she has a deep relationship with you Metusela Kamael... She will be able to tell you about the limitations you feel right now... She is in the heart of the island, Nornil's Garden. But first, yo…",
+   "header": "Hierarch Kekropus",
+   "sets": {
+    "cond": "15"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Law Enforcement (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00061_LawEnforcement",
+     "kind": "quest",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32138-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Certified Soul Breaker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00065_CertifiedSoulBreaker",
+     "kind": "quest",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32138-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Doombringer]",
+     "bypass": "npc_%objectId%_Quest Q00067_SagaOfTheDoombringer",
+     "kind": "quest",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Doombringer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00067_SagaOfTheDoombringer",
+     "kind": "quest",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/0-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Soul Hound]",
+     "bypass": "npc_%objectId%_Quest Q00068_SagaOfTheSoulHound",
+     "kind": "quest",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Soul Hound (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00068_SagaOfTheSoulHound",
+     "kind": "quest",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/0-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Trickster]",
+     "bypass": "npc_%objectId%_Quest Q00069_SagaOfTheTrickster",
+     "kind": "quest",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Trickster (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00069_SagaOfTheTrickster",
+     "kind": "quest",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/0-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Way of the Warrior]",
+     "bypass": "npc_%objectId%_Quest Q00175_TheWayOfTheWarrior",
+     "kind": "quest",
+     "quest": 175,
+     "to": "Q00175_TheWayOfTheWarrior/32138-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Way of the Warrior (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00175_TheWayOfTheWarrior",
+     "kind": "quest",
+     "quest": 175,
+     "to": "Q00175_TheWayOfTheWarrior/32138-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Iconic Trinity]",
+     "bypass": "npc_%objectId%_Quest Q00178_IconicTrinity",
+     "kind": "quest",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32138-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Iconic Trinity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00178_IconicTrinity",
+     "kind": "quest",
+     "quest": 178,
+     "to": "Q00178_IconicTrinity/32138-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Into the Large Cavern]",
+     "bypass": "npc_%objectId%_Quest Q00179_IntoTheLargeCavern",
+     "kind": "quest",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32138-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Into the Large Cavern (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00179_IntoTheLargeCavern",
+     "kind": "quest",
+     "quest": 179,
+     "to": "Q00179_IntoTheLargeCavern/32138-00b.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[New Recruits]",
+     "bypass": "npc_%objectId%_Quest Q00182_NewRecruits",
+     "kind": "quest",
+     "quest": 182,
+     "to": "Q00182_NewRecruits/32138-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[New Recruits (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00182_NewRecruits",
+     "kind": "quest",
+     "quest": 182,
+     "to": "Q00182_NewRecruits/32138-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seeds of Chaos]",
+     "bypass": "npc_%objectId%_Quest Q00236_SeedsOfChaos",
+     "kind": "quest",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32138-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seeds of Chaos (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00236_SeedsOfChaos",
+     "kind": "quest",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32138-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

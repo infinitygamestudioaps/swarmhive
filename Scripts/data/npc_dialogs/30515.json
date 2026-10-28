@@ -1,0 +1,558 @@
+{
+ "npcId": 30515,
+ "name": "Manakia",
+ "title": "Seer",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.989Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30515.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "217": {
+   "name": "Testimony Of Trust",
+   "listText": [
+    "[Testimony of Trust]",
+    "[Testimony of Trust (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00217_TestimonyOfTrust/30515-01.html",
+     "when": "state STARTED; has items 2757",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30515-03.html",
+     "when": "state STARTED; memo 11; lacks items 2757",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30515-04.html",
+     "when": "state STARTED; memo 12; lacks items 2757; item 2756 >= 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30515-05.html",
+     "when": "state STARTED; memo 13; lacks items 2757",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "220": {
+   "name": "Testimony Of Glory",
+   "listText": [
+    "[Testimony of Glory]",
+    "[Testimony of Glory (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00220_TestimonyOfGlory/30515-01.html",
+     "when": "state STARTED; has items 3209,3210",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30515-08.html",
+     "when": "state STARTED; has items 3216,3217,3220; lacks items 3209,3210",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "232": {
+   "name": "Test Of The Lord",
+   "listText": [
+    "[Test of the Lord]",
+    "[Test of the Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00232_TestOfTheLord/30515-01.html",
+     "when": "state STARTED; has items 3391,3392; lacks items 3400,3399,3397",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30515-02.html",
+     "when": "state STARTED; has items 3392,3391,3397; lacks items 3400,3399; !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, MANAKIAS_AMULE; getQuestItemsCount(player, BREKA_ORC_FANG) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30515-03.html",
+     "when": "state STARTED; has items 3392,3391,3397; lacks items 3400,3399; !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, MANAKIAS_AMULE; !getQuestItemsCount(player, BREKA_ORC_FANG) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30515-04.html",
+     "when": "state STARTED; has items 3391,3392,3399; lacks items 3400,3397; !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, MANAKIAS_AMULE; !(hasQuestItems(player, VARKEES_CHARM, ORDEAL_NECKLACE, MANAKIAS_ORDERS) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FAN",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30515-05.html",
+     "when": "state STARTED; has items 3391,3400; lacks items 3392,3399,3397; !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, MANAKIAS_AMULE; !(hasQuestItems(player, VARKEES_CHARM, ORDEAL_NECKLACE, MANAKIAS_ORDERS) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FAN; !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM, MANAKIAS_AMULET) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FAN",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "233": {
+   "name": "Test Of The War Spirit",
+   "listText": [
+    "[Test of the War Spirit]",
+    "[Test of the War Spirit (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30515-01.html",
+     "when": "state STARTED; lacks items 2895,2913,2880,2901",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30515-04.html",
+     "when": "state STARTED; has items 2895,2913,2880,2901,2896,2897,2898,2899,2900",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30515-03.html",
+     "when": "state STARTED; has items 2895,2913,2880,2901; lacks items 2896,2897,2898,2899,2900",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30515-05.html",
+     "when": "state STARTED; has items 2895,2913,2880,2901; lacks items 2895",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30515.htm": {
+   "file": "trainer/30515.htm",
+   "quest": null,
+   "text": "Seer Manakia: I am Manakia, and I teach Orc Mages and Shamans in the name of the God of Flame, Pa'agrio. Pay attention to the voice inside you! Listen to the voice of your soul! Only a fool believes that others will save him!",
+   "header": "Seer Manakia",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30515-noteach.htm": {
+   "file": "trainer/30515-noteach.htm",
+   "quest": null,
+   "text": "Seer Manakia: I cannot teach anything to you, who cannot hear the voice within. Go back.",
+   "header": "Seer Manakia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30515-01.html": {
+   "file": "Q00217_TestimonyOfTrust/30515-01.html",
+   "quest": 217,
+   "text": "Seer Manakia: Why would the Flame Lord ask a Human for assistance with a tribal matter? Since we are short-handed I won't refuse.",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; has items 2757"
+   ],
+   "links": [
+    {
+     "text": "How can I help?",
+     "bypass": "Quest Q00217_TestimonyOfTrust 30515-02.html",
+     "kind": "quest-event",
+     "script": "Q00217_TestimonyOfTrust",
+     "event": "30515-02.html",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30515-02.html",
+     "effect": "cond:14"
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30515-03.html": {
+   "file": "Q00217_TestimonyOfTrust/30515-03.html",
+   "quest": 217,
+   "text": "Seer Manakia: Do you comprehend the gravity of the situation? This is the last time I will tell you! You must kill the wild boar Windsus and bring back 10 Parasites of Lota . Is that clear?",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; memo 11; lacks items 2757"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30515-04.html": {
+   "file": "Q00217_TestimonyOfTrust/30515-04.html",
+   "quest": 217,
+   "text": "Seer Manakia: Ah, you have defeated the wild boars... Thank you. If we examine these Parasites of Lota we will discover the identity of the person who dares to control the totem spirit. I've got a bad feeling about this whole affair... Something smells rotten. This could just be the tip of the iceb…",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; memo 12; lacks items 2757; item 2756 >= 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30515-05.html": {
+   "file": "Q00217_TestimonyOfTrust/30515-05.html",
+   "quest": 217,
+   "text": "Seer Manakia: Lord Kakai does not like to be kept waiting! Go to him now!",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; memo 13; lacks items 2757"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30515-01.html": {
+   "file": "Q00220_TestimonyOfGlory/30515-01.html",
+   "quest": 220,
+   "text": "Seer Manakia: Agent of the Lord! The upcoming Chaotic Chronicle could signal a new beginning for us. From the flames of war and disaster, we the great kingdom of the Orcs will rise from the ashes.",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; has items 3209,3210"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Breka Orc",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30515-04.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30515-04.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30515-04.html",
+     "toAll": [
+      "Q00220_TestimonyOfGlory/30515-04.html",
+      "Q00220_TestimonyOfGlory/30515-02.html",
+      "Q00220_TestimonyOfGlory/30515-03.html"
+     ]
+    },
+    {
+     "text": "Ask about the Enku Orc",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30515-05.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30515-05.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30515-05.html",
+     "toAll": [
+      "Q00220_TestimonyOfGlory/30515-05.html",
+      "Q00220_TestimonyOfGlory/30515-06.html",
+      "Q00220_TestimonyOfGlory/30515-07.html"
+     ]
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30515-08.html": {
+   "file": "Q00220_TestimonyOfGlory/30515-08.html",
+   "quest": 220,
+   "text": "Seer Manakia: The time has come! The rebirth of the glorious Orc kingdom is at hand! Reunification of the 108 tribes! Tejakar Oroka! Dekara Lamchar Kakai!",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; has items 3216,3217,3220; lacks items 3209,3210"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30515-01.html": {
+   "file": "Q00232_TestOfTheLord/30515-01.html",
+   "quest": 232,
+   "text": "Seer Manakia: Did you come to see me, Seer Manakia, under the command of Atuba Chief Varkees? I can tell from your necklace that you are taking the Test of the Lord! Then I shall tell you what to do now! As you know in this land there are plenty of traitor Orcs, who have forgotten their origin and …",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; has items 3391,3392; lacks items 3400,3399,3397"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30515-02.html": {
+   "file": "Q00232_TestOfTheLord/30515-02.html",
+   "quest": 232,
+   "text": "Seer Manakia: Did you forget your task already? Go now and get rid of the Breka Orcs in the area and bring twenty of their fangs! Soldier's teeth are worthless! Only bring the ones from the Shamans or Overlords! You remember don't you? The totem of the cold-hearted Atubas is made from the fangs of …",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; has items 3392,3391,3397; lacks items 3400,3399; !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, MANAKIAS_AMULE; getQuestItemsCount(player, BREKA_ORC_FANG) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30515-03.html": {
+   "file": "Q00232_TestOfTheLord/30515-03.html",
+   "quest": 232,
+   "text": "Seer Manakia: Tejakar Oroka! You brought the twenty fangs! You have warned those vagrant Breka Orcs with the wrath of our tribe. For your honorable contribution, I shall give you this amulet as a prize. Take it to Atuba Chief Varkees at the Orc Village!",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; has items 3392,3391,3397; lacks items 3400,3399; !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, MANAKIAS_AMULE; !getQuestItemsCount(player, BREKA_ORC_FANG) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30515-04.html": {
+   "file": "Q00232_TestOfTheLord/30515-04.html",
+   "quest": 232,
+   "text": "Seer Manakia: You have successfully completed your task with the filthy Breka Orcs and brought back their fangs! Now take the amulet I gave you to Atuba Chief Varkees!",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; has items 3391,3392,3399; lacks items 3400,3397; !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, MANAKIAS_AMULE; !(hasQuestItems(player, VARKEES_CHARM, ORDEAL_NECKLACE, MANAKIAS_ORDERS) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FAN"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30515-05.html": {
+   "file": "Q00232_TestOfTheLord/30515-05.html",
+   "quest": 232,
+   "text": "Seer Manakia: Someday I shall return to the Immortal Plateau to take the Test of the Lord! But I have unfinished business in this land!",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; has items 3391,3400; lacks items 3392,3399,3397; !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, MANAKIAS_AMULE; !(hasQuestItems(player, VARKEES_CHARM, ORDEAL_NECKLACE, MANAKIAS_ORDERS) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FAN; !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM, MANAKIAS_AMULET) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FAN"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30515-01.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30515-01.html",
+   "quest": 233,
+   "text": "Seer Manakia: That indomitable Hermodt! The greatest Warrior of the Neruga tribe. If you are here for his remains, first you should hear his story... Hermodt was the tribal leader when he set off to kill the serpents threatening his territory. He fought bravely and at last, drove them out. Alas he …",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; lacks items 2895,2913,2880,2901"
+   ],
+   "links": [
+    {
+     "text": "Ask where the remains lie",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30515-02.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30515-02.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30515-02.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30515-04.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30515-04.html",
+   "quest": 233,
+   "text": "Seer Manakia: That was magnificent, young shaman! You have driven out the medusas and taken back the remains of our fallen hero! It is sad to see this Warrior's remains in such poor condition. I cannot feel his spirit while his remains are like this! I, Seer Manakia shall readjust Hermodt's Remains…",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; has items 2895,2913,2880,2901,2896,2897,2898,2899,2900"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30515-03.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30515-03.html",
+   "quest": 233,
+   "text": "Seer Manakia: Didn't I appoint you a task? I told you to recover Hermodt's Remains, from the medusas! Hurry up and get to work! Go and kill those medusas, and recover the remains of Hermodt! And take heed! The important remains are possessed by the Gorgon Queen, Stenoa!",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; has items 2895,2913,2880,2901; lacks items 2896,2897,2898,2899,2900"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30515-05.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30515-05.html",
+   "quest": 233,
+   "text": "Seer Manakia: Tejakar Oroka! Glory to the great Orcs! Young Shaman, go ahead and finish the Test of the War Spirits, and become a proud Warcryer! I believe in you! You shall be a great Shaman who influences the world with mighty flames!",
+   "header": "Seer Manakia",
+   "when": [
+    "state STARTED; has items 2895,2913,2880,2901; lacks items 2895"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30515-02.html": {
+   "file": "Q00217_TestimonyOfTrust/30515-02.html",
+   "quest": 217,
+   "text": "Seer Manakia: Recently a delegation from the Neruga tribe were savagely attacked by a pack of wild boars as they were traveling to Aden Castle! These bestial boars are called the Windsus , and are known to live around Death Pass in Northern Giran. Long ago, the Lota tribe, whose totem was a wild bo…",
+   "header": "Seer Manakia",
+   "sets": {
+    "cond": "14"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30515-02.html": {
+   "file": "Q00220_TestimonyOfGlory/30515-02.html",
+   "quest": 220,
+   "text": "Seer Manakia: Tejakar Oroka! You have recovered the Scepter of Breka ! Our great kingdom of Orcs shall rise again!",
+   "header": "Seer Manakia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30515-03.html": {
+   "file": "Q00220_TestimonyOfGlory/30515-03.html",
+   "quest": 220,
+   "text": "Seer Manakia: Take this letter to the Chief of the Breka Orcs ! He can be found on the southern cliff of Dragon Valley . Always remember that you represent the great Flame Lord, Kakai! You must display the honor and dignity befitting our Lord!",
+   "header": "Seer Manakia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30515-04.html": {
+   "file": "Q00220_TestimonyOfGlory/30515-04.html",
+   "quest": 220,
+   "text": "Seer Manakia: Take this letter to the Chief of the Breka Orc ! He is on the southern cliff of dragon valley . Always remember that you represent the great Flame Lord, Kakai!",
+   "header": "Seer Manakia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30515-05.html": {
+   "file": "Q00220_TestimonyOfGlory/30515-05.html",
+   "quest": 220,
+   "text": "Seer Manakia: Tejakar Oroka! You have found the Scepter of Enku ! The great kingdom of Orcs shall soon rise again!",
+   "header": "Seer Manakia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30515-06.html": {
+   "file": "Q00220_TestimonyOfGlory/30515-06.html",
+   "quest": 220,
+   "text": "Seer Manakia: Take this letter to the Chief of the Enku Orcs ! He is on the northern seashore of Dion territory . Remember that you represent the Lord of Flame!",
+   "header": "Seer Manakia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30515-07.html": {
+   "file": "Q00220_TestimonyOfGlory/30515-07.html",
+   "quest": 220,
+   "text": "Seer Manakia: Take the letter that I gave you to the Chief of the Enku Orcs ! He is on the southern seashore of Dion territory . Remember that you represent the Lord of Flame!",
+   "header": "Seer Manakia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30515-02.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30515-02.html",
+   "quest": 233,
+   "text": "Seer Manakia: Ever since the kingdom of Orcs first fell, Giran, has been ruled by the Humans. But Humans are weak, so the outsiders we once beat have started attacking again! What a mess! Take this totem to begin with which has our ancestors' spirits within it and it will guide you on your way! In …",
+   "header": "Seer Manakia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Trust (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00217_TestimonyOfTrust",
+     "kind": "quest",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30515-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Glory (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00220_TestimonyOfGlory",
+     "kind": "quest",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30515-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00232_TestOfTheLord",
+     "kind": "quest",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30515-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the War Spirit (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00233_TestOfTheWarSpirit",
+     "kind": "quest",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30515-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,618 @@
+{
+ "npcId": 31572,
+ "name": "O'Fulle",
+ "title": "Fishing Guild Member",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.234Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Fisherman/31572.htm",
+   "when": "normal (no karma); NOT player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman"
+  },
+  {
+   "page": "ai/npc/Fisherman/31572-pk.htm",
+   "when": "player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman",
+   "variant": "karma"
+  }
+ ],
+ "quests": {
+  "28": {
+   "name": "Chest Caught With A Bait Of Icy Air",
+   "listText": [
+    "[Chest Caught with a Bait of Icy Air]",
+    "[Chest Caught with a Bait of Icy Air (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= 36) && player.hasQuestCompleted(Q00051_OFullesSpecialBait.class.getSimpleName",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-02.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= 36) && player.hasQuestCompleted(Q00051_OFullesSpecialBait.class.getSimpleName",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-06.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-05.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-09.htm",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "40": {
+   "name": "A Special Order",
+   "listText": [
+    "[A Special Order]",
+    "[A Special Order (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00040_ASpecialOrder/31572-01.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00040_ASpecialOrder/31572-05.html",
+     "when": "cond 3; item 6450 >= 10; item 6451 >= 10; item 6452 >= 10",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00040_ASpecialOrder/31572-04.html",
+     "when": "cond 3; !((st.getQuestItemsCount(ORANGE_SWIFT_FISH) >= 10) && (st.getQuestItemsCount(ORANGE_UGLY_FISH) >= 10) && (st.getQuestIte",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00040_ASpecialOrder/31572-06.html",
+     "when": "cond 4",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "51": {
+   "name": "O'Fulle's Special Bait",
+   "listText": [
+    "[O'Fulle's Special Bait]",
+    "[O'Fulle's Special Bait (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00051_OFullesSpecialBait/31572-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 36)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00051_OFullesSpecialBait/31572-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= 36)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00051_OFullesSpecialBait/31572-05.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00051_OFullesSpecialBait/31572-04.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "426": {
+   "name": "Quest for Fishing Shot",
+   "listText": [
+    "[Quest for Fishing shot]",
+    "[Quest for Fishing shot (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "ai/npc/Fisherman/31572.htm": {
+   "file": "ai/npc/Fisherman/31572.htm",
+   "quest": null,
+   "text": "Fishing Guild Member Ofulle: Everything is plentiful here in Giran, which is why so many people spend their leisure time fishing. Care to try it? Ah, pardon me -- I forgot to introduce myself! I am Ofulle, the only officially licensed fishing professional in this territory! Come see me whenever you…",
+   "header": "Fishing Guild Member Ofulle",
+   "links": [
+    {
+     "text": "Ask how to fish.",
+     "bypass": "player_help 7561.htm#7561",
+     "kind": "other"
+    },
+    {
+     "text": "Fishing Contest",
+     "bypass": "Quest Fisherman fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "fishing_championship.htm",
+     "to": "ai/npc/Fisherman/fishing_championship.htm"
+    },
+    {
+     "text": "Learn fishing skill.",
+     "bypass": "Quest Fisherman LearnFishSkill",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "LearnFishSkill",
+     "to": null
+    },
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "Quest Fisherman BuySellRefund",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "BuySellRefund",
+     "to": null,
+     "live": true
+    },
+    {
+     "text": "Sell fish.",
+     "bypass": "npc_%objectId%_multisell 009",
+     "kind": "multisell"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/31572-pk.htm": {
+   "file": "ai/npc/Fisherman/31572-pk.htm",
+   "quest": null,
+   "text": "Fishermen's Guild Member O'Fulle: We don't cater to the likes of you!",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "when": [
+    "player.getKarma() > 0; !character().karmaPlayerCanShop()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00028_ChestCaughtWithABaitOfIcyAir/31572-01.htm": {
+   "file": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-01.htm",
+   "quest": 28,
+   "text": "Fishermen's Guild Member O'Fulle: Welcome back! You got the bait of chill before. You really did a number on those bandits! They're not all gone, however. Was the bait useful? It's not designed to catch fish, but has another, more valuable power! Did you catch anything? That bait was designed to ca…",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "when": [
+    "state CREATED; ((player.getLevel() >= 36) && player.hasQuestCompleted(Q00051_OFullesSpecialBait.class.getSimpleName"
+   ],
+   "links": [
+    {
+     "text": "\"Why is that your business?\"",
+     "bypass": "Quest Q00028_ChestCaughtWithABaitOfIcyAir 31572-04.htm",
+     "kind": "quest-event",
+     "script": "Q00028_ChestCaughtWithABaitOfIcyAir",
+     "event": "31572-04.htm",
+     "quest": 28,
+     "to": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00028_ChestCaughtWithABaitOfIcyAir/31572-02.htm": {
+   "file": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-02.htm",
+   "quest": 28,
+   "text": "Fishermen's Guild Member O'Fulle: Well, it's obvious you're not here to buy fishing gear! Have you ever been fishing? Try it once, you'll be hooked! Heh heh! I'm the man to see when you need bait! (This quest may only be undertaken by characters of level 36 or above who have completed O'Fulle's Spe…",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= 36) && player.hasQuestCompleted(Q00051_OFullesSpecialBait.class.getSimpleName"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00028_ChestCaughtWithABaitOfIcyAir/31572-06.htm": {
+   "file": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-06.htm",
+   "quest": 28,
+   "text": "Fishermen's Guild Member O'Fulle: Are you finished already? No? Please, find the large yellow treasure box ! If you can't find it by fishing, maybe you can get it from someone in the market.",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00028_ChestCaughtWithABaitOfIcyAir/31572-05.htm": {
+   "file": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-05.htm",
+   "quest": 28,
+   "text": "Fishermen's Guild Member O'Fulle: Did you find the large yellow treasure box If so, let me authenticate it! I'll open it to verify its contents.",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00028_ChestCaughtWithABaitOfIcyAir 31572-08.htm",
+     "kind": "quest-event",
+     "script": "Q00028_ChestCaughtWithABaitOfIcyAir",
+     "event": "31572-08.htm",
+     "quest": 28,
+     "to": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-08.htm",
+     "toAll": [
+      "Q00028_ChestCaughtWithABaitOfIcyAir/31572-08.htm",
+      "Q00028_ChestCaughtWithABaitOfIcyAir/31572-07.htm"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00028_ChestCaughtWithABaitOfIcyAir/31572-09.htm": {
+   "file": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-09.htm",
+   "quest": 28,
+   "text": "Fishermen's Guild Member O'Fulle: Why haven't you taken the chest to Miss Kiki yet? Take it to the Blacksmith Shop. The Dwarves lost it in a shipwreck at the mouth of the river while delivering it to her. This loss would totally disgrace the Dwarves! Best to keep it to yourself!",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/31572-01.html": {
+   "file": "Q00040_ASpecialOrder/31572-01.html",
+   "quest": 40,
+   "text": "O'Fulle: What brought you here?",
+   "header": "O'Fulle",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"I'm here to receive a chest of fish that Helvetia ordered.\"",
+     "bypass": "Quest Q00040_ASpecialOrder 31572-02.html",
+     "kind": "quest-event",
+     "script": "Q00040_ASpecialOrder",
+     "event": "31572-02.html",
+     "quest": 40,
+     "to": "Q00040_ASpecialOrder/31572-02.html"
+    }
+   ]
+  },
+  "Q00040_ASpecialOrder/31572-05.html": {
+   "file": "Q00040_ASpecialOrder/31572-05.html",
+   "quest": 40,
+   "text": "O'Fulle: Thank you! When I put all the fish you got me in a chest... There! Now take this chest of fish to Helvetia . Please be sure to deliver it while the fish are still fresh!",
+   "header": "O'Fulle",
+   "when": [
+    "cond 3; item 6450 >= 10; item 6451 >= 10; item 6452 >= 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/31572-04.html": {
+   "file": "Q00040_ASpecialOrder/31572-04.html",
+   "quest": 40,
+   "text": "O'Fulle: Have you been able to acquire all the fish I asked you to? Right now, I need 10 of each of the following: Orange Nimble Fish, Orange Ugly Fish and Orange Fat Fish . Please do me this favor.",
+   "header": "O'Fulle",
+   "when": [
+    "cond 3; !((st.getQuestItemsCount(ORANGE_SWIFT_FISH) >= 10) && (st.getQuestItemsCount(ORANGE_UGLY_FISH) >= 10) && (st.getQuestIte"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/31572-06.html": {
+   "file": "Q00040_ASpecialOrder/31572-06.html",
+   "quest": 40,
+   "text": "O'Fulle: Fish spoil quickly, you know. Deliver this chest to Helvetia while the fish are still fresh.",
+   "header": "O'Fulle",
+   "when": [
+    "cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00051_OFullesSpecialBait/31572-01.htm": {
+   "file": "Q00051_OFullesSpecialBait/31572-01.htm",
+   "quest": 51,
+   "text": "Fishermen's Guild Member O'Fulle: I may look chipper, but I feel terrible! Recently a delivery of ingredients for our bait of chill was hijacked by fettered souls at the Death Pass ! It was several years worth of supplies! A devastating loss! Are you here for bait? Sorry, I couldn't make any if I w…",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "when": [
+    "state CREATED; (player.getLevel() >= 36)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help you.\"",
+     "bypass": "Quest Q00051_OFullesSpecialBait 31572-03.htm",
+     "kind": "quest-event",
+     "script": "Q00051_OFullesSpecialBait",
+     "event": "31572-03.htm",
+     "quest": 51,
+     "to": "Q00051_OFullesSpecialBait/31572-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00051_OFullesSpecialBait/31572-02.html": {
+   "file": "Q00051_OFullesSpecialBait/31572-02.html",
+   "quest": 51,
+   "text": "Fishermen's Guild Member O'Fulle: A while back, I ordered some special seeds from Goddard that are designed for cold weather. The flowers of the plants are used to make a very special bait! They're called ice snow flowers because they bloom in the dead of winter. All of my order was stolen by bandi…",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 36)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00051_OFullesSpecialBait/31572-05.html": {
+   "file": "Q00051_OFullesSpecialBait/31572-05.html",
+   "quest": 51,
+   "text": "Fishermen's Guild Member O'Fulle: You haven't recovered the lost bait materials from the fettered souls at the Death Pass in northern Giran yet? Go on! They're no use to those beasts, anyway!",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00051_OFullesSpecialBait/31572-04.html": {
+   "file": "Q00051_OFullesSpecialBait/31572-04.html",
+   "quest": 51,
+   "text": "Fishermen's Guild Member O'Fulle: Did you recover my stolen bait materials? Awesome! Please accept this bait of chill from my inventory as a token of my gratitude! Please give me the 100 lost bait materials that you found!",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "\"Here they are.\"",
+     "bypass": "Quest Q00051_OFullesSpecialBait 31572-07.html",
+     "kind": "quest-event",
+     "script": "Q00051_OFullesSpecialBait",
+     "event": "31572-07.html",
+     "quest": 51,
+     "to": "Q00051_OFullesSpecialBait/31572-07.html",
+     "toAll": [
+      "Q00051_OFullesSpecialBait/31572-07.html",
+      "Q00051_OFullesSpecialBait/31572-06.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00028_ChestCaughtWithABaitOfIcyAir/31572-03.htm": {
+   "file": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-03.htm",
+   "quest": 28,
+   "text": "Fishermen's Guild Member O'Fulle: Well, it's obvious you're not here to buy fishing gear! Have you ever been fishing? Try it once, you'll be hooked! Heh heh! I'm the man to see when you need bait! (This quest may only be undertaken by characters of level 36 or above who have completed O'Fulle's Spe…",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00028_ChestCaughtWithABaitOfIcyAir/31572-04.htm": {
+   "file": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-04.htm",
+   "quest": 28,
+   "text": "Fishermen's Guild Member O'Fulle: Well, I hate to bring this up, but a while back, someone asked me to find a large yellow treasure box . The bait I gave you earlier was specifically designed to find it! Don't look at me like that! It wouldn't have worked if you had known! I hope it won't be too mu…",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00028_ChestCaughtWithABaitOfIcyAir/31572-07.htm": {
+   "file": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-07.htm",
+   "quest": 28,
+   "text": "Fishermen's Guild Member O'Fulle: This seems to be the large yellow treasure box that my client lost! When I opened it, it contained a letter addressed to Miss Kiki. The Dwarves must've really hated to lose this one! They're always bragging that they've never lost an item! Take this chest to Minera…",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00028_ChestCaughtWithABaitOfIcyAir/31572-08.htm": {
+   "file": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-08.htm",
+   "quest": 28,
+   "text": "Fishermen's Guild Member O'Fulle: Didn't you say you had found the large yellow treasure box ? I must authenticate its contents! If you opened it, it's useless! You'll need to bring another, unopened one.",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/31572-02.html": {
+   "file": "Q00040_ASpecialOrder/31572-02.html",
+   "quest": 40,
+   "text": "O'Fulle: A chest of fish! Oh, I forgot about it. Since I forgot... say, why don't you help me? You have to get it anyhow. That should speed things up.",
+   "header": "O'Fulle",
+   "links": [
+    {
+     "text": "\"What can I do to help?\"",
+     "bypass": "Quest Q00040_ASpecialOrder 31572-03.html",
+     "kind": "quest-event",
+     "script": "Q00040_ASpecialOrder",
+     "event": "31572-03.html",
+     "quest": 40,
+     "to": "Q00040_ASpecialOrder/31572-03.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00040_ASpecialOrder/31572-03.html": {
+   "file": "Q00040_ASpecialOrder/31572-03.html",
+   "quest": 40,
+   "text": "O'Fulle: You can get me some fish that was ordered. Uh... let's see... I need 10 of each of the following: Orange Nimble Fish, Orange Ugly Fish and Orange Fat Fish . Can you do me this favor? With your help, I'll do the rest.",
+   "header": "O'Fulle",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00051_OFullesSpecialBait/31572-03.htm": {
+   "file": "Q00051_OFullesSpecialBait/31572-03.htm",
+   "quest": 51,
+   "text": "Fishermen's Guild Member O'Fulle: A while back, I ordered some special seeds from Goddard that are designed for cold weather. The flowers of the plants are used to make bait of chill. My entire order was stolen by fettered souls! In the chaos left after the war, I haven't been able to order any mor…",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00051_OFullesSpecialBait/31572-06.htm": {
+   "file": "Q00051_OFullesSpecialBait/31572-06.htm",
+   "quest": 51,
+   "text": "Fishermen's Guild Member O'Fulle: Well, you could've brought more... Oh well, take this bait of chill . It will increase your chance of finding lost items in the water. No good at all for catching fish, though! You won't always land your catch with this bait. It works best if your fishing skill is …",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00051_OFullesSpecialBait/31572-07.html": {
+   "file": "Q00051_OFullesSpecialBait/31572-07.html",
+   "quest": 51,
+   "text": "Fishermen's Guild Member O'Fulle: You say that you brought 100 bait materials, but you don't seem to have brought enough for me to make bait! Honestly, I'm more interested in getting rid of the bandits than getting the bait materials back! Get busy, will you?",
+   "header": "Fishermen's Guild Member O'Fulle",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Chest Caught with a Bait of Icy Air]",
+     "bypass": "npc_%objectId%_Quest Q00028_ChestCaughtWithABaitOfIcyAir",
+     "kind": "quest",
+     "quest": 28,
+     "to": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Chest Caught with a Bait of Icy Air (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00028_ChestCaughtWithABaitOfIcyAir",
+     "kind": "quest",
+     "quest": 28,
+     "to": "Q00028_ChestCaughtWithABaitOfIcyAir/31572-06.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[A Special Order (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00040_ASpecialOrder",
+     "kind": "quest",
+     "quest": 40,
+     "to": "Q00040_ASpecialOrder/31572-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[O'Fulle's Special Bait]",
+     "bypass": "npc_%objectId%_Quest Q00051_OFullesSpecialBait",
+     "kind": "quest",
+     "quest": 51,
+     "to": "Q00051_OFullesSpecialBait/31572-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[O'Fulle's Special Bait (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00051_OFullesSpecialBait",
+     "kind": "quest",
+     "quest": 51,
+     "to": "Q00051_OFullesSpecialBait/31572-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Quest for Fishing shot]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Quest for Fishing shot (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/fishing_championship.htm": {
+   "file": "ai/npc/Fisherman/fishing_championship.htm",
+   "quest": null,
+   "text": "Fishing King Championship Tournament Fishing Guild Member: Ahoy! Here are the results of last week's Fishing King Championship Tournament! Do you see your name on the list? If you do, claim your prize money! Remember, you have only one week to claim your prize. Don't fret if your name isn't listed …",
+   "header": "Fishing Guild Member",
+   "links": [
+    {
+     "text": "Claim Prize",
+     "bypass": "Quest Fisherman fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "fishing_championship.htm",
+     "to": "ai/npc/Fisherman/fishing_championship.htm"
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Fishing Guild Member O'Fulle:The name's O'Fulle! I'm a membe"
+   ],
+   "to": []
+  }
+ ]
+}

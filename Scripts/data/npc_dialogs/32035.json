@@ -1,0 +1,45 @@
+{
+ "npcId": 32035,
+ "name": "Temple Gatekeeper",
+ "title": "",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.314Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "teleporter/32035.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "teleporter/32035.htm": {
+   "file": "teleporter/32035.htm",
+   "quest": null,
+   "text": "Temple Gatekeeper: The skull in the center looks as though it could be pressed.",
+   "header": "Temple Gatekeeper",
+   "links": [
+    {
+     "text": "Press the skull.",
+     "bypass": "npc_%objectId%_Quest PaganTeleporters",
+     "kind": "quest",
+     "script": "PaganTeleporters",
+     "to": "ai/npc/Teleports/PaganTeleporters/FadedMark.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/PaganTeleporters/FadedMark.htm": {
+   "file": "ai/npc/Teleports/PaganTeleporters/FadedMark.htm",
+   "quest": null,
+   "text": "The Temple Gatekeeper: The moment the mark touches the hole, the door swings open with a mechanical whir.",
+   "header": "The Temple Gatekeeper",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

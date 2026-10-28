@@ -1,0 +1,939 @@
+{
+ "npcId": 30300,
+ "name": "Pushkin",
+ "title": "Blacksmith",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.929Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "trainer/30300.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "218": {
+   "name": "Testimony Of Life",
+   "listText": [
+    "[Testimony of Life]",
+    "[Testimony of Life (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00218_TestimonyOfLife/30300-01.html",
+     "when": "state STARTED; has items 3144,3145",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30300-08.html",
+     "when": "state STARTED; has items 3144,3149; lacks items 3145; item 3161 >= 10; item 3162 >= 20; item 3163 >= 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30300-07.html",
+     "when": "state STARTED; has items 3144,3149; lacks items 3145; !((getQuestItemsCount(player, PURE_MITHRIL_ORE) >= 10) && (getQuestItemsCount(player, ANT_SOLDIER_ACID) >= 20) && (getQu",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30300-11.html",
+     "when": "state STARTED; has items 3144,3150; lacks items 3145,3149",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30300-12.html",
+     "when": "state STARTED; has items 3144; lacks items 3145,3149,3150",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "422": {
+   "name": "Repent Your Sins",
+   "listText": [
+    "[Repent Your Sins]",
+    "[Repent Your Sins (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00422_RepentYourSins/30300-01.html",
+     "when": "state STARTED; has items 4331; lacks items 4330,4425,4426; item 1892 >= 1; item 1880 >= 5; item 1877 >= 2; item 1873 >= 10; item 1879 >= 10; memoState >= 9; memoState <= 12",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00422_RepentYourSins/30300-02.html",
+     "when": "state STARTED; has items 4331; lacks items 4330,4425,4426; memoState >= 9; memoState <= 12; !((getQuestItemsCount(player, BLACKSMITHS_FRAME) > 0) && (getQuestItemsCount(player, STEEL) >= 5) && (getQuestItemsCount",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00422_RepentYourSins/30300-03.html",
+     "when": "state STARTED; has items 4330,4425,4426; memoState >= 9; memoState <= 12; !(!hasAtLeastOneQuestItem(player, PENITENTS_MANACLES1, PENITENTS_MANACLES, MANACLES_OF_PENITENT) && hasQuestItems(player",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30300.htm": {
+   "file": "trainer/30300.htm",
+   "quest": null,
+   "text": "Blacksmith Pushkin: Nice to meet you, stranger. I'm Blacksmith Pushkin. My brother Rupio and I have been dispatched here by the great Black Anvil Guild. With a little time, we will make this into the best smithy in all Giran. What can we do for you today? Seven Signs options:",
+   "header": "Blacksmith Pushkin",
+   "live": {
+    "file": "Logs/sa_blacksmith_Dagger1.html",
+    "at": "2026-10-18T14:40:06.000Z",
+    "score": 0.41
+   },
+   "dpText": "Blacksmith Pushkin: Nice to meet you, wanderer! I'm Blacksmith Pushkin. My brother Rupio and I have been dispatched from the great Black Anvil Guild, and we are trying to turn this place into the best forge in Giran. Not everything is ready, but we will do our best to complete your requests!",
+   "links": [
+    {
+     "text": "Craft a Dualsword.",
+     "bypass": "npc_%objectId%_Link common/duals_01.htm",
+     "kind": "page",
+     "to": "common/duals_01.htm",
+     "live": true
+    },
+    {
+     "text": "Bestow special ability on a weapon",
+     "bypass": "npc_%objectId%_Link common/weapon_sa_01.htm",
+     "kind": "page",
+     "to": "common/weapon_sa_01.htm"
+    },
+    {
+     "text": "Craft an item.",
+     "bypass": "npc_%objectId%_Link common/crafting_01.htm",
+     "kind": "page",
+     "to": "common/crafting_01.htm",
+     "live": true,
+     "dpText": "Craft an item"
+    },
+    {
+     "text": "Seal/Unseal armor and accessories",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "trainer/30300-4.htm"
+    },
+    {
+     "text": "Augment an item",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "trainer/30300-5.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills",
+     "live": true,
+     "dpText": "Learn skills"
+    },
+    {
+     "text": "Ask about skill enchantment",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "View information about the lord and tax rate",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    },
+    {
+     "text": "Bestow a special ability on a weapon.",
+     "bypass": "live 01",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Unseal armor and accessories.",
+     "bypass": "live 03",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Smelt an item.",
+     "bypass": "live 04",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Cancel smelting.",
+     "bypass": "live 05",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "live 07",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "live 08",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Manufacture an S-grade sword",
+     "bypass": "live 0a",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Bestow the special S-grade weapon some abilities",
+     "bypass": "live 0b",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Release the S-grade armor seal",
+     "bypass": "live 0c",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Release the S-grade accessory seal",
+     "bypass": "live 0d",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Manufacture an A-grade sword",
+     "bypass": "live 0e",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Bestow the special A-grade weapon some abilities",
+     "bypass": "live 0f",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Release the A-grade armor seal",
+     "bypass": "live 010",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Release the A-grade accessory seal",
+     "bypass": "live 011",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Seal the A-grade armor again",
+     "bypass": "live 012",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Remove the special abilities from a weapon",
+     "bypass": "live 013",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Upgrade weapon",
+     "bypass": "live 014",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Make an even exchange of weapons",
+     "bypass": "live 015",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Complete a Foundation Item",
+     "bypass": "live 016",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Buy Something",
+     "bypass": "live 017",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Exchange Seal Stones",
+     "bypass": "live 018",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Purchase consumable items",
+     "bypass": "live 019",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    }
+   ]
+  },
+  "trainer/30300-4.htm": {
+   "file": "trainer/30300-4.htm",
+   "quest": null,
+   "text": "Blacksmith Pushkin: Do you wish to seal an armor or remove its seal? I can undertake both tasks in the blink of an eye.",
+   "header": "Blacksmith Pushkin",
+   "links": [
+    {
+     "text": "Release seal on B-grade gloves and boots.",
+     "bypass": "npc_%objectId%_exc_multisell 1002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Put seal back on B-grade gloves and boots.",
+     "bypass": "npc_%objectId%_exc_multisell 1003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Release seal on A-grade armor.",
+     "bypass": "npc_%objectId%_exc_multisell 311262506",
+     "kind": "multisell"
+    },
+    {
+     "text": "Release seal on A-grade accessory.",
+     "bypass": "npc_%objectId%_exc_multisell 311262507",
+     "kind": "multisell"
+    },
+    {
+     "text": "Put seal back on A-grade armor.",
+     "bypass": "npc_%objectId%_exc_multisell 311262508",
+     "kind": "multisell"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30300.htm"
+    }
+   ]
+  },
+  "trainer/30300-5.htm": {
+   "file": "trainer/30300-5.htm",
+   "quest": null,
+   "text": "Blacksmith Pushkin: The Black Anvil guild has always produced fine craftsmen. I, of course, am one of them. I will augment your item with great care.",
+   "header": "Blacksmith Pushkin",
+   "links": [
+    {
+     "text": "Augment an item",
+     "bypass": "npc_%objectId%_Link common/augmentation_01.htm",
+     "kind": "page",
+     "to": "common/augmentation_01.htm"
+    },
+    {
+     "text": "Remove Augment",
+     "bypass": "npc_%objectId%_Link common/augmentation_02.htm",
+     "kind": "page",
+     "to": "common/augmentation_02.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30300.htm"
+    }
+   ]
+  },
+  "trainer/30300-noteach.htm": {
+   "file": "trainer/30300-noteach.htm",
+   "quest": null,
+   "text": "Blacksmith Pushkin: I only teach Fighters and Artisans. If you are a Scavenger, you should find the Warehouse Keepers, Valkon or Parman.",
+   "header": "Blacksmith Pushkin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30300-01.html": {
+   "file": "Q00218_TestimonyOfLife/30300-01.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: It's funny... You Elves used to scorn us Dwarves and think of us as inferior. And now here you are asking for help! You Elves wouldn't even know about the secrets of Mithril and adamantite if you hadn't learned them from us in the ancient days. And now you brag as if those were …",
+   "header": "Blacksmith Pushkin",
+   "when": [
+    "state STARTED; has items 3144,3145"
+   ],
+   "links": [
+    {
+     "text": "I will pay any price",
+     "bypass": "Quest Q00218_TestimonyOfLife 30300-02.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30300-02.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30300-02.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30300-08.html": {
+   "file": "Q00218_TestimonyOfLife/30300-08.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: You brought all the materials needed! Well done, Elf! Now, let's get to work. I will make you a fine container, more wonderful than in your diagram! Don't worry! I know that the design on the cup's surface is important. I will carve it accurately! However it will take time to fi…",
+   "header": "Blacksmith Pushkin",
+   "when": [
+    "state STARTED; has items 3144,3149; lacks items 3145; item 3161 >= 10; item 3162 >= 20; item 3163 >= 20"
+   ],
+   "links": [
+    {
+     "text": "Wait until he finishes.",
+     "bypass": "Quest Q00218_TestimonyOfLife 30300-09.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30300-09.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30300-09.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30300-07.html": {
+   "file": "Q00218_TestimonyOfLife/30300-07.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: I can't make a cup if I don't have all the ingredients. Do you remember the 3 materials that I told you we needed?",
+   "header": "Blacksmith Pushkin",
+   "when": [
+    "state STARTED; has items 3144,3149; lacks items 3145; !((getQuestItemsCount(player, PURE_MITHRIL_ORE) >= 10) && (getQuestItemsCount(player, ANT_SOLDIER_ACID) >= 20) && (getQu"
+   ],
+   "links": [
+    {
+     "text": "Ask for material's description.",
+     "bypass": "Quest Q00218_TestimonyOfLife 30300-07a.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30300-07a.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30300-07a.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30300-11.html": {
+   "file": "Q00218_TestimonyOfLife/30300-11.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: I hope you are keeping the Pure Mithril Cup I made for you safe. It is sad to say, but that cup is probably the most valuable work throughout the continent.",
+   "header": "Blacksmith Pushkin",
+   "when": [
+    "state STARTED; has items 3144,3150; lacks items 3145,3149"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30300-12.html": {
+   "file": "Q00218_TestimonyOfLife/30300-12.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: May the grace of Maphr bestow wealth on you and your race!",
+   "header": "Blacksmith Pushkin",
+   "when": [
+    "state STARTED; has items 3144; lacks items 3145,3149,3150"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30300-01.html": {
+   "file": "Q00422_RepentYourSins/30300-01.html",
+   "quest": 422,
+   "text": "Blacksmith Pushkin: Manacles of a Penitent...? Ah yes. A strange item, but I can make them. Funny thing, too... I've been getting a lot of orders for these lately. They must be getting popular... I've memorized the ingredients: I'll need some Steel, an Adamantite Nugget... some silver... Be certain…",
+   "header": "Blacksmith Pushkin",
+   "when": [
+    "state STARTED; has items 4331; lacks items 4330,4425,4426; item 1892 >= 1; item 1880 >= 5; item 1877 >= 2; item 1873 >= 10; item 1879 >= 10; memoState >= 9; memoState <= 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30300-02.html": {
+   "file": "Q00422_RepentYourSins/30300-02.html",
+   "quest": 422,
+   "text": "Blacksmith Pushkin: Manacles of a Penitent...? Ah yes. A strange item, but I can make them. Funny thing, too... I've been getting a lot of orders for these lately. They must be getting popular... In fact, so popular that I've run out of the ingredients I need to make them! Go collect the items on t…",
+   "header": "Blacksmith Pushkin",
+   "when": [
+    "state STARTED; has items 4331; lacks items 4330,4425,4426; memoState >= 9; memoState <= 12; !((getQuestItemsCount(player, BLACKSMITHS_FRAME) > 0) && (getQuestItemsCount(player, STEEL) >= 5) && (getQuestItemsCount"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30300-03.html": {
+   "file": "Q00422_RepentYourSins/30300-03.html",
+   "quest": 422,
+   "text": "Blacksmith Pushkin: If you don't mind my asking, what do intend to do with these manacles? I mean, nothing kinky I hope?!?",
+   "header": "Blacksmith Pushkin",
+   "when": [
+    "state STARTED; has items 4330,4425,4426; memoState >= 9; memoState <= 12; !(!hasAtLeastOneQuestItem(player, PENITENTS_MANACLES1, PENITENTS_MANACLES, MANACLES_OF_PENITENT) && hasQuestItems(player"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30300-02.html": {
+   "file": "Q00218_TestimonyOfLife/30300-02.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: The price? Do you think Dwarves will do anything for money? How dare you...! You think we don't have any pride? Hey Elf! Have you heard of Dwarf Artisans? OK, if you will apologize for your impertinence, and also apologize on behalf of your whole race which has treated dwarves w…",
+   "header": "Blacksmith Pushkin",
+   "links": [
+    {
+     "text": "Apologize",
+     "bypass": "Quest Q00218_TestimonyOfLife 30300-03.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30300-03.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30300-03.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30300-03.html": {
+   "file": "Q00218_TestimonyOfLife/30300-03.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: Ha! This is rich! Such an arrogant young Elf, promising to apologize to me. I wish my buddies could see this! OK. Let me see the diagram...Hmm... A container, not a difficult design, but there is a problem with the material.",
+   "header": "Blacksmith Pushkin",
+   "links": [
+    {
+     "text": "Ask about material",
+     "bypass": "Quest Q00218_TestimonyOfLife 30300-04.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30300-04.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30300-04.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30300-04.html": {
+   "file": "Q00218_TestimonyOfLife/30300-04.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: Pure Mithril! It isn't a material that just anyone is capable of handling. The skill of augmenting and crafting Pure Mithril is something that is handed down to selected Artisans. It is even a rarity in my esteemed Black Anvil Guild. I, Pushkin, of course, just so happens to be …",
+   "header": "Blacksmith Pushkin",
+   "links": [
+    {
+     "text": "Ask where to get Pure Mithril.",
+     "bypass": "Quest Q00218_TestimonyOfLife 30300-05.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30300-05.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30300-05.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30300-05.html": {
+   "file": "Q00218_TestimonyOfLife/30300-05.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: You can get Pure Mithril from Guardian Basilisk . Basilisks eat sand and pebbles to help their digestion. You will find small amounts of Pure Mithril Ore when you cut open their gut. You will find the Guardian Basilisk at the corner that connects the towns of Giran and Oren. Thi…",
+   "header": "Blacksmith Pushkin",
+   "links": [
+    {
+     "text": "Ask about materials",
+     "bypass": "Quest Q00218_TestimonyOfLife 30300-06.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30300-06.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30300-06.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30300-06.html": {
+   "file": "Q00218_TestimonyOfLife/30300-06.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: First I will need a very pure, specially-made Varnish to augment Pure Mithril. Using normal Varnish to augment Pure Mithril will destroy it. This special Varnish is derived from the secretions of giant ants. You will find these ants in the Wastelands of Gludio. There are hundred…",
+   "header": "Blacksmith Pushkin",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30300-07a.html": {
+   "file": "Q00218_TestimonyOfLife/30300-07a.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: What a pity, I thought Elves all had good memories. I will tell you once more. First get 10 units of Pure Mithril Ore . You can find it by hunting the Guardian Basilisks in the Death Pass, north of Giran. Next, 20 bottles of ant soldier's acid . You can find these ants in the ca…",
+   "header": "Blacksmith Pushkin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30300-09.html": {
+   "file": "Q00218_TestimonyOfLife/30300-09.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: Clang! Clang! Smash with Maphr's hammer! Like smashing her window! Clang! Clang! Burn it with Pa'agrio's flame! Like sweet nothings to my lover! Clang! Clang! Dip it in Eva's water! Like drying her tears! Clang! Clang! Call it with Sylph's wind! Her laughter in my ears! Clang! C…",
+   "header": "Blacksmith Pushkin",
+   "links": [
+    {
+     "text": "Wait until he finishes.",
+     "bypass": "Quest Q00218_TestimonyOfLife 30300-10.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30300-10.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30300-10.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30300-10.html": {
+   "file": "Q00218_TestimonyOfLife/30300-10.html",
+   "quest": 218,
+   "text": "Blacksmith Pushkin: Finished at last! It was well worth the wait, wasn't it? Not to brag, but this would fetch hundreds of Adena if you were to sell it in a store. I will put it in this sturdy box for you, handle it with care! Even though our time together was short, it was enjoyable! I can work wi…",
+   "header": "Blacksmith Pushkin",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Life (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00218_TestimonyOfLife",
+     "kind": "quest",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30300-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Repent Your Sins (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00422_RepentYourSins",
+     "kind": "quest",
+     "quest": 422,
+     "to": "Q00422_RepentYourSins/30300-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/duals_01.htm": {
+   "file": "common/duals_01.htm",
+   "quest": null,
+   "text": "Needless to say, in order to make a Dualsword, you first need two swords. They can be either Regular weapons, Standard weapons or Rare weapons. Regular weapons can only be combined with other Regular weapons, Standard weapons can only be combined with other Standard weapons, and Rare weapons can on…",
+   "live": {
+    "file": "Logs/dialog.log"
+   },
+   "links": [
+    {
+     "text": "View the list.",
+     "bypass": "npc_%objectId%_multisell 1001",
+     "kind": "multisell",
+     "live": true
+    }
+   ]
+  },
+  "common/weapon_sa_01.htm": {
+   "file": "common/weapon_sa_01.htm",
+   "quest": null,
+   "text": "Ah, so you wish to enhance your weapon! Well, it's the next-best thing to buying a new one, I say... But remember, a higher price doesn't necessarily mean a better product. There are many excellent weapons that are reasonably priced. As I'm sure you know, capabilities added to your weapon don't int…",
+   "live": {
+    "file": "Logs/npclive_Helton_e05f98c9.html",
+    "at": "2026-10-27T14:45:13.618Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "View list.",
+     "bypass": "npc_%objectId%_exc_multisell 1005",
+     "kind": "multisell",
+     "live": true
+    }
+   ]
+  },
+  "common/crafting_01.htm": {
+   "file": "common/crafting_01.htm",
+   "quest": null,
+   "text": "[Create ingredient item] Our Blacksmith Guild creates items at a very reasonable price. You may entrust your precious materials to our Blacksmiths. They have a long-standing tradition of integrity. We will do our best to serve you. The creation of the ingredient for A-grade items is the pride of ou…",
+   "live": {
+    "file": "Logs/dialog.log"
+   },
+   "links": [
+    {
+     "text": "See the list.",
+     "bypass": "npc_%objectId%_multisell 1004",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/augmentation_01.htm": {
+   "file": "common/augmentation_01.htm",
+   "quest": null,
+   "text": "Augmenting means give energy to weapons or accessories. Augmenting is simple, but it isn't always accurate. A few days ago, a mysterious ore called Life Stone, which has a very similar characteristic to Soul Crystals, was found in Black Anvil. If you bring this Life Stone and some other necessities…",
+   "links": [
+    {
+     "text": "Start augmenting.",
+     "bypass": "npc_%objectId%_Augment 1",
+     "kind": "other"
+    },
+    {
+     "text": "Exchange Life Stone for augmenting accesorries.",
+     "bypass": "npc_%objectId%_multisell 1008",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/augmentation_02.htm": {
+   "file": "common/augmentation_02.htm",
+   "quest": null,
+   "text": "You wish to remove the refined Life Stone? That's fine. But understand that this smelting method offers both improvement and potential penalties. It is difficult to restore the original weapon when removing the Life Stone. It requires a special chemical process and a special tool. It's also expensi…",
+   "links": [
+    {
+     "text": "Remove the refined Life Stone.",
+     "bypass": "npc_%objectId%_Augment 2",
+     "kind": "other"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "text of trainer/30300.htm differs: live \"Blacksmith Pushkin: Nice to meet you, stranger. I'm Blacksmith Pushkin. My brother Rupio …\" vs datapack \"Blacksmith Pushkin: Nice to meet you, wanderer! I'm Blacksmith Pushkin. My brother Rupio …\"",
+  "trainer/30300.htm: datapack link \"Bestow special ability on a weapon\" not in the live page (Logs/sa_blacksmith_Dagger1.html)",
+  "trainer/30300.htm: datapack link \"Seal/Unseal armor and accessories\" not in the live page (Logs/sa_blacksmith_Dagger1.html)",
+  "trainer/30300.htm: datapack link \"Augment an item\" not in the live page (Logs/sa_blacksmith_Dagger1.html)",
+  "trainer/30300.htm: datapack link \"Ask about skill enchantment\" not in the live page (Logs/sa_blacksmith_Dagger1.html)",
+  "trainer/30300.htm: datapack link \"View information about the lord and tax rate\" not in the live page (Logs/sa_blacksmith_Dagger1.html)",
+  "trainer/30300.htm: live-only link \"Bestow a special ability on a weapon.\" (server custom)",
+  "trainer/30300.htm: live-only link \"Unseal armor and accessories.\" (server custom)",
+  "trainer/30300.htm: live-only link \"Smelt an item.\" (server custom)",
+  "trainer/30300.htm: live-only link \"Cancel smelting.\" (server custom)",
+  "trainer/30300.htm: live-only link \"Ask about Skill Enchanting.\" (server custom)",
+  "trainer/30300.htm: live-only link \"Ask about the local lord and tax rate.\" (server custom)",
+  "trainer/30300.htm: live-only link \"Manufacture an S-grade sword\" (server custom)",
+  "trainer/30300.htm: live-only link \"Bestow the special S-grade weapon some abilities\" (server custom)",
+  "trainer/30300.htm: live-only link \"Release the S-grade armor seal\" (server custom)",
+  "trainer/30300.htm: live-only link \"Release the S-grade accessory seal\" (server custom)",
+  "trainer/30300.htm: live-only link \"Manufacture an A-grade sword\" (server custom)",
+  "trainer/30300.htm: live-only link \"Bestow the special A-grade weapon some abilities\" (server custom)",
+  "trainer/30300.htm: live-only link \"Release the A-grade armor seal\" (server custom)",
+  "trainer/30300.htm: live-only link \"Release the A-grade accessory seal\" (server custom)",
+  "trainer/30300.htm: live-only link \"Seal the A-grade armor again\" (server custom)",
+  "trainer/30300.htm: live-only link \"Remove the special abilities from a weapon\" (server custom)",
+  "trainer/30300.htm: live-only link \"Upgrade weapon\" (server custom)",
+  "trainer/30300.htm: live-only link \"Make an even exchange of weapons\" (server custom)",
+  "trainer/30300.htm: live-only link \"Complete a Foundation Item\" (server custom)",
+  "trainer/30300.htm: live-only link \"Buy Something\" (server custom)",
+  "trainer/30300.htm: live-only link \"Exchange Seal Stones\" (server custom)",
+  "trainer/30300.htm: live-only link \"Purchase consumable items\" (server custom)"
+ ],
+ "liveClicks": [
+  {
+   "text": "Bestow a special ability on a weapon.",
+   "n": 8,
+   "inDatapack": true,
+   "from": [
+    "Blacksmith Pushkin:Nice to meet you, stranger. I'm Blacksmit"
+   ],
+   "to": [
+    "Ah, so you wish to enhance your weapon! Well, it's the next-"
+   ]
+  },
+  {
+   "text": "View list.",
+   "n": 6,
+   "inDatapack": true,
+   "from": [
+    "Ah, so you wish to enhance your weapon! Well, it's the next-"
+   ],
+   "to": []
+  },
+  {
+   "text": "Craft a Dualsword.",
+   "n": 4,
+   "inDatapack": true,
+   "from": [
+    "Blacksmith Pushkin:Nice to meet you, stranger. I'm Blacksmit"
+   ],
+   "to": [
+    "Needless to say, in order to make a Dualsword, you first nee"
+   ]
+  },
+  {
+   "text": "Manufacture an S-grade sword",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "Blacksmith Pushkin:Nice to meet you, stranger. I'm Blacksmit",
+    "Needless to say, in order to make a Dualsword, you first nee"
+   ],
+   "to": []
+  },
+  {
+   "text": "Craft an item.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Blacksmith Pushkin:Nice to meet you, stranger. I'm Blacksmit"
+   ],
+   "to": [
+    "[Create ingredient item]Our Blacksmith Guild creates items a"
+   ]
+  },
+  {
+   "text": "Smelt an item.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Blacksmith Pushkin:Nice to meet you, stranger. I'm Blacksmit"
+   ],
+   "to": [
+    "Smelting means imbuing a weapon or accessory with different "
+   ]
+  },
+  {
+   "text": "Manufacture an A-grade sword",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Blacksmith Pushkin:Nice to meet you, stranger. I'm Blacksmit"
+   ],
+   "to": []
+  },
+  {
+   "text": "Bestow the special A-grade weapon some abilities",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Blacksmith Pushkin:Nice to meet you, stranger. I'm Blacksmit"
+   ],
+   "to": []
+  },
+  {
+   "text": "Remove the special abilities from a weapon",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Blacksmith Pushkin:Nice to meet you, stranger. I'm Blacksmit"
+   ],
+   "to": []
+  },
+  {
+   "text": "Upgrade weapon",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Blacksmith Pushkin:Nice to meet you, stranger. I'm Blacksmit"
+   ],
+   "to": []
+  },
+  {
+   "text": "Make an even exchange of weapons",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Blacksmith Pushkin:Nice to meet you, stranger. I'm Blacksmit"
+   ],
+   "to": []
+  },
+  {
+   "text": "View the list.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Needless to say, in order to make a Dualsword, you first nee"
+   ],
+   "to": []
+  },
+  {
+   "text": "Purchase consumable items",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Needless to say, in order to make a Dualsword, you first nee"
+   ],
+   "to": []
+  },
+  {
+   "text": "Bestow the special S-grade weapon some abilities",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Ah, so you wish to enhance your weapon! Well, it's the next-"
+   ],
+   "to": []
+  }
+ ]
+}

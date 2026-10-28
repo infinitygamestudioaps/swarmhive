@@ -1,0 +1,336 @@
+{
+ "npcId": 30701,
+ "name": "Errickin",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.053Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "136": {
+   "name": "More Than Meets the Eye",
+   "listText": [
+    "[More Than Meets The Eye]",
+    "[More Than Meets The Eye (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30701-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30701-02.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30701-04.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30701-06.html",
+     "when": "state STARTED; cond 4; st.getQuestItemsCount(ECTOPLASM) < ECTOPLASM_COUNT",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30701-05.html",
+     "when": "state STARTED; cond 4; !st.getQuestItemsCount(ECTOPLASM) < ECTOPLASM_COUNT",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30701-07.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30701-01.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30701-01.html",
+   "quest": 136,
+   "text": "Magister Errickin: Yes? My schedule is extremely hectic because of my research. If you have nothing important to ask me, please leave me alone.",
+   "header": "Magister Errickin",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00136_MoreThanMeetsTheEye/30701-02.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30701-02.html",
+   "quest": 136,
+   "text": "Magister Errickin: Wait...did you say that you have come for Stabilized Ectoplasm? There are not many magicians these days who deal with ectoplasm, which is composed of filthy and unpleasant souls... Fortunately for you, I am one of them. Ah, you undoubtedly will not wish to divulge to me your purp…",
+   "header": "Magister Errickin",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "Can you get me Stabilized Ectoplasm? What will be the price?",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30701-03.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30701-03.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30701-03.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30701-04.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30701-04.html",
+   "quest": 136,
+   "text": "Magister Errickin: Didn't you promise to bring back 35 ectoplasms ? Hurry to the Forest of Mirrors to eliminate the Mirror Ghost and the Mummy . Bring back 35 ectoplasms and give me my share of 5. Then I promise I will use the rest to produce a secured ectoplasm for you.",
+   "header": "Magister Errickin",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00136_MoreThanMeetsTheEye/30701-06.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30701-06.html",
+   "quest": 136,
+   "text": "Magister Errickin: You're lucky! Securing ectoplasm requires several other rare materials, which I just happen to have. No need to pay me for them -- I appreciate you sharing the ectoplasm. Now I can begin an experiment of my own... He he he! Here is your secured ectoplasm; take it and go. (Return …",
+   "header": "Magister Errickin",
+   "when": [
+    "state STARTED; cond 4; st.getQuestItemsCount(ECTOPLASM) < ECTOPLASM_COUNT"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00136_MoreThanMeetsTheEye/30701-05.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30701-05.html",
+   "quest": 136,
+   "text": "Magister Errickin: Ah, you have returned! Did you bring the ectoplasms? Excellent! Just hand them over... I will begin the process of producing a secured ectoplasm for you... (Errickin takes out a strange device and begins to work. Wait for him to finish, then try talking to him again.)",
+   "header": "Magister Errickin",
+   "when": [
+    "state STARTED; cond 4; !st.getQuestItemsCount(ECTOPLASM) < ECTOPLASM_COUNT"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00136_MoreThanMeetsTheEye/30701-07.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30701-07.html",
+   "quest": 136,
+   "text": "Magister Errickin: How is your experiment involving secured ectoplasms progressing? I don't know what you're up to, but nothing can compare to my unpleasant experiment. Hee hee!",
+   "header": "Magister Errickin",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00136_MoreThanMeetsTheEye/30701-03.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30701-03.html",
+   "quest": 136,
+   "text": "Magister Errickin: How much are you willing to pay? Hmm, you must be here on the orders of another... No matter. In order to obtain Stabilized Ectoplasm, I first require plain ectoplasm, which is itself a rare item. In fact, I have need of it as well... You have the look of an adventurer, so I will…",
+   "header": "Magister Errickin",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30701-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30701-noteach.html",
+   "quest": null,
+   "text": "Magister Errickin: Why have you bothered to train at the wrong place? Your skills are impressive, but your sense of direction must be off. You have wasted my time. Get out! Ask Bugbear if you are lost..",
+   "header": "Magister Errickin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30701.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30701.html",
+   "quest": null,
+   "text": "Magister Errickin: You don't have to introduce yourself--I already know all about you. I am Magister Errikin. Perhaps you've already noticed that this town is a dangerous place. You could easily be called on to defend not only your life, but more importantly, your honor.",
+   "header": "Magister Errickin",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[More Than Meets The Eye (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00136_MoreThanMeetsTheEye",
+     "kind": "quest",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30701-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30701-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30701-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

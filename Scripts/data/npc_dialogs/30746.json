@@ -1,0 +1,350 @@
+{
+ "npcId": 30746,
+ "name": "Cybellin",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.067Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30746.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "335": {
+   "name": "The Song of the Hunter",
+   "listText": [
+    "[The Song of the Hunter]",
+    "[The Song of the Hunter  (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00335_TheSongOfTheHunter/30746-01.html",
+     "when": "state STARTED; lacks items 3693,3692",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30746-02.html",
+     "when": "state STARTED; lacks items 3697; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30746-04.html",
+     "when": "state STARTED; has items 3697,3698; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30746-05.html",
+     "when": "state STARTED; has items 3697; lacks items 3698; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); (hasQuestItems(player, BLOOD_CRYSTAL_PURITY_2) || hasQuestItems(player, BLOOD_CRYSTAL_PURITY_3) || hasQuestItems(player,",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30746-05a.html",
+     "when": "state STARTED; has items 3697,3707; lacks items 3698; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !(hasQuestItems(player, BLOOD_CRYSTAL_PURITY_2) || hasQuestItems(player, BLOOD_CRYSTAL_PURITY_3) || hasQuestItems(player",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30746-08.html",
+     "when": "state STARTED; has items 3697; lacks items 3698,3707,3708; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !(hasQuestItems(player, BLOOD_CRYSTAL_PURITY_2) || hasQuestItems(player, BLOOD_CRYSTAL_PURITY_3) || hasQuestItems(player",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30746-09.html",
+     "when": "state STARTED; has items 3697,3708; lacks items 3698,3707; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !(hasQuestItems(player, BLOOD_CRYSTAL_PURITY_2) || hasQuestItems(player, BLOOD_CRYSTAL_PURITY_3) || hasQuestItems(player",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30746.htm": {
+   "file": "default/30746.htm",
+   "quest": null,
+   "text": "Cybellin: May the song of the west wind guide you to tranquility. I am pleased to meet you. My name is Cybellin. I am a Dark Elven Mystic studying abyssal magic. I have come to Hunter's Village to collect the rare runestones that were found in Enchanted Valley. I am also involved in the study of Bl…",
+   "header": "Cybellin",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30746-01.html": {
+   "file": "Q00335_TheSongOfTheHunter/30746-01.html",
+   "quest": 335,
+   "text": "Cybellin: Are you a hunter? Oh yes, of course. Just an aspirant. That's too bad. I need a favor from a real hunter.",
+   "header": "Cybellin",
+   "when": [
+    "state STARTED; lacks items 3693,3692"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30746-02.html": {
+   "file": "Q00335_TheSongOfTheHunter/30746-02.html",
+   "quest": 335,
+   "text": "Cybellin: Ah, a hunter! Oh, how marvelous! I need to ask you a favor. It's related to some very important research I've been performing recently... How about it? Will you assist me?",
+   "header": "Cybellin",
+   "when": [
+    "state STARTED; lacks items 3697; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE))"
+   ],
+   "links": [
+    {
+     "text": "\"I will help.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-03.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-03.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-03.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30746-04.html": {
+   "file": "Q00335_TheSongOfTheHunter/30746-04.html",
+   "quest": 335,
+   "text": "Cybellin: The purity of the crystal is still at level 1! Have you decided not to carry out my request?",
+   "header": "Cybellin",
+   "when": [
+    "state STARTED; has items 3697,3698; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE))"
+   ],
+   "links": [
+    {
+     "text": "\"How can I raise the purity of the crystal?\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-03a.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-03a.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-03a.html"
+    },
+    {
+     "text": "Continue",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-03.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-03.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-03.html"
+    },
+    {
+     "text": "Quit",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30746-05.html": {
+   "file": "Q00335_TheSongOfTheHunter/30746-05.html",
+   "quest": 335,
+   "text": "Cybellin: You have raised the purity of the Blood Crystal! Would you like to try increasing it some more or do you wish to give it to me at its current level? It doesn't matter to me, but you should remember that the higher level of crystal that you bring me, the greater your reward will be.",
+   "header": "Cybellin",
+   "when": [
+    "state STARTED; has items 3697; lacks items 3698; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); (hasQuestItems(player, BLOOD_CRYSTAL_PURITY_2) || hasQuestItems(player, BLOOD_CRYSTAL_PURITY_3) || hasQuestItems(player,"
+   ],
+   "links": [
+    {
+     "text": "\"Take the jewel at its current level.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-06.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-06.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-06.html"
+    },
+    {
+     "text": "\"I will attempt to raise the level of the crystal.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-07.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-07.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-07.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30746-05a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30746-05a.html",
+   "quest": 335,
+   "text": "Cybellin: You have successfully created a Blood Crystal of level 10 purity! Oh my Shilen! That's awesome! As I promised, I will pay you the reward money. Thank you so very much! Well, may I ask you to do me another favor?",
+   "header": "Cybellin",
+   "when": [
+    "state STARTED; has items 3697,3707; lacks items 3698; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !(hasQuestItems(player, BLOOD_CRYSTAL_PURITY_2) || hasQuestItems(player, BLOOD_CRYSTAL_PURITY_3) || hasQuestItems(player"
+   ],
+   "links": [
+    {
+     "text": "Tell her that you will take up the task.",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-03.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-03.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-03.html"
+    },
+    {
+     "text": "Quit.",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30746-08.html": {
+   "file": "Q00335_TheSongOfTheHunter/30746-08.html",
+   "quest": 335,
+   "text": "Cybellin: Hunter, will you continue to help me?",
+   "header": "Cybellin",
+   "when": [
+    "state STARTED; has items 3697; lacks items 3698,3707,3708; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !(hasQuestItems(player, BLOOD_CRYSTAL_PURITY_2) || hasQuestItems(player, BLOOD_CRYSTAL_PURITY_3) || hasQuestItems(player"
+   ],
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-03.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-03.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-03.html"
+    },
+    {
+     "text": "\"No.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30746-09.html": {
+   "file": "Q00335_TheSongOfTheHunter/30746-09.html",
+   "quest": 335,
+   "text": "Cybellin: Ah, yes... Shattered... The crystal's structure was unstable and it failed. Don't be discouraged. Here is another crystal, will you please try again?",
+   "header": "Cybellin",
+   "when": [
+    "state STARTED; has items 3697,3708; lacks items 3698,3707; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !(hasQuestItems(player, BLOOD_CRYSTAL_PURITY_2) || hasQuestItems(player, BLOOD_CRYSTAL_PURITY_3) || hasQuestItems(player"
+   ],
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-03.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-03.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-03.html"
+    },
+    {
+     "text": "\"No.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30746-03.html": {
+   "file": "Q00335_TheSongOfTheHunter/30746-03.html",
+   "quest": 335,
+   "text": "Cybellin: Excellent! Take this Blood Crystal and dagger. Use the dagger to kill the evil Leto Lizardmen and Harit Lizardmen and the crystal to absorb their blood. This will raise the purity of the crystal above its current level of 1. Although this may seem quite simple, the process is not without …",
+   "header": "Cybellin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30746-03a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30746-03a.html",
+   "quest": 335,
+   "text": "Cybellin: After you kill the Leto Lizardmen and Harit Lizardmen with that dagger, you must use the Blood Crystal to absorb their blood. When you raise the purity of the crystal and return it to me, I shall give you a reward. The higher the level of purity, the greater your reward will be. There is …",
+   "header": "Cybellin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30746-06.html": {
+   "file": "Q00335_TheSongOfTheHunter/30746-06.html",
+   "quest": 335,
+   "text": "Cybellin: Excellent! You shall receive your reward based on the level of purity of the Blood Crystal. Good job! Could I ask you another favor?",
+   "header": "Cybellin",
+   "links": [
+    {
+     "text": "\"I will do another favor for you.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-03.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-03.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-03.html"
+    },
+    {
+     "text": "\"No, just give me the reward and I'll be on my way.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30746-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30746-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30746-07.html": {
+   "file": "Q00335_TheSongOfTheHunter/30746-07.html",
+   "quest": 335,
+   "text": "Cybellin: Fine, I will explain my request. You must increase the purity of a Blood Crystal and bring it to me. This is accomplished by dipping the crystal in the blood of Leto Lizardmen and Harit Lizardmen after you kill them with the dagger I gave you. If you are able to increase the crystal's pur…",
+   "header": "Cybellin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30746-10.html": {
+   "file": "Q00335_TheSongOfTheHunter/30746-10.html",
+   "quest": 335,
+   "text": "Cybellin: Thank you for your help. May Shilen protect you...",
+   "header": "Cybellin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Song of the Hunter  (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00335_TheSongOfTheHunter",
+     "kind": "quest",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30746-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

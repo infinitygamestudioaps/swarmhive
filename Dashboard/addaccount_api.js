@@ -17,6 +17,7 @@
 const fs = require('fs'), path = require('path');
 const { execFile } = require('child_process');
 const BHS = require('./brain_host/supervise');
+const AV = require('./addaccount_verify');        // ADDACCT-2026-10-27: end-to-end check (did the new character reach the brain host?) + safe fixes
 const AL = require('./academy_logic');           // ACADEMY-2026-10-21: the "Academy mage (automatic)" choice (random name, Dark Elven Mystic, solo, academy: true)
 const academyOf = (ctx) => AL.academyCfg(readJ(ctx, path.join(ctx.DATA || path.join(ctx.ROOT, 'Scripts', 'data'), 'academy.json'), {}));   // ENGINE DEFAULT (2026-10-13): a brain character's account runs agent2.js, not swarm.js
 
@@ -393,6 +394,12 @@ async function add(ctx, b) {
   // NEW ENGINE (2026-10-13, the default): Scripts/data/brain_host.json "allowAll" = every character of swarm.config.json, so a character added
   // here is a brain character at once (adding: true): its config gets agent2.js instead of swarm.js (never both)
   let bhRaw = null; try { bhRaw = JSON.parse(fs.readFileSync(path.join(ctx.DATA || path.join(ctx.ROOT, 'Scripts', 'data'), 'brain_host.json'), 'utf8').replace(/^﻿/, '')); } catch (e) { }
+  // ADDACCT-2026-10-27: "allowAll": false (an own list, kept by every update, e.g. the owner's 79 names) made isBrainChar(adding) false -> the XML
+  // got swarm.js inside L2Swarm, the pool turned the agent away and the agent guard never looked at it. With the engine on, a new account is a
+  // brain character (CLAUDE.md 0c: new accounts run agent2, never swarm.js in L2Swarm): its name goes into "allow" (step 4b).
+  const brainOf = (name) => BHS.isBrainChar(name, bhRaw, accountsOf(cfg), { adding: true }) ||
+    !!(bhRaw && typeof bhRaw === 'object' && bhRaw.on !== false && bhRaw.allowAll !== true && !(Array.isArray(bhRaw.except) ? bhRaw.except.map(String) : []).includes(name));
+  const toAllow = [];
   const rootFwd = String(ctx.ROOT).replace(/\\/g, '/');
   const created = [], failedLeaders = new Set();
   ok.sort((x, y) => (x.party === x.character ? 0 : 1) - (y.party === y.character ? 0 : 1) || (x.line || 0) - (y.line || 0));   // new leaders first
@@ -411,7 +418,7 @@ async function add(ctx, b) {
       const isLeader = r.party === r.character;
       const kindHealer = healers.includes(r.role) || r.role === 'healer';
       const o = { login: r.login, password: r.password, character: r.character, outFile: r.file, template: templateFor(ctx, cfg, r.role),
-        scripts: BHS.engineScripts((mk ? [mk] : []).concat(scripts), BHS.isBrainChar(r.character, bhRaw, accountsOf(cfg), { adding: true })), group: groupOf(cfg, r.party), followName: isLeader ? '' : r.party, followAtk: !isLeader && !kindHealer,
+        scripts: BHS.engineScripts((mk ? [mk] : []).concat(scripts), (r.brain = brainOf(r.character))), group: groupOf(cfg, r.party), followName: isLeader ? '' : r.party, followAtk: !isLeader && !kindHealer,
         loginIp: server.loginIp || '', loginPort: server.loginPort || '', serverId: server.serverId != null ? server.serverId : '' };
       const out = await run(o);
       o.password = null;
@@ -419,6 +426,11 @@ async function add(ctx, b) {
       // safety net: the plain password must never be in the file (L2Swarm stores it encrypted)
       const xml = fs.readFileSync(r.file, 'utf8');
       if (r.password.length >= 3 && xml.includes(r.password)) { try { fs.unlinkSync(r.file); } catch (e) { } throw new Error('the config held the password in plain text — removed it, nothing added (check docs/plan/tools/new_account.ps1)'); }
+      // ADDACCT-2026-10-27: the fresh file (nobody has loaded it yet) gets the brain agent for sure (a template / new_account.ps1 that kept
+      // swarm.js or dropped the list) and the L2Swarm 3.10.7 element order (xml_order_fix.js only fixed files that existed at the update)
+      try { const fx = AV.applyFixes(ctx, {}, { items: [r.brain ? { code: 'xml_engine', fix: { kind: 'xml_engine', file: r.file, open: false, l2Known: true } } : null, { code: 'xml_order', fix: { kind: 'xml_order', file: r.file, open: false, l2Known: true } }].filter(Boolean) });
+        if (fx.length) logLine(ctx, `${r.login}\tnew config fixed:${fx.map(x => x.text).join('; ')}`); } catch (e) { }
+      if (r.brain && bhRaw && bhRaw.allowAll !== true) toAllow.push(r.character);
       const entry = { login: r.login, character: r.character, config: path.basename(r.file), party: r.party, role: r.role, autoStart: r.autoStart, enabled: true, ...(r.academy ? { academy: true, academyMage: true } : {}),   /* ACADEMYFIELD-2026-10-21: academyMage = the automatic pipeline (academy alone = only the invite) */
         note: `added on the dashboard ${new Date().toISOString().slice(0, 10)}${r.mode === 'new' ? ` (new ${r.create.className}, created at the first login)` : ''}` };
       created.push({ r, entry });
@@ -443,6 +455,13 @@ async function add(ctx, b) {
       logLine(ctx, 'swarm.config.json write failed: ' + scrub(e.message));
     }
     try { addStartExtra(ctx, created.filter(c => c.r.autoStart).map(c => c.r.file)); } catch (e) { logLine(ctx, 'start_extra.txt write failed: ' + scrub(e.message)); }
+    // 4b) ADDACCT-2026-10-27: an own brain allow list ("allowAll": false) gets the new brain characters (the pool re-reads it every 5 s)
+    if (toAllow.length) {
+      try { const fx = AV.applyFixes(ctx, {}, { items: toAllow.map(n => ({ code: 'not_allowed', fix: { kind: 'allow', name: n } })) });
+        fx.forEach(x => logLine(ctx, x.text));
+        created.forEach(c => { if (toAllow.includes(c.r.character)) { const res = results.find(y => y.login === c.r.login && y.status === 'created'); if (res) res.reason += '; added to the brain allow list (Scripts/data/brain_host.json "allowAll": false)'; } }); }
+      catch (e) { logLine(ctx, 'brain_host.json allow write failed: ' + scrub(e.message)); }
+    }
   }
   // 5) log in now (optional) or at the next start
   const up = created.length ? await l2swarmUp(ctx) : false;
@@ -454,6 +473,9 @@ async function add(ctx, b) {
     else x.loginState = 'auto-start off: log it in from its character page (Log in) or set autoStart in swarm.config.json';
   });
   if (b.loginNow && up && STATE.queue.length) runQueue(ctx, gap);
+  // 6) ADDACCT-2026-10-27: watch every new account until its character is connected to the brain host (Accounts tab "Brain connection")
+  created.forEach(c => { try { AV.watch(ctx, { login: c.r.login, character: c.r.character, file: c.r.file, mode: c.r.mode, kind: 'added' });
+    const x = results.find(y => y.login === c.r.login && y.status === 'created'); if (x) x.verify = c.r.brain ? 'checking that it joins the brain host (Accounts tab: Brain connection)' : 'new engine off: runs swarm.js inside L2Swarm'; } catch (e) { } });
   results.sort((x, y) => (x.line || 0) - (y.line || 0));
   return { code: 200, ok: true, created: created.length, results,
     note: created.length ? 'The other characters of a party learn about a new member at their next script start (next deploy or L2Swarm start). Run SETUP.cmd once later to put the new accounts into L2Swarm\'s own AutoStart list too (optional).' : '' };
@@ -470,6 +492,15 @@ async function handle(req, res, url, ctx) {
   if (STATIC[p]) {
     res.writeHead(200, { 'Content-Type': STATIC[p], 'Cache-Control': 'no-cache' });
     res.end(fs.readFileSync(path.join(ctx.DIR || __dirname, path.basename(p))));
+    return true;
+  }
+  if (ctx.LOGS) AV.resume(ctx);                                         // ADDACCT: watched accounts go on after a dashboard restart
+  if (p === '/api/addaccount/verify') {   // ADDACCT-2026-10-27: GET = the watched accounts; POST { logins?: [] } = check now (empty = every roster character not in the brain)
+    if (!ctx.allowed(req, url)) { ctx.send(res, 401, 'text/plain; charset=utf-8', 'Access denied'); return true; }
+    try {
+      if (req.method === 'POST') { const b = await readBody(req, 20000); ctx.json(res, 200, { entries: await AV.checkNow(ctx, Array.isArray(b.logins) ? b.logins.map(String) : null) }); }
+      else ctx.json(res, 200, { entries: AV.entries(ctx) });
+    } catch (e) { ctx.json(res, 500, { error: String(e.message || e).slice(0, 300) }); }
     return true;
   }
   if (p !== '/api/addaccount') return false;

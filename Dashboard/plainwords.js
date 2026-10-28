@@ -298,8 +298,8 @@
     if (/^error: /.test(w)) return 'something went wrong in the bot (details in Advanced mode)';
     return clean(w);
   }
-  const STATE_WORD = { queued: 'waiting', delivered: 'waiting', acknowledged: 'started', running: 'working on it', done: 'done', failed: 'not done', superseded: 'replaced', expired: 'too old', cancelled: 'cancelled', unknown: '?' };
-  const STATE_KIND = { queued: 'waiting', delivered: 'waiting', acknowledged: 'working', running: 'working', done: 'ok', failed: 'problem', superseded: 'off', expired: 'off', cancelled: 'off', unknown: 'off' };
+  const STATE_WORD = { queued: 'waiting', delivered: 'waiting', acknowledged: 'started', running: 'working on it', done: 'done', skipped: 'skipped (hands off)', failed: 'not done', superseded: 'replaced', expired: 'too old', cancelled: 'cancelled', unknown: '?' };
+  const STATE_KIND = { queued: 'waiting', delivered: 'waiting', acknowledged: 'working', running: 'working', done: 'ok', skipped: 'off', failed: 'problem', superseded: 'off', expired: 'off', cancelled: 'off', unknown: 'off' };
 
   const Plain = { clean, place, task, event, eventText, result, resultText, note, order, cmd, dist, sys, names, STATE_WORD, STATE_KIND, SYS_OK };
   if (typeof module !== 'undefined' && module.exports) module.exports = Plain;

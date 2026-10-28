@@ -1,0 +1,314 @@
+{
+ "npcId": 32106,
+ "name": "Singsing",
+ "title": "",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.325Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/32106.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "643": {
+   "name": "Rise and Fall of the Elroki Tribe",
+   "listText": [
+    "[Rise and Fall of the Elroki Tribe]",
+    "[Rise and Fall of the Elroki Tribe (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00643_RiseAndFallOfTheElrokiTribe/32106-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00643_RiseAndFallOfTheElrokiTribe/32106-06.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00643_RiseAndFallOfTheElrokiTribe/32106-08.html",
+     "when": "state STARTED; (st.hasQuestItems(BONES_OF_A_PLAINS_DINOSAUR))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00643_RiseAndFallOfTheElrokiTribe/32106-14.html",
+     "when": "state STARTED; NOT (st.hasQuestItems(BONES_OF_A_PLAINS_DINOSAUR))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/32106.htm": {
+   "file": "merchant/32106.htm",
+   "quest": null,
+   "text": "Singsing: I don't know if you know this, but this wharf was once so ridiculously shabby it couldn't even be properly called a wharf! Compared to then, it's a heck of a lot better now. I still get a chill down my back thinking about those days... From time to time, those horrifying dinosaurs would e…",
+   "header": "Singsing",
+   "links": [
+    {
+     "text": "Buy a ticket.",
+     "bypass": "npc_%objectId%_Buy 3210600",
+     "kind": "shop"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-01.htm": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-01.htm",
+   "quest": 643,
+   "text": "Singsing: Ah, an adventurer! Are you looking for a job? Since the discovery of this Primeval Isle, Aden port has added a wharf for those interested in seeing the strange new island for themselves. In fact, we're getting flooded with adventurers and wizards eager to uncover the island's mysteries or…",
+   "header": "Singsing",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"What kind of request?\"",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe 32106-02.htm",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "32106-02.htm",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32106-02.htm"
+    }
+   ]
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-06.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-06.html",
+   "quest": 643,
+   "text": "Singsing: Ah, an adventurer! Are you looking for a job? Since the discovery of this Primeval Isle, Aden port has added a wharf for those interested in seeing the strange new island for themselves. In fact, we're getting flooded with adventurers and wizards eager to uncover the island's mysteries or…",
+   "header": "Singsing",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-08.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-08.html",
+   "quest": 643,
+   "text": "Singsing: I see that you've returned! The bones of dinosaurs from the plains you've brought will certainly further Pillbug's research...and I'm sure he'll pay well for them.",
+   "header": "Singsing",
+   "when": [
+    "state STARTED; (st.hasQuestItems(BONES_OF_A_PLAINS_DINOSAUR))"
+   ],
+   "links": [
+    {
+     "text": "Give him the bones.",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe 32106-09.html",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "32106-09.html",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32106-09.html"
+    },
+    {
+     "text": "Tell him that you will take the bones to the native shaman instead.",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe 32106-13.html",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "32106-13.html",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32106-13.html"
+    }
+   ]
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-14.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-14.html",
+   "quest": 643,
+   "text": "Singsing: Please go and collect those dinosaur bones as quickly as possible. Karakawei's been pressing me even harder these days. Without the bones, I think his research has ground to a halt. He's planning to present his findings to the Mizbody Magic Association very soon, and I know he's getting a…",
+   "header": "Singsing",
+   "when": [
+    "state STARTED; NOT (st.hasQuestItems(BONES_OF_A_PLAINS_DINOSAUR))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-02.htm": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-02.htm",
+   "quest": 643,
+   "text": "Singsing: On this Primeval Isle you'll find primitive creatures called dinosaurs -- you'll never see anything like them in Aden, believe me! According to wise wizards, even the gods and Giants were afraid of the dinosaurs. They cannot be found in Aden -- thankfully -- but are still plentiful on tha…",
+   "header": "Singsing",
+   "links": [
+    {
+     "text": "\"Doesn't sound that tough -- count me in.\"",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe quest_accept",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "quest_accept",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32106-03.html",
+     "toAll": [
+      "Q00643_RiseAndFallOfTheElrokiTribe/32106-03.html",
+      "Q00643_RiseAndFallOfTheElrokiTribe/32106-07.html"
+     ],
+     "effect": "start"
+    },
+    {
+     "text": "\"Ah, I really can't stand reptiles... Sorry, but I'll pass.\"",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe 32106-04.htm",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "32106-04.htm",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32106-04.htm"
+    }
+   ]
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-03.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-03.html",
+   "quest": 643,
+   "text": "Singsing: Ah, you are a true adventurer! Go and hunt Pachycephalosaurus and wild striders and bring back the bones of dinosaurs from the plains . I will purchase them from you on Karakawei's behalf. Just as a favor to you, I heard from a friend of mine who trades with the island natives that the na…",
+   "header": "Singsing",
+   "links": [
+    {
+     "text": "\"Where can I find this native shaman?\"",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe 32106-05.html",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "32106-05.html",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32106-05.html"
+    }
+   ]
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-04.htm": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-04.htm",
+   "quest": 643,
+   "text": "Singsing: Sure, I understand. I don't think this island is the place for you, though, if you're afraid of reptiles. (So much for being an adventurer!)",
+   "header": "Singsing",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-05.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-05.html",
+   "quest": 643,
+   "text": "Singsing: The shaman lives on the island's southern Primeval Plains. He doesn't like to have contact with outsiders, though, so you'll need someone he trusts to vouch for you before he'll likely talk to you. There is a native warrior, Orahochin , who lives at the foot of the mountain between the so…",
+   "header": "Singsing",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-07.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-07.html",
+   "quest": 643,
+   "text": "Singsing: I don't think this task is suitable for you. (Only characters level 75 and above are permitted to take on this quest.)",
+   "header": "Singsing",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-09.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-09.html",
+   "quest": 643,
+   "text": "Singsing: Well done! Karakawei will be very pleased. Here's the fee we agreed upon; I trust it's sufficient. Say, since you've done such a good job, how about continuing this kind of work?",
+   "header": "Singsing",
+   "links": [
+    {
+     "text": "Continue.",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe 32106-10.html",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "32106-10.html",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32106-10.html"
+    },
+    {
+     "text": "Stop.",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe exit",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "exit",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32106-11.html",
+     "toAll": [
+      "Q00643_RiseAndFallOfTheElrokiTribe/32106-11.html",
+      "Q00643_RiseAndFallOfTheElrokiTribe/32106-12.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-10.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-10.html",
+   "quest": 643,
+   "text": "Singsing: Glad to hear it! I think you'll make us both rich men at this rate. Go and hunt Pachycephalosaurus and wild striders and bring back their bones .",
+   "header": "Singsing",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-11.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-11.html",
+   "quest": 643,
+   "text": "Singsing: Well, thanks for your help. It was a pleasure doing business with you, and I wish you the best of luck during your stay on this Primeval Isle.",
+   "header": "Singsing",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-12.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-12.html",
+   "quest": 643,
+   "text": "Singsing: Thanks for your help; it was a pleasure doing business with you. I know that Karakawei is going to be one happy wizard! Farewell, and I wish you the best of luck during your stay on this Primeval Isle.",
+   "header": "Singsing",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32106-13.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32106-13.html",
+   "quest": 643,
+   "text": "Singsing: Hey, that wasn't really what I had in mind... Ah, I suppose it is your decision how to dispose of the bones of dinosaurs from the plains . You did risk your own skin for them, after all. But are you sure that this is the most profitable thing for you to do?",
+   "header": "Singsing",
+   "links": [
+    {
+     "text": "\"Where can I find the native shaman?\"",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe 32106-05.html",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "32106-05.html",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32106-05.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Rise and Fall of the Elroki Tribe]",
+     "bypass": "npc_%objectId%_Quest Q00643_RiseAndFallOfTheElrokiTribe",
+     "kind": "quest",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32106-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Rise and Fall of the Elroki Tribe (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00643_RiseAndFallOfTheElrokiTribe",
+     "kind": "quest",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32106-08.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

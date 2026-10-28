@@ -1,0 +1,463 @@
+{
+ "npcId": 32807,
+ "name": "Relic Watcher",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.413Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32807.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10294": {
+   "name": "Seven Signs, To the Monastery of Silence",
+   "listText": [
+    "[Seven Signs, To the Monastery of Silence]",
+    "[Seven Signs, To the Monastery of Silence (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32793-01.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32797-01.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32804-01.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32805-01.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32806-01.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-01.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32807.htm": {
+   "file": "default/32807.htm",
+   "quest": null,
+   "text": "Relic Watcher: If you are qualified to view Kaerun's Memoir, I'll allow you to do so. But if not, you'll never gain access.",
+   "header": "Relic Watcher",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32793-01.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32793-01.html",
+   "quest": 10294,
+   "text": "Elmore-Aden's Saintess Solina: �� This phantom looks like Solina, Elmore-Aden's Saintess. The phantom appears to be trying to say something. It looks like she doesn't intend to harm us...",
+   "header": "Elmore-Aden's Saintess Solina",
+   "when": [
+    "cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32797-01.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32797-01.html",
+   "quest": 10294,
+   "text": "Jude van Etina's Evil Thoughts: How dare you.... Do you test my wrath?? No one interupts Solina's resting place! Leave before I remove your head from its body!",
+   "header": "Jude van Etina's Evil Thoughts",
+   "when": [
+    "cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32804-01.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32804-01.html",
+   "quest": 10294,
+   "text": "Relic Watcher: If you want to prove your qualifications, find the true piece Kaerun's Memoir among the reading desks in this room. Then, if you are truly qualified, you will be able to answer our questions.",
+   "header": "Relic Watcher",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "I am qualified to acquire Kaerun's Memoir.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32804-04.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32804-04.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32804-04.html"
+    },
+    {
+     "text": "Ask how to acquire Kaerun's Memoir.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32804-02.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32804-02.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32804-02.html"
+    },
+    {
+     "text": "Return to the guardian's room.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence DONE1",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "DONE1",
+     "quest": 10294,
+     "to": null
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32805-01.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32805-01.html",
+   "quest": 10294,
+   "text": "Relic Watcher: If you want to prove your qualification, find the correct piece of Kaerun's Memoir among the reading desks in this room. Then, if you are truly qualified, you will be able to answer our question.",
+   "header": "Relic Watcher",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "I am qualified to acquire Kaerun's Memoir.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32805-04.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32805-04.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32805-04.html"
+    },
+    {
+     "text": "Ask how to acquire Kaerun's Memoir.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32805-02.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32805-02.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32805-02.html"
+    },
+    {
+     "text": "Return to the guardian's room.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence DONE2",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "DONE2",
+     "quest": 10294,
+     "to": null
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32806-01.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32806-01.html",
+   "quest": 10294,
+   "text": "Relic Watcher: If you want to prove your qualification, find Kaerun's Memoir among the reading desks in this room. If you are qualified, you will be able to answer our questions.",
+   "header": "Relic Watcher",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "I am qualified to acquire Kaerun's Memoir.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32806-04.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32806-04.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32806-04.html"
+    },
+    {
+     "text": "Ask how to acquire Kaerun's Memoir.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32806-02.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32806-02.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32806-02.html"
+    },
+    {
+     "text": "Return to the guardian's room.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence DONE3",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "DONE3",
+     "quest": 10294,
+     "to": null
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32807-01.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-01.html",
+   "quest": 10294,
+   "text": "Relic Watcher: Should you be one who desires proving your qualification, find the correct Kaerun's Memoir among the reading desks. Then, should you be one who is really and truly qualified, you'll be able to answer our questions.",
+   "header": "Relic Watcher",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "I am qualified to acquire Kaerun's Memoir.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32807-04.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32807-04.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-04.html"
+    },
+    {
+     "text": "Ask how to acquire Kaerun's Memoir.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32807-02.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32807-02.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-02.html"
+    },
+    {
+     "text": "Return to the guardian's room.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence DONE4",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "DONE4",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-05.html",
+     "toAll": [
+      "Q10294_SevenSignsToTheMonasteryOfSilence/32807-05.html",
+      "Q10294_SevenSignsToTheMonasteryOfSilence/32807-03.html"
+     ]
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32807-02.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-02.html",
+   "quest": 10294,
+   "text": "Relic Watcher: In all 4 directions a piece of Kaerun's Memoir is stored. If you're truly qualified, you'll know the contents of the book. Place your hand on the reading desks with the memoirs, in the order of the story. If the order of contents are correct, that desk will glow like a bride. But if …",
+   "header": "Relic Watcher",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32807-03.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-03.html",
+   "quest": 10294,
+   "text": "Relic Watcher: Ready? Go in all 4 directions, activate the reading desk with the correct Kaerun's Memoir, and cancel the seal. When you successfully do this, you will have the memoir.",
+   "header": "Relic Watcher",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32807-04.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-04.html",
+   "quest": 10294,
+   "text": "Relic Watcher: You haven't proven your qualification. You will stay in this room until you complete the qualification. So as soon as possible, you should activate the reading desk where the correct memoir is placed to cancel the seal.",
+   "header": "Relic Watcher",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32807-05.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-05.html",
+   "quest": 10294,
+   "text": "Relic Watcher: You are qualified to have Kaerun's Memoir. Let it be written, and let all who have eyes read it. Then, let all who have ears hear me proclaim your qualification. And that pretty much ends your task here.",
+   "header": "Relic Watcher",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return to the guardian's room.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32807-06.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32807-06.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-06.html"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32807-06.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-06.html",
+   "quest": 10294,
+   "text": "Relic Watcher: I hereby confirm that you chose the correct memoir. As a final test, I will ask a simple question. If you've been reading, you will know the answer. If you don't know the answer, not only will you not get the memoir, but you won't be able to leave either.",
+   "header": "Relic Watcher",
+   "links": [
+    {
+     "text": "Studying isn't a strength for my class, but I'm ready for the test.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32807-07.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32807-07.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-07.html"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32807-07.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-07.html",
+   "quest": 10294,
+   "text": "Relic Watcher: We shall see. Here is my question. What is the most important virtue among Solina's 5 teachings?",
+   "header": "Relic Watcher",
+   "links": [
+    {
+     "text": "repentance",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32807-08.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32807-08.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-08.html"
+    },
+    {
+     "text": "abstinence",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32807-09.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32807-09.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-09.html"
+    },
+    {
+     "text": "sacrifice",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32807-10.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32807-10.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-10.html"
+    },
+    {
+     "text": "silence",
+     "bypass": "Quest MonasteryOfSilence1 CENTER",
+     "kind": "quest-event",
+     "script": "MonasteryOfSilence1",
+     "event": "CENTER"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32807-08.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-08.html",
+   "quest": 10294,
+   "text": "Relic Watcher: Incorrect. Check the contents and take the test again.",
+   "header": "Relic Watcher",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32807-09.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-09.html",
+   "quest": 10294,
+   "text": "Relic Watcher: Incorrect. Check the contents and take the test again. Hey, don't tell the other watchers... but I'm rooting for you!",
+   "header": "Relic Watcher",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32807-10.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32807-10.html",
+   "quest": 10294,
+   "text": "Relic Watcher: Incorrect. Check the contents, drink coffee, and take the test again.",
+   "header": "Relic Watcher",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, To the Monastery of Silence (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10294_SevenSignsToTheMonasteryOfSilence",
+     "kind": "quest",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32793-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32804-04.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32804-04.html",
+   "quest": 10294,
+   "text": "Relic Watcher: You haven't proven your qualifications. You cannot move to another room until you complete the qualification here. Activate the reading desk where the correct memoir is placed to cancel the seal.",
+   "header": "Relic Watcher",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32804-02.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32804-02.html",
+   "quest": 10294,
+   "text": "Relic Watcher: In all 4 directions, a piece of Kaerun's Memoir is stored. If you came qualified, you'll know the contents of the book. If so, find the correct piece of Kaerun's Memoir from each reading desk and activate it. If the contents are correct, that desk will illuminate.",
+   "header": "Relic Watcher",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32805-04.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32805-04.html",
+   "quest": 10294,
+   "text": "Relic Watcher: You haven't proven your qualification. You will not move to another room until you complete the qualification here. Activate the reading desk where the correct memoir is placed to cancel the seal.",
+   "header": "Relic Watcher",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32805-02.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32805-02.html",
+   "quest": 10294,
+   "text": "Relic Watcher: In all 4 directions, one piece of Kaerun's Memoir is stored. If you're qualified, you'll know the contents of the book. Place your hand on the reading desks where the memoirs are located, in the order of the story. If the order of contents are correct for that reading desk, it will i…",
+   "header": "Relic Watcher",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32806-04.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32806-04.html",
+   "quest": 10294,
+   "text": "Relic Watcher: You haven't proven your qualification. No one leaves until completing the qualification in this room. You should activate the reading desk where the correct memoir is placed to cancel the seal.",
+   "header": "Relic Watcher",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32806-02.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32806-02.html",
+   "quest": 10294,
+   "text": "Relic Watcher: One piece of Kaerun's Memoir is stored in all 4 directions. If qualified, you'll know the contents of the book. Place your hand on desk where the memoirs are located in the order of the story. If the order of contents are correct, that desk will illuminate. Of course, if the order is…",
+   "header": "Relic Watcher",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

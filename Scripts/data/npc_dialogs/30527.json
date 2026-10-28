@@ -1,0 +1,498 @@
+{
+ "npcId": 30527,
+ "name": "Silvera",
+ "title": "Blacksmith",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.992Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30527.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "347": {
+   "name": "Go Get the Calculator",
+   "listText": [
+    "[Go Get the Calculator]",
+    "[Go Get the Calculator (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00347_GoGetTheCalculator/30527-01.html",
+     "when": "state STARTED; cond 1|2",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00347_GoGetTheCalculator/30527-02.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00347_GoGetTheCalculator/30527-04.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00347_GoGetTheCalculator/30527-03.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00347_GoGetTheCalculator/30527-05.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "418": {
+   "name": "Path Of The Artisan",
+   "listText": [
+    "[Path of the Artisan]",
+    "[Path of the Artisan (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00418_PathOfTheArtisan/30527-01.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/30527-07.html",
+     "when": "state STARTED; has items 1632; !(qs.isCreated() || qs.isCompleted()); (getQuestItemsCount(player, BOOGLE_RATMAN_TOOTH) + getQuestItemsCount(player, BOOGLE_RATMAN_LEADERS_TOOTH)) < 12",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/30527-08a.html",
+     "when": "state STARTED; has items 1632; item 1636 >= 10; item 1637 >= 2; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SILVERYS_RING) && ((getQuestItemsCount(player, BOOGLE_RATMAN_TOOTH) + getQuestItemsCount(player,",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/30527-09.html",
+     "when": "state STARTED; has items 1633; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SILVERYS_RING) && ((getQuestItemsCount(player, BOOGLE_RATMAN_TOOTH) + getQuestItemsCount(player,; !(hasQuestItems(player, SILVERYS_RING) && (getQuestItemsCount(player, BOOGLE_RATMAN_TOOTH) >= 10) && (getQuestItemsCount",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/30527-09a.html",
+     "when": "state STARTED; memo 10; lacks items 1633; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SILVERYS_RING) && ((getQuestItemsCount(player, BOOGLE_RATMAN_TOOTH) + getQuestItemsCount(player,; !(hasQuestItems(player, SILVERYS_RING) && (getQuestItemsCount(player, BOOGLE_RATMAN_TOOTH) >= 10) && (getQuestItemsCount",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30527.htm": {
+   "file": "trainer/30527.htm",
+   "quest": null,
+   "text": "Blacksmith Silvera: Hello! I'm Blacksmith Silvera. Keeping yourself warm in this cold weather? Ha ha! I'm very busy myself these days dealing with so many test candidates for Artisan. Perhaps are you also an applicant? Or are you here to learn skills? Something else?",
+   "header": "Blacksmith Silvera",
+   "links": [
+    {
+     "text": "Craft a Dualsword.",
+     "bypass": "npc_%objectId%_Link common/duals_01.htm",
+     "kind": "page",
+     "to": "common/duals_01.htm"
+    },
+    {
+     "text": "Craft an item.",
+     "bypass": "npc_%objectId%_Link common/crafting_01.htm",
+     "kind": "page",
+     "to": "common/crafting_01.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30527-noteach.htm": {
+   "file": "trainer/30527-noteach.htm",
+   "quest": null,
+   "text": "Blacksmith Silvera: Hunh! I teach Dwarven Fighters and Artisans. Can you understand that? If you can, then begone. On a busy day like this ... bloody annoying!",
+   "header": "Blacksmith Silvera",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00347_GoGetTheCalculator/30527-01.html": {
+   "file": "Q00347_GoGetTheCalculator/30527-01.html",
+   "quest": 347,
+   "text": "Blacksmith Silvera: Is that so? Well, keep searching. I know you will find it!",
+   "header": "Blacksmith Silvera",
+   "when": [
+    "state STARTED; cond 1|2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00347_GoGetTheCalculator/30527-02.html": {
+   "file": "Q00347_GoGetTheCalculator/30527-02.html",
+   "quest": 347,
+   "text": "Blacksmith Silvera: Ha! The Calculator? Why are you bothering me for it? Certainly you can find another Dwarf to get one from! Okay. You win. Actually, I'm tired of carrying it around. I hoped to exchange it for something more useful or pretty, but in this village, nobody has anything I find intere…",
+   "header": "Blacksmith Silvera",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00347_GoGetTheCalculator/30527-04.html": {
+   "file": "Q00347_GoGetTheCalculator/30527-04.html",
+   "quest": 347,
+   "text": "Blacksmith Silvera: Have you brought me the 10 crystals from Gemstone Beasts ? If you want the Calculator you must bring me the crystals immediately! The beasts can be found in the Abandoned Mine . Please hurry!",
+   "header": "Blacksmith Silvera",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00347_GoGetTheCalculator/30527-03.html": {
+   "file": "Q00347_GoGetTheCalculator/30527-03.html",
+   "quest": 347,
+   "text": "Blacksmith Silvera: Oh, they are more beautiful than I imagined! You have made me very happy! Here is your Calculator.",
+   "header": "Blacksmith Silvera",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00347_GoGetTheCalculator/30527-05.html": {
+   "file": "Q00347_GoGetTheCalculator/30527-05.html",
+   "quest": 347,
+   "text": "Blacksmith Silvera: I already gave you the Calculator! Don't you remember?",
+   "header": "Blacksmith Silvera",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30527-01.htm": {
+   "file": "Q00418_PathOfTheArtisan/30527-01.htm",
+   "quest": 418,
+   "text": "Blacksmith Silvera: I teach young Dwarves and manage the Test of the Artisan. All apprentice Dwarves arrive at an important turning point where they must decide their future occupations. Dwarves may choose the path of the Artisan or the Scavenger. Artisans, who I'm responsible for testing, create s…",
+   "header": "Blacksmith Silvera",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you want to be an Artisan.",
+     "bypass": "Quest Q00418_PathOfTheArtisan ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "ACCEPT",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30527-05.htm",
+     "toAll": [
+      "Q00418_PathOfTheArtisan/30527-04.htm",
+      "Q00418_PathOfTheArtisan/30527-05.htm",
+      "Q00418_PathOfTheArtisan/30527-03.htm",
+      "Q00418_PathOfTheArtisan/30527-02a.htm",
+      "Q00418_PathOfTheArtisan/30527-02.htm"
+     ]
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30527-07.html": {
+   "file": "Q00418_PathOfTheArtisan/30527-07.html",
+   "quest": 418,
+   "text": "Blacksmith Silvera: Ok, if you've brought your homework, let me take a look! One, two, three ... There's not enough! You don't want to fail your first test do you? I told you clearly! Ten boogle ratman front teeth, and two from the boogle ratman leaders! If you understand that, go and find them! Hu…",
+   "header": "Blacksmith Silvera",
+   "when": [
+    "state STARTED; has items 1632; !(qs.isCreated() || qs.isCompleted()); (getQuestItemsCount(player, BOOGLE_RATMAN_TOOTH) + getQuestItemsCount(player, BOOGLE_RATMAN_LEADERS_TOOTH)) < 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30527-08a.html": {
+   "file": "Q00418_PathOfTheArtisan/30527-08a.html",
+   "quest": 418,
+   "text": "Blacksmith Silvery: Let us see, then, the front teeth of the Boogle Ratmen. Did you get them all?... Yes, the count is correct. My congratulations! The first test is completed. The second test is held in one of two places, and you may choose where you take it: Gludio Territory or Schuttgart Territo…",
+   "header": "Blacksmith Silvery",
+   "when": [
+    "state STARTED; has items 1632; item 1636 >= 10; item 1637 >= 2; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SILVERYS_RING) && ((getQuestItemsCount(player, BOOGLE_RATMAN_TOOTH) + getQuestItemsCount(player,"
+   ],
+   "links": [
+    {
+     "text": "Gludio Territory",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30527-08b.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30527-08b.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30527-08b.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "Schuttgart Territory",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30527-08c.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30527-08c.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30527-08c.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30527-09.html": {
+   "file": "Q00418_PathOfTheArtisan/30527-09.html",
+   "quest": 418,
+   "text": "Blacksmith Silvera: Why are you still here? To take the second test, I told you to go to Gludin ... Quickly go and meet Blacksmith Kluto . He will give you detailed instructions for the second test. Well then, good luck!",
+   "header": "Blacksmith Silvera",
+   "when": [
+    "state STARTED; has items 1633; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SILVERYS_RING) && ((getQuestItemsCount(player, BOOGLE_RATMAN_TOOTH) + getQuestItemsCount(player,; !(hasQuestItems(player, SILVERYS_RING) && (getQuestItemsCount(player, BOOGLE_RATMAN_TOOTH) >= 10) && (getQuestItemsCount"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30527-09a.html": {
+   "file": "Q00418_PathOfTheArtisan/30527-09a.html",
+   "quest": 418,
+   "text": "Blacksmith Silvery: Ho, now! Why do you tarry? Your next test lies on the Plains of Plunder , not in my shop! Go there at once, and good luck!",
+   "header": "Blacksmith Silvery",
+   "when": [
+    "state STARTED; memo 10; lacks items 1633; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SILVERYS_RING) && ((getQuestItemsCount(player, BOOGLE_RATMAN_TOOTH) + getQuestItemsCount(player,; !(hasQuestItems(player, SILVERYS_RING) && (getQuestItemsCount(player, BOOGLE_RATMAN_TOOTH) >= 10) && (getQuestItemsCount"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30527-02.htm": {
+   "file": "Q00418_PathOfTheArtisan/30527-02.htm",
+   "quest": 418,
+   "text": "Blacksmith Silvera: But one moment! You wish to be an Artisan? You must be mistaken. You cannot become an Artisan! Impossible! Go walk your own path. I do not have time to spare for dealing with those who are not qualified.",
+   "header": "Blacksmith Silvera",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30527-02a.htm": {
+   "file": "Q00418_PathOfTheArtisan/30527-02a.htm",
+   "quest": 418,
+   "text": "Blacksmith Silvera: You! You must be mistaken. You are already an Artisan! Are you joking?!",
+   "header": "Blacksmith Silvera",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30527-03.htm": {
+   "file": "Q00418_PathOfTheArtisan/30527-03.htm",
+   "quest": 418,
+   "text": "Blacksmith Silvera: Sorry! You are not yet qualified to be an Artisan. I warn you: it is not an easy path. To even take the test, you must first meet certain minimum qualifications. Gain more experience. Then return to me after you have reached at least level 18.",
+   "header": "Blacksmith Silvera",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30527-04.htm": {
+   "file": "Q00418_PathOfTheArtisan/30527-04.htm",
+   "quest": 418,
+   "text": "Blacksmith Silvera: What are you doing, loitering around here when you've already taken the test? Go on and change profession to an Artisan!",
+   "header": "Blacksmith Silvera",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30527-05.htm": {
+   "file": "Q00418_PathOfTheArtisan/30527-05.htm",
+   "quest": 418,
+   "text": "Blacksmith Silvery: Oh, fine, fine! I see that you are ready for the Artisan test. It is administered by the guild master of the Black Anvil, of whom you have certainly heard - a blacksmith of great renown! I will give the first, most basic of the tests; if you pass, you may go on to the second tes…",
+   "links": [
+    {
+     "text": "Take the first part of the test.",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30527-06.htm",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30527-06.htm",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30527-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30527-06.htm": {
+   "file": "Q00418_PathOfTheArtisan/30527-06.htm",
+   "quest": 418,
+   "text": "Blacksmith Silvera: The first test is very easy; Though the Artisan's main task is making things, to be sure, he must also be able to find the materials needed for manufacture by himself, and not depend on others. The first test puts its focus on those basic skills. Oh, and by the way, take this ri…",
+   "header": "Blacksmith Silvera",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30527-08b.html": {
+   "file": "Q00418_PathOfTheArtisan/30527-08b.html",
+   "quest": 418,
+   "text": "Blacksmith Silvery: Very well, then! Seek Blacksmith Kluto in Gludin Village . From him you will receive the second of the tests. Good fortune to you!",
+   "header": "Blacksmith Silvery",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30527-08c.html": {
+   "file": "Q00418_PathOfTheArtisan/30527-08c.html",
+   "quest": 418,
+   "text": "Blacksmith Silvery: Let it be so! Seek out Railroad Worker Obi on the Plains of Plunder . He shall instruct you in what to do next. Good luck, candidate!",
+   "header": "Blacksmith Silvery",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Go Get the Calculator (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00347_GoGetTheCalculator",
+     "kind": "quest",
+     "quest": 347,
+     "to": "Q00347_GoGetTheCalculator/30527-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Artisan]",
+     "bypass": "npc_%objectId%_Quest Q00418_PathOfTheArtisan",
+     "kind": "quest",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30527-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Artisan (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00418_PathOfTheArtisan",
+     "kind": "quest",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30527-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/duals_01.htm": {
+   "file": "common/duals_01.htm",
+   "quest": null,
+   "text": "Needless to say, in order to make a Dualsword, you first need two swords. They can be either Regular weapons, Standard weapons or Rare weapons. Regular weapons can only be combined with other Regular weapons, Standard weapons can only be combined with other Standard weapons, and Rare weapons can on…",
+   "links": [
+    {
+     "text": "View the list.",
+     "bypass": "npc_%objectId%_multisell 1001",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/crafting_01.htm": {
+   "file": "common/crafting_01.htm",
+   "quest": null,
+   "text": "[Create ingredient item] Our Blacksmith Guild creates items at a very reasonable price. You may entrust your precious materials to our Blacksmiths. They have a long-standing tradition of integrity. We will do our best to serve you. The creation of the ingredient for A-grade items is the pride of ou…",
+   "links": [
+    {
+     "text": "See the list.",
+     "bypass": "npc_%objectId%_multisell 1004",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

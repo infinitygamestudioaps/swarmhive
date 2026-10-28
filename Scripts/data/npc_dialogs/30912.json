@@ -1,0 +1,650 @@
+{
+ "npcId": 30912,
+ "name": "Xenovia",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.110Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "140": {
+   "name": "Shadow Fox - 2",
+   "listText": [
+    "[Shadow Fox - 2]",
+    "[Shadow Fox - 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00140_ShadowFoxPart2/30912-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00140_ShadowFoxPart2/30912-07.html",
+     "when": "state STARTED; cond 2; (st.isSet(\"talk\"))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00140_ShadowFoxPart2/30912-02.html",
+     "when": "state STARTED; cond 2; NOT (st.isSet(\"talk\"))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00140_ShadowFoxPart2/30912-11.html",
+     "when": "state STARTED; cond 3; (st.getQuestItemsCount(DARK_CRYSTAL) >= CRYSTAL_COUNT)",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00140_ShadowFoxPart2/30912-10.html",
+     "when": "state STARTED; cond 3; NOT (st.getQuestItemsCount(DARK_CRYSTAL) >= CRYSTAL_COUNT)",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00140_ShadowFoxPart2/30912-15.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "345": {
+   "name": "Method to Raise the Dead",
+   "listText": [
+    "[Method to Raise the Dead]",
+    "[Method to Raise the Dead (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00345_MethodToRaiseTheDead/30912-01.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00345_MethodToRaiseTheDead/30912-06.html",
+     "when": "state STARTED; memo 7|8; (qs.isMemoState(7) || qs.isMemoState(8) || hasQuestItems(player, POWDER_TO_SUMMON_DEAD_SOULS))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30912-01.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-01.html",
+   "quest": 140,
+   "text": "Magister Xenovia: I am very busy with my magical experiments. I cannot even obtain the materials I need... Forgive me, but would you mind coming back later?",
+   "header": "Magister Xenovia",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00140_ShadowFoxPart2/30912-07.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-07.html",
+   "quest": 140,
+   "text": "Magister Xenovia: I will give you the encoded document if you make the 3 Dark Oxides with materials you find on your own using my equipment. It is very difficult to produce the Dark Oxides successfully because the process is very complicated. And if you fail, you will be responsible for the cost of…",
+   "header": "Magister Xenovia",
+   "when": [
+    "state STARTED; cond 2; (st.isSet(\"talk\"))"
+   ],
+   "links": [
+    {
+     "text": "\"Please explain in more detail.\"",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30912-08.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30912-08.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30912-08.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30912-02.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-02.html",
+   "quest": 140,
+   "text": "Magister Xenovia: Here for the sword of the Goddess' secret document? I never heard of it...",
+   "header": "Magister Xenovia",
+   "when": [
+    "state STARTED; cond 2; NOT (st.isSet(\"talk\"))"
+   ],
+   "links": [
+    {
+     "text": "I heard everything from Warehouse Keeper Cluck.",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30912-03.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30912-03.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30912-03.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30912-11.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-11.html",
+   "quest": 140,
+   "text": "Magister Xenovia: Ah! I see that you have brought the Dark Crystal... I will give you 3 solutions. You can continue the experiment by choosing one of them. You will need 5 Dark Crystals for each experiment. One of the 3 solutions will be able to produce Dark Oxide. Please choose carefully...",
+   "header": "Magister Xenovia",
+   "when": [
+    "state STARTED; cond 3; (st.getQuestItemsCount(DARK_CRYSTAL) >= CRYSTAL_COUNT)"
+   ],
+   "links": [
+    {
+     "text": "Use the red solution.",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30912-14.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30912-14.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30912-14.html",
+     "toAll": [
+      "Q00140_ShadowFoxPart2/30912-14.html",
+      "Q00140_ShadowFoxPart2/30912-12.html",
+      "Q00140_ShadowFoxPart2/30912-13.html"
+     ],
+     "effect": "cond:4"
+    },
+    {
+     "text": "Use the blue solution.",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30912-14.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30912-14.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30912-14.html",
+     "toAll": [
+      "Q00140_ShadowFoxPart2/30912-14.html",
+      "Q00140_ShadowFoxPart2/30912-12.html",
+      "Q00140_ShadowFoxPart2/30912-13.html"
+     ],
+     "effect": "cond:4"
+    },
+    {
+     "text": "Use the yellow solution.",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30912-14.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30912-14.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30912-14.html",
+     "toAll": [
+      "Q00140_ShadowFoxPart2/30912-14.html",
+      "Q00140_ShadowFoxPart2/30912-12.html",
+      "Q00140_ShadowFoxPart2/30912-13.html"
+     ],
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30912-10.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-10.html",
+   "quest": 140,
+   "text": "Magister Xenovia: Go to Alligator Beach and hunt Crokians, Dailaons, Crokian Warriors and Farhites , and bring me the Dark Crystals you collect there. You need at least 5 in order to conduct a single experiment. If the experiments are successful, you can acquire Dark Oxides . Bring me 3 Dark Oxides…",
+   "header": "Magister Xenovia",
+   "when": [
+    "state STARTED; cond 3; NOT (st.getQuestItemsCount(DARK_CRYSTAL) >= CRYSTAL_COUNT)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00140_ShadowFoxPart2/30912-15.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-15.html",
+   "quest": 140,
+   "text": "Magister Xenovia: Thanks to your efforts, I was able to get all the materials I needed. I am in your debt, my friend!",
+   "header": "Magister Xenovia",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00345_MethodToRaiseTheDead/30912-01.html": {
+   "file": "Q00345_MethodToRaiseTheDead/30912-01.html",
+   "quest": 345,
+   "text": "Magister Xenovia: I'm afraid I can't tell you much about that Medium Jar, not that you are the first to inquire about it... Some fellow from the Dark Elven village was asking questions about it a while back. I'm of the opinion that the urn's abilities have been vastly over-stated in these wild rumo…",
+   "header": "Magister Xenovia",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"I wish to use the Medium Jar.\"",
+     "bypass": "Quest Q00345_MethodToRaiseTheDead 30912-02.html",
+     "kind": "quest-event",
+     "script": "Q00345_MethodToRaiseTheDead",
+     "event": "30912-02.html",
+     "quest": 345,
+     "to": "Q00345_MethodToRaiseTheDead/30912-02.html"
+    }
+   ]
+  },
+  "Q00345_MethodToRaiseTheDead/30912-06.html": {
+   "file": "Q00345_MethodToRaiseTheDead/30912-06.html",
+   "quest": 345,
+   "text": "Magister Xenovia: Were the results what you expected? I feel I must warn you, it's not healthy for Humans to spend so much time with the dead. It tends to color your outlook. By the way, if you want to get rid of all those useless Bone Fragments you should sell them to Mad Doctor Orpheus . He can b…",
+   "header": "Magister Xenovia",
+   "when": [
+    "state STARTED; memo 7|8; (qs.isMemoState(7) || qs.isMemoState(8) || hasQuestItems(player, POWDER_TO_SUMMON_DEAD_SOULS))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00140_ShadowFoxPart2/30912-03.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-03.html",
+   "quest": 140,
+   "text": "Magister Xenovia: Hmm... Well, since you heard it from Kluck, I guess I have no choice. Kluck never gives up! Actually, this document has long vexed me. I'm not even interested in the sword granted by Eva, but I need that document to further my magical research...",
+   "header": "Magister Xenovia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30912-04.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30912-04.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30912-04.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30912-04.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-04.html",
+   "quest": 140,
+   "text": "Magister Xenovia: The data that I require for my magic research is closely linked to that encoded document. Of course, if I had the actual material that I need, I wouldn't need to consult the document...",
+   "header": "Magister Xenovia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Then if I bring you the material, would you give me the document?\"",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30912-05.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30912-05.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30912-05.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30912-05.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-05.html",
+   "quest": 140,
+   "text": "Magister Xenovia: Hmm... I need that material on a continuing basis, unfortunately. If I were to give you the document, I would be severely limiting my options. Perhaps...how about this? Help me produce 3 Dark Oxides, which are created by putting certain chemicals on a Dark Crystal.",
+   "header": "Magister Xenovia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"What do you mean?\"",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30912-06.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30912-06.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30912-06.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30912-06.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-06.html",
+   "quest": 140,
+   "text": "Magister Xenovia: I will give you the encoded document if you make the 3 Dark Oxides with materials you find on your own using my equipment. It is very difficult to produce the Dark Oxides successfully because the process is very complicated. And if you fail, you will be responsible for the cost of…",
+   "header": "Magister Xenovia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Please explain in more detail.\"",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30912-08.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30912-08.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30912-08.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30912-08.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-08.html",
+   "quest": 140,
+   "text": "Magister Xenovia: I will prepare 3 solutions if you bring me the Dark Crystal. One of the 3 solutions will be able to produce the Dark Oxide. Unfortunately, I cannot yet produce perfect solutions every time. What you will need to do is choose one of these 3 solutions and then place 5 Dark Crystals …",
+   "header": "Magister Xenovia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"I see. Where can I get the Dark Crystal?\"",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30912-09.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30912-09.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30912-09.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30912-09.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-09.html",
+   "quest": 140,
+   "text": "Magister Xenovia: Go to Alligator Beach and hunt Crokians, Dailaons, Crokian Warriors and Farhites . Bring me the Dark Crystals you collect there. You need at least 5 in order to conduct a single experiment. If the experiments are successful, you can acquire Dark Oxides . Bring me 3 Dark Oxides and…",
+   "header": "Magister Xenovia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00140_ShadowFoxPart2/30912-12.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-12.html",
+   "quest": 140,
+   "text": "Magister Xenovia: (The Dark Crystal dissolves in the solution. The mixture begins to bubble. Suddenly, something emerges from the bubbles... The experiment was a success!)",
+   "header": "Magister Xenovia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00140_ShadowFoxPart2/30912-13.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-13.html",
+   "quest": 140,
+   "text": "Magister Xenovia: (The mixture begins to bubble. Suddenly, something emerges from the bubbles... The experiment was a success!) Excellent! We have 3 Dark Oxides... Thank you. Thanks to your help, I no longer need the Cryptogram of the Goddess Sword. Take it with my gratitude!",
+   "header": "Magister Xenovia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00140_ShadowFoxPart2/30912-14.html": {
+   "file": "Q00140_ShadowFoxPart2/30912-14.html",
+   "quest": 140,
+   "text": "Magister Xenovia: (The Dark Crystal dissolves in the solution. The mixture begins to bubble. But nothing else happens. The experiment was a failure!)",
+   "header": "Magister Xenovia",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00345_MethodToRaiseTheDead/30912-02.html": {
+   "file": "Q00345_MethodToRaiseTheDead/30912-02.html",
+   "quest": 345,
+   "text": "Magister Xenovia: Well, we certainly aren't trying to keep anyone from using the urn that wants to... I suppose you will be wanting to summon a departed one's soul? I'm sorry, my friend, but the powder you need will not come for free... It may not look like much, but it is the property of the guild…",
+   "header": "Magister Xenovia",
+   "links": [
+    {
+     "text": "\"I wish to buy the powder.\"",
+     "bypass": "Quest Q00345_MethodToRaiseTheDead 30912-03.html",
+     "kind": "quest-event",
+     "script": "Q00345_MethodToRaiseTheDead",
+     "event": "30912-03.html",
+     "quest": 345,
+     "to": "Q00345_MethodToRaiseTheDead/30912-03.html",
+     "toAll": [
+      "Q00345_MethodToRaiseTheDead/30912-03.html",
+      "Q00345_MethodToRaiseTheDead/30912-04.html"
+     ],
+     "effect": "cond:3"
+    },
+    {
+     "text": "Quit",
+     "bypass": "Quest Q00345_MethodToRaiseTheDead 30912-05.html",
+     "kind": "quest-event",
+     "script": "Q00345_MethodToRaiseTheDead",
+     "event": "30912-05.html",
+     "quest": 345,
+     "to": "Q00345_MethodToRaiseTheDead/30912-05.html"
+    }
+   ]
+  },
+  "Q00345_MethodToRaiseTheDead/30912-03.html": {
+   "file": "Q00345_MethodToRaiseTheDead/30912-03.html",
+   "quest": 345,
+   "text": "Magister Xenovia: That's what I like! A plain speaker! Now put this powder into the medium jar along with the bones you have. I fear that the results may be other than what you expect...",
+   "header": "Magister Xenovia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00345_MethodToRaiseTheDead/30912-04.html": {
+   "file": "Q00345_MethodToRaiseTheDead/30912-04.html",
+   "quest": 345,
+   "text": "Magister Xenovia: You talk the talk but your wallet is weak. Come back when you have more adena.",
+   "header": "Magister Xenovia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00345_MethodToRaiseTheDead/30912-05.html": {
+   "file": "Q00345_MethodToRaiseTheDead/30912-05.html",
+   "quest": 345,
+   "text": "Magister Xenovia: Whatever. Come back if you change your mind.",
+   "header": "Magister Xenovia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30912-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30912-noteach.html",
+   "quest": null,
+   "text": "Magister Xenovia: There is no way that I'll teach you any Dark Elven magic. I would consider teaching some other kills, but I'm very busy right now. Why don't you come back laster?",
+   "header": "Magister Xenovia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30912.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30912.html",
+   "quest": null,
+   "text": "Magister Genovia: True, there's a lot of clamoring these days about the return of Shilen. Those claiming to be her \"children\" stir up trouble everywhere, it seems. Yes, we Dark Elves call ourselves her children as well, but not in the same sense. In fact, I have been tasked by our Elders with silen…",
+   "header": "Magister Genovia",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Shadow Fox - 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00140_ShadowFoxPart2",
+     "kind": "quest",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30912-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Method to Raise the Dead (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00345_MethodToRaiseTheDead",
+     "kind": "quest",
+     "quest": 345,
+     "to": "Q00345_MethodToRaiseTheDead/30912-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30912-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30912-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

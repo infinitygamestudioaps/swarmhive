@@ -1,0 +1,405 @@
+{
+ "npcId": 30327,
+ "name": "Sorius",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.935Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30327.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "226": {
+   "name": "Test Of The Healer",
+   "listText": [
+    "[Test of the Healer]",
+    "[Test of the Healer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00226_TestOfTheHealer/30327-01.html",
+     "when": "state STARTED; memo 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30327-02.html",
+     "when": "state STARTED; memoState >= 6; memoState < 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30327-03.html",
+     "when": "state STARTED; memo 9; has items 2811; !((memoState >= 6) && (memoState < 9))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30327-04.html",
+     "when": "state STARTED; !((memoState >= 6) && (memoState < 9)); memoState >= 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "406": {
+   "name": "Path Of The Elven Knight",
+   "listText": [
+    "[Path of the Elven Knight]",
+    "[Path of the Elven Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00406_PathOfTheElvenKnight/30327-01.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00406_PathOfTheElvenKnight/30327-07.html",
+     "when": "state STARTED; lacks items 1203,1205; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00406_PathOfTheElvenKnight/30327-08.html",
+     "when": "state STARTED; has items 1205; lacks items 1203; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, TOPAZ_PIECE) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00406_PathOfTheElvenKnight/30327-09.html",
+     "when": "state STARTED; has items 1205; lacks items 1203,1276,1202; item 1205 >= 20; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, TOPAZ_PIECE) && (getQuestItemsCount(player, TOPAZ_PIECE) < 20))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00406_PathOfTheElvenKnight/30327-11.html",
+     "when": "state STARTED; has items 1205,1202,1276; lacks items 1203; item 1205 >= 20; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, TOPAZ_PIECE) && (getQuestItemsCount(player, TOPAZ_PIECE) < 20)); !(!hasAtLeastOneQuestItem(player, KLUTO_MEMO, SORIUS_LETTER) && (getQuestItemsCount(player, TOPAZ_PIECE) >= 20))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00406_PathOfTheElvenKnight/30327-10.html",
+     "when": "state STARTED; has items 1203; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30327.htm": {
+   "file": "trainer/30327.htm",
+   "quest": null,
+   "text": "Master Sorius: Graceful as the swan of the lake, free as the first butterfly of spring. Sounds like poetry, eh? But that sentiment is something that should be chiseled into the hearts of all those who walk the warrior's path. A warrior must not trust in strength alone. Skill is the sum of all train…",
+   "header": "Master Sorius",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30327-noteach.htm": {
+   "file": "trainer/30327-noteach.htm",
+   "quest": null,
+   "text": "Master Sorius: There is nothing I can teach you. You and I are walking different paths, but as with all professions, one must train the mind and heart before learning skills.",
+   "header": "Master Sorius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30327-01.html": {
+   "file": "Q00226_TestOfTheHealer/30327-01.html",
+   "quest": 226,
+   "text": "Master Sorius: I have heard from Priest Bandellos. We will help in any way we can in your investigation. What we know so far is that it seems that the followers of Shilen kidnapped the girl. Meet the Dwarf called Daurin Hammercrush in the northwest part of Turek Orc Barracks . He is our spy who set…",
+   "header": "Master Sorius",
+   "when": [
+    "state STARTED; memo 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30327-02.html": {
+   "file": "Q00226_TestOfTheHealer/30327-02.html",
+   "quest": 226,
+   "text": "Master Sorius: Hurry up! I cannot guarantee the child's safety! There is one of our spies who set off ahead of us. Meet the Dwarf called Daurin Hammercrush in the northwest part of Turek Orc Barracks .",
+   "header": "Master Sorius",
+   "when": [
+    "state STARTED; memoState >= 6; memoState < 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30327-03.html": {
+   "file": "Q00226_TestOfTheHealer/30327-03.html",
+   "quest": 226,
+   "text": "Master Sorius: Good job, indeed. I will inform Priest Bandellos of your success... You are taking the Trial of the Healer, are you not?",
+   "header": "Master Sorius",
+   "when": [
+    "state STARTED; memo 9; has items 2811; !((memoState >= 6) && (memoState < 9))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30327-04.html": {
+   "file": "Q00226_TestOfTheHealer/30327-04.html",
+   "quest": 226,
+   "text": "Master Sorius: Please go see Priest Bandellos right away!",
+   "header": "Master Sorius",
+   "when": [
+    "state STARTED; !((memoState >= 6) && (memoState < 9)); memoState >= 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30327-01.htm": {
+   "file": "Q00406_PathOfTheElvenKnight/30327-01.htm",
+   "quest": 406,
+   "text": "Master Sorius: Greetings, child in search of the training of the sword. When I look at the new candidates like yourself that seek me, I am sure that the long tradition of our Elven race is being continued.",
+   "header": "Master Sorius",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you want to be an Elven Knight",
+     "bypass": "Quest Q00406_PathOfTheElvenKnight ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00406_PathOfTheElvenKnight",
+     "event": "ACCEPT",
+     "quest": 406,
+     "to": "Q00406_PathOfTheElvenKnight/30327-05.htm",
+     "toAll": [
+      "Q00406_PathOfTheElvenKnight/30327-02a.htm",
+      "Q00406_PathOfTheElvenKnight/30327-02.htm",
+      "Q00406_PathOfTheElvenKnight/30327-03.htm",
+      "Q00406_PathOfTheElvenKnight/30327-04.htm",
+      "Q00406_PathOfTheElvenKnight/30327-05.htm"
+     ]
+    }
+   ]
+  },
+  "Q00406_PathOfTheElvenKnight/30327-07.html": {
+   "file": "Q00406_PathOfTheElvenKnight/30327-07.html",
+   "quest": 406,
+   "text": "Master Sorius: You haven't left yet? Can it be it that you are unsure of the test? Someone like you will be able to perform it well. Hurry on to the Ruins of Agony and test your skills on the skeletons and spartoi. If you don't know how to go to the Ruins of Agony, ask Guard Babenco.",
+   "header": "Master Sorius",
+   "when": [
+    "state STARTED; lacks items 1203,1205; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30327-08.html": {
+   "file": "Q00406_PathOfTheElvenKnight/30327-08.html",
+   "quest": 406,
+   "text": "Master Sorius: It is still not enough. You must have 20 Topaz Pieces . May the divine blessing of Einhasad and Eva be with you.",
+   "header": "Master Sorius",
+   "when": [
+    "state STARTED; has items 1205; lacks items 1203; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, TOPAZ_PIECE) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30327-09.html": {
+   "file": "Q00406_PathOfTheElvenKnight/30327-09.html",
+   "quest": 406,
+   "text": "Master Sorius: Congratulations. You safely completed the test. The topaz you brought back will be used as an ingredient for the \"Elven Knight Brooch.&quot, which will be proof of your skill, enough that you can then present yourself to a grand master. But the \"Elven Knight Brooch\" cannot be complet…",
+   "header": "Master Sorius",
+   "when": [
+    "state STARTED; has items 1205; lacks items 1203,1276,1202; item 1205 >= 20; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, TOPAZ_PIECE) && (getQuestItemsCount(player, TOPAZ_PIECE) < 20))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30327-11.html": {
+   "file": "Q00406_PathOfTheElvenKnight/30327-11.html",
+   "quest": 406,
+   "text": "Master Sorius: You haven't found Kluto yet? You can meet Kluto at the blacksmith's shop in Gludin. If you don't know how to get to Gludin, ask Guard Praga.",
+   "header": "Master Sorius",
+   "when": [
+    "state STARTED; has items 1205,1202,1276; lacks items 1203; item 1205 >= 20; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, TOPAZ_PIECE) && (getQuestItemsCount(player, TOPAZ_PIECE) < 20)); !(!hasAtLeastOneQuestItem(player, KLUTO_MEMO, SORIUS_LETTER) && (getQuestItemsCount(player, TOPAZ_PIECE) >= 20))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30327-10.html": {
+   "file": "Q00406_PathOfTheElvenKnight/30327-10.html",
+   "quest": 406,
+   "text": "Master Sorius: I see you have safely passed Kluto's test. Congratulations! You have proven that you have the courage to become an Elven Knight. This brooch is made of materials collected by other Elves who have gone through this same test. Another brilliant tradition of the Elven race is passed on …",
+   "header": "Master Sorius",
+   "when": [
+    "state STARTED; has items 1203; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30327-02.htm": {
+   "file": "Q00406_PathOfTheElvenKnight/30327-02.htm",
+   "quest": 406,
+   "text": "Sorius: Haven't you already chosen the path that you must take? Train yourself more before aspiring to a higher level.",
+   "header": "Sorius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30327-02a.htm": {
+   "file": "Q00406_PathOfTheElvenKnight/30327-02a.htm",
+   "quest": 406,
+   "text": "Sorius: You are already walking the path of an Elven Knight. Train yourself more before proceeding to a higher level. May the starlight guide you.",
+   "header": "Sorius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30327-03.htm": {
+   "file": "Q00406_PathOfTheElvenKnight/30327-03.htm",
+   "quest": 406,
+   "text": "Master Sorius: Ah, it seems that you are still inexperienced. Just from watching your footwork and movements, I can tell that you are not ready to learn the skills I teach. Be patient and keep training. I see in your eyes that you have the passion and conviction to succeed. I will look forward to t…",
+   "header": "Master Sorius",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30327-04.htm": {
+   "file": "Q00406_PathOfTheElvenKnight/30327-04.htm",
+   "quest": 406,
+   "text": "Master Sorius: I see you have the Elven Knight Brooch . Take the brooch and go to Grand Master Rains . Then he will change your profession to Elven Knight.",
+   "header": "Master Sorius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30327-05.htm": {
+   "file": "Q00406_PathOfTheElvenKnight/30327-05.htm",
+   "quest": 406,
+   "text": "Master Sorius: Elven Knights choose the path of the sword over archery, both of which were developed by our race for thousands of years. These days, many Elven Knights enter the Human world to practice the will of Einhasad and Eva, even though they were originally created to protect the Mother Tree…",
+   "header": "Master Sorius",
+   "links": [
+    {
+     "text": "Challenge the test",
+     "bypass": "Quest Q00406_PathOfTheElvenKnight 30327-06.htm",
+     "kind": "quest-event",
+     "script": "Q00406_PathOfTheElvenKnight",
+     "event": "30327-06.htm",
+     "quest": 406,
+     "to": "Q00406_PathOfTheElvenKnight/30327-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00406_PathOfTheElvenKnight/30327-06.htm": {
+   "file": "Q00406_PathOfTheElvenKnight/30327-06.htm",
+   "quest": 406,
+   "text": "Master Sorius: There is a place called the Ruins of Agony in the war-devastated area at the northern part of Gludio. Cruel and violent undead skeletons and the spartoi are disturbing and harming innocent people who travel near there. Elven Knights follow the teachings of Einhasad and Eva. There is …",
+   "header": "Master Sorius",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Healer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00226_TestOfTheHealer",
+     "kind": "quest",
+     "quest": 226,
+     "to": "Q00226_TestOfTheHealer/30327-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Elven Knight]",
+     "bypass": "npc_%objectId%_Quest Q00406_PathOfTheElvenKnight",
+     "kind": "quest",
+     "quest": 406,
+     "to": "Q00406_PathOfTheElvenKnight/30327-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Elven Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00406_PathOfTheElvenKnight",
+     "kind": "quest",
+     "quest": 406,
+     "to": "Q00406_PathOfTheElvenKnight/30327-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

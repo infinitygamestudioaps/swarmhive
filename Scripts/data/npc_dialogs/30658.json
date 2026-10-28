@@ -1,0 +1,189 @@
+{
+ "npcId": 30658,
+ "name": "Gupu",
+ "title": "Father",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.028Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30658.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "226": {
+   "name": "Test Of The Healer",
+   "listText": [
+    "[Test of the Healer]",
+    "[Test of the Healer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00226_TestOfTheHealer/30658-01.html",
+     "when": "state STARTED; memo 4; lacks items 2812,2814,2813",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30658-04.html",
+     "when": "state STARTED; memo 4; has items 2812,2814,2813",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30658-06.html",
+     "when": "state STARTED; memo 4; has items 2812,2814,2813; lacks items 2812",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30658-07.html",
+     "when": "state STARTED; memo 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30658.htm": {
+   "file": "default/30658.htm",
+   "quest": null,
+   "text": "Father Gupu: I am Father Gupu. The orphanage I work for here is for little girls... I think that it's much more difficult to look after boys... Who am I kidding? Girls aren't any easier at all!",
+   "header": "Father Gupu",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00226_TestOfTheHealer/30658-01.html": {
+   "file": "Q00226_TestOfTheHealer/30658-01.html",
+   "quest": 226,
+   "text": "Father Gupu: Ah, It seems you are talking about Kristina... But you're too late! She was recently kidnapped by some strange men that broke into the orphanage! Curse the fiends! What is this world coming to! And what have they done with Windy ? No no, Ari, father is not mad! After Kristina's kidnapp…",
+   "header": "Father Gupu",
+   "when": [
+    "state STARTED; memo 4; lacks items 2812,2814,2813"
+   ],
+   "links": [
+    {
+     "text": "Say you will donate that amount",
+     "bypass": "Quest Q00226_TestOfTheHealer 30658-02.html",
+     "kind": "quest-event",
+     "script": "Q00226_TestOfTheHealer",
+     "event": "30658-02.html",
+     "quest": 226,
+     "to": "Q00226_TestOfTheHealer/30658-02.html",
+     "toAll": [
+      "Q00226_TestOfTheHealer/30658-02.html",
+      "Q00226_TestOfTheHealer/30658-05.html"
+     ],
+     "effect": "cond:7"
+    },
+    {
+     "text": "Pretend that you did not hear anything",
+     "bypass": "Quest Q00226_TestOfTheHealer 30658-03.html",
+     "kind": "quest-event",
+     "script": "Q00226_TestOfTheHealer",
+     "event": "30658-03.html",
+     "quest": 226,
+     "to": "Q00226_TestOfTheHealer/30658-03.html"
+    }
+   ]
+  },
+  "Q00226_TestOfTheHealer/30658-04.html": {
+   "file": "Q00226_TestOfTheHealer/30658-04.html",
+   "quest": 226,
+   "text": "Father Gupu: That little girl causes such mischief! Oh Windy ! Where are you! I hope she's not lost in the Wastelands all alone! Please, go and find her for me!",
+   "header": "Father Gupu",
+   "when": [
+    "state STARTED; memo 4; has items 2812,2814,2813"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30658-06.html": {
+   "file": "Q00226_TestOfTheHealer/30658-06.html",
+   "quest": 226,
+   "text": "Father Gupu: Thank you so much. Windy has just returned! She must be inside washing up! Windy! You little rascal! Do you know how worried I was?! Pull one more stunt like that, and you'll get a spanking you will never forget! Thank you for finding this child. Making a donation and finding a lost ch…",
+   "header": "Father Gupu",
+   "when": [
+    "state STARTED; memo 4; has items 2812,2814,2813; lacks items 2812"
+   ],
+   "links": [
+    {
+     "text": "Ask about the saint.",
+     "bypass": "Quest Q00226_TestOfTheHealer 30658-07.html",
+     "kind": "quest-event",
+     "script": "Q00226_TestOfTheHealer",
+     "event": "30658-07.html",
+     "quest": 226,
+     "to": "Q00226_TestOfTheHealer/30658-07.html"
+    }
+   ]
+  },
+  "Q00226_TestOfTheHealer/30658-07.html": {
+   "file": "Q00226_TestOfTheHealer/30658-07.html",
+   "quest": 226,
+   "text": "Father Gupu: I don't know... I have no idea what's going on. Why don't you ask the Elves from Gludio Castle? I think they said they were from the Town of Gludio... And one of them was named Sorius.",
+   "header": "Father Gupu",
+   "when": [
+    "state STARTED; memo 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30658-02.html": {
+   "file": "Q00226_TestOfTheHealer/30658-02.html",
+   "quest": 226,
+   "text": "Father Gupu: Really? Are you really going to make a donation? Sob...! Thank you! I gladly accept! Children, say thank you... Wait, Windy is missing! I'm sorry, but could you please look for a little girl? She often goes to play in the Wastelands ... She looks like... There should be a picture somew…",
+   "header": "Father Gupu",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30658-03.html": {
+   "file": "Q00226_TestOfTheHealer/30658-03.html",
+   "quest": 226,
+   "text": "Father Gupu: No no, its all right. I wasn't expecting anything from you.",
+   "header": "Father Gupu",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30658-05.html": {
+   "file": "Q00226_TestOfTheHealer/30658-05.html",
+   "quest": 226,
+   "text": "Father Gupu: No no, I can tell by your clothes that you can't afford to give a donation. Forget about it...!",
+   "header": "Father Gupu",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Healer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00226_TestOfTheHealer",
+     "kind": "quest",
+     "quest": 226,
+     "to": "Q00226_TestOfTheHealer/30658-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,201 @@
+{
+ "npcId": 31267,
+ "name": "Lietta",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.145Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/31267.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "622": {
+   "name": "Specialty Liquor Delivery",
+   "listText": [
+    "[Specialty Liquor Delivery]",
+    "[Specialty Liquor Delivery (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31267-01.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/31267.htm": {
+   "file": "warehouse/31267.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Lietta: Our goal is to be the best warehouse on the continent. Whatever items you deposit, we will guard them with our very lives!",
+   "header": "Warehouse Keeper Lietta",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/31267-1.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/31267-2.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/31267-1.htm": {
+   "file": "warehouse/31267-1.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Lietta: [ Private Warehouse ]",
+   "header": "Warehouse Keeper Lietta",
+   "links": [
+    {
+     "text": "Deposit an item - Private Warehouse",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Pick up an item - Private Warehouse",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/31267.htm"
+    }
+   ]
+  },
+  "warehouse/31267-2.htm": {
+   "file": "warehouse/31267-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Lietta: [ Clan Warehouse ]",
+   "header": "Warehouse Keeper Lietta",
+   "links": [
+    {
+     "text": "Deposit an item - Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Pick up an item - Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/31267.htm"
+    }
+   ]
+  },
+  "warehouse/31267-noteach.htm": {
+   "file": "warehouse/31267-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Lietta: Can I see your resume? Let's see... You're not a Dwarven fighter... not a scavenger... You're not a bounty hunter either, eh? Why are you trying to register here? You're definitely in the wrong place, stranger!",
+   "header": "Warehouse Keeper Lietta",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31267-01.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31267-01.html",
+   "quest": 622,
+   "text": "Lietta: Are you here for something? Or perhaps to drop something off?",
+   "header": "Lietta",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "links": [
+    {
+     "text": "\"Jeremy sent me to get some Adena.\"",
+     "bypass": "Quest Q00622_SpecialtyLiquorDelivery 31267-02.html",
+     "kind": "quest-event",
+     "script": "Q00622_SpecialtyLiquorDelivery",
+     "event": "31267-02.html",
+     "quest": 622,
+     "to": "Q00622_SpecialtyLiquorDelivery/31267-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00622_SpecialtyLiquorDelivery/31267-02.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31267-02.html",
+   "quest": 622,
+   "text": "Lietta: Oh, I see. Jeremy didn't pay you after you did work for him? That sounds like Jeremy! Hold on... Here you are. This should be enough.",
+   "header": "Lietta",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Specialty Liquor Delivery (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00622_SpecialtyLiquorDelivery",
+     "kind": "quest",
+     "quest": 622,
+     "to": "Q00622_SpecialtyLiquorDelivery/31267-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

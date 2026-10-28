@@ -1,0 +1,154 @@
+{
+ "npcId": 32057,
+ "name": "Totem Spirit of Gandi",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.322Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32057.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "416": {
+   "name": "Path of the Orc Shaman",
+   "listText": [
+    "[Path of the Orc Shaman]",
+    "[Path of the Orc Shaman (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00416_PathOfTheOrcShaman/32057-01.html",
+     "when": "state STARTED; memo 101",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/32057-03.html",
+     "when": "state STARTED; memo 102",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/32057-04.html",
+     "when": "state STARTED; memo 109",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32057.htm": {
+   "file": "default/32057.htm",
+   "quest": null,
+   "text": "Totem Spirit of Gandi: Pa'agrio Amare Oites! A weak soul is encroached by the darkness, but a strong soul is hardened and blooms beautifully within the flames. You have a courage and purity! You kissed the flames while a beautiful soul slept within! Now you have awakened!",
+   "header": "Totem Spirit of Gandi",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/32057-01.html": {
+   "file": "Q00416_PathOfTheOrcShaman/32057-01.html",
+   "quest": 416,
+   "text": "Totem Spirit of Gandi: You stupid Orc! You're here to acquire the knowledge of the Totem Spirit, aren't you? The knowledge of the Totem Spirit can only be handed down to those in the same tribe! Different tribes could never fully understand the Totem Spirit, they'd only acquire some fragmented piec…",
+   "header": "Totem Spirit of Gandi",
+   "when": [
+    "state STARTED; memo 101"
+   ],
+   "links": [
+    {
+     "text": "\"I want the knowledge.\"",
+     "bypass": "Quest Q00416_PathOfTheOrcShaman 32057-02.html",
+     "kind": "quest-event",
+     "script": "Q00416_PathOfTheOrcShaman",
+     "event": "32057-02.html",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/32057-02.html",
+     "effect": "cond:14"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/32057-03.html": {
+   "file": "Q00416_PathOfTheOrcShaman/32057-03.html",
+   "quest": 416,
+   "text": "Totem Spirit of Gandi: Defeat the Black Leopard in the Valley of the Lords and then pour the blood on yourself! That will give you the wisdom!",
+   "header": "Totem Spirit of Gandi",
+   "when": [
+    "state STARTED; memo 102"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/32057-04.html": {
+   "file": "Q00416_PathOfTheOrcShaman/32057-04.html",
+   "quest": 416,
+   "text": "Totem Spirit of Gandi: Krrrr... Well...now you look more like an Orc.. Have you become a Shaman of Flame... The essence of the Wisdom of Souls... The meaning of the word \"victory\"... No, you're much too young...",
+   "header": "Totem Spirit of Gandi",
+   "when": [
+    "state STARTED; memo 109"
+   ],
+   "links": [
+    {
+     "text": "......",
+     "bypass": "Quest Q00416_PathOfTheOrcShaman 32057-05.html",
+     "kind": "quest-event",
+     "script": "Q00416_PathOfTheOrcShaman",
+     "event": "32057-05.html",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/32057-05.html",
+     "effect": "cond:21"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/32057-02.html": {
+   "file": "Q00416_PathOfTheOrcShaman/32057-02.html",
+   "quest": 416,
+   "text": "Totem Spirit of Gandi: I see... Grrrr... That's the Tribe of Fire, one of your Orc Tribes under the protection of our Totem Spirit... Very well! There's something you must do at once! Find the Black Leopard in the Valley of the Lords and kill him. Get the Dialogue of Souls and Wisdom of Souls when …",
+   "header": "Totem Spirit of Gandi",
+   "sets": {
+    "cond": "14"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/32057-05.html": {
+   "file": "Q00416_PathOfTheOrcShaman/32057-05.html",
+   "quest": 416,
+   "text": "Totem Spirit of Gandi: Ha! Well, there's no need for you to feel pain, young Orc. From the time that Pa'agrio created you, you were supposed to be like this! The shape of burning fire is not one and the kind of fire is not one either. You've been cleansed with the blood of Gandi's family, now other…",
+   "header": "Totem Spirit of Gandi",
+   "sets": {
+    "cond": "21"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Orc Shaman (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00416_PathOfTheOrcShaman",
+     "kind": "quest",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/32057-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

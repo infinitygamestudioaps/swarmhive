@@ -1,0 +1,71 @@
+{
+ "npcId": 35436,
+ "name": "Outer Doorman",
+ "title": "",
+ "type": "L2CastleDoormen",
+ "generated": "2026-10-27T18:18:03.432Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "doormen/35436.htm",
+   "when": "",
+   "src": "html/doormen"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "doormen/35436.htm": {
+   "file": "doormen/35436.htm",
+   "quest": null,
+   "text": "Doorman of Hell: Although the war is over, the dispute over the border has yet to be resolved. Keep your head down for now.",
+   "header": "Doorman of Hell",
+   "links": [
+    {
+     "text": "Open the gate",
+     "bypass": "npc_%objectId%_open_doors 1, 22170001, 22170002",
+     "kind": "other"
+    },
+    {
+     "text": "Close the gate",
+     "bypass": "npc_%objectId%_close_doors 1, 22170001, 22170002",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/35436.htm": {
+   "file": "default/35436.htm",
+   "quest": null,
+   "text": "First Gatekeeper: EVENT wait for you! Let's quest begin!",
+   "header": "First Gatekeeper",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "doormen/35436-busy.htm": {
+   "file": "doormen/35436-busy.htm",
+   "quest": null,
+   "text": "Oh! Our castle is being attacked and I can't do anything for you right now.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "doormen/35436-no.htm": {
+   "file": "doormen/35436-no.htm",
+   "quest": null,
+   "text": "Who goes there?! Stay back!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

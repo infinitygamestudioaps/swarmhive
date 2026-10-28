@@ -1,0 +1,1035 @@
+{
+ "npcId": 30535,
+ "name": "Filaur",
+ "title": "Gray Pillar Member",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.995Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30535.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "116": {
+   "name": "Beyond the Hills of Winter",
+   "listText": [
+    "[Beyond the Hills of Winter]",
+    "[Beyond the Hills of Winter (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00116_BeyondTheHillsOfWinter/30535-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00116_BeyondTheHillsOfWinter/30535-03.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00116_BeyondTheHillsOfWinter/30535-04.html",
+     "when": "state STARTED; memo 1; (hasAllItems(player, true, THIEF_KEY, BANDAGE, ENERGY_STONE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00116_BeyondTheHillsOfWinter/30535-06.html",
+     "when": "state STARTED; memo 1; NOT (hasAllItems(player, true, THIEF_KEY, BANDAGE, ENERGY_STONE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00116_BeyondTheHillsOfWinter/30535-07.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "211": {
+   "name": "Trial of the Challenger",
+   "listText": [
+    "[Trial of the Challenger]",
+    "[Trial of the Challenger (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00211_TrialOfTheChallenger/30535-01.html",
+     "when": "cond 8",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30535-02.html",
+     "when": "cond 9",
+     "state": null,
+     "cond": [
+      9
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30535-03.html",
+     "when": "cond 10",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30535-01.html",
+     "when": "state STARTED; has items 3239,3246,3250; lacks items 3261,3257",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30535-02.html",
+     "when": "state STARTED; has items 3239,3246; lacks items 3261,3257,3250; !(hasQuestItems(player, LOCKIRINS_4TH_NOTICE) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_4TH, RECEIPT_OF",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30535-03.html",
+     "when": "state STARTED; has items 3239,3246,3261,3257,3250; lacks items 3261,3250; !(hasQuestItems(player, LOCKIRINS_4TH_NOTICE) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_4TH, RECEIPT_OF",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30535-04.html",
+     "when": "state STARTED; has items 3239,3246,3261,3257,3250; lacks items 3257,3250; !(hasQuestItems(player, LOCKIRINS_4TH_NOTICE) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_4TH, RECEIPT_OF; !(hasQuestItems(player, RECEIPT_OF_BOLTER) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_4TH, LOCKIRINS_4TH",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "231": {
+   "name": "Test Of The Maestro",
+   "listText": [
+    "[Test of the Maestro]",
+    "[Test of the Maestro (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00231_TestOfTheMaestro/30535-01.html",
+     "when": "state STARTED; memo 1; lacks items 2865",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30535-02.html",
+     "when": "state STARTED; memo 4; has items 2873; lacks items 2874; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_FILAUR))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30535-03.html",
+     "when": "state STARTED; memo 4; has items 2874; lacks items 2873; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_FILAUR)); !(hasQuestItems(player, ARCHITECTURE_OF_CRUMA) && !hasQuestItems(player, REPORT_OF_CRUMA))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30535-04.html",
+     "when": "state STARTED; has items 2865; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_FILAUR))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "293": {
+   "name": "The Hidden Veins",
+   "listText": [
+    "[The Hidden Veins]",
+    "[The Hidden Veins (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00293_TheHiddenVeins/30535-03.htm",
+     "when": "state CREATED; (player.getRace() == Race.DWARF); (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00293_TheHiddenVeins/30535-02.htm",
+     "when": "state CREATED; (player.getRace() == Race.DWARF); NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00293_TheHiddenVeins/30535-01.htm",
+     "when": "state CREATED; NOT (player.getRace() == Race.DWARF)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00293_TheHiddenVeins/30535-10.html",
+     "when": "state STARTED; has items 1488,1490; (ores > 0); (maps > 0)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00293_TheHiddenVeins/30535-06.html",
+     "when": "state STARTED; has items 1488,1490; (ores > 0); NOT (maps > 0)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00293_TheHiddenVeins/30535-09.html",
+     "when": "state STARTED; has items 1488,1490; NOT (ores > 0)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00293_TheHiddenVeins/30535-05.html",
+     "when": "state STARTED; lacks items 1488,1490",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "312": {
+   "name": "Take Advantage of the Crisis!",
+   "listText": [
+    "[Take Advantage of the Crisis!]",
+    "[Take Advantage of the Crisis! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00312_TakeAdvantageOfTheCrisis/30535-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00312_TakeAdvantageOfTheCrisis/30535-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00312_TakeAdvantageOfTheCrisis/30535-08.html",
+     "when": "state STARTED; (st.hasQuestItems(MINERAL_FRAGMENT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00312_TakeAdvantageOfTheCrisis/30535-07.html",
+     "when": "state STARTED; NOT (st.hasQuestItems(MINERAL_FRAGMENT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30535.htm": {
+   "file": "default/30535.htm",
+   "quest": null,
+   "text": "Filaur of the Gray Pillar: May the blessing of the rich earth be with you. Welcome to the House of Elders, my dear young Dwarf. I, Filaur, am the representative of the glorious Gray Pillar Guild . I am a member of the Senior Guild Association, who rule the kingdom in the name of the Dwarven King , …",
+   "header": "Filaur of the Gray Pillar",
+   "links": [
+    {
+     "text": "Ask about the Gray Pillar Guild",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30535-1.htm"
+    },
+    {
+     "text": "Ask about the Dwarven King",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30535-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30535-1.htm": {
+   "file": "default/30535-1.htm",
+   "quest": null,
+   "text": "Filaur of the Gray Pillar: The Gray Column Guild is an association of architects and miners, who hold the secrets of geometry, measurement, construction and mechanics that our ancestors learned from Maphr. Our mine engineers developed the enormous mining region of the Spine Mountains, and our archi…",
+   "header": "Filaur of the Gray Pillar",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30535.htm"
+    }
+   ]
+  },
+  "default/30535-2.htm": {
+   "file": "default/30535-2.htm",
+   "quest": null,
+   "text": "Filaur of the Gray Pillar: 500 years ago at Mlan, when the great Kingdom of the Dwarves was defeated by Humans and Orcs, the King himself fought against the invaders to the very last, to earn time for his people to take refuge in the mountains. Since then, the throne has been empty. Although senior…",
+   "header": "Filaur of the Gray Pillar",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30535.htm"
+    }
+   ]
+  },
+  "Q00116_BeyondTheHillsOfWinter/30535-01.htm": {
+   "file": "Q00116_BeyondTheHillsOfWinter/30535-01.htm",
+   "quest": 116,
+   "text": "Filaur of the Gray Pillar Guild: Egads! I almost didn't notice you! Pardon my ignorance as I am old and absent-minded. I however must still ask a favor of you.",
+   "header": "Filaur of the Gray Pillar Guild",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Agree to do it.",
+     "bypass": "Quest Q00116_BeyondTheHillsOfWinter 30535-02.htm",
+     "kind": "quest-event",
+     "script": "Q00116_BeyondTheHillsOfWinter",
+     "event": "30535-02.htm",
+     "quest": 116,
+     "to": "Q00116_BeyondTheHillsOfWinter/30535-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00116_BeyondTheHillsOfWinter/30535-03.htm": {
+   "file": "Q00116_BeyondTheHillsOfWinter/30535-03.htm",
+   "quest": 116,
+   "text": "Filaur of the Gray Pillar Guild: This is fortuitous timing! Come closer... oh, I'm sorry. I have a task that needs doing, but I'm afraid it will require very experienced adventurers. My apologies. (Only characters level 30 and above are permitted to take on the quest.)",
+   "header": "Filaur of the Gray Pillar Guild",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00116_BeyondTheHillsOfWinter/30535-04.html": {
+   "file": "Q00116_BeyondTheHillsOfWinter/30535-04.html",
+   "quest": 116,
+   "text": "Filaur of the Gray Pillar Guild: Ah, you have returned! Most fortunate. Thank you for these; I need to send them to Railroad Worker Obi in the Plunderous Plains . Ha! I imagine you can guess what I need you to do next...",
+   "header": "Filaur of the Gray Pillar Guild",
+   "when": [
+    "state STARTED; memo 1; (hasAllItems(player, true, THIEF_KEY, BANDAGE, ENERGY_STONE))"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, I can.\"",
+     "bypass": "Quest Q00116_BeyondTheHillsOfWinter 30535-05.html",
+     "kind": "quest-event",
+     "script": "Q00116_BeyondTheHillsOfWinter",
+     "event": "30535-05.html",
+     "quest": 116,
+     "to": "Q00116_BeyondTheHillsOfWinter/30535-05.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00116_BeyondTheHillsOfWinter/30535-06.html": {
+   "file": "Q00116_BeyondTheHillsOfWinter/30535-06.html",
+   "quest": 116,
+   "text": "Filaur of the Gray Pillar Guild: Come, now, I was specific in my request! 20 bandages, 5 energy stones and 10 skeleton keys - that's what's needed! Quickly, get them and return! Time passes; waste none of it!",
+   "header": "Filaur of the Gray Pillar Guild",
+   "when": [
+    "state STARTED; memo 1; NOT (hasAllItems(player, true, THIEF_KEY, BANDAGE, ENERGY_STONE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00116_BeyondTheHillsOfWinter/30535-07.html": {
+   "file": "Q00116_BeyondTheHillsOfWinter/30535-07.html",
+   "quest": 116,
+   "text": "Filaur of the Gray Pillar Guild: Travel the Mining Zone Passage and follow the railway until you arrive at the train station. Find Railroad Worker Obi and deliver these supplies to him.",
+   "header": "Filaur of the Gray Pillar Guild",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30535-01.html": {
+   "file": "Q00211_TrialOfTheChallenger/30535-01.html",
+   "quest": 211,
+   "text": "Elder Filaur: Ah, it was you! I have recently received reports that dark energies have been felt emanating from the Abandoned Coal Mine . It's because you weakened the force field's power, isn't it? The investigators I dispatched found the Succubus Queen there. This monster must be the leader of gr…",
+   "header": "Elder Filaur",
+   "when": [
+    "cond 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30535-02.html": {
+   "file": "Q00211_TrialOfTheChallenger/30535-02.html",
+   "quest": 211,
+   "text": "Elder Filaur: Fool! Why are you still here? Are you saying you cannot accomplish even such a simple thing without my help? How will you ever prove your bravery to Champion Raldo? Go to the Abandoned Coal Mine and there defeat the monsters trying to break the force field. Hurry!",
+   "header": "Elder Filaur",
+   "when": [
+    "cond 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30535-03.html": {
+   "file": "Q00211_TrialOfTheChallenger/30535-03.html",
+   "quest": 211,
+   "text": "Elder Filaur: I thought anyone Raldo sent would have excellent skills. You, however, are clearly incompetent. If you go there again, you will only die a useless death. Come back only after devoting yourself to improving your abilities!",
+   "header": "Elder Filaur",
+   "when": [
+    "cond 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30535-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30535-01.html",
+   "quest": 221,
+   "text": "Filaur of the Gray Pillar: May the blessings of the rich earth be with you. You have come to collect the dues in place of the First Elder? But... You look strangely familiar... Let me see... Yes! Aren't you the one that helped me find the Map of the hidden vein? It's been too long! I am glad to see…",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state STARTED; has items 3239,3246,3250; lacks items 3261,3257"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30535-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30535-02.html",
+   "quest": 221,
+   "text": "Filaur of the Gray Pillar: Have you met Miner Bolter yet? No? He has not yet paid his guild dues. Go and collect payment from him.",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state STARTED; has items 3239,3246; lacks items 3261,3257,3250; !(hasQuestItems(player, LOCKIRINS_4TH_NOTICE) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_4TH, RECEIPT_OF"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30535-03.html": {
+   "file": "Q00221_TestimonyOfProsperity/30535-03.html",
+   "quest": 221,
+   "text": "Filaur of the Gray Pillar: What? He already paid 13 days ago? That can't be... Wait a minute. I need to check my books again. Hmm... Miner May paid a week ago... Let me see... Bolter.... Oh! He's right! I must have missed this notation when I transferred the figures into my new book. What a mistake…",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state STARTED; has items 3239,3246,3261,3257,3250; lacks items 3261,3250; !(hasQuestItems(player, LOCKIRINS_4TH_NOTICE) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_4TH, RECEIPT_OF"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30535-04.html": {
+   "file": "Q00221_TestimonyOfProsperity/30535-04.html",
+   "quest": 221,
+   "text": "Filaur of the Gray Pillar: Are you still collecting overdue guild dues? Then why are you here? On your way, finish the task! Good luck!",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state STARTED; has items 3239,3246,3261,3257,3250; lacks items 3257,3250; !(hasQuestItems(player, LOCKIRINS_4TH_NOTICE) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_4TH, RECEIPT_OF; !(hasQuestItems(player, RECEIPT_OF_BOLTER) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_4TH, LOCKIRINS_4TH"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30535-01.html": {
+   "file": "Q00231_TestOfTheMaestro/30535-01.html",
+   "quest": 231,
+   "text": "Filaur of the Gray Pillar: I don't mind writing you a letter of Recommendation, but first you must do something for me. In anticipation of next year's First Elder election our guild is planning to construct an amazing building. Our current skills are not up to the task. We require the technology of…",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state STARTED; memo 1; lacks items 2865"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30535-02.html": {
+   "file": "Q00231_TestOfTheMaestro/30535-02.html",
+   "quest": 231,
+   "text": "Filaur of the Gray Pillar: A scout team sent by the Black Anvil guild will be near the entrance to the Cruma Tower. It is lead by a woman named Lorain. You must bring me their research results, regardless of how you get it!",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state STARTED; memo 4; has items 2873; lacks items 2874; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_FILAUR))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30535-03.html": {
+   "file": "Q00231_TestOfTheMaestro/30535-03.html",
+   "quest": 231,
+   "text": "Filaur of the Gray Pillar: Is this what I have been searching for? So I judged you correctly. Well done! Here is your letter of Recommendation. Now there is just to build our amazing building!",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state STARTED; memo 4; has items 2874; lacks items 2873; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_FILAUR)); !(hasQuestItems(player, ARCHITECTURE_OF_CRUMA) && !hasQuestItems(player, REPORT_OF_CRUMA))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30535-04.html": {
+   "file": "Q00231_TestOfTheMaestro/30535-04.html",
+   "quest": 231,
+   "text": "Filaur of the Gray Pillar: If you have received Recommendation letters from 3 Elders, take them to First Elder Lockirin at once. The path of the Warsmith that you desire lies ahead of you!",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state STARTED; has items 2865; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_FILAUR))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00293_TheHiddenVeins/30535-03.htm": {
+   "file": "Q00293_TheHiddenVeins/30535-03.htm",
+   "quest": 293,
+   "text": "Filaur of the Gray Pillar: While I was making an inspection of the Mithril Mine, I was attacked by Utuku Orcs . Fortunately, my guards defeated the Orcs, but I found out something very interesting... Rough ore was found in the pockets of the defeated Orcs, and I assume it is used as currency betwee…",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state CREATED; (player.getRace() == Race.DWARF); (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00293_TheHiddenVeins 30535-04.htm",
+     "kind": "quest-event",
+     "script": "Q00293_TheHiddenVeins",
+     "event": "30535-04.htm",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30535-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00293_TheHiddenVeins/30535-02.htm": {
+   "file": "Q00293_TheHiddenVeins/30535-02.htm",
+   "quest": 293,
+   "text": "Filaur of the Gray Pillar: Have you heard of a metal called chrysolite ? This material is used by the maestros to craft high quality armor and weapons. Until now, the entire supply has been imported from Gracia, but we have just discovered that there are veins of this rare metal not very far from h…",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state CREATED; (player.getRace() == Race.DWARF); NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00293_TheHiddenVeins/30535-01.htm": {
+   "file": "Q00293_TheHiddenVeins/30535-01.htm",
+   "quest": 293,
+   "text": "Filaur of the Gray Pillar: You want work? Huh! If I gave you work, people will start saying that the Dwarves make their guests run errands! I don't want to be lax in my hospitality to guests. Don't overexert yourself, and since you have come all the way to the Dwarf country, sample our native produ…",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state CREATED; NOT (player.getRace() == Race.DWARF)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00293_TheHiddenVeins/30535-10.html": {
+   "file": "Q00293_TheHiddenVeins/30535-10.html",
+   "quest": 293,
+   "text": "Filaur of the Gray Pillar: Ohh! You have obtained a complete Map! Well done! We finally can find out the location of the hidden chrysolite vein! I will pay you as promised. I will also give you an additional reward for the amount of ore you have brought. Let me see ... Hmm ... Oh. Stupid Orcs, thei…",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state STARTED; has items 1488,1490; (ores > 0); (maps > 0)"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit.",
+     "bypass": "Quest Q00293_TheHiddenVeins 30535-07.html",
+     "kind": "quest-event",
+     "script": "Q00293_TheHiddenVeins",
+     "event": "30535-07.html",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30535-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue.",
+     "bypass": "Quest Q00293_TheHiddenVeins 30535-08.html",
+     "kind": "quest-event",
+     "script": "Q00293_TheHiddenVeins",
+     "event": "30535-08.html",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30535-08.html"
+    }
+   ]
+  },
+  "Q00293_TheHiddenVeins/30535-06.html": {
+   "file": "Q00293_TheHiddenVeins/30535-06.html",
+   "quest": 293,
+   "text": "Filaur of the Gray Pillar: You've done well, young Dwarf. This ore you have brought may look rough, but once it goes through the trained hands of craftsmen, it becomes a precious metal with a brilliant blue luster. True maestros should be able to find the beauty hidden in plain objects. As promised…",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state STARTED; has items 1488,1490; (ores > 0); NOT (maps > 0)"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00293_TheHiddenVeins 30535-07.html",
+     "kind": "quest-event",
+     "script": "Q00293_TheHiddenVeins",
+     "event": "30535-07.html",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30535-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00293_TheHiddenVeins 30535-08.html",
+     "kind": "quest-event",
+     "script": "Q00293_TheHiddenVeins",
+     "event": "30535-08.html",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30535-08.html"
+    }
+   ]
+  },
+  "Q00293_TheHiddenVeins/30535-09.html": {
+   "file": "Q00293_TheHiddenVeins/30535-09.html",
+   "quest": 293,
+   "text": "Filaur of the Gray Pillar: Ohh! You have obtained a complete Map! Well done! We can finally find out the location of the hidden chrysolite vein! I will reward you as promised. This should be enough. Let me see ... Hmm ... Oh. Stupid Orcs, their Map is too hard to read. But I can still roughly figur…",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state STARTED; has items 1488,1490; NOT (ores > 0)"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit.",
+     "bypass": "Quest Q00293_TheHiddenVeins 30535-07.html",
+     "kind": "quest-event",
+     "script": "Q00293_TheHiddenVeins",
+     "event": "30535-07.html",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30535-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue.",
+     "bypass": "Quest Q00293_TheHiddenVeins 30535-08.html",
+     "kind": "quest-event",
+     "script": "Q00293_TheHiddenVeins",
+     "event": "30535-08.html",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30535-08.html"
+    }
+   ]
+  },
+  "Q00293_TheHiddenVeins/30535-05.html": {
+   "file": "Q00293_TheHiddenVeins/30535-05.html",
+   "quest": 293,
+   "text": "Filaur of the Gray Pillar: I am sorry, but if you come back with empty hands I can't reward you, no matter how hard you tried. As I mentioned before, I will reward you based on the amount of Chrysolite Ore that you collect after defeating the Utuku Orcs . And don't forget ... If you collect four pi…",
+   "header": "Filaur of the Gray Pillar",
+   "when": [
+    "state STARTED; lacks items 1488,1490"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00293_TheHiddenVeins 30535-07.html",
+     "kind": "quest-event",
+     "script": "Q00293_TheHiddenVeins",
+     "event": "30535-07.html",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30535-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00293_TheHiddenVeins 30535-08.html",
+     "kind": "quest-event",
+     "script": "Q00293_TheHiddenVeins",
+     "event": "30535-08.html",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30535-08.html"
+    }
+   ]
+  },
+  "Q00312_TakeAdvantageOfTheCrisis/30535-01.htm": {
+   "file": "Q00312_TakeAdvantageOfTheCrisis/30535-01.htm",
+   "quest": 312,
+   "text": "Elder Filaur: Have you heard about the changes in the Mithril Mines? I'm talking about those malicious Wererats that overran the place. You do know about Wererats, right? Nasty things with face of a rat and those beady, greedy eyes that are always looking for something to steal. And that sound they…",
+   "header": "Elder Filaur",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"So what?\"",
+     "bypass": "Quest Q00312_TakeAdvantageOfTheCrisis 30535-02.html",
+     "kind": "quest-event",
+     "script": "Q00312_TakeAdvantageOfTheCrisis",
+     "event": "30535-02.html",
+     "quest": 312,
+     "to": "Q00312_TakeAdvantageOfTheCrisis/30535-02.html"
+    }
+   ]
+  },
+  "Q00312_TakeAdvantageOfTheCrisis/30535-00.htm": {
+   "file": "Q00312_TakeAdvantageOfTheCrisis/30535-00.htm",
+   "quest": 312,
+   "text": "Elder Filaur: Have you heard about what's happening in the Mithril Mine? Those nasty Wererats have infested it! I'm not sure what they are up to, but a powerful evil force is spreading there... You're obviously too inexperienced to do anything useful, though. Take care not to get in the way or you'…",
+   "header": "Elder Filaur",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00312_TakeAdvantageOfTheCrisis/30535-08.html": {
+   "file": "Q00312_TakeAdvantageOfTheCrisis/30535-08.html",
+   "quest": 312,
+   "text": "Elder Filaur: It looks like you have collected some mineral fragments. Well... What will you do?",
+   "header": "Elder Filaur",
+   "when": [
+    "state STARTED; (st.hasQuestItems(MINERAL_FRAGMENT))"
+   ],
+   "links": [
+    {
+     "text": "\"I will exchange the mineral fragments for a reward.\"",
+     "bypass": "npc_%objectId%_multisell 312",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"I will be back after I collect some more.\"",
+     "bypass": "Quest Q00312_TakeAdvantageOfTheCrisis 30535-09.html",
+     "kind": "quest-event",
+     "script": "Q00312_TakeAdvantageOfTheCrisis",
+     "event": "30535-09.html",
+     "quest": 312,
+     "to": "Q00312_TakeAdvantageOfTheCrisis/30535-09.html"
+    },
+    {
+     "text": "\"I wish to quit the mission.\"",
+     "bypass": "Quest Q00312_TakeAdvantageOfTheCrisis 30535-10.html",
+     "kind": "quest-event",
+     "script": "Q00312_TakeAdvantageOfTheCrisis",
+     "event": "30535-10.html",
+     "quest": 312,
+     "to": "Q00312_TakeAdvantageOfTheCrisis/30535-10.html"
+    }
+   ]
+  },
+  "Q00312_TakeAdvantageOfTheCrisis/30535-07.html": {
+   "file": "Q00312_TakeAdvantageOfTheCrisis/30535-07.html",
+   "quest": 312,
+   "text": "Elder Filaur: Hey, you! Why are you still here? Those monsters won't kill themselves, you know! Hunt Grave Robber Summoners, Grave Robber Magicians, Grave Robber Workers, Grave Robber Warriors, and Grave Robber Insane Warriors , as well as their subordinates Servitors of Darkness, Phantoms of the M…",
+   "header": "Elder Filaur",
+   "when": [
+    "state STARTED; NOT (st.hasQuestItems(MINERAL_FRAGMENT))"
+   ],
+   "links": [
+    {
+     "text": "\"I'm going, I'm going!\"",
+     "bypass": "Quest Q00312_TakeAdvantageOfTheCrisis 30535-09.html",
+     "kind": "quest-event",
+     "script": "Q00312_TakeAdvantageOfTheCrisis",
+     "event": "30535-09.html",
+     "quest": 312,
+     "to": "Q00312_TakeAdvantageOfTheCrisis/30535-09.html"
+    },
+    {
+     "text": "Say you want to quit.",
+     "bypass": "Quest Q00312_TakeAdvantageOfTheCrisis 30535-11.html",
+     "kind": "quest-event",
+     "script": "Q00312_TakeAdvantageOfTheCrisis",
+     "event": "30535-11.html",
+     "quest": 312,
+     "to": "Q00312_TakeAdvantageOfTheCrisis/30535-11.html"
+    }
+   ]
+  },
+  "Q00116_BeyondTheHillsOfWinter/30535-02.htm": {
+   "file": "Q00116_BeyondTheHillsOfWinter/30535-02.htm",
+   "quest": 116,
+   "text": "Filaur of the Gray Pillar Guild: This is fortuitous timing! Come closer, so that my aging eyes can see you better... ah, yes, I can see that you are an experienced adventurer. I have a task that requires the skills of someone just like you. Before you embark on it, however, you'll need some things.…",
+   "header": "Filaur of the Gray Pillar Guild",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00116_BeyondTheHillsOfWinter/30535-05.html": {
+   "file": "Q00116_BeyondTheHillsOfWinter/30535-05.html",
+   "quest": 116,
+   "text": "Filaur of the Gray Pillar Guild: My thanks for the supplies. I now need you to deliver them to where they are needed most. Travel through the Mining Zone Passage that you will find south of here. From there, you will come to see the Plunderous Plains. Once there, you should easily find the Train St…",
+   "header": "Filaur of the Gray Pillar Guild",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30535-04.html": {
+   "file": "Q00211_TrialOfTheChallenger/30535-04.html",
+   "quest": 211,
+   "text": "Elder Filaur: You there! Champion Raldo is looking for you. He said he wants to give you some sort of \"Mark of the Challenger\" or somesuch. He went to the Abandoned Mine in case the Succubus Queen appears again. You should go there.",
+   "header": "Elder Filaur",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00293_TheHiddenVeins/30535-04.htm": {
+   "file": "Q00293_TheHiddenVeins/30535-04.htm",
+   "quest": 293,
+   "text": "Filaur of the Gray Pillar: If you leave the village and go to the minefield, you will see many Utuku Orcs . Bring me the Chrysolite Ore that you collect after defeating them. I will reward you based on the amount of the ore you bring back. But more importantly, you should find out where the ore com…",
+   "header": "Filaur of the Gray Pillar",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00293_TheHiddenVeins/30535-07.html": {
+   "file": "Q00293_TheHiddenVeins/30535-07.html",
+   "quest": 293,
+   "text": "Filaur of the Gray Pillar: You want to quit already? I am very disappointed ... I thought you'd be more dedicated than that. Although you might not earn much profit now, you can receive a big reward once you put more time into it ... Young ones, they are too impatient these days ... Tsk tsk ...",
+   "header": "Filaur of the Gray Pillar",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00293_TheHiddenVeins/30535-08.html": {
+   "file": "Q00293_TheHiddenVeins/30535-08.html",
+   "quest": 293,
+   "text": "Filaur of the Gray Pillar: Think about how much money we can save if we can actually mine chrysolite instead of importing it. This task is not only an achievement for our Gray Pillar Guild, it is an advancement for our entire Dwarven Kingdom. Don't forget this. Please carry on.",
+   "header": "Filaur of the Gray Pillar",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00312_TakeAdvantageOfTheCrisis/30535-02.html": {
+   "file": "Q00312_TakeAdvantageOfTheCrisis/30535-02.html",
+   "quest": 312,
+   "text": "Elder Filaur: At first, we thought that the lost Wererats had trickled into the dark and damp mines for a place to rest. You know, lost monsters have been coming into the mines for ages. But that wasn't it. They had entered the mines for some specific purpose. Their numbers slowly increased, until …",
+   "header": "Elder Filaur",
+   "links": [
+    {
+     "text": "\"Also...?\"",
+     "bypass": "Quest Q00312_TakeAdvantageOfTheCrisis 30535-03.html",
+     "kind": "quest-event",
+     "script": "Q00312_TakeAdvantageOfTheCrisis",
+     "event": "30535-03.html",
+     "quest": 312,
+     "to": "Q00312_TakeAdvantageOfTheCrisis/30535-03.html"
+    }
+   ]
+  },
+  "Q00312_TakeAdvantageOfTheCrisis/30535-03.html": {
+   "file": "Q00312_TakeAdvantageOfTheCrisis/30535-03.html",
+   "quest": 312,
+   "text": "Elder Filaur: So what? These vicious things could knock even you flat on your back if you aren't careful. What chance does your average miner have?! It's not safe, and now the Gray Pillar Guild have shut down whole sections of the Mines in order to stop the trickle of casualties becoming a flood.",
+   "header": "Elder Filaur",
+   "links": [
+    {
+     "text": "\"Oh. I see.\"",
+     "bypass": "Quest Q00312_TakeAdvantageOfTheCrisis 30535-04.html",
+     "kind": "quest-event",
+     "script": "Q00312_TakeAdvantageOfTheCrisis",
+     "event": "30535-04.html",
+     "quest": 312,
+     "to": "Q00312_TakeAdvantageOfTheCrisis/30535-04.html"
+    }
+   ]
+  },
+  "Q00312_TakeAdvantageOfTheCrisis/30535-04.html": {
+   "file": "Q00312_TakeAdvantageOfTheCrisis/30535-04.html",
+   "quest": 312,
+   "text": "Elder Filaur: This is a serious issue -- even at full strength, the mine barely keeps pace with the demand for mithril. With much of it closed and our miners afraid to enter... But we of the Gray Pillar Guild don't intend to simply accept this new state of affairs. We do need capable adventurers wi…",
+   "header": "Elder Filaur",
+   "links": [
+    {
+     "text": "\"What should I do?\"",
+     "bypass": "Quest Q00312_TakeAdvantageOfTheCrisis 30535-05.htm",
+     "kind": "quest-event",
+     "script": "Q00312_TakeAdvantageOfTheCrisis",
+     "event": "30535-05.htm",
+     "quest": 312,
+     "to": "Q00312_TakeAdvantageOfTheCrisis/30535-05.htm"
+    }
+   ]
+  },
+  "Q00312_TakeAdvantageOfTheCrisis/30535-05.htm": {
+   "file": "Q00312_TakeAdvantageOfTheCrisis/30535-05.htm",
+   "quest": 312,
+   "text": "Elder Filaur: I hate to admit it, but Wererats are in fact as gifted as Dwarves when it comes to mining. They can move around in total darkness like it was noon, and small spaces don't bother them at all. Since that evil aura has descended on the mine, our Dwarven miners have been unable to do thei…",
+   "header": "Elder Filaur",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00312_TakeAdvantageOfTheCrisis 30535-06.htm",
+     "kind": "quest-event",
+     "script": "Q00312_TakeAdvantageOfTheCrisis",
+     "event": "30535-06.htm",
+     "quest": 312,
+     "to": "Q00312_TakeAdvantageOfTheCrisis/30535-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00312_TakeAdvantageOfTheCrisis/30535-06.htm": {
+   "file": "Q00312_TakeAdvantageOfTheCrisis/30535-06.htm",
+   "quest": 312,
+   "text": "Elder Filaur: Please destroy the following monsters in the Mithril Mine: Grave Robber Summoners, Grave Robber Magicians, Grave Robber Workers, Grave Robber Warriors and Grave Robber Insane Warriors , since they seem to be the chief ones causing the trouble. While you're at it, destroy their subordi…",
+   "header": "Elder Filaur",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00312_TakeAdvantageOfTheCrisis/30535-09.html": {
+   "file": "Q00312_TakeAdvantageOfTheCrisis/30535-09.html",
+   "quest": 312,
+   "text": "Elder Filaur: Keep up the good work! Bring me as many Mineral Fragments as you can find, and both of us will make a pretty penny out of this little project.",
+   "header": "Elder Filaur",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00312_TakeAdvantageOfTheCrisis/30535-10.html": {
+   "file": "Q00312_TakeAdvantageOfTheCrisis/30535-10.html",
+   "quest": 312,
+   "text": "Elder Filaur: What!? Well, I'm not surprised. I always thought you looked like a quitter. But don't you still have Mineral Fragments you haven't traded to me? Why not do so before you leave?",
+   "header": "Elder Filaur",
+   "links": [
+    {
+     "text": "Trade Mineral Fragments for a reward.",
+     "bypass": "npc_%objectId%_multisell 312",
+     "kind": "multisell"
+    },
+    {
+     "text": "Say you still want to quit.",
+     "bypass": "Quest Q00312_TakeAdvantageOfTheCrisis 30535-11.html",
+     "kind": "quest-event",
+     "script": "Q00312_TakeAdvantageOfTheCrisis",
+     "event": "30535-11.html",
+     "quest": 312,
+     "to": "Q00312_TakeAdvantageOfTheCrisis/30535-11.html"
+    }
+   ]
+  },
+  "Q00312_TakeAdvantageOfTheCrisis/30535-11.html": {
+   "file": "Q00312_TakeAdvantageOfTheCrisis/30535-11.html",
+   "quest": 312,
+   "text": "Elder Filaur: What!? Well, I'm not surprised. I always thought you looked like a quitter. I'll find someone better in no time!",
+   "header": "Elder Filaur",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Beyond the Hills of Winter]",
+     "bypass": "npc_%objectId%_Quest Q00116_BeyondTheHillsOfWinter",
+     "kind": "quest",
+     "quest": 116,
+     "to": "Q00116_BeyondTheHillsOfWinter/30535-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Beyond the Hills of Winter (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00116_BeyondTheHillsOfWinter",
+     "kind": "quest",
+     "quest": 116,
+     "to": "Q00116_BeyondTheHillsOfWinter/30535-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Trial of the Challenger (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00211_TrialOfTheChallenger",
+     "kind": "quest",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30535-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30535-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Maestro (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00231_TestOfTheMaestro",
+     "kind": "quest",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30535-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Hidden Veins]",
+     "bypass": "npc_%objectId%_Quest Q00293_TheHiddenVeins",
+     "kind": "quest",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30535-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Hidden Veins (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00293_TheHiddenVeins",
+     "kind": "quest",
+     "quest": 293,
+     "to": "Q00293_TheHiddenVeins/30535-10.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Take Advantage of the Crisis!]",
+     "bypass": "npc_%objectId%_Quest Q00312_TakeAdvantageOfTheCrisis",
+     "kind": "quest",
+     "quest": 312,
+     "to": "Q00312_TakeAdvantageOfTheCrisis/30535-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Take Advantage of the Crisis! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00312_TakeAdvantageOfTheCrisis",
+     "kind": "quest",
+     "quest": 312,
+     "to": "Q00312_TakeAdvantageOfTheCrisis/30535-08.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

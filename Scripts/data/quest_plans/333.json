@@ -2,7 +2,7 @@
  "id": 333,
  "name": "Hunt Of The Black Lion",
  "version": 1,
- "generated": "2026-10-27T11:15:27.650Z",
+ "generated": "2026-10-27T18:19:01.989Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 25,
@@ -28,7 +28,7 @@
  "reasons": [
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 30736 \"30736-07.html\": changes neither the cond nor the memo in the data"
   },
   {
    "code": "area-danger",
@@ -39,11 +39,6 @@
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 1
-  },
-  {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 2
   },
   {
    "code": "aggro-on-way",
@@ -2161,14 +2156,15 @@
    ],
    "kills": 1,
    "reasons": [
-    "item-from-quest-mob",
     "aggro-on-way"
    ],
    "engine": {
     "how": "kill",
     "trigger": [
      20157
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Delu Lizardman Headhunter, Marsh Stakato Marquess appear and kill it",
    "area": {

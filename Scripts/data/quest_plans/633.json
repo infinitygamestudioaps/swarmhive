@@ -2,7 +2,7 @@
  "id": 633,
  "name": "In The Forgotten Village",
  "version": 1,
- "generated": "2026-10-27T11:16:13.960Z",
+ "generated": "2026-10-27T18:19:43.415Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 65,
@@ -17,7 +17,7 @@
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 3
+   "step": 2
   }
  ],
  "expectedMin": 222,
@@ -1779,7 +1779,7 @@
    "expectedSec": 12775,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "hunt"
    },
    "conds": [
     1
@@ -1787,8 +1787,457 @@
   },
   {
    "i": 2,
-   "key": "c1:talk:31388",
-   "cond": 1,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21553,
+     "name": "Trampled Man",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21561,
+     "name": "Sacrificed Man",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21570,
+     "name": "Ghost of Betrayer",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 21578,
+     "name": "Behemoth Zombie",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Trampled Man, Sacrificed Man, Ghost of Betrayer",
+   "places": [
+    {
+     "mobs": [
+      21553,
+      21561,
+      21570,
+      21578
+     ],
+     "items": [],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "swamp-of-screams-21",
+      "name": "Swamp of Screams 21: Corpse of Deadman area (west)",
+      "at": [
+       60376,
+       -47160,
+       -2688
+      ],
+      "radius": 2875,
+      "levels": [
+       63,
+       71
+      ],
+      "count": 7,
+      "region": "Swamp of Screams",
+      "atlasKey": "area:swamp-of-screams-21",
+      "status": "ok",
+      "sec": 138,
+      "danger": 71,
+      "aggrShare": 0.81,
+      "reachable": true,
+      "score": -39.7,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-2",
+        "name": "Forest of the Dead 2: Atrox area (east)",
+        "at": [
+         53528,
+         -54776,
+         -2928
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-3",
+        "name": "Forest of the Dead 3: Corrupted Knight area (north-west)",
+        "at": [
+         50088,
+         -56504,
+         -2592
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-10",
+        "name": "Forest of the Dead 10: Corrupted Knight area (north-west)",
+        "at": [
+         48088,
+         -57560,
+         -2584
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:swamp-of-screams-21",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 11206,
+      "sec": 138,
+      "via": ".rune > Rune -> Forest of the Dead",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Forest of the Dead",
+        "link": "forest of the dead",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1016,
+        "how": "field-areas-gap",
+        "danger": 69
+       },
+       {
+        "do": "walk",
+        "len": 10190,
+        "how": "field-areas",
+        "danger": 73
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Forest of the Dead"
+      },
+      "simple": true,
+      "pv": [
+       [
+        52107,
+        -54328,
+        -3152
+       ],
+       [
+        52664,
+        -53656,
+        -3104
+       ],
+       [
+        53608,
+        -53128,
+        -3200
+       ],
+       [
+        54600,
+        -52632,
+        -3360
+       ],
+       [
+        55320,
+        -51928,
+        -3512
+       ],
+       [
+        56312,
+        -50968,
+        -3408
+       ],
+       [
+        57272,
+        -49976,
+        -3288
+       ],
+       [
+        58264,
+        -48984,
+        -2744
+       ],
+       [
+        59256,
+        -47992,
+        -2624
+       ],
+       [
+        59928,
+        -47320,
+        -2720
+       ],
+       [
+        60376,
+        -47160,
+        -2688
+       ]
+      ],
+      "maxDanger": 73,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 73,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Ghost of Rebellion Leader",
+         "lv": 71,
+         "n": 5
+        },
+        {
+         "name": "Requiem Priest",
+         "lv": 71,
+         "n": 2
+        },
+        {
+         "name": "Behemoth Zombie",
+         "lv": 71,
+         "n": 2
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "swamp-of-screams-21",
+    "name": "Swamp of Screams 21: Corpse of Deadman area (west)",
+    "at": [
+     60376,
+     -47160,
+     -2688
+    ],
+    "radius": 2875,
+    "levels": [
+     63,
+     71
+    ],
+    "count": 7,
+    "region": "Swamp of Screams",
+    "atlasKey": "area:swamp-of-screams-21",
+    "status": "ok",
+    "sec": 138,
+    "danger": 71,
+    "aggrShare": 0.81,
+    "reachable": true,
+    "score": -39.7,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "forest-of-the-dead-2",
+      "name": "Forest of the Dead 2: Atrox area (east)",
+      "at": [
+       53528,
+       -54776,
+       -2928
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forest-of-the-dead-3",
+      "name": "Forest of the Dead 3: Corrupted Knight area (north-west)",
+      "at": [
+       50088,
+       -56504,
+       -2592
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forest-of-the-dead-10",
+      "name": "Forest of the Dead 10: Corrupted Knight area (north-west)",
+      "at": [
+       48088,
+       -57560,
+       -2584
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:swamp-of-screams-21",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 11206,
+    "sec": 138,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1016,
+      "how": "field-areas-gap",
+      "danger": 69
+     },
+     {
+      "do": "walk",
+      "len": 10190,
+      "how": "field-areas",
+      "danger": 73
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      52664,
+      -53656,
+      -3104
+     ],
+     [
+      53608,
+      -53128,
+      -3200
+     ],
+     [
+      54600,
+      -52632,
+      -3360
+     ],
+     [
+      55320,
+      -51928,
+      -3512
+     ],
+     [
+      56312,
+      -50968,
+      -3408
+     ],
+     [
+      57272,
+      -49976,
+      -3288
+     ],
+     [
+      58264,
+      -48984,
+      -2744
+     ],
+     [
+      59256,
+      -47992,
+      -2624
+     ],
+     [
+      59928,
+      -47320,
+      -2720
+     ],
+     [
+      60376,
+      -47160,
+      -2688
+     ]
+    ],
+    "maxDanger": 73,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 73,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Ghost of Rebellion Leader",
+       "lv": 71,
+       "n": 5
+      },
+      {
+       "name": "Requiem Priest",
+       "lv": 71,
+       "n": 2
+      },
+      {
+       "name": "Behemoth Zombie",
+       "lv": 71,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 163,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:talk:31388",
+   "cond": 2,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -2061,13 +2510,13 @@
    },
    "expectedSec": 201,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2
    ],
+   "overrideFrom": "c1:talk:31388",
    "override": {
     "route": [
      [
@@ -2868,455 +3317,6 @@
    },
    "fixedByOverride": [
     "aggro-on-way"
-   ]
-  },
-  {
-   "i": 3,
-   "key": "c2:hunt",
-   "cond": 2,
-   "kind": "hunt",
-   "to": null,
-   "monsters": [
-    {
-     "id": 21553,
-     "name": "Trampled Man",
-     "level": 65,
-     "aggressive": false,
-     "raid": false,
-     "spawns": 16,
-     "questSpawned": false
-    },
-    {
-     "id": 21561,
-     "name": "Sacrificed Man",
-     "level": 67,
-     "aggressive": false,
-     "raid": false,
-     "spawns": 14,
-     "questSpawned": false
-    },
-    {
-     "id": 21570,
-     "name": "Ghost of Betrayer",
-     "level": 69,
-     "aggressive": false,
-     "raid": false,
-     "spawns": 17,
-     "questSpawned": false
-    },
-    {
-     "id": 21578,
-     "name": "Behemoth Zombie",
-     "level": 71,
-     "aggressive": false,
-     "raid": false,
-     "spawns": 13,
-     "questSpawned": false
-    }
-   ],
-   "items": [],
-   "kills": null,
-   "reasons": [
-    "aggro-on-way"
-   ],
-   "text": "Hunt Trampled Man, Sacrificed Man, Ghost of Betrayer",
-   "places": [
-    {
-     "mobs": [
-      21553,
-      21561,
-      21570,
-      21578
-     ],
-     "items": [],
-     "kills": null,
-     "area": {
-      "kind": "field",
-      "id": "swamp-of-screams-21",
-      "name": "Swamp of Screams 21: Corpse of Deadman area (west)",
-      "at": [
-       60376,
-       -47160,
-       -2688
-      ],
-      "radius": 2875,
-      "levels": [
-       63,
-       71
-      ],
-      "count": 7,
-      "region": "Swamp of Screams",
-      "atlasKey": "area:swamp-of-screams-21",
-      "status": "ok",
-      "sec": 138,
-      "danger": 71,
-      "aggrShare": 0.81,
-      "reachable": true,
-      "score": -39.7,
-      "alt": [
-       {
-        "kind": "field",
-        "id": "forest-of-the-dead-2",
-        "name": "Forest of the Dead 2: Atrox area (east)",
-        "at": [
-         53528,
-         -54776,
-         -2928
-        ],
-        "count": 4,
-        "status": "ok"
-       },
-       {
-        "kind": "field",
-        "id": "forest-of-the-dead-3",
-        "name": "Forest of the Dead 3: Corrupted Knight area (north-west)",
-        "at": [
-         50088,
-         -56504,
-         -2592
-        ],
-        "count": 4,
-        "status": "ok"
-       },
-       {
-        "kind": "field",
-        "id": "forest-of-the-dead-10",
-        "name": "Forest of the Dead 10: Corrupted Knight area (north-west)",
-        "at": [
-         48088,
-         -57560,
-         -2584
-        ],
-        "count": 4,
-        "status": "ok"
-       }
-      ]
-     },
-     "travel": {
-      "src": "atlas",
-      "key": "area:swamp-of-screams-21",
-      "status": "ok",
-      "flags": [],
-      "from": ".rune",
-      "length": 11206,
-      "sec": 138,
-      "via": ".rune > Rune -> Forest of the Dead",
-      "steps": [
-       {
-        "do": "town",
-        "town": "Rune",
-        "cmd": ".rune"
-       },
-       {
-        "do": "gk",
-        "from": "Rune",
-        "desc": "Rune -> Forest of the Dead",
-        "link": "forest of the dead",
-        "price": 1200,
-        "live": true
-       },
-       {
-        "do": "walk",
-        "len": 1016,
-        "how": "field-areas-gap",
-        "danger": 69
-       },
-       {
-        "do": "walk",
-        "len": 10190,
-        "how": "field-areas",
-        "danger": 73
-       }
-      ],
-      "start": {
-       "kind": "gk",
-       "from": "Rune",
-       "desc": "Rune -> Forest of the Dead"
-      },
-      "simple": true,
-      "pv": [
-       [
-        52107,
-        -54328,
-        -3152
-       ],
-       [
-        52664,
-        -53656,
-        -3104
-       ],
-       [
-        53608,
-        -53128,
-        -3200
-       ],
-       [
-        54600,
-        -52632,
-        -3360
-       ],
-       [
-        55320,
-        -51928,
-        -3512
-       ],
-       [
-        56312,
-        -50968,
-        -3408
-       ],
-       [
-        57272,
-        -49976,
-        -3288
-       ],
-       [
-        58264,
-        -48984,
-        -2744
-       ],
-       [
-        59256,
-        -47992,
-        -2624
-       ],
-       [
-        59928,
-        -47320,
-        -2720
-       ],
-       [
-        60376,
-        -47160,
-        -2688
-       ]
-      ],
-      "maxDanger": 73,
-      "needs": [],
-      "why": [],
-      "checks": {
-       "reachable": true,
-       "walls": "geodata / saved / graph walks (walls block)",
-       "water": false,
-       "danger": 73,
-       "dangerVsLevel": 8,
-       "aggro": [
-        {
-         "name": "Ghost of Rebellion Leader",
-         "lv": 71,
-         "n": 5
-        },
-        {
-         "name": "Requiem Priest",
-         "lv": 71,
-         "n": 2
-        },
-        {
-         "name": "Behemoth Zombie",
-         "lv": 71,
-         "n": 2
-        }
-       ]
-      }
-     }
-    }
-   ],
-   "area": {
-    "kind": "field",
-    "id": "swamp-of-screams-21",
-    "name": "Swamp of Screams 21: Corpse of Deadman area (west)",
-    "at": [
-     60376,
-     -47160,
-     -2688
-    ],
-    "radius": 2875,
-    "levels": [
-     63,
-     71
-    ],
-    "count": 7,
-    "region": "Swamp of Screams",
-    "atlasKey": "area:swamp-of-screams-21",
-    "status": "ok",
-    "sec": 138,
-    "danger": 71,
-    "aggrShare": 0.81,
-    "reachable": true,
-    "score": -39.7,
-    "alt": [
-     {
-      "kind": "field",
-      "id": "forest-of-the-dead-2",
-      "name": "Forest of the Dead 2: Atrox area (east)",
-      "at": [
-       53528,
-       -54776,
-       -2928
-      ],
-      "count": 4,
-      "status": "ok"
-     },
-     {
-      "kind": "field",
-      "id": "forest-of-the-dead-3",
-      "name": "Forest of the Dead 3: Corrupted Knight area (north-west)",
-      "at": [
-       50088,
-       -56504,
-       -2592
-      ],
-      "count": 4,
-      "status": "ok"
-     },
-     {
-      "kind": "field",
-      "id": "forest-of-the-dead-10",
-      "name": "Forest of the Dead 10: Corrupted Knight area (north-west)",
-      "at": [
-       48088,
-       -57560,
-       -2584
-      ],
-      "count": 4,
-      "status": "ok"
-     }
-    ]
-   },
-   "travel": {
-    "src": "atlas",
-    "key": "area:swamp-of-screams-21",
-    "status": "ok",
-    "flags": [],
-    "from": ".rune",
-    "length": 11206,
-    "sec": 138,
-    "via": ".rune > Rune -> Forest of the Dead",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "gk",
-      "from": "Rune",
-      "desc": "Rune -> Forest of the Dead",
-      "link": "forest of the dead",
-      "price": 1200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 1016,
-      "how": "field-areas-gap",
-      "danger": 69
-     },
-     {
-      "do": "walk",
-      "len": 10190,
-      "how": "field-areas",
-      "danger": 73
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Rune",
-     "desc": "Rune -> Forest of the Dead"
-    },
-    "simple": true,
-    "pv": [
-     [
-      52107,
-      -54328,
-      -3152
-     ],
-     [
-      52664,
-      -53656,
-      -3104
-     ],
-     [
-      53608,
-      -53128,
-      -3200
-     ],
-     [
-      54600,
-      -52632,
-      -3360
-     ],
-     [
-      55320,
-      -51928,
-      -3512
-     ],
-     [
-      56312,
-      -50968,
-      -3408
-     ],
-     [
-      57272,
-      -49976,
-      -3288
-     ],
-     [
-      58264,
-      -48984,
-      -2744
-     ],
-     [
-      59256,
-      -47992,
-      -2624
-     ],
-     [
-      59928,
-      -47320,
-      -2720
-     ],
-     [
-      60376,
-      -47160,
-      -2688
-     ]
-    ],
-    "maxDanger": 73,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 73,
-     "dangerVsLevel": 8,
-     "aggro": [
-      {
-       "name": "Ghost of Rebellion Leader",
-       "lv": 71,
-       "n": 5
-      },
-      {
-       "name": "Requiem Priest",
-       "lv": 71,
-       "n": 2
-      },
-      {
-       "name": "Behemoth Zombie",
-       "lv": 71,
-       "n": 2
-      }
-     ]
-    }
-   },
-   "expectedSec": 163,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    2
    ]
   }
  ],

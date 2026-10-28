@@ -1,0 +1,1033 @@
+{
+ "npcId": 31521,
+ "name": "Jeremy",
+ "title": "Chef",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.211Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31521.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "37": {
+   "name": "Make Formal Wear",
+   "listText": [
+    "[Make Formal Wear]",
+    "[Make Formal Wear (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00037_MakeFormalWear/31521-01.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00037_MakeFormalWear/31521-03.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00037_MakeFormalWear/31521-04.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00037_MakeFormalWear/31521-06.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "621": {
+   "name": "Egg Delivery",
+   "listText": [
+    "[Egg Delivery]",
+    "[Egg Delivery (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00621_EggDelivery/31521-01.htm",
+     "when": "state CREATED; (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00621_EggDelivery/31521-02.htm",
+     "when": "state CREATED; NOT (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00621_EggDelivery/31521-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00621_EggDelivery/31521-05.html",
+     "when": "state STARTED; cond 6; has items 7196",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00621_EggDelivery/31521-08.html",
+     "when": "state STARTED; cond 7; lacks items 7195",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "622": {
+   "name": "Specialty Liquor Delivery",
+   "listText": [
+    "[Specialty Liquor Delivery]",
+    "[Specialty Liquor Delivery (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31521-01.htm",
+     "when": "state CREATED; (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31521-02.htm",
+     "when": "state CREATED; NOT (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31521-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31521-05.html",
+     "when": "state STARTED; cond 6; has items 7198",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31521-08.html",
+     "when": "state STARTED; cond 7; lacks items 7197",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "623": {
+   "name": "The Finest Food",
+   "listText": [
+    "[The Finest Food]",
+    "[The Finest Food (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00623_TheFinestFood/31521-01.htm",
+     "when": "state CREATED; (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00623_TheFinestFood/31521-02.htm",
+     "when": "state CREATED; NOT (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00623_TheFinestFood/31521-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00623_TheFinestFood/31521-05.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "624": {
+   "name": "The Finest Ingredients - Part 1",
+   "listText": [
+    "[The Finest Ingredients - Part 1]",
+    "[The Finest Ingredients - Part 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00624_TheFinestIngredientsPart1/31521-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00624_TheFinestIngredientsPart1/31521-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00624_TheFinestIngredientsPart1/31521-03.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00624_TheFinestIngredientsPart1/31521-04.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "625": {
+   "name": "The Finest Ingredients - Part 2",
+   "listText": [
+    "[The Finest Ingredients - Part 2]",
+    "[The Finest Ingredients - Part 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00625_TheFinestIngredientsPart2/31521-01.htm",
+     "when": "state CREATED; level >= 73; (hasItem(talker, SOY_SOURCE_JAR))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00625_TheFinestIngredientsPart2/31521-02.htm",
+     "when": "state CREATED; level >= 73; NOT (hasItem(talker, SOY_SOURCE_JAR))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00625_TheFinestIngredientsPart2/31521-03.htm",
+     "when": "state CREATED; NOT level >= 73",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00625_TheFinestIngredientsPart2/31521-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00625_TheFinestIngredientsPart2/31521-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00625_TheFinestIngredientsPart2/31521-07.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31521.htm": {
+   "file": "default/31521.htm",
+   "quest": null,
+   "text": "Chef Jeremy: Humph! Don't you know who I am? You must not get out much! Listen carefully! I'm the greatest chef in the entire hot springs region! Everyone who's tasted my food says it's excellent! Would you care to try it?",
+   "header": "Chef Jeremy",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00037_MakeFormalWear/31521-01.html": {
+   "file": "Q00037_MakeFormalWear/31521-01.html",
+   "quest": 37,
+   "text": "Chef Jeremy: What brings you here? Can't you see how busy I am? You're here for the cookies? Let me see the stamp of the person who ordered it. Ah, you're here for Leikar! You're early! They're not ready yet. Don't rush me. I've got an idea, why don't you help me? They'll be ready much quicker..",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"What can I do to help?\"",
+     "bypass": "Quest Q00037_MakeFormalWear 31521-02.html",
+     "kind": "quest-event",
+     "script": "Q00037_MakeFormalWear",
+     "event": "31521-02.html",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/31521-02.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00037_MakeFormalWear/31521-03.html": {
+   "file": "Q00037_MakeFormalWear/31521-03.html",
+   "quest": 37,
+   "text": "Chef Jeremy: Haven't you left yet? You'd better get that cool wine to Information Broker Mist right away!",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/31521-04.html": {
+   "file": "Q00037_MakeFormalWear/31521-04.html",
+   "quest": 37,
+   "text": "Chef Jeremy: Thank you! What did Mist say when you gave him the wine? Was he upset because it was so late?",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"He didn't seem upset to me.\"",
+     "bypass": "Quest Q00037_MakeFormalWear 31521-05.html",
+     "kind": "quest-event",
+     "script": "Q00037_MakeFormalWear",
+     "event": "31521-05.html",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/31521-05.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00037_MakeFormalWear/31521-06.html": {
+   "file": "Q00037_MakeFormalWear/31521-06.html",
+   "quest": 37,
+   "text": "Chef Jeremy: Did you pack the cookies I made for you? Although they're sealed quite securely, they won't stay fresh forever! Take them to Leikar quickly, before they go stale!",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00621_EggDelivery/31521-01.htm": {
+   "file": "Q00621_EggDelivery/31521-01.htm",
+   "quest": 621,
+   "text": "Chef Jeremy: You look like you could use a few extra Adena... Well I'm looking for a helper! You'll earn an honest wage around here, that's for sure! All you have to do is take these steaming hot hard-boiled eggs I just made to my customers. Their names are already written on them. Deliver them qui…",
+   "header": "Chef Jeremy",
+   "when": [
+    "state CREATED; (talker.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll deliver your eggs.\"",
+     "bypass": "Quest Q00621_EggDelivery 31521-03.htm",
+     "kind": "quest-event",
+     "script": "Q00621_EggDelivery",
+     "event": "31521-03.htm",
+     "quest": 621,
+     "to": "Q00621_EggDelivery/31521-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00621_EggDelivery/31521-02.htm": {
+   "file": "Q00621_EggDelivery/31521-02.htm",
+   "quest": 621,
+   "text": "Chef Jeremy: Many dangerous and ferocious beasts lurk these parts. I'd really hate to have to bury another assistant! (Only a character of level 68 or above may undertake this quest.)",
+   "header": "Chef Jeremy",
+   "when": [
+    "state CREATED; NOT (talker.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00621_EggDelivery/31521-04.html": {
+   "file": "Q00621_EggDelivery/31521-04.html",
+   "quest": 621,
+   "text": "Chef Jeremy: What are you waiting for? My customers must be salivating, waiting for my delicious eggs to arrive! Get going!",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00621_EggDelivery/31521-05.html": {
+   "file": "Q00621_EggDelivery/31521-05.html",
+   "quest": 621,
+   "text": "Jeremy: OK, OK! Did you finish the delivery?",
+   "header": "Jeremy",
+   "when": [
+    "state STARTED; cond 6; has items 7196"
+   ],
+   "links": [
+    {
+     "text": "\"I completed the delivery.\"",
+     "bypass": "Quest Q00621_EggDelivery 31521-06.html",
+     "kind": "quest-event",
+     "script": "Q00621_EggDelivery",
+     "event": "31521-06.html",
+     "quest": 621,
+     "to": "Q00621_EggDelivery/31521-06.html",
+     "toAll": [
+      "Q00621_EggDelivery/31521-06.html",
+      "Q00621_EggDelivery/31521-07.html"
+     ],
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00621_EggDelivery/31521-08.html": {
+   "file": "Q00621_EggDelivery/31521-08.html",
+   "quest": 621,
+   "text": "Jeremy: Hey, what are you doing here? You should've visited Valentine in the Town of Goddard. I don't have any Adena to give you.",
+   "header": "Jeremy",
+   "when": [
+    "state STARTED; cond 7; lacks items 7195"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31521-01.htm": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31521-01.htm",
+   "quest": 622,
+   "text": "Chef Jeremy: You look like you could use a few extra Adena... Well I'm looking for a helper! You'll earn an honest wage around here, that's for sure! All you have to do is take these specialty liquors to my customers. Their names are already written down. Deliver them quickly, and who knows? I migh…",
+   "header": "Chef Jeremy",
+   "when": [
+    "state CREATED; (talker.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll deliver your liquor.\"",
+     "bypass": "Quest Q00622_SpecialtyLiquorDelivery 31521-03.htm",
+     "kind": "quest-event",
+     "script": "Q00622_SpecialtyLiquorDelivery",
+     "event": "31521-03.htm",
+     "quest": 622,
+     "to": "Q00622_SpecialtyLiquorDelivery/31521-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00622_SpecialtyLiquorDelivery/31521-02.htm": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31521-02.htm",
+   "quest": 622,
+   "text": "Chef Jeremy: Many dangerous and ferocious beasts lurk these parts. I'd really hate to have to bury another assistant! (Only a character of level 68 or above may undertake this quest.)",
+   "header": "Chef Jeremy",
+   "when": [
+    "state CREATED; NOT (talker.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31521-04.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31521-04.html",
+   "quest": 622,
+   "text": "Chef Jeremy: What are you waiting for? Think my customers who are waiting for my delicious liquor to arrive! Get going!",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31521-05.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31521-05.html",
+   "quest": 622,
+   "text": "Jeremy: You've come back? Did you finish delivering all the liquor?",
+   "header": "Jeremy",
+   "when": [
+    "state STARTED; cond 6; has items 7198"
+   ],
+   "links": [
+    {
+     "text": "\"I completed the delivery.\"",
+     "bypass": "Quest Q00622_SpecialtyLiquorDelivery 31521-06.html",
+     "kind": "quest-event",
+     "script": "Q00622_SpecialtyLiquorDelivery",
+     "event": "31521-06.html",
+     "quest": 622,
+     "to": "Q00622_SpecialtyLiquorDelivery/31521-06.html",
+     "toAll": [
+      "Q00622_SpecialtyLiquorDelivery/31521-06.html",
+      "Q00622_SpecialtyLiquorDelivery/31521-07.html"
+     ],
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00622_SpecialtyLiquorDelivery/31521-08.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31521-08.html",
+   "quest": 622,
+   "text": "Jeremy: What are you still doing here? Have you forgotten what you were supposed to do? Go to Warehouse Keeper Lietta in the Town of Goddard and say that you've come on my orders.",
+   "header": "Jeremy",
+   "when": [
+    "state STARTED; cond 7; lacks items 7197"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00623_TheFinestFood/31521-01.htm": {
+   "file": "Q00623_TheFinestFood/31521-01.htm",
+   "quest": 623,
+   "text": "Chef Jeremy: Long ago, the most distinguished aristocrats of the empire came here for their excursions. Those bastards! When I refused to be their personal chef, they insulted my food! They have no appreciation for haute cuisine! As hard as they tried, no one could find fault with my food! Those cr…",
+   "header": "Chef Jeremy",
+   "when": [
+    "state CREATED; (talker.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help you.\"",
+     "bypass": "Quest Q00623_TheFinestFood 31521-03.htm",
+     "kind": "quest-event",
+     "script": "Q00623_TheFinestFood",
+     "event": "31521-03.htm",
+     "quest": 623,
+     "to": "Q00623_TheFinestFood/31521-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00623_TheFinestFood/31521-02.htm": {
+   "file": "Q00623_TheFinestFood/31521-02.htm",
+   "quest": 623,
+   "text": "Chef Jeremy: Thanks anyway, but you're definitely not up to it. (Only a character of level 71 or above may undertake this quest.)",
+   "header": "Chef Jeremy",
+   "when": [
+    "state CREATED; NOT (talker.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00623_TheFinestFood/31521-04.html": {
+   "file": "Q00623_TheFinestFood/31521-04.html",
+   "quest": 623,
+   "text": "Chef Jeremy: No, no, no! I can't do it unless you bring me the exact amount of ingredients! What did I do to deserve this?",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00623_TheFinestFood/31521-05.html": {
+   "file": "Q00623_TheFinestFood/31521-05.html",
+   "quest": 623,
+   "text": "Chef Jeremy: Excellent! I didn't think you'd survive! Oh, did I say that out loud? I meant to say, I'm very happy to see you back so soon! Now, let's have a look at those ingredients.",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Here you go.\"",
+     "bypass": "Quest Q00623_TheFinestFood 31521-06.html",
+     "kind": "quest-event",
+     "script": "Q00623_TheFinestFood",
+     "event": "31521-06.html",
+     "quest": 623,
+     "to": "Q00623_TheFinestFood/31521-06.html",
+     "toAll": [
+      "Q00623_TheFinestFood/31521-06.html",
+      "Q00623_TheFinestFood/31521-07.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00624_TheFinestIngredientsPart1/31521-01.htm": {
+   "file": "Q00624_TheFinestIngredientsPart1/31521-01.htm",
+   "quest": 624,
+   "text": "Chef Jeremy: This is terrible. Terrible! That promising young chef Donath will be in the cooking competition, and unless I make something truly special I fear he will walk away with the top honors. But what to make, what to make? There IS one dish, but the ingredients are so difficult to get that I…",
+   "header": "Chef Jeremy",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say that you will help.",
+     "bypass": "Quest Q00624_TheFinestIngredientsPart1 31521-02.htm",
+     "kind": "quest-event",
+     "script": "Q00624_TheFinestIngredientsPart1",
+     "event": "31521-02.htm",
+     "quest": 624,
+     "to": "Q00624_TheFinestIngredientsPart1/31521-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00624_TheFinestIngredientsPart1/31521-00.htm": {
+   "file": "Q00624_TheFinestIngredientsPart1/31521-00.htm",
+   "quest": 624,
+   "text": "Chef Jeremy: I need someone to find some ingredients for me. I don't intend to feed the monsters! (Only a character of level 73 or above may undertake this quest.)",
+   "header": "Chef Jeremy",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00624_TheFinestIngredientsPart1/31521-03.html": {
+   "file": "Q00624_TheFinestIngredientsPart1/31521-03.html",
+   "quest": 624,
+   "text": "Chef Jeremy: What the...?! Blast! Do you want to see a chef go crazy? While you're wasting time, Donath is probably creating a dish that will steal away my position as top chef! Leave now, gather the ingredients and bring them to me at once! There's no time to waste!",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00624_TheFinestIngredientsPart1/31521-04.html": {
+   "file": "Q00624_TheFinestIngredientsPart1/31521-04.html",
+   "quest": 624,
+   "text": "Chef Jeremy: Unbelievable! You brought them back so quickly! I had a good feeling about you! This should be plenty for now. Now, let me have those ingredients.",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Here you go.\"",
+     "bypass": "Quest Q00624_TheFinestIngredientsPart1 31521-05.html",
+     "kind": "quest-event",
+     "script": "Q00624_TheFinestIngredientsPart1",
+     "event": "31521-05.html",
+     "quest": 624,
+     "to": "Q00624_TheFinestIngredientsPart1/31521-05.html",
+     "toAll": [
+      "Q00624_TheFinestIngredientsPart1/31521-05.html",
+      "Q00624_TheFinestIngredientsPart1/31521-06.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00625_TheFinestIngredientsPart2/31521-01.htm": {
+   "file": "Q00625_TheFinestIngredientsPart2/31521-01.htm",
+   "quest": 625,
+   "text": "Chef Jeremy: It's ready. Now give me the soy sauce that I gave you earlier.",
+   "header": "Chef Jeremy",
+   "when": [
+    "state CREATED; level >= 73; (hasItem(talker, SOY_SOURCE_JAR))"
+   ],
+   "links": [
+    {
+     "text": "\"Here's your Pot of Soy Sauce.\"",
+     "bypass": "Quest Q00625_TheFinestIngredientsPart2 31521-04.htm",
+     "kind": "quest-event",
+     "script": "Q00625_TheFinestIngredientsPart2",
+     "event": "31521-04.htm",
+     "quest": 625,
+     "to": "Q00625_TheFinestIngredientsPart2/31521-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00625_TheFinestIngredientsPart2/31521-02.htm": {
+   "file": "Q00625_TheFinestIngredientsPart2/31521-02.htm",
+   "quest": 625,
+   "text": "Chef Jeremy: What happened to the pot of soy sauce I gave you? I need it to flavor the food I'm making to lure that creature out!",
+   "header": "Chef Jeremy",
+   "when": [
+    "state CREATED; level >= 73; NOT (hasItem(talker, SOY_SOURCE_JAR))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00625_TheFinestIngredientsPart2/31521-03.htm": {
+   "file": "Q00625_TheFinestIngredientsPart2/31521-03.htm",
+   "quest": 625,
+   "text": "Chef Jeremy: Hey! I know my food is wonderful, but if you eat too much of it and get fat, how will you carry out such a dangerous assignment? (Only a character of level 73 or above may undertake this quest.)",
+   "header": "Chef Jeremy",
+   "when": [
+    "state CREATED; NOT level >= 73"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00625_TheFinestIngredientsPart2/31521-05.html": {
+   "file": "Q00625_TheFinestIngredientsPart2/31521-05.html",
+   "quest": 625,
+   "text": "Chef Jeremy: Once I get that yeti's meat, I'll put that arrogant Donath in his place! Stop fooling around! Take the food I gave you and lure Bumbalump out. Understand?",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00625_TheFinestIngredientsPart2/31521-06.html": {
+   "file": "Q00625_TheFinestIngredientsPart2/31521-06.html",
+   "quest": 625,
+   "text": "Chef Jeremy: Where's the Special Yeti Meat? I don't want anything else! As I said, all I need is the special meat from Bumbalump! Get it?!!",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00625_TheFinestIngredientsPart2/31521-07.html": {
+   "file": "Q00625_TheFinestIngredientsPart2/31521-07.html",
+   "quest": 625,
+   "text": "Chef Jeremy: So, you slaughtered him? Did you bring the meat?",
+   "header": "Chef Jeremy",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"Here's your meat.\"",
+     "bypass": "Quest Q00625_TheFinestIngredientsPart2 31521-08.html",
+     "kind": "quest-event",
+     "script": "Q00625_TheFinestIngredientsPart2",
+     "event": "31521-08.html",
+     "quest": 625,
+     "to": "Q00625_TheFinestIngredientsPart2/31521-08.html",
+     "toAll": [
+      "Q00625_TheFinestIngredientsPart2/31521-08.html",
+      "Q00625_TheFinestIngredientsPart2/31521-09.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00037_MakeFormalWear/31521-02.html": {
+   "file": "Q00037_MakeFormalWear/31521-02.html",
+   "quest": 37,
+   "text": "Chef Jeremy: I just got an order for a cool bottle of wine from Information Broker Mist at the Hot Springs Resort. If you'll take it to him, I'll bake some cookies for you. Is that a deal or what? Hurry! I'll have some fresh, hot cookies waiting for you!",
+   "header": "Chef Jeremy",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/31521-05.html": {
+   "file": "Q00037_MakeFormalWear/31521-05.html",
+   "quest": 37,
+   "text": "Chef Jeremy: What a relief! Very well, as promised, here are your cookies. I sealed the box very tight to keep them fresh. Handle it carefully so that you don't break them, and give my regards to Leikar!",
+   "header": "Chef Jeremy",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00621_EggDelivery/31521-03.htm": {
+   "file": "Q00621_EggDelivery/31521-03.htm",
+   "quest": 621,
+   "text": "Chef Jeremy: Take these hard-Boiled Eggs to my customers at the hot springs resort. Everyone likes their eggs done a different way.You must deliver them in the order! Look at the note I gave you for details, and don't ever forget our motto, \"The Customer Always Comes First\"!",
+   "header": "Chef Jeremy",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00621_EggDelivery/31521-06.html": {
+   "file": "Q00621_EggDelivery/31521-06.html",
+   "quest": 621,
+   "text": "Jeremy: Excellent! You seem to have more aptitude for delivery work than I thought. You did a good job, but unfortunately, I don't have the Adena to pay you. I don't have any more work for you, either... Talk to Valentine in the Town of Goddard. He owes me, and he'll give you a satisfactory reward.",
+   "header": "Jeremy",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00621_EggDelivery/31521-07.html": {
+   "file": "Q00621_EggDelivery/31521-07.html",
+   "quest": 621,
+   "text": "Jeremy: Hey, hey. You didn't just deliver that food without getting paid, right? Do make me sweat over small stuff like this. I'm leaving the small stuff up to you!",
+   "header": "Jeremy",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31521-03.htm": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31521-03.htm",
+   "quest": 622,
+   "text": "Chef Jeremy: Please take this specialty liquor to my customers at the hot springs resort. Our motto is \"The Customer Always Comes First!\" Don't ever forget it!",
+   "header": "Chef Jeremy",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31521-06.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31521-06.html",
+   "quest": 622,
+   "text": "Jeremy: My mother's mother's mother made this wine for the soldiers fighting in the war. They say that when the soldiers drank it, it so raised their fighting spirit that they won the battle. Believe it or not! In any case, I'd like to pay you for your work, but I'm afraid that I don't have any mon…",
+   "header": "Jeremy",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31521-07.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31521-07.html",
+   "quest": 622,
+   "text": "Jeremy: Deliver and collect the money, deliver and collect the money. You just have to keep repeating. Go finish the rest of your deliveries and get back here.",
+   "header": "Jeremy",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00623_TheFinestFood/31521-03.htm": {
+   "file": "Q00623_TheFinestFood/31521-03.htm",
+   "quest": 623,
+   "text": "Chef Jeremy: Wonderful! I need some Leaves of Hot Springs Flava , Meat of Hot Springs Buffalo and Horn of Hot Springs Antelope . Please bring me one hundred of each. I know it's a lot, but what can I say? Do it for the advancement of culinary science!",
+   "header": "Chef Jeremy",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00623_TheFinestFood/31521-06.html": {
+   "file": "Q00623_TheFinestFood/31521-06.html",
+   "quest": 623,
+   "text": "Chef Jeremy: Fantastic! You obviously know talent when you see it! This is my current menu. It changes frequently, since my customers are constantly dropping off delicious new ingredients!",
+   "header": "Chef Jeremy",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00623_TheFinestFood/31521-07.html": {
+   "file": "Q00623_TheFinestFood/31521-07.html",
+   "quest": 623,
+   "text": "Chef Jeremy: This amount of materials is not enough!",
+   "header": "Chef Jeremy",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00624_TheFinestIngredientsPart1/31521-02.htm": {
+   "file": "Q00624_TheFinestIngredientsPart1/31521-02.htm",
+   "quest": 624,
+   "text": "Chef Jeremy: The dish I shall make for the competition is called \"Smoked Yeti.\" However, I cannot make it with ordinary Yeti meat; I need the meat from the Icicle Emperor, the greatest of all the Yeti. The Icicle Emperor ventures out only rarely, however, so we must first cook another meal as bait.…",
+   "header": "Chef Jeremy",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00624_TheFinestIngredientsPart1/31521-05.html": {
+   "file": "Q00624_TheFinestIngredientsPart1/31521-05.html",
+   "quest": 624,
+   "text": "Chef Jeremy: Keep this soy sauce with you, and come back when you have the rest of the ingredients. Hold on a second... Ah yes, here are some Ice Crystals . They'll keep the sauce fresh, and you can use them for something else later on...",
+   "header": "Chef Jeremy",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00624_TheFinestIngredientsPart1/31521-06.html": {
+   "file": "Q00624_TheFinestIngredientsPart1/31521-06.html",
+   "quest": 624,
+   "text": "Chef Jeremy: Are you kidding me? You had the ingredients and now they're gone? I need to sit down!",
+   "header": "Chef Jeremy",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00625_TheFinestIngredientsPart2/31521-04.htm": {
+   "file": "Q00625_TheFinestIngredientsPart2/31521-04.htm",
+   "quest": 625,
+   "text": "Chef Jeremy: All right, now find the Icicle Emperor Bumbalump, or whatever you want to call him, and put out this food and wait. He loves to eat, and won't be able to resist such a scrumptious meal from a world-class chef! You must hurry! Kill that filthy creature and bring me his meat! One more th…",
+   "header": "Chef Jeremy",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00625_TheFinestIngredientsPart2/31521-08.html": {
+   "file": "Q00625_TheFinestIngredientsPart2/31521-08.html",
+   "quest": 625,
+   "text": "Chef Jeremy: Here is your pay. Many people were impressed by the dish I made. Whenever you have a chance, please stop by and help me again.",
+   "header": "Chef Jeremy",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00625_TheFinestIngredientsPart2/31521-09.html": {
+   "file": "Q00625_TheFinestIngredientsPart2/31521-09.html",
+   "quest": 625,
+   "text": "Chef Jeremy: Where are my ingredients? Unless you bring them to me at once, I won't have enough time to create a new dish!",
+   "header": "Chef Jeremy",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Make Formal Wear (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00037_MakeFormalWear",
+     "kind": "quest",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/31521-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Egg Delivery]",
+     "bypass": "npc_%objectId%_Quest Q00621_EggDelivery",
+     "kind": "quest",
+     "quest": 621,
+     "to": "Q00621_EggDelivery/31521-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Egg Delivery (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00621_EggDelivery",
+     "kind": "quest",
+     "quest": 621,
+     "to": "Q00621_EggDelivery/31521-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Specialty Liquor Delivery]",
+     "bypass": "npc_%objectId%_Quest Q00622_SpecialtyLiquorDelivery",
+     "kind": "quest",
+     "quest": 622,
+     "to": "Q00622_SpecialtyLiquorDelivery/31521-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Specialty Liquor Delivery (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00622_SpecialtyLiquorDelivery",
+     "kind": "quest",
+     "quest": 622,
+     "to": "Q00622_SpecialtyLiquorDelivery/31521-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Finest Food]",
+     "bypass": "npc_%objectId%_Quest Q00623_TheFinestFood",
+     "kind": "quest",
+     "quest": 623,
+     "to": "Q00623_TheFinestFood/31521-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Finest Food (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00623_TheFinestFood",
+     "kind": "quest",
+     "quest": 623,
+     "to": "Q00623_TheFinestFood/31521-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Finest Ingredients - Part 1]",
+     "bypass": "npc_%objectId%_Quest Q00624_TheFinestIngredientsPart1",
+     "kind": "quest",
+     "quest": 624,
+     "to": "Q00624_TheFinestIngredientsPart1/31521-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Finest Ingredients - Part 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00624_TheFinestIngredientsPart1",
+     "kind": "quest",
+     "quest": 624,
+     "to": "Q00624_TheFinestIngredientsPart1/31521-03.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Finest Ingredients - Part 2]",
+     "bypass": "npc_%objectId%_Quest Q00625_TheFinestIngredientsPart2",
+     "kind": "quest",
+     "quest": 625,
+     "to": "Q00625_TheFinestIngredientsPart2/31521-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Finest Ingredients - Part 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00625_TheFinestIngredientsPart2",
+     "kind": "quest",
+     "quest": 625,
+     "to": "Q00625_TheFinestIngredientsPart2/31521-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

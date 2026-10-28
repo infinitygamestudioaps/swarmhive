@@ -1,0 +1,249 @@
+{
+ "npcId": 32321,
+ "name": "Item Broker",
+ "title": "Adventure Guildsman",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.369Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/32321.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32321.htm": {
+   "file": "default/32321.htm",
+   "quest": null,
+   "text": "Adventurer's Craft Item Saleclerk: Welcome! We are selling precious items never before seen. We only have a limited number, so only the highest bidders will benefit!",
+   "header": "Adventurer's Craft Item Saleclerk",
+   "links": [
+    {
+     "text": "View auction rules.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32321-1.htm"
+    },
+    {
+     "text": "Buy Items.",
+     "bypass": "npc_%objectId%_ItemAuction show",
+     "kind": "other",
+     "live": true
+    },
+    {
+     "text": "Retrieve canceled bids.",
+     "bypass": "npc_%objectId%_ItemAuction cancel",
+     "kind": "other"
+    }
+   ]
+  },
+  "default/32321-1.htm": {
+   "file": "default/32321-1.htm",
+   "quest": null,
+   "text": "Item Broker: We will sell the items, many of them precious or hard-to-find, only at the time of the auction, which will be announced in advance. Once items are registered, they will auctioned off to the highest bidder. All non-winning bidders will be refunded the exact amount of their initial bid. …",
+   "header": "Item Broker",
+   "outcome": "dead-end",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: The list of goods for sale | The list of goods to buy | The list of goods to craft | List all | Equipment | Equipment +4 and more | Rare equipment | Matherials | Key matherials | Recipies | Books and amulets | Other"
+ ],
+ "liveClicks": [
+  {
+   "text": "The list of goods for sale",
+   "n": 13,
+   "inDatapack": false,
+   "from": [
+    "Item Broker Adventure Guildsman:Welcome! I have never-before"
+   ],
+   "to": [
+    "The list of goods to sell:List allEquipmentEquipment +4 and "
+   ]
+  },
+  {
+   "text": "The list of goods to buy",
+   "n": 12,
+   "inDatapack": false,
+   "from": [
+    "Item Broker Adventure Guildsman:Welcome! I have never-before"
+   ],
+   "to": [
+    "The list of goods to buy:List allEquipmentRare equipmentCons"
+   ]
+  },
+  {
+   "text": "The list of goods to craft",
+   "n": 4,
+   "inDatapack": false,
+   "from": [
+    "Item Broker Adventure Guildsman:Welcome! I have never-before"
+   ],
+   "to": [
+    "The list of goods to craft:List allEquipmentConsumableMather"
+   ]
+  },
+  {
+   "text": "List all",
+   "n": 3,
+   "inDatapack": false,
+   "from": [
+    "The list of goods to sell:List allEquipmentEquipment +4 and ",
+    "The list of goods to buy:List allEquipmentRare equipmentCons",
+    "The list of goods to craft:List allEquipmentConsumableMather"
+   ],
+   "to": [
+    "««&nbsp;&nbsp;1&nbsp;2&nbsp;3&nbsp;4&nbsp;5&nbsp;6&nbsp;7&nb",
+    "««&nbsp;&nbsp;Arcana Mace Headprice: 1 000 000, count: 32Bla",
+    "««&nbsp;&nbsp;1&nbsp;2&nbsp;3&nbsp;4&nbsp;5&nbsp;>&nbsp;Arcs"
+   ]
+  },
+  {
+   "text": "Equipment",
+   "n": 3,
+   "inDatapack": false,
+   "from": [
+    "The list of goods to sell:List allEquipmentEquipment +4 and ",
+    "The list of goods to buy:List allEquipmentRare equipmentCons",
+    "The list of goods to craft:List allEquipmentConsumableMather"
+   ],
+   "to": [
+    "The list of equipment:WeaponsArmorsJewelsAccessoriesBack"
+   ]
+  },
+  {
+   "text": "Rare equipment",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "The list of goods to sell:List allEquipmentEquipment +4 and ",
+    "The list of goods to buy:List allEquipmentRare equipmentCons"
+   ],
+   "to": [
+    "««&nbsp;&nbsp;Nothing found.&nbsp;"
+   ]
+  },
+  {
+   "text": "Matherials",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "The list of goods to sell:List allEquipmentEquipment +4 and ",
+    "The list of goods to buy:List allEquipmentRare equipmentCons"
+   ],
+   "to": [
+    "««&nbsp;&nbsp;1&nbsp;2&nbsp;>&nbsp;Coalprice: 10 000, count:",
+    "««&nbsp;&nbsp;Nothing found.&nbsp;"
+   ]
+  },
+  {
+   "text": "Key matherials",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "The list of goods to sell:List allEquipmentEquipment +4 and ",
+    "The list of goods to buy:List allEquipmentRare equipmentCons"
+   ],
+   "to": [
+    "««&nbsp;&nbsp;Sealed Moirai Helmet Pieceprice: 10 000 000, c",
+    "««&nbsp;&nbsp;Arcana Mace Headprice: 1 000 000, count: 32&nb"
+   ]
+  },
+  {
+   "text": "Recipies",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "The list of goods to sell:List allEquipmentEquipment +4 and ",
+    "The list of goods to buy:List allEquipmentRare equipmentCons"
+   ],
+   "to": [
+    "««&nbsp;&nbsp;1&nbsp;2&nbsp;>&nbsp;Recipe - Sealed Moirai He",
+    "««&nbsp;&nbsp;Nothing found.&nbsp;"
+   ]
+  },
+  {
+   "text": "Books and amulets",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "The list of goods to sell:List allEquipmentEquipment +4 and ",
+    "The list of goods to buy:List allEquipmentRare equipmentCons"
+   ],
+   "to": [
+    "««&nbsp;&nbsp;1&nbsp;2&nbsp;3&nbsp;>&nbsp;Ancient Book - Div",
+    "««&nbsp;&nbsp;Nothing found.&nbsp;"
+   ]
+  },
+  {
+   "text": "Other",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "The list of goods to sell:List allEquipmentEquipment +4 and ",
+    "The list of goods to buy:List allEquipmentRare equipmentCons"
+   ],
+   "to": [
+    "««&nbsp;&nbsp;Nothing found.&nbsp;"
+   ]
+  },
+  {
+   "text": "Commons",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "The list of goods to sell:List allEquipmentEquipment +4 and ",
+    "The list of goods to buy:List allEquipmentRare equipmentCons"
+   ],
+   "to": [
+    "««&nbsp;&nbsp;Nothing found.&nbsp;"
+   ]
+  },
+  {
+   "text": "Find",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "The list of goods to sell:List allEquipmentEquipment +4 and ",
+    "The list of goods to buy:List allEquipmentRare equipmentCons"
+   ],
+   "to": [
+    "««&nbsp;&nbsp;Nothing found.&nbsp;"
+   ]
+  },
+  {
+   "text": "Consumable",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "The list of goods to buy:List allEquipmentRare equipmentCons",
+    "The list of goods to craft:List allEquipmentConsumableMather"
+   ],
+   "to": [
+    "««&nbsp;&nbsp;Nothing found.&nbsp;",
+    "««&nbsp;&nbsp;Blessed Spiritshot: A-Gradeprice: 1, count: 20"
+   ]
+  },
+  {
+   "text": "Buy Items.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Item Broker Adventure Guildsman:Welcome! I have never-before"
+   ],
+   "to": []
+  },
+  {
+   "text": "Equipment +4 and more",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "The list of goods to sell:List allEquipmentEquipment +4 and "
+   ],
+   "to": []
+  }
+ ]
+}

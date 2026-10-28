@@ -1,0 +1,260 @@
+{
+ "npcId": 32650,
+ "name": "Kanemika",
+ "title": "Grave Robber Leader",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.396Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32650.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "450": {
+   "name": "Grave Robber Rescue",
+   "listText": [
+    "[Grave Robber Rescue]",
+    "[Grave Robber Rescue (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00450_GraveRobberRescue/32650-03.html",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00450_GraveRobberRescue/32650-01.htm",
+     "when": "state COMPLETED|CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00450_GraveRobberRescue/32650-02.htm",
+     "when": "state COMPLETED|CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00450_GraveRobberRescue/32650-08.html",
+     "when": "state STARTED; cond 1; (!st.hasQuestItems(EVIDENCE_OF_MIGRATION))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00450_GraveRobberRescue/32650-09.html",
+     "when": "state STARTED; cond 1; NOT (!st.hasQuestItems(EVIDENCE_OF_MIGRATION))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00450_GraveRobberRescue/32650-10.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32650.htm": {
+   "file": "default/32650.htm",
+   "quest": null,
+   "text": "Grave Robber Leader Kanemika: What I fool I was! Gak! The evil spirits are spreading. Wait! Who're you? Heh! You're not the evil spirit created by the Earthwyrm, are you?",
+   "header": "Grave Robber Leader Kanemika",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00450_GraveRobberRescue/32650-03.html": {
+   "file": "Q00450_GraveRobberRescue/32650-03.html",
+   "quest": 450,
+   "text": "Grave Robber Leader Kanemika: You already did what I asked today, remember? Thanks, but I don't need anything else right now. (You can only undertake this quest once a day. It resets every day at 6:30 AM.)",
+   "header": "Grave Robber Leader Kanemika",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00450_GraveRobberRescue/32650-01.htm": {
+   "file": "Q00450_GraveRobberRescue/32650-01.htm",
+   "quest": 450,
+   "text": "Grave Robber Leader Kanemika: Yuk yuk! I am Kanemika, leader of these grave robbers. You look strong enough, eh? How about doing me a favor?",
+   "header": "Grave Robber Leader Kanemika",
+   "when": [
+    "state COMPLETED|CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q00450_GraveRobberRescue 32650-04.htm",
+     "kind": "quest-event",
+     "script": "Q00450_GraveRobberRescue",
+     "event": "32650-04.htm",
+     "quest": 450,
+     "to": "Q00450_GraveRobberRescue/32650-04.htm"
+    }
+   ]
+  },
+  "Q00450_GraveRobberRescue/32650-02.htm": {
+   "file": "Q00450_GraveRobberRescue/32650-02.htm",
+   "quest": 450,
+   "text": "Grave Robber Leader Kanemika: What a weakling! Oh, you wouldn't last long. I can't ask you. No, no mission for you. (Only characters who are level 80 or higher may undertake this quest.)",
+   "header": "Grave Robber Leader Kanemika",
+   "when": [
+    "state COMPLETED|CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00450_GraveRobberRescue/32650-08.html": {
+   "file": "Q00450_GraveRobberRescue/32650-08.html",
+   "quest": 450,
+   "text": "Grave Robber Leader Kanemika: If you see any normal Grave Robber Warriors roaming through the mine, tell them to hide in a safe place. Bring me 10 Proofs of Migration as evidence that you were able to persuade them and I'll reward you handsomely. Wha...wait! Didn't I already tell you all this?",
+   "header": "Grave Robber Leader Kanemika",
+   "when": [
+    "state STARTED; cond 1; (!st.hasQuestItems(EVIDENCE_OF_MIGRATION))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00450_GraveRobberRescue/32650-09.html": {
+   "file": "Q00450_GraveRobberRescue/32650-09.html",
+   "quest": 450,
+   "text": "Grave Robber Leader Kanemika: You don't have 10 Evidence of Migration . Hurry -- there's no time to waste!",
+   "header": "Grave Robber Leader Kanemika",
+   "when": [
+    "state STARTED; cond 1; NOT (!st.hasQuestItems(EVIDENCE_OF_MIGRATION))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00450_GraveRobberRescue/32650-10.html": {
+   "file": "Q00450_GraveRobberRescue/32650-10.html",
+   "quest": 450,
+   "text": "Grave Robber Leader Kanemika: Thanks to you, some of my followers were able to escape to a safe place. Take some of the money I got from that accursed Dwarf as payment. If we survive this mess, you'll always be welcome around our fire!",
+   "header": "Grave Robber Leader Kanemika",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00450_GraveRobberRescue/32650-04.htm": {
+   "file": "Q00450_GraveRobberRescue/32650-04.htm",
+   "quest": 450,
+   "text": "Grave Robber Leader Kanemika: One day, a Dwarf came to see me. I could not see his face because he was wearing a scarf but...he promised to give me a good sum of Adena if I found something hidden in this mine. But he fooled us! We just did what he told us to do, but then evil spirits spread out to …",
+   "header": "Grave Robber Leader Kanemika",
+   "links": [
+    {
+     "text": "\"I couldn't care less about your problems.\"",
+     "bypass": "Quest Q00450_GraveRobberRescue 32650-05.htm",
+     "kind": "quest-event",
+     "script": "Q00450_GraveRobberRescue",
+     "event": "32650-05.htm",
+     "quest": 450,
+     "to": "Q00450_GraveRobberRescue/32650-05.htm"
+    },
+    {
+     "text": "\"Yes, I will help you.\"",
+     "bypass": "Quest Q00450_GraveRobberRescue 32650-07.htm",
+     "kind": "quest-event",
+     "script": "Q00450_GraveRobberRescue",
+     "event": "32650-07.htm",
+     "quest": 450,
+     "to": "Q00450_GraveRobberRescue/32650-07.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00450_GraveRobberRescue/32650-05.htm": {
+   "file": "Q00450_GraveRobberRescue/32650-05.htm",
+   "quest": 450,
+   "text": "Grave Robber Leader Kanemika: Hey, look here...even if you think grave robbers are animals -- heh heh -- don't we still have a right to live? Please! Please help save my poor followers!",
+   "header": "Grave Robber Leader Kanemika",
+   "links": [
+    {
+     "text": "\"This is none of my business. You're on your own.\"",
+     "bypass": "Quest Q00450_GraveRobberRescue 32650-06.html",
+     "kind": "quest-event",
+     "script": "Q00450_GraveRobberRescue",
+     "event": "32650-06.html",
+     "quest": 450,
+     "to": "Q00450_GraveRobberRescue/32650-06.html"
+    },
+    {
+     "text": "\"I guess you're right. I'll help you.\"",
+     "bypass": "Quest Q00450_GraveRobberRescue 32650-07.htm",
+     "kind": "quest-event",
+     "script": "Q00450_GraveRobberRescue",
+     "event": "32650-07.htm",
+     "quest": 450,
+     "to": "Q00450_GraveRobberRescue/32650-07.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00450_GraveRobberRescue/32650-06.html": {
+   "file": "Q00450_GraveRobberRescue/32650-06.html",
+   "quest": 450,
+   "text": "Grave Robber Leader Kanemika: Please...have mercy on us...no...don't leave us!",
+   "header": "Grave Robber Leader Kanemika",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00450_GraveRobberRescue/32650-07.htm": {
+   "file": "Q00450_GraveRobberRescue/32650-07.htm",
+   "quest": 450,
+   "text": "Grave Robber Leader Kanemika: We can't do anything for the ones who are already possessed by the evil spirits. But there are still some who have escaped their influence. If you see any normal Grave Robber Warriors roaming through the mine, tell them to hide in a safe place. Bring me 10 Evidence of …",
+   "header": "Grave Robber Leader Kanemika",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Grave Robber Rescue]",
+     "bypass": "npc_%objectId%_Quest Q00450_GraveRobberRescue",
+     "kind": "quest",
+     "quest": 450,
+     "to": "Q00450_GraveRobberRescue/32650-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Grave Robber Rescue (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00450_GraveRobberRescue",
+     "kind": "quest",
+     "quest": 450,
+     "to": "Q00450_GraveRobberRescue/32650-08.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

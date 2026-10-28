@@ -1,0 +1,1114 @@
+{
+ "npcId": 30969,
+ "name": "Iason Heine",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.118Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30969.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "195": {
+   "name": "Seven Signs, Secret Ritual of the Priests",
+   "listText": [
+    "[Seven Signs, Secret Ritual of the Priests]",
+    "[Seven Signs, Secret Ritual of the Priests (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00195_SevenSignsSecretRitualOfThePriests/30969-01.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "196": {
+   "name": "Seven Signs, Seal of the Emperor",
+   "listText": [
+    "[Seven Signs, Seal of the Emperor]",
+    "[Seven Signs, Seal of the Emperor (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00196_SevenSignsSealOfTheEmperor/30969-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00195_SevenSignsSecretRitualOfThePrie",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00196_SevenSignsSealOfTheEmperor/30969-08.html",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00195_SevenSignsSecretRitualOfThePrie",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00196_SevenSignsSealOfTheEmperor/30969-09.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00196_SevenSignsSealOfTheEmperor/30969-10.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00196_SevenSignsSealOfTheEmperor/30969-11.html",
+     "when": "state STARTED; cond 3|4",
+     "state": "STARTED",
+     "cond": [
+      3,
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00196_SevenSignsSealOfTheEmperor/30969-12.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00196_SevenSignsSealOfTheEmperor/30969-15.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "237": {
+   "name": "Winds of Change",
+   "listText": [
+    "[Winds of Change]",
+    "[Winds of Change (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00237_WindsOfChange/30969-01.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00237_WindsOfChange/30969-06.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00237_WindsOfChange/30969-07.html",
+     "when": "cond 4",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00237_WindsOfChange/30969-11.html",
+     "when": "cond 5|6",
+     "state": null,
+     "cond": [
+      5,
+      6
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "348": {
+   "name": "An Arrogant Search",
+   "listText": [
+    "[An Arrogant Search]",
+    "[An Arrogant Search (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00348_AnArrogantSearch/30969-01.html",
+     "when": "state STARTED; item 4295 >= 6; st.getMemoStateEx(0) == 18; (st.getMemoStateEx(1) % 8) < 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30969-02.html",
+     "when": "state STARTED; st.getMemoStateEx(0) == 18; (st.getMemoStateEx(1) % 8) < 4; !getQuestItemsCount(player, BLOODED_FABRIC) >= 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30969-03.html",
+     "when": "state STARTED; st.getMemoStateEx(0) == 18; !(st.getMemoStateEx(1) % 8) < 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "351": {
+   "name": "Black Swan",
+   "listText": [
+    "[Black Swan]",
+    "[Black Swan (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00351_BlackSwan/30969-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30969.htm": {
+   "file": "default/30969.htm",
+   "quest": null,
+   "text": "Iason Heine : Do I know you....? Age has diminished my memory... But there is one thing I will never forget: the beauty and enormous potential of our precious Innadril and her inhabitants. Don't you agree?",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30969-01.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30969-01.html",
+   "quest": 195,
+   "text": "Iason Heine: Ah yes! I've heard about you from the good Lady Claudia! I understand the Order of the Dawn owes you a great deal. I am Iason Heine, master accountant for the Lords of Dawn. I believe you have something for me?",
+   "header": "Iason Heine",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"Here. It's very delicate.\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 30969-02.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "30969-02.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/30969-02.html"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-01.htm": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-01.htm",
+   "quest": 196,
+   "text": "Iason Heine: Ah, please--come here, come here! I've had a look over that page, and I have good news and bad news in equal measure. First the bad: the document was written in heavy, heavy slang, meaning I've had to best-guess several whole phrases. There were also some markings on the contract which…",
+   "header": "Iason Heine",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00195_SevenSignsSecretRitualOfThePrie"
+   ],
+   "links": [
+    {
+     "text": "\"Oh... what about the good news?\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor 30969-02.htm",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "30969-02.htm",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/30969-02.htm"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-08.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-08.html",
+   "quest": 196,
+   "text": "Iason Heine: (Only characters who are level 79 or higher and who have completed the Seven Signs and Secret Ritual of the Priests quests may undertake this quest.)",
+   "header": "Iason Heine",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00195_SevenSignsSecretRitualOfThePrie"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-09.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-09.html",
+   "quest": 196,
+   "text": "Iason Heine: No, of course not! What if I were to summon some ancient spirit? Do I look like a fighting man to you? Ah, but now you're here... perhaps I should. Hmm... yes. Here we go.... \"The Merchants of Mammon shall respectfully pledge the following to the Great Emperor Shunaiman: When dark bloo…",
+   "header": "Iason Heine",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Put it down!\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor ssq_mammon",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "ssq_mammon",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/30969-06.html",
+     "toAll": [
+      "Q00196_SevenSignsSealOfTheEmperor/30969-06.html",
+      "Q00196_SevenSignsSealOfTheEmperor/30969-07.html"
+     ]
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-10.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-10.html",
+   "quest": 196,
+   "text": "Iason Heine: Incredible... so the seal was under threat many years ago, and we must now go and aid the Emperor by travelling back to the time of his rule? The science is mind-boggling, frankly. How will we know what implications your interference will cause? But then... what if the past IS our past…",
+   "header": "Iason Heine",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-11.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-11.html",
+   "quest": 196,
+   "text": "Iason Heine: Now's not the time, adventurer! Hurry to the Disciple's Necropolis and find the Promise of Mammon !",
+   "header": "Iason Heine",
+   "when": [
+    "state STARTED; cond 3|4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-12.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-12.html",
+   "quest": 196,
+   "text": "Iason Heine: You're back! Tell me all that happened, please! I've almost rubbed my hands raw with worry.",
+   "header": "Iason Heine",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"Well...\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor 30969-13.html",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "30969-13.html",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/30969-13.html"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-15.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-15.html",
+   "quest": 196,
+   "text": "Iason Heine: Go and meet Priest Wood in the Temple of Einhasad , traveller! He'll be able to set up a meeting with the Witness of Dawn.",
+   "header": "Iason Heine",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00237_WindsOfChange/30969-01.html": {
+   "file": "Q00237_WindsOfChange/30969-01.html",
+   "quest": 237,
+   "text": "Iason Haine: What is it?",
+   "header": "Iason Haine",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "Show him Flauen's letter.",
+     "bypass": "Quest Q00237_WindsOfChange 30969-02.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-02.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-02.html"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30969-06.html": {
+   "file": "Q00237_WindsOfChange/30969-06.html",
+   "quest": 237,
+   "text": "Iason Heine: First, meet with Head Blacksmith Roman, the supporter of Dr. Helvetica. And then, meet with High Priestess of Eva Morelyn, the supporter of Atenia. Come back when you are ready to decide.",
+   "header": "Iason Heine",
+   "when": [
+    "cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00237_WindsOfChange/30969-07.html": {
+   "file": "Q00237_WindsOfChange/30969-07.html",
+   "quest": 237,
+   "text": "Iason Heine: So tell me ... have you gleaned enough information to make a decision?",
+   "header": "Iason Heine",
+   "when": [
+    "cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, I have.\"",
+     "bypass": "Quest Q00237_WindsOfChange 30969-08.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-08.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-08.html"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30969-11.html": {
+   "file": "Q00237_WindsOfChange/30969-11.html",
+   "quest": 237,
+   "text": "Iason Heine: You can't change your mind now! We're both committed to the path you chose. Hurry and deliver this letter pledging my support.",
+   "header": "Iason Heine",
+   "when": [
+    "cond 5|6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30969-01.html": {
+   "file": "Q00348_AnArrogantSearch/30969-01.html",
+   "quest": 348,
+   "text": "Iason Heine: Welcome, my friend! Have you brought the six pieces of red fabric from Aden? Please give them to me immediately! I have already paid Magister Hanellin at the Aden branch of the Trade Guild.",
+   "header": "Iason Heine",
+   "when": [
+    "state STARTED; item 4295 >= 6; st.getMemoStateEx(0) == 18; (st.getMemoStateEx(1) % 8) < 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30969-02.html": {
+   "file": "Q00348_AnArrogantSearch/30969-02.html",
+   "quest": 348,
+   "text": "Iason Heine: Ah, come in, come in... Have you brought the six pieces of Blooded Fabric from Aden? What? Why not? I already paid for them! Are you trying to rip me off? Go get the Blooded Fabrics from Magister Hanellin immediately!",
+   "header": "Iason Heine",
+   "when": [
+    "state STARTED; st.getMemoStateEx(0) == 18; (st.getMemoStateEx(1) % 8) < 4; !getQuestItemsCount(player, BLOODED_FABRIC) >= 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30969-03.html": {
+   "file": "Q00348_AnArrogantSearch/30969-03.html",
+   "quest": 348,
+   "text": "Iason Heine: Ah yes, welcome my friend. I really want to express my gratitude for your professionalism in our last transaction, and I hope that we can do business together again soon.",
+   "header": "Iason Heine",
+   "when": [
+    "state STARTED; st.getMemoStateEx(0) == 18; !(st.getMemoStateEx(1) % 8) < 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00351_BlackSwan/30969-01.html": {
+   "file": "Q00351_BlackSwan/30969-01.html",
+   "quest": 351,
+   "text": "Iason Heine: Oh, my! I should have noticed the captain's seal earlier! So you are here to help me.... What has become of those filthy Tasaba lizardmen ? Have you recovered any of the stolen cargo?",
+   "header": "Iason Heine",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the fangs of the lizardmen.\"",
+     "bypass": "Quest Q00351_BlackSwan 30969-02.html",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30969-02.html",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-02.html",
+     "toAll": [
+      "Q00351_BlackSwan/30969-02.html",
+      "Q00351_BlackSwan/30969-04.html"
+     ]
+    },
+    {
+     "text": "\"Here is the cargo we recovered.\"",
+     "bypass": "Quest Q00351_BlackSwan 30969-05.html",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30969-05.html",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-05.html",
+     "toAll": [
+      "Q00351_BlackSwan/30969-05.html",
+      "Q00351_BlackSwan/30969-06.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30969-02.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30969-02.html",
+   "quest": 195,
+   "text": "Iason Heine: Of course it is! This document is 1500 years old, my child. The fact that it is still eligible at all is a miracle in its own right--most parchment this old is little more than dust and ash these days. But this... this is remarkable! The one document binding Shunaiman and the Merchants…",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "\"Can you understand the text?\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests reward",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "reward",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/30969-03.html",
+     "toAll": [
+      "Q00195_SevenSignsSecretRitualOfThePriests/30969-03.html",
+      "Q00195_SevenSignsSecretRitualOfThePriests/level_check.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/30969-03.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/30969-03.html",
+   "quest": 195,
+   "text": "Iason Heine: Oh yes, yes I can. But I'm afraid my Elmoreden is rather out of practice, and the language was created to confuse outsiders. Pronounce one syllable differently and the whole sentence changes or loses meaning you see, and written Elmoreden is simply a phonetic interpretation of the spok…",
+   "header": "Iason Heine",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-02.htm": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-02.htm",
+   "quest": 196,
+   "text": "Iason Heine: The good news, yes yes! I managed to fully translate a clause in the contract between the Merchants of Mammon and Emperor Shunaiman. It's all rather interesting, and seems to indicate that the Emperor wasn't as on top of things as history suggests.",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "\"Oh?\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor 30969-03.htm",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "30969-03.htm",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/30969-03.htm"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-03.htm": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-03.htm",
+   "quest": 196,
+   "text": "Iason Heine: Here... it says that Shunaiman and the merchants entered into a secret pact, but only half of the deal is mentioned here: the merchants agreed to aid the Emperor whenever his Seal was under threat. But no merchant worth his salt would agree to a clause like that without getting somethi…",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "\"What else have you found?\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor 30969-04.htm",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "30969-04.htm",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/30969-04.htm"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-04.htm": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-04.htm",
+   "quest": 196,
+   "text": "Iason Heine: See this part here? This whole section rhymes in Elmoreden. It's like a chant of some sort, though I have no idea why the Merchants would write in such elaborate verse when their language was created for cut-and-thrust matters like illicit trading and the like.",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "\"Have you tried reciting the words?\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor 30969-05.html",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "30969-05.html",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/30969-05.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-05.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-05.html",
+   "quest": 196,
+   "text": "Iason Heine: No, of course not! What if I were to summon some ancient spirit? Do I look like a fighting man to you? Ah, but now you're here... perhaps I should. Hmm... yes. Here we go.... \"The Merchants of Mammon shall respectfully pledge the following to the Great Emperor Shunaiman: When dark bloo…",
+   "header": "Iason Heine",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Put it down!\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor ssq_mammon",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "ssq_mammon",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/30969-06.html",
+     "toAll": [
+      "Q00196_SevenSignsSealOfTheEmperor/30969-06.html",
+      "Q00196_SevenSignsSealOfTheEmperor/30969-07.html"
+     ]
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-06.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-06.html",
+   "quest": 196,
+   "text": "Iason Heine: (The light from the contract fades, and a small figure is seen standing next to Iason.) Oh my! A merchant of Mammon ! Talk to him... quickly!",
+   "header": "Iason Heine",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-07.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-07.html",
+   "quest": 196,
+   "text": "Iason Heine: I don't have time for idle banter right now! (Another player is currently speaking with him.)",
+   "header": "Iason Heine",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-13.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-13.html",
+   "quest": 196,
+   "text": "Iason Heine: Incredible. Absolutely incredible. And now this book... we must find it. What did you say the clues were again? The Emperor's Key , and the Witness of Dawn ?",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "\"That's right.\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor 30969-14.html",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "30969-14.html",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/30969-14.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/30969-14.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/30969-14.html",
+   "quest": 196,
+   "text": "Iason Heine: Well, I can't help with the Emperor's Key, but the Witness of Dawn... hmm. The Lords of Dawn have long used that term for their first--their leader. The Leader, the Prima, is the first to welcome the rising sun on their special occasions, where he witnesses the passing of night into da…",
+   "header": "Iason Heine",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00237_WindsOfChange/30969-02.html": {
+   "file": "Q00237_WindsOfChange/30969-02.html",
+   "quest": 237,
+   "text": "Iason Heine: Hmm... You say this letter was sent by Flauen? She has protected this area for many years, so I must respect her judgment. I've also been watching this situation closely. I assume you'd like to hear my perspective on it?",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00237_WindsOfChange 30969-03.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-03.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-03.html"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30969-03.html": {
+   "file": "Q00237_WindsOfChange/30969-03.html",
+   "quest": 237,
+   "text": "Iason Heine: I'm sure you're already aware that Dr. Helvetica settles in the northern Reed Field, the Reed Field of Silence, whereas Priestess Athenia settles in the southern Reed Field, the Reed Field of Whisper. Then, what is that you're curious about?",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "Ask about Dr. Helvetica.",
+     "bypass": "Quest Q00237_WindsOfChange 30969-03a.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-03a.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-03a.html"
+    },
+    {
+     "text": "Ask about Priestess Athenia.",
+     "bypass": "Quest Q00237_WindsOfChange 30969-03b.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-03b.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-03b.html"
+    },
+    {
+     "text": "Ask what should be done next.",
+     "bypass": "Quest Q00237_WindsOfChange 30969-04.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-04.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-04.html"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30969-03a.html": {
+   "file": "Q00237_WindsOfChange/30969-03a.html",
+   "quest": 237,
+   "text": "Iason Heine: What can I say about Dr. Helvetica? The only things I know about him are from his correspondance and idle gossip. I've heard that he is somewhat of a genius, finding fame and notoriety through his tenure at the Pavel Laboratory. Like Doctor Chaos, he had outgrown the confines of such a…",
+   "header": "Iason Heine",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00237_WindsOfChange 30969-03.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-03.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-03.html"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30969-03b.html": {
+   "file": "Q00237_WindsOfChange/30969-03b.html",
+   "quest": 237,
+   "text": "Iason Heine: Are you talking about Athenia? Oh yes, I've heard about her. Not only is she a passionate believer of Eva, but she is also a powerful priestess who knows well about the ancient rites and rituals. She believes that the land is something to be nurtured and protected. She would like nothi…",
+   "header": "Iason Heine",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00237_WindsOfChange 30969-03.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-03.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-03.html"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30969-04.html": {
+   "file": "Q00237_WindsOfChange/30969-04.html",
+   "quest": 237,
+   "text": "Iason Heine: To be quite frank, I don't know which side to support. The development of our territory versus the safety of our residents... I've just been waiting to see how things play out. Perhaps... would you be willing to help me decide?",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00237_WindsOfChange 30969-05.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-05.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-05.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30969-05.html": {
+   "file": "Q00237_WindsOfChange/30969-05.html",
+   "quest": 237,
+   "text": "Iason Heine: As you probably know, I am a busy man. And I don't have the time to address this particular matter personally. So I want you to decide who I should support. Go meet with the supporters of both sides, listen to their opinions and report back to me. First, I'll set up a meeting with Head…",
+   "header": "Iason Heine",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00237_WindsOfChange/30969-08.html": {
+   "file": "Q00237_WindsOfChange/30969-08.html",
+   "quest": 237,
+   "text": "Iason Heine: I have request letters from the two sides in my hand. Both are asking me for my support. After speaking to advocates of each side, which do you think I should support?",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "\"You should lend your support to Dr. Helvetica.\"",
+     "bypass": "Quest Q00237_WindsOfChange 30969-08a.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-08a.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-08a.html"
+    },
+    {
+     "text": "\"You should lend your support to Priestess Athenia.\"",
+     "bypass": "Quest Q00237_WindsOfChange 30969-08b.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-08b.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-08b.html"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30969-08a.html": {
+   "file": "Q00237_WindsOfChange/30969-08a.html",
+   "quest": 237,
+   "text": "Iason Heine: Oh, is that so? You want to help Dr. Helvetica, right? But a decision must be carefully made. If you are firm about your decision, I'll ignore the request letter from Priestess Athenia and promise my support to Dr. Helvetica. Are you sure about this? You cannot turn back your choice.",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "\"Yes, that's right.\"",
+     "bypass": "Quest Q00237_WindsOfChange 30969-09.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-09.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-09.html",
+     "effect": "cond:5"
+    },
+    {
+     "text": "\"No, I have to think about it again.\"",
+     "bypass": "Quest Q00237_WindsOfChange 30969-08c.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-08c.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-08c.html"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30969-08b.html": {
+   "file": "Q00237_WindsOfChange/30969-08b.html",
+   "quest": 237,
+   "text": "Iason Heine: Is that so? Are you sure about this? Once you have made your choice, there is no going back.",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "\"Yes, my decision is firm.\"",
+     "bypass": "Quest Q00237_WindsOfChange 30969-10.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-10.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-10.html",
+     "effect": "cond:6"
+    },
+    {
+     "text": "\"No, I think I should mull this over for a bit longer.\"",
+     "bypass": "Quest Q00237_WindsOfChange 30969-08.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-08.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-08.html"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30969-08c.html": {
+   "file": "Q00237_WindsOfChange/30969-08c.html",
+   "quest": 237,
+   "text": "Iason Heine: Sure, you want to think about it again, right? Here are the requests letters from the two associations. They want me to support each of them. Which side will you support?",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "\"I will help Dr. Helvetica.\"",
+     "bypass": "Quest Q00237_WindsOfChange 30969-09.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-09.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-09.html",
+     "effect": "cond:5"
+    },
+    {
+     "text": "\"I will help Priestess Athenia.\"",
+     "bypass": "Quest Q00237_WindsOfChange 30969-10.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30969-10.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-10.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30969-09.html": {
+   "file": "Q00237_WindsOfChange/30969-09.html",
+   "quest": 237,
+   "text": "Iason Heine: Very well then. I will disregard Athenia's request. (Iason tears up her letter right in front of you.) Ah, here it is. Here is the letter I received from Dr. Helvetica. Take this signed affidavit to him on my behalf. Let him know he now has my full support.",
+   "header": "Iason Heine",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00237_WindsOfChange/30969-10.html": {
+   "file": "Q00237_WindsOfChange/30969-10.html",
+   "quest": 237,
+   "text": "Iason Heine: As you wish. And to show that I stand by your decision, I will destroy the note I received from Dr. Helvetica. (...Iason tears the letter into little pieces and throws them in the air...) Now take this promissory note to Athenia and let her know that she has my full support.",
+   "header": "Iason Heine",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00351_BlackSwan/30969-02.html": {
+   "file": "Q00351_BlackSwan/30969-02.html",
+   "quest": 351,
+   "text": "Iason Heine: Unless you present proof that you have killed the lizardmen I will be unable to compensate you. This has nothing to with trust. I believe what you say, I just must have the fangs. I have turned away others who lacked proof. If I were to give you special treatment there would be reprisa…",
+   "header": "Iason Heine",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00351_BlackSwan 30969-03.html",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30969-03.html",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-03.html"
+    }
+   ]
+  },
+  "Q00351_BlackSwan/30969-03.html": {
+   "file": "Q00351_BlackSwan/30969-03.html",
+   "quest": 351,
+   "text": "Iason Heine: Is there anything else I can do for you? The ranks of the Tasaba lizardmen are swelling as we speak. They must be dealt with. Please don't quit now.",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "Show the Tasaba lizardmen fangs.",
+     "bypass": "Quest Q00351_BlackSwan 30969-02.html",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30969-02.html",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-02.html",
+     "toAll": [
+      "Q00351_BlackSwan/30969-02.html",
+      "Q00351_BlackSwan/30969-04.html"
+     ]
+    },
+    {
+     "text": "Show the wooden barrels that belong to the trade guild.",
+     "bypass": "Quest Q00351_BlackSwan 30969-05.html",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30969-05.html",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-05.html",
+     "toAll": [
+      "Q00351_BlackSwan/30969-05.html",
+      "Q00351_BlackSwan/30969-06.html"
+     ],
+     "effect": "cond:2"
+    },
+    {
+     "text": "Quit the task.",
+     "bypass": "Quest Q00351_BlackSwan 30969-07.html",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30969-07.html",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-07.html",
+     "toAll": [
+      "Q00351_BlackSwan/30969-07.html",
+      "Q00351_BlackSwan/30969-08.html"
+     ]
+    }
+   ]
+  },
+  "Q00351_BlackSwan/30969-04.html": {
+   "file": "Q00351_BlackSwan/30969-04.html",
+   "quest": 351,
+   "text": "Iason Heine: Let's see... We agreed upon 20 adena per fang, correct? Then the total is... this. Correct?",
+   "header": "Iason Heine",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00351_BlackSwan 30969-03.html",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30969-03.html",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-03.html"
+    }
+   ]
+  },
+  "Q00351_BlackSwan/30969-05.html": {
+   "file": "Q00351_BlackSwan/30969-05.html",
+   "quest": 351,
+   "text": "Iason Heine: Ah, you have recovered our trade guild's wooden barrel? That is wonderful news! Where is it? Is it in a warehouse? Please bring it to me right away! ... I hope you didn't try to open it! Or send it somewhere else? Ha! Just kidding.",
+   "header": "Iason Heine",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00351_BlackSwan 30969-03.html",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30969-03.html",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-03.html"
+    }
+   ]
+  },
+  "Q00351_BlackSwan/30969-06.html": {
+   "file": "Q00351_BlackSwan/30969-06.html",
+   "quest": 351,
+   "text": "Iason Heine: Oh yes, that is definitely the cargo that was stolen from our trade guild. But this is not all of it. There is still much to be recovered. Please continue to look for it. Ah, the reward. I only have a small amount of cash on me. I'll tell you what, take this bill to Head Blacksmith Rom…",
+   "header": "Iason Heine",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00351_BlackSwan 30969-03.html",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30969-03.html",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-03.html"
+    }
+   ]
+  },
+  "Q00351_BlackSwan/30969-07.html": {
+   "file": "Q00351_BlackSwan/30969-07.html",
+   "quest": 351,
+   "text": "Iason Heine: How can you leave us like this? Most of our stolen cargo has yet to be recovered... and, even more importantly, the Tasaba lizardmen are increasingly threatening our precious Innadril! ... Do you know something I don't? Please reconsider your decision!",
+   "header": "Iason Heine",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00351_BlackSwan 30969-03.html",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30969-03.html",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-03.html"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00351_BlackSwan 30969-09.html",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30969-09.html",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00351_BlackSwan/30969-08.html": {
+   "file": "Q00351_BlackSwan/30969-08.html",
+   "quest": 351,
+   "text": "Iason Heine: OK, look, you can quit any time you want to, but you still need to be paid, right? Let's take care of that and then talk about whether or not you'll quit...",
+   "header": "Iason Heine",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00351_BlackSwan 30969-03.html",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30969-03.html",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-03.html"
+    }
+   ]
+  },
+  "Q00351_BlackSwan/30969-09.html": {
+   "file": "Q00351_BlackSwan/30969-09.html",
+   "quest": 351,
+   "text": "Iason Heine: You are very hard-headed! Well, as I said, you are free to go. Have a safe trip... and don't forget to come and visit me occasionally.",
+   "header": "Iason Heine",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Secret Ritual of the Priests (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00195_SevenSignsSecretRitualOfThePriests",
+     "kind": "quest",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/30969-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, Seal of the Emperor]",
+     "bypass": "npc_%objectId%_Quest Q00196_SevenSignsSealOfTheEmperor",
+     "kind": "quest",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/30969-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, Seal of the Emperor (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00196_SevenSignsSealOfTheEmperor",
+     "kind": "quest",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/30969-09.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Winds of Change (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00237_WindsOfChange",
+     "kind": "quest",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30969-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[An Arrogant Search (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00348_AnArrogantSearch",
+     "kind": "quest",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30969-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Black Swan (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00351_BlackSwan",
+     "kind": "quest",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30969-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/level_check.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/level_check.html",
+   "quest": 195,
+   "text": "Characters who are level 79 or above may redeem the Reward for the Current Quest .",
+   "outcome": "refusal",
+   "links": []
+  }
+ }
+}

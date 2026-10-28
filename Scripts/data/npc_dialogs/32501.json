@@ -1,0 +1,156 @@
+{
+ "npcId": 32501,
+ "name": "Devil's Isle Supporter",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.377Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32501.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "129": {
+   "name": "Pailaka - Devil's Legacy",
+   "listText": [
+    "[Pailaka - Devil's Legacy]",
+    "[Pailaka - Devil's Legacy (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32501-04.htm",
+     "when": "cond >2",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00129_PailakaDevilsLegacy/32501-01.htm",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32501.htm": {
+   "file": "default/32501.htm",
+   "quest": null,
+   "text": "Devil's Isle Supporter: There's something strange happening on Devil's Isle! Monstrous pirates suddenly appeared and are wreaking havoc everywhere!",
+   "header": "Devil's Isle Supporter",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00129_PailakaDevilsLegacy/32501-04.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32501-04.htm",
+   "quest": 129,
+   "text": "Devil's Isle Supporter: The enemies who invaded Devil's Isle are Lematan's Followers . Four of them are especially dangerous: Kams, Hikoro, Alkaso and Gerbera . Some of them will have Scrolls of Enchant Weapon. Defeat them and you can enhance your sword and Tigress...and eventually become powerful …",
+   "header": "Devil's Isle Supporter",
+   "when": [
+    "cond >2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00129_PailakaDevilsLegacy/32501-01.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32501-01.htm",
+   "quest": 129,
+   "text": "Devil's Isle Supporter: Some time ago, powerful pirates came from the other side of the sky and occupied Devil's Isle. I believe they are the ones who touched Zaken's relic. I don't know what they've done, but since then the monsters have become especially violent -- now nobody can even set foot on…",
+   "header": "Devil's Isle Supporter",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Listen to his story.",
+     "bypass": "Quest Q00129_PailakaDevilsLegacy 32501-02.htm",
+     "kind": "quest-event",
+     "script": "Q00129_PailakaDevilsLegacy",
+     "event": "32501-02.htm",
+     "quest": 129,
+     "to": "Q00129_PailakaDevilsLegacy/32501-02.htm"
+    }
+   ]
+  },
+  "Q00129_PailakaDevilsLegacy/32501-02.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32501-02.htm",
+   "quest": 129,
+   "text": "Devil's Isle Supporter: I don't know where they came from. But they occupied Devil's Isle and kicked out all the Humans and Dwarves. We can't just do nothing... We must fight them! Here, take this sword. It can summon the Tigress , our fleet's guardian spirit. She will certainly be able to help you!",
+   "header": "Devil's Isle Supporter",
+   "links": [
+    {
+     "text": "Take the sword.",
+     "bypass": "Quest Q00129_PailakaDevilsLegacy 32501-03.htm",
+     "kind": "quest-event",
+     "script": "Q00129_PailakaDevilsLegacy",
+     "event": "32501-03.htm",
+     "quest": 129,
+     "to": "Q00129_PailakaDevilsLegacy/32501-03.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00129_PailakaDevilsLegacy/32501-03.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32501-03.htm",
+   "quest": 129,
+   "text": "Devil's Isle Supporter: This sword is an ancient relic of Devil's Isle. It was used to destroy those who fell under the curse. Fearing its power, they were finally able to weaken it by sealing away a few of its powers in a number of scrolls. As you use it to defeat our enemies, though, you'll acqui…",
+   "header": "Devil's Isle Supporter",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Ask about the enemy.",
+     "bypass": "Quest Q00129_PailakaDevilsLegacy 32501-04.htm",
+     "kind": "quest-event",
+     "script": "Q00129_PailakaDevilsLegacy",
+     "event": "32501-04.htm",
+     "quest": 129,
+     "to": "Q00129_PailakaDevilsLegacy/32501-04.htm"
+    }
+   ]
+  },
+  "Q00129_PailakaDevilsLegacy/32501.htm": {
+   "file": "Q00129_PailakaDevilsLegacy/32501.htm",
+   "quest": 129,
+   "text": "Devil's Isle Supporter: There's something strange happening on Devil's Isle! Monstrous pirates suddenly appeared and are wreaking havoc everywhere!",
+   "header": "Devil's Isle Supporter",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Pailaka - Devil's Legacy (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00129_PailakaDevilsLegacy",
+     "kind": "quest",
+     "quest": 129,
+     "to": "Q00129_PailakaDevilsLegacy/32501-04.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

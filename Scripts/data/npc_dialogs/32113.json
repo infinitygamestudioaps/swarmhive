@@ -1,0 +1,917 @@
+{
+ "npcId": 32113,
+ "name": "Marquez",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.331Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32113.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "110": {
+   "name": "To the Primeval Isle",
+   "listText": [
+    "[To the Primeval Isle]",
+    "[To the Primeval Isle (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00110_ToThePrimevalIsle/32113-1.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "111": {
+   "name": "Elrokian Hunter's Proof",
+   "listText": [
+    "[Elrokian Hunters]",
+    "[Elrokian Hunter's Proof (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00111_ElrokianHuntersProof/32113-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32113-06.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32113-07.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32113-08.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32113-09.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32113-16.html",
+     "when": "state STARTED; memo 4; !hasItemsAtLimit(player, DIARY_FRAGMENT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32113-17.html",
+     "when": "state STARTED; memo 4; hasItemsAtLimit(player, DIARY_FRAGMENT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32113-26.html",
+     "when": "state STARTED; memo 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32113-27.html",
+     "when": "state STARTED; memo 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32113-28.html",
+     "when": "state STARTED; memo 7|8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32113-29.html",
+     "when": "state STARTED; memo 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32113-30.html",
+     "when": "state STARTED; memo 10|11|12",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "124": {
+   "name": "Meeting the Elroki",
+   "listText": [
+    "[Meeting the Elroki]",
+    "[Meeting the Elroki (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00124_MeetingTheElroki/32113-01a.htm",
+     "when": "state CREATED; (player.getLevel() < 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32113-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() < 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32113-05.html",
+     "when": "state STARTED; switch(st.getInt(\"cond\")) case 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32113-06.html",
+     "when": "state STARTED; switch(st.getInt(\"cond\")) case 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32113-07.html",
+     "when": "state STARTED; switch(st.getInt(\"cond\")) case 3,4,5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32113.htm": {
+   "file": "default/32113.htm",
+   "quest": null,
+   "text": "Marquez: Welcome, youngster! I'm Marquez, leader of the Primeval Isle Expedition. Actually, the initial expedition has been disbanded, but people around here still remember me as the captain of those hardy explorers. My main duty these days is managing this wharf.",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00110_ToThePrimevalIsle/32113-1.html": {
+   "file": "Q00110_ToThePrimevalIsle/32113-1.html",
+   "quest": 110,
+   "text": "Marquez: It doesn't look as though you are here to travel. Do you have anything else to say to me?",
+   "header": "Marquez",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "Tell him that you've brought the book about primitive creatures.",
+     "bypass": "Quest Q00110_ToThePrimevalIsle 32113-1a.html",
+     "kind": "quest-event",
+     "script": "Q00110_ToThePrimevalIsle",
+     "event": "32113-1a.html",
+     "quest": 110,
+     "to": "Q00110_ToThePrimevalIsle/32113-1a.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-01.htm": {
+   "file": "Q00111_ElrokianHuntersProof/32113-01.htm",
+   "quest": 111,
+   "text": "Marquez: Ah, my young adventurer... So, did you have a look around this Primeval Isle? As you probably know already, there are many unique creatures on this island. There is also an ancient race of men, the Elroki tribe. Though they may seem primitive to your eyes in some respects, do not underesti…",
+   "header": "Marquez",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Ask how the Elrokhians manage the dinosaurs.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-02.htm",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-02.htm",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-02.htm"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-06.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-06.html",
+   "quest": 111,
+   "text": "Marquez: Ah, my young adventurer... So, did you have a look around this Primeval Isle? As you probably know already, there are many unique creatures on this island. There is also an ancient race of men, the Elroki tribe. Though they may seem primitive to your eyes in some respects, do not underesti…",
+   "header": "Marquez",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32113-07.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-07.html",
+   "quest": 111,
+   "text": "Marquez: Hurry, then, and visit Mushika, chief of the Elroki tribe.",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "\"Where is the chief?\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-04.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-04.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-04.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-08.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-08.html",
+   "quest": 111,
+   "text": "Marquez: Is Mushika ill? Oh no... I am worried for him... His son, Asamah, is probably acting as chief on his behalf. Go talk to Asamah.",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32113-09.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-09.html",
+   "quest": 111,
+   "text": "Marquez: Did you meet Mushika? Did you discover something about the mysterious skill I told you about?",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "links": [
+    {
+     "text": "\"I think I have to get close to them in order to do anything. Can you tell me anything else?\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-10.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-10.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-10.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-16.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-16.html",
+   "quest": 111,
+   "text": "Marquez: Go and defeat the Velociraptor and bring back the 50-page journal . Travel east to the Lost Nest and I have no doubt that you will find the Velociraptor . Good hunting!",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; memo 4; !hasItemsAtLimit(player, DIARY_FRAGMENT)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32113-17.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-17.html",
+   "quest": 111,
+   "text": "Marquez: Good work! You've brought all the journal pieces! Now I can return this to his family; perhaps it will comfort them to have a memento of my brave friend...",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; memo 4; hasItemsAtLimit(player, DIARY_FRAGMENT)"
+   ],
+   "links": [
+    {
+     "text": "\"What does the diary say about the Warrior's Song?\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-18.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-18.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-18.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-26.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-26.html",
+   "quest": 111,
+   "text": "Marquez: Good work! You've brought all the journal pieces! Please take this as a small token of my appreciation. Now I can give return this to his family.",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; memo 5"
+   ],
+   "links": [
+    {
+     "text": "\"Is there anything about warrior song in the journal?\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-18.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-18.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-18.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-27.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-27.html",
+   "quest": 111,
+   "text": "Marquez: Go meet Kirikachin and give him this letter.",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; memo 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32113-28.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-28.html",
+   "quest": 111,
+   "text": "Marquez: So you met Kirikachin? Then learn the \"Warrior Song\"!",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; memo 7|8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32113-29.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-29.html",
+   "quest": 111,
+   "text": "Marquez: You've already learned the song? Good! Then go directly to Chief Mushika!",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; memo 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32113-30.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-30.html",
+   "quest": 111,
+   "text": "Marquez: That song earned you their friendship? Congratulations! I hope you learn many things from them...",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; memo 10|11|12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32113-01a.htm": {
+   "file": "Q00124_MeetingTheElroki/32113-01a.htm",
+   "quest": 124,
+   "text": "Marquez: Do not judge the Primeval Isle by only looking at this wharf. It is a dangerous place where primitive dinosaurs hide in the thick jungle, waiting for weak ones like you to wander by unawares! I've seen many like you who came to a bad end here! Exploring this island is not something to be d…",
+   "header": "Marquez",
+   "when": [
+    "state CREATED; (player.getLevel() < 75)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32113-01.htm": {
+   "file": "Q00124_MeetingTheElroki/32113-01.htm",
+   "quest": 124,
+   "text": "Marquez: Have you heard of the natives of this island, the Elroki tribe? Perhaps you've heard the common drivel about an uncivilized race abandoned by the gods, beset by primitive and ferocious creatures. Hogwash! Those rumors are spread by people ignorant of the truth. The Elrokians I know are dif…",
+   "header": "Marquez",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < 75)"
+   ],
+   "links": [
+    {
+     "text": "Ask when the conflict between humans and Elrokians began.",
+     "bypass": "Quest Q00124_MeetingTheElroki 32113-02.htm",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32113-02.htm",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32113-02.htm"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32113-05.html": {
+   "file": "Q00124_MeetingTheElroki/32113-05.html",
+   "quest": 124,
+   "text": "Marquez: I have received news of the Elrokian chief, Mushika, the leader of his tribe. In his youth, he ventured into the Lost Nest in search of relics that could shed light on his people's history. During that time, I led an expedition to the Lost Nest which nearly met with disaster. Only Mushika'…",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; switch(st.getInt(\"cond\")) case 1"
+   ],
+   "links": [
+    {
+     "text": "\"What kind of disease?\"",
+     "bypass": "Quest Q00124_MeetingTheElroki 32113-04.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32113-04.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32113-04.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32113-06.html": {
+   "file": "Q00124_MeetingTheElroki/32113-06.html",
+   "quest": 124,
+   "text": "Marquez: Are you afraid to face the Elroki tribe? My friend, Mushika's life is at stake! Every moment of hesitation is another moment lost. I beg you, travel immediately to the Elroki tribal barracks located southeast of the Primeval Plains and there meet Mushika.",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; switch(st.getInt(\"cond\")) case 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32113-07.html": {
+   "file": "Q00124_MeetingTheElroki/32113-07.html",
+   "quest": 124,
+   "text": "Marquez: You! Haven't you already left for the Primeval Isle? You haven't been at the wharf, have you? I don't know why you've come back here, but please -- go now! My friend, Mushika, is dying; any delay might be fatal to him. I have been visiting the wharf every day in the hope that news will com…",
+   "header": "Marquez",
+   "when": [
+    "state STARTED; switch(st.getInt(\"cond\")) case 3,4,5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00110_ToThePrimevalIsle/32113-1a.html": {
+   "file": "Q00110_ToThePrimevalIsle/32113-1a.html",
+   "quest": 110,
+   "text": "Marquez: Oh, you're the gutsy one Anton mentioned! Ha-ha-ha! Perhaps you haven't heard of me, though? At first, my sole purpose in founding this place was to obtain freedom and wealth. But I was soon attracted to the innocence and mystery of the island itself. I led an expedition deep into the isla…",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "Tell him that he still looks like an explorer.",
+     "bypass": "Quest Q00110_ToThePrimevalIsle 32113-1b.html",
+     "kind": "quest-event",
+     "script": "Q00110_ToThePrimevalIsle",
+     "event": "32113-1b.html",
+     "quest": 110,
+     "to": "Q00110_ToThePrimevalIsle/32113-1b.html"
+    }
+   ]
+  },
+  "Q00110_ToThePrimevalIsle/32113-1b.html": {
+   "file": "Q00110_ToThePrimevalIsle/32113-1b.html",
+   "quest": 110,
+   "text": "Marquez: Ha ha! Thank you for saying so. But my aching body knows the truth; those days have ended for me. Lately I have at least tried to pass my knowledge on to younger adventurers by writing an account of my experiences on the island. I started by recounting both my own personal experiences and …",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "Tell him that you are interested in hearing the translation.",
+     "bypass": "Quest Q00110_ToThePrimevalIsle 32113-2.html",
+     "kind": "quest-event",
+     "script": "Q00110_ToThePrimevalIsle",
+     "event": "32113-2.html",
+     "quest": 110,
+     "to": "Q00110_ToThePrimevalIsle/32113-2.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Tell him that you are not interested and will just leave.",
+     "bypass": "Quest Q00110_ToThePrimevalIsle 32113-2a.html",
+     "kind": "quest-event",
+     "script": "Q00110_ToThePrimevalIsle",
+     "event": "32113-2a.html",
+     "quest": 110,
+     "to": "Q00110_ToThePrimevalIsle/32113-2a.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00110_ToThePrimevalIsle/32113-2.html": {
+   "file": "Q00110_ToThePrimevalIsle/32113-2.html",
+   "quest": 110,
+   "text": "Marquez: Excellent! I see in you the spirit of my younger days! Very well, let me begin: In the days of old , when the circle of the gods was broken, countless races were spawned from that circle. The greatest of them were the gods themselves; the next greatest were the Giants. And the gods gave th…",
+   "header": "Marquez",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00110_ToThePrimevalIsle/32113-2a.html": {
+   "file": "Q00110_ToThePrimevalIsle/32113-2a.html",
+   "quest": 110,
+   "text": "Marquez: I see. Obviously, the book has greater value for me than for others; I'm sure you understand. In any case, thank you for bringing it to me. If you ever decide to explore the Primeval Isle for yourself, I may be of service to you. Until that day, farewell!",
+   "header": "Marquez",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32113-02.htm": {
+   "file": "Q00111_ElrokianHuntersProof/32113-02.htm",
+   "quest": 111,
+   "text": "Marquez: Once, I accompanied the Elrokians on a dinosaur hunt... It was a remarkable experience! The Elrokhians first weaken the creatures by wielding a strange-looking device unique to their tribe. Are you by chance interested in learning the skill?",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "Oh yes! I certainly wish to learn the skill.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-03.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-03.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-03.html",
+     "effect": "start"
+    },
+    {
+     "text": "No thank you, I'm really not interested in learning any \"primitive\" skills.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-05.htm",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-05.htm",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-05.htm"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-03.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-03.html",
+   "quest": 111,
+   "text": "Marquez: Ah, then you must seek out the leader of the Elroki tribe, Chief Mushika, who once explored with me. Tell him that I sent you and perhaps he will more readily accept you.",
+   "header": "Marquez",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Where is the chief?\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-04.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-04.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-04.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-04.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-04.html",
+   "quest": 111,
+   "text": "Marquez: The chief lives in the Elroki village on the southern Primeval Plains. His people shun outsiders, but you may have some luck if you first contact a native warrior I know, Orahochin , who lives near the foot of the mountain that lies between the southern shore of the Primeval Plains and the…",
+   "header": "Marquez",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32113-05.htm": {
+   "file": "Q00111_ElrokianHuntersProof/32113-05.htm",
+   "quest": 111,
+   "text": "Marquez: Bah! Only the ignorant would think such a thing! Keep company with the dinosaurs themselves, then, for all I care! Fool!",
+   "header": "Marquez",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32113-10.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-10.html",
+   "quest": 111,
+   "text": "Marquez: Hmmm, perhaps this will help you forge a bond with the Elrokians... During my explorations of the island, I was gravely wounded -- if not for Mushika, I would have died. He took me back to the Elrokian village, where I stayed while I recovered. During my time there, I heard of a song calle…",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "\"Where can I learn the song?\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-11.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-11.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-11.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-11.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-11.html",
+   "quest": 111,
+   "text": "Marquez: Hmmm... A member of my expedition used to speak about an old Elrokian hunter friend of his who knew the song.",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "\"Where can I find that member of your expedition?\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-12.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-12.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-12.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-12.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-12.html",
+   "quest": 111,
+   "text": "Marquez: Sadly, he was killed by a Velociraptor not long ago. ... How unfortunate!",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "\"I'm sorry to hear that, but isn't there another way? I don't want to give up just yet!\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-13.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-13.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-13.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-13.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-13.html",
+   "quest": 111,
+   "text": "Marquez: You know, now that I think of it, I remember that he kept a journal... Perhaps it will contain some clue.",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "\"Where is the journal?\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-14.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-14.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-14.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-14.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-14.html",
+   "quest": 111,
+   "text": "Marquez: The Velociraptor destroyed his belongings at the time of the attack. Perhaps it carried away his journal as well... If you can defeat the Velociraptor , we may be able to get the journal back. Do you feel you could find his journal -- or whatever remains of it?",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "\"Yes!\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-15.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-15.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-15.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-15.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-15.html",
+   "quest": 111,
+   "text": "Marquez: Very good! Then head east to the Lost Nest . Hunt the Velociraptor and bring back the journal pieces . The journal is a total of 50 pages . Good luck!",
+   "header": "Marquez",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32113-18.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-18.html",
+   "quest": 111,
+   "text": "Marquez: Hmmm... Let's see here... -The contents of the journal- ... (omitted)... There are many ferns here... It is too thick... There are dark places, too... ....(omitted)... This place is full of dangerous and powerful creatures... These creatures are not described in any other books I have ever…",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "Next page.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-19.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-19.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-19.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-19.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-19.html",
+   "quest": 111,
+   "text": "Marquez: Is this to be our fate? Lost, pursued by these vicious creatures? ...(omitted)... We were attacked by more strange creatures, smaller than the others we have seen. These new ones seem to hunt in packs! I have become separated from my group... Will I survive?",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "Next page.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-20.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-20.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-20.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-20.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-20.html",
+   "quest": 111,
+   "text": "Marquez: I met a friend today. He looks just like the creatures living here but he walks upright and seems to possess intelligence. He used a strange skill to save my life, and he shared water and food with me. If it were not for him, I would not have been able to write these words. He saved my lif…",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "Next several pages.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-21.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-21.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-21.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-21.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-21.html",
+   "quest": 111,
+   "text": "Marquez: (According to the journal, it seems like the writer of this diary spent about a year with the native who saved his life.) The native's name is Kirikachin . A skillful hunter, he is respected by all the natives. For some reason, however, Kirikachin cannot live in the native village or freel…",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "Next several pages.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-22.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-22.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-22.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-22.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-22.html",
+   "quest": 111,
+   "text": "Marquez: (It looks like lonely Kirikachin and the writer of this diary became close friends during their time together, and shared much of their knowledge with each other. My friend taught Kirikachin the famous children's song of Aden, \"10 Little Midgets\" and learned the \"Warrior Song\" from Kirikac…",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "Next several pages.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-23.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-23.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-23.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-23.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-23.html",
+   "quest": 111,
+   "text": "Marquez: (Even after he was found by the expedition, he traveled back and forth to Kirikachin's camp. In fact, it seems like he stayed with Kirikachin more frequently than he did with his fellow explorers.)",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "Final page.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-24.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-24.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-24.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-24.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-24.html",
+   "quest": 111,
+   "text": "Marquez: (The last page is so blood-stained and damaged that its words are illegible. But there appears to be something stuck between the pages: an envelope.)",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "Remove the envelope.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32113-25.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32113-25.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-25.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32113-25.html": {
+   "file": "Q00111_ElrokianHuntersProof/32113-25.html",
+   "quest": 111,
+   "text": "Marquez: This is seems to be a letter that my friend wrote to the native. The diary itself, I must return to his family... But I think that this letter should be delivered to his native friend. Would you mind taking it with you, since you must seek out Kirikachin to learn the song?",
+   "header": "Marquez",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32113-02.htm": {
+   "file": "Q00124_MeetingTheElroki/32113-02.htm",
+   "quest": 124,
+   "text": "Marquez: The conflict between Humans and Elrokians began when the explorers built this wharf and maintained a presence here. Our two races are divided by differences in culture and language; what seems normal to one is often strange, even offensive, to the other. Despite my efforts to teach both si…",
+   "header": "Marquez",
+   "links": [
+    {
+     "text": "Tell him that you will help.",
+     "bypass": "Quest Q00124_MeetingTheElroki 32113-03.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32113-03.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32113-03.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32113-03.html": {
+   "file": "Q00124_MeetingTheElroki/32113-03.html",
+   "quest": 124,
+   "text": "Marquez: Thank you! Then listen carefully. I have received news of the Elrokian chief, Mushika, the leader of his tribe. In his youth, he ventured into the Lost Nest in search of relics that could shed light on his people's history. During that time, I led an expedition to the Lost Nest which nearl…",
+   "header": "Marquez",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"What kind of disease?\"",
+     "bypass": "Quest Q00124_MeetingTheElroki 32113-04.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32113-04.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32113-04.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32113-04.html": {
+   "file": "Q00124_MeetingTheElroki/32113-04.html",
+   "quest": 124,
+   "text": "Marquez: I don't know... His son Asamah wrote that he thinks he has found a cure, but needs a strong young adventurer to obtain it. Were I younger, I would go myself...but I know in my heart that this is a task for another. If I cannot go, though, I will at least send someone worthy of this trust, …",
+   "header": "Marquez",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[To the Primeval Isle (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00110_ToThePrimevalIsle",
+     "kind": "quest",
+     "quest": 110,
+     "to": "Q00110_ToThePrimevalIsle/32113-1.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Elrokian Hunters]",
+     "bypass": "npc_%objectId%_Quest Q00111_ElrokianHuntersProof",
+     "kind": "quest",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Elrokian Hunter's Proof (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00111_ElrokianHuntersProof",
+     "kind": "quest",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32113-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Meeting the Elroki]",
+     "bypass": "npc_%objectId%_Quest Q00124_MeetingTheElroki",
+     "kind": "quest",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32113-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Meeting the Elroki (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00124_MeetingTheElroki",
+     "kind": "quest",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32113-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

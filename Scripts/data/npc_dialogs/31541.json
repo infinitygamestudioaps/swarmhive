@@ -1,0 +1,156 @@
+{
+ "npcId": 31541,
+ "name": "Daimon's Altar",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.218Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31541.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "604": {
+   "name": "Daimon the White-Eyed - Part 2",
+   "listText": [
+    "[Daimon the White-Eyed - Part 2]",
+    "[Daimon the White-Eyed - Part 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00604_DaimonTheWhiteEyedPart2/31541-01.html",
+     "when": "state STARTED; memo 11; has items 7193",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00604_DaimonTheWhiteEyedPart2/31541-02.html",
+     "when": "state STARTED; memo 21; !isDaimonSpawned()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00604_DaimonTheWhiteEyedPart2/31541-03.html",
+     "when": "state STARTED; memo 21; isDaimonSpawned()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00604_DaimonTheWhiteEyedPart2/31541-05.html",
+     "when": "state STARTED; qs.getMemoState() >= 22",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31541.htm": {
+   "file": "default/31541.htm",
+   "quest": null,
+   "text": "Daimon's Altar: A grotesque altar used to sumon Daimon. As you approach, you feel an eerie heat emanating from it",
+   "header": "Daimon's Altar",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31541-01.html": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31541-01.html",
+   "quest": 604,
+   "text": "Altar of Daimon the White-Eyed: A sinister energy encircles the altar.",
+   "header": "Altar of Daimon the White-Eyed",
+   "when": [
+    "state STARTED; memo 11; has items 7193"
+   ],
+   "links": [
+    {
+     "text": "Place the Bead of Summoning on the altar.",
+     "bypass": "Quest Q00604_DaimonTheWhiteEyedPart2 31541-02.html",
+     "kind": "quest-event",
+     "script": "Q00604_DaimonTheWhiteEyedPart2",
+     "event": "31541-02.html",
+     "quest": 604,
+     "to": "Q00604_DaimonTheWhiteEyedPart2/31541-02.html",
+     "toAll": [
+      "Q00604_DaimonTheWhiteEyedPart2/31541-02.html",
+      "Q00604_DaimonTheWhiteEyedPart2/31541-03.html",
+      "Q00604_DaimonTheWhiteEyedPart2/31541-04.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31541-02.html": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31541-02.html",
+   "quest": 604,
+   "text": "Altar of Daimon the White-Eyed: Evil forces are gathering... Oh, the horror!",
+   "header": "Altar of Daimon the White-Eyed",
+   "when": [
+    "state STARTED; memo 21; !isDaimonSpawned()"
+   ],
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31541-03.html": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31541-03.html",
+   "quest": 604,
+   "text": "Altar of Daimon the White-Eyed: Daimon the White-Eyed has already been summoned!",
+   "header": "Altar of Daimon the White-Eyed",
+   "when": [
+    "state STARTED; memo 21; isDaimonSpawned()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31541-05.html": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31541-05.html",
+   "quest": 604,
+   "text": "Altar of Daimon the White-Eyed: Daimon's moans can be faintly heard...",
+   "header": "Altar of Daimon the White-Eyed",
+   "when": [
+    "state STARTED; qs.getMemoState() >= 22"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00604_DaimonTheWhiteEyedPart2/31541-04.html": {
+   "file": "Q00604_DaimonTheWhiteEyedPart2/31541-04.html",
+   "quest": 604,
+   "text": "Altar of Daimon the White-Eyed: A summoning orb is needed.",
+   "header": "Altar of Daimon the White-Eyed",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Daimon the White-Eyed - Part 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00604_DaimonTheWhiteEyedPart2",
+     "kind": "quest",
+     "quest": 604,
+     "to": "Q00604_DaimonTheWhiteEyedPart2/31541-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

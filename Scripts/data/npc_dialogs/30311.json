@@ -1,0 +1,259 @@
+{
+ "npcId": 30311,
+ "name": "Sir Collin Windawood",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.930Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30311.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "6": {
+   "name": "Step Into the Future",
+   "listText": [
+    "[Step Into the Future]",
+    "[Step Into the Future (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00006_StepIntoTheFuture/30311-01.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00006_StepIntoTheFuture/30311-04.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "155": {
+   "name": "Find Sir Windawood",
+   "listText": [
+    "[Find Sir Windawood]",
+    "[Find Sir Windawood (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00155_FindSirWindawood/30311-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "212": {
+   "name": "Trial of Duty",
+   "listText": [
+    "[Trial of Duty]",
+    "[Trial of Duty (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00212_TrialOfDuty/30311-01.html",
+     "when": "memo 12; has items 2641",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00212_TrialOfDuty/30311-02.html",
+     "when": "memo 13; has items 2646",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30311.htm": {
+   "file": "default/30311.htm",
+   "quest": null,
+   "text": "Collin Windawood: Nice to meet you, young traveler. This edifice is the Obelisk of Victory. I don't know if you are interested in history, but there are many historic relics of ancient Talking Island in this area. This tower here was built a thousand years ago and to the west you can find the ancie…",
+   "header": "Collin Windawood",
+   "links": [
+    {
+     "text": "Ask about the Obelisk of Victory.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30311-1.htm"
+    },
+    {
+     "text": "Ask about the the Elven Ruins.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30311-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30311-1.htm": {
+   "file": "default/30311-1.htm",
+   "quest": null,
+   "text": "Collin Windawood: This tower was erected 514 years before the empire was formed, as a memorial to the Elven victory over the Orcs. The Elves won because they had allied with the Humans and taught them magic as they fought together. However, in the end, the Elves were also betrayed by the Humans and…",
+   "header": "Collin Windawood",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "default/30311-2.htm": {
+   "file": "default/30311-2.htm",
+   "quest": null,
+   "text": "Collin Windawood: This island was originally the sacred ground of the Elves of Light. I heard they were powerful enchanters, who communed with spirits. At the time when the Elves began the war with the Orcs, they also began to teach Humans magic to increase their army's strength. Thus, they built t…",
+   "header": "Collin Windawood",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00006_StepIntoTheFuture/30311-01.html": {
+   "file": "Q00006_StepIntoTheFuture/30311-01.html",
+   "quest": 6,
+   "text": "Sir Collin Windawood: Hard to find someone who's always on the move, huh? What brings you here?",
+   "header": "Sir Collin Windawood",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Baulro told me to pay you a visit and give you this.\"",
+     "bypass": "Quest Q00006_StepIntoTheFuture 30311-02.html",
+     "kind": "quest-event",
+     "script": "Q00006_StepIntoTheFuture",
+     "event": "30311-02.html",
+     "quest": 6,
+     "to": "Q00006_StepIntoTheFuture/30311-02.html",
+     "toAll": [
+      "Q00006_StepIntoTheFuture/30311-02.html",
+      "Q00006_StepIntoTheFuture/30311-03.html"
+     ],
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00006_StepIntoTheFuture/30311-04.html": {
+   "file": "Q00006_StepIntoTheFuture/30311-04.html",
+   "quest": 6,
+   "text": "Sir Collin Windawood: Go to Gatekeeper Roxxy and tell her I sent you. She'll help you. Giran is more hectic than you're used to, so be careful. Good luck!",
+   "header": "Sir Collin Windawood",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00155_FindSirWindawood/30311-01.html": {
+   "file": "Q00155_FindSirWindawood/30311-01.html",
+   "quest": 155,
+   "text": "Collin Windawood: Hmm... something urgent? Ah, a message from our lord. Another meeting? If he wants to hold a meeting every ten days, what are people living in remote island such as myself supposed to do... it takes a few days just to travel back and forth by ship... plus I'm not interested in sit…",
+   "header": "Collin Windawood",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Obelisk of Victory",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30311-1.htm"
+    },
+    {
+     "text": "Ask about the Elven Ruins",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30311-2.htm"
+    }
+   ]
+  },
+  "Q00212_TrialOfDuty/30311-01.html": {
+   "file": "Q00212_TrialOfDuty/30311-01.html",
+   "quest": 212,
+   "text": "Sir Collin Windawood: Could these actually be the bones of Leon? I heard of his glorious death during the battle against Orcs... What a loss... Never did I expect that I would see you like this, my beloved nephew! I regret I wasn't with you at the moment of your death! Young Warrior, My family is i…",
+   "header": "Sir Collin Windawood",
+   "when": [
+    "memo 12; has items 2641"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00212_TrialOfDuty/30311-02.html": {
+   "file": "Q00212_TrialOfDuty/30311-02.html",
+   "quest": 212,
+   "text": "Sir Collin Windawood: Young Warrior, thank you for recovering my nephew's remains and bringing them back to us. My family is in your debt. Now please take the letter that I gave you to Priest Dustin of the Town of Giran . Thank you. May the light of Einhasad guide your path.",
+   "header": "Sir Collin Windawood",
+   "when": [
+    "memo 13; has items 2646"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00006_StepIntoTheFuture/30311-02.html": {
+   "file": "Q00006_StepIntoTheFuture/30311-02.html",
+   "quest": 6,
+   "text": "Sir Collin Windawood: Want to go to Giran, huh? Baulro sent you? I told him the story a while back. You may be fresh out of school, but worldly experiences will help shape your future. Giran is a busy place and unexpected things can happen, so stay calm and focused! Meet Gatekeeper Roxxy and tell h…",
+   "header": "Sir Collin Windawood",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00006_StepIntoTheFuture/30311-03.html": {
+   "file": "Q00006_StepIntoTheFuture/30311-03.html",
+   "quest": 6,
+   "text": "Sir Collin Windawood: So where is Baulro's letter? Did you miss something? Hurry up and bring me the letter!",
+   "header": "Sir Collin Windawood",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Step Into the Future (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00006_StepIntoTheFuture",
+     "kind": "quest",
+     "quest": 6,
+     "to": "Q00006_StepIntoTheFuture/30311-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Find Sir Windawood (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00155_FindSirWindawood",
+     "kind": "quest",
+     "quest": 155,
+     "to": "Q00155_FindSirWindawood/30311-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Trial of Duty (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00212_TrialOfDuty",
+     "kind": "quest",
+     "quest": 212,
+     "to": "Q00212_TrialOfDuty/30311-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

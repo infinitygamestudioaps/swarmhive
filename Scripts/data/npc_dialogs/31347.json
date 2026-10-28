@@ -1,0 +1,85 @@
+{
+ "npcId": 31347,
+ "name": "Burke",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.194Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/31347.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/31347.htm": {
+   "file": "guard/31347.htm",
+   "quest": null,
+   "text": "Guard Burke: You picked a bad time to visit Rune, my friend. People like you may help ease my workload, but... Oh, well... Come closer... Shhhh... ~ ...Have you heard any strange rumors? You must keep this to yourself! There's a vast conspiracy afoot against the kingdom! If you hear anything about …",
+   "header": "Guard Burke",
+   "links": [
+    {
+     "text": "\"A plot? What are you talking about?\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/31347-1.htm"
+    },
+    {
+     "text": "\"Who is the lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/31347-1.htm": {
+   "file": "guard/31347-1.htm",
+   "quest": null,
+   "text": "Guard Burke: Shh! Keep your voice down! Do you want to get us in trouble?! Don't tell anyone you heard this from me, you understand? Elmore is facing its greatest crisis ever! Devil-worshippers have infiltrated the aristocracy! They can also be found at the highest levels of the government of Elmor…",
+   "header": "Guard Burke",
+   "links": [
+    {
+     "text": "\"Devil worshippers? Are you serious?\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/31347-2.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31347.htm"
+    }
+   ]
+  },
+  "guard/31347-2.htm": {
+   "file": "guard/31347-2.htm",
+   "quest": null,
+   "text": "Guard Burke: Are you stupid or what? Do you think I'd just casually say that the government had been seduced by the devil? But look around you! Isn't it obvious? How could a forest fall under the spell of a curse, with vampires and devils roaming freely about? To make matters worse, government offi…",
+   "header": "Guard Burke",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31347.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

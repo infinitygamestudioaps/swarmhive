@@ -1,0 +1,500 @@
+{
+ "npcId": 30738,
+ "name": "Matild",
+ "title": "Alchemist",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.066Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30738.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "242": {
+   "name": "Possessor Of A Precious Soul 2",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 2]",
+    "[Path of the Noblesse, Precious Soul - 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/30738-01.html",
+     "when": "cond 7",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/30738-03.html",
+     "when": "cond 8",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "334": {
+   "name": "The Wishing Potion",
+   "listText": [
+    "[The Wishing Potion]",
+    "[The Wishing Potion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00334_TheWishingPotion/30738-02.html",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00334_TheWishingPotion/30738-05.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00334_TheWishingPotion/30738-06.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00334_TheWishingPotion/30738-08.html",
+     "when": "has items 3681",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00334_TheWishingPotion/30738-09.html",
+     "when": "has items 3681,3684,3685,3686,3687,3688,3689,3690,3691",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00334_TheWishingPotion/30738-12.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30738.htm": {
+   "file": "default/30738.htm",
+   "quest": null,
+   "text": "Alchemist Matild: Don't you think it's pure prejudice to say that Dwarves can't use magic? I have been interested in alchemy ever since I was young and even went for study at the Ivory Tower. And I left school because of an unavoidable situation... No, I had to quit in the middle of my studies but …",
+   "header": "Alchemist Matild",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00242_PossessorOfAPreciousSoul2/30738-01.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/30738-01.html",
+   "quest": 242,
+   "text": "Alchemist Matild: My mentor sent you for the Sight of One-Hundred Eyes, didn't she? Wait here, I'll get the materials.",
+   "header": "Alchemist Matild",
+   "when": [
+    "cond 7"
+   ],
+   "links": [
+    {
+     "text": "\"I'll wait.\"",
+     "bypass": "Quest Q00242_PossessorOfAPreciousSoul2 30738-02.html",
+     "kind": "quest-event",
+     "script": "Q00242_PossessorOfAPreciousSoul2",
+     "event": "30738-02.html",
+     "quest": 242,
+     "to": "Q00242_PossessorOfAPreciousSoul2/30738-02.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00242_PossessorOfAPreciousSoul2/30738-03.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/30738-03.html",
+   "quest": 242,
+   "text": "Alchemist Matild: Go ahead.",
+   "header": "Alchemist Matild",
+   "when": [
+    "cond 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-02.html": {
+   "file": "Q00334_TheWishingPotion/30738-02.html",
+   "quest": 334,
+   "text": "Alchemist Matild: Having studied and practiced herbal medicine for over 20 years I am acknowledged as an expert on the subject. But there is still much to learn, with many mysterious potions whose formulas were passed down by the ancients still unknown to me. Recently I discovered the location of o…",
+   "header": "Alchemist Matild",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "\"Can I help you?\"",
+     "bypass": "Quest Q00334_TheWishingPotion 1",
+     "kind": "quest-event",
+     "script": "Q00334_TheWishingPotion",
+     "event": "1",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-03.htm"
+    }
+   ]
+  },
+  "Q00334_TheWishingPotion/30738-05.html": {
+   "file": "Q00334_TheWishingPotion/30738-05.html",
+   "quest": 334,
+   "text": "Alchemist Matild: Have you found the book? No? Please, go and find it!",
+   "header": "Alchemist Matild",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-06.html": {
+   "file": "Q00334_TheWishingPotion/30738-06.html",
+   "quest": 334,
+   "text": "Alchemist Matild: You have brought me the secret book! Uhhh... Oh, I'm very sorry. While you were away, you see, someone brought some precious ingredients and I spent my last Adena purchasing them. Hmm... How about this? The recipe for making Wish Potion is written in the secret book that you have …",
+   "header": "Alchemist Matild",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "\"I will find the ingredients.\"",
+     "bypass": "Quest Q00334_TheWishingPotion 2",
+     "kind": "quest-event",
+     "script": "Q00334_TheWishingPotion",
+     "event": "2",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-07.html"
+    }
+   ]
+  },
+  "Q00334_TheWishingPotion/30738-08.html": {
+   "file": "Q00334_TheWishingPotion/30738-08.html",
+   "quest": 334,
+   "text": "Alchemist Matild: Oh my, this is not working... I won't be able to make the Wish Potion until you bring all of the ingredients!",
+   "header": "Alchemist Matild",
+   "when": [
+    "has items 3681"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-09.html": {
+   "file": "Q00334_TheWishingPotion/30738-09.html",
+   "quest": 334,
+   "text": "Alchemist Matild: Ah, I see that you have brought all of the ingredients! Shall we get started?",
+   "header": "Alchemist Matild",
+   "when": [
+    "has items 3681,3684,3685,3686,3687,3688,3689,3690,3691"
+   ],
+   "links": [
+    {
+     "text": "\"Let's get started!\"",
+     "bypass": "Quest Q00334_TheWishingPotion 3",
+     "kind": "quest-event",
+     "script": "Q00334_TheWishingPotion",
+     "event": "3",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-10.html"
+    }
+   ]
+  },
+  "Q00334_TheWishingPotion/30738-12.html": {
+   "file": "Q00334_TheWishingPotion/30738-12.html",
+   "quest": 334,
+   "text": "Alchemist Matild: Hey, do you remember the promise you made to me? What's your excuse this time? Do you want to take the Wish Potion or are you gathering the ingredients to make more of the potion?",
+   "header": "Alchemist Matild",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "\"I want to take the Wish Potion.\"",
+     "bypass": "Quest Q00334_TheWishingPotion 5",
+     "kind": "quest-event",
+     "script": "Q00334_TheWishingPotion",
+     "event": "5",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-13.html",
+     "toAll": [
+      "Q00334_TheWishingPotion/30738-13.html",
+      "Q00334_TheWishingPotion/30738-14.html"
+     ]
+    },
+    {
+     "text": "\"I am gathering the ingredients.\"",
+     "bypass": "Quest Q00334_TheWishingPotion 6",
+     "kind": "quest-event",
+     "script": "Q00334_TheWishingPotion",
+     "event": "6",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-15a.html",
+     "toAll": [
+      "Q00334_TheWishingPotion/30738-15a.html",
+      "Q00334_TheWishingPotion/30738-15.html"
+     ]
+    }
+   ]
+  },
+  "Q00242_PossessorOfAPreciousSoul2/30738-02.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/30738-02.html",
+   "quest": 242,
+   "text": "Alchemist Matild: Thanks for waiting. Here you are! Please give my best regards to my mentor. I haven't seen her for over a year. Tell Witch Kalis I'm taking good care of her house!",
+   "header": "Alchemist Matild",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-01.html": {
+   "file": "Q00334_TheWishingPotion/30738-01.html",
+   "quest": 334,
+   "text": "Alchemist Matild: Many seek the secrets of Alchemy. You do not appear to be their equal. I won't discuss Alchemy with you further. (This quest may only be performed by characters of level 30 and above.)",
+   "header": "Alchemist Matild",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-03.htm": {
+   "file": "Q00334_TheWishingPotion/30738-03.htm",
+   "quest": 334,
+   "text": "Alchemist Matild: This text refers to the location of the secret Book of Problems. Please read it for yourself and then go and find the precious secret book for me.",
+   "header": "Alchemist Matild",
+   "links": [
+    {
+     "text": "\"I will find the secret book.\"",
+     "bypass": "Quest Q00334_TheWishingPotion QUEST_ACCEPTED",
+     "kind": "quest-event",
+     "script": "Q00334_TheWishingPotion",
+     "event": "QUEST_ACCEPTED",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00334_TheWishingPotion/30738-04.htm": {
+   "file": "Q00334_TheWishingPotion/30738-04.htm",
+   "quest": 334,
+   "text": "Alchemist Matild: Thank you so much. Please take this book and use the clues you find within it to find the Book of Problems. Bring it back to me and I will give you a big surprise!",
+   "header": "Alchemist Matild",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-07.html": {
+   "file": "Q00334_TheWishingPotion/30738-07.html",
+   "quest": 334,
+   "text": "Alchemist Matild: All right! Its a deal! Now, here is the Ingredient List. Please go and find these things... And hurry!",
+   "header": "Alchemist Matild",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-10.html": {
+   "file": "Q00334_TheWishingPotion/30738-10.html",
+   "quest": 334,
+   "text": "Alchemist Matild: You must take this sap and apply it here... Now mix it well... Did you see the color change? OK, now add it to this bottle and mix it... Could you pass me that red bottle?",
+   "header": "Alchemist Matild",
+   "links": [
+    {
+     "text": "Pass the red bottle.",
+     "bypass": "Quest Q00334_TheWishingPotion 4",
+     "kind": "quest-event",
+     "script": "Q00334_TheWishingPotion",
+     "event": "4",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-11.html"
+    }
+   ]
+  },
+  "Q00334_TheWishingPotion/30738-11.html": {
+   "file": "Q00334_TheWishingPotion/30738-11.html",
+   "quest": 334,
+   "text": "Alchemist Matild: Now you must carefully add wish scent... There! It's done. You must check with me before using this potion. Take this with you as proof and I will make the potion again if needed. Of course I will need you to collect all the ingredients again. A good deal, no?",
+   "header": "Alchemist Matild",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-13.html": {
+   "file": "Q00334_TheWishingPotion/30738-13.html",
+   "quest": 334,
+   "text": "Alchemist Matild: You are allowed one wish after taking the potion. You will choose from one of the four wishes on this card.",
+   "header": "Alchemist Matild",
+   "links": [
+    {
+     "text": "\"I wish to be a loving person.\"",
+     "bypass": "Quest Q00334_TheWishingPotion 7",
+     "kind": "quest-event",
+     "script": "Q00334_TheWishingPotion",
+     "event": "7",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-16.html",
+     "toAll": [
+      "Q00334_TheWishingPotion/30738-16.html",
+      "Q00334_TheWishingPotion/30738-20.html",
+      "Q00334_TheWishingPotion/30738-14.html"
+     ]
+    },
+    {
+     "text": "\"I wish for 100 million Adena.\"",
+     "bypass": "Quest Q00334_TheWishingPotion 8",
+     "kind": "quest-event",
+     "script": "Q00334_TheWishingPotion",
+     "event": "8",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-17.html",
+     "toAll": [
+      "Q00334_TheWishingPotion/30738-17.html",
+      "Q00334_TheWishingPotion/30738-20.html",
+      "Q00334_TheWishingPotion/30738-14.html"
+     ]
+    },
+    {
+     "text": "\"I wish to be a king!\"",
+     "bypass": "Quest Q00334_TheWishingPotion 9",
+     "kind": "quest-event",
+     "script": "Q00334_TheWishingPotion",
+     "event": "9",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-18.html",
+     "toAll": [
+      "Q00334_TheWishingPotion/30738-18.html",
+      "Q00334_TheWishingPotion/30738-20.html",
+      "Q00334_TheWishingPotion/30738-14.html"
+     ]
+    },
+    {
+     "text": "\"I wish to be the wisest person in the world.\"",
+     "bypass": "Quest Q00334_TheWishingPotion 10",
+     "kind": "quest-event",
+     "script": "Q00334_TheWishingPotion",
+     "event": "10",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-19.html",
+     "toAll": [
+      "Q00334_TheWishingPotion/30738-19.html",
+      "Q00334_TheWishingPotion/30738-20.html",
+      "Q00334_TheWishingPotion/30738-14.html"
+     ]
+    }
+   ]
+  },
+  "Q00334_TheWishingPotion/30738-14.html": {
+   "file": "Q00334_TheWishingPotion/30738-14.html",
+   "quest": 334,
+   "text": "Alchemist Matild: Hey! You don't have any Wish Potion but yet you still want to make a wish...? How very disgraceful!",
+   "header": "Alchemist Matild",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-15.html": {
+   "file": "Q00334_TheWishingPotion/30738-15.html",
+   "quest": 334,
+   "text": "Alchemist Matild: All right, just as before you must gather the ingredients on this list... I don't need to explain it to you again, do I?",
+   "header": "Alchemist Matild",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-15a.html": {
+   "file": "Q00334_TheWishingPotion/30738-15a.html",
+   "quest": 334,
+   "text": "Alchemist Matild: Why do you want more Wish Potion when you haven't used what you already have? What a pig...!",
+   "header": "Alchemist Matild",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-16.html": {
+   "file": "Q00334_TheWishingPotion/30738-16.html",
+   "quest": 334,
+   "text": "Alchemist Matild: To begin the ceremony you must first apply the Crow's Blood to your forehead and then shake the wing of fairy three times...",
+   "header": "Alchemist Matild",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-17.html": {
+   "file": "Q00334_TheWishingPotion/30738-17.html",
+   "quest": 334,
+   "text": "Alchemist Matild: To start the ceremony you must first apply the Crow's Blood to your forehead and then shake the Timitran Leaf three times...",
+   "header": "Alchemist Matild",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-18.html": {
+   "file": "Q00334_TheWishingPotion/30738-18.html",
+   "quest": 334,
+   "text": "Alchemist Matild: To start the ceremony you must first apply the Crow's Blood to your forehead and then put the crown of glory on your head...",
+   "header": "Alchemist Matild",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-19.html": {
+   "file": "Q00334_TheWishingPotion/30738-19.html",
+   "quest": 334,
+   "text": "Alchemist Matild: To start the ceremony you must first apply the Crow's Blood to your forehead and then hit your head three times with a Sage's Staff...",
+   "header": "Alchemist Matild",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00334_TheWishingPotion/30738-20.html": {
+   "file": "Q00334_TheWishingPotion/30738-20.html",
+   "quest": 334,
+   "text": "Alchemist Matild: You must wait, someone else is currently making a wish...",
+   "header": "Alchemist Matild",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00242_PossessorOfAPreciousSoul2",
+     "kind": "quest",
+     "quest": 242,
+     "to": "Q00242_PossessorOfAPreciousSoul2/30738-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Wishing Potion]",
+     "bypass": "npc_%objectId%_Quest Q00334_TheWishingPotion",
+     "kind": "quest",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-02.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Wishing Potion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00334_TheWishingPotion",
+     "kind": "quest",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30738-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

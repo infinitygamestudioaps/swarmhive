@@ -1,0 +1,259 @@
+{
+ "npcId": 30255,
+ "name": "Haprock",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.919Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30255.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "167": {
+   "name": "Dwarven Kinship",
+   "listText": [
+    "[Dwarven Kinship]",
+    "[Dwarven Kinship (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00167_DwarvenKinship/30255-01.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00167_DwarvenKinship/30255-05.html",
+     "when": "cond 2; !(st.isCond(1) && st.hasQuestItems(CARLONS_LETTER))",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30255.htm": {
+   "file": "warehouse/30255.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Haprock: Welcome! Here at the Iron Gate Guild, we keep your items safe for a low, low price. We barely make a profit! Besides, you can't put a price tag on peace of mind!",
+   "header": "Warehouse Keeper Haprock",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/30255-1.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/30255-2.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30255-1.htm": {
+   "file": "warehouse/30255-1.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Haprock:",
+   "header": "Warehouse Keeper Haprock",
+   "links": [
+    {
+     "text": "Deposit an item.(Private Warehouse)",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30255.htm"
+    }
+   ]
+  },
+  "warehouse/30255-2.htm": {
+   "file": "warehouse/30255-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Haprock:",
+   "header": "Warehouse Keeper Haprock",
+   "links": [
+    {
+     "text": "Deposit an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item (Clan Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30255.htm"
+    }
+   ]
+  },
+  "warehouse/30255-noteach.htm": {
+   "file": "warehouse/30255-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Haprock: See here, I teach Dwarven Fighters, Scavengers and Bounty Hunters only. If you are an Artisan, you should go to a Blacksmith.",
+   "header": "Warehouse Keeper Haprock",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00167_DwarvenKinship/30255-01.html": {
+   "file": "Q00167_DwarvenKinship/30255-01.html",
+   "quest": 167,
+   "text": "Warehouse Keeper Haprock: Ah, a letter from Carlon. Let me see ... Oh ... Hmm ... The operations profit of the warehouse increased twofold in the first half of the year ... Good ... Very good ... The guild leader will be satisfied ... Carlon is more competent than I expected ...",
+   "header": "Warehouse Keeper Haprock",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "Ask him why he is reading other people's letters",
+     "bypass": "Quest Q00167_DwarvenKinship 30255-02.html",
+     "kind": "quest-event",
+     "script": "Q00167_DwarvenKinship",
+     "event": "30255-02.html",
+     "quest": 167,
+     "to": "Q00167_DwarvenKinship/30255-02.html"
+    }
+   ]
+  },
+  "Q00167_DwarvenKinship/30255-05.html": {
+   "file": "Q00167_DwarvenKinship/30255-05.html",
+   "quest": 167,
+   "text": "Warehouse Keeper Haprock: Hey! You haven't left yet? Hurry to the village of Gludin , for the sake of my friend Norman, who is anxiously awaiting his wife's letter. Go to the warehouse in the village of Gludin and ask for Norman .",
+   "header": "Warehouse Keeper Haprock",
+   "when": [
+    "cond 2; !(st.isCond(1) && st.hasQuestItems(CARLONS_LETTER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00167_DwarvenKinship/30255-02.html": {
+   "file": "Q00167_DwarvenKinship/30255-02.html",
+   "quest": 167,
+   "text": "Warehouse Keeper Haprock: ... What the! Are you still here? Dear, dear ...! Thank you for bringing Carlon's Letter. By the way, if you plan to travel along the western shores, can I ask you a favor? It is not a difficult task; just delivering a letter to my kinsman in the village of Gludin ...",
+   "header": "Warehouse Keeper Haprock",
+   "links": [
+    {
+     "text": "Say you will do the favor",
+     "bypass": "Quest Q00167_DwarvenKinship 30255-03.html",
+     "kind": "quest-event",
+     "script": "Q00167_DwarvenKinship",
+     "event": "30255-03.html",
+     "quest": 167,
+     "to": "Q00167_DwarvenKinship/30255-03.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "Decline request",
+     "bypass": "Quest Q00167_DwarvenKinship 30255-04.html",
+     "kind": "quest-event",
+     "script": "Q00167_DwarvenKinship",
+     "event": "30255-04.html",
+     "quest": 167,
+     "to": "Q00167_DwarvenKinship/30255-04.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00167_DwarvenKinship/30255-03.html": {
+   "file": "Q00167_DwarvenKinship/30255-03.html",
+   "quest": 167,
+   "text": "Warehouse Keeper Haprock: First, take this! It may not be much, but please accept it as a token of thanks for your work. It is more than enough money to cover your travel expenses from the Dark Elf Village to here. And what I want you to do is ... deliver a letter to Warehouse Keeper Norman of the …",
+   "header": "Warehouse Keeper Haprock",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00167_DwarvenKinship/30255-04.html": {
+   "file": "Q00167_DwarvenKinship/30255-04.html",
+   "quest": 167,
+   "text": "Warehouse Keeper Haprock: I guess it can't be helped. I must ask someone else, I suppose ... Oh, please take this before you go! It's not much, but think of it as a token of thanks for delivering Carlon's Letter. It is more than enough money to cover your travel expenses from the Dark Elf Village t…",
+   "header": "Warehouse Keeper Haprock",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Dwarven Kinship (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00167_DwarvenKinship",
+     "kind": "quest",
+     "quest": 167,
+     "to": "Q00167_DwarvenKinship/30255-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

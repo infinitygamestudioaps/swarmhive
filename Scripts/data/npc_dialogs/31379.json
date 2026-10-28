@@ -1,0 +1,435 @@
+{
+ "npcId": 31379,
+ "name": "Udan Mardui",
+ "title": "Soul Guide",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.199Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31379-01.html",
+   "when": "(AllianceLevel < 0); (AllianceLevel > -3)",
+   "src": "ai VarkaSilenosSupport"
+  },
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31379-04.html",
+   "when": "(AllianceLevel < 0); NOT (AllianceLevel > -3)",
+   "src": "ai VarkaSilenosSupport"
+  },
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31379-03.html",
+   "when": "NOT (AllianceLevel < 0)",
+   "src": "ai VarkaSilenosSupport"
+  }
+ ],
+ "quests": {
+  "615": {
+   "name": "Magical Power of Fire - Part 1",
+   "listText": [
+    "[Magical Power of Fire - Part 1]",
+    "[Magical Power of Fire - Part 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00615_MagicalPowerOfFirePart1/31379-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00615_MagicalPowerOfFirePart1/31379-03.html",
+     "when": "state STARTED; cond 2; st.isSet(\"spawned\")",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00615_MagicalPowerOfFirePart1/31379-02.html",
+     "when": "state STARTED; cond 2; !st.isSet(\"spawned\")",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00615_MagicalPowerOfFirePart1/31379-04.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "616": {
+   "name": "Magical Power of Fire - Part 2",
+   "listText": [
+    "[Magical Power of Fire - Part 2]",
+    "[Magical Power of Fire - Part 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00616_MagicalPowerOfFirePart2/31379-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); (st.hasQuestItems(RED_TOTEM))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00616_MagicalPowerOfFirePart2/31379-00a.html",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (st.hasQuestItems(RED_TOTEM))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00616_MagicalPowerOfFirePart2/31379-00b.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00616_MagicalPowerOfFirePart2/31379-03.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00616_MagicalPowerOfFirePart2/31379-04.html",
+     "when": "state STARTED; NOT (st.isCond(1)); (st.hasQuestItems(NASTRON_HEART))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00616_MagicalPowerOfFirePart2/31379-05.html",
+     "when": "state STARTED; NOT (st.isCond(1)); NOT (st.hasQuestItems(NASTRON_HEART))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "ai/npc/VarkaSilenosSupport/31379-01.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31379-01.html",
+   "quest": null,
+   "text": "Soul Guide Udan Mardui: I'm Soul Guide Udan Mardui. You're a friend of Varka, aren't you? Your reputation precedes you, my friend! Unfortunately, I can't offer you any just help yet. All favors must be reciprocated with an appropriate price! When you've accumulated enough trust, come back and see m…",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "(AllianceLevel < 0); (AllianceLevel > -3)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/VarkaSilenosSupport/31379-04.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31379-04.html",
+   "quest": null,
+   "text": "Soul Guide Udan Mardui: I am Udan Mardui, guide of dead souls. Dear friend of water, I thank you for the service you provided. May the good will and blessing of nature's goodness be with you always! I hope the reward I give you will help in your combat.",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "(AllianceLevel < 0); NOT (AllianceLevel > -3)"
+   ],
+   "links": [
+    {
+     "text": "Blessing of Wolf (Focus): Requires 2 Nepenthes Seeds",
+     "bypass": "Quest VarkaSilenosSupport 1",
+     "kind": "quest-event",
+     "script": "VarkaSilenosSupport",
+     "event": "1",
+     "to": null
+    },
+    {
+     "text": "Blessing of Hawk (Death Whisper): Requires 2 Nepenthes Seeds",
+     "bypass": "Quest VarkaSilenosSupport 2",
+     "kind": "quest-event",
+     "script": "VarkaSilenosSupport",
+     "event": "2",
+     "to": null
+    },
+    {
+     "text": "Blessing of Bear (Might): Requires 3 Nepenthes Seeds",
+     "bypass": "Quest VarkaSilenosSupport 3",
+     "kind": "quest-event",
+     "script": "VarkaSilenosSupport",
+     "event": "3",
+     "to": null
+    },
+    {
+     "text": "Blessing of Spider (Acumen): Requires 3 Nepenthes Seeds",
+     "bypass": "Quest VarkaSilenosSupport 4",
+     "kind": "quest-event",
+     "script": "VarkaSilenosSupport",
+     "event": "4",
+     "to": null
+    },
+    {
+     "text": "Blessing of Lion (Berserker): Requires 3 Nepenthes Seeds",
+     "bypass": "Quest VarkaSilenosSupport 5",
+     "kind": "quest-event",
+     "script": "VarkaSilenosSupport",
+     "event": "5",
+     "to": null
+    },
+    {
+     "text": "Blessing of Coyote (Vampiric Rage): Requires 3 Nepenthes Seeds",
+     "bypass": "Quest VarkaSilenosSupport 6",
+     "kind": "quest-event",
+     "script": "VarkaSilenosSupport",
+     "event": "6",
+     "to": null
+    },
+    {
+     "text": "Blessing of Owl (Empower): Requires 6 Nepenthes Seeds",
+     "bypass": "Quest VarkaSilenosSupport 7",
+     "kind": "quest-event",
+     "script": "VarkaSilenosSupport",
+     "event": "7",
+     "to": null
+    },
+    {
+     "text": "Blessing of Wild Horse (Haste): Requires 6 Nepenthes Seeds",
+     "bypass": "Quest VarkaSilenosSupport 8",
+     "kind": "quest-event",
+     "script": "VarkaSilenosSupport",
+     "event": "8",
+     "to": null
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/VarkaSilenosSupport/31379-03.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31379-03.html",
+   "quest": null,
+   "text": "Soul Guide Udan Mardui: I'm Udan Mardui, guide of dead souls. Dear traveler of the west wind, there's nothing I can offer you. You came here looking for peace, leave the same way!",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "NOT (AllianceLevel < 0)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00615_MagicalPowerOfFirePart1/31379-01.html": {
+   "file": "Q00615_MagicalPowerOfFirePart1/31379-01.html",
+   "quest": 615,
+   "text": "Soul Guide Udan Mardui: Do you feel the power of Asefa engulfing the battleground, comrade? You must go to the Ketra Orc Outpost and steal the Red Totem, the source of his power. You mustn't confront it's guardians directly! If they discover you, you'll never get the totem. Once you do this, I'll g…",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00615_MagicalPowerOfFirePart1/31379-03.html": {
+   "file": "Q00615_MagicalPowerOfFirePart1/31379-03.html",
+   "quest": 615,
+   "text": "Soul Guide Udan Mardui: You were spotted? How careless! I'll blind the guard for you. Go back and bring the totem from Asefa's box!",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "state STARTED; cond 2; st.isSet(\"spawned\")"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00615_MagicalPowerOfFirePart1/31379-02.html": {
+   "file": "Q00615_MagicalPowerOfFirePart1/31379-02.html",
+   "quest": 615,
+   "text": "Soul Guide Udan Mardui: Bring me the Red Totem, the source of Soul Guide Asefa's power, and don't let the guards see you! The totem is locked inside a box, so don't forget to take the Thief Key with you. Once you do this, I'll give you a sacred relic of our tribe!",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "state STARTED; cond 2; !st.isSet(\"spawned\")"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00615_MagicalPowerOfFirePart1/31379-04.html": {
+   "file": "Q00615_MagicalPowerOfFirePart1/31379-04.html",
+   "quest": 615,
+   "text": "Soul Guide Udan Mardui: Oh, were you successful? Is this the Red Totem? I feel the strong energy of fire! I didn't think that Ketra Orcs could use this mysterious power! In honor of your wisdom and courage, I hereby bestow upon you this holy relic of our tribe, the Divine Stone of Wisdom . Now, I, …",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00616_MagicalPowerOfFirePart2/31379-01.htm": {
+   "file": "Q00616_MagicalPowerOfFirePart2/31379-01.htm",
+   "quest": 616,
+   "text": "Soul Guide Udan Mardui: The chief shaman guards a whole race with his powers of magic. Asefa harnessed some very powerful fire magic. It's not the totem itself, but the soul of fire Nastron conjured by it. We must break the bond between them. Can you complete this mission, friend?",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); (st.hasQuestItems(RED_TOTEM))"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "Quest Q00616_MagicalPowerOfFirePart2 31379-02.html",
+     "kind": "quest-event",
+     "script": "Q00616_MagicalPowerOfFirePart2",
+     "event": "31379-02.html",
+     "quest": 616,
+     "to": "Q00616_MagicalPowerOfFirePart2/31379-02.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00616_MagicalPowerOfFirePart2/31379-00a.html": {
+   "file": "Q00616_MagicalPowerOfFirePart2/31379-00a.html",
+   "quest": 616,
+   "text": "Soul Guide Udan Mardui: You have to steal the Red Totem, the source of Asefa's magical power. Without the totem, you can't break the bond between Nastron and Asefa. (Quest may only be undertaken by characters with the Red Totem.)",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (st.hasQuestItems(RED_TOTEM))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00616_MagicalPowerOfFirePart2/31379-00b.html": {
+   "file": "Q00616_MagicalPowerOfFirePart2/31379-00b.html",
+   "quest": 616,
+   "text": "Soul Guide Udan Mardui: You're not strong enough yet. (Quest may only be undertaken by characters of level 75 or above.)",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00616_MagicalPowerOfFirePart2/31379-03.html": {
+   "file": "Q00616_MagicalPowerOfFirePart2/31379-03.html",
+   "quest": 616,
+   "text": "Soul Guide Udan Mardui: Find the holy altar in the Ketra outpost. Use the Red Totem there to conjure Nastron and kill him. Bring me the source of power, his heart of flame!",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00616_MagicalPowerOfFirePart2/31379-04.html": {
+   "file": "Q00616_MagicalPowerOfFirePart2/31379-04.html",
+   "quest": 616,
+   "text": "Soul Guide Udan Mardui: I sensed the magical power of the Ketra Orcs getting weaker. Was your mission a success?",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "state STARTED; NOT (st.isCond(1)); (st.hasQuestItems(NASTRON_HEART))"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the heart of flame.\"",
+     "bypass": "Quest Q00616_MagicalPowerOfFirePart2 give_heart",
+     "kind": "quest-event",
+     "script": "Q00616_MagicalPowerOfFirePart2",
+     "event": "give_heart",
+     "quest": 616,
+     "to": "Q00616_MagicalPowerOfFirePart2/31379-06.html",
+     "toAll": [
+      "Q00616_MagicalPowerOfFirePart2/31379-06.html",
+      "Q00616_MagicalPowerOfFirePart2/31379-07.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00616_MagicalPowerOfFirePart2/31379-05.html": {
+   "file": "Q00616_MagicalPowerOfFirePart2/31379-05.html",
+   "quest": 616,
+   "text": "Soul Guide Udan Mardui: Defeat the soul of fire Nastron and bring me the source of power, the heart of flame!",
+   "header": "Soul Guide Udan Mardui",
+   "when": [
+    "state STARTED; NOT (st.isCond(1)); NOT (st.hasQuestItems(NASTRON_HEART))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00616_MagicalPowerOfFirePart2/31379-02.html": {
+   "file": "Q00616_MagicalPowerOfFirePart2/31379-02.html",
+   "quest": 616,
+   "text": "Soul Guide Udan Mardui: Excellent. Varka's friend. What you have to do from now on, it's to break into Ketra Orc Outpost and find the Holy Altar. The Holy Altar is hidden in a deep place of Ketra Orc Outpost. First, go to the Holy Altar with this Red Totem. Then, use this Red Totem there and conjur…",
+   "header": "Soul Guide Udan Mardui",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00616_MagicalPowerOfFirePart2/31379-06.html": {
+   "file": "Q00616_MagicalPowerOfFirePart2/31379-06.html",
+   "quest": 616,
+   "text": "Soul Guide Udan Mardui: Excellent! Now I, Udan Mardui, will possess Asefa's mighty power of fire! Thanks to you, our victory is assured! Congratulations!",
+   "header": "Soul Guide Udan Mardui",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00616_MagicalPowerOfFirePart2/31379-07.html": {
+   "file": "Q00616_MagicalPowerOfFirePart2/31379-07.html",
+   "quest": 616,
+   "text": "Soul Guide Udan Mardui: Bring me Nastron's heart of flame!",
+   "header": "Soul Guide Udan Mardui",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/VarkaSilenosSupport/31379-02.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31379-02.html",
+   "quest": null,
+   "text": "Soul Guide Udan Mardui: If you want to be blessed, give me the seed of Nepenthes ! Prove yourself!",
+   "header": "Soul Guide Udan Mardui",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Magical Power of Fire - Part 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00615_MagicalPowerOfFirePart1",
+     "kind": "quest",
+     "quest": 615,
+     "to": "Q00615_MagicalPowerOfFirePart1/31379-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Magical Power of Fire - Part 2]",
+     "bypass": "npc_%objectId%_Quest Q00616_MagicalPowerOfFirePart2",
+     "kind": "quest",
+     "quest": 616,
+     "to": "Q00616_MagicalPowerOfFirePart2/31379-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Magical Power of Fire - Part 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00616_MagicalPowerOfFirePart2",
+     "kind": "quest",
+     "quest": 616,
+     "to": "Q00616_MagicalPowerOfFirePart2/31379-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

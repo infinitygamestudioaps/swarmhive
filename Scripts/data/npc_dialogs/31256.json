@@ -1,0 +1,177 @@
+{
+ "npcId": 31256,
+ "name": "Leon",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.144Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31256.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "11": {
+   "name": "Secret Meeting With Ketra Orcs",
+   "listText": [
+    "[Secret meeting with Ketra Orcs]",
+    "[Secret Meeting with Ketra Orcs (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00011_SecretMeetingWithKetraOrcs/31256-01.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00011_SecretMeetingWithKetraOrcs/31256-03.html",
+     "when": "state STARTED; memo 21",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/31256.htm": {
+   "file": "merchant/31256.htm",
+   "quest": null,
+   "text": "Trader Leon: Welcome to the best armor shop in Elmore! If you live in a rough place like Goddard, you must be able to protect yourself. Let me know if you see anything you like!",
+   "header": "Trader Leon",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/31256-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3125600",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3125601",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/31256-1.htm": {
+   "file": "merchant/31256-1.htm",
+   "quest": null,
+   "text": "Trader Leon: What are you looking for?",
+   "header": "Trader Leon",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3125600",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3125601",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3125602",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3125603",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy a Shadow item.",
+     "bypass": "npc_%objectId%_BuyShadowItem",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/31256-pk.htm": {
+   "file": "merchant/31256-pk.htm",
+   "quest": null,
+   "text": "Trader Leon: Do you want to go to jail? Leave now!",
+   "header": "Trader Leon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00011_SecretMeetingWithKetraOrcs/31256-01.html": {
+   "file": "Q00011_SecretMeetingWithKetraOrcs/31256-01.html",
+   "quest": 11,
+   "text": "Trader Leon: All right. Guard Cadmon sent you here, didn't he? I'm glad you made it here. A number of young men have tried to come here, but they all ran away even before they reached the Orc barracks. I've sustained a great loss. As you know, the Ketra Orcs are the most daring and ferocious tribe.…",
+   "header": "Trader Leon",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "links": [
+    {
+     "text": "\"OK. Entrust me with the task.\"",
+     "bypass": "Quest Q00011_SecretMeetingWithKetraOrcs 31256-02.html",
+     "kind": "quest-event",
+     "script": "Q00011_SecretMeetingWithKetraOrcs",
+     "event": "31256-02.html",
+     "quest": 11,
+     "to": "Q00011_SecretMeetingWithKetraOrcs/31256-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00011_SecretMeetingWithKetraOrcs/31256-03.html": {
+   "file": "Q00011_SecretMeetingWithKetraOrcs/31256-03.html",
+   "quest": 11,
+   "text": "Trader Leon: What are you doing? Take the box of supplies I gave you to Messenger Wahkan of Ketra. You are already running late. Hurry. They're very bad-tempered.",
+   "header": "Trader Leon",
+   "when": [
+    "state STARTED; memo 21"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00011_SecretMeetingWithKetraOrcs/31256-02.html": {
+   "file": "Q00011_SecretMeetingWithKetraOrcs/31256-02.html",
+   "quest": 11,
+   "text": "Trader Leon: Man, you are really a dependable person. Don't forget. You must take the box of supplies to Messenger Wahkan of Ketra at the Ketra Orc base.",
+   "header": "Trader Leon",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Secret Meeting with Ketra Orcs (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00011_SecretMeetingWithKetraOrcs",
+     "kind": "quest",
+     "quest": 11,
+     "to": "Q00011_SecretMeetingWithKetraOrcs/31256-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

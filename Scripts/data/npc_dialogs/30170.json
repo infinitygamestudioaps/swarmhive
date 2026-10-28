@@ -1,0 +1,141 @@
+{
+ "npcId": 30170,
+ "name": "Radic",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.862Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30170.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "warehouse/30170.htm": {
+   "file": "warehouse/30170.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Radic: Greetings, adventurer. Welcome to the Ivory Tower. I recommend you that you leave any nonessential items with us and then go explore this place. It is essentially an entire city built by Wizards for Wizards. We are currently in the 1st basement, where you can find various Wi…",
+   "header": "Warehouse Keeper Radic",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/30170-1.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/30170-2.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30170-1.htm": {
+   "file": "warehouse/30170-1.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Radic:",
+   "header": "Warehouse Keeper Radic",
+   "links": [
+    {
+     "text": "Deposit an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30170.htm"
+    }
+   ]
+  },
+  "warehouse/30170-2.htm": {
+   "file": "warehouse/30170-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Radic:",
+   "header": "Warehouse Keeper Radic",
+   "links": [
+    {
+     "text": "Deposit an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30170.htm"
+    }
+   ]
+  },
+  "warehouse/30170-noteach.htm": {
+   "file": "warehouse/30170-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Radic: It looks like you've come to the wrong place, adventurer. I'm a warehouse keeper, which means I only teach Scavengers and Bounty Hunters. Why don't you look for a mentor better suited to your profession?",
+   "header": "Warehouse Keeper Radic",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

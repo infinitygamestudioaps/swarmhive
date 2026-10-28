@@ -1,0 +1,288 @@
+{
+ "npcId": 30523,
+ "name": "Gouph",
+ "title": "Collector",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.991Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30523.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "108": {
+   "name": "Jumble, Tumble, Diamond Fuss",
+   "listText": [
+    "[Jumble, Tumble, Diamond Fuss]",
+    "[Jumble, Tumble, Diamond Fuss (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30523-01.htm",
+     "when": "state CREATED; talker.getRace() != Race.DWARF",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30523-02.htm",
+     "when": "state CREATED; level < 10; !talker.getRace() != Race.DWARF",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30523-03.htm",
+     "when": "state CREATED; NOT level < 10; !talker.getRace() != Race.DWARF",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30523-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30523-06.html",
+     "when": "state STARTED; cond 2|3|4|5|6; has items 1560,1561,1562,1563",
+     "state": "STARTED",
+     "cond": [
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30523-07.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30523-08.html",
+     "when": "state STARTED; cond 8|9|10|11; has items 1567,1568,1569,1570",
+     "state": "STARTED",
+     "cond": [
+      8,
+      9,
+      10,
+      11
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30523-09.html",
+     "when": "state STARTED; cond 12",
+     "state": "STARTED",
+     "cond": [
+      12
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30523.htm": {
+   "file": "default/30523.htm",
+   "quest": null,
+   "text": "Collector Gouph Dandy Gouph is a true Dwarf! I have wound my way through the world with many friends of the Bronze Key ! Still there are many strange places in the world, so let's go, friends -- Let's venture out! Wait, treasures ... Gouph is coming soon! Precious treasures are all ours! Let's vent…",
+   "links": [
+    {
+     "text": "Ask about the Bronze Key Guild.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30523-1.htm"
+    },
+    {
+     "text": "You can sing very well.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30523-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30523-1.htm": {
+   "file": "default/30523-1.htm",
+   "quest": null,
+   "text": "Collector Gouph Well ... Only the most elite dwarves can make it to the Bronze Key. Collector Gentaron , founder of our guild, was the most renowned adventurer! He was so brave that he went into a dragon's nest by himself and brought out its scale! We guild members worship his spirit of adventure a…",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30523.htm"
+    }
+   ]
+  },
+  "default/30523-2.htm": {
+   "file": "default/30523-2.htm",
+   "quest": null,
+   "text": "Collector Gouph: Oho! A young musician came to see me earlier! He was so talented that I was deeply moved. Perhaps I should sing a little song for you! ...The white snake is lanky, long and smooth... When he's coiled up he looks like poo...#$#^$##$%#^%$%#$%@#$%...Argh! I'm such an idiot!",
+   "header": "Collector Gouph",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30523.htm"
+    }
+   ]
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30523-01.htm": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30523-01.htm",
+   "quest": 108,
+   "text": "Collector Gouph: I can't ask an honored guest of another race who has visited our Dwarven town to run an errand for me! Take your time looking around, and enjoy! (Quest for Dwarven characters.)",
+   "header": "Collector Gouph",
+   "when": [
+    "state CREATED; talker.getRace() != Race.DWARF"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30523-02.htm": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30523-02.htm",
+   "quest": 108,
+   "text": "Collector Gouph: Hey, young friend! Have you ever heard of the jewel called the Star Diamond? It's a very rare gem of which only twelve exist on the entire continent. Due to a recent stroke of luck, I've managed to obtain one of those Star Diamonds... It will be delivered here in few days... I am s…",
+   "header": "Collector Gouph",
+   "when": [
+    "state CREATED; level < 10; !talker.getRace() != Race.DWARF"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30523-03.htm": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30523-03.htm",
+   "quest": 108,
+   "text": "Collector Gouph: Look here, friend. Have you heard of a jewel called the Star Diamond ? It's an incredibly rare gem -- only 12 in existence. Well, I got a lead on one of them a while back. It was quite a bit of trouble... Heh, heh... But the delivery is already four days late...! Ergh... Hey, frien…",
+   "header": "Collector Gouph",
+   "when": [
+    "state CREATED; NOT level < 10; !talker.getRace() != Race.DWARF"
+   ],
+   "links": [
+    {
+     "text": "Say that you'll take the job.",
+     "bypass": "Quest Q00108_JumbleTumbleDiamondFuss 30523-04.htm",
+     "kind": "quest-event",
+     "script": "Q00108_JumbleTumbleDiamondFuss",
+     "event": "30523-04.htm",
+     "quest": 108,
+     "to": "Q00108_JumbleTumbleDiamondFuss/30523-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30523-05.html": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30523-05.html",
+   "quest": 108,
+   "text": "Collector Gouph: Have you met Reep? Not yet? What in the world are you doing? If you've made up your mind to do this job, you'd better be responsible and get to it! Go and meet Trader Reep at the weapon shop and ask him where my diamond is, right now. If you show him this Contract, he can't pretend…",
+   "header": "Collector Gouph",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30523-06.html": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30523-06.html",
+   "quest": 108,
+   "text": "Collector Gouph: What did Reep say? Where is my jewel? Hey, youngster, hurry up and find my jewel! You should be more responsible when you're hired to do a job!",
+   "header": "Collector Gouph",
+   "when": [
+    "state STARTED; cond 2|3|4|5|6; has items 1560,1561,1562,1563"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30523-07.html": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30523-07.html",
+   "quest": 108,
+   "text": "Collector Gouph: Oooh! You've finally brought me my jewel. My precious Star Diamond... Heh, heh, heh... Let me see... my baby... What in the world is this? A lump of Coal ? Look, young friend, what is the meaning of this? Can't you do a simple job right? Why have you brought me the wrong box? Take …",
+   "header": "Collector Gouph",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30523-08.html": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30523-08.html",
+   "quest": 108,
+   "text": "Collector Gouph: Are you still running around with that lump of Coal? When are you going to bring me my jewel? Can't you do this job right! Look, youngster, don't disappoint me!",
+   "header": "Collector Gouph",
+   "when": [
+    "state STARTED; cond 8|9|10|11; has items 1567,1568,1569,1570"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30523-09.html": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30523-09.html",
+   "quest": 108,
+   "text": "Collector Gouph: Oooh! You've finally found it! My Star Diamond...! Heh, heh, heh... Give it to me now! Thank you! Thank you! Thank you! You've done well, young friend. As promised, I will give you a reward. Here, take this weapon. This hammer was used by silversmiths from the Elmoreden period. I g…",
+   "header": "Collector Gouph",
+   "when": [
+    "state STARTED; cond 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30523-04.htm": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30523-04.htm",
+   "quest": 108,
+   "text": "Collector Gouph: Good! Do you know Trader Reep of the weapons shop ? He got the Star Diamond for me as my agent in Giran. That fellow is a master of bargaining, and so he got me a really nice price for the jewel. Go see him and ask him what's going on. If you show him this Contract, that scoundrel …",
+   "header": "Collector Gouph",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Jumble, Tumble, Diamond Fuss]",
+     "bypass": "npc_%objectId%_Quest Q00108_JumbleTumbleDiamondFuss",
+     "kind": "quest",
+     "quest": 108,
+     "to": "Q00108_JumbleTumbleDiamondFuss/30523-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Jumble, Tumble, Diamond Fuss (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00108_JumbleTumbleDiamondFuss",
+     "kind": "quest",
+     "quest": 108,
+     "to": "Q00108_JumbleTumbleDiamondFuss/30523-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,300 @@
+{
+ "npcId": 31302,
+ "name": "Vladimir",
+ "title": "Armor Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.182Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31302.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "15": {
+   "name": "Sweet Whispers",
+   "listText": [
+    "[Sweet Whispers]",
+    "[Sweet Whispers (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00015_SweetWhispers/31302-00.htm",
+     "when": "state CREATED; (player.getLevel() >= 60)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00015_SweetWhispers/31302-00a.html",
+     "when": "state CREATED; NOT (player.getLevel() >= 60)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00015_SweetWhispers/31302-01a.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "19": {
+   "name": "Go to the Pastureland",
+   "listText": [
+    "[Go to the Pastureland]",
+    "[Go to the Pastureland (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00019_GoToThePastureland/31302-01.htm",
+     "when": "state CREATED; level >= 82",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00019_GoToThePastureland/31302-03.html",
+     "when": "state CREATED; NOT level >= 82",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00019_GoToThePastureland/31302-04.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/31302.htm": {
+   "file": "merchant/31302.htm",
+   "quest": null,
+   "text": "Trader Vladimir: Oh, my! A customer! Come this way! A dignified adventurer like you shouldn't have to deal with a huckster like Drumond. Times are chaotic, and you must prepare yourself accordingly. The equipment we sell is only of the best quality and purest materials. Would I lie to you?",
+   "header": "Trader Vladimir",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/31302-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3130200",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3130201",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/31302-1.htm": {
+   "file": "merchant/31302-1.htm",
+   "quest": null,
+   "text": "Trader Vladimir: Now, please tell me what I can do for you!",
+   "header": "Trader Vladimir",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3130200",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3130201",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3130202",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3130203",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/31302-pk.htm": {
+   "file": "merchant/31302-pk.htm",
+   "quest": null,
+   "text": "Trader Vladimir: Have you heard of the vampire Vladimir? How about Bloody Vlad? They are the elders of my family! Are you starting to understand? Now get going! Unwanted guests don't last long around here!",
+   "header": "Trader Vladimir",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00015_SweetWhispers/31302-00.htm": {
+   "file": "Q00015_SweetWhispers/31302-00.htm",
+   "quest": 15,
+   "text": "Trader Vladimir: The world is very unsettled these days. Would you be interested in a unique kind of power?",
+   "header": "Trader Vladimir",
+   "when": [
+    "state CREATED; (player.getLevel() >= 60)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "Quest Q00015_SweetWhispers 31302-01.html",
+     "kind": "quest-event",
+     "script": "Q00015_SweetWhispers",
+     "event": "31302-01.html",
+     "quest": 15,
+     "to": "Q00015_SweetWhispers/31302-01.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00015_SweetWhispers/31302-00a.html": {
+   "file": "Q00015_SweetWhispers/31302-00a.html",
+   "quest": 15,
+   "text": "Trader Vladimir: I think it is too early for you to help me. Come back after you have gained some more experience. (Quest for characters level 60 and above.)",
+   "header": "Trader Vladimir",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 60)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00015_SweetWhispers/31302-01a.html": {
+   "file": "Q00015_SweetWhispers/31302-01a.html",
+   "quest": 15,
+   "text": "Trader Vladimir: Find the mysterious Necromancer at the entrance to the Valley of Saints . He'll help you test your fate.",
+   "header": "Trader Vladimir",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00019_GoToThePastureland/31302-01.htm": {
+   "file": "Q00019_GoToThePastureland/31302-01.htm",
+   "quest": 19,
+   "text": "Trader Vladimir: What.., is everyone here DEAF?! Hey... you! Can you help me? I ordered meat from that farm..., look at the crap they gave me! I'm too mad to go myself, I wonder if you would return this for me?",
+   "header": "Trader Vladimir",
+   "when": [
+    "state CREATED; level >= 82"
+   ],
+   "links": [
+    {
+     "text": "Say you will.",
+     "bypass": "Quest Q00019_GoToThePastureland 31302-02.htm",
+     "kind": "quest-event",
+     "script": "Q00019_GoToThePastureland",
+     "event": "31302-02.htm",
+     "quest": 19,
+     "to": "Q00019_GoToThePastureland/31302-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00019_GoToThePastureland/31302-03.html": {
+   "file": "Q00019_GoToThePastureland/31302-03.html",
+   "quest": 19,
+   "text": "Trader Vladimir: You? How could someone as inexperienced as you TRULY know how to deal with meat? The answer is... you can't. Come back after you gain more experience. (Only character with level 82 or above can take on this quest.)",
+   "header": "Trader Vladimir",
+   "when": [
+    "state CREATED; NOT level >= 82"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00019_GoToThePastureland/31302-04.html": {
+   "file": "Q00019_GoToThePastureland/31302-04.html",
+   "quest": 19,
+   "text": "Trader Vladimir: Did you find the Farm manager? What are you doing? And can you get rid of this meat before it stinks? The quality isn't good enough.",
+   "header": "Trader Vladimir",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00015_SweetWhispers/31302-01.html": {
+   "file": "Q00015_SweetWhispers/31302-01.html",
+   "quest": 15,
+   "text": "Trader Vladimir: Excellent, I'll tell you what to do. Find the mysterious Necromancer at the entrance to the Valley of Saints . He'll help you test your fate. Look for someone from my guild if you should need help.",
+   "header": "Trader Vladimir",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00019_GoToThePastureland/31302-02.htm": {
+   "file": "Q00019_GoToThePastureland/31302-02.htm",
+   "quest": 19,
+   "text": "Trader Vladimir: Is that you? Here. Take this meat! Farm Manager Tunatun sent it to me, but it's disgusting. I see red just thinking about it! I can't decide if he doesn't know any better, or if he's trying to slip one by me. Between you and me, I won't buy anything from him! Not if he paid me! But…",
+   "header": "Trader Vladimir",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Sweet Whispers]",
+     "bypass": "npc_%objectId%_Quest Q00015_SweetWhispers",
+     "kind": "quest",
+     "quest": 15,
+     "to": "Q00015_SweetWhispers/31302-00.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Sweet Whispers (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00015_SweetWhispers",
+     "kind": "quest",
+     "quest": 15,
+     "to": "Q00015_SweetWhispers/31302-01a.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Go to the Pastureland]",
+     "bypass": "npc_%objectId%_Quest Q00019_GoToThePastureland",
+     "kind": "quest",
+     "quest": 19,
+     "to": "Q00019_GoToThePastureland/31302-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Go to the Pastureland (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00019_GoToThePastureland",
+     "kind": "quest",
+     "quest": 19,
+     "to": "Q00019_GoToThePastureland/31302-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

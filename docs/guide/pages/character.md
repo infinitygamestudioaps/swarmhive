@@ -69,6 +69,8 @@ Nothing is fetched while the browser tab is hidden; the cast ring, cooldowns and
    character alone) it is the PARTY's switch. On a member it stops only that member: it stands still where it is (no follow, no
    assist, no team walks; it still heals, defends itself, trades and obeys your orders) and the party goes on without it; **▶ Start**
    brings it back to its party. Next to it: *party running* / *party stopped* / *stopped on its own*.
+   **✋ Hands off: ON / OFF** - the [Hands off](#hands-off) switch of this character. While it is ON the Stop / Start button is hidden
+   (the line says why: switch Hands off OFF first).
    **Live** - the party's live view.
 7. **Commands** - every command for this character in the [command center](command-center.md) ([screenshot](#commands-sheet)).
 8. **Override…** - the override panel for this character ([below](#override-panel)).
@@ -86,6 +88,21 @@ Nothing is fetched while the browser tab is hidden; the cast ring, cooldowns and
     teammates are dark, silent ones grey.
 
 When the game data cannot be read, the bars show the percentages the script last reported.
+
+### Hands off
+
+**✋ Hands off** switches off the Hive for this character only. Hive then does nothing with it: no hunting, leveling, follow,
+regroups, supplies, selling, trades, hand-overs, storing, Hive skills, heals or potions, no auto-shot switching, and it ignores the
+orders of its party leader (a party order sent to it shows as *skipped (hands off)* in the order results). Its party does not wait
+for it and does not count it; the party card says *· ✋ hands off: <name>*.
+
+**L2Swarm itself keeps running whatever this account's own profile has ticked (follow, attack, auto-skills, heals).** To make it
+stand completely still, also untick follow / attack in its L2Swarm profile. Your own orders to it (its character page, its commands)
+still work.
+
+While Hands off is on the character's task and its State list say *✋ Hands off — Hive does nothing; only your L2Swarm profile and
+your own orders*, and the Stop / Start button is hidden. Switching it OFF brings it back to its party (follow + assist again, as
+before). The switch is kept in `Scripts/data/run_state.json` (`handsOff.<name>`); a party Start / Stop / Start all never resets it.
 
 ### Next level estimate
 

@@ -1,0 +1,96 @@
+{
+ "npcId": 31259,
+ "name": "Janne",
+ "title": "Armor Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.145Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31259.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31259.htm": {
+   "file": "merchant/31259.htm",
+   "quest": null,
+   "text": "Trader Janne: Welcome! Do you need a sharp sword? Glittering steel armor? Just say the word! Oh, that man over there? He's my father. Look how strong he is; he still carries heavy loads all by himself. He says he doesn't trust young people these days...",
+   "header": "Trader Janne",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/31259-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3125900",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3125901",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/31259-1.htm": {
+   "file": "merchant/31259-1.htm",
+   "quest": null,
+   "text": "Trader Janne: Well, what can I get you?",
+   "header": "Trader Janne",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3125900",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3125901",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3125902",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3125903",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/31259-pk.htm": {
+   "file": "merchant/31259-pk.htm",
+   "quest": null,
+   "text": "Trader Janne: Do you see my father over there? I'm telling you nicely! Leave before I call him over here!",
+   "header": "Trader Janne",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,125 @@
+{
+ "npcId": 31862,
+ "name": "Angelic Vortex",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.295Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31862.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/31862.htm": {
+   "file": "default/31862.htm",
+   "quest": null,
+   "text": "Angelic Vortex: The Angelic Vortex emits a faint light, and in the midst of the light an image appears. In the deepest part of a specious area, a gigantic stone statue is visible. The statue has a human-like appearance and is in a seated position, as though it was being held by some invisible force…",
+   "header": "Angelic Vortex",
+   "links": [
+    {
+     "text": "Go where the Angelic Vortex leads.",
+     "bypass": "npc_%objectId%_Quest Baium",
+     "kind": "quest",
+     "script": "Baium",
+     "to": null
+    }
+   ]
+  },
+  "default/31862-1.htm": {
+   "file": "default/31862-1.htm",
+   "quest": null,
+   "text": "Angelic Vortex: The Angelic Vortex emits a faint light, in the midst of which an image appears. A large, open space... but the gigantic, human-like stone statue is no longer there. It seems that while the statue is not visible, one could cross over to that place.",
+   "header": "Angelic Vortex",
+   "links": [
+    {
+     "text": "Ask about the stone statue.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/31862-2.htm"
+    }
+   ]
+  },
+  "default/31862-2.htm": {
+   "file": "default/31862-2.htm",
+   "quest": null,
+   "text": "Angelic Vortex: In ancient times a mighty emperor named Baium became so enamored of his own power that he began to fancy himself a god. He conscripted all of his people to build an awesome tower that reached almost to heaven. The gods were not amused. They struck him down, cursed him with immortali…",
+   "header": "Angelic Vortex",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/individual/Baium/31862-01.html": {
+   "file": "ai/individual/Baium/31862-01.html",
+   "quest": null,
+   "text": "Angelic Vortex: The Angelic Vortex emits a faint light which twinkles out. The vortex becomes inactive. It seems like, in order to go to the place where the Angelic Vortex is leading, you will need some special object.",
+   "header": "Angelic Vortex",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/individual/Baium/31862-02.html": {
+   "file": "ai/individual/Baium/31862-02.html",
+   "quest": null,
+   "text": "Angelic Vortex: The Angelic Vortex emits a faint light, in the midst of which an image appears. A giant that normally appears as a stone statue has come alive and is fighting with many people. Even angels have joined the fray. It seems that the angels are angry at the humans who have broken the sea…",
+   "header": "Angelic Vortex",
+   "links": [
+    {
+     "text": "Ask about the stone statue that has come alive.",
+     "bypass": "npc_%objectId%_Quest Baium 31862-04.html",
+     "kind": "quest-event",
+     "script": "Baium",
+     "event": "31862-04.html",
+     "to": "ai/individual/Baium/31862-04.html"
+    }
+   ]
+  },
+  "ai/individual/Baium/31862-03.html": {
+   "file": "ai/individual/Baium/31862-03.html",
+   "quest": null,
+   "text": "Angelic Vortex: The Angelic Vortex emits a faint light, in the midst of which an image appears. A large, open space... but the gigantic, human-like stone statue is no longer there. It seems that while the statue is not visible, one could cross over to that place.",
+   "header": "Angelic Vortex",
+   "links": [
+    {
+     "text": "Ask about the stone statue.",
+     "bypass": "npc_%objectId%_Quest Baium 31862-04.html",
+     "kind": "quest-event",
+     "script": "Baium",
+     "event": "31862-04.html",
+     "to": "ai/individual/Baium/31862-04.html"
+    }
+   ]
+  },
+  "ai/individual/Baium/31862-04.html": {
+   "file": "ai/individual/Baium/31862-04.html",
+   "quest": null,
+   "text": "Angelic Vortex: In ancient times a mighty emperor named Baium became so enamored of his own power that he began to fancy himself a god. He conscripted all of his people to build an awesome tower that reached almost to heaven. The gods were not amused. They struck him down, cursed him with immortali…",
+   "header": "Angelic Vortex",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/individual/Baium/31862.html": {
+   "file": "ai/individual/Baium/31862.html",
+   "quest": null,
+   "text": "Angelic Vortex: The Angelic Vortex emits a faint light, and in the midst of the light an image appears. In the deepest part of a spacious area, a gigantic stone statue is visible. The statue has a human-like appearance and is in a seated position, as though it was being held by some invisible force…",
+   "header": "Angelic Vortex",
+   "links": [
+    {
+     "text": "Go where the Angelic Vortex leads.",
+     "bypass": "npc_%objectId%_Quest Baium enter",
+     "kind": "quest-event",
+     "script": "Baium",
+     "event": "enter",
+     "to": "ai/individual/Baium/31862-03.html",
+     "toAll": [
+      "ai/individual/Baium/31862-03.html",
+      "ai/individual/Baium/31862-02.html",
+      "ai/individual/Baium/31862-01.html"
+     ]
+    }
+   ]
+  }
+ }
+}

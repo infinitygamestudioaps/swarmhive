@@ -1,0 +1,184 @@
+{
+ "npcId": 30727,
+ "name": "Verona",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.062Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "teleporter/30727.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "teleporter/30727.htm": {
+   "file": "teleporter/30727.htm",
+   "quest": null,
+   "text": "Gatekeeper Verona: Greetings, seeker of knowledge! Welcome to the Ivory Tower, that venerable repository of mystical secrets. I am Verona, Gatekeeper of the Tower. The Ivory Tower consists of several floors, each of which is completely separated from the others. To travel from one floor to another,…",
+   "header": "Gatekeeper Verona",
+   "links": [
+    {
+     "text": "Teleport.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/30727-1.htm"
+    },
+    {
+     "text": "Exchange Dimension Diamonds.",
+     "bypass": "npc_%objectId%_multisell 002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Go to another floor.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "teleporter/30727-2.htm",
+     "live": true
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "teleporter/30727-1.htm": {
+   "file": "teleporter/30727-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Town of Oren - 3700 Adena",
+     "bypass": "npc_%objectId%_goto 36",
+     "kind": "teleport",
+     "confirm": "811;Oren Castle Town"
+    },
+    {
+     "text": "Hunters Village - 6800 Adena",
+     "bypass": "npc_%objectId%_goto 37",
+     "kind": "teleport",
+     "confirm": "811;Hunter Village"
+    },
+    {
+     "text": "Town of Aden - 6200 Adena",
+     "bypass": "npc_%objectId%_goto 38",
+     "kind": "teleport",
+     "confirm": "811;Aden Castle Town"
+    }
+   ]
+  },
+  "teleporter/30727-2.htm": {
+   "file": "teleporter/30727-2.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Underground Shopping Area",
+     "bypass": "npc_%objectId%_goto 31",
+     "kind": "teleport",
+     "confirm": "811;Underground Shopping Area"
+    },
+    {
+     "text": "2nd Floor Human Wizard Guild",
+     "bypass": "npc_%objectId%_goto 33",
+     "kind": "teleport",
+     "confirm": "811;2nd Floor Human Wizard Guild"
+    },
+    {
+     "text": "3rd Floor Elven Wizard Guild",
+     "bypass": "npc_%objectId%_goto 34",
+     "kind": "teleport",
+     "confirm": "811;3rd Floor Elven Wizard Guild"
+    },
+    {
+     "text": "4th Floor Dark Wizard Guild",
+     "bypass": "npc_%objectId%_goto 35",
+     "kind": "teleport",
+     "confirm": "811;4th Floor Dark Wizard Guild"
+    }
+   ]
+  },
+  "teleporter/30727-pk.htm": {
+   "file": "teleporter/30727-pk.htm",
+   "quest": null,
+   "text": "Gatekeeper Verona: You may not enter The Ivory Tower. Go back the way you have come.",
+   "header": "Gatekeeper Verona",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "teleporter/free/30727.htm": {
+   "file": "teleporter/free/30727.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Town of Oren",
+     "bypass": "npc_%objectId%_goto 36",
+     "kind": "teleport",
+     "confirm": "811;Oren Castle Town"
+    },
+    {
+     "text": "Hunters Village",
+     "bypass": "npc_%objectId%_goto 37",
+     "kind": "teleport",
+     "confirm": "811;Hunter Village"
+    },
+    {
+     "text": "Town of Aden",
+     "bypass": "npc_%objectId%_goto 38",
+     "kind": "teleport",
+     "confirm": "811;Aden Castle Town"
+    }
+   ]
+  },
+  "teleporter/half/30727.htm": {
+   "file": "teleporter/half/30727.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Town of Oren - 1850 Adena",
+     "bypass": "npc_%objectId%_goto 36",
+     "kind": "teleport",
+     "confirm": "811;Oren Castle Town"
+    },
+    {
+     "text": "Hunters Village - 3400 Adena",
+     "bypass": "npc_%objectId%_goto 37",
+     "kind": "teleport",
+     "confirm": "811;Hunter Village"
+    },
+    {
+     "text": "Town of Aden - 3100 Adena",
+     "bypass": "npc_%objectId%_goto 38",
+     "kind": "teleport",
+     "confirm": "811;Aden Castle Town"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Go to another floor.",
+   "n": 4,
+   "inDatapack": true,
+   "from": [
+    "Gatekeeper Verona:Greetings, seeker of knowledge! Welcome to"
+   ],
+   "to": [
+    "556Underground Shopping Area2nd Floor Human Wizard Guild3rd "
+   ]
+  }
+ ]
+}

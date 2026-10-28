@@ -1,0 +1,567 @@
+{
+ "npcId": 30533,
+ "name": "Balanki",
+ "title": "Silver Scale's",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.994Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30533.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10": {
+   "name": "Into the World",
+   "listText": [
+    "[Into the World]",
+    "[Into the World (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00010_IntoTheWorld/30533-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && (player.getRace() == Race.DWARF))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00010_IntoTheWorld/30533-02.html",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && (player.getRace() == Race.DWARF))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00010_IntoTheWorld/30533-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00010_IntoTheWorld/30533-05.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30533-01.html",
+     "when": "state STARTED; has items 3239,3246,3248; lacks items 3259; (getQuestItemsCount(player, CONTRIBUTION_OF_MION) + getQuestItemsCount(player, CONTRIBUTION_OF_MARYSE)) < 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30533-02.html",
+     "when": "state STARTED; has items 3239,3246; lacks items 3248,3259; !(hasQuestItems(player, LOCKIRINS_2ND_NOTICE) && !hasQuestItems(player, RECEIPT_OF_CONTRIBUTION_2ND) && ((getQuestItemsC; (getQuestItemsCount(player, CONTRIBUTION_OF_MION) + getQuestItemsCount(player, CONTRIBUTION_OF_MARYSE)) < 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30533-03.html",
+     "when": "state STARTED; has items 3239,3246,3253,3254; lacks items 3248,3259; !(hasQuestItems(player, LOCKIRINS_2ND_NOTICE) && !hasQuestItems(player, RECEIPT_OF_CONTRIBUTION_2ND) && ((getQuestItemsC; !(!hasAtLeastOneQuestItem(player, LOCKIRINS_2ND_NOTICE, RECEIPT_OF_CONTRIBUTION_2ND) && ((getQuestItemsCount(player, CON",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30533-04.html",
+     "when": "state STARTED; has items 3239,3246,3259; lacks items 3248,3253,3254; !(hasQuestItems(player, LOCKIRINS_2ND_NOTICE) && !hasQuestItems(player, RECEIPT_OF_CONTRIBUTION_2ND) && ((getQuestItemsC; !(!hasAtLeastOneQuestItem(player, LOCKIRINS_2ND_NOTICE, RECEIPT_OF_CONTRIBUTION_2ND) && ((getQuestItemsCount(player, CON; !(!hasAtLeastOneQuestItem(player, LOCKIRINS_2ND_NOTICE, RECEIPT_OF_CONTRIBUTION_2ND) && hasQuestItems(player, CONTRIBUTI",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "231": {
+   "name": "Test Of The Maestro",
+   "listText": [
+    "[Test of the Maestro]",
+    "[Test of the Maestro (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00231_TestOfTheMaestro/30533-01.html",
+     "when": "state STARTED; memo 1; lacks items 2864",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30533-03.html",
+     "when": "state STARTED; memo 2; lacks items 2868; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_BALANKI))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30533-04.html",
+     "when": "state STARTED; memo 2; has items 2868; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_BALANKI))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30533-05.html",
+     "when": "state STARTED; has items 2864; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_BALANKI))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "292": {
+   "name": "Brigands Sweep",
+   "listText": [
+    "[Brigands Sweep]",
+    "[Brigands Sweep (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00292_BrigandsSweep/30533-02.html",
+     "when": "state STARTED; has items 1487",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00292_BrigandsSweep/30533-01.html",
+     "when": "state STARTED; lacks items 1487",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "347": {
+   "name": "Go Get the Calculator",
+   "listText": [
+    "[Go Get the Calculator]",
+    "[Go Get the Calculator (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00347_GoGetTheCalculator/30533-01.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00347_GoGetTheCalculator/30533-04.html",
+     "when": "state STARTED; cond >2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00347_GoGetTheCalculator/30533-03.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30533.htm": {
+   "file": "default/30533.htm",
+   "quest": null,
+   "text": "Elder Balanki: I am too busy to talk to you now. If you need to ask about something, please be quick.",
+   "header": "Elder Balanki",
+   "links": [
+    {
+     "text": "Ask for introduction",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30533-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30533-1.htm": {
+   "file": "default/30533-1.htm",
+   "quest": null,
+   "text": "Elder Balanki: I beg your pardon? You really don't know who I am? I am Balanki Rollingrock, the Elder Chief of the glorious Silver Scale Guild . You still do not know who I am?",
+   "header": "Elder Balanki",
+   "links": [
+    {
+     "text": "Ask about the Silver Scale Guild",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30533-2.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30533.htm"
+    }
+   ]
+  },
+  "default/30533-2.htm": {
+   "file": "default/30533-2.htm",
+   "quest": null,
+   "text": "Elder Balanki: Our guild specializes in trade between the different races. We are experts in trade and diplomacy. While other races go to war for honor and political gain, our guild sees profit as a path to power. Our guild does not trade trivial daily necessities! We only deal with gold, silver, j…",
+   "header": "Elder Balanki",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30533.htm"
+    }
+   ]
+  },
+  "Q00010_IntoTheWorld/30533-01.htm": {
+   "file": "Q00010_IntoTheWorld/30533-01.htm",
+   "quest": 10,
+   "text": "Silver Scale's Balanki: What is it? Didn't I already tell you that I'm busy?! If you have something to say, say it quickly. If not, stop bothering me!",
+   "header": "Silver Scale's Balanki",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && (player.getRace() == Race.DWARF))"
+   ],
+   "links": [
+    {
+     "text": "\"I'm a guild member. I need help from a senior for my trip!\"",
+     "bypass": "Quest Q00010_IntoTheWorld 30533-03.htm",
+     "kind": "quest-event",
+     "script": "Q00010_IntoTheWorld",
+     "event": "30533-03.htm",
+     "quest": 10,
+     "to": "Q00010_IntoTheWorld/30533-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00010_IntoTheWorld/30533-02.html": {
+   "file": "Q00010_IntoTheWorld/30533-02.html",
+   "quest": 10,
+   "text": "Balanki: I'm too busy. Go and find someone else? (Only Dwarves of Level 3 or above can undertake this quest).",
+   "header": "Balanki",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && (player.getRace() == Race.DWARF))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00010_IntoTheWorld/30533-04.html": {
+   "file": "Q00010_IntoTheWorld/30533-04.html",
+   "quest": 10,
+   "text": "Balanki: Speak with Warehouse Chief Reed in the village and obtain his acknowledgement so that you can go out into the world.",
+   "header": "Balanki",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00010_IntoTheWorld/30533-05.html": {
+   "file": "Q00010_IntoTheWorld/30533-05.html",
+   "quest": 10,
+   "text": "Balanki: Hey, I'm busy... Huh? You're back already? Did Reed give you his OK? What are you up to?",
+   "header": "Balanki",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"I did what he asked.\"",
+     "bypass": "Quest Q00010_IntoTheWorld 30533-06.html",
+     "kind": "quest-event",
+     "script": "Q00010_IntoTheWorld",
+     "event": "30533-06.html",
+     "quest": 10,
+     "to": "Q00010_IntoTheWorld/30533-06.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30533-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30533-01.html",
+   "quest": 221,
+   "text": "Elder Balanki: Pleased to meet you, very pleased indeed. I am Balanki Rollingrock. I am the lead Elder of the renowned Silver Balance Guild. So you are the one that the First Elder has sent to collect overdue guild dues? Let me see... Who has yet not paid... Hmm... Trader Mion of the grocery shop h…",
+   "header": "Elder Balanki",
+   "when": [
+    "state STARTED; has items 3239,3246,3248; lacks items 3259; (getQuestItemsCount(player, CONTRIBUTION_OF_MION) + getQuestItemsCount(player, CONTRIBUTION_OF_MARYSE)) < 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30533-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30533-02.html",
+   "quest": 221,
+   "text": "Elder Balanki: Trader Mion of the grocery shop , and Maryse Redbonnet ! Those 2 have not yet paid their dues! Go at once and collect the guild dues from them!",
+   "header": "Elder Balanki",
+   "when": [
+    "state STARTED; has items 3239,3246; lacks items 3248,3259; !(hasQuestItems(player, LOCKIRINS_2ND_NOTICE) && !hasQuestItems(player, RECEIPT_OF_CONTRIBUTION_2ND) && ((getQuestItemsC; (getQuestItemsCount(player, CONTRIBUTION_OF_MION) + getQuestItemsCount(player, CONTRIBUTION_OF_MARYSE)) < 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30533-03.html": {
+   "file": "Q00221_TestimonyOfProsperity/30533-03.html",
+   "quest": 221,
+   "text": "Elder Balanki: Ah, Mion... So rich, but always late with guild payments. This is not the first time this has happened. She ignores her obligations on purpose. She must be taught a lesson! I see you have received Maryse Redbonnet's dues. I thought she was so blinded by revenge that she couldn't see …",
+   "header": "Elder Balanki",
+   "when": [
+    "state STARTED; has items 3239,3246,3253,3254; lacks items 3248,3259; !(hasQuestItems(player, LOCKIRINS_2ND_NOTICE) && !hasQuestItems(player, RECEIPT_OF_CONTRIBUTION_2ND) && ((getQuestItemsC; !(!hasAtLeastOneQuestItem(player, LOCKIRINS_2ND_NOTICE, RECEIPT_OF_CONTRIBUTION_2ND) && ((getQuestItemsCount(player, CON"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30533-04.html": {
+   "file": "Q00221_TestimonyOfProsperity/30533-04.html",
+   "quest": 221,
+   "text": "Elder Balanki: I see you are working hard to fulfill First Elder Lockirin's request. Hmmm... Well, the First Elder cannot go and personally collect the dues himself... Maybe you should work harder...",
+   "header": "Elder Balanki",
+   "when": [
+    "state STARTED; has items 3239,3246,3259; lacks items 3248,3253,3254; !(hasQuestItems(player, LOCKIRINS_2ND_NOTICE) && !hasQuestItems(player, RECEIPT_OF_CONTRIBUTION_2ND) && ((getQuestItemsC; !(!hasAtLeastOneQuestItem(player, LOCKIRINS_2ND_NOTICE, RECEIPT_OF_CONTRIBUTION_2ND) && ((getQuestItemsCount(player, CON; !(!hasAtLeastOneQuestItem(player, LOCKIRINS_2ND_NOTICE, RECEIPT_OF_CONTRIBUTION_2ND) && hasQuestItems(player, CONTRIBUTI"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30533-01.html": {
+   "file": "Q00231_TestOfTheMaestro/30533-01.html",
+   "quest": 231,
+   "text": "Elder Balanki: Obviously you have the skills... But skills alone do not guarantee success. Could you possibly do me a favor? I would like to spend the rest of my life in service to my race. Next year is the election for the new First Elder. But that greedy Lockirin and the Steel Gate Guild are a ve…",
+   "header": "Elder Balanki",
+   "when": [
+    "state STARTED; memo 1; lacks items 2864"
+   ],
+   "links": [
+    {
+     "text": "\"Is there a problem?\"",
+     "bypass": "Quest Q00231_TestOfTheMaestro 30533-02.html",
+     "kind": "quest-event",
+     "script": "Q00231_TestOfTheMaestro",
+     "event": "30533-02.html",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30533-02.html"
+    }
+   ]
+  },
+  "Q00231_TestOfTheMaestro/30533-03.html": {
+   "file": "Q00231_TestOfTheMaestro/30533-03.html",
+   "quest": 231,
+   "text": "Elder Balanki: Time keeps passing, and not an Orc in sight! Have you met with Kroto, the leader of the Orcs? Are you taking this task seriously? If you expect to get a letter of Recommendation, go and bring those Orcs to me at once!",
+   "header": "Elder Balanki",
+   "when": [
+    "state STARTED; memo 2; lacks items 2868; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_BALANKI))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30533-04.html": {
+   "file": "Q00231_TestOfTheMaestro/30533-04.html",
+   "quest": 231,
+   "text": "Elder Balanki: Good deal! Well done! Those Orcs... I'm afraid to say I doubted that they would agree for a while, but here is their promise! Thank you so very much! I wish there were more Dwarves around like you! Here is the letter of Recommendation that I promised. I shall make a place for you onc…",
+   "header": "Elder Balanki",
+   "when": [
+    "state STARTED; memo 2; has items 2868; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_BALANKI))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30533-05.html": {
+   "file": "Q00231_TestOfTheMaestro/30533-05.html",
+   "quest": 231,
+   "text": "Elder Balanki: Gather 3 letters of Recommendation and go to the First Elder.",
+   "header": "Elder Balanki",
+   "when": [
+    "state STARTED; has items 2864; !((memoState == 1) && !hasQuestItems(player, RECOMMENDATION_OF_BALANKI))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00292_BrigandsSweep/30533-02.html": {
+   "file": "Q00292_BrigandsSweep/30533-02.html",
+   "quest": 292,
+   "text": "Elder Balanki: Aren't you Spiron's messenger? What business do you have with me? Hmm? What is this Contract? Oh no. Those goblins ...! I told them to tear this Contract to pieces and throw it away ... This puts me in quite a difficult situation ... However ... Why did you bring this Contract to me?…",
+   "header": "Elder Balanki",
+   "when": [
+    "state STARTED; has items 1487"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00292_BrigandsSweep/30533-01.html": {
+   "file": "Q00292_BrigandsSweep/30533-01.html",
+   "quest": 292,
+   "text": "Elder Balanki: I've heard that you work for the Golden Wheel Guild ... Is this true? Young friend, let me give you a piece of advice. Spiron is only taking advantage of you. That mean old man is only interested in generating profits for his guild! If you should ever get hurt or run into trouble whi…",
+   "header": "Elder Balanki",
+   "when": [
+    "state STARTED; lacks items 1487"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00347_GoGetTheCalculator/30533-01.html": {
+   "file": "Q00347_GoGetTheCalculator/30533-01.html",
+   "quest": 347,
+   "text": "Silver Scale's Balanki: A new type of Calculator, eh? Well, unfortunately, our guild does not make these, but I could tell you who does... Of course, as you know, nothing comes for free. However, this shouldn't be much, just a small token of good faith... I'll give you the information for only 100 …",
+   "header": "Silver Scale's Balanki",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "Give him 100 Adena.",
+     "bypass": "Quest Q00347_GoGetTheCalculator 30533-02.html",
+     "kind": "quest-event",
+     "script": "Q00347_GoGetTheCalculator",
+     "event": "30533-02.html",
+     "quest": 347,
+     "to": "Q00347_GoGetTheCalculator/30533-02.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00347_GoGetTheCalculator/30533-04.html": {
+   "file": "Q00347_GoGetTheCalculator/30533-04.html",
+   "quest": 347,
+   "text": "Silver Scale's Balanki: The new model Calculator is in the possession of a female dwarf in this village . That's all I know. Could you please give me some more money? No, I don't have more information but I do need more money, and a lot more than 100 Adena!",
+   "header": "Silver Scale's Balanki",
+   "when": [
+    "state STARTED; cond >2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00347_GoGetTheCalculator/30533-03.html": {
+   "file": "Q00347_GoGetTheCalculator/30533-03.html",
+   "quest": 347,
+   "text": "Silver Scale's Balanki: Wow, you're poor! You should go earn some money and come back!",
+   "header": "Silver Scale's Balanki",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00010_IntoTheWorld/30533-03.htm": {
+   "file": "Q00010_IntoTheWorld/30533-03.htm",
+   "quest": 10,
+   "text": "Balanki: You've got some nerve addressing an elder like that! So, you want to broaden your horizons, eh? Ha! Even if you could afford to travel, Maphr couldn't keep you safe out there! I admire your courage and ambition, but it takes more than those things to travel, my friend! I'll tell you what! …",
+   "header": "Balanki",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00010_IntoTheWorld/30533-06.html": {
+   "file": "Q00010_IntoTheWorld/30533-06.html",
+   "quest": 10,
+   "text": "Balanki: Damn that Reed! He knows better than that... Well, I suppose I'll do it since I gave you my word. Your abilities may be suspect, but your luck is certainly holding out! I've given you a scroll called Scroll of Escape: Giran . Have you ever used a Scroll of Escape? Double-click the scroll a…",
+   "header": "Balanki",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30533-02.html": {
+   "file": "Q00231_TestOfTheMaestro/30533-02.html",
+   "quest": 231,
+   "text": "Elder Balanki: Well, I can't go into details, but it concerns the delivery of a certain item. I don't know how the news leaked out, but it seems that every thief around here is targeting our wagon. I have decided to hire some Guards. The Orcs are perfect for this job. But when I tried to hire them,…",
+   "header": "Elder Balanki",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00347_GoGetTheCalculator/30533-02.html": {
+   "file": "Q00347_GoGetTheCalculator/30533-02.html",
+   "quest": 347,
+   "text": "Silver Scale's Balanki: Oh, how kind of you... But I really didn't need the money... . . Oh wait... I almost forgot. You wanted some information, didn't you? Well, the new model Calculator is in the possession of a female dwarf in this village. That's all I can tell you... Good luck!",
+   "header": "Silver Scale's Balanki",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Into the World]",
+     "bypass": "npc_%objectId%_Quest Q00010_IntoTheWorld",
+     "kind": "quest",
+     "quest": 10,
+     "to": "Q00010_IntoTheWorld/30533-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Into the World (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00010_IntoTheWorld",
+     "kind": "quest",
+     "quest": 10,
+     "to": "Q00010_IntoTheWorld/30533-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30533-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Maestro (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00231_TestOfTheMaestro",
+     "kind": "quest",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30533-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Brigands Sweep (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00292_BrigandsSweep",
+     "kind": "quest",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30533-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Go Get the Calculator (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00347_GoGetTheCalculator",
+     "kind": "quest",
+     "quest": 347,
+     "to": "Q00347_GoGetTheCalculator/30533-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

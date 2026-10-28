@@ -1,0 +1,255 @@
+{
+ "npcId": 30897,
+ "name": "Roman",
+ "title": "Head Blacksmith",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:03.106Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30897.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "237": {
+   "name": "Winds of Change",
+   "listText": [
+    "[Winds of Change]",
+    "[Winds of Change (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00237_WindsOfChange/30897-01.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00237_WindsOfChange/30897-04.html",
+     "when": "cond 3|4",
+     "state": null,
+     "cond": [
+      3,
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "351": {
+   "name": "Black Swan",
+   "listText": [
+    "[Black Swan]",
+    "[Black Swan (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00351_BlackSwan/30897-01.html",
+     "when": "(qs.isStarted() || ((qs2 != null) && qs2.isStarted())); (hasQuestItems(player, BILL_OF_IASON_HEINE))",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00351_BlackSwan/30897-02.html",
+     "when": "(qs.isStarted() || ((qs2 != null) && qs2.isStarted())); NOT (hasQuestItems(player, BILL_OF_IASON_HEINE))",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30897.htm": {
+   "file": "villagemaster/30897.htm",
+   "quest": null,
+   "text": "Head Blacksmith Roman: During Lionel Hunter's reign, Innadril was never engulfed by war. That great man singlehandedly defeated that frightful Fafurion's Golem army, you know... But now it seems as though that long-held peace is over. Just look at the orders for and sales of weaponry... Ah, trouble…",
+   "header": "Head Blacksmith Roman",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest DwarfBlacksmithChange2",
+     "kind": "quest",
+     "script": "DwarfBlacksmithChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30897-01.html": {
+   "file": "Q00237_WindsOfChange/30897-01.html",
+   "quest": 237,
+   "text": "Head Blacksmith Roman: I've been taking a break these past couple of days. I feel as though I deserve it. So whatever business brings you here better be good.",
+   "header": "Head Blacksmith Roman",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "Ask his opinion about Dr. Helvetica.",
+     "bypass": "Quest Q00237_WindsOfChange 30897-02.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30897-02.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30897-02.html"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30897-04.html": {
+   "file": "Q00237_WindsOfChange/30897-04.html",
+   "quest": 237,
+   "text": "Head Blacksmith Roman: Do you have any more business with me? I've said all I have to say. Unless there's something else, stop bothering me.",
+   "header": "Head Blacksmith Roman",
+   "when": [
+    "cond 3|4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00351_BlackSwan/30897-01.html": {
+   "file": "Q00351_BlackSwan/30897-01.html",
+   "quest": 351,
+   "text": "Head Blacksmith Roman: Hmm... This is definitely the signature of Iason Heine. What would you like to trade for it?",
+   "header": "Head Blacksmith Roman",
+   "when": [
+    "(qs.isStarted() || ((qs2 != null) && qs2.isStarted())); (hasQuestItems(player, BILL_OF_IASON_HEINE))"
+   ],
+   "links": [
+    {
+     "text": "View the Bill Exchange List",
+     "bypass": "npc_%objectId%_multisell 7897",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "Q00351_BlackSwan/30897-02.html": {
+   "file": "Q00351_BlackSwan/30897-02.html",
+   "quest": 351,
+   "text": "Head Blacksmith Roman: Are you helping Iason Heine defeat the Tasaba lizardmen? Bring me the bills he gives you, I will exchange them for useful items.",
+   "header": "Head Blacksmith Roman",
+   "when": [
+    "(qs.isStarted() || ((qs2 != null) && qs2.isStarted())); NOT (hasQuestItems(player, BILL_OF_IASON_HEINE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00237_WindsOfChange/30897-02.html": {
+   "file": "Q00237_WindsOfChange/30897-02.html",
+   "quest": 237,
+   "text": "Head Blacksmith Roman: It is an undeniable certainty that transforming that useless Field of Silence into an industrial zone will make life here more prosperous. Once that happens, I'm going to take all the money I've saved and build my own factory out there. Then it will be bye-bye work and hello …",
+   "header": "Head Blacksmith Roman",
+   "links": [
+    {
+     "text": "\"Are you serious?\"",
+     "bypass": "Quest Q00237_WindsOfChange 30897-03.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "30897-03.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30897-03.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/30897-03.html": {
+   "file": "Q00237_WindsOfChange/30897-03.html",
+   "quest": 237,
+   "text": "Head Blacksmith Roman: I'm serious as the grave. What good is that land doing completely undeveloped? Does that reed field make money? Is it benefiting anybody at all? Dr. Helvetica just wants to ulitize the land... give it a purpose. Developing on that land won't just make him money, it will make …",
+   "header": "Head Blacksmith Roman",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Winds of Change (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00237_WindsOfChange",
+     "kind": "quest",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/30897-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Black Swan]",
+     "bypass": "npc_%objectId%_Quest Q00351_BlackSwan",
+     "kind": "quest",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30897-01.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Black Swan (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00351_BlackSwan",
+     "kind": "quest",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30897-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

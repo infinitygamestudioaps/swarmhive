@@ -1,0 +1,231 @@
+{
+ "npcId": 30554,
+ "name": "Bolter",
+ "title": "Miner",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.998Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30554.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "5": {
+   "name": "Miner's Favor",
+   "listText": [
+    "[Miner's Favor]",
+    "[Miner's Favor (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00005_MinersFavor/30554-02.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00005_MinersFavor/30554-01.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00005_MinersFavor/30554-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00005_MinersFavor/30554-06.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30554-01.html",
+     "when": "state STARTED; has items 3239,3246; lacks items 3261,3257,3250",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30554-02.html",
+     "when": "state STARTED; has items 3239,3246,3261,3257,3250; lacks items 3261,3250",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30554.htm": {
+   "file": "default/30554.htm",
+   "quest": null,
+   "text": "Miner Bolter: May Maphr, god of abundance, bless you today! Nice to meet you, young friend! How come you're in such a hurry? Did you come to the strip mine to receive training? Or are you on your way to the village? If you're going to the village, I've got a favor to ask.",
+   "header": "Miner Bolter",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00005_MinersFavor/30554-02.htm": {
+   "file": "Q00005_MinersFavor/30554-02.htm",
+   "quest": 5,
+   "text": "Miner Bolter: I'm a member of the Gray Pillar Guild, which controls this Strip Mine. Those hard-working Dwarves over there are all my guild brothers. Frankly, we prefer it out here, living among the rock and rubble of the mine instead of some stuffy cottage back in the village. The only drawback is…",
+   "header": "Miner Bolter",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00005_MinersFavor 30554-03.htm",
+     "kind": "quest-event",
+     "script": "Q00005_MinersFavor",
+     "event": "30554-03.htm",
+     "quest": 5,
+     "to": "Q00005_MinersFavor/30554-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00005_MinersFavor/30554-01.html": {
+   "file": "Q00005_MinersFavor/30554-01.html",
+   "quest": 5,
+   "text": "Miner Bolter: I'm a member of the Gray Pillar Guild, which controls this Strip Mine. Those hard-working Dwarves over there are all my guild brothers. Frankly, we prefer it out here, living among the rock and rubble of the mine instead of some stuffy cottage back in the village. The only drawback is…",
+   "header": "Miner Bolter",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00005_MinersFavor/30554-04.html": {
+   "file": "Q00005_MinersFavor/30554-04.html",
+   "quest": 5,
+   "text": "Miner Bolter: Hey, you! Where's the rest of the supplies I ordered? Did you lose the list I gave you?",
+   "header": "Miner Bolter",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00005_MinersFavor 30554-05.html",
+     "kind": "quest-event",
+     "script": "Q00005_MinersFavor",
+     "event": "30554-05.html",
+     "quest": 5,
+     "to": "Q00005_MinersFavor/30554-05.html"
+    }
+   ]
+  },
+  "Q00005_MinersFavor/30554-06.html": {
+   "file": "Q00005_MinersFavor/30554-06.html",
+   "quest": 5,
+   "text": "Miner Bolter: You've done well, my young friend. Thanks to you, we now have all the comforts of home! Take this as a token of our gratitude. It's nothing fancy, but you might find it useful one day. In the meantime, what do you say to sharing a cold Redstone Beer with me?",
+   "header": "Miner Bolter",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30554-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30554-01.html",
+   "quest": 221,
+   "text": "Miner Bolter: Well, look what the cat dragged in! Long time no see! Seems like only yesterday that you were hunting Bearded Keltirs in these parts. Now look at you! Surprised that I remembered you, eh? Oh, I never forget a face -- especially that of a fellow guild member. So what brings you all the…",
+   "header": "Miner Bolter",
+   "when": [
+    "state STARTED; has items 3239,3246; lacks items 3261,3257,3250"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30554-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30554-02.html",
+   "quest": 221,
+   "text": "Miner Bolter: How dare you doubt my word! Take this receipt to Filaur of the Gray Pillar Guild and tell him I expect an apology. Hmmph! And to think I once shared my beer with you!",
+   "header": "Miner Bolter",
+   "when": [
+    "state STARTED; has items 3239,3246,3261,3257,3250; lacks items 3261,3250"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00005_MinersFavor/30554-03.htm": {
+   "file": "Q00005_MinersFavor/30554-03.htm",
+   "quest": 5,
+   "text": "Miner Bolter: Here's a list of the supplies we need. Let's see... Ah! First, stop by the Weapons and Armor Shop and get a sack of Boom-boom Powder from Trader Shari . Then go to the General Store and get a pair of Mining Boots from Trader Garita . After that, go to the Warehouse and get us a case o…",
+   "header": "Miner Bolter",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00005_MinersFavor/30554-05.html": {
+   "file": "Q00005_MinersFavor/30554-05.html",
+   "quest": 5,
+   "text": "Miner Bolter: Argh! May your beard become as sparse as a Gremlin's whiskers, you empty-headed wastrel! You are as forgetful as Brunon... First, stop by the Weapons and Armor Shop and get a sack of Boom-boom Powder from Trader Shari . Then go to the General Store and get a pair of Mining Boots from …",
+   "header": "Miner Bolter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Miner's Favor]",
+     "bypass": "npc_%objectId%_Quest Q00005_MinersFavor",
+     "kind": "quest",
+     "quest": 5,
+     "to": "Q00005_MinersFavor/30554-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Miner's Favor (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00005_MinersFavor",
+     "kind": "quest",
+     "quest": 5,
+     "to": "Q00005_MinersFavor/30554-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30554-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

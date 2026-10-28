@@ -1,0 +1,44 @@
+{
+ "npcId": 31415,
+ "name": "Triya",
+ "title": "Spellbook Seller",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.201Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31415.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31415.htm": {
+   "file": "merchant/31415.htm",
+   "quest": null,
+   "text": "Spellbook Seller Triya: I've got to reorganize the entire collection of books in the warehouse and proofread for any typos! What a day! Oh yeah, I also need to bind some books as well! Phew! I'm overwhelmed! Hi! Are you looking for a book? I'm very busy right now. Why don't you look around and see …",
+   "header": "Spellbook Seller Triya",
+   "links": [
+    {
+     "text": "\"Who is the lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

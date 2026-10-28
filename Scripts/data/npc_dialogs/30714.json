@@ -1,0 +1,81 @@
+{
+ "npcId": 30714,
+ "name": "Paros",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.058Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30714.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30714.htm": {
+   "file": "guard/30714.htm",
+   "quest": null,
+   "text": "Guard Paros: Where are you off to? If you're going to Castle Aden just follow this path to the north. There really isn't anyone living to the east of the town. Are you going to the Forest of Mirrors? After you pass the forest, you'll see one of the most beautiful places on the continent, Angel Fall…",
+   "header": "Guard Paros",
+   "links": [
+    {
+     "text": "Ask about the Forest of Mirrors.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30714-1.htm"
+    },
+    {
+     "text": "Ask about the Angel Falls.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30714-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30714-1.htm": {
+   "file": "guard/30714-1.htm",
+   "quest": null,
+   "text": "Guard Paros: The forest seems to be nothing but trees and fog. Legend says the doppelganger takes its victims here. A few months ago a farmer thought that he saw one but it was only his friends playing a joke on him... However, the forest remains a dangerous place, you must never forget that...",
+   "header": "Guard Paros",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30714.htm"
+    }
+   ]
+  },
+  "guard/30714-2.htm": {
+   "file": "guard/30714-2.htm",
+   "quest": null,
+   "text": "Guard Paros: The waterfall descends from the Lost Plateau, higher than the clouds. It is the highest waterfall on the continent, legend says that it was made by the power of gods... The legend also says that the nest of a vicious creature is hidden inside the waterfall. The creature masquerades in …",
+   "header": "Guard Paros",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30714.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

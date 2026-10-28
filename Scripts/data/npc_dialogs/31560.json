@@ -1,0 +1,161 @@
+{
+ "npcId": 31560,
+ "name": "Varka's Holy Altar",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.222Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31560.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "610": {
+   "name": "Magical Power of Water - Part 2",
+   "listText": [
+    "[Magical Power of Water - Part 2]",
+    "[Magical Power of Water - Part 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00610_MagicalPowerOfWaterPart2/31560-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00610_MagicalPowerOfWaterPart2/31560-05.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00610_MagicalPowerOfWaterPart2/31560-03.html",
+     "when": "state STARTED; cond 2; getQuestTimer(\"spawn_npc\", null, null) != null",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00610_MagicalPowerOfWaterPart2/31560-02.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31560.htm": {
+   "file": "default/31560.htm",
+   "quest": null,
+   "text": "Varka's Holy Altar: The holy altar of the Varka Silenos.",
+   "header": "Varka's Holy Altar",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31560-01.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31560-01.html",
+   "quest": 610,
+   "text": "Varka's Holy Altar: This stone sculpture is the work of artisans. It resembles a ram's head.",
+   "header": "Varka's Holy Altar",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Destroy the Green Totem at the altar",
+     "bypass": "Quest Q00610_MagicalPowerOfWaterPart2 spawn_totem",
+     "kind": "quest-event",
+     "script": "Q00610_MagicalPowerOfWaterPart2",
+     "event": "spawn_totem",
+     "quest": 610,
+     "to": "Q00610_MagicalPowerOfWaterPart2/31560-04.html",
+     "toAll": [
+      "Q00610_MagicalPowerOfWaterPart2/31560-04.html",
+      "Q00610_MagicalPowerOfWaterPart2/31560-03.html",
+      "Q00610_MagicalPowerOfWaterPart2/31560-02.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31560-05.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31560-05.html",
+   "quest": 610,
+   "text": "Varka's Holy Altar: The energy I felt at the altar is getting weaker.",
+   "header": "Varka's Holy Altar",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31560-03.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31560-03.html",
+   "quest": 610,
+   "text": "Varka's Holy Altar: Someone is already performing a ritual at the altar.",
+   "header": "Varka's Holy Altar",
+   "when": [
+    "state STARTED; cond 2; getQuestTimer(\"spawn_npc\", null, null) != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31560-02.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31560-02.html",
+   "quest": 610,
+   "text": "Varka's Holy Altar: With a piercing noise that rends the air, the Green Totem shatters into a million brilliant shards of light. The tendrils of blue energy which seep from the altar suddenly coalesce, and Water Spirit Ashutar materializes.",
+   "header": "Varka's Holy Altar",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31560-04.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31560-04.html",
+   "quest": 610,
+   "text": "Varka's Holy Spirit: Without the Green Totem, I can't conjure Soul of Water Ashutar.",
+   "header": "Varka's Holy Spirit",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Magical Power of Water - Part 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00610_MagicalPowerOfWaterPart2",
+     "kind": "quest",
+     "quest": 610,
+     "to": "Q00610_MagicalPowerOfWaterPart2/31560-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

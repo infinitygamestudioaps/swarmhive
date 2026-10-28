@@ -2,7 +2,7 @@
  "id": 645,
  "name": "Ghosts of Batur",
  "version": 1,
- "generated": "2026-10-27T11:16:15.088Z",
+ "generated": "2026-10-27T18:19:44.119Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 80,
@@ -12,17 +12,8 @@
  "region": "Schuttgart",
  "requirements": {},
  "restrictions": [],
- "status": "fixable",
- "reasons": [
-  {
-   "code": "dryrun-fail",
-   "text": "dry run: hunt-too-long"
-  },
-  {
-   "code": "dryrun:hunt-too-long",
-   "text": "step 2 (c1:hunt): ~1019 kills (~425 min) > the engine's 4 x 45 min hunt cap"
-  }
- ],
+ "status": "ready",
+ "reasons": [],
  "expectedMin": 429,
  "refLevel": 80,
  "steps": [
@@ -619,9 +610,7 @@
    "cond": 1,
    "kind": "talk",
    "to": "end",
-   "links": [
-    "End the mission."
-   ],
+   "links": [],
    "npc": {
     "id": 32017,
     "name": "Karuda",
@@ -722,15 +711,12 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:16:15.095Z",
-  "pass": false,
+  "at": "2026-10-27T18:19:44.128Z",
+  "pass": true,
   "geo": true,
-  "fails": [
-   {
-    "code": "hunt-too-long",
-    "t": "step 2 (c1:hunt): ~1019 kills (~425 min) > the engine's 4 x 45 min hunt cap"
-   }
-  ],
-  "warns": []
+  "fails": [],
+  "warns": [
+   "hunt-long"
+  ]
  }
 }

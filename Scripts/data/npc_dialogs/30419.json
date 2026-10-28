@@ -1,0 +1,638 @@
+{
+ "npcId": 30419,
+ "name": "Arkenia",
+ "title": "Witch",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.974Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30419.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "218": {
+   "name": "Testimony Of Life",
+   "listText": [
+    "[Testimony of Life]",
+    "[Testimony of Life (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00218_TestimonyOfLife/30419-01.html",
+     "when": "state STARTED; has items 3144,3146",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30419-05.html",
+     "when": "state STARTED; has items 3144,3152,3153; lacks items 3146",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30419-06.html",
+     "when": "state STARTED; has items 3144,3154; lacks items 3146,3152,3153",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30419-07.html",
+     "when": "state STARTED; has items 3144,3155; lacks items 3146,3152,3153,3154",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30419-08.html",
+     "when": "state STARTED; has items 3144; lacks items 3146,3152,3153,3154,3155,3151",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "219": {
+   "name": "Testimony Of Fate",
+   "listText": [
+    "[Testimony of Fate]",
+    "[Testimony of Fate (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00219_TestimonyOfFate/30419-01.html",
+     "when": "state STARTED; has items 3190,3191",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30419-03.html",
+     "when": "state STARTED; has items 3190,3192; lacks items 3191,3198,3201",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30419-04.html",
+     "when": "state STARTED; has items 3190,3192,3198,3201; lacks items 3191; !(hasQuestItems(player, ARKENIAS_NOTE) && !hasQuestItems(player, RED_FAIRY_DUST, BLIGHT_TREANT_SAP))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00219_TestimonyOfFate/30419-06.html",
+     "when": "state STARTED; has items 3190,3202; lacks items 3191,3192,3198,3201; !(hasQuestItems(player, ARKENIAS_NOTE) && !hasQuestItems(player, RED_FAIRY_DUST, BLIGHT_TREANT_SAP))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "411": {
+   "name": "Path Of The Assassin",
+   "listText": [
+    "[Path of the Assassin]",
+    "[Path of the Assassin (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00411_PathOfTheAssassin/30419-01.html",
+     "when": "state STARTED; has items 1245; lacks items 1246,1247,1250,1251,1252; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30419-07.html",
+     "when": "state STARTED; has items 1246; lacks items 1247,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART) && ",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30419-08.html",
+     "when": "state STARTED; has items 1250; lacks items 1246,1247,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART) && ; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30419-09.html",
+     "when": "state STARTED; has items 1251; lacks items 1246,1247,1250,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART) && ; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && h",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30419-10.html",
+     "when": "state STARTED; has items 1247; lacks items 1246,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART) && ; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && h",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30419-11.html",
+     "when": "state STARTED; lacks items 1246,1247,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART) && ; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && h",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "412": {
+   "name": "Path Of The Dark Wizard",
+   "listText": [
+    "[Path of the Dark Wizard]",
+    "[Path of the Dark Wizard (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00412_PathOfTheDarkWizard/30419-01.html",
+     "when": "state STARTED; lacks items 1256,1279,1260; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00412_PathOfTheDarkWizard/30419-02.html",
+     "when": "state STARTED; has items 1279,1260; lacks items 1256; !(qs.isCreated() || qs.isCompleted()); !hasItemsAtLimit(player, HEART_OF_LUNACY)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00412_PathOfTheDarkWizard/30419-03.html",
+     "when": "state STARTED; has items 1279,1260; lacks items 1256; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, HUB_SCENT) && !hasItemsAtLimit(player, HEART_OF_LUNACY))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30419.htm": {
+   "file": "default/30419.htm",
+   "quest": null,
+   "text": "Arkenia: This is holy ground for the Dark Elves. The altar that was erected here is used for holy ceremonial rites in religious events.",
+   "header": "Arkenia",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30419-01.html": {
+   "file": "Q00218_TestimonyOfLife/30419-01.html",
+   "quest": 218,
+   "text": "Arkenia: How dare you come to this sacred place uninvited! Leave at once or I shall call the shadow to pluck out your eyes! Or perhaps the silhouette from the fog to drink your blood? Now get out!",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 3144,3146"
+   ],
+   "links": [
+    {
+     "text": "Show Thalia's letter.",
+     "bypass": "Quest Q00218_TestimonyOfLife 30419-02.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30419-02.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30419-02.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30419-05.html": {
+   "file": "Q00218_TestimonyOfLife/30419-05.html",
+   "quest": 218,
+   "text": "Arkenia: Don't you remember my promise pledged under the Gaze of Abyss? I swore that if you would bring Andariel's Book , I would give you Stardust in return. I have heard that the Elven Priests from Gludin are in possession of the scripture...",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 3144,3152,3153; lacks items 3146"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30419-06.html": {
+   "file": "Q00218_TestimonyOfLife/30419-06.html",
+   "quest": 218,
+   "text": "Arkenia: I didn't think you would actually find it... Even though this is a copy it is certainly Andariel's Book . I see that your situation is urgent. Giving life to that which is destined to die is against nature and contrary to the will of Shilen. Wouldn't it be more appropriate to let die what …",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 3144,3154; lacks items 3146,3152,3153"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30419-07.html": {
+   "file": "Q00218_TestimonyOfLife/30419-07.html",
+   "quest": 218,
+   "text": "Arkenia: Didn't I already give you Stardust? You are trespassing on ground that is holy to the Dark Elves. The uninvited are not allowed! I'll let you go this time, but if you show your face here again you will be killed.",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 3144,3155; lacks items 3146,3152,3153,3154"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30419-08.html": {
+   "file": "Q00218_TestimonyOfLife/30419-08.html",
+   "quest": 218,
+   "text": "Arkenia: What are you doing here? You act like you belong here but you are sorely mistaken. This is holy ground for the Dark Elves. The uninvited are not allowed here! You may leave this time, but if you come back you will be killed.",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 3144; lacks items 3146,3152,3153,3154,3155,3151"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30419-01.html": {
+   "file": "Q00219_TestimonyOfFate/30419-01.html",
+   "quest": 219,
+   "text": "Arkenia: The Book of the Abyss is an amazing scripture, a collection of all the knowledge and experiences of our race through the millennia. The time has come for you to contribute your part to our history. You must prepare and use a special ink for this process. Thus will begin the Initiation Cere…",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 3190,3191"
+   ],
+   "links": [
+    {
+     "text": "Ask about the ink",
+     "bypass": "Quest Q00219_TestimonyOfFate 30419-02.html",
+     "kind": "quest-event",
+     "script": "Q00219_TestimonyOfFate",
+     "event": "30419-02.html",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30419-02.html",
+     "effect": "cond:17"
+    }
+   ]
+  },
+  "Q00219_TestimonyOfFate/30419-03.html": {
+   "file": "Q00219_TestimonyOfFate/30419-03.html",
+   "quest": 219,
+   "text": "Arkenia: To begin the Initiation Ceremony of the Shilen Circle you must create a very special ink. To create this ink you will need to obtain two ingredients: Red Fairy Dust from the Bloody Pixy and Blight Treant Sap from blight treants.",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 3190,3192; lacks items 3191,3198,3201"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30419-04.html": {
+   "file": "Q00219_TestimonyOfFate/30419-04.html",
+   "quest": 219,
+   "text": "Arkenia: You have assembled the ingredients needed for making Scarlet Ink . The Initiation Ceremony of the Shilen Circle may begin.",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 3190,3192,3198,3201; lacks items 3191; !(hasQuestItems(player, ARKENIAS_NOTE) && !hasQuestItems(player, RED_FAIRY_DUST, BLIGHT_TREANT_SAP))"
+   ],
+   "links": [
+    {
+     "text": "Begin the Initiation Ceremony",
+     "bypass": "Quest Q00219_TestimonyOfFate 30419-05.html",
+     "kind": "quest-event",
+     "script": "Q00219_TestimonyOfFate",
+     "event": "30419-05.html",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30419-05.html",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00219_TestimonyOfFate/30419-06.html": {
+   "file": "Q00219_TestimonyOfFate/30419-06.html",
+   "quest": 219,
+   "text": "Arkenia: I congratulate you on completing the Initiation Ceremony of Shilen. Now take the letter that I gave you to Tetrarch Thifiell .",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 3190,3202; lacks items 3191,3192,3198,3201; !(hasQuestItems(player, ARKENIAS_NOTE) && !hasQuestItems(player, RED_FAIRY_DUST, BLIGHT_TREANT_SAP))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30419-01.html": {
+   "file": "Q00411_PathOfTheAssassin/30419-01.html",
+   "quest": 411,
+   "text": "Arkenia: Are you the one that has come to help me?",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 1245; lacks items 1246,1247,1250,1251,1252; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "That is so",
+     "bypass": "Quest Q00411_PathOfTheAssassin 30419-02.html",
+     "kind": "quest-event",
+     "script": "Q00411_PathOfTheAssassin",
+     "event": "30419-02.html",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30419-02.html"
+    },
+    {
+     "text": "No",
+     "bypass": "Quest Q00411_PathOfTheAssassin 30419-03.html",
+     "kind": "quest-event",
+     "script": "Q00411_PathOfTheAssassin",
+     "event": "30419-03.html",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30419-03.html"
+    }
+   ]
+  },
+  "Q00411_PathOfTheAssassin/30419-07.html": {
+   "file": "Q00411_PathOfTheAssassin/30419-07.html",
+   "quest": 411,
+   "text": "Arkenia: Please, I beg you. Please hurry. When the tetrarchs find out...",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 1246; lacks items 1247,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART) && "
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30419-08.html": {
+   "file": "Q00411_PathOfTheAssassin/30419-08.html",
+   "quest": 411,
+   "text": "Arkenia: Ah, you have finally found Shilen's Tears. Thank you. I truly thank you. In return, I will write you a Recommendation to become an Assassin. Show this to Triskel in the village of Gludio Castle.",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 1250; lacks items 1246,1247,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART) && ; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30419-09.html": {
+   "file": "Q00411_PathOfTheAssassin/30419-09.html",
+   "quest": 411,
+   "text": "Arkenia: Take the Recommendation I wrote you, and go to Triskel in the village of Gludio Castle.",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 1251; lacks items 1246,1247,1250,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART) && ; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && h"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30419-10.html": {
+   "file": "Q00411_PathOfTheAssassin/30419-10.html",
+   "quest": 411,
+   "text": "Arkenia: I beg you. Please hurry. I think the tetrarchs and other priests have found out. I beg you, hurry!",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 1247; lacks items 1246,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART) && ; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && h"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30419-11.html": {
+   "file": "Q00411_PathOfTheAssassin/30419-11.html",
+   "quest": 411,
+   "text": "Arkenia: Finally, you have found the thieves' whereabouts! Please keep going, just a little longer. I beg you...",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; lacks items 1246,1247,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART) && ; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && h"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30419-01.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30419-01.html",
+   "quest": 412,
+   "text": "Arkenia: The Dark Forest is peaceful and orderly, but Gludio is not like that. The wounds of war still run red in that place. A Sorcerer in the past went mad, and did things that should not have been done. He made live Humans the subjects of his experiments. After the experiments, they were no long…",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; lacks items 1256,1279,1260; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30419-02.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30419-02.html",
+   "quest": 412,
+   "text": "Arkenia: Kill the skeleton scouts that appear in the Ruins of Agony and free the dead Humans' souls. Then, bring me the Heart of Lunacy you'll get from the skeleton's body.",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 1279,1260; lacks items 1256; !(qs.isCreated() || qs.isCompleted()); !hasItemsAtLimit(player, HEART_OF_LUNACY)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30419-03.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30419-03.html",
+   "quest": 412,
+   "text": "Arkenia: You have found the Heart of Lunacy. This must be handled very carefully. If you are careless, it will burst. This heart is an important ingredient in the making of medicine. This much will make a lot of medicine. If you dry one of these hearts, it will become a Seed of Lunacy. Since you fo…",
+   "header": "Arkenia",
+   "when": [
+    "state STARTED; has items 1279,1260; lacks items 1256; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, HUB_SCENT) && !hasItemsAtLimit(player, HEART_OF_LUNACY))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30419-02.html": {
+   "file": "Q00218_TestimonyOfLife/30419-02.html",
+   "quest": 218,
+   "text": "Arkenia: So what if the Mother Tree dies, what is that to us? You Elves of Light turned your backs on us and treated us as outcasts. We were obliged to sever our relationship with our beloved forest and earth and take refuge in the shadows! Consequently we are not dependent on the Mother Tree as yo…",
+   "header": "Arkenia",
+   "links": [
+    {
+     "text": "Ask for help.",
+     "bypass": "Quest Q00218_TestimonyOfLife 30419-03.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30419-03.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30419-03.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30419-03.html": {
+   "file": "Q00218_TestimonyOfLife/30419-03.html",
+   "quest": 218,
+   "text": "Arkenia: Shut up! That is not our problem! The recipe for Stardust is our only secret and you expect me to teach it to you without any payment...? You are an enemy of the Dark Elves, are you not?",
+   "header": "Arkenia",
+   "links": [
+    {
+     "text": "Say you will pay the price.",
+     "bypass": "Quest Q00218_TestimonyOfLife 30419-04.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30419-04.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30419-04.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30419-04.html": {
+   "file": "Q00218_TestimonyOfLife/30419-04.html",
+   "quest": 218,
+   "text": "Arkenia: Oh, really? so price is no object is it? Hmm... ...Then how about this? I cannot tell you the recipe, but if you bring me 'Andariel's Book' that you Elves of light think so precious, I will give you some Stardust. The book was actually a part of 'Kaysha's Revelation' which contained Shilen…",
+   "header": "Arkenia",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30419-02.html": {
+   "file": "Q00219_TestimonyOfFate/30419-02.html",
+   "quest": 219,
+   "text": "Arkenia: To create the ink that you must use to write within The Book of the Abyss you will need to obtain two ingredients: Red Fairy Dust from a Bloody Pixy and Blight Treant Sap from... a Blight Treant.",
+   "header": "Arkenia",
+   "sets": {
+    "cond": "17"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00219_TestimonyOfFate/30419-05.html": {
+   "file": "Q00219_TestimonyOfFate/30419-05.html",
+   "quest": 219,
+   "text": "Arkenia: Purge your soul and absorb the knowledge and experience of your ancestors from the Book of the Abyss. Add your contribution to our holy scripture. I, Arkenia, Shaman of the Abyss proclaim that you have been given the sacred knowledge of our ancestors. You are privy to the prophecies forete…",
+   "header": "Arkenia",
+   "sets": {
+    "cond": "18"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30419-02.html": {
+   "file": "Q00411_PathOfTheAssassin/30419-02.html",
+   "quest": 411,
+   "text": "Arkenia: I was waiting for you. Thank you for coming. It seems, one of our holy relics, Shilen's Tears was recently stolen. I was on my way back from a pilgrimage in the north when I was attacked by a band of thieves... I am afraid the tetrarchs will be furious, and I have not been able to return t…",
+   "header": "Arkenia",
+   "links": [
+    {
+     "text": "What exactly is Shilen's Tears?",
+     "bypass": "Quest Q00411_PathOfTheAssassin 30419-04.html",
+     "kind": "quest-event",
+     "script": "Q00411_PathOfTheAssassin",
+     "event": "30419-04.html",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30419-04.html"
+    },
+    {
+     "text": "Leave it to me! I will find it without fail.",
+     "bypass": "Quest Q00411_PathOfTheAssassin 30419-05.html",
+     "kind": "quest-event",
+     "script": "Q00411_PathOfTheAssassin",
+     "event": "30419-05.html",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30419-05.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "I am sorry, I'm afraid I lack the powers",
+     "bypass": "Quest Q00411_PathOfTheAssassin 30419-06.html",
+     "kind": "quest-event",
+     "script": "Q00411_PathOfTheAssassin",
+     "event": "30419-06.html",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30419-06.html"
+    }
+   ]
+  },
+  "Q00411_PathOfTheAssassin/30419-03.html": {
+   "file": "Q00411_PathOfTheAssassin/30419-03.html",
+   "quest": 411,
+   "text": "Arkenia: You are not the one I was waiting for. I mistook you for someone else.",
+   "header": "Arkenia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30419-04.html": {
+   "file": "Q00411_PathOfTheAssassin/30419-04.html",
+   "quest": 411,
+   "text": "Arkenia: How can you be of our race and not know about Shilen's Tears? How could that be? When the solar eclipse occurs every thirty years, we Dark Elves perform sacrificial rites to the goddess Shilen, praying for abundance and prosperity. At that time each year, red dew drops form mysteriously on…",
+   "header": "Arkenia",
+   "links": [
+    {
+     "text": "I will find it for you",
+     "bypass": "Quest Q00411_PathOfTheAssassin 30419-05.html",
+     "kind": "quest-event",
+     "script": "Q00411_PathOfTheAssassin",
+     "event": "30419-05.html",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30419-05.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "I'm afraid I lack the powers",
+     "bypass": "Quest Q00411_PathOfTheAssassin 30419-06.html",
+     "kind": "quest-event",
+     "script": "Q00411_PathOfTheAssassin",
+     "event": "30419-06.html",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30419-06.html"
+    }
+   ]
+  },
+  "Q00411_PathOfTheAssassin/30419-05.html": {
+   "file": "Q00411_PathOfTheAssassin/30419-05.html",
+   "quest": 411,
+   "text": "Arkenia: Thank you. I have asked about the whereabouts of the thieves and have some intelligence. The most reliable information is kept by a Human by the name of Leikan . He works as a guard in the village of Gludin. It seems that the Human Traders of his village have been robbed many times by thos…",
+   "header": "Arkenia",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30419-06.html": {
+   "file": "Q00411_PathOfTheAssassin/30419-06.html",
+   "quest": 411,
+   "text": "Arkenia: I understand. I suppose I will have to find someone else...",
+   "header": "Arkenia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Life (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00218_TestimonyOfLife",
+     "kind": "quest",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30419-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Fate (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00219_TestimonyOfFate",
+     "kind": "quest",
+     "quest": 219,
+     "to": "Q00219_TestimonyOfFate/30419-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Assassin (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00411_PathOfTheAssassin",
+     "kind": "quest",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30419-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Dark Wizard (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00412_PathOfTheDarkWizard",
+     "kind": "quest",
+     "quest": 412,
+     "to": "Q00412_PathOfTheDarkWizard/30419-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

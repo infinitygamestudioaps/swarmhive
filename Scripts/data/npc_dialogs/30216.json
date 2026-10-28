@@ -1,0 +1,65 @@
+{
+ "npcId": 30216,
+ "name": "Wheeler",
+ "title": "Sentinel",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.912Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30216.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30216.htm": {
+   "file": "guard/30216.htm",
+   "quest": null,
+   "text": "Sentinel Wheeler: May the blessing of starlight rest upon you. My name is Wheeler, one of the sentinels of the forest. What you see on the other side of this bridge is the most holy tree to us Elves -- the Mother Tree, mother of all forests and nymphs.",
+   "header": "Sentinel Wheeler",
+   "links": [
+    {
+     "text": "Ask about the Mother Tree.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30216-1.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30216-1.htm": {
+   "file": "guard/30216-1.htm",
+   "quest": null,
+   "text": "Sentinel Wheeler: In the beginning, Einhasad created the Elves, and the union of the world's oldest tree and the first Elf became the Mother Tree. All the Elves afterwards were born from the leaves of the Mother Tree Glade. Perhaps that is why, when we rest under the shade of the Mother Tree Glade,…",
+   "header": "Sentinel Wheeler",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30216.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

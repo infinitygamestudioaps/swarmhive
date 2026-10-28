@@ -214,6 +214,12 @@ has(/if \(hiveOwnCombat\(\)\) \{ try \{ if \(!IsInCombat\) startCombatG\(\); \} 
   check(b.r === true && b.calls.join() === '7', 'stubs: skills OFF on an old L2Swarm -> the safe script hit (no skills)');
   check(c.r === true && c.calls.join() === '7', 'stubs: skills ON -> unchanged (script attacks per runtime flag)'); }
 
+// SFKEEP / SPOILOWN-2026-10-27 (tester Vykaax, 3.10.7): skills OFF on 3.10.x = L2Swarm combat (deadlockFixed true without our marker DLL),
+// a spoiler's L2Swarm Spoil rows are switched only while Hive picks the skills (given back otherwise); stubs in test_vykaax_1027.js
+gate('function deadlockFixed()', /if \(verAtLeast\(3, 8, 11\)\) return true;/, '3.8.11+ (so 3.10.x) counts as deadlock fixed: skills-OFF members fight with L2Swarm combat');
+gate('function spoilOwnGuard(forceRestore)', /own = !forceRestore && state\.role === 'spoiler' && state\.running !== false && hiveSkillsOn\(\);/, "spoil: L2Swarm's own Spoil / Sweeper rows only while Hive picks the skills");
+gate('function spoilOwnGuard(forceRestore)', /if \(!own && !Object\.keys\(SPOILOWN\.off\)\.length\) return;/, "spoil: skills OFF and nothing of ours = the player's list is never read or changed");
+
 // ---- 5) pure guard plans --------------------------------------------------------------------------------------------------------
 { const CL = blk('// CASTLOOP-BEGIN', '// CASTLOOP-END');
   const M = new Function(CL + '\nreturn { l2sGuardPlan, castOwnDecide };')();

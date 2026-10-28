@@ -1,0 +1,202 @@
+{
+ "npcId": 30757,
+ "name": "Statue Of Offering",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.072Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30757.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "501": {
+   "name": "Proof of Clan Alliance",
+   "listText": [
+    "[Proof of Clan Alliance]",
+    "[Proof of Clan Alliance (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00501_ProofOfClanAlliance/30757-01.html",
+     "when": "memo 2; level >= 40; lqs != null; !player.isClanLeader(); (qs.getInt(\"flag\") != 2501)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30757-01b.html",
+     "when": "memo 2; level >= 40; lqs != null; !player.isClanLeader(); NOT (qs.getInt(\"flag\") != 2501)",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30757-02.html",
+     "when": "memo 2; NOT level >= 40; lqs != null; !player.isClanLeader()",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30757-01a.html",
+     "when": "memo 2; lqs != null; player.isClanLeader()",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30757-06.html",
+     "when": "!((lqs != null) && lqs.isMemoState(2))",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30757.htm": {
+   "file": "default/30757.htm",
+   "quest": null,
+   "text": "Statue of Offering: Only a person of sincere heart can pass this test.",
+   "header": "Statue of Offering",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00501_ProofOfClanAlliance/30757-01.html": {
+   "file": "Q00501_ProofOfClanAlliance/30757-01.html",
+   "quest": 501,
+   "text": "Statue of Offering: Do you wish to take the test for your clan lord? You should consider your answer carefully. It could cost you your life. Only those with the firmest resolve should step forward and answer my question. Would you die for your clan lord? Now, give me an answer!",
+   "header": "Statue of Offering",
+   "when": [
+    "memo 2; level >= 40; lqs != null; !player.isClanLeader(); (qs.getInt(\"flag\") != 2501)"
+   ],
+   "links": [
+    {
+     "text": "\"I will sacrifice my life to prove loyalty to my clan lord.\"",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30757-04.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30757-04.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30757-04.html",
+     "toAll": [
+      "Q00501_ProofOfClanAlliance/30757-04.html",
+      "Q00501_ProofOfClanAlliance/30757-03.html"
+     ]
+    },
+    {
+     "text": "Quit the test",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30757-05.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30757-05.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30757-05.html"
+    }
+   ]
+  },
+  "Q00501_ProofOfClanAlliance/30757-01b.html": {
+   "file": "Q00501_ProofOfClanAlliance/30757-01b.html",
+   "quest": 501,
+   "text": "Statue of Offering: Haven't you already proven your loyalty?",
+   "header": "Statue of Offering",
+   "when": [
+    "memo 2; level >= 40; lqs != null; !player.isClanLeader(); NOT (qs.getInt(\"flag\") != 2501)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30757-02.html": {
+   "file": "Q00501_ProofOfClanAlliance/30757-02.html",
+   "quest": 501,
+   "text": "Statue of Offering: You lack even the experience to be be killed by this test! Count your blessings! You will live to die another day. (Only a clan member of level 40 or above can take this test.)",
+   "header": "Statue of Offering",
+   "when": [
+    "memo 2; NOT level >= 40; lqs != null; !player.isClanLeader()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30757-01a.html": {
+   "file": "Q00501_ProofOfClanAlliance/30757-01a.html",
+   "quest": 501,
+   "text": "Statue of Offering: A clan lord cannot take this test.",
+   "header": "Statue of Offering",
+   "when": [
+    "memo 2; lqs != null; player.isClanLeader()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30757-06.html": {
+   "file": "Q00501_ProofOfClanAlliance/30757-06.html",
+   "quest": 501,
+   "text": "Statue of Offering: Does your clan lord truly wish to take the test?",
+   "header": "Statue of Offering",
+   "when": [
+    "!((lqs != null) && lqs.isMemoState(2))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30757-03.html": {
+   "file": "Q00501_ProofOfClanAlliance/30757-03.html",
+   "quest": 501,
+   "text": "Statue of Offering: Death shall be your reward. Now prove your loyalty!",
+   "header": "Statue of Offering",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30757-04.html": {
+   "file": "Q00501_ProofOfClanAlliance/30757-04.html",
+   "quest": 501,
+   "text": "Statue of Offering: Your loyalty is impressive! Now return to your clan lord with your head held high.",
+   "header": "Statue of Offering",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30757-05.html": {
+   "file": "Q00501_ProofOfClanAlliance/30757-05.html",
+   "quest": 501,
+   "text": "Statue of Offering: ...",
+   "header": "Statue of Offering",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Proof of Clan Alliance]",
+     "bypass": "npc_%objectId%_Quest Q00501_ProofOfClanAlliance",
+     "kind": "quest",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30757-01.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Proof of Clan Alliance (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00501_ProofOfClanAlliance",
+     "kind": "quest",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30757-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -41,5 +41,13 @@ ok((src.match(/countFightMobsNear\(/g) || []).length >= 4, 'AOEFIGHT: castPick p
 ok(/sell: { enabled: true, junk: false,/.test(src), "NOJUNK: CONFIG.sell.junk is false (only items the owner marks are sold)");
 // NOAUTOSELL (owner 2026-10-26: "automatic selling should be default OFF for all characters"): every sale path passes the sellAt guard
 ok(src.includes("if (!only && !/^!/.test(String(why || '')) && !pautoOn('sell')) {"), 'NOAUTOSELL: sellAt refuses without the owner order / sell switch');
+// NOAUTOSELL2 (owner 2026-10-27: "WHY WHY WHY ARE YOU SELLING drops!!!!!!"): automatic warehouse sales used a '!whsell' reason, which the guard
+// reads as the owner's order. The collector's 5-min sale and the resume after a restart need the sell switch themselves.
+{ const i = src.indexOf('// COLLSELL 2026-10-14'), j = src.indexOf('await whSellLoop(ids.map(', i), blk = i > 0 && j > i ? src.slice(i, j) : '';
+  ok(/if \(!pautoOn\('sell'\)\) \{ COLLT\.checkAt = now\(\); return; \}/.test(blk), "NOAUTOSELL2: the collector's automatic clan warehouse sale needs the sell switch"); }
+{ const i = src.indexOf('setTimeout(function whsResumeCheck()'), j = src.indexOf('whSellLoop(items, !items.length)', i), blk = i > 0 && j > i ? src.slice(i, j) : '';
+  ok(/if \(!pautoOn\('sell'\)\) \{ note\(/.test(blk), 'NOAUTOSELL2: an interrupted sale is not resumed by a restart unless selling is switched on'); }
+{ const callers = (src.match(/whSellLoop\(/g) || []).length;
+  ok(callers === 4, `NOAUTOSELL2: whSellLoop has exactly its known callers (definition, the collector, the !whsell order, the resume): ${callers} — a new caller must check the sell switch`); }
 console.log(`testers 2026-10-26: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

@@ -7,7 +7,7 @@ const src = fs.readFileSync(process.env.SWARM_SRC || path.join(ROOT, 'Scripts_de
 const a = src.indexOf('// SPOIL-PURE-BEGIN'), b = src.indexOf('// SPOIL-PURE-END');
 if (a < 0 || b < a) { console.log('FAIL: SPOIL-PURE block not found'); process.exit(1); }
 const ctx = {}; vm.createContext(ctx);
-vm.runInContext(src.slice(a, b) + '\nthis.X = { SPOIL_DEF, spoilRulesNorm, spoilCfg, spoilWanted, spoilPick, sweepPick };', ctx);
+vm.runInContext(src.slice(a, b) + '\nthis.X = { SPOIL_DEF, spoilRulesNorm, spoilCfg, spoilWanted, spoilPick, sweepPick, spoilAnswer, spoilNoAnswerWhy };', ctx);
 const X = ctx.X;
 let pass = 0, fail = 0;
 const ok = (c, m) => { if (c) pass++; else { fail++; console.log('FAIL:', m); } };
@@ -58,6 +58,12 @@ eq(X.sweepPick({ cfg: C, mp: 300, corpses: [{ id: 9, d: 120 }, { id: 8, d: 60 }]
 eq(X.sweepPick({ cfg: C, mp: 300, corpses: [{ id: 9, d: 500 }, { id: 8, d: 60 }], have: sh }), { do: 'sweep', id: 8 }, 'one near, one far -> Sweeper on the nearest');
 eq(X.sweepPick({ cfg: C, mp: 300, corpses: [{ id: 9, d: 50, tries: 3 }], have: sh }), null, '3 failed tries -> drop it');
 eq(X.sweepPick({ cfg: C, mp: 300, corpses: [{ id: 9, d: 50 }], have: { sweep: false, fest: true, festReady: true, festMp: 12 } }).do, 'festival', 'no Sweeper -> festival takes it');
+
+// --- SPOILSTAT-2026-10-27: one answer per Spoil cast (tester Vykaax: '232 missed, 33% hit' mixed no-answer casts in); more in test_vykaax_1027.js
+eq(['612', '139', '357', '661'].map(i => X.spoilAnswer({ kind: 'spoil' }, Number(i), 'X has resisted your Spoil.')), ['landed', 'resisted', 'already', 'cannot'], 'Spoil answers');
+eq(X.spoilAnswer({ kind: 'spoil' }, 139, 'X has resisted your Power Break.'), null, 'another skill resisted is not a Spoil fail');
+eq(X.spoilAnswer({ kind: 'spoil', res: 'none' }, 612), 'landed', 'a late #612 after no answer lands');
+eq(X.spoilNoAnswerWhy({ targetDead: true }), 'died', 'no answer: target died');
 
 console.log(`${fail ? 'FAILED' : 'OK'}: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

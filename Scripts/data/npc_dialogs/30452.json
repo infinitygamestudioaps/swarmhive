@@ -1,0 +1,58 @@
+{
+ "npcId": 30452,
+ "name": "Kurt",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.978Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30452.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30452.htm": {
+   "file": "guard/30452.htm",
+   "quest": null,
+   "text": "Guard Kurt: Hello, I am Guard Kurt. I mainly assist Sir Ortho Lancer and help maintain the village's security. Sir Ortho Lancer is a fine man who used to serve in the Black Lion Troops when he was young. He is always so full of energy; sometimes it's hard to keep up with him. Sir Lancer worries tha…",
+   "header": "Guard Kurt",
+   "links": [
+    {
+     "text": "Ask about the Execution Grounds.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30452-1.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30452-1.htm": {
+   "file": "guard/30452-1.htm",
+   "quest": null,
+   "text": "Guard Kurt: A few years ago in Dion, the farmers revolted against the lord. The Lord Ashton of that time hired soldiers to suppress the revolt and executed all those who were involved as an example. There are many rumors that the ghosts of the farmers that were murdered still haunt the grounds, so …",
+   "header": "Guard Kurt",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,303 @@
+{
+ "npcId": 31963,
+ "name": "Hitchi",
+ "title": "Mineral Trader",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.304Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31963.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "418": {
+   "name": "Path Of The Artisan",
+   "listText": [
+    "[Path of the Artisan]",
+    "[Path of the Artisan (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00418_PathOfTheArtisan/31963-01.html",
+     "when": "state STARTED; memo 100; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/31963-04.html",
+     "when": "state STARTED; memo 101; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/31963-06a.html",
+     "when": "state STARTED; memo 102; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/31963-08.html",
+     "when": "state STARTED; memo 201; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/31963-11.html",
+     "when": "state STARTED; memo 202; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/31963.htm": {
+   "file": "merchant/31963.htm",
+   "quest": null,
+   "text": "Mineral Trader Hitchi: Nice to meet you! I'm Mineral Trader Hitchi. I'm not bragging, but our family has operated a mineral trading business for 4 generations. When the train was still working, people came from the ends of Aden to buy from us. Business is a little slower now, but the quality of our…",
+   "header": "Mineral Trader Hitchi",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "npc_%objectId%_Buy 3196300",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/31963-01.html": {
+   "file": "Q00418_PathOfTheArtisan/31963-01.html",
+   "quest": 418,
+   "text": "Mineral Trader Hitchi: Is this the test of the Artisan? Then you definitely have something to tell me! Huh, then the final execution day is...! Well, what is it? Please tell me!",
+   "header": "Mineral Trader Hitchi",
+   "when": [
+    "state STARTED; memo 100; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "\"Well you see, it's like this...\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 31963-02.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "31963-02.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31963-02.html"
+    },
+    {
+     "text": "\"I'll have to think about it.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 31963-06.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "31963-06.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31963-06.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/31963-04.html": {
+   "file": "Q00418_PathOfTheArtisan/31963-04.html",
+   "quest": 418,
+   "text": "Mineral Trader Hitchi: Thank you for telling me the story. Now go to Lockirin in Dwarven Village at the Iron Gate Guild. He'll tell you what you need to do next. Ha!",
+   "header": "Mineral Trader Hitchi",
+   "when": [
+    "state STARTED; memo 101; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/31963-06a.html": {
+   "file": "Q00418_PathOfTheArtisan/31963-06a.html",
+   "quest": 418,
+   "text": "Mineral Trader Hitch: Please give this message to Railroad Worker Obi. Registration complete. Will wait for execution date. That's it.",
+   "header": "Mineral Trader Hitch",
+   "when": [
+    "state STARTED; memo 102; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/31963-08.html": {
+   "file": "Q00418_PathOfTheArtisan/31963-08.html",
+   "quest": 418,
+   "text": "Mineral Trader Hitchi: Please deliver this to Warehouse Keeper Rydel in the Town of Schuttgart. Good news arrived that you've been waiting for. Give messenger appropriate reward.",
+   "header": "Mineral Trader Hitchi",
+   "when": [
+    "state STARTED; memo 201; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/31963-11.html": {
+   "file": "Q00418_PathOfTheArtisan/31963-11.html",
+   "quest": 418,
+   "text": "Mineral Trader Hitchi: Just a minute, what's the hurry? Come on, please wait here with me for a while. Wouldn't you like to be an Artisan? Don't get me wrong... I just want to know what you think about our six Dwarven guilds.",
+   "header": "Mineral Trader Hitchi",
+   "when": [
+    "state STARTED; memo 202; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "\"Stop right there.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 31963-10.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "31963-10.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31963-10.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/31963-02.html": {
+   "file": "Q00418_PathOfTheArtisan/31963-02.html",
+   "quest": 418,
+   "text": "Mineral Trader Hitchi: The golden wagon wheels shake..! By the way, do you have any idea what you just said?",
+   "header": "Mineral Trader Hitchi",
+   "links": [
+    {
+     "text": "\"I don't think. Thinking is someone else's job.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 31963-03.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "31963-03.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31963-03.html",
+     "effect": "cond:10"
+    },
+    {
+     "text": "\"I did think about it and decided to say something.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 31963-05.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "31963-05.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31963-05.html",
+     "effect": "cond:11"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/31963-03.html": {
+   "file": "Q00418_PathOfTheArtisan/31963-03.html",
+   "quest": 418,
+   "text": "Mineral Trader Hitchi: Ha! Awesome! Just like a craftsman, eh? Thanks for telling me that story. Now you should go talk to Lockirin in Dwarven Village at the Iron Gate Guild. He'll tell you what you need to do next. Ha!",
+   "header": "Mineral Trader Hitchi",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/31963-05.html": {
+   "file": "Q00418_PathOfTheArtisan/31963-05.html",
+   "quest": 418,
+   "text": "Mineral Trader Hitchi: Is that so? Well, that has nothing to do with me, anyway! Please go and speak with the Railroad Worker Obi and deliver this: Registration complete. Will wait for execution date.",
+   "header": "Mineral Trader Hitchi",
+   "sets": {
+    "cond": "11"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/31963-06.html": {
+   "file": "Q00418_PathOfTheArtisan/31963-06.html",
+   "quest": 418,
+   "text": "Mineral Trader Hitchi: Do you need something else?",
+   "header": "Mineral Trader Hitchi",
+   "links": [
+    {
+     "text": "\"No, not at all. I'll deliver the message.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 31963-07.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "31963-07.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31963-07.html",
+     "effect": "cond:12"
+    },
+    {
+     "text": "\"I don't want to get involved in this! I'm leaving.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 31963-09.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "31963-09.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31963-09.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/31963-07.html": {
+   "file": "Q00418_PathOfTheArtisan/31963-07.html",
+   "quest": 418,
+   "text": "Mineral Trader Hitchi: Is that so? Oh, it's not that bad! Please deliver this to Warehouse Keeper Rydel in the Town of Schuttgart. Good news arrived that you've been waiting for. Give messenger appropriate reward.",
+   "header": "Mineral Trader Hitchi",
+   "sets": {
+    "cond": "12"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/31963-09.html": {
+   "file": "Q00418_PathOfTheArtisan/31963-09.html",
+   "quest": 418,
+   "text": "Mineral Trader Hitchi: Just a minute, what's the hurry? Come on, why don't you wait here for a while? Wouldn't you like to be an Artisan? Don't get me wrong... I just wanted to find out what you thought about our six Dwarven guilds.",
+   "header": "Mineral Trader Hitchi",
+   "links": [
+    {
+     "text": "\"Stop right there.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 31963-10.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "31963-10.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31963-10.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/31963-10.html": {
+   "file": "Q00418_PathOfTheArtisan/31963-10.html",
+   "quest": 418,
+   "text": "Mineral Trader Hitchi: I think Obi probably told me this story... The six Dwarven Guilds are like the columns that support the house of Dwarves. Architecture, trade, iron manufacture, warehousing, collecting.. Dwarves would cease to exist if even one of the six Guilds went missing. We Dwarves must …",
+   "header": "Mineral Trader Hitchi",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Artisan (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00418_PathOfTheArtisan",
+     "kind": "quest",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31963-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,510 @@
+{
+ "npcId": 31582,
+ "name": "Mordred",
+ "title": "Dark Knight",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.237Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/31582.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "95": {
+   "name": "Saga of the Hell Knight",
+   "listText": [
+    "[Saga of the Hell Knight]",
+    "[Saga of the Hell Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00095_SagaOfTheHellKnight/0-01.htm",
+     "when": "cond 0; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/0-04.htm",
+     "when": "cond 1; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/0-06.htm",
+     "when": "cond 19; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "96": {
+   "name": "Saga of the Spectral Dancer",
+   "listText": [
+    "[Saga of the Spectral Dancer]",
+    "[Saga of the Spectral Dancer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00096_SagaOfTheSpectralDancer/0-01.htm",
+     "when": "cond 0; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00096_SagaOfTheSpectralDancer/0-04.htm",
+     "when": "cond 1; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00096_SagaOfTheSpectralDancer/0-06.htm",
+     "when": "cond 19; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00096_SagaOfTheSpectralDancer/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00096_SagaOfTheSpectralDancer/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/31582.htm": {
+   "file": "trainer/31582.htm",
+   "quest": null,
+   "text": "Dark Knight Mordred: No one understands injustice better than I do. I know the rage you feel. I know from personal experience your consuming need for vengeance. Evil cannot be allowed to go unpunished! Revenge is not only desirable, it is necessary. To eradicate evil, those who commit evil acts mus…",
+   "header": "Dark Knight Mordred",
+   "links": [
+    {
+     "text": "Learn skill.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/31582-noteach.htm": {
+   "file": "trainer/31582-noteach.htm",
+   "quest": null,
+   "text": "Mordred, The Dark Knight: Ha! A worm like you could never understand my teachings! Leave now and I'll let you live!",
+   "header": "Mordred, The Dark Knight",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/0-01.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/0-01.htm",
+   "quest": 95,
+   "text": "Dark Knight Mordred: Hmm... So, you want to be a Hell Knight, eh? I'm glad you came! Well, you'll have to prove yourself by completing a mission! Have you heard of a Dark Avenger named Waldstein? He was sent out some time ago in pursuit of the Death Lords , and hasn't been heard from since. Please …",
+   "header": "Dark Knight Mordred",
+   "when": [
+    "cond 0; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What is the Pilgrimage of the Tablet of Vision?\"",
+     "bypass": "Quest Q00095_SagaOfTheHellKnight 0-1",
+     "kind": "quest-event",
+     "script": "Q00095_SagaOfTheHellKnight",
+     "event": "0-1",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/0-05.htm",
+     "toAll": [
+      "Q00095_SagaOfTheHellKnight/0-02.htm",
+      "Q00095_SagaOfTheHellKnight/0-05.htm"
+     ]
+    }
+   ]
+  },
+  "Q00095_SagaOfTheHellKnight/0-04.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/0-04.htm",
+   "quest": 95,
+   "text": "Dark Knight Mordred: Please try and find Waldstein near the Tablet of Vision. He was dispatched in pursuit of the Death Lords, and rumors persist that he's joined them ! Join the Pilgrimage of the Tablet of Vision and find out what he's up to . Visit Guard Bayard of Goddard Castle Town . He'll tell…",
+   "header": "Dark Knight Mordred",
+   "when": [
+    "cond 1; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/0-06.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/0-06.htm",
+   "quest": 95,
+   "text": "Dark Knight Mordred: Ah, you're back! Do you have news of Waldstein?",
+   "header": "Dark Knight Mordred",
+   "when": [
+    "cond 19; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Waldstein didn't join the Death Lords.\"",
+     "bypass": "Quest Q00095_SagaOfTheHellKnight 0-2",
+     "kind": "quest-event",
+     "script": "Q00095_SagaOfTheHellKnight",
+     "event": "0-2",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/0-07.htm",
+     "toAll": [
+      "Q00095_SagaOfTheHellKnight/0-08.htm",
+      "Q00095_SagaOfTheHellKnight/0-07.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00095_SagaOfTheHellKnight/0-09.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/0-09.htm",
+   "quest": 95,
+   "text": "Dark Knight Mordred: Thanks for your hard work! Congratulations, you're a Hell Knight! Good job!",
+   "header": "Dark Knight Mordred",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/0-010.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/0-010.htm",
+   "quest": 95,
+   "text": "Dark Knight Mordred: You're still not quite ready for a class transfer. Come back when you're older! (Only a character of level 76 or above may transfer to the Hell Knight class. Don't abandon the quest until class transfer is complete.)",
+   "header": "Dark Knight Mordred",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/0-01.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/0-01.htm",
+   "quest": 96,
+   "text": "Dark Knight Mordred: You must be the new recruit! Have you heard what some mysterious person has asked of our guild? No? Well... Someone sent us an ancient document! They think it is linked to some ancient, forbidden power, and asked us to research it! Of course, I was immediately suspicious of the…",
+   "header": "Dark Knight Mordred",
+   "when": [
+    "cond 0; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What happened to the document?\"",
+     "bypass": "Quest Q00096_SagaOfTheSpectralDancer 0-1",
+     "kind": "quest-event",
+     "script": "Q00096_SagaOfTheSpectralDancer",
+     "event": "0-1",
+     "quest": 96,
+     "to": "Q00096_SagaOfTheSpectralDancer/0-05.htm",
+     "toAll": [
+      "Q00096_SagaOfTheSpectralDancer/0-02.htm",
+      "Q00096_SagaOfTheSpectralDancer/0-05.htm"
+     ]
+    }
+   ]
+  },
+  "Q00096_SagaOfTheSpectralDancer/0-04.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/0-04.htm",
+   "quest": 96,
+   "text": "Dark Knight Mordred: Have you forgotten what you're supposed to do? Go see Spellbook Seller Elena in Goddard Castle Town .",
+   "header": "Dark Knight Mordred",
+   "when": [
+    "cond 1; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/0-06.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/0-06.htm",
+   "quest": 96,
+   "text": "Dark Knight Mordred: Come in. When Elena brought me the translated ancient document, she told me that you were almost finished with the mission. What happened? You ran into Hallate? You could've been killed! This is marvelous! Have you obtained the knowledge of the stone tablet?",
+   "header": "Dark Knight Mordred",
+   "when": [
+    "cond 19; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00096_SagaOfTheSpectralDancer 0-2",
+     "kind": "quest-event",
+     "script": "Q00096_SagaOfTheSpectralDancer",
+     "event": "0-2",
+     "quest": 96,
+     "to": "Q00096_SagaOfTheSpectralDancer/0-07.htm",
+     "toAll": [
+      "Q00096_SagaOfTheSpectralDancer/0-08.htm",
+      "Q00096_SagaOfTheSpectralDancer/0-07.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00096_SagaOfTheSpectralDancer/0-09.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/0-09.htm",
+   "quest": 96,
+   "text": "Dark Knight Mordred: Please step forward! You've surpassed the title of Bladedancer! Henceforth, you shall be known as a Spectral Dancer! Please accept the congratulations of the Dark Elven Guild.",
+   "header": "Dark Knight Mordred",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/0-010.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/0-010.htm",
+   "quest": 96,
+   "text": "Dark Knight Mordred: Please, come here. You've obtained new knowledge, but your physical capabilities are lacking. Train yourself, and come back when you're ready. Then, I'll give you a new title. (Only characters of level 76 or above may transfer to the Spectral Dancer class. Be careful. You canno…",
+   "header": "Dark Knight Mordred",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/0-02.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/0-02.htm",
+   "quest": 95,
+   "text": "Dark Knight Mordred: You, a Hell Knight? Ha! Come back when you've grown up! (This quest may only be undertaken by a Dark Avenger of level 76 or above.)",
+   "header": "Dark Knight Mordred",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/0-03.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/0-03.htm",
+   "quest": 95,
+   "text": "Dark Knight Mordred: Will you find Waldstein for us? As I said, Waldstein's been seen near the Tablet of Vision recently. He's probably paying homage to it... Join the pilgrims of the Tablet of Vision so you can follow Waldstein. Find out what he's up to. Speak with Guard Bayard of Goddard Castle T…",
+   "header": "Dark Knight Mordred",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/0-05.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/0-05.htm",
+   "quest": 95,
+   "text": "Dark Knight Mordred: Haven't you heard? For a Dark Avenger to become a Hell Knight, he must leave the Human realm and enter the Realm of the Gods! Basically, he must receive the power that was forbidden by the gods. This power was sealed by the gods and scattered throughout the world, to keep the H…",
+   "header": "Dark Knight Mordred",
+   "links": [
+    {
+     "text": "\"I'll do it!\"",
+     "bypass": "Quest Q00095_SagaOfTheHellKnight accept",
+     "kind": "quest-event",
+     "script": "Q00095_SagaOfTheHellKnight",
+     "event": "accept",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00095_SagaOfTheHellKnight/0-07.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/0-07.htm",
+   "quest": 95,
+   "text": "Dark Knight Mordred: What a relief! I should've known not to listen to rumors! By the way, congratulations on completing the pilgrimage of the Tablet of Vision! You're more that qualified to be a Hell Knight! In fact, I'll promote you myself! Congratulations! You're a a Hell Knight!",
+   "header": "Dark Knight Mordred",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/0-08.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/0-08.htm",
+   "quest": 95,
+   "text": "Dark Knight Mordred: Oh, I should've known that Waldstein wouldn't join the Death Lords! This should stop any actions against Waldstein... By the way, congratulations on completing the Pilgrimage of the Tablet of Vision! You surely earned the right to be a Hell Knight. If I could, I'd transfer you …",
+   "header": "Dark Knight Mordred",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/0-02.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/0-02.htm",
+   "quest": 96,
+   "text": "Dark Knight Mordred: Are you the new recruit? You're kind of scrawny, aren't you? Tell you what, if I get a mission that's suitable for you, I'll call you. Until then, practice! (This quest may only be undertaken by a Bladedancer of level 76 or above.)",
+   "header": "Dark Knight Mordred",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/0-03.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/0-03.htm",
+   "quest": 96,
+   "text": "Dark Knight Mordred: Well, I suppose you'll have to do... First, visit Spellbook Seller Elena in Goddard Castle Town . After analyzing the ancient documents, she'll tell you what to do next. Death Lord Hallate is said to be searching for the ancient, forbidden power. I seriously doubt that he would…",
+   "header": "Dark Knight Mordred",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/0-05.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/0-05.htm",
+   "quest": 96,
+   "text": "Dark Knight Mordred: No, that's not it. I called you because I want to to conduct an investigation into an ancient document. Elena, a spellbook seller in Goddard Castle Town , is very fluent in ancient languages. I've asked her to dicipher the ancient document. Go to her and find out what she's dis…",
+   "header": "Dark Knight Mordred",
+   "links": [
+    {
+     "text": "\"I'll do it!\"",
+     "bypass": "Quest Q00096_SagaOfTheSpectralDancer accept",
+     "kind": "quest-event",
+     "script": "Q00096_SagaOfTheSpectralDancer",
+     "event": "accept",
+     "quest": 96,
+     "to": "Q00096_SagaOfTheSpectralDancer/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00096_SagaOfTheSpectralDancer/0-07.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/0-07.htm",
+   "quest": 96,
+   "text": "Dark Knight Mordred: Please step forward! You've surpassed the title of Bladedancer! Henceforth, you shall be known as a Spectral Dancer! Please accept the congratulations of the Dark Elven Guild.",
+   "header": "Dark Knight Mordred",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/0-08.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/0-08.htm",
+   "quest": 96,
+   "text": "Dark Knight Mordred: Please, come here. You've obtained new knowledge, but your physical capabilities are lacking. Train yourself, and come back when you're ready. Then, I'll give you a new title. (Only characters of level 76 or above may transfer to the Spectral Dancer class. Be careful. You canno…",
+   "header": "Dark Knight Mordred",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Hell Knight]",
+     "bypass": "npc_%objectId%_Quest Q00095_SagaOfTheHellKnight",
+     "kind": "quest",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Hell Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00095_SagaOfTheHellKnight",
+     "kind": "quest",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/0-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Spectral Dancer]",
+     "bypass": "npc_%objectId%_Quest Q00096_SagaOfTheSpectralDancer",
+     "kind": "quest",
+     "quest": 96,
+     "to": "Q00096_SagaOfTheSpectralDancer/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Spectral Dancer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00096_SagaOfTheSpectralDancer",
+     "kind": "quest",
+     "quest": 96,
+     "to": "Q00096_SagaOfTheSpectralDancer/0-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

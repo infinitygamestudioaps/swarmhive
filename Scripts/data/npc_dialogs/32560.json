@@ -1,0 +1,596 @@
+{
+ "npcId": 32560,
+ "name": "Orbyu",
+ "title": "Soldier",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.386Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32560.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "700": {
+   "name": "Cursed Life",
+   "listText": [
+    "[Cursed Life]",
+    "[Cursed Life (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00700_CursedLife/32560-01.htm",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00700_CursedLife/32560-07.html",
+     "when": "state STARTED; sum > 0; sum < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00700_CursedLife/32560-08.html",
+     "when": "state STARTED; sum > 0; NOT sum < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00700_CursedLife/32560-06.html",
+     "when": "state STARTED; !sum > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10271": {
+   "name": "The Enveloping Darkness",
+   "listText": [
+    "[The Enveloping Darkness]",
+    "[The Enveloping Darkness (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10271_TheEnvelopingDarkness/32560-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= 75) && player.hasQuestCompleted(Q10269_ToTheSeedOfDestruction.class.getSimple",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10271_TheEnvelopingDarkness/32560-02.html",
+     "when": "state CREATED; NOT ((player.getLevel() >= 75) && player.hasQuestCompleted(Q10269_ToTheSeedOfDestruction.class.getSimple",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10271_TheEnvelopingDarkness/32560-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "start"
+    },
+    {
+     "page": "Q10271_TheEnvelopingDarkness/32560-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10271_TheEnvelopingDarkness/32560-07.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10271_TheEnvelopingDarkness/32560-08.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10271_TheEnvelopingDarkness/32560-03.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10272": {
+   "name": "Light Fragment",
+   "listText": [
+    "[Light Fragment]",
+    "[Light Fragment (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10272_LightFragment/32560-03.html",
+     "when": "state CREATED; level < 75",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10272_LightFragment/32560-01.htm",
+     "when": "state CREATED; NOT level < 75; (player.hasQuestCompleted(Q10271_TheEnvelopingDarkness.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10272_LightFragment/32560-02.html",
+     "when": "state CREATED; NOT level < 75; NOT (player.hasQuestCompleted(Q10271_TheEnvelopingDarkness.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10272_LightFragment/32560-06.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "start"
+    },
+    {
+     "page": "Q10272_LightFragment/32560-04.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32560.htm": {
+   "file": "default/32560.htm",
+   "quest": null,
+   "text": "Soldier Orbyu: This Airship wharf is currently not in use. We do have some extra capacity right now. Perhaps it will again become an important stop...",
+   "header": "Soldier Orbyu",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00700_CursedLife/32560-01.htm": {
+   "file": "Q00700_CursedLife/32560-01.htm",
+   "quest": 700,
+   "text": "Soldier Orbyu: I manage this wharf and oversee the many tasks necessary to keep these airships coming and going. My job allows me the chance to look at the sky often. Sometimes, I feel like I spend all day looking up. Can't say I dislike it. In fact, I used to daydream about flying as a child. Sigh…",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more.\"",
+     "bypass": "Quest Q00700_CursedLife 32560-02.htm",
+     "kind": "quest-event",
+     "script": "Q00700_CursedLife",
+     "event": "32560-02.htm",
+     "quest": 700,
+     "to": "Q00700_CursedLife/32560-02.htm",
+     "toAll": [
+      "Q00700_CursedLife/32560-02.htm",
+      "Q00700_CursedLife/32560-03.htm"
+     ]
+    }
+   ]
+  },
+  "Q00700_CursedLife/32560-07.html": {
+   "file": "Q00700_CursedLife/32560-07.html",
+   "quest": 700,
+   "text": "Soldier Orbyu: How was your hunting? Let me see the remains I asked you to bring back. Hmm... I'd hoped for more. Perhaps you haven't yet found the Rok . But since you brought the remains from some of the lesser birds, I will give you the reward I promised. You're going back out, aren't you?",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state STARTED; sum > 0; sum < 10"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do better next time.\"",
+     "bypass": "Quest Q00700_CursedLife 32560-09.html",
+     "kind": "quest-event",
+     "script": "Q00700_CursedLife",
+     "event": "32560-09.html",
+     "quest": 700,
+     "to": "Q00700_CursedLife/32560-09.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00700_CursedLife 32560-10.html",
+     "kind": "quest-event",
+     "script": "Q00700_CursedLife",
+     "event": "32560-10.html",
+     "quest": 700,
+     "to": "Q00700_CursedLife/32560-10.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00700_CursedLife/32560-08.html": {
+   "file": "Q00700_CursedLife/32560-08.html",
+   "quest": 700,
+   "text": "Soldier Orbyu: Have you finished your hunting? Then show me the remains I asked you to bring back. Let's see... Oh...you brought back a lot! From this, I can tell that you caught Rok and split its stomach open. Either that or you must have hunted a great many Mutant Birds and Dra Hawks ! Here is th…",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state STARTED; sum > 0; NOT sum < 10"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00700_CursedLife 32560-09.html",
+     "kind": "quest-event",
+     "script": "Q00700_CursedLife",
+     "event": "32560-09.html",
+     "quest": 700,
+     "to": "Q00700_CursedLife/32560-09.html"
+    },
+    {
+     "text": "Say you've had enough.",
+     "bypass": "Quest Q00700_CursedLife 32560-10.html",
+     "kind": "quest-event",
+     "script": "Q00700_CursedLife",
+     "event": "32560-10.html",
+     "quest": 700,
+     "to": "Q00700_CursedLife/32560-10.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00700_CursedLife/32560-06.html": {
+   "file": "Q00700_CursedLife/32560-06.html",
+   "quest": 700,
+   "text": "Soldier Orbyu: Hurry! They appear in the skies above the Seed of Infinity . Hunt Rok, Mutant Birds and Dra Hawks and bring back Swallowed Skulls, Swallowed Sternums and Swallowed Bones as proof. Remember that Rok will only emerge when the Seed of Immortiality is stabilized. I'm counting on you!",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state STARTED; !sum > 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10271_TheEnvelopingDarkness/32560-01.htm": {
+   "file": "Q10271_TheEnvelopingDarkness/32560-01.htm",
+   "quest": 10271,
+   "text": "Soldier Orbyu: We've been assigned a mission by Admiral Keucereus, commander of this Alliance Base. But it's so dangerous that we haven't had anyone volunteer. Adventurer, will you take it on?",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state CREATED; ((player.getLevel() >= 75) && player.hasQuestCompleted(Q10269_ToTheSeedOfDestruction.class.getSimple"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me what it is first.\"",
+     "bypass": "Quest Q10271_TheEnvelopingDarkness 32560-04.htm",
+     "kind": "quest-event",
+     "script": "Q10271_TheEnvelopingDarkness",
+     "event": "32560-04.htm",
+     "quest": 10271,
+     "to": "Q10271_TheEnvelopingDarkness/32560-04.htm"
+    }
+   ]
+  },
+  "Q10271_TheEnvelopingDarkness/32560-02.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32560-02.html",
+   "quest": 10271,
+   "text": "Soldier Orbyu: We've been assigned a mission by Admiral Keucereus, commander of this Alliance Base. But it's so dangerous that we haven't had anyone volunteer. What? You're interested? Uh, no thanks. You wouldn't last long! Thanks for the offer, though. (Only characters who are level 75 and above a…",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= 75) && player.hasQuestCompleted(Q10269_ToTheSeedOfDestruction.class.getSimple"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10271_TheEnvelopingDarkness/32560-05.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32560-05.html",
+   "quest": 10271,
+   "text": "Soldier Orbyu: Ah! Thank you! You are the answer to our prayers. I won't lie to you -- this is going to be a very difficult mission. Before you go, I'd advise you to go talk to Soldier El . He accompanied a group of researchers into the Seed of Destruction. He is the only person, in fact, who has b…",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10271_TheEnvelopingDarkness/32560-06.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32560-06.html",
+   "quest": 10271,
+   "text": "Soldier Orbyu: In learning additional information about the mission, speak to Soldier El . You can find him near the center of the fortress.",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10271_TheEnvelopingDarkness/32560-07.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32560-07.html",
+   "quest": 10271,
+   "text": "Soldier Orbyu: I heard that you are carrying out a mission you on behalf of Soldier El. Do you have any business with me? El is in the center of the fortress, if you need to find him.",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10271_TheEnvelopingDarkness/32560-08.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32560-08.html",
+   "quest": 10271,
+   "text": "Soldier Orbyu: You have completed your mission! Excellent! Here is the reward El promised you.",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10271_TheEnvelopingDarkness/32560-03.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32560-03.html",
+   "quest": 10271,
+   "text": "Soldier Orbyu: Thank you! I heard Admiral Keucereus was very pleased. (You have already completed this quest.)",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10272_LightFragment/32560-03.html": {
+   "file": "Q10272_LightFragment/32560-03.html",
+   "quest": 10272,
+   "text": "Soldier Orbyu: I'm afraid you just aren't experienced enough for a mission of this magnitude. I'm sorry. We just can't afford to take chances with something so important. I'm sure you understand. (Only characters who are level 75 or above may undertake this quest.)",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state CREATED; level < 75"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10272_LightFragment/32560-01.htm": {
+   "file": "Q10272_LightFragment/32560-01.htm",
+   "quest": 10272,
+   "text": "Soldier Orbyu: Thanks to you, we were able to learn vital information about the Seed of Destruction. We are in your debt. But there's one more thing left to do...",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state CREATED; NOT level < 75; (player.hasQuestCompleted(Q10271_TheEnvelopingDarkness.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q10272_LightFragment 32560-05.htm",
+     "kind": "quest-event",
+     "script": "Q10272_LightFragment",
+     "event": "32560-05.htm",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32560-05.htm"
+    }
+   ]
+  },
+  "Q10272_LightFragment/32560-02.html": {
+   "file": "Q10272_LightFragment/32560-02.html",
+   "quest": 10272,
+   "text": "Soldier Orbyu: For this mission, you need more information about the Seed of Destruction. (Only characters who have completed the \"The Enveloping Darkness\" quest may undertake this quest.)",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state CREATED; NOT level < 75; NOT (player.hasQuestCompleted(Q10271_TheEnvelopingDarkness.class.getSimpleName()))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10272_LightFragment/32560-06.html": {
+   "file": "Q10272_LightFragment/32560-06.html",
+   "quest": 10272,
+   "text": "Soldier Orbyu: Please hurry! Take the documents you recovered from Researcher Medibal to War Mage Artius.",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state STARTED"
+   ],
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10272_LightFragment/32560-04.html": {
+   "file": "Q10272_LightFragment/32560-04.html",
+   "quest": 10272,
+   "text": "Soldier Orbyu: I heard that you successfully completed the mission. Well done! (You have already completed this quest.)",
+   "header": "Soldier Orbyu",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00700_CursedLife/32560-02.htm": {
+   "file": "Q00700_CursedLife/32560-02.htm",
+   "quest": 700,
+   "text": "Soldier Orbyu: I first fell in love with flying because of Rok . Watching it spread its massive wings and soar through the sky stirred something deep in me. My people called Rok the King of Birds because of its power and dignity. But even Rok couldn't avoid the corruption that befell Gracia. This n…",
+   "header": "Soldier Orbyu",
+   "links": [
+    {
+     "text": "\"What else?\"",
+     "bypass": "Quest Q00700_CursedLife 32560-04.htm",
+     "kind": "quest-event",
+     "script": "Q00700_CursedLife",
+     "event": "32560-04.htm",
+     "quest": 700,
+     "to": "Q00700_CursedLife/32560-04.htm"
+    }
+   ]
+  },
+  "Q00700_CursedLife/32560-03.htm": {
+   "file": "Q00700_CursedLife/32560-03.htm",
+   "quest": 700,
+   "text": "Soldier Orbyu: No, I shouldn't have said all this to worry you, adventurer. You can listen to my complaints but look too inexperienced to resolve my problem. If you have more experience and become more capable, will you come and see me some time? (Only characters level 75 and above and who cleared …",
+   "header": "Soldier Orbyu",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00700_CursedLife/32560-04.htm": {
+   "file": "Q00700_CursedLife/32560-04.htm",
+   "quest": 700,
+   "text": "Soldier Orbyu: The bigger problem is Rok , who became undead because of the evil power of the Seed of Infinity. The Rok and its followers, Mutant Birds and Dra Hawks are viciously attacking everyone in their sight. They have attacked and eaten people before, but not like this. The army has been ord…",
+   "header": "Soldier Orbyu",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00700_CursedLife 32560-05.htm",
+     "kind": "quest-event",
+     "script": "Q00700_CursedLife",
+     "event": "32560-05.htm",
+     "quest": 700,
+     "to": "Q00700_CursedLife/32560-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00700_CursedLife/32560-05.htm": {
+   "file": "Q00700_CursedLife/32560-05.htm",
+   "quest": 700,
+   "text": "Soldier Orbyu: Really? Thank you. If you hunt Rok and open its stomach, you will find undigested remains. The same is true of the Mutant Birds and Dra Hawks , although you'll find fewer remains in them. Bring me Swallowed Skulls as evidence, as well as Swallowed Sternums and Swallowed Bones . We wi…",
+   "header": "Soldier Orbyu",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00700_CursedLife/32560-09.html": {
+   "file": "Q00700_CursedLife/32560-09.html",
+   "quest": 700,
+   "text": "Soldier Orbyu: Leave now! Remember that Rok appears only when the Seed of Immortaility is stabilized . Hunt Rok, Mutant Birds and Dra Hawks and bring back Swallowed Skulls, Swallowed Sternums and Swallowed Bones recovered from their stomachs. Good hunting!",
+   "header": "Soldier Orbyu",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00700_CursedLife/32560-10.html": {
+   "file": "Q00700_CursedLife/32560-10.html",
+   "quest": 700,
+   "text": "Soldier Orbyu: I see. Well, I understand. It's regrettable, but I guess I'll have to look for someone else. Farewell.",
+   "header": "Soldier Orbyu",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q10271_TheEnvelopingDarkness/32560-04.htm": {
+   "file": "Q10271_TheEnvelopingDarkness/32560-04.htm",
+   "quest": 10271,
+   "text": "Soldier Orbyu: To the west of Keucereus Alliance Base lies a place called the Seed of Destruction . It is ruled by the lord of the Dragon Race. We have sent many scouts to gather information about the Seed, but few of them ever returned. The rest were too afraid to venture deeply into the area. Obv…",
+   "header": "Soldier Orbyu",
+   "links": [
+    {
+     "text": "\"I'll help you. What should I do?\"",
+     "bypass": "Quest Q10271_TheEnvelopingDarkness 32560-05.html",
+     "kind": "quest-event",
+     "script": "Q10271_TheEnvelopingDarkness",
+     "event": "32560-05.html",
+     "quest": 10271,
+     "to": "Q10271_TheEnvelopingDarkness/32560-05.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10272_LightFragment/32560-05.htm": {
+   "file": "Q10272_LightFragment/32560-05.htm",
+   "quest": 10272,
+   "text": "Soldier Orbyu: Will you bring the research documents you delivered to War Mage Artius? Based on the information, he might give you a new mission.",
+   "header": "Soldier Orbyu",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q10272_LightFragment 32560-06.html",
+     "kind": "quest-event",
+     "script": "Q10272_LightFragment",
+     "event": "32560-06.html",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32560-06.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Cursed Life]",
+     "bypass": "npc_%objectId%_Quest Q00700_CursedLife",
+     "kind": "quest",
+     "quest": 700,
+     "to": "Q00700_CursedLife/32560-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Cursed Life (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00700_CursedLife",
+     "kind": "quest",
+     "quest": 700,
+     "to": "Q00700_CursedLife/32560-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Enveloping Darkness]",
+     "bypass": "npc_%objectId%_Quest Q10271_TheEnvelopingDarkness",
+     "kind": "quest",
+     "quest": 10271,
+     "to": "Q10271_TheEnvelopingDarkness/32560-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Enveloping Darkness (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10271_TheEnvelopingDarkness",
+     "kind": "quest",
+     "quest": 10271,
+     "to": "Q10271_TheEnvelopingDarkness/32560-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Light Fragment]",
+     "bypass": "npc_%objectId%_Quest Q10272_LightFragment",
+     "kind": "quest",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32560-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Light Fragment (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10272_LightFragment",
+     "kind": "quest",
+     "quest": 10272,
+     "to": "Q10272_LightFragment/32560-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

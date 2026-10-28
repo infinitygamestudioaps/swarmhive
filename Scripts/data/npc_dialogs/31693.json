@@ -1,0 +1,98 @@
+{
+ "npcId": 31693,
+ "name": "Priest of Dusk",
+ "title": "",
+ "type": "L2DuskPriest",
+ "generated": "2026-10-27T18:18:03.269Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Teleports/HuntingGroundsTeleport/low_goddard.htm": {
+   "file": "ai/npc/Teleports/HuntingGroundsTeleport/low_goddard.htm",
+   "quest": null,
+   "text": "&$556;",
+   "when": [
+    "check"
+   ],
+   "links": [
+    {
+     "text": "The Disciple's Necropolis - 7100 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 168560 -17968 -3168 7100",
+     "kind": "other"
+    },
+    {
+     "text": "Catacomb of the Forbidden Path - 24000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 110912 84912 -4808 24000",
+     "kind": "other"
+    },
+    {
+     "text": "Catacomb of Dark Omens - 31000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 -22480 13872 -3168 31000",
+     "kind": "other"
+    },
+    {
+     "text": "The Saint's Necropolis - 46000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 79296 209584 -3704 46000",
+     "kind": "other"
+    }
+   ]
+  },
+  "ai/npc/Teleports/HuntingGroundsTeleport/hg_goddard.htm": {
+   "file": "ai/npc/Teleports/HuntingGroundsTeleport/hg_goddard.htm",
+   "quest": null,
+   "text": "&$556;",
+   "when": [
+    "NOT check"
+   ],
+   "links": [
+    {
+     "text": "The Disciple's Necropolis - 11000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 168560 -17968 -3168 11000",
+     "kind": "other"
+    },
+    {
+     "text": "Catacomb of the Forbidden Path - 40000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 110912 84912 -4808 40000",
+     "kind": "other"
+    },
+    {
+     "text": "Catacomb of Dark Omens - 51000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 -22480 13872 -3168 51000",
+     "kind": "other"
+    },
+    {
+     "text": "The Saint's Necropolis - 76000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 79296 209584 -3704 76000",
+     "kind": "other"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

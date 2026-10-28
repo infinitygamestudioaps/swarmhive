@@ -1,0 +1,270 @@
+{
+ "npcId": 30758,
+ "name": "Athrea",
+ "title": "Witch",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.073Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30758.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "501": {
+   "name": "Proof of Clan Alliance",
+   "listText": [
+    "[Proof of Clan Alliance]",
+    "[Proof of Clan Alliance (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00501_ProofOfClanAlliance/30758-01.html",
+     "when": "memo 3; has items 3872; lacks items 3835; lqs != null",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30758-05.html",
+     "when": "memo 4; lqs != null; lqs.getInt(\"flag\") < 4",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30758-08.html",
+     "when": "memo 4; lqs != null; !lqs.getInt(\"flag\") < 4",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30758-09.html",
+     "when": "memo 5; lqs != null",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "503": {
+   "name": "Pursuit Of Clan Ambition",
+   "listText": [
+    "[Pursuit of Clan Ambition!]",
+    "[Pursuit of Clan Ambition! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30758-01.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30758.htm": {
+   "file": "default/30758.htm",
+   "quest": null,
+   "text": "Witch Athrea: Listen closely to the whispers of the wind. The winds of fate seek the heroes of a new era. Feel the pulse of the earth. It quickens in anticipation of the arrival of the heroes who will usher in a new day... When that day comes, where you will be?",
+   "header": "Witch Athrea",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00501_ProofOfClanAlliance/30758-01.html": {
+   "file": "Q00501_ProofOfClanAlliance/30758-01.html",
+   "quest": 501,
+   "text": "Witch Athrea: I cannot give the Blood of Eva to just anyone who asks for it! My older sister Kalis would be furious! If you wish to obtain the Blood of Eva, you must pass the test I will give you.",
+   "header": "Witch Athrea",
+   "when": [
+    "memo 3; has items 3872; lacks items 3835; lqs != null"
+   ],
+   "links": [
+    {
+     "text": "\"I will take the test.\"",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30758-02.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30758-02.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30758-02.html"
+    }
+   ]
+  },
+  "Q00501_ProofOfClanAlliance/30758-05.html": {
+   "file": "Q00501_ProofOfClanAlliance/30758-05.html",
+   "quest": 501,
+   "text": "Witch Athrea: What? No boxes? Utter failure! Well, well, well. I should just throw you out of here, but I'm too soft-hearted for that. You shall have one more chance to take the test, but it will be expensive. These boxes aren't free, you understand? Give me 10,000 Adena and I will make the boxes a…",
+   "header": "Witch Athrea",
+   "when": [
+    "memo 4; lqs != null; lqs.getInt(\"flag\") < 4"
+   ],
+   "links": [
+    {
+     "text": "\"I will pay you 10,000 Adena.\"",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30758-07.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30758-07.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30758-07.html",
+     "toAll": [
+      "Q00501_ProofOfClanAlliance/30758-07.html",
+      "Q00501_ProofOfClanAlliance/30758-06.html"
+     ]
+    }
+   ]
+  },
+  "Q00501_ProofOfClanAlliance/30758-08.html": {
+   "file": "Q00501_ProofOfClanAlliance/30758-08.html",
+   "quest": 501,
+   "text": "Witch Athrea: Ah, a quite unexpected success! Well, true to my word, here is the Blood of Eva . Be careful not to break the bottle.",
+   "header": "Witch Athrea",
+   "when": [
+    "memo 4; lqs != null; !lqs.getInt(\"flag\") < 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30758-09.html": {
+   "file": "Q00501_ProofOfClanAlliance/30758-09.html",
+   "quest": 501,
+   "text": "Witch Athrea: Do you really have the time to stand around gabbing like this? Unless you bring me the ingredients for the Antidote soon, your clan leader will surely die.",
+   "header": "Witch Athrea",
+   "when": [
+    "memo 5; lqs != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30758-01.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30758-01.html",
+   "quest": 503,
+   "text": "Witch Athrea: Take heed, my ambitious friend! The path of a king is often ravaged by war and death!",
+   "header": "Witch Athrea",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30758-02.html": {
+   "file": "Q00501_ProofOfClanAlliance/30758-02.html",
+   "quest": 501,
+   "text": "Witch Athrea: You seem quick-witted enough. I will explain the test to you. It's very simple. I trust you have drawn lots before? Think of this as drawing boxes. First I will summon 16 boxes. Among them, four boxes are enchanted and shout when they are broken. You must find all the enchanted boxes …",
+   "header": "Witch Athrea",
+   "links": [
+    {
+     "text": "\"Start the game.\"",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30758-03.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30758-03.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30758-03.html",
+     "toAll": [
+      "Q00501_ProofOfClanAlliance/30758-03.html",
+      "Q00501_ProofOfClanAlliance/30758-03a.html"
+     ]
+    },
+    {
+     "text": "\"I am not ready yet.\"",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30758-04.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30758-04.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30758-04.html"
+    }
+   ]
+  },
+  "Q00501_ProofOfClanAlliance/30758-03.html": {
+   "file": "Q00501_ProofOfClanAlliance/30758-03.html",
+   "quest": 501,
+   "text": "Witch Athrea: Each one of the four enchanted boxes will say \"Bingo!\" when broken. Funny, huh? Why are you making a face? Oh well, keep it in mind. Let's begin!",
+   "header": "Witch Athrea",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30758-03a.html": {
+   "file": "Q00501_ProofOfClanAlliance/30758-03a.html",
+   "quest": 501,
+   "text": "Witch Athrea: Are you ready to begin the test? Well, we must wait until those people over there are finished. It shouldn't take long. You would do well to observe them and learn more about the test.",
+   "header": "Witch Athrea",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30758-04.html": {
+   "file": "Q00501_ProofOfClanAlliance/30758-04.html",
+   "quest": 501,
+   "text": "Witch Athrea: Call upon all your abilities!",
+   "header": "Witch Athrea",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30758-06.html": {
+   "file": "Q00501_ProofOfClanAlliance/30758-06.html",
+   "quest": 501,
+   "text": "Witch Athrea: That isn't enough money! Perhaps you could raise the funds among clan members, catch some monsters, sell your swords, whatever it takes. You should be able to come up with 10,000 Adena in no time!",
+   "header": "Witch Athrea",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30758-07.html": {
+   "file": "Q00501_ProofOfClanAlliance/30758-07.html",
+   "quest": 501,
+   "text": "Witch Athrea: Would you care to play the game again?",
+   "header": "Witch Athrea",
+   "links": [
+    {
+     "text": "\"I want to play the game again.\"",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30758-03.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30758-03.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30758-03.html",
+     "toAll": [
+      "Q00501_ProofOfClanAlliance/30758-03.html",
+      "Q00501_ProofOfClanAlliance/30758-03a.html"
+     ]
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Proof of Clan Alliance (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00501_ProofOfClanAlliance",
+     "kind": "quest",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30758-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Pursuit of Clan Ambition! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00503_PursuitOfClanAmbition",
+     "kind": "quest",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30758-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

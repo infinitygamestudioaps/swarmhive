@@ -1,0 +1,216 @@
+{
+ "npcId": 30558,
+ "name": "Jakal",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.999Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30558.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "232": {
+   "name": "Test Of The Lord",
+   "listText": [
+    "[Test of the Lord]",
+    "[Test of the Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00232_TestOfTheLord/30558-01.html",
+     "when": "state STARTED; has items 3391,3393; lacks items 3406,3405; item 57 >= 1000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30558-03.html",
+     "when": "state STARTED; has items 3391,3393; lacks items 3406,3405; !getQuestItemsCount(player, ADENA) >= 1000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30558-04.html",
+     "when": "state STARTED; has items 3391,3393,3405; lacks items 3406; !(hasQuestItems(player, ORDEAL_NECKLACE, TANTUS_CHARM) && !hasAtLeastOneQuestItem(player, AXE_OF_CEREMONY, NERUGA_AXE_BL",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30558-05.html",
+     "when": "state STARTED; has items 3391,3406; lacks items 3393; !(hasQuestItems(player, ORDEAL_NECKLACE, TANTUS_CHARM) && !hasAtLeastOneQuestItem(player, AXE_OF_CEREMONY, NERUGA_AXE_BL; !(hasQuestItems(player, ORDEAL_NECKLACE, TANTUS_CHARM, NERUGA_AXE_BLADE) && !hasQuestItems(player, AXE_OF_CEREMONY))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30558.htm": {
+   "file": "merchant/30558.htm",
+   "quest": null,
+   "text": "Trader Jakal: Hail the eternal glory of the Flame! How are you, friend? What do you need? Please take a look! Nothing is worthless in my shop. And there is nothing that I cannot get for you! It's an old truth, that adventure requires preparation to succeed. Even we Orcs would do well to heed the an…",
+   "header": "Trader Jakal",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30558-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3055800",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3055801",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30558-1.htm": {
+   "file": "merchant/30558-1.htm",
+   "quest": null,
+   "text": "Trader Jakal: What are you looking for, my friend?",
+   "header": "Trader Jakal",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3055800",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3055801",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "merchant/30558-pk.htm": {
+   "file": "merchant/30558-pk.htm",
+   "quest": null,
+   "text": "Trader Jakal: I see you are well endowed with courage, ha ha ha! I like you. I really do like you. But, sweetie, do you know what you've gotten yourself into? You better go away before I get very upset!",
+   "header": "Trader Jakal",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30558-01.html": {
+   "file": "Q00232_TestOfTheLord/30558-01.html",
+   "quest": 232,
+   "text": "Trader Jakal: Ah, you mean the Neruga Axe Blade? Yes, 1,000 Adena. No need to be surprised. You didn't think that I would give it to you for free, did you? No way! I am a merchant. It's a reasonable price for such precious symbol of the Neruga tribe spirit. If you don't agree, then leave!",
+   "header": "Trader Jakal",
+   "when": [
+    "state STARTED; has items 3391,3393; lacks items 3406,3405; item 57 >= 1000"
+   ],
+   "links": [
+    {
+     "text": "Pay the money.",
+     "bypass": "Quest Q00232_TestOfTheLord 30558-02.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30558-02.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30558-02.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30558-03.html": {
+   "file": "Q00232_TestOfTheLord/30558-03.html",
+   "quest": 232,
+   "text": "Trader Jakal: Ah, you mean the Neruga Axe Blade? Yes, 1,000 Adena. No need to be surprised. You didn't think that I would give it to you for free, did you? No way! I am a merchant. It's a reasonable price for such a precious symbol of the Neruga tribe spirit. If you don't agree, then leave!",
+   "header": "Trader Jakal",
+   "when": [
+    "state STARTED; has items 3391,3393; lacks items 3406,3405; !getQuestItemsCount(player, ADENA) >= 1000"
+   ],
+   "links": [
+    {
+     "text": "Pay",
+     "bypass": "Quest Q00232_TestOfTheLord 30558-03a.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30558-03a.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30558-03a.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30558-04.html": {
+   "file": "Q00232_TestOfTheLord/30558-04.html",
+   "quest": 232,
+   "text": "Trader Jakal: The axe blade that I gave you is a part of the Neruga axe. It is a holy weapon which is used during a ceremony in the Pa'agrio Temple, so handle it with care!",
+   "header": "Trader Jakal",
+   "when": [
+    "state STARTED; has items 3391,3393,3405; lacks items 3406; !(hasQuestItems(player, ORDEAL_NECKLACE, TANTUS_CHARM) && !hasAtLeastOneQuestItem(player, AXE_OF_CEREMONY, NERUGA_AXE_BL"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30558-05.html": {
+   "file": "Q00232_TestOfTheLord/30558-05.html",
+   "quest": 232,
+   "text": "Trader Jakal: That is our tribe's holy axe! That means you are someone acknowledged by Tantus, our Neruga tribe leader! Tejakar Oroka! I wish you endless glory in your future!",
+   "header": "Trader Jakal",
+   "when": [
+    "state STARTED; has items 3391,3406; lacks items 3393; !(hasQuestItems(player, ORDEAL_NECKLACE, TANTUS_CHARM) && !hasAtLeastOneQuestItem(player, AXE_OF_CEREMONY, NERUGA_AXE_BL; !(hasQuestItems(player, ORDEAL_NECKLACE, TANTUS_CHARM, NERUGA_AXE_BLADE) && !hasQuestItems(player, AXE_OF_CEREMONY))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30558-02.html": {
+   "file": "Q00232_TestOfTheLord/30558-02.html",
+   "quest": 232,
+   "text": "Trader Jakal: Very well! 1,000 Adena, exactly! Then here is the axe blade. This is one part of the axe which the Nerugas use in their ceremony. Handle it with care!",
+   "header": "Trader Jakal",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30558-03a.html": {
+   "file": "Q00232_TestOfTheLord/30558-03a.html",
+   "quest": 232,
+   "text": "Trader Jakal: This is not enough money! Who do you think I am? If you ever try to buy something without enough money again, I will throw you out of the shop!",
+   "header": "Trader Jakal",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00232_TestOfTheLord",
+     "kind": "quest",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30558-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

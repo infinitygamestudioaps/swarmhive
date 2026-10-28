@@ -1,0 +1,883 @@
+{
+ "npcId": 31287,
+ "name": "Kamilen",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.155Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "90": {
+   "name": "Saga of the Storm Screamer",
+   "listText": [
+    "[Saga of the Storm Screamer]",
+    "[Saga of the Storm Screamer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/2-01.htm",
+     "when": "cond 1; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/2-02.htm",
+     "when": "cond 2; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/2-03.htm",
+     "when": "cond 4; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/2-04.htm",
+     "when": "cond 5; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/3-01.htm",
+     "when": "cond 10; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/3-06.htm",
+     "when": "cond 13; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/11-01.htm",
+     "when": "cond 14; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00090_SagaOfTheStormScreamer/11-02.htm",
+     "when": "cond 15; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "93": {
+   "name": "Saga of the Spectral Master",
+   "listText": [
+    "[Saga of the Spectral Master]",
+    "[Saga of the Spectral Master (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00093_SagaOfTheSpectralMaster/1-01.htm",
+     "when": "cond 2; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00093_SagaOfTheSpectralMaster/1-03.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00093_SagaOfTheSpectralMaster/1-02.htm",
+     "when": "cond 3; has items 7080; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00093_SagaOfTheSpectralMaster/1-04.htm",
+     "when": "cond 4; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "98": {
+   "name": "Saga of the Shillien Saint",
+   "listText": [
+    "[Saga of the Shillien Saint]",
+    "[Saga of the Shillien Saint (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00098_SagaOfTheShillienSaint/3-01.htm",
+     "when": "cond 10; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00098_SagaOfTheShillienSaint/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00098_SagaOfTheShillienSaint/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00098_SagaOfTheShillienSaint/3-06.htm",
+     "when": "cond 13; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00098_SagaOfTheShillienSaint/11-01.htm",
+     "when": "cond 14; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00098_SagaOfTheShillienSaint/11-02.htm",
+     "when": "cond 15; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00090_SagaOfTheStormScreamer/2-01.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/2-01.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: Fairen didn't know that I'm conducting an investigation under the guise of Kamilen. In a letter I intercepted Fairen wanted Kamilen to discourage you from becoming a Storm Screamer! Don't worry, since I'm not bound to him I can still tell you what you need to do to become one.",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 1; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What are you investigating?\"",
+     "bypass": "Quest Q00090_SagaOfTheStormScreamer 2-1",
+     "kind": "quest-event",
+     "script": "Q00090_SagaOfTheStormScreamer",
+     "event": "2-1",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00090_SagaOfTheStormScreamer/2-02.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/2-02.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: Visit Information Broker Mist at the hot springs resort and pick up the Investigative Report I requested. Tell him M.B. sent you. Bring the report and I'll tell you how to get the power of the six stone tablets.",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 2; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/2-03.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/2-03.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: Thanks for the report. This merits further investigation. To become a Storm Screamer, you'll need a Stone of Commune for each of the six stone tablets. Use the stones to commune with the tablets and your path will become clear. Here's the first Stone of Commune, take it to the Tab…",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 4; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How will my path become clear?\"",
+     "bypass": "Quest Q00090_SagaOfTheStormScreamer 2-2",
+     "kind": "quest-event",
+     "script": "Q00090_SagaOfTheStormScreamer",
+     "event": "2-2",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00090_SagaOfTheStormScreamer/2-04.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/2-04.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: Commune with the Tablet of Vision south of the Tower of Insolence using the Stone of Commune I gave you . The path will then become clear.",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 5; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/3-01.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/3-01.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: You say you fought with Allector, the fallen angel? How could he have escaped the prison in the Ivory Tower? He must have had help. But who? It could only be .... I shouldn't say, I need more proof. I have the Stone of Commune, but it's unstable. You'll need the other fragment .",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 10; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How can I get it?\"",
+     "bypass": "Quest Q00090_SagaOfTheStormScreamer 3-5",
+     "kind": "quest-event",
+     "script": "Q00090_SagaOfTheStormScreamer",
+     "event": "3-5",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/3-07.htm"
+    }
+   ]
+  },
+  "Q00090_SagaOfTheStormScreamer/3-05.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/3-05.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: The Divine Stone of Wisdom! Good work. My hunch was right. The only person who could have freed Allector is indeed the Grand Magister of the Ivory Tower! Never let your guard down, there are powerful forces trying to stop you! Shall I combine the stones now?",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"By all means!\"",
+     "bypass": "Quest Q00090_SagaOfTheStormScreamer 3-8",
+     "kind": "quest-event",
+     "script": "Q00090_SagaOfTheStormScreamer",
+     "event": "3-8",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00090_SagaOfTheStormScreamer/3-04.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/3-04.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: Go to the Ketra Orcs or the Varka Silenos to get the missing fragment, the Divine Stone of Wisdom . They both know the mysterious knowledge of the stone, but not its exact use. They'll give it to the wisest of the tribe. So, it is presented as some kind of mark for &lsquo;the wise…",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/3-06.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/3-06.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: Take the Stone of Commune I gave you and go to the next Tablet of Vision on the north side of the Varka Silenos barracks .",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 13; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/11-01.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/11-01.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: Now I must continue my investigation about who is trying to stop you from becoming a Storm Screamer. I'll need this stone myself, but I can tell you how to get your own.",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 14; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How can I get one?\"",
+     "bypass": "Quest Q00090_SagaOfTheStormScreamer 11-9",
+     "kind": "quest-event",
+     "script": "Q00090_SagaOfTheStormScreamer",
+     "event": "11-9",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00090_SagaOfTheStormScreamer/11-02.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/11-02.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: You can get the next stone by killing the Archon of Halisha in the Four Sepulchers. You'll need help to gain entry. If that proves too difficult, go to the Shrine of the Loyal and slay Halisha's minions. If you collect 700 Halisha's Marks , the Archon will appear. The minions incl…",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 15; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00093_SagaOfTheSpectralMaster/1-01.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/1-01.htm",
+   "quest": 93,
+   "text": "Magister Kamilen: So you're a friend of Noctisse? You need the medicine to cure her illness, huh? Severe coughing, high fever, chills... I think it's Sea of Spores fever. It's not going to be easy to cure. What? Grand Magister Fairen gave the poison? Oh, don't listen to everything Noctisse says. He…",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 2; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Please give me the medicine.\"",
+     "bypass": "Quest Q00093_SagaOfTheSpectralMaster 1-3",
+     "kind": "quest-event",
+     "script": "Q00093_SagaOfTheSpectralMaster",
+     "event": "1-3",
+     "quest": 93,
+     "to": "Q00093_SagaOfTheSpectralMaster/1-05.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00093_SagaOfTheSpectralMaster/1-03.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/1-03.htm",
+   "quest": 93,
+   "text": "Magister Kamilen: You brought the ice crystal! Now I can make the medicine to cure Noctisse. People are talking about you. You killed Bumbalump, the monster of the hot springs area, huh? I heard it was a yeti with an enormous body. How did you kill it?",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "links": [
+    {
+     "text": "\"Is the medicine ready yet?\"",
+     "bypass": "Quest Q00093_SagaOfTheSpectralMaster 1-4",
+     "kind": "quest-event",
+     "script": "Q00093_SagaOfTheSpectralMaster",
+     "event": "1-4",
+     "quest": 93,
+     "to": "Q00093_SagaOfTheSpectralMaster/1-06.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00093_SagaOfTheSpectralMaster/1-02.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/1-02.htm",
+   "quest": 93,
+   "text": "Magister Kamilen: Are you still here? We have to make the medicine quickly to cure Noctisse's fever! Please get me the ice crystal from the hot springs area. I need it to make the medicine. Chef Jeremy at the hot springs resort knows where to get it.",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00093_SagaOfTheSpectralMaster/1-04.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/1-04.htm",
+   "quest": 93,
+   "text": "Magister Kamilen: Why are you waiting when your friend is suffering? Take the medicine I gave you and go back to Summoner Noctisse .",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 4; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/3-01.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/3-01.htm",
+   "quest": 98,
+   "text": "Magister Kamilen: Did the power of the Stone of Commune draw you here? Saint Agnes gave it to me, but it's not whole. While you were gone, the granary in Goddard Castle Town spontaneously began to overflow! Even I am convinced by this miracle that she's a true saint.",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 10; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What do I need to make the stone whole?\"",
+     "bypass": "Quest Q00098_SagaOfTheShillienSaint 3-5",
+     "kind": "quest-event",
+     "script": "Q00098_SagaOfTheShillienSaint",
+     "event": "3-5",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/3-07.htm"
+    }
+   ]
+  },
+  "Q00098_SagaOfTheShillienSaint/3-05.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/3-05.htm",
+   "quest": 98,
+   "text": "Magister Kamilen: You've done well to get the Divine Stone of Wisdom! Shall I make it whole now?",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Of course!\"",
+     "bypass": "Quest Q00098_SagaOfTheShillienSaint 3-8",
+     "kind": "quest-event",
+     "script": "Q00098_SagaOfTheShillienSaint",
+     "event": "3-8",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00098_SagaOfTheShillienSaint/3-04.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/3-04.htm",
+   "quest": 98,
+   "text": "Magister Kamilen: Did you get the Divine Stone of Wisdom? Find the 'Divine Stone of Wisdom' by winning the trust of Asefa, chief shaman of the Ketra Orcs, or Udan Mardui, chief shaman of the Varka Silenos. If that doesn't work, speak to Ketra's Messenger Wahkan or Varka's Messenger Naran Ashanuk.",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/3-06.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/3-06.htm",
+   "quest": 98,
+   "text": "Magister Kamilen: I feel the time of destiny approaching. The vibration of Stone of Commune is stronger than ever. Go to the north side of the Varka Silenos barracks !",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 13; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/11-01.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/11-01.htm",
+   "quest": 98,
+   "text": "Magister Kamilen: We meet again! Saint Agnes foretold everything correctly. I'll always trust her wisdom. She has more instructions for you.",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 14; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What are they?\"",
+     "bypass": "Quest Q00098_SagaOfTheShillienSaint 11-9",
+     "kind": "quest-event",
+     "script": "Q00098_SagaOfTheShillienSaint",
+     "event": "11-9",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00098_SagaOfTheShillienSaint/11-02.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/11-02.htm",
+   "quest": 98,
+   "text": "Magister Kamilen: You can get the next stone by killing the Archon of Halisha in the Four Sepulchers. You'll need help to gain entry. If that proves too difficult, go to the Shrine of the Loyal and slay Halisha's minions. If you collect 700 Halisha's Marks , the Archon will appear. The minions incl…",
+   "header": "Magister Kamilen",
+   "when": [
+    "cond 15; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/11-03.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/11-03.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: You can get the next stone by killing the Archon of Halisha in the Four Sepulchers. You'll need help to gain entry. If that proves too difficult, go to the Shrine of the Loyal and slay Halisha's minions. If you collect 700 Halisha's Marks , the Archon will appear. The minions incl…",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/2-05.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/2-05.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: I'll tell you in due time. Meet with Information Broker Mist at the hot springs resort. Get the Investigative Report I asked for. Tell him M.B. sent you. Bring back the report and I'll tell you of the six stone tablets.",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/2-06.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/2-06.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: Stones of commune and Tablets of Vision have a magical mutual attraction. You can use this force to locate the Tablets of Vision . Put simply, when you have a Stone of Commune, the location of the corresponding Tablet of Vision will appear in your mind. After you commune with it, …",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/3-02.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/3-02.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: Then visit the Ketra Orcs to get the missing fragment, the Divine Stone of Wisdom . If you earn the trust of Asefa, guide of dead souls, through Ketra's Messenger Wahkan and prove to her your wisdom, you'll find it. If you change your mind halfway, you can get it from the best Sha…",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/3-03.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/3-03.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: Then visit the Varka Silenos to get the missing fragment, the Divine Stone of Wisdom . If you earn the Soul Guide Udan Mardui through Varka's Messenger Naran Ashanuk and prove to her your wisdom, you'll find it. If you change your mind halfway, you can get it from the best Shaman …",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/3-07.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/3-07.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: Go to the Ketra Orcs or the Varka Silenos to get the Divine Stone of Wisdom, a fragment of the Stone of Commune . They know of its powerful magic, but not its exact use. They'll reward the wisest of their tribe with it. You'll need to earn the trust of Asefa, chief shaman of the K…",
+   "header": "Magister Kamilen",
+   "links": [
+    {
+     "text": "The Ketra Orcs",
+     "bypass": "Quest Q00090_SagaOfTheStormScreamer 3-6",
+     "kind": "quest-event",
+     "script": "Q00090_SagaOfTheStormScreamer",
+     "event": "3-6",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "The Varka Silenos",
+     "bypass": "Quest Q00090_SagaOfTheStormScreamer 3-7",
+     "kind": "quest-event",
+     "script": "Q00090_SagaOfTheStormScreamer",
+     "event": "3-7",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/3-03.htm"
+    }
+   ]
+  },
+  "Q00090_SagaOfTheStormScreamer/3-08.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/3-08.htm",
+   "quest": 90,
+   "text": "Magister Kamilen: Now it's a complete Stone of Commune. Find the Tablet of Vision on the north side of the Varka Silenos barracks .",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00093_SagaOfTheSpectralMaster/1-05.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/1-05.htm",
+   "quest": 93,
+   "text": "Magister Kamilen: I need some Ice Crystals from the hot springs area to make the medicine to cure Sea of Spores Fever. I realize it's a lot of trouble, but could you get some for me? Go to the hot springs area and meet Chef Jeremy . Help him get some soy sauce, and he'll tell you where to find the …",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00093_SagaOfTheSpectralMaster/1-06.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/1-06.htm",
+   "quest": 93,
+   "text": "Magister Kamilen: In a hurry? Don't worry. It's ready. Here you are. Give this medicine to Summoner Noctisse . Tell her not to be so paranoid. It only makes her tired. Goodbye!",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/11-03.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/11-03.htm",
+   "quest": 98,
+   "text": "Magister Kamilen: You can get the next stone by killing the Archon of Halisha in the Four Sepulchers. You'll need help to gain entry. If that proves too difficult, go to the Shrine of the Loyal and slay Halisha's minions. If you collect 700 Halisha's Marks , the Archon will appear. The minions incl…",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/3-02.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/3-02.htm",
+   "quest": 98,
+   "text": "Magister Kamilen: I'll let you know the location of Ketra's Messenger Wahkan in the Ketra Orc Camp. First of all, you must gain trust of Ketra's Messenger Wahkan, and keep on working hard until you get the Divine Stone of Wisdom from Soul Guide Asefa who is the highest-ranking shaman of Ketra Orcs.",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/3-03.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/3-03.htm",
+   "quest": 98,
+   "text": "Magister Kamilen: I'll let you know the location of Varka's Messenger Naran Ashanuk in the Varka Silenos Camp. First of all, you must gain trust of Varka's Messenger Naran Ashanuk, and keep on working hard until you get the Divine Stone of Wisdom from Soul Guide Udan Mardui who is the highest-ranki…",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/3-07.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/3-07.htm",
+   "quest": 98,
+   "text": "Magister Kamilen: Saint Agnes spoke of the Divine Stone of Wisdom, a fragment of the Stone of Commune . Go to the Ketra Orcs or the Varka Silenos to get it. They know of its powerful magic, but not its exact use. They'll reward the wisest of their tribe with it. You'll have to earn the trust of Ase…",
+   "header": "Magister Kamilen",
+   "links": [
+    {
+     "text": "The Ketra Orcs",
+     "bypass": "Quest Q00098_SagaOfTheShillienSaint 3-6",
+     "kind": "quest-event",
+     "script": "Q00098_SagaOfTheShillienSaint",
+     "event": "3-6",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "The Varka Silenos",
+     "bypass": "Quest Q00098_SagaOfTheShillienSaint 3-7",
+     "kind": "quest-event",
+     "script": "Q00098_SagaOfTheShillienSaint",
+     "event": "3-7",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/3-03.htm"
+    }
+   ]
+  },
+  "Q00098_SagaOfTheShillienSaint/3-08.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/3-08.htm",
+   "quest": 98,
+   "text": "Magister Kamilen: Combine the two pieces... It's done! I will hand this over to you as Agnes told me. May you be blessed by the light. Take it to the Tablet of Vision on the north side of the Varka Silenos stronghold . I hope to see you again !",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/31287-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/31287-noteach.html",
+   "quest": null,
+   "text": "Magister Kamilen: Do you want to learn to become a mystic? Don't you realize that the magic skills you've learned are fundamentally different from the skills I'm using? If you're really a dark mystic, you should know at a glance what kind of magic another person is using!",
+   "header": "Magister Kamilen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/31287.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/31287.html",
+   "quest": null,
+   "text": "Magister Kamilen: No matter what people say about this place, it can't change the truth. Elmore is a defeated land, and Goddard Territory is a land of refugees. Once the people here accept this truth, they will become a much more powerful force.",
+   "header": "Magister Kamilen",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Storm Screamer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00090_SagaOfTheStormScreamer",
+     "kind": "quest",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/2-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Spectral Master (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00093_SagaOfTheSpectralMaster",
+     "kind": "quest",
+     "quest": 93,
+     "to": "Q00093_SagaOfTheSpectralMaster/1-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Shillien Saint (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00098_SagaOfTheShillienSaint",
+     "kind": "quest",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/3-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/31287-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/31287-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

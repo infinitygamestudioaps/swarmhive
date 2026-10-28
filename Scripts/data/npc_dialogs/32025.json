@@ -1,0 +1,186 @@
+{
+ "npcId": 32025,
+ "name": "Ilia",
+ "title": "Clan Trader",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.314Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/ClanTrader/32025-01.html",
+   "when": "",
+   "src": "ai ClanTrader"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/ClanTrader/32025-01.html": {
+   "file": "ai/npc/ClanTrader/32025-01.html",
+   "quest": null,
+   "text": "Clan Trader Ilia: I seek a partner to a blood oath, the most sacred pledge of allegiance! I will not release any item to anyone else! Our reputation depends on it!",
+   "header": "Clan Trader Ilia",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/ClanTrader/32025-02.html": {
+   "file": "ai/npc/ClanTrader/32025-02.html",
+   "quest": null,
+   "text": "Clan Trader Ilia: There are many ways to increase your clan's reputation, from capturing a castle or fortress in battle, to helping out wandering newbies. Protecting a territory is also laudable, and in that spirit I wish to make you an offer if you can bring me these items: 1 Blood Alliance to pro…",
+   "header": "Clan Trader Ilia",
+   "links": [
+    {
+     "text": "Provide 1 Blood Alliance.",
+     "bypass": "Quest ClanTrader exchange-ba",
+     "kind": "quest-event",
+     "script": "ClanTrader",
+     "event": "exchange-ba",
+     "to": "ai/npc/ClanTrader/32025-04.html",
+     "toAll": [
+      "ai/npc/ClanTrader/32025-04.html",
+      "ai/npc/ClanTrader/32025-03.html"
+     ]
+    },
+    {
+     "text": "Provide 10 Blood Oaths.",
+     "bypass": "Quest ClanTrader exchange-bo",
+     "kind": "quest-event",
+     "script": "ClanTrader",
+     "event": "exchange-bo",
+     "to": "ai/npc/ClanTrader/32025-04.html",
+     "toAll": [
+      "ai/npc/ClanTrader/32025-04.html",
+      "ai/npc/ClanTrader/32025-03.html"
+     ]
+    },
+    {
+     "text": "Provide 100 Knight's Epaulettes.",
+     "bypass": "Quest ClanTrader exchange-ke",
+     "kind": "quest-event",
+     "script": "ClanTrader",
+     "event": "exchange-ke",
+     "to": "ai/npc/ClanTrader/32025-04.html",
+     "toAll": [
+      "ai/npc/ClanTrader/32025-04.html",
+      "ai/npc/ClanTrader/32025-03.html"
+     ]
+    },
+    {
+     "text": "Back.",
+     "bypass": "Quest ClanTrader 32025.html",
+     "kind": "quest-event",
+     "script": "ClanTrader",
+     "event": "32025.html",
+     "to": "ai/npc/ClanTrader/32025.html"
+    }
+   ]
+  },
+  "ai/npc/ClanTrader/32025-03.html": {
+   "file": "ai/npc/ClanTrader/32025-03.html",
+   "quest": null,
+   "text": "Clan Trader Ilia: You have not brought a sufficient number of the items I requested to justify an increase in reputation.",
+   "header": "Clan Trader Ilia",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back.",
+     "bypass": "Quest ClanTrader 32025.html",
+     "kind": "quest-event",
+     "script": "ClanTrader",
+     "event": "32025.html",
+     "to": "ai/npc/ClanTrader/32025.html"
+    }
+   ]
+  },
+  "ai/npc/ClanTrader/32025-04.html": {
+   "file": "ai/npc/ClanTrader/32025-04.html",
+   "quest": null,
+   "text": "Clan Trader Ilia: Your reputation has been increased.",
+   "header": "Clan Trader Ilia",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back.",
+     "bypass": "Quest ClanTrader 32025.html",
+     "kind": "quest-event",
+     "script": "ClanTrader",
+     "event": "32025.html",
+     "to": "ai/npc/ClanTrader/32025.html"
+    }
+   ]
+  },
+  "ai/npc/ClanTrader/32025-05.html": {
+   "file": "ai/npc/ClanTrader/32025-05.html",
+   "quest": null,
+   "text": "Clan Trader Ilia: The maximum clan level for raising reputation is 5.",
+   "header": "Clan Trader Ilia",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back.",
+     "bypass": "Quest ClanTrader 32025.html",
+     "kind": "quest-event",
+     "script": "ClanTrader",
+     "event": "32025.html",
+     "to": "ai/npc/ClanTrader/32025.html"
+    }
+   ]
+  },
+  "ai/npc/ClanTrader/32025.html": {
+   "file": "ai/npc/ClanTrader/32025.html",
+   "quest": null,
+   "text": "Clan Trader Ilia: We swore the blood oath together, did we not? If you are that oath-holder, come speak with me.",
+   "header": "Clan Trader Ilia",
+   "links": [
+    {
+     "text": "Buy a Clan Item.",
+     "bypass": "npc_%objectId%_multisell 1235",
+     "kind": "multisell"
+    },
+    {
+     "text": "Upgrade a clan item.",
+     "bypass": "npc_%objectId%_multisell 1236",
+     "kind": "multisell"
+    },
+    {
+     "text": "Ask about Clan Reputation Points.",
+     "bypass": "Quest ClanTrader repinfo",
+     "kind": "quest-event",
+     "script": "ClanTrader",
+     "event": "repinfo",
+     "to": "ai/npc/ClanTrader/32025-02.html",
+     "toAll": [
+      "ai/npc/ClanTrader/32025-02.html",
+      "ai/npc/ClanTrader/32025-05.html"
+     ]
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

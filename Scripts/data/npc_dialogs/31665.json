@@ -1,0 +1,119 @@
+{
+ "npcId": 31665,
+ "name": "Corpse of Dwarf",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.266Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31665.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "31": {
+   "name": "Secret Buried in the Swamp",
+   "listText": [
+    "[Secret Buried in the Swamp]",
+    "[Secret Buried in the Swamp (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00031_SecretBuriedInTheSwamp/31665-01.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00031_SecretBuriedInTheSwamp/31665-03.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31665.htm": {
+   "file": "default/31665.htm",
+   "quest": null,
+   "text": "Corpse of Dwarf: A Dwarf lies half-buried in the mud, dead. Although he seems to have died recently, the stench of rotting flesh fills the air.",
+   "header": "Corpse of Dwarf",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00031_SecretBuriedInTheSwamp/31665-01.html": {
+   "file": "Q00031_SecretBuriedInTheSwamp/31665-01.html",
+   "quest": 31,
+   "text": "Corpse of Dwarf: The corpse of a male Dwarf, presumedly that of Researcher Krorin. Aparently he lost his life after being poisoned by a highly toxic substance he was exposed to in the swampland.",
+   "header": "Corpse of Dwarf",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "Examine the corpse.",
+     "bypass": "Quest Q00031_SecretBuriedInTheSwamp 31665-02.html",
+     "kind": "quest-event",
+     "script": "Q00031_SecretBuriedInTheSwamp",
+     "event": "31665-02.html",
+     "quest": 31,
+     "to": "Q00031_SecretBuriedInTheSwamp/31665-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00031_SecretBuriedInTheSwamp/31665-03.html": {
+   "file": "Q00031_SecretBuriedInTheSwamp/31665-03.html",
+   "quest": 31,
+   "text": "Corpse of Dwarf: There's nothing else.",
+   "header": "Corpse of Dwarf",
+   "when": [
+    "cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00031_SecretBuriedInTheSwamp/31665-02.html": {
+   "file": "Q00031_SecretBuriedInTheSwamp/31665-02.html",
+   "quest": 31,
+   "text": "Corpse of Dwarf: When you open the backpack that is still on the corpse, you find a waterproof lambskin-covered book. Various memos are written in it, and on one page you find a sloppily drawn Map that seems to be of the Swamp of Screams. Could this be the log mentioned by Mercenary Supplier Abercr…",
+   "header": "Corpse of Dwarf",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Secret Buried in the Swamp (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00031_SecretBuriedInTheSwamp",
+     "kind": "quest",
+     "quest": 31,
+     "to": "Q00031_SecretBuriedInTheSwamp/31665-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

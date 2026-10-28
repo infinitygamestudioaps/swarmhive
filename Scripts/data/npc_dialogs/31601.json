@@ -1,0 +1,219 @@
+{
+ "npcId": 31601,
+ "name": "Pamela Aprodia",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.241Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00099_SagaOfTheFortuneSeeker/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 99"
+  },
+  {
+   "page": "Q00099_SagaOfTheFortuneSeeker/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 99"
+  },
+  {
+   "page": "Q00099_SagaOfTheFortuneSeeker/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 99"
+  },
+  {
+   "page": "Q00099_SagaOfTheFortuneSeeker/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 99"
+  },
+  {
+   "page": "Q00099_SagaOfTheFortuneSeeker/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 99"
+  },
+  {
+   "page": "Q00099_SagaOfTheFortuneSeeker/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 99"
+  },
+  {
+   "page": "Q00099_SagaOfTheFortuneSeeker/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 99"
+  },
+  {
+   "page": "Q00099_SagaOfTheFortuneSeeker/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 99"
+  }
+ ],
+ "quests": {
+  "99": {
+   "name": "Saga of the Fortune Seeker",
+   "listText": [
+    "[Saga of the Fortune Seeker]",
+    "[Saga of the Fortune Seeker (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00099_SagaOfTheFortuneSeeker/4-04.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/4-04.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: It's Minelbia, the witch of the van Hacken family! Don't let her get away! Help! Hurry!",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/4-06.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/4-06.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: Wow! You killed her! I thought we were done for! Thank you for your help!",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"No big deal!\"",
+     "bypass": "Quest Q00099_SagaOfTheFortuneSeeker 4-1",
+     "kind": "quest-event",
+     "script": "Q00099_SagaOfTheFortuneSeeker",
+     "event": "4-1",
+     "quest": 99,
+     "to": "Q00099_SagaOfTheFortuneSeeker/4-010.htm"
+    }
+   ]
+  },
+  "Q00099_SagaOfTheFortuneSeeker/4-01.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/4-01.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: It's Minelbia, the witch of the van Hacken family! Don't let her get away! Help! Hurry!",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/4-03.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/4-03.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: It's Minelbia, the witch of the van Hacken family! She's escaped!",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/4-05.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/4-05.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: It's Minelbia, the witch of the van Hacken family! She's trying to get away!",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/4-07.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/4-07.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: I hate vampires!",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Why?\"",
+     "bypass": "Quest Q00099_SagaOfTheFortuneSeeker 4-2",
+     "kind": "quest-event",
+     "script": "Q00099_SagaOfTheFortuneSeeker",
+     "event": "4-2",
+     "quest": 99,
+     "to": "Q00099_SagaOfTheFortuneSeeker/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00099_SagaOfTheFortuneSeeker/4-02.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/4-02.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: It's Minelbia, the witch of the van Hacken family! She's trying to get away!",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/4-08.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/4-08.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: It's Minelbia, the witch of the van Hacken family! She's trying to get away! Hurry, let the Stone of Commune react with the tablet! Quickly, before more Benandantis come!",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/4-010.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/4-010.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: Ah, yes.... I took this from the witch's pocket... It's the sixth Stone of Commune! Hurry and take it to the last Tablet of Vision before more Benandantis come! I'm going to keep an eye on them. See you later!",
+   "header": "Pamela Aprodia",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00099_SagaOfTheFortuneSeeker 4-3",
+     "kind": "quest-event",
+     "script": "Q00099_SagaOfTheFortuneSeeker",
+     "event": "4-3",
+     "quest": 99,
+     "to": null,
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00099_SagaOfTheFortuneSeeker/4-011.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/4-011.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: Ah, yes.... I took this from the witch's pocket... It's the sixth Stone of Commune! Hurry and take it to the last Tablet of Vision before more Benandantis come!",
+   "header": "Pamela Aprodia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/4-09.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/4-09.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: Let the Stone of Commune react with the tablet! Quickly, before more Benandantis come!",
+   "header": "Pamela Aprodia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Fortune Seeker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00099_SagaOfTheFortuneSeeker",
+     "kind": "quest",
+     "quest": 99,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

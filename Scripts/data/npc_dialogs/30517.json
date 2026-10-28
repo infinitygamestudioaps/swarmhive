@@ -1,0 +1,270 @@
+{
+ "npcId": 30517,
+ "name": "Shari",
+ "title": "Armor Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.989Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30517.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "5": {
+   "name": "Miner's Favor",
+   "listText": [
+    "[Miner's Favor]",
+    "[Miner's Favor (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00005_MinersFavor/30517-02.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00005_MinersFavor/30517-01.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30517-01.html",
+     "when": "state STARTED; has items 3239,3246; lacks items 3258,3252,3247",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30517-02.html",
+     "when": "state STARTED; has items 3239,3246,3258,3252,3247; lacks items 3247,3258",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "417": {
+   "name": "Path Of The Scavenger",
+   "listText": [
+    "[Path of the Scavenger]",
+    "[Path of the Scavenger (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00417_PathOfTheScavenger/30517-01.html",
+     "when": "state STARTED; has items 1648; !(qs.isCreated() || qs.isCompleted()); qs.getMemoStateEx(1) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30517-02.html",
+     "when": "state STARTED; has items 1648; !(qs.isCreated() || qs.isCompleted()); !qs.getMemoStateEx(1) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30517-03.html",
+     "when": "state STARTED; has items 1651; lacks items 1648; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30517.htm": {
+   "file": "merchant/30517.htm",
+   "quest": null,
+   "text": "Armor Merchant Shari: Psst, take a look at these items... Too expensive? Don't you know these Dwarven-crafted items are sold at a premium in other places? What a bunch of country bumpkins...",
+   "header": "Armor Merchant Shari",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30517-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3051700",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3051701",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30517-1.htm": {
+   "file": "merchant/30517-1.htm",
+   "quest": null,
+   "text": "Armor Merchant Shari: Can I sell you something, sir? Just tell me what you want.",
+   "header": "Armor Merchant Shari",
+   "links": [
+    {
+     "text": "Buy Fighter equipment.",
+     "bypass": "npc_%objectId%_Buy 3051700",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard equipment.",
+     "bypass": "npc_%objectId%_Buy 3051701",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "merchant/30517-pk.htm": {
+   "file": "merchant/30517-pk.htm",
+   "quest": null,
+   "text": "Armor Merchant Shari: Ahem, my name is Shari. They say it's not an appropriate name for a girl, but I'm proud of it. I was an orphan, but I'm pretty successful now, having my own shop. When I first started working for this store, many people were jealous of my talent. But I won them over with my pe…",
+   "header": "Armor Merchant Shari",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00005_MinersFavor/30517-02.html": {
+   "file": "Q00005_MinersFavor/30517-02.html",
+   "quest": 5,
+   "text": "Trader Shari: I gave you a sack of Boomboom Powder, right? Hurry and take it to Miner Bolter. And be sure not to get it near any open flame, or getting Bolter's reward will be the least of your worries!",
+   "header": "Trader Shari",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00005_MinersFavor/30517-01.html": {
+   "file": "Q00005_MinersFavor/30517-01.html",
+   "quest": 5,
+   "text": "Trader Shari: Bolter sent you, eh? Lessee here...oh, he ordered some Boomboom Powder a few days ago. Last time he used too much while trying to blast a new mine entrance and singed his beard! Hopefully he'll be more careful with this batch. Here you go: 1 sack of Boomboom Powder. Please don't drop …",
+   "header": "Trader Shari",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30517-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30517-01.html",
+   "quest": 221,
+   "text": "Trader Shari: Yes, I know I need to pay my dues . But...well, my sales are way down lately. What can I do? I can't very well pay if I don't have the money, can I? I suppose I could borrow the money... In fact, I just took out a loan I was hoping to use to buy some new inventory. Oh, well...take it!…",
+   "header": "Trader Shari",
+   "when": [
+    "state STARTED; has items 3239,3246; lacks items 3258,3252,3247"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30517-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30517-02.html",
+   "quest": 221,
+   "text": "Trader Shari: Sob! What shall I do? How will I survive?",
+   "header": "Trader Shari",
+   "when": [
+    "state STARTED; has items 3239,3246,3258,3252,3247; lacks items 3247,3258"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30517-01.html": {
+   "file": "Q00417_PathOfTheScavenger/30517-01.html",
+   "quest": 417,
+   "text": "Trader Shari: Oh, it's finally arrived! Thank you, thank you! Here is your payment. Please tell Mion I'm very grateful!",
+   "header": "Trader Shari",
+   "when": [
+    "state STARTED; has items 1648; !(qs.isCreated() || qs.isCompleted()); qs.getMemoStateEx(1) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30517-02.html": {
+   "file": "Q00417_PathOfTheScavenger/30517-02.html",
+   "quest": 417,
+   "text": "Trader Shari: Oh, it's finally arrived! Thank you a! Here is the payment... (Tsk, tsk...poor fool, to be victimized by Mion!) What's that? Was that out loud? Oh, I was just talking to myself, friend -- just...figuring out some shelving issues...",
+   "header": "Trader Shari",
+   "when": [
+    "state STARTED; has items 1648; !(qs.isCreated() || qs.isCompleted()); !qs.getMemoStateEx(1) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30517-03.html": {
+   "file": "Q00417_PathOfTheScavenger/30517-03.html",
+   "quest": 417,
+   "text": "Trader Shari: Give the payment to Mion, please. Be sure to say how grateful I am. Well, you'd best be on your way. Good day!",
+   "header": "Trader Shari",
+   "when": [
+    "state STARTED; has items 1651; lacks items 1648; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Miner's Favor (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00005_MinersFavor",
+     "kind": "quest",
+     "quest": 5,
+     "to": "Q00005_MinersFavor/30517-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30517-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Scavenger (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00417_PathOfTheScavenger",
+     "kind": "quest",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30517-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

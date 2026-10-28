@@ -1,0 +1,218 @@
+{
+ "npcId": 31629,
+ "name": "Kaleidos the Unicorn",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.248Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00092_SagaOfTheElementalMaster/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 92"
+  },
+  {
+   "page": "Q00092_SagaOfTheElementalMaster/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 92"
+  },
+  {
+   "page": "Q00092_SagaOfTheElementalMaster/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 92"
+  },
+  {
+   "page": "Q00092_SagaOfTheElementalMaster/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 92"
+  },
+  {
+   "page": "Q00092_SagaOfTheElementalMaster/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 92"
+  },
+  {
+   "page": "Q00092_SagaOfTheElementalMaster/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 92"
+  },
+  {
+   "page": "Q00092_SagaOfTheElementalMaster/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 92"
+  },
+  {
+   "page": "Q00092_SagaOfTheElementalMaster/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 92"
+  }
+ ],
+ "quests": {
+  "92": {
+   "name": "Saga of the Elemental Master",
+   "listText": [
+    "[Saga of the Elemental Master]",
+    "[Saga of the Elemental Master (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00092_SagaOfTheElementalMaster/4-04.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/4-04.htm",
+   "quest": 92,
+   "text": "Unicorn Kaleidos: Help, or I'll miss the hound dog!",
+   "header": "Unicorn Kaleidos",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/4-06.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/4-06.htm",
+   "quest": 92,
+   "text": "Unicorn Kaleidos: Radyss sent me. Kelvas has been hounding my race a lot, now I've bested him.",
+   "header": "Unicorn Kaleidos",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"OK.\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 4-1",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "4-1",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/4-010.htm"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/4-01.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/4-01.htm",
+   "quest": 92,
+   "text": "Unicorn Kaleidos: Help, or I'll miss the hound dog!",
+   "header": "Unicorn Kaleidos",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/4-03.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/4-03.htm",
+   "quest": 92,
+   "text": "Unicorn Kaleidos: You missed, better luck next time.",
+   "header": "Unicorn Kaleidos",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/4-05.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/4-05.htm",
+   "quest": 92,
+   "text": "Unicorn Kaleidos: I can't miss the hound dog!",
+   "header": "Unicorn Kaleidos",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/4-07.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/4-07.htm",
+   "quest": 92,
+   "text": "Unicorn Kaleidos: Radyss sent me.",
+   "header": "Unicorn Kaleidos",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"OK.\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 4-2",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "4-2",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/4-02.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/4-02.htm",
+   "quest": 92,
+   "text": "Unicorn Kaleidos: I can't miss the hound dog!",
+   "header": "Unicorn Kaleidos",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/4-08.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/4-08.htm",
+   "quest": 92,
+   "text": "Unicorn Kaleidos: Don't miss the hound dog. Commune with the tablet using the stone I gave you!",
+   "header": "Unicorn Kaleidos",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/4-010.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/4-010.htm",
+   "quest": 92,
+   "text": "Unicorn Kaleidos: Take this, Kelvas dropped it. I have to go back to my master Radyss and be there when he falls asleep.",
+   "header": "Unicorn Kaleidos",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 4-3",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "4-3",
+     "quest": 92,
+     "to": null
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/4-011.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/4-011.htm",
+   "quest": 92,
+   "text": "Unicorn Kaleidos: Take this, Kelvas dropped it. I have to go back to my master Radyss and be there when he falls asleep.",
+   "header": "Unicorn Kaleidos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/4-09.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/4-09.htm",
+   "quest": 92,
+   "text": "Unicorn Kaleidos: Commune with the tablet using the stone I gave you.",
+   "header": "Unicorn Kaleidos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Elemental Master (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00092_SagaOfTheElementalMaster",
+     "kind": "quest",
+     "quest": 92,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

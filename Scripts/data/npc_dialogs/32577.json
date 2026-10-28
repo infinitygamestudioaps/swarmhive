@@ -1,0 +1,93 @@
+{
+ "npcId": 32577,
+ "name": "Password Entry Device",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.388Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00195_SevenSignsSecretRitualOfThePriests/32577-01.html",
+   "when": "",
+   "src": "quest 195"
+  }
+ ],
+ "quests": {
+  "195": {
+   "name": "Seven Signs, Secret Ritual of the Priests",
+   "listText": [
+    "[Seven Signs, Secret Ritual of the Priests]",
+    "[Seven Signs, Secret Ritual of the Priests (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00195_SevenSignsSecretRitualOfThePriests/32577-02.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "Q00195_SevenSignsSecretRitualOfThePriests/32577-01.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/32577-01.html",
+   "quest": 195,
+   "text": "Code Input Device: To access the library archives, you must enter the correct passcode. Do so now.",
+   "header": "Code Input Device",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Code Input 72.79.78.71",
+     "bypass": "npc_%objectId%_Quest SanctumOftheLordsOfDawn",
+     "kind": "quest",
+     "script": "SanctumOftheLordsOfDawn"
+    },
+    {
+     "text": "Code Input 72.76.78.71",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    },
+    {
+     "text": "Code Input 72.79.79.71",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/32577-02.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/32577-02.html",
+   "quest": 195,
+   "text": "Code Input Device: The code is incorrect. Try again.",
+   "header": "Code Input Device",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Secret Ritual of the Priests (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00195_SevenSignsSecretRitualOfThePriests",
+     "kind": "quest",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/32577-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

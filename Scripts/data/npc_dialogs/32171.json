@@ -1,0 +1,58 @@
+{
+ "npcId": 32171,
+ "name": "Hoffa",
+ "title": "Warehouse Chief",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:03.350Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "villagemaster/32171.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "villagemaster/32171.htm": {
+   "file": "villagemaster/32171.htm",
+   "quest": null,
+   "text": "Warehouse Chief Hoffa: I'm Hoffa, the Warehouse Chief in charge of this place. Actually, the real Warehouse Chief is working at the embassy, but he's much too busy... So I have the contract for this Kamael Village warehouse now. You can trust me, I promise! So what brings you here?",
+   "header": "Warehouse Chief Hoffa",
+   "links": [
+    {
+     "text": "Listen to information about 1st class transfer.",
+     "bypass": "npc_%objectId%_Quest FirstClassTransferTalk",
+     "kind": "quest",
+     "script": "FirstClassTransferTalk",
+     "to": null
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

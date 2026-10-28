@@ -1,0 +1,102 @@
+{
+ "npcId": 30703,
+ "name": "Colin",
+ "title": "Guild President",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.056Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30703.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/30703.htm": {
+   "file": "default/30703.htm",
+   "quest": null,
+   "text": "Hunters Guild Member Colin: Hey, you look familiar! What brings you to the Hunters Guild? Are you here to join the guild? Well, we aren't accepting any new members. Or could it be that you are here for something else? Ask anything, I will attempt to answer your questions with the utmost respect.",
+   "header": "Hunters Guild Member Colin",
+   "links": [
+    {
+     "text": "Tell me about the Hunters Guild.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30703-1.htm"
+    },
+    {
+     "text": "Tell me about the geographical features of the village.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30703-2.htm"
+    },
+    {
+     "text": "Where is a good place to hunt?",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/30703-3.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30703-1.htm": {
+   "file": "default/30703-1.htm",
+   "quest": null,
+   "text": "Hunters Guild Member Colin: The Hunters Guild is a brotherhood of extraordinary Hunters. We are professionals, constantly honing our skills... We hunt prey never imaginated by tipical hunters... You will know the details soon... the Hunters Guild is a somewhat autonomous. Even though Castle Aden ha…",
+   "header": "Hunters Guild Member Colin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30703.htm"
+    }
+   ]
+  },
+  "default/30703-2.htm": {
+   "file": "default/30703-2.htm",
+   "quest": null,
+   "text": "Hunters Guild Member Colin: The town's geographical features? Oh my... Lazy aren't you? Have you no legs? Well, as you already probably know, the town is to the northwest, and the southeast... It is divided into two large areas like this. The shops are lined up above, and several guilds are situate…",
+   "header": "Hunters Guild Member Colin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30703.htm"
+    }
+   ]
+  },
+  "default/30703-3.htm": {
+   "file": "default/30703-3.htm",
+   "quest": null,
+   "text": "Hunters Guild Member Colin: The most wonderful place around here is the Enchanted Valley! If you leave town on the northwest road, you will get there right away. The scenery is wonderful and you will find many kinds of unique game. Even though our union has priority hunting privileges, we don't sto…",
+   "header": "Hunters Guild Member Colin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30703.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

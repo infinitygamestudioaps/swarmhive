@@ -1,0 +1,327 @@
+{
+ "npcId": 30567,
+ "name": "Tantus",
+ "title": "Neruga Chief",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.002Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30567.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "232": {
+   "name": "Test Of The Lord",
+   "listText": [
+    "[Test of the Lord]",
+    "[Test of the Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00232_TestOfTheLord/30567-01.html",
+     "when": "state STARTED; has items 3391; lacks items 3406,3393",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30567-03.html",
+     "when": "state STARTED; has items 3391,3393; lacks items 3406; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, AXE_OF_CEREMONY, TANTUS_CHARM)); (!hasQuestItems(player, NERUGA_AXE_BLADE) || (getQuestItemsCount(player, BONE_ARROW) < 1000))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30567-04.html",
+     "when": "state STARTED; has items 3391,3393; lacks items 3406; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, AXE_OF_CEREMONY, TANTUS_CHARM)); !(!hasQuestItems(player, NERUGA_AXE_BLADE) || (getQuestItemsCount(player, BONE_ARROW) < 1000))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30567-05.html",
+     "when": "state STARTED; has items 3391,3406; lacks items 3393; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, AXE_OF_CEREMONY, TANTUS_CHARM)); !(hasQuestItems(player, ORDEAL_NECKLACE, TANTUS_CHARM) && !hasQuestItems(player, AXE_OF_CEREMONY))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "275": {
+   "name": "Dark Winged Spies",
+   "listText": [
+    "[Dark Winged Spies]",
+    "[Dark Winged Spies (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00275_DarkWingedSpies/30567-02.htm",
+     "when": "state CREATED; (talker.getRace() == Race.ORC); (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00275_DarkWingedSpies/30567-01.htm",
+     "when": "state CREATED; (talker.getRace() == Race.ORC); NOT (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00275_DarkWingedSpies/30567-00.htm",
+     "when": "state CREATED; NOT (talker.getRace() == Race.ORC)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00275_DarkWingedSpies/30567-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00275_DarkWingedSpies/30567-05.html",
+     "when": "state STARTED; cond 2; count >= DARKWING_BAT_FANG.getLimit()",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30567.htm": {
+   "file": "default/30567.htm",
+   "quest": null,
+   "text": "Neruga Chief Tantus: Tejakar Paagrio! Praise the name of the Flame! This Immortal Plateau has been our sacred ground from ancient times, but while I, Tantus, was living among the humans of the Kingdom of Elmore , foreign invaders and Orc traitors brought disgrace to this land! Now I am back, and I …",
+   "header": "Neruga Chief Tantus",
+   "links": [
+    {
+     "text": "Ask about foreign invasions",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30567-1.htm"
+    },
+    {
+     "text": "Ask about the Kingdom of Elmore",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30567-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30567-1.htm": {
+   "file": "default/30567-1.htm",
+   "quest": null,
+   "text": "Neruga Chief Tantus: Dirty goblins! Imps with their bizarre rake hands! And impudent wolves of Maraku! I cannot believe there are so many invaders on the most sacred ground! I, Tantus, the chief of Neruga, will not accept this situation!",
+   "header": "Neruga Chief Tantus",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30567.htm"
+    }
+   ]
+  },
+  "default/30567-2.htm": {
+   "file": "default/30567-2.htm",
+   "quest": null,
+   "text": "Neruga Chief Tantus: Elmore is the Kingdom of the Humans that controls the northern part of the continent -- land that used to be under our control! This inferior race, who used to be our humble slaves, now dominates the continent. How ridiculous! But they will not last long! The legions of the Orc…",
+   "header": "Neruga Chief Tantus",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30567.htm"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30567-01.html": {
+   "file": "Q00232_TestOfTheLord/30567-01.html",
+   "quest": 232,
+   "text": "Neruga Chief Tantus: Tejakar Pa'agrio! Praise the Lord of the Flame! I see by the necklace you are wearing that you are a Sorcerer undergoing the Test of the Lord! I, Tantus, undefeated Chief of the Neruga tribe shall teach you... The bond that ties all tribes and kinships together is not blood but…",
+   "header": "Neruga Chief Tantus",
+   "when": [
+    "state STARTED; has items 3391; lacks items 3406,3393"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Neruga tribe's totem",
+     "bypass": "Quest Q00232_TestOfTheLord 30567-02.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30567-02.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30567-02.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30567-03.html": {
+   "file": "Q00232_TestOfTheLord/30567-03.html",
+   "quest": 232,
+   "text": "Neruga Chief Tantus: Didn't you hear me?! Bring me the Negura axe blade and one thousand Bone Arrows! Didn't I tell you? Ask Trader Jakal about the axe blade!",
+   "header": "Neruga Chief Tantus",
+   "when": [
+    "state STARTED; has items 3391,3393; lacks items 3406; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, AXE_OF_CEREMONY, TANTUS_CHARM)); (!hasQuestItems(player, NERUGA_AXE_BLADE) || (getQuestItemsCount(player, BONE_ARROW) < 1000))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30567-04.html": {
+   "file": "Q00232_TestOfTheLord/30567-04.html",
+   "quest": 232,
+   "text": "Neruga Chief Tantus: Young one, you have found the materials needed for making the totem of Neruga. I bet you have learned much about the spirit of the Neruga tribe! Now I, Tantus, the chief of the Neruga tribe shall give you the 'Axe of Ceremony.' It is proof that the Neruga Chief has acknowledged…",
+   "header": "Neruga Chief Tantus",
+   "when": [
+    "state STARTED; has items 3391,3393; lacks items 3406; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, AXE_OF_CEREMONY, TANTUS_CHARM)); !(!hasQuestItems(player, NERUGA_AXE_BLADE) || (getQuestItemsCount(player, BONE_ARROW) < 1000))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30567-05.html": {
+   "file": "Q00232_TestOfTheLord/30567-05.html",
+   "quest": 232,
+   "text": "Neruga Chief Tantus: Didn't you already receive the 'Axe of Ceremony'? Upon receiving the totem, it means that you have been acknowledged by the Neruga Chief! So, go now and show the Axe of Ceremony to the Flame Lord!",
+   "header": "Neruga Chief Tantus",
+   "when": [
+    "state STARTED; has items 3391,3406; lacks items 3393; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, AXE_OF_CEREMONY, TANTUS_CHARM)); !(hasQuestItems(player, ORDEAL_NECKLACE, TANTUS_CHARM) && !hasQuestItems(player, AXE_OF_CEREMONY))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00275_DarkWingedSpies/30567-02.htm": {
+   "file": "Q00275_DarkWingedSpies/30567-02.htm",
+   "quest": 275,
+   "text": "Neruga Chief Tantus: The identity of the one stirring up goblins and werewolves, and controlling Rakeclaw Imps has been unmasked. He is called Varangka , a disgraced mage banished from the Kingdom a few years ago. He decided to seek revenge upon us to wipe away his shame and humiliation by conspiri…",
+   "header": "Neruga Chief Tantus",
+   "when": [
+    "state CREATED; (talker.getRace() == Race.ORC); (talker.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will collect the fangs.",
+     "bypass": "Quest Q00275_DarkWingedSpies 30567-03.htm",
+     "kind": "quest-event",
+     "script": "Q00275_DarkWingedSpies",
+     "event": "30567-03.htm",
+     "quest": 275,
+     "to": "Q00275_DarkWingedSpies/30567-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00275_DarkWingedSpies/30567-01.htm": {
+   "file": "Q00275_DarkWingedSpies/30567-01.htm",
+   "quest": 275,
+   "text": "Neruga Chief Tantus: The identity of the one stirring up goblins and werewolves, and controlling Rakeclaw Imps has been unmasked. He is called Varangka , a disgraced mage banished from the Kingdom a few years ago. He decided to seek revenge upon us to wipe away his shame and humiliation by conspiri…",
+   "header": "Neruga Chief Tantus",
+   "when": [
+    "state CREATED; (talker.getRace() == Race.ORC); NOT (talker.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00275_DarkWingedSpies/30567-00.htm": {
+   "file": "Q00275_DarkWingedSpies/30567-00.htm",
+   "quest": 275,
+   "text": "Neruga Chief Tantus: I am Chief Tantus of the great Neruga Tribe! The tasks I give are difficult ones that can only be carried out by the strongest fighters. They are all much too strenuous to entrust to a weak stranger like you! (Quest for Orcish characters.)",
+   "header": "Neruga Chief Tantus",
+   "when": [
+    "state CREATED; NOT (talker.getRace() == Race.ORC)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00275_DarkWingedSpies/30567-05.html": {
+   "file": "Q00275_DarkWingedSpies/30567-05.html",
+   "quest": 275,
+   "text": "Neruga Chief Tantus: Well done! With this, we can cast a shield around the king's hall and surrounding buildings for the time being, to prevent the secret agents of Varangka from peeking in. Before we can dispatch an expedition team to deal with Varangka, they must first receive the protection of t…",
+   "header": "Neruga Chief Tantus",
+   "when": [
+    "state STARTED; cond 1",
+    "state STARTED; cond 2; count >= DARKWING_BAT_FANG.getLimit()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30567-02.html": {
+   "file": "Q00232_TestOfTheLord/30567-02.html",
+   "quest": 232,
+   "text": "Neruga Chief Tantus: Are you sure you know nothing about the Neruga tribe's totem? The totem of the undefeated Nerugas, the people who take pride in our long history, is the 'axe and arrow!' This symbol contains the spirit of the Nerugas who never back off, until we have defeated our enemy! The mat…",
+   "header": "Neruga Chief Tantus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00275_DarkWingedSpies/30567-03.htm": {
+   "file": "Q00275_DarkWingedSpies/30567-03.htm",
+   "quest": 275,
+   "text": "Neruga Chief Tantus: Kill the darkwing bats and bring their fangs. Fangs should not be broken or scratched! Bring only the intact ones; a total of seventy fangs are required. As long as the darkwing bats act as the eyes and ears of Varangka, he can see every move we make. We should make him go blin…",
+   "header": "Neruga Chief Tantus",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00275_DarkWingedSpies/30567-04.html": {
+   "file": "Q00275_DarkWingedSpies/30567-04.html",
+   "quest": 275,
+   "text": "Neruga Chief Tantus: You must collect seventy fangs of the darkwing bats. That's the only way to complete the protection shield that will keep the bats from approaching. As long as the darkwing bats become the eyes and ears of Varangka, he can see every move that we make. We cannot defeat him until…",
+   "header": "Neruga Chief Tantus",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00232_TestOfTheLord",
+     "kind": "quest",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30567-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Dark Winged Spies]",
+     "bypass": "npc_%objectId%_Quest Q00275_DarkWingedSpies",
+     "kind": "quest",
+     "quest": 275,
+     "to": "Q00275_DarkWingedSpies/30567-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Dark Winged Spies (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00275_DarkWingedSpies",
+     "kind": "quest",
+     "quest": 275,
+     "to": "Q00275_DarkWingedSpies/30567-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

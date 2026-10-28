@@ -1,0 +1,82 @@
+{
+ "npcId": 30254,
+ "name": "Harmony",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.918Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30254.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30254.htm": {
+   "file": "merchant/30254.htm",
+   "quest": null,
+   "text": "Trader Harmony: Oh, the birds are singing and the sun is shining! What a beautiful day! Oh, a customer! I didn't see you there! Well, what can I do for you on this fine day, my friend?",
+   "header": "Trader Harmony",
+   "links": [
+    {
+     "text": "Buy supplies and minerals.",
+     "bypass": "npc_%objectId%_Buy 3025400",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy dyes.",
+     "bypass": "npc_%objectId%_Buy 3025401",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30254-pk.htm": {
+   "file": "merchant/30254-pk.htm",
+   "quest": null,
+   "text": "Trader Harmony: Oh! Oh! Oh! I am so pleased to meet you! Aren't you the famous fugitive that has the whole village gossiping? How did you fool the guards? I can't believe I'm seeing you in person. Hmm ... What should I ask you first? Just why are the village guards looking for you anyway? You punis…",
+   "header": "Trader Harmony",
+   "links": [
+    {
+     "text": "Next",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": null
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Buy/Sell/Refund General."
+ ],
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund General.",
+   "n": 16,
+   "inDatapack": false,
+   "from": [
+    "Trader Harmony:My home, where the beautiful birds sing...Oh "
+   ],
+   "to": []
+  }
+ ]
+}

@@ -1,0 +1,338 @@
+{
+ "npcId": 30437,
+ "name": "Rolento",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.978Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30437.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "171": {
+   "name": "Acts Of Evil",
+   "listText": [
+    "[Acts of Evil]",
+    "[Acts of Evil (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00171_ActsOfEvil/30437-02.html",
+     "when": "state STARTED; memo 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30437-05.html",
+     "when": "state STARTED; memo 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30437-06.html",
+     "when": "state STARTED; memoState >= 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "329": {
+   "name": "Curiosity Of A Dwarf",
+   "listText": [
+    "[Curiosity of a Dwarf]",
+    "[Curiosity of a Dwarf (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00329_CuriosityOfADwarf/30437-02.htm",
+     "when": "state CREATED; player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00329_CuriosityOfADwarf/30437-01.htm",
+     "when": "state CREATED; NOT player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00329_CuriosityOfADwarf/30437-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00329_CuriosityOfADwarf/30437-04.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30437.htm": {
+   "file": "merchant/30437.htm",
+   "quest": null,
+   "text": "Trade Rolento: I'm Rolento, a member of the Silver Scales Guild. I was sent here because there's no better trading spot than here, since it connects Giran with Gludin Harbor. Not very scenic, but good for business. So...how can I help you today?",
+   "header": "Trade Rolento",
+   "links": [
+    {
+     "text": "Buy supplies and minerals.",
+     "bypass": "npc_%objectId%_Buy 3043700",
+     "kind": "shop"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30437-pk.htm": {
+   "file": "merchant/30437-pk.htm",
+   "quest": null,
+   "text": "Trader Rolento: I do not deal with people like you.",
+   "header": "Trader Rolento",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30437-02.html": {
+   "file": "Q00171_ActsOfEvil/30437-02.html",
+   "quest": 171,
+   "text": "Trader Rolento: Ah, yes, this is my Contract. Is there a problem? What do you mean the Ol Mahums? What are you talking about? No way! That's not what happened...! Listen to me for a minute! A while back an Ol Mahum general came to me looking for a gift for the orcs. Apparently they had signed a pea…",
+   "header": "Trader Rolento",
+   "when": [
+    "state STARTED; memo 8"
+   ],
+   "links": [
+    {
+     "text": "Tell him about the invasion plans of the Turek orcs.",
+     "bypass": "Quest Q00171_ActsOfEvil 30437-03.html",
+     "kind": "quest-event",
+     "script": "Q00171_ActsOfEvil",
+     "event": "30437-03.html",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30437-03.html"
+    }
+   ]
+  },
+  "Q00171_ActsOfEvil/30437-05.html": {
+   "file": "Q00171_ActsOfEvil/30437-05.html",
+   "quest": 171,
+   "text": "Trader Rolento: Why are you still here? Have you already forgotten our plan? Take the weapons to the Orc Barracks . Tell Turek Chief Burai of the Ol Mahums' treachery. The orcs will take care of them. Keep the mark of the Silver Scale guild with you always! When you show it to them, they will know …",
+   "header": "Trader Rolento",
+   "when": [
+    "state STARTED; memo 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30437-06.html": {
+   "file": "Q00171_ActsOfEvil/30437-06.html",
+   "quest": 171,
+   "text": "Trader Rolento: What happened? I knew it! They should keep each other busy for a while! Har har! You saved me on that one. I owe you one, buddy.",
+   "header": "Trader Rolento",
+   "when": [
+    "state STARTED; memoState >= 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00329_CuriosityOfADwarf/30437-02.htm": {
+   "file": "Q00329_CuriosityOfADwarf/30437-02.htm",
+   "quest": 329,
+   "text": "Trader Rolento: As Elves are infatuated with poetry and songs and Orcs rave over war, we Dwarves love to make things with our very own hands. Ever since I was young, I immensely enjoyed fooling around with toys with springs or pocket watches. My dream is to make a golem with my own hands someday. H…",
+   "header": "Trader Rolento",
+   "when": [
+    "state CREATED; player.getLevel() >= MIN_LEVEL"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00329_CuriosityOfADwarf 30437-03.htm",
+     "kind": "quest-event",
+     "script": "Q00329_CuriosityOfADwarf",
+     "event": "30437-03.htm",
+     "quest": 329,
+     "to": "Q00329_CuriosityOfADwarf/30437-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00329_CuriosityOfADwarf/30437-01.htm": {
+   "file": "Q00329_CuriosityOfADwarf/30437-01.htm",
+   "quest": 329,
+   "text": "Trader Rolento: As Elves are infatuated with poetry and songs and Orcs rave over war, we Dwarves love to make things with our very own hands. Ever since I was young, I immensely enjoyed fooling around with toys with springs or pocket watches. My dream is to make a golem with my own hands some day. …",
+   "header": "Trader Rolento",
+   "when": [
+    "state CREATED; NOT player.getLevel() >= MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00329_CuriosityOfADwarf/30437-05.html": {
+   "file": "Q00329_CuriosityOfADwarf/30437-05.html",
+   "quest": 329,
+   "text": "Trader Rolento: Oh, you have found some! I will reveal whether or not the power to move rocks like living humans for hundreds of years lies within this small stone. I must begin my research immediately -- starting tonight. Although it is difficult because I do not have any proper tools or measuring…",
+   "header": "Trader Rolento",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00329_CuriosityOfADwarf 30437-06.html",
+     "kind": "quest-event",
+     "script": "Q00329_CuriosityOfADwarf",
+     "event": "30437-06.html",
+     "quest": 329,
+     "to": "Q00329_CuriosityOfADwarf/30437-06.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00329_CuriosityOfADwarf 30437-07.html",
+     "kind": "quest-event",
+     "script": "Q00329_CuriosityOfADwarf",
+     "event": "30437-07.html",
+     "quest": 329,
+     "to": "Q00329_CuriosityOfADwarf/30437-07.html"
+    }
+   ]
+  },
+  "Q00329_CuriosityOfADwarf/30437-04.html": {
+   "file": "Q00329_CuriosityOfADwarf/30437-04.html",
+   "quest": 329,
+   "text": "Trader Rolento: Oh dear, your hands are still empty. As I already told you, I need the heartstones of granite golems and punchers . Please go to the Wastelands and find heartstones for me.",
+   "header": "Trader Rolento",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00329_CuriosityOfADwarf 30437-06.html",
+     "kind": "quest-event",
+     "script": "Q00329_CuriosityOfADwarf",
+     "event": "30437-06.html",
+     "quest": 329,
+     "to": "Q00329_CuriosityOfADwarf/30437-06.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00329_CuriosityOfADwarf 30437-07.html",
+     "kind": "quest-event",
+     "script": "Q00329_CuriosityOfADwarf",
+     "event": "30437-07.html",
+     "quest": 329,
+     "to": "Q00329_CuriosityOfADwarf/30437-07.html"
+    }
+   ]
+  },
+  "Q00171_ActsOfEvil/30437-03.html": {
+   "file": "Q00171_ActsOfEvil/30437-03.html",
+   "quest": 171,
+   "text": "Trader Rolento: He told me that the weapons would be used for hunting! He said that the Turek orcs were starving in the snow and needed the weapons to hunt wild hogs! He didn't say anything about an invasion. This is the first I've heard of that! Please believe me! Sigh! And I thought I had really …",
+   "header": "Trader Rolento",
+   "links": [
+    {
+     "text": "\"Tell me about your plan.\"",
+     "bypass": "Quest Q00171_ActsOfEvil 30437-04.html",
+     "kind": "quest-event",
+     "script": "Q00171_ActsOfEvil",
+     "event": "30437-04.html",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30437-04.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00171_ActsOfEvil/30437-04.html": {
+   "file": "Q00171_ActsOfEvil/30437-04.html",
+   "quest": 171,
+   "text": "Trader Rolento: Go to the Orc Barracks and deliver the weapons. You'll meet Turek Chief Burai there. Tell him of the Ol Mahums treachery. That should set his blood to boil! Take this mark from the Silver Scale Guild, and this Cargo Box as well. Don't worry. It's filled with crude weapons made of ch…",
+   "header": "Trader Rolento",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00329_CuriosityOfADwarf/30437-03.htm": {
+   "file": "Q00329_CuriosityOfADwarf/30437-03.htm",
+   "quest": 329,
+   "text": "Trader Rolento: Good! We understand each other well. Actually, I recently had a chance to see a destroyed granite golem, and within the remains I saw a piece of stone of a different hue. I asked Sarien, who has profound knowledge of magic, and he said the stone was a heartstone . I found out that a…",
+   "header": "Trader Rolento",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00329_CuriosityOfADwarf/30437-06.html": {
+   "file": "Q00329_CuriosityOfADwarf/30437-06.html",
+   "quest": 329,
+   "text": "Trader Rolento: I'm sorry that you are quitting, it is too bad. I'll have to ask someone else. Thanks anyway. May the divine blessing of Maphr, our God of the Earth, be with you!",
+   "header": "Trader Rolento",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00329_CuriosityOfADwarf/30437-07.html": {
+   "file": "Q00329_CuriosityOfADwarf/30437-07.html",
+   "quest": 329,
+   "text": "Trader Rolento: I want to thank you. Thank you so much for helping me satisfy my curiosity. If my studies produce results, then we Dwarves may be able to develop a new power tool that moves mechanical devices. It is all thanks to you. That granted, please help me a little more.",
+   "header": "Trader Rolento",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Acts of Evil (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00171_ActsOfEvil",
+     "kind": "quest",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30437-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Curiosity of a Dwarf]",
+     "bypass": "npc_%objectId%_Quest Q00329_CuriosityOfADwarf",
+     "kind": "quest",
+     "quest": 329,
+     "to": "Q00329_CuriosityOfADwarf/30437-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Curiosity of a Dwarf (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00329_CuriosityOfADwarf",
+     "kind": "quest",
+     "quest": 329,
+     "to": "Q00329_CuriosityOfADwarf/30437-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

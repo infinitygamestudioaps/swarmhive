@@ -1,0 +1,591 @@
+{
+ "npcId": 31377,
+ "name": "Ashas Varka Durai",
+ "title": "Hierarch",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.198Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31377-friend.html",
+   "when": "(AllianceLevel < 0)",
+   "src": "ai VarkaSilenosSupport"
+  },
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31377-no.html",
+   "when": "NOT (AllianceLevel < 0)",
+   "src": "ai VarkaSilenosSupport"
+  }
+ ],
+ "quests": {
+  "612": {
+   "name": "Battle against Ketra Orcs",
+   "listText": [
+    "[Battle against Ketra Orcs]",
+    "[Battle against Ketra Orcs  (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00612_BattleAgainstKetraOrcs/31377-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00612_BattleAgainstKetraOrcs/31377-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00612_BattleAgainstKetraOrcs/31377-04.html",
+     "when": "state STARTED; (st.hasQuestItems(MOLAR))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00612_BattleAgainstKetraOrcs/31377-05.html",
+     "when": "state STARTED; NOT (st.hasQuestItems(MOLAR))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "613": {
+   "name": "Prove Your Courage! (Varka)",
+   "listText": [
+    "[Prove Your Courage! (Varka)]",
+    "[Prove Your Courage! (Varka) (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00613_ProveYourCourageVarka/31377-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); (st.hasQuestItems(VARKA_ALLIANCE_THREE))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00613_ProveYourCourageVarka/31377-02.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (st.hasQuestItems(VARKA_ALLIANCE_THREE))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00613_ProveYourCourageVarka/31377-03.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00613_ProveYourCourageVarka/31377-05.html",
+     "when": "state STARTED; (st.isCond(2) && st.hasQuestItems(HEKATON_HEAD))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00613_ProveYourCourageVarka/31377-06.html",
+     "when": "state STARTED; NOT (st.isCond(2) && st.hasQuestItems(HEKATON_HEAD))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "614": {
+   "name": "Slay the Enemy Commander! (Varka)",
+   "listText": [
+    "[Slay the Enemy Commander! (Varka)]",
+    "[Slay the Enemy Commander! (Varka) (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00614_SlayTheEnemyCommanderVarka/31377-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); (st.hasQuestItems(VARKA_ALLIANCE_FOUR))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00614_SlayTheEnemyCommanderVarka/31377-02.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (st.hasQuestItems(VARKA_ALLIANCE_FOUR))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00614_SlayTheEnemyCommanderVarka/31377-03.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00614_SlayTheEnemyCommanderVarka/31377-05.html",
+     "when": "state STARTED; (st.isCond(2) && st.hasQuestItems(TAYR_HEAD))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00614_SlayTheEnemyCommanderVarka/31377-06.html",
+     "when": "state STARTED; NOT (st.isCond(2) && st.hasQuestItems(TAYR_HEAD))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "ai/npc/VarkaSilenosSupport/31377-friend.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31377-friend.html",
+   "quest": null,
+   "text": "Elder Ashas Varka Durai: Welcome, my friend! I'm Ashas Varka Durai, an elder of the Varka tribe. To defend the land that was promised to us, we're at war with the arrogant Ketra Orcs. You've helped us to significantly damage them. They've proven to be much more formidable than we thought. We've rea…",
+   "header": "Elder Ashas Varka Durai",
+   "when": [
+    "(AllianceLevel < 0)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/VarkaSilenosSupport/31377-no.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31377-no.html",
+   "quest": null,
+   "text": "Elder Ashas Varka Durai: Hold it right there, stranger! Unfriendly visitors aren't welcome in this land! Traveler of the west wind! If you expect to win our trust, you must first visit Varka's messenger Naran Ashanuk . He'll tell you what you must do.",
+   "header": "Elder Ashas Varka Durai",
+   "when": [
+    "NOT (AllianceLevel < 0)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00612_BattleAgainstKetraOrcs/31377-01.htm": {
+   "file": "Q00612_BattleAgainstKetraOrcs/31377-01.htm",
+   "quest": 612,
+   "text": "Chief Ashas Varka Durai: Our ancient battle against the Ketra Orcs continues to this very day. We must defeat them once and for all and reclaim our promised land! Who will join our fight?",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I will fight the Ketra Orcs.\"",
+     "bypass": "Quest Q00612_BattleAgainstKetraOrcs 31377-03.htm",
+     "kind": "quest-event",
+     "script": "Q00612_BattleAgainstKetraOrcs",
+     "event": "31377-03.htm",
+     "quest": 612,
+     "to": "Q00612_BattleAgainstKetraOrcs/31377-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00612_BattleAgainstKetraOrcs/31377-02.htm": {
+   "file": "Q00612_BattleAgainstKetraOrcs/31377-02.htm",
+   "quest": 612,
+   "text": "Chief Ashas Varka Durai: Your courage is admirable, but you're not quite ready for the fight. Improve your skills and come back. (This quest may only be undertaken by characters of level 74 or above.)",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00612_BattleAgainstKetraOrcs/31377-04.html": {
+   "file": "Q00612_BattleAgainstKetraOrcs/31377-04.html",
+   "quest": 612,
+   "text": "Chief Ashas Varka Durai My colleague, have you slaughtered many enemies, those barbarian Orcs of Ketra? Did you place the shadow of humiliation and disgrace upon them?",
+   "when": [
+    "state STARTED; (st.hasQuestItems(MOLAR))"
+   ],
+   "links": [
+    {
+     "text": "\"I will come back after killing more enemies.\"",
+     "bypass": "Quest Q00612_BattleAgainstKetraOrcs 31377-06.html",
+     "kind": "quest-event",
+     "script": "Q00612_BattleAgainstKetraOrcs",
+     "event": "31377-06.html",
+     "quest": 612,
+     "to": "Q00612_BattleAgainstKetraOrcs/31377-06.html"
+    },
+    {
+     "text": "\"I brought 100 molars for a start.\"",
+     "bypass": "Quest Q00612_BattleAgainstKetraOrcs 31377-07.html",
+     "kind": "quest-event",
+     "script": "Q00612_BattleAgainstKetraOrcs",
+     "event": "31377-07.html",
+     "quest": 612,
+     "to": "Q00612_BattleAgainstKetraOrcs/31377-07.html",
+     "toAll": [
+      "Q00612_BattleAgainstKetraOrcs/31377-07.html",
+      "Q00612_BattleAgainstKetraOrcs/31377-08.html"
+     ],
+     "effect": "reward"
+    },
+    {
+     "text": "\"I'm going to quit fighting.\"",
+     "bypass": "Quest Q00612_BattleAgainstKetraOrcs 31377-09.html",
+     "kind": "quest-event",
+     "script": "Q00612_BattleAgainstKetraOrcs",
+     "event": "31377-09.html",
+     "quest": 612,
+     "to": "Q00612_BattleAgainstKetraOrcs/31377-09.html"
+    }
+   ]
+  },
+  "Q00612_BattleAgainstKetraOrcs/31377-05.html": {
+   "file": "Q00612_BattleAgainstKetraOrcs/31377-05.html",
+   "quest": 612,
+   "text": "Chief Ashas Varka Durai: Drive the Ketra Orcs from the promised land of the Varka! Don't let a single invader escape! Kill them all!",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state STARTED; NOT (st.hasQuestItems(MOLAR))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00613_ProveYourCourageVarka/31377-01.htm": {
+   "file": "Q00613_ProveYourCourageVarka/31377-01.htm",
+   "quest": 613,
+   "text": "Chief Ashas Varka Durai: Have you heard of Hekaton, the hero of those despicable Ketra Orcs? Countless brave Varka soldiers have fallen before his axe, and I can still hear his howls of victory! We Varka can no longer ignore his atrocities! I seek a brave warrior to execute this scurvy dog! Will yo…",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); (st.hasQuestItems(VARKA_ALLIANCE_THREE))"
+   ],
+   "links": [
+    {
+     "text": "\"I'll kill Hekaton.\"",
+     "bypass": "Quest Q00613_ProveYourCourageVarka 31377-04.htm",
+     "kind": "quest-event",
+     "script": "Q00613_ProveYourCourageVarka",
+     "event": "31377-04.htm",
+     "quest": 613,
+     "to": "Q00613_ProveYourCourageVarka/31377-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00613_ProveYourCourageVarka/31377-02.htm": {
+   "file": "Q00613_ProveYourCourageVarka/31377-02.htm",
+   "quest": 613,
+   "text": "Chief Ashas Varka Durai: I must find a worthy fighter who can defeat Hekaton of the Ketra Orcs! Sadly, I don't think you're up to the task! Sigh... It seems like they're all too young or too old... (Only a character who possesses the mark of Varka's friend - 3rd level can undertake this quest.)",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (st.hasQuestItems(VARKA_ALLIANCE_THREE))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00613_ProveYourCourageVarka/31377-03.htm": {
+   "file": "Q00613_ProveYourCourageVarka/31377-03.htm",
+   "quest": 613,
+   "text": "Chief Ashas Varka Durai: You're not ready yet, my child! (Only a character of level 75 or above may undertake this quest.)",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00613_ProveYourCourageVarka/31377-05.html": {
+   "file": "Q00613_ProveYourCourageVarka/31377-05.html",
+   "quest": 613,
+   "text": "Chief Ashas Varka Durai: Have you brought the head of the hero of the Ketra Orcs?",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state STARTED; (st.isCond(2) && st.hasQuestItems(HEKATON_HEAD))"
+   ],
+   "links": [
+    {
+     "text": "\"Here is Hekaton's head.\"",
+     "bypass": "Quest Q00613_ProveYourCourageVarka 31377-07.html",
+     "kind": "quest-event",
+     "script": "Q00613_ProveYourCourageVarka",
+     "event": "31377-07.html",
+     "quest": 613,
+     "to": "Q00613_ProveYourCourageVarka/31377-07.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00613_ProveYourCourageVarka/31377-06.html": {
+   "file": "Q00613_ProveYourCourageVarka/31377-06.html",
+   "quest": 613,
+   "text": "Chief Ashas Varka Durai: Prove yourself! Kill Hekaton and cut off his head!",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state STARTED; NOT (st.isCond(2) && st.hasQuestItems(HEKATON_HEAD))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00614_SlayTheEnemyCommanderVarka/31377-01.htm": {
+   "file": "Q00614_SlayTheEnemyCommanderVarka/31377-01.htm",
+   "quest": 614,
+   "text": "Chief Ashas Varka Durai: The time has come for the Varka to strike back! If we are to prevail, we must first slay the commander of Ketra Orcs! Who will step forward to kill this beast?",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); (st.hasQuestItems(VARKA_ALLIANCE_FOUR))"
+   ],
+   "links": [
+    {
+     "text": "I'll do it!",
+     "bypass": "Quest Q00614_SlayTheEnemyCommanderVarka 31377-04.htm",
+     "kind": "quest-event",
+     "script": "Q00614_SlayTheEnemyCommanderVarka",
+     "event": "31377-04.htm",
+     "quest": 614,
+     "to": "Q00614_SlayTheEnemyCommanderVarka/31377-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00614_SlayTheEnemyCommanderVarka/31377-02.htm": {
+   "file": "Q00614_SlayTheEnemyCommanderVarka/31377-02.htm",
+   "quest": 614,
+   "text": "Chief Ashas Varka Durai: The time has not yet come. If we are to achieve victory, we must have patience. A superior strategist waits patiently for just the right moment... and when that moment comes... he strikes! (Only characters who possess the mark of Varka's friend - 4th level can undertake thi…",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (st.hasQuestItems(VARKA_ALLIANCE_FOUR))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00614_SlayTheEnemyCommanderVarka/31377-03.htm": {
+   "file": "Q00614_SlayTheEnemyCommanderVarka/31377-03.htm",
+   "quest": 614,
+   "text": "Chief Ashas Varka Durai: You're not quite ready. Go improve your skills! (This quest may only be undertaken by characters of level 75 or above.)",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00614_SlayTheEnemyCommanderVarka/31377-05.html": {
+   "file": "Q00614_SlayTheEnemyCommanderVarka/31377-05.html",
+   "quest": 614,
+   "text": "Chief Ashas Varka Durai: Dear friend of Varka, have you brought the Head of Tayre, the commander of the Ketras?",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state STARTED; (st.isCond(2) && st.hasQuestItems(TAYR_HEAD))"
+   ],
+   "links": [
+    {
+     "text": "\"Here's Tayre's head.\"",
+     "bypass": "Quest Q00614_SlayTheEnemyCommanderVarka 31377-07.html",
+     "kind": "quest-event",
+     "script": "Q00614_SlayTheEnemyCommanderVarka",
+     "event": "31377-07.html",
+     "quest": 614,
+     "to": "Q00614_SlayTheEnemyCommanderVarka/31377-07.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00614_SlayTheEnemyCommanderVarka/31377-06.html": {
+   "file": "Q00614_SlayTheEnemyCommanderVarka/31377-06.html",
+   "quest": 614,
+   "text": "Chief Ashas Varka Durai: I await the news of your victory! You are very brave! Kill Tayre, the commander of the Ketra forces and bring back his head!",
+   "header": "Chief Ashas Varka Durai",
+   "when": [
+    "state STARTED; NOT (st.isCond(2) && st.hasQuestItems(TAYR_HEAD))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00612_BattleAgainstKetraOrcs/31377-03.htm": {
+   "file": "Q00612_BattleAgainstKetraOrcs/31377-03.htm",
+   "quest": 612,
+   "text": "Chief Ashas Varka Durai: Excellent! Raid the advance base of Ketra Orcs and kill as many as you can! Bring back their molars as proof of victory. Bring back 100 of them and I'll give you a prize of valor!",
+   "header": "Chief Ashas Varka Durai",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00612_BattleAgainstKetraOrcs/31377-06.html": {
+   "file": "Q00612_BattleAgainstKetraOrcs/31377-06.html",
+   "quest": 612,
+   "text": "Chief Ashas Varka Durai: The fight continues! Onward to victory!",
+   "header": "Chief Ashas Varka Durai",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00612_BattleAgainstKetraOrcs/31377-07.html": {
+   "file": "Q00612_BattleAgainstKetraOrcs/31377-07.html",
+   "quest": 612,
+   "text": "Chief Ashas Varka Durai: Excellent job, my friend! Today's was a stellar victory! You're our hero! You shall be well rewarded! At one time, this Buffalo horn was given only to soldiers of our tribe. It's quite valuable! You could trade it for something you really need!",
+   "header": "Chief Ashas Varka Durai",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "\"I want to go back to the battlefield.\"",
+     "bypass": "Quest Q00612_BattleAgainstKetraOrcs 31377-06.html",
+     "kind": "quest-event",
+     "script": "Q00612_BattleAgainstKetraOrcs",
+     "event": "31377-06.html",
+     "quest": 612,
+     "to": "Q00612_BattleAgainstKetraOrcs/31377-06.html"
+    },
+    {
+     "text": "\"I have more molars.\"",
+     "bypass": "Quest Q00612_BattleAgainstKetraOrcs 31377-07.html",
+     "kind": "quest-event",
+     "script": "Q00612_BattleAgainstKetraOrcs",
+     "event": "31377-07.html",
+     "quest": 612,
+     "to": "Q00612_BattleAgainstKetraOrcs/31377-07.html",
+     "toAll": [
+      "Q00612_BattleAgainstKetraOrcs/31377-07.html",
+      "Q00612_BattleAgainstKetraOrcs/31377-08.html"
+     ],
+     "effect": "reward"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00612_BattleAgainstKetraOrcs 31377-09.html",
+     "kind": "quest-event",
+     "script": "Q00612_BattleAgainstKetraOrcs",
+     "event": "31377-09.html",
+     "quest": 612,
+     "to": "Q00612_BattleAgainstKetraOrcs/31377-09.html"
+    }
+   ]
+  },
+  "Q00612_BattleAgainstKetraOrcs/31377-08.html": {
+   "file": "Q00612_BattleAgainstKetraOrcs/31377-08.html",
+   "quest": 612,
+   "text": "Chief Ashas Varka Durai: Didn't I ask for at least 100 molars of Ketra Orcs! Return to the battlefield now!",
+   "header": "Chief Ashas Varka Durai",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00612_BattleAgainstKetraOrcs/31377-09.html": {
+   "file": "Q00612_BattleAgainstKetraOrcs/31377-09.html",
+   "quest": 612,
+   "text": "Chief Ashas Varka Durai: Even an invincible warrior must rest occasionally! You've done a noble service! Come back when you're rested!",
+   "header": "Chief Ashas Varka Durai",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00613_ProveYourCourageVarka/31377-04.htm": {
+   "file": "Q00613_ProveYourCourageVarka/31377-04.htm",
+   "quest": 613,
+   "text": "Chief Ashas Varka Durai: Do you truly believe you can kill Hekaton? This will be the ultimate test of your courage! Kill that filthy hero of the Ketra Orcs and cut off his head! But you mustn't forget, he's a formidable enemy! Even the best warrior is made more formidable with trusted friends fight…",
+   "header": "Chief Ashas Varka Durai",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00613_ProveYourCourageVarka/31377-07.html": {
+   "file": "Q00613_ProveYourCourageVarka/31377-07.html",
+   "quest": 613,
+   "text": "Chief Ashas Varka Durai: Is this the head of the beast who spilt gallons of our tribe's blood? Excellent! You're a true soldier! You've proven your valor! Dear friend of Varka, please accept this Feather of Valor.",
+   "header": "Chief Ashas Varka Durai",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00614_SlayTheEnemyCommanderVarka/31377-04.htm": {
+   "file": "Q00614_SlayTheEnemyCommanderVarka/31377-04.htm",
+   "quest": 614,
+   "text": "Chief Ashas Varka Durai: Are you ready? You've already defeated Hekaton, hero of the Ketra, you should be able to defeat Tayre as well! Tayre is the commander of Ketra forces. He's a typical savage, little more than a beast! He has cruelly massacred hundreds of Varka soldiers! He must be stopped! K…",
+   "header": "Chief Ashas Varka Durai",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00614_SlayTheEnemyCommanderVarka/31377-07.html": {
+   "file": "Q00614_SlayTheEnemyCommanderVarka/31377-07.html",
+   "quest": 614,
+   "text": "Chief Ashas Varka Durai: Is this the Head of Tayre? Ugly bastard, wasn't he? I'm very proud of you! Take this Feather of Wisdom in recognition your outstanding military achievements. This is the Feather of Wisdom. It's the custom of the Varka to give this to the our most respected friends! Congratu…",
+   "header": "Chief Ashas Varka Durai",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Battle against Ketra Orcs]",
+     "bypass": "npc_%objectId%_Quest Q00612_BattleAgainstKetraOrcs",
+     "kind": "quest",
+     "quest": 612,
+     "to": "Q00612_BattleAgainstKetraOrcs/31377-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Battle against Ketra Orcs  (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00612_BattleAgainstKetraOrcs",
+     "kind": "quest",
+     "quest": 612,
+     "to": "Q00612_BattleAgainstKetraOrcs/31377-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Prove Your Courage! (Varka)]",
+     "bypass": "npc_%objectId%_Quest Q00613_ProveYourCourageVarka",
+     "kind": "quest",
+     "quest": 613,
+     "to": "Q00613_ProveYourCourageVarka/31377-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Prove Your Courage! (Varka) (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00613_ProveYourCourageVarka",
+     "kind": "quest",
+     "quest": 613,
+     "to": "Q00613_ProveYourCourageVarka/31377-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Slay the Enemy Commander! (Varka)]",
+     "bypass": "npc_%objectId%_Quest Q00614_SlayTheEnemyCommanderVarka",
+     "kind": "quest",
+     "quest": 614,
+     "to": "Q00614_SlayTheEnemyCommanderVarka/31377-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Slay the Enemy Commander! (Varka) (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00614_SlayTheEnemyCommanderVarka",
+     "kind": "quest",
+     "quest": 614,
+     "to": "Q00614_SlayTheEnemyCommanderVarka/31377-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

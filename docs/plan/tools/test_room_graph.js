@@ -64,6 +64,25 @@ check(/room \d+\/\d+ · step \d+\/\d+ · next: /.test(M.rgProgress(p, 3)), `prog
 { const rep = []; D.forEach(d => { const R = M.rgBuild(d); let ok = 0, all = 0; d.floors.forEach(F => (F.rooms || []).forEach(r => { if (!r.poly || (r.polyInfo || {}).quality === 'duplicate') return; all++; if (M.rgPlan(R, { start: 'outside' }, { room: r.id }).ok) ok++; })); rep.push(`${d.key} ${ok}/${all}`); });
   console.log('     reachable from outside: ' + rep.join(', ')); }
 
+// ---- 6b) Forgotten Temple (tester Vykaax 2026-10-27: "Dungeon mapping for Forgotten Temple"; cave_dungeon.js + cave_rooms.js + room_graph.js)
+{ const FT = D.find(d => d.key === 'forgotten_temple');
+  check(!!FT && FT.floors.length === 2 && FT.name === 'Forgotten Temple', `Forgotten Temple is a dungeon with 2 floors (${FT ? FT.floors.map(F => F.name + ' ' + F.z.join('..')).join(' | ') : 'missing'})`);
+  if (FT) {
+    const rooms = FT.floors.flatMap(F => F.rooms || []), hunt = rooms.filter(r => r.spawnCount > 0);
+    check(rooms.length >= 30 && rooms.every(r => Array.isArray(r.poly) && r.poly.length >= 3 && Array.isArray(r.zRange)), `${rooms.length} rooms, every one with a geodata outline + z range`);
+    check(hunt.length >= 25 && hunt.every(r => r.levelRange && r.levelRange[0] >= 27 && r.levelRange[1] <= 35 && r.monsters.every(m => m.level && m.aggressive)), `${hunt.length} rooms with monsters, levels 27-35, all aggressive (aggro_h5.json)`);
+    const g = FT.gatekeeperRoute || {};
+    check(g.town === 'Gludin' && g.destination === 'Forgotten Temple' && g.price === 2000 && FT.entrance && FT.entrance.x === -53001, 'way in: Gludin gatekeeper -> "Forgotten Temple" (2000), landing -53001,191425,-3568');
+    check(rooms.every(r => Array.isArray(r.route) && r.route.length > 1 && r.routeLength > 0), 'every room has a walk route from the landing (pickRoom offers it)');
+    check(FT.floors.every(F => F.graph && F.graph.v.length && F.graph.e.length) && FT.floors.every(F => (F.safeSpots || []).length), `room graph + safe spots on both floors (${FT.floors.map(F => (F.graph ? F.graph.v.length + 'v/' + F.graph.e.length + 'e' : 'no graph') + ', ' + (F.safeSpots || []).length + ' safe').join(' | ')})`);
+    const R = M.rgBuild(FT); let ok = 0; const miss = []; rooms.forEach(r => { if (M.rgPlan(R, { start: 'outside' }, { room: r.id }).ok) ok++; else miss.push(r.id); });
+    check(ok === rooms.length, `every room is reachable from outside through the graph (${ok}/${rooms.length}${miss.length ? ', missing ' + miss.join(' ') : ''})`);
+    const land = { x: -53001, y: 191425, z: -3568 }, kob = rooms.find(r => /Kuran Kobold/.test(r.name) && r.center[2] < -4720), up = rooms.find(r => /Lafi Lizardman/.test(r.name) && r.center[2] > -4720);
+    [kob, up].forEach(t => { if (!t) { check(false, 'kobold / lizardman room found'); return; }
+      const p2 = M.rgPlan(R, land, { room: t.id }), pts = M.rgPlanPoints(p2), L = legsOk(pts, null);
+      check(p2.ok && pts.length > 5 && L.bad === 0 && L.maxGap <= 300, `landing -> ${t.id} (${t.name}, floor ${t.center[2] < -4720 ? 'lower' : 'upper'}): ${pts.length} centreline points, legs through a wall ${L.bad}, max leg ${Math.round(L.maxGap)}`); });
+  }
+}
 // ---- 7) host: rgWalk with mocks -----------------------------------------------------------------------------------------------------
 const HOST = cut('// ===== ROOM GRAPH WALK (host side of ROOMGRAPH-PURE', "/** Leader: entrance -> floor teleporters -> the room's route.");
 async function runWalk(start, target, opt) {

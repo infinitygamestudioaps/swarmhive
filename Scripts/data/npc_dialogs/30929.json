@@ -1,0 +1,348 @@
+{
+ "npcId": 30929,
+ "name": "Patrin",
+ "title": "Antique Dealer",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.113Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30929.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "355": {
+   "name": "Family Honor",
+   "listText": [
+    "[Family Honor]",
+    "[Family Honor (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00355_FamilyHonor/30929-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "371": {
+   "name": "Shrieks of Ghosts",
+   "listText": [
+    "[Shrieks of Ghosts]",
+    "[Shrieks of Ghosts]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00371_ShrieksOfGhosts/30929-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "372": {
+   "name": "Legacy Of Insolence",
+   "listText": [
+    "[Legacy of Insolence]",
+    "[Legacy of Insolence (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00372_LegacyOfInsolence/30929-02.html",
+     "when": "state STARTED; has items 5979,5980,5981,5982,5983",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00372_LegacyOfInsolence/30929-01.html",
+     "when": "state STARTED; lacks items 5979,5980,5981,5982,5983",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30929.htm": {
+   "file": "default/30929.htm",
+   "quest": null,
+   "text": "Antique Dealer Patrin: It's nice to meet you, young traveler! My name is Patrin. I am a dealer of antiques. I've become quite busy lately due to the many excavations going on in the Ruins, the Tower of Insolence and the Garden of Eva. Adventurers are constantly coming to me for appraisals...",
+   "header": "Antique Dealer Patrin",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00355_FamilyHonor/30929-01.html": {
+   "file": "Q00355_FamilyHonor/30929-01.html",
+   "quest": 355,
+   "text": "Antique Dealer Patrin: Yes, Trader Galibredo told me about you. He said that you would be stopping by with some antique statues to be appraised... Oh my! That statue... is that the \"Lady of the Court\" by Berona? Where did you find such a precious item...? Let me have a look!",
+   "header": "Antique Dealer Patrin",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"What happens after the appraisal?\"",
+     "bypass": "Quest Q00355_FamilyHonor 30929-02.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30929-02.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30929-02.html"
+    },
+    {
+     "text": "\"Please appraise this statue!\"",
+     "bypass": "Quest Q00355_FamilyHonor 30929-03.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30929-03.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30929-03.html",
+     "toAll": [
+      "Q00355_FamilyHonor/30929-03.html",
+      "Q00355_FamilyHonor/30929-04.html",
+      "Q00355_FamilyHonor/30929-05.html",
+      "Q00355_FamilyHonor/30929-06.html",
+      "Q00355_FamilyHonor/30929-07.html",
+      "Q00355_FamilyHonor/30929-08.html"
+     ]
+    }
+   ]
+  },
+  "Q00371_ShrieksOfGhosts/30929-01.html": {
+   "file": "Q00371_ShrieksOfGhosts/30929-01.html",
+   "quest": 371,
+   "text": "Antique Dealer Patrin: It has come to my attention that the Orc seer Reva of the Town of Aden is collecting Ancient Ash Urns. I asked him to give them to me so that I could sell them for a handsome price to antique collectors. He refused my offer, insisting that he needed them for a ritual! He prom…",
+   "header": "Antique Dealer Patrin",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the appraisal.\"",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30929-02.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30929-02.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30929-02.html"
+    },
+    {
+     "text": "\"Please appraise the urn.\"",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30929-03.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30929-03.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30929-03.html",
+     "toAll": [
+      "Q00371_ShrieksOfGhosts/30929-03.html",
+      "Q00371_ShrieksOfGhosts/30929-04.html",
+      "Q00371_ShrieksOfGhosts/30929-05.html",
+      "Q00371_ShrieksOfGhosts/30929-06.html",
+      "Q00371_ShrieksOfGhosts/30929-07.html",
+      "Q00371_ShrieksOfGhosts/30929-08.html"
+     ]
+    }
+   ]
+  },
+  "Q00372_LegacyOfInsolence/30929-02.html": {
+   "file": "Q00372_LegacyOfInsolence/30929-02.html",
+   "quest": 372,
+   "text": "Antique Dealer Patrin: Wow! Is this an ancient epic? What a find! I'll take it! I can pay you this much. If you find any more ancient epics, please bring them all to me. I will appraise them and give you the best possible prices.",
+   "header": "Antique Dealer Patrin",
+   "when": [
+    "state STARTED; has items 5979,5980,5981,5982,5983"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00372_LegacyOfInsolence/30929-01.html": {
+   "file": "Q00372_LegacyOfInsolence/30929-01.html",
+   "quest": 372,
+   "text": "Antique Dealer Patrin: There's a rumor that you've been collecting old scrolls at the Tower of Insolence... Have you come across a scroll of ancient epic, written by a troubadour from the ancient era? If you have such an item, it could be of great value. Artistic value is quite subjective. It may l…",
+   "header": "Antique Dealer Patrin",
+   "when": [
+    "state STARTED; lacks items 5979,5980,5981,5982,5983"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00355_FamilyHonor/30929-02.html": {
+   "file": "Q00355_FamilyHonor/30929-02.html",
+   "quest": 355,
+   "text": "Antique Dealer Patrin: Why, you find the true value of the item! To the untrained eye, an antique like this may seem rather ordinary. But to an expert like myself, each subtle mark and worn surface tells a story. The materials and techniques used in its manufacture are revealed to me. The different…",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00355_FamilyHonor 30929-01.html",
+     "kind": "quest-event",
+     "script": "Q00355_FamilyHonor",
+     "event": "30929-01.html",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30929-01.html"
+    }
+   ]
+  },
+  "Q00355_FamilyHonor/30929-03.html": {
+   "file": "Q00355_FamilyHonor/30929-03.html",
+   "quest": 355,
+   "text": "Antique Dealer Patrin: Just a moment... Let me get my reading glasses... Now, what have we here? Hmm... Oh Oh...! Hmm...?! In... indeed...! This is a prototype made by the very hands of Berona! This was used to make molds from which many other statues were produced. You must understand that this is…",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00355_FamilyHonor/30929-04.html": {
+   "file": "Q00355_FamilyHonor/30929-04.html",
+   "quest": 355,
+   "text": "Antique Dealer Patrin: Just a moment... Let me get my reading glasses... Now, what have we here? Hmm... Oh Oh...! Hmm...?! In... indeed...! This is indeed a genuine statue. It was made from the prototype. Although not as valuable as its prototype, it is highly regarded among antique dealers. It wil…",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00355_FamilyHonor/30929-05.html": {
+   "file": "Q00355_FamilyHonor/30929-05.html",
+   "quest": 355,
+   "text": "Antique Dealer Patrin: Just a moment... Let me get my reading glasses... Now, what have we here? Hmm...?! Oh... Heh heh...! This is no work of Berona. It is a very cleverly made imitation ! An apprentice sculptor must have copied the work of Berona. It is not worth much.",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00355_FamilyHonor/30929-06.html": {
+   "file": "Q00355_FamilyHonor/30929-06.html",
+   "quest": 355,
+   "text": "Antique Dealer Patrin: Just a moment... Let me get my reading glasses... Now, shall I take a look at it? Hmm... Oh Oh...! Hmm...?! Heh Heh...! This is not Berona's work! It's a forgery ! It must have been made by a skillful counterfeiter! I am sorry. It is virtually worthless.",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00355_FamilyHonor/30929-07.html": {
+   "file": "Q00355_FamilyHonor/30929-07.html",
+   "quest": 355,
+   "text": "Antique Dealer Patrin: Just a moment... Let me get my reading glasses... Now, what have we here? Hmm... Huh...?!! I barely touched it! How could I have made such a mistake! May I offer my abject apologies! Ancient articles such as this are so very fragile!",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00355_FamilyHonor/30929-08.html": {
+   "file": "Q00355_FamilyHonor/30929-08.html",
+   "quest": 355,
+   "text": "Antique Dealer Patrin: Why would you come to me empty-handed and ask for an appraisal? Are you kidding? What insolence!",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00371_ShrieksOfGhosts/30929-02.html": {
+   "file": "Q00371_ShrieksOfGhosts/30929-02.html",
+   "quest": 371,
+   "text": "Antique Dealer Patrin: An appraisal determines the true value of an item! To the untrained eye, an antique piece like this one may seem rather ordinary. But to the experienced eye of an expert like myself, each subtle mark and worn surface tells a story. The materials and techniques used to create …",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30929-01.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30929-01.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30929-01.html"
+    }
+   ]
+  },
+  "Q00371_ShrieksOfGhosts/30929-03.html": {
+   "file": "Q00371_ShrieksOfGhosts/30929-03.html",
+   "quest": 371,
+   "text": "Antique Dealer Patrin: What's the big idea, coming to me empty-handed for an appraisal? Are you crazy or is this some kind of a joke?",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00371_ShrieksOfGhosts/30929-04.html": {
+   "file": "Q00371_ShrieksOfGhosts/30929-04.html",
+   "quest": 371,
+   "text": "Antique Dealer Patrin: Just a moment... Let me get my glasses... Now, what have we here, hmm? Oh, my! Indeed! This is a famous porcelain , made by the court sculptors! It is of the highest quality. It will fetch a great price at any store!",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00371_ShrieksOfGhosts/30929-05.html": {
+   "file": "Q00371_ShrieksOfGhosts/30929-05.html",
+   "quest": 371,
+   "text": "Antique Dealer Patrin: Just a moment... Let me get my glasses... What have we here, hmm? Hmm... Oh my! Indeed! You've found a high grade porcelain. It has been glazed to make it shiny. Most likely it decorated the home of an Elmoreden aristocrat... It will fetch a good price at any store.",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00371_ShrieksOfGhosts/30929-06.html": {
+   "file": "Q00371_ShrieksOfGhosts/30929-06.html",
+   "quest": 371,
+   "text": "Antique Dealer Patrin: Just a moment... Let me get my glasses... Now, what have we here, hmm? Oh Oh...! Well, there's no go way to say this... This is a low grade porcelain. Take a look here... Do you see this scratch? And look at this chipped edge... I'm sorry. It won't fetch much at a store.",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00371_ShrieksOfGhosts/30929-07.html": {
+   "file": "Q00371_ShrieksOfGhosts/30929-07.html",
+   "quest": 371,
+   "text": "Antique Dealer Patrin: Just a moment... Let me get my glasses... Now, what have we here, hmm... Oh my! This is the lowest grade porcelain I've ever seen! Look at the large crack on the side. Do you see it? The texture is very crude, made from coarse clay... Sorry to disappoint you, but it is practi…",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00371_ShrieksOfGhosts/30929-08.html": {
+   "file": "Q00371_ShrieksOfGhosts/30929-08.html",
+   "quest": 371,
+   "text": "Antique Dealer Patrin: Just a moment... Let me get my glasses... Now, what have we here, hmm...? Wha...?!! I just touched it once... and it shattered into a thousand pieces! Oh, my! How embarrassing! I should've been more careful! Ahem! I'm so sorry. Objects this old tends to be fragile and are eas…",
+   "header": "Antique Dealer Patrin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Family Honor (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00355_FamilyHonor",
+     "kind": "quest",
+     "quest": 355,
+     "to": "Q00355_FamilyHonor/30929-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Shrieks of Ghosts]",
+     "bypass": "npc_%objectId%_Quest Q00371_ShrieksOfGhosts",
+     "kind": "quest",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30929-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Legacy of Insolence (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00372_LegacyOfInsolence",
+     "kind": "quest",
+     "quest": 372,
+     "to": "Q00372_LegacyOfInsolence/30929-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,216 @@
+{
+ "npcId": 30537,
+ "name": "Daichir",
+ "title": "Priest of the Earth",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.995Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30537.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "451": {
+   "name": "Lucien's Altar",
+   "listText": [
+    "[Lucien's Altar]",
+    "[Lucien's Altar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00451_LuciensAltar/30537-03.html",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00451_LuciensAltar/30537-01.htm",
+     "when": "state COMPLETED|CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00451_LuciensAltar/30537-02.htm",
+     "when": "state COMPLETED|CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00451_LuciensAltar/30537-10.html",
+     "when": "state STARTED; cond 1; (st.isSet(\"32706\") || st.isSet(\"32707\") || st.isSet(\"32708\") || st.isSet(\"32709\") || st.isSet(\"32710\"))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00451_LuciensAltar/30537-09.html",
+     "when": "state STARTED; cond 1; !(st.isSet(\"32706\") || st.isSet(\"32707\") || st.isSet(\"32708\") || st.isSet(\"32709\") || st.isSet(\"32710\"))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00451_LuciensAltar/30537-08.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30537.htm": {
+   "file": "default/30537.htm",
+   "quest": null,
+   "text": "Daichir, Priest of the Earth: Abundance! Prosperity! These are what the Goddess brings forth. Trust! Then you will be blessed! This is the sanctuary of Maphr, Goddess of Earth. Your talent and ability are gifts from the Goddess. Your success and fame too are her blessings. Sacrifice! And be thankfu…",
+   "header": "Daichir, Priest of the Earth",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00451_LuciensAltar/30537-03.html": {
+   "file": "Q00451_LuciensAltar/30537-03.html",
+   "quest": 451,
+   "text": "Daichir, Priest of Earth: Thanks to your help, we have been able to stabilize the force shield surrounding the Mithril Mine. This isn't a permanent solution, but it should buy us some time. I will contact you when we again need your services. (This quest can only be completed once per day. It reset…",
+   "header": "Daichir, Priest of Earth",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00451_LuciensAltar/30537-01.htm": {
+   "file": "Q00451_LuciensAltar/30537-01.htm",
+   "quest": 451,
+   "text": "Daichir, Priest of Earth: If you're wandering around in a remote place like this, I'm guessing you have some time on your hands. I have need of an adventurer like you... It must be the will of the Goddess of Earth that you have come when you did...",
+   "header": "Daichir, Priest of Earth",
+   "when": [
+    "state COMPLETED|CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"What do you need?\"",
+     "bypass": "Quest Q00451_LuciensAltar 30537-04.htm",
+     "kind": "quest-event",
+     "script": "Q00451_LuciensAltar",
+     "event": "30537-04.htm",
+     "quest": 451,
+     "to": "Q00451_LuciensAltar/30537-04.htm"
+    }
+   ]
+  },
+  "Q00451_LuciensAltar/30537-02.htm": {
+   "file": "Q00451_LuciensAltar/30537-02.htm",
+   "quest": 451,
+   "text": "Daichir, Priest of Earth: As it happens, I do need the services of an adventurer, but you are far too unexperienced to entrust with this matter. Perhaps our paths will cross again, if the Goddess wills it. Karna Maprera! (Only characters who are level 80 or above may undertake this quest.)",
+   "header": "Daichir, Priest of Earth",
+   "when": [
+    "state COMPLETED|CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00451_LuciensAltar/30537-10.html": {
+   "file": "Q00451_LuciensAltar/30537-10.html",
+   "quest": 451,
+   "text": "Daichir, Priest of Earth: Did you forget? You must visit all 5 altars , just as I told you. Hurry back after you have completed the mission. May Maphr forgive your slowness... Karna Maprera!",
+   "header": "Daichir, Priest of Earth",
+   "when": [
+    "state STARTED; cond 1; (st.isSet(\"32706\") || st.isSet(\"32707\") || st.isSet(\"32708\") || st.isSet(\"32709\") || st.isSet(\"32710\"))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00451_LuciensAltar/30537-09.html": {
+   "file": "Q00451_LuciensAltar/30537-09.html",
+   "quest": 451,
+   "text": "Daichir, Priest of Earth: If you lack the courage for this mission, tell me now. No? Karna Maprera! Then hurry and use this Replenished Power Bead to recharge the Lucien's Altars in the mine. Do not forget that you must visit all 5 altars ! Good luck! Karna Maprera!",
+   "header": "Daichir, Priest of Earth",
+   "when": [
+    "state STARTED; cond 1; !(st.isSet(\"32706\") || st.isSet(\"32707\") || st.isSet(\"32708\") || st.isSet(\"32709\") || st.isSet(\"32710\"))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00451_LuciensAltar/30537-08.html": {
+   "file": "Q00451_LuciensAltar/30537-08.html",
+   "quest": 451,
+   "text": "Daichir, Priest of Earth: You made it back safely, thanks be to Maphr! The magical shield in the Mithril Mine seems to have again been stabilized...at least for now. Thank you for your help! Here is the reward I promised -- use it well. I fear this positive change is only temporary, though, so I ho…",
+   "header": "Daichir, Priest of Earth",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00451_LuciensAltar/30537-04.htm": {
+   "file": "Q00451_LuciensAltar/30537-04.htm",
+   "quest": 451,
+   "text": "Daichir, Priest of Earth: Have you heard about the Ratmen's damaging the magical shield deep inside the Mithril Mine? Now the mine has been shut down and all the miners have been forced to evacuate. If the shield is completely destroyed...well, I shudder to think what will happen! Will you help us …",
+   "header": "Daichir, Priest of Earth",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00451_LuciensAltar 30537-05.htm",
+     "kind": "quest-event",
+     "script": "Q00451_LuciensAltar",
+     "event": "30537-05.htm",
+     "quest": 451,
+     "to": "Q00451_LuciensAltar/30537-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00451_LuciensAltar/30537-05.htm": {
+   "file": "Q00451_LuciensAltar/30537-05.htm",
+   "quest": 451,
+   "text": "Daichir, Priest of Earth: Thank Maphr! Here is a Replenished Power Bead . Go to the Mithril Mine and take it to the various Lucien's Altars within. Then the power within will again flow into the altar. You must visit all 5 altars . If you are successful, I promise that you will be richly rewarded! …",
+   "header": "Daichir, Priest of Earth",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Lucien's Altar]",
+     "bypass": "npc_%objectId%_Quest Q00451_LuciensAltar",
+     "kind": "quest",
+     "quest": 451,
+     "to": "Q00451_LuciensAltar/30537-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Lucien's Altar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00451_LuciensAltar",
+     "kind": "quest",
+     "quest": 451,
+     "to": "Q00451_LuciensAltar/30537-10.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

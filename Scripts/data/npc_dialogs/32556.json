@@ -1,0 +1,241 @@
+{
+ "npcId": 32556,
+ "name": "El",
+ "title": "Soldier",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.383Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32556.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10271": {
+   "name": "The Enveloping Darkness",
+   "listText": [
+    "[The Enveloping Darkness]",
+    "[The Enveloping Darkness (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10271_TheEnvelopingDarkness/32556-02.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10271_TheEnvelopingDarkness/32556-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10271_TheEnvelopingDarkness/32556-07.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10271_TheEnvelopingDarkness/32556-08.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10271_TheEnvelopingDarkness/32556-09.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "cond"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32556.htm": {
+   "file": "default/32556.htm",
+   "quest": null,
+   "text": "Soldier El: Right now... I don't even have the energy to talk. Unless it's urgent...please come back later.",
+   "header": "Soldier El",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10271_TheEnvelopingDarkness/32556-02.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32556-02.html",
+   "quest": 10271,
+   "text": "Soldier El: Thanks to you I can now look at the faces of my friends in heaven. I feel stronger already. Thank you! (You have already completed this quest.)",
+   "header": "Soldier El",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10271_TheEnvelopingDarkness/32556-01.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32556-01.html",
+   "quest": 10271,
+   "text": "Soldier El: Hey, I'm injured here! Ask a healthy soldier and leave me alone! It's bad enought that I couldn't sleep because of a nightmare.",
+   "header": "Soldier El",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Orbyu sent me.\"",
+     "bypass": "Quest Q10271_TheEnvelopingDarkness 32556-03.html",
+     "kind": "quest-event",
+     "script": "Q10271_TheEnvelopingDarkness",
+     "event": "32556-03.html",
+     "quest": 10271,
+     "to": "Q10271_TheEnvelopingDarkness/32556-03.html"
+    }
+   ]
+  },
+  "Q10271_TheEnvelopingDarkness/32556-07.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32556-07.html",
+   "quest": 10271,
+   "text": "Soldier El: Help me restore our honor by completing our mission. Find Medibal's corpse in the Seed of Destruction and retrieve Inspector Medibal's documents from his chest.",
+   "header": "Soldier El",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10271_TheEnvelopingDarkness/32556-08.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32556-08.html",
+   "quest": 10271,
+   "text": "Soldier El: Have you returned? Did you bring the documents?",
+   "header": "Soldier El",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"I found the documents just where you said they would be.\"",
+     "bypass": "Quest Q10271_TheEnvelopingDarkness 32556-09.html",
+     "kind": "quest-event",
+     "script": "Q10271_TheEnvelopingDarkness",
+     "event": "32556-09.html",
+     "quest": 10271,
+     "to": "Q10271_TheEnvelopingDarkness/32556-09.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q10271_TheEnvelopingDarkness/32556-09.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32556-09.html",
+   "quest": 10271,
+   "text": "Soldier El: Thank you! You have restored the honor of my fallen comrades and myself. I won't forget your help. If you take those documents to Soldier Orbyu , I know he will reward you as well. The money that was promised to us will be given to you by right. You've earned it!",
+   "header": "Soldier El",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10271_TheEnvelopingDarkness/32556-03.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32556-03.html",
+   "quest": 10271,
+   "text": "Soldier El: Obryu sent you? He just can't leave well enough alone. Yes, as you can see I'm the sole survivor of that troop. Do you know what that means? I fled to save my own miserable life while my fellow soldiers were dying. I'm a coward. And we failed to accomplish the mission . Now every night …",
+   "header": "Soldier El",
+   "links": [
+    {
+     "text": "\"What happened?\"",
+     "bypass": "Quest Q10271_TheEnvelopingDarkness 32556-04.html",
+     "kind": "quest-event",
+     "script": "Q10271_TheEnvelopingDarkness",
+     "event": "32556-04.html",
+     "quest": 10271,
+     "to": "Q10271_TheEnvelopingDarkness/32556-04.html"
+    }
+   ]
+  },
+  "Q10271_TheEnvelopingDarkness/32556-04.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32556-04.html",
+   "quest": 10271,
+   "text": "Soldier El: We were sent to protect the group dispatched to investigate the Seed of Destruction . We were part of a large force and felt invincible. At first everything went well. Then...we were attacked by the Mounted Troop. We kept fighting in order to complete our mission. While some of us kept …",
+   "header": "Soldier El",
+   "links": [
+    {
+     "text": "\"But surely we can recover the documents?\"",
+     "bypass": "Quest Q10271_TheEnvelopingDarkness 32556-05.html",
+     "kind": "quest-event",
+     "script": "Q10271_TheEnvelopingDarkness",
+     "event": "32556-05.html",
+     "quest": 10271,
+     "to": "Q10271_TheEnvelopingDarkness/32556-05.html"
+    }
+   ]
+  },
+  "Q10271_TheEnvelopingDarkness/32556-05.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32556-05.html",
+   "quest": 10271,
+   "text": "Soldier El: I thought about that. But I'm too injured. And even if I weren't, I'm not sure I could go back there. I've never been so scared in all my life.... Why are you so interested? I guess you came here looking for information about the Seed of Destruction, eh? Well, if you coud recover that d…",
+   "header": "Soldier El",
+   "links": [
+    {
+     "text": "\"Leave it to me.\"",
+     "bypass": "Quest Q10271_TheEnvelopingDarkness 32556-06.html",
+     "kind": "quest-event",
+     "script": "Q10271_TheEnvelopingDarkness",
+     "event": "32556-06.html",
+     "quest": 10271,
+     "to": "Q10271_TheEnvelopingDarkness/32556-06.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q10271_TheEnvelopingDarkness/32556-06.html": {
+   "file": "Q10271_TheEnvelopingDarkness/32556-06.html",
+   "quest": 10271,
+   "text": "Soldier El: Very well. I'll put my trust in you. Help me restore our honor. Find Medibal's corpse in the Seed of Destruction and retrieve Inspector Medibal's documents from his chest.",
+   "header": "Soldier El",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Enveloping Darkness (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10271_TheEnvelopingDarkness",
+     "kind": "quest",
+     "quest": 10271,
+     "to": "Q10271_TheEnvelopingDarkness/32556-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

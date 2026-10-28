@@ -2,7 +2,7 @@
  "id": 419,
  "name": "Get A Pet",
  "version": 1,
- "generated": "2026-10-27T11:15:39.804Z",
+ "generated": "2026-10-27T18:19:14.551Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 15,
@@ -16,7 +16,7 @@
  "reasons": [
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 30731 \"QUESTIONS\": changes neither the cond nor the memo in the data; talk 30731: bit-flag memo (1879048192); talk 30072: changes neither the cond nor the memo in the data; talk 30091: changes neither the cond nor the memo in the data; talk 30256: changes neither the cond nor the memo in the data"
   },
   {
    "code": "aggro-on-way",
@@ -24,7 +24,7 @@
    "step": 1
   }
  ],
- "expectedMin": 44,
+ "expectedMin": 45,
  "refLevel": 15,
  "steps": [
   {
@@ -2274,8 +2274,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    1879048192
+    1
    ]
   },
   {
@@ -2958,6 +2957,342 @@
    },
    "conds": [
     1,
+    1879048192
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1879048192:deliver:30731",
+   "cond": 1879048192,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "I am ready for the test."
+   ],
+   "npc": {
+    "id": 30731,
+    "name": "Martin",
+    "title": "Pet Manager",
+    "town": "Gludin",
+    "at": [
+     -84624,
+     150832,
+     -3129
+    ],
+    "alt": []
+   },
+   "text": "Bring Animal Lover's List to Martin",
+   "needs": [
+    {
+     "id": 3417,
+     "name": "Animal Lover's List",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31690@-84816,151008",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4893,
+    "sec": 61,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 4893,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82040,
+      150840,
+      -3120
+     ],
+     [
+      -82312,
+      150840,
+      -3120
+     ],
+     [
+      -82584,
+      150840,
+      -3120
+     ],
+     [
+      -82856,
+      150840,
+      -3120
+     ],
+     [
+      -83128,
+      150872,
+      -3120
+     ],
+     [
+      -83128,
+      150856,
+      -3120
+     ],
+     [
+      -83160,
+      150840,
+      -3120
+     ],
+     [
+      -83336,
+      150760,
+      -3120
+     ],
+     [
+      -83608,
+      150760,
+      -3120
+     ],
+     [
+      -83784,
+      150856,
+      -3120
+     ],
+     [
+      -83832,
+      150904,
+      -3120
+     ],
+     [
+      -84008,
+      150904,
+      -3120
+     ],
+     [
+      -84280,
+      150904,
+      -3120
+     ],
+     [
+      -84536,
+      150984,
+      -3120
+     ],
+     [
+      -84808,
+      151016,
+      -3120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31690@-84816,151008",
+     "name": "Monument of Heroes"
+    },
+    "points": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82040,
+      150840,
+      -3120
+     ],
+     [
+      -82312,
+      150840,
+      -3120
+     ],
+     [
+      -82584,
+      150840,
+      -3120
+     ],
+     [
+      -82856,
+      150840,
+      -3120
+     ],
+     [
+      -83128,
+      150872,
+      -3120
+     ],
+     [
+      -83128,
+      150856,
+      -3120
+     ],
+     [
+      -83160,
+      150840,
+      -3120
+     ],
+     [
+      -83336,
+      150760,
+      -3120
+     ],
+     [
+      -83608,
+      150760,
+      -3120
+     ],
+     [
+      -83784,
+      150856,
+      -3120
+     ],
+     [
+      -83832,
+      150904,
+      -3120
+     ],
+     [
+      -84008,
+      150904,
+      -3120
+     ],
+     [
+      -84280,
+      150904,
+      -3120
+     ],
+     [
+      -84536,
+      150984,
+      -3120
+     ],
+     [
+      -84808,
+      151016,
+      -3120
+     ]
+    ]
+   },
+   "expectedSec": 86,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
     1879048192
    ]
   }

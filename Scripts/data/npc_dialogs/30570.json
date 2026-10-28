@@ -1,0 +1,333 @@
+{
+ "npcId": 30570,
+ "name": "Karukia",
+ "title": "Prefect",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.003Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30570.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "414": {
+   "name": "Path Of The Orc Raider",
+   "listText": [
+    "[Path of the Orc Raider]",
+    "[Path of the Orc Raider (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00414_PathOfTheOrcRaider/30570-01.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00414_PathOfTheOrcRaider/30570-06.html",
+     "when": "state STARTED; has items 1579; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, KURUKA_RATMAN_TOOTH) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00414_PathOfTheOrcRaider/30570-07.html",
+     "when": "state STARTED; has items 1579; lacks items 1589,1590; item 1580 >= 10; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, GOBLIN_DWELLING_MAP) && (getQuestItemsCount(player, KURUKA_RATMAN_TOOTH) < 10))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00414_PathOfTheOrcRaider/30570-08.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, GOBLIN_DWELLING_MAP) && (getQuestItemsCount(player, KURUKA_RATMAN_TOOTH) < 10)); !(hasQuestItems(player, GOBLIN_DWELLING_MAP) && (getQuestItemsCount(player, KURUKA_RATMAN_TOOTH) >= 10)); (hasQuestItems(player, HEAD_OF_BETRAYER) || hasAtLeastOneQuestItem(player, BETRAYER_UMBAR_REPORT, BETRAYER_ZAKAN_REPORT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00414_PathOfTheOrcRaider/30570-07b.html",
+     "when": "state STARTED; memo 2; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, GOBLIN_DWELLING_MAP) && (getQuestItemsCount(player, KURUKA_RATMAN_TOOTH) < 10)); !(hasQuestItems(player, GOBLIN_DWELLING_MAP) && (getQuestItemsCount(player, KURUKA_RATMAN_TOOTH) >= 10)); !(hasQuestItems(player, HEAD_OF_BETRAYER) || hasAtLeastOneQuestItem(player, BETRAYER_UMBAR_REPORT, BETRAYER_ZAKAN_REPORT",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30570.htm": {
+   "file": "trainer/30570.htm",
+   "quest": null,
+   "text": "Prefect Karukia: I am a proud daughter of the Wolf Atuba tribe . It must have been Pa'agrio's will that you came when you did! What do you seek?",
+   "header": "Prefect Karukia",
+   "links": [
+    {
+     "text": "Ask about the Scepter of Wolves.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30570-1.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30570-1.htm": {
+   "file": "trainer/30570-1.htm",
+   "quest": null,
+   "text": "Prefect Karukia: We Atuka Orcs are the Scepter of the Wolf! The Wolf is our brother and our guardian, and has been the symbol of our tribe for a long time. The other Orc tribes also have unique symbols. The Hestui tribe bear the symbol of the Bear, the Neruga tribe bear the symbol of the Bat, the U…",
+   "header": "Prefect Karukia",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30570.htm"
+    }
+   ]
+  },
+  "trainer/30570-noteach.htm": {
+   "file": "trainer/30570-noteach.htm",
+   "quest": null,
+   "text": "Prefect Karukia: You fool! You don't know who I am! I will no longer talk to you.",
+   "header": "Prefect Karukia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00414_PathOfTheOrcRaider/30570-01.htm": {
+   "file": "Q00414_PathOfTheOrcRaider/30570-01.htm",
+   "quest": 414,
+   "text": "Prefect Karukia: Orc Raiders are of the most elite rank among fighters of our race! Their mere appearance on the battlefield makes the enemy troops shiver in fear! To earn the qualifications to become an Orc Raider, you must prove that you have courage that has no regard for death, and absolute loy…",
+   "header": "Prefect Karukia",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you want to be an Orc Raider",
+     "bypass": "Quest Q00414_PathOfTheOrcRaider ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00414_PathOfTheOrcRaider",
+     "event": "ACCEPT",
+     "quest": 414,
+     "to": "Q00414_PathOfTheOrcRaider/30570-04.htm",
+     "toAll": [
+      "Q00414_PathOfTheOrcRaider/30570-04.htm",
+      "Q00414_PathOfTheOrcRaider/30570-05.htm",
+      "Q00414_PathOfTheOrcRaider/30570-02.htm",
+      "Q00414_PathOfTheOrcRaider/30570-02a.htm",
+      "Q00414_PathOfTheOrcRaider/30570-03.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00414_PathOfTheOrcRaider/30570-06.html": {
+   "file": "Q00414_PathOfTheOrcRaider/30570-06.html",
+   "quest": 414,
+   "text": "Prefect Karukia: Why have you come back already? Didn't I tell you to bring back ten kuruka ratman teeth ? Is this all the courage you can muster?",
+   "header": "Prefect Karukia",
+   "when": [
+    "state STARTED; has items 1579; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, KURUKA_RATMAN_TOOTH) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00414_PathOfTheOrcRaider/30570-07.html": {
+   "file": "Q00414_PathOfTheOrcRaider/30570-07.html",
+   "quest": 414,
+   "text": "Prefect Karukia: You accomplished the mission well, but don't get too sure of yourself! As an Orc Raider, that should've been nothing to you! Now you must prove your loyalty. Two Judges await you. Which do you want to go to?",
+   "header": "Prefect Karukia",
+   "when": [
+    "state STARTED; has items 1579; lacks items 1589,1590; item 1580 >= 10; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, GOBLIN_DWELLING_MAP) && (getQuestItemsCount(player, KURUKA_RATMAN_TOOTH) < 10))"
+   ],
+   "links": [
+    {
+     "text": "\"I want to go to Gludin Village.\"",
+     "bypass": "Quest Q00414_PathOfTheOrcRaider 30570-07a.html",
+     "kind": "quest-event",
+     "script": "Q00414_PathOfTheOrcRaider",
+     "event": "30570-07a.html",
+     "quest": 414,
+     "to": "Q00414_PathOfTheOrcRaider/30570-07a.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "\"I want to go to the Town of Schuttgart.\"",
+     "bypass": "Quest Q00414_PathOfTheOrcRaider 30570-07b.html",
+     "kind": "quest-event",
+     "script": "Q00414_PathOfTheOrcRaider",
+     "event": "30570-07b.html",
+     "quest": 414,
+     "to": "Q00414_PathOfTheOrcRaider/30570-07b.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00414_PathOfTheOrcRaider/30570-08.html": {
+   "file": "Q00414_PathOfTheOrcRaider/30570-08.html",
+   "quest": 414,
+   "text": "Prefect Karukia: You have not yet proven your loyalty! There are many traitors hiding far away in Gludin to avoid our eyes! They think they are safe, but we have not forgotten them. Go on now and put an end to the betrayers and prove your loyalty! When you complete this task, take the heads of the …",
+   "header": "Prefect Karukia",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, GOBLIN_DWELLING_MAP) && (getQuestItemsCount(player, KURUKA_RATMAN_TOOTH) < 10)); !(hasQuestItems(player, GOBLIN_DWELLING_MAP) && (getQuestItemsCount(player, KURUKA_RATMAN_TOOTH) >= 10)); (hasQuestItems(player, HEAD_OF_BETRAYER) || hasAtLeastOneQuestItem(player, BETRAYER_UMBAR_REPORT, BETRAYER_ZAKAN_REPORT)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00414_PathOfTheOrcRaider/30570-07b.html": {
+   "file": "Q00414_PathOfTheOrcRaider/30570-07b.html",
+   "quest": 414,
+   "text": "Prefect Karukia: We of the Orc Kingdom have long cherished our tradition of obedience to our elders. Having said that, there are always certain individuals who'd like to change the way we do things... Some such criminal dogs are said to be hiding in the Town of Schuttgart! Speak with Tazeer, the Lo…",
+   "header": "Prefect Karukia",
+   "when": [
+    "state STARTED; memo 2; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, GOBLIN_DWELLING_MAP) && (getQuestItemsCount(player, KURUKA_RATMAN_TOOTH) < 10)); !(hasQuestItems(player, GOBLIN_DWELLING_MAP) && (getQuestItemsCount(player, KURUKA_RATMAN_TOOTH) >= 10)); !(hasQuestItems(player, HEAD_OF_BETRAYER) || hasAtLeastOneQuestItem(player, BETRAYER_UMBAR_REPORT, BETRAYER_ZAKAN_REPORT"
+   ],
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00414_PathOfTheOrcRaider/30570-02.htm": {
+   "file": "Q00414_PathOfTheOrcRaider/30570-02.htm",
+   "quest": 414,
+   "text": "Prefect Karukia: Of course, I know your goal is to be a dignified and noble member of our race. But courage unsupported by ability is foolishness! That is a path that leads only to a meaningless death. Train patiently, youngster, and your chance will come. See me again when you reach level 18!",
+   "header": "Prefect Karukia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00414_PathOfTheOrcRaider/30570-02a.htm": {
+   "file": "Q00414_PathOfTheOrcRaider/30570-02a.htm",
+   "quest": 414,
+   "text": "Prefect Karukia: You fool! You have already been selected as a courageous Orc Raider! Don't waste my time with useless questions. Go out to the battlefield and strike down the enemy!",
+   "header": "Prefect Karukia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00414_PathOfTheOrcRaider/30570-03.htm": {
+   "file": "Q00414_PathOfTheOrcRaider/30570-03.htm",
+   "quest": 414,
+   "text": "Prefect Karukia: Only the most courageous Orc Fighters are chosen to be Orc Raiders. You don't have the qualifications to become a Marauder!",
+   "header": "Prefect Karukia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00414_PathOfTheOrcRaider/30570-04.htm": {
+   "file": "Q00414_PathOfTheOrcRaider/30570-04.htm",
+   "quest": 414,
+   "text": "Prefect Karukia: Oh! The Mark of the Raider! Another strong Warrior is born to fight for the Kingdom! Ha! You must go at once to the Kingdom of Humans and show this mark to the High Prefect there! He'll transfer you to the Raider class. You should visit either High Prefect Osborn in Gludin Village …",
+   "header": "Prefect Karukia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00414_PathOfTheOrcRaider/30570-05.htm": {
+   "file": "Q00414_PathOfTheOrcRaider/30570-05.htm",
+   "quest": 414,
+   "text": "Prefect Karukia: Then, I will give you a test! Orc Raiders are completed when they show courage that is unafraid of death and loyalty that is absolute. First, you must prove your loyalty. Destroy the goblins that spoil the earth and the Kuruka Ratman Leaders that control that filthy race! Take this…",
+   "header": "Prefect Karukia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00414_PathOfTheOrcRaider/30570-07a.html": {
+   "file": "Q00414_PathOfTheOrcRaider/30570-07a.html",
+   "quest": 414,
+   "text": "Prefect Karukia: We of the Orc Kingdom have long cherished our tradition of obedience to our elders. Having said that, there are always certain individuals who'd like to change the way we do things... Some such criminal dogs are said to be hiding in Gludin Village! Speak with Prefect Kasman of Glud…",
+   "header": "Prefect Karukia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Orc Raider]",
+     "bypass": "npc_%objectId%_Quest Q00414_PathOfTheOrcRaider",
+     "kind": "quest",
+     "quest": 414,
+     "to": "Q00414_PathOfTheOrcRaider/30570-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Orc Raider (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00414_PathOfTheOrcRaider",
+     "kind": "quest",
+     "quest": 414,
+     "to": "Q00414_PathOfTheOrcRaider/30570-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,50 @@
+{
+ "npcId": 35098,
+ "name": "Blacksmith",
+ "title": "Gludio",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.421Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/CastleBlacksmith/35098-01.html",
+   "when": "(hasRights(player, npc))",
+   "src": "ai CastleBlacksmith"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/CastleBlacksmith/35098-01.html": {
+   "file": "ai/npc/CastleBlacksmith/35098-01.html",
+   "quest": null,
+   "text": "Blacksmith: Hello! We Dwarves of the Blacksmith Guild have refined our skills in order to create a greater variety of crops for our Lord. What can I do for you?",
+   "header": "Blacksmith",
+   "when": [
+    "(hasRights(player, npc))"
+   ],
+   "links": [
+    {
+     "text": "Manufacture a crop.",
+     "bypass": "Quest CastleBlacksmith 35098-02.html",
+     "kind": "quest-event",
+     "script": "CastleBlacksmith",
+     "event": "35098-02.html",
+     "to": "ai/npc/CastleBlacksmith/35098-02.html"
+    }
+   ]
+  },
+  "ai/npc/CastleBlacksmith/35098-02.html": {
+   "file": "ai/npc/CastleBlacksmith/35098-02.html",
+   "quest": null,
+   "text": "Sure, no problem! Bring the ingredients needed and I'll create an item for you.",
+   "links": [
+    {
+     "text": "Choose an item.",
+     "bypass": "npc_%objectId%_multisell 350980001",
+     "kind": "multisell"
+    }
+   ]
+  }
+ }
+}

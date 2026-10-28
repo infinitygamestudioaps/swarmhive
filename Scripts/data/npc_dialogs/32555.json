@@ -1,0 +1,347 @@
+{
+ "npcId": 32555,
+ "name": "Tenius",
+ "title": "Soldier",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.383Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32555.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "702": {
+   "name": "A Trap for Revenge",
+   "listText": [
+    "[A Trap for Revenge]",
+    "[A Trap for Revenge (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00702_ATrapForRevenge/32555-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00702_ATrapForRevenge/32555-04.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32555.htm": {
+   "file": "default/32555.htm",
+   "quest": null,
+   "text": "Soldier Tenis: Huh! What, are you laughing at me? I can barely stand, and you think it's funny? But this isn't the end. I'm just conserving my strength so I'll be ready to fight... Trust me, when the time comes I'll fight for my lord and for the future of Gracia. I don't care if the enemy is the po…",
+   "header": "Soldier Tenis",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32555-01.html": {
+   "file": "Q00702_ATrapForRevenge/32555-01.html",
+   "quest": 702,
+   "text": "Soldier Tenis: What brings you here?",
+   "header": "Soldier Tenis",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"I need information on how to defeat Dius, the Messenger of Destruction.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32555-02.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32555-02.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32555-02.html"
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32555-04.html": {
+   "file": "Q00702_ATrapForRevenge/32555-04.html",
+   "quest": 702,
+   "text": "Soldier Tenis: What is it?",
+   "header": "Soldier Tenis",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32555-05.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32555-05.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32555-05.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"I collected all the ingredients for the trap.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32555-06.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32555-06.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32555-06.html",
+     "toAll": [
+      "Q00702_ATrapForRevenge/32555-06.html",
+      "Q00702_ATrapForRevenge/32555-07.html"
+     ]
+    },
+    {
+     "text": "\"I defeated Dius.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32555-10.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32555-10.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32555-11.html",
+     "toAll": [
+      "Q00702_ATrapForRevenge/32555-11.html",
+      "Q00702_ATrapForRevenge/32555-10.html"
+     ]
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32555-02.html": {
+   "file": "Q00702_ATrapForRevenge/32555-02.html",
+   "quest": 702,
+   "text": "Soldier Tenis: Did you just say you want to catch Dius, the Messenger of Destruction ? He is not your average monster, you know! You don't know what you're getting into! Say, you're not joking, are you? All right. Well, since I'm wounded, I guess you're my only chance to get some payback. If not fo…",
+   "header": "Soldier Tenis",
+   "links": [
+    {
+     "text": "\"Tell we whatever I need to know.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32555-03.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32555-03.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32555-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32555-03.html": {
+   "file": "Q00702_ATrapForRevenge/32555-03.html",
+   "quest": 702,
+   "text": "Soldier Dius: First of all, Dius did not willingly succumb to the Seed of Destruction . As a result, he becomes stronger whenever the Seed becomes weaker. Unless the Seed of Destruction becomes stable, therefore, you can't defeat him. Even then, you can't you can't destroy Dius by normal methods. H…",
+   "header": "Soldier Dius",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32555-05.html": {
+   "file": "Q00702_ATrapForRevenge/32555-05.html",
+   "quest": 702,
+   "text": "Soldier Tenis: Really? That's too bad. Did you think defeating Dius would be easy? I failed too, remember. Well... I'm not trying to criticize you. I really didn't expect you to succeed. Good-bye.",
+   "header": "Soldier Tenis",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32555-06.html": {
+   "file": "Q00702_ATrapForRevenge/32555-06.html",
+   "quest": 702,
+   "text": "Soldier Tenis: Are you trying to play games with me? I told you to bring 100! Without that many, we can't make the trap. If all you want is to make a quick buck, go and see Plenos . Or are you satisfied earning peanuts? Hmph!",
+   "header": "Soldier Tenis",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32555-07.html": {
+   "file": "Q00702_ATrapForRevenge/32555-07.html",
+   "quest": 702,
+   "text": "Soldier Tenis: Very good! Now I can prepare one of the trap ingredients . I will give you one key ingredient per 100 Drake's Flesh. I will exchange it one at a time. With my injury, I'm afraid I can't do any more. But I'm your only option here. No one else has my depth of knowledge about this creat…",
+   "header": "Soldier Tenis",
+   "links": [
+    {
+     "text": "Exchange Drake's Flesh.",
+     "bypass": "Quest Q00702_ATrapForRevenge 32555-08.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32555-08.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32555-08.html"
+    },
+    {
+     "text": "\"I've changed my mind.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32555-09.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32555-09.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32555-09.html"
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32555-08.html": {
+   "file": "Q00702_ATrapForRevenge/32555-08.html",
+   "quest": 702,
+   "text": "Solider Tenis: Here you go. What's this? Heh heh... I squeezed the flesh you gave me. Out of it came this rotten blood . Then I enhanced the blood smell using my secret method. Heh -- the bloody of smell of revenge seems to be spreading even up here. You want to know why I didn't just have you coll…",
+   "header": "Solider Tenis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32555-09.html": {
+   "file": "Q00702_ATrapForRevenge/32555-09.html",
+   "quest": 702,
+   "text": "Solider Tenis: Fine -- if you don't want to exchange it, don't. Just don't forget that I'm the only one who can make the trap you need.",
+   "header": "Solider Tenis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32555-10.html": {
+   "file": "Q00702_ATrapForRevenge/32555-10.html",
+   "quest": 702,
+   "text": "Soldier Tenis: Ha! You say you defeated Dius? You claim to have succeeded where I failed? Where's the proof?",
+   "header": "Soldier Tenis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32555-11.html": {
+   "file": "Q00702_ATrapForRevenge/32555-11.html",
+   "quest": 702,
+   "text": "Soldier Tenis: You really defeated him? Hee hee... Is this his horn? Ah, revenge is sweet. It's almost as good as if I did the deed myself. Wonderful! Just looking at the horn does my heart good. Thinking about it makes me feel all warm. Hey! I'd like the horn as a souvenir, to comfort me while I r…",
+   "header": "Soldier Tenis",
+   "links": [
+    {
+     "text": "\"What will you give me in return?\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32555-12.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32555-12.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32555-12.html"
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32555-12.html": {
+   "file": "Q00702_ATrapForRevenge/32555-12.html",
+   "quest": 702,
+   "text": "Soldier Tenis: What can a poor injured soldier like me offer? Well... Come to think of it, there is a box I hid long ago. I found it while exploring the Seed of Destruction. Funny, I haven't thought about it until now. But I don't know what's inside it. I think it's something heavy and precious, th…",
+   "header": "Soldier Tenis",
+   "links": [
+    {
+     "text": "\"Sure, sounds like a deal.\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32555-14.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32555-14.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32555-14.html"
+    },
+    {
+     "text": "\"No way!\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32555-13.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32555-13.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32555-13.html"
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32555-13.html": {
+   "file": "Q00702_ATrapForRevenge/32555-13.html",
+   "quest": 702,
+   "text": "Soldier Tenis: Hey, no need to get angry! If you don't like my offer, no problem. Just take the horn to Plenos. You'll get what's coming to you there...",
+   "header": "Soldier Tenis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32555-14.html": {
+   "file": "Q00702_ATrapForRevenge/32555-14.html",
+   "quest": 702,
+   "text": "Soldier Tenis: What? Really? Promise you won't change your mind later? Then give me that horn. Shall we open the box?",
+   "header": "Soldier Tenis",
+   "links": [
+    {
+     "text": "(Hand over the horn.) \"Why don't you open this box?\"",
+     "bypass": "Quest Q00702_ATrapForRevenge 32555-15.html",
+     "kind": "quest-event",
+     "script": "Q00702_ATrapForRevenge",
+     "event": "32555-15.html",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32555-15.html",
+     "toAll": [
+      "Q00702_ATrapForRevenge/32555-15.html",
+      "Q00702_ATrapForRevenge/32555-16.html",
+      "Q00702_ATrapForRevenge/32555-17.html",
+      "Q00702_ATrapForRevenge/32555-18.html"
+     ]
+    }
+   ]
+  },
+  "Q00702_ATrapForRevenge/32555-15.html": {
+   "file": "Q00702_ATrapForRevenge/32555-15.html",
+   "quest": 702,
+   "text": "Soldier Tenis: Oh ho, this is quite a good reward....both Adena and several expensive materials. It's certainly better than anything you would get from Plenos. I think we'd both benefit. Frankly, you're lucky to have gotten that box, too. There are more, you know... Bring me another horn and I we c…",
+   "header": "Soldier Tenis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32555-16.html": {
+   "file": "Q00702_ATrapForRevenge/32555-16.html",
+   "quest": 702,
+   "text": "Soldier Tenis: Huh! That seems like a lot of money... Other than that there isn't anything special. Trust me, you're getting a good deal here. But what's done is done. Of course, there are more boxes; bring me another horn and we can do another trade.",
+   "header": "Soldier Tenis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32555-17.html": {
+   "file": "Q00702_ATrapForRevenge/32555-17.html",
+   "quest": 702,
+   "text": "Soldier Tenis: Huh! Not a lot of money in it. But it is full of expensive-looking materials. It was sure heavy... I'm guessing that if you sell these, you could probably make a lot of money. You could also use them yourself. Satisfied? Either way, what's done is done. Of course, there are more boxe…",
+   "header": "Soldier Tenis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00702_ATrapForRevenge/32555-18.html": {
+   "file": "Q00702_ATrapForRevenge/32555-18.html",
+   "quest": 702,
+   "text": "Soldier Tenis: Hey, this box is full of rocks! What the...? Oh, here are some Adena and other materials as well. Whew! Well, a trade is trade. I have nothing to say. You're just unlucky, my friend. Of course, there are more boxes; bring me another horn and we can do another trade.",
+   "header": "Soldier Tenis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[A Trap for Revenge (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00702_ATrapForRevenge",
+     "kind": "quest",
+     "quest": 702,
+     "to": "Q00702_ATrapForRevenge/32555-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

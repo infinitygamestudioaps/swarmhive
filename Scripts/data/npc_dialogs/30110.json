@@ -1,0 +1,304 @@
+{
+ "npcId": 30110,
+ "name": "Iker",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.842Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30110.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "229": {
+   "name": "Test Of Witchcraft",
+   "listText": [
+    "[Test of Witchcraft]",
+    "[Test of Witchcraft (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00229_TestOfWitchcraft/30110-01.htm",
+     "when": "state STARTED; has items 3309; lacks items 3310,3317",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30110-05.htm",
+     "when": "state STARTED; has items 3309,3310,3317; item 3311 >= 20; item 3312 >= 20; item 3313 >= 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30110-04.htm",
+     "when": "state STARTED; has items 3309,3310,3317; !((getQuestItemsCount(player, DIRE_WYRM_FANG) >= 20) && (getQuestItemsCount(player, LETO_LIZARDMAN_CHARM) >= 20) && (get",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30110-06.htm",
+     "when": "state STARTED; has items 3309,3310,3317; lacks items 3310",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30110-07.htm",
+     "when": "state STARTED; has items 3324; lacks items 3309,3332,3334",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30110-09.htm",
+     "when": "state STARTED; has items 3324,3332,3334; lacks items 3309,3334",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30110-10.htm",
+     "when": "state STARTED; has items 3324,3332,3334; lacks items 3309,3332; !(!hasQuestItems(player, ZERUEL_BIND_CRYSTAL) && hasQuestItems(player, SOULTRAP_CRYSTAL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30110.htm": {
+   "file": "trainer/30110.htm",
+   "quest": null,
+   "text": "Magister Iker: Welcome, friend of Darkness. The magic of the Ivory Tower that I teach is entirely different from the pretty parlor tricks of the Elves or the primitive spells of those uncivilized Orcs. Stay alert and I will open your eyes to the world beyond this one...",
+   "header": "Magister Iker",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30110-noteach.htm": {
+   "file": "trainer/30110-noteach.htm",
+   "quest": null,
+   "text": "Magister Iker: The powerful and subtle magic of the Ivory Tower took hundreds of years to evolve, and is only taught to Human Mystics. I'm sorry but i cannot teach it to you.",
+   "header": "Magister Iker",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30110-01.htm": {
+   "file": "Q00229_TestOfWitchcraft/30110-01.htm",
+   "quest": 229,
+   "text": "Magister Iker: The jewel bought at auction? Yes. So you noticed? That jewel is not an ordinary gem. I also felt a strong magical power emanating from the jewel, which is why I purchased it in the first place. But did you also perceive that the powers emitted from this jewel have a strong sense of..…",
+   "header": "Magister Iker",
+   "when": [
+    "state STARTED; has items 3309; lacks items 3310,3317"
+   ],
+   "links": [
+    {
+     "text": "I promise.",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30110-02.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30110-02.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30110-02.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30110-05.htm": {
+   "file": "Q00229_TestOfWitchcraft/30110-05.htm",
+   "quest": 229,
+   "text": "Magister Iker: Ah, all the items that I asked for! Many thanks for your troubles... They will be of great help in my research. Here is the jewel. I must warn you that you must be careful of this jewel. In the few days that it was in my possession, I got the distinct impression that it was draining …",
+   "header": "Magister Iker",
+   "when": [
+    "state STARTED; has items 3309,3310,3317; item 3311 >= 20; item 3312 >= 20; item 3313 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30110-04.htm": {
+   "file": "Q00229_TestOfWitchcraft/30110-04.htm",
+   "quest": 229,
+   "text": "Magister Iker: Not yet? Bring the ingredients on this list and I will give you the jewel you seek.",
+   "header": "Magister Iker",
+   "when": [
+    "state STARTED; has items 3309,3310,3317; !((getQuestItemsCount(player, DIRE_WYRM_FANG) >= 20) && (getQuestItemsCount(player, LETO_LIZARDMAN_CHARM) >= 20) && (get"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30110-06.htm": {
+   "file": "Q00229_TestOfWitchcraft/30110-06.htm",
+   "quest": 229,
+   "text": "Magister Iker: That jewel does not seem ordinary. I feel evil emanating from it. Be careful.",
+   "header": "Magister Iker",
+   "when": [
+    "state STARTED; has items 3309,3310,3317; lacks items 3310"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30110-07.htm": {
+   "file": "Q00229_TestOfWitchcraft/30110-07.htm",
+   "quest": 229,
+   "text": "Magister Iker: You again? You have betrayed me! You gave that jewel to Orim of the Shadows after you promised that you wouldn't consort with Hardin and his minions! Leave now! You have sold your soul for dark power! I will not speak with you any longer.",
+   "header": "Magister Iker",
+   "when": [
+    "state STARTED; has items 3324; lacks items 3309,3332,3334"
+   ],
+   "links": [
+    {
+     "text": "Explain the circumstances.",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30110-08.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30110-08.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30110-08.htm",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30110-09.htm": {
+   "file": "Q00229_TestOfWitchcraft/30110-09.htm",
+   "quest": 229,
+   "text": "Magister Iker: Due to your carelessness, a monster from the netherworld has been released from its bonds! You must bear responsibility for the beast that you have loosed upon us! You must destroy Zeruel's body and then use the Soul-trap Crystal to trap his soul.",
+   "header": "Magister Iker",
+   "when": [
+    "state STARTED; has items 3324,3332,3334; lacks items 3309,3334"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30110-10.htm": {
+   "file": "Q00229_TestOfWitchcraft/30110-10.htm",
+   "quest": 229,
+   "text": "Magister Iker: You have trapped the soul of the devil Zeruel within the Crystal of Binding... The malevolence of his soul makes me shudder! You must return and seal this devil within the original box!",
+   "header": "Magister Iker",
+   "when": [
+    "state STARTED; has items 3324,3332,3334; lacks items 3309,3332; !(!hasQuestItems(player, ZERUEL_BIND_CRYSTAL) && hasQuestItems(player, SOULTRAP_CRYSTAL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30110-02.htm": {
+   "file": "Q00229_TestOfWitchcraft/30110-02.htm",
+   "quest": 229,
+   "text": "Magister Iker: All right. You can have the jewel. But I paid a hefty sum for it and require compensation. What about that? Bring me the materials I need for my research and I will give you the jewel in exchange.",
+   "header": "Magister Iker",
+   "links": [
+    {
+     "text": "\"I will gather your materials for you.\"",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30110-03.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30110-03.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30110-03.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30110-03.htm": {
+   "file": "Q00229_TestOfWitchcraft/30110-03.htm",
+   "quest": 229,
+   "text": "Magister Iker: All right, this is what I need. First, the teeth of the Wyrm that lives in the Sea of Spores . 20 of them should be enough. You must also bring me the Leto Lizardman's amulet . You can find the Leto Lizardmen in the southern parts of Oren . You must bring me 20 of these. . And last, …",
+   "header": "Magister Iker",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30110-08.htm": {
+   "file": "Q00229_TestOfWitchcraft/30110-08.htm",
+   "quest": 229,
+   "text": "Magister Iker: Once again the short-sightedness of you dark sorcerers has brought disaster! Your careless use of dark magic has loosed a devil upon us! In any case, the monster Zeruel cannot be allowed to roam free. I shall lend you the Soul-trap Crystal . Seal the devil behind the doors of purgato…",
+   "header": "Magister Iker",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Witchcraft (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00229_TestOfWitchcraft",
+     "kind": "quest",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30110-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

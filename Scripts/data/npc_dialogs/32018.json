@@ -1,0 +1,180 @@
+{
+ "npcId": 32018,
+ "name": "Misa",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.312Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32018.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "115": {
+   "name": "The Other Side of Truth",
+   "listText": [
+    "[The Other Side of Truth]",
+    "[The Other Side of Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32018-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32018-02.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32018-03.html",
+     "when": "state STARTED; cond 3|4",
+     "state": "STARTED",
+     "cond": [
+      3,
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32018-04.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32018-06.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32018.htm": {
+   "file": "default/32018.htm",
+   "quest": null,
+   "text": "Misa: Nothing makes me happier than to walk around the lake under the beautiful moonlight... Who's that? What do you want? You'd better behave yourself or you'll be sorry, stranger!",
+   "header": "Misa",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32018-01.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32018-01.html",
+   "quest": 115,
+   "text": "Misa: Do you have anything to say to me? What? Rafforty sent you? Well, he doesn't want to see me, I guarantee you that! .... Would you give this letter to Rafforty? I need him to read it immediately! But please, do not read it yourself! This is none of your business! Oh, Rafforty...",
+   "header": "Misa",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32018-02.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32018-02.html",
+   "quest": 115,
+   "text": "Misa: You're still here? It's quite cold! You should go at once! Please give this letter to Rafforty .",
+   "header": "Misa",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32018-03.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32018-03.html",
+   "quest": 115,
+   "text": "Misa: Is there anything you want to say to me? Well, I don't have anything to say to you! I just want to enjoy this beautiful night view.",
+   "header": "Misa",
+   "when": [
+    "state STARTED; cond 3|4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32018-04.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32018-04.html",
+   "quest": 115,
+   "text": "Misa: Why are you here again? I don't have anything to say to you.",
+   "header": "Misa",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"This letter is from Rafforty.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32018-05.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32018-05.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32018-05.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32018-06.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32018-06.html",
+   "quest": 115,
+   "text": "Misa: We accidently found out where the lost Guild members might be! They were turned into ice sculptures! Do you think you could go and see if there are any remnants of their investigation? You can find the ice sculptures on the plains north of the entrance of the Ice Queen's castle . Please, help…",
+   "header": "Misa",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32018-05.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32018-05.html",
+   "quest": 115,
+   "text": "Misa: Oh! You're going to work with us! Welcome aboard! I'll tell you what I just found out. We lost touch with a large party of our Guild members who had been dispatched to investigate the recent activities of the Ice Queen. We recently got lucky and found out where they might be... It seems that …",
+   "header": "Misa",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Other Side of Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00115_TheOtherSideOfTruth",
+     "kind": "quest",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32018-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

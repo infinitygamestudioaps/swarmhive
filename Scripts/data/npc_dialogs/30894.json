@@ -1,0 +1,903 @@
+{
+ "npcId": 30894,
+ "name": "Natools",
+ "title": "Warehouse Chief",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:03.104Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30894.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "141": {
+   "name": "Shadow Fox - 3",
+   "listText": [
+    "[Shadow Fox - 3]",
+    "[Shadow Fox - 3 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00141_ShadowFoxPart3/30894-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); (player.hasQuestCompleted(Q00140_ShadowFoxPart2.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00141_ShadowFoxPart3/30894-00.html",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (player.hasQuestCompleted(Q00140_ShadowFoxPart2.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00141_ShadowFoxPart3/30894-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00141_ShadowFoxPart3/30894-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00141_ShadowFoxPart3/30894-07.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00141_ShadowFoxPart3/30894-09.html",
+     "when": "state STARTED; cond 3; st.getInt(\"talk\") == 1",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00141_ShadowFoxPart3/30894-16.html",
+     "when": "state STARTED; cond 3; !st.getInt(\"talk\") == 1; st.getInt(\"talk\") == 2",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00141_ShadowFoxPart3/30894-08.html",
+     "when": "state STARTED; cond 3; !st.getInt(\"talk\") == 1; !st.getInt(\"talk\") == 2",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00141_ShadowFoxPart3/30894-19.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "142": {
+   "name": "Fallen Angel - Request of Dawn",
+   "listText": [
+    "[Fallen Angel - Request of Dawn]",
+    "[Fallen Angel - Request of Dawn (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00142_FallenAngelRequestOfDawn/30894-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "start"
+    },
+    {
+     "page": "Q00142_FallenAngelRequestOfDawn/30894-04.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "143": {
+   "name": "Fallen Angel - Request of Dusk",
+   "listText": [
+    "[Fallen Angel - Request of Dusk]",
+    "[Fallen Angel - Request of Dusk (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00143_FallenAngelRequestOfDusk/30894-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "start"
+    },
+    {
+     "page": "Q00143_FallenAngelRequestOfDusk/30894-04.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "998": {
+   "name": "Fallen Angel - Select",
+   "listText": [
+    "[Fallen Angel - Select]",
+    "[Fallen Angel - Select (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00998_FallenAngelSelect/30894-01.html",
+     "when": "((player.getLevel() >= MIN_LEVEL) && (qs != null) && qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00998_FallenAngelSelect/30894-00.html",
+     "when": "NOT ((player.getLevel() >= MIN_LEVEL) && (qs != null) && qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30894.htm": {
+   "file": "villagemaster/30894.htm",
+   "quest": null,
+   "text": "Warehouse Chief Natools: Hmm. The world is becoming more dangerous each day. You need guards just to transport cargo from Giran's port to the village! Here in Innadril, of course, merchandise can be unload, sorted and sold right in Heine... I pity poor Gesto in Giran; the center of commerce has cle…",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest DwarfWarehouseChange2",
+     "kind": "quest",
+     "script": "DwarfWarehouseChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-01.htm": {
+   "file": "Q00141_ShadowFoxPart3/30894-01.htm",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: Ah, you are the adventurer who wants to meet Shadow Fox! I know your reasons already, so there's no need to justify yourself to me. You want to know the status of our search for the angel, don't you? I heard news from Kluck, you know. But you must be a high-level agent to m…",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); (player.hasQuestCompleted(Q00140_ShadowFoxPart2.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "\"I am ready.\"",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-03.htm",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-03.htm",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-00.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-00.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: What? Shadow Fox? High-level agent? I don't know what you're talking about. Leave me alone! (Only characters that have completed Shadow Fox - 2 Quest are permitted to undertake this quest.)",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (player.hasQuestCompleted(Q00140_ShadowFoxPart2.class.getSimpleName()))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00141_ShadowFoxPart3/30894-02.htm": {
+   "file": "Q00141_ShadowFoxPart3/30894-02.htm",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: Ah, you are the adventurer who wants to meet Shadow Fox! I know your reasons already, so there's no need to justify yourself to me. You want to know the status of our search for the angel, don't you? I heard news from Kluck, you know. But you must be a high-level agent to m…",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00141_ShadowFoxPart3/30894-04.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-04.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: I will explain what you must now do...",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Listen carefully.",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-05.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-05.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-05.html"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-07.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-07.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: Go to Alligator Beach and destroy the Crokian Warriors, Farhites and Alligators you find there. Then collect 30 Predecessor's Investigative Reports .",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00141_ShadowFoxPart3/30894-09.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-09.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: Please wait while I read these reports written by your predecessor...",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state STARTED; cond 3; st.getInt(\"talk\") == 1"
+   ],
+   "links": [
+    {
+     "text": "Wait",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-10.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-10.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-10.html"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-16.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-16.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: While waiting for your predecessor, we received a request from the leadership of the Revolutionaries of Dusk concerning the Angel... The upshot is that now have two requests concerning the matter... If you examine the specifics of the request from the Temple, which you will…",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state STARTED; cond 3; !st.getInt(\"talk\") == 1; st.getInt(\"talk\") == 2"
+   ],
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-17.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-17.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-17.html"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-08.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-08.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: Ah, you've returned with my agent's reports. Well done! Please wait while I read these...",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state STARTED; cond 3; !st.getInt(\"talk\") == 1; !st.getInt(\"talk\") == 2"
+   ],
+   "links": [
+    {
+     "text": "Wait.",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-10.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-10.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-10.html"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-19.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-19.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: The Temple and the Lords of Dawn believe that Einhasad created Humans, and they see themselves as righteous because they are her followers. They believe that the other gods and their followers are inferior and should unite under their command to battle the forces of Shilen.…",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"What do the Revolutionaries of Dusk believe?\"",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-20.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-20.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-20.html"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30894-01.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30894-01.html",
+   "quest": 142,
+   "text": "Warehouse Chief Natools: You wish to accept the request of the Temple of Einhsad and the Rulers of Dawn ? Then I will tell you what you must do. Listen carefully and do not divulge the secrets you are about to hear...",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"I will keep that in mind.\"",
+     "bypass": "Quest Q00142_FallenAngelRequestOfDawn 30894-02.html",
+     "kind": "quest-event",
+     "script": "Q00142_FallenAngelRequestOfDawn",
+     "event": "30894-02.html",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30894-02.html"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30894-04.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30894-04.html",
+   "quest": 142,
+   "text": "Warehouse Chief Natools: Seek out High Priest Raymond in Gludio and follow his instructions...",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00143_FallenAngelRequestOfDusk/30894-01.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30894-01.html",
+   "quest": 143,
+   "text": "Warehouse Chief Natools: Have you chosen the request of the Revolutionaries of Dusk ? Then I will tell you what you need to do. Listen carefully, and do not divulge what I am about to tell you...",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Yes, I will keep that in mind.\"",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 30894-02.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "30894-02.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/30894-02.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/30894-04.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30894-04.html",
+   "quest": 143,
+   "text": "Warehouse Chief Natools: Meet Grand Master Tobias in the town of Gludio and follow his instructions...",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00998_FallenAngelSelect/30894-01.html": {
+   "file": "Q00998_FallenAngelSelect/30894-01.html",
+   "quest": 998,
+   "text": "Warehouse Chief Natools: In the name of Shadow Fox... You must choose now. Select either the request of the Temple and the Lords of Dawn, or that of the Preachers of the Wilderness and the Revolutionaries of Dusk... Choose wisely -- once you have made your decision, it cannot be reversed...",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "((player.getLevel() >= MIN_LEVEL) && (qs != null) && qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "\"I want to hear about the Lords of Dawn and the Temple again.\"",
+     "bypass": "Quest Q00998_FallenAngelSelect 30894-02.html",
+     "kind": "quest-event",
+     "script": "Q00998_FallenAngelSelect",
+     "event": "30894-02.html",
+     "quest": 998,
+     "to": "Q00998_FallenAngelSelect/30894-02.html"
+    },
+    {
+     "text": "\"I want to hear about the Revolutionaries of Dusk again.\"",
+     "bypass": "Quest Q00998_FallenAngelSelect 30894-03.html",
+     "kind": "quest-event",
+     "script": "Q00998_FallenAngelSelect",
+     "event": "30894-03.html",
+     "quest": 998,
+     "to": "Q00998_FallenAngelSelect/30894-03.html"
+    },
+    {
+     "text": "\"I will accept the request of the Temple and the Lords of Dawn.\"",
+     "bypass": "Quest Q00998_FallenAngelSelect dawn",
+     "kind": "quest-event",
+     "script": "Q00998_FallenAngelSelect",
+     "event": "dawn",
+     "quest": 998,
+     "to": "Q00998_FallenAngelSelect/30894-01.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"I will accept the request of the Revolutionaries of Dusk.\"",
+     "bypass": "Quest Q00998_FallenAngelSelect dusk",
+     "kind": "quest-event",
+     "script": "Q00998_FallenAngelSelect",
+     "event": "dusk",
+     "quest": 998,
+     "to": "Q00998_FallenAngelSelect/30894-01.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00998_FallenAngelSelect/30894-00.html": {
+   "file": "Q00998_FallenAngelSelect/30894-00.html",
+   "quest": 998,
+   "text": "Warehouse Chief Natools: Both of these missions are very important. Not only must they be completed quickly, they also have extensive political ramifications. I do not think you are yet ready to take on so important a responsibility. Perhaps with more training and experience... (Only characters lev…",
+   "header": "Warehouse Chief Natools",
+   "when": [
+    "NOT ((player.getLevel() >= MIN_LEVEL) && (qs != null) && qs.isCompleted())"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00141_ShadowFoxPart3/30894-03.htm": {
+   "file": "Q00141_ShadowFoxPart3/30894-03.htm",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: Very well. I will explain what you must do...",
+   "header": "Warehouse Chief Natools",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Listen carefully.",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-05.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-05.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-05.html"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-05.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-05.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: Before your arrival, I worked with another high-level agent I trusted completely. Unfortunately, during his last mission he was attacked and slain by monsters...",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-06.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-06.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-06.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-06.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-06.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: My request is not very complicated -- just dangerous. Go to Alligator Beach and destroy the Crokian Warriors, Farhites and Alligators you find there. Then collect 30 Predecessor's Investigative Reports .",
+   "header": "Warehouse Chief Natools",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00141_ShadowFoxPart3/30894-10.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-10.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: What?! How could that possibly happen? Astonishing...",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-11.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-11.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-11.html"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-11.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-11.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: (Natools mutters to himself, obviously deep in thought.) Hmm... Perhaps...yes, this is the only way... Such an exceptional situation requires an exceptional response... Hey -- you there!",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "\"Yes?\"",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-12.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-12.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-12.html"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-12.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-12.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: I had originally planned to give you several more missions to prove yourself worthy of being a high-level agent. But the situation has changed, and I now need your assistance with a particularly sensitive and important mission. On the basis of my personal authority, I hereb…",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "\"Can I meet Shadow Fox now?\"",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-13.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-13.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-13.html"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-13.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-13.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: Ha! Not particularly quick-witted, are you? Think about it -- if Shadow Fox is the only one empowered by the authorities to create high-level agents, and now I have just made you a high-level agent...",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "\"That means you must be...\"",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-14.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-14.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-14.html"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-14.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-14.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: Yes... Not exactly what you expected, eh? Well, anonymity has its uses in this game, as you'll discover if you survive long enough. Now listen carefully...",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "Listen carefully.",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-15.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-15.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-15.html"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-15.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-15.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: As you already know, I instructed your predecessor to discover the location of the angel. That was not, however, his sole mission. Both the Temple and the Rulers of Dawn requested the use of a trusted secret messenger. Your predecessor was also carrying out that task when h…",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-16.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-16.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-16.html"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-17.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-17.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: Our organization takes a neutral stance in any dispute over power or ideology, nor am I personally interested in those things. Normally we accept our missions based on the size of the payment. In this case, however, both sides have offered us the same amount... So I am givi…",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "\"Before I choose, can you give me more information about each request?\"",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-18.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-18.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-18.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-18.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-18.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: I am sorry, but I cannot. Whichever mission you choose, the details of the other must still be kept confidential. This rule is what has allowed us to deal amicably with both sides over the years, preserving our integrity and earning our clients' trust. But I understand that…",
+   "header": "Warehouse Chief Natools",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Please tell me about the Rulers of Dawn and the Temple.\"",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-19.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-19.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-19.html"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-20.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-20.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: They argue that we should respect diversity.... They believe that all power and all living things are equal on this earth, and that the Temple and the Lords should use their power to protect the powerless. Instead, they say, the Temple and the Lords simply exploit the peopl…",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "\"I cannot say who is right and who is wrong...\"",
+     "bypass": "Quest Q00141_ShadowFoxPart3 30894-21.html",
+     "kind": "quest-event",
+     "script": "Q00141_ShadowFoxPart3",
+     "event": "30894-21.html",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-21.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00141_ShadowFoxPart3/30894-21.html": {
+   "file": "Q00141_ShadowFoxPart3/30894-21.html",
+   "quest": 141,
+   "text": "Warehouse Chief Natools: Yes... Peace can be achieved through both centralized authority and the harmony of diversity... However, history shows that words like \"order\" and \"peace\" can be used to justify tyranny. On the other hand, words like \"harmony\" and \"diversity\" may only be ideals impossible t…",
+   "header": "Warehouse Chief Natools",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "\"I will make my decision now.\"",
+     "bypass": "npc_%objectId%_Quest Q00998_FallenAngelSelect",
+     "kind": "quest",
+     "script": "Q00998_FallenAngelSelect",
+     "quest": 998,
+     "to": "Q00998_FallenAngelSelect/30894-01.html"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30894-02.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30894-02.html",
+   "quest": 142,
+   "text": "Warehouse Chief Natools: What the Temple really desires is the destruction of the angel.",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "\"What?! I can't believe that... Why would they want that?\"",
+     "bypass": "Quest Q00142_FallenAngelRequestOfDawn 30894-03.html",
+     "kind": "quest-event",
+     "script": "Q00142_FallenAngelRequestOfDawn",
+     "event": "30894-03.html",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30894-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00142_FallenAngelRequestOfDawn/30894-03.html": {
+   "file": "Q00142_FallenAngelRequestOfDawn/30894-03.html",
+   "quest": 142,
+   "text": "Warehouse Chief Natools: The Temple believes that the angel is actually a fallen angel who has rebelled against Einhasad and is now fleeing her wrath. In their eyes, the angel has become a monster... Guard this knowledge! If it became widely known, chaos might ensue. Go speak to High Priest Raymond…",
+   "header": "Warehouse Chief Natools",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00143_FallenAngelRequestOfDusk/30894-02.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30894-02.html",
+   "quest": 143,
+   "text": "Warehouse Chief Natools: The Revolutionaries of Dusk want you to find the location of the wounded angel and obtain its message after healing it...",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "How do I find the location of the angel? What do I do to obtain its message?\"",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 30894-03.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "30894-03.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/30894-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/30894-03.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/30894-03.html",
+   "quest": 143,
+   "text": "Warehouse Chief Natools: I do not know the angel's location, but we have been requested to search for something called the Sealed Prophecy: Path of the God . Your predecessor has already secured it... They think it contains clues to the whereabouts of the angel. Apparently, once the angel is locate…",
+   "header": "Warehouse Chief Natools",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00998_FallenAngelSelect/30894-02.html": {
+   "file": "Q00998_FallenAngelSelect/30894-02.html",
+   "quest": 998,
+   "text": "Warehouse Chief Natools: The Temple and the Rulers of Dawn believe that Einhasad created Humans, and that they are her rightful representatives in this world, with the power to issue commands in her name. They believe that the other gods are inferior to Einhasad, and so their followers should submi…",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "\"I will make my decision now.\"",
+     "bypass": "Quest Q00998_FallenAngelSelect 30894-01.html",
+     "kind": "quest-event",
+     "script": "Q00998_FallenAngelSelect",
+     "event": "30894-01.html",
+     "quest": 998,
+     "to": "Q00998_FallenAngelSelect/30894-01.html"
+    }
+   ]
+  },
+  "Q00998_FallenAngelSelect/30894-03.html": {
+   "file": "Q00998_FallenAngelSelect/30894-03.html",
+   "quest": 998,
+   "text": "Warehouse Chief Natools: They argue that we should respect diversity.... They believe that all power and all living things are equal on this earth, and that the Temple and the Lords should use their power to protect the powerless. Instead, they say, the Temple and the Lords simply exploit the peopl…",
+   "header": "Warehouse Chief Natools",
+   "links": [
+    {
+     "text": "\"I am ready to make my decision...\"",
+     "bypass": "Quest Q00998_FallenAngelSelect 30894-01.html",
+     "kind": "quest-event",
+     "script": "Q00998_FallenAngelSelect",
+     "event": "30894-01.html",
+     "quest": 998,
+     "to": "Q00998_FallenAngelSelect/30894-01.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Shadow Fox - 3]",
+     "bypass": "npc_%objectId%_Quest Q00141_ShadowFoxPart3",
+     "kind": "quest",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Shadow Fox - 3 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00141_ShadowFoxPart3",
+     "kind": "quest",
+     "quest": 141,
+     "to": "Q00141_ShadowFoxPart3/30894-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Fallen Angel - Request of Dawn (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00142_FallenAngelRequestOfDawn",
+     "kind": "quest",
+     "quest": 142,
+     "to": "Q00142_FallenAngelRequestOfDawn/30894-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Fallen Angel - Request of Dusk (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00143_FallenAngelRequestOfDusk",
+     "kind": "quest",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/30894-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Fallen Angel - Select]",
+     "bypass": "npc_%objectId%_Quest Q00998_FallenAngelSelect",
+     "kind": "quest",
+     "quest": 998,
+     "to": "Q00998_FallenAngelSelect/30894-01.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Fallen Angel - Select (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00998_FallenAngelSelect",
+     "kind": "quest",
+     "quest": 998,
+     "to": "Q00998_FallenAngelSelect/30894-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

@@ -1,0 +1,176 @@
+{
+ "npcId": 30909,
+ "name": "Anabel",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.109Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30909.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "29": {
+   "name": "Chest Caught With A Bait Of Earth",
+   "listText": [
+    "[Chest Caught with a Bait of Earth]",
+    "[Chest Caught with a Bait of Earth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00029_ChestCaughtWithABaitOfEarth/30909-01.htm",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30909.htm": {
+   "file": "trainer/30909.htm",
+   "quest": null,
+   "text": "Magister Anabel: Elves and Humans have long been allowed to marry here in Innadril. That wasn't the case in the Elven Forest. I remember hearing about one Elf who was imprisoned for nearly a century just for displaying affection toward a Human! The Elders are deeply opposed to the idea of marriage …",
+   "header": "Magister Anabel",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30909-noteach.htm": {
+   "file": "trainer/30909-noteach.htm",
+   "quest": null,
+   "text": "Magister Anabel: I am sorry. Elven magic can be quite subtle and only fully comprehended by Elven Mystics. I am not an appropriate teacher for you.",
+   "header": "Magister Anabel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00029_ChestCaughtWithABaitOfEarth/30909-01.htm": {
+   "file": "Q00029_ChestCaughtWithABaitOfEarth/30909-01.htm",
+   "quest": 29,
+   "text": "Magister Anabel: Neither love nor friendship will ever last between a mortal Human and an Elf. They fade with time, but memories, they'll last forever. What can I do for you?",
+   "header": "Magister Anabel",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"I found the box with the names Anabel and Liesel on it.\"",
+     "bypass": "Quest Q00029_ChestCaughtWithABaitOfEarth 30909-03.htm",
+     "kind": "quest-event",
+     "script": "Q00029_ChestCaughtWithABaitOfEarth",
+     "event": "30909-03.htm",
+     "quest": 29,
+     "to": "Q00029_ChestCaughtWithABaitOfEarth/30909-03.htm",
+     "toAll": [
+      "Q00029_ChestCaughtWithABaitOfEarth/30909-03.htm",
+      "Q00029_ChestCaughtWithABaitOfEarth/30909-02.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00029_ChestCaughtWithABaitOfEarth/30909-02.htm": {
+   "file": "Q00029_ChestCaughtWithABaitOfEarth/30909-02.htm",
+   "quest": 29,
+   "text": "Magister Anabel: Really? I asked Willie to find it for me... That bait has power beyond normal magic. It draws on the four elements of nature, earth, water, fire and air. The lost items find their own way in the water through the elements in the bait rather than trying to catch them with magic. I'v…",
+   "header": "Magister Anabel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00029_ChestCaughtWithABaitOfEarth/30909-03.htm": {
+   "file": "Q00029_ChestCaughtWithABaitOfEarth/30909-03.htm",
+   "quest": 29,
+   "text": "Magister Anabel: A box with our names? Ah Liesel, I miss her so. You don't have the box with you, but if you find it, please bring it to me.",
+   "header": "Magister Anabel",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Chest Caught with a Bait of Earth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00029_ChestCaughtWithABaitOfEarth",
+     "kind": "quest",
+     "quest": 29,
+     "to": "Q00029_ChestCaughtWithABaitOfEarth/30909-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

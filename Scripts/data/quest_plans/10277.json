@@ -2,7 +2,7 @@
  "id": 10277,
  "name": "Mutated Kaneus - Dion",
  "version": 1,
- "generated": "2026-10-27T11:16:38.423Z",
+ "generated": "2026-10-27T18:20:04.512Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 28,
@@ -11,23 +11,18 @@
  "type": "one-time",
  "region": "Dion",
  "requirements": {},
- "restrictions": [],
+ "restrictions": [
+  {
+   "code": "party-instance",
+   "text": "Kamaloka level 33 boss: party mode (the leader runs the Kamaloka mission); one Hall a day on L2Toggle"
+  }
+ ],
  "status": "fixable",
  "reasons": [
-  {
-   "code": "mob-no-spawn",
-   "text": "a monster of a step has no spawn and no known trigger",
-   "step": 1
-  },
   {
    "code": "owner-manual",
    "text": "marked \"manual\" on the dashboard (plan override)",
    "step": 1
-  },
-  {
-   "code": "engine-manual",
-   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
-   "step": 3
   }
  ],
  "expectedMin": 9,
@@ -260,11 +255,11 @@
    ],
    "kills": 1,
    "reasons": [
-    "mob-no-spawn",
     "owner-manual"
    ],
    "engine": {
-    "manual": "the monsters (18558, 18559) only appear through the quest script and no trigger is known"
+    "instance": "kamaloka",
+    "level": 33
    },
    "text": "Kill Crimson Hatu (Kamaloka 33) + Seer Flouros (Kamaloka 36) and report",
    "expectedSec": 300,
@@ -450,7 +445,7 @@
    },
    "expectedSec": 84,
    "engine": {
-    "act": "manual",
+    "act": "instance",
     "hasItems": "talk"
    },
    "conds": [
@@ -489,9 +484,7 @@
      "n": 1
     }
    ],
-   "reasons": [
-    "engine-manual"
-   ],
+   "reasons": [],
    "travel": {
     "src": "atlas",
     "key": "npc:30461@16427,142131",
@@ -589,9 +582,8 @@
     }
    },
    "expectedSec": 61,
-   "engineWhy": "the monsters (18558, 18559) only appear through the quest script and no trigger is known",
    "engine": {
-    "act": "manual",
+    "act": "instance",
     "hasItems": "talk"
    },
    "conds": [

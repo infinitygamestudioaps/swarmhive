@@ -1,0 +1,339 @@
+{
+ "npcId": 30718,
+ "name": "Joan",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.061Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30718.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "235": {
+   "name": "Mimir's Elixir",
+   "listText": [
+    "[Mimir's Elixir]",
+    "[Mimir's Elixir (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00235_MimirsElixir/30718-01.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00235_MimirsElixir/30718-04.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00235_MimirsElixir/30718-05.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "422": {
+   "name": "Repent Your Sins",
+   "listText": [
+    "[Repent Your Sins]",
+    "[Repent Your Sins (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00422_RepentYourSins/30718-01.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00422_RepentYourSins/30718-02.html",
+     "when": "state STARTED; memo 8; getQuestItemsCount(player, TRISALIM_TARANTULAS_VENOM_SAC) < 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00422_RepentYourSins/30718-03.html",
+     "when": "state STARTED; memo 8; !getQuestItemsCount(player, TRISALIM_TARANTULAS_VENOM_SAC) < 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00422_RepentYourSins/30718-04.html",
+     "when": "state STARTED; memo 12",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30718.htm": {
+   "file": "trainer/30718.htm",
+   "quest": null,
+   "text": "Magister Joan: This Ivory Tower was nearly destroyed when the Elmoreden Empire fell. It survived not because of its power -- although the Ivory Tower had enough to control the continent -- but because its focus changed to become a pure research and educational institution. Some other magisters argu…",
+   "header": "Magister Joan",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Ask why she thinks so.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30718-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30718-1.htm": {
+   "file": "trainer/30718-1.htm",
+   "quest": null,
+   "text": "Magister Joan: Well... People often see Wizards as cold, remote beings, but in fact they're not. The study of magic simply sharpens certain facets of our personalities. We've all heard stories of some insecure apprentice who becomes an arrogant sorcerer, eh? That's how we start down those dark path…",
+   "header": "Magister Joan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "trainer/30718-noteach.htm": {
+   "file": "trainer/30718-noteach.htm",
+   "quest": null,
+   "text": "Magister Joan: Hmm... Fine, but could you first transcribe this 600 page ancient language text book 20 times? Ha! Just kidding. If you are a Cleric you should visit the temple.",
+   "header": "Magister Joan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30718-01.html": {
+   "file": "Q00235_MimirsElixir/30718-01.html",
+   "quest": 235,
+   "text": "Magister Joan: What's the world coming to? Magister Ladd, asking for help? He wants True Gold, eh? I'll wager he's restarted his research into Mimir's Elixir! He swore he'd given it up! He gave all of his True Gold to me, and said he wouldn't need it again! And now you've come, asking for it back! …",
+   "header": "Magister Joan",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"What's the problem?\"",
+     "bypass": "Quest Q00235_MimirsElixir 30718-02.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "30718-02.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30718-02.html"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/30718-04.html": {
+   "file": "Q00235_MimirsElixir/30718-04.html",
+   "quest": 235,
+   "text": "Magister Joan: Did you get the Sage's Stone? I can't make True Gold without the Sage's Stone, remember. Go immediately to the Silent Valley and kill the chimera pieces that you encounter. One of them will have the Sage's Stone.",
+   "header": "Magister Joan",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30718-05.html": {
+   "file": "Q00235_MimirsElixir/30718-05.html",
+   "quest": 235,
+   "text": "Magister Joan: You've brought me the Sage's Stone! Good job! This precious little stone is the motivating force of my magic! I feel as though a part of my own flesh has been returned to me... I shall make your True Gold right away. I'll blend these reagents, heat it up, use the Sage's Stone... Now …",
+   "header": "Magister Joan",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, please!\"",
+     "bypass": "Quest Q00235_MimirsElixir 30718-06.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "30718-06.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30718-06.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00422_RepentYourSins/30718-01.html": {
+   "file": "Q00422_RepentYourSins/30718-01.html",
+   "quest": 422,
+   "text": "Magister Joan: Greetings! I look forward to working with you. I am Magister Joan. I am researching the neutralization of the toxic element found in the Sea of Spores. I am sure you are familiar with that poisonous pond... Your task will be to collect three Trisalim's Venom Sacs . You will find them…",
+   "header": "Magister Joan",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30718-02.html": {
+   "file": "Q00422_RepentYourSins/30718-02.html",
+   "quest": 422,
+   "text": "Magister Joan: Have you found three Trisalim Venom Sacs yet? You have gone to the Sea of Spores , haven't you? This research may seem unimportant to you, but it is of utmost importance to me and the entire Elven race! Although I am the only one who seems to care about it...",
+   "header": "Magister Joan",
+   "when": [
+    "state STARTED; memo 8; getQuestItemsCount(player, TRISALIM_TARANTULAS_VENOM_SAC) < 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30718-03.html": {
+   "file": "Q00422_RepentYourSins/30718-03.html",
+   "quest": 422,
+   "text": "Magister Joan: You brought all three of them! Wonderful! As agreed, your compensation will be paid at the Ivory Tower... Huh? Wait, what is this... What are trying to pull?! According to my records, an adventurer in service to the Ivory Tower has already left for Innadril...! Who are you?",
+   "header": "Magister Joan",
+   "when": [
+    "state STARTED; memo 8; !getQuestItemsCount(player, TRISALIM_TARANTULAS_VENOM_SAC) < 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30718-04.html": {
+   "file": "Q00422_RepentYourSins/30718-04.html",
+   "quest": 422,
+   "text": "Magister Joan: Ah, it's you again! I'm so dreadfully sorry about the confusion last time. Yes, about your pay... I apologize, I'm waiting for approval and a check from the home office... ... err, ummm... To tell you the truth, I hired you without the approval of the Grand Magisters of the Ivory Tow…",
+   "header": "Magister Joan",
+   "when": [
+    "state STARTED; memo 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30718-02.html": {
+   "file": "Q00235_MimirsElixir/30718-02.html",
+   "quest": 235,
+   "text": "Magister Joan: Have you heard of the Sage's Stone? It's a crystal that one must make in order to be recognized as a mage. The manufacturing process actually changes the basic properties of matter, and is fundamental in all magical research. The reason I'm telling you this is... To manufacture True …",
+   "header": "Magister Joan",
+   "links": [
+    {
+     "text": "\"I will help you.\"",
+     "bypass": "Quest Q00235_MimirsElixir 30718-03.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "30718-03.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30718-03.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/30718-03.html": {
+   "file": "Q00235_MimirsElixir/30718-03.html",
+   "quest": 235,
+   "text": "Magister Joan: Very good! You shall leave immediately for the Silent Valley ! I want you to deal with the chimera piece . You'll find many other creatures there, but they're all shadows of the same being. Though only one holds the Sage's Stone, there's really no way of telling which one it is. Just…",
+   "header": "Magister Joan",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30718-06.html": {
+   "file": "Q00235_MimirsElixir/30718-06.html",
+   "quest": 235,
+   "text": "Magister Joan: ... Mimir's Elixir can teach you things that you would otherwise never learn in this dimension. This can be a very dangerous knowledge, and some even say that it goes against the will of the gods. At the time of the creation, the gods bestowed physical skills and magic upon the races…",
+   "header": "Magister Joan",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Mimir's Elixir (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00235_MimirsElixir",
+     "kind": "quest",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30718-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Repent Your Sins (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00422_RepentYourSins",
+     "kind": "quest",
+     "quest": 422,
+     "to": "Q00422_RepentYourSins/30718-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

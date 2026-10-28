@@ -1,0 +1,661 @@
+{
+ "npcId": 30576,
+ "name": "Tamil",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.005Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "teleporter/30576.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {
+  "9": {
+   "name": "Into the City of Humans",
+   "listText": [
+    "[Into the City of Humans]",
+    "[Into the City of Humans (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00009_IntoTheCityOfHumans/30576-01.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "277": {
+   "name": "Gatekeeper's Offering",
+   "listText": [
+    "[Gatekeeper's Offering]",
+    "[Gatekeeper's Offering (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00277_GatekeepersOffering/30576-02.htm",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00277_GatekeepersOffering/30576-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00277_GatekeepersOffering/30576-05.html",
+     "when": "state STARTED; cond 2; item 1572 >= 20",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "teleporter/30576.htm": {
+   "file": "teleporter/30576.htm",
+   "quest": null,
+   "text": "Gatekeeper Tamil: Do you know Oren's Ivory Tower? Do you also know that I'm one of only a few Orcs who has received into the Magic Gatekeeper Guild? Ah, you don't know what Oren's Ivory Tower is? How can you not know the centre of magic where the most brilliant wizards in the world gather? Oh ho, r…",
+   "header": "Gatekeeper Tamil",
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/30576-1.htm",
+     "live": true
+    },
+    {
+     "text": "Exchange Dimension Diamonds.",
+     "bypass": "npc_%objectId%_multisell 002",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Noblesse Exclusive Teleport",
+     "bypass": "npc_%objectId%_Quest NoblesseTeleport",
+     "kind": "quest",
+     "script": "NoblesseTeleport",
+     "to": null,
+     "live": true,
+     "dpText": "[Noblesse Exclusive] Teleport"
+    },
+    {
+     "text": "Teleport with Gatekeeper's Amulet.",
+     "bypass": "npc_%objectId%_Quest TeleportWithCharm",
+     "kind": "quest",
+     "script": "TeleportWithCharm",
+     "to": "ai/npc/Teleports/TeleportWithCharm/30576-01.htm"
+    },
+    {
+     "text": "Call Alegria",
+     "bypass": "npc_%objectId%_Quest CharacterBirthday",
+     "kind": "quest",
+     "script": "CharacterBirthday"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/30576-1.htm": {
+   "file": "teleporter/30576-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio - 23000 Adena",
+     "bypass": "npc_%objectId%_goto 1023",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "The Village of Gludin - 18000 Adena",
+     "bypass": "npc_%objectId%_goto 16000",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin"
+    },
+    {
+     "text": "Town of Schuttgart - 13000 Adena",
+     "bypass": "npc_%objectId%_goto 1024",
+     "kind": "teleport",
+     "confirm": "811;Town of Schuttgart",
+     "live": true
+    },
+    {
+     "text": "Dark Elf Village - 13000 Adena",
+     "bypass": "npc_%objectId%_goto 1025",
+     "kind": "teleport",
+     "confirm": "811;Dark Elven Village"
+    },
+    {
+     "text": "Dwarven Village - 17000 Adena",
+     "bypass": "npc_%objectId%_goto 1026",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Talking Island Village - 35000 Adena",
+     "bypass": "npc_%objectId%_goto 1027",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Elven Village - 18000 Adena",
+     "bypass": "npc_%objectId%_goto 1028",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Kamael Village - 17000 Adena",
+     "bypass": "npc_%objectId%_goto 12052",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Immortal Plateau, Southern Region",
+     "bypass": "npc_%objectId%_goto 94",
+     "kind": "teleport",
+     "confirm": "811;Immortal Plateau, Southern Region",
+     "live": true,
+     "dpText": "Immortal Plateau, Southern Region - 2000 Adena"
+    },
+    {
+     "text": "The Immortal Plateau - 960 Adena",
+     "bypass": "npc_%objectId%_goto 93",
+     "kind": "teleport",
+     "confirm": "811;The Immortal Plateau",
+     "live": true
+    },
+    {
+     "text": "Cave of Trials - 1500 Adena",
+     "bypass": "npc_%objectId%_goto 471",
+     "kind": "teleport",
+     "confirm": "811;Cave of Trials",
+     "live": true
+    },
+    {
+     "text": "Frozen Waterfall",
+     "bypass": "npc_%objectId%_goto 96",
+     "kind": "teleport",
+     "confirm": "811;Frozen Waterfall",
+     "live": true,
+     "dpText": "Frozen Waterfall - 1600 Adena"
+    }
+   ]
+  },
+  "teleporter/30576-2.htm": {
+   "file": "teleporter/30576-2.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9000",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9002",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "Immortal Plateau, Northern Region - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9105",
+     "kind": "teleport",
+     "confirm": "811;Immortal Plateau, Northern Region"
+    },
+    {
+     "text": "Coliseum - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9001",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/30576-3.htm": {
+   "file": "teleporter/30576-3.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9900",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9902",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "Immortal Plateau, Northern Region - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 10005",
+     "kind": "teleport",
+     "confirm": "811;Immortal Plateau, Northern Region"
+    },
+    {
+     "text": "Coliseum - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9901",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/30576-pk.htm": {
+   "file": "teleporter/30576-pk.htm",
+   "quest": null,
+   "text": "Gatekeeper Tamil: Because of your actions, I'm forbidden to show you the power of the gate. I am sorry, but you're the one who chose to behave as you did.",
+   "header": "Gatekeeper Tamil",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "teleporter/free/30576.htm": {
+   "file": "teleporter/free/30576.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio",
+     "bypass": "npc_%objectId%_goto 1023",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "The Village of Gludin",
+     "bypass": "npc_%objectId%_goto 16000",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin"
+    },
+    {
+     "text": "Town of Schuttgart",
+     "bypass": "npc_%objectId%_goto 1024",
+     "kind": "teleport",
+     "confirm": "811;Town of Schuttgart",
+     "live": true
+    },
+    {
+     "text": "Dark Elf Village",
+     "bypass": "npc_%objectId%_goto 1025",
+     "kind": "teleport",
+     "confirm": "811;Dark Elven Village"
+    },
+    {
+     "text": "Dwarven Village",
+     "bypass": "npc_%objectId%_goto 1026",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Talking Island Village",
+     "bypass": "npc_%objectId%_goto 1027",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Elven Village",
+     "bypass": "npc_%objectId%_goto 1028",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Kamael Village",
+     "bypass": "npc_%objectId%_goto 12052",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Immortal Plateau, Southern Region",
+     "bypass": "npc_%objectId%_goto 94",
+     "kind": "teleport",
+     "confirm": "811;Immortal Plateau, Southern Region",
+     "live": true
+    },
+    {
+     "text": "The Immortal Plateau",
+     "bypass": "npc_%objectId%_goto 93",
+     "kind": "teleport",
+     "confirm": "811;The Immortal Plateau",
+     "live": true
+    },
+    {
+     "text": "Cave of Trials",
+     "bypass": "npc_%objectId%_goto 471",
+     "kind": "teleport",
+     "confirm": "811;Cave of Trials",
+     "live": true
+    },
+    {
+     "text": "Frozen Waterfall",
+     "bypass": "npc_%objectId%_goto 96",
+     "kind": "teleport",
+     "confirm": "811;Frozen Waterfall",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/half/30576.htm": {
+   "file": "teleporter/half/30576.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio - 11500 Adena",
+     "bypass": "npc_%objectId%_goto 1023",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "The Village of Gludin - 9000 Adena",
+     "bypass": "npc_%objectId%_goto 16000",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin"
+    },
+    {
+     "text": "Town of Schuttgart - 6500 Adena",
+     "bypass": "npc_%objectId%_goto 1024",
+     "kind": "teleport",
+     "confirm": "811;Town of Schuttgart",
+     "live": true
+    },
+    {
+     "text": "Dark Elf Village - 6500 Adena",
+     "bypass": "npc_%objectId%_goto 1025",
+     "kind": "teleport",
+     "confirm": "811;Dark Elven Village"
+    },
+    {
+     "text": "Dwarven Village - 8500 Adena",
+     "bypass": "npc_%objectId%_goto 1026",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Talking Island Village - 17500 Adena",
+     "bypass": "npc_%objectId%_goto 1027",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Elven Village - 9000 Adena",
+     "bypass": "npc_%objectId%_goto 1028",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Kamael Village - 8500 Adena",
+     "bypass": "npc_%objectId%_goto 12052",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Immortal Plateau, Southern Region",
+     "bypass": "npc_%objectId%_goto 94",
+     "kind": "teleport",
+     "confirm": "811;Immortal Plateau, Southern Region",
+     "live": true,
+     "dpText": "Immortal Plateau, Southern Region - 1000 Adena"
+    },
+    {
+     "text": "The Immortal Plateau - 480 Adena",
+     "bypass": "npc_%objectId%_goto 93",
+     "kind": "teleport",
+     "confirm": "811;The Immortal Plateau",
+     "live": true
+    },
+    {
+     "text": "Cave of Trials - 750 Adena",
+     "bypass": "npc_%objectId%_goto 471",
+     "kind": "teleport",
+     "confirm": "811;Cave of Trials",
+     "live": true
+    },
+    {
+     "text": "Frozen Waterfall",
+     "bypass": "npc_%objectId%_goto 96",
+     "kind": "teleport",
+     "confirm": "811;Frozen Waterfall",
+     "live": true,
+     "dpText": "Frozen Waterfall - 800 Adena"
+    }
+   ]
+  },
+  "Q00009_IntoTheCityOfHumans/30576-01.html": {
+   "file": "Q00009_IntoTheCityOfHumans/30576-01.html",
+   "quest": 9,
+   "text": "Gatekeeper Tamil: You're the one going to the city of Humans to find the magic we Orcs never possessed? The gate of time and space is used for long distance travel. This is powerful Human magic! Do you have permission from Seer Tanapi?",
+   "header": "Gatekeeper Tamil",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Yes I do.\"",
+     "bypass": "Quest Q00009_IntoTheCityOfHumans 30576-02.html",
+     "kind": "quest-event",
+     "script": "Q00009_IntoTheCityOfHumans",
+     "event": "30576-02.html",
+     "quest": 9,
+     "to": "Q00009_IntoTheCityOfHumans/30576-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00277_GatekeepersOffering/30576-02.htm": {
+   "file": "Q00277_GatekeepersOffering/30576-02.htm",
+   "quest": 277,
+   "text": "Gatekeeper Tamil: The magic power I learned from the Ivory Tower of Oren allows me to control the door of space time. It is almost miraculous, being able to reach a town on the other side of the continent with only a few steps. But I am ashamed to admit that my understanding of Human magic is incom…",
+   "header": "Gatekeeper Tamil",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00277_GatekeepersOffering 30576-03.htm",
+     "kind": "quest-event",
+     "script": "Q00277_GatekeepersOffering",
+     "event": "30576-03.htm",
+     "quest": 277,
+     "to": "Q00277_GatekeepersOffering/30576-03.htm",
+     "toAll": [
+      "Q00277_GatekeepersOffering/30576-03.htm",
+      "Q00277_GatekeepersOffering/30576-01.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00277_GatekeepersOffering/30576-04.html": {
+   "file": "Q00277_GatekeepersOffering/30576-04.html",
+   "quest": 277,
+   "text": "Gatekeeper Tamil: That is not enough at all. I need at least twenty Starstones. If I can't offer them to the totem spirit of the spider, the door of space and time that connects our village to the mainland will be closed! So please hurry. Defeat the greystone golems on the Immortal Plateau to obtai…",
+   "header": "Gatekeeper Tamil",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00277_GatekeepersOffering/30576-05.html": {
+   "file": "Q00277_GatekeepersOffering/30576-05.html",
+   "quest": 277,
+   "text": "Gatekeeper Tamil: Welcome, young one! Well done! I am sure the totem spirit of the spider will be very satisfied with these Starstones! It would be great if you could help me out again in the future. I'll give you a Gatekeeper's charm for your help. If you need to go to Gludio later, give me that c…",
+   "header": "Gatekeeper Tamil",
+   "when": [
+    "state STARTED; cond 2; item 1572 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/TeleportWithCharm/30576-01.htm": {
+   "file": "ai/npc/Teleports/TeleportWithCharm/30576-01.htm",
+   "quest": null,
+   "text": "Gatekeeper Tamil: You cannot teleport without the Gatekeeper Charm. I will give it to you if you complete my quest.",
+   "header": "Gatekeeper Tamil",
+   "when": [
+    "lacks items 1658"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00009_IntoTheCityOfHumans/30576-02.html": {
+   "file": "Q00009_IntoTheCityOfHumans/30576-02.html",
+   "quest": 9,
+   "text": "Gatekeeper Tamil: Giran is very far from here. Here's a magic scroll that allows you to use the gate of time and space. It's a scroll called the Scroll of Escape to the Town of Giran . This is valuable, you can use it only once ! Use it wisely. I will put it in your quest item window. I'll give you…",
+   "header": "Gatekeeper Tamil",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00277_GatekeepersOffering/30576-01.htm": {
+   "file": "Q00277_GatekeepersOffering/30576-01.htm",
+   "quest": 277,
+   "text": "Gatekeeper Tamil: Thank you, but this is too dangerous for you. Don't you know? In order to collect Starstones, you must defeat the greystone golems on the Immortal Plateau. But these golems are too strong for you. (Quest for characters level 15 and above.)",
+   "header": "Gatekeeper Tamil",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00277_GatekeepersOffering/30576-03.htm": {
+   "file": "Q00277_GatekeepersOffering/30576-03.htm",
+   "quest": 277,
+   "text": "Gatekeeper Tamil: Thank you! I will not forget your kindness. But are you sure you know what is required? Every golem carries a Starstone in its body. According to the Seers, the power of the stars contained within the Starstone is the force that keeps the golems alive and moving. Anyway, if you de…",
+   "header": "Gatekeeper Tamil",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Into the City of Humans (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00009_IntoTheCityOfHumans",
+     "kind": "quest",
+     "quest": 9,
+     "to": "Q00009_IntoTheCityOfHumans/30576-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Gatekeeper's Offering]",
+     "bypass": "npc_%objectId%_Quest Q00277_GatekeepersOffering",
+     "kind": "quest",
+     "quest": 277,
+     "to": "Q00277_GatekeepersOffering/30576-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Gatekeeper's Offering (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00277_GatekeepersOffering",
+     "kind": "quest",
+     "quest": 277,
+     "to": "Q00277_GatekeepersOffering/30576-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "gatekeeper live menu (Scripts/data/gk_live/Tamil.json) has links the datapack does not: Teleport using Gatekeeper's Amulet. | Summon Alegria | The Dark Elf Village - 13000 &#57; | The Elven Village - 18000 &#57;"
+ ],
+ "liveClicks": [
+  {
+   "text": "Teleport",
+   "n": 45,
+   "inDatapack": true,
+   "from": [
+    "Gatekeeper Tamil:Do you know Oren's Ivory Tower? I am one of"
+   ],
+   "to": [
+    "556The Town of GludioTown of SchuttgartThe Dark Elf VillageD",
+    "556The Town of Gludio - 23000 &#57;Town of Schuttgart - 1300"
+   ]
+  },
+  {
+   "text": "Cave of Trials",
+   "n": 30,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTown of SchuttgartThe Dark Elf VillageD"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Frozen Waterfall",
+   "n": 10,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTown of SchuttgartThe Dark Elf VillageD"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Immortal Plateau, Southern Region",
+   "n": 3,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTown of SchuttgartThe Dark Elf VillageD"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Cave of Trials - 1500 &#57;",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 23000 &#57;Town of Schuttgart - 1300"
+   ],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

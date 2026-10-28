@@ -1,0 +1,344 @@
+{
+ "npcId": 31435,
+ "name": "Daeger",
+ "title": "Blueprint Seller",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.203Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/31435.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "60": {
+   "name": "Good Work's Reward",
+   "listText": [
+    "[Good Work's Reward]",
+    "[Good Work's Reward (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00060_GoodWorksReward/31435-01.htm",
+     "when": "state CREATED; player.getRace() != Race.KAMAEL; player.isInCategory(CategoryType.SECOND_CLASS_GROUP); (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00060_GoodWorksReward/31435-03.htm",
+     "when": "state CREATED; player.getRace() != Race.KAMAEL; player.isInCategory(CategoryType.SECOND_CLASS_GROUP); NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00060_GoodWorksReward/31435-04.htm",
+     "when": "state CREATED; player.getRace() != Race.KAMAEL; !player.isInCategory(CategoryType.SECOND_CLASS_GROUP)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00060_GoodWorksReward/31435-06.htm",
+     "when": "state CREATED; !player.getRace() != Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00060_GoodWorksReward/31435-08.html",
+     "when": "state STARTED; memoState <= 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00060_GoodWorksReward/31435-09.html",
+     "when": "state STARTED; memo 3; !memoState <= 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00060_GoodWorksReward/31435-11.html",
+     "when": "state STARTED; memo 4; !memoState <= 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00060_GoodWorksReward/31435-12.html",
+     "when": "state STARTED; !memoState <= 2; memoState > 4; memoState < 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00060_GoodWorksReward/31435-13.html",
+     "when": "state STARTED; memo 8; !memoState <= 2; !((memoState > 4) && (memoState < 8))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00060_GoodWorksReward/31435-15.html",
+     "when": "state STARTED; memo 9; !memoState <= 2; !((memoState > 4) && (memoState < 8))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00060_GoodWorksReward/31435-16.html",
+     "when": "state STARTED; memo 10; !memoState <= 2; !((memoState > 4) && (memoState < 8))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/31435.htm": {
+   "file": "merchant/31435.htm",
+   "quest": null,
+   "text": "Blueprint Seller Daeger: Only Dwarven technology could give life to a machine made from steel and wood. The essence of that extraordinary skill is the blueprint. But since you no longer need to possess a blueprint to obtain the skill, I don't think you'd be interested in looking at it.",
+   "header": "Blueprint Seller Daeger",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00060_GoodWorksReward/31435-01.htm": {
+   "file": "Q00060_GoodWorksReward/31435-01.htm",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: You there, adventurer! If you're not too busy, can you help me?",
+   "header": "Blueprint Seller Daeger",
+   "when": [
+    "state CREATED; player.getRace() != Race.KAMAEL; player.isInCategory(CategoryType.SECOND_CLASS_GROUP); (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Why did you call me? Unless it's an emergency, I have other things to attend to.\"",
+     "bypass": "Quest Q00060_GoodWorksReward 31435-02.htm",
+     "kind": "quest-event",
+     "script": "Q00060_GoodWorksReward",
+     "event": "31435-02.htm",
+     "quest": 60,
+     "to": "Q00060_GoodWorksReward/31435-02.htm"
+    }
+   ]
+  },
+  "Q00060_GoodWorksReward/31435-03.htm": {
+   "file": "Q00060_GoodWorksReward/31435-03.htm",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: You there, adventurer! Ah...never mind. You seem very busy. I'm sorry to have bothered you. (Only non-Kamael characters who are level 39 or above and who have not completed the second transfer may undertake this quest.)",
+   "header": "Blueprint Seller Daeger",
+   "when": [
+    "state CREATED; player.getRace() != Race.KAMAEL; player.isInCategory(CategoryType.SECOND_CLASS_GROUP); NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/31435-04.htm": {
+   "file": "Q00060_GoodWorksReward/31435-04.htm",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: You there, adventurer! Ah...never mind. You seem very busy. I'm sorry to have bothered you. (Only non-Kamael characters who are level 39 or above and who have not completed the second transfer may undertake this quest.)",
+   "header": "Blueprint Seller Daeger",
+   "when": [
+    "state CREATED; player.getRace() != Race.KAMAEL; !player.isInCategory(CategoryType.SECOND_CLASS_GROUP)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/31435-06.htm": {
+   "file": "Q00060_GoodWorksReward/31435-06.htm",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: Ah, so you are a Kamael! Very nice to meet you. I wish I had more time to talk with you, but I must go meet a friend. Perhaps we will have another chance to speak one day... (Only non-Kamael characters who are level 39 or above and who have not completed the second transfer…",
+   "header": "Blueprint Seller Daeger",
+   "when": [
+    "state CREATED; !player.getRace() != Race.KAMAEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/31435-08.html": {
+   "file": "Q00060_GoodWorksReward/31435-08.html",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: If you exit through the western gate, you will see a thickly wooded area near the road . My friend often rests there under a tree. Perhaps he has fallen asleep. Will you check that area for me? His name is Mark .",
+   "header": "Blueprint Seller Daeger",
+   "when": [
+    "state STARTED; memoState <= 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/31435-09.html": {
+   "file": "Q00060_GoodWorksReward/31435-09.html",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: Didn't I just ask you for a favor? Did you find Mark?",
+   "header": "Blueprint Seller Daeger",
+   "when": [
+    "state STARTED; memo 3; !memoState <= 2"
+   ],
+   "links": [
+    {
+     "text": "\"Your friend has collapsed. It looks like he has been poisoned...\"",
+     "bypass": "Quest Q00060_GoodWorksReward 31435-10.html",
+     "kind": "quest-event",
+     "script": "Q00060_GoodWorksReward",
+     "event": "31435-10.html",
+     "quest": 60,
+     "to": "Q00060_GoodWorksReward/31435-10.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00060_GoodWorksReward/31435-11.html": {
+   "file": "Q00060_GoodWorksReward/31435-11.html",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: I beg you! Please get the antidote from Grocer Helvetia and save Mark. I'm too shaken to even move, much less help. It's up to you -- please hurry!",
+   "header": "Blueprint Seller Daeger",
+   "when": [
+    "state STARTED; memo 4; !memoState <= 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/31435-12.html": {
+   "file": "Q00060_GoodWorksReward/31435-12.html",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: What happened to Mark? Please help him!",
+   "header": "Blueprint Seller Daeger",
+   "when": [
+    "state STARTED; !memoState <= 2; memoState > 4; memoState < 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/31435-13.html": {
+   "file": "Q00060_GoodWorksReward/31435-13.html",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: What has happened to Mark?",
+   "header": "Blueprint Seller Daeger",
+   "when": [
+    "state STARTED; memo 8; !memoState <= 2; !((memoState > 4) && (memoState < 8))"
+   ],
+   "links": [
+    {
+     "text": "\"Your friend is safe. He told me to ask you to wait here.\"",
+     "bypass": "Quest Q00060_GoodWorksReward 31435-14.html",
+     "kind": "quest-event",
+     "script": "Q00060_GoodWorksReward",
+     "event": "31435-14.html",
+     "quest": 60,
+     "to": "Q00060_GoodWorksReward/31435-14.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00060_GoodWorksReward/31435-15.html": {
+   "file": "Q00060_GoodWorksReward/31435-15.html",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: I am so glad you're here! Mark didn't come, but someone else brought news. You must see the Black Marketeer of Mammon . I had no idea that Mark had dealings with someone like him. I suppose the passage of time changes some people. Anyway, Mark says that he has prepared some…",
+   "header": "Blueprint Seller Daeger",
+   "when": [
+    "state STARTED; memo 9; !memoState <= 2; !((memoState > 4) && (memoState < 8))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/31435-16.html": {
+   "file": "Q00060_GoodWorksReward/31435-16.html",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: Go see the Black Marketeer of Mammon . Mark says that he has prepared something there for you. Please hurry!",
+   "header": "Blueprint Seller Daeger",
+   "when": [
+    "state STARTED; memo 10; !memoState <= 2; !((memoState > 4) && (memoState < 8))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/31435-02.htm": {
+   "file": "Q00060_GoodWorksReward/31435-02.htm",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: My friend promised to meet me here today, but he hasn't arrived yet. I know that he would have let me know if something had prevented him from coming. I'm worried that something has happened to him. If you happen to be going near Giran's western gate, may I ask you for a fa…",
+   "header": "Blueprint Seller Daeger",
+   "links": [
+    {
+     "text": "\"Where were you supposed to meet him?\"",
+     "bypass": "Quest Q00060_GoodWorksReward 31435-07.htm",
+     "kind": "quest-event",
+     "script": "Q00060_GoodWorksReward",
+     "event": "31435-07.htm",
+     "quest": 60,
+     "to": "Q00060_GoodWorksReward/31435-07.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00060_GoodWorksReward/31435-07.htm": {
+   "file": "Q00060_GoodWorksReward/31435-07.htm",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: If you exit through Giran's western gate, you will see a thickly wooded area near the road . My friend sometimes takes a rest there, so please look for him as you pass by -- if you see him, tell him that I am waiting for him. Thank you! Oh! His name is Mark .",
+   "header": "Blueprint Seller Daeger",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/31435-10.html": {
+   "file": "Q00060_GoodWorksReward/31435-10.html",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: Did you say he was poisoned? Do you know the source of the poison? Let's not waste time. Obviously I can't go, so you will have to help him, adventurer. If it is poison, you should be able to source an antidote from Grocer Helvetia . See her as fast as your lungs allow, and…",
+   "header": "Blueprint Seller Daeger",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/31435-14.html": {
+   "file": "Q00060_GoodWorksReward/31435-14.html",
+   "quest": 60,
+   "text": "Blueprint Seller Daeger: How fortunate! I am very relieved... Would you mind waiting here for a while? I will let you know when he contacts me.",
+   "header": "Blueprint Seller Daeger",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Good Work's Reward]",
+     "bypass": "npc_%objectId%_Quest Q00060_GoodWorksReward",
+     "kind": "quest",
+     "quest": 60,
+     "to": "Q00060_GoodWorksReward/31435-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Good Work's Reward (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00060_GoodWorksReward",
+     "kind": "quest",
+     "quest": 60,
+     "to": "Q00060_GoodWorksReward/31435-08.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

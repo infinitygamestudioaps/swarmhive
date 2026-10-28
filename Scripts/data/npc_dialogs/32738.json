@@ -1,0 +1,349 @@
+{
+ "npcId": 32738,
+ "name": "Injured Soldier",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.401Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32738.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "454": {
+   "name": "Completely Lost",
+   "listText": [
+    "[Completely Lost]",
+    "[Completely Lost  (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00454_CompletelyLost/32738-02.htm",
+     "when": "state COMPLETED; !qs.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00454_CompletelyLost/32738-01.htm",
+     "when": "state COMPLETED|CREATED; level >= 84; quest_escort == 0",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00454_CompletelyLost/32738-01c.htm",
+     "when": "state COMPLETED|CREATED; level >= 84; !quest_escort == 0; quest_escort == 99",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00454_CompletelyLost/32738-01a.htm",
+     "when": "state COMPLETED|CREATED; level >= 84; !quest_escort == 0; !quest_escort == 99; leader.isInParty(); leader.getParty().containsPlayer(player)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00454_CompletelyLost/32738-01b.htm",
+     "when": "state COMPLETED|CREATED; level >= 84; !quest_escort == 0; !quest_escort == 99; !(leader.isInParty() && leader.getParty().containsPlayer(player))",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00454_CompletelyLost/32738-03.htm",
+     "when": "state COMPLETED|CREATED; NOT level >= 84",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00454_CompletelyLost/32738-05.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00454_CompletelyLost/32738-08.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32738.htm": {
+   "file": "default/32738.htm",
+   "quest": null,
+   "text": "Injured Soldier: Where is this anyway? What was I doing here?",
+   "header": "Injured Soldier",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00454_CompletelyLost/32738-02.htm": {
+   "file": "Q00454_CompletelyLost/32738-02.htm",
+   "quest": 454,
+   "text": "Injured Soldier: You! This land, it's so chaotic, so much death. I feel like I'm trapped in a nightmare. I just have to calm down. I need to calm down. Can you leave me alone a while? (This quest can be taken once a day and resets at 6:30am.)",
+   "header": "Injured Soldier",
+   "when": [
+    "state COMPLETED; !qs.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00454_CompletelyLost/32738-01.htm": {
+   "file": "Q00454_CompletelyLost/32738-01.htm",
+   "quest": 454,
+   "text": "Injured Soldier: The last thing I remember is jumping from a sinking airship. Then as I was about to be attacked by the monsters of the Seed, I blanked out. I can only remember bits and pieces of what happened, and it's all so terrifying. When I regained consciousness, I was here. I... don't want t…",
+   "header": "Injured Soldier",
+   "when": [
+    "state COMPLETED|CREATED; level >= 84; quest_escort == 0"
+   ],
+   "links": [
+    {
+     "text": "\"Of course.\"",
+     "bypass": "Quest Q00454_CompletelyLost 32738-04.htm",
+     "kind": "quest-event",
+     "script": "Q00454_CompletelyLost",
+     "event": "32738-04.htm",
+     "quest": 454,
+     "to": "Q00454_CompletelyLost/32738-04.htm",
+     "toAll": [
+      "Q00454_CompletelyLost/32738-04.htm",
+      "Q00454_CompletelyLost/32738-04a.htm",
+      "Q00454_CompletelyLost/32738-01b.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00454_CompletelyLost/32738-01c.htm": {
+   "file": "Q00454_CompletelyLost/32738-01c.htm",
+   "quest": 454,
+   "text": "Injured Soldier: I fight to stay alive, anything I can if it means getting out of here! I really need to concentrate on that. (Another character is already in progress of this quest.)",
+   "header": "Injured Soldier",
+   "when": [
+    "state COMPLETED|CREATED; level >= 84; !quest_escort == 0; quest_escort == 99"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00454_CompletelyLost/32738-01a.htm": {
+   "file": "Q00454_CompletelyLost/32738-01a.htm",
+   "quest": 454,
+   "text": "Injured Soldier: I have agreed to follow %leader%. He has promised to take me to a safe place. %name% is also in the same group as %leader%, so you will help to bring me to a safe place, right?",
+   "header": "Injured Soldier",
+   "when": [
+    "state COMPLETED|CREATED; level >= 84; !quest_escort == 0; !quest_escort == 99; leader.isInParty(); leader.getParty().containsPlayer(player)"
+   ],
+   "links": [
+    {
+     "text": "Accept.",
+     "bypass": "Quest Q00454_CompletelyLost 32738-04.htm",
+     "kind": "quest-event",
+     "script": "Q00454_CompletelyLost",
+     "event": "32738-04.htm",
+     "quest": 454,
+     "to": "Q00454_CompletelyLost/32738-04.htm",
+     "toAll": [
+      "Q00454_CompletelyLost/32738-04.htm",
+      "Q00454_CompletelyLost/32738-04a.htm",
+      "Q00454_CompletelyLost/32738-01b.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00454_CompletelyLost/32738-01b.htm": {
+   "file": "Q00454_CompletelyLost/32738-01b.htm",
+   "quest": 454,
+   "text": "Injured Soldier: I have already agreed to follow %leader% and his group. They have promised to take me to a safe place. Aren't they wonderful people?",
+   "header": "Injured Soldier",
+   "when": [
+    "state COMPLETED|CREATED; level >= 84; !quest_escort == 0; !quest_escort == 99; !(leader.isInParty() && leader.getParty().containsPlayer(player))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00454_CompletelyLost/32738-03.htm": {
+   "file": "Q00454_CompletelyLost/32738-03.htm",
+   "quest": 454,
+   "text": "Injured Soldier: I... I couldn't ask you for help. It'd be the blind leading the blind (laughs meekly). (This quest is only available to characters level 84 and above.)",
+   "header": "Injured Soldier",
+   "when": [
+    "state COMPLETED|CREATED; NOT level >= 84"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00454_CompletelyLost/32738-05.html": {
+   "file": "Q00454_CompletelyLost/32738-05.html",
+   "quest": 454,
+   "text": "Injured Soldier: Th, thank you. If General Ermian is still alive, I'd bet he's set up camp somewhere safe. But it would be best if it doesn't take too long. As you can see, I've been wounded and it won't be long until I either bleed out or disease takes it toll. If you're prepared, let's depart.",
+   "header": "Injured Soldier",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "Agree.",
+     "bypass": "Quest Q00454_CompletelyLost agree1",
+     "kind": "quest-event",
+     "script": "Q00454_CompletelyLost",
+     "event": "agree1",
+     "quest": 454,
+     "to": "Q00454_CompletelyLost/32738-06.html",
+     "toAll": [
+      "Q00454_CompletelyLost/32738-06.html",
+      "Q00454_CompletelyLost/32738-05a.html"
+     ],
+     "effect": "cond:2"
+    },
+    {
+     "text": "Ask for a little more time to prepare.",
+     "bypass": "Quest Q00454_CompletelyLost 32738-07.html",
+     "kind": "quest-event",
+     "script": "Q00454_CompletelyLost",
+     "event": "32738-07.html",
+     "quest": 454,
+     "to": "Q00454_CompletelyLost/32738-07.html"
+    }
+   ]
+  },
+  "Q00454_CompletelyLost/32738-08.html": {
+   "file": "Q00454_CompletelyLost/32738-08.html",
+   "quest": 454,
+   "text": "Injured Soldier: I hope Ermian's camp is close, it's getting harder and harder to walk. I'm sorry to ask, but can we hurry?",
+   "header": "Injured Soldier",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00454_CompletelyLost/32738-04.htm": {
+   "file": "Q00454_CompletelyLost/32738-04.htm",
+   "quest": 454,
+   "text": "Injured Soldier: Th, thank you. If General Ermian is still alive, I'd bet he's set up camp somewhere safe. But it would be best if it doesn't take too long. As you can see, I've been wounded and it won't be long until I either bleed out or disease takes it toll. If you're prepared, let's depart.",
+   "header": "Injured Soldier",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Agree.",
+     "bypass": "Quest Q00454_CompletelyLost agree1",
+     "kind": "quest-event",
+     "script": "Q00454_CompletelyLost",
+     "event": "agree1",
+     "quest": 454,
+     "to": "Q00454_CompletelyLost/32738-06.html",
+     "toAll": [
+      "Q00454_CompletelyLost/32738-06.html",
+      "Q00454_CompletelyLost/32738-05a.html"
+     ],
+     "effect": "cond:2"
+    },
+    {
+     "text": "Ask for a little more time to prepare.",
+     "bypass": "Quest Q00454_CompletelyLost 32738-07.html",
+     "kind": "quest-event",
+     "script": "Q00454_CompletelyLost",
+     "event": "32738-07.html",
+     "quest": 454,
+     "to": "Q00454_CompletelyLost/32738-07.html"
+    }
+   ]
+  },
+  "Q00454_CompletelyLost/32738-04a.htm": {
+   "file": "Q00454_CompletelyLost/32738-04a.htm",
+   "quest": 454,
+   "text": "Injured Soldier: Th, thank you. Then, if General Ermian is there, it should be a safe place. But it would be best if it doesn't take too long. As you can see, I'm wounded... If %leader%'s preparations are complete, please tell me that you are ready to depart.",
+   "header": "Injured Soldier",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00454_CompletelyLost/32738-05a.html": {
+   "file": "Q00454_CompletelyLost/32738-05a.html",
+   "quest": 454,
+   "text": "Injured Soldier: But adventurer... You cannot carry me all by yourself. Aren't there more of you? We'll never make it just the two of us... get some people to help! I don't have much time.",
+   "header": "Injured Soldier",
+   "links": [
+    {
+     "text": "My party is ready, let's go.",
+     "bypass": "Quest Q00454_CompletelyLost agree2",
+     "kind": "quest-event",
+     "script": "Q00454_CompletelyLost",
+     "event": "agree2",
+     "quest": 454,
+     "to": "Q00454_CompletelyLost/32738-06.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "They'll be here soon, can't we wait?",
+     "bypass": "Quest Q00454_CompletelyLost 32738-07.html",
+     "kind": "quest-event",
+     "script": "Q00454_CompletelyLost",
+     "event": "32738-07.html",
+     "quest": 454,
+     "to": "Q00454_CompletelyLost/32738-07.html"
+    }
+   ]
+  },
+  "Q00454_CompletelyLost/32738-06.html": {
+   "file": "Q00454_CompletelyLost/32738-06.html",
+   "quest": 454,
+   "text": "Injured Soldier: Alright, let's head out. I'll follow.",
+   "header": "Injured Soldier",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00454_CompletelyLost/32738-07.html": {
+   "file": "Q00454_CompletelyLost/32738-07.html",
+   "quest": 454,
+   "text": "Injured Soldier: Alright, let me know when you're ready to go.",
+   "header": "Injured Soldier",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Completely Lost]",
+     "bypass": "npc_%objectId%_Quest Q00454_CompletelyLost",
+     "kind": "quest",
+     "quest": 454,
+     "to": "Q00454_CompletelyLost/32738-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Completely Lost  (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00454_CompletelyLost",
+     "kind": "quest",
+     "quest": 454,
+     "to": "Q00454_CompletelyLost/32738-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

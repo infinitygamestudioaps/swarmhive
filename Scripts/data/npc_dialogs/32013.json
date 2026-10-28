@@ -1,0 +1,179 @@
+{
+ "npcId": 32013,
+ "name": "Suki",
+ "title": "Wild Maiden",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.311Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32013.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "653": {
+   "name": "Wild Maiden",
+   "listText": [
+    "[Wild Maiden]",
+    "[Wild Maiden (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00653_WildMaiden/32013-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00653_WildMaiden/32013-01a.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00653_WildMaiden/32013-02.htm",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32013.htm": {
+   "file": "default/32013.htm",
+   "quest": null,
+   "text": "Suki: An ordinary-looking girl, apparently baffled, looking around not knowing what to do.",
+   "header": "Suki",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00653_WildMaiden/32013-01.htm": {
+   "file": "Q00653_WildMaiden/32013-01.htm",
+   "quest": 653,
+   "text": "Suki: Good heavens! Oh, my ... ... You're an adventurer, aren't you? You certainly surprised me. Who am I? My name's Suki! What am I doing here? Honestly, I fell in love with a wonderful Warrior who came to our town not too long ago. A dark face with a melancholy shadow... Sinewy hands held his swo…",
+   "header": "Suki",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Go on home. This will take you there.\"",
+     "bypass": "Quest Q00653_WildMaiden 32013-04.htm",
+     "kind": "quest-event",
+     "script": "Q00653_WildMaiden",
+     "event": "32013-04.htm",
+     "quest": 653,
+     "to": "Q00653_WildMaiden/32013-04.htm",
+     "toAll": [
+      "Q00653_WildMaiden/32013-04.htm",
+      "Q00653_WildMaiden/32013-05.htm",
+      "Q00653_WildMaiden/32013-04a.htm"
+     ],
+     "effect": "start"
+    },
+    {
+     "text": "\"What? Are you crazy? Go and find your man!",
+     "bypass": "Quest Q00653_WildMaiden 32013-03.html",
+     "kind": "quest-event",
+     "script": "Q00653_WildMaiden",
+     "event": "32013-03.html",
+     "quest": 653,
+     "to": "Q00653_WildMaiden/32013-03.html"
+    }
+   ]
+  },
+  "Q00653_WildMaiden/32013-01a.htm": {
+   "file": "Q00653_WildMaiden/32013-01a.htm",
+   "quest": 653,
+   "text": "Suki: It seems that Suki doesn't trust you. There's nothing you can do for her at this time. (Only characters of level 36 and above may undertake this quest.)",
+   "header": "Suki",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00653_WildMaiden/32013-02.htm": {
+   "file": "Q00653_WildMaiden/32013-02.htm",
+   "quest": 653,
+   "text": "Suki: You're the adventurer who helped me! Thank you so much! Now I can return home safely. If you're ever in the Town of Oren , speak with Galibredo . He's my father, and he'll reward you for your kindness.",
+   "header": "Suki",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00653_WildMaiden/32013-03.html": {
+   "file": "Q00653_WildMaiden/32013-03.html",
+   "quest": 653,
+   "text": "Suki: Humph! Oh yeah? If I die out here, it'll be all your fault! Humph!",
+   "header": "Suki",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00653_WildMaiden/32013-04.htm": {
+   "file": "Q00653_WildMaiden/32013-04.htm",
+   "quest": 653,
+   "text": "Suki: Oh, thank you so much! Thanks to you, I can now go back home safely. Thank you. By the way... Are you seeing anybody? .... Oh, never mind...Hehehe.. If you're ever in the Town of Oren , speak with Galibredo . He's my father, and he'll reward your kindness. I have to go now. So long, handsome!…",
+   "header": "Suki",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00653_WildMaiden/32013-04a.htm": {
+   "file": "Q00653_WildMaiden/32013-04a.htm",
+   "quest": 653,
+   "text": "Suki: Oh, thank you so much! I can now go home safely! By the way... You have such smooth skin and great body tone... Not to mention that fine looking face! What's your secret? Oh, never mind... If you're ever in the Town of Oren , speak with Galibredo . He's my father, and he'll reward your kindne…",
+   "header": "Suki",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00653_WildMaiden/32013-05.htm": {
+   "file": "Q00653_WildMaiden/32013-05.htm",
+   "quest": 653,
+   "text": "Suki: Ah, you don't have the Scroll of Escape, huh? Well, if you meet someone who has one, please tell them that about this innocent, fragile and pitiful girl in trouble that desperately needs their help...",
+   "header": "Suki",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Wild Maiden]",
+     "bypass": "npc_%objectId%_Quest Q00653_WildMaiden",
+     "kind": "quest",
+     "quest": 653,
+     "to": "Q00653_WildMaiden/32013-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Wild Maiden (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00653_WildMaiden",
+     "kind": "quest",
+     "quest": 653,
+     "to": "Q00653_WildMaiden/32013-02.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,46 @@
+{
+ "npcId": 31686,
+ "name": "Gatekeeper of Fire Dragon",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.268Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31686.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/31686.htm": {
+   "file": "default/31686.htm",
+   "quest": null,
+   "text": "Gatekeeper of the Fire Dragon: Congratulations on making it this far! I'm sorry, but this door can only be opened by the gatekeeper of the fire dragon on the other side of the crossroads you just passed. The door I control is behind him. If you made it this far, you should be alright. Remember, if …",
+   "header": "Gatekeeper of the Fire Dragon",
+   "links": [
+    {
+     "text": "\"Please open the door.\"",
+     "bypass": "npc_%objectId%_Quest GrandBossTeleporters",
+     "kind": "quest",
+     "script": "GrandBossTeleporters",
+     "to": null
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

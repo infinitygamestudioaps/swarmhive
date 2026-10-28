@@ -1,0 +1,255 @@
+{
+ "npcId": 31741,
+ "name": "Ossian",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.273Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31741.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "246": {
+   "name": "Possessor Of A Precious Soul 3",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 3]",
+    "[Path of the Noblesse, Precious Soul - 3 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00246_PossessorOfAPreciousSoul3/31741-1.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00246_PossessorOfAPreciousSoul3/31741-4.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00246_PossessorOfAPreciousSoul3/31741-3.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00246_PossessorOfAPreciousSoul3/31741-8.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00246_PossessorOfAPreciousSoul3/31741-7.html",
+     "when": "state STARTED; cond 5; (st.hasQuestItems(RAIN_SONG) || (st.getQuestItemsCount(FRAGMENTS) >= 100))",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00246_PossessorOfAPreciousSoul3/31741-8.html",
+     "when": "state STARTED; cond 5; !(st.hasQuestItems(RAIN_SONG) || (st.getQuestItemsCount(FRAGMENTS) >= 100))",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00246_PossessorOfAPreciousSoul3/31741-11.html",
+     "when": "state STARTED; cond 6; item 7594 >= 1",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31741.htm": {
+   "file": "default/31741.htm",
+   "quest": null,
+   "text": "Ossian: The corrupt and wicked condition of this world fills my heart with despair. Noble aspirations, ideals, virtue... do those words have meaning any more? But there are still some who won't give up on their faith in Humans, so I'll hold onto my own hope as well. Do you keep the faith?",
+   "header": "Ossian",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31741-1.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31741-1.html",
+   "quest": 246,
+   "text": "Ossian: You've seen the Lady of the Lake in person. She's not an ordinary Human. She can't appear in her original state in this world, so she used magic to place her essence into three objects. She isn't able to recover her strength without them, and they were stolen during the attack. You must hel…",
+   "header": "Ossian",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help.\"",
+     "bypass": "Quest Q00246_PossessorOfAPreciousSoul3 31741-2.html",
+     "kind": "quest-event",
+     "script": "Q00246_PossessorOfAPreciousSoul3",
+     "event": "31741-2.html",
+     "quest": 246,
+     "to": "Q00246_PossessorOfAPreciousSoul3/31741-2.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31741-4.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31741-4.html",
+   "quest": 246,
+   "text": "Ossian: Find the ring called Waterbinder and the necklace Evergreen, they hold his strength. Pilgrims of Splendor and Judges of Splendor in the Valley of Saints have them.",
+   "header": "Ossian",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31741-3.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31741-3.html",
+   "quest": 246,
+   "text": "Ossian: You got them! Your soul is truly holy. Unfortunately, they still have the Soultrap spell on them, and she's too weak to break it.",
+   "header": "Ossian",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"What should I do?\"",
+     "bypass": "Quest Q00246_PossessorOfAPreciousSoul3 31741-5.html",
+     "kind": "quest-event",
+     "script": "Q00246_PossessorOfAPreciousSoul3",
+     "event": "31741-5.html",
+     "quest": 246,
+     "to": "Q00246_PossessorOfAPreciousSoul3/31741-5.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31741-8.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31741-8.html",
+   "quest": 246,
+   "text": "Ossian: The only thing left now is the Rain Song Staff. Please defeat Barakiel, the Flame of Splendor , and retrieve the Rain Song Staff. If you are not yet ready to go against Barakiel, go to the Valley of Saints , defeat the Wailing of Splendor, Fang of Splendor, Crown of Splendor, and Shout of S…",
+   "header": "Ossian",
+   "when": [
+    "state STARTED; cond 4",
+    "state STARTED; cond 5; !(st.hasQuestItems(RAIN_SONG) || (st.getQuestItemsCount(FRAGMENTS) >= 100))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31741-7.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31741-7.html",
+   "quest": 246,
+   "text": "Ossian: Rain Song! You've defeated Barakiel. You've proven your worth. I have discovered that a colleague of mine may be able to break the Soultrap spell. Get the objects to him and he will attempt it.",
+   "header": "Ossian",
+   "when": [
+    "state STARTED; cond 5; (st.hasQuestItems(RAIN_SONG) || (st.getQuestItemsCount(FRAGMENTS) >= 100))"
+   ],
+   "links": [
+    {
+     "text": "\"I'll take them in person.\"",
+     "bypass": "Quest Q00246_PossessorOfAPreciousSoul3 31741-9.html",
+     "kind": "quest-event",
+     "script": "Q00246_PossessorOfAPreciousSoul3",
+     "event": "31741-9.html",
+     "quest": 246,
+     "to": "Q00246_PossessorOfAPreciousSoul3/31741-9.html",
+     "toAll": [
+      "Q00246_PossessorOfAPreciousSoul3/31741-9.html",
+      "Q00246_PossessorOfAPreciousSoul3/31741-8.html"
+     ],
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31741-11.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31741-11.html",
+   "quest": 246,
+   "text": "Ossian: There's no time to lose! Hurry up and take the box containing the three sacred relics to Magister Ladd in the Ivory Tower.",
+   "header": "Ossian",
+   "when": [
+    "state STARTED; cond 6; item 7594 >= 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31741-2.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31741-2.html",
+   "quest": 246,
+   "text": "Ossian: We have learned that two of the three items that contain his power, the Waterbinder ring and the Evergreen necklace, can be found in the Valley of Saints. The Pilgrims of Splendor possess the Waterbinder, and the Judges of Splendor possess the Evergreen. Please immediately for the Valley of…",
+   "header": "Ossian",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31741-5.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31741-5.html",
+   "quest": 246,
+   "text": "Ossian: The Rain Song staff, the most powerful of her three items, must be retrieved. If the staff is found, the restraining magics can be broken, and the three items will regain their full strength. However, since it is the most powerful item, it is guarded by the most powerful foe. The Flame of S…",
+   "header": "Ossian",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31741-9.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31741-9.html",
+   "quest": 246,
+   "text": "Ossian: I hope you can come along, you never know when they'll attack again. Magister Ladd in the Ivory Tower is the Mage who can liberate the three relics in this box. Bring them to him! Hurry, his enemies are on our heels.",
+   "header": "Ossian",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 3 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00246_PossessorOfAPreciousSoul3",
+     "kind": "quest",
+     "quest": 246,
+     "to": "Q00246_PossessorOfAPreciousSoul3/31741-1.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

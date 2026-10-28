@@ -194,7 +194,7 @@
       <div class="fnd-hint">Common items = everything named “Common Item - …” (same stats as the real item, about 1/20 of the price, no set bonus, cannot be enchanted).</div>
       <label class="fnd-f"><span class="fl">Also never store (names, one per line)</span><textarea rows="3" data-stgnvnames="1" aria-label="never store names" placeholder="e.g. Tutorial Guide">${h(names)}</textarea><span class="fh">part of the item name; ^ = starts with</span></label>
       <label class="fnd-sw"><input type="checkbox" data-stgnv="sell" ${N.sell ? 'checked' : ''}><span class="tr" aria-hidden="true"></span><span class="lb ${N.sell ? 'on' : 'off'}">${N.sell ? 'Sold instead — at the next town sale / supply run / !sell' : 'Kept in the bag (switch on to sell them instead)'}</span></label>
-      <div class="fnd-hint">Selling still needs the party's “Sell junk on town visits” (⚙ Settings → Supplies) for the automatic town sale; your !sell order always works. Press Save at the bottom.</div>`;
+      <div class="fnd-hint">Selling still needs the party's “Sell marked items (automatic)” (⚙ Settings → Supplies, off by default) for the automatic town sale; your !sell order always works. Press Save at the bottom.</div>`;
   }
   const cwhKey = (r) => r.id + '+' + (r.enchant || 0);
 

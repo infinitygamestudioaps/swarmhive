@@ -1,0 +1,314 @@
+{
+ "npcId": 32356,
+ "name": "Jude",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.372Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32356.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "690": {
+   "name": "Jude's Request",
+   "listText": [
+    "[Jude's Request]",
+    "[Jude's Request (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00690_JudesRequest/32356-01.htm",
+     "when": "state CREATED; level >= 78",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00690_JudesRequest/32356-02.htm",
+     "when": "state CREATED; NOT level >= 78",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00690_JudesRequest/32356-04.htm",
+     "when": "state STARTED; item 10327 >= 200",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00690_JudesRequest/32356-05a.htm",
+     "when": "state STARTED; !st.getQuestItemsCount(EVIL_WEAPON) >= 200; st.getQuestItemsCount(EVIL_WEAPON) < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00690_JudesRequest/32356-05.htm",
+     "when": "state STARTED; !st.getQuestItemsCount(EVIL_WEAPON) >= 200; !st.getQuestItemsCount(EVIL_WEAPON) < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32356.htm": {
+   "file": "default/32356.htm",
+   "quest": null,
+   "text": "Jude: Our thanks to you! Because of your help, many of our people have found a new life. On the other hand, I hear that Darion's situation is rapidly deteriorating.",
+   "header": "Jude",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00690_JudesRequest/32356-01.htm": {
+   "file": "Q00690_JudesRequest/32356-01.htm",
+   "quest": 690,
+   "text": "Jude: It is rumored that somewhere in the Steel Citadel is a place where very powerful monsters are created. Amazing, isn't it? To think that someone is actually creating monsters... I must admit that while I'm not particularly interested in what goes on in the Steel Citadel, some of the Evil Weapo…",
+   "header": "Jude",
+   "when": [
+    "state CREATED; level >= 78"
+   ],
+   "links": [
+    {
+     "text": "\"I will do it.\"",
+     "bypass": "Quest Q00690_JudesRequest 32356-03.htm",
+     "kind": "quest-event",
+     "script": "Q00690_JudesRequest",
+     "event": "32356-03.htm",
+     "quest": 690,
+     "to": "Q00690_JudesRequest/32356-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00690_JudesRequest/32356-02.htm": {
+   "file": "Q00690_JudesRequest/32356-02.htm",
+   "quest": 690,
+   "text": "Jude: It is rumored that somewhere in the Steel Citadel is a place where very powerful monsters are created. Amazing, isn't it? To think that someone is actually creating monsters... I must admit that while I'm not particularly interested in what goes on in the Steel Citadel, some of the Evil Weapo…",
+   "header": "Jude",
+   "when": [
+    "state CREATED; NOT level >= 78"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00690_JudesRequest/32356-04.htm": {
+   "file": "Q00690_JudesRequest/32356-04.htm",
+   "quest": 690,
+   "text": "Jude: Ah, these weapons are exquisite! I see that you brought me 200 weapons, just as you promised. You can exchange these 200 Evil Weapons for the S80 Grade weapon recipe , or if you prefer, I can give you 3 weapon pieces for every 5 Evil Weapons you have . What is your preference?",
+   "header": "Jude",
+   "when": [
+    "state STARTED; item 10327 >= 200"
+   ],
+   "links": [
+    {
+     "text": "\"I don't want to exchange them now.\"",
+     "bypass": "Quest Q00690_JudesRequest 32356-06.htm",
+     "kind": "quest-event",
+     "script": "Q00690_JudesRequest",
+     "event": "32356-06.htm",
+     "quest": 690,
+     "to": "Q00690_JudesRequest/32356-06.htm"
+    },
+    {
+     "text": "\"I want to exchange them for the S80 Grade weapon recipe.\"",
+     "bypass": "Quest Q00690_JudesRequest 32356-07.htm",
+     "kind": "quest-event",
+     "script": "Q00690_JudesRequest",
+     "event": "32356-07.htm",
+     "quest": 690,
+     "to": "Q00690_JudesRequest/32356-07.htm",
+     "toAll": [
+      "Q00690_JudesRequest/32356-07.htm",
+      "Q00690_JudesRequest/32356-07a.htm"
+     ]
+    },
+    {
+     "text": "\"I want to exchange them for S80 Grade weapon pieces.\"",
+     "bypass": "Quest Q00690_JudesRequest 32356-09.htm",
+     "kind": "quest-event",
+     "script": "Q00690_JudesRequest",
+     "event": "32356-09.htm",
+     "quest": 690,
+     "to": "Q00690_JudesRequest/32356-09.htm",
+     "toAll": [
+      "Q00690_JudesRequest/32356-09.htm",
+      "Q00690_JudesRequest/32356-09a.htm"
+     ]
+    }
+   ]
+  },
+  "Q00690_JudesRequest/32356-05a.htm": {
+   "file": "Q00690_JudesRequest/32356-05a.htm",
+   "quest": 690,
+   "text": "Jude: You still don't have 5 Evil Weapons. You can obtain more from the Lesser Evils and Greater Evils in the Monster Foundry . Do your best! If you collect 200 Evil Weapons , I will exchange them for the S80 Grade weapon recipe. If you prefer, I can also exchange 5 Evil Weapons for 3 S80 Grade wea…",
+   "header": "Jude",
+   "when": [
+    "state STARTED; !st.getQuestItemsCount(EVIL_WEAPON) >= 200; st.getQuestItemsCount(EVIL_WEAPON) < 5"
+   ],
+   "links": [
+    {
+     "text": "Keep collecting Evil Weapons.",
+     "bypass": "Quest Q00690_JudesRequest 32356-06.htm",
+     "kind": "quest-event",
+     "script": "Q00690_JudesRequest",
+     "event": "32356-06.htm",
+     "quest": 690,
+     "to": "Q00690_JudesRequest/32356-06.htm"
+    },
+    {
+     "text": "Stop collecting Evil Weapons.",
+     "bypass": "Quest Q00690_JudesRequest 32356-08.htm",
+     "kind": "quest-event",
+     "script": "Q00690_JudesRequest",
+     "event": "32356-08.htm",
+     "quest": 690,
+     "to": "Q00690_JudesRequest/32356-08.htm",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00690_JudesRequest/32356-05.htm": {
+   "file": "Q00690_JudesRequest/32356-05.htm",
+   "quest": 690,
+   "text": "Jude: Ah! By my count, you have collected less than 200 Evil Weapons. You can obtain more from the Lesser Evils and Greater Evils in the Monster Foundry . Do your best! If you collect 200 Evil Weapons , I will exchange them for the S80 Grade weapon recipe. If you prefer, I can also exchange 5 Evil …",
+   "header": "Jude",
+   "when": [
+    "state STARTED; !st.getQuestItemsCount(EVIL_WEAPON) >= 200; !st.getQuestItemsCount(EVIL_WEAPON) < 5"
+   ],
+   "links": [
+    {
+     "text": "\"I want to exchange them for the S80 Grade weapon pieces.\"",
+     "bypass": "Quest Q00690_JudesRequest 32356-09.htm",
+     "kind": "quest-event",
+     "script": "Q00690_JudesRequest",
+     "event": "32356-09.htm",
+     "quest": 690,
+     "to": "Q00690_JudesRequest/32356-09.htm",
+     "toAll": [
+      "Q00690_JudesRequest/32356-09.htm",
+      "Q00690_JudesRequest/32356-09a.htm"
+     ]
+    },
+    {
+     "text": "Collect more Evil Weapons.",
+     "bypass": "Quest Q00690_JudesRequest 32356-06.htm",
+     "kind": "quest-event",
+     "script": "Q00690_JudesRequest",
+     "event": "32356-06.htm",
+     "quest": 690,
+     "to": "Q00690_JudesRequest/32356-06.htm"
+    },
+    {
+     "text": "Stop collecting Evil Weapons.",
+     "bypass": "Quest Q00690_JudesRequest 32356-08.htm",
+     "kind": "quest-event",
+     "script": "Q00690_JudesRequest",
+     "event": "32356-08.htm",
+     "quest": 690,
+     "to": "Q00690_JudesRequest/32356-08.htm",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00690_JudesRequest/32356-03.htm": {
+   "file": "Q00690_JudesRequest/32356-03.htm",
+   "quest": 690,
+   "text": "Jude: Bear in mind that what I'm looking for are not run-of-the-mill weapons carried by common monsters within the Steel Citadel. No, I need weapons from the Lesser Evils and Greater Evils that are found in Monster Foundry . Other Evil Weapons are useless! Understand? Bring me 200 Evil Weapons and …",
+   "header": "Jude",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00690_JudesRequest/32356-06.htm": {
+   "file": "Q00690_JudesRequest/32356-06.htm",
+   "quest": 690,
+   "text": "Jude: Yes, I think you are capable of collecting the weapons. You can obtain the Evil Weapons from both the Lesser Evils and the Greater Evils in the Monster Foundry . Good luck!",
+   "header": "Jude",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00690_JudesRequest/32356-07.htm": {
+   "file": "Q00690_JudesRequest/32356-07.htm",
+   "quest": 690,
+   "text": "Jude: Well! Here it is. Do you like it? I doubt I will make a profit on this, after all. But your hard work deserves a reward. Here is the S80 Grade weapon recipe. Good luck!",
+   "header": "Jude",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00690_JudesRequest/32356-07a.htm": {
+   "file": "Q00690_JudesRequest/32356-07a.htm",
+   "quest": 690,
+   "text": "Jude: You don't have enough Evil Weapons to get the S80 Grade weapon recipe. Bring me 200 Evil Weapons and I will exchange them for the S80 Grade weapon recipe . Keep at it!",
+   "header": "Jude",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00690_JudesRequest/32356-08.htm": {
+   "file": "Q00690_JudesRequest/32356-08.htm",
+   "quest": 690,
+   "text": "Jude: Ready to quit? Well, come back any time if you change your mind. You can always find me here, you know!",
+   "header": "Jude",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00690_JudesRequest/32356-09.htm": {
+   "file": "Q00690_JudesRequest/32356-09.htm",
+   "quest": 690,
+   "text": "Jude: Well! Here you are. And here are the S80 Grade weapon pieces as promised. Take them! If you collect more Evil Weapons, I'll be happy to provide you with the S80 Grade weapon recipe.",
+   "header": "Jude",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00690_JudesRequest/32356-09a.htm": {
+   "file": "Q00690_JudesRequest/32356-09a.htm",
+   "quest": 690,
+   "text": "Jude: You don't have enough Evil Weapons to get the S80 Grade weapon pieces I promised you. Bring me 5 Evil Weapons and I will give you 3 S80 Grade weapon pieces . Get back to work!",
+   "header": "Jude",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Jude's Request]",
+     "bypass": "npc_%objectId%_Quest Q00690_JudesRequest",
+     "kind": "quest",
+     "quest": 690,
+     "to": "Q00690_JudesRequest/32356-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Jude's Request (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00690_JudesRequest",
+     "kind": "quest",
+     "quest": 690,
+     "to": "Q00690_JudesRequest/32356-04.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

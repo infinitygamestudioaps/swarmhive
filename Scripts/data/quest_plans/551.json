@@ -2,7 +2,7 @@
  "id": 551,
  "name": "Olympiad Starter",
  "version": 1,
- "generated": "2026-10-27T11:15:41.183Z",
+ "generated": "2026-10-27T18:19:15.544Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 75,
@@ -19,13 +19,9 @@
    "text": "Olympiad / PvP condition"
   },
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
    "code": "engine-manual",
    "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
-   "step": 2
+   "step": 1
   }
  ],
  "expectedMin": 4,
@@ -192,8 +188,28 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:31688",
+   "key": "c1:special",
    "cond": 1,
+   "kind": "special",
+   "text": "script trigger \"other\"",
+   "trigger": "other",
+   "reasons": [
+    "engine-manual"
+   ],
+   "expectedSec": 60,
+   "engineWhy": "no automatic step at cond 1",
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:31688",
+   "cond": 2,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -350,27 +366,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:special",
-   "cond": 1,
-   "kind": "special",
-   "text": "script trigger \"other\"",
-   "trigger": "other",
-   "reasons": [
-    "engine-manual"
-   ],
-   "expectedSec": 60,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
     2
    ]
   }

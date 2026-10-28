@@ -2,7 +2,7 @@
  "id": 125,
  "name": "The Name of Evil - 1",
  "version": 1,
- "generated": "2026-10-27T11:15:12.396Z",
+ "generated": "2026-10-27T18:18:47.561Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 76,
@@ -41,9 +41,19 @@
    "code": "owner-manual",
    "text": "marked \"manual\" on the dashboard (plan override)",
    "step": 2
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 4
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 8
   }
  ],
- "expectedMin": 28,
+ "expectedMin": 36,
  "refLevel": 76,
  "steps": [
   {
@@ -730,8 +740,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    8
+    1
    ],
    "override": {
     "route": [
@@ -1200,8 +1209,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    2,
-    4
+    2
    ],
    "override": {
     "route": [
@@ -1879,7 +1887,16 @@
        "dangerVsLevel": 4,
        "aggro": []
       }
-     }
+     },
+     "lookalikes": [
+      {
+       "id": 22743,
+       "name": "Deinonychus",
+       "n": 2,
+       "not": 22205
+      }
+     ],
+     "note": "2 Deinonychus 22743 here are NOT the quest's monster (the script counts only 22205): the bots leave them alone"
     },
     {
      "mobs": [
@@ -2053,7 +2070,22 @@
        "dangerVsLevel": 4,
        "aggro": []
       }
-     }
+     },
+     "lookalikes": [
+      {
+       "id": 22742,
+       "name": "Ornithomimus",
+       "n": 5,
+       "not": 22202
+      },
+      {
+       "id": 22743,
+       "name": "Deinonychus",
+       "n": 3,
+       "not": 22205
+      }
+     ],
+     "note": "5 Ornithomimus 22742 here are NOT the quest's monster (the script counts only 22202): the bots leave them alone; 3 Deinonychus 22743 here are NOT the quest's monster (the script counts only 22205): the bots leave them alone"
     }
    ],
    "area": {
@@ -2260,6 +2292,446 @@
   },
   {
    "i": 4,
+   "key": "c4:talk:32117",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"Where is the stone monument, and what word will awaken it?\""
+   ],
+   "npc": {
+    "id": 32117,
+    "name": "Karakawei",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     6264,
+     -2187,
+     -2960
+    ],
+    "alt": []
+   },
+   "text": "Talk to Karakawei",
+   "reasons": [
+    "owner-manual"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "raid:25527",
+    "status": "unreachable",
+    "flags": [
+     "raid-policy"
+    ],
+    "from": ".rune",
+    "length": 20132,
+    "sec": 213,
+    "via": ".rune > Rune Township -> Primeval Isle",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "primeval isle wharf",
+      "price": 6400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 20132,
+      "how": "geodata",
+      "danger": 80
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune Township -> Primeval Isle"
+    },
+    "simple": true,
+    "pv": [
+     [
+      11235,
+      -24026,
+      -3640
+     ],
+     [
+      10750,
+      -23529,
+      -3656
+     ],
+     [
+      10264,
+      -23032,
+      -3672
+     ],
+     [
+      9768,
+      -22328,
+      -3696
+     ],
+     [
+      9272,
+      -21832,
+      -3600
+     ],
+     [
+      8776,
+      -21336,
+      -3504
+     ],
+     [
+      8296,
+      -20840,
+      -3508
+     ],
+     [
+      7816,
+      -20344,
+      -3512
+     ],
+     [
+      7320,
+      -19848,
+      -3604
+     ],
+     [
+      6824,
+      -19352,
+      -3696
+     ],
+     [
+      6360,
+      -18584,
+      -3712
+     ],
+     [
+      5904,
+      -18240,
+      -3740
+     ],
+     [
+      5448,
+      -17896,
+      -3768
+     ],
+     [
+      5160,
+      -17192,
+      -3760
+     ],
+     [
+      4664,
+      -16696,
+      -3700
+     ],
+     [
+      4168,
+      -16200,
+      -3640
+     ],
+     [
+      3864,
+      -15256,
+      -3544
+     ],
+     [
+      3784,
+      -14264,
+      -3560
+     ],
+     [
+      3784,
+      -13272,
+      -3768
+     ],
+     [
+      3752,
+      -12280,
+      -3768
+     ],
+     [
+      3784,
+      -11288,
+      -3736
+     ],
+     [
+      3784,
+      -10296,
+      -3704
+     ],
+     [
+      3784,
+      -9304,
+      -3616
+     ],
+     [
+      3784,
+      -8312,
+      -3512
+     ],
+     [
+      3784,
+      -7320,
+      -3408
+     ],
+     [
+      3784,
+      -6760,
+      -3272
+     ]
+    ],
+    "maxDanger": 80,
+    "needs": [],
+    "why": [
+     "no walk on the geodata from Uruka: gave up after 823533 cells (too far or no way); no way through (flooded 29667 cells, the goal side ran out); plain: gave up after 2000001 cells (too far or no w"
+    ],
+    "checks": {
+     "reachable": false,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 80,
+     "dangerVsLevel": 4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "raid:25527",
+     "name": "Uruka"
+    }
+   },
+   "expectedSec": 238,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ],
+   "overrideFrom": "c2:talk:32117",
+   "override": {
+    "route": [
+     [
+      6168,
+      -2184,
+      -2968
+     ],
+     [
+      6264,
+      -2184,
+      -2960
+     ]
+    ],
+    "start": {
+     "kind": "npc-teleport"
+    },
+    "manual": true,
+    "routeSteps": [
+     {
+      "do": "town",
+      "town": "Rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "Primeval Isle Wharf",
+      "live": true
+     },
+     {
+      "do": "walk",
+      "points": [
+       [
+        10264,
+        -23032,
+        -3672
+       ],
+       [
+        9768,
+        -22328,
+        -3696
+       ],
+       [
+        8776,
+        -21336,
+        -3504
+       ],
+       [
+        7816,
+        -20344,
+        -3512
+       ],
+       [
+        7352,
+        -19352,
+        -3680
+       ],
+       [
+        7352,
+        -18360,
+        -3632
+       ],
+       [
+        7352,
+        -17368,
+        -3632
+       ],
+       [
+        7352,
+        -16376,
+        -3672
+       ],
+       [
+        7352,
+        -15384,
+        -3688
+       ],
+       [
+        7224,
+        -14968,
+        -3704
+       ],
+       [
+        7368,
+        -14776,
+        -3704
+       ],
+       [
+        7720,
+        -14408,
+        -3696
+       ],
+       [
+        7832,
+        -14040,
+        -3688
+       ],
+       [
+        7784,
+        -13848,
+        -3696
+       ],
+       [
+        7192,
+        -12856,
+        -3664
+       ],
+       [
+        6904,
+        -12488,
+        -3672
+       ],
+       [
+        7000,
+        -12072,
+        -3672
+       ],
+       [
+        7112,
+        -11304,
+        -3664
+       ],
+       [
+        7352,
+        -10312,
+        -3664
+       ],
+       [
+        7352,
+        -9320,
+        -3624
+       ],
+       [
+        7352,
+        -8328,
+        -3640
+       ],
+       [
+        7352,
+        -7336,
+        -3600
+       ],
+       [
+        7352,
+        -6344,
+        -3456
+       ],
+       [
+        7352,
+        -5432,
+        -3216
+       ]
+      ]
+     },
+     {
+      "do": "npc-teleport",
+      "npc": 32111,
+      "name": "Orahochin",
+      "at": [
+       7344,
+       -5440,
+       -3219
+      ],
+      "link": "Teleport.",
+      "landing": [
+       5171,
+       -1889,
+       -3165
+      ],
+      "outOfCombat": true
+     },
+     {
+      "do": "walk",
+      "points": "override.route"
+     }
+    ],
+    "note": "ENGINE NEED (docs/plan/quest_engine_needs/batch2.md): the NPC stands in the Elroki village on an island of Primeval Isle (geopath_fast.pocketIn 20,566 cells: no walk in). Way (ai/npc/Teleports/ElrokiTeleporters.java): .rune -> Ilyana \"Primeval Isle Wharf\" (live, 6400 a) -> walk 21.4 km to Orahochin 32111 (7344,-5440) -> his \"Teleport.\" (not in combat) -> landing 5171,-1889,-3165 (TELEPORT_ORAHOCIN) -> walk override.route. Back: Gariachin 32112 (5376,-2720) teleports to 7651,-5416. The plan route cannot carry the NPC teleport (qePlanRoute keeps only points); the engine must run override.routeSteps. geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "npc-teleport"
+    },
+    "points": [
+     [
+      6168,
+      -2184,
+      -2968
+     ],
+     [
+      6264,
+      -2184,
+      -2960
+     ]
+    ],
+    "pv": [
+     [
+      6168,
+      -2184,
+      -2968
+     ],
+     [
+      6264,
+      -2184,
+      -2960
+     ]
+    ],
+    "length": 96,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "no-route"
+   ]
+  },
+  {
+   "i": 5,
    "key": "c5:talk:32119",
    "cond": 5,
    "kind": "talk",
@@ -2603,7 +3075,7 @@
    ]
   },
   {
-   "i": 5,
+   "i": 6,
    "key": "c6:talk:32120",
    "cond": 6,
    "kind": "talk",
@@ -2937,7 +3409,7 @@
    ]
   },
   {
-   "i": 6,
+   "i": 7,
    "key": "c7:talk:32121",
    "cond": 7,
    "kind": "talk",
@@ -3108,6 +3580,474 @@
    },
    "conds": [
     7
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c8:talk:32114",
+   "cond": 8,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32114,
+    "name": "Mushika",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     6538,
+     -2529,
+     -2936
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mushika",
+   "reasons": [
+    "owner-manual"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "raid:25527",
+    "status": "unreachable",
+    "flags": [
+     "raid-policy"
+    ],
+    "from": ".rune",
+    "length": 20132,
+    "sec": 213,
+    "via": ".rune > Rune Township -> Primeval Isle",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "primeval isle wharf",
+      "price": 6400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 20132,
+      "how": "geodata",
+      "danger": 80
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune Township -> Primeval Isle"
+    },
+    "simple": true,
+    "pv": [
+     [
+      11235,
+      -24026,
+      -3640
+     ],
+     [
+      10750,
+      -23529,
+      -3656
+     ],
+     [
+      10264,
+      -23032,
+      -3672
+     ],
+     [
+      9768,
+      -22328,
+      -3696
+     ],
+     [
+      9272,
+      -21832,
+      -3600
+     ],
+     [
+      8776,
+      -21336,
+      -3504
+     ],
+     [
+      8296,
+      -20840,
+      -3508
+     ],
+     [
+      7816,
+      -20344,
+      -3512
+     ],
+     [
+      7320,
+      -19848,
+      -3604
+     ],
+     [
+      6824,
+      -19352,
+      -3696
+     ],
+     [
+      6360,
+      -18584,
+      -3712
+     ],
+     [
+      5904,
+      -18240,
+      -3740
+     ],
+     [
+      5448,
+      -17896,
+      -3768
+     ],
+     [
+      5160,
+      -17192,
+      -3760
+     ],
+     [
+      4664,
+      -16696,
+      -3700
+     ],
+     [
+      4168,
+      -16200,
+      -3640
+     ],
+     [
+      3864,
+      -15256,
+      -3544
+     ],
+     [
+      3784,
+      -14264,
+      -3560
+     ],
+     [
+      3784,
+      -13272,
+      -3768
+     ],
+     [
+      3752,
+      -12280,
+      -3768
+     ],
+     [
+      3784,
+      -11288,
+      -3736
+     ],
+     [
+      3784,
+      -10296,
+      -3704
+     ],
+     [
+      3784,
+      -9304,
+      -3616
+     ],
+     [
+      3784,
+      -8312,
+      -3512
+     ],
+     [
+      3784,
+      -7320,
+      -3408
+     ],
+     [
+      3784,
+      -6760,
+      -3272
+     ]
+    ],
+    "maxDanger": 80,
+    "needs": [],
+    "why": [
+     "no walk on the geodata from Uruka: gave up after 822077 cells (too far or no way); no way through (flooded 31899 cells, the goal side ran out); plain: gave up after 2000001 cells (too far or no w"
+    ],
+    "checks": {
+     "reachable": false,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 80,
+     "dangerVsLevel": 4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "raid:25527",
+     "name": "Uruka"
+    }
+   },
+   "expectedSec": 238,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ],
+   "overrideFrom": "c1:talk:32114",
+   "override": {
+    "route": [
+     [
+      6168,
+      -2888,
+      -2960
+     ],
+     [
+      6248,
+      -2872,
+      -2952
+     ],
+     [
+      6344,
+      -2792,
+      -2936
+     ],
+     [
+      6536,
+      -2536,
+      -2936
+     ]
+    ],
+    "start": {
+     "kind": "npc-teleport"
+    },
+    "manual": true,
+    "routeSteps": [
+     {
+      "do": "town",
+      "town": "Rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "Primeval Isle Wharf",
+      "live": true
+     },
+     {
+      "do": "walk",
+      "points": [
+       [
+        10264,
+        -23032,
+        -3672
+       ],
+       [
+        9768,
+        -22328,
+        -3696
+       ],
+       [
+        8776,
+        -21336,
+        -3504
+       ],
+       [
+        7816,
+        -20344,
+        -3512
+       ],
+       [
+        7352,
+        -19352,
+        -3680
+       ],
+       [
+        7352,
+        -18360,
+        -3632
+       ],
+       [
+        7352,
+        -17368,
+        -3632
+       ],
+       [
+        7352,
+        -16376,
+        -3672
+       ],
+       [
+        7352,
+        -15384,
+        -3688
+       ],
+       [
+        7224,
+        -14968,
+        -3704
+       ],
+       [
+        7368,
+        -14776,
+        -3704
+       ],
+       [
+        7720,
+        -14408,
+        -3696
+       ],
+       [
+        7832,
+        -14040,
+        -3688
+       ],
+       [
+        7784,
+        -13848,
+        -3696
+       ],
+       [
+        7192,
+        -12856,
+        -3664
+       ],
+       [
+        6904,
+        -12488,
+        -3672
+       ],
+       [
+        7000,
+        -12072,
+        -3672
+       ],
+       [
+        7112,
+        -11304,
+        -3664
+       ],
+       [
+        7352,
+        -10312,
+        -3664
+       ],
+       [
+        7352,
+        -9320,
+        -3624
+       ],
+       [
+        7352,
+        -8328,
+        -3640
+       ],
+       [
+        7352,
+        -7336,
+        -3600
+       ],
+       [
+        7352,
+        -6344,
+        -3456
+       ],
+       [
+        7352,
+        -5432,
+        -3216
+       ]
+      ]
+     },
+     {
+      "do": "npc-teleport",
+      "npc": 32111,
+      "name": "Orahochin",
+      "at": [
+       7344,
+       -5440,
+       -3219
+      ],
+      "link": "Teleport.",
+      "landing": [
+       5171,
+       -1889,
+       -3165
+      ],
+      "outOfCombat": true
+     },
+     {
+      "do": "walk",
+      "points": "override.route"
+     }
+    ],
+    "note": "ENGINE NEED (docs/plan/quest_engine_needs/batch2.md): the NPC stands in the Elroki village on an island of Primeval Isle (geopath_fast.pocketIn 20,566 cells: no walk in). Way (ai/npc/Teleports/ElrokiTeleporters.java): .rune -> Ilyana \"Primeval Isle Wharf\" (live, 6400 a) -> walk 21.4 km to Orahochin 32111 (7344,-5440) -> his \"Teleport.\" (not in combat) -> landing 5171,-1889,-3165 (TELEPORT_ORAHOCIN) -> walk override.route. Back: Gariachin 32112 (5376,-2720) teleports to 7651,-5416. The plan route cannot carry the NPC teleport (qePlanRoute keeps only points); the engine must run override.routeSteps. geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "npc-teleport"
+    },
+    "points": [
+     [
+      6168,
+      -2888,
+      -2960
+     ],
+     [
+      6248,
+      -2872,
+      -2952
+     ],
+     [
+      6344,
+      -2792,
+      -2936
+     ],
+     [
+      6536,
+      -2536,
+      -2936
+     ]
+    ],
+    "pv": [
+     [
+      6168,
+      -2888,
+      -2960
+     ],
+     [
+      6248,
+      -2872,
+      -2952
+     ],
+     [
+      6344,
+      -2792,
+      -2936
+     ],
+     [
+      6536,
+      -2536,
+      -2936
+     ]
+    ],
+    "length": 527,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "no-route"
    ]
   }
  ],

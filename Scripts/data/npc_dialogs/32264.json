@@ -1,0 +1,748 @@
+{
+ "npcId": 32264,
+ "name": "Kanis",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.366Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32264.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "131": {
+   "name": "Bird in a Cage",
+   "listText": [
+    "[Bird in a Cage]",
+    "[Bird in a Cage (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00131_BirdInACage/32264-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00131_BirdInACage/32264-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00131_BirdInACage/32264-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00131_BirdInACage/32264-08.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00131_BirdInACage/32264-13.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00131_BirdInACage/32264-16.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00131_BirdInACage/32264-18.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "133": {
+   "name": "That's Bloody Hot!",
+   "listText": [
+    "[That's Bloody Hot!]",
+    "[That's Bloody Hot! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00133_ThatsBloodyHot/32264-01.htm",
+     "when": "state CREATED; player.hasQuestCompleted(Q00131_BirdInACage.class.getSimpleName()); (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00133_ThatsBloodyHot/32264-02.html",
+     "when": "state CREATED; player.hasQuestCompleted(Q00131_BirdInACage.class.getSimpleName()); NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00133_ThatsBloodyHot/32264-03.html",
+     "when": "state CREATED; !player.hasQuestCompleted(Q00131_BirdInACage.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00133_ThatsBloodyHot/32264-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00133_ThatsBloodyHot/32264-09.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00133_ThatsBloodyHot/32264-13.html",
+     "when": "state STARTED; cond >=3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32264.htm": {
+   "file": "default/32264.htm",
+   "quest": null,
+   "text": "Priest Kanis: I am Priest Kanis, and I serve the great Shamaness Parme of the Crystal Oracle, who offered herself as a sacrifice in order to appease the Water Dragon Fafurion. Several days ago, Demons, crazed sevants of the Water Dragon and Crystal Golems attacked the Oracle it was completely destr…",
+   "header": "Priest Kanis",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-01.htm": {
+   "file": "Q00131_BirdInACage/32264-01.htm",
+   "quest": 131,
+   "text": "Priest Kanis: On the day of the attack on the Crystal Oracle, the Oracle's Shamaness was also lost. After much effort, I was finally able to determine her whereabouts. But my skill is insufficient to defeat the monster that guards her. I need the help of an experienced adventurer.",
+   "header": "Priest Kanis",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I will help.\"",
+     "bypass": "Quest Q00131_BirdInACage 32264-04.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-04.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-02.html": {
+   "file": "Q00131_BirdInACage/32264-02.html",
+   "quest": 131,
+   "text": "Priest Kanis: We must prepare thoroughly if we hope to rescue the Shamaness. If we act rashly, she will be moved to a different location, and all our efforts will have been in vain. You need more training before setting out on this mission. (Only characters who are level 78 or above may undertake t…",
+   "header": "Priest Kanis",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00131_BirdInACage/32264-05.html": {
+   "file": "Q00131_BirdInACage/32264-05.html",
+   "quest": 131,
+   "text": "Priest Kanis: In the past, the Water Dragon rose up because of the conflict between the Water Dragon's anger, which was fueled by Shilen's influence, and its original heart. The Innadril Elves and the goddess Eva, who felt pity for the Dragon, used a special method to commune with it. They selected…",
+   "header": "Priest Kanis",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00131_BirdInACage 32264-07.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-07.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-07.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-08.html": {
+   "file": "Q00131_BirdInACage/32264-08.html",
+   "quest": 131,
+   "text": "Priest Kanis: (Kanis calms down and continues the story.) I escaped to Gakas and made many dangerous attempts to find the location of the Shamaness. During my search, I found the diaries of the Shamaness' maidservant and her supervisor.",
+   "header": "Priest Kanis",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"What did you learn from the diaries?\"",
+     "bypass": "Quest Q00131_BirdInACage 32264-10.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-10.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-10.html"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-13.html": {
+   "file": "Q00131_BirdInACage/32264-13.html",
+   "quest": 131,
+   "text": "Priest Kanis: Then please make the necessary preparations. Depart once you are ready to rescue the Shamaness from the Water Dragon's Cave beneath the Crystal Oracle .",
+   "header": "Priest Kanis",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"Have you learned anything else about the Water Dragon's Cave?\"",
+     "bypass": "Quest Q00131_BirdInACage 32264-14.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-14.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-14.html"
+    },
+    {
+     "text": "\"I will depart now.\"",
+     "bypass": "Quest Q00131_BirdInACage 32264-15.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-15.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-15.html"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-16.html": {
+   "file": "Q00131_BirdInACage/32264-16.html",
+   "quest": 131,
+   "text": "Priest Kanis: Oh...? Have you rescued the Shamaness? What happened? Where is the Shamaness? Did you fail to find her?",
+   "header": "Priest Kanis",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "Calm the flustered Kanis and hand him the Shamaness' letter.",
+     "bypass": "Quest Q00131_BirdInACage 32264-17.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-17.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-17.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-18.html": {
+   "file": "Q00131_BirdInACage/32264-18.html",
+   "quest": 131,
+   "text": "Priest Kanis: (Kanis begins to read the Shamaness' letter. His expression brightens.) Oh, thank you! (Tears form in Kanis' eyes.) Thank you very much! The Shamaness will be safe in this secret location. You are a true benefactor of this Crystal Island.",
+   "header": "Priest Kanis",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"During our escape from the Crystal Dungeon, the Shamaness said that Beleth was responsible for this.\"",
+     "bypass": "Quest Q00131_BirdInACage 32264-19.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-19.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-19.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00133_ThatsBloodyHot/32264-01.htm": {
+   "file": "Q00133_ThatsBloodyHot/32264-01.htm",
+   "quest": 133,
+   "text": "Priest Kanis: Are you interested in Hellbound Island? I'm sure there are many connections... Not to mention the people of this Crystal Oracle who were taken captive... That is because Hellbound is the stronghold of the notorious Beleth... Is your business related to the Ivory Tower? Or is it connec…",
+   "header": "Priest Kanis",
+   "when": [
+    "state CREATED; player.hasQuestCompleted(Q00131_BirdInACage.class.getSimpleName()); (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"An adventurer is supposed to seek out dangerous places. Don't worry -- just tell me how to reach Hellbound Island.\"",
+     "bypass": "Quest Q00133_ThatsBloodyHot 32264-04.html",
+     "kind": "quest-event",
+     "script": "Q00133_ThatsBloodyHot",
+     "event": "32264-04.html",
+     "quest": 133,
+     "to": "Q00133_ThatsBloodyHot/32264-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00133_ThatsBloodyHot/32264-02.html": {
+   "file": "Q00133_ThatsBloodyHot/32264-02.html",
+   "quest": 133,
+   "text": "Priest Kanis: It seems that you are not as experienced or prepared as you say you are. That place is extremely dangerous, and this mission is very important. Please return here only when you are more experienced. (Only characters who are level 78 or above may undertake this quest.)",
+   "header": "Priest Kanis",
+   "when": [
+    "state CREATED; player.hasQuestCompleted(Q00131_BirdInACage.class.getSimpleName()); NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00133_ThatsBloodyHot/32264-03.html": {
+   "file": "Q00133_ThatsBloodyHot/32264-03.html",
+   "quest": 133,
+   "text": "Priest Kanis: The most urgent thing is rescuing the Witch. Please focus on the rescue operation first... (Only characters who have completed the Bird in a Cage quest may undertake this quest.)",
+   "header": "Priest Kanis",
+   "when": [
+    "state CREATED; !player.hasQuestCompleted(Q00131_BirdInACage.class.getSimpleName())"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00133_ThatsBloodyHot/32264-05.html": {
+   "file": "Q00133_ThatsBloodyHot/32264-05.html",
+   "quest": 133,
+   "text": "Priest Kanis: If you really mean those words, then I suppose there is nothing I can do... Actually, after receiving the Shamaness' letter, we began several investigations in order to learn the whereabouts of the our people who are being held captive on Hellbound Island.",
+   "header": "Priest Kanis",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Have you discovered anything?\"",
+     "bypass": "Quest Q00133_ThatsBloodyHot 32264-06.html",
+     "kind": "quest-event",
+     "script": "Q00133_ThatsBloodyHot",
+     "event": "32264-06.html",
+     "quest": 133,
+     "to": "Q00133_ThatsBloodyHot/32264-06.html"
+    }
+   ]
+  },
+  "Q00133_ThatsBloodyHot/32264-09.html": {
+   "file": "Q00133_ThatsBloodyHot/32264-09.html",
+   "quest": 133,
+   "text": "Priest Kanis: Actually, a magician named Galate was dispatched from this Oracle's island to the Ivory Tower in nearby Innadril. The Ivory Tower sensed the growing magical power near Hellbound Island, and after an investigation, it discovered that the area was connected in some way to Beleth. The Iv…",
+   "header": "Priest Kanis",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Hmm. So perhaps there IS a way to enter Hellbound Island secretly...\"",
+     "bypass": "Quest Q00133_ThatsBloodyHot 32264-10.html",
+     "kind": "quest-event",
+     "script": "Q00133_ThatsBloodyHot",
+     "event": "32264-10.html",
+     "quest": 133,
+     "to": "Q00133_ThatsBloodyHot/32264-10.html"
+    }
+   ]
+  },
+  "Q00133_ThatsBloodyHot/32264-13.html": {
+   "file": "Q00133_ThatsBloodyHot/32264-13.html",
+   "quest": 133,
+   "text": "Priest Kanis: Please deliver the crystal sample that I gave you to Galate in Innadril . I am sure she will be happy to speak with you once you tell her that I sent you.",
+   "header": "Priest Kanis",
+   "when": [
+    "state STARTED; cond >=3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00131_BirdInACage/32264-04.html": {
+   "file": "Q00131_BirdInACage/32264-04.html",
+   "quest": 131,
+   "text": "Priest Kanis: Thank you for agreeing to help. The Shamaness is being held captive in the Crystal Caverns of the Water Dragon at the center of this island.",
+   "header": "Priest Kanis",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"What happened at the Crystal Oracle, and why is the Shamaness being held captive?\"",
+     "bypass": "Quest Q00131_BirdInACage 32264-06.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-06.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-06.html"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-06.html": {
+   "file": "Q00131_BirdInACage/32264-06.html",
+   "quest": 131,
+   "text": "Priest Kanis: In the past, the Water Dragon rose up because of the conflict between the Water Dragon's anger, which was fueled by Shilen's influence, and its original heart. The Innadril Elves and the goddess Eva, who felt pity for the Dragon, used a special method to commune with it. They selected…",
+   "header": "Priest Kanis",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00131_BirdInACage 32264-07.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-07.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-07.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-07.html": {
+   "file": "Q00131_BirdInACage/32264-07.html",
+   "quest": 131,
+   "text": "Priest Kanis: Recently, however, the Shamaness began to act strangely, and the Water Dragon stopped coming. Then monsters that had never appeared here before attacked the Crystal Oracle, along with many of the Water Dragon's servants -- including even the Crystal Golems that had previously protecte…",
+   "header": "Priest Kanis",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Wait until Kanis calms down.",
+     "bypass": "Quest Q00131_BirdInACage 32264-09.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-09.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-09.html"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-09.html": {
+   "file": "Q00131_BirdInACage/32264-09.html",
+   "quest": 131,
+   "text": "Priest Kanis: (Kanis calms down and continues the story.) I escaped to Gakas and made many dangerous attempts to find the location of the Shamaness. During my search, I found the diaries of the Shamaness' maidservant and her supervisor.",
+   "header": "Priest Kanis",
+   "links": [
+    {
+     "text": "\"What did you learn from the diaries?\"",
+     "bypass": "Quest Q00131_BirdInACage 32264-10.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-10.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-10.html"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-10.html": {
+   "file": "Q00131_BirdInACage/32264-10.html",
+   "quest": 131,
+   "text": "Priest Kanis: Considering all that has happened, it is clear to me that some evil force is trying to use the Shamaness to obtain the Water Dragon's power. It must have disguised itself as a hurt, weak creature and entered the most vulnerable part of the Shamaness' mind. By the time the Shamaness re…",
+   "header": "Priest Kanis",
+   "links": [
+    {
+     "text": "\"How did you find the place where she is being held?\"",
+     "bypass": "Quest Q00131_BirdInACage 32264-11.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-11.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-11.html"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-11.html": {
+   "file": "Q00131_BirdInACage/32264-11.html",
+   "quest": 131,
+   "text": "Priest Kanis: I was able to determine the Shamaness' location by using a relic of Eva that contains the power of the Water Dragon. ... Take this Echo Crystal for now. When I confirmed her location through the relic, I was also able to ascertain a little about her condition. It seems that her mind h…",
+   "header": "Priest Kanis",
+   "links": [
+    {
+     "text": "Take the Echo Crystal from Kanis.",
+     "bypass": "Quest Q00131_BirdInACage 32264-12.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-12.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-12.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-12.html": {
+   "file": "Q00131_BirdInACage/32264-12.html",
+   "quest": 131,
+   "text": "Priest Kanis: They say that a monster named Balor rules over the Water Dragon's Cave . I believe that Balor guards the place where the Shamaness is being held captive. If that is the case, you will only be able reach the Shamaness by defeating Balor. That creature is said to be far stronger and mor…",
+   "header": "Priest Kanis",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"I will depart now.\"",
+     "bypass": "Quest Q00131_BirdInACage 32264-15.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-15.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-15.html"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-14.html": {
+   "file": "Q00131_BirdInACage/32264-14.html",
+   "quest": 131,
+   "text": "Priest Kanis: To enter the Water Dragon's Cave , you will need 1 Contaminated Crystal . The Contaminated Crystal can be found at the Dark Cloud Mansion . They say that a monster named Balor rules over the Water Dragon's Cave . I believe that Balor guards the place where the Shamaness is being held …",
+   "header": "Priest Kanis",
+   "links": [
+    {
+     "text": "\"I will depart now.\"",
+     "bypass": "Quest Q00131_BirdInACage 32264-15.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-15.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-15.html"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-15.html": {
+   "file": "Q00131_BirdInACage/32264-15.html",
+   "quest": 131,
+   "text": "Priest Kanis: I entreat you... You will only be able to reach the location where the Shamaness is being held captive after defeating the evil creature named Balor. You can enter the Water Dragon's Cave using the Contaminated Crystal from the Dark Cloud Mansion . Please be careful...and good luck!",
+   "header": "Priest Kanis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00131_BirdInACage/32264-17.html": {
+   "file": "Q00131_BirdInACage/32264-17.html",
+   "quest": 131,
+   "text": "Priest Kanis: (Kanis begins to read the Shamaness' letter. His expression brightens.) Oh, thank you! (Tears form in Kanis' eyes.) Thank you very much! The Shamaness will be safe in this secret location. You are a true benefactor of this Crystal Island.",
+   "header": "Priest Kanis",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"During our escape from the Crystal Dungeon, the Shamaness said that Beleth was responsible for this.\"",
+     "bypass": "Quest Q00131_BirdInACage 32264-19.html",
+     "kind": "quest-event",
+     "script": "Q00131_BirdInACage",
+     "event": "32264-19.html",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-19.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00131_BirdInACage/32264-19.html": {
+   "file": "Q00131_BirdInACage/32264-19.html",
+   "quest": 131,
+   "text": "Priest Kanis: Ah, the notorious Demon Beleth... So the Shamaness reports in her letter. She says that she was due to be transported shortly to Beleth's stronghold on Hellbound Island. You succeeded in rescuing her in the nick of time! This could have been an even worse disaster... Apparently, thoug…",
+   "header": "Priest Kanis",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00133_ThatsBloodyHot/32264-04.html": {
+   "file": "Q00133_ThatsBloodyHot/32264-04.html",
+   "quest": 133,
+   "text": "Priest Kanis: If you really mean those words, then I suppose there is nothing I can do... Actually, after receiving the Shamaness' letter, we began several investigations in order to learn the whereabouts of the our people who are being held captive on Hellbound Island.",
+   "header": "Priest Kanis",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Have you discovered anything?\"",
+     "bypass": "Quest Q00133_ThatsBloodyHot 32264-06.html",
+     "kind": "quest-event",
+     "script": "Q00133_ThatsBloodyHot",
+     "event": "32264-06.html",
+     "quest": 133,
+     "to": "Q00133_ThatsBloodyHot/32264-06.html"
+    }
+   ]
+  },
+  "Q00133_ThatsBloodyHot/32264-06.html": {
+   "file": "Q00133_ThatsBloodyHot/32264-06.html",
+   "quest": 133,
+   "text": "Priest Kanis: Hellbound Island is surrounded by towering cliffs and some sort of magical ocean current which makes it impossible to enter through ordinary means.",
+   "header": "Priest Kanis",
+   "links": [
+    {
+     "text": "\"Then how did the captives reach the island?\"",
+     "bypass": "Quest Q00133_ThatsBloodyHot 32264-07.html",
+     "kind": "quest-event",
+     "script": "Q00133_ThatsBloodyHot",
+     "event": "32264-07.html",
+     "quest": 133,
+     "to": "Q00133_ThatsBloodyHot/32264-07.html"
+    }
+   ]
+  },
+  "Q00133_ThatsBloodyHot/32264-07.html": {
+   "file": "Q00133_ThatsBloodyHot/32264-07.html",
+   "quest": 133,
+   "text": "Priest Kanis: Presumably, Beleth used his powerful magic to teleport them to the island.",
+   "header": "Priest Kanis",
+   "links": [
+    {
+     "text": "\"Then is it impossible to enter without Beleth's permission?\"",
+     "bypass": "Quest Q00133_ThatsBloodyHot 32264-08.html",
+     "kind": "quest-event",
+     "script": "Q00133_ThatsBloodyHot",
+     "event": "32264-08.html",
+     "quest": 133,
+     "to": "Q00133_ThatsBloodyHot/32264-08.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00133_ThatsBloodyHot/32264-08.html": {
+   "file": "Q00133_ThatsBloodyHot/32264-08.html",
+   "quest": 133,
+   "text": "Priest Kanis: Actually, a magician named Galate was dispatched from this Oracle's island to the Ivory Tower in nearby Innadril. The Ivory Tower sensed the growing magical power near Hellbound Island, and after an investigation, it discovered that the area was connected in some way to Beleth. The Iv…",
+   "header": "Priest Kanis",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Hmm. So perhaps there IS a way to enter Hellbound Island secretly...\"",
+     "bypass": "Quest Q00133_ThatsBloodyHot 32264-10.html",
+     "kind": "quest-event",
+     "script": "Q00133_ThatsBloodyHot",
+     "event": "32264-10.html",
+     "quest": 133,
+     "to": "Q00133_ThatsBloodyHot/32264-10.html"
+    }
+   ]
+  },
+  "Q00133_ThatsBloodyHot/32264-10.html": {
+   "file": "Q00133_ThatsBloodyHot/32264-10.html",
+   "quest": 133,
+   "text": "Priest Kanis: Yes... According to Galate , she has discovered the method. But she says that it is difficult to implement because it requires a complex process and several special ingredients.",
+   "header": "Priest Kanis",
+   "links": [
+    {
+     "text": "\"Special ingredients?\"",
+     "bypass": "Quest Q00133_ThatsBloodyHot 32264-11.html",
+     "kind": "quest-event",
+     "script": "Q00133_ThatsBloodyHot",
+     "event": "32264-11.html",
+     "quest": 133,
+     "to": "Q00133_ThatsBloodyHot/32264-11.html"
+    }
+   ]
+  },
+  "Q00133_ThatsBloodyHot/32264-11.html": {
+   "file": "Q00133_ThatsBloodyHot/32264-11.html",
+   "quest": 133,
+   "text": "Priest Kanis: Galate requested a sample of the manufactured crystal that can only be made by the priests of the Crystal Oracle. The manufactured crystal sample seems to be one of the special ingredients that she needs. Since you also seem to be interested in Hellbound Island, I am sure that if you …",
+   "header": "Priest Kanis",
+   "links": [
+    {
+     "text": "\"Hmm, I understand.\"",
+     "bypass": "Quest Q00133_ThatsBloodyHot 32264-12.html",
+     "kind": "quest-event",
+     "script": "Q00133_ThatsBloodyHot",
+     "event": "32264-12.html",
+     "quest": 133,
+     "to": "Q00133_ThatsBloodyHot/32264-12.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00133_ThatsBloodyHot/32264-12.html": {
+   "file": "Q00133_ThatsBloodyHot/32264-12.html",
+   "quest": 133,
+   "text": "Priest Kanis: I will give you a sample of this manufactured crystal. Please deliver it to Galate in Innadril . I am sure she will be happy to speak with you once you tell her that I sent you.",
+   "header": "Priest Kanis",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Bird in a Cage]",
+     "bypass": "npc_%objectId%_Quest Q00131_BirdInACage",
+     "kind": "quest",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Bird in a Cage (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00131_BirdInACage",
+     "kind": "quest",
+     "quest": 131,
+     "to": "Q00131_BirdInACage/32264-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[That's Bloody Hot!]",
+     "bypass": "npc_%objectId%_Quest Q00133_ThatsBloodyHot",
+     "kind": "quest",
+     "quest": 133,
+     "to": "Q00133_ThatsBloodyHot/32264-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[That's Bloody Hot! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00133_ThatsBloodyHot",
+     "kind": "quest",
+     "quest": 133,
+     "to": "Q00133_ThatsBloodyHot/32264-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,385 @@
+{
+ "npcId": 31600,
+ "name": "Pamela Aprodia",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.241Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31600.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "99": {
+   "name": "Saga of the Fortune Seeker",
+   "listText": [
+    "[Saga of the Fortune Seeker]",
+    "[Saga of the Fortune Seeker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00099_SagaOfTheFortuneSeeker/2-01.htm",
+     "when": "cond 1; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00099_SagaOfTheFortuneSeeker/2-02.htm",
+     "when": "cond 2; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00099_SagaOfTheFortuneSeeker/2-03.htm",
+     "when": "cond 4; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00099_SagaOfTheFortuneSeeker/2-04.htm",
+     "when": "cond 5; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00099_SagaOfTheFortuneSeeker/3-01.htm",
+     "when": "cond 10; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00099_SagaOfTheFortuneSeeker/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00099_SagaOfTheFortuneSeeker/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00099_SagaOfTheFortuneSeeker/3-06.htm",
+     "when": "cond 13; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00099_SagaOfTheFortuneSeeker/11-01.htm",
+     "when": "cond 14; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00099_SagaOfTheFortuneSeeker/11-02.htm",
+     "when": "cond 15; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31600.htm": {
+   "file": "default/31600.htm",
+   "quest": null,
+   "text": "Pamela Aprodia: Here, Mr. Stefano! Take this document to Rune immediately! Oh, hello! How are you? Are you visiting the warehouse? I'm here to mail a letter... Hee hee! I see that you're an adventurer? That's awesome! Would you like to have a cup of coffee with me later and tell me about your adven…",
+   "header": "Pamela Aprodia",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00099_SagaOfTheFortuneSeeker/2-01.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/2-01.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: Did M send you to me? I mean Mr. Bond... The Benandantis are one step ahead of us. They already know the location of the stone tablet. We must find out what they've learned!",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 1; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How?\"",
+     "bypass": "Quest Q00099_SagaOfTheFortuneSeeker 2-1",
+     "kind": "quest-event",
+     "script": "Q00099_SagaOfTheFortuneSeeker",
+     "event": "2-1",
+     "quest": 99,
+     "to": "Q00099_SagaOfTheFortuneSeeker/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00099_SagaOfTheFortuneSeeker/2-02.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/2-02.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: Why are you still here? Go to the hot springs area and speak with Bavarin ! The Benandanti cartel is already on the move. You must quickly find out the location of the stone tablet. Hurry, there isn't much time!",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 2; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/2-03.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/2-03.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: Is this the document from Bavarin? It shows not only the location of the stone tablet, but how to read the questions written on the tablet. This is better than I expected. Excellent work, I underestimated you. Let's read it... Nobody can read the passage written on the six stone Tab…",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 4; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Read on!\"",
+     "bypass": "Quest Q00099_SagaOfTheFortuneSeeker 2-2",
+     "kind": "quest-event",
+     "script": "Q00099_SagaOfTheFortuneSeeker",
+     "event": "2-2",
+     "quest": 99,
+     "to": "Q00099_SagaOfTheFortuneSeeker/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00099_SagaOfTheFortuneSeeker/2-04.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/2-04.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: We can find the Tablet of Vision with the Stone of Commune. Can you sense the location of the tablet? Then go immediately!",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 5; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/3-01.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/3-01.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: Oh, it was you! Wow, you defeated the Archangel Iconoclasis alone! Very impressive! I could really go for someone like you! However... The Benandantis are still ahead of us, and it seems that they already communed with the fourth Tablet of Vision! Fortunately, I followed them and le…",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 10; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"And then what?\"",
+     "bypass": "Quest Q00099_SagaOfTheFortuneSeeker 3-5",
+     "kind": "quest-event",
+     "script": "Q00099_SagaOfTheFortuneSeeker",
+     "event": "3-5",
+     "quest": 99,
+     "to": "Q00099_SagaOfTheFortuneSeeker/3-07.htm"
+    }
+   ]
+  },
+  "Q00099_SagaOfTheFortuneSeeker/3-05.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/3-05.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: A fragment of the fourth Stone of Commune is actually worshiped by an uncivilized tribe who call it their Holy Stone of Wisdom! Now put these two stones together...",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Put the Holy Stone of Wisdom and Pamela's fragment together.\"",
+     "bypass": "Quest Q00099_SagaOfTheFortuneSeeker 3-8",
+     "kind": "quest-event",
+     "script": "Q00099_SagaOfTheFortuneSeeker",
+     "event": "3-8",
+     "quest": 99,
+     "to": "Q00099_SagaOfTheFortuneSeeker/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00099_SagaOfTheFortuneSeeker/3-04.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/3-04.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: To use the fourth Stone of Commune, we have to get the sacred stone of wisdom worshipped by the Ketra Orcs and the Varka Silenos. You have to gain their trust first, but it won't be easy as they are wild and warlike tribes.",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/3-06.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/3-06.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: You haven't left yet? Take the Stone of Commune I gave you to the fourth tablet. You'll know its location intuitively. If it's difficult to find with your feelings, use the Map.",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 13; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/11-01.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/11-01.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: I've been waiting for you! My soldiers recently attacked a convoy of Benandantis and captured vital information! With this Stone of Commune... This is the Stone of Commune you felt. But haven't you felt that its power is weaker than before? This Stone of Commune is useless since it …",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 14; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"And...?\"",
+     "bypass": "Quest Q00099_SagaOfTheFortuneSeeker 11-9",
+     "kind": "quest-event",
+     "script": "Q00099_SagaOfTheFortuneSeeker",
+     "event": "11-9",
+     "quest": 99,
+     "to": "Q00099_SagaOfTheFortuneSeeker/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00099_SagaOfTheFortuneSeeker/11-02.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/11-02.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: To get the fifth Stone of Commune, you must destroy the Archon of Halisha . Find the devil in the Imperial Tomb or at the Wall of Argos. If you go to the Imperial Tomb, you can confront him by entering the Four Sepulchers. If you go to the Shrine of the Loyal, you must attack his mi…",
+   "header": "Pamela Aprodia",
+   "when": [
+    "cond 15; !((npcId == 31594) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/11-03.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/11-03.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: There is no way to avoid meeting the Archon of Halisha . Yes, because he has the fifth Stone of Commune. If you go to the Imperial Tomb, you can confront him by entering the Four Sepulchers. If you go to the Shrine of the Loyal, you must attack his minions as you see them. Then the …",
+   "header": "Pamela Aprodia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/2-05.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/2-05.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: You should go to the hot springs area and speak with Bavarin . He already knows me. He might tell our enemies that the Bronze Key Guild is on the move if I went. A stranger like you should approach him. You must hurry! The messengers of the Benandanti cartel are running swiftly!",
+   "header": "Pamela Aprodia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/2-06.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/2-06.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: Be patient. Ahem! If you use the power of the Stone of Commune, you can understand the characters of the gods written on the Tablet of Vision. Also, if you hold the stone with your hands, you will know intuitively where the tablet is hidden. It isn't yet known who on earth made this…",
+   "header": "Pamela Aprodia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/3-02.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/3-02.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: Very well! Go to Messenger Wahkan of the Ketra Orcs. They will be hiring mercenaries. This is a good opportunity to gain their trust! The sacred stone of wisdom we are looking for is possessed by soul guide Asefa , the chief shaman of the Ketra Orcs. If things aren't going well, you…",
+   "header": "Pamela Aprodia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/3-03.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/3-03.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: Then go to Messenger Naran Ashanuk of the Ketra Orcs. They will be hiring mercenaries. This is a good opportunity to gain their trust! The sacred stone of wisdom we are looking for is possessed by soul guide Udan Mardui , the chief shaman of the Varka Silenos. If things aren't going…",
+   "header": "Pamela Aprodia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00099_SagaOfTheFortuneSeeker/3-07.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/3-07.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: You can feel the Stone of Commune? It must be this small piece of stone that I stole from the Benandantis. It's the fragment of the fourth Stone of Commune. However, for it to work properly, we have to find the missing piece and put them together. The rest of the Stone of Commune is…",
+   "header": "Pamela Aprodia",
+   "links": [
+    {
+     "text": "\"I'll approach the Ketra Orcs.\"",
+     "bypass": "Quest Q00099_SagaOfTheFortuneSeeker 3-6",
+     "kind": "quest-event",
+     "script": "Q00099_SagaOfTheFortuneSeeker",
+     "event": "3-6",
+     "quest": 99,
+     "to": "Q00099_SagaOfTheFortuneSeeker/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'll approach the Varka Silenos.\"",
+     "bypass": "Quest Q00099_SagaOfTheFortuneSeeker 3-7",
+     "kind": "quest-event",
+     "script": "Q00099_SagaOfTheFortuneSeeker",
+     "event": "3-7",
+     "quest": 99,
+     "to": "Q00099_SagaOfTheFortuneSeeker/3-03.htm",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00099_SagaOfTheFortuneSeeker/3-08.htm": {
+   "file": "Q00099_SagaOfTheFortuneSeeker/3-08.htm",
+   "quest": 99,
+   "text": "Pamela Aprodia: The two pieces fit together perfectly! Take this Stone of Commune and find the fourth Tablet of Vision. Hurry! We must win the race against the Benandantis! And who knows? Maybe you'll become the Fortune Seeker...",
+   "header": "Pamela Aprodia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Fortune Seeker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00099_SagaOfTheFortuneSeeker",
+     "kind": "quest",
+     "quest": 99,
+     "to": "Q00099_SagaOfTheFortuneSeeker/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

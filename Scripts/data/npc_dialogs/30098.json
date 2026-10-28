@@ -1,0 +1,288 @@
+{
+ "npcId": 30098,
+ "name": "Alexandria",
+ "title": "Armor Merchant",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.840Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "229": {
+   "name": "Test Of Witchcraft",
+   "listText": [
+    "[Test of Witchcraft]",
+    "[Test of Witchcraft (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00229_TestOfWitchcraft/30098-01.htm",
+     "when": "state STARTED; has items 3308",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30098-04.htm",
+     "when": "state STARTED; has items 3309; lacks items 3308",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30098-05.htm",
+     "when": "state STARTED; has items 3324,3323; lacks items 3308,3309",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30098-01.htm": {
+   "file": "Q00229_TestOfWitchcraft/30098-01.htm",
+   "quest": 229,
+   "text": "Trader Alexandria: What have you come here for?",
+   "header": "Trader Alexandria",
+   "when": [
+    "state STARTED; has items 3308"
+   ],
+   "links": [
+    {
+     "text": "I wish to know about the jewels sold during auction.",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30098-02.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30098-02.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30098-02.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30098-04.htm": {
+   "file": "Q00229_TestOfWitchcraft/30098-04.htm",
+   "quest": 229,
+   "text": "Trader Alexandria: Jewels received by Mr. Nestle... I didn't realize they were so valuable! As I told you, the 3 jewels that I put on the auction were sold to Magister Iker, Trader Lara and Dark Elven Magister Kaira ... You should meet them first and then ask Trader Nestle in Gludin about the sourc…",
+   "header": "Trader Alexandria",
+   "when": [
+    "state STARTED; has items 3309; lacks items 3308"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30098-05.htm": {
+   "file": "Q00229_TestOfWitchcraft/30098-05.htm",
+   "quest": 229,
+   "text": "Trader Alexandria: Did you find the jewels? I have done some research and found that these jewels were used by the ancients to control evil. Had I known this earlier I could have sold them for a much higher price... Oh well, this has been very enlightening!",
+   "header": "Trader Alexandria",
+   "when": [
+    "state STARTED; has items 3324,3323; lacks items 3308,3309"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30098-02.htm": {
+   "file": "Q00229_TestOfWitchcraft/30098-02.htm",
+   "quest": 229,
+   "text": "Trader Alexandria: Ah! The jewels from last week's auction! They are truly exquisite, crafted with impeccable detail in the late empire fashion. They belonged to Trader Nestle of Gludin who requested that they be put in this auction as a relic from the ancient empire. They were all sold at the last…",
+   "header": "Trader Alexandria",
+   "links": [
+    {
+     "text": "Please check the account book.",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30098-03.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30098-03.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30098-03.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30098-03.htm": {
+   "file": "Q00229_TestOfWitchcraft/30098-03.htm",
+   "quest": 229,
+   "text": "Trader Alexandria: My records are very detailed. Three jewels were put up on auction. There were originally six pieces in the set, but the others were not in this set and were sold separately. The first jewel was sold to Magister Iker . He is one of the members of the Mystics Guild of this village.…",
+   "header": "Trader Alexandria",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "ai/npc/Alexandria/30098-02.html": {
+   "file": "ai/npc/Alexandria/30098-02.html",
+   "quest": null,
+   "text": "Trader Alexandria: Ah, you have excellent taste! This bracelet is truly unique. In fact, it is said that it contains an Agathion . Quite a find, eh? Wondering if it is for sale? Of course it is -- that's why I'm here! Both this Little Angel Agathion Bracelet and this Little Devil Agathion Bracelet …",
+   "header": "Trader Alexandria",
+   "links": [
+    {
+     "text": "Purchase the Little Angel Agathion Bracelet.",
+     "bypass": "Quest Alexandria littleAngel",
+     "kind": "quest-event",
+     "script": "Alexandria",
+     "event": "littleAngel",
+     "to": null
+    },
+    {
+     "text": "Purchase the Little Devil Agathion Bracelet.",
+     "bypass": "Quest Alexandria littleDevil",
+     "kind": "quest-event",
+     "script": "Alexandria",
+     "event": "littleDevil",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Alexandria/30098-03.html": {
+   "file": "ai/npc/Alexandria/30098-03.html",
+   "quest": null,
+   "text": "Trader Alexandria: Yes, I've checked the necessary items. Thank you for your hard work. I'm telling you ahead that I don't know for sure what kind of power each bracelet has. I only can tell you that the angel-engraved bracelet has an angel-type Agathion, and the devil-engraved one has a devil-type…",
+   "header": "Trader Alexandria",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Alexandria/30098-03a.html": {
+   "file": "ai/npc/Alexandria/30098-03a.html",
+   "quest": null,
+   "text": "Trader Alexandria: Yes, I checked the necessary items. It must have been difficult to obtain them all! I must warn you that I do not know for sure what kind of power posessed by each bracelet. I only can tell you that the Angel's Bracelet contains an angel-type Agathion, while the Devil's Bracelet …",
+   "header": "Trader Alexandria",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Alexandria/30098-04.html": {
+   "file": "ai/npc/Alexandria/30098-04.html",
+   "quest": null,
+   "text": "Trader Alexandria: Oh, you don't have the items required to buy either the Angel's Bracelet or the Devil's Bracelet. In order to obtain one, you must first bring me 25 Big Red Nimble Fish , 50 Great Codrans , and 4 Memento Moris, 5 Earth Eggs, 5 Nonliving Nuclei, 3 Dragon Hearts , and 7,500,000 Ade…",
+   "header": "Trader Alexandria",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Alexandria/30098.html": {
+   "file": "ai/npc/Alexandria/30098.html",
+   "quest": null,
+   "text": "Trader Alexandria: Welcome! Thank you so much for visiting our boutique. We sell precious and valuable things that you would never find anywhere else. We've also added some luxury accessories this time. Look around see if you can find anything you like. Ah! Now, you can use Adena to pay for your go…",
+   "header": "Trader Alexandria",
+   "links": [
+    {
+     "text": "Purchase Armor.",
+     "bypass": "npc_%objectId%_multisell 300984001",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Purchase Specialty Items.",
+     "bypass": "npc_%objectId%_multisell 300984002",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Purchase Agathion Bracelet.",
+     "bypass": "Quest Alexandria 30098-02.html",
+     "kind": "quest-event",
+     "script": "Alexandria",
+     "event": "30098-02.html",
+     "to": "ai/npc/Alexandria/30098-02.html",
+     "live": true
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Witchcraft (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00229_TestOfWitchcraft",
+     "kind": "quest",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30098-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Purchase the Litle Angel Agathion Bracelet. | Purchase the Litle Devil Agathion Bracelet."
+ ],
+ "liveClicks": [
+  {
+   "text": "Purchase Armor.",
+   "n": 48,
+   "inDatapack": true,
+   "from": [
+    "Trader Alexandria:Welcome! Thank you so much for visiting ou"
+   ],
+   "to": []
+  },
+  {
+   "text": "Purchase Specialty Items.",
+   "n": 6,
+   "inDatapack": true,
+   "from": [
+    "Trader Alexandria:Welcome! Thank you so much for visiting ou"
+   ],
+   "to": []
+  },
+  {
+   "text": "Purchase Agathion Bracelet.",
+   "n": 3,
+   "inDatapack": true,
+   "from": [
+    "Trader Alexandria:Welcome! Thank you so much for visiting ou"
+   ],
+   "to": [
+    "Trader Alexandria:Ah, you have excellent taste! This bracele"
+   ]
+  },
+  {
+   "text": "Purchase the Litle Angel Agathion Bracelet.",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Trader Alexandria:Ah, you have excellent taste! This bracele"
+   ],
+   "to": [
+    "Trader Alexandria:Oh, you don't have the items required to b"
+   ]
+  },
+  {
+   "text": "Purchase the Litle Devil Agathion Bracelet.",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Trader Alexandria:Ah, you have excellent taste! This bracele"
+   ],
+   "to": [
+    "Trader Alexandria:Oh, you don't have the items required to b"
+   ]
+  }
+ ]
+}

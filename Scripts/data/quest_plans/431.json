@@ -2,7 +2,7 @@
  "id": 431,
  "name": "Wedding March",
  "version": 1,
- "generated": "2026-10-27T11:15:39.964Z",
+ "generated": "2026-10-27T18:19:14.656Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 38,
@@ -688,7 +688,22 @@
        "dangerVsLevel": 2,
        "aggro": []
       }
-     }
+     },
+     "lookalikes": [
+      {
+       "id": 21644,
+       "name": "Lienrik",
+       "n": 2,
+       "not": 20786
+      },
+      {
+       "id": 21645,
+       "name": "Lienrik Lad",
+       "n": 2,
+       "not": 20787
+      }
+     ],
+     "note": "2 Lienrik 21644 here are NOT the quest's monster (the script counts only 20786): the bots leave them alone; 2 Lienrik Lad 21645 here are NOT the quest's monster (the script counts only 20787): the bots leave them alone"
     }
    ],
    "area": {
@@ -873,7 +888,7 @@
    "expectedSec": 3074,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "hunt"
    },
    "conds": [
     1
@@ -881,8 +896,8 @@
   },
   {
    "i": 2,
-   "key": "c1:talk:31042",
-   "cond": 1,
+   "key": "c2:talk:31042",
+   "cond": 2,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -1311,11 +1326,10 @@
    },
    "expectedSec": 109,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2
    ]
   }
@@ -1324,11 +1338,12 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:40.942Z",
+  "at": "2026-10-27T18:19:15.255Z",
   "pass": true,
   "geo": true,
   "fails": [],
   "warns": [
+   "area-lookalike",
    "hunt-long"
   ]
  }

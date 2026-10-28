@@ -1,0 +1,402 @@
+{
+ "npcId": 31553,
+ "name": "Pierce",
+ "title": "Mercenary Captain",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.220Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31553.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "109": {
+   "name": "In Search of the Nest",
+   "listText": [
+    "[In Search of the Nest]",
+    "[In Search of the Nest (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00109_InSearchOfTheNest/31553-0a.htm",
+     "when": "state CREATED; (player.getLevel() < 81)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00109_InSearchOfTheNest/31553-0b.htm",
+     "when": "state CREATED; NOT (player.getLevel() < 81)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00109_InSearchOfTheNest/31553-1.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00109_InSearchOfTheNest/31553-2.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00109_InSearchOfTheNest/31553-3a.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "629": {
+   "name": "Clean Up The Swamp Of Screams",
+   "listText": [
+    "[Clean up the Swamp of Screams]",
+    "[Clean up the Swamp of Screams (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00629_CleanUpTheSwampOfScreams/31553-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00629_CleanUpTheSwampOfScreams/31553-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00629_CleanUpTheSwampOfScreams/31553-04.html",
+     "when": "state STARTED; (getQuestItemsCount(player, TALON_OF_STAKATO) >= REQUIRED_TALON_COUNT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00629_CleanUpTheSwampOfScreams/31553-05.html",
+     "when": "state STARTED; NOT (getQuestItemsCount(player, TALON_OF_STAKATO) >= REQUIRED_TALON_COUNT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31553.htm": {
+   "file": "default/31553.htm",
+   "quest": null,
+   "text": "Mercenary Captain Pierce: I'm Pierce, captain of the Golden Ram Mercenary Force. Kahman has told me quite a bit about you. Your service in these hard times has been invaluable! The Swamp of Screams pales in comparison to the hellish battlefields that we've seen. But, in the name of Seighardt, and f…",
+   "header": "Mercenary Captain Pierce",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00109_InSearchOfTheNest/31553-0a.htm": {
+   "file": "Q00109_InSearchOfTheNest/31553-0a.htm",
+   "quest": 109,
+   "text": "Mercenary Captain Pierce: We have no use for someone so inexperienced. Get some more training and we'll see what we can do for you... (Only characters who are level 81 or higher may undertake this quest.)",
+   "header": "Mercenary Captain Pierce",
+   "when": [
+    "state CREATED; (player.getLevel() < 81)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00109_InSearchOfTheNest/31553-0b.htm": {
+   "file": "Q00109_InSearchOfTheNest/31553-0b.htm",
+   "quest": 109,
+   "text": "Mercenary Captain Pierce: I'm glad to have you on the force! Makes me more optimistic about our chances... Anyway, I called you here to ask you a favor. I sent a group of scouts into the Swamp of Screams to investigate the ongoing conflict there, but we've lost contact with one of them. I need some…",
+   "header": "Mercenary Captain Pierce",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < 81)"
+   ],
+   "links": [
+    {
+     "text": "\"Sure, no big deal. I'll do it.\"",
+     "bypass": "Quest Q00109_InSearchOfTheNest 31553-0.htm",
+     "kind": "quest-event",
+     "script": "Q00109_InSearchOfTheNest",
+     "event": "31553-0.htm",
+     "quest": 109,
+     "to": "Q00109_InSearchOfTheNest/31553-0.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00109_InSearchOfTheNest/31553-1.html": {
+   "file": "Q00109_InSearchOfTheNest/31553-1.html",
+   "quest": 109,
+   "text": "Mercenary Captain Pierce: What's the hold up? We lost contact with the scout inside the Swamp of Screams. Follow the path and you can't miss it. I marked it on the map so you shouldn't get lost. Remember, countless lives are at stake here! We need to find that scout!",
+   "header": "Mercenary Captain Pierce",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00109_InSearchOfTheNest/31553-2.html": {
+   "file": "Q00109_InSearchOfTheNest/31553-2.html",
+   "quest": 109,
+   "text": "Mercenary Captain Pierce: I can tell by your looks that you found something. Well? Is my scout OK? Spit it out, soldier! What do you know?",
+   "header": "Mercenary Captain Pierce",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Read this memo.\"",
+     "bypass": "Quest Q00109_InSearchOfTheNest 31553-3.html",
+     "kind": "quest-event",
+     "script": "Q00109_InSearchOfTheNest",
+     "event": "31553-3.html",
+     "quest": 109,
+     "to": "Q00109_InSearchOfTheNest/31553-3.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00109_InSearchOfTheNest/31553-3a.html": {
+   "file": "Q00109_InSearchOfTheNest/31553-3a.html",
+   "quest": 109,
+   "text": "Mercenary Captain Pierce: You've done your part, and I thank you for it. Go to see Kahman over there for your reward.",
+   "header": "Mercenary Captain Pierce",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00629_CleanUpTheSwampOfScreams/31553-01.htm": {
+   "file": "Q00629_CleanUpTheSwampOfScreams/31553-01.htm",
+   "quest": 629,
+   "text": "Mercenary Captain Pierce: Do you know why this is called the Swamp of Screams? Because of the haunting screams of those caught off guard! It's our rule to finish any job we take, no matter how difficult. Are you ready to help empty the swamp of the stakatos?",
+   "header": "Mercenary Captain Pierce",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Accept quest.",
+     "bypass": "Quest Q00629_CleanUpTheSwampOfScreams 31553-03.htm",
+     "kind": "quest-event",
+     "script": "Q00629_CleanUpTheSwampOfScreams",
+     "event": "31553-03.htm",
+     "quest": 629,
+     "to": "Q00629_CleanUpTheSwampOfScreams/31553-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00629_CleanUpTheSwampOfScreams/31553-02.htm": {
+   "file": "Q00629_CleanUpTheSwampOfScreams/31553-02.htm",
+   "quest": 629,
+   "text": "Mercenary Captain Pierce: Do you know why this is called the Swamp of Screams? Because of the haunting screams of those caught off guard. It's our rule to finish any job we start, no matter how difficult. You're not up to it yet. (Quest may only be undertaken by characters level 66 or above.)",
+   "header": "Mercenary Captain Pierce",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00629_CleanUpTheSwampOfScreams/31553-04.html": {
+   "file": "Q00629_CleanUpTheSwampOfScreams/31553-04.html",
+   "quest": 629,
+   "text": "Mercenary Captain Pierce: Thank god you came back alright. So, how's the situation?",
+   "header": "Mercenary Captain Pierce",
+   "when": [
+    "state STARTED; (getQuestItemsCount(player, TALON_OF_STAKATO) >= REQUIRED_TALON_COUNT)"
+   ],
+   "links": [
+    {
+     "text": "I've brought 100 claws of Stakatos.",
+     "bypass": "Quest Q00629_CleanUpTheSwampOfScreams 31553-07.html",
+     "kind": "quest-event",
+     "script": "Q00629_CleanUpTheSwampOfScreams",
+     "event": "31553-07.html",
+     "quest": 629,
+     "to": "Q00629_CleanUpTheSwampOfScreams/31553-07.html",
+     "toAll": [
+      "Q00629_CleanUpTheSwampOfScreams/31553-07.html",
+      "Q00629_CleanUpTheSwampOfScreams/31553-08.html"
+     ]
+    }
+   ]
+  },
+  "Q00629_CleanUpTheSwampOfScreams/31553-05.html": {
+   "file": "Q00629_CleanUpTheSwampOfScreams/31553-05.html",
+   "quest": 629,
+   "text": "Mercenary Captain Pierce: Do you want to get demoted for delinquency? Get out there and slay some stakatos!",
+   "header": "Mercenary Captain Pierce",
+   "when": [
+    "state STARTED; NOT (getQuestItemsCount(player, TALON_OF_STAKATO) >= REQUIRED_TALON_COUNT)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00109_InSearchOfTheNest/31553-0.htm": {
+   "file": "Q00109_InSearchOfTheNest/31553-0.htm",
+   "quest": 109,
+   "text": "Mercenary Captain Pierce: Excellent! I hate to throw you into the fire on your first mission, but it's vital that we find out what happened to our scout! Cool your heels a minute and I'll tell you where to focus your search. We lost contact with him inside the Swamp of Screams. If you follow the pa…",
+   "header": "Mercenary Captain Pierce",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00109_InSearchOfTheNest/31553-3.html": {
+   "file": "Q00109_InSearchOfTheNest/31553-3.html",
+   "quest": 109,
+   "text": "Mercenary Captain Pierce: Ah, I see... He's dead, then. Good work. At least he gave us some important information: the Stakatos are becoming both wilder and stronger, though we don't know why. Our Golden Ram Mercenaries must now prepare for what may well be our final battle. Take this news to Kahma…",
+   "header": "Mercenary Captain Pierce",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00629_CleanUpTheSwampOfScreams/31553-03.htm": {
+   "file": "Q00629_CleanUpTheSwampOfScreams/31553-03.htm",
+   "quest": 629,
+   "text": "Mercenary Captain Pierce: You'll find two types of stakatos in the Swamp of Screams, Splinter Stakatos around the edges and Needle Stakatos at the center. There are many poisonous pools that they hang around, so beware. When you kill one, pull out its claws. Collect 100 on each outing, they serve a…",
+   "header": "Mercenary Captain Pierce",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00629_CleanUpTheSwampOfScreams/31553-06.html": {
+   "file": "Q00629_CleanUpTheSwampOfScreams/31553-06.html",
+   "quest": 629,
+   "text": "Mercenary Captain Pierce: It is impossible for us to clear the whole swamp. We don't have the strength to strike a fatal blow, we'd have to tackle the incubator and kill the queen. Our resources are too few, but we must continue until given the withdrawal order.",
+   "header": "Mercenary Captain Pierce",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00629_CleanUpTheSwampOfScreams/31553-07.html": {
+   "file": "Q00629_CleanUpTheSwampOfScreams/31553-07.html",
+   "quest": 629,
+   "text": "Mercenary Captain Pierce: Great fighting. Take a rest for the moment. Ah, take this with you. This is a reward for bringing 100 Stakato claws. It is paid to mercenaries as an allowance. Take it to the Mercenary Supplier and exchange it with various things. If you need anything, go see Abercrombie a…",
+   "header": "Mercenary Captain Pierce",
+   "links": [
+    {
+     "text": "I'll go back to the battleground again.",
+     "bypass": "Quest Q00629_CleanUpTheSwampOfScreams 31553-06.html",
+     "kind": "quest-event",
+     "script": "Q00629_CleanUpTheSwampOfScreams",
+     "event": "31553-06.html",
+     "quest": 629,
+     "to": "Q00629_CleanUpTheSwampOfScreams/31553-06.html"
+    },
+    {
+     "text": "I have more claws of Stakatos.",
+     "bypass": "Quest Q00629_CleanUpTheSwampOfScreams 31553-07.html",
+     "kind": "quest-event",
+     "script": "Q00629_CleanUpTheSwampOfScreams",
+     "event": "31553-07.html",
+     "quest": 629,
+     "to": "Q00629_CleanUpTheSwampOfScreams/31553-07.html",
+     "toAll": [
+      "Q00629_CleanUpTheSwampOfScreams/31553-07.html",
+      "Q00629_CleanUpTheSwampOfScreams/31553-08.html"
+     ]
+    },
+    {
+     "text": "I want to quit.",
+     "bypass": "Quest Q00629_CleanUpTheSwampOfScreams 31553-09.html",
+     "kind": "quest-event",
+     "script": "Q00629_CleanUpTheSwampOfScreams",
+     "event": "31553-09.html",
+     "quest": 629,
+     "to": "Q00629_CleanUpTheSwampOfScreams/31553-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00629_CleanUpTheSwampOfScreams/31553-08.html": {
+   "file": "Q00629_CleanUpTheSwampOfScreams/31553-08.html",
+   "quest": 629,
+   "text": "Mercenary Captain Pierce: Don't rest until you've brought back 100 stakato claws.",
+   "header": "Mercenary Captain Pierce",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00629_CleanUpTheSwampOfScreams/31553-09.html": {
+   "file": "Q00629_CleanUpTheSwampOfScreams/31553-09.html",
+   "quest": 629,
+   "text": "Mercenary Captain Pierce: Quitting, huh? The Golden Ram will always welcome skilled soldiers like you! You must have your own reasons, and I thank you for helping us. Come back whenever you want a good fight!",
+   "header": "Mercenary Captain Pierce",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[In Search of the Nest]",
+     "bypass": "npc_%objectId%_Quest Q00109_InSearchOfTheNest",
+     "kind": "quest",
+     "quest": 109,
+     "to": "Q00109_InSearchOfTheNest/31553-0b.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[In Search of the Nest (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00109_InSearchOfTheNest",
+     "kind": "quest",
+     "quest": 109,
+     "to": "Q00109_InSearchOfTheNest/31553-1.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Clean up the Swamp of Screams]",
+     "bypass": "npc_%objectId%_Quest Q00629_CleanUpTheSwampOfScreams",
+     "kind": "quest",
+     "quest": 629,
+     "to": "Q00629_CleanUpTheSwampOfScreams/31553-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Clean up the Swamp of Screams (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00629_CleanUpTheSwampOfScreams",
+     "kind": "quest",
+     "quest": 629,
+     "to": "Q00629_CleanUpTheSwampOfScreams/31553-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

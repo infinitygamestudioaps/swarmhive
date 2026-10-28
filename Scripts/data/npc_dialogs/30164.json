@@ -1,0 +1,173 @@
+{
+ "npcId": 30164,
+ "name": "Ian",
+ "title": "Armor Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.856Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30164.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "33": {
+   "name": "Make a Pair of Dress Shoes",
+   "listText": [
+    "[Make a Pair of Dress Shoes]",
+    "[Make a Pair of Dress Shoes (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00033_MakeAPairOfDressShoes/30164-01.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00033_MakeAPairOfDressShoes/30164-04.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30164.htm": {
+   "file": "merchant/30164.htm",
+   "quest": null,
+   "text": "Trader Ian: Welcome to the Ivory Tower, the center of magic. These days, people think of the Ivory Tower as a research institute, but did you know it was once a powerful political entity that practically controlled the entire continent? Where do you think the knowledge and secrets our founders accu…",
+   "header": "Trader Ian",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30164-1.htm"
+    },
+    {
+     "text": "Try on armor for Wizards.",
+     "bypass": "npc_%objectId%_Wear 3016400",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30164-1.htm": {
+   "file": "merchant/30164-1.htm",
+   "quest": null,
+   "text": "Trader Ian: Tell me what you need.",
+   "header": "Trader Ian",
+   "links": [
+    {
+     "text": "Buy Wizard equipment.",
+     "bypass": "npc_%objectId%_Buy 3016400",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3016401",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/30164-pk.htm": {
+   "file": "merchant/30164-pk.htm",
+   "quest": null,
+   "text": "Trader Ian: How did you get past the guards? The quality of their training must be slipping... I don't like this at all!",
+   "header": "Trader Ian",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/30164-01.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30164-01.html",
+   "quest": 33,
+   "text": "Trader Ian: Come in! What can I do for you? Ah yes, a payment from Woodley! That's 300,000 Adena, right?",
+   "header": "Trader Ian",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00033_MakeAPairOfDressShoes 30164-02.html",
+     "kind": "quest-event",
+     "script": "Q00033_MakeAPairOfDressShoes",
+     "event": "30164-02.html",
+     "quest": 33,
+     "to": "Q00033_MakeAPairOfDressShoes/30164-02.html",
+     "toAll": [
+      "Q00033_MakeAPairOfDressShoes/30164-02.html",
+      "Q00033_MakeAPairOfDressShoes/30164-03.html"
+     ],
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00033_MakeAPairOfDressShoes/30164-04.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30164-04.html",
+   "quest": 33,
+   "text": "Trader Ian: You haven't seen Mr. Woodley? When you do, tell him that I'll accept his payment this time, but next time he's late, I'll charge him a late fee.",
+   "header": "Trader Ian",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/30164-02.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30164-02.html",
+   "quest": 33,
+   "text": "Trader Ian: Humph! Only 300,000 Adena for the excellent item I made for him? I suppose I'll accept it this time! Tell Mr. Woodley that his balance is paid off, but next time, I'll have to charge a late fee!",
+   "header": "Trader Ian",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/30164-03.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/30164-03.html",
+   "quest": 33,
+   "text": "Trader Ian: So, Mr. Woodley sent you? Where is his payment? Did you drop it by any chance? Please check your pockets!",
+   "header": "Trader Ian",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Make a Pair of Dress Shoes (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00033_MakeAPairOfDressShoes",
+     "kind": "quest",
+     "quest": 33,
+     "to": "Q00033_MakeAPairOfDressShoes/30164-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,365 @@
+{
+ "npcId": 31740,
+ "name": "Caradine",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.273Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31740.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "241": {
+   "name": "Possessor Of A Precious Soul 1",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 1]",
+    "[Path of the Noblesse, Precious Soul - 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31740-01.html",
+     "when": "cond >=18",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "246": {
+   "name": "Possessor Of A Precious Soul 3",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 3]",
+    "[Path of the Noblesse, Precious Soul - 3 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00246_PossessorOfAPreciousSoul3/31740-1.htm",
+     "when": "state CREATED; ((player.getLevel() >= 65) && player.hasQuestCompleted(Q00242_PossessorOfAPreciousSoul2.class.getSim",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00246_PossessorOfAPreciousSoul3/31740-2.html",
+     "when": "state CREATED; NOT ((player.getLevel() >= 65) && player.hasQuestCompleted(Q00242_PossessorOfAPreciousSoul2.class.getSim",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00246_PossessorOfAPreciousSoul3/31740-5.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "247": {
+   "name": "Possessor Of A Precious Soul 4",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 4]",
+    "[Path of the Noblesse, Precious Soul - 4 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00247_PossessorOfAPreciousSoul4/31740-1.htm",
+     "when": "state CREATED; player.hasQuestCompleted(Q00246_PossessorOfAPreciousSoul3.class.getSimpleName()); (player.getLevel() >= 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00247_PossessorOfAPreciousSoul4/31740-2.html",
+     "when": "state CREATED; player.hasQuestCompleted(Q00246_PossessorOfAPreciousSoul3.class.getSimpleName()); NOT (player.getLevel() >= 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00247_PossessorOfAPreciousSoul4/31740-6.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31740.htm": {
+   "file": "default/31740.htm",
+   "quest": null,
+   "text": "Caradine: My name is Caradine. I am the first daughter of the Naird family that has served the Lady of the Lake for generations. The year I turned 20 I followed my mother Morigan in service to the lady. To fulfill my lady's will I've traveled all over the world. No! You're wrong! She's real! Once w…",
+   "header": "Caradine",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31740-01.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31740-01.html",
+   "quest": 241,
+   "text": "Caradine: The star of fate must have brought you here. It is an honor indeed to meet someone who carries such a precious soul. You are surely the one sent by Her to complete our remaining work. The Lady of the Lake... She is the one who continues to hope for the criminals of the world, even if that…",
+   "header": "Caradine",
+   "when": [
+    "cond >=18"
+   ],
+   "links": [
+    {
+     "text": "\"I will.\"",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 31740-04.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "31740-04.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31740-04.html"
+    }
+   ]
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31740-1.htm": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31740-1.htm",
+   "quest": 246,
+   "text": "Caradine: Welcome back! I heard what happened. Thank you on behalf of the group! I never imagined that there would be such resistance to our work! We're probably safe now, but the Lady of the Lake hasn't completely recovered yet. She still needs some more rest. Could you please help us some more?",
+   "header": "Caradine",
+   "when": [
+    "state CREATED; ((player.getLevel() >= 65) && player.hasQuestCompleted(Q00242_PossessorOfAPreciousSoul2.class.getSim"
+   ],
+   "links": [
+    {
+     "text": "\"I'll wait.\"",
+     "bypass": "Quest Q00246_PossessorOfAPreciousSoul3 31740-4.html",
+     "kind": "quest-event",
+     "script": "Q00246_PossessorOfAPreciousSoul3",
+     "event": "31740-4.html",
+     "quest": 246,
+     "to": "Q00246_PossessorOfAPreciousSoul3/31740-4.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31740-2.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31740-2.html",
+   "quest": 246,
+   "text": "Caradine: Welcome back! I heard what happened. Thank you on behalf of the group! I never imagined that there would be such resistance to our work! The battle has just begun! You'd better find a safe place to hide for a while! (This quest may only be undertaken by sub-class characters of level 65 or…",
+   "header": "Caradine",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= 65) && player.hasQuestCompleted(Q00242_PossessorOfAPreciousSoul2.class.getSim"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31740-5.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31740-5.html",
+   "quest": 246,
+   "text": "Caradine: Ask Ossian, he'll tell you.",
+   "header": "Caradine",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00247_PossessorOfAPreciousSoul4/31740-1.htm": {
+   "file": "Q00247_PossessorOfAPreciousSoul4/31740-1.htm",
+   "quest": 247,
+   "text": "Caradine: Thank you for coming. I asked you here because the time has come for you to meet her. Isn't that what you wanted? Prepare to have all your questions answered and your horizons broadened! Are you ready to change your life?",
+   "header": "Caradine",
+   "when": [
+    "state CREATED; player.hasQuestCompleted(Q00246_PossessorOfAPreciousSoul3.class.getSimpleName()); (player.getLevel() >= 75)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, I am!\"",
+     "bypass": "Quest Q00247_PossessorOfAPreciousSoul4 31740-3.html",
+     "kind": "quest-event",
+     "script": "Q00247_PossessorOfAPreciousSoul4",
+     "event": "31740-3.html",
+     "quest": 247,
+     "to": "Q00247_PossessorOfAPreciousSoul4/31740-3.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00247_PossessorOfAPreciousSoul4/31740-2.html": {
+   "file": "Q00247_PossessorOfAPreciousSoul4/31740-2.html",
+   "quest": 247,
+   "text": "Caradine: Soon, you'll meet her. All your questions will be answered and a world of new possibilities will be opened to you. You're not quite ready yet. (This quest may only be undertaken by sub-class characters of level 75 or above.)",
+   "header": "Caradine",
+   "when": [
+    "state CREATED; player.hasQuestCompleted(Q00246_PossessorOfAPreciousSoul3.class.getSimpleName()); NOT (player.getLevel() >= 75)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00247_PossessorOfAPreciousSoul4/31740-6.html": {
+   "file": "Q00247_PossessorOfAPreciousSoul4/31740-6.html",
+   "quest": 247,
+   "text": "Caradine: You haven't met her yet, have you? She's waiting! Go to her! Now, close your eyes...",
+   "header": "Caradine",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00247_PossessorOfAPreciousSoul4 31740-5.html",
+     "kind": "quest-event",
+     "script": "Q00247_PossessorOfAPreciousSoul4",
+     "event": "31740-5.html",
+     "quest": 247,
+     "to": "Q00247_PossessorOfAPreciousSoul4/31740-5.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31740-04.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31740-04.html",
+   "quest": 241,
+   "text": "Caradine: Good to see you! Thank you for helping us. We've been trying to find you since we received this letter from Virgil, addressed to you.",
+   "header": "Caradine",
+   "links": [
+    {
+     "text": "\"Let me see the letter.\"",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 31740-05.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "31740-05.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31740-05.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31740-05.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31740-05.html",
+   "quest": 241,
+   "text": "Caradine: Virgil's in trouble! Go to him immediately!",
+   "header": "Caradine",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00246_PossessorOfAPreciousSoul3/31740-4.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/31740-4.html",
+   "quest": 246,
+   "text": "Caradine: Oh, wonderful! We really need the help! Ask Ossian over there, he'll tell you exactly what we need.",
+   "header": "Caradine",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00247_PossessorOfAPreciousSoul4/31740-3.html": {
+   "file": "Q00247_PossessorOfAPreciousSoul4/31740-3.html",
+   "quest": 247,
+   "text": "Caradine: You must meet her alone. My only role is to open the way for you. Don't be frightened! She just wants to talk to you. What she'll say, I don't know, but you need to listen! Now, close your eyes and relax.",
+   "header": "Caradine",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00247_PossessorOfAPreciousSoul4 31740-4.html",
+     "kind": "quest-event",
+     "script": "Q00247_PossessorOfAPreciousSoul4",
+     "event": "31740-4.html",
+     "quest": 247,
+     "to": "Q00247_PossessorOfAPreciousSoul4/31740-4.html"
+    }
+   ]
+  },
+  "Q00247_PossessorOfAPreciousSoul4/31740-4.html": {
+   "file": "Q00247_PossessorOfAPreciousSoul4/31740-4.html",
+   "quest": 247,
+   "text": "Caradine: My master wants to meet you. Are you ready? Close your eyes...",
+   "header": "Caradine",
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00247_PossessorOfAPreciousSoul4 31740-5.html",
+     "kind": "quest-event",
+     "script": "Q00247_PossessorOfAPreciousSoul4",
+     "event": "31740-5.html",
+     "quest": 247,
+     "to": "Q00247_PossessorOfAPreciousSoul4/31740-5.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00247_PossessorOfAPreciousSoul4/31740-5.html": {
+   "file": "Q00247_PossessorOfAPreciousSoul4/31740-5.html",
+   "quest": 247,
+   "text": "Caradine: A new era dawns! May the blessings of starlight be with you...",
+   "header": "Caradine",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00241_PossessorOfAPreciousSoul1",
+     "kind": "quest",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31740-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 3]",
+     "bypass": "npc_%objectId%_Quest Q00246_PossessorOfAPreciousSoul3",
+     "kind": "quest",
+     "quest": 246,
+     "to": "Q00246_PossessorOfAPreciousSoul3/31740-1.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 3 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00246_PossessorOfAPreciousSoul3",
+     "kind": "quest",
+     "quest": 246,
+     "to": "Q00246_PossessorOfAPreciousSoul3/31740-5.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 4]",
+     "bypass": "npc_%objectId%_Quest Q00247_PossessorOfAPreciousSoul4",
+     "kind": "quest",
+     "quest": 247,
+     "to": "Q00247_PossessorOfAPreciousSoul4/31740-1.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 4 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00247_PossessorOfAPreciousSoul4",
+     "kind": "quest",
+     "quest": 247,
+     "to": "Q00247_PossessorOfAPreciousSoul4/31740-6.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

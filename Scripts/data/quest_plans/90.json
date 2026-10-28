@@ -2,7 +2,7 @@
  "id": 90,
  "name": "Saga of the Storm Screamer",
  "version": 1,
- "generated": "2026-10-27T11:14:57.228Z",
+ "generated": "2026-10-27T18:18:35.245Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 76,
@@ -36,11 +36,6 @@
    "step": 5
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 8
-  },
-  {
    "code": "item-from-elsewhere",
    "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
    "step": 11
@@ -61,11 +56,6 @@
    "step": 15
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 16
-  },
-  {
    "code": "npc-quest-spawned",
    "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
    "step": 18
@@ -81,7 +71,7 @@
    "step": 21
   }
  ],
- "expectedMin": 362,
+ "expectedMin": 366,
  "refLevel": 76,
  "steps": [
   {
@@ -424,9 +414,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    10,
-    14
+    1
    ]
   },
   {
@@ -1747,14 +1735,14 @@
     }
    ],
    "kills": 1,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "talk",
     "trigger": [
      31652
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Examine the area at Tablet of Vision (spawns Fallen Angel Allector 27252 at 161719,-92823,-1893, 5 min), kill it ALONE (no party)",
    "npc": {
@@ -2431,6 +2419,255 @@
   },
   {
    "i": 10,
+   "key": "c10:talk:31287",
+   "cond": 10,
+   "kind": "talk",
+   "to": 11,
+   "links": [
+    "\"What do you need?\"",
+    "\"I'll approach the Ketra Orcs!\""
+   ],
+   "npc": {
+    "id": 31287,
+    "name": "Kamilen",
+    "title": "Magister",
+    "town": "Goddard",
+    "at": [
+     145168,
+     -54880,
+     -2965
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kamilen and choose Ketra or Varka",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31287@145168,-54880",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 7817,
+    "sec": 85,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 7817,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147704,
+      -57640,
+      -2880
+     ],
+     [
+      147704,
+      -57912,
+      -2968
+     ],
+     [
+      147608,
+      -58008,
+      -2976
+     ],
+     [
+      147640,
+      -58136,
+      -2976
+     ],
+     [
+      147432,
+      -58280,
+      -2976
+     ],
+     [
+      147160,
+      -58280,
+      -2976
+     ],
+     [
+      146888,
+      -58280,
+      -2976
+     ],
+     [
+      146616,
+      -58296,
+      -2976
+     ],
+     [
+      146488,
+      -58280,
+      -2976
+     ],
+     [
+      146232,
+      -58184,
+      -2976
+     ],
+     [
+      145976,
+      -58072,
+      -2976
+     ],
+     [
+      145736,
+      -57944,
+      -2976
+     ],
+     [
+      145544,
+      -57752,
+      -2976
+     ],
+     [
+      145432,
+      -57528,
+      -2976
+     ],
+     [
+      145288,
+      -57288,
+      -2976
+     ],
+     [
+      145128,
+      -57080,
+      -2976
+     ],
+     [
+      145016,
+      -56840,
+      -2976
+     ],
+     [
+      144968,
+      -56760,
+      -2976
+     ],
+     [
+      144920,
+      -56664,
+      -2976
+     ],
+     [
+      144872,
+      -56424,
+      -2976
+     ],
+     [
+      144888,
+      -56152,
+      -2976
+     ],
+     [
+      144904,
+      -55880,
+      -2976
+     ],
+     [
+      144856,
+      -55608,
+      -2976
+     ],
+     [
+      144888,
+      -55336,
+      -2976
+     ],
+     [
+      144856,
+      -55160,
+      -2976
+     ],
+     [
+      144952,
+      -54904,
+      -2960
+     ],
+     [
+      145096,
+      -54792,
+      -2960
+     ],
+     [
+      145176,
+      -54872,
+      -2960
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 110,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10
+   ]
+  },
+  {
+   "i": 11,
    "key": "c11:deliver:31287",
    "cond": 11,
    "kind": "deliver",
@@ -2688,7 +2925,7 @@
    ]
   },
   {
-   "i": 11,
+   "i": 12,
    "key": "c13:deliver:31654",
    "cond": 13,
    "kind": "deliver",
@@ -2816,7 +3053,255 @@
    ]
   },
   {
-   "i": 12,
+   "i": 13,
+   "key": "c14:talk:31287",
+   "cond": 14,
+   "kind": "talk",
+   "to": 15,
+   "links": [
+    "\"What did he say?\""
+   ],
+   "npc": {
+    "id": 31287,
+    "name": "Kamilen",
+    "title": "Magister",
+    "town": "Goddard",
+    "at": [
+     145168,
+     -54880,
+     -2965
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kamilen",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31287@145168,-54880",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 7817,
+    "sec": 85,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 7817,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147704,
+      -57640,
+      -2880
+     ],
+     [
+      147704,
+      -57912,
+      -2968
+     ],
+     [
+      147608,
+      -58008,
+      -2976
+     ],
+     [
+      147640,
+      -58136,
+      -2976
+     ],
+     [
+      147432,
+      -58280,
+      -2976
+     ],
+     [
+      147160,
+      -58280,
+      -2976
+     ],
+     [
+      146888,
+      -58280,
+      -2976
+     ],
+     [
+      146616,
+      -58296,
+      -2976
+     ],
+     [
+      146488,
+      -58280,
+      -2976
+     ],
+     [
+      146232,
+      -58184,
+      -2976
+     ],
+     [
+      145976,
+      -58072,
+      -2976
+     ],
+     [
+      145736,
+      -57944,
+      -2976
+     ],
+     [
+      145544,
+      -57752,
+      -2976
+     ],
+     [
+      145432,
+      -57528,
+      -2976
+     ],
+     [
+      145288,
+      -57288,
+      -2976
+     ],
+     [
+      145128,
+      -57080,
+      -2976
+     ],
+     [
+      145016,
+      -56840,
+      -2976
+     ],
+     [
+      144968,
+      -56760,
+      -2976
+     ],
+     [
+      144920,
+      -56664,
+      -2976
+     ],
+     [
+      144872,
+      -56424,
+      -2976
+     ],
+     [
+      144888,
+      -56152,
+      -2976
+     ],
+     [
+      144904,
+      -55880,
+      -2976
+     ],
+     [
+      144856,
+      -55608,
+      -2976
+     ],
+     [
+      144888,
+      -55336,
+      -2976
+     ],
+     [
+      144856,
+      -55160,
+      -2976
+     ],
+     [
+      144952,
+      -54904,
+      -2960
+     ],
+     [
+      145096,
+      -54792,
+      -2960
+     ],
+     [
+      145176,
+      -54872,
+      -2960
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 110,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    14
+   ]
+  },
+  {
+   "i": 14,
    "key": "c15:hunt",
    "cond": 15,
    "kind": "hunt",
@@ -3411,7 +3896,7 @@
    ]
   },
   {
-   "i": 13,
+   "i": 15,
    "key": "c15:spawn:27239",
    "cond": 15,
    "kind": "spawn",
@@ -3503,9 +3988,7 @@
     }
    ],
    "kills": 234,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "kill",
     "trigger": [
@@ -3515,7 +3998,9 @@
      21649,
      21650,
      21651
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Kill Archon Minions 21646-21651 for Halisha's Marks 7505 (700), then the Archon of Halisha 27239 spawns at you (10 min): kill it ALONE",
    "area": {
@@ -3891,7 +4376,7 @@
    ]
   },
   {
-   "i": 14,
+   "i": 16,
    "key": "c16:deliver:31655",
    "cond": 16,
    "kind": "deliver",
@@ -4180,7 +4665,7 @@
    ]
   },
   {
-   "i": 15,
+   "i": 17,
    "key": "c17:talk:31598",
    "cond": 17,
    "kind": "talk",
@@ -4212,7 +4697,7 @@
    ]
   },
   {
-   "i": 16,
+   "i": 18,
    "key": "c18:deliver:31659",
    "cond": 18,
    "kind": "deliver",
@@ -4308,7 +4793,7 @@
    ]
   },
   {
-   "i": 17,
+   "i": 19,
    "key": "c19:talk:30175",
    "cond": 19,
    "kind": "talk",
@@ -4406,7 +4891,7 @@
    ]
   },
   {
-   "i": 18,
+   "i": 20,
    "key": "c20:manual",
    "cond": 20,
    "kind": "special",

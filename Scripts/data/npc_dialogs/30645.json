@@ -1,0 +1,512 @@
+{
+ "npcId": 30645,
+ "name": "Martien",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.026Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/30645.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "211": {
+   "name": "Trial of the Challenger",
+   "listText": [
+    "[Trial of the Challenger]",
+    "[Trial of the Challenger (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00211_TrialOfTheChallenger/30645-01.html",
+     "when": "cond 3; has items 2628",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30645-03.html",
+     "when": "cond 4",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30645-04.html",
+     "when": "cond 5; has items 2629",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30645-05.html",
+     "when": "cond 6",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30645-06.html",
+     "when": "cond 7",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30645-09.html",
+     "when": "cond 8|9",
+     "state": null,
+     "cond": [
+      8,
+      9
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "348": {
+   "name": "An Arrogant Search",
+   "listText": [
+    "[An Arrogant Search]",
+    "[An Arrogant Search (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00348_AnArrogantSearch/30645-01.html",
+     "when": "state STARTED; has items 4290",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30645-03.html",
+     "when": "state STARTED; lacks items 4290,4293; st.getMemoState() < 8; ((st.getMemoStateEx(1) % 10000) / 1000) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30645-04.html",
+     "when": "state STARTED; has items 4293; lacks items 4290; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 10000) / 1000) == 1) && !hasQuestItems(player, THIRD_KEY_OF_ARK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30645-05.html",
+     "when": "state STARTED; has items 4399; lacks items 4290,4293; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 10000) / 1000) == 1) && !hasQuestItems(player, THIRD_KEY_OF_ARK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "503": {
+   "name": "Pursuit Of Clan Ambition",
+   "listText": [
+    "[Pursuit of Clan Ambition!]",
+    "[Pursuit of Clan Ambition! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30645-01.html",
+     "when": "state STARTED; memo 1000; !(qs.isCreated() || qs.isCompleted()); lqs != null; !player.isClanLeader()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30645-02.html",
+     "when": "state STARTED; memo 1000; !(qs.isCreated() || qs.isCompleted()); lqs != null; player.isClanLeader()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30645-04.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; qs.getMemoState() < 3000; qs.getMemoState() >= 2000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30645-05.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; qs.getMemoState() < 3000; qs.getMemoState() >= 2000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30645-07.html",
+     "when": "state STARTED; memo 3000; !(qs.isCreated() || qs.isCompleted()); lqs != null; !((qs.getMemoState() < 3000) && (qs.getMemoState() >= 2000))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30645-08.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; !((qs.getMemoState() < 3000) && (qs.getMemoState() >= 2000)); qs.getMemoState() > 3000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30645.htm": {
+   "file": "default/30645.htm",
+   "quest": null,
+   "text": "Martien: Nice to meet you, my young friend! My name is Martien. I am the security manager of the Traders' Guild of Giran. Traders work hard to accumulate wealth, but as in all professions, there are some who prey on the profits of others. It is especially true in places such as this, the center of …",
+   "header": "Martien",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00211_TrialOfTheChallenger/30645-01.html": {
+   "file": "Q00211_TrialOfTheChallenger/30645-01.html",
+   "quest": 211,
+   "text": "Martien: Yes, I have the mark, but it is not for sale. I could not risk giving it to someone who is not qualified... Would you mind taking a challenge?",
+   "header": "Martien",
+   "when": [
+    "cond 3; has items 2628"
+   ],
+   "links": [
+    {
+     "text": "Take the challenge",
+     "bypass": "Quest Q00211_TrialOfTheChallenger 30645-02.html",
+     "kind": "quest-event",
+     "script": "Q00211_TrialOfTheChallenger",
+     "event": "30645-02.html",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30645-02.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00211_TrialOfTheChallenger/30645-03.html": {
+   "file": "Q00211_TrialOfTheChallenger/30645-03.html",
+   "quest": 211,
+   "text": "Martien: Hmmm, it must be more of a challenge for you than I thought it would be. Oh, well, while you're sitting here resting the monster is devouring a mother and her baby... If you have any integrity at all you will get off your ass and go kill 'Gorr' now! Remember, he lives in a cave near Floran…",
+   "header": "Martien",
+   "when": [
+    "cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30645-04.html": {
+   "file": "Q00211_TrialOfTheChallenger/30645-04.html",
+   "quest": 211,
+   "text": "Martien: So, you have killed Gorr? Congratulations! Unfortunately, just now the villagers of Floran were attacked again by another evil creature. This time the creature is called 'Baraham' . Perhaps he came to avenge the death of Gorr... Anyway, you should search the other caves near Gorr's shelter…",
+   "header": "Martien",
+   "when": [
+    "cond 5; has items 2629"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30645-05.html": {
+   "file": "Q00211_TrialOfTheChallenger/30645-05.html",
+   "quest": 211,
+   "text": "Martien: Please find the evil creature 'Baraham' and kill it! I suggest that you search the other caves nearby where Gorr was found. I'll understand if you are not up to this task... After all, you weren't qualified to receive the Mark of Challenger...",
+   "header": "Martien",
+   "when": [
+    "cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30645-06.html": {
+   "file": "Q00211_TrialOfTheChallenger/30645-06.html",
+   "quest": 211,
+   "text": "Martien: This man, Kash... I don't trust him... Who was it that said he was an idiot and that I'd easily be able to push him around? He is smarter than I thought! All right, I admit it. I took advantage of you. I don't have the mark of the challenger... So what? You can't do anything.",
+   "header": "Martien",
+   "when": [
+    "cond 7"
+   ],
+   "links": [
+    {
+     "text": "Ask about Raldo",
+     "bypass": "Quest Q00211_TrialOfTheChallenger 30645-07.html",
+     "kind": "quest-event",
+     "script": "Q00211_TrialOfTheChallenger",
+     "event": "30645-07.html",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30645-07.html"
+    }
+   ]
+  },
+  "Q00211_TrialOfTheChallenger/30645-09.html": {
+   "file": "Q00211_TrialOfTheChallenger/30645-09.html",
+   "quest": 211,
+   "text": "Martien: Did you kill Baraham? Magnificent! You have fulfilled your task well. About that Mark of the Challenger...",
+   "header": "Martien",
+   "when": [
+    "cond 8|9"
+   ],
+   "links": [
+    {
+     "text": "Ask about Raldo",
+     "bypass": "Quest Q00211_TrialOfTheChallenger 30645-08.html",
+     "kind": "quest-event",
+     "script": "Q00211_TrialOfTheChallenger",
+     "event": "30645-08.html",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30645-08.html"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30645-01.html": {
+   "file": "Q00348_AnArrogantSearch/30645-01.html",
+   "quest": 348,
+   "text": "Martien: Ah, I've been expecting you! Do you have a letter for me? Have you found the ark? I guess not... Everyone that has gone to investigate the ark so far has been attacked by a crazed werewolf and thrown off the mountain... The last party was completely devoured except for one corpse!",
+   "header": "Martien",
+   "when": [
+    "state STARTED; has items 4290"
+   ],
+   "links": [
+    {
+     "text": "\"Whose corpse?\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30645-02.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30645-02.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30645-02.html"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30645-03.html": {
+   "file": "Q00348_AnArrogantSearch/30645-03.html",
+   "quest": 348,
+   "text": "Martien: We cannot delay this matter any further. Once I saw Shadow Fang, the Guardian of the Ark , from a distance. He had a blank expression, devoid of any clear emotion or thought. He should be beaten to death, don't you think? I hope you can help me with this. I am at a loss! Please try harder …",
+   "header": "Martien",
+   "when": [
+    "state STARTED; lacks items 4290,4293; st.getMemoState() < 8; ((st.getMemoStateEx(1) % 10000) / 1000) == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30645-04.html": {
+   "file": "Q00348_AnArrogantSearch/30645-04.html",
+   "quest": 348,
+   "text": "Martien: Put that thing away! What possessed you to bring that key here? Proud of yourself, eh? Surely you are aware of the consequences of pride? Perhaps you should go ahead and sell the sacred relics and run away to Avella! You may have bitten off more than you can chew!",
+   "header": "Martien",
+   "when": [
+    "state STARTED; has items 4293; lacks items 4290; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 10000) / 1000) == 1) && !hasQuestItems(player, THIRD_KEY_OF_ARK))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30645-05.html": {
+   "file": "Q00348_AnArrogantSearch/30645-05.html",
+   "quest": 348,
+   "text": "Martien: Wow, the Branch of the Saint! You must have paid a pretty penny for it! Does it call down lightning from the heavens? Trigger earthquakes or volcanoes? Humph, probably not. I guess it is as it appears, just an ugly, twisted stick. I hope you didn't make a special trip just to show it to me…",
+   "header": "Martien",
+   "when": [
+    "state STARTED; has items 4399; lacks items 4290,4293; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 10000) / 1000) == 1) && !hasQuestItems(player, THIRD_KEY_OF_ARK))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30645-01.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30645-01.html",
+   "quest": 503,
+   "text": "Martien: Sir Gustav professed much faith in your clan. I must speak to your leader!",
+   "header": "Martien",
+   "when": [
+    "state STARTED; memo 1000; !(qs.isCreated() || qs.isCompleted()); lqs != null; !player.isClanLeader()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30645-02.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30645-02.html",
+   "quest": 503,
+   "text": "Martien: I have already given it to Athebaldt. Antharas is preparing to awaken The Land Dragon. Many people dismiss it as mere rumor, but according to Athebaldt's report, it's starting, and starting soon. At that time, the wyrms and drakes inhabiting Death Pass shall follow Antharas, like soldiers …",
+   "header": "Martien",
+   "when": [
+    "state STARTED; memo 1000; !(qs.isCreated() || qs.isCompleted()); lqs != null; player.isClanLeader()"
+   ],
+   "links": [
+    {
+     "text": "\"How exactly?\"",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30645-03.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30645-03.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30645-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30645-04.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30645-04.html",
+   "quest": 503,
+   "text": "Martien: The land dragon will soon be awake. This will decide the fate of Giran... no, the entire kingdom itself. Hurry to Death Pass , and obtain Sandworm Eggs, Drake Eggs, Blitz Wyrm Eggs, and Mist Drake Eggs . One or two won't do 0 I need 10 of each . I know it will be difficult, but please do t…",
+   "header": "Martien",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; qs.getMemoState() < 3000; qs.getMemoState() >= 2000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30645-05.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30645-05.html",
+   "quest": 503,
+   "text": "Martien: All dead?...Oh, my! How dreadful! Oh, well, what can be done? I mean, frankly, they were grave robbers and made their living smuggling stolen relics... It is a dangerous life which always seems to end prematurely. Anyway, good job! I'll take all the eggs that you've brought. Now you should…",
+   "header": "Martien",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; qs.getMemoState() < 3000; qs.getMemoState() >= 2000"
+   ],
+   "links": [
+    {
+     "text": "\"What about the dead Dwarves' belongings?\"",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30645-06.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30645-06.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30645-06.html"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30645-07.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30645-07.html",
+   "quest": 503,
+   "text": "Martien: Thank you again for all of your help. I have reported to Athebaldt what a big help you've been. Go and see him. He is expecting you.",
+   "header": "Martien",
+   "when": [
+    "state STARTED; memo 3000; !(qs.isCreated() || qs.isCompleted()); lqs != null; !((qs.getMemoState() < 3000) && (qs.getMemoState() >= 2000))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30645-08.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30645-08.html",
+   "quest": 503,
+   "text": "Martien: Athebaldt has a very high opinion of your clan. His influence will be a big factor in your success.",
+   "header": "Martien",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; !((qs.getMemoState() < 3000) && (qs.getMemoState() >= 2000)); qs.getMemoState() > 3000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30645-02.html": {
+   "file": "Q00211_TrialOfTheChallenger/30645-02.html",
+   "quest": 211,
+   "text": "Martien: Let's see then, what would be appropriate...? Ah, yes! There is an evil creature attacking the villagers of Floran in recent days. He has been called 'Gorr' . He lives in a cave near Floran and attacks innocent villagers at random. Go and kill this evil creature. \"The hero who saved a vill…",
+   "header": "Martien",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30645-07.html": {
+   "file": "Q00211_TrialOfTheChallenger/30645-07.html",
+   "quest": 211,
+   "text": "Martien: Hiccup!...! Duh,duh,...did you meet Raldo? In case huh, huh, he asks about muh, me, tuh, tuh...tell him that you have nuh, nuh, never seen me...! Puh, puh, please...!",
+   "header": "Martien",
+   "links": [
+    {
+     "text": "Ask where to meet Raldo",
+     "bypass": "Quest Q00211_TrialOfTheChallenger 30645-08.html",
+     "kind": "quest-event",
+     "script": "Q00211_TrialOfTheChallenger",
+     "event": "30645-08.html",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30645-08.html"
+    }
+   ]
+  },
+  "Q00211_TrialOfTheChallenger/30645-08.html": {
+   "file": "Q00211_TrialOfTheChallenger/30645-08.html",
+   "quest": 211,
+   "text": "Martien: I duh, duh, don't know...! He is always wandering around eh, eh, everywhere...! He is the watcher of the magic field... I think you can find huh, huh, him near the Cave of 'Baraham' ...",
+   "header": "Martien",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30645-02.html": {
+   "file": "Q00348_AnArrogantSearch/30645-02.html",
+   "quest": 348,
+   "text": "Martien: Ah, yes, the sorcerer. Bright chap he was... He somehow managed to crawl home while dragging his guts behind him. It made me sick! His last words were, \"The Guardian of the Ark\". You would think he would come up with something clever like, \"Bury me in a sunny place\" or, \"take care of my on…",
+   "header": "Martien",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30645-03.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30645-03.html",
+   "quest": 503,
+   "text": "Martien: We are collecting the eggs of wyrms and drakes in order to learn about their breeding habits. One expert in this field is thinking of studying these eggs at the suggestion of numerous pet managers. In order to collect the eggs, several dwarven bounty hunters were dispatched to Death Pass ,…",
+   "header": "Martien",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30645-06.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30645-06.html",
+   "quest": 503,
+   "text": "Martien: Hmm, I wouldn't know. They had rather unsavory reputations, even for Dwarves... Just put them out of your mind.",
+   "header": "Martien",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Challenger (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00211_TrialOfTheChallenger",
+     "kind": "quest",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30645-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[An Arrogant Search (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00348_AnArrogantSearch",
+     "kind": "quest",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30645-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Pursuit of Clan Ambition! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00503_PursuitOfClanAmbition",
+     "kind": "quest",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30645-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

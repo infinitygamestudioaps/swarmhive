@@ -1,0 +1,634 @@
+{
+ "npcId": 30630,
+ "name": "Orim",
+ "title": "Shadow",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.022Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30630.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "229": {
+   "name": "Test Of Witchcraft",
+   "listText": [
+    "[Test of Witchcraft]",
+    "[Test of Witchcraft (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00229_TestOfWitchcraft/30630-03.htm",
+     "when": "state CREATED; level >= 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.knight) || (player.getClassId() == ClassId.p; player.getClassId() == ClassId.wizard",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30630-05.htm",
+     "when": "state CREATED; level >= 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.knight) || (player.getClassId() == ClassId.p; !player.getClassId() == ClassId.wizard",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30630-02.htm",
+     "when": "state CREATED; NOT level >= 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.knight) || (player.getClassId() == ClassId.p",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30630-01.htm",
+     "when": "state CREATED; !((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.knight) || (player.getClassId() == ClassId.",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30630-09.htm",
+     "when": "state STARTED; has items 3308",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30630-11.htm",
+     "when": "state STARTED; has items 3309,3317,3318,3319,3320,3321,3322; lacks items 3308",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30630-10.htm",
+     "when": "state STARTED; has items 3309; lacks items 3308,3317,3318,3319,3320,3321,3322",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30630-15.htm",
+     "when": "state STARTED; has items 3323; lacks items 3308,3309",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30630-17.htm",
+     "when": "state STARTED; has items 3324; lacks items 3308,3309,3323,3029,3332",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30630-18.htm",
+     "when": "state STARTED; has items 3029,3332",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30630-19.htm",
+     "when": "state STARTED; has items 3029,3334; lacks items 3029,3332",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "233": {
+   "name": "Test Of The War Spirit",
+   "listText": [
+    "[Test of the War Spirit]",
+    "[Test of the War Spirit (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30630-01.html",
+     "when": "state STARTED; lacks items 2883,2887,2911,2880",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30630-05.html",
+     "when": "state STARTED; has items 2883,2887,2911,2880; !hasItemsAtLimit(player, PORTAS_EYE, EXCUROS_SCALE, MORDEOS_TALON)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30630-06.html",
+     "when": "state STARTED; has items 2883,2887,2911,2880; hasItemsAtLimit(player, PORTAS_EYE, EXCUROS_SCALE, MORDEOS_TALON)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30630-07.html",
+     "when": "state STARTED; has items 2883,2887,2911,2880; lacks items 2883",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30630.htm": {
+   "file": "default/30630.htm",
+   "quest": null,
+   "text": "Orim of the Shadow: My name is Orim and I serve the great Wizard Hardin as my master. I am searching for truth, in this deserted land where the dark shadows of the land dragon, Antharas, lie. If all that remains in the light, admired by most, is hypocrisy perhaps then, the truth really lies in dark…",
+   "header": "Orim of the Shadow",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30630-03.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-03.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: The power of darkness is neither good nor bad. No one judges whether a sharp blade is good or bad... The magic depends entirely on the user. It can be used for justice as easily as it can be used for evil. There is no denying on the fact that it is a powerful tool. Learning Blac…",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state CREATED; level >= 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.knight) || (player.getClassId() == ClassId.p; player.getClassId() == ClassId.wizard"
+   ],
+   "links": [
+    {
+     "text": "\"I am ready to face it.\"",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30630-04.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30630-04.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-04.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30630-05.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-05.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: From time to time people like you come to me wanting to learn black magic. They're usually people disillusioned such as Knights, who have trampled innocent serfs, or Priests, who burned innocent people at the stake... They all have their reasons, but they share one thing in comm…",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state CREATED; level >= 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.knight) || (player.getClassId() == ClassId.p; !player.getClassId() == ClassId.wizard"
+   ],
+   "links": [
+    {
+     "text": "Nothing can change my will and faith.",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30630-06.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30630-06.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-06.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30630-02.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-02.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: The power of darkness is neither good nor bad. No one judges whether a sharp blade is good or bad... The magic depends entirely on the user. It can be used for justice as easily as it can be used for evil. There is no denying the fact that it is a very powerful tool. Learning Bl…",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state CREATED; NOT level >= 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.knight) || (player.getClassId() == ClassId.p"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30630-01.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-01.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: The Wizards of the Ivory Tower and the Priests of Einhasad warn us against any use of Black Magic. They seem to think that it is filthy and immoral. Those like you who hate what you do not understand are ignorant bigots. You don't even try to understand! Now get out of here! (Qu…",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state CREATED; !((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.knight) || (player.getClassId() == ClassId."
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30630-09.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-09.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: You must leave immediately for the jewelry auction at Giran's luxury gallery .",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state STARTED; has items 3308"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30630-11.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-11.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: Ah, all 6 jewels! Excellent! While you were busy finding them I was researching the order of inserting the jewels. And just now I have solved the secret! Give me the jewels! We shall soon learn the secrets of the Cube of Aklantoth!",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state STARTED; has items 3309,3317,3318,3319,3320,3321,3322; lacks items 3308"
+   ],
+   "links": [
+    {
+     "text": "Ask about the undead",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30630-12.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30630-12.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-12.htm"
+    },
+    {
+     "text": "Give the Gems of Aklantoth to Orim.",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30630-13.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30630-13.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-13.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30630-10.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-10.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: While you are searching for the 6 Gems of Aklantoth , I shall try to unravel the mystery of the order of the stones. We shall soon discover the secrets of the ancients contained in this box!",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state STARTED; has items 3309; lacks items 3308,3317,3318,3319,3320,3321,3322"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30630-15.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-15.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: I truly believed this to be the Cube of Aklantoth... the sacred container of the spirit of the ancient scholar... Actually a demon's prison! And not just any demon, but Zeruel , the Malrukian prince, Monarch of Drevanul, the bloody angel! It is all my fault! My pride has been my…",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state STARTED; has items 3323; lacks items 3308,3309"
+   ],
+   "links": [
+    {
+     "text": "\"We must get control of this situation!\"",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30630-16.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30630-16.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-16.htm",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30630-17.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-17.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: We must have 2 things in order to lock the devil Zeruel back into the box: . The Sword of Binding , and the Soul-trap Crystal . The Sword of Binding belongs to Sir Klaus Vasper, and the Soul-trap Crystal is owned by Magister Iker of Giran. Both of them are very prejudiced agains…",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state STARTED; has items 3324; lacks items 3308,3309,3323,3029,3332"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30630-18.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-18.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: Ah, the Sword of Binding and the Soul-trap Crystal! You have acquired the 2 holy objects! Now, we must find Zeruel...! My searching spell wasn't a total success, but I have a clue of where he might be. I am fairly certain that he is in the northern part of the Town of Dion, some…",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state STARTED; has items 3029,3332"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30630-19.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-19.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: Please hurry up and give me the crystal and the key! My concentration is slipping! We must not delay any longer!",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state STARTED; has items 3029,3334; lacks items 3029,3332"
+   ],
+   "links": [
+    {
+     "text": "Give Orim the crystal in which Zeruel is sealed",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30630-20.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30630-20.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-20.htm"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30630-01.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30630-01.html",
+   "quest": 233,
+   "text": "Orim of the Shadow: Nice to meet you, Sorcerer of the Orcs. My name is Orim and my master is the great magician Hardin. What brought you to this desolate place of the shadows of the green dragon Antharas?",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state STARTED; lacks items 2883,2887,2911,2880"
+   ],
+   "links": [
+    {
+     "text": "Ask him for the Remains of Braki",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30630-02.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30630-02.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30630-02.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30630-05.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30630-05.html",
+   "quest": 233,
+   "text": "Orim of the Shadow: Like it is said in the document, I will give you Braki's Remains if you find me the materials that I asked for. I will repeat one more time, just to make sure. The things that I need are porta eyes, excuro scales, and mordeo talons. Ten of each is what I need. You can find them …",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state STARTED; has items 2883,2887,2911,2880; !hasItemsAtLimit(player, PORTAS_EYE, EXCUROS_SCALE, MORDEOS_TALON)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30630-06.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30630-06.html",
+   "quest": 233,
+   "text": "Orim of the Shadow: Good job, thank you. You have brought ten each of porta eyes, excuro scales, and mordeo talons. Therefore, I shall give you Braki's Remains, as promised. May the shades of light lead you to the truth. Farewell then, Shaman of the Orcs.",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state STARTED; has items 2883,2887,2911,2880; hasItemsAtLimit(player, PORTAS_EYE, EXCUROS_SCALE, MORDEOS_TALON)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30630-07.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30630-07.html",
+   "quest": 233,
+   "text": "Orim of the Shadow: Shaman of the Oaks, good to see you again. I am glad that I was able to return the remains of your hero to his people.",
+   "header": "Orim of the Shadow",
+   "when": [
+    "state STARTED; has items 2883,2887,2911,2880; lacks items 2883"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30630-04.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-04.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: It is very true that actions speak louder than words, and practice is more important than theory. I have no doubt that your resolutions are truthful but I can't totally believe you until you prove yourself. I will give you the opportunity to prove your faith and resolution. Will…",
+   "header": "Orim of the Shadow",
+   "links": [
+    {
+     "text": "I shall help.",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30630-07.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30630-07.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-07.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30630-06.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-06.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: It is very true that actions speak louder than words, and practice is more important than theory. I have no doubt that your resolutions are truthful but I can't totally believe you until you prove yourself. I will give you the opportunity to prove your faith and resolution. Will…",
+   "header": "Orim of the Shadow",
+   "links": [
+    {
+     "text": "\"I shall help.\"",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30630-07.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30630-07.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-07.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30630-07.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-07.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: Then take a look at this. It is something that I found in the Cruma Tower one day. A cube made out of a mysterious substance. They say that the Wizards of the ancient kingdom called it a 'spirit container' because it could hold a dead person's spirit in it. That is how they trie…",
+   "header": "Orim of the Shadow",
+   "links": [
+    {
+     "text": "So how do you open the box?",
+     "bypass": "Quest Q00229_TestOfWitchcraft ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "ACCEPT",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-08a.htm",
+     "toAll": [
+      "Q00229_TestOfWitchcraft/30630-08a.htm",
+      "Q00229_TestOfWitchcraft/30630-08.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30630-08.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-08.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: This box seems to be impregnable. On each side is a space where a jewel should be, and the spaces all seem to form a kind of lock. The box will open only when all 6 jewels are placed in their spaces, in the right order. Opening the box will be something of a challenge. This book…",
+   "header": "Orim of the Shadow",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30630-08a.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-08a.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: This box is sealed with magic power and can never be opened through physical power. See these 6 grooves, one on each side of the box? Each is a lock. To open the box, each must be unlocked by inserting the right jewelry in the right order. Even the process of opening the box its…",
+   "header": "Orim of the Shadow",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30630-12.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-12.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: All the previous owners of the jewels became undead? The Black magic dwelling in the jewels must drain the life energy of the owner... Normally, one would throw away or destroy such jewels, but these people held on to them too long... I suspect that the jewels held some other po…",
+   "header": "Orim of the Shadow",
+   "links": [
+    {
+     "text": "Give the Gems of Aklantoth to Orim.",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30630-13.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30630-13.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-13.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30630-13.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-13.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: At last! Will the cube of Aklantoth be opened...? May the six bindings, tied by the almighty be undone, and let it see... daylight! Why should it be deprived of light...? Let those trapped in darkness, break free, and set their feet anew on the ground! Ah...! No!!! What have I d…",
+   "header": "Orim of the Shadow",
+   "links": [
+    {
+     "text": "What's the matter?",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30630-14.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30630-14.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-14.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30630-14.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-14.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: How could I have been so stupid? I cannot believe a mere demon got the better of me! I, Orim of the Shadow, the best pupil of the great Wizard Hardin! He must be disposed of before he is complete! Hurry! He must not be allowed to reach his full strength!",
+   "header": "Orim of the Shadow",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30630-16.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-16.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: At the last moment I was able to weaken Zeruel. It is not permanent, however. If I were to lose my concentration for even one second, Zeruel and his minions will escape. Zeruel himself holds the key to seal the box permanently. We must take the key from him and then seal him in …",
+   "header": "Orim of the Shadow",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30630-20.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-20.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: I command thee, devil trapped in this prison of spirits! I invoke the name of Gran Kain, ruler of all darkness, get thee back from whence ye came! Oh chains of heaven which bind the evil creatures of shadow, I beseech thee in the name of Einhasad, may this sealed seraph imprison…",
+   "header": "Orim of the Shadow",
+   "links": [
+    {
+     "text": "Give the Purgatory Key to Orim.",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30630-21.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30630-21.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-21.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30630-21.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-21.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: I, Orim of the Shadow, declare that this prison of spirits shall bear my seal forever! It is done. Zeruel and his minions are safeley locked inside the box and the box is sealed with the magic of light. I shall keep the 6 jewels that function as the lock for safekeeping. As for …",
+   "header": "Orim of the Shadow",
+   "links": [
+    {
+     "text": "Give Iker's Necklace to Orim",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30630-22.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30630-22.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-22.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30630-22.htm": {
+   "file": "Q00229_TestOfWitchcraft/30630-22.htm",
+   "quest": 229,
+   "text": "Orim of the Shadow: The necklace of Magister Iker ? Damn her eyes! I shall dispose of this right away. The Wizards of the Ivory Tower have been watching us all along with this necklace! Thank you very much, anyway. You saved us from certain disaster that was a direct result of my arrogance and gree…",
+   "header": "Orim of the Shadow",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30630-02.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30630-02.html",
+   "quest": 233,
+   "text": "Orim of the Shadow: You are indeed an Orc... So straightforward... That's right, I have the remains of Braki. I am sure that you will attempt to take it from me anyway if I resist giving it to you. I am well aware of the Oak's great power and their devotion to their hero. To tell you the truth, I d…",
+   "header": "Orim of the Shadow",
+   "links": [
+    {
+     "text": "Accept proposal",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30630-03.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30630-03.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30630-03.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30630-03.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30630-03.html",
+   "quest": 233,
+   "text": "Orim of the Shadow: Then I shall tell you. I want you to find something for me. If you go to northern Dion, there is a place called the Cruma Marshlands. In its center, there is a huge tower from the giant era. Inside the tower there dwells all sorts of weird creatures that have a special thing tha…",
+   "header": "Orim of the Shadow",
+   "links": [
+    {
+     "text": "Ask what is needed exactly.",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30630-04.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30630-04.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30630-04.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30630-04.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30630-04.html",
+   "quest": 233,
+   "text": "Orim of the Shadow: First, I need the eye of a creature called a porta. They call it the eye but in fact it is a small and solid thing like a jewel. And scales of an excuro. Those scales of the excuro are as hard as Steel but once you kill it, it is easy to peel them off. And finally, I need a mord…",
+   "header": "Orim of the Shadow",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Witchcraft]",
+     "bypass": "npc_%objectId%_Quest Q00229_TestOfWitchcraft",
+     "kind": "quest",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Test of Witchcraft (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00229_TestOfWitchcraft",
+     "kind": "quest",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30630-09.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the War Spirit (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00233_TestOfTheWarSpirit",
+     "kind": "quest",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30630-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

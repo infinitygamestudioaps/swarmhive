@@ -1,0 +1,189 @@
+{
+ "npcId": 30657,
+ "name": "Seresin",
+ "title": "Cardinal",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.028Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/30657.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "217": {
+   "name": "Testimony Of Trust",
+   "listText": [
+    "[Testimony of Trust]",
+    "[Testimony of Trust (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00217_TestimonyOfTrust/30657-01.html",
+     "when": "state STARTED; memo 8; has items 2739",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30657-04.html",
+     "when": "state STARTED; memo 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30657-05.html",
+     "when": "state STARTED; memo 18",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30657.htm": {
+   "file": "default/30657.htm",
+   "quest": null,
+   "text": "Cardinal Seresin: Humans have committed the grandest mistakes of all races. Known sins... Unknown sins. I, Cardinal Seresin, think that humankind should apologize to other races and recover the trust. We should all work to combine our forces against evil before it becomes too powerful...",
+   "header": "Cardinal Seresin",
+   "live": {
+    "file": "Logs/npclive_Seresin_22e4cb20.html",
+    "at": "2026-10-27T14:36:57.546Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30657-01.html": {
+   "file": "Q00217_TestimonyOfTrust/30657-01.html",
+   "quest": 217,
+   "text": "Cardinal Seresin: Come in! Your reputation precedes you, my friend! I am very familiar with your work to restore trust between the Elves and the Dark Elves. Now you must visit the northern ice land to meet with the leaders of the Orcs and the Dwarves!",
+   "header": "Cardinal Seresin",
+   "when": [
+    "state STARTED; memo 8; has items 2739"
+   ],
+   "links": [
+    {
+     "text": "\"I will leave right now.\"",
+     "bypass": "Quest Q00217_TestimonyOfTrust 30657-03.html",
+     "kind": "quest-event",
+     "script": "Q00217_TestimonyOfTrust",
+     "event": "30657-03.html",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30657-03.html",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30657-04.html": {
+   "file": "Q00217_TestimonyOfTrust/30657-04.html",
+   "quest": 217,
+   "text": "Cardinal Seresin: The Period of Chaos is nearly upon us! Can't you walk any faster? First, you must meet the Orc Lord and the Dwarven Lord to deliver our will.",
+   "header": "Cardinal Seresin",
+   "when": [
+    "state STARTED; memo 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30657-05.html": {
+   "file": "Q00217_TestimonyOfTrust/30657-05.html",
+   "quest": 217,
+   "text": "Cardinal Seresin: Are those are the bills of trust from the Dwarf and Orc races? You have pacified a long-simmering feud. Good job! Go in and meet Bishop Hollint. He is expecting you...!",
+   "header": "Cardinal Seresin",
+   "when": [
+    "state STARTED; memo 18"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00464_Oath/30657-01.html": {
+   "file": "Q00464_Oath/30657-01.html",
+   "quest": 464,
+   "text": "Cardinal Seresin: What can I do for you?",
+   "header": "Cardinal Seresin",
+   "when": [
+    "state STARTED; cond >1; st.getInt(\"npc\") == npcId"
+   ],
+   "links": [
+    {
+     "text": "Say that you came to give him this book",
+     "bypass": "Quest Q00464_Oath end_quest",
+     "kind": "quest-event",
+     "script": "Q00464_Oath",
+     "event": "end_quest",
+     "quest": 464,
+     "to": "Q00464_Oath/30657-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30657-02.html": {
+   "file": "Q00217_TestimonyOfTrust/30657-02.html",
+   "quest": 217,
+   "text": "Cardinal Seresin: Your spirit is good but you still lack experience. Train some more before you return. Complete preparation and proper timing are essential. I will ask you to visit these leaders when you are ready.",
+   "header": "Cardinal Seresin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30657-03.html": {
+   "file": "Q00217_TestimonyOfTrust/30657-03.html",
+   "quest": 217,
+   "text": "Cardinal Seresin: Remember, you are Representing your race, make us proud. You must now travel to the northern ice land, meet the Orc's Lord first and then meet the Dwarven Lord. Pass them these letters. Afterwards get their promise of trust and bring back their letter of reply. May the glorious Ei…",
+   "header": "Cardinal Seresin",
+   "sets": {
+    "cond": "12"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00464_Oath/30657-02.html": {
+   "file": "Q00464_Oath/30657-02.html",
+   "quest": 464,
+   "text": "Cardinal Seresin: Huh? I've seen this book...?! ...Where did you find this? I thought I lost it... Thank you so much. I remember spending countless hours with my nose in this book, studying religion and daydreaming when I was young. Now.. I'm too busy for such things. Anyway, this book is sentiment…",
+   "header": "Cardinal Seresin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Trust (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00217_TestimonyOfTrust",
+     "kind": "quest",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30657-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Cardinal Seresin:Humans have committed the grandest mistakes"
+   ],
+   "to": [
+    "You are either not on a quest that involves this NPC, or you"
+   ]
+  }
+ ]
+}

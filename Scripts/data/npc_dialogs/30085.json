@@ -1,0 +1,139 @@
+{
+ "npcId": 30085,
+ "name": "Stanford",
+ "title": "Wizard-use Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.825Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30085.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30085.htm": {
+   "file": "merchant/30085.htm",
+   "quest": null,
+   "text": "Weapons Trader Stanford: Welcome, youngster! Our shop only specializes in weapons. In fact, most of the famous knights of Aden come here. Why don't you choose one for yourself? We carry a wide selection, and only the best!",
+   "header": "Weapons Trader Stanford",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30085-1.htm",
+     "live": true
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3008500",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30085-1.htm": {
+   "file": "merchant/30085-1.htm",
+   "quest": null,
+   "text": "Weapons Trader Stanford: What kind of weapons would you like to see?",
+   "header": "Weapons Trader Stanford",
+   "links": [
+    {
+     "text": "Buy weapons for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3008500",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3008501",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy a Shadow Item.",
+     "bypass": "npc_%objectId%_BuyShadowItem",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/30085-pk.htm": {
+   "file": "merchant/30085-pk.htm",
+   "quest": null,
+   "text": "Weapons Trader Stanford: I won't say it twice. You're a nuisance to the other customers, so please leave!",
+   "header": "Weapons Trader Stanford",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Trade Common Items for Mystics. | Try on Mystic equipment. | Trade Mystic Weapons. | Trade a Shadow Item."
+ ],
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund.",
+   "n": 98,
+   "inDatapack": true,
+   "from": [
+    "Weapons Trader Stanford:Welcome, young adventurer. Our shop "
+   ],
+   "to": [
+    "Weapons Trader Stanford:What are you going to Trade?Trade My"
+   ]
+  },
+  {
+   "text": "Trade Common Items for Mystics.",
+   "n": 49,
+   "inDatapack": false,
+   "from": [
+    "Weapons Trader Stanford:What are you going to Trade?Trade My"
+   ],
+   "to": []
+  },
+  {
+   "text": "Trade Mystic Weapons.",
+   "n": 47,
+   "inDatapack": false,
+   "from": [
+    "Weapons Trader Stanford:What are you going to Trade?Trade My"
+   ],
+   "to": []
+  },
+  {
+   "text": "Try on Mystic equipment.",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Weapons Trader Stanford:Welcome, young adventurer. Our shop "
+   ],
+   "to": []
+  },
+  {
+   "text": "Trade a Shadow Item.",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Weapons Trader Stanford:What are you going to Trade?Trade My"
+   ],
+   "to": []
+  }
+ ]
+}

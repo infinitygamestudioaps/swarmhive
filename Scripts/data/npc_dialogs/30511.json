@@ -1,0 +1,228 @@
+{
+ "npcId": 30511,
+ "name": "Gesto",
+ "title": "Warehouse Chief",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:02.987Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30511.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "40": {
+   "name": "A Special Order",
+   "listText": [
+    "[A Special Order]",
+    "[A Special Order (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00040_ASpecialOrder/30511-01.html",
+     "when": "cond 5",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00040_ASpecialOrder/30511-05.html",
+     "when": "cond 6; item 5079 >= 40; item 5082 >= 40; item 5084 >= 40",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00040_ASpecialOrder/30511-04.html",
+     "when": "cond 6; !((st.getQuestItemsCount(GOLDEN_COBOL) >= 40) && (st.getQuestItemsCount(BUR_COBOL) >= 40) && (st.getQuestItemsCount(GREA",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00040_ASpecialOrder/30511-06.html",
+     "when": "cond 7",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30511.htm": {
+   "file": "villagemaster/30511.htm",
+   "quest": null,
+   "text": "Warehouse Chief Gesto: I am Warehouse Chief Gesto of the Iron Gate Guild here in Giran. Our motto is \"We sell anything to anyone, anywhere.\" We travel to frozen wastes, deserts, even volcanic zones, to create prosperity for our Dwarven tribe. Who else can claim that? But you're a new face around he…",
+   "header": "Warehouse Chief Gesto",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest DwarfWarehouseChange2",
+     "kind": "quest",
+     "script": "DwarfWarehouseChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00040_ASpecialOrder/30511-01.html": {
+   "file": "Q00040_ASpecialOrder/30511-01.html",
+   "quest": 40,
+   "text": "Warehouse Chief Gesto: Why are you here?",
+   "header": "Warehouse Chief Gesto",
+   "when": [
+    "cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"I came to get the seed jar Miss Helvetia ordered.\"",
+     "bypass": "Quest Q00040_ASpecialOrder 30511-02.html",
+     "kind": "quest-event",
+     "script": "Q00040_ASpecialOrder",
+     "event": "30511-02.html",
+     "quest": 40,
+     "to": "Q00040_ASpecialOrder/30511-02.html"
+    }
+   ]
+  },
+  "Q00040_ASpecialOrder/30511-05.html": {
+   "file": "Q00040_ASpecialOrder/30511-05.html",
+   "quest": 40,
+   "text": "Warehouse Chief Gesto: Thank you. Now to carefully put the seeds you brought into this jar... Finished! Now deliver this seed jar to Miss Helvetia . Hurry so you don't get scolded for being late!",
+   "header": "Warehouse Chief Gesto",
+   "when": [
+    "cond 6; item 5079 >= 40; item 5082 >= 40; item 5084 >= 40"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/30511-04.html": {
+   "file": "Q00040_ASpecialOrder/30511-04.html",
+   "quest": 40,
+   "text": "Warehouse Chief Gesto: Did you get all the seeds I asked for? I need 40 from each of the following: Thorn Cobol, Golden Cobol and Great Cobol . I'm counting on you!",
+   "header": "Warehouse Chief Gesto",
+   "when": [
+    "cond 6; !((st.getQuestItemsCount(GOLDEN_COBOL) >= 40) && (st.getQuestItemsCount(BUR_COBOL) >= 40) && (st.getQuestItemsCount(GREA"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/30511-06.html": {
+   "file": "Q00040_ASpecialOrder/30511-06.html",
+   "quest": 40,
+   "text": "Warehouse Chief Gesto: Deliver this seed jar to Miss Helvetia . Hurry so you don't get scolded for being late!",
+   "header": "Warehouse Chief Gesto",
+   "when": [
+    "cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/30511-02.html": {
+   "file": "Q00040_ASpecialOrder/30511-02.html",
+   "quest": 40,
+   "text": "Warehouse Chief Gesto: Seed jar! Oh my, I completely forgot about it! It's late! Would you help me? Since you'll have to wait for it anyway, it'll be faster if you help me.",
+   "header": "Warehouse Chief Gesto",
+   "links": [
+    {
+     "text": "\"What can I do for you?\"",
+     "bypass": "Quest Q00040_ASpecialOrder 30511-03.html",
+     "kind": "quest-event",
+     "script": "Q00040_ASpecialOrder",
+     "event": "30511-03.html",
+     "quest": 40,
+     "to": "Q00040_ASpecialOrder/30511-03.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00040_ASpecialOrder/30511-03.html": {
+   "file": "Q00040_ASpecialOrder/30511-03.html",
+   "quest": 40,
+   "text": "Warehouse Chief Gesto: You can bring me some of the crops she ordered. I need 40 crops from each of the following: the Thorn Cobol, Golden Cobol and Great Cobol . Go to the Manor Manager and get the crops. I'm counting on you -- for both our sakes!",
+   "header": "Warehouse Chief Gesto",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[A Special Order (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00040_ASpecialOrder",
+     "kind": "quest",
+     "quest": 40,
+     "to": "Q00040_ASpecialOrder/30511-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

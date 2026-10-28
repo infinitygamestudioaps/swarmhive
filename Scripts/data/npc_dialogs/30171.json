@@ -1,0 +1,379 @@
+{
+ "npcId": 30171,
+ "name": "Gaius",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.862Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30171.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "66": {
+   "name": "Certified Arbalester",
+   "listText": [
+    "[Certified Arbalester]",
+    "[Certified Arbalester (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00066_CertifiedArbalester/30171-01.html",
+     "when": "state STARTED; memoState < 23",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30171-02.html",
+     "when": "state STARTED; memo 23; !memoState < 23",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30171-06.html",
+     "when": "state STARTED; memo 24; !memoState < 23",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30171-09.html",
+     "when": "state STARTED; memo 25; !memoState < 23",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30171-10.html",
+     "when": "state STARTED; memo 26; !memoState < 23",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30171-11.html",
+     "when": "state STARTED; memo 27; !memoState < 23",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30171-12.html",
+     "when": "state STARTED; memo 28; !memoState < 23",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30171-13.html",
+     "when": "state STARTED; memo 29; !memoState < 23",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30171.htm": {
+   "file": "trainer/30171.htm",
+   "quest": null,
+   "text": "Magister Gaius: Welcome, o seeker of truth, to the Ivory Tower! Magic is both a tool and a weapon, capable of great good or horrific evil. Even some of our most illustrious wizards have strayed into dark paths over the years. Only the Elves have remained immune to corruption. But let me say this. M…",
+   "header": "Magister Gaius",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Ask about Gaius' master.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30171-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30171-1.htm": {
+   "file": "trainer/30171-1.htm",
+   "quest": null,
+   "text": "Magister Gaius: My master's name was Metheus. He was an indomitable Human, unafraid of making mistakes in his quest for knowledge. His thousands of magical experiments have borne bountiful fruit, transforming how many of us now see magic. Perhaps his most useful research concerned the \"magic boost.…",
+   "header": "Magister Gaius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "trainer/30171-noteach.htm": {
+   "file": "trainer/30171-noteach.htm",
+   "quest": null,
+   "text": "Magister Gaius: I don't think that you're somebody I can teach. Why don't you go upstairs? Gauen is younger that other Elves, but he might be an excellent teacher for you. On the other hand, there is also Kaiena. She may be a little difficult to deal with at times, but she is an accomplished magus.…",
+   "header": "Magister Gaius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30171-01.html": {
+   "file": "Q00066_CertifiedArbalester/30171-01.html",
+   "quest": 66,
+   "text": "Magister Gaius: Gasp... Is it you, Kamael? I have nothing to say to you...",
+   "header": "Magister Gaius",
+   "when": [
+    "state STARTED; memoState < 23"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30171-02.html": {
+   "file": "Q00066_CertifiedArbalester/30171-02.html",
+   "quest": 66,
+   "text": "Magister Gaius: Gasp... Is it you, Kamael? I have nothing to say to you...",
+   "header": "Magister Gaius",
+   "when": [
+    "state STARTED; memo 23; !memoState < 23"
+   ],
+   "links": [
+    {
+     "text": "Why did you do that?",
+     "bypass": "Quest Q00066_CertifiedArbalester 30171-03.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30171-03.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30171-03.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30171-06.html": {
+   "file": "Q00066_CertifiedArbalester/30171-06.html",
+   "quest": 66,
+   "text": "Magister Gaius: Well, one of the followers of that villain Beleth managed to obtain certain secrets about the Kamael. They were in a document that contained excerpts of medical research conducted by the Giants. Our lord discovered that this information was passed to the other followers of Beleth in…",
+   "header": "Magister Gaius",
+   "when": [
+    "state STARTED; memo 24; !memoState < 23"
+   ],
+   "links": [
+    {
+     "text": "Still...",
+     "bypass": "Quest Q00066_CertifiedArbalester 30171-07.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30171-07.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30171-07.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30171-09.html": {
+   "file": "Q00066_CertifiedArbalester/30171-09.html",
+   "quest": 66,
+   "text": "Magister Gaius: The research document of the Giants disappeared during the attack by the Manashen Gargoyles near the Ivory Tower.",
+   "header": "Magister Gaius",
+   "when": [
+    "state STARTED; memo 25; !memoState < 23"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30171-10.html": {
+   "file": "Q00066_CertifiedArbalester/30171-10.html",
+   "quest": 66,
+   "text": "Magister Gaius: What? You found the charm of the royal forefathers? The one containing the seal of the Ivory Tower? If we locate all the charms, we may still be able to discover who was responsible for the attack. Could there be a follow of Beleth at the Ivory Tower itself?",
+   "header": "Magister Gaius",
+   "when": [
+    "state STARTED; memo 26; !memoState < 23"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30171-11.html": {
+   "file": "Q00066_CertifiedArbalester/30171-11.html",
+   "quest": 66,
+   "text": "Magister Gaius: What? The charm of the royal forefathers belongs to Gauen!? What has he say about that? He must be made to answer -- go speak to him at once!",
+   "header": "Magister Gaius",
+   "when": [
+    "state STARTED; memo 27; !memoState < 23"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30171-12.html": {
+   "file": "Q00066_CertifiedArbalester/30171-12.html",
+   "quest": 66,
+   "text": "Magister Gaius: Gauen said such a thing?! I can scarcely credit it, but I trust Kaiena.",
+   "header": "Magister Gaius",
+   "when": [
+    "state STARTED; memo 28; !memoState < 23"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30171-13.html": {
+   "file": "Q00066_CertifiedArbalester/30171-13.html",
+   "quest": 66,
+   "text": "Magister Gaius: So that is how the research document of the Giants fell into Beleth's clutches! All our efforts were in vain... Kaiena must have been distracted indeed by other matters not to have sent word of this to me. Gauen must pay for this betrayal!",
+   "header": "Magister Gaius",
+   "when": [
+    "state STARTED; memo 29; !memoState < 23"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30171-03.html": {
+   "file": "Q00066_CertifiedArbalester/30171-03.html",
+   "quest": 66,
+   "text": "Magister Gaius: How can you say that? How rude!",
+   "header": "Magister Gaius",
+   "links": [
+    {
+     "text": "Show him the written request for attack.",
+     "bypass": "Quest Q00066_CertifiedArbalester 30171-05.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30171-05.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30171-05.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30171-04.html": {
+   "file": "Q00066_CertifiedArbalester/30171-04.html",
+   "quest": 66,
+   "text": "Magister Gaius: Groan... And there is no other way? Then I suppose I must tell you everything... I only did it because I was asked to. Nor do I think it was a bad thing!",
+   "header": "Magister Gaius",
+   "links": [
+    {
+     "text": "What do you mean?",
+     "bypass": "Quest Q00066_CertifiedArbalester 30171-06.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30171-06.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30171-06.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30171-05.html": {
+   "file": "Q00066_CertifiedArbalester/30171-05.html",
+   "quest": 66,
+   "text": "Magister Gaius: Groan... And there is no other way? Then I suppose I must tell you everything... I only did it because I was asked to. Nor do I think it was a bad thing!",
+   "header": "Magister Gaius",
+   "links": [
+    {
+     "text": "What do you mean?",
+     "bypass": "Quest Q00066_CertifiedArbalester 30171-06.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30171-06.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30171-06.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30171-07.html": {
+   "file": "Q00066_CertifiedArbalester/30171-07.html",
+   "quest": 66,
+   "text": "Magister Gaius: Yes, well, I understand your point, but... Well, this is how the world works, after all. ...",
+   "header": "Magister Gaius",
+   "links": [
+    {
+     "text": "Were you able to recover the Giants' research document?",
+     "bypass": "Quest Q00066_CertifiedArbalester 30171-08.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30171-08.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30171-08.html",
+     "effect": "cond:14"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30171-08.html": {
+   "file": "Q00066_CertifiedArbalester/30171-08.html",
+   "quest": 66,
+   "text": "Magister Gaius: Well, yes and no. One of our operatives did recover the document near Death Pass, but... while en route to us, he was attacked by the Manashen Gargoyles near the Ivory Tower. We have not been able to locate either him or the document he was carrying. The timing of the attack is no c…",
+   "header": "Magister Gaius",
+   "sets": {
+    "cond": "14"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Arbalester (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00066_CertifiedArbalester",
+     "kind": "quest",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30171-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

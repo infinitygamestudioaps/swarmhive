@@ -1,0 +1,694 @@
+{
+ "npcId": 30194,
+ "name": "Gideon",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.883Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "350": {
+   "name": "Enhance Your Weapon",
+   "listText": [
+    "[Enhance Your Weapon]",
+    "[Enhance Your Weapon (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00350_EnhanceYourWeapon/30194-01.htm",
+     "when": "st.getInt(\"cond\") == 0",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00350_EnhanceYourWeapon/30194-03.htm",
+     "when": "!st.getInt(\"cond\") == 0; check(st)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00350_EnhanceYourWeapon/30194-21.htm",
+     "when": "!st.getInt(\"cond\") == 0; !check(st)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30194-01.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-01.htm",
+   "quest": 350,
+   "text": "Master Gideon: Hello there, have you come to learn how to enhance the abilities of your weapon?",
+   "header": "Master Gideon",
+   "when": [
+    "st.getInt(\"cond\") == 0"
+   ],
+   "live": {
+    "file": "Logs/npclive_Gideon_c4a8a0ee.html",
+    "at": "2026-10-27T14:37:52.764Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "\"Yes, I wish to learn more.\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-02.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-02.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-02.htm",
+     "live": true
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30194-03.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-03.htm",
+   "quest": 350,
+   "text": "Master Gideon: You must hurry and collect the souls of evil creatures in the soul crystal. You will find the evil ones in the northern part of Oren, the Forest of Mirrors, the Cave of Giants, the Devastated Castle, the higher reaches of the Tower of Insolence, deep within the Lair of Antharas, Eva'…",
+   "header": "Master Gideon",
+   "when": [
+    "!st.getInt(\"cond\") == 0; check(st)"
+   ],
+   "links": [
+    {
+     "text": "Ask about the evil creatures from which you will collect souls.",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-12.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-12.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-12.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30194-21.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-21.htm",
+   "quest": 350,
+   "text": "Master Gideon: How is your mission going? Oh, I see that you need a new crystal!",
+   "header": "Master Gideon",
+   "when": [
+    "!st.getInt(\"cond\") == 0; !check(st)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, please, may I have another?\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-08.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-08.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-08.htm"
+    },
+    {
+     "text": "\"Quit\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon exit.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "exit.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/exit.htm",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30194-02.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-02.htm",
+   "quest": 350,
+   "text": "Master Gideon: I have a growing sense of dread of late. Something terrible is coming. Can you hear it? The trees in the forest, the birds in the sky and the fish in the ocean...They know of what I speak... I fear for the survival of the whole Human race, but I don't know what threatens it! This dar…",
+   "header": "Master Gideon",
+   "live": {
+    "file": "Logs/npclive_Gideon_b1d109df.html",
+    "at": "2026-10-27T14:37:53.277Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "\"I will join your cause!\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-04.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-04.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-04.htm",
+     "live": true
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30194-04.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-04.htm",
+   "quest": 350,
+   "text": "Master Gideon: Oh, marvelous! If we all develop our strengths and work together, we will triumph over the coming cataclysm. My colleagues and I have recently developed a method of enhancing weaponry that should prove quite useful to all of us. This weapons enhancement boosts strength noticeably in …",
+   "header": "Master Gideon",
+   "live": {
+    "file": "Logs/npclive_Gideon_b1025c3c.html",
+    "at": "2026-10-27T14:37:53.739Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Explanation of weapons enhancement",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-05.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-05.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-05.htm",
+     "live": true
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30194-05.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-05.htm",
+   "quest": 350,
+   "text": "Master Gideon: To enhance a weapon you will need some magical souls. You must collect the souls of evil creatures and trap them in the soul crystal I will give you. You will then take the crystal to a blacksmith and he will extract the magic from the crystal and apply it to a weapon for you. All bl…",
+   "header": "Master Gideon",
+   "links": [
+    {
+     "text": "\"How do I collect the souls of the evil ones?\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-06.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-06.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-06.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30194-06.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-06.htm",
+   "quest": 350,
+   "text": "Master Gideon: After you have sapped the evil one's strength in battle, apply the crystal to his skin. His soul will be absorbed into the crystal. His mortal body is easily dispatched. Each soul crystal can contain up to 10 souls. A more precise explanation would be that it can contain up to 10 sou…",
+   "header": "Master Gideon",
+   "links": [
+    {
+     "text": "What are the precautions to take when collecting souls?\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-07.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-07.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-07.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30194-07.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-07.htm",
+   "quest": 350,
+   "text": "Master Gideon: The collection of a soul doesn't always go as planned. Some evil souls will simply not be absorbed, and, if you happen to collect the wrong soul, the crystal will shatter... Soul crystals develop refined tastes, and will reject weaker souls after a while. When this happens you must s…",
+   "header": "Master Gideon",
+   "links": [
+    {
+     "text": "Receive a soul crystal.",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-08.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-08.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-08.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30194-08.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-08.htm",
+   "quest": 350,
+   "text": "Master Gideon: Please choose one of the following three types of crystals: Each crystal bestows a different power upon the weapon it enhances, and the powers may vary from weapon to weapon.",
+   "header": "Master Gideon",
+   "links": [
+    {
+     "text": "Red Soul Crystal",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-09.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-09.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-09.htm"
+    },
+    {
+     "text": "Green Soul Crystal",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-10.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-10.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-10.htm"
+    },
+    {
+     "text": "Blue Soul Crystal",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-11.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-11.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-11.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30194-09.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-09.htm",
+   "quest": 350,
+   "text": "Master Gideon: Here is a red soul crystal. Collect souls into it and take it to a blacksmith along with the weapon you wish to enhance. The stronger the weapon, the more souls needed to enhance it. Next time we meet I hope you have gained more strength.",
+   "header": "Master Gideon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30194-10.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-10.htm",
+   "quest": 350,
+   "text": "Master Gideon: Here is a green soul crystal. Collect souls into it and take it to a blacksmith along with the weapon you wish to enhance. The stronger the weapon, the more souls needed to enhance it. Next time we meet I hope you have gained more strength.",
+   "header": "Master Gideon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30194-11.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-11.htm",
+   "quest": 350,
+   "text": "Master Gideon: Here is a blue soul crystal. Collect souls into it and take it to a blacksmith along with the weapon you wish to enhance. The stronger the weapon, the more souls needed to enhance it. Next time we meet I hope you have gained more strength.",
+   "header": "Master Gideon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30194-12.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-12.htm",
+   "quest": 350,
+   "text": "Master Gideon: From the following areas, which area's evil creatures would you like to obtain more information about?",
+   "header": "Master Gideon",
+   "links": [
+    {
+     "text": "Northern Oren",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-13.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-13.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-13.htm"
+    },
+    {
+     "text": "Forest of Mirrors",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-14.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-14.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-14.htm"
+    },
+    {
+     "text": "Cave of Giants",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-15.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-15.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-15.htm"
+    },
+    {
+     "text": "Devastated Castle",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-16.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-16.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-16.htm"
+    },
+    {
+     "text": "Tower of Insolence",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-17.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-17.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-17.htm"
+    },
+    {
+     "text": "Lair of Antharas",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-18.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-18.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-18.htm"
+    },
+    {
+     "text": "Eva's Underwater Garden",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-19.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-19.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-19.htm"
+    },
+    {
+     "text": "Devil's Isle",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30194-20.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30194-20.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-20.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30194-13.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-13.htm",
+   "quest": 350,
+   "text": "Master Gideon: It seems that the most evil creatures in northern Oren are the Timak Orcs. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If you notice that your crystal has stopped absorbing soul…",
+   "header": "Master Gideon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30194-14.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-14.htm",
+   "quest": 350,
+   "text": "Master Gideon: It seems that the most evil creatures in the Forest of Mirrors are the Forest of Mirror ghosts, mirrors and Harit Lizardmen. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If you n…",
+   "header": "Master Gideon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30194-15.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-15.htm",
+   "quest": 350,
+   "text": "Master Gideon: It seems that the most evil creatures in the Cave of Giants are the Halingkas, Yintzus, Paliotes, Hamruts, and Kranrots. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If you notic…",
+   "header": "Master Gideon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30194-16.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-16.htm",
+   "quest": 350,
+   "text": "Master Gideon: It seems that the most evil creatures in the Devastated Castle are the Doom Servants, Doom Guards, Doom Archers, Doom Troopers, Doom Warriors, and Doom Knights. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and dem…",
+   "header": "Master Gideon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30194-17.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-17.htm",
+   "quest": 350,
+   "text": "Master Gideon: It seems that the most evil creatures in the Tower of Insolence are the Erin Ediunce, members of the Platinum Tribe and their Angels. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil.…",
+   "header": "Master Gideon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30194-18.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-18.htm",
+   "quest": 350,
+   "text": "Master Gideon: It seems that the most evil creatures in the Lair of Antharas are the Malruk Knights, Malruk Berserkers, Malruk Lords, Limal Karinness, Kariks, Pytans, and Pytan Knights. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined tas…",
+   "header": "Master Gideon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30194-19.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-19.htm",
+   "quest": 350,
+   "text": "Master Gideon: It seems that all of the evil creatures inhabiting Eva's Underwater Garden are appropriate soul donors. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If you notice that your cryst…",
+   "header": "Master Gideon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30194-20.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30194-20.htm",
+   "quest": 350,
+   "text": "Master Gideon: It seems that all of the evil creatures inhabiting Devil's Isle are appropriate soul donors. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If you notice that your crystal has stop…",
+   "header": "Master Gideon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30194-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30194-noteach.html",
+   "quest": null,
+   "text": "Magister Gideon: Get out of my way! I teach only Dark Elven Mystics. Heed my words: if you keep annoying me, I'll teach you a lesson you'll never forget!",
+   "header": "Magister Gideon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30194.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30194.html",
+   "quest": null,
+   "text": "Magister Gideon: For all my travels and experiences, there is still one thing I cannot understand. Why does even the mention of Dark Magic send Humans into such an uproar? They have no trouble killing each other with sword and spear, so scruples about plotting and scheming... There must be more to …",
+   "header": "Magister Gideon",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Enhance Your Weapon]",
+     "bypass": "npc_%objectId%_Quest Q00350_EnhanceYourWeapon",
+     "kind": "quest",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Enhance Your Weapon (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00350_EnhanceYourWeapon",
+     "kind": "quest",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30194-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/exit.htm": {
+   "file": "Q00350_EnhanceYourWeapon/exit.htm",
+   "quest": 350,
+   "text": "Goodbye",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30194-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30194-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "live:npclive_Gideon_a4f0453b.html": {
+   "file": "Logs/npclive_Gideon_a4f0453b.html",
+   "quest": null,
+   "header": "Master Gideon",
+   "text": "Master Gideon: I have traveled the world over but there is one thing I will never understand. Why do Humans tremble so at the thought of Black Magic? The mere words are enough to fill their hearts with terror! I find it unfathomable that a being who can face down spears and swords and use betrayal …",
+   "live": {
+    "file": "Logs/npclive_Gideon_a4f0453b.html",
+    "at": "2026-10-27T14:37:52.572Z"
+   },
+   "outcome": "info",
+   "serverCustom": true,
+   "links": [
+    {
+     "text": "Learn Skills",
+     "bypass": "live 00",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "live 01",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "live 02",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Quest",
+     "bypass": "live 03",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "server-custom page Logs/npclive_Gideon_a4f0453b.html: \"Master Gideon: I have traveled the world over but there is one thing I will nev…\" links: Learn Skills | Ask about Skill Enchanting. | Ask about Skill Transfer. | Quest"
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "Master Gideon:I have traveled the world over but there is on"
+   ],
+   "to": [
+    "Master Gideon:Hello there, have you come to learn how to enh"
+   ]
+  },
+  {
+   "text": "\"Yes, I wish to learn more.\"",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Master Gideon:Hello there, have you come to learn how to enh"
+   ],
+   "to": [
+    "Master Gideon:I have a growing sense of dread of late. Somet"
+   ]
+  },
+  {
+   "text": "\"I will join your cause!\"",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Master Gideon:I have a growing sense of dread of late. Somet"
+   ],
+   "to": [
+    "Master Gideon:Oh, marvelous! If we all develop our strengths"
+   ]
+  }
+ ]
+}

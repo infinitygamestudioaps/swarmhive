@@ -1,0 +1,748 @@
+{
+ "npcId": 30745,
+ "name": "Tor",
+ "title": "Guild Member",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.067Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30745.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "335": {
+   "name": "The Song of the Hunter",
+   "listText": [
+    "[The Song of the Hunter]",
+    "[The Song of the Hunter  (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00335_TheSongOfTheHunter/30745-01a.html",
+     "when": "state STARTED; lacks items 3693,3692",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30745-01b.html",
+     "when": "state STARTED; level < 45; has items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); requestCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30745-03.html",
+     "when": "state STARTED; NOT level < 45; has items 3692,3693; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); requestCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30745-03a.html",
+     "when": "state STARTED; NOT level < 45; has items 3692; lacks items 3693; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); requestCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30745-03b.html",
+     "when": "state STARTED; has items 3693; lacks items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); requestCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30745-06a.html",
+     "when": "state STARTED; has items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !requestCount == 0; hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30745-06b.html",
+     "when": "state STARTED; has items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !requestCount == 0; NOT hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30745-05.html",
+     "when": "state STARTED; has items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !requestCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30745-06a.html",
+     "when": "state STARTED; has items 3693; lacks items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !requestCount == 0; hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30745-06b.html",
+     "when": "state STARTED; has items 3693; lacks items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !requestCount == 0; NOT hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30745-05.html",
+     "when": "state STARTED; has items 3693; lacks items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !requestCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30745.htm": {
+   "file": "default/30745.htm",
+   "quest": null,
+   "text": "Guild Member Tor: Certainly you don't think that just because I am a hunter I spend my days hunting rabbits and squirrels? My prey are evil creatures! I also excavate relics and collect rare materials! Our members have many interests!",
+   "header": "Guild Member Tor",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30745-01a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-01a.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Everyday our guild receives dozens of requests from people of all walks of life. From a village matron seeking to recover her dearly departed grandmother's brooch, to aristocrats seeking to plunder the treasure of ancient empires, they all come to us. If you wish to accept a reque…",
+   "header": "Guild Member Tor",
+   "when": [
+    "state STARTED; lacks items 3693,3692"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-01b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-01b.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Everyday our guild receives dozens of requests from people of all walks of life. From a village matron seeking to recover her dearly departed grandmother's brooch, to aristocrats seeking to plunder the treasure of ancient empires, they all come to us. Would you consider taking a r…",
+   "header": "Guild Member Tor",
+   "when": [
+    "state STARTED; level < 45; has items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); requestCount == 0"
+   ],
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "\"I would like to take on a request.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30745-02.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30745-02.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-02.html",
+     "toAll": [
+      "Q00335_TheSongOfTheHunter/30745-02.html",
+      "Q00335_TheSongOfTheHunter/30745-03.html"
+     ]
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30745-03.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-03.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Oh I see that you are taking the test to obtain a hunting license. I'm sure you will make an excellent circle 2 hunter! Our policy states that those who are currently taking the hunting license test cannot accept a request . Good luck on the test! Come back when you pass it.",
+   "header": "Guild Member Tor",
+   "when": [
+    "state STARTED; NOT level < 45; has items 3692,3693; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); requestCount == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-03a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-03a.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Are you aware of the separate request list just for circle 2 hunters? Considering your skills and experience, I recommend that you take the test to obtain the circle 2 hunting license. You should visit Guild Member Gray.",
+   "header": "Guild Member Tor",
+   "when": [
+    "state STARTED; NOT level < 45; has items 3692; lacks items 3693; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); requestCount == 0"
+   ],
+   "links": [
+    {
+     "text": "\"I would like to take on a request.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30745-02.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30745-02.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-02.html",
+     "toAll": [
+      "Q00335_TheSongOfTheHunter/30745-02.html",
+      "Q00335_TheSongOfTheHunter/30745-03.html"
+     ]
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30745-03b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-03b.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Pleased to meet you, brother! Is there anything I can help you with?",
+   "header": "Guild Member Tor",
+   "when": [
+    "state STARTED; has items 3693; lacks items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); requestCount == 0"
+   ],
+   "links": [
+    {
+     "text": "\"I would like to take on a request.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30745-04.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30745-04.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-04.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30745-06a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-06a.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Good work! Here is your reward. Also, please accept this Laurel Leaf Pin that recognizes the successful fulfillment of a request. The more pins you possess, the better chance you will receive class A and B requests. Do you wish to undertake a new request?",
+   "header": "Guild Member Tor",
+   "when": [
+    "state STARTED; has items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !requestCount == 0; hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)",
+    "state STARTED; has items 3693; lacks items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !requestCount == 0; hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)"
+   ],
+   "links": [
+    {
+     "text": "\"I would like to receive a new request.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30745-02.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30745-02.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-02.html",
+     "toAll": [
+      "Q00335_TheSongOfTheHunter/30745-02.html",
+      "Q00335_TheSongOfTheHunter/30745-03.html"
+     ]
+    },
+    {
+     "text": "\"I need a break.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30745-09.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30745-09.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-09.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30745-06b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-06b.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Good work! Here is your reward. Also, please accept this Laurel Leaf Pin that recognizes the successful fulfillment of a request. The more pins you possess, the better the chance you will receive class A and B requests. Do you wish to undertake a new request?",
+   "header": "Guild Member Tor",
+   "when": [
+    "state STARTED; has items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !requestCount == 0; NOT hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)",
+    "state STARTED; has items 3693; lacks items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !requestCount == 0; NOT hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)"
+   ],
+   "links": [
+    {
+     "text": "\"I would like to receive a new request.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30745-04.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30745-04.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-04.html"
+    },
+    {
+     "text": "\"I need a break.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30745-09.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30745-09.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-09.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30745-05.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-05.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Nice to meet you, brother! Is there anything I can help you with?",
+   "header": "Guild Member Tor",
+   "when": [
+    "state STARTED; has items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !requestCount == 0",
+    "state STARTED; has items 3693; lacks items 3692; !(!hasQuestItems(player, SECOND_CIRCLE_HUNTER_LICENSE) && !hasQuestItems(player, FIRST_CIRCLE_HUNTER_LICENSE)); !requestCount == 0"
+   ],
+   "links": [
+    {
+     "text": "Discontinue mission",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30745-05a.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30745-05a.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-05a.html"
+    },
+    {
+     "text": "Continue mission",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30745-05c.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30745-05c.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-05c.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30745-02.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-02.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Examine the list and choose a request you would like to work on. The requests are divided into 3 classes according to their degree of difficulty and amount of reward. Class C is the most common, of moderate difficulty and reward. Class B is more difficult but with a better reward.…",
+   "header": "Guild Member Tor",
+   "links": [
+    {
+     "text": "Examine the request list",
+     "bypass": "Quest Q00335_TheSongOfTheHunter LIST_1",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "LIST_1",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-16.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30745-04.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-04.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Examine the list and choose a request you would like to work on. The requests are divided into 3 classes according to their degree of difficulty and amount of reward. Class C is the most common, of moderate difficulty and reward. Class B is more difficult but with a better reward.…",
+   "header": "Guild Member Tor",
+   "links": [
+    {
+     "text": "Examine the request list",
+     "bypass": "Quest Q00335_TheSongOfTheHunter LIST_2",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "LIST_2",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-16.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30745-05a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-05a.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Canceling an assigned request before completion incurs a penalty of all your Laurel Leaf Pins. A small price for violating the trust of the guild, wouldn't you say? Do you still wish to give up on your assigned request?",
+   "header": "Guild Member Tor",
+   "links": [
+    {
+     "text": "Give up assigned request",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30745-05b.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30745-05b.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-05b.html"
+    },
+    {
+     "text": "Continue working on assigned request",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30745-05c.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30745-05c.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-05c.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30745-05b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-05b.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Well, it seems you have your mind made up, I won't try to change it. I will confiscate all of your Laurel Leaf Pins. I hope in the future you will learn to fulfill your obligations.",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-05c.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-05c.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Do you know the importance of fulfilling your obligations? Do you know the meanings of integrity, diligence and reliability? Those are the cornerstones of our guild! Well, good luck with your hunting!",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-09.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-09.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Alright then, have a good rest. Come back when you would like to choose a new request.",
+   "header": "Guild Member Tor",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-10a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-10a.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Obtain 40 charms of Kadesh. The charm bears the image of Kadesh, the evil spirit worshiped by Leto Lizardmen. It is known that leto Lizardman archers and soldiers carry the charm as an amulet to invoke magical power. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-10b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-10b.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect 50 Timak Jade Necklaces. This necklace is worn by Timak Orc Warriors and overlords to invoke magical power. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-10c.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-10c.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Demolish the broken enchanted stone golem, gather 50 Enchanted Golem Shards and bring them back to me. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-10d.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-10d.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 30 pieces of Giant Monster Eye Meat. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-10e.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-10e.html",
+   "quest": 335,
+   "text": "Hunters Guild Member Tor: Details of the Request: Collect and bring back 40 Dire Wyrm Eggs. Request Class: C",
+   "header": "Hunters Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-10f.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-10f.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 100 guardian basilisk talons. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-10g.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-10g.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 50 revenants chains. This Steel chain reeking of dark magic is only obtained by defeating a fettered soul. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-10h.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-10h.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 30 Windsus Tusks. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-10i.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-10i.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 100 Grandis Skulls. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-10j.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-10j.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 50 Taik Obsidian Amulets. You must defeat an archer or warrior of the Taik Orc tribe to obtain this amulet. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-10k.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-10k.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Kill the karul bugbears that are terrorizing the south of Aden and bring back their heads. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-10l.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-10l.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect 40 Tamlin Ivory Charms. This charm is obtained by killing a tamlin Orc. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-11a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-11a.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Bring me the head of Elder Narak of the Leto Lizardmen. The overlords of that vile tribe will lead you to him. Request Class: B",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-11b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-11b.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 50 Enchanted Gargoyle Horns. Request Class: B",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-11c.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-11c.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 50 Coiled Serpent Totems. This totem, sacred to the breka orcs, can be obtained by defeating a breka Orc Warrior or shaman. Request Class: B",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-11d.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-11d.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Bring me the totem of the Serpent Demon Kadesh. It is in the possession of leto Lizardman shaman Kets. If you follow the shamans of that vile tribe they will lead you to Kets. Request Class: B",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-11e.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-11e.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Bring me the head of Kaikis, captain of the Timak Orc raiders. Start killing Timak Orc Warriors and eventually Kaiki will make his appearance. Request Class: B",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-11f.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-11f.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 30 Kronbe Venom Sacs. Request Class: B",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-12a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-12a.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 30 charms of Eva. These charms may be obtained by slaying spore zombies, the undead souls of Elven warriors killed in battle at the Sea of Spores. Request Class: A",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-12b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-12b.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Recover the precious stone tablet that was stolen from a Dwarven cargo wagon by grandis. It is currently in the possession of grandis brigand leader Gok Magok. If you slay the grandis one by one, eventually you will find Gok Magok. Request Class: A",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-12c.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-12c.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Recover the precious Book of Shunaiman that was stolen from pilgrims to the grand temple of Einhasad. It is in the possession of Orooto, chief of the karul bugbears. To find him you will need to kill the karul bugbears one by one, Orooto will eventually mak…",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-13a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-13a.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 40 Rotting Tree Spores from the Sea of Spores. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-13b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-13b.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 40 Trisalim Venom Sacs. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-13c.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-13c.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 50 Taik Orc Totems. This totem can be obtained by slaying Taik Orc shamans or warriors. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-13d.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-13d.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 40 harit Lizardman barbed necklaces. These can be obtained by killing harit Lizardman soldiers, archers or warriors. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-13e.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-13e.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 20 coins of the old empire. You may obtain these coins by killing hatar ratman bandits of the War-Torn Plains and their leaders. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-13f.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-13f.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Kill 30 farcrans and bring back their skins. It is a monstrous beast that inhabits the area near the War-Torn Plains. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-13g.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-13g.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 40 Tempest Shards. To obtain these shards you must kill flines, spirits of wind. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-13h.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-13h.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 40 Tsunami Shards. To obtain them you must kill lieles, spirits of water, who live in the Enchanted Forest. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-13i.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-13i.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 40 Satyr Manes. To obtain them you must kill satyrs or satyr elders who live in the Enchanted Valley. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-13j.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-13j.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 40 Hamadryad Shards. To obtain them you must kill forest runners and spirits of trees who live in the Enchanted Forest. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-13k.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-13k.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 30 Shillien Manes. To obtain them you must kill soldiers, scouts or warriors of the vanor silenos tribe that have been running amok in the north of Aden. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-13l.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-13l.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 30 tarlk bugbear totems. To obtain them you must kill tarlk bugbear warriors that are encamped in the den of the mountain bandits in the north of Oren. Request Class: C",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-14a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-14a.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Bring me the head of Okun, the timak Orc overlord. He is notorious for being an abominably cruel marauder. If you kill timak Orc overlords one by one, Okun will show up to take his revenge. Request Class: B",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-14b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-14b.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Bring me the head of Kakran, taik Orc overlord. If you start killing taik Orc captains one by one, Kakran will show up crying out for revenge. Request Class: B",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-14c.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-14c.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 40 narcissus soulstones. These rare soulstones are obtained by breaking the mirrors in the Forest of Mirrors. Request: B",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-14d.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-14d.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 20 Deprived Eyes. These evil spirits are hovering around the War-Torn Plains. Request Class: B",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-14e.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-14e.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Collect and bring back 20 horns of summon unicorn. They are found in the Enchanted Valley. Request Class: B",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-14f.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-14f.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Bring me the golden mane of Kerunos, chief of the vanor silenos tribe. If you start killing vanor silenos chiefs, Kerunos will appear. Request Class: B",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-15a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-15a.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Bring back 20 skulls of undead executed criminals. These vagrant spirits have wandered aimlessly about the Cemetery of Kings since ancient times. Request Class: A",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-15b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-15b.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Recover the stolen bust of the late King Travis. It is said to be in the possession of Chief Kuber of the hatar ratmen. If you slay hatar ratman Brigand Leaders one by one, Kuber will appear. Request Class: A",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-15c.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-15c.html",
+   "quest": 335,
+   "text": "Guild Member Tor: Details of the Request: Recover 10 swords of Cadmus from the Blazing Swamp. These swords are in the possession of the undead called judges of the marsh. These creatures are the souls of heroic bodyguards who died defending their king during the Elmoreden war. You must kill them to…",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30745-16.html": {
+   "file": "Q00335_TheSongOfTheHunter/30745-16.html",
+   "quest": 335,
+   "text": "Guild Member Tor:",
+   "header": "Guild Member Tor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Song of the Hunter  (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00335_TheSongOfTheHunter",
+     "kind": "quest",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30745-01a.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

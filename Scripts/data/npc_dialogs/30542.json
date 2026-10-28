@@ -1,0 +1,72 @@
+{
+ "npcId": 30542,
+ "name": "Runant",
+ "title": "Defender",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.997Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30542.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30542.htm": {
+   "file": "guard/30542.htm",
+   "quest": null,
+   "text": "Defender Runant: Hey, good to see you again! You don't recognize me? Well, I'm not surprised! My name is Runant! I'm a Defender of this village. I work here all day long, and my back and feet are killing me! I doubt I'll ever be able to retire! Oh, I suppose if I get rich and famous someday, like t…",
+   "header": "Defender Runant",
+   "links": [
+    {
+     "text": "\"Who is the Hero Lucian?\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30542-1.htm"
+    },
+    {
+     "text": "\"Who is the Lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30542-1.htm": {
+   "file": "guard/30542-1.htm",
+   "quest": null,
+   "text": "Defender Runant: Seriously, you haven't heard of Hero Lucien? No, you're kidding aren't you? Seriously, you're putting me on, right?.",
+   "header": "Defender Runant",
+   "links": [
+    {
+     "text": "But, I really don't know",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30542-2.htm"
+    }
+   ]
+  },
+  "guard/30542-2.htm": {
+   "file": "guard/30542-2.htm",
+   "quest": null,
+   "text": "Defender Runant: Really? So I guess you're not from around here? All right then, I'll explain it to you. Hmm, well, there was a monster called Earth Worm Trasken deep in the eastern mountains. They say that it was a devil created by Shilen, but I wouldn't know about that. Anyway, the Dwarves were b…",
+   "header": "Defender Runant",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

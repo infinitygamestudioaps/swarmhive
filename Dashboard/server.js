@@ -14,6 +14,14 @@ const { execFile } = require('child_process');
 const SC = require(path.join(__dirname, '..', 'docs', 'plan', 'tools', 'swarm_config.js'));
 const ROOT = SC.ROOT;
 const ROOT_FWD = SC.ROOT_FWD;   // forward slashes, for paths inside generated L2Swarm scripts
+// VERSIONHDR-2026-10-27: the installed package version (VERSION in a public install, release/VERSION here), re-read at most once a minute
+const SWVER = { v: '', at: 0 };
+function swarmVersion() {
+  if (Date.now() - SWVER.at < 60000) return SWVER.v;
+  SWVER.at = Date.now();
+  for (const f of [path.join(ROOT, 'VERSION'), path.join(ROOT, 'release', 'VERSION')]) { try { const v = fs.readFileSync(f, 'utf8').trim(); if (/^\d+\.\d+\.\d+/.test(v)) { SWVER.v = v; break; } } catch (e) { } }
+  return SWVER.v;
+}
 const LOGS = path.join(ROOT, 'Logs');
 // STATEDIR 2026-10-21: where the swarm_state_<name>.json files are read (env = the UI tests' fixture folder; default unchanged = Logs)
 const STATE_DIR = process.env.SWARM_STATE_DIR || LOGS;
@@ -2920,6 +2928,7 @@ http.createServer(async (req, res) => {
       if (STATE_CACHE.body && Date.now() - STATE_CACHE.at < 1500 && STATE_CACHE.gen === POST_GEN) return send(res, 200, 'application/json', STATE_CACHE.body);
       const chars = readStates();
       const body = JSON.stringify({
+        version: swarmVersion(),   // VERSIONHDR-2026-10-27 (tester: "I dont see the version on top right"): shown in the header
         chars, accounts: accounts(chars), tasks: TASKS, classes: Object.keys(START_CLASSES),
         log: tail(path.join(LOGS, 'swarm_buffs.log'), 60), errors: tail(path.join(LOGS, 'swarm_errors.log'), 12),
         plan: planFiles(), now: new Date().toISOString(),
@@ -3433,14 +3442,19 @@ http.createServer(async (req, res) => {
       if (req.method === 'POST') {
         const b = req._b || {}, id = Number(b.id), rule = String(b.rule || '');
         if (!id || id === 57) return json(res, 400, { error: 'bad item id' });
-        if (!['', 'keep', 'store', 'collector'].includes(rule)) return json(res, 400, { error: 'rule: keep | store | collector | (empty = automatic)' });
+        // GEARPASS-2026-10-27 (tester Vykaax, owner "Yes"): 'distributor' = to the collector exactly as 'collector' (loot hand-over: always list)
+        // + marked in gear_sources.json distributors.marked (locked + atomic, gearauto_api.markDistribute): the collector passes it on to the
+        // distributor holding its grade while the Gear page switch is on
+        if (!['', 'keep', 'store', 'collector', 'distributor'].includes(rule)) return json(res, 400, { error: 'rule: keep | store | collector | distributor | (empty = automatic)' });
         const off = (arr) => { for (let i = arr.length - 1; i >= 0; i--) if (Number(arr[i]) === id) arr.splice(i, 1); };
         off(me.keep); off(me.deposit); off(P.always);
-        if (rule === 'keep') me.keep.push(id); else if (rule === 'store') me.deposit.push(id); else if (rule === 'collector') P.always.push(id);
+        if (rule === 'keep') me.keep.push(id); else if (rule === 'store') me.deposit.push(id); else if (rule === 'collector' || rule === 'distributor') P.always.push(id);
         sr._updated = new Date().toISOString(); lr._updated = sr._updated;
         fs.writeFileSync(SR, JSON.stringify(sr, null, 1)); fs.writeFileSync(LR, JSON.stringify(lr, null, 1));
+        try { const er = require('./gearauto_api').markDistribute({ DATA, ROOT, LOGS }, id, rule === 'distributor'); if (er) return json(res, 500, { error: er }); } catch (e) { return json(res, 500, { error: 'distributor mark: ' + e.message }); }
       }
-      return json(res, 200, { ok: true, name: who, party, keep: me.keep.map(Number), deposit: me.deposit.map(Number), collector: P.always.map(Number).filter(Boolean), never: P.never.map(Number).filter(Boolean) });
+      let marked = []; try { marked = require('./gearauto_api').passOf(readJson(path.join(DATA, 'gear_sources.json'), {}) || {}).marked; } catch (e) { }
+      return json(res, 200, { ok: true, name: who, party, keep: me.keep.map(Number), deposit: me.deposit.map(Number), collector: P.always.map(Number).filter(Boolean).filter(i => !marked.includes(i)), distributor: P.always.map(Number).filter(i => marked.includes(i)), never: P.never.map(Number).filter(Boolean) });
     }
     // --- full character view: live status, stats, buffs/debuffs, inventory, skills + what the script is doing ---
     // monsters around a party leader (party map on the Parties tab). Hooked characters are not found by name: retry by config file.

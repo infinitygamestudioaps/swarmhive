@@ -1,0 +1,260 @@
+{
+ "npcId": 30835,
+ "name": "Icarus",
+ "title": "Lich King",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.077Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30835.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "343": {
+   "name": "Under The Shadow Of The Ivory Tower",
+   "listText": [
+    "[Under the Shadow of the Ivory Tower]",
+    "[Under the Shadow of the Ivory Tower (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00343_UnderTheShadowOfTheIvoryTower/30835-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30835.htm": {
+   "file": "trainer/30835.htm",
+   "quest": null,
+   "text": "Lich King Icarus: I've never seen you before, have I? Ah, yours is a face full of vitality and life. I like it very much. Perhaps I might sample your inner self as well... My, my, what a shocked expression you wear! Ha ha! I am Icarus, the sole survivor of the 13 Lich Kings who once shook the Elmor…",
+   "header": "Lich King Icarus",
+   "links": [
+    {
+     "text": "\"What is a Lich doing here?\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30835-1.htm"
+    },
+    {
+     "text": "\"Who is Hardin?\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "trainer/30835-2.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30835-1.htm": {
+   "file": "trainer/30835-1.htm",
+   "quest": null,
+   "text": "Lich King Icarus: What do you think I am doing here? Fool! I teach the skills I learned as a Necromancer. No, don't look so afraid. Liches rarely eat Human flesh...although to be honest it IS something of a delicacy... Actually, we undead have no need to eat at all. No, we try to be fairly...civili…",
+   "header": "Lich King Icarus",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30835.htm"
+    }
+   ]
+  },
+  "trainer/30835-2.htm": {
+   "file": "trainer/30835-2.htm",
+   "quest": null,
+   "text": "Lich King Icarus: Hardin? I've known him for years. But even after all that time, I don't suppose I can say I really know him well. Often he wanders off suddenly, leaving this Academy virtually empty. Where he goes and what he does, I have no idea. No doubt something that would shock and amaze you.…",
+   "header": "Lich King Icarus",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30835.htm"
+    }
+   ]
+  },
+  "trainer/30835-noteach.htm": {
+   "file": "trainer/30835-noteach.htm",
+   "quest": null,
+   "text": "Lich King Icarus: Bwa ha ha! You must be insane, just like that old Hardin! What do you think I can teach you? Although I'm dead now, in my former life I acquired Human mystical skills! SO i can only teach Human mystics! Why don't you go look for a teacher who would be more suitable for you?",
+   "header": "Lich King Icarus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00343_UnderTheShadowOfTheIvoryTower/30835-01.html": {
+   "file": "Q00343_UnderTheShadowOfTheIvoryTower/30835-01.html",
+   "quest": 343,
+   "text": "Lich King Icarus: What a miserable state I'm in, neither dead or alive, just here. What's the point? I'm an undead... No hope for me. The liqueur supplied by my students is all that keeps me going these days. I get drunk and imagine that I can feel the warmth of life flowing through my veins once a…",
+   "header": "Lich King Icarus",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Give him some Ectoplasm Liqueur.",
+     "bypass": "Quest Q00343_UnderTheShadowOfTheIvoryTower 30835-02.html",
+     "kind": "quest-event",
+     "script": "Q00343_UnderTheShadowOfTheIvoryTower",
+     "event": "30835-02.html",
+     "quest": 343,
+     "to": "Q00343_UnderTheShadowOfTheIvoryTower/30835-02.html",
+     "toAll": [
+      "Q00343_UnderTheShadowOfTheIvoryTower/30835-02.html",
+      "Q00343_UnderTheShadowOfTheIvoryTower/30835-03.html"
+     ]
+    }
+   ]
+  },
+  "Q00343_UnderTheShadowOfTheIvoryTower/30835-02.html": {
+   "file": "Q00343_UnderTheShadowOfTheIvoryTower/30835-02.html",
+   "quest": 343,
+   "text": "Lich King Icarus: You scoundrel! You have no such thing! How dare you pretend to give it to me as a present!",
+   "header": "Lich King Icarus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00343_UnderTheShadowOfTheIvoryTower/30835-03.html": {
+   "file": "Q00343_UnderTheShadowOfTheIvoryTower/30835-03.html",
+   "quest": 343,
+   "text": "Lich King Icarus: Oh, how lovely! How did you know to bring me this rare and precious liqueur? Well, time for a cocktail! Ah yes, that's the stuff. It's been too long! Would you care for a nip? It really tastes wonderful! No? Well, I understand. It would most likely burn your tongue right out! Did …",
+   "header": "Lich King Icarus",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00343_UnderTheShadowOfTheIvoryTower 30835-04.html",
+     "kind": "quest-event",
+     "script": "Q00343_UnderTheShadowOfTheIvoryTower",
+     "event": "30835-04.html",
+     "quest": 343,
+     "to": "Q00343_UnderTheShadowOfTheIvoryTower/30835-04.html"
+    }
+   ]
+  },
+  "Q00343_UnderTheShadowOfTheIvoryTower/30835-04.html": {
+   "file": "Q00343_UnderTheShadowOfTheIvoryTower/30835-04.html",
+   "quest": 343,
+   "text": "Lich King Icarus: Why are you still here? Is there something that you want of me?",
+   "header": "Lich King Icarus",
+   "links": [
+    {
+     "text": "Give him Ectoplasm Liqueur.",
+     "bypass": "Quest Q00343_UnderTheShadowOfTheIvoryTower 30835-02.html",
+     "kind": "quest-event",
+     "script": "Q00343_UnderTheShadowOfTheIvoryTower",
+     "event": "30835-02.html",
+     "quest": 343,
+     "to": "Q00343_UnderTheShadowOfTheIvoryTower/30835-02.html",
+     "toAll": [
+      "Q00343_UnderTheShadowOfTheIvoryTower/30835-02.html",
+      "Q00343_UnderTheShadowOfTheIvoryTower/30835-03.html"
+     ]
+    },
+    {
+     "text": "\"Goodbye.\"",
+     "bypass": "Quest Q00343_UnderTheShadowOfTheIvoryTower 30835-05.html",
+     "kind": "quest-event",
+     "script": "Q00343_UnderTheShadowOfTheIvoryTower",
+     "event": "30835-05.html",
+     "quest": 343,
+     "to": "Q00343_UnderTheShadowOfTheIvoryTower/30835-05.html"
+    }
+   ]
+  },
+  "Q00343_UnderTheShadowOfTheIvoryTower/30835-05.html": {
+   "file": "Q00343_UnderTheShadowOfTheIvoryTower/30835-05.html",
+   "quest": 343,
+   "text": "Lich King Icarus: Good bye, my little Magus!",
+   "header": "Lich King Icarus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Under the Shadow of the Ivory Tower (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00343_UnderTheShadowOfTheIvoryTower",
+     "kind": "quest",
+     "quest": 343,
+     "to": "Q00343_UnderTheShadowOfTheIvoryTower/30835-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

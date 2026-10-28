@@ -1,0 +1,86 @@
+{
+ "npcId": 31225,
+ "name": "Arena Manager",
+ "title": "",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.144Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/ArenaManager/31225.html": {
+   "file": "ai/npc/ArenaManager/31225.html",
+   "quest": null,
+   "text": "Arena Manager: Way to go! Hooray! Hooray!!! (Be careful! CP/HP will not get recovered inside the fence.)",
+   "header": "Arena Manager",
+   "links": [
+    {
+     "text": "CP Recovery : 1,000 Adena",
+     "bypass": "Quest ArenaManager CPrecovery",
+     "kind": "quest-event",
+     "script": "ArenaManager",
+     "event": "CPrecovery",
+     "to": null
+    },
+    {
+     "text": "HP Recovery : 1,000 Adena",
+     "bypass": "Quest ArenaManager HPrecovery",
+     "kind": "quest-event",
+     "script": "ArenaManager",
+     "event": "HPrecovery",
+     "to": null
+    },
+    {
+     "text": "Buff for Battle Ground : 2,000 Adena",
+     "bypass": "Quest ArenaManager Buff",
+     "kind": "quest-event",
+     "script": "ArenaManager",
+     "event": "Buff",
+     "to": null
+    },
+    {
+     "text": "Private Warehouse: Deposit an item.",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Private Warehouse: Withdraw an item.",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

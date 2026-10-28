@@ -1,0 +1,472 @@
+{
+ "npcId": 30566,
+ "name": "Varkees",
+ "title": "Atuba Chief",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.001Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30566.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "4": {
+   "name": "Long Live the Pa'agrio Lord",
+   "listText": [
+    "[Long Live the Pa'agrio Lord]",
+    "[Long Live the Pa'agrio Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00004_LongLiveThePaagrioLord/30566-02.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00004_LongLiveThePaagrioLord/30566-01.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "232": {
+   "name": "Test Of The Lord",
+   "listText": [
+    "[Test of the Lord]",
+    "[Test of the Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00232_TestOfTheLord/30566-01.html",
+     "when": "state STARTED; has items 3391; lacks items 3400,3392",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30566-03.html",
+     "when": "state STARTED; has items 3391,3392; lacks items 3400,3399; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, VARKEES_CHARM))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30566-04.html",
+     "when": "state STARTED; has items 3391,3392,3399; lacks items 3400; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, VARKEES_CHARM)); !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, MANAKIAS_AMULE",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30566-05.html",
+     "when": "state STARTED; has items 3391,3400; lacks items 3392; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, VARKEES_CHARM)); !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, MANAKIAS_AMULE; !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM, MANAKIAS_AMULET) && !hasQuestItems(player, HUGE_ORC_FANG))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "273": {
+   "name": "Invaders of the Holy Land",
+   "listText": [
+    "[Invaders of the Holy Land]",
+    "[Invaders of the Holy Land (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00273_InvadersOfTheHolyLand/30566-03.htm",
+     "when": "state CREATED; (player.getRace() == Race.ORC); (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00273_InvadersOfTheHolyLand/30566-02.htm",
+     "when": "state CREATED; (player.getRace() == Race.ORC); NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00273_InvadersOfTheHolyLand/30566-01.htm",
+     "when": "state CREATED; NOT (player.getRace() == Race.ORC)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00273_InvadersOfTheHolyLand/30566-07.html",
+     "when": "state STARTED; has items 1475,1476; (red > 0)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00273_InvadersOfTheHolyLand/30566-06.html",
+     "when": "state STARTED; has items 1475,1476; NOT (red > 0)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00273_InvadersOfTheHolyLand/30566-05.html",
+     "when": "state STARTED; lacks items 1475,1476",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30566.htm": {
+   "file": "default/30566.htm",
+   "quest": null,
+   "text": "Atuba Chief Varkees: Once you step into the House of the King, you should behave! I, Varkees, Chief of Atuba, will not forgive those who disrespect Flame Lord Kakai !",
+   "header": "Atuba Chief Varkees",
+   "links": [
+    {
+     "text": "Ask about the Flame Lord",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30566-1.htm"
+    },
+    {
+     "text": "Ask about tribes of the Orcs",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30566-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30566-1.htm": {
+   "file": "default/30566-1.htm",
+   "quest": null,
+   "text": "Atuba Chief Varkees: Dekara Lamchar Kakai! Praise great Flame Lord Kakai! He is the king of the Orcs chosen by Pa'agrio! He is also the chief of the brave Hestui and the true ruler of the flame, approved by the totem of the gray bear!",
+   "header": "Atuba Chief Varkees",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30566.htm"
+    }
+   ]
+  },
+  "default/30566-2.htm": {
+   "file": "default/30566-2.htm",
+   "quest": null,
+   "text": "Atuba Chief Varkees: Tejakar Oroka! The Orcs have thousands of tribes! However, only seven tribes carry on the noble blood! I am going to sing their names, so listen well! The brave Hestui! The cold-hearted Atuba! The persistent Neruga! The strong-willed Urutu, the resourceful Duda-Mara! And the me…",
+   "header": "Atuba Chief Varkees",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30566.htm"
+    }
+   ]
+  },
+  "Q00004_LongLiveThePaagrioLord/30566-02.html": {
+   "file": "Q00004_LongLiveThePaagrioLord/30566-02.html",
+   "quest": 4,
+   "text": "Atuba Chief Varkees: Have you presented the Atuba tribe's gift to Centurion Nakusin ? Do not be late! That would shame us in the eyes of the great Flame Lord!",
+   "header": "Atuba Chief Varkees",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00004_LongLiveThePaagrioLord/30566-01.html": {
+   "file": "Q00004_LongLiveThePaagrioLord/30566-01.html",
+   "quest": 4,
+   "text": "Atuba Chief Varkees: The Atuba tribe offers the Lord of Flame this miraculous Elixir ! Brewed from the juice of the Khandar plant and honey, this it has the power to cure all fevers and drive out evil spirits!",
+   "header": "Atuba Chief Varkees",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30566-01.html": {
+   "file": "Q00232_TestOfTheLord/30566-01.html",
+   "quest": 232,
+   "text": "Atuba Chief Varkees: Dekara Lamchar Kakai! All praise the great Kakai, Lord of the Flame of Pa'agrio! I see by the necklace you wear that you seek the Lord's judgment! Excellent! I, Varkees, chief of the Atuba, will gladly share my knowledge with you. Tribes require symbols to rally around. Each tr…",
+   "header": "Atuba Chief Varkees",
+   "when": [
+    "state STARTED; has items 3391; lacks items 3400,3392"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Atuba totem.",
+     "bypass": "Quest Q00232_TestOfTheLord 30566-02.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30566-02.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30566-02.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30566-03.html": {
+   "file": "Q00232_TestOfTheLord/30566-03.html",
+   "quest": 232,
+   "text": "Atuba Chief Varkees: Seek out Seer Manakia in the Town of Giran! Obey his orders to acquire the fangs of those dishonorable Orcs who lurk near the town.",
+   "header": "Atuba Chief Varkees",
+   "when": [
+    "state STARTED; has items 3391,3392; lacks items 3400,3399; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, VARKEES_CHARM))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30566-04.html": {
+   "file": "Q00232_TestOfTheLord/30566-04.html",
+   "quest": 232,
+   "text": "Atuba Chief Varkees: Welcome back, young Shaman! I have already heard how you slew those dishonorable Orcs near Giran. I hope the experience of killing your fellow Orcs has shown you how ruthless we Atuba can be. Truly, you have earned the Pointed Fang Totem. I, Varkees of the Atuba, salute your sk…",
+   "header": "Atuba Chief Varkees",
+   "when": [
+    "state STARTED; has items 3391,3392,3399; lacks items 3400; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, VARKEES_CHARM)); !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, MANAKIAS_AMULE"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30566-05.html": {
+   "file": "Q00232_TestOfTheLord/30566-05.html",
+   "quest": 232,
+   "text": "Atuba Chief Varkees: Greetings, you who enforce the judgment of the Lord! You have already been acknowledged by me, so go and present our tribe's totem to the Flame Lord.",
+   "header": "Atuba Chief Varkees",
+   "when": [
+    "state STARTED; has items 3391,3400; lacks items 3392; !(hasQuestItems(player, ORDEAL_NECKLACE) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, VARKEES_CHARM)); !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM) && !hasAtLeastOneQuestItem(player, HUGE_ORC_FANG, MANAKIAS_AMULE; !(hasQuestItems(player, ORDEAL_NECKLACE, VARKEES_CHARM, MANAKIAS_AMULET) && !hasQuestItems(player, HUGE_ORC_FANG))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00273_InvadersOfTheHolyLand/30566-03.htm": {
+   "file": "Q00273_InvadersOfTheHolyLand/30566-03.htm",
+   "quest": 273,
+   "text": "Atuba Chief Varkees: The almighty Flame Lord has ordered me to wipe those disgusting Rakeclaw Imps from the face of the earth! Have you ever encountered those disgusting creatures? They are an abomination! Spawned from the blackest magic, their very existence defiles our sacred lands. But they are …",
+   "header": "Atuba Chief Varkees",
+   "when": [
+    "state CREATED; (player.getRace() == Race.ORC); (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Obey his orders.",
+     "bypass": "Quest Q00273_InvadersOfTheHolyLand 30566-04.htm",
+     "kind": "quest-event",
+     "script": "Q00273_InvadersOfTheHolyLand",
+     "event": "30566-04.htm",
+     "quest": 273,
+     "to": "Q00273_InvadersOfTheHolyLand/30566-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00273_InvadersOfTheHolyLand/30566-02.htm": {
+   "file": "Q00273_InvadersOfTheHolyLand/30566-02.htm",
+   "quest": 273,
+   "text": "Atuba Chief Varkees: The almighty Flame Lord has ordered me to defeat the Rakeclaw Imps . Have you ever encountered those disgusting creatures? They are an abomination! Spawned from the blackest magic, their very existence defiles our sacred lands. But they are too cowardly to face us alone -- ther…",
+   "header": "Atuba Chief Varkees",
+   "when": [
+    "state CREATED; (player.getRace() == Race.ORC); NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00273_InvadersOfTheHolyLand/30566-01.htm": {
+   "file": "Q00273_InvadersOfTheHolyLand/30566-01.htm",
+   "quest": 273,
+   "text": "Atuba Chief Varkees: Do you think that I, Varkees, Chief of the Atuba tribe, would seek the help of a race of weaklings?! Get out of my sight! (Only Orcs may undertake this quest.)",
+   "header": "Atuba Chief Varkees",
+   "when": [
+    "state CREATED; NOT (player.getRace() == Race.ORC)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00273_InvadersOfTheHolyLand/30566-07.html": {
+   "file": "Q00273_InvadersOfTheHolyLand/30566-07.html",
+   "quest": 273,
+   "text": "Atuba Chief Varkees: Tejakar Pa'agrio! Ah, the Red Soulstone ! Well done, young Orc. With this, the seers will be able to use their magic to discover who or what is controlling these vile Imps. Now, as promised, I will reward you for each of the Soulstones you brought. May Pa'agrio smile upon your …",
+   "header": "Atuba Chief Varkees",
+   "when": [
+    "state STARTED; has items 1475,1476; (red > 0)"
+   ],
+   "links": [
+    {
+     "text": "Tell him you wish to stop hunting.",
+     "bypass": "Quest Q00273_InvadersOfTheHolyLand 30566-08.html",
+     "kind": "quest-event",
+     "script": "Q00273_InvadersOfTheHolyLand",
+     "event": "30566-08.html",
+     "quest": 273,
+     "to": "Q00273_InvadersOfTheHolyLand/30566-08.html",
+     "effect": "end"
+    },
+    {
+     "text": "Promise to continue hunting.",
+     "bypass": "Quest Q00273_InvadersOfTheHolyLand 30566-09.html",
+     "kind": "quest-event",
+     "script": "Q00273_InvadersOfTheHolyLand",
+     "event": "30566-09.html",
+     "quest": 273,
+     "to": "Q00273_InvadersOfTheHolyLand/30566-09.html"
+    }
+   ]
+  },
+  "Q00273_InvadersOfTheHolyLand/30566-06.html": {
+   "file": "Q00273_InvadersOfTheHolyLand/30566-06.html",
+   "quest": 273,
+   "text": "Atuba Chief Varkees: Tejakar Pa'agrio! You have done well, young Orc. Though you have not found a Red Soulstone, the Black Soulstones you have brought will help us discover who or what is controlling these vile Imps! As promised, I will reward you for each of the Soulstones you have brought. If you…",
+   "header": "Atuba Chief Varkees",
+   "when": [
+    "state STARTED; has items 1475,1476; NOT (red > 0)"
+   ],
+   "links": [
+    {
+     "text": "Tell him you wish to stop hunting.",
+     "bypass": "Quest Q00273_InvadersOfTheHolyLand 30566-08.html",
+     "kind": "quest-event",
+     "script": "Q00273_InvadersOfTheHolyLand",
+     "event": "30566-08.html",
+     "quest": 273,
+     "to": "Q00273_InvadersOfTheHolyLand/30566-08.html",
+     "effect": "end"
+    },
+    {
+     "text": "Promise to continue hunting.",
+     "bypass": "Quest Q00273_InvadersOfTheHolyLand 30566-09.html",
+     "kind": "quest-event",
+     "script": "Q00273_InvadersOfTheHolyLand",
+     "event": "30566-09.html",
+     "quest": 273,
+     "to": "Q00273_InvadersOfTheHolyLand/30566-09.html"
+    }
+   ]
+  },
+  "Q00273_InvadersOfTheHolyLand/30566-05.html": {
+   "file": "Q00273_InvadersOfTheHolyLand/30566-05.html",
+   "quest": 273,
+   "text": "Atuba Chief Varkees: Young Orc, why have you not kept your promise to me?! Leave here at once and slay the Rakeclaw Imps who have invaded our land, then bring me the Soulstones embedded in their craven hearts!",
+   "header": "Atuba Chief Varkees",
+   "when": [
+    "state STARTED; lacks items 1475,1476"
+   ],
+   "links": [
+    {
+     "text": "Tell him you wish to stop hunting.",
+     "bypass": "Quest Q00273_InvadersOfTheHolyLand 30566-08.html",
+     "kind": "quest-event",
+     "script": "Q00273_InvadersOfTheHolyLand",
+     "event": "30566-08.html",
+     "quest": 273,
+     "to": "Q00273_InvadersOfTheHolyLand/30566-08.html",
+     "effect": "end"
+    },
+    {
+     "text": "Promise to continue hunting.",
+     "bypass": "Quest Q00273_InvadersOfTheHolyLand 30566-09.html",
+     "kind": "quest-event",
+     "script": "Q00273_InvadersOfTheHolyLand",
+     "event": "30566-09.html",
+     "quest": 273,
+     "to": "Q00273_InvadersOfTheHolyLand/30566-09.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30566-02.html": {
+   "file": "Q00232_TestOfTheLord/30566-02.html",
+   "quest": 232,
+   "text": "Atuba Chief Varkees: Ah, you didn't know about the Atuba tribe's totem? You've never heard of the Pointed Fang?! Made from the fang of an enemy Orc, it is a powerful item. Go to the southern part of our lands and there slay the lowly Orcs who have forfeited their honor and acquire their fangs! Ah, …",
+   "header": "Atuba Chief Varkees",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00273_InvadersOfTheHolyLand/30566-04.htm": {
+   "file": "Q00273_InvadersOfTheHolyLand/30566-04.htm",
+   "quest": 273,
+   "text": "Atuba Chief Varkees: Tejakar Pa'agrio! Then go at once and defeat the Rakeclaw Imps, collect their Soulstones and return here to me! I, Varkees, pledge to reward you for every Soulstones you bring. But listen well! Although the Soulstones are originally red, they turn black when they assimilate wit…",
+   "header": "Atuba Chief Varkees",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00273_InvadersOfTheHolyLand/30566-08.html": {
+   "file": "Q00273_InvadersOfTheHolyLand/30566-08.html",
+   "quest": 273,
+   "text": "Atuba Chief Varkees: Stop?! Our vengeance against these creatures has just begun, and already you wish to sheathe your weapons and creep away from the field of battle! Are you frightened? Young Orc, you dishonor yourself, your tribe and our entire race! Death first!",
+   "header": "Atuba Chief Varkees",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00273_InvadersOfTheHolyLand/30566-09.html": {
+   "file": "Q00273_InvadersOfTheHolyLand/30566-09.html",
+   "quest": 273,
+   "text": "Atuba Chief Varkees: Now the seers and I will cast a spell to discover who is controlling these Imps. Meanwhile, you must continue to uphold the honor of our race. Tejakar Pa'agrio!",
+   "header": "Atuba Chief Varkees",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Long Live the Pa'agrio Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00004_LongLiveThePaagrioLord",
+     "kind": "quest",
+     "quest": 4,
+     "to": "Q00004_LongLiveThePaagrioLord/30566-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00232_TestOfTheLord",
+     "kind": "quest",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30566-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Invaders of the Holy Land]",
+     "bypass": "npc_%objectId%_Quest Q00273_InvadersOfTheHolyLand",
+     "kind": "quest",
+     "quest": 273,
+     "to": "Q00273_InvadersOfTheHolyLand/30566-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Invaders of the Holy Land (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00273_InvadersOfTheHolyLand",
+     "kind": "quest",
+     "quest": 273,
+     "to": "Q00273_InvadersOfTheHolyLand/30566-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "npcId": 31985,
+ "name": "Kosmos",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.308Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/31985.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/31985.htm": {
+   "file": "guard/31985.htm",
+   "quest": null,
+   "text": "Guard Kosmos: Ha! If you're lost, I'm your man! I was born and raised here! I know every nook and cranny of Schuttgart! Hee, hee. Oh, the Pavel Ruins? Humm... Well, go down the paved road in the southern part of town until you see the \"Expedition Party Temporary Headquarters\". The Pavel Ruins are e…",
+   "header": "Guard Kosmos",
+   "links": [
+    {
+     "text": "\"What's the Horrifying Golem Army?\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/31985-1.htm"
+    },
+    {
+     "text": "\"Who is the lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/31985-1.htm": {
+   "file": "guard/31985-1.htm",
+   "quest": null,
+   "text": "Guard Kosmos: You must be new in these parts! Those Golems were created by the infamous mad scientist Dwarf, Dr. Chaos himself! He used the Starstones found in this area to create some truly terrifying Golems, and used them to seize control of the entire Pavel area! They truly live up to their horr…",
+   "header": "Guard Kosmos",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31985.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

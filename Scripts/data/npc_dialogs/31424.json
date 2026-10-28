@@ -1,0 +1,49 @@
+{
+ "npcId": 31424,
+ "name": "Shantra",
+ "title": "Amulet Seller",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.201Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31424.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31424.htm": {
+   "file": "merchant/31424.htm",
+   "quest": null,
+   "text": "Amulet Seller Shantra: Tejakar Pa'agrio! The fire welcomes you, dear brother! You look like you could use some time off of your feet! You know, of course, that a true understanding of fire is essential for success in this world. This amulet should suit you perfectly!",
+   "header": "Amulet Seller Shantra",
+   "links": [
+    {
+     "text": "Buy",
+     "bypass": "npc_%objectId%_Buy 3142400",
+     "kind": "shop"
+    },
+    {
+     "text": "\"Who is the lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

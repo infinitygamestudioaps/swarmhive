@@ -1,0 +1,219 @@
+{
+ "npcId": 30413,
+ "name": "Water Undine",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.973Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30413.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "228": {
+   "name": "Test Of Magus",
+   "listText": [
+    "[Test of Magus]",
+    "[Test of Magus (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00228_TestOfMagus/30413-01.html",
+     "when": "state STARTED; has items 2847; lacks items 2856,2862",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30413-02.html",
+     "when": "state STARTED; has items 2847,2856,2862; !hasItemsAtLimit(player, DAZZLING_DROP)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30413-03.html",
+     "when": "state STARTED; has items 2847,2856,2862; hasItemsAtLimit(player, DAZZLING_DROP)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30413-04.html",
+     "when": "state STARTED; has items 2847,2856,2862; lacks items 2862",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "404": {
+   "name": "Path Of The Human Wizard",
+   "listText": [
+    "[Path of the Human Wizard]",
+    "[Path of the Human Wizard (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00404_PathOfTheHumanWizard/30413-01.html",
+     "when": "state STARTED; has items 1285; lacks items 1286,1288; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00404_PathOfTheHumanWizard/30413-02.html",
+     "when": "state STARTED; has items 1286; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, WIND_BANGLE) && !hasAtLeastOneQuestItem(player, RAMAS_DIARY, WATER_NECKLACE)); getQuestItemsCount(player, SPARKLE_PEBBLE) < 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00404_PathOfTheHumanWizard/30413-03.html",
+     "when": "state STARTED; has items 1286; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, WIND_BANGLE) && !hasAtLeastOneQuestItem(player, RAMAS_DIARY, WATER_NECKLACE)); !getQuestItemsCount(player, SPARKLE_PEBBLE) < 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00404_PathOfTheHumanWizard/30413-04.html",
+     "when": "state STARTED; has items 1288; lacks items 1286; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, WIND_BANGLE) && !hasAtLeastOneQuestItem(player, RAMAS_DIARY, WATER_NECKLACE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30413.htm": {
+   "file": "default/30413.htm",
+   "quest": null,
+   "text": "Water Undine: Don't be a nuisance and disappear. I want to live in peace. Indeed, the world of Humans is too noisy...",
+   "header": "Water Undine",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00228_TestOfMagus/30413-01.html": {
+   "file": "Q00228_TestOfMagus/30413-01.html",
+   "quest": 228,
+   "text": "Water Undine: I am Undine, guardian of the deep lake, spirit of the precious water... Have you come for the Tone of Water? It is the rhythm which expresses the nature of water among the four basic elements which compose the earth... To create this, you need 20 Dazzling Drops from the monsters of th…",
+   "header": "Water Undine",
+   "when": [
+    "state STARTED; has items 2847; lacks items 2856,2862"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30413-02.html": {
+   "file": "Q00228_TestOfMagus/30413-02.html",
+   "quest": 228,
+   "text": "Water Undine: We need 20 Dazzling Drops to make the Tone of Water. Hunt toad lords and swamp stakatos in the Cruma Marshlands and take it from them. Now, hurry! You promised, didn't you?",
+   "header": "Water Undine",
+   "when": [
+    "state STARTED; has items 2847,2856,2862; !hasItemsAtLimit(player, DAZZLING_DROP)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30413-03.html": {
+   "file": "Q00228_TestOfMagus/30413-03.html",
+   "quest": 228,
+   "text": "Water Undine: ...18, 19, 20... Good... You have brought 20. I shall give you the Tone of Water.",
+   "header": "Water Undine",
+   "when": [
+    "state STARTED; has items 2847,2856,2862; hasItemsAtLimit(player, DAZZLING_DROP)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30413-04.html": {
+   "file": "Q00228_TestOfMagus/30413-04.html",
+   "quest": 228,
+   "text": "Water Undine: I assume that you seek the Tones of Fire, Wind, Earth as well? They are all my brothers and sisters... Please give them my regards...",
+   "header": "Water Undine",
+   "when": [
+    "state STARTED; has items 2847,2856,2862; lacks items 2862"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30413-01.html": {
+   "file": "Q00404_PathOfTheHumanWizard/30413-01.html",
+   "quest": 404,
+   "text": "Water Undine: Don't be a nuisance and disappear. I am busy purifying the force of water in the surrounding land! You want to earn the token of water? Well then, do me one favor. Do you see that lake? On the other side of the lake is a monster shaped like a strange eye called the Water Seer . It dis…",
+   "header": "Water Undine",
+   "when": [
+    "state STARTED; has items 1285; lacks items 1286,1288; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30413-02.html": {
+   "file": "Q00404_PathOfTheHumanWizard/30413-02.html",
+   "quest": 404,
+   "text": "Water Undine: You don't have the sparkling pebbles yet? You can obtain the pebbles by killing the Water Seer. Bring back two of them. Please hurry! If I change my mind. I may just give away the token of water to someone else.",
+   "header": "Water Undine",
+   "when": [
+    "state STARTED; has items 1286; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, WIND_BANGLE) && !hasAtLeastOneQuestItem(player, RAMAS_DIARY, WATER_NECKLACE)); getQuestItemsCount(player, SPARKLE_PEBBLE) < 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30413-03.html": {
+   "file": "Q00404_PathOfTheHumanWizard/30413-03.html",
+   "quest": 404,
+   "text": "Water Undine: Oh! Surprisingly, you have some skill! Now it will be a little easier for me to purify the water. As I promised, I will give you the token of water. Studier of the water, do not be lazy in your quest for truth. When a magician's knowledge reaches a certain level, his understanding of …",
+   "header": "Water Undine",
+   "when": [
+    "state STARTED; has items 1286; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, WIND_BANGLE) && !hasAtLeastOneQuestItem(player, RAMAS_DIARY, WATER_NECKLACE)); !getQuestItemsCount(player, SPARKLE_PEBBLE) < 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30413-04.html": {
+   "file": "Q00404_PathOfTheHumanWizard/30413-04.html",
+   "quest": 404,
+   "text": "Water Undine: Have you forgotten what I've said already? I told you to go find the earth snake! Go to the Ruins of Agony north of here to meet it. You haven't given up on the token of earth, have you?",
+   "header": "Water Undine",
+   "when": [
+    "state STARTED; has items 1288; lacks items 1286; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, WIND_BANGLE) && !hasAtLeastOneQuestItem(player, RAMAS_DIARY, WATER_NECKLACE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Magus (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00228_TestOfMagus",
+     "kind": "quest",
+     "quest": 228,
+     "to": "Q00228_TestOfMagus/30413-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Human Wizard (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00404_PathOfTheHumanWizard",
+     "kind": "quest",
+     "quest": 404,
+     "to": "Q00404_PathOfTheHumanWizard/30413-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,225 @@
+{
+ "npcId": 32056,
+ "name": "Aren",
+ "title": "Khavatari",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.321Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32056.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "415": {
+   "name": "Path Of The Orc Monk",
+   "listText": [
+    "[Path of the Orc Monk]",
+    "[Path of the Orc Monk (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00415_PathOfTheOrcMonk/32056-01.html",
+     "when": "state STARTED; memo 2; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/32056-04.html",
+     "when": "state STARTED; memo 3; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, KASHA_SPIDERS_TOOTH) < 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/32056-05.html",
+     "when": "state STARTED; memo 3; !(qs.isCreated() || qs.isCompleted()); !getQuestItemsCount(player, KASHA_SPIDERS_TOOTH) < 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/32056-06.html",
+     "when": "state STARTED; memo 4; lacks items 8546; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/32056-07.html",
+     "when": "state STARTED; memo 4; has items 8546; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/32056-09.html",
+     "when": "state STARTED; memo 5; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32056.htm": {
+   "file": "default/32056.htm",
+   "quest": null,
+   "text": "Khavatari Aren: The strong body and combat might of the Orc warriors cannot be obtained without effort. You can gain these only through the most difficult training imaginable: Kabart, tre drill of eternity. Those who achieve the combat skills of Kabart will earn the title of Monk. Those who master …",
+   "header": "Khavatari Aren",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00415_PathOfTheOrcMonk/32056-01.html": {
+   "file": "Q00415_PathOfTheOrcMonk/32056-01.html",
+   "quest": 415,
+   "text": "Khavatari Aren: So you are a monk apprentice in training... From the way you move, I'd guess you were trained under Flame Lord Kakai. Is he still in good health? Yes, it's true I too used to write secret scrolls, but that was a long time ago. Is that what you seek from me for now, young Orc?",
+   "header": "Khavatari Aren",
+   "when": [
+    "state STARTED; memo 2; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Nod your head.",
+     "bypass": "Quest Q00415_PathOfTheOrcMonk 32056-02.html",
+     "kind": "quest-event",
+     "script": "Q00415_PathOfTheOrcMonk",
+     "event": "32056-02.html",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/32056-02.html"
+    }
+   ]
+  },
+  "Q00415_PathOfTheOrcMonk/32056-04.html": {
+   "file": "Q00415_PathOfTheOrcMonk/32056-04.html",
+   "quest": 415,
+   "text": "Khavatari Aren: Go and engage the Kasha Blade Spiders and Kasha Fang Spiders you find using only your Kabart training. Bring back 6 of their fangs as evidence of victory, and I will acknowledge your skills. You must fight them using only Kabart. Use no sword, spear or axe. Mark this well: if you us…",
+   "header": "Khavatari Aren",
+   "when": [
+    "state STARTED; memo 3; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, KASHA_SPIDERS_TOOTH) < 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/32056-05.html": {
+   "file": "Q00415_PathOfTheOrcMonk/32056-05.html",
+   "quest": 415,
+   "text": "Khavatari Aren: You have returned with the spider fangs, I perceive. How do I know? I saw your battle! How did I see it, you ask? The power of Kabart, my young friend! Through it, I can watch you - just like my totem, the spider web of Duda-Mara. You did very well. Now I will give you a more diffic…",
+   "header": "Khavatari Aren",
+   "when": [
+    "state STARTED; memo 3; !(qs.isCreated() || qs.isCompleted()); !getQuestItemsCount(player, KASHA_SPIDERS_TOOTH) < 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/32056-06.html": {
+   "file": "Q00415_PathOfTheOrcMonk/32056-06.html",
+   "quest": 415,
+   "text": "Khavatari Aren: There are creatures called Baar Dre Vanul who live south of the Immortal Plateau . A Necromancer called them forth. If you defeat them and bring their horns to me, you will have proven your worth to be a monk. And yes, once again, you must fight using only Kabart. If you depend on w…",
+   "header": "Khavatari Aren",
+   "when": [
+    "state STARTED; memo 4; lacks items 8546; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/32056-07.html": {
+   "file": "Q00415_PathOfTheOrcMonk/32056-07.html",
+   "quest": 415,
+   "text": "Khavatari Aren: You have returned, and you bear the Baar Dre Vanul's horn. They are formidable opponents, the Baar Dre Vanul. That fact that you have triumphed is evidence of mastery in Kabart. Very good. I do not write secret scrolls any more, so all I can give you are my teachings.",
+   "header": "Khavatari Aren",
+   "when": [
+    "state STARTED; memo 4; has items 8546; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Listen.",
+     "bypass": "Quest Q00415_PathOfTheOrcMonk 32056-08.html",
+     "kind": "quest-event",
+     "script": "Q00415_PathOfTheOrcMonk",
+     "event": "32056-08.html",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/32056-08.html",
+     "effect": "cond:19"
+    }
+   ]
+  },
+  "Q00415_PathOfTheOrcMonk/32056-09.html": {
+   "file": "Q00415_PathOfTheOrcMonk/32056-09.html",
+   "quest": 415,
+   "text": "Khavatari Aren: The culmination of the art of Kabart is complete oneness. Now, take this lesson and go to Seer Moira in the Town of Schuttgart. If I vouch for your qualifications, he'll give you something you need.",
+   "header": "Khavatari Aren",
+   "when": [
+    "state STARTED; memo 5; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/32056-02.html": {
+   "file": "Q00415_PathOfTheOrcMonk/32056-02.html",
+   "quest": 415,
+   "text": "Khavatari Aren: Impressive! Your technique is strong for a novice! You remind me of myself as a young Orc... Hey, Toruku! Come here. See this novice? I have job for one of you. I'll let the two of you determine who should be given the assignment through a contest of combat skill. He's a real fighte…",
+   "header": "Khavatari Aren",
+   "links": [
+    {
+     "text": "Say you're ready.",
+     "bypass": "Quest Q00415_PathOfTheOrcMonk 32056-03.html",
+     "kind": "quest-event",
+     "script": "Q00415_PathOfTheOrcMonk",
+     "event": "32056-03.html",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/32056-03.html",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00415_PathOfTheOrcMonk/32056-03.html": {
+   "file": "Q00415_PathOfTheOrcMonk/32056-03.html",
+   "quest": 415,
+   "text": "Khavatari Aren: Very well. I will attend to matters here. Go and exercise your Kabart skills on the Kasha Blade Spiders and Kasha Fang Spiders you find. If you kill them and bring back 6 of their fangs, I will accept this as a demonstration of your skill. You must fight them using only Kabart. Use …",
+   "header": "Khavatari Aren",
+   "sets": {
+    "cond": "15"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/32056-08.html": {
+   "file": "Q00415_PathOfTheOrcMonk/32056-08.html",
+   "quest": 415,
+   "text": "Khavatari Aren: Mastering the fighting skills of Kabart doesn't mean you've mastered Kabart itself. Receiving into your body the energy of nature and the power of totems...these also are part of true mastery. For that, you must view and learn many things, in an effort to understand their true natur…",
+   "header": "Khavatari Aren",
+   "sets": {
+    "cond": "19"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Orc Monk (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00415_PathOfTheOrcMonk",
+     "kind": "quest",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/32056-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

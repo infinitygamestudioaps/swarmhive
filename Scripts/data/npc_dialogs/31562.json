@@ -1,0 +1,137 @@
+{
+ "npcId": 31562,
+ "name": "Klufe",
+ "title": "Fishing Guild Member",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.222Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Fisherman/31562.htm",
+   "when": "normal (no karma); NOT player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman"
+  },
+  {
+   "page": "ai/npc/Fisherman/31562-pk.htm",
+   "when": "player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman",
+   "variant": "karma"
+  }
+ ],
+ "quests": {
+  "426": {
+   "name": "Quest for Fishing Shot",
+   "listText": [
+    "[Quest for Fishing shot]",
+    "[Quest for Fishing shot (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "ai/npc/Fisherman/31562.htm": {
+   "file": "ai/npc/Fisherman/31562.htm",
+   "quest": null,
+   "text": "Fishing Guild Member Klufe: Nice to meet you! Interested in learning about fishing? There's no better way to enjoy a warm summer day, I can promise you that!",
+   "header": "Fishing Guild Member Klufe",
+   "links": [
+    {
+     "text": "Ask how to fish.",
+     "bypass": "player_help 7561.htm#7561",
+     "kind": "other"
+    },
+    {
+     "text": "Fishing Contest",
+     "bypass": "Quest Fisherman fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "fishing_championship.htm",
+     "to": "ai/npc/Fisherman/fishing_championship.htm"
+    },
+    {
+     "text": "Learn fishing skill.",
+     "bypass": "Quest Fisherman LearnFishSkill",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "LearnFishSkill",
+     "to": null
+    },
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "Quest Fisherman BuySellRefund",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "BuySellRefund",
+     "to": null
+    },
+    {
+     "text": "Sell fish.",
+     "bypass": "npc_%objectId%_multisell 009",
+     "kind": "multisell"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/31562-pk.htm": {
+   "file": "ai/npc/Fisherman/31562-pk.htm",
+   "quest": null,
+   "text": "Fishermen's Guild Member Klufe: We don't cater to the likes of you!",
+   "header": "Fishermen's Guild Member Klufe",
+   "when": [
+    "player.getKarma() > 0; !character().karmaPlayerCanShop()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Quest for Fishing shot]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Quest for Fishing shot (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/fishing_championship.htm": {
+   "file": "ai/npc/Fisherman/fishing_championship.htm",
+   "quest": null,
+   "text": "Fishing King Championship Tournament Fishing Guild Member: Ahoy! Here are the results of last week's Fishing King Championship Tournament! Do you see your name on the list? If you do, claim your prize money! Remember, you have only one week to claim your prize. Don't fret if your name isn't listed …",
+   "header": "Fishing Guild Member",
+   "links": [
+    {
+     "text": "Claim Prize",
+     "bypass": "Quest Fisherman fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "fishing_championship.htm",
+     "to": "ai/npc/Fisherman/fishing_championship.htm"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,288 @@
+{
+ "npcId": 31296,
+ "name": "Cadmon",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.181Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/31296.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "11": {
+   "name": "Secret Meeting With Ketra Orcs",
+   "listText": [
+    "[Secret meeting with Ketra Orcs]",
+    "[Secret Meeting with Ketra Orcs (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00011_SecretMeetingWithKetraOrcs/31296-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00011_SecretMeetingWithKetraOrcs/31296-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00011_SecretMeetingWithKetraOrcs/31296-04.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "12": {
+   "name": "Secret Meeting With Varka Silenos",
+   "listText": [
+    "[Secret meeting with Varka Silenos]",
+    "[Secret Meeting with Varka Silenos (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00012_SecretMeetingWithVarkaSilenos/31296-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00012_SecretMeetingWithVarkaSilenos/31296-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00012_SecretMeetingWithVarkaSilenos/31296-04.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/31296.htm": {
+   "file": "guard/31296.htm",
+   "quest": null,
+   "text": "Guard Cadmon: Hey, stranger! You'd better be careful if you leave this village! Things have gotten very dangerous out there! Tensions have reached the boiling point between the Varka Silenos of the west and the Ketra Orcs of the north ! Even if they kill each other off, there are worse beasts to re…",
+   "header": "Guard Cadmon",
+   "links": [
+    {
+     "text": "\"Tell me more about the Varka Silenos!\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/31296-1.htm"
+    },
+    {
+     "text": "\"Are there any Ketra Orcs around here?\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/31296-2.htm"
+    },
+    {
+     "text": "See the lord & tax rate info.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/31296-1.htm": {
+   "file": "guard/31296-1.htm",
+   "quest": null,
+   "text": "Guard Cadmon: Wow! I knew you were from the south, but I didn't realize how ignorant you were! The Varka are the most powerful tribe among the Silenos! During the war with Aden, our late king hired them as mercenaries. Unfortunately, after the war they settled down in this region. You have Silenos …",
+   "header": "Guard Cadmon",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31296.htm"
+    }
+   ]
+  },
+  "guard/31296-2.htm": {
+   "file": "guard/31296-2.htm",
+   "quest": null,
+   "text": "Guard Cadmon: Ketra Orcs? Those mad creatures insist that Goddard belongs to them! But they are so formidable, we can't dismiss them. They've set up camp in the north of this village. Until recently, they seemed to think that they could take over... But the Varka Silenos have silenced their crazy a…",
+   "header": "Guard Cadmon",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31296.htm"
+    }
+   ]
+  },
+  "Q00011_SecretMeetingWithKetraOrcs/31296-01.htm": {
+   "file": "Q00011_SecretMeetingWithKetraOrcs/31296-01.htm",
+   "quest": 11,
+   "text": "Guard Cadmon: Are you interested in the Ketra Orcs, stranger? Well, if you are, I can tell you an interesting story. Right now, the Ketra Orcs are hiring mercenaries! It's a great opportunity to get into their outpost under the pretext of delivering military supplies! Are you interested?",
+   "header": "Guard Cadmon",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'm interested!\"",
+     "bypass": "Quest Q00011_SecretMeetingWithKetraOrcs 31296-03.htm",
+     "kind": "quest-event",
+     "script": "Q00011_SecretMeetingWithKetraOrcs",
+     "event": "31296-03.htm",
+     "quest": 11,
+     "to": "Q00011_SecretMeetingWithKetraOrcs/31296-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00011_SecretMeetingWithKetraOrcs/31296-02.html": {
+   "file": "Q00011_SecretMeetingWithKetraOrcs/31296-02.html",
+   "quest": 11,
+   "text": "Guard Cadmon: I appreciate your interest, but the Ketra Orcs are some dangerous characters! You wouldn't stand a chance against them! (Only a character of level 74 or above may undertake this quest.)",
+   "header": "Guard Cadmon",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00011_SecretMeetingWithKetraOrcs/31296-04.html": {
+   "file": "Q00011_SecretMeetingWithKetraOrcs/31296-04.html",
+   "quest": 11,
+   "text": "Guard Cadmon: Find Trader Leon in the weapons and armor shop to deliver military supplies to the Ketra Orcs.",
+   "header": "Guard Cadmon",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00012_SecretMeetingWithVarkaSilenos/31296-01.htm": {
+   "file": "Q00012_SecretMeetingWithVarkaSilenos/31296-01.htm",
+   "quest": 12,
+   "text": "Guard Cadmon: Are you interested in the Varka Silenos, stranger? Well, if you are, I know an interesting story. They've been hiring mercenaries lately! It's a great opportunity to gain access to their barracks on the pretext of smuggling weapons in!",
+   "header": "Guard Cadmon",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00012_SecretMeetingWithVarkaSilenos 31296-03.htm",
+     "kind": "quest-event",
+     "script": "Q00012_SecretMeetingWithVarkaSilenos",
+     "event": "31296-03.htm",
+     "quest": 12,
+     "to": "Q00012_SecretMeetingWithVarkaSilenos/31296-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00012_SecretMeetingWithVarkaSilenos/31296-02.html": {
+   "file": "Q00012_SecretMeetingWithVarkaSilenos/31296-02.html",
+   "quest": 12,
+   "text": "Guard Cadmon: I appreciate your interest, but the Varkas aren't your average Silenos! They're some very rough characters! You wouldn't stand a chance! (Only a character of level 74 or above may undertake this quest.)",
+   "header": "Guard Cadmon",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00012_SecretMeetingWithVarkaSilenos/31296-04.html": {
+   "file": "Q00012_SecretMeetingWithVarkaSilenos/31296-04.html",
+   "quest": 12,
+   "text": "Guard Cadmon: Go to the weapons and armor shop, and tell Trader Helmut. Hurry up.",
+   "header": "Guard Cadmon",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00011_SecretMeetingWithKetraOrcs/31296-03.htm": {
+   "file": "Q00011_SecretMeetingWithKetraOrcs/31296-03.htm",
+   "quest": 11,
+   "text": "Guard Cadmon: Good! Find Trader Leon at the weapons and armor shop. He'll give you the details. Basically, you're delivering goods to them. The next step is up to you. You will either gain their trust or become their enemy!",
+   "header": "Guard Cadmon",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00012_SecretMeetingWithVarkaSilenos/31296-03.htm": {
+   "file": "Q00012_SecretMeetingWithVarkaSilenos/31296-03.htm",
+   "quest": 12,
+   "text": "Guard Cadmon: Good! Find Trader Helmut at the weapons and armor shop. He'll give you the details. Basically, you're delivering goods to them. It won't be very difficult. After the delivery, the next step is up to you. It depends entirely on how you act as to whether you gain their trust or become t…",
+   "header": "Guard Cadmon",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Secret meeting with Ketra Orcs]",
+     "bypass": "npc_%objectId%_Quest Q00011_SecretMeetingWithKetraOrcs",
+     "kind": "quest",
+     "quest": 11,
+     "to": "Q00011_SecretMeetingWithKetraOrcs/31296-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Secret Meeting with Ketra Orcs (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00011_SecretMeetingWithKetraOrcs",
+     "kind": "quest",
+     "quest": 11,
+     "to": "Q00011_SecretMeetingWithKetraOrcs/31296-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Secret meeting with Varka Silenos]",
+     "bypass": "npc_%objectId%_Quest Q00012_SecretMeetingWithVarkaSilenos",
+     "kind": "quest",
+     "quest": 12,
+     "to": "Q00012_SecretMeetingWithVarkaSilenos/31296-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Secret Meeting with Varka Silenos (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00012_SecretMeetingWithVarkaSilenos",
+     "kind": "quest",
+     "quest": 12,
+     "to": "Q00012_SecretMeetingWithVarkaSilenos/31296-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

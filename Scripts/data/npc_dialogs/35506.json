@@ -1,0 +1,69 @@
+{
+ "npcId": 35506,
+ "name": "Dungeon Gatekeeper",
+ "title": "Rune",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.435Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "teleporter/35506-1.htm": {
+   "file": "teleporter/35506-1.htm",
+   "quest": null,
+   "text": "During castle siege his jail can become weak... What if demon will escape?",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/individual/Venom/35506-02.html": {
+   "file": "ai/individual/Venom/35506-02.html",
+   "quest": null,
+   "text": "When attacking a castle, its defenses can easily be paralyzed.... What if that demon escapes?",
+   "when": [
+    "!_prisonIsOpen"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/individual/Venom/35506.html": {
+   "file": "ai/individual/Venom/35506.html",
+   "quest": null,
+   "text": "The roar of that scary demon in the dungeon always makes me want to run away! I know the dungeon is well-built, but if its defenses are broken, it could collapse!",
+   "links": [
+    {
+     "text": "Teleport to the dungeon",
+     "bypass": "npc_%objectId%_Quest Venom",
+     "kind": "quest",
+     "script": "Venom",
+     "to": "ai/individual/Venom/35506-02.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

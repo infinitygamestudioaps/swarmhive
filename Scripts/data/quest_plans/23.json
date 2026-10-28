@@ -2,7 +2,7 @@
  "id": 23,
  "name": "Lidia's Heart",
  "version": 1,
- "generated": "2026-10-27T11:14:36.791Z",
+ "generated": "2026-10-27T18:18:17.430Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 64,
@@ -29,10 +29,10 @@
  "reasons": [
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 31328 \"31328-12.html\": fires at memo 5, which no transition sets; event 31328 \"31328-13.html\": fires at memo 5, which no transition sets; event 31328 \"31328-20.html\": fires at memo 7, which no transition sets; event 31526 \"31526-06.html\": changes neither the cond nor the memo in the data; event 31526 \"31526-11.html\": changes neither the cond nor the memo in the data"
   }
  ],
- "expectedMin": 15,
+ "expectedMin": 21,
  "refLevel": 64,
  "steps": [
   {
@@ -201,10 +201,970 @@
   },
   {
    "i": 1,
-   "key": "c1:deliver:31386",
+   "key": "c1:talk:31328",
    "cond": 1,
+   "kind": "talk",
+   "to": 6,
+   "links": [
+    "\"It's the Lord of the Forest of the Dead.\""
+   ],
+   "npc": {
+    "id": 31328,
+    "name": "Innocentin",
+    "title": "High Priest",
+    "town": "Rune",
+    "at": [
+     36476,
+     -49032,
+     -1104
+    ],
+    "alt": []
+   },
+   "text": "Talk to Innocentin",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31328@36476,-49032",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 7796,
+    "sec": 85,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 7796,
+      "how": "geodata",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43260,
+      -48361,
+      -792
+     ],
+     [
+      42760,
+      -48600,
+      -792
+     ],
+     [
+      42600,
+      -48440,
+      -792
+     ],
+     [
+      42440,
+      -48424,
+      -800
+     ],
+     [
+      41688,
+      -48424,
+      -800
+     ],
+     [
+      41208,
+      -48424,
+      -800
+     ],
+     [
+      40712,
+      -48352,
+      -784
+     ],
+     [
+      40216,
+      -48280,
+      -768
+     ],
+     [
+      39224,
+      -48328,
+      -888
+     ],
+     [
+      38792,
+      -48328,
+      -1048
+     ],
+     [
+      38408,
+      -48344,
+      -1152
+     ],
+     [
+      37912,
+      -48552,
+      -1140
+     ],
+     [
+      37416,
+      -48760,
+      -1128
+     ],
+     [
+      37384,
+      -48760,
+      -1128
+     ],
+     [
+      37272,
+      -49160,
+      -1128
+     ],
+     [
+      37160,
+      -49192,
+      -1128
+     ],
+     [
+      36872,
+      -49208,
+      -1128
+     ],
+     [
+      36552,
+      -49128,
+      -1128
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 14,
+     "aggro": []
+    }
+   },
+   "expectedSec": 110,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:31526",
+   "cond": 1,
+   "kind": "talk",
+   "to": null,
+   "links": [
+    "Take the hairpin."
+   ],
+   "npc": {
+    "id": 31526,
+    "name": "Broken Bookshelf",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     51995,
+     -51265,
+     -3104
+    ],
+    "alt": []
+   },
+   "text": "Talk to Broken Bookshelf",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:forest-of-the-dead-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 3273,
+    "sec": 72,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3273,
+      "how": "field-areas",
+      "danger": 70
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52104,
+      -53336,
+      -3152
+     ],
+     [
+      52248,
+      -52344,
+      -3072
+     ],
+     [
+      53144,
+      -51432,
+      -3088
+     ],
+     [
+      51992,
+      -51272,
+      -3096
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": 6,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:forest-of-the-dead-5",
+     "name": "Forest of the Dead 5: Corpse of Deadman area (south)"
+    },
+    "points": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52104,
+      -53336,
+      -3152
+     ],
+     [
+      52248,
+      -52344,
+      -3072
+     ],
+     [
+      53144,
+      -51432,
+      -3088
+     ],
+     [
+      51992,
+      -51272,
+      -3096
+     ]
+    ]
+   },
+   "expectedSec": 97,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:deliver:31526",
+   "cond": 2,
    "kind": "deliver",
-   "to": "end",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 31526,
+    "name": "Broken Bookshelf",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     51995,
+     -51265,
+     -3104
+    ],
+    "alt": []
+   },
+   "text": "Bring Silver Key to Broken Bookshelf",
+   "needs": [
+    {
+     "id": 7149,
+     "name": "Silver Key",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:forest-of-the-dead-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 3273,
+    "sec": 72,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3273,
+      "how": "field-areas",
+      "danger": 70
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52104,
+      -53336,
+      -3152
+     ],
+     [
+      52248,
+      -52344,
+      -3072
+     ],
+     [
+      53144,
+      -51432,
+      -3088
+     ],
+     [
+      51992,
+      -51272,
+      -3096
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": 6,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:forest-of-the-dead-5",
+     "name": "Forest of the Dead 5: Corpse of Deadman area (south)"
+    },
+    "points": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52104,
+      -53336,
+      -3152
+     ],
+     [
+      52248,
+      -52344,
+      -3072
+     ],
+     [
+      53144,
+      -51432,
+      -3088
+     ],
+     [
+      51992,
+      -51272,
+      -3096
+     ]
+    ]
+   },
+   "expectedSec": 97,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c3:deliver:31526",
+   "cond": 3,
+   "kind": "deliver",
+   "to": 4,
+   "links": [
+    "Take the hairpin."
+   ],
+   "npc": {
+    "id": 31526,
+    "name": "Broken Bookshelf",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     51995,
+     -51265,
+     -3104
+    ],
+    "alt": []
+   },
+   "text": "Bring Lidia's Diary to Broken Bookshelf",
+   "needs": [
+    {
+     "id": 7064,
+     "name": "Lidia's Diary",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:forest-of-the-dead-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 3273,
+    "sec": 72,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3273,
+      "how": "field-areas",
+      "danger": 70
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52104,
+      -53336,
+      -3152
+     ],
+     [
+      52248,
+      -52344,
+      -3072
+     ],
+     [
+      53144,
+      -51432,
+      -3088
+     ],
+     [
+      51992,
+      -51272,
+      -3096
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": 6,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:forest-of-the-dead-5",
+     "name": "Forest of the Dead 5: Corpse of Deadman area (south)"
+    },
+    "points": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52104,
+      -53336,
+      -3152
+     ],
+     [
+      52248,
+      -52344,
+      -3072
+     ],
+     [
+      53144,
+      -51432,
+      -3088
+     ],
+     [
+      51992,
+      -51272,
+      -3096
+     ]
+    ]
+   },
+   "expectedSec": 97,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c6:talk:31524",
+   "cond": 6,
+   "kind": "talk",
+   "to": 7,
+   "links": [
+    "\"Here's her diary.\""
+   ],
+   "npc": {
+    "id": 31524,
+    "name": "Ghost of von Hellmann",
+    "title": "",
+    "town": "",
+    "at": [
+     51432,
+     -54570,
+     -3136
+    ],
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Ghost of von Hellmann",
+   "reasons": [],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ],
+   "overrideFrom": "c1:talk:31524",
+   "override": {
+    "npcAt": [
+     51432,
+     -54570,
+     -3136
+    ],
+    "note": "Ghost of von Hellmann 31524 is spawned by the Tombstone 31523 event 31523-02.html at memo 8/9 at GHOST_SPAWN 51432,-54570,-3136 (Q00023 line 55 + 158).",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travel": {
+    "src": "computed",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 952,
+    "sec": 53,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ],
+     [
+      51816,
+      -54536,
+      -3168
+     ],
+     [
+      51496,
+      -54536,
+      -3160
+     ],
+     [
+      51432,
+      -54568,
+      -3152
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 5,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31522@51878,-54796",
+     "name": "Mysterious Wizard"
+    },
+    "points": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ],
+     [
+      51816,
+      -54536,
+      -3168
+     ],
+     [
+      51496,
+      -54536,
+      -3160
+     ],
+     [
+      51432,
+      -54568,
+      -3152
+     ]
+    ]
+   },
+   "fixedByOverride": [
+    "npc-no-spawn"
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c6:talk:31328",
+   "cond": 6,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"No, I haven't read it.\""
+   ],
+   "npc": {
+    "id": 31328,
+    "name": "Innocentin",
+    "title": "High Priest",
+    "town": "Rune",
+    "at": [
+     36476,
+     -49032,
+     -1104
+    ],
+    "alt": []
+   },
+   "text": "Talk to Innocentin",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31328@36476,-49032",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 7796,
+    "sec": 85,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 7796,
+      "how": "geodata",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43260,
+      -48361,
+      -792
+     ],
+     [
+      42760,
+      -48600,
+      -792
+     ],
+     [
+      42600,
+      -48440,
+      -792
+     ],
+     [
+      42440,
+      -48424,
+      -800
+     ],
+     [
+      41688,
+      -48424,
+      -800
+     ],
+     [
+      41208,
+      -48424,
+      -800
+     ],
+     [
+      40712,
+      -48352,
+      -784
+     ],
+     [
+      40216,
+      -48280,
+      -768
+     ],
+     [
+      39224,
+      -48328,
+      -888
+     ],
+     [
+      38792,
+      -48328,
+      -1048
+     ],
+     [
+      38408,
+      -48344,
+      -1152
+     ],
+     [
+      37912,
+      -48552,
+      -1140
+     ],
+     [
+      37416,
+      -48760,
+      -1128
+     ],
+     [
+      37384,
+      -48760,
+      -1128
+     ],
+     [
+      37272,
+      -49160,
+      -1128
+     ],
+     [
+      37160,
+      -49192,
+      -1128
+     ],
+     [
+      36872,
+      -49208,
+      -1128
+     ],
+     [
+      36552,
+      -49128,
+      -1128
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 14,
+     "aggro": []
+    }
+   },
+   "expectedSec": 110,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c7:deliver:31386",
+   "cond": 7,
+   "kind": "deliver",
+   "to": 9,
    "links": [],
    "npc": {
     "id": 31386,
@@ -218,11 +1178,11 @@
     ],
     "alt": []
    },
-   "text": "Bring Silver Spear to Violet",
+   "text": "Bring Silver Key to Violet",
    "needs": [
     {
-     "id": 7150,
-     "name": "Silver Spear",
+     "id": 7149,
+     "name": "Silver Key",
      "n": 1
     }
    ],
@@ -484,17 +1444,10 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
     7,
-    8,
-    9,
-    10
+    8
    ],
+   "overrideFrom": "c1:deliver:31386",
    "override": {
     "route": [
      [
@@ -1038,9 +1991,1196 @@
    ]
   },
   {
-   "i": 2,
-   "key": "c1:deliver:31530",
-   "cond": 1,
+   "i": 8,
+   "key": "c7:talk:31523",
+   "cond": 7,
+   "kind": "talk",
+   "to": 8,
+   "links": [
+    "Dig"
+   ],
+   "npc": {
+    "id": 31523,
+    "name": "Tombstone",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     51475,
+     -54596,
+     -3155
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tombstone",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 946,
+    "sec": 53,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ],
+     [
+      51816,
+      -54536,
+      -3168
+     ],
+     [
+      51496,
+      -54536,
+      -3160
+     ],
+     [
+      51480,
+      -54600,
+      -3152
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 5,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31522@51878,-54796",
+     "name": "Mysterious Wizard"
+    },
+    "points": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ],
+     [
+      51816,
+      -54536,
+      -3168
+     ],
+     [
+      51496,
+      -54536,
+      -3160
+     ],
+     [
+      51480,
+      -54600,
+      -3152
+     ]
+    ]
+   },
+   "expectedSec": 78,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c7:deliver:31524",
+   "cond": 7,
+   "kind": "deliver",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 31524,
+    "name": "Ghost of von Hellmann",
+    "title": "",
+    "town": "",
+    "at": [
+     51432,
+     -54570,
+     -3136
+    ],
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Bring Silver Key to Ghost of von Hellmann",
+   "needs": [
+    {
+     "id": 7149,
+     "name": "Silver Key",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7,
+    8
+   ],
+   "override": {
+    "npcAt": [
+     51432,
+     -54570,
+     -3136
+    ],
+    "note": "Ghost of von Hellmann 31524: GHOST_SPAWN 51432,-54570,-3136 (Q00023 line 55).",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travel": {
+    "src": "computed",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 952,
+    "sec": 53,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ],
+     [
+      51816,
+      -54536,
+      -3168
+     ],
+     [
+      51496,
+      -54536,
+      -3160
+     ],
+     [
+      51432,
+      -54568,
+      -3152
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 5,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31522@51878,-54796",
+     "name": "Mysterious Wizard"
+    },
+    "points": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ],
+     [
+      51816,
+      -54536,
+      -3168
+     ],
+     [
+      51496,
+      -54536,
+      -3160
+     ],
+     [
+      51432,
+      -54568,
+      -3152
+     ]
+    ]
+   },
+   "fixedByOverride": [
+    "npc-no-spawn"
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c9:deliver:31386",
+   "cond": 9,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 31386,
+    "name": "Violet",
+    "title": "Grocer",
+    "town": "Rune",
+    "at": [
+     59618,
+     -42774,
+     -3000
+    ],
+    "alt": []
+   },
+   "text": "Bring Silver Spear to Violet",
+   "needs": [
+    {
+     "id": 7150,
+     "name": "Silver Spear",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31386@59618,-42774",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 14614,
+    "sec": 167,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14614,
+      "how": "geodata",
+      "danger": 73
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      52424,
+      -53848,
+      -3096
+     ],
+     [
+      52680,
+      -53560,
+      -3144
+     ],
+     [
+      53168,
+      -53064,
+      -3104
+     ],
+     [
+      53656,
+      -52568,
+      -3064
+     ],
+     [
+      54152,
+      -52072,
+      -3172
+     ],
+     [
+      54648,
+      -51576,
+      -3280
+     ],
+     [
+      55064,
+      -51096,
+      -3544
+     ],
+     [
+      55080,
+      -51096,
+      -3552
+     ],
+     [
+      55080,
+      -51080,
+      -3552
+     ],
+     [
+      55112,
+      -51064,
+      -3552
+     ],
+     [
+      55048,
+      -50776,
+      -3424
+     ],
+     [
+      55064,
+      -50648,
+      -3344
+     ],
+     [
+      55112,
+      -50584,
+      -3296
+     ],
+     [
+      55608,
+      -50088,
+      -3224
+     ],
+     [
+      56104,
+      -49592,
+      -3152
+     ],
+     [
+      56600,
+      -48984,
+      -3016
+     ],
+     [
+      57096,
+      -48488,
+      -2988
+     ],
+     [
+      57592,
+      -47992,
+      -2960
+     ],
+     [
+      57848,
+      -47688,
+      -2856
+     ],
+     [
+      57848,
+      -47608,
+      -2784
+     ],
+     [
+      57992,
+      -47336,
+      -2632
+     ],
+     [
+      58488,
+      -46848,
+      -2716
+     ],
+     [
+      58984,
+      -46360,
+      -2800
+     ],
+     [
+      59304,
+      -45864,
+      -2832
+     ],
+     [
+      59624,
+      -45368,
+      -2864
+     ],
+     [
+      59624,
+      -44376,
+      -2792
+     ],
+     [
+      59624,
+      -43592,
+      -2984
+     ],
+     [
+      59784,
+      -43416,
+      -2984
+     ],
+     [
+      59784,
+      -43368,
+      -2984
+     ],
+     [
+      59768,
+      -43368,
+      -2976
+     ],
+     [
+      59752,
+      -43336,
+      -2984
+     ],
+     [
+      59720,
+      -43320,
+      -2984
+     ],
+     [
+      59656,
+      -42920,
+      -2984
+     ],
+     [
+      59656,
+      -42872,
+      -2984
+     ],
+     [
+      59624,
+      -42776,
+      -3000
+     ]
+    ],
+    "maxDanger": 73,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 73,
+     "dangerVsLevel": 9,
+     "aggro": [
+      {
+       "name": "Vampire Warlord",
+       "lv": 73,
+       "n": 1
+      },
+      {
+       "name": "Vampire Magister",
+       "lv": 73,
+       "n": 1
+      },
+      {
+       "name": "Vampire Wizard",
+       "lv": 73,
+       "n": 1
+      },
+      {
+       "name": "Ghost of Guillotine",
+       "lv": 70,
+       "n": 3
+      }
+     ]
+    }
+   },
+   "expectedSec": 192,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9,
+    10
+   ],
+   "overrideFrom": "c1:deliver:31386",
+   "override": {
+    "route": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      53096,
+      -54328,
+      -3048
+     ],
+     [
+      54088,
+      -54328,
+      -3024
+     ],
+     [
+      54504,
+      -54328,
+      -3128
+     ],
+     [
+      55496,
+      -54136,
+      -3352
+     ],
+     [
+      56488,
+      -54056,
+      -3336
+     ],
+     [
+      56712,
+      -54136,
+      -3376
+     ],
+     [
+      56872,
+      -53688,
+      -3440
+     ],
+     [
+      57864,
+      -53080,
+      -3304
+     ],
+     [
+      58056,
+      -53080,
+      -3368
+     ],
+     [
+      58056,
+      -52088,
+      -3192
+     ],
+     [
+      58056,
+      -51096,
+      -3136
+     ],
+     [
+      58040,
+      -50696,
+      -3160
+     ],
+     [
+      58056,
+      -50680,
+      -3168
+     ],
+     [
+      58152,
+      -49832,
+      -3112
+     ],
+     [
+      58248,
+      -49672,
+      -3032
+     ],
+     [
+      58120,
+      -48696,
+      -2712
+     ],
+     [
+      58248,
+      -48472,
+      -2648
+     ],
+     [
+      58280,
+      -47480,
+      -2880
+     ],
+     [
+      58696,
+      -46664,
+      -2816
+     ],
+     [
+      58760,
+      -46616,
+      -2808
+     ],
+     [
+      58696,
+      -46520,
+      -2808
+     ],
+     [
+      58952,
+      -45528,
+      -2552
+     ],
+     [
+      59032,
+      -45176,
+      -2440
+     ],
+     [
+      59448,
+      -44760,
+      -2736
+     ],
+     [
+      58696,
+      -44120,
+      -2984
+     ],
+     [
+      58984,
+      -44248,
+      -2928
+     ],
+     [
+      59352,
+      -44120,
+      -2968
+     ],
+     [
+      59544,
+      -43320,
+      -2984
+     ],
+     [
+      59656,
+      -42920,
+      -2984
+     ],
+     [
+      59640,
+      -42792,
+      -2992
+     ],
+     [
+      59624,
+      -42776,
+      -3000
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "note": "Violet 31386 (59618,-42774): gk link \"Forest of the Dead\" on the live menu Scripts/data/gk_live/Ilyana.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27. LEVEL NOTE: the danger-weighted search cannot avoid Ghost of Rebellion Leader 71 x1, Requiem Priest 71 x1, Bone Grinder 70 x1, Ghost of Guillotine 70 x1, Vampire Wizard 73 x1 (aggro_h5 + spawns_h5) -> Forest of the Dead vampires / ghosts 70-73 everywhere; run it at level 70+ or as a party.",
+    "fixed": [
+     "aggro-on-way"
+    ],
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "points": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      53096,
+      -54328,
+      -3048
+     ],
+     [
+      54088,
+      -54328,
+      -3024
+     ],
+     [
+      54504,
+      -54328,
+      -3128
+     ],
+     [
+      55496,
+      -54136,
+      -3352
+     ],
+     [
+      56488,
+      -54056,
+      -3336
+     ],
+     [
+      56712,
+      -54136,
+      -3376
+     ],
+     [
+      56872,
+      -53688,
+      -3440
+     ],
+     [
+      57864,
+      -53080,
+      -3304
+     ],
+     [
+      58056,
+      -53080,
+      -3368
+     ],
+     [
+      58056,
+      -52088,
+      -3192
+     ],
+     [
+      58056,
+      -51096,
+      -3136
+     ],
+     [
+      58040,
+      -50696,
+      -3160
+     ],
+     [
+      58056,
+      -50680,
+      -3168
+     ],
+     [
+      58152,
+      -49832,
+      -3112
+     ],
+     [
+      58248,
+      -49672,
+      -3032
+     ],
+     [
+      58120,
+      -48696,
+      -2712
+     ],
+     [
+      58248,
+      -48472,
+      -2648
+     ],
+     [
+      58280,
+      -47480,
+      -2880
+     ],
+     [
+      58696,
+      -46664,
+      -2816
+     ],
+     [
+      58760,
+      -46616,
+      -2808
+     ],
+     [
+      58696,
+      -46520,
+      -2808
+     ],
+     [
+      58952,
+      -45528,
+      -2552
+     ],
+     [
+      59032,
+      -45176,
+      -2440
+     ],
+     [
+      59448,
+      -44760,
+      -2736
+     ],
+     [
+      58696,
+      -44120,
+      -2984
+     ],
+     [
+      58984,
+      -44248,
+      -2928
+     ],
+     [
+      59352,
+      -44120,
+      -2968
+     ],
+     [
+      59544,
+      -43320,
+      -2984
+     ],
+     [
+      59656,
+      -42920,
+      -2984
+     ],
+     [
+      59640,
+      -42792,
+      -2992
+     ],
+     [
+      59624,
+      -42776,
+      -3000
+     ]
+    ],
+    "pv": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      53096,
+      -54328,
+      -3048
+     ],
+     [
+      54088,
+      -54328,
+      -3024
+     ],
+     [
+      54504,
+      -54328,
+      -3128
+     ],
+     [
+      55496,
+      -54136,
+      -3352
+     ],
+     [
+      56488,
+      -54056,
+      -3336
+     ],
+     [
+      56712,
+      -54136,
+      -3376
+     ],
+     [
+      56872,
+      -53688,
+      -3440
+     ],
+     [
+      57864,
+      -53080,
+      -3304
+     ],
+     [
+      58056,
+      -53080,
+      -3368
+     ],
+     [
+      58056,
+      -52088,
+      -3192
+     ],
+     [
+      58056,
+      -51096,
+      -3136
+     ],
+     [
+      58040,
+      -50696,
+      -3160
+     ],
+     [
+      58056,
+      -50680,
+      -3168
+     ],
+     [
+      58152,
+      -49832,
+      -3112
+     ],
+     [
+      58248,
+      -49672,
+      -3032
+     ],
+     [
+      58120,
+      -48696,
+      -2712
+     ],
+     [
+      58248,
+      -48472,
+      -2648
+     ],
+     [
+      58280,
+      -47480,
+      -2880
+     ],
+     [
+      58696,
+      -46664,
+      -2816
+     ],
+     [
+      58760,
+      -46616,
+      -2808
+     ],
+     [
+      58696,
+      -46520,
+      -2808
+     ],
+     [
+      58952,
+      -45528,
+      -2552
+     ],
+     [
+      59032,
+      -45176,
+      -2440
+     ],
+     [
+      59448,
+      -44760,
+      -2736
+     ],
+     [
+      58696,
+      -44120,
+      -2984
+     ],
+     [
+      58984,
+      -44248,
+      -2928
+     ],
+     [
+      59352,
+      -44120,
+      -2968
+     ],
+     [
+      59544,
+      -43320,
+      -2984
+     ],
+     [
+      59656,
+      -42920,
+      -2984
+     ],
+     [
+      59640,
+      -42792,
+      -2992
+     ],
+     [
+      59624,
+      -42776,
+      -3000
+     ]
+    ],
+    "length": 18324,
+    "checks": {
+     "aggro": [
+      {
+       "name": "Vampire Wizard",
+       "lv": 73,
+       "n": 1
+      },
+      {
+       "name": "Ghost of Rebellion Leader",
+       "lv": 71,
+       "n": 1
+      },
+      {
+       "name": "Requiem Priest",
+       "lv": 71,
+       "n": 1
+      },
+      {
+       "name": "Bone Grinder",
+       "lv": 70,
+       "n": 1
+      },
+      {
+       "name": "Ghost of Guillotine",
+       "lv": 70,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way",
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c9:deliver:31530",
+   "cond": 9,
    "kind": "deliver",
    "to": 10,
    "links": [
@@ -1276,16 +3416,10 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9
+    9,
+    10
    ],
+   "overrideFrom": "c1:deliver:31530",
    "override": {
     "route": [
      [
@@ -1641,1032 +3775,6 @@
    "fixedByOverride": [
     "aggro-on-way",
     "aggro-on-way"
-   ]
-  },
-  {
-   "i": 3,
-   "key": "c1:talk:31523",
-   "cond": 1,
-   "kind": "talk",
-   "to": 8,
-   "links": [
-    "Dig"
-   ],
-   "npc": {
-    "id": 31523,
-    "name": "Tombstone",
-    "title": "",
-    "town": "Rune",
-    "at": [
-     51475,
-     -54596,
-     -3155
-    ],
-    "alt": []
-   },
-   "text": "Talk to Tombstone",
-   "reasons": [],
-   "travel": {
-    "src": "computed",
-    "key": "npc:31522@51878,-54796",
-    "status": "ok",
-    "flags": [],
-    "from": ".rune",
-    "length": 946,
-    "sec": 53,
-    "via": ".rune > Rune -> Forest of the Dead",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "gk",
-      "from": "Rune",
-      "desc": "Rune -> Forest of the Dead",
-      "link": "forest of the dead",
-      "price": 1200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 560,
-      "how": "geodata",
-      "danger": 69
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Rune",
-     "desc": "Rune -> Forest of the Dead"
-    },
-    "simple": true,
-    "pv": [
-     [
-      52107,
-      -54328,
-      -3152
-     ],
-     [
-      51912,
-      -54568,
-      -3160
-     ],
-     [
-      51880,
-      -54584,
-      -3160
-     ],
-     [
-      51864,
-      -54600,
-      -3160
-     ],
-     [
-      51880,
-      -54792,
-      -3160
-     ],
-     [
-      51816,
-      -54536,
-      -3168
-     ],
-     [
-      51496,
-      -54536,
-      -3160
-     ],
-     [
-      51480,
-      -54600,
-      -3152
-     ]
-    ],
-    "maxDanger": 69,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 69,
-     "dangerVsLevel": 5,
-     "aggro": []
-    },
-    "anchor": {
-     "key": "npc:31522@51878,-54796",
-     "name": "Mysterious Wizard"
-    },
-    "points": [
-     [
-      52107,
-      -54328,
-      -3152
-     ],
-     [
-      51912,
-      -54568,
-      -3160
-     ],
-     [
-      51880,
-      -54584,
-      -3160
-     ],
-     [
-      51864,
-      -54600,
-      -3160
-     ],
-     [
-      51880,
-      -54792,
-      -3160
-     ],
-     [
-      51816,
-      -54536,
-      -3168
-     ],
-     [
-      51496,
-      -54536,
-      -3160
-     ],
-     [
-      51480,
-      -54600,
-      -3152
-     ]
-    ]
-   },
-   "expectedSec": 78,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    9,
-    10
-   ]
-  },
-  {
-   "i": 4,
-   "key": "c1:talk:31524",
-   "cond": 1,
-   "kind": "talk",
-   "to": 7,
-   "links": [
-    "\"Here's her diary.\""
-   ],
-   "npc": {
-    "id": 31524,
-    "name": "Ghost of von Hellmann",
-    "title": "",
-    "town": "",
-    "at": [
-     51432,
-     -54570,
-     -3136
-    ],
-    "alt": [],
-    "why": "npc-no-spawn"
-   },
-   "text": "Talk to Ghost of von Hellmann",
-   "reasons": [],
-   "expectedSec": 25,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    8,
-    9,
-    10
-   ],
-   "override": {
-    "npcAt": [
-     51432,
-     -54570,
-     -3136
-    ],
-    "note": "Ghost of von Hellmann 31524 is spawned by the Tombstone 31523 event 31523-02.html at memo 8/9 at GHOST_SPAWN 51432,-54570,-3136 (Q00023 line 55 + 158).",
-    "editedAt": "2026-10-27T10:22:10.684Z",
-    "by": "quest fixer batch 2 (Claude)"
-   },
-   "travel": {
-    "src": "computed",
-    "key": "npc:31522@51878,-54796",
-    "status": "ok",
-    "flags": [],
-    "from": ".rune",
-    "length": 952,
-    "sec": 53,
-    "via": ".rune > Rune -> Forest of the Dead",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "gk",
-      "from": "Rune",
-      "desc": "Rune -> Forest of the Dead",
-      "link": "forest of the dead",
-      "price": 1200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 560,
-      "how": "geodata",
-      "danger": 69
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Rune",
-     "desc": "Rune -> Forest of the Dead"
-    },
-    "simple": true,
-    "pv": [
-     [
-      52107,
-      -54328,
-      -3152
-     ],
-     [
-      51912,
-      -54568,
-      -3160
-     ],
-     [
-      51880,
-      -54584,
-      -3160
-     ],
-     [
-      51864,
-      -54600,
-      -3160
-     ],
-     [
-      51880,
-      -54792,
-      -3160
-     ],
-     [
-      51816,
-      -54536,
-      -3168
-     ],
-     [
-      51496,
-      -54536,
-      -3160
-     ],
-     [
-      51432,
-      -54568,
-      -3152
-     ]
-    ],
-    "maxDanger": 69,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 69,
-     "dangerVsLevel": 5,
-     "aggro": []
-    },
-    "anchor": {
-     "key": "npc:31522@51878,-54796",
-     "name": "Mysterious Wizard"
-    },
-    "points": [
-     [
-      52107,
-      -54328,
-      -3152
-     ],
-     [
-      51912,
-      -54568,
-      -3160
-     ],
-     [
-      51880,
-      -54584,
-      -3160
-     ],
-     [
-      51864,
-      -54600,
-      -3160
-     ],
-     [
-      51880,
-      -54792,
-      -3160
-     ],
-     [
-      51816,
-      -54536,
-      -3168
-     ],
-     [
-      51496,
-      -54536,
-      -3160
-     ],
-     [
-      51432,
-      -54568,
-      -3152
-     ]
-    ]
-   },
-   "fixedByOverride": [
-    "npc-no-spawn"
-   ]
-  },
-  {
-   "i": 5,
-   "key": "c1:talk:31328",
-   "cond": 1,
-   "kind": "talk",
-   "to": 6,
-   "links": [
-    "\"It's the Lord of the Forest of the Dead.\""
-   ],
-   "npc": {
-    "id": 31328,
-    "name": "Innocentin",
-    "title": "High Priest",
-    "town": "Rune",
-    "at": [
-     36476,
-     -49032,
-     -1104
-    ],
-    "alt": []
-   },
-   "text": "Talk to Innocentin",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:31328@36476,-49032",
-    "status": "ok",
-    "flags": [],
-    "from": ".rune",
-    "length": 7796,
-    "sec": 85,
-    "via": ".rune",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "walk",
-      "len": 7796,
-      "how": "geodata",
-      "danger": 78
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Rune"
-    },
-    "simple": true,
-    "pv": [
-     [
-      43759,
-      -48122,
-      -792
-     ],
-     [
-      43260,
-      -48361,
-      -792
-     ],
-     [
-      42760,
-      -48600,
-      -792
-     ],
-     [
-      42600,
-      -48440,
-      -792
-     ],
-     [
-      42440,
-      -48424,
-      -800
-     ],
-     [
-      41688,
-      -48424,
-      -800
-     ],
-     [
-      41208,
-      -48424,
-      -800
-     ],
-     [
-      40712,
-      -48352,
-      -784
-     ],
-     [
-      40216,
-      -48280,
-      -768
-     ],
-     [
-      39224,
-      -48328,
-      -888
-     ],
-     [
-      38792,
-      -48328,
-      -1048
-     ],
-     [
-      38408,
-      -48344,
-      -1152
-     ],
-     [
-      37912,
-      -48552,
-      -1140
-     ],
-     [
-      37416,
-      -48760,
-      -1128
-     ],
-     [
-      37384,
-      -48760,
-      -1128
-     ],
-     [
-      37272,
-      -49160,
-      -1128
-     ],
-     [
-      37160,
-      -49192,
-      -1128
-     ],
-     [
-      36872,
-      -49208,
-      -1128
-     ],
-     [
-      36552,
-      -49128,
-      -1128
-     ]
-    ],
-    "maxDanger": 78,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 78,
-     "dangerVsLevel": 14,
-     "aggro": []
-    }
-   },
-   "expectedSec": 110,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10
-   ]
-  },
-  {
-   "i": 6,
-   "key": "c1:deliver:31526",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 4,
-   "links": [
-    "Take the hairpin."
-   ],
-   "npc": {
-    "id": 31526,
-    "name": "Broken Bookshelf",
-    "title": "",
-    "town": "Rune",
-    "at": [
-     51995,
-     -51265,
-     -3104
-    ],
-    "alt": []
-   },
-   "text": "Bring Lidia's Diary to Broken Bookshelf",
-   "needs": [
-    {
-     "id": 7064,
-     "name": "Lidia's Diary",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "computed",
-    "key": "area:forest-of-the-dead-5",
-    "status": "ok",
-    "flags": [],
-    "from": ".rune",
-    "length": 3273,
-    "sec": 72,
-    "via": ".rune > Rune -> Forest of the Dead",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "gk",
-      "from": "Rune",
-      "desc": "Rune -> Forest of the Dead",
-      "link": "forest of the dead",
-      "price": 1200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 3273,
-      "how": "field-areas",
-      "danger": 70
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Rune",
-     "desc": "Rune -> Forest of the Dead"
-    },
-    "simple": true,
-    "pv": [
-     [
-      52104,
-      -54328,
-      -3152
-     ],
-     [
-      52104,
-      -53336,
-      -3152
-     ],
-     [
-      52248,
-      -52344,
-      -3072
-     ],
-     [
-      53144,
-      -51432,
-      -3088
-     ],
-     [
-      51992,
-      -51272,
-      -3096
-     ]
-    ],
-    "maxDanger": 70,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 70,
-     "dangerVsLevel": 6,
-     "aggro": []
-    },
-    "anchor": {
-     "key": "area:forest-of-the-dead-5",
-     "name": "Forest of the Dead 5: Corpse of Deadman area (south)"
-    },
-    "points": [
-     [
-      52104,
-      -54328,
-      -3152
-     ],
-     [
-      52104,
-      -53336,
-      -3152
-     ],
-     [
-      52248,
-      -52344,
-      -3072
-     ],
-     [
-      53144,
-      -51432,
-      -3088
-     ],
-     [
-      51992,
-      -51272,
-      -3096
-     ]
-    ]
-   },
-   "expectedSec": 97,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10
-   ]
-  },
-  {
-   "i": 7,
-   "key": "c4:deliver:31526",
-   "cond": 4,
-   "kind": "deliver",
-   "to": 3,
-   "links": [],
-   "npc": {
-    "id": 31526,
-    "name": "Broken Bookshelf",
-    "title": "",
-    "town": "Rune",
-    "at": [
-     51995,
-     -51265,
-     -3104
-    ],
-    "alt": []
-   },
-   "text": "Bring Silver Key to Broken Bookshelf",
-   "needs": [
-    {
-     "id": 7149,
-     "name": "Silver Key",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "computed",
-    "key": "area:forest-of-the-dead-5",
-    "status": "ok",
-    "flags": [],
-    "from": ".rune",
-    "length": 3273,
-    "sec": 72,
-    "via": ".rune > Rune -> Forest of the Dead",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "gk",
-      "from": "Rune",
-      "desc": "Rune -> Forest of the Dead",
-      "link": "forest of the dead",
-      "price": 1200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 3273,
-      "how": "field-areas",
-      "danger": 70
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Rune",
-     "desc": "Rune -> Forest of the Dead"
-    },
-    "simple": true,
-    "pv": [
-     [
-      52104,
-      -54328,
-      -3152
-     ],
-     [
-      52104,
-      -53336,
-      -3152
-     ],
-     [
-      52248,
-      -52344,
-      -3072
-     ],
-     [
-      53144,
-      -51432,
-      -3088
-     ],
-     [
-      51992,
-      -51272,
-      -3096
-     ]
-    ],
-    "maxDanger": 70,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 70,
-     "dangerVsLevel": 6,
-     "aggro": []
-    },
-    "anchor": {
-     "key": "area:forest-of-the-dead-5",
-     "name": "Forest of the Dead 5: Corpse of Deadman area (south)"
-    },
-    "points": [
-     [
-      52104,
-      -54328,
-      -3152
-     ],
-     [
-      52104,
-      -53336,
-      -3152
-     ],
-     [
-      52248,
-      -52344,
-      -3072
-     ],
-     [
-      53144,
-      -51432,
-      -3088
-     ],
-     [
-      51992,
-      -51272,
-      -3096
-     ]
-    ]
-   },
-   "expectedSec": 97,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    4
-   ]
-  },
-  {
-   "i": 8,
-   "key": "c7:deliver:31524",
-   "cond": 7,
-   "kind": "deliver",
-   "to": null,
-   "links": [],
-   "npc": {
-    "id": 31524,
-    "name": "Ghost of von Hellmann",
-    "title": "",
-    "town": "",
-    "at": [
-     51432,
-     -54570,
-     -3136
-    ],
-    "alt": [],
-    "why": "npc-no-spawn"
-   },
-   "text": "Bring Silver Key to Ghost of von Hellmann",
-   "needs": [
-    {
-     "id": 7149,
-     "name": "Silver Key",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "expectedSec": 25,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    7
-   ],
-   "override": {
-    "npcAt": [
-     51432,
-     -54570,
-     -3136
-    ],
-    "note": "Ghost of von Hellmann 31524: GHOST_SPAWN 51432,-54570,-3136 (Q00023 line 55).",
-    "editedAt": "2026-10-27T10:22:10.684Z",
-    "by": "quest fixer batch 2 (Claude)"
-   },
-   "travel": {
-    "src": "computed",
-    "key": "npc:31522@51878,-54796",
-    "status": "ok",
-    "flags": [],
-    "from": ".rune",
-    "length": 952,
-    "sec": 53,
-    "via": ".rune > Rune -> Forest of the Dead",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "gk",
-      "from": "Rune",
-      "desc": "Rune -> Forest of the Dead",
-      "link": "forest of the dead",
-      "price": 1200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 560,
-      "how": "geodata",
-      "danger": 69
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Rune",
-     "desc": "Rune -> Forest of the Dead"
-    },
-    "simple": true,
-    "pv": [
-     [
-      52107,
-      -54328,
-      -3152
-     ],
-     [
-      51912,
-      -54568,
-      -3160
-     ],
-     [
-      51880,
-      -54584,
-      -3160
-     ],
-     [
-      51864,
-      -54600,
-      -3160
-     ],
-     [
-      51880,
-      -54792,
-      -3160
-     ],
-     [
-      51816,
-      -54536,
-      -3168
-     ],
-     [
-      51496,
-      -54536,
-      -3160
-     ],
-     [
-      51432,
-      -54568,
-      -3152
-     ]
-    ],
-    "maxDanger": 69,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 69,
-     "dangerVsLevel": 5,
-     "aggro": []
-    },
-    "anchor": {
-     "key": "npc:31522@51878,-54796",
-     "name": "Mysterious Wizard"
-    },
-    "points": [
-     [
-      52107,
-      -54328,
-      -3152
-     ],
-     [
-      51912,
-      -54568,
-      -3160
-     ],
-     [
-      51880,
-      -54584,
-      -3160
-     ],
-     [
-      51864,
-      -54600,
-      -3160
-     ],
-     [
-      51880,
-      -54792,
-      -3160
-     ],
-     [
-      51816,
-      -54536,
-      -3168
-     ],
-     [
-      51496,
-      -54536,
-      -3160
-     ],
-     [
-      51432,
-      -54568,
-      -3152
-     ]
-    ]
-   },
-   "fixedByOverride": [
-    "npc-no-spawn"
    ]
   }
  ],

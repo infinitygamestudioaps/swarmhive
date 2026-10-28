@@ -1,0 +1,64 @@
+{
+ "npcId": 32111,
+ "name": "Orahochin",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.326Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Teleports/ElrokiTeleporters/32111-no.html": {
+   "file": "ai/npc/Teleports/ElrokiTeleporters/32111-no.html",
+   "quest": null,
+   "text": "Orahochin: Oh ho -- you have sought me out while battling the dinosaurs, have you? And now you ask me to teleport you to that place? That island was created as as a sanctuary; it is my duty is to protect its inhabitants from external harm. I certainly have no intention of making that place a refuge…",
+   "header": "Orahochin",
+   "when": [
+    "talker.isInCombat()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/ElrokiTeleporters/32111.html": {
+   "file": "ai/npc/Teleports/ElrokiTeleporters/32111.html",
+   "quest": null,
+   "text": "Orahochin: Welcome! I am Orahochin, proud warrior of the Elroki tribe! I was sent here to guard this place. In truth, I guard the hope and future of the tribe itself. You don't understand? Ah, my young friend, I hope your feet are quicker than your wits! Ha ha! See the island over there? There you …",
+   "header": "Orahochin",
+   "links": [
+    {
+     "text": "Teleport.",
+     "bypass": "npc_%objectId%_Quest ElrokiTeleporters",
+     "kind": "quest",
+     "script": "ElrokiTeleporters",
+     "to": "ai/npc/Teleports/ElrokiTeleporters/32111-no.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

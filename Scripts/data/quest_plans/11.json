@@ -2,7 +2,7 @@
  "id": 11,
  "name": "Secret Meeting With Ketra Orcs",
  "version": 1,
- "generated": "2026-10-27T11:14:35.710Z",
+ "generated": "2026-10-27T18:18:15.932Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 74,
@@ -344,8 +344,181 @@
   },
   {
    "i": 1,
-   "key": "c1:deliver:31371",
+   "key": "c1:talk:31256",
    "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"OK. Entrust me with the task.\""
+   ],
+   "npc": {
+    "id": 31256,
+    "name": "Leon",
+    "title": "Weapon Merchant",
+    "town": "Goddard",
+    "at": [
+     148832,
+     -58960,
+     -2965
+    ],
+    "alt": []
+   },
+   "text": "Get the Munitions Box from Trader Leon",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31256@148832,-58960",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 3986,
+    "sec": 53,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 3986,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147720,
+      -57464,
+      -2832
+     ],
+     [
+      147720,
+      -57736,
+      -2888
+     ],
+     [
+      147736,
+      -58008,
+      -2976
+     ],
+     [
+      147832,
+      -58008,
+      -2976
+     ],
+     [
+      147800,
+      -58152,
+      -2976
+     ],
+     [
+      148024,
+      -58312,
+      -2976
+     ],
+     [
+      148296,
+      -58312,
+      -2976
+     ],
+     [
+      148568,
+      -58264,
+      -2976
+     ],
+     [
+      148680,
+      -58200,
+      -2976
+     ],
+     [
+      148712,
+      -58344,
+      -2976
+     ],
+     [
+      148824,
+      -58584,
+      -2960
+     ],
+     [
+      148856,
+      -58680,
+      -2960
+     ],
+     [
+      148840,
+      -58952,
+      -2960
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 78,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:31371",
+   "cond": 2,
    "kind": "deliver",
    "to": "end",
    "links": [
@@ -363,7 +536,7 @@
     ],
     "alt": []
    },
-   "text": "Get the Munitions Box from Trader Leon",
+   "text": "Deliver Munitions Box to Ketra's Messenger Wahkan",
    "needs": [
     {
      "id": 7231,
@@ -580,181 +753,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:31256",
-   "cond": 1,
-   "kind": "talk",
-   "to": 2,
-   "links": [
-    "\"OK. Entrust me with the task.\""
-   ],
-   "npc": {
-    "id": 31256,
-    "name": "Leon",
-    "title": "Weapon Merchant",
-    "town": "Goddard",
-    "at": [
-     148832,
-     -58960,
-     -2965
-    ],
-    "alt": []
-   },
-   "text": "Get the Munitions Box from Trader Leon",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:31256@148832,-58960",
-    "status": "ok",
-    "flags": [],
-    "from": ".goddard",
-    "length": 3986,
-    "sec": 53,
-    "via": ".goddard",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Goddard",
-      "cmd": ".goddard"
-     },
-     {
-      "do": "walk",
-      "len": 3986,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Goddard"
-    },
-    "simple": true,
-    "pv": [
-     [
-      147732,
-      -56554,
-      -2776
-     ],
-     [
-      147704,
-      -56280,
-      -2776
-     ],
-     [
-      147704,
-      -56344,
-      -2776
-     ],
-     [
-      147704,
-      -56616,
-      -2776
-     ],
-     [
-      147720,
-      -56888,
-      -2776
-     ],
-     [
-      147720,
-      -57160,
-      -2776
-     ],
-     [
-      147720,
-      -57432,
-      -2824
-     ],
-     [
-      147720,
-      -57464,
-      -2832
-     ],
-     [
-      147720,
-      -57736,
-      -2888
-     ],
-     [
-      147736,
-      -58008,
-      -2976
-     ],
-     [
-      147832,
-      -58008,
-      -2976
-     ],
-     [
-      147800,
-      -58152,
-      -2976
-     ],
-     [
-      148024,
-      -58312,
-      -2976
-     ],
-     [
-      148296,
-      -58312,
-      -2976
-     ],
-     [
-      148568,
-      -58264,
-      -2976
-     ],
-     [
-      148680,
-      -58200,
-      -2976
-     ],
-     [
-      148712,
-      -58344,
-      -2976
-     ],
-     [
-      148824,
-      -58584,
-      -2960
-     ],
-     [
-      148856,
-      -58680,
-      -2960
-     ],
-     [
-      148840,
-      -58952,
-      -2960
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 78,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1
    ]
   }
  ],
@@ -762,7 +761,7 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:14:36.112Z",
+  "at": "2026-10-27T18:18:16.493Z",
   "pass": true,
   "geo": true,
   "fails": [],

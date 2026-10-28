@@ -1,0 +1,616 @@
+{
+ "npcId": 31554,
+ "name": "Kahman",
+ "title": "Mercenary",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.221Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/31554.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "109": {
+   "name": "In Search of the Nest",
+   "listText": [
+    "[In Search of the Nest]",
+    "[In Search of the Nest (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00109_InSearchOfTheNest/31554-1.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "146": {
+   "name": "The Zero Hour",
+   "listText": [
+    "[The Zero Hour]",
+    "[The Zero Hour (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00146_TheZeroHour/31554-02.htm",
+     "when": "state CREATED; level < 81",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00146_TheZeroHour/31554-01a.htm",
+     "when": "state CREATED; NOT level < 81; (player.hasQuestCompleted(Q00109_InSearchOfTheNest.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00146_TheZeroHour/31554-04.html",
+     "when": "state CREATED; NOT level < 81; NOT (player.hasQuestCompleted(Q00109_InSearchOfTheNest.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00146_TheZeroHour/31554-06.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00146_TheZeroHour/31554-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00146_TheZeroHour/31554-01b.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "628": {
+   "name": "Hunt of the Golden Ram Mercenary Force",
+   "listText": [
+    "[Hunt of the Golden Ram Mercenary Force]",
+    "[Hunt of the Golden Ram Mercenary Force (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00628_HuntGoldenRam/31554-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00628_HuntGoldenRam/31554-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00628_HuntGoldenRam/31554-07.html",
+     "when": "state STARTED; cond 1; (itemCountSplinter >= REQUIRED_ITEM_COUNT)",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00628_HuntGoldenRam/31554-06.html",
+     "when": "state STARTED; cond 1; NOT (itemCountSplinter >= REQUIRED_ITEM_COUNT)",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00628_HuntGoldenRam/31554-10.html",
+     "when": "state STARTED; cond 2; has items 7246; itemCountSplinter >= REQUIRED_ITEM_COUNT; itemCountNeedle >= REQUIRED_ITEM_COUNT",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00628_HuntGoldenRam/31554-09.html",
+     "when": "state STARTED; cond 2; has items 7246; !((itemCountSplinter >= REQUIRED_ITEM_COUNT) && (itemCountNeedle >= REQUIRED_ITEM_COUNT))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00628_HuntGoldenRam/31554-07.html",
+     "when": "state STARTED; cond 2; lacks items 7246; (itemCountSplinter >= REQUIRED_ITEM_COUNT)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00628_HuntGoldenRam/31554-06.html",
+     "when": "state STARTED; cond 2; lacks items 7246; NOT (itemCountSplinter >= REQUIRED_ITEM_COUNT)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00628_HuntGoldenRam/31554-11.html",
+     "when": "state STARTED; cond 3; has items 7247",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00628_HuntGoldenRam/31554-07.html",
+     "when": "state STARTED; cond 3; lacks items 7247; (itemCountSplinter >= REQUIRED_ITEM_COUNT)",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00628_HuntGoldenRam/31554-06.html",
+     "when": "state STARTED; cond 3; lacks items 7247; NOT (itemCountSplinter >= REQUIRED_ITEM_COUNT)",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31554.htm": {
+   "file": "default/31554.htm",
+   "quest": null,
+   "text": "Mercenary Kahman: We're the Golden Ram Mercenary Force who fought at the Tower of Insolence along with Sighardt! My brother, Kamoon Zu Neruga, died there. His soul lights up Paargrio's Flame now. I continue the fight in his name. Will you fight alongside us as a brother?",
+   "header": "Mercenary Kahman",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00109_InSearchOfTheNest/31554-1.html": {
+   "file": "Q00109_InSearchOfTheNest/31554-1.html",
+   "quest": 109,
+   "text": "Mercenary Kahman: State your business here! We received no order.",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"Pierce sent me.\"",
+     "bypass": "Quest Q00109_InSearchOfTheNest 31554-2.html",
+     "kind": "quest-event",
+     "script": "Q00109_InSearchOfTheNest",
+     "event": "31554-2.html",
+     "quest": 109,
+     "to": "Q00109_InSearchOfTheNest/31554-2.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00146_TheZeroHour/31554-02.htm": {
+   "file": "Q00146_TheZeroHour/31554-02.htm",
+   "quest": 146,
+   "text": "(Only characters who are level 79 or higher may undertake on this quest.)",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state CREATED; level < 81"
+   ],
+   "live": {
+    "file": "Logs/npclive_Hollint_20a57179.html",
+    "at": "2026-10-27T14:34:34.642Z",
+    "score": 0.5
+   },
+   "dpText": "Mercenary Kahman: I'm sorry, but you are too inexperienced to help us. Save yourself! (Only characters who are level 81 or higher may undertake this quest.)",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00146_TheZeroHour/31554-01a.htm": {
+   "file": "Q00146_TheZeroHour/31554-01a.htm",
+   "quest": 146,
+   "text": "Mercenary Kahman: Welcome! The time has come to end this conflict. Are you ready to do your part in a decisive battle?",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state CREATED; NOT level < 81; (player.hasQuestCompleted(Q00109_InSearchOfTheNest.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00146_TheZeroHour 31554-03.htm",
+     "kind": "quest-event",
+     "script": "Q00146_TheZeroHour",
+     "event": "31554-03.htm",
+     "quest": 146,
+     "to": "Q00146_TheZeroHour/31554-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00146_TheZeroHour/31554-04.html": {
+   "file": "Q00146_TheZeroHour/31554-04.html",
+   "quest": 146,
+   "text": "Mercenary Kahman: Our reconnaissance isn't complete, so I don't have a mission for you yet. Come back later. (Only characters who have completed the \"In Search of the Nest\" quest may undertake this quest.)",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state CREATED; NOT level < 81; NOT (player.hasQuestCompleted(Q00109_InSearchOfTheNest.class.getSimpleName()))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00146_TheZeroHour/31554-06.html": {
+   "file": "Q00146_TheZeroHour/31554-06.html",
+   "quest": 146,
+   "text": "Mercenary Kahman: What are you doing here? We Golden Ram Mercenaries don't tolerate cowards. Show us what you're made of! Defeat Queen Shyeed and bring back the Stakato Queen's Fangs as proof!",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00146_TheZeroHour/31554-05.html": {
+   "file": "Q00146_TheZeroHour/31554-05.html",
+   "quest": 146,
+   "text": "Mercenary Kahman: These fangs...?! They belonged to the Queen Shyeed? So you were successful! Well done! Here is the highest reward you can receive from the Golden Ram Mercenaries. It has been an honor working with you!",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00146_TheZeroHour/31554-01b.htm": {
+   "file": "Q00146_TheZeroHour/31554-01b.htm",
+   "quest": 146,
+   "text": "Mercenary Kahman: Thanks to you, the Stakatos have finally been defeated. Good work!",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00628_HuntGoldenRam/31554-01.htm": {
+   "file": "Q00628_HuntGoldenRam/31554-01.htm",
+   "quest": 628,
+   "text": "Mercenary Kahman: I'm in charge of finding skilled soldiers to become brothers in our Golden Ram Mercenary Force! Are you up to the task?",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"Accept quest.\"",
+     "bypass": "Quest Q00628_HuntGoldenRam accept",
+     "kind": "quest-event",
+     "script": "Q00628_HuntGoldenRam",
+     "event": "accept",
+     "quest": 628,
+     "to": "Q00628_HuntGoldenRam/31554-05.htm",
+     "toAll": [
+      "Q00628_HuntGoldenRam/31554-05.htm",
+      "Q00628_HuntGoldenRam/31554-04.htm",
+      "Q00628_HuntGoldenRam/31554-03.htm"
+     ],
+     "effect": "start|cond:3|cond:2"
+    }
+   ]
+  },
+  "Q00628_HuntGoldenRam/31554-02.htm": {
+   "file": "Q00628_HuntGoldenRam/31554-02.htm",
+   "quest": 628,
+   "text": "Mercenary Kahman: I admire your courage, but you lack the required skills to join us. (Quest available only for characters level 66 or above.)",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00628_HuntGoldenRam/31554-07.html": {
+   "file": "Q00628_HuntGoldenRam/31554-07.html",
+   "quest": 628,
+   "text": "Mercenary Kahman: You're back! Have you taught the stakatos a lesson?",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state STARTED; cond 1; (itemCountSplinter >= REQUIRED_ITEM_COUNT)",
+    "state STARTED; cond 2; lacks items 7246; (itemCountSplinter >= REQUIRED_ITEM_COUNT)",
+    "state STARTED; cond 3; lacks items 7247; (itemCountSplinter >= REQUIRED_ITEM_COUNT)"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the 100 stakato Chitins.\"",
+     "bypass": "Quest Q00628_HuntGoldenRam 31554-08.html",
+     "kind": "quest-event",
+     "script": "Q00628_HuntGoldenRam",
+     "event": "31554-08.html",
+     "quest": 628,
+     "to": "Q00628_HuntGoldenRam/31554-08.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00628_HuntGoldenRam/31554-06.html": {
+   "file": "Q00628_HuntGoldenRam/31554-06.html",
+   "quest": 628,
+   "text": "Mercenary Kahman: To become an honorable member of the Golden Ram Mercenary Force, you must collect 100 Chitins of Splinter Stakatos from the Swamp of Screams. Now go!",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state STARTED; cond 1; NOT (itemCountSplinter >= REQUIRED_ITEM_COUNT)",
+    "state STARTED; cond 2; lacks items 7246; NOT (itemCountSplinter >= REQUIRED_ITEM_COUNT)",
+    "state STARTED; cond 3; lacks items 7247; NOT (itemCountSplinter >= REQUIRED_ITEM_COUNT)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00628_HuntGoldenRam/31554-10.html": {
+   "file": "Q00628_HuntGoldenRam/31554-10.html",
+   "quest": 628,
+   "text": "Mercenary Kahman: Your skills and long record of active service have earned you the title of elite mercenary in the Golden Ram Force! Take this Golden Ram Badge - Soldier . Congratulations, brother!",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state STARTED; cond 2; has items 7246; itemCountSplinter >= REQUIRED_ITEM_COUNT; itemCountNeedle >= REQUIRED_ITEM_COUNT"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00628_HuntGoldenRam/31554-09.html": {
+   "file": "Q00628_HuntGoldenRam/31554-09.html",
+   "quest": 628,
+   "text": "Mercenary Kahman: To become an elite member of the Golden Ram Mercenary Force, you must collect 100 Chitins each of Splinter Stakatos and Needle Stakatos . Prove your skills and you can rise in the ranks!",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state STARTED; cond 2; has items 7246; !((itemCountSplinter >= REQUIRED_ITEM_COUNT) && (itemCountNeedle >= REQUIRED_ITEM_COUNT))"
+   ],
+   "links": [
+    {
+     "text": "\"I'm ready to fight!\"",
+     "bypass": "Quest Q00628_HuntGoldenRam 31554-13.html",
+     "kind": "quest-event",
+     "script": "Q00628_HuntGoldenRam",
+     "event": "31554-13.html",
+     "quest": 628,
+     "to": "Q00628_HuntGoldenRam/31554-13.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00628_HuntGoldenRam 31554-12.html",
+     "kind": "quest-event",
+     "script": "Q00628_HuntGoldenRam",
+     "event": "31554-12.html",
+     "quest": 628,
+     "to": "Q00628_HuntGoldenRam/31554-12.html"
+    }
+   ]
+  },
+  "Q00628_HuntGoldenRam/31554-11.html": {
+   "file": "Q00628_HuntGoldenRam/31554-11.html",
+   "quest": 628,
+   "text": "Mercenary Kahman: See Mercenary Medic Selina and Mercenary Supplier Abercrombie if you need anything. Selina will help you with magic and Abercrombie will help you with supplies. Let me know if you've ever had enough.",
+   "header": "Mercenary Kahman",
+   "when": [
+    "state STARTED; cond 3; has items 7247"
+   ],
+   "links": [
+    {
+     "text": "\"I'm ready to fight!\"",
+     "bypass": "Quest Q00628_HuntGoldenRam 31554-13.html",
+     "kind": "quest-event",
+     "script": "Q00628_HuntGoldenRam",
+     "event": "31554-13.html",
+     "quest": 628,
+     "to": "Q00628_HuntGoldenRam/31554-13.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00628_HuntGoldenRam 31554-12.html",
+     "kind": "quest-event",
+     "script": "Q00628_HuntGoldenRam",
+     "event": "31554-12.html",
+     "quest": 628,
+     "to": "Q00628_HuntGoldenRam/31554-12.html"
+    }
+   ]
+  },
+  "Q00109_InSearchOfTheNest/31554-2.html": {
+   "file": "Q00109_InSearchOfTheNest/31554-2.html",
+   "quest": 109,
+   "text": "Mercenary Kahman: Oh, yeah! It's you! Right, then. Here you go! Don't be too disappointed if it's less than you'd like. Come back later and there'll be more work for you.",
+   "header": "Mercenary Kahman",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00146_TheZeroHour/31554-03.htm": {
+   "file": "Q00146_TheZeroHour/31554-03.htm",
+   "quest": 146,
+   "text": "Mercenary Kahman: I admire your courage! As you know, we've been infiltrating the Stakato Nest for some time and covertly attacking those monsters. Well, that must have just made them angrier. This time we're going to cut their head off by killing their leader, Queen Shyeed . Bring back the Stakato…",
+   "header": "Mercenary Kahman",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00628_HuntGoldenRam/31554-03.htm": {
+   "file": "Q00628_HuntGoldenRam/31554-03.htm",
+   "quest": 628,
+   "text": "Mercenary Kahman: We are here to destroy the Stakatos in the Swamp of Screams. They're no match for our skills, but they're tough and outnumber us, so we need all the skilled help we can get. You meet the basic requirements, but you must prove yourself if you want to be a member of the Golden Ram M…",
+   "header": "Mercenary Kahman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00628_HuntGoldenRam/31554-04.htm": {
+   "file": "Q00628_HuntGoldenRam/31554-04.htm",
+   "quest": 628,
+   "text": "Mercenary Kahman: There are two classes here, rookie and elite. An elite mercenary is a veteran with a long record of active service. The title earns you special priviliges. Rookies must kill Needle Stakatos as well as Splinter Stakatos to gain elite status. Collect one-hundred Chitins each of Spli…",
+   "header": "Mercenary Kahman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00628_HuntGoldenRam/31554-05.htm": {
+   "file": "Q00628_HuntGoldenRam/31554-05.htm",
+   "quest": 628,
+   "text": "Mercenary Kahman: You're already an elite warrior! What more do you want? You are free to choose.",
+   "header": "Mercenary Kahman",
+   "links": [
+    {
+     "text": "\"I want to return to the fight!\"",
+     "bypass": "Quest Q00628_HuntGoldenRam 31554-13.html",
+     "kind": "quest-event",
+     "script": "Q00628_HuntGoldenRam",
+     "event": "31554-13.html",
+     "quest": 628,
+     "to": "Q00628_HuntGoldenRam/31554-13.html"
+    },
+    {
+     "text": "\"I want to end our Contract.\"",
+     "bypass": "Quest Q00628_HuntGoldenRam 31554-12.html",
+     "kind": "quest-event",
+     "script": "Q00628_HuntGoldenRam",
+     "event": "31554-12.html",
+     "quest": 628,
+     "to": "Q00628_HuntGoldenRam/31554-12.html"
+    }
+   ]
+  },
+  "Q00628_HuntGoldenRam/31554-08.html": {
+   "file": "Q00628_HuntGoldenRam/31554-08.html",
+   "quest": 628,
+   "text": "Mercenary Kahman: Great work, my soldier! You are fully qualified to become a brother of the Golden Ram Mercenary Force! Well, take this mark of Golden Ram - Recruit ! From now on, you are a brother of the Golden Ram Mercenary Force. Congratulations! But, you must get stronger, stranger, if you wan…",
+   "header": "Mercenary Kahman",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00628_HuntGoldenRam/31554-12.html": {
+   "file": "Q00628_HuntGoldenRam/31554-12.html",
+   "quest": 628,
+   "text": "Mercenary Kahman: It's not easy to become a member. If you quit now, you may regret it later! You'll have to start from the beginning if you come back. Are you sure?",
+   "header": "Mercenary Kahman",
+   "links": [
+    {
+     "text": "\"I'm sure.\"",
+     "bypass": "Quest Q00628_HuntGoldenRam 31554-14.html",
+     "kind": "quest-event",
+     "script": "Q00628_HuntGoldenRam",
+     "event": "31554-14.html",
+     "quest": 628,
+     "to": "Q00628_HuntGoldenRam/31554-14.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00628_HuntGoldenRam/31554-13.html": {
+   "file": "Q00628_HuntGoldenRam/31554-13.html",
+   "quest": 628,
+   "text": "Mercenary Kahman: That's the spirit! Kill with extreme prejudice in the name of the Golden Ram!",
+   "header": "Mercenary Kahman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00628_HuntGoldenRam/31554-14.html": {
+   "file": "Q00628_HuntGoldenRam/31554-14.html",
+   "quest": 628,
+   "text": "Mercenary Kahman: What a pity. We can't afford to lose such skills, but I'll respect your decision. I hope to hear of your great deeds someday. May Pa'agrio's Flame be with you!",
+   "header": "Mercenary Kahman",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[In Search of the Nest (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00109_InSearchOfTheNest",
+     "kind": "quest",
+     "quest": 109,
+     "to": "Q00109_InSearchOfTheNest/31554-1.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Zero Hour]",
+     "bypass": "npc_%objectId%_Quest Q00146_TheZeroHour",
+     "kind": "quest",
+     "quest": 146,
+     "to": "Q00146_TheZeroHour/31554-01a.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Zero Hour (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00146_TheZeroHour",
+     "kind": "quest",
+     "quest": 146,
+     "to": "Q00146_TheZeroHour/31554-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Hunt of the Golden Ram Mercenary Force]",
+     "bypass": "npc_%objectId%_Quest Q00628_HuntGoldenRam",
+     "kind": "quest",
+     "quest": 628,
+     "to": "Q00628_HuntGoldenRam/31554-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Hunt of the Golden Ram Mercenary Force (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00628_HuntGoldenRam",
+     "kind": "quest",
+     "quest": 628,
+     "to": "Q00628_HuntGoldenRam/31554-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of Q00146_TheZeroHour/31554-02.htm differs: live \"(Only characters who are level 79 or higher may undertake on this quest.)\" vs datapack \"Mercenary Kahman: I'm sorry, but you are too inexperienced to help us. Save yourself! (On…\""
+ ]
+}

@@ -1,0 +1,161 @@
+{
+ "npcId": 30351,
+ "name": "Astaron",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.954Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30351.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "324": {
+   "name": "Sweetest Venom",
+   "listText": [
+    "[Sweetest Venom]",
+    "[Sweetest Venom (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00324_SweetestVenom/30351-02.html",
+     "when": "state CREATED; player.getLevel() < MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00324_SweetestVenom/30351-03.htm",
+     "when": "state CREATED; NOT player.getLevel() < MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00324_SweetestVenom/30351-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00324_SweetestVenom/30351-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30351.htm": {
+   "file": "default/30351.htm",
+   "quest": null,
+   "text": "Astaron: Do you know what is just as important as military power or magical power? I tell you -- it's financial power. To go to war you need weapons and armor, and to study magic you must buy various reagents and crystals. All of this is impossible without money. Sometimes I think that in order for…",
+   "header": "Astaron",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00324_SweetestVenom/30351-02.html": {
+   "file": "Q00324_SweetestVenom/30351-02.html",
+   "quest": 324,
+   "text": "Astaron: Have you ever tried Dreviant Wine ? It's the sweetest, but most dangerous wine that those of my race enjoy drinking. The wine is made from the distilled poison of spiders, you see. Only a few people in the entire continent, including myself, know how to make this wine. I had the opportunit…",
+   "header": "Astaron",
+   "when": [
+    "state CREATED; player.getLevel() < MIN_LVL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00324_SweetestVenom/30351-03.htm": {
+   "file": "Q00324_SweetestVenom/30351-03.htm",
+   "quest": 324,
+   "text": "Astaron: Have you ever tried Dreviant Wine ? It's the sweetest, but most dangerous wine that those of my race enjoy drinking. The wine is made from the distilled poison of spiders, you see. Only a few people in the entire continent, including myself, know how to make this wine. I had the opportunit…",
+   "header": "Astaron",
+   "when": [
+    "state CREATED; NOT player.getLevel() < MIN_LVL"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00324_SweetestVenom 30351-04.htm",
+     "kind": "quest-event",
+     "script": "Q00324_SweetestVenom",
+     "event": "30351-04.htm",
+     "quest": 324,
+     "to": "Q00324_SweetestVenom/30351-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00324_SweetestVenom/30351-06.html": {
+   "file": "Q00324_SweetestVenom/30351-06.html",
+   "quest": 324,
+   "text": "Astaron: So you have brought me all ten Poison Sacs. Thank you. This should be enough to make three or four bottles of the finest Dreviant Wine. When the wine ages in a few years, I will let you sample it, so don't forget and come see me again. Now, here is the compensation I promised you.",
+   "header": "Astaron",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00324_SweetestVenom/30351-05.html": {
+   "file": "Q00324_SweetestVenom/30351-05.html",
+   "quest": 324,
+   "text": "Astaron: You agreed to collect ten Poison Sacs for me, right? Have you found them all yet? Well, there's no need to rush. They say there are many poison spiders near the Altar of Passage of the Dark Elves.",
+   "header": "Astaron",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00324_SweetestVenom/30351-04.htm": {
+   "file": "Q00324_SweetestVenom/30351-04.htm",
+   "quest": 324,
+   "text": "Astaron: While travelling southwest from the village, you will encounter the Altar of Passage of the Dark Elves. There are many poison spiders living in the nearby woods. Hunt the spiders and bring me their Poison Sacs. If you bring me ten Poison Sacs , I will reward you generously.",
+   "header": "Astaron",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Sweetest Venom]",
+     "bypass": "npc_%objectId%_Quest Q00324_SweetestVenom",
+     "kind": "quest",
+     "quest": 324,
+     "to": "Q00324_SweetestVenom/30351-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Sweetest Venom (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00324_SweetestVenom",
+     "kind": "quest",
+     "quest": 324,
+     "to": "Q00324_SweetestVenom/30351-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

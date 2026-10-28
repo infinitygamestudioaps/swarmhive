@@ -1,0 +1,47 @@
+{
+ "npcId": 32537,
+ "name": "Mouth of Ekimus",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.382Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32537.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32537.htm": {
+   "file": "default/32537.htm",
+   "quest": null,
+   "text": "Mouth of Ekimus: There is a narrow path among the decomposed flesh and frayed yellow bones. It is surrounded by the feel of death and the stench of decay. It seems that you must pass through the gap to secretly enter one of many halls of the Seed of Infinity inside.",
+   "header": "Mouth of Ekimus",
+   "links": [
+    {
+     "text": "Pass through the gap and into the hall.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32537-1.htm"
+    }
+   ]
+  },
+  "default/32537-1.htm": {
+   "file": "default/32537-1.htm",
+   "quest": null,
+   "text": "Mouth of Ekimus: The echoes of the screams of the dying spread to the other side of the gap. The name Hall of Suffering seems to suit this place where new souls are made. (The Hall of Suffering is an instant zone exclusively for party use.)",
+   "header": "Mouth of Ekimus",
+   "links": [
+    {
+     "text": "Enter the Hall of Erosion.",
+     "bypass": "npc_%objectId%_Quest HallOfSuffering",
+     "kind": "quest",
+     "script": "HallOfSuffering"
+    }
+   ]
+  }
+ }
+}

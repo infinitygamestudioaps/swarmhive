@@ -2,7 +2,7 @@
  "id": 132,
  "name": "Matras' Curiosity",
  "version": 1,
- "generated": "2026-10-27T11:15:12.520Z",
+ "generated": "2026-10-27T18:18:47.623Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 76,
@@ -33,6 +33,11 @@
    "code": "npc-no-spawn",
    "text": "an NPC of a step has no spawn in the datapack",
    "step": 2
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 6
   }
  ],
  "expectedMin": 6,
@@ -134,7 +139,37 @@
    },
    "conds": [
     1,
-    2,
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:32245",
+   "cond": 3,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Secret passage?\""
+   ],
+   "npc": {
+    "id": 32245,
+    "name": "Matras",
+    "title": "",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Matras",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
     3
    ]
   }

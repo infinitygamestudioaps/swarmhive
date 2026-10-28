@@ -1,0 +1,281 @@
+{
+ "npcId": 32369,
+ "name": "Fallen Angel",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.373Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32369.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "143": {
+   "name": "Fallen Angel - Request of Dusk",
+   "listText": [
+    "[Fallen Angel - Request of Dusk]",
+    "[Fallen Angel - Request of Dusk (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00143_FallenAngelRequestOfDusk/32369-01.html",
+     "when": "state STARTED; cond 1|2|3",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00143_FallenAngelRequestOfDusk/32369-04.html",
+     "when": "state STARTED; cond 4; st.getInt(\"talk\") == 1",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00143_FallenAngelRequestOfDusk/32369-07.html",
+     "when": "state STARTED; cond 4; !st.getInt(\"talk\") == 1; st.getInt(\"talk\") == 2",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00143_FallenAngelRequestOfDusk/32369-02.html",
+     "when": "state STARTED; cond 4; !st.getInt(\"talk\") == 1; !st.getInt(\"talk\") == 2",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32369.htm": {
+   "file": "default/32369.htm",
+   "quest": null,
+   "text": "Fallen Angel: (The wings on her back... She must be an angel!)",
+   "header": "Fallen Angel",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/32369-01.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/32369-01.html",
+   "quest": 143,
+   "text": "Fallen Angel: The angel looks lost. She also seems to be wounded and suffering from a high fever.",
+   "header": "Fallen Angel",
+   "when": [
+    "state STARTED; cond 1|2|3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00143_FallenAngelRequestOfDusk/32369-04.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/32369-04.html",
+   "quest": 143,
+   "text": "Fallen Angel: I was one of the daughters of Einhasad, celebrated for my power and beauty. Some of my sisters and brothers have since become gods themselves, but I am not a goddess. Though I possess knowledge no mortal can know, I do not know everything.",
+   "header": "Fallen Angel",
+   "when": [
+    "state STARTED; cond 4; st.getInt(\"talk\") == 1"
+   ],
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 32369-05.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "32369-05.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/32369-05.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/32369-07.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/32369-07.html",
+   "quest": 143,
+   "text": "Fallen Angel: In a way, Shilen is also a victim... Why has Mother not used her great power to restore things to their natural order? Why has Gran Kain, that trouble-making lover of chaos, become a father figure to the gods? Chaos and order should not be able to co-exist... And why is the goddess of…",
+   "header": "Fallen Angel",
+   "when": [
+    "state STARTED; cond 4; !st.getInt(\"talk\") == 1; st.getInt(\"talk\") == 2"
+   ],
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 32369-08.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "32369-08.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/32369-08.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/32369-02.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/32369-02.html",
+   "quest": 143,
+   "text": "Fallen Angel: The angel looks lost. She also seems to be wounded and suffering from a high fever.",
+   "header": "Fallen Angel",
+   "when": [
+    "state STARTED; cond 4; !st.getInt(\"talk\") == 1; !st.getInt(\"talk\") == 2"
+   ],
+   "links": [
+    {
+     "text": "Give her the medicine.",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 32369-03.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "32369-03.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/32369-03.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/32369-03.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/32369-03.html",
+   "quest": 143,
+   "text": "Fallen Angel: (It looks like the angel is beginning to wake up...) Oh...uh... Thank you. (Her lips do not move, but you seem to hear her words directly in your head.)",
+   "header": "Fallen Angel",
+   "links": [
+    {
+     "text": "Listen to her tale about the Temple, the Lords of Dawn and Revolutionaries of Dusk, and the reason she came.",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 32369-04.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "32369-04.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/32369-04.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/32369-05.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/32369-05.html",
+   "quest": 143,
+   "text": "Fallen Angel: I do not understand why Einhasad, the goddess of order and righteousness, entered into this false contract with the mortal Human emperor, Shunaiman, in order to become the goddess of a race she did not even create...",
+   "header": "Fallen Angel",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 32369-06.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "32369-06.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/32369-06.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/32369-06.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/32369-06.html",
+   "quest": 143,
+   "text": "Fallen Angel: Humans were actually created by Einhasad's chaos-loving mate, the dissipated Gran Kain. In pledging their allegiance to Einhasad, they have suppressed their natural desire for freedom and independence. They became pawns in a game beyond their understanding... I find the whole situatio…",
+   "header": "Fallen Angel",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 32369-07.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "32369-07.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/32369-07.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/32369-08.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/32369-08.html",
+   "quest": 143,
+   "text": "Fallen Angel: Among all my siblings, I alone questioned this unnatural state of affairs, deeply perplexed and disturbed by this contradiction. I suppose in this I inherited a greater measure of Mother's love of order and justice than my sisters. And I finally decided to act to set things right...",
+   "header": "Fallen Angel",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 32369-09.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "32369-09.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/32369-09.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/32369-09.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/32369-09.html",
+   "quest": 143,
+   "text": "Fallen Angel: I decided my first action would be to reveal the truth to the Humans. I left many clues scattered across this continent in order to sow the seeds of doubt among certain Humans... Mother became angry with me, however, which is how I came to be here.",
+   "header": "Fallen Angel",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 32369-10.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "32369-10.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/32369-10.html"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/32369-10.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/32369-10.html",
+   "quest": 143,
+   "text": "Fallen Angel: I was forced to escape Mother's wrath, but I was wounded in coming here. And because this world is so very different from my native World of Light, my power is weakened and even my control over this physical form is tenuous. However, I had earlier met certain people while leaving clue…",
+   "header": "Fallen Angel",
+   "links": [
+    {
+     "text": "\"What you say is amazing... You mean that Gran Kain is the god who created Humans, and Shilen is only a victim?\"",
+     "bypass": "Quest Q00143_FallenAngelRequestOfDusk 32369-11.html",
+     "kind": "quest-event",
+     "script": "Q00143_FallenAngelRequestOfDusk",
+     "event": "32369-11.html",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/32369-11.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00143_FallenAngelRequestOfDusk/32369-11.html": {
+   "file": "Q00143_FallenAngelRequestOfDusk/32369-11.html",
+   "quest": 143,
+   "text": "Fallen Angel: I understand your confusion, but what I have told you is the truth... I wish I could explain it more fully to you, but I must not risk being discovered by Mother in this place or my mission will be a failure. Perhaps we will meet again, in a different place, at a different time. Thank…",
+   "header": "Fallen Angel",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Fallen Angel - Request of Dusk (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00143_FallenAngelRequestOfDusk",
+     "kind": "quest",
+     "quest": 143,
+     "to": "Q00143_FallenAngelRequestOfDusk/32369-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,190 @@
+{
+ "npcId": 35965,
+ "name": "Foreman",
+ "title": "Swamp Fortress",
+ "type": "L2FortManager",
+ "generated": "2026-10-27T18:18:03.445Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "fortress/35965-d.htm": {
+   "file": "fortress/35965-d.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Open the gate",
+     "bypass": "npc_%objectId%_operate_door 1 22160001 22160012 22160004 22160005 22160008 22160009 22160002 22160003 22160006 22160007 22160010 22160011",
+     "kind": "other"
+    },
+    {
+     "text": "Close the gate",
+     "bypass": "npc_%objectId%_operate_door 0 22160001 22160012 22160004 22160005 22160008 22160009 22160002 22160003 22160006 22160007 22160010 22160011",
+     "kind": "other"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Link fortress/foreman.htm",
+     "kind": "page",
+     "to": "fortress/foreman.htm"
+    }
+   ]
+  },
+  "fortress/35965-t1.htm": {
+   "file": "fortress/35965-t1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Fortress North Gate",
+     "bypass": "npc_%objectId%_goto 20076",
+     "kind": "teleport",
+     "confirm": "811;Fortress North Gate"
+    },
+    {
+     "text": "Fortress South Gate",
+     "bypass": "npc_%objectId%_goto 20077",
+     "kind": "teleport",
+     "confirm": "811;Fortress South Gate"
+    },
+    {
+     "text": "Rune Town Square",
+     "bypass": "npc_%objectId%_goto 20078",
+     "kind": "teleport",
+     "confirm": "811;Rune Town Square"
+    },
+    {
+     "text": "Front of the Rune Castle Gate",
+     "bypass": "npc_%objectId%_goto 20079",
+     "kind": "teleport",
+     "confirm": "811;Front of the Rune Castle Gate"
+    }
+   ]
+  },
+  "fortress/35965-t2.htm": {
+   "file": "fortress/35965-t2.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Fortress North Gate",
+     "bypass": "npc_%objectId%_goto 20076",
+     "kind": "teleport",
+     "confirm": "811;Fortress North Gate"
+    },
+    {
+     "text": "Fortress South Gate",
+     "bypass": "npc_%objectId%_goto 20077",
+     "kind": "teleport",
+     "confirm": "811;Fortress South Gate"
+    },
+    {
+     "text": "Rune Town Square",
+     "bypass": "npc_%objectId%_goto 20078",
+     "kind": "teleport",
+     "confirm": "811;Rune Town Square"
+    },
+    {
+     "text": "Front of the Rune Castle Gate",
+     "bypass": "npc_%objectId%_goto 20079",
+     "kind": "teleport",
+     "confirm": "811;Front of the Rune Castle Gate"
+    },
+    {
+     "text": "Forest of the Dead - 500",
+     "bypass": "npc_%objectId%_goto 20080",
+     "kind": "teleport",
+     "confirm": "811;Forest of the Dead"
+    },
+    {
+     "text": "Wild Beast Pastures - 500",
+     "bypass": "npc_%objectId%_goto 20081",
+     "kind": "teleport",
+     "confirm": "811;Wild Beast Pastures"
+    },
+    {
+     "text": "Swamp of Screams - 500",
+     "bypass": "npc_%objectId%_goto 20082",
+     "kind": "teleport",
+     "confirm": "811;Swamp of Screams"
+    },
+    {
+     "text": "Valley of Saints - 500",
+     "bypass": "npc_%objectId%_goto 20083",
+     "kind": "teleport",
+     "confirm": "811;Valley of Saints"
+    },
+    {
+     "text": "Shyeed's Cavern - 500",
+     "bypass": "npc_%objectId%_goto 20084",
+     "kind": "teleport",
+     "confirm": "811;Shyeed's Cavern"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  },
+  "fortress/foreman.htm": {
+   "file": "fortress/foreman.htm",
+   "quest": null,
+   "text": "Whoever owns this fortress must safeguard the territory from monsters or enemy clans. It is a task that requires constant vigilance -- conflict may arise at any time from any quarter!",
+   "links": [
+    {
+     "text": "Receive Report.",
+     "bypass": "npc_%objectId%_receive_report",
+     "kind": "other"
+    },
+    {
+     "text": "Open/Close Door.",
+     "bypass": "npc_%objectId%_operate_door",
+     "kind": "other"
+    },
+    {
+     "text": "Expel Outsiders.",
+     "bypass": "npc_%objectId%_expel",
+     "kind": "other"
+    },
+    {
+     "text": "Fortress Functions.",
+     "bypass": "npc_%objectId%_functions",
+     "kind": "other"
+    },
+    {
+     "text": "Clan Warehouse.",
+     "bypass": "npc_%objectId%_manage_vault",
+     "kind": "other"
+    },
+    {
+     "text": "Fortress Management.",
+     "bypass": "npc_%objectId%_manage",
+     "kind": "other"
+    }
+   ]
+  }
+ }
+}

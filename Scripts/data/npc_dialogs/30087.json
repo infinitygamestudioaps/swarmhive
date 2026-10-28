@@ -1,0 +1,117 @@
+{
+ "npcId": 30087,
+ "name": "Peta",
+ "title": "Wizard-use Armor Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.826Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30087.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30087.htm": {
+   "file": "merchant/30087.htm",
+   "quest": null,
+   "text": "Trader Peta: Welcome! Is there anything in particular that you're looking for? Any item that calls out to you? Take your time and choose wisely.",
+   "header": "Trader Peta",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30087-1.htm",
+     "live": true
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3008701",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30087-1.htm": {
+   "file": "merchant/30087-1.htm",
+   "quest": null,
+   "text": "Trader Peta: I hope we have what you're looking for!",
+   "header": "Trader Peta",
+   "links": [
+    {
+     "text": "Buy Wizard equipment.",
+     "bypass": "npc_%objectId%_Buy 3008701",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3008700",
+     "kind": "shop"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Trade Mystic Equipment. | Try on Mystic equipment. | Trade Common Items For Mystics."
+ ],
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund.",
+   "n": 97,
+   "inDatapack": true,
+   "from": [
+    "Armor Trader Peta:Welcome! What sort of things are you looki"
+   ],
+   "to": [
+    "Armor Trader Peta:What would you like to purchase?Trade Myst"
+   ]
+  },
+  {
+   "text": "Trade Mystic Equipment.",
+   "n": 95,
+   "inDatapack": false,
+   "from": [
+    "Armor Trader Peta:What would you like to purchase?Trade Myst"
+   ],
+   "to": []
+  },
+  {
+   "text": "Try on Mystic equipment.",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Armor Trader Peta:Welcome! What sort of things are you looki"
+   ],
+   "to": []
+  },
+  {
+   "text": "Trade Common Items For Mystics.",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Armor Trader Peta:What would you like to purchase?Trade Myst"
+   ],
+   "to": []
+  }
+ ]
+}

@@ -1,0 +1,293 @@
+{
+ "npcId": 31538,
+ "name": "Ghost of Adventurer",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.216Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31538.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "14": {
+   "name": "Whereabouts of the Archaeologist",
+   "listText": [
+    "[Whereabouts of the Archaeologist]",
+    "[Whereabouts of the Archaeologist (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00014_WhereaboutsOfTheArchaeologist/31538-00.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "619": {
+   "name": "Relics of the Old Empire",
+   "listText": [
+    "[Relics of the Old Empire]",
+    "[Relics of the Old Empire (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00619_RelicsOfTheOldEmpire/31538-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00619_RelicsOfTheOldEmpire/31538-03.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00619_RelicsOfTheOldEmpire/31538-04.html",
+     "when": "state STARTED; (getQuestItemsCount(player, BROKEN_RELIC_PART.getId()) >= REQUIRED_RELIC_COUNT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00619_RelicsOfTheOldEmpire/31538-07.html",
+     "when": "state STARTED; NOT (getQuestItemsCount(player, BROKEN_RELIC_PART.getId()) >= REQUIRED_RELIC_COUNT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31538.htm": {
+   "file": "default/31538.htm",
+   "quest": null,
+   "text": "Ghost of Adventurer: What brings you here? I'm an archaeologist... Heh heh... One of these days I'll stop lying! Technically, I'm a grave robber impersonating an archaeologist! Every time I've tried to steal a valuable item I've failed miserably! While sitting around feeling like a failure, I heard…",
+   "header": "Ghost of Adventurer",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00014_WhereaboutsOfTheArchaeologist/31538-00.html": {
+   "file": "Q00014_WhereaboutsOfTheArchaeologist/31538-00.html",
+   "quest": 14,
+   "text": "Ghost of Adventurer: Huh? You were asked to give me this letter? Who writes a letter to a dead person? Hmm...Let me see... Oh, it's from my mother! It's been so long since I've seen her! How is she?",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Your mother is dead.",
+     "bypass": "Quest Q00014_WhereaboutsOfTheArchaeologist 31538-01.html",
+     "kind": "quest-event",
+     "script": "Q00014_WhereaboutsOfTheArchaeologist",
+     "event": "31538-01.html",
+     "quest": 14,
+     "to": "Q00014_WhereaboutsOfTheArchaeologist/31538-01.html",
+     "toAll": [
+      "Q00014_WhereaboutsOfTheArchaeologist/31538-01.html",
+      "Q00014_WhereaboutsOfTheArchaeologist/31538-02.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00619_RelicsOfTheOldEmpire/31538-01.htm": {
+   "file": "Q00619_RelicsOfTheOldEmpire/31538-01.htm",
+   "quest": 619,
+   "text": "Ghost of Adventurer: I came here in search of treasure to reverse my losses... And was killed before I even laid eyes on any! It's so unfair! I must get some treasure! Of course, they say that all the good treasure has already been stolen by graverobbers! Hmmm... I remember overhearing some gossip …",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00619_RelicsOfTheOldEmpire 31538-02.htm",
+     "kind": "quest-event",
+     "script": "Q00619_RelicsOfTheOldEmpire",
+     "event": "31538-02.htm",
+     "quest": 619,
+     "to": "Q00619_RelicsOfTheOldEmpire/31538-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00619_RelicsOfTheOldEmpire/31538-03.html": {
+   "file": "Q00619_RelicsOfTheOldEmpire/31538-03.html",
+   "quest": 619,
+   "text": "Ghost of Adventurer: I came here in search of treasure to reverse my losses... And was killed before I even laid eyes on any! It's so unfair! I must get some treasure! Of course, they say that all the good treasure has already been stolen by graverobbers! Hmmm... I remember overhearing some gossip …",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00619_RelicsOfTheOldEmpire/31538-04.html": {
+   "file": "Q00619_RelicsOfTheOldEmpire/31538-04.html",
+   "quest": 619,
+   "text": "Ghost of Adventurer: Great! You brought 1000 relics! Do you want to trade them for a piece of paper? Did you find a sepulcher pass ? Ask the nameless ghost near the Four Sepulchers , he'll tell you what it's for.",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "state STARTED; (getQuestItemsCount(player, BROKEN_RELIC_PART.getId()) >= REQUIRED_RELIC_COUNT)"
+   ],
+   "links": [
+    {
+     "text": "\"I don't want to trade now.\"",
+     "bypass": "Quest Q00619_RelicsOfTheOldEmpire 31538-05.html",
+     "kind": "quest-event",
+     "script": "Q00619_RelicsOfTheOldEmpire",
+     "event": "31538-05.html",
+     "quest": 619,
+     "to": "Q00619_RelicsOfTheOldEmpire/31538-05.html"
+    },
+    {
+     "text": "\"I want to trade the relics for a piece of paper.\"",
+     "bypass": "Quest Q00619_RelicsOfTheOldEmpire 31538-06.html",
+     "kind": "quest-event",
+     "script": "Q00619_RelicsOfTheOldEmpire",
+     "event": "31538-06.html",
+     "quest": 619,
+     "to": "Q00619_RelicsOfTheOldEmpire/31538-06.html"
+    }
+   ]
+  },
+  "Q00619_RelicsOfTheOldEmpire/31538-07.html": {
+   "file": "Q00619_RelicsOfTheOldEmpire/31538-07.html",
+   "quest": 619,
+   "text": "Ghost of Adventurer: You don't have 1000 relics yet? Hunt the monsters in the Imperial Tomb , you should be able to obtain them. Keep trying! Collect 1000 relics and bring them to me, I'll give you a very nice piece of paper, supposedly a recipe for some sort of weapon. Ah, I see that you have the …",
+   "header": "Ghost of Adventurer",
+   "when": [
+    "state STARTED; NOT (getQuestItemsCount(player, BROKEN_RELIC_PART.getId()) >= REQUIRED_RELIC_COUNT)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll continue collecting relics.\"",
+     "bypass": "Quest Q00619_RelicsOfTheOldEmpire 31538-05.html",
+     "kind": "quest-event",
+     "script": "Q00619_RelicsOfTheOldEmpire",
+     "event": "31538-05.html",
+     "quest": 619,
+     "to": "Q00619_RelicsOfTheOldEmpire/31538-05.html"
+    },
+    {
+     "text": "\"I want to stop collecting relics.\"",
+     "bypass": "Quest Q00619_RelicsOfTheOldEmpire 31538-08.html",
+     "kind": "quest-event",
+     "script": "Q00619_RelicsOfTheOldEmpire",
+     "event": "31538-08.html",
+     "quest": 619,
+     "to": "Q00619_RelicsOfTheOldEmpire/31538-08.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00014_WhereaboutsOfTheArchaeologist/31538-01.html": {
+   "file": "Q00014_WhereaboutsOfTheArchaeologist/31538-01.html",
+   "quest": 14,
+   "text": "Ghost of Adventurer: Oh, yes, I see. Well, I could never let her see me like this, anyway! Thank you for bringing the letter to me. Please accept this token of my appreciation.",
+   "header": "Ghost of Adventurer",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00014_WhereaboutsOfTheArchaeologist/31538-02.html": {
+   "file": "Q00014_WhereaboutsOfTheArchaeologist/31538-02.html",
+   "quest": 14,
+   "text": "Ghost of Adventurer: You don't have the required items.",
+   "header": "Ghost of Adventurer",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00619_RelicsOfTheOldEmpire/31538-02.htm": {
+   "file": "Q00619_RelicsOfTheOldEmpire/31538-02.htm",
+   "quest": 619,
+   "text": "Ghost of Adventurer: Please, do this for me! Hunt the monsters in the Imperial Tomb . Bring me 1000 relics and I'll give you some scraps of paper I've collected. Many people really like my scraps of paper. I'm not sure, but I think they're some sort of weapon recipes... While you're doing this, you…",
+   "header": "Ghost of Adventurer",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00619_RelicsOfTheOldEmpire/31538-05.html": {
+   "file": "Q00619_RelicsOfTheOldEmpire/31538-05.html",
+   "quest": 619,
+   "text": "Ghost of Adventurer: Thank you for continuing to search for relics. Hunt the monsters in the Imperial Tomb , you should be able to find more.",
+   "header": "Ghost of Adventurer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00619_RelicsOfTheOldEmpire/31538-06.html": {
+   "file": "Q00619_RelicsOfTheOldEmpire/31538-06.html",
+   "quest": 619,
+   "text": "Ghost of Adventurer: Here you go! Oh, you like it? I prefer the relics! Bring some more and I'll give you more scraps of paper.",
+   "header": "Ghost of Adventurer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00619_RelicsOfTheOldEmpire/31538-08.html": {
+   "file": "Q00619_RelicsOfTheOldEmpire/31538-08.html",
+   "quest": 619,
+   "text": "Ghost of Adventurer: A quitter, eh? Goodbye.",
+   "header": "Ghost of Adventurer",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Whereabouts of the Archaeologist (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00014_WhereaboutsOfTheArchaeologist",
+     "kind": "quest",
+     "quest": 14,
+     "to": "Q00014_WhereaboutsOfTheArchaeologist/31538-00.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Relics of the Old Empire]",
+     "bypass": "npc_%objectId%_Quest Q00619_RelicsOfTheOldEmpire",
+     "kind": "quest",
+     "quest": 619,
+     "to": "Q00619_RelicsOfTheOldEmpire/31538-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Relics of the Old Empire (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00619_RelicsOfTheOldEmpire",
+     "kind": "quest",
+     "quest": 619,
+     "to": "Q00619_RelicsOfTheOldEmpire/31538-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

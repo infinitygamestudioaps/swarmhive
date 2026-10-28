@@ -1,0 +1,183 @@
+{
+ "npcId": 32500,
+ "name": "Inspector Sinai",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.376Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32500.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "128": {
+   "name": "Pailaka - Song of Ice and Fire",
+   "listText": [
+    "[Pailaka - Song of Ice and Fire]",
+    "[Pailaka - Song of Ice and Fire (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32500-00.htm",
+     "when": "cond >1",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32500-01.htm",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32500.htm": {
+   "file": "default/32500.htm",
+   "quest": null,
+   "text": "Inspector Sinai: The chaotic power of the Sprites in the Forgotten Temple is growing. It must be stopped soon or else...",
+   "header": "Inspector Sinai",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32500-00.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32500-00.htm",
+   "quest": 128,
+   "text": "Inspector Sinai: Just do what you've been trained to do. Your book will tell you the specifics.",
+   "header": "Inspector Sinai",
+   "when": [
+    "cond >1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00128_PailakaSongOfIceAndFire/32500-01.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32500-01.htm",
+   "quest": 128,
+   "text": "Inspector Sinai: Are you an adventurer? Hmm, finding an adventurer in a dangerous place like this... I suppose I shouldn't be surprised! Still, I must admit I didn't expect to find you here. Were you sent by the Adventurers Association? Or perhaps you found your way here on your own? Ah, you look p…",
+   "header": "Inspector Sinai",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Ask for an explanation.",
+     "bypass": "Quest Q00128_PailakaSongOfIceAndFire 32500-02.htm",
+     "kind": "quest-event",
+     "script": "Q00128_PailakaSongOfIceAndFire",
+     "event": "32500-02.htm",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32500-02.htm"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32500-02.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32500-02.htm",
+   "quest": 128,
+   "text": "Inspector Sinai: Hmm... Let's see if I can make this brief... Once there was a balance here between the power of the Water and Fire Sprites, but now those two have become increasingly aggressive. Worse, I've received a report that some of the Sprites have embraced the chaos and are changing into fe…",
+   "header": "Inspector Sinai",
+   "links": [
+    {
+     "text": "Ask how to use the weapon.",
+     "bypass": "Quest Q00128_PailakaSongOfIceAndFire 32500-03.htm",
+     "kind": "quest-event",
+     "script": "Q00128_PailakaSongOfIceAndFire",
+     "event": "32500-03.htm",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32500-03.htm"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32500-03.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32500-03.htm",
+   "quest": 128,
+   "text": "Inspector Sinai: First, of course, you must be able to enter the temple itself. We can magically protect ourselves, but others... Wait -- you really believe you can do this, don't you? Perhaps you're right! I don't know how, but your aura seems immune to the chaos that has infected this place. It's…",
+   "header": "Inspector Sinai",
+   "links": [
+    {
+     "text": "Explain how you got here.",
+     "bypass": "Quest Q00128_PailakaSongOfIceAndFire 32500-04.htm",
+     "kind": "quest-event",
+     "script": "Q00128_PailakaSongOfIceAndFire",
+     "event": "32500-04.htm",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32500-04.htm"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32500-04.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32500-04.htm",
+   "quest": 128,
+   "text": "Inspector Sinai: If what you say is true, then you really did come here from another dimension! There has been much speculation about other dimensions at our Ivory Tower, but it seems your Ivory Tower is even more advanced... If the cause of our troubles lies in the fissure of power in this dimensi…",
+   "header": "Inspector Sinai",
+   "links": [
+    {
+     "text": "Accept",
+     "bypass": "Quest Q00128_PailakaSongOfIceAndFire 32500-05.htm",
+     "kind": "quest-event",
+     "script": "Q00128_PailakaSongOfIceAndFire",
+     "event": "32500-05.htm",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32500-05.htm"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32500-05.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32500-05.htm",
+   "quest": 128,
+   "text": "Inspector Sinai: Please defeat those chaotic Sprites in the temple and restore stability. You may use this Sprite's Sword, forged with both the power of water and fire. I know you will use it well. Also, take this book written by the Elves who built this place -- it will tell you if something is wr…",
+   "header": "Inspector Sinai",
+   "links": [
+    {
+     "text": "Accept the sword and the book.",
+     "bypass": "Quest Q00128_PailakaSongOfIceAndFire 32500-06.htm",
+     "kind": "quest-event",
+     "script": "Q00128_PailakaSongOfIceAndFire",
+     "event": "32500-06.htm",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32500-06.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32500-06.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32500-06.htm",
+   "quest": 128,
+   "text": "Inspector Sinai: There are 4 chaotic Sprites. If you defeat them in a certain order, their powers will revert to their former stable state. Inside, you will also meet our inspectors. They are superior enchanters, and they will certainly help you if you need it. You should know that the power of thi…",
+   "header": "Inspector Sinai",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Pailaka - Song of Ice and Fire (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00128_PailakaSongOfIceAndFire",
+     "kind": "quest",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32500-00.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

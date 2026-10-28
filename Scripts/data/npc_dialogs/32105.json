@@ -1,0 +1,602 @@
+{
+ "npcId": 32105,
+ "name": "Dinn",
+ "title": "",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.325Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/32105.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "642": {
+   "name": "A Powerful Primeval Creature",
+   "listText": [
+    "[A Powerful Primeval Creature]",
+    "[A Powerful Primeval Creature (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00642_APowerfulPrimevalCreature/32105-01.htm",
+     "when": "state CREATED; player.getLevel() < MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00642_APowerfulPrimevalCreature/32105-02.htm",
+     "when": "state CREATED; NOT player.getLevel() < MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00642_APowerfulPrimevalCreature/32105-08.html",
+     "when": "state STARTED; (hasAtLeastOneQuestItem(player, DINOSAUR_TISSUE, DINOSAUR_EGG))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00642_APowerfulPrimevalCreature/32105-07.html",
+     "when": "state STARTED; NOT (hasAtLeastOneQuestItem(player, DINOSAUR_TISSUE, DINOSAUR_EGG))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "688": {
+   "name": "Defeat the Elrokian Raiders!",
+   "listText": [
+    "[Defeat the Elrokian Raiders!]",
+    "[Defeat the Elrokian Raiders! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00688_DefeatTheElrokianRaiders/32105-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00688_DefeatTheElrokianRaiders/32105-04.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00688_DefeatTheElrokianRaiders/32105-05.html",
+     "when": "state STARTED; (st.hasQuestItems(DINOSAUR_FANG_NECKLACE.getId()))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00688_DefeatTheElrokianRaiders/32105-12.html",
+     "when": "state STARTED; NOT (st.hasQuestItems(DINOSAUR_FANG_NECKLACE.getId()))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/32105.htm": {
+   "file": "merchant/32105.htm",
+   "quest": null,
+   "text": "Dindin: Looking for anything in particular? I may not have as large a shop as though on the mainland, but what I carry is all quality stuff! Look around and let me know if you see something you want...",
+   "header": "Dindin",
+   "links": [
+    {
+     "text": "Trade consumables and minerals.",
+     "bypass": "npc_%objectId%_Buy 3210500",
+     "kind": "shop"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-01.htm": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-01.htm",
+   "quest": 642,
+   "text": "Dinn: Oh, a dangerous island like this is no place for someone like you! If you value your life, leave at once! (Only characters who are level 75 or above may undertake this quest.)",
+   "header": "Dinn",
+   "when": [
+    "state CREATED; player.getLevel() < MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-02.htm": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-02.htm",
+   "quest": 642,
+   "text": "Dinn: Oh, I haven't seen an outsider on this dangerous and remote island in ages. You've come to find the truth behind all the rumors, haven't you?",
+   "header": "Dinn",
+   "when": [
+    "state CREATED; NOT player.getLevel() < MIN_LEVEL"
+   ],
+   "links": [
+    {
+     "text": "\"What rumors are you talking about?\"",
+     "bypass": "Quest Q00642_APowerfulPrimevalCreature 32105-03.htm",
+     "kind": "quest-event",
+     "script": "Q00642_APowerfulPrimevalCreature",
+     "event": "32105-03.htm",
+     "quest": 642,
+     "to": "Q00642_APowerfulPrimevalCreature/32105-03.htm"
+    }
+   ]
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-08.html": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-08.html",
+   "quest": 642,
+   "text": "Dinn: Oh! you have gathered them. Everyone will be pleased.",
+   "header": "Dinn",
+   "when": [
+    "state STARTED; (hasAtLeastOneQuestItem(player, DINOSAUR_TISSUE, DINOSAUR_EGG))"
+   ],
+   "links": [
+    {
+     "text": "Calculate the price of the dinosaur tissues. (5000 adena each)",
+     "bypass": "Quest Q00642_APowerfulPrimevalCreature 32105-09.html",
+     "kind": "quest-event",
+     "script": "Q00642_APowerfulPrimevalCreature",
+     "event": "32105-09.html",
+     "quest": 642,
+     "to": "Q00642_APowerfulPrimevalCreature/32105-09.html",
+     "toAll": [
+      "Q00642_APowerfulPrimevalCreature/32105-09.html",
+      "Q00642_APowerfulPrimevalCreature/32105-14.html"
+     ]
+    },
+    {
+     "text": "Exchange for an A-grade and Dynasty Weapon recipe.",
+     "bypass": "npc_%objectId%_multisell 2011",
+     "kind": "multisell"
+    },
+    {
+     "text": "Stop.",
+     "bypass": "Quest Q00642_APowerfulPrimevalCreature 32105-10.html",
+     "kind": "quest-event",
+     "script": "Q00642_APowerfulPrimevalCreature",
+     "event": "32105-10.html",
+     "quest": 642,
+     "to": "Q00642_APowerfulPrimevalCreature/32105-10.html"
+    }
+   ]
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-07.html": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-07.html",
+   "quest": 642,
+   "text": "Dinn: Many people are depending on you! We need eggs and tissue samples from Pterosaurs, Tyrannosauruses and Velociraptors . Just so you know, 1 Dinosaur Egg and 150 Dinosaur Tissues can be processed as a set. You can find dinosaur eggs by searching near a dinosaur's lair. But once you touch one, a…",
+   "header": "Dinn",
+   "when": [
+    "state STARTED; NOT (hasAtLeastOneQuestItem(player, DINOSAUR_TISSUE, DINOSAUR_EGG))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00688_DefeatTheElrokianRaiders/32105-01.htm": {
+   "file": "Q00688_DefeatTheElrokianRaiders/32105-01.htm",
+   "quest": 688,
+   "text": "Dinn: Hey, you there -- Sir Adventurer! May I speak to you for a moment? Have you heard of the Elrokian brigands hiding in the Primeval Plains? The wharf merchants and I are beset by them. Sales haven't been good, and since those thieves don't look like they'll go away any time soon on their own, i…",
+   "header": "Dinn",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Find out more details.",
+     "bypass": "Quest Q00688_DefeatTheElrokianRaiders 32105-02.htm",
+     "kind": "quest-event",
+     "script": "Q00688_DefeatTheElrokianRaiders",
+     "event": "32105-02.htm",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-02.htm"
+    }
+   ]
+  },
+  "Q00688_DefeatTheElrokianRaiders/32105-04.html": {
+   "file": "Q00688_DefeatTheElrokianRaiders/32105-04.html",
+   "quest": 688,
+   "text": "Dinn: The weather is hot, and evil abounds... These are troubled days, I can assure you! Ah, I wish you could help us, my friend, but to my eye you are still too inexperienced for this kind of fight. Oh, that you were but a few seasons older! Well, we will simply have to persevere as best we know h…",
+   "header": "Dinn",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00688_DefeatTheElrokianRaiders/32105-05.html": {
+   "file": "Q00688_DefeatTheElrokianRaiders/32105-05.html",
+   "quest": 688,
+   "text": "Dinn: Eh? You caught them? Ah, it finally feels like a weight has been lifted! First of all, let me offer you a reward equal to the number of necklaces you've brought. If you have more than 100 necklaces, I can also give you a bounty collected by our local merchants. Truth be told, I was prepared t…",
+   "header": "Dinn",
+   "when": [
+    "state STARTED; (st.hasQuestItems(DINOSAUR_FANG_NECKLACE.getId()))"
+   ],
+   "links": [
+    {
+     "text": "Take the per necklace bounty.",
+     "bypass": "Quest Q00688_DefeatTheElrokianRaiders 32105-06.html",
+     "kind": "quest-event",
+     "script": "Q00688_DefeatTheElrokianRaiders",
+     "event": "32105-06.html",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-06.html"
+    },
+    {
+     "text": "Take the merchants' donation.",
+     "bypass": "Quest Q00688_DefeatTheElrokianRaiders donation",
+     "kind": "quest-event",
+     "script": "Q00688_DefeatTheElrokianRaiders",
+     "event": "donation",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-07.html",
+     "toAll": [
+      "Q00688_DefeatTheElrokianRaiders/32105-07.html",
+      "Q00688_DefeatTheElrokianRaiders/32105-08.html",
+      "Q00688_DefeatTheElrokianRaiders/32105-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00688_DefeatTheElrokianRaiders/32105-12.html": {
+   "file": "Q00688_DefeatTheElrokianRaiders/32105-12.html",
+   "quest": 688,
+   "text": "Dinn: Did you happen to lose the necklaces on the way back here? Or did you fail to actually catch any thieves? No matter what happened, if you don't have a dinosaur fang pendant , I cannot justify rewarding you. Let me make a suggestion: travel south along this road to the Primeval Plains. I'm con…",
+   "header": "Dinn",
+   "when": [
+    "state STARTED; NOT (st.hasQuestItems(DINOSAUR_FANG_NECKLACE.getId()))"
+   ],
+   "links": [
+    {
+     "text": "Continue to catch thieves.",
+     "bypass": "Quest Q00688_DefeatTheElrokianRaiders 32105-10.html",
+     "kind": "quest-event",
+     "script": "Q00688_DefeatTheElrokianRaiders",
+     "event": "32105-10.html",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-10.html"
+    },
+    {
+     "text": "Quit.",
+     "bypass": "Quest Q00688_DefeatTheElrokianRaiders 32105-11.html",
+     "kind": "quest-event",
+     "script": "Q00688_DefeatTheElrokianRaiders",
+     "event": "32105-11.html",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-11.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-03.htm": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-03.htm",
+   "quest": 642,
+   "text": "Dinn: This island was only just discovered, and it's already clear that it's unlike anywhere else. There are enormous, vicious creatures who live here. Of course, there are people who are curious to find out more...",
+   "header": "Dinn",
+   "links": [
+    {
+     "text": "Ask about those people and their interest.",
+     "bypass": "Quest Q00642_APowerfulPrimevalCreature 32105-04.htm",
+     "kind": "quest-event",
+     "script": "Q00642_APowerfulPrimevalCreature",
+     "event": "32105-04.htm",
+     "quest": 642,
+     "to": "Q00642_APowerfulPrimevalCreature/32105-04.htm"
+    }
+   ]
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-04.htm": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-04.htm",
+   "quest": 642,
+   "text": "Dinn: Some of the Wizards call those creatures \"dinosaurs.\" They weren't created by any of the known gods of Aden. The Wizards are curious about where they came from. Also, artisans from all over are very interested in using these powerful creatures as the basis for new weaponry and machines.",
+   "header": "Dinn",
+   "links": [
+    {
+     "text": "Say you would like to help.",
+     "bypass": "Quest Q00642_APowerfulPrimevalCreature 32105-05.html",
+     "kind": "quest-event",
+     "script": "Q00642_APowerfulPrimevalCreature",
+     "event": "32105-05.html",
+     "quest": 642,
+     "to": "Q00642_APowerfulPrimevalCreature/32105-05.html",
+     "effect": "start"
+    },
+    {
+     "text": "Say you are not interested.",
+     "bypass": "Quest Q00642_APowerfulPrimevalCreature 32105-06.htm",
+     "kind": "quest-event",
+     "script": "Q00642_APowerfulPrimevalCreature",
+     "event": "32105-06.htm",
+     "quest": 642,
+     "to": "Q00642_APowerfulPrimevalCreature/32105-06.htm",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-05.html": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-05.html",
+   "quest": 642,
+   "text": "Dinn: Good! I know that both the Wizards and Dwarven artisans will welcome your help. This place is far too dangerous for ordinary researchers! On to business, then. We need eggs and tissue samples from Pterosaurs, Tyrannosauruses and Velociraptors . Just so you know, 1 Dinosaur Egg and 150 Dinosau…",
+   "header": "Dinn",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-06.htm": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-06.htm",
+   "quest": 642,
+   "text": "Dinn: What, did I say something? Forgive me -- you seem preoccupied with your own affairs. Please go on about your own business.",
+   "header": "Dinn",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-09.html": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-09.html",
+   "quest": 642,
+   "text": "Dinn: Thank you. Your efforts have greatly aided our research, and I hope our efforts will allow many others to visit this island. Please accept this small token of our appreciation. Could I convince you to continue working on our behalf?",
+   "header": "Dinn",
+   "links": [
+    {
+     "text": "Tell him you will.",
+     "bypass": "Quest Q00642_APowerfulPrimevalCreature 32105-12.html",
+     "kind": "quest-event",
+     "script": "Q00642_APowerfulPrimevalCreature",
+     "event": "32105-12.html",
+     "quest": 642,
+     "to": "Q00642_APowerfulPrimevalCreature/32105-12.html"
+    },
+    {
+     "text": "Tell him you are quitting.",
+     "bypass": "Quest Q00642_APowerfulPrimevalCreature exit",
+     "kind": "quest-event",
+     "script": "Q00642_APowerfulPrimevalCreature",
+     "event": "exit",
+     "quest": 642,
+     "to": "Q00642_APowerfulPrimevalCreature/32105-12.html",
+     "toAll": [
+      "Q00642_APowerfulPrimevalCreature/32105-12.html",
+      "Q00642_APowerfulPrimevalCreature/32105-13.html"
+     ],
+     "effect": "reward|end"
+    }
+   ]
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-10.html": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-10.html",
+   "quest": 642,
+   "text": "Dinn: Adventurer, choose wisely how you will use what you have earned...",
+   "header": "Dinn",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-11.html": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-11.html",
+   "quest": 642,
+   "text": "Dinn: Thanks you! Then keep hunting Pterosaurs, Tyrannosauruses and Velociraptors and collect samples of their tissues. Just so you know, 1 Dinosaur Egg and 150 Dinosaur Tissues can be processed as a set. You can find dinosaur eggs by searching near a dinosaur's lair. But once you touch one, any di…",
+   "header": "Dinn",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-12.html": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-12.html",
+   "quest": 642,
+   "text": "Dinn: Ah, I see you are off to another adventure! Thank you so much for helping us. We can handle the rest, I think. I wish you safe travel and good fortune!",
+   "header": "Dinn",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-13.html": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-13.html",
+   "quest": 642,
+   "text": "Dinn: Ah, ready for other adventures, eh? Well, thank you very much for your help. I wish you a safe and prosperous journey!",
+   "header": "Dinn",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00642_APowerfulPrimevalCreature/32105-14.html": {
+   "file": "Q00642_APowerfulPrimevalCreature/32105-14.html",
+   "quest": 642,
+   "text": "Dinn: You don't have any dinosaur tissue here! Hunt Pterosaurs, Tyrannosauruses and Velociraptors and gather samples of their tissue.",
+   "header": "Dinn",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00688_DefeatTheElrokianRaiders/32105-02.htm": {
+   "file": "Q00688_DefeatTheElrokianRaiders/32105-02.htm",
+   "quest": 688,
+   "text": "Dinn: At first, they stole only small items. But success has made them bold, and lately they have organized themselves into armed groups that raid even in broad daylight. The merchants on the wharf are understandably on edge. Despite standing constant watch over their wares, they have not the skill…",
+   "header": "Dinn",
+   "links": [
+    {
+     "text": "Pledge your services to catch the thieves.",
+     "bypass": "Quest Q00688_DefeatTheElrokianRaiders 32105-03.html",
+     "kind": "quest-event",
+     "script": "Q00688_DefeatTheElrokianRaiders",
+     "event": "32105-03.html",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-03.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00688_DefeatTheElrokianRaiders/32105-03.html": {
+   "file": "Q00688_DefeatTheElrokianRaiders/32105-03.html",
+   "quest": 688,
+   "text": "Dinn: Gods be praised! Now that I know that you are willing to help us, I finally feel like I'll be able to sleep soundly tonight. According to a trustworthy source, the Elrokian thieves who raid our wharf all wear necklaces that contain a dinosaur fang pendant . Bring me those necklaces as proof t…",
+   "header": "Dinn",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00688_DefeatTheElrokianRaiders/32105-06.html": {
+   "file": "Q00688_DefeatTheElrokianRaiders/32105-06.html",
+   "quest": 688,
+   "text": "Dinn: My utmost thanks! Since you've already made a good start of it, how about trying your hand at catching even more thieves? I assure you, we'll never forget such a great service!",
+   "header": "Dinn",
+   "links": [
+    {
+     "text": "Agree to catch more thieves.",
+     "bypass": "Quest Q00688_DefeatTheElrokianRaiders 32105-10.html",
+     "kind": "quest-event",
+     "script": "Q00688_DefeatTheElrokianRaiders",
+     "event": "32105-10.html",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-10.html"
+    },
+    {
+     "text": "Quit.",
+     "bypass": "Quest Q00688_DefeatTheElrokianRaiders 32105-11.html",
+     "kind": "quest-event",
+     "script": "Q00688_DefeatTheElrokianRaiders",
+     "event": "32105-11.html",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-11.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00688_DefeatTheElrokianRaiders/32105-07.html": {
+   "file": "Q00688_DefeatTheElrokianRaiders/32105-07.html",
+   "quest": 688,
+   "text": "Dinn: Hmm... By my count, these necklaces are short of the 100 mark. Thanks for your efforts, but I have sworn that I would not accept any donation less than that total. Even good intentions should be governed by some rules to prevent potential problems in the future. If you could acquire some more…",
+   "header": "Dinn",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00688_DefeatTheElrokianRaiders/32105-08.html": {
+   "file": "Q00688_DefeatTheElrokianRaiders/32105-08.html",
+   "quest": 688,
+   "text": "Dinn: You have done a fantastic job! I know how difficult it must have been to collect 100 necklaces, and here you are donating them with no strings attached. I can't tell you how grateful we are! Here, please take this reward. It's miniscule compared to all you've done for us, but this is the best…",
+   "header": "Dinn",
+   "links": [
+    {
+     "text": "Continue to capture the Elrokian raiders.",
+     "bypass": "Quest Q00688_DefeatTheElrokianRaiders 32105-10.html",
+     "kind": "quest-event",
+     "script": "Q00688_DefeatTheElrokianRaiders",
+     "event": "32105-10.html",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-10.html"
+    },
+    {
+     "text": "Collect the balance of your reward and quit.",
+     "bypass": "Quest Q00688_DefeatTheElrokianRaiders 32105-11.html",
+     "kind": "quest-event",
+     "script": "Q00688_DefeatTheElrokianRaiders",
+     "event": "32105-11.html",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-11.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00688_DefeatTheElrokianRaiders/32105-09.html": {
+   "file": "Q00688_DefeatTheElrokianRaiders/32105-09.html",
+   "quest": 688,
+   "text": "Dinn: Please accept my apologies -- the amount of money we've managed to scrape together is far too small compared to what you've done for us. But we have few merchants, and many of them have been robbed by thieves. I blush to say it, but this is really the best we can do... I know you have no expe…",
+   "header": "Dinn",
+   "links": [
+    {
+     "text": "Continue to capture the Elrokian raiders.",
+     "bypass": "Quest Q00688_DefeatTheElrokianRaiders 32105-10.html",
+     "kind": "quest-event",
+     "script": "Q00688_DefeatTheElrokianRaiders",
+     "event": "32105-10.html",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-10.html"
+    },
+    {
+     "text": "Collect the balance of your reward and quit.",
+     "bypass": "Quest Q00688_DefeatTheElrokianRaiders 32105-11.html",
+     "kind": "quest-event",
+     "script": "Q00688_DefeatTheElrokianRaiders",
+     "event": "32105-11.html",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-11.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00688_DefeatTheElrokianRaiders/32105-10.html": {
+   "file": "Q00688_DefeatTheElrokianRaiders/32105-10.html",
+   "quest": 688,
+   "text": "Dinn: Then travel to the Primeval Plains and defeat the Elrokian assault force. Collect their necklaces as proof of your victory. Remember: the more necklaces you bring back to me, the better for all of us.",
+   "header": "Dinn",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00688_DefeatTheElrokianRaiders/32105-11.html": {
+   "file": "Q00688_DefeatTheElrokianRaiders/32105-11.html",
+   "quest": 688,
+   "text": "Dinn: Very well, then. I am saddened that you have chosen not to continue. If you change your mind, please don't hesitate to return!",
+   "header": "Dinn",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[A Powerful Primeval Creature]",
+     "bypass": "npc_%objectId%_Quest Q00642_APowerfulPrimevalCreature",
+     "kind": "quest",
+     "quest": 642,
+     "to": "Q00642_APowerfulPrimevalCreature/32105-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[A Powerful Primeval Creature (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00642_APowerfulPrimevalCreature",
+     "kind": "quest",
+     "quest": 642,
+     "to": "Q00642_APowerfulPrimevalCreature/32105-08.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Defeat the Elrokian Raiders!]",
+     "bypass": "npc_%objectId%_Quest Q00688_DefeatTheElrokianRaiders",
+     "kind": "quest",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Defeat the Elrokian Raiders! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00688_DefeatTheElrokianRaiders",
+     "kind": "quest",
+     "quest": 688,
+     "to": "Q00688_DefeatTheElrokianRaiders/32105-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

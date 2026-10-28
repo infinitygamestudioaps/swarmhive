@@ -1,0 +1,372 @@
+{
+ "npcId": 30370,
+ "name": "Nerupa",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.958Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "Q00255_Tutorial/30370-001.htm",
+   "when": "",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30370-004.htm",
+   "when": "qs.getMemoStateEx(1) > 3",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30370-003.htm",
+   "when": "!(!qs.hasQuestItems(LEAF_OF_THE_MOTHER_TREE) && (qs.getMemoStateEx(1) > 3)); qs.getMemoStateEx(1) <= 3",
+   "src": "quest 255"
+  }
+ ],
+ "quests": {
+  "160": {
+   "name": "Nerupa's Request",
+   "listText": [
+    "[Nerupa's Request]",
+    "[Nerupa's Request (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00160_NerupasRequest/30370-01.htm",
+     "when": "state CREATED; player.getRace() != Race.ELF",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00160_NerupasRequest/30370-02.htm",
+     "when": "state CREATED; level < 3; !player.getRace() != Race.ELF",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00160_NerupasRequest/30370-03.htm",
+     "when": "state CREATED; NOT level < 3; !player.getRace() != Race.ELF",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00160_NerupasRequest/30370-05.html",
+     "when": "state STARTED; has items 1026,1027,1028",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00160_NerupasRequest/30370-06.html",
+     "when": "state STARTED; has items 1029; lacks items 1026,1027,1028",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "255": {
+   "name": "Tutorial",
+   "listText": [
+    "[Tutorial]",
+    "[Tutorial (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00255_Tutorial/30370-001.htm": {
+   "file": "Q00255_Tutorial/30370-001.htm",
+   "quest": 255,
+   "text": "Nerupa: Welcome, my young Elf. I am Nerupa, a great warrior of the Arachne tribe. I made a pact with the Mother Tree long before you were born, and have provided the Elves and the Mother Tree with my protection for a long time now. Young Elf, what do you seek from me?",
+   "header": "Nerupa",
+   "when": [
+    "always"
+   ],
+   "live": {
+    "file": "Logs/questpage_Nuker19_0.html",
+    "at": "2026-10-27T12:30:47.357Z",
+    "score": 0.45
+   },
+   "dpText": "Nerupa: I am a proud warrior of the Arachne tribe. Long ago, I made a pact with the Mother Tree, and have protected this forest and young Elves for centuries. Have you brought a Leaf of the Mother Tree from the Newbie Helper?",
+   "links": [
+    {
+     "text": "\"I brought a Leaf of the Mother Tree.\"",
+     "bypass": "Quest Q00255_Tutorial 31",
+     "kind": "quest-event",
+     "script": "Q00255_Tutorial",
+     "event": "31",
+     "quest": 255,
+     "to": "Q00255_Tutorial/30370-002.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00255_Tutorial/30370-004.htm": {
+   "file": "Q00255_Tutorial/30370-004.htm",
+   "quest": 255,
+   "text": "Nerupa: Go to the Elven Village and meet the Newbie Guide. He will give you a lot of important advice. Not to mention a few gifts!",
+   "header": "Nerupa",
+   "when": [
+    "qs.getMemoStateEx(1) > 3"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00255_Tutorial/30370-003.htm": {
+   "file": "Q00255_Tutorial/30370-003.htm",
+   "quest": 255,
+   "text": "Nerupa: First, you must learn the basic methods of control in the game. Let me introduce the newbie helper . Follow his instructions and you'll quickly learn things that you need to know.",
+   "header": "Nerupa",
+   "when": [
+    "!(!qs.hasQuestItems(LEAF_OF_THE_MOTHER_TREE) && (qs.getMemoStateEx(1) > 3)); qs.getMemoStateEx(1) <= 3"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00160_NerupasRequest/30370-01.htm": {
+   "file": "Q00160_NerupasRequest/30370-01.htm",
+   "quest": 160,
+   "text": "Nerupa: If not for the order given by the Elven elders, I would not just stand by and watch a foreigner such as yourself set foot into our sacred woods! The guardians of the forest are watching your every move, so beware! Dare to disobey just one law of the forest and I will kill you without hesita…",
+   "header": "Nerupa",
+   "when": [
+    "state CREATED; player.getRace() != Race.ELF"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00160_NerupasRequest/30370-02.htm": {
+   "file": "Q00160_NerupasRequest/30370-02.htm",
+   "quest": 160,
+   "text": "Nerupa: Recently, one of your kind who lives in the village visited me and asked me to get some silvery Spider Silks for him. My arachne sisters are wandering the forests and gathering the spider webs that the silver spiders have spun. When the collecting is finished, I'd like you to take them to t…",
+   "header": "Nerupa",
+   "when": [
+    "state CREATED; level < 3; !player.getRace() != Race.ELF"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00160_NerupasRequest/30370-03.htm": {
+   "file": "Q00160_NerupasRequest/30370-03.htm",
+   "quest": 160,
+   "text": "Nerupa: Recently, one of your kind who lives in the village visited me and asked me to get some silvery Spider Silks for him. My sisters have combed the forest and collected spider webs spun by silver spiders. But I detest going into the village. I would like it if you could deliver them for me ins…",
+   "header": "Nerupa",
+   "when": [
+    "state CREATED; NOT level < 3; !player.getRace() != Race.ELF"
+   ],
+   "links": [
+    {
+     "text": "Say you will do the favor",
+     "bypass": "Quest Q00160_NerupasRequest 30370-04.htm",
+     "kind": "quest-event",
+     "script": "Q00160_NerupasRequest",
+     "event": "30370-04.htm",
+     "quest": 160,
+     "to": "Q00160_NerupasRequest/30370-04.htm",
+     "effect": "start",
+     "live": true
+    }
+   ]
+  },
+  "Q00160_NerupasRequest/30370-05.html": {
+   "file": "Q00160_NerupasRequest/30370-05.html",
+   "quest": 160,
+   "text": "Nerupa: You couldn't manage to get the Nightshade Leaf from Unoren? Did he say he didn't have it? Don't tell me that that little Elf creature lied to me?",
+   "header": "Nerupa",
+   "when": [
+    "state STARTED; has items 1026,1027,1028"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00160_NerupasRequest/30370-06.html": {
+   "file": "Q00160_NerupasRequest/30370-06.html",
+   "quest": 160,
+   "text": "Nerupa: Child of the forest, have you brought me what Unoren promised? Is this it? Yes, by the color and smell of it, it is nightshade for sure. That little Elf was surely lucky to obtain such a rare item. Here, take this. This is your reward for traveling to the village and back.",
+   "header": "Nerupa",
+   "when": [
+    "state STARTED; has items 1029; lacks items 1026,1027,1028"
+   ],
+   "live": {
+    "file": "Logs/questpage_Nuker19_2.html",
+    "at": "2026-10-27T12:30:47.651Z",
+    "score": 1
+   },
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00160_NerupasRequest/30370-04.htm": {
+   "file": "Q00160_NerupasRequest/30370-04.htm",
+   "quest": 160,
+   "text": "Nerupa: Go to Unoren , who works in the weapons and armor store, and give him this silvery Spider Silk. And in return, I have asked him to get the Nightshade Leaf for me. Unoren said that the Nightshade Leaf is hard to find and offered \"Adena\" instead. But I refused. A young Elf such as yourself ma…",
+   "header": "Nerupa",
+   "live": {
+    "file": "Logs/questpage_Nuker19_3.html",
+    "at": "2026-10-27T12:26:31.928Z",
+    "score": 1
+   },
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00255_Tutorial/30370-002.htm": {
+   "file": "Q00255_Tutorial/30370-002.htm",
+   "quest": 255,
+   "text": "Nerupa: You have learned the basic operations of the game well. From here on out, you will be able to really enjoy the adventure! Take this gift -- I presume you have already heard instructions about how to use it? You now have a choice to make. You can either start your adventure here in the Elven…",
+   "header": "Nerupa",
+   "links": [
+    {
+     "text": "\"I will go to the Elven Village.\"",
+     "bypass": "Quest Q00255_Tutorial 42",
+     "kind": "quest-event",
+     "script": "Q00255_Tutorial",
+     "event": "42",
+     "quest": 255,
+     "to": "Q00255_Tutorial/30370-006.htm"
+    },
+    {
+     "text": "\"I will go to the Kamael Village.\"",
+     "bypass": "Quest Q00255_Tutorial 41",
+     "kind": "quest-event",
+     "script": "Q00255_Tutorial",
+     "event": "41",
+     "quest": 255,
+     "to": "Q00255_Tutorial/30370-005.htm"
+    }
+   ]
+  },
+  "Q00255_Tutorial/30370-005.htm": {
+   "file": "Q00255_Tutorial/30370-005.htm",
+   "quest": 255,
+   "text": "Nerupa: Go speak to the Newbie Guide in Kamael Village . He will advise you about what to do next, as well as give you a useful gift. To find him, just follow the arrow above your head. Farewell and good luck!",
+   "header": "Nerupa",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00255_Tutorial/30370-006.htm": {
+   "file": "Q00255_Tutorial/30370-006.htm",
+   "quest": 255,
+   "text": "Nerupa: Go to the Elven Village and speak to the Newbie Guide there. He will advise you about what to do next, as well as give you a useful gift. To find him, just follow the arrow above your head. Farewell and good luck!",
+   "header": "Nerupa",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Nerupa's Request]",
+     "bypass": "npc_%objectId%_Quest Q00160_NerupasRequest",
+     "kind": "quest",
+     "quest": 160,
+     "to": "Q00160_NerupasRequest/30370-03.htm",
+     "when": "quest not started",
+     "live": true
+    },
+    {
+     "text": "[Nerupa's Request (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00160_NerupasRequest",
+     "kind": "quest",
+     "quest": 160,
+     "to": "Q00160_NerupasRequest/30370-05.html",
+     "when": "quest in progress",
+     "live": true
+    },
+    {
+     "text": "[Tutorial]",
+     "bypass": "npc_%objectId%_Quest Q00255_Tutorial",
+     "kind": "quest",
+     "quest": 255,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Tutorial (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00255_Tutorial",
+     "kind": "quest",
+     "quest": 255,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of Q00255_Tutorial/30370-001.htm differs: live \"Nerupa: Welcome, my young Elf. I am Nerupa, a great warrior of the Arachne tribe. I made …\" vs datapack \"Nerupa: I am a proud warrior of the Arachne tribe. Long ago, I made a pact with the Mothe…\"",
+  "Q00255_Tutorial/30370-001.htm: datapack link \"\"I brought a Leaf of the Mother Tree.\"\" not in the live page (Logs/questpage_Nuker19_0.html)"
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "Nerupa:Welcome, my young Elf. I am Nerupa, a great warrior o"
+   ],
+   "to": [
+    "[Nerupa's Request]",
+    "[Nerupa's Request (In Progress)]"
+   ]
+  },
+  {
+   "text": "[Nerupa's Request]",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "[Nerupa's Request]"
+   ],
+   "to": [
+    "Nerupa:Recently, one of your kind who lives in the village v"
+   ]
+  },
+  {
+   "text": "Say you will do the favor",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Nerupa:Recently, one of your kind who lives in the village v"
+   ],
+   "to": [
+    "Nerupa:Go to Unoren, who works in the weapons and armor stor"
+   ]
+  },
+  {
+   "text": "[Nerupa's Request (In Progress)]",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "[Nerupa's Request (In Progress)]"
+   ],
+   "to": [
+    "Nerupa:Child of the forest, have you brought me what Unoren "
+   ]
+  }
+ ]
+}

@@ -1,0 +1,302 @@
+{
+ "npcId": 30313,
+ "name": "Asha",
+ "title": "Trader",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.931Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30313.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "327": {
+   "name": "Recover the Farmland",
+   "listText": [
+    "[Recover the Farmland]",
+    "[Recover the Farmland (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00327_RecoverTheFarmland/30313-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30313.htm": {
+   "file": "merchant/30313.htm",
+   "quest": null,
+   "text": "Trader Ashe: Well, well... What are you looking for? Hmm, I don't see anything I can use here....",
+   "header": "Trader Ashe",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30313-pk.htm": {
+   "file": "merchant/30313-pk.htm",
+   "quest": null,
+   "text": "Trader Asha: P ... please leave ... Qu ... quickly ...",
+   "header": "Trader Asha",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00327_RecoverTheFarmland/30313-01.html": {
+   "file": "Q00327_RecoverTheFarmland/30313-01.html",
+   "quest": 327,
+   "text": "Trader Asha: Um ... um ... You're fighting with the orcs on the northern coast, right? They say there are many relics of the ancient empire in that region ... Uh, um ... I majored in ancient relics when I studied at the Ivory Tower, you see ... So ... Um ... . If you bring back pieces of relics, I …",
+   "header": "Trader Asha",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Request assembly of clay jar",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-03.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-03.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-03.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30313-03.html",
+      "Q00327_RecoverTheFarmland/30313-02.html",
+      "Q00327_RecoverTheFarmland/30313-10.html"
+     ]
+    },
+    {
+     "text": "Request assembly of brass accessory",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-05.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-05.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-05.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30313-05.html",
+      "Q00327_RecoverTheFarmland/30313-04.html",
+      "Q00327_RecoverTheFarmland/30313-10.html"
+     ]
+    },
+    {
+     "text": "Request assembly of bronze mirror",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-07.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-07.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-07.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30313-07.html",
+      "Q00327_RecoverTheFarmland/30313-06.html",
+      "Q00327_RecoverTheFarmland/30313-10.html"
+     ]
+    },
+    {
+     "text": "Request assembly of jade necklace",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-09.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-09.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-09.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30313-09.html",
+      "Q00327_RecoverTheFarmland/30313-08.html",
+      "Q00327_RecoverTheFarmland/30313-10.html"
+     ]
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30313-02.html": {
+   "file": "Q00327_RecoverTheFarmland/30313-02.html",
+   "quest": 327,
+   "text": "Trader Asha: Uh ... Well ... You must have five clay jar pieces to restore it to its original state ... I am so sorry ...",
+   "header": "Trader Asha",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30313-03.html": {
+   "file": "Q00327_RecoverTheFarmland/30313-03.html",
+   "quest": 327,
+   "text": "Trader Asha: ... I see you have collected five clay jar pieces ... All, all right ... I think I can restore the jar with this ... Look at the pattern engraved on this piece ... It is in the style of the early empire age ... If I match the pieces where the pattern continues ... Ah! It is done! ... Y…",
+   "header": "Trader Asha",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30313-04.html": {
+   "file": "Q00327_RecoverTheFarmland/30313-04.html",
+   "quest": 327,
+   "text": "Trader Asha: Ahh ... Oh dear. You must have five accessory pieces ... Only then ... Can I restore it to its original state ...",
+   "header": "Trader Asha",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30313-05.html": {
+   "file": "Q00327_RecoverTheFarmland/30313-05.html",
+   "quest": 327,
+   "text": "Trader Asha: That I am assembling such a precious relic with my own hands ... It is so exciting ... However, I have not seen this accessory in the book ... Should this piece go on top? And if the rest are connected to the bottom ... See! It is a three-level crown used by the priests of Elmoreden ..…",
+   "header": "Trader Asha",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30313-06.html": {
+   "file": "Q00327_RecoverTheFarmland/30313-06.html",
+   "quest": 327,
+   "text": "Trader Asha: Ahh ... I'm sorry! I must have five Bronze Mirror Pieces to restore it to its original shape ... Please take a look at this diagram ... \"Bronze mirror used by noblewomen in the Elmoreden age\" ... According to this diagram, to assemble the mirror, it is impossible to do so with only the…",
+   "header": "Trader Asha",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30313-07.html": {
+   "file": "Q00327_RecoverTheFarmland/30313-07.html",
+   "quest": 327,
+   "text": "Trader Asha: Wow! You have brought five pieces of bronze mirror fragments ... With this, I can restore the mirror as it is seen in this illustration ... This piece goes with this piece ... And if I connect it underneath with this ... And so! It is complete! Do you know? This mirror was used by the …",
+   "header": "Trader Asha",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30313-08.html": {
+   "file": "Q00327_RecoverTheFarmland/30313-08.html",
+   "quest": 327,
+   "text": "Trader Asha: ... Uh ... To restore the jade necklace to its original state ... umm ... well ... Please take a look at this diagram ... To assemble the necklace as you can see in this illustration ... You need five beads in all ...",
+   "header": "Trader Asha",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30313-09.html": {
+   "file": "Q00327_RecoverTheFarmland/30313-09.html",
+   "quest": 327,
+   "text": "Trader Asha: ... You have found five jade beads ...! Yes ... I believe I can assemble it ... As it is shown in this diagram ... That I am restoring such a precious relic with my own hands! I am so excited my hands are trembling ... ... Like this ... I line up the beads and connect them ... Ahh ...!…",
+   "header": "Trader Asha",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30313-10.html": {
+   "file": "Q00327_RecoverTheFarmland/30313-10.html",
+   "quest": 327,
+   "text": "Trader Asha: Ah ...! Oh dear. What am I to do ...? By mistake, I have ... smashed the relic pieces ... I am sorry. Terribly sorry ...",
+   "header": "Trader Asha",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30313-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30313-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-01.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Recover the Farmland (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00327_RecoverTheFarmland",
+     "kind": "quest",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30313-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

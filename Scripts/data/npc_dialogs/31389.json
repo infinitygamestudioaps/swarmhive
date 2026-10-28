@@ -1,0 +1,491 @@
+{
+ "npcId": 31389,
+ "name": "Dorian",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.201Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31389.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "24": {
+   "name": "Inhabitants of the Forest of the Dead",
+   "listText": [
+    "[Inhabitants of the Forest of the Dead]",
+    "[Inhabitants of the Forest of the Dead (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31389-01.htm",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31389-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31389-05.html",
+     "when": "state STARTED; cond 2; (st.getInt(\"var\") == 0)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31389-09.html",
+     "when": "state STARTED; cond 2; NOT (st.getInt(\"var\") == 0)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31389-14.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31389-15.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31389-20.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31389-22.html",
+     "when": "state STARTED; cond 6|8",
+     "state": "STARTED",
+     "cond": [
+      6,
+      8
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31389-21.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31389.htm": {
+   "file": "default/31389.htm",
+   "quest": null,
+   "text": "Dorian: Strange things have been happening to me lately... When I wake up I find scars I don't remember getting... Things broken I don't remember breaking... I wonder... could I be sleepwalking? I don't remember a thing!... Oh, hello, traveler! Sorry to tell you this, but there's no place to stay i…",
+   "header": "Dorian",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-01.htm": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-01.htm",
+   "quest": 24,
+   "text": "Dorian: Are you the one who recovered the Silver Spear? Your reputation precedes you! Actually, I have a problem you may be able to help me with! Would you be willing to help me?",
+   "header": "Dorian",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it!\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-02.htm",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-02.htm",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-02.htm",
+     "toAll": [
+      "Q00024_InhabitantsOfTheForestOfTheDead/31389-02.htm",
+      "Q00024_InhabitantsOfTheForestOfTheDead/31389-03.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-04.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-04.html",
+   "quest": 24,
+   "text": "Dorian: Please place a flower in front of the tombstone in the southern part of the village. I'll tell you the rest of the story when you come back.",
+   "header": "Dorian",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-05.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-05.html",
+   "quest": 24,
+   "text": "Dorian: Did you place the flower at the tombstone? Did you notice who was buried in that grave?",
+   "header": "Dorian",
+   "when": [
+    "state STARTED; cond 2; (st.getInt(\"var\") == 0)"
+   ],
+   "links": [
+    {
+     "text": "Nidrah",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-06.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-06.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-06.html"
+    },
+    {
+     "text": "Lidia",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-07.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-07.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-07.html"
+    },
+    {
+     "text": "Rose",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-08.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-08.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-08.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-09.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-09.html",
+   "quest": 24,
+   "text": "Dorian: Yes! Rose rests there... She was the maid Mr. Alfred, my former master, assigned to his daughter. They were about the same age.",
+   "header": "Dorian",
+   "when": [
+    "state STARTED; cond 2; NOT (st.getInt(\"var\") == 0)"
+   ],
+   "links": [
+    {
+     "text": "\"Who is Alfred's daughter?\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-10.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-10.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-10.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-14.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-14.html",
+   "quest": 24,
+   "text": "Dorian: Observe the village closely. Help me figure out what's going on here!",
+   "header": "Dorian",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-15.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-15.html",
+   "quest": 24,
+   "text": "Dorian: I can't remember last night at all, and I'm exhausted! Have you discovered anything?",
+   "header": "Dorian",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"There's a vampire!\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-16.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-16.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-16.html"
+    },
+    {
+     "text": "\"The villagers are changing into monsters!\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-16.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-16.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-16.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-20.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-20.html",
+   "quest": 24,
+   "text": "Dorian: So, you haven't met the maid of our lord yet? Remember, she only appears at night. Naturally, things get pretty scary around here after dark... You should really be careful! But I'm sure you can handle it! Go to the bookshelf in the southwest part of the forest, the maid of the lord will be…",
+   "header": "Dorian",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-22.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-22.html",
+   "quest": 24,
+   "text": "Dorian: Did you see the maid of the lord? I have no memories after dark, so I have no idea what she's like! I've heard that she's quite beautiful! I was even told that she resembles my fiance! At least she's... alive! What a privilege, even if it's only during the day! Oh, well, I shouldn't be talk…",
+   "header": "Dorian",
+   "when": [
+    "state STARTED; cond 6|8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-21.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-21.html",
+   "quest": 24,
+   "text": "Dorian: Oh, come in! Say, you must've dropped this the last time you were here! It looks very valuable! You should keep it in a safe place.",
+   "header": "Dorian",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-02.htm": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-02.htm",
+   "quest": 24,
+   "text": "Dorian: Oh...? Was it really you who recovered the Silver Spear? I must have misjudged you! I thought you were more experienced... (Only a character of level 65 or above who has fulfilled the Lidia's Heart quest can undertake this quest.)",
+   "header": "Dorian",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-03.htm": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-03.htm",
+   "quest": 24,
+   "text": "Dorian: Every day I place a flower in front of a tombstone on my way to the castle in the south part of the village, but I've been having severe pains in my legs all day! Would you place this flower in front of the tombstone for me?",
+   "header": "Dorian",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-06.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-06.html",
+   "quest": 24,
+   "text": "Dorian: Did you really put the flower there? This task requires someone with keen observation and insight, not someone who could not even look upon the grave! I hoped that it was you who would recover the Silver Spear...",
+   "header": "Dorian",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-07.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-07.html",
+   "quest": 24,
+   "text": "Dorian: Did you really put the flower there? This task requires someone with keen observation and insight, not someone who could not even look upon the grave! I hoped that it was you who would recover the Silver Spear...",
+   "header": "Dorian",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-08.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-08.html",
+   "quest": 24,
+   "text": "Dorian: Yes! Rose rests there... She was the maid Mr. Alfred, my former master, assigned to his daughter. They were about the same age.",
+   "header": "Dorian",
+   "links": [
+    {
+     "text": "\"Who is Alfred's daughter?\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-10.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-10.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-10.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-10.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-10.html",
+   "quest": 24,
+   "text": "Dorian: Why, she's Lady Lidia, current lord of this manor! She thought highly of Rose, and didn't want her coming back as an undead! Lady Lidia graciously allowed Rose to rest in peace. That's better than most others get around here!",
+   "header": "Dorian",
+   "links": [
+    {
+     "text": "\"How did Rose earn such a privilege?\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-11.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-11.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-11.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-11.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-11.html",
+   "quest": 24,
+   "text": "Dorian: I don't know, exactly. All I know is, my fiance was with Lady Lidia, and died protecting her! Anyway, thank you for taking the flower to Rose's grave.",
+   "header": "Dorian",
+   "links": [
+    {
+     "text": "\"It's the least I could do.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-12.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-12.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-12.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-12.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-12.html",
+   "quest": 24,
+   "text": "Dorian: Oh, don't be so modest! You remembered Rose's name! And you asked such respectful questions! You're obviously a wonderful person! Do you suppose you could do something else for me? Recently my nights have been dreamless, and I've woken up with wounds that I don't remember getting! Something…",
+   "header": "Dorian",
+   "links": [
+    {
+     "text": "\"Yes, I will.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-13.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-13.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-13.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-13.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-13.html",
+   "quest": 24,
+   "text": "Dorian: Excellent! Take this crucifix, just in case! This forest is very dangerous, you never know what might jump out at you! Please observe the village and try to determine what is going on there at night!",
+   "header": "Dorian",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-16.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-16.html",
+   "quest": 24,
+   "text": "Dorian: A vampire, eh?! Hmm... I see. Is the lord of the manor coming down here making the rounds? Hmm...Why am I so tired then?",
+   "header": "Dorian",
+   "links": [
+    {
+     "text": "\"I'll tell you why! Because you're the vampire!\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-17.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-17.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-17.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-17.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-17.html",
+   "quest": 24,
+   "text": "Dorian: Nooo! It can't be! Me? A vampire? It's true that the lord of the manor I serve is an undead... But that doesn't mean I'm a vampire!",
+   "header": "Dorian",
+   "links": [
+    {
+     "text": "\"Check out this crucifix!\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-18.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-18.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-18.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-18.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-18.html",
+   "quest": 24,
+   "text": "Dorian: I gave you that! ...I see. Now I remember... Young master Einhart and... and... you! You were standing there... holding the holy symbol! Now I know... why the lord gave me such an order!",
+   "header": "Dorian",
+   "links": [
+    {
+     "text": "\"What order?\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31389-19.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31389-19.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-19.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31389-19.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31389-19.html",
+   "quest": 24,
+   "text": "Dorian: This has all been a test! The lord himself ordered it! I think you might have something that belongs to him! Go to a bookshelf in the southwest part of the forest, you'll meet the maid of the lord. She only appears at night.",
+   "header": "Dorian",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Inhabitants of the Forest of the Dead]",
+     "bypass": "npc_%objectId%_Quest Q00024_InhabitantsOfTheForestOfTheDead",
+     "kind": "quest",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Inhabitants of the Forest of the Dead (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00024_InhabitantsOfTheForestOfTheDead",
+     "kind": "quest",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31389-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

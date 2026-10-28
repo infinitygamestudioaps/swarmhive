@@ -1,0 +1,86 @@
+{
+ "npcId": 30380,
+ "name": "Plink",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.960Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30380.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30380.htm": {
+   "file": "guard/30380.htm",
+   "quest": null,
+   "text": "Guard Plink: Guard Plink on duty, all clear! Finished patrolling the harbor and standing sentry at the village west gate! If you find anyone misbehaving or acting suspicious, don t hesitate to alert the guards. Guards are your friends!",
+   "header": "Guard Plink",
+   "links": [
+    {
+     "text": "Ask about the Harbor",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30380-1.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30380-1.htm": {
+   "file": "guard/30380-1.htm",
+   "quest": null,
+   "text": "Guard Plink: The harbor, directions to! To go to the harbor, go straight in the direction I am looking. For passage on a boat, see Clancy, the Wharf Manager . You can buy your tickets from him.",
+   "header": "Guard Plink",
+   "links": [
+    {
+     "text": "Ask about the Harbor Manager",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30380-2.htm"
+    }
+   ]
+  },
+  "guard/30380-2.htm": {
+   "file": "guard/30380-2.htm",
+   "quest": null,
+   "text": "Guard Plink: Clancy? Wharf Manager Clancy, in charge of the harbor of Gludin. If you want passage by boat to Talking Island, you may buy a ticket from him!",
+   "header": "Guard Plink",
+   "links": [
+    {
+     "text": "\"Hey, you! Don't you think you talk too stiffly?\"",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "guard/30380-3.htm"
+    }
+   ]
+  },
+  "guard/30380-3.htm": {
+   "file": "guard/30380-3.htm",
+   "quest": null,
+   "text": "Guard Plink: I'm sorry! I cannot answer questions I don't understand.",
+   "header": "Guard Plink",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

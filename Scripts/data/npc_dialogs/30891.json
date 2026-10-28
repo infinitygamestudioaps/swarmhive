@@ -1,0 +1,117 @@
+{
+ "npcId": 30891,
+ "name": "Verona",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.103Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30891.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30891.htm": {
+   "file": "merchant/30891.htm",
+   "quest": null,
+   "text": "Trader Verona: Welcome, customer! Isn't Innadril a beautiful place? But know that its beauty can disguise its dangers. How can you appreciate a lovely sunset with a man-eating alligator moving towards you? Unless you have solid armor and a stout hammer, of course...",
+   "header": "Trader Verona",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30891-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3089100",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3089101",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30891-1.htm": {
+   "file": "merchant/30891-1.htm",
+   "quest": null,
+   "text": "Trader Verona: Huh? Would you like to trade?",
+   "header": "Trader Verona",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3089100",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3089101",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3089102",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3089103",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy a Shadow item.",
+     "bypass": "npc_%objectId%_BuyShadowItem",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/30891-pk.htm": {
+   "file": "merchant/30891-pk.htm",
+   "quest": null,
+   "text": "Trader Verona: Get out of here, scumbag! We don't serve the likes of you!",
+   "header": "Trader Verona",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Go to another floor."
+ ],
+ "liveClicks": [
+  {
+   "text": "Go to another floor.",
+   "n": 4,
+   "inDatapack": false,
+   "from": [
+    "Gatekeeper Verona:Greetings, seeker of knowledge! Welcome to"
+   ],
+   "to": [
+    "556Underground Shopping Area2nd Floor Human Wizard Guild3rd "
+   ]
+  }
+ ]
+}

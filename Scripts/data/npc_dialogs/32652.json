@@ -1,0 +1,110 @@
+{
+ "npcId": 32652,
+ "name": "Teleport Crystal",
+ "title": "",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.396Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Teleports/MithrilMinesTeleporter/32652-01.htm",
+   "when": "npc.isInsideRadius(173147, -173762, 0, L2Npc.INTERACTION_DISTANCE, false, true)",
+   "src": "ai MithrilMinesTeleporter"
+  },
+  {
+   "page": "ai/npc/Teleports/MithrilMinesTeleporter/32652-02.htm",
+   "when": "npc.isInsideRadius(181941, -174614, 0, L2Npc.INTERACTION_DISTANCE, false, true)",
+   "src": "ai MithrilMinesTeleporter"
+  },
+  {
+   "page": "ai/npc/Teleports/MithrilMinesTeleporter/32652-03.htm",
+   "when": "npc.isInsideRadius(179560, -182956, 0, L2Npc.INTERACTION_DISTANCE, false, true)",
+   "src": "ai MithrilMinesTeleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/Teleports/MithrilMinesTeleporter/32652-01.htm": {
+   "file": "ai/npc/Teleports/MithrilMinesTeleporter/32652-01.htm",
+   "quest": null,
+   "text": "Teleportation Crystal: There are Teleportation Crystals created by Dwarves. It is said that they allow you to instantaneously move to a specific place inside the Mines.",
+   "header": "Teleportation Crystal",
+   "when": [
+    "npc.isInsideRadius(173147, -173762, 0, L2Npc.INTERACTION_DISTANCE, false, true)"
+   ],
+   "links": [
+    {
+     "text": "Leave the Mines.",
+     "bypass": "Quest MithrilMinesTeleporter 1",
+     "kind": "quest-event",
+     "script": "MithrilMinesTeleporter",
+     "event": "1",
+     "to": null
+    },
+    {
+     "text": "Enter the Mines.",
+     "bypass": "Quest MithrilMinesTeleporter 2",
+     "kind": "quest-event",
+     "script": "MithrilMinesTeleporter",
+     "event": "2",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/MithrilMinesTeleporter/32652-02.htm": {
+   "file": "ai/npc/Teleports/MithrilMinesTeleporter/32652-02.htm",
+   "quest": null,
+   "text": "Teleportation Crystal: There are Teleportation Crystals created by Dwarves. It is said that they allow you to instantaneously move to a specific place inside the Mines.",
+   "header": "Teleportation Crystal",
+   "when": [
+    "npc.isInsideRadius(181941, -174614, 0, L2Npc.INTERACTION_DISTANCE, false, true)"
+   ],
+   "links": [
+    {
+     "text": "Go to the Western Entrance of the Mines.",
+     "bypass": "Quest MithrilMinesTeleporter 3",
+     "kind": "quest-event",
+     "script": "MithrilMinesTeleporter",
+     "event": "3",
+     "to": null
+    },
+    {
+     "text": "Go to the Northern Entrance of the Mines.",
+     "bypass": "Quest MithrilMinesTeleporter 4",
+     "kind": "quest-event",
+     "script": "MithrilMinesTeleporter",
+     "event": "4",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/MithrilMinesTeleporter/32652-03.htm": {
+   "file": "ai/npc/Teleports/MithrilMinesTeleporter/32652-03.htm",
+   "quest": null,
+   "text": "Teleportation Crystal: There are Teleportation Crystals created by Dwarves. It is said that they allow you to instantaneously move to a specific place inside the Mines.",
+   "header": "Teleportation Crystal",
+   "when": [
+    "npc.isInsideRadius(179560, -182956, 0, L2Npc.INTERACTION_DISTANCE, false, true)"
+   ],
+   "links": [
+    {
+     "text": "Leave the Mines.",
+     "bypass": "Quest MithrilMinesTeleporter 5",
+     "kind": "quest-event",
+     "script": "MithrilMinesTeleporter",
+     "event": "5",
+     "to": null
+    },
+    {
+     "text": "Enter the Mines.",
+     "bypass": "Quest MithrilMinesTeleporter 6",
+     "kind": "quest-event",
+     "script": "MithrilMinesTeleporter",
+     "event": "6",
+     "to": null
+    }
+   ]
+  }
+ }
+}

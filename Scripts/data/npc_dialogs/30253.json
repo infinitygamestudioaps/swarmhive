@@ -1,0 +1,284 @@
+{
+ "npcId": 30253,
+ "name": "Simplon",
+ "title": "Armor Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.918Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30253.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "401": {
+   "name": "Path Of The Warrior",
+   "listText": [
+    "[Path of the Warrior]",
+    "[Path of the Warrior (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00401_PathOfTheWarrior/30253-01.html",
+     "when": "state STARTED; has items 1138; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00401_PathOfTheWarrior/30253-03.html",
+     "when": "state STARTED; has items 1139; lacks items 1138,1140; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00401_PathOfTheWarrior/30253-04.html",
+     "when": "state STARTED; has items 1139,1140; lacks items 1138; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, RUSTED_BRONZE_SWORD1) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00401_PathOfTheWarrior/30253-05.html",
+     "when": "state STARTED; has items 1139,1140; lacks items 1138; !(qs.isCreated() || qs.isCompleted()); !getQuestItemsCount(player, RUSTED_BRONZE_SWORD1) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00401_PathOfTheWarrior/30253-06.html",
+     "when": "state STARTED; has items 1143; lacks items 1138,1139; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "405": {
+   "name": "Path Of The Cleric",
+   "listText": [
+    "[Path of the Cleric]",
+    "[Path of the Cleric (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00405_PathOfTheCleric/30253-01.html",
+     "when": "state STARTED; has items 1191; lacks items 1195; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00405_PathOfTheCleric/30253-02.html",
+     "when": "state STARTED; has items 1191,1195; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30253.htm": {
+   "file": "merchant/30253.htm",
+   "quest": null,
+   "text": "Trader Simplon: Welcome to the best armor shop in Gludio! Feel free to look around for something you like. You look like you have an eye for quality, so I'm sure you'll appreciate the quality you'll see.",
+   "header": "Trader Simplon",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30253-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3025300",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3025301",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30253-1.htm": {
+   "file": "merchant/30253-1.htm",
+   "quest": null,
+   "text": "Trader Simplon: What would like to do?",
+   "header": "Trader Simplon",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3025300",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3025301",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3025302",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3025303",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "merchant/30253-pk.htm": {
+   "file": "merchant/30253-pk.htm",
+   "quest": null,
+   "text": "Trader Simplon: Welcome. I've seen your face somewhere ... Where was it? Wait a minute. Let me check something. Ah, here it is. There is a person that the village guards are looking for, who looks very much like you. Ever since I opened this shop in the town of Gludio, I have obeyed the law. I do n…",
+   "header": "Trader Simplon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30253-01.html": {
+   "file": "Q00401_PathOfTheWarrior/30253-01.html",
+   "quest": 401,
+   "text": "Trader Simplon: What? Are you trying to become a Warrior? Ha ha! To me, you seem like a novice! Well, now that I think of it, when I was young the elder soldiers would often look down on me because I had a childlike face. So I will give you an opportunity. Well, if you want to be a Warrior, you mus…",
+   "header": "Trader Simplon",
+   "when": [
+    "state STARTED; has items 1138; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Ask about the test",
+     "bypass": "Quest Q00401_PathOfTheWarrior 30253-02.html",
+     "kind": "quest-event",
+     "script": "Q00401_PathOfTheWarrior",
+     "event": "30253-02.html",
+     "quest": 401,
+     "to": "Q00401_PathOfTheWarrior/30253-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00401_PathOfTheWarrior/30253-03.html": {
+   "file": "Q00401_PathOfTheWarrior/30253-03.html",
+   "quest": 401,
+   "text": "Trader Simplon: What? Why have you returned empty handed? Do you not wish to become a Warrior, or are you stupid? If you have forgotten already, let me tell you again! Go to the Ruins of Agony and fight the tracker skeletons, collect ten of their rusted swords, and bring them to me.",
+   "header": "Trader Simplon",
+   "when": [
+    "state STARTED; has items 1139; lacks items 1138,1140; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30253-04.html": {
+   "file": "Q00401_PathOfTheWarrior/30253-04.html",
+   "quest": 401,
+   "text": "Trader Simplon: Didn't I tell you to bring ten rusted swords? You can count, can't you? Put out both of your hands and look at your fingers. That is how many rusted swords you should come back with. Only then can I give you the sword of trial.",
+   "header": "Trader Simplon",
+   "when": [
+    "state STARTED; has items 1139,1140; lacks items 1138; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, RUSTED_BRONZE_SWORD1) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30253-05.html": {
+   "file": "Q00401_PathOfTheWarrior/30253-05.html",
+   "quest": 401,
+   "text": "Trader Simplon: Ho, you have brought back ten rusted swords used by the tracker skeletons of the ruins. I can tell from the Gracian characters engraved on the blade -- the undead of the ruins are all spirits of the soldiers that died during war with Gracia. Anyway, many thanks for your trouble. Her…",
+   "header": "Trader Simplon",
+   "when": [
+    "state STARTED; has items 1139,1140; lacks items 1138; !(qs.isCreated() || qs.isCompleted()); !getQuestItemsCount(player, RUSTED_BRONZE_SWORD1) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30253-06.html": {
+   "file": "Q00401_PathOfTheWarrior/30253-06.html",
+   "quest": 401,
+   "text": "Trader Simplon: So, how do you like the sword of trial that I gave you? By the way, why are you still staying in this village? Go along to Master Auron and show him the letter that I wrote. Then he will tell you about the test you must take with the sword of trial to become a Warrior.",
+   "header": "Trader Simplon",
+   "when": [
+    "state STARTED; has items 1143; lacks items 1138,1139; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30253-01.html": {
+   "file": "Q00405_PathOfTheCleric/30253-01.html",
+   "quest": 405,
+   "text": "Trader Simplon: Understanding of Miracles ? Ah! You are speaking of the books I sold not long ago. Threatening books? I don't know ... As for me, I don't really know the contents of the book ... I just got a few to sell because they said that a lot of people wanted to read it ... The church is coll…",
+   "header": "Trader Simplon",
+   "when": [
+    "state STARTED; has items 1191; lacks items 1195; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30253-02.html": {
+   "file": "Q00405_PathOfTheCleric/30253-02.html",
+   "quest": 405,
+   "text": "Trader Simplon: Why have you come back? Is it to find out whether I am selling threatening books? Please go away so you will not a disturb my customers! If you want to find out more about the other two books, you can go ask Guard Praga and Priestess Vivyan in this village about them.",
+   "header": "Trader Simplon",
+   "when": [
+    "state STARTED; has items 1191,1195; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30253-02.html": {
+   "file": "Q00401_PathOfTheWarrior/30253-02.html",
+   "quest": 401,
+   "text": "Trader Simplon: Recently, the lord announced that he would restore all the villages that became ruins during the war and solicited to the warriors guild for soldiers to do away with the undead. If you want to prove that you have the qualities of a Warrior, go to the Ruins of Agony and fight with th…",
+   "header": "Trader Simplon",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Warrior (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00401_PathOfTheWarrior",
+     "kind": "quest",
+     "quest": 401,
+     "to": "Q00401_PathOfTheWarrior/30253-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Cleric (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00405_PathOfTheCleric",
+     "kind": "quest",
+     "quest": 405,
+     "to": "Q00405_PathOfTheCleric/30253-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

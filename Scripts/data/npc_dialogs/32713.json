@@ -1,0 +1,95 @@
+{
+ "npcId": 32713,
+ "name": "Pathfinder Worker",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.400Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32713.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32713.htm": {
+   "file": "default/32713.htm",
+   "quest": null,
+   "text": "Pathfinder Agent: Pirate King Zaken once lived here. But it's been said that he may have allied himself with the invaders from the Dream World, which is why adventurers seeking to challenge him now cannot find him. We believe that he has now created a giant Dream Dimension by drawing on the power o…",
+   "header": "Pathfinder Agent",
+   "links": [
+    {
+     "text": "Ask how to fight Nighttime Zaken.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32713-1.htm"
+    },
+    {
+     "text": "Ask how to fight Daytime Zaken.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/32713-2.htm"
+    },
+    {
+     "text": "Ask how to fight Daytime Zaken (Difficult).",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/32713-3.htm"
+    }
+   ]
+  },
+  "default/32713-1.htm": {
+   "file": "default/32713-1.htm",
+   "quest": null,
+   "text": "Pathfinder Agent: Nighttime Zaken was able to rid himself of all weakness. He is basically immortal, except that he can still be attacked through his daytime counterpart... Since it is a part of Pailaka, the mirror dimension world of dreams, it is possible to mount an attack there. If you go as par…",
+   "header": "Pathfinder Agent",
+   "links": [
+    {
+     "text": "Challenge Nighttime Zaken.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/32713-2.htm": {
+   "file": "default/32713-2.htm",
+   "quest": null,
+   "text": "Pathfinder Agent: Daytime Zaken is another aspect of Zaken. Unlike his nighttime counterpart, he hides himself because he knows he is weak... But there is a way to find him. Light a candle on a barrel and it will show you the way. But be careful! The candlelight may also alert his subordinates to y…",
+   "header": "Pathfinder Agent",
+   "links": [
+    {
+     "text": "Challenge Daytime Zaken.",
+     "bypass": "Quest CavernOfThePirateCaptain enter60",
+     "kind": "quest-event",
+     "script": "CavernOfThePirateCaptain",
+     "event": "enter60"
+    }
+   ]
+  },
+  "default/32713-3.htm": {
+   "file": "default/32713-3.htm",
+   "quest": null,
+   "text": "Pathfinder Worker: We have found out that Zaken has a way to manifest his Daytime presence to be even stronger than before. Our reports indicate that you can face him just like the regular Daytime Zaken, but it won't be easy. (Only level 78-85 can enter.)",
+   "header": "Pathfinder Worker",
+   "links": [
+    {
+     "text": "Challenge Daytime Zaken (Difficult).",
+     "bypass": "Quest CavernOfThePirateCaptain enter83",
+     "kind": "quest-event",
+     "script": "CavernOfThePirateCaptain",
+     "event": "enter83"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

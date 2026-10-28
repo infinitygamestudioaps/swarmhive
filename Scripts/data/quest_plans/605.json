@@ -2,7 +2,7 @@
  "id": 605,
  "name": "Alliance with Ketra Orcs",
  "version": 1,
- "generated": "2026-10-27T11:15:41.228Z",
+ "generated": "2026-10-27T18:19:15.621Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 74,
@@ -23,7 +23,7 @@
    "text": "setCond with a runtime value: the next step is decided by the script"
   }
  ],
- "expectedMin": 7,
+ "expectedMin": 9,
  "refLevel": 74,
  "steps": [
   {
@@ -735,6 +735,238 @@
    "key": "c5:talk:31371",
    "cond": 5,
    "kind": "talk",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 31371,
+    "name": "Wahkan",
+    "title": "Ketra's Messenger",
+    "town": "Goddard",
+    "at": [
+     146980,
+     -67483,
+     -3656
+    ],
+    "alt": []
+   },
+   "text": "Talk to Wahkan",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:ketra-orc-outpost-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 9252,
+    "sec": 122,
+    "via": ".goddard > Goddard -> Ketra Orc Outpost",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Ketra Orc Outpost",
+      "link": "ketra orc outpost",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3547,
+      "how": "field-areas-gap",
+      "danger": 78
+     },
+     {
+      "do": "walk",
+      "len": 1845,
+      "how": "field-areas",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Ketra Orc Outpost"
+    },
+    "simple": true,
+    "pv": [
+     [
+      146990,
+      -67128,
+      -3640
+     ],
+     [
+      144712,
+      -69512,
+      -3840
+     ],
+     [
+      144712,
+      -70504,
+      -4080
+     ],
+     [
+      144616,
+      -71352,
+      -4144
+     ],
+     [
+      144712,
+      -69848,
+      -4016
+     ],
+     [
+      144936,
+      -69432,
+      -3760
+     ],
+     [
+      144888,
+      -69384,
+      -3728
+     ],
+     [
+      144632,
+      -69256,
+      -3664
+     ],
+     [
+      144664,
+      -69080,
+      -3688
+     ],
+     [
+      145656,
+      -68488,
+      -3712
+     ],
+     [
+      146120,
+      -68008,
+      -3664
+     ],
+     [
+      146728,
+      -67624,
+      -3672
+     ],
+     [
+      146936,
+      -67464,
+      -3656
+     ],
+     [
+      146984,
+      -67480,
+      -3656
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:ketra-orc-outpost-2",
+     "name": "Ketra Orc Outpost 2: Ketra Orc Elite Soldier area (north-west)"
+    },
+    "points": [
+     [
+      146990,
+      -67128,
+      -3640
+     ],
+     [
+      144712,
+      -69512,
+      -3840
+     ],
+     [
+      144712,
+      -70504,
+      -4080
+     ],
+     [
+      144616,
+      -71352,
+      -4144
+     ],
+     [
+      144712,
+      -69848,
+      -4016
+     ],
+     [
+      144936,
+      -69432,
+      -3760
+     ],
+     [
+      144888,
+      -69384,
+      -3728
+     ],
+     [
+      144632,
+      -69256,
+      -3664
+     ],
+     [
+      144664,
+      -69080,
+      -3688
+     ],
+     [
+      145656,
+      -68488,
+      -3712
+     ],
+     [
+      146120,
+      -68008,
+      -3664
+     ],
+     [
+      146728,
+      -67624,
+      -3672
+     ],
+     [
+      146936,
+      -67464,
+      -3656
+     ],
+     [
+      146984,
+      -67480,
+      -3656
+     ]
+    ]
+   },
+   "expectedSec": 147,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c6:talk:31371",
+   "cond": 6,
+   "kind": "talk",
    "to": "end",
    "links": [
     "\"I'll do it!\""
@@ -961,7 +1193,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    5,
     6
    ]
   }

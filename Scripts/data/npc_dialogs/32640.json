@@ -1,0 +1,682 @@
+{
+ "npcId": 32640,
+ "name": "Kintaijin",
+ "title": "Bounty Hunter",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.393Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32640.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "240": {
+   "name": "I'm the Only One You Can Trust",
+   "listText": [
+    "[I'm the Only One You Can Trust]",
+    "[I'm the Only One You Can Trust (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00240_ImTheOnlyOneYouCanTrust/32640-1.htm",
+     "when": "state CREATED; (player.getLevel() >= 81)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00240_ImTheOnlyOneYouCanTrust/32640-0.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 81)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00240_ImTheOnlyOneYouCanTrust/32640-8.html",
+     "when": "state STARTED; cond 1; (!st.hasQuestItems(STAKATO_FANG))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00240_ImTheOnlyOneYouCanTrust/32640-9.html",
+     "when": "state STARTED; cond 1; NOT (!st.hasQuestItems(STAKATO_FANG))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00240_ImTheOnlyOneYouCanTrust/32640-10.html",
+     "when": "state STARTED; cond 2; item 14879 >= 25",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00240_ImTheOnlyOneYouCanTrust/32640-11.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "310": {
+   "name": "Only What Remains",
+   "listText": [
+    "[Only What Remains]",
+    "[Only What Remains (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00310_OnlyWhatRemains/32640-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= 81) && player.hasQuestCompleted(Q00240_ImTheOnlyOneYouCanTrust.class.getSimpl",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00310_OnlyWhatRemains/32640-00.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= 81) && player.hasQuestCompleted(Q00240_ImTheOnlyOneYouCanTrust.class.getSimpl",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00310_OnlyWhatRemains/32640-08.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00310_OnlyWhatRemains/32640-09.html",
+     "when": "state STARTED; st.getQuestItemsCount(DIRTY_BEAD) < 500",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00310_OnlyWhatRemains/32640-10.html",
+     "when": "state STARTED; !st.getQuestItemsCount(DIRTY_BEAD) < 500",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32640.htm": {
+   "file": "default/32640.htm",
+   "quest": null,
+   "text": "Bounty Hunter Kintaijin: I should have caught that scammer...",
+   "header": "Bounty Hunter Kintaijin",
+   "links": [
+    {
+     "text": "Teleport inside the Stakato Nest.",
+     "bypass": "npc_%objectId%_Quest StakatoNestTeleporter",
+     "kind": "quest",
+     "script": "StakatoNestTeleporter",
+     "to": "ai/npc/Teleports/StakatoNestTeleporter/32640.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00240_ImTheOnlyOneYouCanTrust/32640-1.htm": {
+   "file": "Q00240_ImTheOnlyOneYouCanTrust/32640-1.htm",
+   "quest": 240,
+   "text": "Bounty Hunter Kintaijin: You adventurers are all alike ... just in it for the fortune and fame. I'll bet you could care less about who I am and what my story is. The only things you're probably interested in are what you have to do and what you will receive . Am I wrong?",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "state CREATED; (player.getLevel() >= 81)"
+   ],
+   "links": [
+    {
+     "text": "\"Nope. Just tell me what I need to know.\"",
+     "bypass": "Quest Q00240_ImTheOnlyOneYouCanTrust 32640-4.htm",
+     "kind": "quest-event",
+     "script": "Q00240_ImTheOnlyOneYouCanTrust",
+     "event": "32640-4.htm",
+     "quest": 240,
+     "to": "Q00240_ImTheOnlyOneYouCanTrust/32640-4.htm"
+    },
+    {
+     "text": "\"I'm not like the others. Tell me your tale.\"",
+     "bypass": "Quest Q00240_ImTheOnlyOneYouCanTrust 32640-5.html",
+     "kind": "quest-event",
+     "script": "Q00240_ImTheOnlyOneYouCanTrust",
+     "event": "32640-5.html",
+     "quest": 240,
+     "to": "Q00240_ImTheOnlyOneYouCanTrust/32640-5.html"
+    },
+    {
+     "text": "\"Forget all that. Who is this scammer you're talking about?\"",
+     "bypass": "Quest Q00240_ImTheOnlyOneYouCanTrust 32640-6.html",
+     "kind": "quest-event",
+     "script": "Q00240_ImTheOnlyOneYouCanTrust",
+     "event": "32640-6.html",
+     "quest": 240,
+     "to": "Q00240_ImTheOnlyOneYouCanTrust/32640-6.html"
+    }
+   ]
+  },
+  "Q00240_ImTheOnlyOneYouCanTrust/32640-0.htm": {
+   "file": "Q00240_ImTheOnlyOneYouCanTrust/32640-0.htm",
+   "quest": 240,
+   "text": "Bounty Hunter Kintaijin: You can't just take harder missions without having proven yourself to me. Don't look around like that. I'm talking to you. (Only characters level 81 and above who haved completed the I'm the Only One You Can Trust quest can take this mission)",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 81)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00240_ImTheOnlyOneYouCanTrust/32640-8.html": {
+   "file": "Q00240_ImTheOnlyOneYouCanTrust/32640-8.html",
+   "quest": 240,
+   "text": "Bounty Hunter Kintaijin: Didn't you leave yet? Didn't I already tell you that I would trust your skill when you hunt down Stakatos such as Spiked Stakato series, Cannibalistic Stakato series in Stakato Nest and bring back 25 Stakato's Fangs as an evidence? The mission shouldn't be too tough. The pr…",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "state STARTED; cond 1; (!st.hasQuestItems(STAKATO_FANG))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00240_ImTheOnlyOneYouCanTrust/32640-9.html": {
+   "file": "Q00240_ImTheOnlyOneYouCanTrust/32640-9.html",
+   "quest": 240,
+   "text": "Bounty Hunter Kintaijin: You don't have enought Stakato's Fangs. No more or no less than 25 Stakato's Fangs needs to be brought back or else I won't believe you.",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "state STARTED; cond 1; NOT (!st.hasQuestItems(STAKATO_FANG))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00240_ImTheOnlyOneYouCanTrust/32640-10.html": {
+   "file": "Q00240_ImTheOnlyOneYouCanTrust/32640-10.html",
+   "quest": 240,
+   "text": "Bounty Hunter Kintaijin: Ah, you've returned! Did you bring me the fangs? Hmm, let's see... one, two, three... twenty-four, twenty-five! Excellent! You did better than I thought you would. You have earned my admiration and trust. And now you may use my teleport options to you heart's content.",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "state STARTED; cond 2; item 14879 >= 25"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00240_ImTheOnlyOneYouCanTrust/32640-11.html": {
+   "file": "Q00240_ImTheOnlyOneYouCanTrust/32640-11.html",
+   "quest": 240,
+   "text": "Bounty Hunter Kintaijin: Is your memory that bad? I've already paid you for completing this quest. Why don't you move on to my next mission instead of bothering me about things you've already done, eh. (You have already completed this quest.)",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00310_OnlyWhatRemains/32640-01.htm": {
+   "file": "Q00310_OnlyWhatRemains/32640-01.htm",
+   "quest": 310,
+   "text": "Bounty Hunter Kintaijin: Amongst the collection of Stakato Fangs you brought, I found a Dirty Bead . You must have accidentally picked it up while you were collecting the fangs.",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "state CREATED; ((player.getLevel() >= 81) && player.hasQuestCompleted(Q00240_ImTheOnlyOneYouCanTrust.class.getSimpl"
+   ],
+   "links": [
+    {
+     "text": "\"So why bother me with that. Just throw the damned thing out if you don't want it.\"",
+     "bypass": "Quest Q00310_OnlyWhatRemains 32640-02.htm",
+     "kind": "quest-event",
+     "script": "Q00310_OnlyWhatRemains",
+     "event": "32640-02.htm",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-02.htm"
+    }
+   ]
+  },
+  "Q00310_OnlyWhatRemains/32640-00.htm": {
+   "file": "Q00310_OnlyWhatRemains/32640-00.htm",
+   "quest": 310,
+   "text": "Bounty Hunter Kintaijin: This mission is far too tough for the likes of you. You must take my other mission first before you can even think about taking this one. (Only characters level 81 and above who have completed the quest I'm the Only One You Can Trust can take this quest.)",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= 81) && player.hasQuestCompleted(Q00240_ImTheOnlyOneYouCanTrust.class.getSimpl"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00310_OnlyWhatRemains/32640-08.html": {
+   "file": "Q00310_OnlyWhatRemains/32640-08.html",
+   "quest": 310,
+   "text": "Bounty Hunter Kintaijin: Dirty Beads can be found on the corpses of the Spiked Stakato and Cannibal Stakato creatures found inside the Stakato's Nest. I'll need you to find 500 of these beads. Bring them back to me, and I will reward you for your hard work.",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"I want to know more about the reward items.\"",
+     "bypass": "Quest Q00310_OnlyWhatRemains 32640-06.html",
+     "kind": "quest-event",
+     "script": "Q00310_OnlyWhatRemains",
+     "event": "32640-06.html",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-06.html"
+    },
+    {
+     "text": "\"I'm off! I'll be back with the items when I'm done.\"",
+     "bypass": "Quest Q00310_OnlyWhatRemains 32640-05.html",
+     "kind": "quest-event",
+     "script": "Q00310_OnlyWhatRemains",
+     "event": "32640-05.html",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-05.html"
+    },
+    {
+     "text": "\"I'd like to quit\"",
+     "bypass": "Quest Q00310_OnlyWhatRemains 32640-quit.html",
+     "kind": "quest-event",
+     "script": "Q00310_OnlyWhatRemains",
+     "event": "32640-quit.html",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-quit.html"
+    }
+   ]
+  },
+  "Q00310_OnlyWhatRemains/32640-09.html": {
+   "file": "Q00310_OnlyWhatRemains/32640-09.html",
+   "quest": 310,
+   "text": "Bounty Hunter Kintaijin: It's not enough. No more or no less of 500 Dirty Bead are needed.",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "state STARTED; st.getQuestItemsCount(DIRTY_BEAD) < 500"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00310_OnlyWhatRemains/32640-10.html": {
+   "file": "Q00310_OnlyWhatRemains/32640-10.html",
+   "quest": 310,
+   "text": "Bounty Hunter Kintaijin: Well done. You brought the correct numbers? Let me confirm it. Hmm, they are surely 500 Dirty Bead. Here, take this Growth Accelerator. And let me give you some Multi-Colored Bright Ore. You can come near me from anywhere when you use it. ...Do you have any other business?",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "state STARTED; !st.getQuestItemsCount(DIRTY_BEAD) < 500"
+   ],
+   "links": [
+    {
+     "text": "\"I'd like to know how to use the Growth Accelerator.\"",
+     "bypass": "Quest Q00310_OnlyWhatRemains 32640-06.html",
+     "kind": "quest-event",
+     "script": "Q00310_OnlyWhatRemains",
+     "event": "32640-06.html",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-06.html"
+    },
+    {
+     "text": "\"No, it's nothing. I'll continue with the task\"",
+     "bypass": "Quest Q00310_OnlyWhatRemains 32640-05.html",
+     "kind": "quest-event",
+     "script": "Q00310_OnlyWhatRemains",
+     "event": "32640-05.html",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-05.html"
+    },
+    {
+     "text": "\"I'd like to quit the task\"",
+     "bypass": "Quest Q00310_OnlyWhatRemains 32640-quit.html",
+     "kind": "quest-event",
+     "script": "Q00310_OnlyWhatRemains",
+     "event": "32640-quit.html",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-quit.html"
+    }
+   ]
+  },
+  "ai/npc/Teleports/StakatoNestTeleporter/32640.htm": {
+   "file": "ai/npc/Teleports/StakatoNestTeleporter/32640.htm",
+   "quest": null,
+   "text": "Bounty Hunter Kintaijin: I will teleport you and your party members to the major area of Stakato Nest. But party members who are not near me won't be teleported, so you need to make sure the members who you want to move are nicely gathered around me.",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "player.hasQuestCompleted(Q00240_ImTheOnlyOneYouCanTrust.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "Waiting Room of Stakato Queen",
+     "bypass": "Quest StakatoNestTeleporter 1",
+     "kind": "quest-event",
+     "script": "StakatoNestTeleporter",
+     "event": "1",
+     "to": null
+    },
+    {
+     "text": "Nest Introduction",
+     "bypass": "Quest StakatoNestTeleporter 2",
+     "kind": "quest-event",
+     "script": "StakatoNestTeleporter",
+     "event": "2",
+     "to": null
+    },
+    {
+     "text": "Nest Water Supply",
+     "bypass": "Quest StakatoNestTeleporter 3",
+     "kind": "quest-event",
+     "script": "StakatoNestTeleporter",
+     "event": "3",
+     "to": null
+    },
+    {
+     "text": "Nest Deepest Layer",
+     "bypass": "Quest StakatoNestTeleporter 4",
+     "kind": "quest-event",
+     "script": "StakatoNestTeleporter",
+     "event": "4",
+     "to": null
+    },
+    {
+     "text": "Nest Entrance",
+     "bypass": "Quest StakatoNestTeleporter 5",
+     "kind": "quest-event",
+     "script": "StakatoNestTeleporter",
+     "event": "5",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/StakatoNestTeleporter/32640-no.htm": {
+   "file": "ai/npc/Teleports/StakatoNestTeleporter/32640-no.htm",
+   "quest": null,
+   "text": "Bounty Hunter Kintaijin: In order to use the teleport option, you must complete my first mission. Then and only then will I offer this option to you.",
+   "header": "Bounty Hunter Kintaijin",
+   "when": [
+    "NOT player.hasQuestCompleted(Q00240_ImTheOnlyOneYouCanTrust.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00240_ImTheOnlyOneYouCanTrust/32640-2.htm": {
+   "file": "Q00240_ImTheOnlyOneYouCanTrust/32640-2.htm",
+   "quest": 240,
+   "text": "Bounty Hunter Kintaijin: There are some things to do to clean up Billy Haari's mess. But this is quite dangerous, that's why I need to ask a person who is reliable. So, prove yourself if you want to get with the mission. I'll even give you the authority to teleport to Stakato Nest along with profit…",
+   "header": "Bounty Hunter Kintaijin",
+   "links": [
+    {
+     "text": "\"I will accept the mission.\"",
+     "bypass": "Quest Q00240_ImTheOnlyOneYouCanTrust 32640-3.htm",
+     "kind": "quest-event",
+     "script": "Q00240_ImTheOnlyOneYouCanTrust",
+     "event": "32640-3.htm",
+     "quest": 240,
+     "to": "Q00240_ImTheOnlyOneYouCanTrust/32640-3.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00240_ImTheOnlyOneYouCanTrust/32640-3.htm": {
+   "file": "Q00240_ImTheOnlyOneYouCanTrust/32640-3.htm",
+   "quest": 240,
+   "text": "Bounty Hunter Kintaijin: Alright, then let's get to the point. I want you to hunt down and destroy the Spiked Stakatos and Cannibalistic Stakatos in the Stakato's Nest. If you manage to bring back 25 Stakato Fangs , I'll reward you well. A quick word of advice: don't try to do this on your own. Thi…",
+   "header": "Bounty Hunter Kintaijin",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00240_ImTheOnlyOneYouCanTrust/32640-4.htm": {
+   "file": "Q00240_ImTheOnlyOneYouCanTrust/32640-4.htm",
+   "quest": 240,
+   "text": "Bounty Hunter Kintaijin: Your answer does not shock me in the least. Let me just tell you from the start that if you complete this quest to my satisfaction, you will then gain access to my teleport options. Do not scoff at this gesture! It could come in very handy for you later. Should I go on?",
+   "header": "Bounty Hunter Kintaijin",
+   "links": [
+    {
+     "text": "\"Please continue.\"",
+     "bypass": "Quest Q00240_ImTheOnlyOneYouCanTrust 32640-3.htm",
+     "kind": "quest-event",
+     "script": "Q00240_ImTheOnlyOneYouCanTrust",
+     "event": "32640-3.htm",
+     "quest": 240,
+     "to": "Q00240_ImTheOnlyOneYouCanTrust/32640-3.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00240_ImTheOnlyOneYouCanTrust/32640-5.html": {
+   "file": "Q00240_ImTheOnlyOneYouCanTrust/32640-5.html",
+   "quest": 240,
+   "text": "Bounty Hunter Kintaijin: No need to feign interest in my background. Whether you are interested in me or not, I am still going to give you the quest. Should I go on?",
+   "header": "Bounty Hunter Kintaijin",
+   "links": [
+    {
+     "text": "\"Well then, to hell with this. Just tell me about the quest.\"",
+     "bypass": "Quest Q00240_ImTheOnlyOneYouCanTrust 32640-4.htm",
+     "kind": "quest-event",
+     "script": "Q00240_ImTheOnlyOneYouCanTrust",
+     "event": "32640-4.htm",
+     "quest": 240,
+     "to": "Q00240_ImTheOnlyOneYouCanTrust/32640-4.htm"
+    },
+    {
+     "text": "\"Yes! Tell me what makes Kintaijin tick.\"",
+     "bypass": "Quest Q00240_ImTheOnlyOneYouCanTrust 32640-7.html",
+     "kind": "quest-event",
+     "script": "Q00240_ImTheOnlyOneYouCanTrust",
+     "event": "32640-7.html",
+     "quest": 240,
+     "to": "Q00240_ImTheOnlyOneYouCanTrust/32640-7.html"
+    }
+   ]
+  },
+  "Q00240_ImTheOnlyOneYouCanTrust/32640-6.html": {
+   "file": "Q00240_ImTheOnlyOneYouCanTrust/32640-6.html",
+   "quest": 240,
+   "text": "Bounty Hunter Kintaijin: Billy Haari. He is the most despicable and loathsome being in existance. Extortion, treason, fraud. You name it and he is guilty of it. The village I came from was just a stepping stone for Haari. By the time he disappeared, there wasn't one life in the town he hadn't damag…",
+   "header": "Bounty Hunter Kintaijin",
+   "links": [
+    {
+     "text": "\"Now, let's talk about the mission.\"",
+     "bypass": "Quest Q00240_ImTheOnlyOneYouCanTrust 32640-2.htm",
+     "kind": "quest-event",
+     "script": "Q00240_ImTheOnlyOneYouCanTrust",
+     "event": "32640-2.htm",
+     "quest": 240,
+     "to": "Q00240_ImTheOnlyOneYouCanTrust/32640-2.htm"
+    }
+   ]
+  },
+  "Q00240_ImTheOnlyOneYouCanTrust/32640-7.html": {
+   "file": "Q00240_ImTheOnlyOneYouCanTrust/32640-7.html",
+   "quest": 240,
+   "text": "Bounty Hunter Kintaijin: As you can see, I'm a bounty hunter. And generally, I do what I do for the money. But this one is personal to me. I'm here to bring in Billy Haari for his crimes. And I almost had him... until he ran into the Stakato's Nest. I'm good at what I do. But this place is a bit to…",
+   "header": "Bounty Hunter Kintaijin",
+   "links": [
+    {
+     "text": "\"What kind of crime did Billy Haari commit?\"",
+     "bypass": "Quest Q00240_ImTheOnlyOneYouCanTrust 32640-6.html",
+     "kind": "quest-event",
+     "script": "Q00240_ImTheOnlyOneYouCanTrust",
+     "event": "32640-6.html",
+     "quest": 240,
+     "to": "Q00240_ImTheOnlyOneYouCanTrust/32640-6.html"
+    },
+    {
+     "text": "\"Well, good luck with that. Now what about that mission?\"",
+     "bypass": "Quest Q00240_ImTheOnlyOneYouCanTrust 32640-2.htm",
+     "kind": "quest-event",
+     "script": "Q00240_ImTheOnlyOneYouCanTrust",
+     "event": "32640-2.htm",
+     "quest": 240,
+     "to": "Q00240_ImTheOnlyOneYouCanTrust/32640-2.htm"
+    }
+   ]
+  },
+  "Q00310_OnlyWhatRemains/32640-02.htm": {
+   "file": "Q00310_OnlyWhatRemains/32640-02.htm",
+   "quest": 310,
+   "text": "Bounty Hunter Kintaijin: Ahh, but this is no ordinary bead. This bead belonged to Billy Haari . I told you that story, didn't I? I came here to track down Haari for his crimes.",
+   "header": "Bounty Hunter Kintaijin",
+   "links": [
+    {
+     "text": "\"So what about the item?\"",
+     "bypass": "Quest Q00310_OnlyWhatRemains 32640-03.htm",
+     "kind": "quest-event",
+     "script": "Q00310_OnlyWhatRemains",
+     "event": "32640-03.htm",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-03.htm"
+    }
+   ]
+  },
+  "Q00310_OnlyWhatRemains/32640-03.htm": {
+   "file": "Q00310_OnlyWhatRemains/32640-03.htm",
+   "quest": 310,
+   "text": "Bounty Hunter Kintaijin: My examination of the bead has led me to two conclusions. One is that the Dirty Bead had traces of Haari's blood on it, which leads me to believe he is dead. The second thing I concluded was that this bead is part of a necklace ... an artifact from my village, actually ... …",
+   "header": "Bounty Hunter Kintaijin",
+   "links": [
+    {
+     "text": "Tell him that you'll help him.",
+     "bypass": "Quest Q00310_OnlyWhatRemains 32640-04.htm",
+     "kind": "quest-event",
+     "script": "Q00310_OnlyWhatRemains",
+     "event": "32640-04.htm",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00310_OnlyWhatRemains/32640-04.htm": {
+   "file": "Q00310_OnlyWhatRemains/32640-04.htm",
+   "quest": 310,
+   "text": "Bounty Hunter Kintaijin: Dirty Beads can be found on the corpses of the Spiked Stakato and Cannibal Stakato creatures found inside the Stakato's Nest. I'll need you to find 500 of these beads. Bring them back to me, and I will reward you for your hard work.",
+   "header": "Bounty Hunter Kintaijin",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"I want to hear about reward items.\"",
+     "bypass": "Quest Q00310_OnlyWhatRemains 32640-06.html",
+     "kind": "quest-event",
+     "script": "Q00310_OnlyWhatRemains",
+     "event": "32640-06.html",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-06.html"
+    },
+    {
+     "text": "\"I will find the beads and be back shortly.\"",
+     "bypass": "Quest Q00310_OnlyWhatRemains 32640-05.html",
+     "kind": "quest-event",
+     "script": "Q00310_OnlyWhatRemains",
+     "event": "32640-05.html",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-05.html"
+    }
+   ]
+  },
+  "Q00310_OnlyWhatRemains/32640-05.html": {
+   "file": "Q00310_OnlyWhatRemains/32640-05.html",
+   "quest": 310,
+   "text": "Bounty Hunter Kintaijin: Alright, take care.",
+   "header": "Bounty Hunter Kintaijin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00310_OnlyWhatRemains/32640-06.html": {
+   "file": "Q00310_OnlyWhatRemains/32640-06.html",
+   "quest": 310,
+   "text": "Bounty Hunter Kintaijin: I know what I ask is no small task. So the rewards you stand to gain are no joke either. First, I will give you a Multi-colored Jewel. This jewel will allow you to return to the entrance of the Stakato's Nest from just about anywhere in the world. Second, I'll give you one …",
+   "header": "Bounty Hunter Kintaijin",
+   "links": [
+    {
+     "text": "\"I'm listening. Go on.\"",
+     "bypass": "Quest Q00310_OnlyWhatRemains 32640-07.html",
+     "kind": "quest-event",
+     "script": "Q00310_OnlyWhatRemains",
+     "event": "32640-07.html",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-07.html"
+    }
+   ]
+  },
+  "Q00310_OnlyWhatRemains/32640-07.html": {
+   "file": "Q00310_OnlyWhatRemains/32640-07.html",
+   "quest": 310,
+   "text": "Bounty Hunter Kintaijin: When used on a Bizarre Cocoon, the Growth Accelerator will spawn a Cannibalistic Stakato Chief. And killing a chief will give you a Stakato Cocoon. And as we all know, Stakato Cocoona can hold different kinds of goodies - from Forgotten Scrolls to Icarus recipes! Although s…",
+   "header": "Bounty Hunter Kintaijin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00310_OnlyWhatRemains/32640-quit.html": {
+   "file": "Q00310_OnlyWhatRemains/32640-quit.html",
+   "quest": 310,
+   "text": "Bounty Hunter Kintaijin: Hmm, is that so? Alright, that's up to you.",
+   "header": "Bounty Hunter Kintaijin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[I'm the Only One You Can Trust]",
+     "bypass": "npc_%objectId%_Quest Q00240_ImTheOnlyOneYouCanTrust",
+     "kind": "quest",
+     "quest": 240,
+     "to": "Q00240_ImTheOnlyOneYouCanTrust/32640-1.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[I'm the Only One You Can Trust (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00240_ImTheOnlyOneYouCanTrust",
+     "kind": "quest",
+     "quest": 240,
+     "to": "Q00240_ImTheOnlyOneYouCanTrust/32640-8.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Only What Remains]",
+     "bypass": "npc_%objectId%_Quest Q00310_OnlyWhatRemains",
+     "kind": "quest",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Only What Remains (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00310_OnlyWhatRemains",
+     "kind": "quest",
+     "quest": 310,
+     "to": "Q00310_OnlyWhatRemains/32640-08.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

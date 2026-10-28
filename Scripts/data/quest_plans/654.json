@@ -2,7 +2,7 @@
  "id": 654,
  "name": "Journey to a Settlement",
  "version": 1,
- "generated": "2026-10-27T11:16:15.248Z",
+ "generated": "2026-10-27T18:19:44.285Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 74,
@@ -28,10 +28,6 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
    "code": "route-conditional",
    "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
    "step": 0
@@ -40,9 +36,14 @@
    "code": "route-conditional",
    "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
    "step": 1
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 3
   }
  ],
- "expectedMin": 6,
+ "expectedMin": 7,
  "refLevel": 74,
  "steps": [
   {
@@ -187,10 +188,9 @@
    "key": "c1:talk:31453",
    "cond": 1,
    "kind": "talk",
-   "to": "end",
+   "to": 2,
    "links": [
-    "\"Unless...?\"",
-    "\"Here it is.\""
+    "\"Unless...?\""
    ],
    "npc": {
     "id": 31453,
@@ -321,9 +321,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3
+    1
    ]
   },
   {
@@ -697,6 +695,149 @@
    },
    "conds": [
     2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:talk:31453",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Unless...?\"",
+    "\"Here it is.\""
+   ],
+   "npc": {
+    "id": 31453,
+    "name": "Nameless Spirit",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     178292,
+     -85577,
+     -7200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Nameless Spirit",
+   "reasons": [
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31453@178292,-85577",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".goddard",
+    "length": 2042,
+    "sec": 77,
+    "via": ".goddard > Goddard -> Wall of Argos > enter Elmoreden's Ghost Chamberlain",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 887,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Elmoreden's Ghost Chamberlain",
+      "link": "I want to visit the Four Sepulchers."
+     },
+     {
+      "do": "walk",
+      "len": 1155,
+      "how": "geodata",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": false,
+    "pv": [
+     [
+      165054,
+      -47861,
+      -3560
+     ],
+     [
+      164520,
+      -47800,
+      -3528
+     ],
+     [
+      164472,
+      -47816,
+      -3528
+     ],
+     [
+      164424,
+      -47816,
+      -3528
+     ],
+     [
+      164312,
+      -47592,
+      -3504
+     ],
+     [
+      178212,
+      -84933,
+      -7215
+     ],
+     [
+      178296,
+      -85432,
+      -7216
+     ],
+     [
+      178296,
+      -85576,
+      -7216
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [
+     "four-sepulchers",
+     "four-sepulchers"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2,
+    3
    ]
   }
  ],

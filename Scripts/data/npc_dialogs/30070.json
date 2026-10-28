@@ -1,0 +1,871 @@
+{
+ "npcId": 30070,
+ "name": "Sylvain",
+ "title": "High Priest",
+ "type": "L2VillageMasterPriest",
+ "generated": "2026-10-27T18:18:02.801Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30070.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "137": {
+   "name": "Temple Champion - 1",
+   "listText": [
+    "[Temple Champion - 1]",
+    "[Temple Champion - 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00137_TempleChampionPart1/30070-05.html",
+     "when": "cond 1; switch(st.getInt(\"talk\")) case 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00137_TempleChampionPart1/30070-06.html",
+     "when": "cond 1; switch(st.getInt(\"talk\")) case 2",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00137_TempleChampionPart1/30070-03.html",
+     "when": "cond 1; switch(st.getInt(\"talk\")) case default",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00137_TempleChampionPart1/30070-08.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00137_TempleChampionPart1/30070-10.html",
+     "when": "cond 3; st.getInt(\"talk\") == 1",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00137_TempleChampionPart1/30070-09.html",
+     "when": "cond 3; !st.getInt(\"talk\") == 1; hasItemsAtLimit(st.getPlayer(), FRAGMENT)",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00137_TempleChampionPart1/30070-01.htm",
+     "when": "((player.getLevel() >= 35) && st.hasQuestItems(EXECUTOR, MISSIONARY))",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00137_TempleChampionPart1/30070-00.html",
+     "when": "NOT ((player.getLevel() >= 35) && st.hasQuestItems(EXECUTOR, MISSIONARY))",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "138": {
+   "name": "Temple Champion - 2",
+   "listText": [
+    "[Temple Champion - 2]",
+    "[Temple Champion - 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00138_TempleChampionPart2/30070-02.htm",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "start"
+    },
+    {
+     "page": "Q00138_TempleChampionPart2/30070-03.html",
+     "when": "cond 2|3|4|5|6",
+     "state": null,
+     "cond": [
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00138_TempleChampionPart2/30070-04.html",
+     "when": "cond 7",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00138_TempleChampionPart2/30070-01.htm",
+     "when": "(player.getLevel() >= 36); (player.hasQuestCompleted(Q00137_TempleChampionPart1.class.getSimpleName()))",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00138_TempleChampionPart2/30070-00a.htm",
+     "when": "(player.getLevel() >= 36); NOT (player.hasQuestCompleted(Q00137_TempleChampionPart1.class.getSimpleName()))",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00138_TempleChampionPart2/30070-00.htm",
+     "when": "NOT (player.getLevel() >= 36)",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "214": {
+   "name": "Trial Of The Scholar",
+   "listText": [
+    "[Trial of the Scholar]",
+    "[Trial of the Scholar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00214_TrialOfTheScholar/30070-01.html",
+     "when": "state STARTED; has items 2675; lacks items 2689,2693",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30070-03.html",
+     "when": "state STARTED; has items 2689,2675; lacks items 2688; !(hasQuestItems(player, MIRIENS_1ST_SIGIL) && !hasAtLeastOneQuestItem(player, HIGH_PRIESTS_SIGIL, SYMBOL_OF_SYLVAIN))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30070-04.html",
+     "when": "state STARTED; has items 2689,2675,2688; !(hasQuestItems(player, MIRIENS_1ST_SIGIL) && !hasAtLeastOneQuestItem(player, HIGH_PRIESTS_SIGIL, SYMBOL_OF_SYLVAIN)); !(!hasQuestItems(player, CRYSTAL_OF_PURITY1) && hasQuestItems(player, HIGH_PRIESTS_SIGIL, MIRIENS_1ST_SIGIL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30070-05.html",
+     "when": "state STARTED; has items 2675,2693; lacks items 2689,2675,2688; !(hasQuestItems(player, MIRIENS_1ST_SIGIL) && !hasAtLeastOneQuestItem(player, HIGH_PRIESTS_SIGIL, SYMBOL_OF_SYLVAIN)); !(!hasQuestItems(player, CRYSTAL_OF_PURITY1) && hasQuestItems(player, HIGH_PRIESTS_SIGIL, MIRIENS_1ST_SIGIL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30070-06.html",
+     "when": "state STARTED; has items 2676,2677; lacks items 2689,2675,2688; !(hasQuestItems(player, MIRIENS_1ST_SIGIL) && !hasAtLeastOneQuestItem(player, HIGH_PRIESTS_SIGIL, SYMBOL_OF_SYLVAIN)); !(!hasQuestItems(player, CRYSTAL_OF_PURITY1) && hasQuestItems(player, HIGH_PRIESTS_SIGIL, MIRIENS_1ST_SIGIL)); !(hasQuestItems(player, MIRIENS_1ST_SIGIL, SYMBOL_OF_SYLVAIN) && !hasQuestItems(player, HIGH_PRIESTS_SIGIL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30070.htm": {
+   "file": "villagemaster/30070.htm",
+   "quest": null,
+   "text": "High Priest Sylvain: Welcome to the warm bosom of Einhasad, the goddess of light. What event has brought you to me? By the holy name of Einhasad, I pray I am able to help you!",
+   "header": "High Priest Sylvain",
+   "links": [
+    {
+     "text": "Listen to information about first class transfer.",
+     "bypass": "Quest ElfHumanWizardChange1",
+     "kind": "quest",
+     "script": "ElfHumanWizardChange1"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-05.html": {
+   "file": "Q00137_TempleChampionPart1/30070-05.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: Correct. Let us move on to the next question. Einhasad is the patron goddess of which race?",
+   "header": "High Priest Sylvain",
+   "when": [
+    "cond 1; switch(st.getInt(\"talk\")) case 1"
+   ],
+   "links": [
+    {
+     "text": "Elves.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-04.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-04.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-04.html"
+    },
+    {
+     "text": "Orcs.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-04.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-04.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-04.html"
+    },
+    {
+     "text": "Dwarves.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-04.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-04.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-04.html"
+    },
+    {
+     "text": "Humans.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-06.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-06.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-06.html"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-06.html": {
+   "file": "Q00137_TempleChampionPart1/30070-06.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: Correct! We will move on to the final question. How should political and military power, currently fragmented throughout this chaotic continent, best be concentrated and used?",
+   "header": "High Priest Sylvain",
+   "when": [
+    "cond 1; switch(st.getInt(\"talk\")) case 2"
+   ],
+   "links": [
+    {
+     "text": "\"The power should be in the hands of adventurers.\"",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-04.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-04.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-04.html"
+    },
+    {
+     "text": "\"The power should be balanced by distributing it among the various races.\"",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-04.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-04.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-04.html"
+    },
+    {
+     "text": "\"The Temple of Einhasad should be the center of all power.\"",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-07.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-07.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-07.html"
+    },
+    {
+     "text": "\"The power should be used according to the will of all the people: peasants, rulers and adventurers.\"",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-04.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-04.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-04.html"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-03.html": {
+   "file": "Q00137_TempleChampionPart1/30070-03.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: Who established the Temple after receiving the goddess' message, sent through an angel with three wings during the early years of the Elmoreden Empire?",
+   "header": "High Priest Sylvain",
+   "when": [
+    "cond 1; switch(st.getInt(\"talk\")) case default"
+   ],
+   "links": [
+    {
+     "text": "Baium.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-04.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-04.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-04.html"
+    },
+    {
+     "text": "Schuneimann.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-05.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-05.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-05.html"
+    },
+    {
+     "text": "Frintezza.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-04.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-04.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-04.html"
+    },
+    {
+     "text": "Beleth.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-04.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-04.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-04.html"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-08.html": {
+   "file": "Q00137_TempleChampionPart1/30070-08.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: Many of our regional temples have recently reported certain signs and omens that we cannot ignore... We dispatched an inspector to investigate, but apparently something befell his party near the Execution Grounds. He was carrying the final report on his discoveries when, we sus…",
+   "header": "High Priest Sylvain",
+   "when": [
+    "cond 2"
+   ],
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00137_TempleChampionPart1/30070-10.html": {
+   "file": "Q00137_TempleChampionPart1/30070-10.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: Hmm... This is unbelievable... The signs reported by many of our brethren signify the advent of an angel! Our man was investigating when and where the angel would come down to earth. Apparently, he found an eyewitness who claims to have actually seen the angel... If true, this …",
+   "header": "High Priest Sylvain",
+   "when": [
+    "cond 3; st.getInt(\"talk\") == 1"
+   ],
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-11.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-11.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-11.html"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-09.html": {
+   "file": "Q00137_TempleChampionPart1/30070-09.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: Ah... You have recovered the remains of the inspector's report? Good. We will piece it back together and analyze its contents. This may take some time; please take some refreshment and make yourself comfortable.",
+   "header": "High Priest Sylvain",
+   "when": [
+    "cond 3; !st.getInt(\"talk\") == 1; hasItemsAtLimit(st.getPlayer(), FRAGMENT)"
+   ],
+   "links": [
+    {
+     "text": "Wait.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-10.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-10.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-10.html"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-01.htm": {
+   "file": "Q00137_TempleChampionPart1/30070-01.htm",
+   "quest": 137,
+   "text": "High Priest Sylvain: You have now become both the Hands and the Feet of the Temple of Einhasad. Before you can carry out even more important missions, however, you must achieve the title of the Limbs of the Temple. To do so, you must pass a simple oral exam.",
+   "header": "High Priest Sylvain",
+   "when": [
+    "((player.getLevel() >= 35) && st.hasQuestItems(EXECUTOR, MISSIONARY))"
+   ],
+   "links": [
+    {
+     "text": "Begin the oral exam.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-02.htm",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-02.htm",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-00.html": {
+   "file": "Q00137_TempleChampionPart1/30070-00.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: You are neither the Hands nor the Feet of the Temple of Einhasad.... I'm a bit uncomfortable entrusting you with an important mission for the Temple. There is some classified information about the Temple involved here, you see... Please understand... You may ask Priest Shegfiel…",
+   "header": "High Priest Sylvain",
+   "when": [
+    "NOT ((player.getLevel() >= 35) && st.hasQuestItems(EXECUTOR, MISSIONARY))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00138_TempleChampionPart2/30070-02.htm": {
+   "file": "Q00138_TempleChampionPart2/30070-02.htm",
+   "quest": 138,
+   "text": "High Priest Sylvain: Thanks to your efforts, we were able to recreate the missing inspector's report. Based on his findings, we have written a manifesto showing that the advent of the angel proves the authority and legitimacy of the Temple. We wish to distribute this document to the groups who have…",
+   "header": "High Priest Sylvain",
+   "when": [
+    "cond 1"
+   ],
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"But?\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30070-03.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30070-03.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30070-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30070-03.html": {
+   "file": "Q00138_TempleChampionPart2/30070-03.html",
+   "quest": 138,
+   "text": "High Priest Sylvain: But it may be difficult for you obtain an audience with Preacher Sla. His philosophy differs somewhat from ours... First seek out Priestess Pupina , who will be able to guide you in contacting Preacher Sla.",
+   "header": "High Priest Sylvain",
+   "when": [
+    "cond 2|3|4|5|6"
+   ],
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00138_TempleChampionPart2/30070-04.html": {
+   "file": "Q00138_TempleChampionPart2/30070-04.html",
+   "quest": 138,
+   "text": "High Priest Sylvain: (Tell him that you met Preacher Sla and gave him the manifesto, and have returned with a message from him.) Only a strong and unified Temple can bring peace to this continent, and only concentrated power can protect the people. Besides, the angel of Einhasad has obviously come …",
+   "header": "High Priest Sylvain",
+   "when": [
+    "cond 7"
+   ],
+   "links": [
+    {
+     "text": "\"Is the investigation under way?\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30070-05.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30070-05.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30070-05.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30070-01.htm": {
+   "file": "Q00138_TempleChampionPart2/30070-01.htm",
+   "quest": 138,
+   "text": "High Priest Sylvain: Ah, the Limbs of the Temple... ... We wish to distribute our manifesto -- which argues that the advent of the angel proves the Temple's legitimacy and authority -- to the various breakaway groups. This will give them a final chance to repent of their apostasy and return to our …",
+   "header": "High Priest Sylvain",
+   "when": [
+    "(player.getLevel() >= 36); (player.hasQuestCompleted(Q00137_TempleChampionPart1.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "\"I will.\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30070-02.htm",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30070-02.htm",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30070-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30070-00a.htm": {
+   "file": "Q00138_TempleChampionPart2/30070-00a.htm",
+   "quest": 138,
+   "text": "High Priest Sylvain: You, adventurer, are not one of the Temple Champions. That means that you cannot carry out certain important missions. There is classified information involved... You understand, I'm sure? (Only characters who have completed the first Temple Champion quest may undertake this qu…",
+   "header": "High Priest Sylvain",
+   "when": [
+    "(player.getLevel() >= 36); NOT (player.hasQuestCompleted(Q00137_TempleChampionPart1.class.getSimpleName()))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00138_TempleChampionPart2/30070-00.htm": {
+   "file": "Q00138_TempleChampionPart2/30070-00.htm",
+   "quest": 138,
+   "text": "High Priest Sylvain: Ah... Although I have no doubt that you are an experienced adventurer, I don't think you are ready for this mission. Come back after you have had more training... (Only characters level 36 and above are permitted to undertake this quest.)",
+   "header": "High Priest Sylvain",
+   "when": [
+    "NOT (player.getLevel() >= 36)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30070-01.html": {
+   "file": "Q00214_TrialOfTheScholar/30070-01.html",
+   "quest": 214,
+   "text": "High Priest Sylvain: You must learn about the purification of light. As you probably know, my duty is to purify the land of unclean energy. In the eastern part of this village is an Execution Grounds where many of the people involved in the peasant's uprising were killed. This place casts a dark sh…",
+   "header": "High Priest Sylvain",
+   "when": [
+    "state STARTED; has items 2675; lacks items 2689,2693"
+   ],
+   "links": [
+    {
+     "text": "\"I will participate.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30070-02.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30070-02.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30070-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30070-03.html": {
+   "file": "Q00214_TrialOfTheScholar/30070-03.html",
+   "quest": 214,
+   "text": "High Priest Sylvain: Please visit Maria and obtain the Crystal of Purity . That is the only way that we can cleanse this spiritually bereft land.",
+   "header": "High Priest Sylvain",
+   "when": [
+    "state STARTED; has items 2689,2675; lacks items 2688; !(hasQuestItems(player, MIRIENS_1ST_SIGIL) && !hasAtLeastOneQuestItem(player, HIGH_PRIESTS_SIGIL, SYMBOL_OF_SYLVAIN))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30070-04.html": {
+   "file": "Q00214_TrialOfTheScholar/30070-04.html",
+   "quest": 214,
+   "text": "High Priest Sylvain: Ah, the Crystal of Purity! Behold the beauty of the most pure formation! To tell you the truth, I knew that Maria wasn't quite ready to make the crystal and I thought that you might help her find the way. Thanks to you, the method of creating this crystal has been restored to u…",
+   "header": "High Priest Sylvain",
+   "when": [
+    "state STARTED; has items 2689,2675,2688; !(hasQuestItems(player, MIRIENS_1ST_SIGIL) && !hasAtLeastOneQuestItem(player, HIGH_PRIESTS_SIGIL, SYMBOL_OF_SYLVAIN)); !(!hasQuestItems(player, CRYSTAL_OF_PURITY1) && hasQuestItems(player, HIGH_PRIESTS_SIGIL, MIRIENS_1ST_SIGIL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30070-05.html": {
+   "file": "Q00214_TrialOfTheScholar/30070-05.html",
+   "quest": 214,
+   "text": "High Priest Sylvain: You have successfully completed the task that I assigned you. You should go and meet Magister Mirien now, she has another task for you.",
+   "header": "High Priest Sylvain",
+   "when": [
+    "state STARTED; has items 2675,2693; lacks items 2689,2675,2688; !(hasQuestItems(player, MIRIENS_1ST_SIGIL) && !hasAtLeastOneQuestItem(player, HIGH_PRIESTS_SIGIL, SYMBOL_OF_SYLVAIN)); !(!hasQuestItems(player, CRYSTAL_OF_PURITY1) && hasQuestItems(player, HIGH_PRIESTS_SIGIL, MIRIENS_1ST_SIGIL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30070-06.html": {
+   "file": "Q00214_TrialOfTheScholar/30070-06.html",
+   "quest": 214,
+   "text": "High Priest Sylvain: I wish you good luck on your tasks and hope that you become a mature Magician soon.",
+   "header": "High Priest Sylvain",
+   "when": [
+    "state STARTED; has items 2676,2677; lacks items 2689,2675,2688; !(hasQuestItems(player, MIRIENS_1ST_SIGIL) && !hasAtLeastOneQuestItem(player, HIGH_PRIESTS_SIGIL, SYMBOL_OF_SYLVAIN)); !(!hasQuestItems(player, CRYSTAL_OF_PURITY1) && hasQuestItems(player, HIGH_PRIESTS_SIGIL, MIRIENS_1ST_SIGIL)); !(hasQuestItems(player, MIRIENS_1ST_SIGIL, SYMBOL_OF_SYLVAIN) && !hasQuestItems(player, HIGH_PRIESTS_SIGIL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00137_TempleChampionPart1/30070-02.htm": {
+   "file": "Q00137_TempleChampionPart1/30070-02.htm",
+   "quest": 137,
+   "text": "High Priest Sylvain: This oral exam will test your knowledge of certain basic principles that should be known to the Hands or the Feet of the Temple. Are you ready to begin?",
+   "header": "High Priest Sylvain",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"I am ready.\"",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-03.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-03.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-03.html"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-04.html": {
+   "file": "Q00137_TempleChampionPart1/30070-04.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: Hem... I do not think you are sufficiently knowledgeable about the history and traditions of our Temple. Study hard and return to me when you are ready to take the test again.",
+   "header": "High Priest Sylvain",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00137_TempleChampionPart1/30070-07.html": {
+   "file": "Q00137_TempleChampionPart1/30070-07.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: Excellent! Your knowledge of the history, traditions and aims of the Temple of Einhasad is impressive. I now confer upon you the title of the Limbs of the Temple. ... You have now entered the inner circle of our order and will report directy to me as High Priest. I will assign …",
+   "header": "High Priest Sylvain",
+   "links": [
+    {
+     "text": "Listen.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-08.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-08.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-08.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-11.html": {
+   "file": "Q00137_TempleChampionPart1/30070-11.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: During the reign of Emperor Schuneimann, you remember, an angel appeared and gave the emperor some of the goddess' power so that he might destroy his enemies and establish Einhasad's Temple. It can be no accident that another angel has appeared at this particular time.",
+   "header": "High Priest Sylvain",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-12.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-12.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-12.html"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-12.html": {
+   "file": "Q00137_TempleChampionPart1/30070-12.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: Emperor Schuneimann established our Temple in accordance with the goddess' instructions relayed through the angel with three wings. Now, though, we are besieged on all sides. Some say that Einhasad is not the goddess of the people, and I am sad to say that this heresy has taken…",
+   "header": "High Priest Sylvain",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-13.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-13.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-13.html"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-13.html": {
+   "file": "Q00137_TempleChampionPart1/30070-13.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: These false prophets are planning to cause chaos by instigating the Revolutionaries of Dusk to rebel against the rightful Rulers of Dawn, who respect order and justice. Many of their followers, however, are still faithful children of the goddess who have simply been misled. We …",
+   "header": "High Priest Sylvain",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-14.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-14.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-14.html"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-14.html": {
+   "file": "Q00137_TempleChampionPart1/30070-14.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: Even those who challenge the authority of the Temple must give heed to this momentous event, the advent of the angel... It is obvious the angel has appeared at this time in order to confirm the legitimacy and authority of the Temple. We must make contact with the angel and, as …",
+   "header": "High Priest Sylvain",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-15.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-15.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-15.html"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-15.html": {
+   "file": "Q00137_TempleChampionPart1/30070-15.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: We will now, based on the inspector's report, write a manifesto setting out the Temple's legitimacy and authority. We will then send it to the groups opposed to us. In doing so, we will offer them a final chance to repent for forsaking us, and return to our loving fold... None …",
+   "header": "High Priest Sylvain",
+   "links": [
+    {
+     "text": "\"I will.\"",
+     "bypass": "Quest Q00137_TempleChampionPart1 30070-16.html",
+     "kind": "quest-event",
+     "script": "Q00137_TempleChampionPart1",
+     "event": "30070-16.html",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-16.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00137_TempleChampionPart1/30070-16.html": {
+   "file": "Q00137_TempleChampionPart1/30070-16.html",
+   "quest": 137,
+   "text": "High Priest Sylvain: (After saying goodbye, you hear the High Priest muttering softly to himself.) It will be very difficult to disseminate the manifesto to each group -- many lie in dangerous areas and many more will suspect a trick and refuse to meet with any representative we send... Perhaps an …",
+   "header": "High Priest Sylvain",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00138_TempleChampionPart2/30070-05.html": {
+   "file": "Q00138_TempleChampionPart2/30070-05.html",
+   "quest": 138,
+   "text": "High Priest Sylvain: We have commissioned Shadow Fox, the information dealer, to gather information about the angel from his sources... I dislike the secrecy associated with using an outsider like that, but I accept the need for it at this delicate juncture. If you wish to help search for the angel…",
+   "header": "High Priest Sylvain",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30070-02.html": {
+   "file": "Q00214_TrialOfTheScholar/30070-02.html",
+   "quest": 214,
+   "text": "High Priest Sylvain: Carry this mark while you perform the task I have assigned you. Let us begin the purification of the Execution Grounds. To do so, we must acquire the Crystal of Purity . It is a purely formed crystal. This pure gem is not obtained easily. The only person capable of creating it …",
+   "header": "High Priest Sylvain",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Temple Champion - 1]",
+     "bypass": "npc_%objectId%_Quest Q00137_TempleChampionPart1",
+     "kind": "quest",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-05.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Temple Champion - 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00137_TempleChampionPart1",
+     "kind": "quest",
+     "quest": 137,
+     "to": "Q00137_TempleChampionPart1/30070-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Temple Champion - 2]",
+     "bypass": "npc_%objectId%_Quest Q00138_TempleChampionPart2",
+     "kind": "quest",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30070-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Temple Champion - 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00138_TempleChampionPart2",
+     "kind": "quest",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30070-02.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Trial of the Scholar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00214_TrialOfTheScholar",
+     "kind": "quest",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30070-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

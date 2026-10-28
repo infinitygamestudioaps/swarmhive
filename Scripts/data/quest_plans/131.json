@@ -2,7 +2,7 @@
  "id": 131,
  "name": "Bird in a Cage",
  "version": 1,
- "generated": "2026-10-27T11:15:12.517Z",
+ "generated": "2026-10-27T18:18:47.621Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 78,
@@ -20,7 +20,7 @@
    "step": 3
   }
  ],
- "expectedMin": 7,
+ "expectedMin": 16,
  "refLevel": 78,
  "steps": [
   {
@@ -492,14 +492,249 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    4,
-    5
+    1
    ]
   },
   {
    "i": 2,
+   "key": "c2:talk:32264",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "Take the Echo Crystal from Kanis."
+   ],
+   "npc": {
+    "id": 32264,
+    "name": "Kanis",
+    "title": "",
+    "town": "Heine",
+    "at": [
+     143472,
+     191040,
+     -3696
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kanis",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:isle-of-prayer-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 13480,
+    "sec": 157,
+    "via": ".heine > Heine -> Isle of Prayer",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Isle of Prayer",
+      "link": "isle of prayer",
+      "price": 7200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11676,
+      "how": "field-areas",
+      "danger": 81
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Isle of Prayer"
+    },
+    "simple": true,
+    "pv": [
+     [
+      149512,
+      195288,
+      -3736
+     ],
+     [
+      148520,
+      195112,
+      -3728
+     ],
+     [
+      147528,
+      194120,
+      -3720
+     ],
+     [
+      147400,
+      193992,
+      -3720
+     ],
+     [
+      146568,
+      193320,
+      -3704
+     ],
+     [
+      145576,
+      192888,
+      -3528
+     ],
+     [
+      144584,
+      191896,
+      -3728
+     ],
+     [
+      143592,
+      190904,
+      -3728
+     ],
+     [
+      142600,
+      189912,
+      -3720
+     ],
+     [
+      141608,
+      188920,
+      -3720
+     ],
+     [
+      141416,
+      188776,
+      -3704
+     ],
+     [
+      140472,
+      188248,
+      -3720
+     ],
+     [
+      142456,
+      189656,
+      -3720
+     ],
+     [
+      143448,
+      190648,
+      -3712
+     ],
+     [
+      143480,
+      191048,
+      -3720
+     ]
+    ],
+    "maxDanger": 81,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 81,
+     "dangerVsLevel": 3,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:isle-of-prayer-6",
+     "name": "Isle of Prayer 6: Muddy Coral area (north-west)"
+    },
+    "points": [
+     [
+      149512,
+      195288,
+      -3736
+     ],
+     [
+      148520,
+      195112,
+      -3728
+     ],
+     [
+      147528,
+      194120,
+      -3720
+     ],
+     [
+      147400,
+      193992,
+      -3720
+     ],
+     [
+      146568,
+      193320,
+      -3704
+     ],
+     [
+      145576,
+      192888,
+      -3528
+     ],
+     [
+      144584,
+      191896,
+      -3728
+     ],
+     [
+      143592,
+      190904,
+      -3728
+     ],
+     [
+      142600,
+      189912,
+      -3720
+     ],
+     [
+      141608,
+      188920,
+      -3720
+     ],
+     [
+      141416,
+      188776,
+      -3704
+     ],
+     [
+      140472,
+      188248,
+      -3720
+     ],
+     [
+      142456,
+      189656,
+      -3720
+     ],
+     [
+      143448,
+      190648,
+      -3712
+     ],
+     [
+      143480,
+      191048,
+      -3720
+     ]
+    ]
+   },
+   "expectedSec": 182,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
    "key": "c3:talk:32271",
    "cond": 3,
    "kind": "talk",
@@ -527,6 +762,482 @@
    },
    "conds": [
     3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:32264",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "Calm the flustered Kanis and hand him the Shamaness' letter."
+   ],
+   "npc": {
+    "id": 32264,
+    "name": "Kanis",
+    "title": "",
+    "town": "Heine",
+    "at": [
+     143472,
+     191040,
+     -3696
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kanis",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:isle-of-prayer-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 13480,
+    "sec": 157,
+    "via": ".heine > Heine -> Isle of Prayer",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Isle of Prayer",
+      "link": "isle of prayer",
+      "price": 7200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11676,
+      "how": "field-areas",
+      "danger": 81
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Isle of Prayer"
+    },
+    "simple": true,
+    "pv": [
+     [
+      149512,
+      195288,
+      -3736
+     ],
+     [
+      148520,
+      195112,
+      -3728
+     ],
+     [
+      147528,
+      194120,
+      -3720
+     ],
+     [
+      147400,
+      193992,
+      -3720
+     ],
+     [
+      146568,
+      193320,
+      -3704
+     ],
+     [
+      145576,
+      192888,
+      -3528
+     ],
+     [
+      144584,
+      191896,
+      -3728
+     ],
+     [
+      143592,
+      190904,
+      -3728
+     ],
+     [
+      142600,
+      189912,
+      -3720
+     ],
+     [
+      141608,
+      188920,
+      -3720
+     ],
+     [
+      141416,
+      188776,
+      -3704
+     ],
+     [
+      140472,
+      188248,
+      -3720
+     ],
+     [
+      142456,
+      189656,
+      -3720
+     ],
+     [
+      143448,
+      190648,
+      -3712
+     ],
+     [
+      143480,
+      191048,
+      -3720
+     ]
+    ],
+    "maxDanger": 81,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 81,
+     "dangerVsLevel": 3,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:isle-of-prayer-6",
+     "name": "Isle of Prayer 6: Muddy Coral area (north-west)"
+    },
+    "points": [
+     [
+      149512,
+      195288,
+      -3736
+     ],
+     [
+      148520,
+      195112,
+      -3728
+     ],
+     [
+      147528,
+      194120,
+      -3720
+     ],
+     [
+      147400,
+      193992,
+      -3720
+     ],
+     [
+      146568,
+      193320,
+      -3704
+     ],
+     [
+      145576,
+      192888,
+      -3528
+     ],
+     [
+      144584,
+      191896,
+      -3728
+     ],
+     [
+      143592,
+      190904,
+      -3728
+     ],
+     [
+      142600,
+      189912,
+      -3720
+     ],
+     [
+      141608,
+      188920,
+      -3720
+     ],
+     [
+      141416,
+      188776,
+      -3704
+     ],
+     [
+      140472,
+      188248,
+      -3720
+     ],
+     [
+      142456,
+      189656,
+      -3720
+     ],
+     [
+      143448,
+      190648,
+      -3712
+     ],
+     [
+      143480,
+      191048,
+      -3720
+     ]
+    ]
+   },
+   "expectedSec": 182,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:32264",
+   "cond": 5,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"During our escape from the Crystal Dungeon, the Shamaness said that Beleth was responsible for this.\""
+   ],
+   "npc": {
+    "id": 32264,
+    "name": "Kanis",
+    "title": "",
+    "town": "Heine",
+    "at": [
+     143472,
+     191040,
+     -3696
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kanis",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:isle-of-prayer-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 13480,
+    "sec": 157,
+    "via": ".heine > Heine -> Isle of Prayer",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Isle of Prayer",
+      "link": "isle of prayer",
+      "price": 7200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11676,
+      "how": "field-areas",
+      "danger": 81
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Isle of Prayer"
+    },
+    "simple": true,
+    "pv": [
+     [
+      149512,
+      195288,
+      -3736
+     ],
+     [
+      148520,
+      195112,
+      -3728
+     ],
+     [
+      147528,
+      194120,
+      -3720
+     ],
+     [
+      147400,
+      193992,
+      -3720
+     ],
+     [
+      146568,
+      193320,
+      -3704
+     ],
+     [
+      145576,
+      192888,
+      -3528
+     ],
+     [
+      144584,
+      191896,
+      -3728
+     ],
+     [
+      143592,
+      190904,
+      -3728
+     ],
+     [
+      142600,
+      189912,
+      -3720
+     ],
+     [
+      141608,
+      188920,
+      -3720
+     ],
+     [
+      141416,
+      188776,
+      -3704
+     ],
+     [
+      140472,
+      188248,
+      -3720
+     ],
+     [
+      142456,
+      189656,
+      -3720
+     ],
+     [
+      143448,
+      190648,
+      -3712
+     ],
+     [
+      143480,
+      191048,
+      -3720
+     ]
+    ],
+    "maxDanger": 81,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 81,
+     "dangerVsLevel": 3,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:isle-of-prayer-6",
+     "name": "Isle of Prayer 6: Muddy Coral area (north-west)"
+    },
+    "points": [
+     [
+      149512,
+      195288,
+      -3736
+     ],
+     [
+      148520,
+      195112,
+      -3728
+     ],
+     [
+      147528,
+      194120,
+      -3720
+     ],
+     [
+      147400,
+      193992,
+      -3720
+     ],
+     [
+      146568,
+      193320,
+      -3704
+     ],
+     [
+      145576,
+      192888,
+      -3528
+     ],
+     [
+      144584,
+      191896,
+      -3728
+     ],
+     [
+      143592,
+      190904,
+      -3728
+     ],
+     [
+      142600,
+      189912,
+      -3720
+     ],
+     [
+      141608,
+      188920,
+      -3720
+     ],
+     [
+      141416,
+      188776,
+      -3704
+     ],
+     [
+      140472,
+      188248,
+      -3720
+     ],
+     [
+      142456,
+      189656,
+      -3720
+     ],
+     [
+      143448,
+      190648,
+      -3712
+     ],
+     [
+      143480,
+      191048,
+      -3720
+     ]
+    ]
+   },
+   "expectedSec": 182,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
    ]
   }
  ],

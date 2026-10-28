@@ -1,0 +1,670 @@
+{
+ "npcId": 32792,
+ "name": "Eris's Evil Thoughts",
+ "title": "Director",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.408Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32792.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10294": {
+   "name": "Seven Signs, To the Monastery of Silence",
+   "listText": [
+    "[Seven Signs, To the Monastery of Silence]",
+    "[Seven Signs, To the Monastery of Silence (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-01.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-04.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-09.html",
+     "when": "cond 3; (player.isSubClassActive())",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-07.html",
+     "when": "cond 3; NOT (player.isSubClassActive())",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "10295": {
+   "name": "Seven Signs, Solina's Tomb",
+   "listText": [
+    "[Seven Signs, Solina's Tomb]",
+    "[Seven Signs, Solina's Tomb (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10295_SevenSignsSolinasTomb/32792-07.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10295_SevenSignsSolinasTomb/32792-01.htm",
+     "when": "state CREATED; level >= 81; player.hasQuestCompleted(Q10294_SevenSignsToTheMonasteryOfSilence.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10295_SevenSignsSolinasTomb/32792-12.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10295_SevenSignsSolinasTomb/32792-08.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10295_SevenSignsSolinasTomb/32792-09.html",
+     "when": "state STARTED; memoState > 2; memoState < 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10295_SevenSignsSolinasTomb/32792-10.html",
+     "when": "state STARTED; memo 6; !((memoState > 2) && (memoState < 6)); player.isSubClassActive()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10295_SevenSignsSolinasTomb/32792-11.html",
+     "when": "state STARTED; memo 6; !((memoState > 2) && (memoState < 6)); !player.isSubClassActive()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "10296": {
+   "name": "Seven Signs, One Who Seeks the Power of the Seal",
+   "listText": [
+    "[Seven Signs, One Who Seeks the Power of the Seal]",
+    "[Seven Signs, One Who Seeks the Power of the Seal (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-04.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-01.htm",
+     "when": "state CREATED; level >= 81; player.hasQuestCompleted(Q10295_SevenSignsSolinasTomb.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-05.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-06.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32792.htm": {
+   "file": "default/32792.htm",
+   "quest": null,
+   "text": "Eris' Evil Thoughts: Finally we meet, Successors of Fate. At last, this endless cycle may be given a chance to end.",
+   "links": [
+    {
+     "text": "\"I'd like to go outside.\"",
+     "bypass": "Quest MonasteryOfSilence1 EXIT",
+     "kind": "quest-event",
+     "script": "MonasteryOfSilence1",
+     "event": "EXIT"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32792-01.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-01.html",
+   "quest": 10294,
+   "text": "Sister of Silence Eris: Welcome. I knew you would find me, no matter how long it took. I am Eris, the Abbot of this monastery. I don't know how many years have passed waiting, and waiting, AND waiting, but no more. This day has finally come.",
+   "header": "Sister of Silence Eris",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "Are you Eris, Solina's disciple?",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32792-02.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32792-02.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-02.html"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32792-04.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-04.html",
+   "quest": 10294,
+   "text": "Sister of Silence Eris: Solina's biography was written during the era of the Elmoreden Kingdom, shortly before its demise. The true biography you're talking about is one that recorded Solina's life as it actually occurred, and not as she would have distorted it. Regarding that record, there is a me…",
+   "header": "Sister of Silence Eris",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "If so, please let me read that book.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32792-05.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32792-05.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-05.html"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32792-09.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-09.html",
+   "quest": 10294,
+   "text": "Sister of Silence Eris: I'm sorry, but you're different than when we talked the first time. I want you to come back to your original form to continue our conversation. (You cannot complete the quest when you're in a sub job condition.)",
+   "header": "Sister of Silence Eris",
+   "when": [
+    "cond 3; (player.isSubClassActive())"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32792-07.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-07.html",
+   "quest": 10294,
+   "text": "Sister of Silence Eris: I guess that works. Now, I know little of the greater world out there, but if it relates to the Monastery of Silence and Solina's life, I may know something. Lady of Fate, what is it you truly seek?",
+   "header": "Sister of Silence Eris",
+   "when": [
+    "cond 3; NOT (player.isSubClassActive())"
+   ],
+   "links": [
+    {
+     "text": "I want the truth of Embryo.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32792-08.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32792-08.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-08.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10295_SevenSignsSolinasTomb/32792-07.html": {
+   "file": "Q10295_SevenSignsSolinasTomb/32792-07.html",
+   "quest": 10295,
+   "text": "Eris' Evil Thoughts: Now, you have to get ready for the other things you need to do. (You have already completed this quest.)",
+   "header": "Eris' Evil Thoughts",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10295_SevenSignsSolinasTomb/32792-01.htm": {
+   "file": "Q10295_SevenSignsSolinasTomb/32792-01.htm",
+   "quest": 10295,
+   "text": "Eris' Evil Thoughts: Now, you will meet Solina alone. The truth you seek is best learned in person. Have your audience with Solina, and you will learn what you need to know.",
+   "header": "Eris' Evil Thoughts",
+   "when": [
+    "state CREATED; level >= 81; player.hasQuestCompleted(Q10294_SevenSignsToTheMonasteryOfSilence.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "\"Okay. I am ready.\"",
+     "bypass": "Quest Q10295_SevenSignsSolinasTomb 32792-02.htm",
+     "kind": "quest-event",
+     "script": "Q10295_SevenSignsSolinasTomb",
+     "event": "32792-02.htm",
+     "quest": 10295,
+     "to": "Q10295_SevenSignsSolinasTomb/32792-02.htm"
+    }
+   ]
+  },
+  "Q10295_SevenSignsSolinasTomb/32792-12.html": {
+   "file": "Q10295_SevenSignsSolinasTomb/32792-12.html",
+   "quest": 10295,
+   "text": "Eris' Evil Thoughts: I can transport you whenever you are ready. Let me say this one last time, you have to remove the seals from the Powerful Devices protected by Guardians in order to defeat the Guardians. Now, are you ready to enter?",
+   "header": "Eris' Evil Thoughts",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "\"Yes!\"",
+     "bypass": "Quest MonasteryOfSilence1 ENTER_Q10295",
+     "kind": "quest-event",
+     "script": "MonasteryOfSilence1",
+     "event": "ENTER_Q10295"
+    }
+   ]
+  },
+  "Q10295_SevenSignsSolinasTomb/32792-08.html": {
+   "file": "Q10295_SevenSignsSolinasTomb/32792-08.html",
+   "quest": 10295,
+   "text": "Eris' Evil Thoughts: You must be truly skilled to defeat the Guardians of Relics... I'm impressed! Now go inside the Seal of the Saintess and find your way to Solina's casket room. Use the central teleport device. To see the Holy Treasure of Solina, you will have to battle the Last Guardians, the p…",
+   "header": "Eris' Evil Thoughts",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"Thanks. I am going back to the Casket Room of the Saintess.\"",
+     "bypass": "Quest MonasteryOfSilence1 CASKET_ROOM",
+     "kind": "quest-event",
+     "script": "MonasteryOfSilence1",
+     "event": "CASKET_ROOM"
+    }
+   ]
+  },
+  "Q10295_SevenSignsSolinasTomb/32792-09.html": {
+   "file": "Q10295_SevenSignsSolinasTomb/32792-09.html",
+   "quest": 10295,
+   "text": "Eris' Evil Thoughts: Weren't you meeting with Solina? Don't turn back now, meet Solina and listen to her story again.",
+   "header": "Eris' Evil Thoughts",
+   "when": [
+    "state STARTED; memoState > 2; memoState < 6"
+   ],
+   "links": [
+    {
+     "text": "\"I want to go back inside Solina's resting place.\"",
+     "bypass": "Quest MonasteryOfSilence1 SOLINAS_RESTING_PLACE",
+     "kind": "quest-event",
+     "script": "MonasteryOfSilence1",
+     "event": "SOLINAS_RESTING_PLACE"
+    }
+   ]
+  },
+  "Q10295_SevenSignsSolinasTomb/32792-10.html": {
+   "file": "Q10295_SevenSignsSolinasTomb/32792-10.html",
+   "quest": 10295,
+   "text": "Eris' Evil Thoughts: I'm sorry, but you're different than when we talked the first time. You must return to your original form to continue our conversation. (You cannot complete the quest while in a subclass condition)",
+   "header": "Eris' Evil Thoughts",
+   "when": [
+    "state STARTED; memo 6; !((memoState > 2) && (memoState < 6)); player.isSubClassActive()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10295_SevenSignsSolinasTomb/32792-11.html": {
+   "file": "Q10295_SevenSignsSolinasTomb/32792-11.html",
+   "quest": 10295,
+   "text": "Eris' Evil Thoughts: You met Solina? At long last her soul can rest, and so can mine. But for you, this is just the beginning. You know the truth about Embryo and of the seven seals, and you must stop them. There is one last way I can help you, but first please accept this reward for putting Solina…",
+   "header": "Eris' Evil Thoughts",
+   "when": [
+    "state STARTED; memo 6; !((memoState > 2) && (memoState < 6)); !player.isSubClassActive()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-04.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-04.html",
+   "quest": 10296,
+   "text": "Eris' Evil Thoughts: Karma is balance. We have to prepare for what comes next. (You have already completed this quest.)",
+   "header": "Eris' Evil Thoughts",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-01.htm": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-01.htm",
+   "quest": 10296,
+   "text": "Eris' Evil Thoughts: Now, it's finally time to tell you what you need to know.",
+   "header": "Eris' Evil Thoughts",
+   "when": [
+    "state CREATED; level >= 81; player.hasQuestCompleted(Q10295_SevenSignsSolinasTomb.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "\"Please, tell me.\"",
+     "bypass": "Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal 32792-02.htm",
+     "kind": "quest-event",
+     "script": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "event": "32792-02.htm",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-02.htm"
+    }
+   ]
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-05.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-05.html",
+   "quest": 10296,
+   "text": "Eris' Evil Thoughts: Embryo and its leader are growing in strength. Soon, all will feel their threat, and by then it will be too late.",
+   "header": "Eris' Evil Thoughts",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "\"Who is their leader?\"",
+     "bypass": "Quest MonasteryOfSilence1 START_MOVIE_Q10296",
+     "kind": "quest-event",
+     "script": "MonasteryOfSilence1",
+     "event": "START_MOVIE_Q10296"
+    }
+   ]
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-06.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-06.html",
+   "quest": 10296,
+   "text": "The boss battle of 'Etis van Etina' is in progress in the Abbot's Room of the Monastery of Silence. They may need help. Do you want to join the boss battle?",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"I want to watch the presentation for boss battle.\"",
+     "bypass": "Quest MonasteryOfSilence1 START_MOVIE_Q10296",
+     "kind": "quest-event",
+     "script": "MonasteryOfSilence1",
+     "event": "START_MOVIE_Q10296"
+    },
+    {
+     "text": "\"I fee like going directly to boss battle.\"",
+     "bypass": "Quest MonasteryOfSilence1 TELEPORT_SPACE",
+     "kind": "quest-event",
+     "script": "MonasteryOfSilence1",
+     "event": "TELEPORT_SPACE"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32792-02.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-02.html",
+   "quest": 10294,
+   "text": "Sister of Silence Eris: Yes. I am Eris, Abbot of this Monastery. I am a diciple of Solina, also called Saintess of Elmore-Aden. You look surprised, and I imagine you should be. By now you've noticed, I'm not really alive. This is the result of my training, years of practicing asceticism, a lifetime…",
+   "header": "Sister of Silence Eris",
+   "links": [
+    {
+     "text": "What is that power?",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32792-03.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32792-03.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32792-03.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-03.html",
+   "quest": 10294,
+   "text": "Sister of Silence Eris: The image you see is mine, it is my soul, bound to this room. I died here, and in my last thoughts I used my skills to bind myself to the Abbot's Room. Believe me when I say, I've been waiting for someone like you to come along. I only pray you are the one. Now, tell me why …",
+   "header": "Sister of Silence Eris",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "We are here to obtain the real version of Solina's Biography.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32792-04.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32792-04.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-04.html"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32792-05.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-05.html",
+   "quest": 10294,
+   "text": "Sister of Silence Eris: Unfortunately, I don't have that book. Nor can I determine if you're qualified to see it in the first place. The biography you seek is divided and protected by guardians selected by Solina and Anays. You can become qualified, however, if you're interested? If you want, I wil…",
+   "header": "Sister of Silence Eris",
+   "links": [
+    {
+     "text": "Send me there.",
+     "bypass": "Quest MonasteryOfSilence1 TELE2",
+     "kind": "quest-event",
+     "script": "MonasteryOfSilence1",
+     "event": "TELE2"
+    },
+    {
+     "text": "I'm not ready yet.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32792-06.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32792-06.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-06.html"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32792-06.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-06.html",
+   "quest": 10294,
+   "text": "Sister of Silence Eris: I see... Tell me when you're ready.",
+   "header": "Sister of Silence Eris",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32792-08.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-08.html",
+   "quest": 10294,
+   "text": "Sister of Silence Eris: Embryo. Ah. As I expected, what Solina said is correct. I have not spent all these years waiting for you in vain. Now, Embryo... I will help you with this darkness. On second thought... Perhaps we should rest a moment. The journey from here is a long one. I hope you will be …",
+   "header": "Sister of Silence Eris",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q10295_SevenSignsSolinasTomb/32792-02.htm": {
+   "file": "Q10295_SevenSignsSolinasTomb/32792-02.htm",
+   "quest": 10295,
+   "text": "Eris' Evil Thoughts: The Seal of the Saintess, protecting Solina's casket room, consists of 4 Guardians and 4 Powerful Devices. The Guardians, endowed with power from the Powerful Devices, can withstand attacks long as their Powerful Devices run. In order to defeat them, you have to weaken the powe…",
+   "header": "Eris' Evil Thoughts",
+   "links": [
+    {
+     "text": "\"Let me in.\"",
+     "bypass": "Quest Q10295_SevenSignsSolinasTomb 32792-03.htm",
+     "kind": "quest-event",
+     "script": "Q10295_SevenSignsSolinasTomb",
+     "event": "32792-03.htm",
+     "quest": 10295,
+     "to": "Q10295_SevenSignsSolinasTomb/32792-03.htm",
+     "effect": "start"
+    },
+    {
+     "text": "\"Tell me more about the Seal of the Saintess.\"",
+     "bypass": "Quest Q10295_SevenSignsSolinasTomb 32792-04.htm",
+     "kind": "quest-event",
+     "script": "Q10295_SevenSignsSolinasTomb",
+     "event": "32792-04.htm",
+     "quest": 10295,
+     "to": "Q10295_SevenSignsSolinasTomb/32792-04.htm"
+    },
+    {
+     "text": "\"Uh... Maybe I'm not quite ready yet.\"",
+     "bypass": "Quest Q10295_SevenSignsSolinasTomb 32792-06.htm",
+     "kind": "quest-event",
+     "script": "Q10295_SevenSignsSolinasTomb",
+     "event": "32792-06.htm",
+     "quest": 10295,
+     "to": "Q10295_SevenSignsSolinasTomb/32792-06.htm"
+    }
+   ]
+  },
+  "Q10295_SevenSignsSolinasTomb/32792-03.htm": {
+   "file": "Q10295_SevenSignsSolinasTomb/32792-03.htm",
+   "quest": 10295,
+   "text": "Eris' Evil Thoughts: The device was invented by Solina's three closest disciples, Kaerun, Anais, and myself. The Guardians protecting this place cannot be defeated without first removing the seals. I wish I could go and help you, but I cannot leave. However, when you're ready, I will send you to th…",
+   "header": "Eris' Evil Thoughts",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10295_SevenSignsSolinasTomb/32792-04.htm": {
+   "file": "Q10295_SevenSignsSolinasTomb/32792-04.htm",
+   "quest": 10295,
+   "text": "Eris' Evil Thoughts: Anybody who goes in the Casket Room is considered an intruder. Only three of her disciples, Eris, Kaerun, and Anais, the inventors of the seal devices, are permitted. I cannot directly help you because I can't leave here. Thus, there is no way in except to destroy the seals. Un…",
+   "header": "Eris' Evil Thoughts",
+   "links": [
+    {
+     "text": "\"How can I defeat them?\"",
+     "bypass": "Quest Q10295_SevenSignsSolinasTomb 32792-05.htm",
+     "kind": "quest-event",
+     "script": "Q10295_SevenSignsSolinasTomb",
+     "event": "32792-05.htm",
+     "quest": 10295,
+     "to": "Q10295_SevenSignsSolinasTomb/32792-05.htm"
+    }
+   ]
+  },
+  "Q10295_SevenSignsSolinasTomb/32792-05.htm": {
+   "file": "Q10295_SevenSignsSolinasTomb/32792-05.htm",
+   "quest": 10295,
+   "text": "Eris' Evil Thoughts: The Guardians of Relics protect four special seals. The power from Solina's treasures in these seals give the Guardians eternal life. Their immortality is linked to the seals. We must remove them and then destroy the Guardians!",
+   "header": "Eris' Evil Thoughts",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10295_SevenSignsSolinasTomb/32792-06.htm": {
+   "file": "Q10295_SevenSignsSolinasTomb/32792-06.htm",
+   "quest": 10295,
+   "text": "Eris' Evil Thoughts: When you're done getting ready, let me know.",
+   "header": "Eris' Evil Thoughts",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-02.htm": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-02.htm",
+   "quest": 10296,
+   "text": "Eris' Evil Thoughts: Has your search for the truth about Embryo been answered? One thing I know for sure is that Jude van Etina stole Solina's power and disappeared long ago in the name of Embryo...and Embryo continues to be active even now. The three seals that have risen prove this fact to be tru…",
+   "header": "Eris' Evil Thoughts",
+   "links": [
+    {
+     "text": "\"Huh? What?\"",
+     "bypass": "Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal 32792-03.htm",
+     "kind": "quest-event",
+     "script": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "event": "32792-03.htm",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-03.htm": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-03.htm",
+   "quest": 10296,
+   "text": "Eris' Evil Thoughts: I think I have explained enough about Embryo's origin, birth, and true identity. Now it's important to find out who's leading Embryo, and to protect the remaining four seals. We must make preparations. The pieces of this puzzle are in place, now everything begins.",
+   "header": "Eris' Evil Thoughts",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, To the Monastery of Silence (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10294_SevenSignsToTheMonasteryOfSilence",
+     "kind": "quest",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32792-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, Solina's Tomb]",
+     "bypass": "npc_%objectId%_Quest Q10295_SevenSignsSolinasTomb",
+     "kind": "quest",
+     "quest": 10295,
+     "to": "Q10295_SevenSignsSolinasTomb/32792-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, Solina's Tomb (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10295_SevenSignsSolinasTomb",
+     "kind": "quest",
+     "quest": 10295,
+     "to": "Q10295_SevenSignsSolinasTomb/32792-12.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, One Who Seeks the Power of the Seal]",
+     "bypass": "npc_%objectId%_Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "kind": "quest",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, One Who Seeks the Power of the Seal (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "kind": "quest",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32792-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

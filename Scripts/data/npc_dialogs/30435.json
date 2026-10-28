@@ -1,0 +1,417 @@
+{
+ "npcId": 30435,
+ "name": "Leopold",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.977Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30435.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "229": {
+   "name": "Test Of Witchcraft",
+   "listText": [
+    "[Test of Witchcraft]",
+    "[Test of Witchcraft (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00229_TestOfWitchcraft/30435-01.htm",
+     "when": "state STARTED; has items 3309,3315; lacks items 3316",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30435-03.htm",
+     "when": "state STARTED; has items 3309,3316; lacks items 3315; !(hasQuestItems(player, NESTLES_MEMO) && !hasQuestItems(player, LEOPOLDS_JOURNAL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30435-04.htm",
+     "when": "state STARTED; has items 3309,3320,3321,3322; !(hasQuestItems(player, NESTLES_MEMO) && !hasQuestItems(player, LEOPOLDS_JOURNAL)); !(hasQuestItems(player, LEOPOLDS_JOURNAL) && !hasQuestItems(player, NESTLES_MEMO))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30435-05.htm",
+     "when": "state STARTED; has items 3323,3324; lacks items 3309",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "326": {
+   "name": "Vanquish Remnants",
+   "listText": [
+    "[Vanquish Remnants]",
+    "[Vanquish Remnants (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00326_VanquishRemnants/30435-02.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00326_VanquishRemnants/30435-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00326_VanquishRemnants/30435-09.html",
+     "when": "state STARTED; sum > 0; (sum >= 100); (st.hasQuestItems(BLACK_LION_MARK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00326_VanquishRemnants/30435-06.html",
+     "when": "state STARTED; sum > 0; (sum >= 100); NOT (st.hasQuestItems(BLACK_LION_MARK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00326_VanquishRemnants/30435-05.html",
+     "when": "state STARTED; sum > 0; NOT (sum >= 100)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00326_VanquishRemnants/30435-04.html",
+     "when": "state STARTED; !sum > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30435.htm": {
+   "file": "default/30435.htm",
+   "quest": null,
+   "text": "Leopold: Nice to meet you, traveler. I am Leopold, commander of the third platoon of the Black Lion mercenaries. Our troops are as dignified and courageous as any Knights on this continent. We, the Black Lions, were the ones who defended the Castle of Giran when the drakes flooded Dragon Valley las…",
+   "header": "Leopold",
+   "links": [
+    {
+     "text": "Ask about the foreign troops of Ol Mahum",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30435-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30435-1.htm": {
+   "file": "default/30435-1.htm",
+   "quest": null,
+   "text": "Leopold: They were brought into the battle to destroy the spirit of the people in Gludio, but even in their homeland they are mercenary troops that are infamous for cruelty and viciousness. The two villages' defenses were pierced by the fearsome ol mahums, and the villagers were brutally killed. Th…",
+   "header": "Leopold",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30435.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30435-01.htm": {
+   "file": "Q00229_TestOfWitchcraft/30435-01.htm",
+   "quest": 229,
+   "text": "Leopold: Nice to meet you, traveler. I am Leopold, Commander of the third platoon of the Black Lion mercenaries. Our troops are as dignified and brave as any Knights on this continent. Last summer when the drakes swarmed out of Dragon Valley, we defended Castle Giran. A few months ago when the pira…",
+   "header": "Leopold",
+   "when": [
+    "state STARTED; has items 3309,3315; lacks items 3316"
+   ],
+   "links": [
+    {
+     "text": "Ask about the jewel.",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30435-02.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30435-02.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30435-02.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30435-03.htm": {
+   "file": "Q00229_TestOfWitchcraft/30435-03.htm",
+   "quest": 229,
+   "text": "Leopold: The murdering thieves killed each other over the jewels, and have now become undead. Search among the skull troops near the wastelands.",
+   "header": "Leopold",
+   "when": [
+    "state STARTED; has items 3309,3316; lacks items 3315; !(hasQuestItems(player, NESTLES_MEMO) && !hasQuestItems(player, LEOPOLDS_JOURNAL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30435-04.htm": {
+   "file": "Q00229_TestOfWitchcraft/30435-04.htm",
+   "quest": 229,
+   "text": "Leopold: Oh, why would they kill each other over mere jewels? Even mercenaries should have more dignity than that! Those jewels must be cursed!",
+   "header": "Leopold",
+   "when": [
+    "state STARTED; has items 3309,3320,3321,3322; !(hasQuestItems(player, NESTLES_MEMO) && !hasQuestItems(player, LEOPOLDS_JOURNAL)); !(hasQuestItems(player, LEOPOLDS_JOURNAL) && !hasQuestItems(player, NESTLES_MEMO))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30435-05.htm": {
+   "file": "Q00229_TestOfWitchcraft/30435-05.htm",
+   "quest": 229,
+   "text": "Leopold: Have you disposed of the cursed jewels? Say the word and I will do it for you!",
+   "header": "Leopold",
+   "when": [
+    "state STARTED; has items 3323,3324; lacks items 3309"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00326_VanquishRemnants/30435-02.htm": {
+   "file": "Q00326_VanquishRemnants/30435-02.htm",
+   "quest": 326,
+   "text": "Leopold: Currently, the Black Lion mercenaries are working for the lord of Gludio. They are in charge of getting rid of the remnants of Ol Mahum , who are still staying and causing problems in this land. They have been fighting against the remnants for several months. However, Ol Mahums are not sav…",
+   "header": "Leopold",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will fight",
+     "bypass": "Quest Q00326_VanquishRemnants 30435-03.htm",
+     "kind": "quest-event",
+     "script": "Q00326_VanquishRemnants",
+     "event": "30435-03.htm",
+     "quest": 326,
+     "to": "Q00326_VanquishRemnants/30435-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00326_VanquishRemnants/30435-01.htm": {
+   "file": "Q00326_VanquishRemnants/30435-01.htm",
+   "quest": 326,
+   "text": "Leopold: Currently, the Black Lion mercenaries are working for the lord of Gludio. They are in charge of getting rid of the remnants of Ol Mahum , who are still staying and causing problems in this land. They have been fighting against the remnants for several months. However, Ol Mahums are not sav…",
+   "header": "Leopold",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00326_VanquishRemnants/30435-09.html": {
+   "file": "Q00326_VanquishRemnants/30435-09.html",
+   "quest": 326,
+   "text": "Leopold: Welcome, my comrade of the sword! I congratulate you on your safe return. How was your performance on the battlefield? How truly amazing! You brought back another hundred badges! Magnificent! Ha ha! You have already proven your skills and have been acknowledged as a member of the Black Lio…",
+   "header": "Leopold",
+   "when": [
+    "state STARTED; sum > 0; (sum >= 100); (st.hasQuestItems(BLACK_LION_MARK))"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00326_VanquishRemnants 30435-07.html",
+     "kind": "quest-event",
+     "script": "Q00326_VanquishRemnants",
+     "event": "30435-07.html",
+     "quest": 326,
+     "to": "Q00326_VanquishRemnants/30435-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00326_VanquishRemnants 30435-08.html",
+     "kind": "quest-event",
+     "script": "Q00326_VanquishRemnants",
+     "event": "30435-08.html",
+     "quest": 326,
+     "to": "Q00326_VanquishRemnants/30435-08.html"
+    }
+   ]
+  },
+  "Q00326_VanquishRemnants/30435-06.html": {
+   "file": "Q00326_VanquishRemnants/30435-06.html",
+   "quest": 326,
+   "text": "Leopold: Welcome, my comrade of the sword! I congratulate you on your safe return. How was your performance on the battlefield? How truly amazing! You have really brought me 100 badges! Magnificent! As I promised, I acknowledge you a member of the Black Lions. Because of our current situation, we c…",
+   "header": "Leopold",
+   "when": [
+    "state STARTED; sum > 0; (sum >= 100); NOT (st.hasQuestItems(BLACK_LION_MARK))"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00326_VanquishRemnants 30435-07.html",
+     "kind": "quest-event",
+     "script": "Q00326_VanquishRemnants",
+     "event": "30435-07.html",
+     "quest": 326,
+     "to": "Q00326_VanquishRemnants/30435-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00326_VanquishRemnants 30435-08.html",
+     "kind": "quest-event",
+     "script": "Q00326_VanquishRemnants",
+     "event": "30435-08.html",
+     "quest": 326,
+     "to": "Q00326_VanquishRemnants/30435-08.html"
+    }
+   ]
+  },
+  "Q00326_VanquishRemnants/30435-05.html": {
+   "file": "Q00326_VanquishRemnants/30435-05.html",
+   "quest": 326,
+   "text": "Leopold: Welcome, comrade of the sword! Seeing you safely return from the scene of battle gives me great joy. The badges of the enemy in your hand show that the goddess of victory has smiled upon you. I received a letter that the brothers of the second platoon, who were dispatched to the south part…",
+   "header": "Leopold",
+   "when": [
+    "state STARTED; sum > 0; NOT (sum >= 100)"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00326_VanquishRemnants 30435-07.html",
+     "kind": "quest-event",
+     "script": "Q00326_VanquishRemnants",
+     "event": "30435-07.html",
+     "quest": 326,
+     "to": "Q00326_VanquishRemnants/30435-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00326_VanquishRemnants 30435-08.html",
+     "kind": "quest-event",
+     "script": "Q00326_VanquishRemnants",
+     "event": "30435-08.html",
+     "quest": 326,
+     "to": "Q00326_VanquishRemnants/30435-08.html"
+    }
+   ]
+  },
+  "Q00326_VanquishRemnants/30435-04.html": {
+   "file": "Q00326_VanquishRemnants/30435-04.html",
+   "quest": 326,
+   "text": "Leopold: Comrade, how is the situation on the battlefield? As you have no badge of the Ol Mahum in your hand, I see your performance has not been good. If you think fighting against the Ol Mahum is too difficult for you, you can always quit. It is better for both of us if you acknowledge your limit…",
+   "header": "Leopold",
+   "when": [
+    "state STARTED; !sum > 0"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00326_VanquishRemnants 30435-07.html",
+     "kind": "quest-event",
+     "script": "Q00326_VanquishRemnants",
+     "event": "30435-07.html",
+     "quest": 326,
+     "to": "Q00326_VanquishRemnants/30435-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00326_VanquishRemnants 30435-08.html",
+     "kind": "quest-event",
+     "script": "Q00326_VanquishRemnants",
+     "event": "30435-08.html",
+     "quest": 326,
+     "to": "Q00326_VanquishRemnants/30435-08.html"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30435-02.htm": {
+   "file": "Q00229_TestOfWitchcraft/30435-02.htm",
+   "quest": 229,
+   "text": "Leopold: They filled their pockets with the treasures of the ancient kingdom they found on the battlefield. They sold most of them at the shop, but there arose a dispute over a few very valuable jewels. I grew weary of their bickering and confiscated 3 out of 6 jewels and sent them to Trader Lara f…",
+   "header": "Leopold",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00326_VanquishRemnants/30435-03.htm": {
+   "file": "Q00326_VanquishRemnants/30435-03.htm",
+   "quest": 326,
+   "text": "Leopold: The Black Lion undoubtedly rewards its members according to skill and performance. You will be paid according to the number of enemies you kill. One condition, though, you must take the badge of ranking as a token of proof. Ol Mahum use badges in the shape of a cross, taking after the fore…",
+   "header": "Leopold",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00326_VanquishRemnants/30435-07.html": {
+   "file": "Q00326_VanquishRemnants/30435-07.html",
+   "quest": 326,
+   "text": "Leopold: I am sorry, but if this is truly your will, I cannot stop you. However, the ties made as brothers of the sword are not easily broken ... We will meet again someday. May the goddess of victory be with you in all the battlefields that you walk upon!!",
+   "header": "Leopold",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00326_VanquishRemnants/30435-08.html": {
+   "file": "Q00326_VanquishRemnants/30435-08.html",
+   "quest": 326,
+   "text": "Leopold: Please continue your services, comrade of the sword. May the goddess of victory guide your sword and staff!",
+   "header": "Leopold",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Witchcraft (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00229_TestOfWitchcraft",
+     "kind": "quest",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30435-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Vanquish Remnants]",
+     "bypass": "npc_%objectId%_Quest Q00326_VanquishRemnants",
+     "kind": "quest",
+     "quest": 326,
+     "to": "Q00326_VanquishRemnants/30435-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Vanquish Remnants (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00326_VanquishRemnants",
+     "kind": "quest",
+     "quest": 326,
+     "to": "Q00326_VanquishRemnants/30435-09.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

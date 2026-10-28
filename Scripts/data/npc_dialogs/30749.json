@@ -1,0 +1,159 @@
+{
+ "npcId": 30749,
+ "name": "Zwov",
+ "title": "Drake",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.068Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30749.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "420": {
+   "name": "Little Wing",
+   "listText": [
+    "[Little Wing]",
+    "[Little Wing (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00420_LittleWing/30749-01.html",
+     "when": "state STARTED; cond 5; item 3821 >= 1",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30749-04.html",
+     "when": "state STARTED; cond 6; item 3825 >= 20",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30749-03.html",
+     "when": "state STARTED; cond 6; !getQuestItemsCount(talker, ZWOV_EGG) >= 20",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30749-05.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30749.htm": {
+   "file": "default/30749.htm",
+   "quest": null,
+   "text": "Drake Zwov: La, la, la, la... Do you like to take baths....? Hey, am I the first drake you've seen taking a bath? Why are you looking with such interest? Your looking is making me embarassed! Whew... Next time I'm going to have to take my bath way over in Iris Lake on the other side of those mounta…",
+   "header": "Drake Zwov",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30749-01.html": {
+   "file": "Q00420_LittleWing/30749-01.html",
+   "quest": 420,
+   "text": "Drake Zwov: I've smelled that stench before...The poison of monkshood, correct? Do I also detect a hint of Fairy Dust? Perhaps Mimyu has sent you to help find my eggs?",
+   "header": "Drake Zwov",
+   "when": [
+    "state STARTED; cond 5; item 3821 >= 1"
+   ],
+   "links": [
+    {
+     "text": "\"I will help you find the eggs.\"",
+     "bypass": "Quest Q00420_LittleWing 30749-02.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30749-02.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30749-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30749-04.html": {
+   "file": "Q00420_LittleWing/30749-04.html",
+   "quest": 420,
+   "text": "Drake Zwov: What a waste of time! Look at this! I'm covered with spider bites! I have accomplished nothing for all my troubles! What is that? You succeeded? You found my eggs! Oh, thank you so much! You are a saint! Let me take a look... One, two, three... They all seem to be in good shape... But w…",
+   "header": "Drake Zwov",
+   "when": [
+    "state STARTED; cond 6; item 3825 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30749-03.html": {
+   "file": "Q00420_LittleWing/30749-03.html",
+   "quest": 420,
+   "text": "Drake Zwov: Have you found my eggs? Oh, you looked so self-satisfied I thought surely you had been successful... Please, you must go now and kill the marsh spiders in the Cruma Marshlands and recover all 20 of my eggs!",
+   "header": "Drake Zwov",
+   "when": [
+    "state STARTED; cond 6; !getQuestItemsCount(talker, ZWOV_EGG) >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30749-05.html": {
+   "file": "Q00420_LittleWing/30749-05.html",
+   "quest": 420,
+   "text": "Drake Zwov: Why are you standing around with that egg? You must take it immediately to Fairy Mimyu !",
+   "header": "Drake Zwov",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30749-02.html": {
+   "file": "Q00420_LittleWing/30749-02.html",
+   "quest": 420,
+   "text": "Drake Zwov: Could it be that you are actually here to help me? Ooh... I see you have some Fairy Dust on you! Have you met Fairy Mimyu? In that case I can trust you. As you may know, my eggs were stolen by spiders and I have no idea why... Recently there have been many marsh spiders in the Cruma Mar…",
+   "header": "Drake Zwov",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Little Wing (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00420_LittleWing",
+     "kind": "quest",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30749-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

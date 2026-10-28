@@ -2,7 +2,7 @@
  "id": 452,
  "name": "Finding the Lost Soldiers",
  "version": 1,
- "generated": "2026-10-27T11:15:41.021Z",
+ "generated": "2026-10-27T18:19:15.337Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 84,
@@ -16,15 +16,15 @@
  "reasons": [
   {
    "code": "dryrun-fail",
-   "text": "dry run: engine-gap:start.kind=atlas, script-event-missing"
-  },
-  {
-   "code": "dryrun:engine-gap:start.kind=atlas",
-   "text": "c0:start:32773: start \"atlas\" (nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)) — rsCustomTrip knows only town / gk"
+   "text": "dry run: script-event-missing, no-dialog"
   },
   {
    "code": "dryrun:script-event-missing",
    "text": "event \"corpse-2.html\" (to 2) not in the script"
+  },
+  {
+   "code": "dryrun:no-dialog",
+   "text": "cond 1: the dialogue chain of c1:talk:32769 is partial: no onTalk page of Gracian Soldier's Corpse found for STARTED cond 1"
   }
  ],
  "expectedMin": 1,
@@ -722,25 +722,17 @@
   "by": "quest-fixer batch1 2026-10-27"
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:41.037Z",
+  "at": "2026-10-27T18:19:15.399Z",
   "pass": false,
   "geo": true,
   "fails": [
    {
-    "code": "engine-gap:start.kind=atlas",
-    "t": "c0:start:32773: start \"atlas\" (nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)) — rsCustomTrip knows only town / gk"
-   },
-   {
-    "code": "engine-gap:start.kind=atlas",
-    "t": "c2:talk:32773: start \"atlas\" (nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)) — rsCustomTrip knows only town / gk"
-   },
-   {
-    "code": "engine-gap:start.kind=atlas",
-    "t": "c1:talk:32769: start \"atlas\" (nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)) — rsCustomTrip knows only town / gk"
-   },
-   {
     "code": "script-event-missing",
     "t": "event \"corpse-2.html\" (to 2) not in the script"
+   },
+   {
+    "code": "no-dialog",
+    "t": "cond 1: the dialogue chain of c1:talk:32769 is partial: no onTalk page of Gracian Soldier's Corpse found for STARTED cond 1"
    }
   ],
   "warns": []

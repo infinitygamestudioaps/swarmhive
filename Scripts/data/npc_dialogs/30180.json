@@ -1,0 +1,129 @@
+{
+ "npcId": 30180,
+ "name": "Sara",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.866Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30180.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "652": {
+   "name": "An Aged Ex-Adventurer",
+   "listText": [
+    "[An Aged Ex-Adventurer]",
+    "[An Aged Ex-Adventurer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00652_AnAgedExAdventurer/30180-01.html",
+     "when": "state STARTED; chance 50%",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00652_AnAgedExAdventurer/30180-02.html",
+     "when": "state STARTED; chance 50%",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30180.htm": {
+   "file": "merchant/30180.htm",
+   "quest": null,
+   "text": "Merchant Sara: Are you planning to buy? Or would you like to sell?",
+   "header": "Merchant Sara",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund General.",
+     "bypass": "npc_%objectId%_Buy 3018000",
+     "kind": "shop",
+     "live": true
+    },
+    {
+     "text": "Buy/Sell/Refund Dyes.",
+     "bypass": "npc_%objectId%_Buy 3018001",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30180-pk.htm": {
+   "file": "merchant/30180-pk.htm",
+   "quest": null,
+   "text": "Trader Sara: Help! Somebody! Guards! Guards! Over here! A scoundrel! A murderer! A ruthless criminal! Help me! I shall be killed!",
+   "header": "Trader Sara",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00652_AnAgedExAdventurer/30180-01.html": {
+   "file": "Q00652_AnAgedExAdventurer/30180-01.html",
+   "quest": 652,
+   "text": "Sara: Thank you so much! My father-in-law came home safely, thanks to your help. You made him very happy, by the way! He hadn't met any fellow adventurers for quite a while. Please accept this as a token of my appreciation! Thank you again.",
+   "header": "Sara",
+   "when": [
+    "state STARTED; chance 50%"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00652_AnAgedExAdventurer/30180-02.html": {
+   "file": "Q00652_AnAgedExAdventurer/30180-02.html",
+   "quest": 652,
+   "text": "Sara: I'm so sorry. I thought you were just a customer... You're the one who helped my father-in-law! Unfortunately, he was seriously injured on the way home by monsters! Luckily, he escaped with his life and is now at home. But still, you helped him make it out alive. Thank you so much! (Because t…",
+   "header": "Sara",
+   "when": [
+    "state STARTED; chance 50%"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[An Aged Ex-Adventurer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00652_AnAgedExAdventurer",
+     "kind": "quest",
+     "quest": 652,
+     "to": "Q00652_AnAgedExAdventurer/30180-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund General.",
+   "n": 11,
+   "inDatapack": true,
+   "from": [
+    "Trader Sara:Care to buy? Anything to sell?Buy/Sell/Refund Ge"
+   ],
+   "to": []
+  }
+ ]
+}

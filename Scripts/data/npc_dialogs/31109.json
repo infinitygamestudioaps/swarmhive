@@ -1,0 +1,93 @@
+{
+ "npcId": 31109,
+ "name": "Gatekeeper Ziggurat",
+ "title": "",
+ "type": "L2DungeonGatekeeper",
+ "generated": "2026-10-27T18:18:03.140Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "teleporter/31109.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {
+  "385": {
+   "name": "Yoke of the Past",
+   "listText": [
+    "[Yoke of the Past]",
+    "[Yoke of the Past (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "teleporter/31109.htm": {
+   "file": "teleporter/31109.htm",
+   "quest": null,
+   "text": "Gatekeeper Ziggurat: A human voice seems to emanate from a shining, blue globe: Behold the gateway to the Forbidden Sacred Area! My job is to guard it, and you cannot pass without my permission.",
+   "header": "Gatekeeper Ziggurat",
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "npc_%objectId%_exit 277",
+     "kind": "other",
+     "live": true
+    },
+    {
+     "text": "Enter the Dimensional Rift",
+     "bypass": "npc_%objectId%_Quest OracleTeleport",
+     "kind": "quest",
+     "script": "OracleTeleport",
+     "to": null,
+     "live": true
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Yoke of the Past]",
+     "bypass": "npc_%objectId%_Quest Q00385_YokeOfThePast",
+     "kind": "quest",
+     "quest": 385,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Yoke of the Past (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00385_YokeOfThePast",
+     "kind": "quest",
+     "quest": 385,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Teleport",
+   "n": 5244,
+   "inDatapack": true,
+   "from": [
+    "Gatekeeper Ziggurat:A human voice seems to emanate from a sh"
+   ],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

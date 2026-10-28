@@ -811,9 +811,9 @@
       if (!it.equipped && !it.quest) { const st = sellState(it.id, CP.name); const o = (v, t) => `<option value="${v}"${st === v ? ' selected' : ''}>${t}</option>`;
         sell = `<label class="cp-psell">sell at every restock <select class="sellsel ${st && st !== 'keep' ? 'on' : ''}" data-sellid="${it.id}" data-sellchar="${esc(CP.name)}">${o('', '—')}${o('char', 'sell (' + esc(CP.name) + ')')}${o('all', 'sell (all bots)')}${o('keep', 'never sell')}</select></label>`;
         // ITEMRULE-2026-10-24 (public tester Mr.P): where this item goes when it is not sold — keep in the bag / store in the warehouse / give to the collector
-        { const R = CP.itemRule || {}, cur = (R.keep || []).includes(it.id) ? 'keep' : (R.deposit || []).includes(it.id) ? 'store' : (R.collector || []).includes(it.id) ? 'collector' : '';
+        { const R = CP.itemRule || {}, cur = (R.keep || []).includes(it.id) ? 'keep' : (R.deposit || []).includes(it.id) ? 'store' : (R.distributor || []).includes(it.id) ? 'distributor' : (R.collector || []).includes(it.id) ? 'collector' : '';
           const q = (v, t) => `<option value="${v}"${cur === v ? ' selected' : ''}>${t}</option>`;
-          sell += `<label class="cp-psell">otherwise <select class="sellsel ${cur ? 'on' : ''}" data-cprule="${it.id}" title="What ${esc(CP.name)} does with it when it is not sold">${q('', 'automatic')}${q('keep', 'keep in the bag')}${q('store', 'store in the warehouse')}${q('collector', 'give to the collector')}</select></label>`; }
+          sell += `<label class="cp-psell">otherwise <select class="sellsel ${cur ? 'on' : ''}" data-cprule="${it.id}" title="What ${esc(CP.name)} does with it when it is not sold">${q('', 'automatic')}${q('keep', 'keep in the bag')}${q('store', 'store in the warehouse')}${q('collector', 'give to the collector')}${it.type === 'Weapon' || it.type === 'Armor' || /weapon|armor|accessor|jewel/i.test(String(it.type || '')) || cur === 'distributor' ? q('distributor', 'give to the distributor for its grade') : ''}</select></label>`; }   // GEARPASS-2026-10-27 (tester Vykaax)
         // SELLNOSHOP 2026-10-22 (owner): an item no shop buys says so, with Untick (stop trying to sell it) and Destroy (only after your OK)
         const ns = noShopWhy(it.id);
         if (ns) sell += `<div class="cp-nosell"><b>No shop buys this</b> <span class="muted">(${esc(ns)})</span><div class="cp-pb">${st && st !== 'keep' ? `<button data-cpunsell="${it.id}">Untick (stop selling)</button>` : ''}${!it.equipped && !it.quest ? `<button class="danger" data-cpdestroy="${esc(it.objId || it.id)}" data-id="${it.id}" data-n="${it.count}">Destroy…</button>` : ''}</div></div>`; }
@@ -1121,7 +1121,7 @@
       try { const d = await api('/api/itemrule', { method: 'POST', body: JSON.stringify({ name: CP.name, id, rule }) });
         if (!d || d.error) { toast(`not saved: ${(d && d.error) || 'no answer'}`, false); return; }
         CP.itemRule = d; e.target.classList.toggle('on', !!rule);
-        toast(rule === 'keep' ? 'Kept in the bag (never stored)' : rule === 'store' ? 'Stored in the warehouse at the next stash' : rule === 'collector' ? `Given to the collector of party ${d.party} at the next hand-over` : 'Back to automatic', true);
+        toast(rule === 'keep' ? 'Kept in the bag (never stored)' : rule === 'store' ? 'Stored in the warehouse at the next stash' : rule === 'collector' ? `Given to the collector of party ${d.party} at the next hand-over` : rule === 'distributor' ? `Given to the collector of party ${d.party} at the next hand-over; the collector passes it to the distributor of its grade (Gear page -> Distributors: grades + the switch)` : 'Back to automatic', true);
       } catch (er) { toast(String(er.message || er), false); }
     });
     window.addEventListener('resize', () => { if (!CP.open) return; layout(); if (CP.follow) fit(); schedule(); });

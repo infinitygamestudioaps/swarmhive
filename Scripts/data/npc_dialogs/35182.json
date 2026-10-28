@@ -1,0 +1,50 @@
+{
+ "npcId": 35182,
+ "name": "Blacksmith",
+ "title": "Giran",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.423Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/CastleBlacksmith/35182-01.html",
+   "when": "(hasRights(player, npc))",
+   "src": "ai CastleBlacksmith"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/CastleBlacksmith/35182-01.html": {
+   "file": "ai/npc/CastleBlacksmith/35182-01.html",
+   "quest": null,
+   "text": "Blacksmith: Greetings! Is there anything I can do for you today?",
+   "header": "Blacksmith",
+   "when": [
+    "(hasRights(player, npc))"
+   ],
+   "links": [
+    {
+     "text": "Manufacture a crop.",
+     "bypass": "Quest CastleBlacksmith 35182-02.html",
+     "kind": "quest-event",
+     "script": "CastleBlacksmith",
+     "event": "35182-02.html",
+     "to": "ai/npc/CastleBlacksmith/35182-02.html"
+    }
+   ]
+  },
+  "ai/npc/CastleBlacksmith/35182-02.html": {
+   "file": "ai/npc/CastleBlacksmith/35182-02.html",
+   "quest": null,
+   "text": "Certainly! If you bring me the ingredients I need I'll make it for you. What would you like?",
+   "links": [
+    {
+     "text": "View the list.",
+     "bypass": "npc_%objectId%_multisell 350980003",
+     "kind": "multisell"
+    }
+   ]
+  }
+ }
+}

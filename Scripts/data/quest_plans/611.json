@@ -2,7 +2,7 @@
  "id": 611,
  "name": "Alliance with Varka Silenos",
  "version": 1,
- "generated": "2026-10-27T11:15:41.269Z",
+ "generated": "2026-10-27T18:19:15.677Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 74,
@@ -28,7 +28,7 @@
    "step": 2
   }
  ],
- "expectedMin": 12,
+ "expectedMin": 19,
  "refLevel": 74,
  "steps": [
   {
@@ -722,6 +722,390 @@
    "key": "c1:talk:31378",
    "cond": 1,
    "kind": "talk",
+   "to": 2,
+   "links": [
+    "Hand over the Ketra badges."
+   ],
+   "npc": {
+    "id": 31378,
+    "name": "Naran Ashanuk",
+    "title": "Varka's Messenger",
+    "town": "Goddard",
+    "at": [
+     125440,
+     -40944,
+     -3701
+    ],
+    "alt": []
+   },
+   "text": "Talk to Naran Ashanuk",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:varka-silenos-stronghold-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 1605,
+    "sec": 58,
+    "via": ".goddard > Goddard -> Varka Silenos Stronghold",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Varka Silenos Stronghold",
+      "link": "varka silenos stronghold",
+      "price": 4200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1605,
+      "how": "field-areas",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Varka Silenos Stronghold"
+    },
+    "simple": true,
+    "pv": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:varka-silenos-stronghold-1",
+     "name": "Varka Silenos Stronghold 1: Varka Silenos Recruit area (south-east)"
+    },
+    "points": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ]
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c2:talk:31378",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"Here are the badges.\""
+   ],
+   "npc": {
+    "id": 31378,
+    "name": "Naran Ashanuk",
+    "title": "Varka's Messenger",
+    "town": "Goddard",
+    "at": [
+     125440,
+     -40944,
+     -3701
+    ],
+    "alt": []
+   },
+   "text": "Talk to Naran Ashanuk",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:varka-silenos-stronghold-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 1605,
+    "sec": 58,
+    "via": ".goddard > Goddard -> Varka Silenos Stronghold",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Varka Silenos Stronghold",
+      "link": "varka silenos stronghold",
+      "price": 4200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1605,
+      "how": "field-areas",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Varka Silenos Stronghold"
+    },
+    "simple": true,
+    "pv": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:varka-silenos-stronghold-1",
+     "name": "Varka Silenos Stronghold 1: Varka Silenos Recruit area (south-east)"
+    },
+    "points": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ]
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c3:talk:31378",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "Hand over the Ketra badges."
+   ],
+   "npc": {
+    "id": 31378,
+    "name": "Naran Ashanuk",
+    "title": "Varka's Messenger",
+    "town": "Goddard",
+    "at": [
+     125440,
+     -40944,
+     -3701
+    ],
+    "alt": []
+   },
+   "text": "Talk to Naran Ashanuk",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:varka-silenos-stronghold-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 1605,
+    "sec": 58,
+    "via": ".goddard > Goddard -> Varka Silenos Stronghold",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Varka Silenos Stronghold",
+      "link": "varka silenos stronghold",
+      "price": 4200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1605,
+      "how": "field-areas",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Varka Silenos Stronghold"
+    },
+    "simple": true,
+    "pv": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:varka-silenos-stronghold-1",
+     "name": "Varka Silenos Stronghold 1: Varka Silenos Recruit area (south-east)"
+    },
+    "points": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ]
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c4:talk:31378",
+   "cond": 4,
+   "kind": "talk",
    "to": 5,
    "links": [
     "Hand over the Ketra badges."
@@ -842,11 +1226,260 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
+    4
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c5:talk:31378",
+   "cond": 5,
+   "kind": "talk",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 31378,
+    "name": "Naran Ashanuk",
+    "title": "Varka's Messenger",
+    "town": "Goddard",
+    "at": [
+     125440,
+     -40944,
+     -3701
+    ],
+    "alt": []
+   },
+   "text": "Talk to Naran Ashanuk",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:varka-silenos-stronghold-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 1605,
+    "sec": 58,
+    "via": ".goddard > Goddard -> Varka Silenos Stronghold",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Varka Silenos Stronghold",
+      "link": "varka silenos stronghold",
+      "price": 4200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1605,
+      "how": "field-areas",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Varka Silenos Stronghold"
+    },
+    "simple": true,
+    "pv": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:varka-silenos-stronghold-1",
+     "name": "Varka Silenos Stronghold 1: Varka Silenos Recruit area (south-east)"
+    },
+    "points": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ]
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c6:talk:31378",
+   "cond": 6,
+   "kind": "talk",
+   "to": 1,
+   "links": [
+    "\"I'll do it!\""
+   ],
+   "npc": {
+    "id": 31378,
+    "name": "Naran Ashanuk",
+    "title": "Varka's Messenger",
+    "town": "Goddard",
+    "at": [
+     125440,
+     -40944,
+     -3701
+    ],
+    "alt": []
+   },
+   "text": "Talk to Naran Ashanuk",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:varka-silenos-stronghold-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 1605,
+    "sec": 58,
+    "via": ".goddard > Goddard -> Varka Silenos Stronghold",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Varka Silenos Stronghold",
+      "link": "varka silenos stronghold",
+      "price": 4200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1605,
+      "how": "field-areas",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Varka Silenos Stronghold"
+    },
+    "simple": true,
+    "pv": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:varka-silenos-stronghold-1",
+     "name": "Varka Silenos Stronghold 1: Varka Silenos Recruit area (south-east)"
+    },
+    "points": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ]
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
     6
    ]
   }

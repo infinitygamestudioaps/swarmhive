@@ -1,0 +1,152 @@
+{
+ "npcId": 36118,
+ "name": "Detention Camp Warden",
+ "title": "Tanor Fortress",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.452Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/36118.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/36118.htm": {
+   "file": "default/36118.htm",
+   "quest": null,
+   "text": "Warden: This is a dangerous place. Don't come around here unless you have the will and skill to survive.",
+   "header": "Warden",
+   "links": [
+    {
+     "text": "\"I heard a rumor about Rim Pailaka.\"",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/36118.htm"
+    },
+    {
+     "text": "\"Let me enter\"",
+     "bypass": "Quest Q00511_AwlUnderFoot enter",
+     "kind": "quest-event",
+     "script": "Q00511_AwlUnderFoot",
+     "event": "enter",
+     "quest": 511,
+     "to": "Q00511_AwlUnderFoot/FortressWarden-01.htm",
+     "toAll": [
+      "Q00511_AwlUnderFoot/FortressWarden-01.htm",
+      "Q00511_AwlUnderFoot/FortressWarden-02a.htm",
+      "Q00511_AwlUnderFoot/FortressWarden-02b.htm",
+      "Q00511_AwlUnderFoot/FortressWarden-07.htm",
+      "Q00511_AwlUnderFoot/FortressWarden-03.htm",
+      "Q00511_AwlUnderFoot/FortressWarden-05.htm",
+      "Q00511_AwlUnderFoot/FortressWarden-08.htm",
+      "Q00511_AwlUnderFoot/FortressWarden-04.htm",
+      "Q00511_AwlUnderFoot/FortressWarden-06.htm"
+     ]
+    },
+    {
+     "text": "\"Quest\"",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00511_AwlUnderFoot/FortressWarden-01.htm": {
+   "file": "Q00511_AwlUnderFoot/FortressWarden-01.htm",
+   "quest": 511,
+   "text": "Warden: Who are you? I don't see your name on the list of clan members... (This quest is reserved for members of the clan that currently owns this fortress.)",
+   "header": "Warden",
+   "when": [
+    "((player == null) || (fortress == null) || (dungeon == null))",
+    "((player.getClan() == null) || (player.getClan().getFortId() != fortress.getResidenceId()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00511_AwlUnderFoot/FortressWarden-02a.htm": {
+   "file": "Q00511_AwlUnderFoot/FortressWarden-02a.htm",
+   "quest": 511,
+   "text": "The fortress is currently in an unsettled state because our relationship with the castle lord must be clearly determined. (Entry into the camps is only possible after gaining independence from the main castle.)",
+   "when": [
+    "!((player.getClan() == null) || (player.getClan().getFortId() != fortress.getResidenceId())); fortress.getFortState() == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00511_AwlUnderFoot/FortressWarden-02b.htm": {
+   "file": "Q00511_AwlUnderFoot/FortressWarden-02b.htm",
+   "quest": 511,
+   "text": "Off limits! Lord's orders. (You cannot enter the camp with a contract related to the castle.)",
+   "when": [
+    "!((player.getClan() == null) || (player.getClan().getFortId() != fortress.getResidenceId())); !fortress.getFortState() == 0; fortress.getFortState() == 2"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00511_AwlUnderFoot/FortressWarden-07.htm": {
+   "file": "Q00511_AwlUnderFoot/FortressWarden-07.htm",
+   "quest": 511,
+   "text": "Only a party may enter the camp. Once you begin the training session, you may not attend another one for at least 4 hours.",
+   "when": [
+    "!((player.getClan() == null) || (player.getClan().getFortId() != fortress.getResidenceId())); !fortress.getFortState() == 0; !fortress.getFortState() == 2; isEnter"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00511_AwlUnderFoot/FortressWarden-03.htm": {
+   "file": "Q00511_AwlUnderFoot/FortressWarden-03.htm",
+   "quest": 511,
+   "text": "To enter the Detention Camp, your party must include at least 2 people.",
+   "when": [
+    "party == null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00511_AwlUnderFoot/FortressWarden-05.htm": {
+   "file": "Q00511_AwlUnderFoot/FortressWarden-05.htm",
+   "quest": 511,
+   "text": "Camp Keeper: One of your party doesn't understand the mission. That person is %player%. Before entering, take the time to explain their role to each member.",
+   "header": "Camp Keeper",
+   "when": [
+    "((partyMember.getClan() == null) || (partyMember.getClan().getFortId() == 0) || (partyMember.getClan().getFortId() != fo"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00511_AwlUnderFoot/FortressWarden-08.htm": {
+   "file": "Q00511_AwlUnderFoot/FortressWarden-08.htm",
+   "quest": 511,
+   "text": "Camp Keeper: Good luck, and win honor for %clan%!",
+   "header": "Camp Keeper",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00511_AwlUnderFoot/FortressWarden-04.htm": {
+   "file": "Q00511_AwlUnderFoot/FortressWarden-04.htm",
+   "quest": 511,
+   "text": "Camp Keeper: The importance of a party leader can't be underestimated. That person will help ensure that you survive the Dungeon. The leader of your party is %leader%. Please bring them here if you wish to enter. (Only a party leader may enter.)",
+   "header": "Camp Keeper",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00511_AwlUnderFoot/FortressWarden-06.htm": {
+   "file": "Q00511_AwlUnderFoot/FortressWarden-06.htm",
+   "quest": 511,
+   "text": "Camp Keeper: One of your party member is far away. That person is %player%. Before entering, tell your party to come near you.",
+   "header": "Camp Keeper",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

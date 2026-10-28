@@ -34,3 +34,21 @@ const I = JSON.parse(fs.readFileSync(ITEMS, 'utf8'));
 const prot = Object.keys(I.items || {}).filter(k => I.items[k] && I.items[k].questItem).map(Number).filter(x => x && x !== 57).sort((a, b) => a - b);
 writeAtomic(PROT, JSON.stringify({ generated: gen, source: 'Scripts/data/quest_items_h5.json (questItem: true)', questItems: prot }));
 console.log(`quests: ${n} files in ${path.relative(ROOT, OUT)} (avg ${Math.round(bytes / n)} bytes), index ok; protected quest items: ${prot.length}`);
+// COUNTFIX-2026-10-27: regenerated records lose the `atLimit` marks (full-set hand-ins, e.g. 356: 50 + 50, not 20): re-apply them from the Java
+// at once (quest_count_fix.js only adds / refreshes atLimit + atLimitSrc). No datapack clone (Logs/quest_java_src.json) = said, not silently skipped.
+try {
+  const cf = path.join(__dirname, 'quest_count_fix.js');
+  if (fs.existsSync(cf) && !process.env.QUEST_NO_COUNTFIX) {
+    const r = require('child_process').spawnSync(process.execPath, [cf], { cwd: ROOT, encoding: 'utf8' });
+    console.log(r.status === 0 ? 'count fix: ' + String(r.stdout || '').trim().split('\n').pop() : 'count fix FAILED (run docs/plan/tools/quest_count_fix.js by hand): ' + String(r.stderr || r.stdout || '').trim().slice(0, 300));
+  }
+} catch (e) { console.log('count fix not run: ' + e.message); }
+// FROMFIX-2026-10-27 (live 356: cond 2 <-> 3 ping-pong, the brain worker killed 3x): kill / attack transitions without `from` get their stage from the Java
+// (quest_from_fix.js: the cond guard before setCond, else forward only). Re-applied after every regeneration, like the count fix.
+try {
+  const ff = path.join(__dirname, 'quest_from_fix.js');
+  if (fs.existsSync(ff) && !process.env.QUEST_NO_FROMFIX) {
+    const r = require('child_process').spawnSync(process.execPath, [ff], { cwd: ROOT, encoding: 'utf8' });
+    console.log(r.status === 0 ? 'from fix: ' + String(r.stdout || '').trim().split('\n').pop() : 'from fix FAILED (run docs/plan/tools/quest_from_fix.js by hand): ' + String(r.stderr || r.stdout || '').trim().slice(0, 300));
+  }
+} catch (e) { console.log('from fix not run: ' + e.message); }

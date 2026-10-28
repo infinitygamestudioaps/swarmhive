@@ -1,0 +1,157 @@
+{
+ "npcId": 32654,
+ "name": "Tarun",
+ "title": "",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.396Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "teleporter/32654.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {
+  "10284": {
+   "name": "Acquisition of Divine Sword",
+   "listText": [
+    "[Acquisition of Divine Sword]",
+    "[Acquisition of Divine Sword (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32654-01.html",
+     "when": "state STARTED; memo 2; (player.getLevel() >= MIN_LEVEL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32654-05.html",
+     "when": "state STARTED; memo 2; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32654-04.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "teleporter/32654.htm": {
+   "file": "teleporter/32654.htm",
+   "quest": null,
+   "text": "Tarun: There are dangerous monsters inside Mithril Mines... But I can see you don't want to live forever anyways.",
+   "header": "Tarun",
+   "links": [
+    {
+     "text": "Enter the Mine.",
+     "bypass": "npc_%objectId%_goto 200925",
+     "kind": "teleport"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32654-01.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32654-01.html",
+   "quest": 10284,
+   "text": "Taroon: Are you from Jinia guild? Then you should know this... Some guy claiming to be a prosecutor for your guild is inside. He was looking for something. It seemed urgent. Do you know him?",
+   "header": "Taroon",
+   "when": [
+    "state STARTED; memo 2; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me where he went, and tell me quickly.\"",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32654-02.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32654-02.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32654-02.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32654-05.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32654-05.html",
+   "quest": 10284,
+   "text": "Taroon: Please try again later.",
+   "header": "Taroon",
+   "when": [
+    "state STARTED; memo 2; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10284_AcquisitionOfDivineSword/32654-04.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32654-04.html",
+   "quest": 10284,
+   "text": "Taroon: Kegor has left already. He wanted to see you at their hideout once you arrived, you know? Ah, this is the reward from him. I didn't touch it at all, so take it.",
+   "header": "Taroon",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10284_AcquisitionOfDivineSword/32654-02.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32654-02.html",
+   "quest": 10284,
+   "text": "Taroon: He went deep into Mithril Mine. I don't allow people in. He went inside without an antidote, the fool. I won't have you dying next to him.",
+   "header": "Taroon",
+   "links": [
+    {
+     "text": "\"I have an antidote, so let me in.\"",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32654-03.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32654-03.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32654-03.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32654-03.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32654-03.html",
+   "quest": 10284,
+   "text": "Taroon: Is that real? It is... very nice indeed.. So be it, I'm ready when you are. Enter now?",
+   "header": "Taroon",
+   "links": [
+    {
+     "text": "Enter",
+     "bypass": "npc_%objectId%_Quest MithrilMine",
+     "kind": "quest",
+     "script": "MithrilMine"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Acquisition of Divine Sword (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10284_AcquisitionOfDivineSword",
+     "kind": "quest",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32654-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

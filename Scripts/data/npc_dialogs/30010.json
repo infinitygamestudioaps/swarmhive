@@ -1,0 +1,364 @@
+{
+ "npcId": 30010,
+ "name": "Auron",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.787Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30010.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "401": {
+   "name": "Path Of The Warrior",
+   "listText": [
+    "[Path of the Warrior]",
+    "[Path of the Warrior (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00401_PathOfTheWarrior/30010-01.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00401_PathOfTheWarrior/30010-07.html",
+     "when": "state STARTED; has items 1138; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00401_PathOfTheWarrior/30010-08.html",
+     "when": "state STARTED; has items 1139; lacks items 1138; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00401_PathOfTheWarrior/30010-09.html",
+     "when": "state STARTED; has items 1143,1141; lacks items 1138,1139; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00401_PathOfTheWarrior/30010-12.html",
+     "when": "state STARTED; has items 1142; lacks items 1138,1139; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SIMPLONS_LETTER, RUSTED_BRONZE_SWORD2) && !hasAtLeastOneQuestItem(player, WARRIOR_GUILD_MARK, AU; getQuestItemsCount(player, VENOMOUS_SPIDERS_LEG) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00401_PathOfTheWarrior/30010-13.html",
+     "when": "state STARTED; has items 1142; lacks items 1138,1139; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SIMPLONS_LETTER, RUSTED_BRONZE_SWORD2) && !hasAtLeastOneQuestItem(player, WARRIOR_GUILD_MARK, AU; !getQuestItemsCount(player, VENOMOUS_SPIDERS_LEG) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30010.htm": {
+   "file": "trainer/30010.htm",
+   "quest": null,
+   "text": "Master Auron: Welcome, young traveler. This is the Warrior Guild of Gludin Village, and I am Master Auron. How may I serve you today?",
+   "header": "Master Auron",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30010-noteach.htm": {
+   "file": "trainer/30010-noteach.htm",
+   "quest": null,
+   "text": "Master Auron: As you can see, I am the Master of the fighters guild, and therefore I cannot teach you. Seek another Master, one that is right for you.",
+   "header": "Master Auron",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30010-01.htm": {
+   "file": "Q00401_PathOfTheWarrior/30010-01.htm",
+   "quest": 401,
+   "text": "Master Auron: Now I'm a master who teaches young Fighters, but I was once a soldier for the Warrior League , walking the borderline between of life and death on the battlefield. To be accepted into the Warrior League, there's no need for a noble birth or the lord's Recommendation. We accept any Fig…",
+   "header": "Master Auron",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you want to become a Warrior",
+     "bypass": "Quest Q00401_PathOfTheWarrior ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00401_PathOfTheWarrior",
+     "event": "ACCEPT",
+     "quest": 401,
+     "to": "Q00401_PathOfTheWarrior/30010-05.htm",
+     "toAll": [
+      "Q00401_PathOfTheWarrior/30010-04.htm",
+      "Q00401_PathOfTheWarrior/30010-05.htm",
+      "Q00401_PathOfTheWarrior/30010-02.htm",
+      "Q00401_PathOfTheWarrior/30010-02a.htm",
+      "Q00401_PathOfTheWarrior/30010-03.htm"
+     ]
+    }
+   ]
+  },
+  "Q00401_PathOfTheWarrior/30010-07.html": {
+   "file": "Q00401_PathOfTheWarrior/30010-07.html",
+   "quest": 401,
+   "text": "Master Auron: You haven't met Simplon yet? He works at a weapons shop in the town of Gludio . If you show him my letter, he will tell you everything you need to know about the sword of trial .",
+   "header": "Master Auron",
+   "when": [
+    "state STARTED; has items 1138; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30010-08.html": {
+   "file": "Q00401_PathOfTheWarrior/30010-08.html",
+   "quest": 401,
+   "text": "Master Auron: I see you met Simplon. It gather that he asked you to do something difficult, because he certainly doesn't give the Sword of Trial to just anyone. But don't be too upset. Though he seems tempermental on the outside, he's really a warm person once you get to know him.",
+   "header": "Master Auron",
+   "when": [
+    "state STARTED; has items 1139; lacks items 1138; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30010-09.html": {
+   "file": "Q00401_PathOfTheWarrior/30010-09.html",
+   "quest": 401,
+   "text": "Master Auron: Good, so you have found the sword of trial. Here's what you must do now ... If you go out to Windmill Hill, in the southern plains, you will find poison spiders -- their bodies are bigger than wagons, and they're violent and dangerous to deal with. Use only the rusty bronze sword to h…",
+   "header": "Master Auron",
+   "when": [
+    "state STARTED; has items 1143,1141; lacks items 1138,1139; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say it's impossible with a rusty sword",
+     "bypass": "Quest Q00401_PathOfTheWarrior 30010-10.html",
+     "kind": "quest-event",
+     "script": "Q00401_PathOfTheWarrior",
+     "event": "30010-10.html",
+     "quest": 401,
+     "to": "Q00401_PathOfTheWarrior/30010-10.html"
+    },
+    {
+     "text": "Say you understand",
+     "bypass": "Quest Q00401_PathOfTheWarrior 30010-11.html",
+     "kind": "quest-event",
+     "script": "Q00401_PathOfTheWarrior",
+     "event": "30010-11.html",
+     "quest": 401,
+     "to": "Q00401_PathOfTheWarrior/30010-11.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00401_PathOfTheWarrior/30010-12.html": {
+   "file": "Q00401_PathOfTheWarrior/30010-12.html",
+   "quest": 401,
+   "text": "Master Auron: Why have you come back? Didn't I tell you to bring back twenty Poison Spider Legs from giant poison spiders or arachnid trackers ? You're not thinking of giving up, are you? Where are your guts?",
+   "header": "Master Auron",
+   "when": [
+    "state STARTED; has items 1142; lacks items 1138,1139; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SIMPLONS_LETTER, RUSTED_BRONZE_SWORD2) && !hasAtLeastOneQuestItem(player, WARRIOR_GUILD_MARK, AU; getQuestItemsCount(player, VENOMOUS_SPIDERS_LEG) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30010-13.html": {
+   "file": "Q00401_PathOfTheWarrior/30010-13.html",
+   "quest": 401,
+   "text": "Master Auron: Have you returned? Well, I knew you would be able to do the job magnificently. I hereby give you the medallion of the Warrior . It is proof that you have earned the qualifications to change profession to a Warrior. Take it and go to Grand Master Ramos of our guild. He will change your…",
+   "header": "Master Auron",
+   "when": [
+    "state STARTED; has items 1142; lacks items 1138,1139; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SIMPLONS_LETTER, RUSTED_BRONZE_SWORD2) && !hasAtLeastOneQuestItem(player, WARRIOR_GUILD_MARK, AU; !getQuestItemsCount(player, VENOMOUS_SPIDERS_LEG) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30010-02.htm": {
+   "file": "Q00401_PathOfTheWarrior/30010-02.htm",
+   "quest": 401,
+   "text": "Master Auron: You are still too inexperienced. The damage to your armor and the callus on your palm show me that plainly. Come back after you are more seasoned. At that time, I will be willing to test you to determine if you are indeed qualified to be a true Warrior. (Only characters level 18 and a…",
+   "header": "Master Auron",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30010-02a.htm": {
+   "file": "Q00401_PathOfTheWarrior/30010-02a.htm",
+   "quest": 401,
+   "text": "Master Auron: Why has one who has already attained the title of Warrior come to seek me? Is not your place on the battlefield? Leave at once! May the goddess of victory smile down on you!",
+   "header": "Master Auron",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30010-03.htm": {
+   "file": "Q00401_PathOfTheWarrior/30010-03.htm",
+   "quest": 401,
+   "text": "Master Auron: You seem to have already decided on the path you will take. So why have you come to me?",
+   "header": "Master Auron",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30010-04.htm": {
+   "file": "Q00401_PathOfTheWarrior/30010-04.htm",
+   "quest": 401,
+   "text": "Master Auron: You already have the medallion of the Warrior. Then you already have the qualifications to enter the warriors guild. Take the medallion and go to Grand Master Ramos of our guild, and he will change your profession to a Warrior. He's the one standing right over there.",
+   "header": "Master Auron",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30010-05.htm": {
+   "file": "Q00401_PathOfTheWarrior/30010-05.htm",
+   "quest": 401,
+   "text": "Master Auron: Good! Then I will test you to see if you have the talents to become a true Warrior. It is a very simple test -- any Fighter with courage and spirit can pass it.",
+   "header": "Master Auron",
+   "links": [
+    {
+     "text": "Ask about the test",
+     "bypass": "Quest Q00401_PathOfTheWarrior 30010-06.htm",
+     "kind": "quest-event",
+     "script": "Q00401_PathOfTheWarrior",
+     "event": "30010-06.htm",
+     "quest": 401,
+     "to": "Q00401_PathOfTheWarrior/30010-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00401_PathOfTheWarrior/30010-06.htm": {
+   "file": "Q00401_PathOfTheWarrior/30010-06.htm",
+   "quest": 401,
+   "text": "Master Auron: To take this test, you must first find the weapon that the Warriors call the sword of trial . Simplon of the town of Gludio knows all about the sword. These days, he works at a weapons and armor shop, but in the past he was a famous soldier, so treat him with respect. If you show him …",
+   "header": "Master Auron",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00401_PathOfTheWarrior/30010-10.html": {
+   "file": "Q00401_PathOfTheWarrior/30010-10.html",
+   "quest": 401,
+   "text": "Master Auron: How do you hunt a poison spider with a rusty sword? Look here, fellow, do you know what the creed of our warriors guild is? It's stay alive even in the worst conditions . There is no law that says you will always be at an advantage in a fight against your opponent. However, in any sit…",
+   "header": "Master Auron",
+   "links": [
+    {
+     "text": "Say you understand",
+     "bypass": "Quest Q00401_PathOfTheWarrior 30010-11.html",
+     "kind": "quest-event",
+     "script": "Q00401_PathOfTheWarrior",
+     "event": "30010-11.html",
+     "quest": 401,
+     "to": "Q00401_PathOfTheWarrior/30010-11.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00401_PathOfTheWarrior/30010-11.html": {
+   "file": "Q00401_PathOfTheWarrior/30010-11.html",
+   "quest": 401,
+   "text": "Master Auron: Good! Once you've passed through the southern gate of the village, to the left you'll see the windmills of Windmill Hill. There you'll find giant poison spiders and arachnid trackers. You'll also find many spiders on the Fellmere Harvesting Grounds west of the Fellmere Lake over the n…",
+   "header": "Master Auron",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Warrior]",
+     "bypass": "npc_%objectId%_Quest Q00401_PathOfTheWarrior",
+     "kind": "quest",
+     "quest": 401,
+     "to": "Q00401_PathOfTheWarrior/30010-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Warrior (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00401_PathOfTheWarrior",
+     "kind": "quest",
+     "quest": 401,
+     "to": "Q00401_PathOfTheWarrior/30010-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

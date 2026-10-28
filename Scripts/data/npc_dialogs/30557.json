@@ -1,0 +1,149 @@
+{
+ "npcId": 30557,
+ "name": "Torai",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.999Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30557.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "334": {
+   "name": "The Wishing Potion",
+   "listText": [
+    "[The Wishing Potion]",
+    "[The Wishing Potion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00334_TheWishingPotion/30557-01.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "417": {
+   "name": "Path Of The Scavenger",
+   "listText": [
+    "[Path of the Scavenger]",
+    "[Path of the Scavenger (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00417_PathOfTheScavenger/30557-01.html",
+     "when": "state STARTED; has items 1644; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30557.htm": {
+   "file": "default/30557.htm",
+   "quest": null,
+   "text": "Torai: I've come here wid a stout rez'lution.. They say near ere is a dragon sumping...and if ya go there you can earn big... money... Hey now, this strong feeling's comin' to me today. 'Fact, doesn't seem that much. He he he.",
+   "header": "Torai",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00334_TheWishingPotion/30557-01.html": {
+   "file": "Q00334_TheWishingPotion/30557-01.html",
+   "quest": 334,
+   "text": "Torai: Oh yes, I would love to purchase that book from you! How much do you want for it?",
+   "header": "Torai",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30557-01.html": {
+   "file": "Q00417_PathOfTheScavenger/30557-01.html",
+   "quest": 417,
+   "text": "Torai: Oh my, I 'most died trying to sell these. I tried to sell breast covers to the purty ladies in the valley but they showed their teeth and follered me, sos I ran until my feet sweat. Now I wanna go home ...",
+   "header": "Torai",
+   "when": [
+    "state STARTED; has items 1644; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Gives teleport scroll",
+     "bypass": "Quest Q00417_PathOfTheScavenger 30557-02.html",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "30557-02.html",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30557-02.html"
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30557-02.html": {
+   "file": "Q00417_PathOfTheScavenger/30557-02.html",
+   "quest": 417,
+   "text": "Torai: Ooh ... Did my uncle send it? Uncle- I've been bad. I'll be a good boy when I go back. Thank you. I picked it up 'round here, please take it. It is my 'preciation.",
+   "header": "Torai",
+   "links": [
+    {
+     "text": "Gratefully receive gift",
+     "bypass": "Quest Q00417_PathOfTheScavenger 30557-03.html",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "30557-03.html",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30557-03.html",
+     "effect": "cond:11"
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30557-03.html": {
+   "file": "Q00417_PathOfTheScavenger/30557-03.html",
+   "quest": 417,
+   "text": "Torai: Good wishes, then! I'm off ...",
+   "header": "Torai",
+   "sets": {
+    "cond": "11"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Wishing Potion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00334_TheWishingPotion",
+     "kind": "quest",
+     "quest": 334,
+     "to": "Q00334_TheWishingPotion/30557-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Scavenger (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00417_PathOfTheScavenger",
+     "kind": "quest",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30557-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,252 @@
+{
+ "npcId": 30644,
+ "name": "Kash",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.025Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30644.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "211": {
+   "name": "Trial of the Challenger",
+   "listText": [
+    "[Trial of the Challenger]",
+    "[Trial of the Challenger (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00211_TrialOfTheChallenger/30644-02.html",
+     "when": "state CREATED; !talker.isInCategory(CategoryType.WARRIOR_GROUP)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30644-01.html",
+     "when": "state CREATED; level < 35; talker.isInCategory(CategoryType.WARRIOR_GROUP)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30644-03.htm",
+     "when": "state CREATED; NOT level < 35; talker.isInCategory(CategoryType.WARRIOR_GROUP)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30644-07.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30644-08.html",
+     "when": "state STARTED; cond 2; has items 2631",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30644-09.html",
+     "when": "state STARTED; cond 3; has items 2628",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30644-10.html",
+     "when": "state STARTED; cond 8|9|10",
+     "state": "STARTED",
+     "cond": [
+      8,
+      9,
+      10
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30644.htm": {
+   "file": "default/30644.htm",
+   "quest": null,
+   "text": "Kash: Please, I need some more time, your servants are... Hey, you! What are you looking at?",
+   "header": "Kash",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00211_TrialOfTheChallenger/30644-02.html": {
+   "file": "Q00211_TrialOfTheChallenger/30644-02.html",
+   "quest": 211,
+   "text": "Kash: You seek the Mark of the Challenger? You must be mistaken. That mark is out of your league. (This quest may only be performed by Warriors, Elven Knights, Palus Knights, Orc Raiders, or Monks of level 35 or higher.)",
+   "header": "Kash",
+   "when": [
+    "state CREATED; !talker.isInCategory(CategoryType.WARRIOR_GROUP)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30644-01.html": {
+   "file": "Q00211_TrialOfTheChallenger/30644-01.html",
+   "quest": 211,
+   "text": "Kash: You wish to earn the Mark of the Challenger ? You are certainly aware of the difficulty of this task... It is not to be taken lightly, especially by an unskilled person like yourself... You must realistically assess your abilities! (This quest may only be performed by Warriors, Elven Knights,…",
+   "header": "Kash",
+   "when": [
+    "state CREATED; level < 35; talker.isInCategory(CategoryType.WARRIOR_GROUP)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30644-03.htm": {
+   "file": "Q00211_TrialOfTheChallenger/30644-03.htm",
+   "quest": 211,
+   "text": "Kash: You wish to earn the Mark of the Challenger ? You are certainly aware of the difficulty of this task... I don't have the mark, but I can tell you where it is... if you will you do something for me...",
+   "header": "Kash",
+   "when": [
+    "state CREATED; NOT level < 35; talker.isInCategory(CategoryType.WARRIOR_GROUP)"
+   ],
+   "links": [
+    {
+     "text": "Ask what kind of adventure it is.",
+     "bypass": "Quest Q00211_TrialOfTheChallenger 30644-04.htm",
+     "kind": "quest-event",
+     "script": "Q00211_TrialOfTheChallenger",
+     "event": "30644-04.htm",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30644-04.htm"
+    }
+   ]
+  },
+  "Q00211_TrialOfTheChallenger/30644-07.html": {
+   "file": "Q00211_TrialOfTheChallenger/30644-07.html",
+   "quest": 211,
+   "text": "Kash: The medusa has feasted on many warriors in its hundreds of years of existence. Not to dismiss your skills lightly, but better warriors than you have ended up as this creature's lunch. By the way, I have learned that it lives in the cave near the waterfalls .",
+   "header": "Kash",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30644-08.html": {
+   "file": "Q00211_TrialOfTheChallenger/30644-08.html",
+   "quest": 211,
+   "text": "Kash: You are true to your word. Ha, only one more to go... Oh, don't pay any attention to me. I am just talking to myself. Yes, the Mark of the Challenger . I have entrusted it to Martien , a friend living in the Town of Giran . Take him this Letter of Introduction and he will give you the mark.",
+   "header": "Kash",
+   "when": [
+    "state STARTED; cond 2; has items 2631"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30644-09.html": {
+   "file": "Q00211_TrialOfTheChallenger/30644-09.html",
+   "quest": 211,
+   "text": "Kash: Martien is a very influential person in the Town of Giran . It is hard to meet him without a Letter of Introduction!",
+   "header": "Kash",
+   "when": [
+    "state STARTED; cond 3; has items 2628"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30644-10.html": {
+   "file": "Q00211_TrialOfTheChallenger/30644-10.html",
+   "quest": 211,
+   "text": "Kash: What a nice surprise to see that you are still alive! You haven't yet performed the task Martien asked of you? Don't blame me, Martien is the villain here. Ha, I have never told a lie in my entire life!",
+   "header": "Kash",
+   "when": [
+    "state STARTED; cond 8|9|10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30644-04.htm": {
+   "file": "Q00211_TrialOfTheChallenger/30644-04.htm",
+   "quest": 211,
+   "text": "Kash: Are you familiar with the Neutral Zone between the lands of the Elves and the Dark Elves? Shyslyssys , an ancient medusa, makes her home there. Of course, these stories always include an extraordinary amount of treasure. You must go to her cave and kill everyone there. You may keep all the tr…",
+   "header": "Kash",
+   "links": [
+    {
+     "text": "I accept.",
+     "bypass": "Quest Q00211_TrialOfTheChallenger 30644-06.htm",
+     "kind": "quest-event",
+     "script": "Q00211_TrialOfTheChallenger",
+     "event": "30644-06.htm",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30644-06.htm",
+     "toAll": [
+      "Q00211_TrialOfTheChallenger/30644-06.htm",
+      "Q00211_TrialOfTheChallenger/30644-05.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00211_TrialOfTheChallenger/30644-05.htm": {
+   "file": "Q00211_TrialOfTheChallenger/30644-05.htm",
+   "quest": 211,
+   "text": "Kash: Your bravery is impressive, my young friend, but you must not go alone. Not that I don't trust your abilities... But this is a medusa that has lived for hundreds of years! She must be guarding something important... It would be best to gather some friends to go with you.",
+   "header": "Kash",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30644-06.htm": {
+   "file": "Q00211_TrialOfTheChallenger/30644-06.htm",
+   "quest": 211,
+   "text": "Kash: Ha! You get points for courage, if nothing else! But I wouldn't advise that you hunt there all by yourself. Courage alone won't get you very far against a centuries-old Medusa, youngster! That thing must have learned a few tricks over the years, eh? I think you'd best round up a group of your…",
+   "header": "Kash",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Challenger]",
+     "bypass": "npc_%objectId%_Quest Q00211_TrialOfTheChallenger",
+     "kind": "quest",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30644-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Trial of the Challenger (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00211_TrialOfTheChallenger",
+     "kind": "quest",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30644-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

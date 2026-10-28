@@ -1,0 +1,242 @@
+{
+ "npcId": 32761,
+ "name": "Kegor",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.405Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32761.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10285": {
+   "name": "Meeting Sirra",
+   "listText": [
+    "[Meeting Sirra]",
+    "[Meeting Sirra (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10285_MeetingSirra/32761-01.html",
+     "when": "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10285_MeetingSirra/32761-03.html",
+     "when": "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10285_MeetingSirra/32761-04.html",
+     "when": "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10287": {
+   "name": "Story of Those Left",
+   "listText": [
+    "[Story of Those Left]",
+    "[Story of Those Left (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10287_StoryOfThoseLeft/32761-01.html",
+     "when": "state STARTED; memo 1; memoStateEx1 == 1; memoStateEx2 == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10287_StoryOfThoseLeft/32761-04.html",
+     "when": "state STARTED; memo 1; !((memoStateEx1 == 1) && (memoStateEx2 == 0)); memoStateEx1 == 0; memoStateEx2 == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10287_StoryOfThoseLeft/32761-05.html",
+     "when": "state STARTED; memo 1; !((memoStateEx1 == 1) && (memoStateEx2 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 0)); memoStateEx1 == 1; memoStateEx2 == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32761.htm": {
+   "file": "default/32761.htm",
+   "quest": null,
+   "text": "Kegor: What are you here for? Whatever it is, take it up with Jinia.",
+   "header": "Kegor",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32761-01.html": {
+   "file": "Q10285_MeetingSirra/32761-01.html",
+   "quest": 10285,
+   "text": "Kegor: Again, thank you! Without you, we'd be in deeper trouble and I may very well have died. You are quite skilled... thank the Gods you are on our side! However, as skilled as you are, it isn't enough. In order to stop Freya, we'll need something of immense power that can absorb her power, such …",
+   "header": "Kegor",
+   "when": [
+    "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 1"
+   ],
+   "links": [
+    {
+     "text": "\"Are you okay now?\"",
+     "bypass": "Quest Q10285_MeetingSirra 32761-02.html",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32761-02.html",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32761-02.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32761-03.html": {
+   "file": "Q10285_MeetingSirra/32761-03.html",
+   "quest": 10285,
+   "text": "Kegor: You don't have to worry about me. Can you go over the details with Jinia? That's all I can tell you for now.",
+   "header": "Kegor",
+   "when": [
+    "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32761-04.html": {
+   "file": "Q10285_MeetingSirra/32761-04.html",
+   "quest": 10285,
+   "text": "Kegor: I don't like it either...but we could use Sirra's power to help us. Just listen to Sirra's story first.",
+   "header": "Kegor",
+   "when": [
+    "state STARTED; memo 1; switch(st.getMemoStateEx(1)) case 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10287_StoryOfThoseLeft/32761-01.html": {
+   "file": "Q10287_StoryOfThoseLeft/32761-01.html",
+   "quest": 10287,
+   "text": "Kegor: She hated Felicia and killed her, thus becoming the Ice Queen Freya. She couldn't escape her destiny. But really, which of us ever could?",
+   "header": "Kegor",
+   "when": [
+    "state STARTED; memo 1; memoStateEx1 == 1; memoStateEx2 == 0"
+   ],
+   "links": [
+    {
+     "text": "Keep telling the story.",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 32761-02.html",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "32761-02.html",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32761-02.html"
+    }
+   ]
+  },
+  "Q10287_StoryOfThoseLeft/32761-04.html": {
+   "file": "Q10287_StoryOfThoseLeft/32761-04.html",
+   "quest": 10287,
+   "text": "Kegor: Jinia wants to tell you something. Come back after you talk to her.",
+   "header": "Kegor",
+   "when": [
+    "state STARTED; memo 1; !((memoStateEx1 == 1) && (memoStateEx2 == 0)); memoStateEx1 == 0; memoStateEx2 == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10287_StoryOfThoseLeft/32761-05.html": {
+   "file": "Q10287_StoryOfThoseLeft/32761-05.html",
+   "quest": 10287,
+   "text": "Kegor: Before you leave, talk to Jinia. We will prepare for what's next.",
+   "header": "Kegor",
+   "when": [
+    "state STARTED; memo 1; !((memoStateEx1 == 1) && (memoStateEx2 == 0)); !((memoStateEx1 == 0) && (memoStateEx2 == 0)); memoStateEx1 == 1; memoStateEx2 == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32761-02.html": {
+   "file": "Q10285_MeetingSirra/32761-02.html",
+   "quest": 10285,
+   "text": "Kegor: Don't worry about me, I'll be all right. But you'll want to talk to Jinia. I have nothing more to say until you do.",
+   "header": "Kegor",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10287_StoryOfThoseLeft/32761-02.html": {
+   "file": "Q10287_StoryOfThoseLeft/32761-02.html",
+   "quest": 10287,
+   "text": "Kegor: In the end, even Sirra won't be able to free herself from Freya's shadow. She will be a worse Ice Queen than Freya, if such a thing is possible! No one close to her will ever dare betray her... She learned her lesson well. She makes people fear her until she knows she can trust them. Atrocio…",
+   "header": "Kegor",
+   "links": [
+    {
+     "text": "Wrap up the story.",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 32761-03.html",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "32761-03.html",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32761-03.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q10287_StoryOfThoseLeft/32761-03.html": {
+   "file": "Q10287_StoryOfThoseLeft/32761-03.html",
+   "quest": 10287,
+   "text": "Kegor: I understand. I have so much to thank you for, I hardly know where to begin... Jinia and I want to show our gratitude. Before you leave, talk to Jinia.",
+   "header": "Kegor",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Meeting Sirra (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10285_MeetingSirra",
+     "kind": "quest",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32761-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Story of Those Left (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10287_StoryOfThoseLeft",
+     "kind": "quest",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32761-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

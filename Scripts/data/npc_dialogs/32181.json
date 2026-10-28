@@ -1,0 +1,89 @@
+{
+ "npcId": 32181,
+ "name": "Mellon",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.352Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Teleports/StrongholdsTeleports/32181-no.htm",
+   "when": "",
+   "src": "ai StrongholdsTeleports"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/Teleports/StrongholdsTeleports/32181-no.htm": {
+   "file": "ai/npc/Teleports/StrongholdsTeleports/32181-no.htm",
+   "quest": null,
+   "text": "Gatekeeper Mellon: Welcome to the heart of the Kamael homeland. From here, you may only go directly to Kamael Village if you are an adventurer lower than level 20. What would you like to do? Will you go back?",
+   "header": "Gatekeeper Mellon",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Go to the village.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "teleporter/32181-2.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "teleporter/32181-1.htm": {
+   "file": "teleporter/32181-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Kamael Village",
+     "bypass": "npc_%objectId%_goto 1135",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village"
+    }
+   ]
+  },
+  "teleporter/32181-2.htm": {
+   "file": "teleporter/32181-2.htm",
+   "quest": null,
+   "text": "Gatekeeper Mellon: The teleport between here and the village of Kamael Village is only permitted for adventurers lower than level 20. If you are higher than that, you should be able to get there without my help!",
+   "header": "Gatekeeper Mellon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/StrongholdsTeleports/32181.htm": {
+   "file": "ai/npc/Teleports/StrongholdsTeleports/32181.htm",
+   "quest": null,
+   "text": "Gatekeeper Mellon: Welcome to the heart of the Kamael homeland. From here, you may only go directly to Kamael Village if you are an adventurer lower than level 20. What would you like to do? Will you go back?",
+   "header": "Gatekeeper Mellon",
+   "links": [
+    {
+     "text": "Go to the village.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/32181-1.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

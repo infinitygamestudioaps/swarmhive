@@ -1,0 +1,56 @@
+{
+ "npcId": 32036,
+ "name": "Temple Gatekeeper",
+ "title": "",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.314Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "teleporter/32036.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "teleporter/32036.htm": {
+   "file": "teleporter/32036.htm",
+   "quest": null,
+   "text": "Temple Gatekeeper: As you approach the huge statue, its eyes fix upon you with a scrutinizing gaze.",
+   "header": "Temple Gatekeeper",
+   "links": [
+    {
+     "text": "\"Here is the Pagan's Mark!\"",
+     "bypass": "npc_%objectId%_Quest PaganTeleporters",
+     "kind": "quest",
+     "script": "PaganTeleporters",
+     "to": "ai/npc/Teleports/PaganTeleporters/noMark.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/PaganTeleporters/noMark.htm": {
+   "file": "ai/npc/Teleports/PaganTeleporters/noMark.htm",
+   "quest": null,
+   "text": "The Temple Gatekeeper: Show your Mark or be gone from my sight! Only those who possess the Pagan's Mark may pass through this gate!",
+   "header": "The Temple Gatekeeper",
+   "when": [
+    "lacks items 8067"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/PaganTeleporters/openDoor.htm": {
+   "file": "ai/npc/Teleports/PaganTeleporters/openDoor.htm",
+   "quest": null,
+   "text": "The Temple Gatekeeper: On seeing the Pagan's Mark, the statue's probing eyes go blank. With the quiet whir of an engine, the gate swings open...",
+   "header": "The Temple Gatekeeper",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

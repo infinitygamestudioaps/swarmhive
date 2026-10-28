@@ -1,0 +1,59 @@
+{
+ "npcId": 30876,
+ "name": "Eastan",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.100Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30876.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30876.htm": {
+   "file": "guard/30876.htm",
+   "quest": null,
+   "text": "Guard Eastan: Hello, honored traveler. Welcome to Aden Village. If you leave the village and follow the road to the east, you will come to the National Cemetary in which the royalty and holy ones have been buried since the time of Elmoreden and I recommend you go take a look sometime. Of course, th…",
+   "header": "Guard Eastan",
+   "links": [
+    {
+     "text": "Ask about magpies.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30876-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30876-1.htm": {
+   "file": "guard/30876-1.htm",
+   "quest": null,
+   "text": "Guard Eastan: We're not talking about the birds that actually live in the bushes. These Magpie Brothers are not so cute. Originally they were of the Dwarven guild that specializes in searching ruins and collecting relics but they were going around the graves of the ancient Dwarven kings and stealin…",
+   "header": "Guard Eastan",
+   "links": [
+    {
+     "text": "Go back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30876.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

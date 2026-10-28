@@ -1,0 +1,49 @@
+{
+ "npcId": 32882,
+ "name": "Prouse",
+ "title": "Recipe Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.420Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/32882.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/32882.htm": {
+   "file": "merchant/32882.htm",
+   "quest": null,
+   "text": "Recipe Merchant Prouse: Hmm? It's you? No... I'm currently doing research to make something new. And to do that, I need to meet new people. I feel like I've seen you before. If you aren't a new person, I can't have a new conversation. If I can't have a new conversation, I won't be able to think of …",
+   "header": "Recipe Merchant Prouse",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "npc_%objectId%_Buy 3288200",
+     "kind": "shop"
+    },
+    {
+     "text": "View the lord and tax rate information",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

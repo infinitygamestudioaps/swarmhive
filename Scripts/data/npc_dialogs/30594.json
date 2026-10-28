@@ -1,0 +1,627 @@
+{
+ "npcId": 30594,
+ "name": "Ranspo",
+ "title": "Warehouse Chief",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:03.007Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30594.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "363": {
+   "name": "Sorrowful Sound of Flute",
+   "listText": [
+    "[Sorrowful Sound of Flute]",
+    "[Sorrowful Sound of Flute (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30594-01.html",
+     "when": "state STARTED; memo 2; (st.getInt(\"ex\") % 10000) < 1000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30594-02.html",
+     "when": "state STARTED; memo 2; (st.getInt(\"ex\") % 10000) < 1000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30594-03.html",
+     "when": "state STARTED; memo 2; (st.getInt(\"ex\") % 10000) < 1000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30594-04.html",
+     "when": "state STARTED; !(st.isMemoState(2) && ((st.getInt(\"ex\") % 10000) < 1000)); st.getMemoState() >= 2; (st.getInt(\"ex\") % 10000) >= 1000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "378": {
+   "name": "Grand Feast",
+   "listText": [
+    "[Grand Feast]",
+    "[Grand Feast (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00378_GrandFeast/30594-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00378_GrandFeast/30594-03.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00378_GrandFeast/30594-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00378_GrandFeast/30594-11.html",
+     "when": "state STARTED; cond 2; (hasQuestItems(player, THEME_OF_THE_FEAST))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00378_GrandFeast/30594-10.html",
+     "when": "state STARTED; cond 2; NOT (hasQuestItems(player, THEME_OF_THE_FEAST))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00378_GrandFeast/30594-13.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00378_GrandFeast/30594-20.html",
+     "when": "state STARTED; cond 4; has items 5959",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00378_GrandFeast/30594-19.html",
+     "when": "state STARTED; cond 4; lacks items 5959",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30594.htm": {
+   "file": "villagemaster/30594.htm",
+   "quest": null,
+   "text": "Warehouse Chief Ranspo: I'm Warehouse Chief Ranspo of the Iron Gate Guild here in Gludin. Our motto is \"Sell anything to anyone, anywhere.\" We'll travel to frozen wastes, burning deserts, even fiery volcanic zones, in order to sell our wares and create prosperity for our Dwarven tribe. Ha! Who else…",
+   "header": "Warehouse Chief Ranspo",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest DwarfWarehouseChange1",
+     "kind": "quest",
+     "script": "DwarfWarehouseChange1"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00363_SorrowfulSoundOfFlute/30594-01.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30594-01.html",
+   "quest": 363,
+   "text": "Warehouse Chief Ranspo: What would Barbado want? Well, he did mention something about needing a new set of clothes!",
+   "header": "Warehouse Chief Ranspo",
+   "when": [
+    "state STARTED; memo 2; (st.getInt(\"ex\") % 10000) < 1000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30594-02.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30594-02.html",
+   "quest": 363,
+   "text": "Warehouse Chief Ranspo: What does Barbado want? Who knows? Well, he did say something once about wanting to pick up a new instrument... A flute, I think it was...",
+   "header": "Warehouse Chief Ranspo",
+   "when": [
+    "state STARTED; memo 2; (st.getInt(\"ex\") % 10000) < 1000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30594-03.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30594-03.html",
+   "quest": 363,
+   "text": "Warehouse Chief Ranspo: What would Barbado like? Well, I don't know about him, but I could use a cold, black beer!",
+   "header": "Warehouse Chief Ranspo",
+   "when": [
+    "state STARTED; memo 2; (st.getInt(\"ex\") % 10000) < 1000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30594-04.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30594-04.html",
+   "quest": 363,
+   "text": "Warehouse Chief Ranspo: I have no ear for music whatsoever!",
+   "header": "Warehouse Chief Ranspo",
+   "when": [
+    "state STARTED; !(st.isMemoState(2) && ((st.getInt(\"ex\") % 10000) < 1000)); st.getMemoState() >= 2; (st.getInt(\"ex\") % 10000) >= 1000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-01.htm": {
+   "file": "Q00378_GrandFeast/30594-01.htm",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: I've been a warehouse keeper in this very location for almost 40 years! I can honestly say that I built this place with my own hands. I sacrificed my youth and devoted all of my passion to it! I received notice some time ago from the elder council of the guild union in Schut…",
+   "header": "Warehouse Chief Ranspo",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help you.\"",
+     "bypass": "Quest Q00378_GrandFeast 30594-02.htm",
+     "kind": "quest-event",
+     "script": "Q00378_GrandFeast",
+     "event": "30594-02.htm",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00378_GrandFeast/30594-03.html": {
+   "file": "Q00378_GrandFeast/30594-03.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: I've been a warehouse keeper in this very location for almost 40 years! I can honestly say that I built this place with my own hands! I sacrificed my youth and devoted all of my passion to it! I received notice some time ago from the elder council of the guild union in Schut…",
+   "header": "Warehouse Chief Ranspo",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-04.html": {
+   "file": "Q00378_GrandFeast/30594-04.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Did you bring me the wine?",
+   "header": "Warehouse Chief Ranspo",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"I brought you a 15-year-old bottle of wine.\"",
+     "bypass": "Quest Q00378_GrandFeast 30594-05.html",
+     "kind": "quest-event",
+     "script": "Q00378_GrandFeast",
+     "event": "30594-05.html",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-05.html",
+     "toAll": [
+      "Q00378_GrandFeast/30594-05.html",
+      "Q00378_GrandFeast/30594-08.html"
+     ],
+     "effect": "cond:2"
+    },
+    {
+     "text": "\"I brought you a 30-year-old bottle of wine.\"",
+     "bypass": "Quest Q00378_GrandFeast 30594-06.html",
+     "kind": "quest-event",
+     "script": "Q00378_GrandFeast",
+     "event": "30594-06.html",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-06.html",
+     "toAll": [
+      "Q00378_GrandFeast/30594-06.html",
+      "Q00378_GrandFeast/30594-08.html"
+     ],
+     "effect": "cond:2"
+    },
+    {
+     "text": "\"I brought you a 60-year-old bottle of wine.\"",
+     "bypass": "Quest Q00378_GrandFeast 30594-07.html",
+     "kind": "quest-event",
+     "script": "Q00378_GrandFeast",
+     "event": "30594-07.html",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-07.html",
+     "toAll": [
+      "Q00378_GrandFeast/30594-07.html",
+      "Q00378_GrandFeast/30594-08.html"
+     ],
+     "effect": "cond:2"
+    },
+    {
+     "text": "\"Uh... where can I obtain the wine?\"",
+     "bypass": "Quest Q00378_GrandFeast 30594-09.html",
+     "kind": "quest-event",
+     "script": "Q00378_GrandFeast",
+     "event": "30594-09.html",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-09.html"
+    }
+   ]
+  },
+  "Q00378_GrandFeast/30594-11.html": {
+   "file": "Q00378_GrandFeast/30594-11.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Is this the music Booboo, no, Barbado composed? Ha! I can't read music... but, I've heard that he's a good musician. I'm sure it's wonderful... I've hired an accordionist... Now, what else was there? Ah, yes! That's right...!",
+   "header": "Warehouse Chief Ranspo",
+   "when": [
+    "state STARTED; cond 2; (hasQuestItems(player, THEME_OF_THE_FEAST))"
+   ],
+   "links": [
+    {
+     "text": "\"What else do you need?\"",
+     "bypass": "Quest Q00378_GrandFeast 30594-12.html",
+     "kind": "quest-event",
+     "script": "Q00378_GrandFeast",
+     "event": "30594-12.html",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-12.html",
+     "toAll": [
+      "Q00378_GrandFeast/30594-12.html",
+      "Q00378_GrandFeast/30594-08.html"
+     ],
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00378_GrandFeast/30594-10.html": {
+   "file": "Q00378_GrandFeast/30594-10.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Have you brought me the musical score? What have you been doing? Hurry to see that dwarf Barbado, or whatever his name is, and bring back the score! Make sure it's cheerful music, suitable for a banquet!",
+   "header": "Warehouse Chief Ranspo",
+   "when": [
+    "state STARTED; cond 2; NOT (hasQuestItems(player, THEME_OF_THE_FEAST))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-13.html": {
+   "file": "Q00378_GrandFeast/30594-13.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Have you gotten the secret recipe from Jonas? I've invested so much time and money in that kid... If the recipe is mediocre.. I'll kick him out immediately!",
+   "header": "Warehouse Chief Ranspo",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"I brought you Jonas's Salad Recipe.\"",
+     "bypass": "Quest Q00378_GrandFeast 30594-14.html",
+     "kind": "quest-event",
+     "script": "Q00378_GrandFeast",
+     "event": "30594-14.html",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-14.html",
+     "toAll": [
+      "Q00378_GrandFeast/30594-14.html",
+      "Q00378_GrandFeast/30594-17.html"
+     ],
+     "effect": "cond:4"
+    },
+    {
+     "text": "\"I brought you Jonas's Sauce Recipe.\"",
+     "bypass": "Quest Q00378_GrandFeast 30594-15.html",
+     "kind": "quest-event",
+     "script": "Q00378_GrandFeast",
+     "event": "30594-15.html",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-15.html",
+     "toAll": [
+      "Q00378_GrandFeast/30594-15.html",
+      "Q00378_GrandFeast/30594-17.html"
+     ],
+     "effect": "cond:4"
+    },
+    {
+     "text": "\"I brought you Jonas's Steak Recipe.\"",
+     "bypass": "Quest Q00378_GrandFeast 30594-16.html",
+     "kind": "quest-event",
+     "script": "Q00378_GrandFeast",
+     "event": "30594-16.html",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-16.html",
+     "toAll": [
+      "Q00378_GrandFeast/30594-16.html",
+      "Q00378_GrandFeast/30594-17.html"
+     ],
+     "effect": "cond:4"
+    },
+    {
+     "text": "\"Uh... who is Jonas?\"",
+     "bypass": "Quest Q00378_GrandFeast 30594-18.html",
+     "kind": "quest-event",
+     "script": "Q00378_GrandFeast",
+     "event": "30594-18.html",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-18.html"
+    }
+   ]
+  },
+  "Q00378_GrandFeast/30594-20.html": {
+   "file": "Q00378_GrandFeast/30594-20.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Oh my! Yes, This is exactly what I wanted! Just looking at the ingredients makes my mouth water! So, now I just have to follow the recipe, right? I'm going to do everything I can to make this feast a success! Thank you for your hard work. Thanks to you, now I can prepare a t…",
+   "header": "Warehouse Chief Ranspo",
+   "when": [
+    "state STARTED; cond 4; has items 5959"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-19.html": {
+   "file": "Q00378_GrandFeast/30594-19.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: The inspector will be here the day after tomorrow! Even though you brought me the recipe, I'm not sure we can prepare the dish in time! Quickly! Go to the temple and get the recipe for dessert from Magister Rollant!",
+   "header": "Warehouse Chief Ranspo",
+   "when": [
+    "state STARTED; cond 4; lacks items 5959"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-02.htm": {
+   "file": "Q00378_GrandFeast/30594-02.htm",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Wonderful! The inspector is widely known to be a lover of fine food and drink. It is said that he joined a wine taster's guild as a hobby and ended up earning the title of Sommelier, the highest grade! Anyway, at the feast, I must offer him first some elegant appetizers and …",
+   "header": "Warehouse Chief Ranspo",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-05.html": {
+   "file": "Q00378_GrandFeast/30594-05.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Hmm... 15-year-old wine... I think you could've done better than that... Anyway, since I don't have much time left, I'll take it. Next I'll need... A grand feast must be accompanied by entertainment! I heard that there is a skillful dwarf composer in this village. What was h…",
+   "header": "Warehouse Chief Ranspo",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-06.html": {
+   "file": "Q00378_GrandFeast/30594-06.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Hmm.. 30-year-old wine... Not bad... But I think you could've done better... But I'll take it. Let's see, what else was there...? Ah, yes! A grand feast must be accompanied by entertainment! I've heard that there is a skillful dwarf composer in this village. What was his nam…",
+   "header": "Warehouse Chief Ranspo",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-07.html": {
+   "file": "Q00378_GrandFeast/30594-07.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Oh, my! A 60-year-old wine! Such a rarity! Thank you so much! I'm glad I trusted you with this task. Now, let me see, what else was there...? Ah, yes! A grand feast must be accompanied by entertainment! I've heard that there is a skillful dwarf composer in this village. What…",
+   "header": "Warehouse Chief Ranspo",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-08.html": {
+   "file": "Q00378_GrandFeast/30594-08.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Are you playing with me? Go get the wine!",
+   "header": "Warehouse Chief Ranspo",
+   "links": [
+    {
+     "text": "\"Uh... where can I find the wine?\"",
+     "bypass": "Quest Q00378_GrandFeast 30594-09.html",
+     "kind": "quest-event",
+     "script": "Q00378_GrandFeast",
+     "event": "30594-09.html",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-09.html"
+    }
+   ]
+  },
+  "Q00378_GrandFeast/30594-09.html": {
+   "file": "Q00378_GrandFeast/30594-09.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: What a blockhead you are! What's the matter with you? I'll explain it once more, so open your ears and listen! I must have top-quality wine! The older the better! Go and see Guard Harlan in the village.",
+   "header": "Warehouse Chief Ranspo",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-12.html": {
+   "file": "Q00378_GrandFeast/30594-12.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Appetizer, wine, cheerful music... all that's lacking is the main course... the heart and soul of the feast! We must prepare the courses! I know that the inspector would like to try some of Dion's regional foods. I have provided the young chef's apprentice with space and mon…",
+   "header": "Warehouse Chief Ranspo",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-14.html": {
+   "file": "Q00378_GrandFeast/30594-14.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: His recipe for what? Salad?! You can't really expect me to serve rabbit food to the inspector! Well, actually, it is a specialty of Dion... I suppose I could give it a try... Well... my preparations for the feast are almost complete... I have just one last favor to ask you..…",
+   "header": "Warehouse Chief Ranspo",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-15.html": {
+   "file": "Q00378_GrandFeast/30594-15.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: What am I supposed to do with a sauce? I suppose I could make steak... I could prepare it Dwarf-style, and use the sauce that Jonas developed. That should be enough to satisfy the inspector. My preparations for the feast are almost complete... I have one last favor to ask yo…",
+   "header": "Warehouse Chief Ranspo",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-16.html": {
+   "file": "Q00378_GrandFeast/30594-16.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Monster Eye Steak? Oh my, that is unique! I like it! I'm sure the inspector will be very impressed! My preparations for the feast are almost complete... I have one last favor to ask... Can you guess what it is? Yes, the dessert! What meal is complete without a delicious dess…",
+   "header": "Warehouse Chief Ranspo",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00378_GrandFeast/30594-17.html": {
+   "file": "Q00378_GrandFeast/30594-17.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: The inspector will be here in two days! We're running out of time! In fact, we've no time at all! Hurry back with a secret recipe from Jonas!",
+   "header": "Warehouse Chief Ranspo",
+   "links": [
+    {
+     "text": "\"Uh... who is Jonas?\"",
+     "bypass": "Quest Q00378_GrandFeast 30594-18.html",
+     "kind": "quest-event",
+     "script": "Q00378_GrandFeast",
+     "event": "30594-18.html",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-18.html"
+    }
+   ]
+  },
+  "Q00378_GrandFeast/30594-18.html": {
+   "file": "Q00378_GrandFeast/30594-18.html",
+   "quest": 378,
+   "text": "Warehouse Chief Ranspo: Oh my! Where is Shilen when you need her? She should have taken you long ago! What were you doing when I explained this to you before? Are you deaf? OK, I'll tell you once more. Pay attention! The guy next to me is Jonas! He has a lot of secret recipes. Talk to him, obtain o…",
+   "header": "Warehouse Chief Ranspo",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Sorrowful Sound of Flute (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00363_SorrowfulSoundOfFlute",
+     "kind": "quest",
+     "quest": 363,
+     "to": "Q00363_SorrowfulSoundOfFlute/30594-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Grand Feast]",
+     "bypass": "npc_%objectId%_Quest Q00378_GrandFeast",
+     "kind": "quest",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Grand Feast (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00378_GrandFeast",
+     "kind": "quest",
+     "quest": 378,
+     "to": "Q00378_GrandFeast/30594-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

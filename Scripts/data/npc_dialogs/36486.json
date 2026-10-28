@@ -1,0 +1,189 @@
+{
+ "npcId": 36486,
+ "name": "Mercenary Captain",
+ "title": "Innadril",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.461Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/MercenaryCaptain/36486-01.html",
+   "when": "!((player.getLevel() < MIN_LEVEL) || (player.getClassId().level() < CLASS_LEVEL)); !npc.isMyLord(player); NOT (npc.getCastle().getSiege().isInProgress() || TerritoryWarManager.getInstance().isTWInProgress())",
+   "src": "ai MercenaryCaptain"
+  }
+ ],
+ "quests": {
+  "147": {
+   "name": "Path to Becoming an Elite Mercenary",
+   "listText": [
+    "[Path to Becoming an Elite Mercenary]",
+    "[Path to Becoming an Elite Mercenary (In Progress)]"
+   ],
+   "onTalk": []
+  },
+  "148": {
+   "name": "Path to Becoming an Exalted Mercenary",
+   "listText": [
+    "[Path to Becoming an Exalted Mercenary]",
+    "[Path to Becoming an Exalted Mercenary (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "ai/npc/MercenaryCaptain/36486-01.html": {
+   "file": "ai/npc/MercenaryCaptain/36486-01.html",
+   "quest": null,
+   "text": "Mercenary Captain: Are you interested in signing on as a mercenary for this Territory War? I'll be honest with you -- the lord here is doing pretty well for himself. Serve him well and you can acquire whatever you want.",
+   "header": "Mercenary Captain",
+   "when": [
+    "!((player.getLevel() < MIN_LEVEL) || (player.getClassId().level() < CLASS_LEVEL)); !npc.isMyLord(player); NOT (npc.getCastle().getSiege().isInProgress() || TerritoryWarManager.getInstance().isTWInProgress())"
+   ],
+   "links": [
+    {
+     "text": "Territory Registration and Information",
+     "bypass": "Quest MercenaryCaptain territory",
+     "kind": "quest-event",
+     "script": "MercenaryCaptain",
+     "event": "territory",
+     "to": null
+    },
+    {
+     "text": "Buy General Items",
+     "bypass": "npc_%objectId%_multisell 665",
+     "kind": "multisell"
+    },
+    {
+     "text": "Buy Elite Mercenary Items",
+     "bypass": "Quest MercenaryCaptain elite",
+     "kind": "quest-event",
+     "script": "MercenaryCaptain",
+     "event": "elite",
+     "to": null
+    },
+    {
+     "text": "Buy Exalted Mercenary Items",
+     "bypass": "Quest MercenaryCaptain top-elite",
+     "kind": "quest-event",
+     "script": "MercenaryCaptain",
+     "event": "top-elite",
+     "to": null
+    },
+    {
+     "text": "Mount information.",
+     "bypass": "Quest MercenaryCaptain 36481-03.html",
+     "kind": "quest-event",
+     "script": "MercenaryCaptain",
+     "event": "36481-03.html",
+     "to": "ai/npc/MercenaryCaptain/36481-03.html"
+    },
+    {
+     "text": "Mercenary Information.",
+     "bypass": "Quest MercenaryCaptain 36481-02.html",
+     "kind": "quest-event",
+     "script": "MercenaryCaptain",
+     "event": "36481-02.html",
+     "to": "ai/npc/MercenaryCaptain/36481-02.html"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path to Becoming an Elite Mercenary]",
+     "bypass": "npc_%objectId%_Quest Q00147_PathtoBecominganEliteMercenary",
+     "kind": "quest",
+     "quest": 147,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path to Becoming an Elite Mercenary (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00147_PathtoBecominganEliteMercenary",
+     "kind": "quest",
+     "quest": 147,
+     "to": null,
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path to Becoming an Exalted Mercenary]",
+     "bypass": "npc_%objectId%_Quest Q00148_PathtoBecominganExaltedMercenary",
+     "kind": "quest",
+     "quest": 148,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path to Becoming an Exalted Mercenary (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00148_PathtoBecominganExaltedMercenary",
+     "kind": "quest",
+     "quest": 148,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/MercenaryCaptain/36481-03.html": {
+   "file": "ai/npc/MercenaryCaptain/36481-03.html",
+   "quest": null,
+   "text": "Mercenary Captain: Mobility and speed are vital assets to a mercenary. In a large-scale battle, Striders can prove to be an invaluable boon in the course of battle. A mercenary company takes care of striders whom it received when a contract is made with the lord. And this mercenary company distribu…",
+   "header": "Mercenary Captain",
+   "links": [
+    {
+     "text": "\"I want a Wind Strider.\" (ordinary)",
+     "bypass": "Quest MercenaryCaptain strider 0",
+     "kind": "quest-event",
+     "confirm": "1383",
+     "script": "MercenaryCaptain",
+     "event": "strider 0",
+     "to": null
+    },
+    {
+     "text": "\"I want a Star Strider.\" (ordinary)",
+     "bypass": "Quest MercenaryCaptain strider 1",
+     "kind": "quest-event",
+     "confirm": "1383",
+     "script": "MercenaryCaptain",
+     "event": "strider 1",
+     "to": null
+    },
+    {
+     "text": "\"I want a Twilight Strider.\" (ordinary)",
+     "bypass": "Quest MercenaryCaptain strider 2",
+     "kind": "quest-event",
+     "confirm": "1383",
+     "script": "MercenaryCaptain",
+     "event": "strider 2",
+     "to": null
+    },
+    {
+     "text": "\"I want a Guardian Strider\" (special).",
+     "bypass": "Quest MercenaryCaptain strider 3",
+     "kind": "quest-event",
+     "confirm": "1383",
+     "script": "MercenaryCaptain",
+     "event": "strider 3",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/MercenaryCaptain/36481-02.html": {
+   "file": "ai/npc/MercenaryCaptain/36481-02.html",
+   "quest": null,
+   "text": "Mercenary Captain: As the war dragged on, those in power sought for a way to wage the conflict without risking their own positions. Politics, eh? No rich lord wants to weaken the strength of his loyal troops if he doesn't have to. So hiring mercenaries like us to fight their battles for them became…",
+   "header": "Mercenary Captain",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

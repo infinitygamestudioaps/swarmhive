@@ -2,7 +2,7 @@
  "id": 228,
  "name": "Test Of Magus",
  "version": 1,
- "generated": "2026-10-27T11:15:16.259Z",
+ "generated": "2026-10-27T18:18:51.623Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 39,
@@ -29,16 +29,32 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 21
   },
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 1
+   "step": 21
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 27
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 27
   }
  ],
- "expectedMin": 33,
+ "expectedMin": 56,
  "refLevel": 39,
  "steps": [
   {
@@ -3519,10 +3535,7 @@
    "conds": [
     1,
     2,
-    3,
-    4,
-    5,
-    6
+    3
    ],
    "override": {
     "fixed": [
@@ -5154,217 +5167,6 @@
   },
   {
    "i": 7,
-   "key": "c1:talk:30612",
-   "cond": 1,
-   "kind": "talk",
-   "to": 3,
-   "links": [
-    "\"Where are the singing flowers?\""
-   ],
-   "npc": {
-    "id": 30612,
-    "name": "Casian",
-    "title": "Elder",
-    "town": "Floran",
-    "at": [
-     -16895,
-     194229,
-     -4207
-    ],
-    "alt": []
-   },
-   "text": "Talk to Casian",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30612@-16895,194229",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 14637,
-    "sec": 167,
-    "via": ".gludin > Gludin -> Wastelands",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> Wastelands",
-      "link": "wastelands",
-      "price": 3400,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 14637,
-      "how": "geodata",
-      "danger": 39
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> Wastelands"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -16526,
-      208032,
-      -3664
-     ],
-     [
-      -16707,
-      207540,
-      -3664
-     ],
-     [
-      -16888,
-      207048,
-      -3664
-     ],
-     [
-      -16904,
-      206056,
-      -3592
-     ],
-     [
-      -17288,
-      205464,
-      -3568
-     ],
-     [
-      -17288,
-      205304,
-      -3528
-     ],
-     [
-      -17088,
-      204808,
-      -3496
-     ],
-     [
-      -16888,
-      204312,
-      -3464
-     ],
-     [
-      -16888,
-      203320,
-      -3552
-     ],
-     [
-      -16872,
-      202328,
-      -3664
-     ],
-     [
-      -16856,
-      202248,
-      -3664
-     ],
-     [
-      -16888,
-      201256,
-      -3920
-     ],
-     [
-      -16792,
-      200616,
-      -3920
-     ],
-     [
-      -16888,
-      199624,
-      -4200
-     ],
-     [
-      -16888,
-      198632,
-      -4200
-     ],
-     [
-      -17192,
-      197736,
-      -4200
-     ],
-     [
-      -17208,
-      196840,
-      -4200
-     ],
-     [
-      -17144,
-      196760,
-      -4192
-     ],
-     [
-      -17144,
-      195832,
-      -4200
-     ],
-     [
-      -17432,
-      195544,
-      -4208
-     ],
-     [
-      -17496,
-      195432,
-      -4160
-     ],
-     [
-      -17528,
-      195288,
-      -4152
-     ],
-     [
-      -17576,
-      194872,
-      -4208
-     ],
-     [
-      -17576,
-      194728,
-      -4208
-     ],
-     [
-      -16888,
-      194232,
-      -4208
-     ]
-    ],
-    "maxDanger": 39,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 39,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 192,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    4,
-    5,
-    6
-   ]
-  },
-  {
-   "i": 8,
    "key": "c1:deliver:30391",
    "cond": 1,
    "kind": "deliver",
@@ -5570,9 +5372,4818 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    3,
-    4,
+    1
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c2:talk:30612",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"Where are the singing flowers?\""
+   ],
+   "npc": {
+    "id": 30612,
+    "name": "Casian",
+    "title": "Elder",
+    "town": "Floran",
+    "at": [
+     -16895,
+     194229,
+     -4207
+    ],
+    "alt": []
+   },
+   "text": "Talk to Casian",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30612@-16895,194229",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 14637,
+    "sec": 167,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14637,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16707,
+      207540,
+      -3664
+     ],
+     [
+      -16888,
+      207048,
+      -3664
+     ],
+     [
+      -16904,
+      206056,
+      -3592
+     ],
+     [
+      -17288,
+      205464,
+      -3568
+     ],
+     [
+      -17288,
+      205304,
+      -3528
+     ],
+     [
+      -17088,
+      204808,
+      -3496
+     ],
+     [
+      -16888,
+      204312,
+      -3464
+     ],
+     [
+      -16888,
+      203320,
+      -3552
+     ],
+     [
+      -16872,
+      202328,
+      -3664
+     ],
+     [
+      -16856,
+      202248,
+      -3664
+     ],
+     [
+      -16888,
+      201256,
+      -3920
+     ],
+     [
+      -16792,
+      200616,
+      -3920
+     ],
+     [
+      -16888,
+      199624,
+      -4200
+     ],
+     [
+      -16888,
+      198632,
+      -4200
+     ],
+     [
+      -17192,
+      197736,
+      -4200
+     ],
+     [
+      -17208,
+      196840,
+      -4200
+     ],
+     [
+      -17144,
+      196760,
+      -4192
+     ],
+     [
+      -17144,
+      195832,
+      -4200
+     ],
+     [
+      -17432,
+      195544,
+      -4208
+     ],
+     [
+      -17496,
+      195432,
+      -4160
+     ],
+     [
+      -17528,
+      195288,
+      -4152
+     ],
+     [
+      -17576,
+      194872,
+      -4208
+     ],
+     [
+      -17576,
+      194728,
+      -4208
+     ],
+     [
+      -16888,
+      194232,
+      -4208
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 192,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c4:hunt",
+   "cond": 4,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20145,
+     "name": "Harpy",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 20157,
+     "name": "Marsh Stakato",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20230,
+     "name": "Marsh Stakato Worker",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20231,
+     "name": "Toad Lord",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 48,
+     "questSpawned": false
+    },
+    {
+     "id": 20232,
+     "name": "Marsh Stakato Soldier",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20176,
+     "name": "Wyrm",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20553,
+     "name": "Windsus",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 20564,
+     "name": "Enchanted Monstereye",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20565,
+     "name": "Enchanted Stone Golem",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20566,
+     "name": "Enchanted Iron Golem",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 27098,
+     "name": "Ghost Fire",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 27095,
+     "name": "Singing Flower of Phantasm",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 27096,
+     "name": "Singing Flower of Nightmare",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 27097,
+     "name": "Singing Flower of Darkness",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2846,
+     "name": "3rd Golden Seed",
+     "n": 1,
+     "from": [
+      {
+       "id": 27097,
+       "name": "Singing Flower of Darkness",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2848,
+     "name": "Dazzling Drop",
+     "n": 20,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20231,
+       "name": "Toad Lord",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2849,
+     "name": "Flame Crystal",
+     "n": 5,
+     "from": [
+      {
+       "id": 27098,
+       "name": "Ghost Fire",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 2850,
+     "name": "Harpy's Feather",
+     "n": 20,
+     "from": [
+      {
+       "id": 20145,
+       "name": "Harpy",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2851,
+     "name": "Wyrm's Wingbone",
+     "n": 10,
+     "from": [
+      {
+       "id": 20176,
+       "name": "Wyrm",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 2852,
+     "name": "Windsus Mane",
+     "n": 10,
+     "from": [
+      {
+       "id": 20553,
+       "name": "Windsus",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 2853,
+     "name": "Enchanted Monster Eye Shell",
+     "n": 10,
+     "from": [
+      {
+       "id": 20564,
+       "name": "Enchanted Monstereye",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2854,
+     "name": "Enchanted Golem Powder",
+     "n": 10,
+     "from": [
+      {
+       "id": 20565,
+       "name": "Enchanted Stone Golem",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2855,
+     "name": "Enchanted Iron Golem Shard",
+     "n": 10,
+     "from": [
+      {
+       "id": 20566,
+       "name": "Enchanted Iron Golem",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "route-unverified",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Harpy, Marsh Stakato, Marsh Stakato Worker for 3rd Golden Seed x1, Dazzling Drop x20, Flame Crystal x5, Harpy's Feather x20, Wyrm's Wingbone x10, Windsus Mane x10, Enchanted Monster Eye Shell x10, Enchanted Golem Powder x10, Enchanted Iron Golem Shard x10",
+   "places": [
+    {
+     "mobs": [
+      27097
+     ],
+     "items": [
+      2846
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "27097@75454,165866",
+      "name": "Singing Flower of Darkness (Field of Silence / Aaru Fortress)",
+      "at": [
+       75454,
+       165866,
+       -3684
+      ],
+      "radius": 1500,
+      "levels": [
+       44,
+       44
+      ],
+      "count": 3,
+      "region": "Field of Silence / Aaru Fortress",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 72,
+      "alt": []
+     },
+     "travel": {
+      "src": "computed",
+      "key": "npc:32646@86641,162261",
+      "status": "ok",
+      "flags": [],
+      "from": ".heine",
+      "length": 18710,
+      "sec": 201,
+      "via": ".heine > Heine -> Field of Silence",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Field of Silence",
+        "link": "field of silence",
+        "price": 12000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1195,
+        "how": "geodata",
+        "danger": 0
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Field of Silence"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87691,
+        162835,
+        -3563
+       ],
+       [
+        87194,
+        162550,
+        -3569
+       ],
+       [
+        86696,
+        162264,
+        -3576
+       ],
+       [
+        86648,
+        162264,
+        -3584
+       ],
+       [
+        86616,
+        162264,
+        -3584
+       ],
+       [
+        86520,
+        162328,
+        -3584
+       ],
+       [
+        86360,
+        162264,
+        -3576
+       ],
+       [
+        85368,
+        162264,
+        -3464
+       ],
+       [
+        84376,
+        162264,
+        -3272
+       ],
+       [
+        84248,
+        162264,
+        -3248
+       ],
+       [
+        83656,
+        161272,
+        -3280
+       ],
+       [
+        83368,
+        160824,
+        -3264
+       ],
+       [
+        83224,
+        160888,
+        -3264
+       ],
+       [
+        83224,
+        160616,
+        -3256
+       ],
+       [
+        82232,
+        160088,
+        -3128
+       ],
+       [
+        81784,
+        159928,
+        -3176
+       ],
+       [
+        81304,
+        159656,
+        -3256
+       ],
+       [
+        81096,
+        159736,
+        -3240
+       ],
+       [
+        80696,
+        160200,
+        -3408
+       ],
+       [
+        81000,
+        161160,
+        -3672
+       ],
+       [
+        80872,
+        161224,
+        -3616
+       ],
+       [
+        80824,
+        161592,
+        -3632
+       ],
+       [
+        80776,
+        162296,
+        -3720
+       ],
+       [
+        80872,
+        162696,
+        -3712
+       ],
+       [
+        80840,
+        163400,
+        -3728
+       ],
+       [
+        80392,
+        163624,
+        -3712
+       ],
+       [
+        79768,
+        164264,
+        -3616
+       ],
+       [
+        79752,
+        164504,
+        -3664
+       ],
+       [
+        79688,
+        164648,
+        -3688
+       ],
+       [
+        78712,
+        165496,
+        -3640
+       ],
+       [
+        78424,
+        165784,
+        -3640
+       ],
+       [
+        78472,
+        165832,
+        -3696
+       ],
+       [
+        77480,
+        165864,
+        -3592
+       ],
+       [
+        76728,
+        166104,
+        -3520
+       ],
+       [
+        76568,
+        166056,
+        -3592
+       ],
+       [
+        76104,
+        165864,
+        -3608
+       ],
+       [
+        75448,
+        165864,
+        -3624
+       ]
+      ],
+      "maxDanger": 44,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 44,
+       "dangerVsLevel": 5,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "npc:32646@86641,162261",
+       "name": "Katensa"
+      },
+      "points": [
+       [
+        87691,
+        162835,
+        -3563
+       ],
+       [
+        87194,
+        162550,
+        -3569
+       ],
+       [
+        86696,
+        162264,
+        -3576
+       ],
+       [
+        86648,
+        162264,
+        -3584
+       ],
+       [
+        86616,
+        162264,
+        -3584
+       ],
+       [
+        86520,
+        162328,
+        -3584
+       ],
+       [
+        86360,
+        162264,
+        -3576
+       ],
+       [
+        85368,
+        162264,
+        -3464
+       ],
+       [
+        84376,
+        162264,
+        -3272
+       ],
+       [
+        84248,
+        162264,
+        -3248
+       ],
+       [
+        83656,
+        161272,
+        -3280
+       ],
+       [
+        83368,
+        160824,
+        -3264
+       ],
+       [
+        83224,
+        160888,
+        -3264
+       ],
+       [
+        83224,
+        160616,
+        -3256
+       ],
+       [
+        82232,
+        160088,
+        -3128
+       ],
+       [
+        81784,
+        159928,
+        -3176
+       ],
+       [
+        81304,
+        159656,
+        -3256
+       ],
+       [
+        81096,
+        159736,
+        -3240
+       ],
+       [
+        80696,
+        160200,
+        -3408
+       ],
+       [
+        81000,
+        161160,
+        -3672
+       ],
+       [
+        80872,
+        161224,
+        -3616
+       ],
+       [
+        80824,
+        161592,
+        -3632
+       ],
+       [
+        80776,
+        162296,
+        -3720
+       ],
+       [
+        80872,
+        162696,
+        -3712
+       ],
+       [
+        80840,
+        163400,
+        -3728
+       ],
+       [
+        80392,
+        163624,
+        -3712
+       ],
+       [
+        79768,
+        164264,
+        -3616
+       ],
+       [
+        79752,
+        164504,
+        -3664
+       ],
+       [
+        79688,
+        164648,
+        -3688
+       ],
+       [
+        78712,
+        165496,
+        -3640
+       ],
+       [
+        78424,
+        165784,
+        -3640
+       ],
+       [
+        78472,
+        165832,
+        -3696
+       ],
+       [
+        77480,
+        165864,
+        -3592
+       ],
+       [
+        76728,
+        166104,
+        -3520
+       ],
+       [
+        76568,
+        166056,
+        -3592
+       ],
+       [
+        76104,
+        165864,
+        -3608
+       ],
+       [
+        75448,
+        165864,
+        -3624
+       ]
+      ]
+     }
+    },
+    {
+     "mobs": [
+      20157,
+      20230,
+      20231,
+      20232,
+      20234
+     ],
+     "items": [
+      2848
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fortress-of-resistance-34",
+      "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+      "at": [
+       28920,
+       108584,
+       -3704
+      ],
+      "radius": 5521,
+      "levels": [
+       32,
+       35
+      ],
+      "count": 20,
+      "region": "Fortress of Resistance",
+      "atlasKey": "area:fortress-of-resistance-34",
+      "status": "ok",
+      "sec": 177,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -117.05,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-13",
+        "name": "Cruma Marshlands 13: Marsh Stakato Worker area (north-east)",
+        "at": [
+         16184,
+         109992,
+         -3728
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-2",
+        "name": "Cruma Tower 2: Toad Lord area (north-east)",
+        "at": [
+         23720,
+         113256,
+         -3760
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-7",
+        "name": "Cruma Tower 7: Toad Lord area (north-east)",
+        "at": [
+         18568,
+         102440,
+         -3696
+        ],
+        "count": 19,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fortress-of-resistance-34",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 15821,
+      "sec": 177,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5351,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 10470,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        20184,
+        113064,
+        -3752
+       ],
+       [
+        21176,
+        113064,
+        -3752
+       ],
+       [
+        22168,
+        113064,
+        -3680
+       ],
+       [
+        23080,
+        112968,
+        -3744
+       ],
+       [
+        24072,
+        112968,
+        -3728
+       ],
+       [
+        25064,
+        112440,
+        -3704
+       ],
+       [
+        26056,
+        111448,
+        -3720
+       ],
+       [
+        27048,
+        110456,
+        -3720
+       ],
+       [
+        28040,
+        109464,
+        -3728
+       ],
+       [
+        28920,
+        108584,
+        -3704
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      27098
+     ],
+     "items": [
+      2849
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-5",
+      "name": "Ivory Tower area 5: Enchanted Monstereye area (east)",
+      "at": [
+       88840,
+       17288,
+       -5280
+      ],
+      "radius": 2532,
+      "levels": [
+       41,
+       43
+      ],
+      "count": 2,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-5",
+      "status": "ok",
+      "sec": 177,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -9.05,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-6",
+        "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+        "at": [
+         88408,
+         13224,
+         -5288
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-1",
+        "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+        "at": [
+         82888,
+         12520,
+         -5288
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 15888,
+      "sec": 177,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9547,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 6341,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85560,
+        22392,
+        -5272
+       ],
+       [
+        85688,
+        21992,
+        -5288
+       ],
+       [
+        85688,
+        21000,
+        -5288
+       ],
+       [
+        86120,
+        20008,
+        -5288
+       ],
+       [
+        87112,
+        19016,
+        -5272
+       ],
+       [
+        88104,
+        18024,
+        -5264
+       ],
+       [
+        88840,
+        17288,
+        -5280
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20145
+     ],
+     "items": [
+      2850
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "brekas-stronghold-12",
+      "name": "Brekas Stronghold 12: Harpy area (east)",
+      "at": [
+       102456,
+       132952,
+       -3432
+      ],
+      "radius": 5657,
+      "levels": [
+       31,
+       33
+      ],
+      "count": 10,
+      "region": "Brekas Stronghold",
+      "atlasKey": "area:brekas-stronghold-12",
+      "status": "unverified",
+      "sec": 191,
+      "danger": 33,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.816666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "giran-outskirts-4",
+        "name": "Giran outskirts 4: Turak Bugbear Warrior area (east)",
+        "at": [
+         101688,
+         143288,
+         -3592
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-11",
+        "name": "Brekas Stronghold 11: Harpy area (south-east)",
+        "at": [
+         100168,
+         138616,
+         -3504
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "giran-outskirts-1",
+        "name": "Giran outskirts 1: Harpy area (east)",
+        "at": [
+         99848,
+         148360,
+         -3520
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:brekas-stronghold-12",
+      "status": "unverified",
+      "flags": [
+       "link-not-on-live-menu"
+      ],
+      "from": ".giran",
+      "length": 17498,
+      "sec": 191,
+      "via": ".giran > Giran -> Brekas Stronghold",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Giran",
+        "cmd": ".giran"
+       },
+       {
+        "do": "gk",
+        "from": "Giran",
+        "desc": "Giran -> Brekas Stronghold",
+        "link": "Brekas Stronghold",
+        "price": 1000,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 17498,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Giran",
+       "desc": "Giran -> Brekas Stronghold"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85544,
+        131336,
+        -3672
+       ],
+       [
+        86536,
+        131336,
+        -3648
+       ],
+       [
+        87528,
+        131336,
+        -3648
+       ],
+       [
+        88520,
+        131336,
+        -3688
+       ],
+       [
+        89512,
+        131336,
+        -3664
+       ],
+       [
+        90504,
+        131336,
+        -3632
+       ],
+       [
+        91496,
+        131336,
+        -3624
+       ],
+       [
+        92488,
+        131336,
+        -3608
+       ],
+       [
+        93480,
+        131336,
+        -3592
+       ],
+       [
+        94472,
+        131336,
+        -3536
+       ],
+       [
+        95464,
+        131336,
+        -3472
+       ],
+       [
+        96456,
+        131336,
+        -3480
+       ],
+       [
+        97448,
+        131336,
+        -3456
+       ],
+       [
+        98440,
+        131336,
+        -3360
+       ],
+       [
+        99432,
+        131336,
+        -3304
+       ],
+       [
+        100424,
+        131336,
+        -3168
+       ],
+       [
+        101416,
+        131912,
+        -3256
+       ],
+       [
+        102408,
+        132904,
+        -3432
+       ],
+       [
+        102456,
+        132952,
+        -3432
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20176
+     ],
+     "items": [
+      2851
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "antharas-lair-14",
+      "name": "Antharas Lair 14: Medusa area (south-west)",
+      "at": [
+       118472,
+       129032,
+       -3096
+      ],
+      "radius": 4053,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 6,
+      "region": "Antharas Lair",
+      "atlasKey": "area:antharas-lair-14",
+      "status": "ok",
+      "sec": 244,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.933333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-1",
+        "name": "Dragon Valley 1: Wyrm area (south-west)",
+        "at": [
+         68888,
+         120904,
+         -3656
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-2",
+        "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+        "at": [
+         69032,
+         113624,
+         -3664
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "antharas-lair-15",
+        "name": "Antharas Lair 15: Wyrm area (south-west)",
+        "at": [
+         121240,
+         132936,
+         -3552
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:antharas-lair-14",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 23872,
+      "sec": 244,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 17368,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 6504,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        124056,
+        126488,
+        -2840
+       ],
+       [
+        123480,
+        126792,
+        -2944
+       ],
+       [
+        122520,
+        127752,
+        -3000
+       ],
+       [
+        122376,
+        127880,
+        -3024
+       ],
+       [
+        122008,
+        128008,
+        -3032
+       ],
+       [
+        121480,
+        128168,
+        -3064
+       ],
+       [
+        120488,
+        128168,
+        -2952
+       ],
+       [
+        119496,
+        128168,
+        -2800
+       ],
+       [
+        118888,
+        128760,
+        -3000
+       ],
+       [
+        118616,
+        129032,
+        -3088
+       ],
+       [
+        118472,
+        129032,
+        -3096
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20553
+     ],
+     "items": [
+      2852
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-30",
+      "name": "Plains of Lizardmen 30: Windsus area (south-east)",
+      "at": [
+       100072,
+       100936,
+       -3600
+      ],
+      "radius": 3982,
+      "levels": [
+       38,
+       40
+      ],
+      "count": 6,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-30",
+      "status": "ok",
+      "sec": 281,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.316666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-16",
+        "name": "Dragon Valley 16: Grandis area (north)",
+        "at": [
+         70056,
+         101080,
+         -3720
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-25",
+        "name": "Plains of Lizardmen 25: Fettered Soul area (south)",
+        "at": [
+         85896,
+         99592,
+         -3584
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-29",
+        "name": "Plains of Lizardmen 29: Grandis area (south-east)",
+        "at": [
+         96600,
+         101352,
+         -3464
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-30",
+      "status": "ok",
+      "flags": [
+       "swim",
+       "long-swim",
+       "over-breath"
+      ],
+      "from": ".oren",
+      "length": 20550,
+      "sec": 281,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3450,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 17100,
+        "how": "field-areas",
+        "danger": 85
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        88104,
+        88728,
+        -2840
+       ],
+       [
+        88984,
+        89720,
+        -3176
+       ],
+       [
+        89976,
+        90712,
+        -3352
+       ],
+       [
+        90968,
+        91704,
+        -3360
+       ],
+       [
+        91960,
+        92696,
+        -3416
+       ],
+       [
+        92744,
+        93480,
+        -3520
+       ],
+       [
+        93608,
+        94472,
+        -3888
+       ],
+       [
+        94600,
+        95464,
+        -3920
+       ],
+       [
+        95592,
+        96456,
+        -3912
+       ],
+       [
+        96584,
+        97448,
+        -3776
+       ],
+       [
+        97576,
+        98440,
+        -3688
+       ],
+       [
+        98568,
+        99432,
+        -3624
+       ],
+       [
+        99560,
+        100424,
+        -3592
+       ],
+       [
+        100072,
+        100936,
+        -3600
+       ]
+      ],
+      "maxDanger": 85,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 5582,
+        "maxSwim": 5582,
+        "overBreath": true
+       },
+       "danger": 85,
+       "dangerVsLevel": 46,
+       "aggro": [
+        {
+         "name": "Fantasy Mushroom",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Berserker",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20564
+     ],
+     "items": [
+      2853
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-6",
+      "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+      "at": [
+       88408,
+       13224,
+       -5288
+      ],
+      "radius": 3701,
+      "levels": [
+       41,
+       43
+      ],
+      "count": 6,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "sec": 210,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -32.5,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-1",
+        "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+        "at": [
+         82888,
+         12520,
+         -5288
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-5",
+        "name": "Ivory Tower area 5: Enchanted Monstereye area (east)",
+        "at": [
+         88840,
+         17288,
+         -5280
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 19779,
+      "sec": 210,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9599,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 10180,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85560,
+        22392,
+        -5272
+       ],
+       [
+        85688,
+        21992,
+        -5288
+       ],
+       [
+        85688,
+        21000,
+        -5288
+       ],
+       [
+        85992,
+        20008,
+        -5288
+       ],
+       [
+        86984,
+        19016,
+        -5264
+       ],
+       [
+        87976,
+        18024,
+        -5256
+       ],
+       [
+        88184,
+        17816,
+        -5264
+       ],
+       [
+        88184,
+        16824,
+        -5256
+       ],
+       [
+        88184,
+        15832,
+        -5256
+       ],
+       [
+        88184,
+        14840,
+        -5256
+       ],
+       [
+        88184,
+        13848,
+        -5288
+       ],
+       [
+        88408,
+        13224,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20565
+     ],
+     "items": [
+      2854
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-1",
+      "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+      "at": [
+       82888,
+       12520,
+       -5288
+      ],
+      "radius": 3429,
+      "levels": [
+       40,
+       43
+      ],
+      "count": 5,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-1",
+      "status": "ok",
+      "sec": 216,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -26.4,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-6",
+        "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+        "at": [
+         88408,
+         13224,
+         -5288
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-4",
+        "name": "Ivory Tower area 4: Manashen Gargoyle area (north-east)",
+        "at": [
+         85624,
+         11208,
+         -5288
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 20560,
+      "sec": 216,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9569,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 10991,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85112,
+        22392,
+        -5240
+       ],
+       [
+        84968,
+        21992,
+        -5288
+       ],
+       [
+        84968,
+        21000,
+        -5288
+       ],
+       [
+        84664,
+        20008,
+        -5280
+       ],
+       [
+        83672,
+        19016,
+        -5256
+       ],
+       [
+        82680,
+        18024,
+        -5264
+       ],
+       [
+        82488,
+        17832,
+        -5264
+       ],
+       [
+        82488,
+        16840,
+        -5256
+       ],
+       [
+        82488,
+        15848,
+        -5264
+       ],
+       [
+        82488,
+        14856,
+        -5256
+       ],
+       [
+        82488,
+        13864,
+        -5288
+       ],
+       [
+        82536,
+        12872,
+        -5288
+       ],
+       [
+        82888,
+        12520,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 5
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20566
+     ],
+     "items": [
+      2855
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-6",
+      "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+      "at": [
+       88408,
+       13224,
+       -5288
+      ],
+      "radius": 3701,
+      "levels": [
+       41,
+       43
+      ],
+      "count": 5,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "sec": 210,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -26.5,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-1",
+        "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+        "at": [
+         82888,
+         12520,
+         -5288
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-5",
+        "name": "Ivory Tower area 5: Enchanted Monstereye area (east)",
+        "at": [
+         88840,
+         17288,
+         -5280
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 19779,
+      "sec": 210,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9599,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 10180,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85560,
+        22392,
+        -5272
+       ],
+       [
+        85688,
+        21992,
+        -5288
+       ],
+       [
+        85688,
+        21000,
+        -5288
+       ],
+       [
+        85992,
+        20008,
+        -5288
+       ],
+       [
+        86984,
+        19016,
+        -5264
+       ],
+       [
+        87976,
+        18024,
+        -5256
+       ],
+       [
+        88184,
+        17816,
+        -5264
+       ],
+       [
+        88184,
+        16824,
+        -5256
+       ],
+       [
+        88184,
+        15832,
+        -5256
+       ],
+       [
+        88184,
+        14840,
+        -5256
+       ],
+       [
+        88184,
+        13848,
+        -5288
+       ],
+       [
+        88408,
+        13224,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 2
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "27097@75454,165866",
+    "name": "Singing Flower of Darkness (Field of Silence / Aaru Fortress)",
+    "at": [
+     75454,
+     165866,
+     -3684
+    ],
+    "radius": 1500,
+    "levels": [
+     44,
+     44
+    ],
+    "count": 3,
+    "region": "Field of Silence / Aaru Fortress",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 72,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:brekas-stronghold-12",
+    "status": "unverified",
+    "flags": [
+     "link-not-on-live-menu"
+    ],
+    "from": ".giran",
+    "length": 17498,
+    "sec": 191,
+    "via": ".giran > Giran -> Brekas Stronghold",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "gk",
+      "from": "Giran",
+      "desc": "Giran -> Brekas Stronghold",
+      "link": "Brekas Stronghold",
+      "price": 1000,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 17498,
+      "how": "field-areas",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Brekas Stronghold"
+    },
+    "simple": true,
+    "pv": [
+     [
+      85544,
+      131336,
+      -3672
+     ],
+     [
+      86536,
+      131336,
+      -3648
+     ],
+     [
+      87528,
+      131336,
+      -3648
+     ],
+     [
+      88520,
+      131336,
+      -3688
+     ],
+     [
+      89512,
+      131336,
+      -3664
+     ],
+     [
+      90504,
+      131336,
+      -3632
+     ],
+     [
+      91496,
+      131336,
+      -3624
+     ],
+     [
+      92488,
+      131336,
+      -3608
+     ],
+     [
+      93480,
+      131336,
+      -3592
+     ],
+     [
+      94472,
+      131336,
+      -3536
+     ],
+     [
+      95464,
+      131336,
+      -3472
+     ],
+     [
+      96456,
+      131336,
+      -3480
+     ],
+     [
+      97448,
+      131336,
+      -3456
+     ],
+     [
+      98440,
+      131336,
+      -3360
+     ],
+     [
+      99432,
+      131336,
+      -3304
+     ],
+     [
+      100424,
+      131336,
+      -3168
+     ],
+     [
+      101416,
+      131912,
+      -3256
+     ],
+     [
+      102408,
+      132904,
+      -3432
+     ],
+     [
+      102456,
+      132952,
+      -3432
+     ]
+    ],
+    "maxDanger": 35,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 35,
+     "dangerVsLevel": -4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 691,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c5:hunt",
+   "cond": 5,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20145,
+     "name": "Harpy",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 20157,
+     "name": "Marsh Stakato",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20230,
+     "name": "Marsh Stakato Worker",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20231,
+     "name": "Toad Lord",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 48,
+     "questSpawned": false
+    },
+    {
+     "id": 20232,
+     "name": "Marsh Stakato Soldier",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20176,
+     "name": "Wyrm",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20553,
+     "name": "Windsus",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 20564,
+     "name": "Enchanted Monstereye",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20565,
+     "name": "Enchanted Stone Golem",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20566,
+     "name": "Enchanted Iron Golem",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 27098,
+     "name": "Ghost Fire",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 27095,
+     "name": "Singing Flower of Phantasm",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 27096,
+     "name": "Singing Flower of Nightmare",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 27097,
+     "name": "Singing Flower of Darkness",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2848,
+     "name": "Dazzling Drop",
+     "n": 20,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20231,
+       "name": "Toad Lord",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2849,
+     "name": "Flame Crystal",
+     "n": 5,
+     "from": [
+      {
+       "id": 27098,
+       "name": "Ghost Fire",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 2850,
+     "name": "Harpy's Feather",
+     "n": 20,
+     "from": [
+      {
+       "id": 20145,
+       "name": "Harpy",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2851,
+     "name": "Wyrm's Wingbone",
+     "n": 10,
+     "from": [
+      {
+       "id": 20176,
+       "name": "Wyrm",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 2852,
+     "name": "Windsus Mane",
+     "n": 10,
+     "from": [
+      {
+       "id": 20553,
+       "name": "Windsus",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 2853,
+     "name": "Enchanted Monster Eye Shell",
+     "n": 10,
+     "from": [
+      {
+       "id": 20564,
+       "name": "Enchanted Monstereye",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2854,
+     "name": "Enchanted Golem Powder",
+     "n": 10,
+     "from": [
+      {
+       "id": 20565,
+       "name": "Enchanted Stone Golem",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2855,
+     "name": "Enchanted Iron Golem Shard",
+     "n": 10,
+     "from": [
+      {
+       "id": 20566,
+       "name": "Enchanted Iron Golem",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "route-unverified",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Harpy, Marsh Stakato, Marsh Stakato Worker for Dazzling Drop x20, Flame Crystal x5, Harpy's Feather x20, Wyrm's Wingbone x10, Windsus Mane x10, Enchanted Monster Eye Shell x10, Enchanted Golem Powder x10, Enchanted Iron Golem Shard x10",
+   "places": [
+    {
+     "mobs": [
+      20157,
+      20230,
+      20231,
+      20232,
+      20234
+     ],
+     "items": [
+      2848
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fortress-of-resistance-34",
+      "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+      "at": [
+       28920,
+       108584,
+       -3704
+      ],
+      "radius": 5521,
+      "levels": [
+       32,
+       35
+      ],
+      "count": 20,
+      "region": "Fortress of Resistance",
+      "atlasKey": "area:fortress-of-resistance-34",
+      "status": "ok",
+      "sec": 177,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -117.05,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-13",
+        "name": "Cruma Marshlands 13: Marsh Stakato Worker area (north-east)",
+        "at": [
+         16184,
+         109992,
+         -3728
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-2",
+        "name": "Cruma Tower 2: Toad Lord area (north-east)",
+        "at": [
+         23720,
+         113256,
+         -3760
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-7",
+        "name": "Cruma Tower 7: Toad Lord area (north-east)",
+        "at": [
+         18568,
+         102440,
+         -3696
+        ],
+        "count": 19,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fortress-of-resistance-34",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 15821,
+      "sec": 177,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5351,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 10470,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        20184,
+        113064,
+        -3752
+       ],
+       [
+        21176,
+        113064,
+        -3752
+       ],
+       [
+        22168,
+        113064,
+        -3680
+       ],
+       [
+        23080,
+        112968,
+        -3744
+       ],
+       [
+        24072,
+        112968,
+        -3728
+       ],
+       [
+        25064,
+        112440,
+        -3704
+       ],
+       [
+        26056,
+        111448,
+        -3720
+       ],
+       [
+        27048,
+        110456,
+        -3720
+       ],
+       [
+        28040,
+        109464,
+        -3728
+       ],
+       [
+        28920,
+        108584,
+        -3704
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      27098
+     ],
+     "items": [
+      2849
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-5",
+      "name": "Ivory Tower area 5: Enchanted Monstereye area (east)",
+      "at": [
+       88840,
+       17288,
+       -5280
+      ],
+      "radius": 2532,
+      "levels": [
+       41,
+       43
+      ],
+      "count": 2,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-5",
+      "status": "ok",
+      "sec": 177,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -9.05,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-6",
+        "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+        "at": [
+         88408,
+         13224,
+         -5288
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-1",
+        "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+        "at": [
+         82888,
+         12520,
+         -5288
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 15888,
+      "sec": 177,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9547,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 6341,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85560,
+        22392,
+        -5272
+       ],
+       [
+        85688,
+        21992,
+        -5288
+       ],
+       [
+        85688,
+        21000,
+        -5288
+       ],
+       [
+        86120,
+        20008,
+        -5288
+       ],
+       [
+        87112,
+        19016,
+        -5272
+       ],
+       [
+        88104,
+        18024,
+        -5264
+       ],
+       [
+        88840,
+        17288,
+        -5280
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20145
+     ],
+     "items": [
+      2850
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "brekas-stronghold-12",
+      "name": "Brekas Stronghold 12: Harpy area (east)",
+      "at": [
+       102456,
+       132952,
+       -3432
+      ],
+      "radius": 5657,
+      "levels": [
+       31,
+       33
+      ],
+      "count": 10,
+      "region": "Brekas Stronghold",
+      "atlasKey": "area:brekas-stronghold-12",
+      "status": "unverified",
+      "sec": 191,
+      "danger": 33,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.816666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "giran-outskirts-4",
+        "name": "Giran outskirts 4: Turak Bugbear Warrior area (east)",
+        "at": [
+         101688,
+         143288,
+         -3592
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-11",
+        "name": "Brekas Stronghold 11: Harpy area (south-east)",
+        "at": [
+         100168,
+         138616,
+         -3504
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "giran-outskirts-1",
+        "name": "Giran outskirts 1: Harpy area (east)",
+        "at": [
+         99848,
+         148360,
+         -3520
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:brekas-stronghold-12",
+      "status": "unverified",
+      "flags": [
+       "link-not-on-live-menu"
+      ],
+      "from": ".giran",
+      "length": 17498,
+      "sec": 191,
+      "via": ".giran > Giran -> Brekas Stronghold",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Giran",
+        "cmd": ".giran"
+       },
+       {
+        "do": "gk",
+        "from": "Giran",
+        "desc": "Giran -> Brekas Stronghold",
+        "link": "Brekas Stronghold",
+        "price": 1000,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 17498,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Giran",
+       "desc": "Giran -> Brekas Stronghold"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85544,
+        131336,
+        -3672
+       ],
+       [
+        86536,
+        131336,
+        -3648
+       ],
+       [
+        87528,
+        131336,
+        -3648
+       ],
+       [
+        88520,
+        131336,
+        -3688
+       ],
+       [
+        89512,
+        131336,
+        -3664
+       ],
+       [
+        90504,
+        131336,
+        -3632
+       ],
+       [
+        91496,
+        131336,
+        -3624
+       ],
+       [
+        92488,
+        131336,
+        -3608
+       ],
+       [
+        93480,
+        131336,
+        -3592
+       ],
+       [
+        94472,
+        131336,
+        -3536
+       ],
+       [
+        95464,
+        131336,
+        -3472
+       ],
+       [
+        96456,
+        131336,
+        -3480
+       ],
+       [
+        97448,
+        131336,
+        -3456
+       ],
+       [
+        98440,
+        131336,
+        -3360
+       ],
+       [
+        99432,
+        131336,
+        -3304
+       ],
+       [
+        100424,
+        131336,
+        -3168
+       ],
+       [
+        101416,
+        131912,
+        -3256
+       ],
+       [
+        102408,
+        132904,
+        -3432
+       ],
+       [
+        102456,
+        132952,
+        -3432
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20176
+     ],
+     "items": [
+      2851
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "antharas-lair-14",
+      "name": "Antharas Lair 14: Medusa area (south-west)",
+      "at": [
+       118472,
+       129032,
+       -3096
+      ],
+      "radius": 4053,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 6,
+      "region": "Antharas Lair",
+      "atlasKey": "area:antharas-lair-14",
+      "status": "ok",
+      "sec": 244,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.933333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-1",
+        "name": "Dragon Valley 1: Wyrm area (south-west)",
+        "at": [
+         68888,
+         120904,
+         -3656
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-2",
+        "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+        "at": [
+         69032,
+         113624,
+         -3664
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "antharas-lair-15",
+        "name": "Antharas Lair 15: Wyrm area (south-west)",
+        "at": [
+         121240,
+         132936,
+         -3552
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:antharas-lair-14",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 23872,
+      "sec": 244,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 17368,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 6504,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        124056,
+        126488,
+        -2840
+       ],
+       [
+        123480,
+        126792,
+        -2944
+       ],
+       [
+        122520,
+        127752,
+        -3000
+       ],
+       [
+        122376,
+        127880,
+        -3024
+       ],
+       [
+        122008,
+        128008,
+        -3032
+       ],
+       [
+        121480,
+        128168,
+        -3064
+       ],
+       [
+        120488,
+        128168,
+        -2952
+       ],
+       [
+        119496,
+        128168,
+        -2800
+       ],
+       [
+        118888,
+        128760,
+        -3000
+       ],
+       [
+        118616,
+        129032,
+        -3088
+       ],
+       [
+        118472,
+        129032,
+        -3096
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20553
+     ],
+     "items": [
+      2852
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-30",
+      "name": "Plains of Lizardmen 30: Windsus area (south-east)",
+      "at": [
+       100072,
+       100936,
+       -3600
+      ],
+      "radius": 3982,
+      "levels": [
+       38,
+       40
+      ],
+      "count": 6,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-30",
+      "status": "ok",
+      "sec": 281,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.316666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-16",
+        "name": "Dragon Valley 16: Grandis area (north)",
+        "at": [
+         70056,
+         101080,
+         -3720
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-25",
+        "name": "Plains of Lizardmen 25: Fettered Soul area (south)",
+        "at": [
+         85896,
+         99592,
+         -3584
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-29",
+        "name": "Plains of Lizardmen 29: Grandis area (south-east)",
+        "at": [
+         96600,
+         101352,
+         -3464
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-30",
+      "status": "ok",
+      "flags": [
+       "swim",
+       "long-swim",
+       "over-breath"
+      ],
+      "from": ".oren",
+      "length": 20550,
+      "sec": 281,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3450,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 17100,
+        "how": "field-areas",
+        "danger": 85
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        88104,
+        88728,
+        -2840
+       ],
+       [
+        88984,
+        89720,
+        -3176
+       ],
+       [
+        89976,
+        90712,
+        -3352
+       ],
+       [
+        90968,
+        91704,
+        -3360
+       ],
+       [
+        91960,
+        92696,
+        -3416
+       ],
+       [
+        92744,
+        93480,
+        -3520
+       ],
+       [
+        93608,
+        94472,
+        -3888
+       ],
+       [
+        94600,
+        95464,
+        -3920
+       ],
+       [
+        95592,
+        96456,
+        -3912
+       ],
+       [
+        96584,
+        97448,
+        -3776
+       ],
+       [
+        97576,
+        98440,
+        -3688
+       ],
+       [
+        98568,
+        99432,
+        -3624
+       ],
+       [
+        99560,
+        100424,
+        -3592
+       ],
+       [
+        100072,
+        100936,
+        -3600
+       ]
+      ],
+      "maxDanger": 85,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 5582,
+        "maxSwim": 5582,
+        "overBreath": true
+       },
+       "danger": 85,
+       "dangerVsLevel": 46,
+       "aggro": [
+        {
+         "name": "Fantasy Mushroom",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Berserker",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20564
+     ],
+     "items": [
+      2853
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-6",
+      "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+      "at": [
+       88408,
+       13224,
+       -5288
+      ],
+      "radius": 3701,
+      "levels": [
+       41,
+       43
+      ],
+      "count": 6,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "sec": 210,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -32.5,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-1",
+        "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+        "at": [
+         82888,
+         12520,
+         -5288
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-5",
+        "name": "Ivory Tower area 5: Enchanted Monstereye area (east)",
+        "at": [
+         88840,
+         17288,
+         -5280
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 19779,
+      "sec": 210,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9599,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 10180,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85560,
+        22392,
+        -5272
+       ],
+       [
+        85688,
+        21992,
+        -5288
+       ],
+       [
+        85688,
+        21000,
+        -5288
+       ],
+       [
+        85992,
+        20008,
+        -5288
+       ],
+       [
+        86984,
+        19016,
+        -5264
+       ],
+       [
+        87976,
+        18024,
+        -5256
+       ],
+       [
+        88184,
+        17816,
+        -5264
+       ],
+       [
+        88184,
+        16824,
+        -5256
+       ],
+       [
+        88184,
+        15832,
+        -5256
+       ],
+       [
+        88184,
+        14840,
+        -5256
+       ],
+       [
+        88184,
+        13848,
+        -5288
+       ],
+       [
+        88408,
+        13224,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20565
+     ],
+     "items": [
+      2854
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-1",
+      "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+      "at": [
+       82888,
+       12520,
+       -5288
+      ],
+      "radius": 3429,
+      "levels": [
+       40,
+       43
+      ],
+      "count": 5,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-1",
+      "status": "ok",
+      "sec": 216,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -26.4,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-6",
+        "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+        "at": [
+         88408,
+         13224,
+         -5288
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-4",
+        "name": "Ivory Tower area 4: Manashen Gargoyle area (north-east)",
+        "at": [
+         85624,
+         11208,
+         -5288
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 20560,
+      "sec": 216,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9569,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 10991,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85112,
+        22392,
+        -5240
+       ],
+       [
+        84968,
+        21992,
+        -5288
+       ],
+       [
+        84968,
+        21000,
+        -5288
+       ],
+       [
+        84664,
+        20008,
+        -5280
+       ],
+       [
+        83672,
+        19016,
+        -5256
+       ],
+       [
+        82680,
+        18024,
+        -5264
+       ],
+       [
+        82488,
+        17832,
+        -5264
+       ],
+       [
+        82488,
+        16840,
+        -5256
+       ],
+       [
+        82488,
+        15848,
+        -5264
+       ],
+       [
+        82488,
+        14856,
+        -5256
+       ],
+       [
+        82488,
+        13864,
+        -5288
+       ],
+       [
+        82536,
+        12872,
+        -5288
+       ],
+       [
+        82888,
+        12520,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 5
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20566
+     ],
+     "items": [
+      2855
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-6",
+      "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+      "at": [
+       88408,
+       13224,
+       -5288
+      ],
+      "radius": 3701,
+      "levels": [
+       41,
+       43
+      ],
+      "count": 5,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "sec": 210,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -26.5,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-1",
+        "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+        "at": [
+         82888,
+         12520,
+         -5288
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-5",
+        "name": "Ivory Tower area 5: Enchanted Monstereye area (east)",
+        "at": [
+         88840,
+         17288,
+         -5280
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 19779,
+      "sec": 210,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9599,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 10180,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85560,
+        22392,
+        -5272
+       ],
+       [
+        85688,
+        21992,
+        -5288
+       ],
+       [
+        85688,
+        21000,
+        -5288
+       ],
+       [
+        85992,
+        20008,
+        -5288
+       ],
+       [
+        86984,
+        19016,
+        -5264
+       ],
+       [
+        87976,
+        18024,
+        -5256
+       ],
+       [
+        88184,
+        17816,
+        -5264
+       ],
+       [
+        88184,
+        16824,
+        -5256
+       ],
+       [
+        88184,
+        15832,
+        -5256
+       ],
+       [
+        88184,
+        14840,
+        -5256
+       ],
+       [
+        88184,
+        13848,
+        -5288
+       ],
+       [
+        88408,
+        13224,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 2
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "fortress-of-resistance-34",
+    "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+    "at": [
+     28920,
+     108584,
+     -3704
+    ],
+    "radius": 5521,
+    "levels": [
+     32,
+     35
+    ],
+    "count": 20,
+    "region": "Fortress of Resistance",
+    "atlasKey": "area:fortress-of-resistance-34",
+    "status": "ok",
+    "sec": 177,
+    "danger": 35,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -117.05,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "cruma-marshlands-13",
+      "name": "Cruma Marshlands 13: Marsh Stakato Worker area (north-east)",
+      "at": [
+       16184,
+       109992,
+       -3728
+      ],
+      "count": 19,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "cruma-tower-far-2",
+      "name": "Cruma Tower 2: Toad Lord area (north-east)",
+      "at": [
+       23720,
+       113256,
+       -3760
+      ],
+      "count": 19,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "cruma-tower-far-7",
+      "name": "Cruma Tower 7: Toad Lord area (north-east)",
+      "at": [
+       18568,
+       102440,
+       -3696
+      ],
+      "count": 19,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:brekas-stronghold-12",
+    "status": "unverified",
+    "flags": [
+     "link-not-on-live-menu"
+    ],
+    "from": ".giran",
+    "length": 17498,
+    "sec": 191,
+    "via": ".giran > Giran -> Brekas Stronghold",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "gk",
+      "from": "Giran",
+      "desc": "Giran -> Brekas Stronghold",
+      "link": "Brekas Stronghold",
+      "price": 1000,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 17498,
+      "how": "field-areas",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Brekas Stronghold"
+    },
+    "simple": true,
+    "pv": [
+     [
+      85544,
+      131336,
+      -3672
+     ],
+     [
+      86536,
+      131336,
+      -3648
+     ],
+     [
+      87528,
+      131336,
+      -3648
+     ],
+     [
+      88520,
+      131336,
+      -3688
+     ],
+     [
+      89512,
+      131336,
+      -3664
+     ],
+     [
+      90504,
+      131336,
+      -3632
+     ],
+     [
+      91496,
+      131336,
+      -3624
+     ],
+     [
+      92488,
+      131336,
+      -3608
+     ],
+     [
+      93480,
+      131336,
+      -3592
+     ],
+     [
+      94472,
+      131336,
+      -3536
+     ],
+     [
+      95464,
+      131336,
+      -3472
+     ],
+     [
+      96456,
+      131336,
+      -3480
+     ],
+     [
+      97448,
+      131336,
+      -3456
+     ],
+     [
+      98440,
+      131336,
+      -3360
+     ],
+     [
+      99432,
+      131336,
+      -3304
+     ],
+     [
+      100424,
+      131336,
+      -3168
+     ],
+     [
+      101416,
+      131912,
+      -3256
+     ],
+     [
+      102408,
+      132904,
+      -3432
+     ],
+     [
+      102456,
+      132952,
+      -3432
+     ]
+    ],
+    "maxDanger": 35,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 35,
+     "dangerVsLevel": -4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 691,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
     5,
     6
    ]

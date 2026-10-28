@@ -1,0 +1,369 @@
+{
+ "npcId": 30091,
+ "name": "Ellie",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.828Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30091.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "35": {
+   "name": "Find Glittering Jewelry",
+   "listText": [
+    "[Find Glittering Jewelry]",
+    "[Find Glittering Jewelry (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00035_FindGlitteringJewelry/30091-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00035_FindGlitteringJewelry/30091-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00035_FindGlitteringJewelry/30091-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00035_FindGlitteringJewelry/30091-06.html",
+     "when": "state STARTED; cond 3; (st.getQuestItemsCount(ROUGH_JEWEL) >= JEWEL_COUNT)",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00035_FindGlitteringJewelry/30091-05.html",
+     "when": "state STARTED; cond 3; NOT (st.getQuestItemsCount(ROUGH_JEWEL) >= JEWEL_COUNT)",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00035_FindGlitteringJewelry/30091-09.html",
+     "when": "state STARTED; cond 4; ((st.getQuestItemsCount(ORIHARUKON) >= ORIHARUKON_COUNT) && (st.getQuestItemsCount(SILVER_NUGGET) >=",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00035_FindGlitteringJewelry/30091-10.html",
+     "when": "state STARTED; cond 4; NOT ((st.getQuestItemsCount(ORIHARUKON) >= ORIHARUKON_COUNT) && (st.getQuestItemsCount(SILVER_NUGGET) >=",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "419": {
+   "name": "Get A Pet",
+   "listText": [
+    "[Get a Pet]",
+    "[Get a Pet (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00419_GetAPet/30091-01.html",
+     "when": "state STARTED; has items 3417",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30091.htm": {
+   "file": "merchant/30091.htm",
+   "quest": null,
+   "text": "Accessory Merchant Ellie: Hello! Our shop specializes in various kinds of jewelry. We have everything from a mysterious ring that can protect you from evil magic to a healing necklace capable of raising the dead! Just tell me what you're looking for.",
+   "header": "Accessory Merchant Ellie",
+   "links": [
+    {
+     "text": "Buy accessories.",
+     "bypass": "npc_%objectId%_Buy 3009100",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy a bracelet or talisman.",
+     "bypass": "npc_%objectId%_multisell 300900001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Buy a common type accessory.",
+     "bypass": "npc_%objectId%_Buy 3009101",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30091-pk.htm": {
+   "file": "merchant/30091-pk.htm",
+   "quest": null,
+   "text": "Trader Ellie: I'd be happy to trade with you if I could, but it's against the law. I'm sorry. I hear there's a shop somewhere in the wilderness that will deal with someone like you ...",
+   "header": "Trader Ellie",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00035_FindGlitteringJewelry/30091-01.htm": {
+   "file": "Q00035_FindGlitteringJewelry/30091-01.htm",
+   "quest": 35,
+   "text": "Jeweler Ellie: Come in! What can I do for you? Ah, Leikar's order isn't ready yet. I'm sorry. I ordered the ore that I need to make the jewelry from Wharf Manager Felton, but he hasn't delivered it yet. Are you in a hurry? I hate to ask you this, but would you mind going to see Mr. Felton and check…",
+   "header": "Jeweler Ellie",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Where can I find Mr. Felton?\"",
+     "bypass": "Quest Q00035_FindGlitteringJewelry 30091-03.htm",
+     "kind": "quest-event",
+     "script": "Q00035_FindGlitteringJewelry",
+     "event": "30091-03.htm",
+     "quest": 35,
+     "to": "Q00035_FindGlitteringJewelry/30091-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00035_FindGlitteringJewelry/30091-02.html": {
+   "file": "Q00035_FindGlitteringJewelry/30091-02.html",
+   "quest": 35,
+   "text": "Jeweler Ellie: Come in! What can I do for you? Ah, Leikar's order isn't ready yet. I'm sorry. I placed an order for the ore that I need to make the jewelry through Wharf Manager Felton, but he hasn't delivered it yet. Try back later! (Only a character of level 60 or above can undertake this quest.)",
+   "header": "Jeweler Ellie",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00035_FindGlitteringJewelry/30091-04.html": {
+   "file": "Q00035_FindGlitteringJewelry/30091-04.html",
+   "quest": 35,
+   "text": "Jeweler Ellie: Why are you still here? Go ask Wharf Manager Felton when the ore will arrive. You can find him at Giran Harbor .",
+   "header": "Jeweler Ellie",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00035_FindGlitteringJewelry/30091-06.html": {
+   "file": "Q00035_FindGlitteringJewelry/30091-06.html",
+   "quest": 35,
+   "text": "Jeweler Ellie: Hi there! Have you met Mr. Felton? Since I see you holding the ore, you must have met with him. I think I ordered about 10 of them. If you can give them to me, I will make the jewelry for you. Please put the ore you have up here.",
+   "header": "Jeweler Ellie",
+   "when": [
+    "state STARTED; cond 3; (st.getQuestItemsCount(ROUGH_JEWEL) >= JEWEL_COUNT)"
+   ],
+   "links": [
+    {
+     "text": "\"Here they are.\"",
+     "bypass": "Quest Q00035_FindGlitteringJewelry 30091-07.html",
+     "kind": "quest-event",
+     "script": "Q00035_FindGlitteringJewelry",
+     "event": "30091-07.html",
+     "quest": 35,
+     "to": "Q00035_FindGlitteringJewelry/30091-07.html",
+     "toAll": [
+      "Q00035_FindGlitteringJewelry/30091-07.html",
+      "Q00035_FindGlitteringJewelry/30091-08.html"
+     ],
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00035_FindGlitteringJewelry/30091-05.html": {
+   "file": "Q00035_FindGlitteringJewelry/30091-05.html",
+   "quest": 35,
+   "text": "Jeweler Ellie: What happened to the ore I requested? Have you met with Mr. Felton? Please pay a visit to Wharf Manager Felton and ask him about the ore.",
+   "header": "Jeweler Ellie",
+   "when": [
+    "state STARTED; cond 3; NOT (st.getQuestItemsCount(ROUGH_JEWEL) >= JEWEL_COUNT)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00035_FindGlitteringJewelry/30091-09.html": {
+   "file": "Q00035_FindGlitteringJewelry/30091-09.html",
+   "quest": 35,
+   "text": "Jeweler Ellie: Ah! I didn't think that you could get it so quickly! Thank you! 5 Oriharukons, 500 units of silver and 150 Thons. I'll make some beautiful jewelry for a special occasion!",
+   "header": "Jeweler Ellie",
+   "when": [
+    "state STARTED; cond 4; ((st.getQuestItemsCount(ORIHARUKON) >= ORIHARUKON_COUNT) && (st.getQuestItemsCount(SILVER_NUGGET) >="
+   ],
+   "links": [
+    {
+     "text": "\"Here are the materials.\"",
+     "bypass": "Quest Q00035_FindGlitteringJewelry 30091-11.html",
+     "kind": "quest-event",
+     "script": "Q00035_FindGlitteringJewelry",
+     "event": "30091-11.html",
+     "quest": 35,
+     "to": "Q00035_FindGlitteringJewelry/30091-11.html",
+     "toAll": [
+      "Q00035_FindGlitteringJewelry/30091-11.html",
+      "Q00035_FindGlitteringJewelry/30091-12.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00035_FindGlitteringJewelry/30091-10.html": {
+   "file": "Q00035_FindGlitteringJewelry/30091-10.html",
+   "quest": 35,
+   "text": "Jeweler Ellie: These materials won't be easy to find! With some help, you can probably get them quicker. I need 5 Oriharukons, 500 units of silver and 150 Thons. Don't forget!",
+   "header": "Jeweler Ellie",
+   "when": [
+    "state STARTED; cond 4; NOT ((st.getQuestItemsCount(ORIHARUKON) >= ORIHARUKON_COUNT) && (st.getQuestItemsCount(SILVER_NUGGET) >="
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00419_GetAPet/30091-01.html": {
+   "file": "Q00419_GetAPet/30091-01.html",
+   "quest": 419,
+   "text": "Jeweler Ellie: How did you know that I am a member of the animal lover's association? Ah, I see - Mr. Martin spoke of me. So, what can I do for you?",
+   "header": "Jeweler Ellie",
+   "when": [
+    "state STARTED; has items 3417"
+   ],
+   "links": [
+    {
+     "text": "\"I wish to learn about pets.\"",
+     "bypass": "Quest Q00419_GetAPet 30091-02.html",
+     "kind": "quest-event",
+     "script": "Q00419_GetAPet",
+     "event": "30091-02.html",
+     "quest": 419,
+     "to": "Q00419_GetAPet/30091-02.html"
+    }
+   ]
+  },
+  "Q00035_FindGlitteringJewelry/30091-03.htm": {
+   "file": "Q00035_FindGlitteringJewelry/30091-03.htm",
+   "quest": 35,
+   "text": "Jeweler Ellie: Please go to Giran Harbor and look for Wharf Manager Felton . Ask him when the ore I ordered will arrive.",
+   "header": "Jeweler Ellie",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00035_FindGlitteringJewelry/30091-07.html": {
+   "file": "Q00035_FindGlitteringJewelry/30091-07.html",
+   "quest": 35,
+   "text": "Jeweler Ellie: Ah, very nice! One, two, three... 10 ore pieces! This should be enough. Now I'll get started! With this Oriharukon and silver, I'll make a very pretty... Oh no! I'm sorry,we've got a problem! I was going to augment the ore so I could make a beautiful piece of jewelry, but I ran out o…",
+   "header": "Jeweler Ellie",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00035_FindGlitteringJewelry/30091-08.html": {
+   "file": "Q00035_FindGlitteringJewelry/30091-08.html",
+   "quest": 35,
+   "text": "Jeweler Ellie: Where are the 10 ore pieces? I can't make jewelry without ore.",
+   "header": "Jeweler Ellie",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00035_FindGlitteringJewelry/30091-11.html": {
+   "file": "Q00035_FindGlitteringJewelry/30091-11.html",
+   "quest": 35,
+   "text": "Jeweler Ellie: Wait here, I won't be long... ... ... Here is the jewelry that Maid Leikar ordered. It's such a large order, I put it into this Gem Box for protection. Please, deliver it safely to Leikar!",
+   "header": "Jeweler Ellie",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00035_FindGlitteringJewelry/30091-12.html": {
+   "file": "Q00035_FindGlitteringJewelry/30091-12.html",
+   "quest": 35,
+   "text": "Jeweler Ellie: Where are the materials I requested? I can't make the jewelry for you unless you give me the materials! Stop fooling around!",
+   "header": "Jeweler Ellie",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00419_GetAPet/30091-02.html": {
+   "file": "Q00419_GetAPet/30091-02.html",
+   "quest": 419,
+   "text": "Jeweler Ellie: We should talk about the wolf that you will be raising... I must first explain their reproductive cycle. A wolf's fertility period is normally 1-2 months , and the pregnancy lasts for approximately 60-62 days . Normally, they will give birth to 3-6 cubs, but can produce up to 10 cubs…",
+   "header": "Jeweler Ellie",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Find Glittering Jewelry]",
+     "bypass": "npc_%objectId%_Quest Q00035_FindGlitteringJewelry",
+     "kind": "quest",
+     "quest": 35,
+     "to": "Q00035_FindGlitteringJewelry/30091-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Find Glittering Jewelry (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00035_FindGlitteringJewelry",
+     "kind": "quest",
+     "quest": 35,
+     "to": "Q00035_FindGlitteringJewelry/30091-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Get a Pet (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00419_GetAPet",
+     "kind": "quest",
+     "quest": 419,
+     "to": "Q00419_GetAPet/30091-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

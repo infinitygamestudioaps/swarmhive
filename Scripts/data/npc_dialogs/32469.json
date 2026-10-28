@@ -1,0 +1,230 @@
+{
+ "npcId": 32469,
+ "name": "Eindburgh",
+ "title": "Vice Hierarch",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.374Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32469.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "61": {
+   "name": "Law Enforcement",
+   "listText": [
+    "[Law Enforcement]",
+    "[Law Enforcement (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00061_LawEnforcement/32469-01.html",
+     "when": "state STARTED; memo 4; !(qs.isCompleted() && (npc.getId() == LIANE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00061_LawEnforcement/32469-02.html",
+     "when": "state STARTED; memo 5; !(qs.isCompleted() && (npc.getId() == LIANE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32469.htm": {
+   "file": "default/32469.htm",
+   "quest": null,
+   "text": "Vice Hierarch Eindburgh: The Kamael have had the same Elders for ages. Except for me... Why am I the exception? Ah! I am Kekropus' opposite number. I can do the one thing that he cannot. What is that, you ask? Make trouble! Ha!",
+   "header": "Vice Hierarch Eindburgh",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32469-01.html": {
+   "file": "Q00061_LawEnforcement/32469-01.html",
+   "quest": 61,
+   "text": "Vice Hierarch Eindburgh: %name%, are you the next Judicator? Do you wish to be an executor of Kamael law?",
+   "header": "Vice Hierarch Eindburgh",
+   "when": [
+    "state STARTED; memo 4; !(qs.isCompleted() && (npc.getId() == LIANE))"
+   ],
+   "links": [
+    {
+     "text": "\"I don't know.\"",
+     "bypass": "Quest Q00061_LawEnforcement 32469-02.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32469-02.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32469-02.html"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32469-02.html": {
+   "file": "Q00061_LawEnforcement/32469-02.html",
+   "quest": 61,
+   "text": "Vice Hierarch Eindburgh: I see -- Kekropus simply told you the history and left it to me to tell you the meaning of your existence... Very well, then. First of all, what do you think Inspectors and Judicators are? Remember how you became an Inspector. The composition of our race's bodies restricts …",
+   "header": "Vice Hierarch Eindburgh",
+   "when": [
+    "state STARTED; memo 5; !(qs.isCompleted() && (npc.getId() == LIANE))"
+   ],
+   "links": [
+    {
+     "text": "\"I have the Seeds of Chaos in my hand.\"",
+     "bypass": "Quest Q00061_LawEnforcement 32469-03.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32469-03.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32469-03.html"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32469-03.html": {
+   "file": "Q00061_LawEnforcement/32469-03.html",
+   "quest": 61,
+   "text": "Vice Hierarch Eindburgh: I thought so. Since the Seeds of Chaos contain order out of chaos, only one child in a generation is born with the power. It is similar to a Magic Sword or Blood Sword... But now, with the expansion of our race's power and its spread throughout the continent, that power may…",
+   "header": "Vice Hierarch Eindburgh",
+   "links": [
+    {
+     "text": "Ask about the Seeds of Chaos.",
+     "bypass": "Quest Q00061_LawEnforcement 32469-04.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32469-04.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32469-04.html"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32469-04.html": {
+   "file": "Q00061_LawEnforcement/32469-04.html",
+   "quest": 61,
+   "text": "Vice Hierarch Eindburgh: The Seeds of Chaos were planted by the King of Chaos to enable their recipients to overcome the restrictions imposed on mortals by the gods. This is why the wielders of Enuma Elish can still live, despite being cursed by the gods. If this power is manifested, we Kamael can …",
+   "header": "Vice Hierarch Eindburgh",
+   "links": [
+    {
+     "text": "Ask about the possibility.",
+     "bypass": "Quest Q00061_LawEnforcement 32469-05.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32469-05.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32469-05.html"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32469-05.html": {
+   "file": "Q00061_LawEnforcement/32469-05.html",
+   "quest": 61,
+   "text": "Vice Hierarch Eindburgh: Kamael Warriors. Perfect soldiers! But even the sharpest sword is useless without a skilled wielder. I know Kekropus has said, in the hopes that our power will not be abused, that the blade is enough for us -- but a sword is of no use unless someone draws it. We need more t…",
+   "header": "Vice Hierarch Eindburgh",
+   "links": [
+    {
+     "text": "Ask about that destiny.",
+     "bypass": "Quest Q00061_LawEnforcement 32469-06.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32469-06.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32469-06.html"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32469-06.html": {
+   "file": "Q00061_LawEnforcement/32469-06.html",
+   "quest": 61,
+   "text": "Vice Hierarch Eindburgh: I think you know -- it is what we Kamael were created to fight against: the gods themselves. The power of today's adventurers is not even remotely comparable to their power. Even the strongest race on the earth, the Giants, who once controlled all the creatures and even unl…",
+   "header": "Vice Hierarch Eindburgh",
+   "links": [
+    {
+     "text": "......",
+     "bypass": "Quest Q00061_LawEnforcement 32469-07.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32469-07.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32469-07.html"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32469-07.html": {
+   "file": "Q00061_LawEnforcement/32469-07.html",
+   "quest": 61,
+   "text": "Vice Hierarch Eindburgh: Yes. An Inspector searches and judges, but a Judicator is required to make an unexpected leap in judgment. In so doing, he opens the path to the future development of the Kamael. In the past, when this island was sealed, it was enough for us merely to maintain the edge of t…",
+   "header": "Vice Hierarch Eindburgh",
+   "links": [
+    {
+     "text": "Nod your head yes.",
+     "bypass": "Quest Q00061_LawEnforcement 32469-08.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32469-08.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32469-08.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Shake your head no.",
+     "bypass": "Quest Q00061_LawEnforcement 32469-09.html",
+     "kind": "quest-event",
+     "script": "Q00061_LawEnforcement",
+     "event": "32469-09.html",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32469-09.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00061_LawEnforcement/32469-08.html": {
+   "file": "Q00061_LawEnforcement/32469-08.html",
+   "quest": 61,
+   "text": "Vice Hierarch Eindburgh: Then you are not an Inspector, but rather a Judicator capable of judging the laws. Pursue your own path to the future.",
+   "header": "Vice Hierarch Eindburgh",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00061_LawEnforcement/32469-09.html": {
+   "file": "Q00061_LawEnforcement/32469-09.html",
+   "quest": 61,
+   "text": "Vice Hierarch Eindburgh: You may wish to refuse, but it may not be possible. A shackle of the creator still remains in you and may unconsciously limit your advancement. But you cannot allow others to make the decision for you. Don't you see? All you have seen, all you have experienced, show that we…",
+   "header": "Vice Hierarch Eindburgh",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Law Enforcement (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00061_LawEnforcement",
+     "kind": "quest",
+     "quest": 61,
+     "to": "Q00061_LawEnforcement/32469-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

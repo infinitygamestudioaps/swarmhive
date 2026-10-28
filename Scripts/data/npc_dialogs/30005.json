@@ -1,0 +1,482 @@
+{
+ "npcId": 30005,
+ "name": "Wilford",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.785Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30005.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "157": {
+   "name": "Recover Smuggled Goods",
+   "listText": [
+    "[Recover Smuggled Goods]",
+    "[Recover Smuggled Goods (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00157_RecoverSmuggledGoods/30005-02.htm",
+     "when": "state CREATED; player.getLevel() >= MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00157_RecoverSmuggledGoods/30005-01.htm",
+     "when": "state CREATED; NOT player.getLevel() >= MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00157_RecoverSmuggledGoods/30005-06.html",
+     "when": "state STARTED; cond 2; item 1024 >= 20",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00157_RecoverSmuggledGoods/30005-05.html",
+     "when": "state STARTED; !(st.isCond(2) && (st.getQuestItemsCount(ADAMANTITE_ORE) >= 20))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30005-01.html",
+     "when": "state STARTED; has items 3239; lacks items 3244,3428",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30005-05.html",
+     "when": "state STARTED; has items 3239,3244,3428; lacks items 3244",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30005-06.html",
+     "when": "state STARTED; has items 3239,3244,3428; !(hasQuestItems(player, CRYSTAL_BROOCH) && !hasQuestItems(player, LILITHS_ELVEN_WAFER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30005-07.html",
+     "when": "state STARTED; has items 3240; lacks items 3239",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30005.htm": {
+   "file": "warehouse/30005.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Wilford: Welcome to the Iron Gate Guild! You can deposit your valuables here for only 30 Adena per item. Let's get down to business. What price can you put on peace of mind? With our service, you never have to worry about thieves or untimely death depriving you of your most treasur…",
+   "header": "Warehouse Keeper Wilford",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/30005-1.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/30005-2.htm"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "warehouse/30005-1.htm": {
+   "file": "warehouse/30005-1.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Wilford:",
+   "header": "Warehouse Keeper Wilford",
+   "links": [
+    {
+     "text": "Deposit an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30005.htm"
+    }
+   ]
+  },
+  "warehouse/30005-2.htm": {
+   "file": "warehouse/30005-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Wilford:",
+   "header": "Warehouse Keeper Wilford",
+   "links": [
+    {
+     "text": "Deposit an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30005.htm"
+    }
+   ]
+  },
+  "Q00157_RecoverSmuggledGoods/30005-02.htm": {
+   "file": "Q00157_RecoverSmuggledGoods/30005-02.htm",
+   "quest": 157,
+   "text": "Warehouse Keeper Wilford: As you know, there was war between Aden and Gracia. But the problem is, official trade with Gracia has since been banned, and Gracian trade ships no longer come to Talking Island. Tsk, I can't believe they would ban free trade for political reasons, it's a significant loss…",
+   "header": "Warehouse Keeper Wilford",
+   "when": [
+    "state CREATED; player.getLevel() >= MIN_LVL"
+   ],
+   "links": [
+    {
+     "text": "Ask for details",
+     "bypass": "Quest Q00157_RecoverSmuggledGoods 30005-03.htm",
+     "kind": "quest-event",
+     "script": "Q00157_RecoverSmuggledGoods",
+     "event": "30005-03.htm",
+     "quest": 157,
+     "to": "Q00157_RecoverSmuggledGoods/30005-03.htm",
+     "live": true
+    }
+   ]
+  },
+  "Q00157_RecoverSmuggledGoods/30005-01.htm": {
+   "file": "Q00157_RecoverSmuggledGoods/30005-01.htm",
+   "quest": 157,
+   "text": "Warehouse Keeper Wilford: I'm sure you know this, but our Aden Kingdom was at war with Gracia until recently. As a result of the wars, trade with Gracia is still banned to this day. That is such a shame for businesses like me... particularly since there is a large profit to be made from importing m…",
+   "header": "Warehouse Keeper Wilford",
+   "when": [
+    "state CREATED; NOT player.getLevel() >= MIN_LVL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00157_RecoverSmuggledGoods/30005-06.html": {
+   "file": "Q00157_RecoverSmuggledGoods/30005-06.html",
+   "quest": 157,
+   "text": "Warehouse Keeper Wilford: Oh, you have recovered them. Good job! I must send them off immediately today, on the next trade boat to Giran. This is all thanks to you. Here, the reward that I have promised. I hope you won't talk to anyone else about this. It won't be good if this reaches the ears of t…",
+   "header": "Warehouse Keeper Wilford",
+   "when": [
+    "state STARTED; cond 2; item 1024 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00157_RecoverSmuggledGoods/30005-05.html": {
+   "file": "Q00157_RecoverSmuggledGoods/30005-05.html",
+   "quest": 157,
+   "text": "Warehouse Keeper Wilford: I see you haven't gathered all the items yet. You have to send the items to Giran first. You need exactly 20 ores, so keep at it. We have to send them to Giran in a matter of days.",
+   "header": "Warehouse Keeper Wilford",
+   "when": [
+    "state STARTED; !(st.isCond(2) && (st.getQuestItemsCount(ADAMANTITE_ORE) >= 20))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30005-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30005-01.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Wilford: Welcome, young friend! So, you are taking the exam to advance within the guild? I took the same exam long ago. Ha, of course now I've forgotten all about it! So you seek the Mark of Health? I remember talking with Parman before about a similar subject... My memories are fa…",
+   "header": "Warehouse Keeper Wilford",
+   "when": [
+    "state STARTED; has items 3239; lacks items 3244,3428"
+   ],
+   "links": [
+    {
+     "text": "A Dwarf more than 1,000 years old",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30005-02.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30005-02.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30005-02.html"
+    },
+    {
+     "text": "A turtle more than 1,000 years old",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30005-03.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30005-03.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30005-03.html"
+    },
+    {
+     "text": "An Elf more than 1,000 years old",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30005-04.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30005-04.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30005-04.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30005-05.html": {
+   "file": "Q00221_TestimonyOfProsperity/30005-05.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Wilford: You have not found Lilith yet? She can be found in the temple . Don't forget to present her the brooch that I gave you. That way, she'll respond to you better. Elves are helpless when it comes to flashy jewels!",
+   "header": "Warehouse Keeper Wilford",
+   "when": [
+    "state STARTED; has items 3239,3244,3428; lacks items 3244"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30005-06.html": {
+   "file": "Q00221_TestimonyOfProsperity/30005-06.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Wilford: So you have met Lilith. You got the Lilith Elven Wafer ? What a precious thing! Would you consider selling it to me? If that's not possible, please let me have just one bite! Is that impossible too? Oh, well... I guess you need it to pass the test.",
+   "header": "Warehouse Keeper Wilford",
+   "when": [
+    "state STARTED; has items 3239,3244,3428; !(hasQuestItems(player, CRYSTAL_BROOCH) && !hasQuestItems(player, LILITHS_ELVEN_WAFER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30005-07.html": {
+   "file": "Q00221_TestimonyOfProsperity/30005-07.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Wilford: Maphr's Tablet Fragment? You came all the way to Talking Island to find it? Hmmm... I have not heard of any relics from the Giants on this island...",
+   "header": "Warehouse Keeper Wilford",
+   "when": [
+    "state STARTED; has items 3240; lacks items 3239"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00157_RecoverSmuggledGoods/30005-03.htm": {
+   "file": "Q00157_RecoverSmuggledGoods/30005-03.htm",
+   "quest": 157,
+   "text": "Warehouse Keeper Wilford: Good, then let me first tell you what adamantite is. Adamantite is a very important metal for making weapons. Weapons and armor crafted from refined Adamantite Ore metal are of high quality. Most other weapons can't even compare. But this adamantite is not found in Aden, a…",
+   "header": "Warehouse Keeper Wilford",
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00157_RecoverSmuggledGoods 30005-04.htm",
+     "kind": "quest-event",
+     "script": "Q00157_RecoverSmuggledGoods",
+     "event": "30005-04.htm",
+     "quest": 157,
+     "to": "Q00157_RecoverSmuggledGoods/30005-04.htm",
+     "effect": "start",
+     "live": true
+    }
+   ]
+  },
+  "Q00157_RecoverSmuggledGoods/30005-04.htm": {
+   "file": "Q00157_RecoverSmuggledGoods/30005-04.htm",
+   "quest": 157,
+   "text": "Warehouse Keeper Wilford: Good, so we see eye to eye. Now listen carefully to what I tell you. Do you remember the day that the recent storms hit? That particular day was the day that my 'business partners' and I were to bring some goods in. Thankfully, the smuggler's ship landed safely on the sout…",
+   "header": "Warehouse Keeper Wilford",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30005-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30005-02.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Wilford: No I don't think that that was our subject. Cause I've seen only one Dwarf up to this day who lived more than 1,000 years. Besides, he died when I was young. Ever since, I've never heard of a Dwarf who lived more than 1,000 years.",
+   "header": "Warehouse Keeper Wilford",
+   "links": [
+    {
+     "text": "A turtle more than 1,000 years old",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30005-03.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30005-03.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30005-03.html"
+    },
+    {
+     "text": "An Elf more than 1,000 years old",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30005-04.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30005-04.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30005-04.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30005-03.html": {
+   "file": "Q00221_TestimonyOfProsperity/30005-03.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Wilford: Yes, I heard something similar to that the other day when I was out drinking with Rant. They said that there was a turtle in the ruins beneath the west sea that was more than 5,000 years old. But I don't think it was about the turtle...",
+   "header": "Warehouse Keeper Wilford",
+   "links": [
+    {
+     "text": "A Dwarf more than 1,000 years old",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30005-02.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30005-02.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30005-02.html"
+    },
+    {
+     "text": "An Elf more than 1,000 years old",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30005-04.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30005-04.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30005-04.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30005-04.html": {
+   "file": "Q00221_TestimonyOfProsperity/30005-04.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Wilford: An Elf more than 1,000 years old? Yes, that's it! You mean Lilith ! Yes, she didn't just live for more than a thousand years, she has been waiting for her lover for over 1,000 years. So that means that she must be well over 1,000 years old. I don't know if Elves just have …",
+   "header": "Warehouse Keeper Wilford",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Recover Smuggled Goods]",
+     "bypass": "npc_%objectId%_Quest Q00157_RecoverSmuggledGoods",
+     "kind": "quest",
+     "quest": 157,
+     "to": "Q00157_RecoverSmuggledGoods/30005-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Recover Smuggled Goods (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00157_RecoverSmuggledGoods",
+     "kind": "quest",
+     "quest": 157,
+     "to": "Q00157_RecoverSmuggledGoods/30005-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30005-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Keeper Wilford:Welcome to the Iron Gate Guild! You"
+   ],
+   "to": [
+    "Warehouse Keeper Wilfred:As you know, there was war between ",
+    "Warehouse Keeper Wilfred:Oh, you have recovered them. Good j"
+   ]
+  },
+  {
+   "text": "Ask for details",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Keeper Wilfred:As you know, there was war between "
+   ],
+   "to": [
+    "Warehouse Keeper Wilfred:Good, then let me first tell you wh"
+   ]
+  },
+  {
+   "text": "Say you will help",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Keeper Wilfred:Good, then let me first tell you wh"
+   ],
+   "to": [
+    "Warehouse Keeper Wilfred:Good, so we see eye to eye. Now lis"
+   ]
+  }
+ ]
+}

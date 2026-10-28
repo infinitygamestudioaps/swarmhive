@@ -2,7 +2,7 @@
  "id": 10286,
  "name": "Reunion with Sirra",
  "version": 1,
- "generated": "2026-10-27T11:16:38.484Z",
+ "generated": "2026-10-27T18:20:04.637Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 82,
@@ -29,7 +29,7 @@
  "reasons": [
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: talk 32781: fires at memo 10, which no transition sets"
   },
   {
    "code": "npc-no-spawn",
@@ -40,9 +40,14 @@
    "code": "npc-quest-spawned",
    "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
    "step": 3
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 12
   }
  ],
- "expectedMin": 11,
+ "expectedMin": 12,
  "refLevel": 82,
  "steps": [
   {
@@ -1049,8 +1054,7 @@
    "conds": [
     1,
     3,
-    4,
-    5
+    4
    ]
   },
   {
@@ -1083,6 +1087,38 @@
    "conds": [
     1,
     3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c5:talk:32760",
+   "cond": 5,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"Alright...\""
+   ],
+   "npc": {
+    "id": 32760,
+    "name": "Jinia",
+    "title": "",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Jinia",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
     5
    ]
   }

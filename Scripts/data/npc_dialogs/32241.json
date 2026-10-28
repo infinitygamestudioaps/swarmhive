@@ -1,0 +1,116 @@
+{
+ "npcId": 32241,
+ "name": "Berka",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.363Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32241.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "68": {
+   "name": "Saga of the Soul Hound",
+   "listText": [
+    "[Saga of the Soul Hound]",
+    "[Saga of the Soul Hound (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00068_SagaOfTheSoulHound/11-01.htm",
+     "when": "cond 14; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00068_SagaOfTheSoulHound/11-02.htm",
+     "when": "cond 15; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32241.htm": {
+   "file": "default/32241.htm",
+   "quest": null,
+   "text": "Berka: Huff... Huff... They should stop following now...",
+   "header": "Berka",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/11-01.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/11-01.htm",
+   "quest": 68,
+   "text": "Berka: Who's there! Reveal yourself at once! Ah, you're after this Resonance Amulet, too, aren't you? YOu can try to take it by force if you wish, but I warn you that I won't give it up so easily. You...you're... a Soul Breaker! Why are you here?",
+   "header": "Berka",
+   "when": [
+    "cond 14; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "I saw you in the Tablet of Vision and came to see you.",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 11-9",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "11-9",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/11-02.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/11-02.htm",
+   "quest": 68,
+   "text": "Berka: To get the Resonance Amulet, there are two ways. One way is to defeat the Archon of Halisha, who is located within the Four Sepulchers. you must form a party to enter. If that proves too difficult, defeat the followers of Halisha at the Shrine of Loyalty. By doing so, you can earn \"tickets.\"…",
+   "header": "Berka",
+   "when": [
+    "cond 15; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/11-03.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/11-03.htm",
+   "quest": 68,
+   "text": "Berka: Aye, how time does fly! You have come for my Resonance Amulet, I suspect. My apologies for my bad manners just now; I was under attack when you appeared, and I assumed you were simply another enemy. My friend, I regret that you have come all this way -- I cannot give you this Resonance Amule…",
+   "header": "Berka",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Soul Hound (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00068_SagaOfTheSoulHound",
+     "kind": "quest",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/11-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

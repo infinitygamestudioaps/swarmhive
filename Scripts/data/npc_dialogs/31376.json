@@ -1,0 +1,188 @@
+{
+ "npcId": 31376,
+ "name": "Kurfa",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.198Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/KetraOrcSupport/31376-01.html",
+   "when": "switch(AllianceLevel) case 1,2,3",
+   "src": "ai KetraOrcSupport"
+  },
+  {
+   "page": "ai/npc/KetraOrcSupport/31376-02.html",
+   "when": "switch(AllianceLevel) case 4",
+   "src": "ai KetraOrcSupport"
+  },
+  {
+   "page": "ai/npc/KetraOrcSupport/31376-03.html",
+   "when": "switch(AllianceLevel) case 5",
+   "src": "ai KetraOrcSupport"
+  },
+  {
+   "page": "ai/npc/KetraOrcSupport/31376-no.html",
+   "when": "switch(AllianceLevel) case default",
+   "src": "ai KetraOrcSupport"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/KetraOrcSupport/31376-01.html": {
+   "file": "ai/npc/KetraOrcSupport/31376-01.html",
+   "quest": null,
+   "text": "Gatekeeper Kurfa: You're a true friend of my people. My ancestors guard your every step! Stories of your valor grow everyday! Unfortunately, I can't allow you to use the gate of time and space yet. Keep up the good work!",
+   "header": "Gatekeeper Kurfa",
+   "when": [
+    "switch(AllianceLevel) case 1,2,3"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/KetraOrcSupport/31376-02.html": {
+   "file": "ai/npc/KetraOrcSupport/31376-02.html",
+   "quest": null,
+   "text": "Gatekeeper Kurfa: You, comrade of the Ketra. May the divine protection of the ancestors be with you always! Our chief has approved of your valor and will allow you to travel to a bigger battleground. So, tell me where you wish to go! I, Kurfa, will open the gate of time and space for you!",
+   "header": "Gatekeeper Kurfa",
+   "when": [
+    "switch(AllianceLevel) case 4"
+   ],
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "Quest KetraOrcSupport Teleport",
+     "kind": "quest-event",
+     "script": "KetraOrcSupport",
+     "event": "Teleport",
+     "to": "ai/npc/KetraOrcSupport/31376-04.html",
+     "toAll": [
+      "ai/npc/KetraOrcSupport/31376-04.html",
+      "ai/npc/KetraOrcSupport/31376-05.html"
+     ]
+    }
+   ]
+  },
+  "ai/npc/KetraOrcSupport/31376-03.html": {
+   "file": "ai/npc/KetraOrcSupport/31376-03.html",
+   "quest": null,
+   "text": "Gatekeeper Kurfa: Dear sworn friend of Ketra. May the divine blessing and protection of our ancestors be with you always! Your bravery is renowned! Everybody says that when you battle, you are as hot as an exploding volcano! Our chief has given his approval for you to travel to another village! You…",
+   "header": "Gatekeeper Kurfa",
+   "when": [
+    "switch(AllianceLevel) case 5"
+   ],
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "Quest KetraOrcSupport Teleport",
+     "kind": "quest-event",
+     "script": "KetraOrcSupport",
+     "event": "Teleport",
+     "to": "ai/npc/KetraOrcSupport/31376-04.html",
+     "toAll": [
+      "ai/npc/KetraOrcSupport/31376-04.html",
+      "ai/npc/KetraOrcSupport/31376-05.html"
+     ]
+    }
+   ]
+  },
+  "ai/npc/KetraOrcSupport/31376-no.html": {
+   "file": "ai/npc/KetraOrcSupport/31376-no.html",
+   "quest": null,
+   "text": "Gatekeeper Kurfa: I guide travelers through the gate of time and space! I don't deal with outsiders!",
+   "header": "Gatekeeper Kurfa",
+   "when": [
+    "switch(AllianceLevel) case default"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/KetraOrcSupport/31376-04.html": {
+   "file": "ai/npc/KetraOrcSupport/31376-04.html",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Goddard Castle Town - 2400 Adena",
+     "bypass": "npc_%objectId%_goto 10028",
+     "kind": "teleport",
+     "confirm": "811;Town of Goddard"
+    },
+    {
+     "text": "Rune Township - 11000 Adena",
+     "bypass": "npc_%objectId%_goto 10029",
+     "kind": "teleport",
+     "confirm": "811;Rune Township"
+    },
+    {
+     "text": "Wall of Argos - 4200 Adena",
+     "bypass": "npc_%objectId%_goto 10031",
+     "kind": "teleport",
+     "confirm": "811;Wall of Argos"
+    },
+    {
+     "text": "Hot Springs - 5400 Adena",
+     "bypass": "npc_%objectId%_goto 10032",
+     "kind": "teleport",
+     "confirm": "811;Hot Springs"
+    }
+   ]
+  },
+  "ai/npc/KetraOrcSupport/31376-05.html": {
+   "file": "ai/npc/KetraOrcSupport/31376-05.html",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Goddard Castle Town - 2400 Adena",
+     "bypass": "npc_%objectId%_goto 10028",
+     "kind": "teleport",
+     "confirm": "811;Town of Goddard"
+    },
+    {
+     "text": "Rune Township - 11000 Adena",
+     "bypass": "npc_%objectId%_goto 10029",
+     "kind": "teleport",
+     "confirm": "811;Rune Township"
+    },
+    {
+     "text": "Town of Aden - 10000 Adena",
+     "bypass": "npc_%objectId%_goto 10030",
+     "kind": "teleport",
+     "confirm": "811;Town of Aden"
+    },
+    {
+     "text": "Town of Schuttgart - 8900 Adena",
+     "bypass": "npc_%objectId%_goto 10040",
+     "kind": "teleport",
+     "confirm": "811;Town of Schuttgart"
+    },
+    {
+     "text": "Wall of Argos - 4200 Adena",
+     "bypass": "npc_%objectId%_goto 10031",
+     "kind": "teleport",
+     "confirm": "811;Wall of Argos"
+    },
+    {
+     "text": "Hot Springs - 5400 Adena",
+     "bypass": "npc_%objectId%_goto 10032",
+     "kind": "teleport",
+     "confirm": "811;Hot Springs"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

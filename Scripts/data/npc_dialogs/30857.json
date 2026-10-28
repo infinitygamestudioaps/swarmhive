@@ -1,0 +1,757 @@
+{
+ "npcId": 30857,
+ "name": "Orven",
+ "title": "High Priest",
+ "type": "L2VillageMasterPriest",
+ "generated": "2026-10-27T18:18:03.095Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30857.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "197": {
+   "name": "Seven Signs, the Sacred Book of Seal",
+   "listText": [
+    "[Seven Signs, the Sacred Book of Seal]",
+    "[Seven Signs, the Sacred Book of Seal (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00197_SevenSignsTheSacredBookOfSeal/30857-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00197_SevenSignsTheSacredBookOfSeal/30857-05.html",
+     "when": "state STARTED; cond >=2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "337": {
+   "name": "Audience With The Land Dragon",
+   "listText": [
+    "[Audience with the Land Dragon]",
+    "[Audience with the Land Dragon  (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30857-01.html",
+     "when": "state STARTED; memo 21011|21010|21001|21000|20011|20010|20001|20000; lacks items 3857",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30857-02.html",
+     "when": "state STARTED; memo 21011|21010|21001|21000|20011|20010|20001|20000; has items 3857",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30857-03.html",
+     "when": "state STARTED; memo 21110|21101|21100|20111|20110|20101|20100",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30857-04.html",
+     "when": "state STARTED; memoState >= 30000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "344": {
+   "name": "1000 years, the End of Lamentation",
+   "listText": [
+    "[1000 Years, the End of Lamentation]",
+    "[1000 Years, the End of Lamentation (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00344_1000YearsTheEndOfLamentation/30857-01.html",
+     "when": "memo 4; has items 4273",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00344_1000YearsTheEndOfLamentation/30857-02.html",
+     "when": "memo 4; lacks items 4273",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "359": {
+   "name": "For a Sleepless Deadman",
+   "listText": [
+    "[For a Sleepless Deadman]",
+    "[For a Sleepless Deadman (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00359_ForASleeplessDeadman/30857-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00359_ForASleeplessDeadman/30857-06.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00359_ForASleeplessDeadman/30857-07.html",
+     "when": "state STARTED; memo 1; !hasItemsAtLimit(player, REMAINS_OF_ADEN_RESIDENTS)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00359_ForASleeplessDeadman/30857-08.html",
+     "when": "state STARTED; memo 1; hasItemsAtLimit(player, REMAINS_OF_ADEN_RESIDENTS)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00359_ForASleeplessDeadman/30857-09.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "10267": {
+   "name": "Journey to Gracia",
+   "listText": [
+    "[Journey to Gracia]",
+    "[Journey to Gracia (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10267_JourneyToGracia/30857-00.html",
+     "when": "state CREATED; (player.getLevel() < 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10267_JourneyToGracia/30857-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() < 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10267_JourneyToGracia/30857-07.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10267_JourneyToGracia/30857-0a.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30857.htm": {
+   "file": "villagemaster/30857.htm",
+   "quest": null,
+   "text": "High Priest Orven: Welcome to Aden Town, the heart of the kingdom. People speak of this place as the kingdom's cultural and religious center. If that is true, then it is also the apex of faith that all who serve Einhasad must preserve.... But true holiness can always be found in the ordinary, the e…",
+   "header": "High Priest Orven",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest ElfHumanClericChange2",
+     "kind": "quest",
+     "script": "ElfHumanClericChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/30857-01.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/30857-01.html",
+   "quest": 197,
+   "text": "High Priest Orven: Why have you come to see this old priest? You don't seem like one of our typical supplicants....",
+   "header": "High Priest Orven",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Priest Wood sent me.\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 30857-02.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "30857-02.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/30857-02.html"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/30857-05.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/30857-05.html",
+   "quest": 197,
+   "text": "High Priest Orven: Remember, you're looking for Leopard the cryptologist, in the Town of Goddard . Mention my name!",
+   "header": "High Priest Orven",
+   "when": [
+    "state STARTED; cond >=2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30857-01.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30857-01.html",
+   "quest": 337,
+   "text": "High Priest Orven: That is a Feather of Gabrielle... So you must be one of those who want to go on the Antharas expedition, and need a Mark of Watchman from me. I wonder why we have to keep driving innocent young men into that evil cave... Meaningless, so meaningless... These endless deaths, the vi…",
+   "header": "High Priest Orven",
+   "when": [
+    "state STARTED; memo 21011|21010|21001|21000|20011|20010|20001|20000; lacks items 3857"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30857-02.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30857-02.html",
+   "quest": 337,
+   "text": "High Priest Orven: You have accomplished much... Hopefully your efforts will begin to soothe the resentment of those who were punished for the evil actions of our ancestors... I hereby bestow upon you the Mark of Watchman. Even if you do not survive your encounter with Antharas, you will enter the …",
+   "header": "High Priest Orven",
+   "when": [
+    "state STARTED; memo 21011|21010|21001|21000|20011|20010|20001|20000; has items 3857"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30857-03.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30857-03.html",
+   "quest": 337,
+   "text": "High Priest Orven: This Mark of Watchman alone does not qualify you to confront Antharas. You must still meet the other guardians of whom Gabrielle spoke. Receive their recognition and obtain their marks of watchman. When you receive all the marks you will receive the Herald of Slayer and be qualif…",
+   "header": "High Priest Orven",
+   "when": [
+    "state STARTED; memo 21110|21101|21100|20111|20110|20101|20100"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30857-04.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30857-04.html",
+   "quest": 337,
+   "text": "High Priest Orven: The gods challenge us with yet another trial as we prepare to confront Antharas. We must postpone our attack. Return to Gabrielle, she will tell you all about what has happened.",
+   "header": "High Priest Orven",
+   "when": [
+    "state STARTED; memoState >= 30000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30857-01.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30857-01.html",
+   "quest": 344,
+   "text": "High Priest Orven: This looks like a badge from our temple...? Don't tell me... Could it be a relic from the battle against Antharas 1,000 years ago? How could it be? I have always feared that our efforts to slay Antharas have been in vain. This old badge tells me that our responsibilities cannot b…",
+   "header": "High Priest Orven",
+   "when": [
+    "memo 4; has items 4273"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30857-02.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30857-02.html",
+   "quest": 344,
+   "text": "High Priest Orven: The badge is safe with other sacred relics deep within the temple. Many fail to grasp the significance of this old piece of metal, but I hear it calling me to my duty...",
+   "header": "High Priest Orven",
+   "when": [
+    "memo 4; lacks items 4273"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00359_ForASleeplessDeadman/30857-01.htm": {
+   "file": "Q00359_ForASleeplessDeadman/30857-01.htm",
+   "quest": 359,
+   "text": "High Priest Orven: Do you know about the Devastated Castle? It was built centuries ago to protect against the hordes of barbarians that were rampant even then. We were saved from the most recent invasion of the forces of Elmore by its mighty walls, except of course for the thousands of innocents ki…",
+   "header": "High Priest Orven",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Listen quietly.",
+     "bypass": "Quest Q00359_ForASleeplessDeadman 30857-02.htm",
+     "kind": "quest-event",
+     "script": "Q00359_ForASleeplessDeadman",
+     "event": "30857-02.htm",
+     "quest": 359,
+     "to": "Q00359_ForASleeplessDeadman/30857-02.htm"
+    }
+   ]
+  },
+  "Q00359_ForASleeplessDeadman/30857-06.html": {
+   "file": "Q00359_ForASleeplessDeadman/30857-06.html",
+   "quest": 359,
+   "text": "High Priest Orven: Do you know about the Devastated Castle? It was built centuries ago to protect against the hordes of barbarians that were rampant even then. We were saved from the most recent invasion of the forces of Elmore by its mighty walls. Centuries of violent conflict have left it in ruin…",
+   "header": "High Priest Orven",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00359_ForASleeplessDeadman/30857-07.html": {
+   "file": "Q00359_ForASleeplessDeadman/30857-07.html",
+   "quest": 359,
+   "text": "High Priest Orven: The Devastated Castle is northeast of here. There are many restless souls haunting that area. You'll find doom archers , doom guards , and doom servants . Bring back 60 of their remains . Beware the doom knights, doom warriors and doom troopers who patrol there. They are former s…",
+   "header": "High Priest Orven",
+   "when": [
+    "state STARTED; memo 1; !hasItemsAtLimit(player, REMAINS_OF_ADEN_RESIDENTS)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00359_ForASleeplessDeadman/30857-08.html": {
+   "file": "Q00359_ForASleeplessDeadman/30857-08.html",
+   "quest": 359,
+   "text": "High Priest Orven: Good work! Now they shall rest in peace! I give you blessings in the name of Einhasad. May we never have to deal with such a desecration again! Now I must pray. Come back later.",
+   "header": "High Priest Orven",
+   "when": [
+    "state STARTED; memo 1; hasItemsAtLimit(player, REMAINS_OF_ADEN_RESIDENTS)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00359_ForASleeplessDeadman/30857-09.html": {
+   "file": "Q00359_ForASleeplessDeadman/30857-09.html",
+   "quest": 359,
+   "text": "High Priest Orven: Oh, Einhasad! Here are your children. Their last battle has been won. Take them into your arms, into the world of the dead. Release them from their bonds and receive them into the bosom of Shilen. Give them eternal rest and happiness in your light. For those who grieve these brav…",
+   "header": "High Priest Orven",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "Wait until he finishes praying.",
+     "bypass": "Quest Q00359_ForASleeplessDeadman 30857-10.html",
+     "kind": "quest-event",
+     "script": "Q00359_ForASleeplessDeadman",
+     "event": "30857-10.html",
+     "quest": 359,
+     "to": "Q00359_ForASleeplessDeadman/30857-10.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q10267_JourneyToGracia/30857-00.html": {
+   "file": "Q10267_JourneyToGracia/30857-00.html",
+   "quest": 10267,
+   "text": "High Priest Orven: Do you know the tragedy that has befallen Gracia ? The power of Shilen, the Goddess of Death, has manifested itself in the form of a Seed that has transformed the entire continent into a land of death. Despite the valiant efforts by a few lords and their warriors, most of Gracia …",
+   "header": "High Priest Orven",
+   "when": [
+    "state CREATED; (player.getLevel() < 75)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10267_JourneyToGracia/30857-01.htm": {
+   "file": "Q10267_JourneyToGracia/30857-01.htm",
+   "quest": 10267,
+   "text": "High Priest Orven: Do you know the tragedy that has befallen Gracia ? The power of Shilen, the Goddess of Death, has manifested itself in the form of a Seed that has transformed the entire continent into a land of death. Despite the valiant efforts by a few lords and their warriors, most of Gracia …",
+   "header": "High Priest Orven",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < 75)"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me what happened in Gracia.\"",
+     "bypass": "Quest Q10267_JourneyToGracia 30857-02.htm",
+     "kind": "quest-event",
+     "script": "Q10267_JourneyToGracia",
+     "event": "30857-02.htm",
+     "quest": 10267,
+     "to": "Q10267_JourneyToGracia/30857-02.htm"
+    },
+    {
+     "text": "\"How can I help?\"",
+     "bypass": "Quest Q10267_JourneyToGracia 30857-05.htm",
+     "kind": "quest-event",
+     "script": "Q10267_JourneyToGracia",
+     "event": "30857-05.htm",
+     "quest": 10267,
+     "to": "Q10267_JourneyToGracia/30857-05.htm"
+    },
+    {
+     "text": "\"Sorry, but this has nothing to do with me.\"",
+     "bypass": "Quest Q10267_JourneyToGracia 30857-04.html",
+     "kind": "quest-event",
+     "script": "Q10267_JourneyToGracia",
+     "event": "30857-04.html",
+     "quest": 10267,
+     "to": "Q10267_JourneyToGracia/30857-04.html"
+    }
+   ]
+  },
+  "Q10267_JourneyToGracia/30857-07.html": {
+   "file": "Q10267_JourneyToGracia/30857-07.html",
+   "quest": 10267,
+   "text": "High Priest Orven: There is no one who knows more about airships than Magister Papiku at the Airship Wharf of Gludio . If you wish to go to Gracia, go see him. May Einhasad light your path...",
+   "header": "High Priest Orven",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10267_JourneyToGracia/30857-0a.html": {
+   "file": "Q10267_JourneyToGracia/30857-0a.html",
+   "quest": 10267,
+   "text": "High Priest Orven: Ah, you've returned safely from Gracia! Tell me of your adventures! Gracia is not yet cleansed, however, so I ask you to return there and continue the battle against darkness. (You have already completed this quest.)",
+   "header": "High Priest Orven",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/30857-02.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/30857-02.html",
+   "quest": 197,
+   "text": "High Priest Orven: Ah, yes, of course. I heard you were coming. You're searching for the Sacred Book of Seals, aren't you? When I received Wood's missive, I remembered a text I'd read a few years ago that might be helpful to you.",
+   "header": "High Priest Orven",
+   "links": [
+    {
+     "text": "\"What did it say?\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 30857-03.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "30857-03.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/30857-03.html"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/30857-03.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/30857-03.html",
+   "quest": 197,
+   "text": "High Priest Orven: Well, the Emperor's Key is not a key at all, but a prayer. It dates back to the Elmoreden era, and is rather brief compared to other prayers of the time. I suspect there is a secret message hidden in that prayer, which will reveal how it relates to the Sacred Book. I don't know a…",
+   "header": "High Priest Orven",
+   "links": [
+    {
+     "text": "\"Absolutely.\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 30857-04.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "30857-04.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/30857-04.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/30857-04.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/30857-04.html",
+   "quest": 197,
+   "text": "High Priest Orven: His name is Leopard , and he's a genius. I feel certain he'll be able to help you. You'll find him in the Town of Goddard --you should arrange to travel there immediately. I'll send my copy of the prayer to Leopard myself. Now hurry! I will pray to Einhasad for your success.",
+   "header": "High Priest Orven",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00359_ForASleeplessDeadman/30857-02.htm": {
+   "file": "Q00359_ForASleeplessDeadman/30857-02.htm",
+   "quest": 359,
+   "text": "High Priest Orven: These noble warriors made the ultimate sacrifice and successfully defended the castle from the enemy! There is no more honorable way to die, but their poor souls have not received any proper recognition... No Glory of Einhasad... Not even a Rest of Shilen, which is given to all! …",
+   "header": "High Priest Orven",
+   "links": [
+    {
+     "text": "\"Yes, please.\"",
+     "bypass": "Quest Q00359_ForASleeplessDeadman 30857-03.htm",
+     "kind": "quest-event",
+     "script": "Q00359_ForASleeplessDeadman",
+     "event": "30857-03.htm",
+     "quest": 359,
+     "to": "Q00359_ForASleeplessDeadman/30857-03.htm"
+    }
+   ]
+  },
+  "Q00359_ForASleeplessDeadman/30857-03.htm": {
+   "file": "Q00359_ForASleeplessDeadman/30857-03.htm",
+   "quest": 359,
+   "text": "High Priest Orven: In the time of Raul the Unification King, Gustav Ken Vennerheim fought a bloody battle for the castle. After 130 days of pitched combat, he was slain without ever fulfilling his goal. But now it seems that even death cannot stop his spirit! He has formed an alliance with the forc…",
+   "header": "High Priest Orven",
+   "links": [
+    {
+     "text": "......!",
+     "bypass": "Quest Q00359_ForASleeplessDeadman 30857-04.htm",
+     "kind": "quest-event",
+     "script": "Q00359_ForASleeplessDeadman",
+     "event": "30857-04.htm",
+     "quest": 359,
+     "to": "Q00359_ForASleeplessDeadman/30857-04.htm"
+    }
+   ]
+  },
+  "Q00359_ForASleeplessDeadman/30857-04.htm": {
+   "file": "Q00359_ForASleeplessDeadman/30857-04.htm",
+   "quest": 359,
+   "text": "High Priest Orven: I feel the agony of their souls, being forced to fight their brothers... Such noble warriors deserve a peaceful rest... The immortal heroes of Aden must be freed from this evil enslavement! Would you recover their remains and bring them here, to the Temple of Einhasad? You will f…",
+   "header": "High Priest Orven",
+   "links": [
+    {
+     "text": "\"I will bring you the remains of the heroes.\"",
+     "bypass": "Quest Q00359_ForASleeplessDeadman 30857-05.htm",
+     "kind": "quest-event",
+     "script": "Q00359_ForASleeplessDeadman",
+     "event": "30857-05.htm",
+     "quest": 359,
+     "to": "Q00359_ForASleeplessDeadman/30857-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00359_ForASleeplessDeadman/30857-05.htm": {
+   "file": "Q00359_ForASleeplessDeadman/30857-05.htm",
+   "quest": 359,
+   "text": "High Priest Orven: When you break the bonds holding their souls, their bodies will turn to ashes. Collect these ashes and bring them to me, I will purify them. I must have the remains of 60 heroes to perform the ritual. May Einhasad watch over you...",
+   "header": "High Priest Orven",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00359_ForASleeplessDeadman/30857-10.html": {
+   "file": "Q00359_ForASleeplessDeadman/30857-10.html",
+   "quest": 359,
+   "text": "High Priest Orven: The purification ritual is over. I found a gemstone that was sparkling with a holy light. I think it must have been used by one of the fallen heroes of the castle. Perhaps they left it for you! Yes, I think they did! Why don't you take it? There are still many of our fallen comra…",
+   "header": "High Priest Orven",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q10267_JourneyToGracia/30857-02.htm": {
+   "file": "Q10267_JourneyToGracia/30857-02.htm",
+   "quest": 10267,
+   "text": "High Priest Orven: The story begins long ago, during the Elmoreden era. Emperor Shunaiman drove out all of Shilen's followers after years of hard fighting. Some of them found their way to Gracia. There they seemed to disappear from history for a while. Now we now they were actually infiltrating Gra…",
+   "header": "High Priest Orven",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q10267_JourneyToGracia 30857-03.htm",
+     "kind": "quest-event",
+     "script": "Q10267_JourneyToGracia",
+     "event": "30857-03.htm",
+     "quest": 10267,
+     "to": "Q10267_JourneyToGracia/30857-03.htm"
+    }
+   ]
+  },
+  "Q10267_JourneyToGracia/30857-03.htm": {
+   "file": "Q10267_JourneyToGracia/30857-03.htm",
+   "quest": 10267,
+   "text": "High Priest Orven: Finally, Shilen's followers used the dark ceremony they had originally intended for Aden on Gracia. They opened a door to the land of death: the Seed. Horrific monsters entered the land, further devastating it and its people. Now we must all unite against this threat. That's why …",
+   "header": "High Priest Orven",
+   "links": [
+    {
+     "text": "\"You have it!\"",
+     "bypass": "Quest Q10267_JourneyToGracia 30857-05.htm",
+     "kind": "quest-event",
+     "script": "Q10267_JourneyToGracia",
+     "event": "30857-05.htm",
+     "quest": 10267,
+     "to": "Q10267_JourneyToGracia/30857-05.htm"
+    },
+    {
+     "text": "\"Eh, doesn't sound like it's any of my business.\"",
+     "bypass": "Quest Q10267_JourneyToGracia 30857-04.html",
+     "kind": "quest-event",
+     "script": "Q10267_JourneyToGracia",
+     "event": "30857-04.html",
+     "quest": 10267,
+     "to": "Q10267_JourneyToGracia/30857-04.html"
+    }
+   ]
+  },
+  "Q10267_JourneyToGracia/30857-04.html": {
+   "file": "Q10267_JourneyToGracia/30857-04.html",
+   "quest": 10267,
+   "text": "High Priest Orven: How can you ignore what's happening? Can't you understand that unless we stop the spreading darkness, Aden will be next?! I hope you'll change your mind when you've thought it over.",
+   "header": "High Priest Orven",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10267_JourneyToGracia/30857-05.htm": {
+   "file": "Q10267_JourneyToGracia/30857-05.htm",
+   "quest": 10267,
+   "text": "High Priest Orven: Excellent! We need all the help we can get. You must leave for Gracia at once. Of course, since Gracia has long been an enemy of Aden, there is no established means of easily traveling there. No Gatekeepers can teleport you there. There is another way, however...",
+   "header": "High Priest Orven",
+   "links": [
+    {
+     "text": "\"How do I get there?\"",
+     "bypass": "Quest Q10267_JourneyToGracia 30857-06.html",
+     "kind": "quest-event",
+     "script": "Q10267_JourneyToGracia",
+     "event": "30857-06.html",
+     "quest": 10267,
+     "to": "Q10267_JourneyToGracia/30857-06.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10267_JourneyToGracia/30857-06.html": {
+   "file": "Q10267_JourneyToGracia/30857-06.html",
+   "quest": 10267,
+   "text": "High Priest Orven: I appreciate your commitment. All of Aden will be counting on you and your comrades. Your first challenge will be reaching Gracia. First, go to the Aden Airship Dock . There you should ask the manager, Magister Papiku , about the details of the journey. Take this. It is a letter …",
+   "header": "High Priest Orven",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, the Sacred Book of Seal (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00197_SevenSignsTheSacredBookOfSeal",
+     "kind": "quest",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/30857-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Audience with the Land Dragon  (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00337_AudienceWithTheLandDragon",
+     "kind": "quest",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30857-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[1000 Years, the End of Lamentation (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00344_1000YearsTheEndOfLamentation",
+     "kind": "quest",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30857-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[For a Sleepless Deadman]",
+     "bypass": "npc_%objectId%_Quest Q00359_ForASleeplessDeadman",
+     "kind": "quest",
+     "quest": 359,
+     "to": "Q00359_ForASleeplessDeadman/30857-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[For a Sleepless Deadman (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00359_ForASleeplessDeadman",
+     "kind": "quest",
+     "quest": 359,
+     "to": "Q00359_ForASleeplessDeadman/30857-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Journey to Gracia]",
+     "bypass": "npc_%objectId%_Quest Q10267_JourneyToGracia",
+     "kind": "quest",
+     "quest": 10267,
+     "to": "Q10267_JourneyToGracia/30857-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Journey to Gracia (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10267_JourneyToGracia",
+     "kind": "quest",
+     "quest": 10267,
+     "to": "Q10267_JourneyToGracia/30857-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

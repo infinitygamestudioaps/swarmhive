@@ -1,0 +1,327 @@
+{
+ "npcId": 30873,
+ "name": "Coleman",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.100Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30873.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "360": {
+   "name": "Plunder Their Supplies",
+   "listText": [
+    "[Plunder the Supplies]",
+    "[Plunder the Supplies (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00360_PlunderTheirSupplies/30873-02.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00360_PlunderTheirSupplies/30873-01.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00360_PlunderTheirSupplies/30873-05.html",
+     "when": "state STARTED; supplyCount == 0; recipeCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00360_PlunderTheirSupplies/30873-08.html",
+     "when": "state STARTED; supplyCount == 0; !recipeCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00360_PlunderTheirSupplies/30873-06.html",
+     "when": "state STARTED; !supplyCount == 0; recipeCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00360_PlunderTheirSupplies/30873-07.html",
+     "when": "state STARTED; !supplyCount == 0; !recipeCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30873.htm": {
+   "file": "guard/30873.htm",
+   "quest": null,
+   "text": "Guard Coleman: Follow this road to the east to reach the National Cementery. South of there you'll see a giant cave. It is known as the the Titan Cave. It's not just because the cave is big but there are also rumors that actual Titans still exist there. Have you heard about the Titans?",
+   "header": "Guard Coleman",
+   "links": [
+    {
+     "text": "\"Tell me about the Titans.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30873-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30873-1.htm": {
+   "file": "guard/30873-1.htm",
+   "quest": null,
+   "text": "Guard Coleman: I've heard from Elven Priest Polonia at the temple that the titans lived on this continent before our five races came. But they made the gods angry and went to ruin. Polonia heard about that cave and said that the titans that fled there to escape the wrath of the gods may have degene…",
+   "header": "Guard Coleman",
+   "links": [
+    {
+     "text": "Go back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30873.htm"
+    }
+   ]
+  },
+  "Q00360_PlunderTheirSupplies/30873-02.htm": {
+   "file": "Q00360_PlunderTheirSupplies/30873-02.htm",
+   "quest": 360,
+   "text": "Guard Coleman: Have you witnessed the current condition of the Cemetery? The final resting place of kings, aristocrats and heroes has fallen into ruin and been overtaken by hideous monsters. Our neglect tempts our ancestors' wrath. At Captain Kurtiz's direction, we have begun to try to drive out th…",
+   "header": "Guard Coleman",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"Is there any other way to solve this problem?\"",
+     "bypass": "Quest Q00360_PlunderTheirSupplies 30873-03.htm",
+     "kind": "quest-event",
+     "script": "Q00360_PlunderTheirSupplies",
+     "event": "30873-03.htm",
+     "quest": 360,
+     "to": "Q00360_PlunderTheirSupplies/30873-03.htm"
+    }
+   ]
+  },
+  "Q00360_PlunderTheirSupplies/30873-01.html": {
+   "file": "Q00360_PlunderTheirSupplies/30873-01.html",
+   "quest": 360,
+   "text": "Guard Coleman: Have you been to the Cemetery? It's a dangerous place, where many monsters roam. The neglect of the kingdom has allowed it to fall into ruins. If we incur our ancestors' wrath, we'll have no one to blame but ourselves. You must use extreme care when you go there. I seriously doubt th…",
+   "header": "Guard Coleman",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00360_PlunderTheirSupplies/30873-05.html": {
+   "file": "Q00360_PlunderTheirSupplies/30873-05.html",
+   "quest": 360,
+   "text": "Guard Coleman: Why are you still here? Your must subjugate Taik Orc seekers and Taik Orc supply leaders . You can't go back on your word! You don't intend to do that, do you?",
+   "header": "Guard Coleman",
+   "when": [
+    "state STARTED; supplyCount == 0; recipeCount == 0"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help you, but I expect to be paid very well.\"",
+     "bypass": "Quest Q00360_PlunderTheirSupplies 30873-09.html",
+     "kind": "quest-event",
+     "script": "Q00360_PlunderTheirSupplies",
+     "event": "30873-09.html",
+     "quest": 360,
+     "to": "Q00360_PlunderTheirSupplies/30873-09.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00360_PlunderTheirSupplies 30873-10.html",
+     "kind": "quest-event",
+     "script": "Q00360_PlunderTheirSupplies",
+     "event": "30873-10.html",
+     "quest": 360,
+     "to": "Q00360_PlunderTheirSupplies/30873-10.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00360_PlunderTheirSupplies/30873-08.html": {
+   "file": "Q00360_PlunderTheirSupplies/30873-08.html",
+   "quest": 360,
+   "text": "Guard Coleman: Are you finished already? You must be exhausted! Thank you! You shall be well compensated. What is this? A document regarding the supplies? I knew it! There is a conspiracy afoot! I must take this to Captain Kurtiz right away! Thank you! Oh yes, I almost forgot. Here is your reward. …",
+   "header": "Guard Coleman",
+   "when": [
+    "state STARTED; supplyCount == 0; !recipeCount == 0"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help you, but I expect to be paid handsomely.\"",
+     "bypass": "Quest Q00360_PlunderTheirSupplies 30873-09.html",
+     "kind": "quest-event",
+     "script": "Q00360_PlunderTheirSupplies",
+     "event": "30873-09.html",
+     "quest": 360,
+     "to": "Q00360_PlunderTheirSupplies/30873-09.html"
+    },
+    {
+     "text": "\"Sorry, I can't help you any more. \"",
+     "bypass": "Quest Q00360_PlunderTheirSupplies 30873-10.html",
+     "kind": "quest-event",
+     "script": "Q00360_PlunderTheirSupplies",
+     "event": "30873-10.html",
+     "quest": 360,
+     "to": "Q00360_PlunderTheirSupplies/30873-10.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00360_PlunderTheirSupplies/30873-06.html": {
+   "file": "Q00360_PlunderTheirSupplies/30873-06.html",
+   "quest": 360,
+   "text": "Guard Coleman: Are you finished already? You must be exhausted! Thank you! Here is your reward. This should be more than enough compensation for your work... Do you wish to continue helping me with this mission?",
+   "header": "Guard Coleman",
+   "when": [
+    "state STARTED; !supplyCount == 0; recipeCount == 0"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help you, but I must be paid well.\"",
+     "bypass": "Quest Q00360_PlunderTheirSupplies 30873-09.html",
+     "kind": "quest-event",
+     "script": "Q00360_PlunderTheirSupplies",
+     "event": "30873-09.html",
+     "quest": 360,
+     "to": "Q00360_PlunderTheirSupplies/30873-09.html"
+    },
+    {
+     "text": "\"Sorry, I can't help you anymore. \"",
+     "bypass": "Quest Q00360_PlunderTheirSupplies 30873-10.html",
+     "kind": "quest-event",
+     "script": "Q00360_PlunderTheirSupplies",
+     "event": "30873-10.html",
+     "quest": 360,
+     "to": "Q00360_PlunderTheirSupplies/30873-10.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00360_PlunderTheirSupplies/30873-07.html": {
+   "file": "Q00360_PlunderTheirSupplies/30873-07.html",
+   "quest": 360,
+   "text": "Guard Coleman: Are you finished already? You must be exhausted! Thank you! You shall be well compensated. What is this? A document regarding the supplies? I knew it! There is a conspiracy afoot! I must take this to Captain Kurtiz right away! Thank you! Oh yes, I almost forgot. Here is your reward. …",
+   "header": "Guard Coleman",
+   "when": [
+    "state STARTED; !supplyCount == 0; !recipeCount == 0"
+   ],
+   "links": [
+    {
+     "text": "\"I'll continue to help you.\"",
+     "bypass": "Quest Q00360_PlunderTheirSupplies 30873-09.html",
+     "kind": "quest-event",
+     "script": "Q00360_PlunderTheirSupplies",
+     "event": "30873-09.html",
+     "quest": 360,
+     "to": "Q00360_PlunderTheirSupplies/30873-09.html"
+    },
+    {
+     "text": "\"Sorry, I can't help you anymore.\"",
+     "bypass": "Quest Q00360_PlunderTheirSupplies 30873-10.html",
+     "kind": "quest-event",
+     "script": "Q00360_PlunderTheirSupplies",
+     "event": "30873-10.html",
+     "quest": 360,
+     "to": "Q00360_PlunderTheirSupplies/30873-10.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00360_PlunderTheirSupplies/30873-03.htm": {
+   "file": "Q00360_PlunderTheirSupplies/30873-03.htm",
+   "quest": 360,
+   "text": "Guard Coleman: Captain Kurtiz says that in order to wipe them out completely, the Taik Orc seeker and the Taik Orc supply leader must be stopped from giving supplies to the monsters. But alas, our guards are having a hard time dealing with their forces. The captain has ordered me to find someone wh…",
+   "header": "Guard Coleman",
+   "links": [
+    {
+     "text": "\"I will do my best.\"",
+     "bypass": "Quest Q00360_PlunderTheirSupplies 30873-04.htm",
+     "kind": "quest-event",
+     "script": "Q00360_PlunderTheirSupplies",
+     "event": "30873-04.htm",
+     "quest": 360,
+     "to": "Q00360_PlunderTheirSupplies/30873-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00360_PlunderTheirSupplies/30873-04.htm": {
+   "file": "Q00360_PlunderTheirSupplies/30873-04.htm",
+   "quest": 360,
+   "text": "Guard Coleman: I wish you luck. You will be compensated based on the amount of supplies you bring back from the orcs. If you happen to find an important document , please bring it to me as well. In our current predicament, any amount of enemy intelligence would be very helpful.",
+   "header": "Guard Coleman",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00360_PlunderTheirSupplies/30873-09.html": {
+   "file": "Q00360_PlunderTheirSupplies/30873-09.html",
+   "quest": 360,
+   "text": "Guard Coleman: Thank you! I'm sure you will continue to have great results. Bring me any supplies and documents you take from the Taik orcs and I will give you a generous reward... Hurry!",
+   "header": "Guard Coleman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00360_PlunderTheirSupplies/30873-10.html": {
+   "file": "Q00360_PlunderTheirSupplies/30873-10.html",
+   "quest": 360,
+   "text": "Guard Coleman: Ah, yes... I understand... We all have our own path to follow... I shouldn't try to stop you. May a divine blessing shine upon your path from this day forward... But with your abilities, you probably don't even need a blessing. Someday I'm sure your name with be known throughout the …",
+   "header": "Guard Coleman",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Plunder the Supplies]",
+     "bypass": "npc_%objectId%_Quest Q00360_PlunderTheirSupplies",
+     "kind": "quest",
+     "quest": 360,
+     "to": "Q00360_PlunderTheirSupplies/30873-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Plunder the Supplies (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00360_PlunderTheirSupplies",
+     "kind": "quest",
+     "quest": 360,
+     "to": "Q00360_PlunderTheirSupplies/30873-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

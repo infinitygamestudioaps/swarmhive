@@ -2,7 +2,7 @@
  "id": 10,
  "name": "Into the World",
  "version": 1,
- "generated": "2026-10-27T11:14:35.693Z",
+ "generated": "2026-10-27T18:18:15.911Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 3,
@@ -23,7 +23,7 @@
  ],
  "status": "ready",
  "reasons": [],
- "expectedMin": 6,
+ "expectedMin": 7,
  "refLevel": 3,
  "steps": [
   {
@@ -156,147 +156,12 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:30533",
-   "cond": 1,
-   "kind": "talk",
-   "to": "end",
-   "links": [
-    "\"I did what he asked.\""
-   ],
-   "npc": {
-    "id": 30533,
-    "name": "Balanki",
-    "title": "Silver Scale's",
-    "town": "Dwarven Village",
-    "at": [
-     116016,
-     -178615,
-     -944
-    ],
-    "alt": []
-   },
-   "text": "Talk to Warehouse Chief Reed",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30533@116016,-178615",
-    "status": "ok",
-    "flags": [],
-    "from": ".schuttgart",
-    "length": 1529,
-    "sec": 58,
-    "via": ".schuttgart > Schuttgart -> Dwarven Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Schuttgart",
-      "cmd": ".schuttgart"
-     },
-     {
-      "do": "gk",
-      "from": "Schuttgart",
-      "desc": "Schuttgart -> Dwarven Village",
-      "link": "dwarven village",
-      "price": 4400,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 1529,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Schuttgart",
-     "desc": "Schuttgart -> Dwarven Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      115120,
-      -178224,
-      -880
-     ],
-     [
-      115128,
-      -178216,
-      -896
-     ],
-     [
-      115256,
-      -178456,
-      -920
-     ],
-     [
-      115256,
-      -178728,
-      -920
-     ],
-     [
-      115256,
-      -178808,
-      -920
-     ],
-     [
-      115416,
-      -178648,
-      -936
-     ],
-     [
-      115624,
-      -178536,
-      -944
-     ],
-     [
-      115896,
-      -178536,
-      -944
-     ],
-     [
-      116024,
-      -178600,
-      -944
-     ],
-     [
-      116024,
-      -178616,
-      -944
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 83,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 2,
    "key": "c1:talk:30520",
    "cond": 1,
    "kind": "talk",
-   "to": 4,
+   "to": 2,
    "links": [
-    "Tell him about the hint Gerald gave you."
+    "\"To tell you about Silver Scale Balanki's work.\""
    ],
    "npc": {
     "id": 30520,
@@ -443,16 +308,13 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4
+    1
    ]
   },
   {
-   "i": 3,
-   "key": "c1:talk:30650",
-   "cond": 1,
+   "i": 2,
+   "key": "c2:talk:30650",
+   "cond": 2,
    "kind": "talk",
    "to": 3,
    "links": [
@@ -470,7 +332,7 @@
     ],
     "alt": []
    },
-   "text": "Talk to Warehouse Chief Reed",
+   "text": "Talk to Priest Gerald",
    "reasons": [],
    "travel": {
     "src": "atlas",
@@ -563,8 +425,295 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:30520",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "Tell him about the hint Gerald gave you."
+   ],
+   "npc": {
+    "id": 30520,
+    "name": "Reed",
+    "title": "Warehouse Chief",
+    "town": "Dwarven Village",
+    "at": [
+     115205,
+     -180024,
+     -872
+    ],
+    "alt": []
+   },
+   "text": "Return to Reed",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30520@115205,-180024",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 2393,
+    "sec": 65,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2393,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178392,
+      -920
+     ],
+     [
+      115320,
+      -178664,
+      -928
+     ],
+     [
+      115400,
+      -178920,
+      -944
+     ],
+     [
+      115448,
+      -179192,
+      -936
+     ],
+     [
+      115400,
+      -179464,
+      -896
+     ],
+     [
+      115208,
+      -179640,
+      -880
+     ],
+     [
+      115016,
+      -179720,
+      -880
+     ],
+     [
+      115016,
+      -179672,
+      -880
+     ],
+     [
+      114968,
+      -179672,
+      -872
+     ],
+     [
+      115112,
+      -179736,
+      -880
+     ],
+     [
+      115112,
+      -179880,
+      -872
+     ],
+     [
+      115112,
+      -179928,
+      -872
+     ],
+     [
+      115208,
+      -180024,
+      -872
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 90,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:30533",
+   "cond": 4,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I did what he asked.\""
+   ],
+   "npc": {
+    "id": 30533,
+    "name": "Balanki",
+    "title": "Silver Scale's",
+    "town": "Dwarven Village",
+    "at": [
+     116016,
+     -178615,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Return to Balanki – Complete the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30533@116016,-178615",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1529,
+    "sec": 58,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1529,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116024,
+      -178600,
+      -944
+     ],
+     [
+      116024,
+      -178616,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
     4
    ]
   }
@@ -573,7 +722,7 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:14:35.705Z",
+  "at": "2026-10-27T18:18:15.927Z",
   "pass": true,
   "geo": true,
   "fails": [],

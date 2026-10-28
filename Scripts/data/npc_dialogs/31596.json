@@ -1,0 +1,238 @@
+{
+ "npcId": 31596,
+ "name": "Tobald",
+ "title": "Master",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.240Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00100_SagaOfTheMaestro/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 100"
+  },
+  {
+   "page": "Q00100_SagaOfTheMaestro/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 100"
+  },
+  {
+   "page": "Q00100_SagaOfTheMaestro/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 100"
+  },
+  {
+   "page": "Q00100_SagaOfTheMaestro/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 100"
+  },
+  {
+   "page": "Q00100_SagaOfTheMaestro/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 100"
+  },
+  {
+   "page": "Q00100_SagaOfTheMaestro/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 100"
+  },
+  {
+   "page": "Q00100_SagaOfTheMaestro/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 100"
+  },
+  {
+   "page": "Q00100_SagaOfTheMaestro/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 100"
+  },
+  {
+   "page": "default/31596.htm",
+   "when": "when no script answers the first talk",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "100": {
+   "name": "Saga of the Maestro",
+   "listText": [
+    "[Saga of the Maestro]",
+    "[Saga of the Maestro (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00100_SagaOfTheMaestro/4-04.htm": {
+   "file": "Q00100_SagaOfTheMaestro/4-04.htm",
+   "quest": 100,
+   "text": "Master Tobald: Help me, I could get killed!",
+   "header": "Master Tobald",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/4-06.htm": {
+   "file": "Q00100_SagaOfTheMaestro/4-06.htm",
+   "quest": 100,
+   "text": "Master Tobald: What a scary fella he is! Are assassins all like that? They are the ones that I would never wish to come across again. I narrowly made it because you helped me. I don't know what kind of person he is, but he must have eyes on the one who passes this test.",
+   "header": "Master Tobald",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"So?\"",
+     "bypass": "Quest Q00100_SagaOfTheMaestro 4-1",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "4-1",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/4-010.htm"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/4-01.htm": {
+   "file": "Q00100_SagaOfTheMaestro/4-01.htm",
+   "quest": 100,
+   "text": "Master Tobald: Help me, I could get killed!",
+   "header": "Master Tobald",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/4-03.htm": {
+   "file": "Q00100_SagaOfTheMaestro/4-03.htm",
+   "quest": 100,
+   "text": "Master Tobald: That was close. I never want to see him again!",
+   "header": "Master Tobald",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/4-05.htm": {
+   "file": "Q00100_SagaOfTheMaestro/4-05.htm",
+   "quest": 100,
+   "text": "Master Tobald: I'm going to die!",
+   "header": "Master Tobald",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/4-07.htm": {
+   "file": "Q00100_SagaOfTheMaestro/4-07.htm",
+   "quest": 100,
+   "text": "Master Tobald: I almost got killed! I have a long ways to go.",
+   "header": "Master Tobald",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"So?\"",
+     "bypass": "Quest Q00100_SagaOfTheMaestro 4-2",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "4-2",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/4-02.htm": {
+   "file": "Q00100_SagaOfTheMaestro/4-02.htm",
+   "quest": 100,
+   "text": "Master Tobald: I'm going to die!",
+   "header": "Master Tobald",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/4-08.htm": {
+   "file": "Q00100_SagaOfTheMaestro/4-08.htm",
+   "quest": 100,
+   "text": "Master Tobald: I'll defend myself, thank you. Take the stone I gave you and commune with the last tablet!",
+   "header": "Master Tobald",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "default/31596.htm": {
+   "file": "default/31596.htm",
+   "quest": null,
+   "text": "Master Tobald: What do you think really shapes history? Heroism? Wealth? Power? No! None of those! Two things: intelligence and innovation! The mightiest army is helpless against them!",
+   "header": "Master Tobald",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/4-010.htm": {
+   "file": "Q00100_SagaOfTheMaestro/4-010.htm",
+   "quest": 100,
+   "text": "Master Tobald: Thank you. He almost stole the stone! I hope you can pass this test. Goodbye for now!",
+   "header": "Master Tobald",
+   "links": [
+    {
+     "text": "Wait...!",
+     "bypass": "Quest Q00100_SagaOfTheMaestro 4-3",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "4-3",
+     "quest": 100,
+     "to": null,
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/4-011.htm": {
+   "file": "Q00100_SagaOfTheMaestro/4-011.htm",
+   "quest": 100,
+   "text": "Master Tobald: Thank you! He almost stole the stone from me! You're more worthy than I, you should have it. That fight made me think of a great new invention, a time travel device. I'd better hurry back and draw up the blueprints!",
+   "header": "Master Tobald",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/4-09.htm": {
+   "file": "Q00100_SagaOfTheMaestro/4-09.htm",
+   "quest": 100,
+   "text": "Master Tobald: Take the stone I gave you and commune with the last stone tablet!",
+   "header": "Master Tobald",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Maestro (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00100_SagaOfTheMaestro",
+     "kind": "quest",
+     "quest": 100,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

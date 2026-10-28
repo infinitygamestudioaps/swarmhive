@@ -1,0 +1,110 @@
+{
+ "npcId": 30548,
+ "name": "Nathan",
+ "title": "Defender",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.997Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30548.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "296": {
+   "name": "Tarantula's Spider Silk",
+   "listText": [
+    "[Tarantula's Spider Silk]",
+    "[Tarantula's Spider Silk (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00296_TarantulasSpiderSilk/30548-01.html",
+     "when": "state STARTED; !(qs.isCreated() && (npc.getId() == TRADER_MION))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30548.htm": {
+   "file": "guard/30548.htm",
+   "quest": null,
+   "text": "Defender Nathan: I see that the Spine Mountains are already covered with snow... It makes me realize how we Dwarves are just a small part of a much larger universe! Go ahead, take a good look at the mountains... Don't wealth and fame seem insignificant now? Oh, I should introduce myself! I'm Nathan…",
+   "header": "Defender Nathan",
+   "links": [
+    {
+     "text": "\"Who is the Lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00296_TarantulasSpiderSilk/30548-01.html": {
+   "file": "Q00296_TarantulasSpiderSilk/30548-01.html",
+   "quest": 296,
+   "text": "Defender Nathan: I heard about you from Mion. You're helping her collect the Spider Silks, right? I once learned the craft of spinning from the Golden Wheel Guild. But I gave up being a craftsman, and became a defender instead ... Actually, I once got my fortune told at the Maphr Temple. They said …",
+   "header": "Defender Nathan",
+   "when": [
+    "state STARTED; !(qs.isCreated() && (npc.getId() == TRADER_MION))"
+   ],
+   "links": [
+    {
+     "text": "Ask him to spin the Spider Silk",
+     "bypass": "Quest Q00296_TarantulasSpiderSilk 30548-03.html",
+     "kind": "quest-event",
+     "script": "Q00296_TarantulasSpiderSilk",
+     "event": "30548-03.html",
+     "quest": 296,
+     "to": "Q00296_TarantulasSpiderSilk/30548-03.html",
+     "toAll": [
+      "Q00296_TarantulasSpiderSilk/30548-03.html",
+      "Q00296_TarantulasSpiderSilk/30548-02.html"
+     ]
+    }
+   ]
+  },
+  "Q00296_TarantulasSpiderSilk/30548-02.html": {
+   "file": "Q00296_TarantulasSpiderSilk/30548-02.html",
+   "quest": 296,
+   "text": "Defender Nathan: Huh! I can't believe Mion gave this job to such a fool. Hello? Anybody home?! I said Spinnerets, dummy! I need Spinnerets to spin the Spider Silk! Get it?",
+   "header": "Defender Nathan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00296_TarantulasSpiderSilk/30548-03.html": {
+   "file": "Q00296_TarantulasSpiderSilk/30548-03.html",
+   "quest": 296,
+   "text": "Defender Nathan: Spinnerets are the organs within the tarantulas' bodies that store the Spider Silk. Usually one can spin about fifteen skeins of Spider Silk from one Spinneret, but I can easily spin much more than that! If I'm lucky, I can spin over twenty skeins! Ha Ha Ha! Here! All done! Hurry u…",
+   "header": "Defender Nathan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Tarantula's Spider Silk (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00296_TarantulasSpiderSilk",
+     "kind": "quest",
+     "quest": 296,
+     "to": "Q00296_TarantulasSpiderSilk/30548-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

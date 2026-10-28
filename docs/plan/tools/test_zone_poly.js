@@ -83,6 +83,8 @@ const mk = (id, x, y) => { const m = { objId: id, X: x, Y: y, Z: -3100, IsDead: 
 const autoLvl = { spot: Object.assign({}, sp) };
 const envH = { now: () => T, num: Number, Me: { Level: 22 }, soloChar: () => false, soloMobList: () => [], soloRaidSpots: () => [], snapMobs: () => mobs,
   ignoredMob: () => false, huntBlacklisted: () => false, pairs: { on: false, taken: new Set() }, meSnap: () => ({ X: C.x, Y: C.y, Z: -3100 }), CONFIG: { rest: { zLimit: 500 } },
+  // HPUNKNOWN-2026-10-27: the pickers use the real hpZeroKnown (HP 0 with MaxHP 0 = never targeted, alive)
+  hpZeroKnown: (() => { const s = fs.readFileSync(path.join(__dirname, '..', '..', '..', 'Scripts_dev', 'swarm.js'), 'utf8'), i = s.indexOf('function hpZeroKnown(m)'), j = s.indexOf('\n', i); return new Function('num', s.slice(i, j) + '\nreturn hpZeroKnown;')((v) => Number(v) || 0); })(),
   npcLevel: () => 22, autoLvl, nearPolygon: (x, y, P, m) => Z.zpNear(x, y, P, m), inPolygon: (x, y, P) => Z.zpIn(x, y, Z.zpPts(P)), foreignTagged: () => false, geoBlockedAt: () => false,
   soloPullOk: () => ({ ok: true }), SOLOSAFE: {}, soloSafe: {}, note: () => { },
   inRaid: () => false, isRaidBossMob: () => false, minionNames: () => [], canSee: () => true };   // RAIDKEEP / WALLSIGHT 2026-10-24

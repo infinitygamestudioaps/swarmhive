@@ -1,0 +1,612 @@
+{
+ "npcId": 30721,
+ "name": "Ladd",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.061Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "235": {
+   "name": "Mimir's Elixir",
+   "listText": [
+    "[Mimir's Elixir]",
+    "[Mimir's Elixir (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00235_MimirsElixir/30721-09.html",
+     "when": "state CREATED; player.getRace() == Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00235_MimirsElixir/30721-08.html",
+     "when": "state CREATED; level < 75; !player.getRace() == Race.KAMAEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00235_MimirsElixir/30721-01.htm",
+     "when": "state CREATED; NOT level < 75; !player.getRace() == Race.KAMAEL; (hasQuestItems(player, STAR_OF_DESTINY))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00235_MimirsElixir/30721-07.html",
+     "when": "state CREATED; NOT level < 75; !player.getRace() == Race.KAMAEL; NOT (hasQuestItems(player, STAR_OF_DESTINY))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00235_MimirsElixir/30721-11.html",
+     "when": "state STARTED; memo 1; (hasQuestItems(player, PURE_SILVER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00235_MimirsElixir/30721-10.html",
+     "when": "state STARTED; memo 1; NOT (hasQuestItems(player, PURE_SILVER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00235_MimirsElixir/30721-13.html",
+     "when": "state STARTED; memo 2|3|4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00235_MimirsElixir/30721-14.html",
+     "when": "state STARTED; memo 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00235_MimirsElixir/30721-16.html",
+     "when": "state STARTED; memo 6|7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00235_MimirsElixir/30721-17.html",
+     "when": "state STARTED; memo 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "246": {
+   "name": "Possessor Of A Precious Soul 3",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 3]",
+    "[Path of the Noblesse, Precious Soul - 3 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00246_PossessorOfAPreciousSoul3/30721-1.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/30721-09.html": {
+   "file": "Q00235_MimirsElixir/30721-09.html",
+   "quest": 235,
+   "text": "Magister Ladd: It has also been a long time since I last spoke with him. But he gave me courage and a mission at a point in my life where I had given up my research and was deeply depressed. Thanks to him, I was able to resume the research that I had abandoned, and I was able to discover a way to e…",
+   "header": "Magister Ladd",
+   "when": [
+    "state CREATED; player.getRace() == Race.KAMAEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30721-08.html": {
+   "file": "Q00235_MimirsElixir/30721-08.html",
+   "quest": 235,
+   "text": "Magister Ladd: Long ago, I studied potions. The magic of the giants, secrets of the gods... That was the stuff of my research. But such knowledge is not for mere mortals such as us... I sealed that research and put it out of my mind for a long time. However, recently, I've been thinking... If some …",
+   "header": "Magister Ladd",
+   "when": [
+    "state CREATED; level < 75; !player.getRace() == Race.KAMAEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30721-01.htm": {
+   "file": "Q00235_MimirsElixir/30721-01.htm",
+   "quest": 235,
+   "text": "Magister Ladd: Have we met? I've had my head buried in books for so long, I have no memory left for faces! Was there something you wanted to say to me? What brings you to the Ivory Tower of Oren?",
+   "header": "Magister Ladd",
+   "when": [
+    "state CREATED; NOT level < 75; !player.getRace() == Race.KAMAEL; (hasQuestItems(player, STAR_OF_DESTINY))"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about Mimir's Elixir.\"",
+     "bypass": "Quest Q00235_MimirsElixir 30721-02.htm",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "30721-02.htm",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30721-02.htm"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/30721-07.html": {
+   "file": "Q00235_MimirsElixir/30721-07.html",
+   "quest": 235,
+   "text": "Magister Ladd: Not long ago, a stranger visited me asking about the research that I performed long ago. He seemed very familiar to me... Who was that?... He got me thinking about things I haven't thought about in years... I remember thinking how the research was really dangerous, and I stopped doin…",
+   "header": "Magister Ladd",
+   "when": [
+    "state CREATED; NOT level < 75; !player.getRace() == Race.KAMAEL; NOT (hasQuestItems(player, STAR_OF_DESTINY))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30721-11.html": {
+   "file": "Q00235_MimirsElixir/30721-11.html",
+   "quest": 235,
+   "text": "Magister Ladd: Wonderful! You have brought some extremely Pure Silver... Such a simple, yet magical substance. You're obviously committed to your mission. All of these things coming together can't be a coincidence... The Star of Destiny, Mimir's Elixir... And those two strangers asking around about…",
+   "header": "Magister Ladd",
+   "when": [
+    "state STARTED; memo 1; (hasQuestItems(player, PURE_SILVER))"
+   ],
+   "links": [
+    {
+     "text": "\"So, is this all you need to make the elixir?\"",
+     "bypass": "Quest Q00235_MimirsElixir 30721-12.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "30721-12.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30721-12.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/30721-10.html": {
+   "file": "Q00235_MimirsElixir/30721-10.html",
+   "quest": 235,
+   "text": "Magister Ladd: You haven't found Quicksilver yet? If you aren't serious about this, it certainly doesn't matter to me... I already told you how to make Pure Silver! Go find Merchant Wesley under Ivory Tower. He will teach you how to use the mixing urn.",
+   "header": "Magister Ladd",
+   "when": [
+    "state STARTED; memo 1; NOT (hasQuestItems(player, PURE_SILVER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30721-13.html": {
+   "file": "Q00235_MimirsElixir/30721-13.html",
+   "quest": 235,
+   "text": "Magister Ladd: To create Mimir's Elixir I must have True Gold. True Gold and Pure Silver are required to create the elixir. Go and see Magister Joan in this tower and ask her for my True Gold.",
+   "header": "Magister Ladd",
+   "when": [
+    "state STARTED; memo 2|3|4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30721-14.html": {
+   "file": "Q00235_MimirsElixir/30721-14.html",
+   "quest": 235,
+   "text": "Magister Ladd: Wonderful! You've brought pure gold! Now comes the hard part... What always stopped my research was the fact that the mixing of True Gold and Pure Silver cannot be accomplished with ordinary fire. It always loses its purity. But recently I received a hint to the solution from a man w…",
+   "header": "Magister Ladd",
+   "when": [
+    "state STARTED; memo 5"
+   ],
+   "links": [
+    {
+     "text": "\"How do you mix the elixir?\"",
+     "bypass": "Quest Q00235_MimirsElixir 30721-15.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "30721-15.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30721-15.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/30721-16.html": {
+   "file": "Q00235_MimirsElixir/30721-16.html",
+   "quest": 235,
+   "text": "Magister Ladd: The final ingredient, Blood Fire, can be obtained by defeating the Bloody Guardian at the Watcher's Tomb. Once you obtain Blood Fire, you must use the ingredient mixing urn in the basement of the Ivory Tower to create Mimir's Elixir. Mix Pure Silver and True Gold, then use the Blood …",
+   "header": "Magister Ladd",
+   "when": [
+    "state STARTED; memo 6|7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30721-17.html": {
+   "file": "Q00235_MimirsElixir/30721-17.html",
+   "quest": 235,
+   "text": "Magister Ladd: You've really done it! This is Mimir's Elixir, the ultimate reagent! How is it used? It's very simple - you just swallow it! The only reason I told you to come back and see me is because I'm curious about the elixir's effects. But before you drink it... While you were at the Watcher'…",
+   "header": "Magister Ladd",
+   "when": [
+    "state STARTED; memo 8"
+   ],
+   "links": [
+    {
+     "text": "\"Yes please.\"",
+     "bypass": "Quest Q00235_MimirsElixir 30721-18.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "30721-18.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30721-18.html"
+    }
+   ]
+  },
+  "Q00246_PossessorOfAPreciousSoul3/30721-1.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/30721-1.html",
+   "quest": 246,
+   "text": "Magister Ladd: You came back with the three relics! Good job. We should hurry, you never know when our enemies might attack.",
+   "header": "Magister Ladd",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the box.\"",
+     "bypass": "Quest Q00246_PossessorOfAPreciousSoul3 30721-2.html",
+     "kind": "quest-event",
+     "script": "Q00246_PossessorOfAPreciousSoul3",
+     "event": "30721-2.html",
+     "quest": 246,
+     "to": "Q00246_PossessorOfAPreciousSoul3/30721-2.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/30721-02.htm": {
+   "file": "Q00235_MimirsElixir/30721-02.htm",
+   "quest": 235,
+   "text": "Magister Ladd: Recently a stranger came to see me. He wore black armor and seemed other-worldly. He was accompanied by a young, blonde girl. He said... \"Soon, a traveler carrying a Star of Destiny will visit you and ask about Mimir's Elixir. It is he who will take control in the future era of chaos…",
+   "header": "Magister Ladd",
+   "links": [
+    {
+     "text": "\"Finding my own fate?\"",
+     "bypass": "Quest Q00235_MimirsElixir 30721-03.htm",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "30721-03.htm",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30721-03.htm"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/30721-03.htm": {
+   "file": "Q00235_MimirsElixir/30721-03.htm",
+   "quest": 235,
+   "text": "Magister Ladd: Ah, yes! Mimir's Elixir! This powerful potion was developed by Mimir, the greatest mage in the era of the giants... It is the source of life itself, used by the gods when they created the five races. This elixir emboldened the giants, giving them the power to create life itself and t…",
+   "header": "Magister Ladd",
+   "links": [
+    {
+     "text": "\"But you gave it up!?\"",
+     "bypass": "Quest Q00235_MimirsElixir 30721-04.htm",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "30721-04.htm",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30721-04.htm"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/30721-04.htm": {
+   "file": "Q00235_MimirsElixir/30721-04.htm",
+   "quest": 235,
+   "text": "Magister Ladd: Now that I think back on it... It must have been the fear... I am a devoted Elf, seeking enlightenment from the goddess Shilen. My search inadvertently brought me into direct conflict with the gods! I'm no hero, but it became a driving force in my life to discover the source and true…",
+   "header": "Magister Ladd",
+   "links": [
+    {
+     "text": "\"Two types of heroes? What is the other type?\"",
+     "bypass": "Quest Q00235_MimirsElixir 30721-05.htm",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "30721-05.htm",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30721-05.htm"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/30721-05.htm": {
+   "file": "Q00235_MimirsElixir/30721-05.htm",
+   "quest": 235,
+   "text": "Magister Ladd: Some heroes reject destiny, and some have it thrust upon them... For instance, Raul, the Unification King, was chosen by the Goddess of the Lake, and there was Emperor Shunaiman, who received power from Einhasad... Don't you agree that they were chosen by the gods? Those who are chos…",
+   "header": "Magister Ladd",
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00235_MimirsElixir 30721-06.htm",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "30721-06.htm",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30721-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/30721-06.htm": {
+   "file": "Q00235_MimirsElixir/30721-06.htm",
+   "quest": 235,
+   "text": "Magister Ladd: Those two people rekindled my long-dormant interest in research. When I was young and fearless, I didn't hesitate to take the chances necessary to gather ingredients... But time has mellowed my fervor. I've come to appreciate the simpler things in life. Would you gather the ingredien…",
+   "header": "Magister Ladd",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30721-12.html": {
+   "file": "Q00235_MimirsElixir/30721-12.html",
+   "quest": 235,
+   "text": "Magister Ladd: Certainly not! How can you make something from only one ingredient? Are you kidding? We must also have True Gold , of course. But I'm afraid it won't be easy to find. When I gave up my studies many years ago, I gave what I had left to Magister Joan along with the recipe for making th…",
+   "header": "Magister Ladd",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30721-15.html": {
+   "file": "Q00235_MimirsElixir/30721-15.html",
+   "quest": 235,
+   "text": "Magister Ladd: Go to the Watcher's Tomb and defeat the Bloody Guardian . From their bodies, you can obtain the Blood Fire, the Flames of Purgatory. That is the only ingredient that can melt the supreme metals, True Gold, and Pure Silver. Once you find the Blood Fire, use this mixing stone to activa…",
+   "header": "Magister Ladd",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00235_MimirsElixir/30721-18.html": {
+   "file": "Q00235_MimirsElixir/30721-18.html",
+   "quest": 235,
+   "text": "Magister Ladd: OK, then... Um. \"Break the chains of race and class, and be truly free. Dance to the rhythm of nature, Rejoice in the beauty of the stars. Don't worry about tomorrow, Enjoy small victories and learn in baby steps. Remember, life is an illusion.\" These words fit you well. OK, drink Mi…",
+   "header": "Magister Ladd",
+   "links": [
+    {
+     "text": "Drink the elixir.",
+     "bypass": "Quest Q00235_MimirsElixir 30721-19.html",
+     "kind": "quest-event",
+     "script": "Q00235_MimirsElixir",
+     "event": "30721-19.html",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30721-19.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00235_MimirsElixir/30721-19.html": {
+   "file": "Q00235_MimirsElixir/30721-19.html",
+   "quest": 235,
+   "text": "Magister Ladd: ... .... .... Can you feel it? I'm curious.... Tell me, what do you feel? Maybe it hasn't taken effect yet... But trust me, you'll never be the same... You must go to a grand master, Grand Magister, warehouse chief or prefect and ask about a class transfer . Thus you can escape your …",
+   "header": "Magister Ladd",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00246_PossessorOfAPreciousSoul3/30721-2.html": {
+   "file": "Q00246_PossessorOfAPreciousSoul3/30721-2.html",
+   "quest": 246,
+   "text": "Magister Ladd: I have successfully removed the Soultrap spells on Waterbinder, Evergreen and Rain Song. Now I will send them where they belong. I have no doubt that your destiny will be great. Caradine left a letter for you.",
+   "header": "Magister Ladd",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30721-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30721-noteach.html",
+   "quest": null,
+   "text": "Magister Ladd: Ha, you must be as dumb as you look. I guess no one has told you that Mystics must study magic with their own race. Elven and Humans downstairs, Dwarves or Orcs, and the rest of the Fighters... Not my concern. If you are a Cleric you should visit the temple.",
+   "header": "Magister Ladd",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30721.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30721.html",
+   "quest": null,
+   "text": "Magister Ladd: Welcome, stranger. May Shilen's darkness cloak and protect you. Don't worry about those two frowning women over there. One hasn't slept much recently, and the other is just as sour as an old lemon. Ha ha ha!",
+   "header": "Magister Ladd",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Mimir's Elixir]",
+     "bypass": "npc_%objectId%_Quest Q00235_MimirsElixir",
+     "kind": "quest",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30721-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Mimir's Elixir (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00235_MimirsElixir",
+     "kind": "quest",
+     "quest": 235,
+     "to": "Q00235_MimirsElixir/30721-11.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 3 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00246_PossessorOfAPreciousSoul3",
+     "kind": "quest",
+     "quest": 246,
+     "to": "Q00246_PossessorOfAPreciousSoul3/30721-1.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30721-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30721-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,803 @@
+{
+ "npcId": 31688,
+ "name": "Grand Olympiad Manager",
+ "title": "",
+ "type": "L2OlympiadManager",
+ "generated": "2026-10-27T18:18:03.269Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31688.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "551": {
+   "name": "Olympiad Starter",
+   "listText": [
+    "[Olympiad Starter]",
+    "[Olympiad Starter (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00551_OlympiadStarter/31688-00.htm",
+     "when": "((player.getLevel() < 75) || !player.isNoble())",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00551_OlympiadStarter/31688-01.htm",
+     "when": "state CREATED; !((player.getLevel() < 75) || !player.isNoble())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00551_OlympiadStarter/31688-00.htm",
+     "when": "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); st.isNowAvailable(); (player.getLevel() < 75) || !player.isNoble()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00551_OlympiadStarter/31688-01.htm",
+     "when": "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); st.isNowAvailable(); NOT (player.getLevel() < 75) || !player.isNoble()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00551_OlympiadStarter/31688-05.html",
+     "when": "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00551_OlympiadStarter/31688-07.html",
+     "when": "state STARTED; memo 1; !((player.getLevel() < 75) || !player.isNoble()); ((st.getQuestItemsCount(CERT_3) + st.getQuestItemsCount(CERT_5) + st.getQuestItemsCount(CERT_10)) > ",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00551_OlympiadStarter/31688-06.html",
+     "when": "state STARTED; memo 1; !((player.getLevel() < 75) || !player.isNoble()); NOT ((st.getQuestItemsCount(CERT_3) + st.getQuestItemsCount(CERT_5) + st.getQuestItemsCount(CERT_10)) > ",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00551_OlympiadStarter/31688-04.html",
+     "when": "state STARTED; memo 2; !((player.getLevel() < 75) || !player.isNoble())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "552": {
+   "name": "Olympiad Veteran",
+   "listText": [
+    "[Olympiad Veteran]",
+    "[Olympiad Veteran (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00552_OlympiadVeteran/31688-00.htm",
+     "when": "((player.getLevel() < 75) || !player.isNoble())",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00552_OlympiadVeteran/31688-01.htm",
+     "when": "state CREATED; !((player.getLevel() < 75) || !player.isNoble())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00552_OlympiadVeteran/31688-00.htm",
+     "when": "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); st.isNowAvailable(); (player.getLevel() < 75) || !player.isNoble()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00552_OlympiadVeteran/31688-01.htm",
+     "when": "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); st.isNowAvailable(); NOT (player.getLevel() < 75) || !player.isNoble()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00552_OlympiadVeteran/31688-05.html",
+     "when": "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00552_OlympiadVeteran/31688-04.html",
+     "when": "state STARTED; !((player.getLevel() < 75) || !player.isNoble()); count == 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "553": {
+   "name": "Olympiad Undefeated",
+   "listText": [
+    "[Olympiad Undefeated]",
+    "[Olympiad Undefeated (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00553_OlympiadUndefeated/31688-00.htm",
+     "when": "((player.getLevel() < 75) || !player.isNoble())",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00553_OlympiadUndefeated/31688-01.htm",
+     "when": "state CREATED; !((player.getLevel() < 75) || !player.isNoble())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00553_OlympiadUndefeated/31688-00.htm",
+     "when": "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); st.isNowAvailable(); (player.getLevel() < 75) || !player.isNoble()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00553_OlympiadUndefeated/31688-01.htm",
+     "when": "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); st.isNowAvailable(); NOT (player.getLevel() < 75) || !player.isNoble()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00553_OlympiadUndefeated/31688-05.html",
+     "when": "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00553_OlympiadUndefeated/31688-04.html",
+     "when": "cond 2; !((player.getLevel() < 75) || !player.isNoble()); count == 3",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31688.htm": {
+   "file": "default/31688.htm",
+   "quest": null,
+   "text": "Welcome to the Olympiad. (You must be a noblesse in order to participate in the match.)",
+   "links": [
+    {
+     "text": "Watch Match",
+     "bypass": "npc_%objectId%_watchmatch",
+     "kind": "other"
+    },
+    {
+     "text": "Examine",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/31688-1.htm"
+    }
+   ]
+  },
+  "default/31688-1.htm": {
+   "file": "default/31688-1.htm",
+   "quest": null,
+   "text": "Grand Olympiad Manager: Listen to the explanation about the Grand Olympiad's history, match rules, and points before challenging it.",
+   "header": "Grand Olympiad Manager",
+   "links": [
+    {
+     "text": "Hear about basic content (history).",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "default/31688-4.htm"
+    },
+    {
+     "text": "Hear about match rules.",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "default/31688-5.htm"
+    },
+    {
+     "text": "Hear about Olympiad points.",
+     "bypass": "npc_%objectId%_Chat 6",
+     "kind": "page",
+     "to": "default/31688-6.htm"
+    },
+    {
+     "text": "Hear about points settlement rules.",
+     "bypass": "npc_%objectId%_Chat 7",
+     "kind": "page",
+     "to": "default/31688-7.htm"
+    },
+    {
+     "text": "View past Olympiad period ranking.",
+     "bypass": "npc_%objectId%_OlympiadDesc 3a",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/31688.htm"
+    }
+   ]
+  },
+  "default/31688-4.htm": {
+   "file": "default/31688-4.htm",
+   "quest": null,
+   "text": "Grand Olympiad Manager: The Olympiad boasts a long history. During the mythical era of giants, this arena was created to foster peace and understanding among the races. This is the Grand Olympiad.",
+   "header": "Grand Olympiad Manager",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/31688-1.htm"
+    }
+   ]
+  },
+  "default/31688-5.htm": {
+   "file": "default/31688-5.htm",
+   "quest": null,
+   "text": "Grand Olympiad Manager: The Olympiad match can be generally divided by three types. One is a 3 vs. 3 Team Match where 3 people become a team to compete with other teams, one is a 1 vs. 1 Match where 1:1 competition is held regardless of the class, one is a 1 vs. 1 Class Match where a person can com…",
+   "header": "Grand Olympiad Manager",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/31688-1.htm"
+    }
+   ]
+  },
+  "default/31688-6.htm": {
+   "file": "default/31688-6.htm",
+   "quest": null,
+   "text": "Grand Olympiad Manager: You must earn Grand Olympiad Points in order to become a hero. The person who acquires the most points in each class is selected to become the hero of that period. If you participate in a certain number of games, you can also exchange Grand Olympiad Points for Olympiad Token…",
+   "header": "Grand Olympiad Manager",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/31688-1.htm"
+    }
+   ]
+  },
+  "default/31688-7.htm": {
+   "file": "default/31688-7.htm",
+   "quest": null,
+   "text": "Grand Olympiad Manager: Once the Olympiad period ends, Olympiad Points are awarded to participating Noblesse. In order to exchange Olympiad Points for Olympiad Tokens, you must first participate in at least 15 matches. You can exchange 1 Olympiad Point for 1,000 Olympiad Tokens. For example, if you…",
+   "header": "Grand Olympiad Manager",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/31688-1.htm"
+    }
+   ]
+  },
+  "Q00551_OlympiadStarter/31688-00.htm": {
+   "file": "Q00551_OlympiadStarter/31688-00.htm",
+   "quest": 551,
+   "text": "Grand Olympiad Manager: You do not meet the requirements for taking on this mission. (Only noblesse characters above level 75 who have completed a third class transfer can undertake this quest.)",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "((player.getLevel() < 75) || !player.isNoble())",
+    "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); st.isNowAvailable(); (player.getLevel() < 75) || !player.isNoble()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00551_OlympiadStarter/31688-01.htm": {
+   "file": "Q00551_OlympiadStarter/31688-01.htm",
+   "quest": 551,
+   "text": "Grand Olympiad Manager: If you receive a mission involving challenging the Olympiad before you enter the Grand Olympiad, you can receive additional rewards. If you're qualified, why don't you try making the challenge?",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "state CREATED; !((player.getLevel() < 75) || !player.isNoble())",
+    "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); st.isNowAvailable(); NOT (player.getLevel() < 75) || !player.isNoble()"
+   ],
+   "links": [
+    {
+     "text": "Accept",
+     "bypass": "Quest Q00551_OlympiadStarter 31688-03.html",
+     "kind": "quest-event",
+     "script": "Q00551_OlympiadStarter",
+     "event": "31688-03.html",
+     "quest": 551,
+     "to": "Q00551_OlympiadStarter/31688-03.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"Can you tell me more?\"",
+     "bypass": "Quest Q00551_OlympiadStarter 31688-02.htm",
+     "kind": "quest-event",
+     "script": "Q00551_OlympiadStarter",
+     "event": "31688-02.htm",
+     "quest": 551,
+     "to": "Q00551_OlympiadStarter/31688-02.htm"
+    }
+   ]
+  },
+  "Q00551_OlympiadStarter/31688-05.html": {
+   "file": "Q00551_OlympiadStarter/31688-05.html",
+   "quest": 551,
+   "text": "Grand Olympiad Manager: You have already received the reward for this mission. You should rest before you try again! (This quest can only be undertaken once a day. This quest resets everyday at 6:30 AM.)",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); !st.isNowAvailable()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00551_OlympiadStarter/31688-07.html": {
+   "file": "Q00551_OlympiadStarter/31688-07.html",
+   "quest": 551,
+   "text": "Grand Olympiad Manager: I will give you an incomplete reward. Please remember that once you receive the reward, you cannot take on the mission anymore today. Do you still want to go ahead?",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "state STARTED; memo 1; !((player.getLevel() < 75) || !player.isNoble()); ((st.getQuestItemsCount(CERT_3) + st.getQuestItemsCount(CERT_5) + st.getQuestItemsCount(CERT_10)) > "
+   ],
+   "links": [
+    {
+     "text": "\"Yes please.\"",
+     "bypass": "Quest Q00551_OlympiadStarter 31688-04.html",
+     "kind": "quest-event",
+     "script": "Q00551_OlympiadStarter",
+     "event": "31688-04.html",
+     "quest": 551,
+     "to": "Q00551_OlympiadStarter/31688-04.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00551_OlympiadStarter/31688-06.html": {
+   "file": "Q00551_OlympiadStarter/31688-06.html",
+   "quest": 551,
+   "text": "Grand Olympiad Manager: You did not fulfil the requirements for receiving a reward. You must participate in more than 3 Olympiad matches in order to receive a reward. If you participate 5 times, the reward will increase, and if you participate more than 10 times, you will receive the promised ultim…",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "state STARTED; memo 1; !((player.getLevel() < 75) || !player.isNoble()); NOT ((st.getQuestItemsCount(CERT_3) + st.getQuestItemsCount(CERT_5) + st.getQuestItemsCount(CERT_10)) > "
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00551_OlympiadStarter/31688-04.html": {
+   "file": "Q00551_OlympiadStarter/31688-04.html",
+   "quest": 551,
+   "text": "Grand Olympiad Manager: Well done. Please come back tomorrow.",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "state STARTED; memo 2; !((player.getLevel() < 75) || !player.isNoble())"
+   ],
+   "sets": {
+    "reward": true
+   },
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00552_OlympiadVeteran/31688-00.htm": {
+   "file": "Q00552_OlympiadVeteran/31688-00.htm",
+   "quest": 552,
+   "text": "Grand Olympiad Manager: You do not meet the requirements for taking on this mission. (Only noblesse characters above level 75 who have completed a third class transfer can undertake this quest.)",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "((player.getLevel() < 75) || !player.isNoble())",
+    "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); st.isNowAvailable(); (player.getLevel() < 75) || !player.isNoble()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00552_OlympiadVeteran/31688-01.htm": {
+   "file": "Q00552_OlympiadVeteran/31688-01.htm",
+   "quest": 552,
+   "text": "Grand Olympiad Manager: While challenging the Olympiad, it is important to widen your level of experience as well. Just by making the challenge, you will receive a small reward. Will you make the challenge?",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "state CREATED; !((player.getLevel() < 75) || !player.isNoble())",
+    "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); st.isNowAvailable(); NOT (player.getLevel() < 75) || !player.isNoble()"
+   ],
+   "links": [
+    {
+     "text": "Accept",
+     "bypass": "Quest Q00552_OlympiadVeteran 31688-03.html",
+     "kind": "quest-event",
+     "script": "Q00552_OlympiadVeteran",
+     "event": "31688-03.html",
+     "quest": 552,
+     "to": "Q00552_OlympiadVeteran/31688-03.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"Tell me more.\"",
+     "bypass": "Quest Q00552_OlympiadVeteran 31688-02.htm",
+     "kind": "quest-event",
+     "script": "Q00552_OlympiadVeteran",
+     "event": "31688-02.htm",
+     "quest": 552,
+     "to": "Q00552_OlympiadVeteran/31688-02.htm"
+    }
+   ]
+  },
+  "Q00552_OlympiadVeteran/31688-05.html": {
+   "file": "Q00552_OlympiadVeteran/31688-05.html",
+   "quest": 552,
+   "text": "Grand Olympiad Manager: You have already received the reward for this mission. You should rest before you try again! (This quest can only be undertaken once a day. This quest resets everyday at 6:30 AM.)",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); !st.isNowAvailable()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00552_OlympiadVeteran/31688-04.html": {
+   "file": "Q00552_OlympiadVeteran/31688-04.html",
+   "quest": 552,
+   "text": "Grand Olympiad Manager: Well done. Please come back tomorrow.",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "state STARTED; !((player.getLevel() < 75) || !player.isNoble()); count == 3"
+   ],
+   "sets": {
+    "reward": true
+   },
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00553_OlympiadUndefeated/31688-00.htm": {
+   "file": "Q00553_OlympiadUndefeated/31688-00.htm",
+   "quest": 553,
+   "text": "Grand Olympiad Manager: You do not meet the requirements for taking on this mission. (Only noblesse characters above level 75 who have completed a third class transfer can undertake this quest.)",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "((player.getLevel() < 75) || !player.isNoble())",
+    "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); st.isNowAvailable(); (player.getLevel() < 75) || !player.isNoble()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00553_OlympiadUndefeated/31688-01.htm": {
+   "file": "Q00553_OlympiadUndefeated/31688-01.htm",
+   "quest": 553,
+   "text": "Grand Olympiad Manager: If you are not satisfied with just participating in the Grand Olympiad, and you wish to fight for victory, I have a suitable mission for you. Will you accept the challenge? If you prove your abilities, I promise to give you a fitting reward.",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "state CREATED; !((player.getLevel() < 75) || !player.isNoble())",
+    "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); st.isNowAvailable(); NOT (player.getLevel() < 75) || !player.isNoble()"
+   ],
+   "links": [
+    {
+     "text": "Accept",
+     "bypass": "Quest Q00553_OlympiadUndefeated 31688-03.html",
+     "kind": "quest-event",
+     "script": "Q00553_OlympiadUndefeated",
+     "event": "31688-03.html",
+     "quest": 553,
+     "to": "Q00553_OlympiadUndefeated/31688-03.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"Tell me more first.\"",
+     "bypass": "Quest Q00553_OlympiadUndefeated 31688-02.htm",
+     "kind": "quest-event",
+     "script": "Q00553_OlympiadUndefeated",
+     "event": "31688-02.htm",
+     "quest": 553,
+     "to": "Q00553_OlympiadUndefeated/31688-02.htm"
+    }
+   ]
+  },
+  "Q00553_OlympiadUndefeated/31688-05.html": {
+   "file": "Q00553_OlympiadUndefeated/31688-05.html",
+   "quest": 553,
+   "text": "Grand Olympiad Manager: You have already received the reward for this mission. You should rest before you try again! (This quest can only be undertaken once a day. This quest resets everyday at 6:30 AM.)",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "state COMPLETED; !((player.getLevel() < 75) || !player.isNoble()); !st.isNowAvailable()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00553_OlympiadUndefeated/31688-04.html": {
+   "file": "Q00553_OlympiadUndefeated/31688-04.html",
+   "quest": 553,
+   "text": "Grand Olympiad Manager: Well done. Please come back tomorrow.",
+   "header": "Grand Olympiad Manager",
+   "when": [
+    "cond 2; !((player.getLevel() < 75) || !player.isNoble()); count == 3"
+   ],
+   "sets": {
+    "reward": true
+   },
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00551_OlympiadStarter/31688-02.htm": {
+   "file": "Q00551_OlympiadStarter/31688-02.htm",
+   "quest": 551,
+   "text": "Grand Olympiad Manager: There is a reward for entering 10 games. But you will receive a reward by participating in 3 games, then in 5 games. You will also get rewared with the Medal of Honor if you participate in 5 and 10 games.",
+   "header": "Grand Olympiad Manager",
+   "links": [
+    {
+     "text": "Accept",
+     "bypass": "Quest Q00551_OlympiadStarter 31688-03.html",
+     "kind": "quest-event",
+     "script": "Q00551_OlympiadStarter",
+     "event": "31688-03.html",
+     "quest": 551,
+     "to": "Q00551_OlympiadStarter/31688-03.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00551_OlympiadStarter/31688-03.html": {
+   "file": "Q00551_OlympiadStarter/31688-03.html",
+   "quest": 551,
+   "text": "Grand Olympiad Manager: The mission has been accepted. Please check to see if there are any other missions. Once preparations are complete, challenge the Olympiad.",
+   "header": "Grand Olympiad Manager",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "See other missions.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00552_OlympiadVeteran/31688-02.htm": {
+   "file": "Q00552_OlympiadVeteran/31688-02.htm",
+   "quest": 552,
+   "text": "Grand Olympiad Manager: Please participate in all the various categories of matches in the Olympiad. If you participate in each of the non-class battles, class battles, and group battles 5 times , your mission will be complete. If it is difficult to participate in the three match categories, you ca…",
+   "header": "Grand Olympiad Manager",
+   "links": [
+    {
+     "text": "Accept",
+     "bypass": "Quest Q00552_OlympiadVeteran 31688-03.html",
+     "kind": "quest-event",
+     "script": "Q00552_OlympiadVeteran",
+     "event": "31688-03.html",
+     "quest": 552,
+     "to": "Q00552_OlympiadVeteran/31688-03.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00552_OlympiadVeteran/31688-03.html": {
+   "file": "Q00552_OlympiadVeteran/31688-03.html",
+   "quest": 552,
+   "text": "Grand Olympiad Manager: The mission has been accepted. Please check to see if there are any other missions. Once preparations are complete, challenge the Olympiad.",
+   "header": "Grand Olympiad Manager",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "See other missions.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00552_OlympiadVeteran/31688-s0.html": {
+   "file": "Q00552_OlympiadVeteran/31688-s0.html",
+   "quest": 552,
+   "text": "Grand Olympiad Manager: You did not fulfill the requirements for receiving a reward. you must participate at least 5 times in a non-class battle, class battle, or group battle in order to receive the reward. Of course, if you participate in all three categories, you can expect an even greater rewar…",
+   "header": "Grand Olympiad Manager",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00552_OlympiadVeteran/31688-s1.html": {
+   "file": "Q00552_OlympiadVeteran/31688-s1.html",
+   "quest": 552,
+   "text": "Grand Olympiad Manager: I will give you an incomplete reward. Please remember that once you receive the reward, you can't take on the mission again today. Still want the reward?",
+   "header": "Grand Olympiad Manager",
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00552_OlympiadVeteran 31688-04.html",
+     "kind": "quest-event",
+     "script": "Q00552_OlympiadVeteran",
+     "event": "31688-04.html",
+     "quest": 552,
+     "to": "Q00552_OlympiadVeteran/31688-04.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00552_OlympiadVeteran/31688-s2.html": {
+   "file": "Q00552_OlympiadVeteran/31688-s2.html",
+   "quest": 552,
+   "text": "Grand Olympiad Manager: I will give you an incomplete reward. Please remember that once you receive the reward, you cannot take on the mission anymore today. Do you still want to go ahead?",
+   "header": "Grand Olympiad Manager",
+   "links": [
+    {
+     "text": "\"Yes please.\"",
+     "bypass": "Quest Q00552_OlympiadVeteran 31688-04.html",
+     "kind": "quest-event",
+     "script": "Q00552_OlympiadVeteran",
+     "event": "31688-04.html",
+     "quest": 552,
+     "to": "Q00552_OlympiadVeteran/31688-04.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00553_OlympiadUndefeated/31688-02.htm": {
+   "file": "Q00553_OlympiadUndefeated/31688-02.htm",
+   "quest": 553,
+   "text": "Grand Olympiad Manager: Enter the Olympiad and take on the challenge of 10 consecutive wins ! As you know, consecutive wins means not losing along the way. Whether you have 2 consecutive wins or 5 consecutive wins , you will receive a reward. But it will be nothing compared to the reward for 10 con…",
+   "header": "Grand Olympiad Manager",
+   "links": [
+    {
+     "text": "Accept",
+     "bypass": "Quest Q00553_OlympiadUndefeated 31688-03.html",
+     "kind": "quest-event",
+     "script": "Q00553_OlympiadUndefeated",
+     "event": "31688-03.html",
+     "quest": 553,
+     "to": "Q00553_OlympiadUndefeated/31688-03.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00553_OlympiadUndefeated/31688-03.html": {
+   "file": "Q00553_OlympiadUndefeated/31688-03.html",
+   "quest": 553,
+   "text": "Grand Olympiad Manager: The mission has been accepted. Please check to see if there are any other missions. Once preparations are complete, challenge the Olympiad.",
+   "header": "Grand Olympiad Manager",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "See other missions.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00553_OlympiadUndefeated/31688-w0.html": {
+   "file": "Q00553_OlympiadUndefeated/31688-w0.html",
+   "quest": 553,
+   "text": "Grand Olympiad Manager: You did not fulfill the requirements for receiving a reward. Please remember about the consecutive wins - you must not be defeated in the middle! There is a reward for 2 consecutive wins or for 5 consecutive wins, but they are nothing compared to the reward for 10 consecutiv…",
+   "header": "Grand Olympiad Manager",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00553_OlympiadUndefeated/31688-w1.html": {
+   "file": "Q00553_OlympiadUndefeated/31688-w1.html",
+   "quest": 553,
+   "text": "Grand Olympiad Manager: I will give you an incomplete reward. Please remember that once you receive the reward, you can;t take on the mission again today. Still want the reward?",
+   "header": "Grand Olympiad Manager",
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00553_OlympiadUndefeated 31688-04.html",
+     "kind": "quest-event",
+     "script": "Q00553_OlympiadUndefeated",
+     "event": "31688-04.html",
+     "quest": 553,
+     "to": "Q00553_OlympiadUndefeated/31688-04.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00553_OlympiadUndefeated/31688-w2.html": {
+   "file": "Q00553_OlympiadUndefeated/31688-w2.html",
+   "quest": 553,
+   "text": "Grand Olympiad Manager: I will give you an incomplete reward. Please remember that once you receive the reward, you can;t take on the mission again today. Still want the reward?",
+   "header": "Grand Olympiad Manager",
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00553_OlympiadUndefeated 31688-04.html",
+     "kind": "quest-event",
+     "script": "Q00553_OlympiadUndefeated",
+     "event": "31688-04.html",
+     "quest": 553,
+     "to": "Q00553_OlympiadUndefeated/31688-04.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Olympiad Starter]",
+     "bypass": "npc_%objectId%_Quest Q00551_OlympiadStarter",
+     "kind": "quest",
+     "quest": 551,
+     "to": "Q00551_OlympiadStarter/31688-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Olympiad Starter (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00551_OlympiadStarter",
+     "kind": "quest",
+     "quest": 551,
+     "to": "Q00551_OlympiadStarter/31688-00.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Olympiad Veteran]",
+     "bypass": "npc_%objectId%_Quest Q00552_OlympiadVeteran",
+     "kind": "quest",
+     "quest": 552,
+     "to": "Q00552_OlympiadVeteran/31688-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Olympiad Veteran (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00552_OlympiadVeteran",
+     "kind": "quest",
+     "quest": 552,
+     "to": "Q00552_OlympiadVeteran/31688-00.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Olympiad Undefeated]",
+     "bypass": "npc_%objectId%_Quest Q00553_OlympiadUndefeated",
+     "kind": "quest",
+     "quest": 553,
+     "to": "Q00553_OlympiadUndefeated/31688-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Olympiad Undefeated (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00553_OlympiadUndefeated",
+     "kind": "quest",
+     "quest": 553,
+     "to": "Q00553_OlympiadUndefeated/31688-00.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

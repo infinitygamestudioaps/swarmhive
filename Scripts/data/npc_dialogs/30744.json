@@ -1,0 +1,825 @@
+{
+ "npcId": 30744,
+ "name": "Grey",
+ "title": "Guild Member",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.066Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30744.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "335": {
+   "name": "The Song of the Hunter",
+   "listText": [
+    "[The Song of the Hunter]",
+    "[The Song of the Hunter  (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00335_TheSongOfTheHunter/30744-01.htm",
+     "when": "state CREATED; player.getLevel() < MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30744-02.htm",
+     "when": "state CREATED; NOT player.getLevel() < MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30744-05.html",
+     "when": "state STARTED; has items 3695; count < 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30744-06.html",
+     "when": "state STARTED; has items 3695; !count < 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30744-07.html",
+     "when": "state STARTED; level < 45; has items 3692",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30744-08.html",
+     "when": "state STARTED; NOT level < 45; has items 3692; lacks items 3696",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30744-11.html",
+     "when": "state STARTED; has items 3696; count < 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30744-12.html",
+     "when": "state STARTED; has items 3696; !count < 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00335_TheSongOfTheHunter/30744-14.html",
+     "when": "state STARTED; has items 3693",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30744.htm": {
+   "file": "default/30744.htm",
+   "quest": null,
+   "text": "Guild Member Grey: You should not think of the Hunters Guild as a group whose members chase after rabbits and deer. We hunt the most precious of tresures, destroying evildoers and exploring ruins. We specialize in searching, tracking and hunting, and never fail to achieve our goals. We also have an…",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-01.htm": {
+   "file": "Q00335_TheSongOfTheHunter/30744-01.htm",
+   "quest": 335,
+   "text": "Guild Member Grey: Many aspire to join our guild. Many such as you only see the glamorous side of our profession. Becoming a hunter is not an easy task. Only the very best and brightest are selected for membership in the Hunters Guild. A hunting license is only given to those who pass a very severe…",
+   "header": "Guild Member Grey",
+   "when": [
+    "state CREATED; player.getLevel() < MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30744-02.htm": {
+   "file": "Q00335_TheSongOfTheHunter/30744-02.htm",
+   "quest": 335,
+   "text": "Guild Member Grey: Many aspire to join our guild. Many such as you only see the glamorous side of our profession. Becoming a hunter is not an easy task. Only the very best and brightest are selected for membership in the Hunters Guild. A hunting license is only given to those who pass a very severe…",
+   "header": "Guild Member Grey",
+   "when": [
+    "state CREATED; NOT player.getLevel() < MIN_LEVEL"
+   ],
+   "links": [
+    {
+     "text": "\"I wish to take the test for the hunting license.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-03.htm",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-03.htm",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-05.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-05.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must obtain at least three items from the list in order to obtain the 1-circle hunting license. Keep in mind that this is not merely a treasure hunt but is a test to find out if you have what it takes to be a hunter!",
+   "header": "Guild Member Grey",
+   "when": [
+    "state STARTED; has items 3695; count < 3"
+   ],
+   "links": [
+    {
+     "text": "View list",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-06.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-06.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You have obtained the items from the list! I must admit that I doubted you at first, but I stand corrected! Well, you certainly qualify as a hunter. I hereby bestow on you the 1-circle hunting license. Welcome to the guild, new hunting brother! Now you are qualified to perform th…",
+   "header": "Guild Member Grey",
+   "when": [
+    "state STARTED; has items 3695; !count < 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30744-07.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-07.html",
+   "quest": 335,
+   "text": "Guild Member Grey: Welcome, my hunter brother. What can I do for you?",
+   "header": "Guild Member Grey",
+   "when": [
+    "state STARTED; level < 45; has items 3692"
+   ],
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "\"Is there any work?\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-07a.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-07a.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-07a.html"
+    },
+    {
+     "text": "\"I wish to test for the 2-circle hunter license.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-07b.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-07b.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-07b.html"
+    },
+    {
+     "text": "\"I wish to leave the Hunters Guild.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-15.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-15.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-15.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-08.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-08.html",
+   "quest": 335,
+   "text": "Guild Member Grey: Welcome, my hunter brother. What can I do for you?",
+   "header": "Guild Member Grey",
+   "when": [
+    "state STARTED; NOT level < 45; has items 3692; lacks items 3696"
+   ],
+   "links": [
+    {
+     "text": "\"Are there any jobs?\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-08a.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-08a.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-08a.html"
+    },
+    {
+     "text": "\"I wish to test for the 2-circle hunting license.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-09.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-09.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-09.html",
+     "toAll": [
+      "Q00335_TheSongOfTheHunter/30744-09.html",
+      "Q00335_TheSongOfTheHunter/30744-09a.html"
+     ]
+    },
+    {
+     "text": "Leave the Hunters Guild",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-15.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-15.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-15.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-11.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-11.html",
+   "quest": 335,
+   "text": "Guild Member Grey: How is the hunt going? Once again, you must bring at least three items from the list. This should be well within your abilities. Good luck!",
+   "header": "Guild Member Grey",
+   "when": [
+    "state STARTED; has items 3696; count < 3"
+   ],
+   "links": [
+    {
+     "text": "View list",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-12.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-12.html",
+   "quest": 335,
+   "text": "Guild Member Grey: Good work! I knew that you would complete the test without much trouble. Now you are a respectable 2-circle hunter. Congratulations! Now you are qualified for more dangerous hunts. Go see Guild Member Tor. Or perhaps you should visit Cybellin. He is still looking for a good hunte…",
+   "header": "Guild Member Grey",
+   "when": [
+    "state STARTED; has items 3696; !count < 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30744-14.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-14.html",
+   "quest": 335,
+   "text": "Guild Member Grey: Hello, hunter brother. What can I do for you?",
+   "header": "Guild Member Grey",
+   "when": [
+    "state STARTED; has items 3693"
+   ],
+   "links": [
+    {
+     "text": "\"Are there any jobs?\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-14a.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-14a.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-14a.html"
+    },
+    {
+     "text": "\"I wish to leave the Hunters Guild.\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-15.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-15.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-15.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-03.htm": {
+   "file": "Q00335_TheSongOfTheHunter/30744-03.htm",
+   "quest": 335,
+   "text": "Guild Member Grey: Did I hurt your feelings? Do you actually intend to try for the hunting license? If so, you must listen carefully to my words... There are two types of hunters. Most hunters are 1-circle, but very skillful ones can obtain the 2-circle license by passing another test. Of course yo…",
+   "header": "Guild Member Grey",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "View the list",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-04.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-04.html",
+   "quest": 335,
+   "text": "Hunters Guild Member Grey: Next is the 1-circle hunter license test list. To pass the test, you have to bring at least three items from the list. Keep in mind that this is not just a simple treasure hunt but is a test to find out whether you have the nature and disposition of a hunter!",
+   "header": "Hunters Guild Member Grey",
+   "links": [
+    {
+     "text": "40 scales of guardian basilisk",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04a.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04a.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04a.html"
+    },
+    {
+     "text": "20 Karut Weeds",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04b.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04b.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04b.html"
+    },
+    {
+     "text": "3 heads of raiders with the lord's bounty on their heads",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04c.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04c.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04c.html"
+    },
+    {
+     "text": "Skin of Windsus Aleph",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04d.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04d.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04d.html"
+    },
+    {
+     "text": "20 light-blue Spirit Ore",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04e.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04e.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04e.html"
+    },
+    {
+     "text": "30 sea of spores seeds",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04f.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04f.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04f.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-04a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-04a.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must gather 40 scales of guardian basilisk . They live in the Death Pass . I really shouldn't tell you this... Gathering information about the items is a part of the test. Count yourself lucky to have received this valuable one-time hint!",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-04b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-04b.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must gather 20 Karut Weeds , used in the research of mages. The leto Lizardman mediums carry them. You may find the Leto Lizardmen in the southern part of Oren. Gathering information about the items is a part of the test. Count yourself lucky to have received this valuable on…",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-04c.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-04c.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must kill the three evil outlaw Haka brothers and bring back their heads. They are named Haka, Jakja and Marka . They are prefects of the Breka Orc tribe. They wantonly attack merchants' carriages, massacre citizens and set fire to their homes. There has been a bounty placed …",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-04d.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-04d.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must bring the skin of the Windsus Aleph . It is a particularly strong and vicious black boar, native to the Giran region. To find him you must go to the Death Pass and hunt windsuses, eventually you will come across the Windsus Aleph. Your arrow must fly the moment you see i…",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-04e.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-04e.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must gather 20 light-blue Spirit Ore . These Spirit Ore are obtained by destroying manashen gargoyles or enchanted stone golems in the area near the Ivory Tower. To protect their precious tower from interlopers, the mages apparently have inplanted Spirit Ore in the creatures …",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-04f.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-04f.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must gather 30 Sea of Spores seeds . These can be obtained by going to the Sea of Spores and killing the giant fungus . Of course, I should let you discover this for yourself, but I'm just an old softie... No more hints!",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-04.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-04.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-04.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-07a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-07a.html",
+   "quest": 335,
+   "text": "Guild Member Grey: We get dozens of hunting requests every day. You should speak to Guild Member Tor to find out what requests have currently come in. If there is a job that you like, you can accept it. There is also the possibility of being hired by individuals. Recently Cybellin asked me to intro…",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "\"Go back\"",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-07.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-07.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-07.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-07b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-07b.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You are already applying for the 2-circle hunting license? Nice to see that you don't lack ambition! But look. You're not ready. You do have some skills but you still need more important practical experience. For the time being, you should develop your talents while carrying out …",
+   "header": "Guild Member Grey",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30744-08a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-08a.html",
+   "quest": 335,
+   "text": "Guild Member Grey: We get dozens of hunting requests every day. You should see Guild Member Tor , he will know what requests have come in. If there is a job that you like, you can accept it. Hunters are also hired by individuals, not just through the guild. Recently Cybellin asked me to introduce h…",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-08.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-08.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-08.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-09.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-09.html",
+   "quest": 335,
+   "text": "Guild Member Grey: So, you wish to take the 2-circle hunting license test? Well I suppose you're up to giving it a try. As before, in the 2-circle test you must bring back at least three items written on the list. Of course, these items will be harder to obtain than those of the 1-circle test. Mayb…",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "View list",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-09a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-09a.html",
+   "quest": 335,
+   "text": "Guild Member Grey: Still taking the test, are you? Come and see me when you've finished.",
+   "header": "Guild Member Grey",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30744-10.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-10.html",
+   "quest": 335,
+   "text": "Guild Member Grey: Here is the 2-circle hunting license test list. You must bring",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "20 Timak Orc Totems",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10a.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10a.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10a.html"
+    },
+    {
+     "text": "20 skeins of trisalim cobweb",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10b.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10b.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10b.html"
+    },
+    {
+     "text": "30 Ambrosius Fruits",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10c.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10c.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10c.html"
+    },
+    {
+     "text": "20 Balefire Crystals",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10d.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10d.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10d.html"
+    },
+    {
+     "text": "20 Imperial Arrowheads",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10e.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10e.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10e.html"
+    },
+    {
+     "text": "The heads of 5 outlaw raiders",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10f.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10f.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10f.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-10a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-10a.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must gather 20 Timak Orc Totems . To obtain them you must kill Timak Orc Warriors. You should have no trouble with this. Now go!",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-10b.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-10b.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must gather 20 trisalim cobwebs . This should be no problem for you. Quickly now! Get them and come back to me!",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-10c.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-10c.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must gather 30 Ambrosius Fruits . You are familiar with ambrosius, aren't you? It's a fruit somewhat like an apple that grows on valley treants in Enchanted Valley. This should be easy for you!",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-10d.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-10d.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must gather twenty Balefire Crystals . Actually, I didn't know what this was so I asked the sorcerers about it. They said it could be obtained if you kill a tairim in the Cemetery. This hint should be of great value to you.",
+   "header": "Guild Member Grey",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-10e.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-10e.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must gather 20 Imperial Arrowheads . This should be easy for you. If you go to the National Cemetery and kill the undead archers, you can obtain arrowheads made during the Elmoreden era. Are you up for it?",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-10f.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-10f.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You must kill five talk bugbear raiders and bring back their heads. Their names are Athu, Triska, Motura and Lanka, and they are led by one called Kalath. These talk bugbear warriors have been attacking and pillaging merchant carriages. I'm sure you would deal with these outlaws …",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-10.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-10.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-10.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-14a.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-14a.html",
+   "quest": 335,
+   "text": "Guild Member Grey: We get dozens of hunting requests every day. You should go to Guild Member Tor to find out what requests have currently come in. If there is an assignment that appeals to you, you can accept it. There are also individuals who wish to hire hunters. Recently Cybellin asked me if I …",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-14.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-14.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-14.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-15.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-15.html",
+   "quest": 335,
+   "text": "Guild Member Grey: You wish to leave the guild? Certainly you know that is impossible. Once you join this brotherhood you are in for life... Didn't you know that?... You should reconsider your decision... ... The fear in your eyes makes it impossible for me to keep a straight face! I'm joking, you …",
+   "header": "Guild Member Grey",
+   "links": [
+    {
+     "text": "Leave",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-16.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-16.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-16.html",
+     "toAll": [
+      "Q00335_TheSongOfTheHunter/30744-16.html",
+      "Q00335_TheSongOfTheHunter/30744-17.html"
+     ],
+     "effect": "reward"
+    },
+    {
+     "text": "Cancel",
+     "bypass": "Quest Q00335_TheSongOfTheHunter 30744-18.html",
+     "kind": "quest-event",
+     "script": "Q00335_TheSongOfTheHunter",
+     "event": "30744-18.html",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-18.html"
+    }
+   ]
+  },
+  "Q00335_TheSongOfTheHunter/30744-16.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-16.html",
+   "quest": 335,
+   "text": "Guild Member Grey: Oh, too bad. There are not enough youngsters like you around these days... But if you have your heart set on leaving, then I won't stop you... May all of your wishes come true... May the divine protection of the gods be with you...",
+   "header": "Guild Member Grey",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30744-17.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-17.html",
+   "quest": 335,
+   "text": "Guild Member Grey: Oh, too bad. There aren't enough youngsters like you around these days... But if you have your mind made up, then I won't stop you... May all your wishes come true... Here is a small bonus for your work for the guild. You can use it for travel expenses. OK, well, this is goodbye.…",
+   "header": "Guild Member Grey",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00335_TheSongOfTheHunter/30744-18.html": {
+   "file": "Q00335_TheSongOfTheHunter/30744-18.html",
+   "quest": 335,
+   "text": "Guild Member Grey: Ah, an excellent decision! The life of a hunter is full of romance and adventure each day... There is truly nothing like it in the kingdom! Please keep up the good work!",
+   "header": "Guild Member Grey",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Song of the Hunter]",
+     "bypass": "npc_%objectId%_Quest Q00335_TheSongOfTheHunter",
+     "kind": "quest",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Song of the Hunter  (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00335_TheSongOfTheHunter",
+     "kind": "quest",
+     "quest": 335,
+     "to": "Q00335_TheSongOfTheHunter/30744-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,321 @@
+{
+ "npcId": 32744,
+ "name": "Johnny",
+ "title": "Chief Investigator",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.402Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32744.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "249": {
+   "name": "Poisoned Plains of the Lizardmen",
+   "listText": [
+    "[Poisoned Plains of the Lizardmen]",
+    "[Poisoned Plains of the Lizardmen (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00249_PoisonedPlainsOfTheLizardmen/32744-01.htm",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00249_PoisonedPlainsOfTheLizardmen/32744-04.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "423": {
+   "name": "Take Your Best Shot!",
+   "listText": [
+    "[Take Your Best Shot]",
+    "[Take Your Best Shot (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00423_TakeYourBestShot/32744-02.htm",
+     "when": "state CREATED; has items 15496",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00423_TakeYourBestShot/32744-03.htm",
+     "when": "state CREATED; lacks items 15496; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00249_PoisonedPlainsOfTheLizardmen.cl",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00423_TakeYourBestShot/32744-01.htm",
+     "when": "state CREATED; lacks items 15496; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00249_PoisonedPlainsOfTheLizardmen.cl",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00423_TakeYourBestShot/32744-08.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00423_TakeYourBestShot/32744-09.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32744.htm": {
+   "file": "default/32744.htm",
+   "quest": null,
+   "text": "Chief Investigator Johnny: Be careful 'round here. A fellow gets lost when they wander around alone. And when a fellow gets lost, bad things can happen. Get my drift? You look tough, though - maybe you have what it takes to make it out here.",
+   "header": "Chief Investigator Johnny",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00249_PoisonedPlainsOfTheLizardmen/32744-01.htm": {
+   "file": "Q00249_PoisonedPlainsOfTheLizardmen/32744-01.htm",
+   "quest": 249,
+   "text": "Chief Investigator Johnny: Mouen sent you? Damn it, this investigation is my responsibility. He should learn to trust me and quit doubting me. So what did he say?",
+   "header": "Chief Investigator Johnny",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"He said he wanted the results of the investigation as soon as possible.\"",
+     "bypass": "Quest Q00249_PoisonedPlainsOfTheLizardmen 32744-02.htm",
+     "kind": "quest-event",
+     "script": "Q00249_PoisonedPlainsOfTheLizardmen",
+     "event": "32744-02.htm",
+     "quest": 249,
+     "to": "Q00249_PoisonedPlainsOfTheLizardmen/32744-02.htm"
+    }
+   ]
+  },
+  "Q00249_PoisonedPlainsOfTheLizardmen/32744-04.htm": {
+   "file": "Q00249_PoisonedPlainsOfTheLizardmen/32744-04.htm",
+   "quest": 249,
+   "text": "Chief Investigator Johnny: Get off my back. The reports have been sent. (This quest is complete.)",
+   "header": "Chief Investigator Johnny",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00423_TakeYourBestShot/32744-02.htm": {
+   "file": "Q00423_TakeYourBestShot/32744-02.htm",
+   "quest": 423,
+   "text": "Chief Investigator Johnny: Hey hey, tough guy! You made it! Seems like you haven't met Tanta Seer Ugoros yet. Good luck when you do, haha!",
+   "header": "Chief Investigator Johnny",
+   "when": [
+    "state CREATED; has items 15496"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00423_TakeYourBestShot/32744-03.htm": {
+   "file": "Q00423_TakeYourBestShot/32744-03.htm",
+   "quest": 423,
+   "text": "Chief Investigator Johnny: I'm a busy guy. Get to the point. I ain't getting any younger.",
+   "header": "Chief Investigator Johnny",
+   "when": [
+    "state CREATED; lacks items 15496; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00249_PoisonedPlainsOfTheLizardmen.cl"
+   ],
+   "links": [
+    {
+     "text": "Ask about a way to see Tanta Seer Ugoros",
+     "bypass": "Quest Q00423_TakeYourBestShot 32744-04.html",
+     "kind": "quest-event",
+     "script": "Q00423_TakeYourBestShot",
+     "event": "32744-04.html",
+     "quest": 423,
+     "to": "Q00423_TakeYourBestShot/32744-04.html"
+    }
+   ]
+  },
+  "Q00423_TakeYourBestShot/32744-01.htm": {
+   "file": "Q00423_TakeYourBestShot/32744-01.htm",
+   "quest": 423,
+   "text": "Chief Investigator Johnny: Don't stick your nose where it doesn't belong. Have a little respect. (This quest is for character levels 82 or over that have completed Poisoned Plains of the Lizardmen.)",
+   "header": "Chief Investigator Johnny",
+   "when": [
+    "state CREATED; lacks items 15496; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00249_PoisonedPlainsOfTheLizardmen.cl"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00423_TakeYourBestShot/32744-08.html": {
+   "file": "Q00423_TakeYourBestShot/32744-08.html",
+   "quest": 423,
+   "text": "Chief Investigator Johnny: Ain't defeated a Tanta Lizardmen Guard yet? All talk and no show, huh? I've met your type before.",
+   "header": "Chief Investigator Johnny",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00423_TakeYourBestShot/32744-09.html": {
+   "file": "Q00423_TakeYourBestShot/32744-09.html",
+   "quest": 423,
+   "text": "Chief Investigator Johnny: I gotta say, you whipped those Tanta Lizardmen Guards like tired mules. You said you were strong, but you managed to show the muscle behind the words. Not sure why you came back though - like I said, I already told Batracos about you. He's waiting.",
+   "header": "Chief Investigator Johnny",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00249_PoisonedPlainsOfTheLizardmen/32744-02.htm": {
+   "file": "Q00249_PoisonedPlainsOfTheLizardmen/32744-02.htm",
+   "quest": 249,
+   "text": "Chief Investigator Johnny: Investigators Sally and Laki are supposed to have conducted the investigation and turned in their reports. I guess they haven't been delivered. I'll crack the whip on those two and make sure they get the results of the investigation back to Mouen. Anything you might be cu…",
+   "header": "Chief Investigator Johnny",
+   "links": [
+    {
+     "text": "Mention compensation.",
+     "bypass": "Quest Q00249_PoisonedPlainsOfTheLizardmen 32744-03.htm",
+     "kind": "quest-event",
+     "script": "Q00249_PoisonedPlainsOfTheLizardmen",
+     "event": "32744-03.htm",
+     "quest": 249,
+     "to": "Q00249_PoisonedPlainsOfTheLizardmen/32744-03.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00249_PoisonedPlainsOfTheLizardmen/32744-03.htm": {
+   "file": "Q00249_PoisonedPlainsOfTheLizardmen/32744-03.htm",
+   "quest": 249,
+   "text": "Chief Investigator Johnny: Mouen said you'd be compensated for this? (Sigh) Alright, but this is all I got for the investigation myself. Here, take it.",
+   "header": "Chief Investigator Johnny",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00423_TakeYourBestShot/32744-04.html": {
+   "file": "Q00423_TakeYourBestShot/32744-04.html",
+   "quest": 423,
+   "text": "Chief Investigator Johnny: You really want to see Ugoros? Just forget about it. Not just anyone can go there, and certainly not just any time they like. I know a guy, goes by Gatekeeper Batracos, a stinky meticulous fellow. He can get you to see the Seer. He'd never let in a gutterpup like you, but…",
+   "header": "Chief Investigator Johnny",
+   "links": [
+    {
+     "text": "Ask what you need to do.",
+     "bypass": "Quest Q00423_TakeYourBestShot 32744-05.htm",
+     "kind": "quest-event",
+     "script": "Q00423_TakeYourBestShot",
+     "event": "32744-05.htm",
+     "quest": 423,
+     "to": "Q00423_TakeYourBestShot/32744-05.htm"
+    }
+   ]
+  },
+  "Q00423_TakeYourBestShot/32744-05.htm": {
+   "file": "Q00423_TakeYourBestShot/32744-05.htm",
+   "quest": 423,
+   "text": "Chief Investigator Johnny: Objectivity is important when it comes to this kind of thing. I don't respect just anyone - I have clear standards. Here's the deal: Tanta Lizardmen live in the Plains. Start killing them off and the Tanta Lizardmen Guards will start to show up. If you can manage to take …",
+   "header": "Chief Investigator Johnny",
+   "links": [
+    {
+     "text": "\"I'm in.\"",
+     "bypass": "Quest Q00423_TakeYourBestShot 32744-06.htm",
+     "kind": "quest-event",
+     "script": "Q00423_TakeYourBestShot",
+     "event": "32744-06.htm",
+     "quest": 423,
+     "to": "Q00423_TakeYourBestShot/32744-06.htm",
+     "effect": "start"
+    },
+    {
+     "text": "\"I'm out.\"",
+     "bypass": "Quest Q00423_TakeYourBestShot 32744-07.html",
+     "kind": "quest-event",
+     "script": "Q00423_TakeYourBestShot",
+     "event": "32744-07.html",
+     "quest": 423,
+     "to": "Q00423_TakeYourBestShot/32744-07.html"
+    }
+   ]
+  },
+  "Q00423_TakeYourBestShot/32744-06.htm": {
+   "file": "Q00423_TakeYourBestShot/32744-06.htm",
+   "quest": 423,
+   "text": "Chief Investigator Johnny: Okay. You're straightforward. I can dig. Like I said, you gotta defeat some Tanta Lizardmen Guards , then go see Gatekeeper Batracos and tell him that I sent you. He will bring you to see Tanta Seer Ugoros. You don't even gotta come back here if you don't want. Alright? L…",
+   "header": "Chief Investigator Johnny",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00423_TakeYourBestShot/32744-07.html": {
+   "file": "Q00423_TakeYourBestShot/32744-07.html",
+   "quest": 423,
+   "text": "Chief Investigator Johnny: Yeah, whatever dude. Everyone's got their limits, and clearly you don't have what it takes. Later.",
+   "header": "Chief Investigator Johnny",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Poisoned Plains of the Lizardmen (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00249_PoisonedPlainsOfTheLizardmen",
+     "kind": "quest",
+     "quest": 249,
+     "to": "Q00249_PoisonedPlainsOfTheLizardmen/32744-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Take Your Best Shot]",
+     "bypass": "npc_%objectId%_Quest Q00423_TakeYourBestShot",
+     "kind": "quest",
+     "quest": 423,
+     "to": "Q00423_TakeYourBestShot/32744-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Take Your Best Shot (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00423_TakeYourBestShot",
+     "kind": "quest",
+     "quest": 423,
+     "to": "Q00423_TakeYourBestShot/32744-08.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

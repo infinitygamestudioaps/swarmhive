@@ -1,0 +1,732 @@
+{
+ "npcId": 32117,
+ "name": "Karakawei",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.338Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32117.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "124": {
+   "name": "Meeting the Elroki",
+   "listText": [
+    "[Meeting the Elroki]",
+    "[Meeting the Elroki (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00124_MeetingTheElroki/32117-01.html",
+     "when": "state STARTED; cond 1|2|3",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32117-02.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32117-07.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32117-06.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "125": {
+   "name": "The Name of Evil - 1",
+   "listText": [
+    "[The Name of Evil 1]",
+    "[The Name of Evil 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00125_TheNameOfEvil1/32117-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32117-02.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32117-10.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32117-11.html",
+     "when": "state STARTED; cond 4; hasItemsAtLimit(st.getPlayer(), ORNITHOMIMUS_CLAW, DEINONYCHUS_BONE)",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32117-16.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32117-17.html",
+     "when": "state STARTED; cond 6|7",
+     "state": "STARTED",
+     "cond": [
+      6,
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32117-18.html",
+     "when": "state STARTED; cond 8",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "643": {
+   "name": "Rise and Fall of the Elroki Tribe",
+   "listText": [
+    "[Rise and Fall of the Elroki Tribe]",
+    "[Rise and Fall of the Elroki Tribe (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00643_RiseAndFallOfTheElrokiTribe/32117-01.html",
+     "when": "state STARTED; isFirstTalk",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00643_RiseAndFallOfTheElrokiTribe/32117-03.html",
+     "when": "state STARTED; !isFirstTalk",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32117.htm": {
+   "file": "default/32117.htm",
+   "quest": null,
+   "text": "Karakawei: Shilen's children, listen. Be not afraid of her, even though she is surrounded by the coldness of death. I, Karakawei, shaman of the Elroki tribem tell you truly that one day, she will again rise and be enthroned in the heavens, and on that day will again take your hand in hers. Thus it …",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32117-01.html": {
+   "file": "Q00124_MeetingTheElroki/32117-01.html",
+   "quest": 124,
+   "text": "Karakawei: You, outsider! Are you lost? Fate has not decreed that we should meet yet. Hasten back to where you belong; there wise Elrokians will awaken you. Be patient and the ancestors will speak to you in time.",
+   "header": "Karakawei",
+   "when": [
+    "state STARTED; cond 1|2|3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32117-02.html": {
+   "file": "Q00124_MeetingTheElroki/32117-02.html",
+   "quest": 124,
+   "text": "Karakawei: Friend of the Elroki, be welcome here. You need not tell me who you are or why are you here -- the ancestors surrounding me have already told me that you are the outsider destined by fate to save the Elroki tribe from the evil facing it. Outsider, my ancestors wish to convey a message to…",
+   "header": "Karakawei",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "Say that you are ready.",
+     "bypass": "Quest Q00124_MeetingTheElroki 32117-03.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32117-03.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32117-03.html"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32117-07.html": {
+   "file": "Q00124_MeetingTheElroki/32117-07.html",
+   "quest": 124,
+   "text": "Karakawei: I am Elroki... Kuk... Karakawei is returning from the spirit world. This Elrokian is telling you one last time... Outsider, please find the Mantarasa Egg... on the border of the Primeval Plains and the Lost Nest... Shilen's divine protection be with you always!",
+   "header": "Karakawei",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32117-06.html": {
+   "file": "Q00124_MeetingTheElroki/32117-06.html",
+   "quest": 124,
+   "text": "Karakawei: Did you forget where to take the Mantarasa Egg? Shame! The egg was supposed to be used to save the life of Mushika, our sick chief. Take the egg to Asamah, his son, immediately. Make haste!",
+   "header": "Karakawei",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32117-01.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-01.html",
+   "quest": 125,
+   "text": "Karakawei: How dare you interrupt my prayers to Shilen? Disrespectful outsider! Wait, are you not the outsider who saved the life of Mushika, our chief? He has been searching for you -- why do you wander here instead of meeting him?",
+   "header": "Karakawei",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32117-02.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-02.html",
+   "quest": 125,
+   "text": "Karakawei: Are you not the outsider who went to search for the Mantarasa Egg? Why have you come here?",
+   "header": "Karakawei",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "Tell him that Chief Mushika sent you.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32117-03.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32117-03.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32117-03.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32117-10.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-10.html",
+   "quest": 125,
+   "text": "Karakawei: Haven't you collected the materials for the ritual yet? We cannot begin until I have the claws and bone fragments necessary to summon the spirits of my ancestors. Go to the Lost Nest and hunt Ornithomimus and Deinonychus . Collect their claws and bone fragments; you must obtain more than…",
+   "header": "Karakawei",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32117-11.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-11.html",
+   "quest": 125,
+   "text": "Karakawei: Excellent! These are claws and bone fragments I need for the ritual! I know that the dinosaurs must have fought fiercely, but I see that you were able to procure everything we need. Well done! Now that we have all the materials, we will proceed with the ritual.",
+   "header": "Karakawei",
+   "when": [
+    "state STARTED; cond 4; hasItemsAtLimit(st.getPlayer(), ORNITHOMIMUS_CLAW, DEINONYCHUS_BONE)"
+   ],
+   "links": [
+    {
+     "text": "Watch the ritual.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32117-12.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32117-12.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32117-12.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32117-16.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-16.html",
+   "quest": 125,
+   "text": "Karakawei: The word that will awake the monument is tepu . The monument itself stands beneath a tree at the end of the northeast part of the Lost Nest. But take care! I fear that you will face obstacles on this journey that I cannot foresee.",
+   "header": "Karakawei",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32117-17.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-17.html",
+   "quest": 125,
+   "text": "Karakawei: Have you already returned from discovering the stone monument and learning the secret of the ancient relic? No? Oh, outsider, you can lie to Karakawei, but you cannot cheat our ancestors or escape the destiny that Shilen has decreed for you. Choose now! Will you return to the Lost Nest a…",
+   "header": "Karakawei",
+   "when": [
+    "state STARTED; cond 6|7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32117-18.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-18.html",
+   "quest": 125,
+   "text": "Karakawei: Ah, is this the real epitaph from the pillar of wisdom? You, outsider, have done well indeed. Thank you for showing it to me, but Mushika should be the first to see it. Go and give it to him.",
+   "header": "Karakawei",
+   "when": [
+    "state STARTED; cond 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32117-01.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32117-01.html",
+   "quest": 643,
+   "text": "Shaman Karakawei: Once our race was strong and wise, Shilen's chosen people to govern these powerful primitive creatures, dinosaurs, who struck fear into the hearts of the very gods themselves. But long ago, Shilen fell silent; our prayers to her now go unanswered.",
+   "header": "Shaman Karakawei",
+   "when": [
+    "state STARTED; isFirstTalk"
+   ],
+   "links": [
+    {
+     "text": "Ask why she no longer responds.",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe 32117-02.html",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "32117-02.html",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32117-02.html"
+    }
+   ]
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32117-03.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32117-03.html",
+   "quest": 643,
+   "text": "Karakawei: You are the adventurer from earlier... What business do you have with our tribe?",
+   "header": "Karakawei",
+   "when": [
+    "state STARTED; !isFirstTalk"
+   ],
+   "links": [
+    {
+     "text": "Ask about the rise and fall of the Elroki tribe.",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe 32117-07.html",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "32117-07.html",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32117-07.html"
+    },
+    {
+     "text": "\"I hope you use these 300 bones for your sacrificial rite.\" (Hand over the bones.)",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe exchange",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "exchange",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32117-04.html",
+     "toAll": [
+      "Q00643_RiseAndFallOfTheElrokiTribe/32117-04.html",
+      "Q00643_RiseAndFallOfTheElrokiTribe/32117-05.html"
+     ]
+    },
+    {
+     "text": "\"I hope you use these 300 bones for medicine.\" (Hand over the bones.)",
+     "bypass": "npc_%objectId%_multisell 2012",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"I'm really not interested in helping a primitive race like yours. Solve your own problems.\"",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe 32117-06.html",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "32117-06.html",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32117-06.html"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32117-03.html": {
+   "file": "Q00124_MeetingTheElroki/32117-03.html",
+   "quest": 124,
+   "text": "Karakawei: Alas, our chief, Mushika, should have never begun the exploration. His arrogance aroused the wrath of our ancestors and brought on his illness. But Shilen has promised that Mushika would not perish, and will soon recover to help save the Elroki tribe. The key to his recovery lies in your…",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "Talk to Karakawei while he is chanting a spell of invocation.",
+     "bypass": "Quest Q00124_MeetingTheElroki 32117-04.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32117-04.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32117-04.html"
+    },
+    {
+     "text": "Talk to Karakawei after the spirit of his Elrokian ancestor enters him.",
+     "bypass": "Quest Q00124_MeetingTheElroki 32117-05.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32117-05.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32117-05.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32117-04.html": {
+   "file": "Q00124_MeetingTheElroki/32117-04.html",
+   "quest": 124,
+   "text": "Karakawei: Such disrespect! Do you not know that I am readying myself to enter the sacred space where life and death coexist? Though you are the outsider of fate, you must not trifle with these matters. They are beyond your comprehension. Be still and watch!",
+   "header": "Karakawei",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return.",
+     "bypass": "Quest Q00124_MeetingTheElroki 32117-03.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32117-03.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32117-03.html"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32117-05.html": {
+   "file": "Q00124_MeetingTheElroki/32117-05.html",
+   "quest": 124,
+   "text": "Karakawei: Lost to my people's memory, unremembered and unknown, I, Elrokian of old, speak with you! The wisdom of the ancestors is this: find the egg laid by the Mantarasa dinosaur. The gods have bestowed upon it the gift of healing. To find it, make your mind as light as an eagle's feather and as…",
+   "header": "Karakawei",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32117-03.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-03.html",
+   "quest": 125,
+   "text": "Karakawei: It seems Mushika has already decided. Outsider, I know that Mushika has asked you to go to the Lost Nest. But did he tell you of the place itself, of his purpose in sending you there? In the Elrokian tongue, the Lost Nest is called Wallamai.",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "\"Wallamai?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32117-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32117-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32117-04.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32117-04.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-04.html",
+   "quest": 125,
+   "text": "Karakawei: Wallamai means a bowl filled with blood. Once the Lost Nest was a sacred place for the Elroki. Young warriors proved themselves by traveling there and completing a ceremonial rite-of-passage. But then the dinosaurs of the Lost Nest became so vicious that few of our young men returned, an…",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "\"I will do it.\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32117-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32117-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32117-05.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32117-05.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-05.html",
+   "quest": 125,
+   "text": "Karakawei: Very well. Mushika wishes you to obtain a record of our ancestors that legend says is hidden in the Lost Nest. Specifically, it is a memorial tower erected by Shilen to commemorate our honorable dead Elrokian warriors.",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32117-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32117-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32117-06.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32117-06.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-06.html",
+   "quest": 125,
+   "text": "Karakawei: In that bygone age, Shilen was the sacred goddess of water, and she was like a mother to all the creatures of this island. Legend says that Shilen imbued a stone pillar with the magical ability to record and remember every single detail of the Elroki tribe.",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "\"What does this pillar have to do with Mushika's request?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32117-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32117-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32117-07.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32117-07.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-07.html",
+   "quest": 125,
+   "text": "Karakawei: Mushika suspects that the last of the ancient Elrokian warriors, whose truth has been hidden under the veil of years, the ancient relic he himself once brought out of the Lost Nest, and the cause of his present illness are all related. But none know how this could be, which is why we nee…",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "\"Do you know where that stone pillar is?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32117-08.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32117-08.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32117-08.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32117-08.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-08.html",
+   "quest": 125,
+   "text": "Karakawei: Alas, no one knows for certain if it even still exists. But through my sorcery, I can summon the spirits of my ancestors and ask for their guidance. The ritual will require special materials that I do not have, however. I will especially need Ornithomimus' claws and Deinonychus' bone fra…",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "Ask where you can get the materials.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32117-09.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32117-09.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32117-09.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32117-09.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-09.html",
+   "quest": 125,
+   "text": "Karakawei: I know very well where the dinosaurs live. If you leave this place with Kariachin's help and go up north, you will find a cave linked to an area of the Lost Nest. Enter it and you will find the dinosaurs easily. Once among them, hunt Ornithomimus and Deinonychus and gather their claws an…",
+   "header": "Karakawei",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32117-12.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-12.html",
+   "quest": 125,
+   "text": "Karakawei: (Karakawei begins chanting in a low voice. Suddenly, his body becomes rigid and unmoving, like a stone statue. Has his spirit left his body to communicate with his ancestors?)",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "Karakawei appears to regain awareness. Speak to him.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32117-13.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32117-13.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32117-13.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32117-13.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-13.html",
+   "quest": 125,
+   "text": "Karakawei: Phew... Our great ancestors have shared their wisdom with me, their unworthy descendant. As a shaman of the Elroki people, I now pass this wisdom to you, the outsider of fate. Are you ready to hear the wisdom of the Elroki?",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "Tell him yes.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32117-14.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32117-14.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32117-14.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32117-14.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-14.html",
+   "quest": 125,
+   "text": "Karakawei: The ancestors say that the legendary stone monument really does exist. It is a sacred child of Shilen, given life through her powerful water magic. But now it sleeps a slumber deeper than death, and there is only one thing that can awake it: the very word that Shilen first spoke to it at…",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "\"Where is the stone monument, and what word will awaken it?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32117-15.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32117-15.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32117-15.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32117-15.html": {
+   "file": "Q00125_TheNameOfEvil1/32117-15.html",
+   "quest": 125,
+   "text": "Karakawei: The ancestors have told me that the word is tepu . And they have also revealed that the monument stands beneath a tree at the end of the northeast part of the Lost Nest. This was all I heard before my strength was exhausted and my spirit fled back to my body. But I fear that you will fac…",
+   "header": "Karakawei",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32117-02.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32117-02.html",
+   "quest": 643,
+   "text": "Karakawei: We know not... Perhaps we have been unfaithful. But we must win back Shilen's favor. Without it, we grow weaker with each passing season, sickening like a tree deprived of sunlight. Without her blessing, our race grows weaker and weaker... We become ill... Even the dinosaurs that we once…",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "\"I hope you use these bones for your sacrificial rite.\" (Hand over the bones.)",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe exchange",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "exchange",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32117-04.html",
+     "toAll": [
+      "Q00643_RiseAndFallOfTheElrokiTribe/32117-04.html",
+      "Q00643_RiseAndFallOfTheElrokiTribe/32117-05.html"
+     ]
+    },
+    {
+     "text": "\"I hope you use these bones for medicine.\" (Hand over the bones.)",
+     "bypass": "npc_%objectId%_multisell 2012",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"I'm really not interested in helping a primitive race like yours. Figure it out on your own.\"",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe 32117-06.html",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "32117-06.html",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32117-06.html"
+    }
+   ]
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32117-04.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32117-04.html",
+   "quest": 643,
+   "text": "Karakawei: To undertake the necessary ritual, I need 300 bones of dinosaurs from the plains . Unless I do this, the curse cannot be lifted; Shilen's grace will be forever denied to us, I fear. Please make haste and hunt Pachycephalosaurus and wild striders and bring back 300 bones of dinosaurs from…",
+   "header": "Karakawei",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32117-05.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32117-05.html",
+   "quest": 643,
+   "text": "Karakawei: Thank you, adventurer... I can now perform the ritual. (Karakawei softly chants and seems to lose consciousness.) .... .... .... .... (Suddenly, his eyes open!) Ah, I feel that Shilen is satisfied with the ritual! Thank you, adventurer... Please accept this as a token of our appreciation…",
+   "header": "Karakawei",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32117-06.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32117-06.html",
+   "quest": 643,
+   "text": "Karakawei: Hmmmph! Arrogant, you are, like all outsiders. If my race still had the power of the old days, you would treat us with the respect that is our due! Ah, Shilen...forgive us! You, leave now if you still refuse to help us in our time of need.",
+   "header": "Karakawei",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00643_RiseAndFallOfTheElrokiTribe/32117-07.html": {
+   "file": "Q00643_RiseAndFallOfTheElrokiTribe/32117-07.html",
+   "quest": 643,
+   "text": "Karakawei: Once our race was strong and wise, Shilen's chosen people to govern these powerful primitive creatures, dinosaurs, who struck fear into the hearts of the very gods themselves. But long ago, Shilen fell silent; our prayers to her now go unanswered.",
+   "header": "Karakawei",
+   "links": [
+    {
+     "text": "Ask why she no longer responds.",
+     "bypass": "Quest Q00643_RiseAndFallOfTheElrokiTribe 32117-02.html",
+     "kind": "quest-event",
+     "script": "Q00643_RiseAndFallOfTheElrokiTribe",
+     "event": "32117-02.html",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32117-02.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Meeting the Elroki (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00124_MeetingTheElroki",
+     "kind": "quest",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32117-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Name of Evil 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00125_TheNameOfEvil1",
+     "kind": "quest",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32117-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Rise and Fall of the Elroki Tribe (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00643_RiseAndFallOfTheElrokiTribe",
+     "kind": "quest",
+     "quest": 643,
+     "to": "Q00643_RiseAndFallOfTheElrokiTribe/32117-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

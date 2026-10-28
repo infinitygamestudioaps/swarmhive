@@ -1,0 +1,675 @@
+{
+ "npcId": 31964,
+ "name": "Bilia",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.305Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "teleporter/31964.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "teleporter/31964.htm": {
+   "file": "teleporter/31964.htm",
+   "quest": null,
+   "text": "Gatekeeper Bilia: Hello? I am Bilia, Gatekeeper in the Town of Schuttgart. If you want to use the gate, you need to first open the portal. I'll do my best to help you arrive at your destination safely and quickly. If you've decided on your destination, I'll teleport you.",
+   "header": "Gatekeeper Bilia",
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/31964-1.htm",
+     "live": true
+    },
+    {
+     "text": "Exchange Dimension Diamonds.",
+     "bypass": "npc_%objectId%_multisell 002",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "[Noblesse Exclusive] Teleport",
+     "bypass": "npc_%objectId%_Quest NoblesseTeleport",
+     "kind": "quest",
+     "script": "NoblesseTeleport",
+     "to": null
+    },
+    {
+     "text": "Move to the Arena & Monster Race Track (Free).",
+     "bypass": "npc_%objectId%_Quest TeleportToRaceTrack",
+     "kind": "quest",
+     "confirm": "811;Monster Racetrack",
+     "script": "TeleportToRaceTrack",
+     "to": null
+    },
+    {
+     "text": "Move to Fantasy Isle (free).",
+     "bypass": "npc_%objectId%_Quest TeleportToFantasy",
+     "kind": "quest",
+     "confirm": "811;Fantasy Isle",
+     "script": "TeleportToFantasy",
+     "to": null
+    },
+    {
+     "text": "Call Alegria",
+     "bypass": "npc_%objectId%_Quest CharacterBirthday",
+     "kind": "quest",
+     "script": "CharacterBirthday",
+     "live": true
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/31964-1.htm": {
+   "file": "teleporter/31964-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "live": {
+    "file": "Logs/npc_Crafter1.html",
+    "at": "2026-10-27T17:51:45.635Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Rune Township - 12000",
+     "bypass": "npc_%objectId%_goto 1106",
+     "kind": "teleport",
+     "confirm": "811;Rune Township",
+     "live": true,
+     "dpText": "Rune Township - 10000 Adena"
+    },
+    {
+     "text": "Town of Goddard - 10000",
+     "bypass": "npc_%objectId%_goto 1107",
+     "kind": "teleport",
+     "confirm": "811;Town of Goddard",
+     "live": true,
+     "dpText": "Town of Goddard - 10000 Adena"
+    },
+    {
+     "text": "Town of Aden - 53000",
+     "bypass": "npc_%objectId%_goto 1108",
+     "kind": "teleport",
+     "confirm": "811;Town of Aden",
+     "live": true,
+     "dpText": "Town of Aden - 53000 Adena"
+    },
+    {
+     "text": "Town of Oren - 59000",
+     "bypass": "npc_%objectId%_goto 1109",
+     "kind": "teleport",
+     "confirm": "811;Town of Oren",
+     "live": true,
+     "dpText": "Town of Oren - 59000 Adena"
+    },
+    {
+     "text": "Heine - 100000",
+     "bypass": "npc_%objectId%_goto 1110",
+     "kind": "teleport",
+     "confirm": "811;Heine",
+     "live": true,
+     "dpText": "Heine - 100000 Adena"
+    },
+    {
+     "text": "The Town of Giran - 87000",
+     "bypass": "npc_%objectId%_goto 1111",
+     "kind": "teleport",
+     "confirm": "811;The Town of Giran",
+     "live": true,
+     "dpText": "The Town of Giran - 87000 Adena"
+    },
+    {
+     "text": "The Town of Dion - 88000",
+     "bypass": "npc_%objectId%_goto 1112",
+     "kind": "teleport",
+     "confirm": "811;The Town of Dion",
+     "live": true,
+     "dpText": "The Town of Dion - 88000 Adena"
+    },
+    {
+     "text": "The Town of Gludio - 85000",
+     "bypass": "npc_%objectId%_goto 1113",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true,
+     "dpText": "The Town of Gludio - 85000 Adena"
+    },
+    {
+     "text": "Orc Village - 13000",
+     "bypass": "npc_%objectId%_goto 1114",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true,
+     "dpText": "Orc Village - 13000 Adena"
+    },
+    {
+     "text": "Dwarven Village - 4400",
+     "bypass": "npc_%objectId%_goto 1115",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true,
+     "dpText": "Dwarven Village - 4400 Adena"
+    },
+    {
+     "text": "Den of Evil - 7500",
+     "bypass": "npc_%objectId%_goto 1116",
+     "kind": "teleport",
+     "confirm": "811;Den of Evil",
+     "live": true,
+     "dpText": "Den of Evil - 7500 Adena"
+    },
+    {
+     "text": "Plunderous Plains - 1600",
+     "bypass": "npc_%objectId%_goto 1117",
+     "kind": "teleport",
+     "confirm": "811;Plunderous Plains",
+     "live": true,
+     "dpText": "Plunderous Plains - 1600 Adena"
+    },
+    {
+     "text": "Iceman's Hut - 3500",
+     "bypass": "npc_%objectId%_goto 1118",
+     "kind": "teleport",
+     "confirm": "811;Iceman's Hut",
+     "live": true,
+     "dpText": "Iceman's Hut - 3500 Adena"
+    },
+    {
+     "text": "Crypts of Disgrace - 9600",
+     "bypass": "npc_%objectId%_goto 1119",
+     "kind": "teleport",
+     "confirm": "811;Crypts of Disgrace",
+     "live": true,
+     "dpText": "Crypts of Disgrace - 9600 Adena"
+    },
+    {
+     "text": "Pavel Ruins - 5300",
+     "bypass": "npc_%objectId%_goto 1120",
+     "kind": "teleport",
+     "confirm": "811;Pavel Ruins",
+     "live": true,
+     "dpText": "Pavel Ruins - 5300 Adena"
+    },
+    {
+     "text": "Mithril Mines - 17000",
+     "bypass": "npc_%objectId%_goto 15003",
+     "kind": "teleport",
+     "confirm": "811;Mithril Mines",
+     "live": true,
+     "dpText": "Mithril Mines - 17000 Adena"
+    }
+   ]
+  },
+  "teleporter/31964-2.htm": {
+   "file": "teleporter/31964-2.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Frost Lake - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9090",
+     "kind": "teleport",
+     "confirm": "811;Frost Lake"
+    },
+    {
+     "text": "Grave Robber Hideout - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9091",
+     "kind": "teleport",
+     "confirm": "811;Grave Robber Hideout"
+    },
+    {
+     "text": "Sky Wagon Relic - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9092",
+     "kind": "teleport",
+     "confirm": "811;Sky Wagon Relic"
+    },
+    {
+     "text": "Gludin Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9000",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9002",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "Coliseum - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9001",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/31964-3.htm": {
+   "file": "teleporter/31964-3.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Frost Lake - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9990",
+     "kind": "teleport",
+     "confirm": "811;Frost Lake"
+    },
+    {
+     "text": "Grave Robber Hideout - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9991",
+     "kind": "teleport",
+     "confirm": "811;Grave Robber Hideout"
+    },
+    {
+     "text": "Sky Wagon Relic - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9992",
+     "kind": "teleport",
+     "confirm": "811;Sky Wagon Relic"
+    },
+    {
+     "text": "Gludin Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9900",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9902",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "Coliseum - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9901",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/free/31964.htm": {
+   "file": "teleporter/free/31964.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Rune Township",
+     "bypass": "npc_%objectId%_goto 1106",
+     "kind": "teleport",
+     "confirm": "811;Rune Township",
+     "live": true
+    },
+    {
+     "text": "Town of Goddard",
+     "bypass": "npc_%objectId%_goto 1107",
+     "kind": "teleport",
+     "confirm": "811;Town of Goddard",
+     "live": true
+    },
+    {
+     "text": "Town of Aden",
+     "bypass": "npc_%objectId%_goto 1108",
+     "kind": "teleport",
+     "confirm": "811;Town of Aden",
+     "live": true
+    },
+    {
+     "text": "Town of Oren",
+     "bypass": "npc_%objectId%_goto 1109",
+     "kind": "teleport",
+     "confirm": "811;Town of Oren",
+     "live": true
+    },
+    {
+     "text": "Heine",
+     "bypass": "npc_%objectId%_goto 1110",
+     "kind": "teleport",
+     "confirm": "811;Heine",
+     "live": true
+    },
+    {
+     "text": "The Town of Giran",
+     "bypass": "npc_%objectId%_goto 1111",
+     "kind": "teleport",
+     "confirm": "811;The Town of Giran",
+     "live": true
+    },
+    {
+     "text": "The Town of Dion",
+     "bypass": "npc_%objectId%_goto 1112",
+     "kind": "teleport",
+     "confirm": "811;The Town of Dion",
+     "live": true
+    },
+    {
+     "text": "The Town of Gludio",
+     "bypass": "npc_%objectId%_goto 1113",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "Orc Village",
+     "bypass": "npc_%objectId%_goto 1114",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true
+    },
+    {
+     "text": "Dwarven Village",
+     "bypass": "npc_%objectId%_goto 1115",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Den of Evil",
+     "bypass": "npc_%objectId%_goto 1116",
+     "kind": "teleport",
+     "confirm": "811;Den of Evil",
+     "live": true
+    },
+    {
+     "text": "Plunderous Plains",
+     "bypass": "npc_%objectId%_goto 1117",
+     "kind": "teleport",
+     "confirm": "811;Plunderous Plains",
+     "live": true
+    },
+    {
+     "text": "Iceman's Hut",
+     "bypass": "npc_%objectId%_goto 1118",
+     "kind": "teleport",
+     "confirm": "811;Iceman's Hut",
+     "live": true
+    },
+    {
+     "text": "Crypts of Disgrace",
+     "bypass": "npc_%objectId%_goto 1119",
+     "kind": "teleport",
+     "confirm": "811;Crypts of Disgrace",
+     "live": true
+    },
+    {
+     "text": "Pavel Ruins",
+     "bypass": "npc_%objectId%_goto 1120",
+     "kind": "teleport",
+     "confirm": "811;Pavel Ruins",
+     "live": true
+    },
+    {
+     "text": "Mithril Mines",
+     "bypass": "npc_%objectId%_goto 15003",
+     "kind": "teleport",
+     "confirm": "811;Mithril Mines",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/half/31964.htm": {
+   "file": "teleporter/half/31964.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Rune Township - 5000 Adena",
+     "bypass": "npc_%objectId%_goto 1106",
+     "kind": "teleport",
+     "confirm": "811;Rune Township",
+     "live": true
+    },
+    {
+     "text": "Town of Goddard - 5000 Adena",
+     "bypass": "npc_%objectId%_goto 1107",
+     "kind": "teleport",
+     "confirm": "811;Town of Goddard",
+     "live": true
+    },
+    {
+     "text": "Town of Aden - 26500 Adena",
+     "bypass": "npc_%objectId%_goto 1108",
+     "kind": "teleport",
+     "confirm": "811;Town of Aden",
+     "live": true
+    },
+    {
+     "text": "Town of Oren - 29500 Adena",
+     "bypass": "npc_%objectId%_goto 1109",
+     "kind": "teleport",
+     "confirm": "811;Town of Oren",
+     "live": true
+    },
+    {
+     "text": "Heine - 50000 Adena",
+     "bypass": "npc_%objectId%_goto 1110",
+     "kind": "teleport",
+     "confirm": "811;Heine",
+     "live": true
+    },
+    {
+     "text": "The Town of Giran - 43500 Adena",
+     "bypass": "npc_%objectId%_goto 1111",
+     "kind": "teleport",
+     "confirm": "811;The Town of Giran",
+     "live": true
+    },
+    {
+     "text": "The Town of Dion - 44000 Adena",
+     "bypass": "npc_%objectId%_goto 1112",
+     "kind": "teleport",
+     "confirm": "811;The Town of Dion",
+     "live": true
+    },
+    {
+     "text": "The Town of Gludio - 42500 Adena",
+     "bypass": "npc_%objectId%_goto 1113",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "Orc Village - 6500 Adena",
+     "bypass": "npc_%objectId%_goto 1114",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true
+    },
+    {
+     "text": "Dwarven Village - 2200 Adena",
+     "bypass": "npc_%objectId%_goto 1115",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Den of Evil - 3750 Adena",
+     "bypass": "npc_%objectId%_goto 1116",
+     "kind": "teleport",
+     "confirm": "811;Den of Evil",
+     "live": true
+    },
+    {
+     "text": "Plunderous Plains - 800 Adena",
+     "bypass": "npc_%objectId%_goto 1117",
+     "kind": "teleport",
+     "confirm": "811;Plunderous Plains",
+     "live": true
+    },
+    {
+     "text": "Iceman's Hut - 1750 Adena",
+     "bypass": "npc_%objectId%_goto 1118",
+     "kind": "teleport",
+     "confirm": "811;Iceman's Hut",
+     "live": true
+    },
+    {
+     "text": "Crypts of Disgrace - 4800 Adena",
+     "bypass": "npc_%objectId%_goto 1119",
+     "kind": "teleport",
+     "confirm": "811;Crypts of Disgrace",
+     "live": true
+    },
+    {
+     "text": "Pavel Ruins - 2650 Adena",
+     "bypass": "npc_%objectId%_goto 1120",
+     "kind": "teleport",
+     "confirm": "811;Pavel Ruins",
+     "live": true
+    },
+    {
+     "text": "Mithril Mines - 8500 Adena",
+     "bypass": "npc_%objectId%_goto 15003",
+     "kind": "teleport",
+     "confirm": "811;Mithril Mines",
+     "live": true
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "gatekeeper live menu (Scripts/data/gk_live/Bilia.json) has links the datapack does not: (Nobless only) Teleport | Move to Arena & Monster Race Track (free) | Teleport to Fantasy Isle (free)"
+ ],
+ "liveClicks": [
+  {
+   "text": "Teleport",
+   "n": 568,
+   "inDatapack": true,
+   "from": [
+    "Gatekeeper Bilia:Hello! I am Bilia, Gatekeeper of Schuttgart"
+   ],
+   "to": [
+    "556Rune TownshipTown of GoddardTown of AdenTown of OrenHeine",
+    "556Rune Township - 12000 &#57;Town of Goddard - 10000 &#57;T",
+    "556Rune Township - 6000 &#57;Town of Goddard - 5000 &#57;Tow"
+   ]
+  },
+  {
+   "text": "Pavel Ruins - 5300 &#57;",
+   "n": 201,
+   "inDatapack": true,
+   "from": [
+    "556Rune Township - 12000 &#57;Town of Goddard - 10000 &#57;T"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Plunderous Plains - 1600 &#57;",
+   "n": 149,
+   "inDatapack": true,
+   "from": [
+    "556Rune Township - 12000 &#57;Town of Goddard - 10000 &#57;T"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Plunderous Plains - 800 &#57;",
+   "n": 62,
+   "inDatapack": true,
+   "from": [
+    "556Rune Township - 6000 &#57;Town of Goddard - 5000 &#57;Tow"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Pavel Ruins - 2650 &#57;",
+   "n": 51,
+   "inDatapack": true,
+   "from": [
+    "556Rune Township - 6000 &#57;Town of Goddard - 5000 &#57;Tow"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Dwarven Village",
+   "n": 42,
+   "inDatapack": true,
+   "from": [
+    "556Rune TownshipTown of GoddardTown of AdenTown of OrenHeine"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Orc Village",
+   "n": 39,
+   "inDatapack": true,
+   "from": [
+    "556Rune TownshipTown of GoddardTown of AdenTown of OrenHeine"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Plunderous Plains",
+   "n": 11,
+   "inDatapack": true,
+   "from": [
+    "556Rune TownshipTown of GoddardTown of AdenTown of OrenHeine"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Dwarven Village - 4400 &#57;",
+   "n": 4,
+   "inDatapack": true,
+   "from": [
+    "556Rune Township - 12000 &#57;Town of Goddard - 10000 &#57;T"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Dwarven Village - 2200 &#57;",
+   "n": 3,
+   "inDatapack": true,
+   "from": [
+    "556Rune Township - 6000 &#57;Town of Goddard - 5000 &#57;Tow"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Orc Village - 13000 &#57;",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "556Rune Township - 12000 &#57;Town of Goddard - 10000 &#57;T"
+   ],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

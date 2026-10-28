@@ -1,0 +1,74 @@
+{
+ "npcId": 31385,
+ "name": "Heart of Volcano",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.200Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31385.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/31385.htm": {
+   "file": "default/31385.htm",
+   "quest": null,
+   "text": "[Whispering] Will you confront Valakas?",
+   "links": [
+    {
+     "text": "Enter the nest",
+     "bypass": "npc_%objectId%_Quest GrandBossTeleporters",
+     "kind": "quest",
+     "script": "GrandBossTeleporters",
+     "to": "ai/npc/Teleports/GrandBossTeleporters/31385-03.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/GrandBossTeleporters/31385-03.htm": {
+   "file": "ai/npc/Teleports/GrandBossTeleporters/31385-03.htm",
+   "quest": null,
+   "text": "[Whispering] Too many have entered, I can't let you go in.",
+   "when": [
+    "valakasAI() != null; ((status == 0) || (status == 1)); playerCount >= 200"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Teleports/GrandBossTeleporters/31385-04.htm": {
+   "file": "ai/npc/Teleports/GrandBossTeleporters/31385-04.htm",
+   "quest": null,
+   "text": "[Whispering] You cannot enter.",
+   "when": [
+    "valakasAI() != null; ((status == 0) || (status == 1)); !playerCount >= 200; !st.getInt(\"allowEnter\") == 1"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Teleports/GrandBossTeleporters/31385-02.htm": {
+   "file": "ai/npc/Teleports/GrandBossTeleporters/31385-02.htm",
+   "quest": null,
+   "text": "[Whispering] The nest is full, you must wait.",
+   "when": [
+    "valakasAI() != null; !((status == 0) || (status == 1)); status == 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/GrandBossTeleporters/31385-01.htm": {
+   "file": "ai/npc/Teleports/GrandBossTeleporters/31385-01.htm",
+   "quest": null,
+   "text": "[Whispering] You can't confront Valakas yet. Away with you!",
+   "when": [
+    "valakasAI() != null; !((status == 0) || (status == 1)); !status == 2",
+    "!valakasAI() != null"
+   ],
+   "outcome": "refusal",
+   "links": []
+  }
+ }
+}

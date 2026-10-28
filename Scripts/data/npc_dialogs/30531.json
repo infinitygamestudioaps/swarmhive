@@ -1,0 +1,711 @@
+{
+ "npcId": 30531,
+ "name": "Lockirin",
+ "title": "Iron Gate's",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.993Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30531.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "217": {
+   "name": "Testimony Of Trust",
+   "listText": [
+    "[Testimony of Trust]",
+    "[Testimony of Trust (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00217_TestimonyOfTrust/30531-01.html",
+     "when": "state STARTED; memo 14; has items 2737",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30531-03.html",
+     "when": "state STARTED; memo 15",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30531-04.html",
+     "when": "state STARTED; memo 17",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30531-05.html",
+     "when": "state STARTED; memo 18",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30531-01.html",
+     "when": "state STARTED; has items 3239; lacks items 3246,3241",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30531-05.html",
+     "when": "state STARTED; has items 3239,3246,3241,3258,3259,3260,3261,3262",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30531-04.html",
+     "when": "state STARTED; has items 3239,3246,3241; lacks items 3258,3259,3260,3261,3262",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30531-06.html",
+     "when": "state STARTED; has items 3239,3246,3241; lacks items 3246",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30531-07.html",
+     "when": "state STARTED; has items 3240; lacks items 3239",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "231": {
+   "name": "Test Of The Maestro",
+   "listText": [
+    "[Test of the Maestro]",
+    "[Test of the Maestro (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00231_TestOfTheMaestro/30531-03.htm",
+     "when": "state CREATED; level >= 39; player.getClassId() == ClassId.artisan",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30531-01.html",
+     "when": "state CREATED; NOT level >= 39; player.getClassId() == ClassId.artisan",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30531-02.html",
+     "when": "state CREATED; !player.getClassId() == ClassId.artisan",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30531-05.html",
+     "when": "state STARTED; lacks items 2864,2865,2866; memoState >= 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30531-06.html",
+     "when": "state STARTED; has items 2864,2865,2866; !((memoState >= 1) && !hasQuestItems(player, RECOMMENDATION_OF_BALANKI, RECOMMENDATION_OF_FILAUR, RECOMMENDATION_OF_ARIN",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "333": {
+   "name": "Hunt Of The Black Lion",
+   "listText": [
+    "[Hunt of the Black Lion]",
+    "[Hunt of the Black Lion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30531-02.html",
+     "when": "state STARTED; lacks items 3466; (getQuestItemsCount(player, FRAGMENT_OF_ANCIENT_TABLET_1ST_PIECE) + getQuestItemsCount(player, FRAGMENT_OF_ANCIENT_TABLE",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30531-01.html",
+     "when": "state STARTED; lacks items 3466; !(getQuestItemsCount(player, FRAGMENT_OF_ANCIENT_TABLET_1ST_PIECE) + getQuestItemsCount(player, FRAGMENT_OF_ANCIENT_TABL",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30531-03.html",
+     "when": "state STARTED; has items 3466",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "418": {
+   "name": "Path Of The Artisan",
+   "listText": [
+    "[Path of the Artisan]",
+    "[Path of the Artisan (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00418_PathOfTheArtisan/30531-01.html",
+     "when": "state STARTED; memo 101; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30531.htm": {
+   "file": "default/30531.htm",
+   "quest": null,
+   "text": "First Elder Lockirin: Welcome, young friend, to the House of Elders. My name is Lockirin Stonecutter. I am the eldest Master of the Iron Gate Guild and also the First Elder of the Association of Guild Elders . These titles sound fine enough, but really my job is to keep these headstrong old chaps i…",
+   "header": "First Elder Lockirin",
+   "links": [
+    {
+     "text": "Ask about the Iron Gate Guild.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30531-1.htm"
+    },
+    {
+     "text": "Ask about the Association of Guild Elders.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30531-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30531-1.htm": {
+   "file": "default/30531-1.htm",
+   "quest": null,
+   "text": "First Elder Lockirin: Our guild is the largest and most powerful of the six guilds that define Dwarven society. We boast of a tradition of nearly one thousand years as a prestigious union of famous traders and powerful bankers. Our guild runs warehouses in almost every city of the continent. We do …",
+   "header": "First Elder Lockirin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30531.htm"
+    }
+   ]
+  },
+  "default/30531-2.htm": {
+   "file": "default/30531-2.htm",
+   "quest": null,
+   "text": "First Elder Lockirin: This association consists of representatives from the six guilds that are the most powerful among the hundreds of Dwarven guilds. Due to the lack of a king, all the important policies are determined by the Senior Association. Together they rule this the Kingdom of the Dwarves,…",
+   "header": "First Elder Lockirin",
+   "links": [
+    {
+     "text": "Ask about top six guilds",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/30531-3.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30531.htm"
+    }
+   ]
+  },
+  "default/30531-3.htm": {
+   "file": "default/30531-3.htm",
+   "quest": null,
+   "text": "First Elder Lockirin: The top six guilds are: the Golden Wheel, the Silver Scale, the Bronze Key, the Black Anvil, the Gray Column, and the Iron Gate, to which I belong. If you want to know more about other guilds, just ask the Elders here. All of them can easily brag about their guilds for hours, …",
+   "header": "First Elder Lockirin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30531.htm"
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30531-01.html": {
+   "file": "Q00217_TestimonyOfTrust/30531-01.html",
+   "quest": 217,
+   "text": "First Elder Lockirin: Welcome, young friend, to the House of Elders. My name is Lockirin Stonecutter. I am the Head Elder of the Bronze Door Guild, and the First Elder of the Guild Elder Association. Impressive, eh? What I actually do is humor the old goats in the Seniors Association. So, what brin…",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; memo 14; has items 2737"
+   ],
+   "links": [
+    {
+     "text": "Show Seresin's letter",
+     "bypass": "Quest Q00217_TestimonyOfTrust 30531-02.html",
+     "kind": "quest-event",
+     "script": "Q00217_TestimonyOfTrust",
+     "event": "30531-02.html",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30531-02.html",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30531-03.html": {
+   "file": "Q00217_TestimonyOfTrust/30531-03.html",
+   "quest": 217,
+   "text": "First Elder Lockirin: We will discuus this further when you have returned from assisting Maestro Nikola and completed your task. He is stationed at Cruma Tower of Dion .",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; memo 15"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30531-04.html": {
+   "file": "Q00217_TestimonyOfTrust/30531-04.html",
+   "quest": 217,
+   "text": "First Elder Lockirin: Nikola says that you were a great help. Hopefully this will lay a foundation for further inroads of commerce and trust between our races. Please take this letter to the Elder of your race. May the blessings of Maphr be upon you and your family.",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; memo 17"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30531-05.html": {
+   "file": "Q00217_TestimonyOfTrust/30531-05.html",
+   "quest": 217,
+   "text": "First Elder Lockirin: I hear you are trying to restore trust between all races. Now that is a formidable task... I will pray for your success. I trust you have delivered my letter?",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; memo 18"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30531-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30531-01.html",
+   "quest": 221,
+   "text": "First Elder Lockirin: Many years have passed since you left for the mainland. So, how are you? Have you managed to earn some money? Ah, yes, The Test of Prosperity. It is gratifying to see ambition in one so young...I suppose Parman told you that I am the one to see if you want the Mark of Wealth .…",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; has items 3239; lacks items 3246,3241"
+   ],
+   "links": [
+    {
+     "text": "Ask about wealth",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30531-02.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30531-02.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30531-02.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30531-05.html": {
+   "file": "Q00221_TestimonyOfProsperity/30531-05.html",
+   "quest": 221,
+   "text": "First Elder Lockirin: Golden Wheel, Silver Balance, Black Anvil, Bronze Key, and Gray Pillar... Yes, that is all 5 receipts. Thank you for your troubles. I find overdue payment collections so tiresome. As the First Elder, I don't have time to chase down every freeloader. Thanks to you, all the acco…",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; has items 3239,3246,3241,3258,3259,3260,3261,3262"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30531-04.html": {
+   "file": "Q00221_TestimonyOfProsperity/30531-04.html",
+   "quest": 221,
+   "text": "First Elder Lockirin: Remember to speak with all 5 Elders about overdue guild dues and make collections immediately. The elders will each give you a receipt when you turn in the dues to them. Collect all 5 receipts and bring them to me. Then you shall have your Mark of Wealth.",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; has items 3239,3246,3241; lacks items 3258,3259,3260,3261,3262"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30531-06.html": {
+   "file": "Q00221_TestimonyOfProsperity/30531-06.html",
+   "quest": 221,
+   "text": "First Elder Lockirin: Ah, a searcher for the four marks of abundance... That is not an uncomplicated task. Money alone will not solve all problems. Tenacity is essential to your success.",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; has items 3239,3246,3241; lacks items 3246"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30531-07.html": {
+   "file": "Q00221_TestimonyOfProsperity/30531-07.html",
+   "quest": 221,
+   "text": "First Elder Lockirin: If I could only get my hands on one the fragments of Maphr's Tablet I would be able to buy the entire continent! At last the humans would be subservient to us! Just one fragment!",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; has items 3240; lacks items 3239"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30531-03.htm": {
+   "file": "Q00231_TestOfTheMaestro/30531-03.htm",
+   "quest": 231,
+   "text": "First Elder Lockirin: It has been a long time since a Dwarf has come to take the Maestro test. Youngsters these days do not appreciate the benefits of hard work... You are a notable exception, my ambitious young friend. Actually,it is far too easy to become a Maestro these days. In the days of my y…",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state CREATED; level >= 39; player.getClassId() == ClassId.artisan"
+   ],
+   "links": [
+    {
+     "text": "I shall take the challenge",
+     "bypass": "Quest Q00231_TestOfTheMaestro ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00231_TestOfTheMaestro",
+     "event": "ACCEPT",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30531-04a.htm",
+     "toAll": [
+      "Q00231_TestOfTheMaestro/30531-04a.htm",
+      "Q00231_TestOfTheMaestro/30531-04.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00231_TestOfTheMaestro/30531-01.html": {
+   "file": "Q00231_TestOfTheMaestro/30531-01.html",
+   "quest": 231,
+   "text": "First Elder Lockirin: Patience and dedication are essential if you intend to master a skill. You must remember this as you continue your practice. You are not yet ready for this quest. (Artisans of level 39 and above may undertake this quest.)",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state CREATED; NOT level >= 39; player.getClassId() == ClassId.artisan"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30531-02.html": {
+   "file": "Q00231_TestOfTheMaestro/30531-02.html",
+   "quest": 231,
+   "text": "First Elder Lockirin: The Test of the Maestro may only be taken by Artisans of a considerable level, learned through much hard training. It is not a test that can be taken by just anyone. (Artisans of level 39 and above may undertake this quest.)",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state CREATED; !player.getClassId() == ClassId.artisan"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30531-05.html": {
+   "file": "Q00231_TestOfTheMaestro/30531-05.html",
+   "quest": 231,
+   "text": "First Elder Lockirin: The First Elder cannot give Recommendations. This is one way his powers are restricted. You must receive Recommendations from the other 3 Elders.",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; lacks items 2864,2865,2866; memoState >= 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30531-06.html": {
+   "file": "Q00231_TestOfTheMaestro/30531-06.html",
+   "quest": 231,
+   "text": "First Elder Lockirin: Let's see, yes they are all here. I am impressed! I'm sure the other Elders are preoccupied with the upcoming election. Did you learn much from them? Many people covet this position and would like it for themselves. Many also fail to realize the deep significance it holds for …",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; has items 2864,2865,2866; !((memoState >= 1) && !hasQuestItems(player, RECOMMENDATION_OF_BALANKI, RECOMMENDATION_OF_FILAUR, RECOMMENDATION_OF_ARIN"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30531-02.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30531-02.html",
+   "quest": 333,
+   "text": "First Elder Lockirin: Oh my! This Clay Tablet... Where in the world did you find this? Of course its just a fragment, but... Maphr...! Look at this! If you can obtain the other pieces and assemble them into a single tablet, I shall reward you handsomely! I promise this in the name of the First Elde…",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; lacks items 3466; (getQuestItemsCount(player, FRAGMENT_OF_ANCIENT_TABLET_1ST_PIECE) + getQuestItemsCount(player, FRAGMENT_OF_ANCIENT_TABLE"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30531-01.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30531-01.html",
+   "quest": 333,
+   "text": "First Elder Lockirin: I am fascinated by the civilization of the Titans. I'd pay anything to actually hold in my hands a Clay Tablet on which titan writing exists. I am sure that someone as well-traveled as yourself is familiar with such things. I have heard that Ancient Clay Tablets are often foun…",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; lacks items 3466; !(getQuestItemsCount(player, FRAGMENT_OF_ANCIENT_TABLET_1ST_PIECE) + getQuestItemsCount(player, FRAGMENT_OF_ANCIENT_TABL"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30531-03.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30531-03.html",
+   "quest": 333,
+   "text": "First Elder Lockirin: This Clay Tablet... Where in the world did you find this? It's just one part, but... Maphr...! How did you come across such a precious thing...? Check this out, my friend! If you will give me this fragment, I will give you a gift!",
+   "header": "First Elder Lockirin",
+   "when": [
+    "state STARTED; has items 3466"
+   ],
+   "links": [
+    {
+     "text": "Hand over the tablet",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30531-04.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30531-04.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30531-04.html"
+    },
+    {
+     "text": "Don't hand over the tablet",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30531-05.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30531-05.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30531-05.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30531-01.html": {
+   "file": "Q00418_PathOfTheArtisan/30531-01.html",
+   "quest": 418,
+   "text": "Lockirin of the Iron Gate: Hmm. I see you have come a long way, and I thank you, but... since you are here, I infer that you failed the Artisan Test.",
+   "header": "Lockirin of the Iron Gate",
+   "when": [
+    "state STARTED; memo 101; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "\"What do you mean? What is the Artisan Test?\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30531-02.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30531-02.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30531-02.html"
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30531-02.html": {
+   "file": "Q00217_TestimonyOfTrust/30531-02.html",
+   "quest": 217,
+   "text": "First Elder Lockirin: A promise of trust...? Oh really? First you brutalize us and drive us deep into these mountains...and now you want our cooperation?... Your race deserves the reputation for knavishness that the humans ascribe to ours! I'm sure you've heard the rumor that Dwarves only care abou…",
+   "header": "First Elder Lockirin",
+   "sets": {
+    "cond": "18"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30531-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30531-02.html",
+   "quest": 221,
+   "text": "First Elder Lockirin: To a Dwarf, nothing in the world is more important than wealth. We serve the God Maphr because it is he from whom flows all wealth and abundance. Please don't misunderstand me, I mean no disrespect. My race possesses unfathomable wealth. Personally I could well afford a human …",
+   "header": "First Elder Lockirin",
+   "links": [
+    {
+     "text": "Say you will run the errand",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30531-03.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30531-03.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30531-03.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30531-03.html": {
+   "file": "Q00221_TestimonyOfProsperity/30531-03.html",
+   "quest": 221,
+   "text": "First Elder Lockirin: This won't be very difficult. I only ask that you collect some overdue guild dues on my behalf. All guild members must pay dues periodically, but there are some who have not yet paid, even though their due dates have long passed. The Steel Gate Guild dues have all been collect…",
+   "header": "First Elder Lockirin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30531-04.htm": {
+   "file": "Q00231_TestOfTheMaestro/30531-04.htm",
+   "quest": 231,
+   "text": "First Elder Lockirin: First, go and find the Elders in this building.",
+   "header": "First Elder Lockirin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30531-04a.htm": {
+   "file": "Q00231_TestOfTheMaestro/30531-04a.htm",
+   "quest": 231,
+   "text": "Iron Gate's Lockirin: Well, then, you should first meet with the elders in this building. Take this Dimension Diamond . You can trade it to the village gatekeeper for something special that may help you on your journey.",
+   "header": "Iron Gate's Lockirin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30531-04.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30531-04.html",
+   "quest": 333,
+   "text": "First Elder Lockirin: Thank you so much! Finally, our guild has a relic of our federation. Please accept this token of our appreciation! And if you should find more of these Clay Tablets in the future, please bring them to me! You will be rewarded handsomely!",
+   "header": "First Elder Lockirin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30531-05.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30531-05.html",
+   "quest": 333,
+   "text": "First Elder Lockirin: What! I offer you precious gifts and yet you refuse! Look here, you impertinent whip! Do you really think you can sell that tablet somewhere else for a higher price? I guarantee you that no one can best my offer. When you come to your senses, please come to see me again. You w…",
+   "header": "First Elder Lockirin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30531-02.html": {
+   "file": "Q00418_PathOfTheArtisan/30531-02.html",
+   "quest": 418,
+   "text": "Lockirin of the Iron Gate: Well, it's not a fatal problem. However, I'll have to give you a bit of a history lesson - specifically, the history concerning the war between the Orcs and the Elves.",
+   "header": "Lockirin of the Iron Gate",
+   "links": [
+    {
+     "text": "Listen.",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30531-03.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30531-03.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30531-03.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30531-03.html": {
+   "file": "Q00418_PathOfTheArtisan/30531-03.html",
+   "quest": 418,
+   "text": "Lockirin of the Iron Gate: We Dwarves sold weapons to the Orcs. Armed with our steel, they were a match and more for the Elves. However, we also sold weapons to the Humans, once they arrived on the scene. We were shortsighted; all we thought of was the profit in the arms trade. Can you predict what…",
+   "header": "Lockirin of the Iron Gate",
+   "links": [
+    {
+     "text": "Listen.",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30531-04.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30531-04.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30531-04.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30531-04.html": {
+   "file": "Q00418_PathOfTheArtisan/30531-04.html",
+   "quest": 418,
+   "text": "Lockirin of the Iron Gate: The Orcs were defeated with the help of the Humans, and then the Elves turned on us. They held us responsible for the losses they suffered in the war. They killed the great Dwarf King, and the fall of the Dwarves soon followed. After that, the Black Anvil Guild made a new…",
+   "header": "Lockirin of the Iron Gate",
+   "links": [
+    {
+     "text": "\"I understand.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30531-05.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30531-05.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30531-05.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30531-05.html": {
+   "file": "Q00418_PathOfTheArtisan/30531-05.html",
+   "quest": 418,
+   "text": "Lockirin of the Iron Gate: Very well. You have passed this test and I shall certify that. When you become an Artisan, remember the lesson you learned today, and always consider the consequences of what you make.",
+   "header": "Lockirin of the Iron Gate",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Trust (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00217_TestimonyOfTrust",
+     "kind": "quest",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30531-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30531-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Maestro]",
+     "bypass": "npc_%objectId%_Quest Q00231_TestOfTheMaestro",
+     "kind": "quest",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30531-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Test of the Maestro (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00231_TestOfTheMaestro",
+     "kind": "quest",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30531-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Hunt of the Black Lion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00333_HuntOfTheBlackLion",
+     "kind": "quest",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30531-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Artisan (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00418_PathOfTheArtisan",
+     "kind": "quest",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30531-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,693 @@
+{
+ "npcId": 32163,
+ "name": "Ragara",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.349Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Teleports/StrongholdsTeleports/32163-no.htm",
+   "when": "",
+   "src": "ai StrongholdsTeleports"
+  },
+  {
+   "page": "teleporter/32163.htm",
+   "when": "when no script answers the first talk",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {
+  "172": {
+   "name": "New Horizons",
+   "listText": [
+    "[New Horizons]",
+    "[New Horizons (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00172_NewHorizons/32163-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "ai/npc/Teleports/StrongholdsTeleports/32163-no.htm": {
+   "file": "ai/npc/Teleports/StrongholdsTeleports/32163-no.htm",
+   "quest": null,
+   "text": "Gatekeeper Ragara: Ages ago, the Kamael were barred from using teleportation magic. Needless to say, this has put us at a distinct disadvantage. Finally, we learned how to borrow other races' power. The Wizards of the Ivory Tower sympathized with us, so they created the Staff of Transferring and bu…",
+   "header": "Gatekeeper Ragara",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/32163-1.htm",
+     "live": true
+    },
+    {
+     "text": "Move to a stronghold (free).",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "teleporter/32163-4.htm",
+     "live": true
+    },
+    {
+     "text": "Exchange Dimension Diamonds.",
+     "bypass": "npc_%objectId%_multisell 002",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Noblesse Exclusive Teleport",
+     "bypass": "npc_%objectId%_Quest NoblesseTeleport",
+     "kind": "quest",
+     "script": "NoblesseTeleport",
+     "to": null,
+     "live": true
+    },
+    {
+     "text": "Receive your Birthday Gift!",
+     "bypass": "npc_%objectId%_Quest CharacterBirthday",
+     "kind": "quest",
+     "script": "CharacterBirthday"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/32163.htm": {
+   "file": "teleporter/32163.htm",
+   "quest": null,
+   "text": "Gatekeeper Ragara: Teleportation magic was not permitted in Kamael lands from the very beginning of the world. Now though... things have changed!",
+   "header": "Gatekeeper Ragara",
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/32163-1.htm",
+     "live": true
+    },
+    {
+     "text": "Move to Stronghold (Free).",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "teleporter/32163-4.htm"
+    },
+    {
+     "text": "Exchange Dimension Diamonds.",
+     "bypass": "npc_%objectId%_multisell 002",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Noblesse Exclusive Teleport",
+     "bypass": "npc_%objectId%_Quest NoblesseTeleport",
+     "kind": "quest",
+     "script": "NoblesseTeleport",
+     "to": null,
+     "live": true,
+     "dpText": "[Noblesse Exclusive] Teleport"
+    },
+    {
+     "text": "Call Alegria",
+     "bypass": "npc_%objectId%_Quest CharacterBirthday",
+     "kind": "quest",
+     "script": "CharacterBirthday"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/32163-1.htm": {
+   "file": "teleporter/32163-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio - 12000 Adena",
+     "bypass": "npc_%objectId%_goto 1139",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "The Village of Gludin - 18000 Adena",
+     "bypass": "npc_%objectId%_goto 16000",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin"
+    },
+    {
+     "text": "Town of Aden - 26000 Adena",
+     "bypass": "npc_%objectId%_goto 1122",
+     "kind": "teleport",
+     "confirm": "811;Town of Aden",
+     "live": true
+    },
+    {
+     "text": "Talking Island Village - 20000 Adena",
+     "bypass": "npc_%objectId%_goto 1123",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Dark Elf Village - 13000 Adena",
+     "bypass": "npc_%objectId%_goto 1124",
+     "kind": "teleport",
+     "confirm": "811;Dark Elf Village"
+    },
+    {
+     "text": "Elven Village - 16000 Adena",
+     "bypass": "npc_%objectId%_goto 1125",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Dwarven Village - 32000 Adena",
+     "bypass": "npc_%objectId%_goto 1126",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Orc Village - 17000 Adena",
+     "bypass": "npc_%objectId%_goto 1127",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true
+    },
+    {
+     "text": "Stronghold I - 2600 Adena",
+     "bypass": "npc_%objectId%_goto 1128",
+     "kind": "teleport",
+     "confirm": "811;Stronghold I",
+     "live": true
+    },
+    {
+     "text": "Stronghold II - 2200 Adena",
+     "bypass": "npc_%objectId%_goto 1129",
+     "kind": "teleport",
+     "confirm": "811;Stronghold II",
+     "live": true
+    },
+    {
+     "text": "Stronghold III",
+     "bypass": "npc_%objectId%_goto 1130",
+     "kind": "teleport",
+     "confirm": "811;Stronghold III",
+     "live": true,
+     "dpText": "Stronghold III - 3200 Adena"
+    },
+    {
+     "text": "Isle of Souls Harbor - 4300 Adena",
+     "bypass": "npc_%objectId%_goto 1131",
+     "kind": "teleport",
+     "confirm": "811;Isle of Souls Harbor",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/32163-2.htm": {
+   "file": "teleporter/32163-2.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9000",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9002",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "Coliseum - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9001",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/32163-3.htm": {
+   "file": "teleporter/32163-3.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9900",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9902",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "Coliseum - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9901",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/32163-4.htm": {
+   "file": "teleporter/32163-4.htm",
+   "quest": null,
+   "text": "Gatekeeper Ragara: The Stronghold teleport for beginners may only be used by characters lower than level 20 .",
+   "header": "Gatekeeper Ragara",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "teleporter/32163-5.htm": {
+   "file": "teleporter/32163-5.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Stronghold I",
+     "bypass": "npc_%objectId%_goto 1132",
+     "kind": "teleport",
+     "confirm": "811;Stronghold I",
+     "live": true
+    },
+    {
+     "text": "Stronghold II",
+     "bypass": "npc_%objectId%_goto 1133",
+     "kind": "teleport",
+     "confirm": "811;Stronghold II",
+     "live": true
+    },
+    {
+     "text": "Stronghold III",
+     "bypass": "npc_%objectId%_goto 1134",
+     "kind": "teleport",
+     "confirm": "811;Stronghold III",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/32163-pk.htm": {
+   "file": "teleporter/32163-pk.htm",
+   "quest": null,
+   "text": "Gatekeeper Ragara: We Kamael prefer to punish murderers severely. But now we choose to follow the laws of the continent. Consider yourself lucky that you live in the time and leave here as fast as your legs will carry you -- before I change my mind and show you some of our less savory traditions...",
+   "header": "Gatekeeper Ragara",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "teleporter/free/32163.htm": {
+   "file": "teleporter/free/32163.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio",
+     "bypass": "npc_%objectId%_goto 1139",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "The Village of Gludin",
+     "bypass": "npc_%objectId%_goto 16000",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin"
+    },
+    {
+     "text": "Town of Aden",
+     "bypass": "npc_%objectId%_goto 1122",
+     "kind": "teleport",
+     "confirm": "811;Town of Aden",
+     "live": true
+    },
+    {
+     "text": "Talking Island Village",
+     "bypass": "npc_%objectId%_goto 1123",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Dark Elf Village",
+     "bypass": "npc_%objectId%_goto 1124",
+     "kind": "teleport",
+     "confirm": "811;Dark Elf Village"
+    },
+    {
+     "text": "Elven Village",
+     "bypass": "npc_%objectId%_goto 1125",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Dwarven Village",
+     "bypass": "npc_%objectId%_goto 1126",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Orc Village",
+     "bypass": "npc_%objectId%_goto 1127",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true
+    },
+    {
+     "text": "Stronghold I",
+     "bypass": "npc_%objectId%_goto 1128",
+     "kind": "teleport",
+     "confirm": "811;Stronghold I",
+     "live": true
+    },
+    {
+     "text": "Stronghold II",
+     "bypass": "npc_%objectId%_goto 1129",
+     "kind": "teleport",
+     "confirm": "811;Stronghold II",
+     "live": true
+    },
+    {
+     "text": "Stronghold III",
+     "bypass": "npc_%objectId%_goto 1130",
+     "kind": "teleport",
+     "confirm": "811;Stronghold III",
+     "live": true
+    },
+    {
+     "text": "Isle of Souls Harbor",
+     "bypass": "npc_%objectId%_goto 1131",
+     "kind": "teleport",
+     "confirm": "811;Isle of Souls Harbor",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/half/32163.htm": {
+   "file": "teleporter/half/32163.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio - 6000 Adena",
+     "bypass": "npc_%objectId%_goto 1139",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "The Village of Gludin - 9000 Adena",
+     "bypass": "npc_%objectId%_goto 16000",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin"
+    },
+    {
+     "text": "Town of Aden - 13000 Adena",
+     "bypass": "npc_%objectId%_goto 1122",
+     "kind": "teleport",
+     "confirm": "811;Town of Aden",
+     "live": true
+    },
+    {
+     "text": "Talking Island Village - 10000 Adena",
+     "bypass": "npc_%objectId%_goto 1123",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Dark Elf Village - 6500 Adena",
+     "bypass": "npc_%objectId%_goto 1124",
+     "kind": "teleport",
+     "confirm": "811;Dark Elf Village"
+    },
+    {
+     "text": "Elven Village - 8000 Adena",
+     "bypass": "npc_%objectId%_goto 1125",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Dwarven Village - 16000 Adena",
+     "bypass": "npc_%objectId%_goto 1126",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Orc Village - 8500 Adena",
+     "bypass": "npc_%objectId%_goto 1127",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true
+    },
+    {
+     "text": "Stronghold I - 1300 Adena",
+     "bypass": "npc_%objectId%_goto 1128",
+     "kind": "teleport",
+     "confirm": "811;Stronghold I",
+     "live": true
+    },
+    {
+     "text": "Stronghold II - 1100 Adena",
+     "bypass": "npc_%objectId%_goto 1129",
+     "kind": "teleport",
+     "confirm": "811;Stronghold II",
+     "live": true
+    },
+    {
+     "text": "Stronghold III",
+     "bypass": "npc_%objectId%_goto 1130",
+     "kind": "teleport",
+     "confirm": "811;Stronghold III",
+     "live": true,
+     "dpText": "Stronghold III - 1600 Adena"
+    },
+    {
+     "text": "Isle of Souls Harbor - 2150 Adena",
+     "bypass": "npc_%objectId%_goto 1131",
+     "kind": "teleport",
+     "confirm": "811;Isle of Souls Harbor",
+     "live": true
+    }
+   ]
+  },
+  "Q00172_NewHorizons/32163-01.html": {
+   "file": "Q00172_NewHorizons/32163-01.html",
+   "quest": 172,
+   "text": "Gatekeeper Ragara: Oh! So Zenya sent you here! Zenya has been encouraging young people to leave the boundaries of this island and explore the wide world beyond. As a result, we now have the opportunity to travel to Giran. Here, take this.",
+   "header": "Gatekeeper Ragara",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "What is it?",
+     "bypass": "Quest Q00172_NewHorizons 32163-02.html",
+     "kind": "quest-event",
+     "script": "Q00172_NewHorizons",
+     "event": "32163-02.html",
+     "quest": 172,
+     "to": "Q00172_NewHorizons/32163-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00172_NewHorizons/32163-02.html": {
+   "file": "Q00172_NewHorizons/32163-02.html",
+   "quest": 172,
+   "text": "Gatekeeper Ragara: It is a scroll called the \"Scroll of Escape: Town of Giran\". Use it to safely transport yourself to Town of Giran. But use it wisely -- it will disappear after just one use! Ah! Here is a Mark of Traveler that Zenya prepared for you. When you decide to return to the Isle of Souls…",
+   "header": "Gatekeeper Ragara",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "ai/npc/Teleports/StrongholdsTeleports/32163.htm": {
+   "file": "ai/npc/Teleports/StrongholdsTeleports/32163.htm",
+   "quest": null,
+   "text": "Gatekeeper Ragara: Ages ago, the Kamael were barred from using teleportation magic. Needless to say, this has put us at a distinct disadvantage. Finally, we learned how to borrow other races' power. The Wizards of the Ivory Tower sympathized with us, so they created the Staff of Transferring and bu…",
+   "header": "Gatekeeper Ragara",
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/32163-1.htm",
+     "live": true
+    },
+    {
+     "text": "Move to a stronghold (free).",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "teleporter/32163-5.htm",
+     "live": true
+    },
+    {
+     "text": "Exchange Dimension Diamonds.",
+     "bypass": "npc_%objectId%_multisell 002",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Noblesse Exclusive Teleport",
+     "bypass": "npc_%objectId%_Quest NoblesseTeleport",
+     "kind": "quest",
+     "script": "NoblesseTeleport",
+     "to": null,
+     "live": true
+    },
+    {
+     "text": "Receive your Birthday Gift!",
+     "bypass": "npc_%objectId%_Quest CharacterBirthday",
+     "kind": "quest",
+     "script": "CharacterBirthday"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[New Horizons (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00172_NewHorizons",
+     "kind": "quest",
+     "quest": 172,
+     "to": "Q00172_NewHorizons/32163-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "gatekeeper live menu (Scripts/data/gk_live/Ragara.json) has links the datapack does not: Summon Alegria | The Dark Elf Village - 13000 &#57; | The Elven Village - 16000 &#57;",
+  "clicked live (Logs/dialog.log) but not in the datapack pages: The Elven Village - 16000 &#57; | The Dark Elf Village - 13000 &#57;"
+ ],
+ "liveClicks": [
+  {
+   "text": "Teleport",
+   "n": 205,
+   "inDatapack": true,
+   "from": [
+    "Gatekeeper Ragara:Ages ago, the Kamael were barred from usin"
+   ],
+   "to": [
+    "556The Town of GludioTown of AdenTalking Island VillageThe D",
+    "556The Town of Gludio - 12000 &#57;Town of Aden - 26000 &#57"
+   ]
+  },
+  {
+   "text": "Stronghold II",
+   "n": 132,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTown of AdenTalking Island VillageThe D"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Stronghold I",
+   "n": 37,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTown of AdenTalking Island VillageThe D"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Stronghold III",
+   "n": 28,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioTown of AdenTalking Island VillageThe D"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Stronghold I - 2600 &#57;",
+   "n": 3,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 12000 &#57;Town of Aden - 26000 &#57"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Stronghold II - 2200 &#57;",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "556The Town of Gludio - 12000 &#57;Town of Aden - 26000 &#57"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "The Elven Village - 16000 &#57;",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "556The Town of Gludio - 12000 &#57;Town of Aden - 26000 &#57"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "The Dark Elf Village - 13000 &#57;",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "556The Town of Gludio - 12000 &#57;Town of Aden - 26000 &#57"
+   ],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

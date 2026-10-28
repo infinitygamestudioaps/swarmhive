@@ -1,0 +1,350 @@
+{
+ "npcId": 31509,
+ "name": "Altar of Saints",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.207Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31509.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "17": {
+   "name": "Light and Darkness",
+   "listText": [
+    "[Light and Darkness]",
+    "[Light and Darkness (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00017_LightAndDarkness/31508-00.html",
+     "when": "state STARTED; (npcId - 31507) == st.getCond()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31509-00.html",
+     "when": "state STARTED; (npcId - 31507) == st.getCond()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31510-00.html",
+     "when": "state STARTED; (npcId - 31507) == st.getCond()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31511-00.html",
+     "when": "state STARTED; (npcId - 31507) == st.getCond()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31508-02.html",
+     "when": "state STARTED; (npcId - 31507) == st.getCond()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31509-02.html",
+     "when": "state STARTED; (npcId - 31507) == st.getCond()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31510-02.html",
+     "when": "state STARTED; (npcId - 31507) == st.getCond()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31511-02.html",
+     "when": "state STARTED; (npcId - 31507) == st.getCond()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31508-03.html",
+     "when": "state STARTED; !(npcId - 31507) == st.getCond(); st.getCond() > (npcId - 31507)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31509-03.html",
+     "when": "state STARTED; !(npcId - 31507) == st.getCond(); st.getCond() > (npcId - 31507)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31510-03.html",
+     "when": "state STARTED; !(npcId - 31507) == st.getCond(); st.getCond() > (npcId - 31507)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31511-03.html",
+     "when": "state STARTED; !(npcId - 31507) == st.getCond(); st.getCond() > (npcId - 31507)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31509.htm": {
+   "file": "default/31509.htm",
+   "quest": null,
+   "text": "Altar of Saints: An old, dusty altar, long unused. But still... A strange power emanates from it...",
+   "header": "Altar of Saints",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00017_LightAndDarkness/31508-00.html": {
+   "file": "Q00017_LightAndDarkness/31508-00.html",
+   "quest": 17,
+   "text": "Altar of Saints: The first Altar of Saints has a desolate atmosphere. You know that you need to sprinkle the Blood of Saint here, but you feel apprehensive. You begin to feel faint...",
+   "header": "Altar of Saints",
+   "when": [
+    "state STARTED; (npcId - 31507) == st.getCond()"
+   ],
+   "links": [
+    {
+     "text": "Sprinkle the Blood of Saint.",
+     "bypass": "Quest Q00017_LightAndDarkness 31508-02.html",
+     "kind": "quest-event",
+     "script": "Q00017_LightAndDarkness",
+     "event": "31508-02.html",
+     "quest": 17,
+     "to": "Q00017_LightAndDarkness/31509-02.html",
+     "toAll": [
+      "Q00017_LightAndDarkness/31509-02.html",
+      "Q00017_LightAndDarkness/31509-01.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00017_LightAndDarkness/31509-00.html": {
+   "file": "Q00017_LightAndDarkness/31509-00.html",
+   "quest": 17,
+   "text": "Altar of Saints: The second Altar of Saints. The atmosphere is similar to that of the previous altar. You know that you should sprinkle the Blood of Saint here as you were told, but you're hesitant... You begin to feel faint...",
+   "header": "Altar of Saints",
+   "when": [
+    "state STARTED; (npcId - 31507) == st.getCond()"
+   ],
+   "links": [
+    {
+     "text": "Sprinkle the Blood of Saint.",
+     "bypass": "Quest Q00017_LightAndDarkness 31509-02.html",
+     "kind": "quest-event",
+     "script": "Q00017_LightAndDarkness",
+     "event": "31509-02.html",
+     "quest": 17,
+     "to": "Q00017_LightAndDarkness/31509-02.html",
+     "toAll": [
+      "Q00017_LightAndDarkness/31509-02.html",
+      "Q00017_LightAndDarkness/31509-01.html"
+     ],
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00017_LightAndDarkness/31510-00.html": {
+   "file": "Q00017_LightAndDarkness/31510-00.html",
+   "quest": 17,
+   "text": "Saint Altar: At last, the third Altar of Saints! No less forbidding than the first two!",
+   "header": "Saint Altar",
+   "when": [
+    "state STARTED; (npcId - 31507) == st.getCond()"
+   ],
+   "links": [
+    {
+     "text": "Sprinkle the Blood of Saint.",
+     "bypass": "Quest Q00017_LightAndDarkness 31510-02.html",
+     "kind": "quest-event",
+     "script": "Q00017_LightAndDarkness",
+     "event": "31510-02.html",
+     "quest": 17,
+     "to": "Q00017_LightAndDarkness/31509-02.html",
+     "toAll": [
+      "Q00017_LightAndDarkness/31509-02.html",
+      "Q00017_LightAndDarkness/31509-01.html"
+     ],
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00017_LightAndDarkness/31511-00.html": {
+   "file": "Q00017_LightAndDarkness/31511-00.html",
+   "quest": 17,
+   "text": "Saint Altar: The last Altar of Saints looks the same as the others. You're starting to feel more comfortable. That could be good or bad!",
+   "header": "Saint Altar",
+   "when": [
+    "state STARTED; (npcId - 31507) == st.getCond()"
+   ],
+   "links": [
+    {
+     "text": "Sprinkle the Blood of Saint.",
+     "bypass": "Quest Q00017_LightAndDarkness 31511-02.html",
+     "kind": "quest-event",
+     "script": "Q00017_LightAndDarkness",
+     "event": "31511-02.html",
+     "quest": 17,
+     "to": "Q00017_LightAndDarkness/31509-02.html",
+     "toAll": [
+      "Q00017_LightAndDarkness/31509-02.html",
+      "Q00017_LightAndDarkness/31509-01.html"
+     ],
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00017_LightAndDarkness/31508-02.html": {
+   "file": "Q00017_LightAndDarkness/31508-02.html",
+   "quest": 17,
+   "text": "Altar of Saints: Behold, the Altar of Saints! As instructed, you put your hand in your pocket to prepare to sprinkle the blood, and... The Blood of Saint is gone! Did you lose it on your way here? This is terrible!",
+   "header": "Altar of Saints",
+   "when": [
+    "state STARTED; (npcId - 31507) == st.getCond()"
+   ],
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31509-02.html": {
+   "file": "Q00017_LightAndDarkness/31509-02.html",
+   "quest": 17,
+   "text": "Altar of Saints: Behold, the Altar of Saints! As instructed, you put your hand in your pocket to prepare to sprinkle the blood, and... The Blood of Saint is gone! Perhaps you lost it on your way here. What shall you do?!",
+   "header": "Altar of Saints",
+   "when": [
+    "state STARTED; (npcId - 31507) == st.getCond()"
+   ],
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31510-02.html": {
+   "file": "Q00017_LightAndDarkness/31510-02.html",
+   "quest": 17,
+   "text": "Altar of Saints: Behold, the Altar of Saints! As instructed, you put your hand in your pocket to prepare to sprinkle the blood, and... The Blood of Saint is gone! Perhaps you lost it on your way here!",
+   "header": "Altar of Saints",
+   "when": [
+    "state STARTED; (npcId - 31507) == st.getCond()"
+   ],
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31511-02.html": {
+   "file": "Q00017_LightAndDarkness/31511-02.html",
+   "quest": 17,
+   "text": "Altar of Saints: Behold, the Altar of Saints! As instructed, you put your hand in your pocket to prepare to sprinkle the blood, and... The Blood of Saint is gone! Perhaps you lost it on your way here. What shall you do?!",
+   "header": "Altar of Saints",
+   "when": [
+    "state STARTED; (npcId - 31507) == st.getCond()"
+   ],
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31508-03.html": {
+   "file": "Q00017_LightAndDarkness/31508-03.html",
+   "quest": 17,
+   "text": "Altar of Saints: An Altar of Saints that has lost its power. All traces of purity have disappeared. Hurry along, much remains to be done.",
+   "header": "Altar of Saints",
+   "when": [
+    "state STARTED; !(npcId - 31507) == st.getCond(); st.getCond() > (npcId - 31507)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31509-03.html": {
+   "file": "Q00017_LightAndDarkness/31509-03.html",
+   "quest": 17,
+   "text": "Altar of Saints: The altar is depleted of its power. Its former atmosphere of purity has dissipated. Only two more altars to go.",
+   "header": "Altar of Saints",
+   "when": [
+    "state STARTED; !(npcId - 31507) == st.getCond(); st.getCond() > (npcId - 31507)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31510-03.html": {
+   "file": "Q00017_LightAndDarkness/31510-03.html",
+   "quest": 17,
+   "text": "Altar of Saints: The altar is depleted of its power. Its former purity is gone. One more altar to go.",
+   "header": "Altar of Saints",
+   "when": [
+    "state STARTED; !(npcId - 31507) == st.getCond(); st.getCond() > (npcId - 31507)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31511-03.html": {
+   "file": "Q00017_LightAndDarkness/31511-03.html",
+   "quest": 17,
+   "text": "Altar of Saints: The altar is depleted of its power. Its former purity has dissipated. The quest is complete. Return to the elder.",
+   "header": "Altar of Saints",
+   "when": [
+    "state STARTED; !(npcId - 31507) == st.getCond(); st.getCond() > (npcId - 31507)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31509-01.html": {
+   "file": "Q00017_LightAndDarkness/31509-01.html",
+   "quest": 17,
+   "text": "Saint Altar: The Altar of Saints reacts to the Blood of Saint. You're starting to feel better. The altar appears depleted. It's time to move on.",
+   "header": "Saint Altar",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Light and Darkness (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00017_LightAndDarkness",
+     "kind": "quest",
+     "quest": 17,
+     "to": "Q00017_LightAndDarkness/31508-00.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

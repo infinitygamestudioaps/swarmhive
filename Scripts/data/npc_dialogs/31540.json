@@ -1,0 +1,1153 @@
+{
+ "npcId": 31540,
+ "name": "Klein",
+ "title": "Valakas Watchman",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.217Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31540.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "618": {
+   "name": "Into the Flame",
+   "listText": [
+    "[Into the Flames]",
+    "[Into the Flames (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00618_IntoTheFlame/31540-01.html",
+     "when": "state CREATED; (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00618_IntoTheFlame/31540-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00618_IntoTheFlame/31540-04.html",
+     "when": "state STARTED; st.isCond(4)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00618_IntoTheFlame/31540-03.htm",
+     "when": "state STARTED; NOT st.isCond(4)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "start"
+    }
+   ]
+  },
+  "906": {
+   "name": "The Call of Valakas",
+   "listText": [
+    "[The Call of Valakas]",
+    "[The Call of Valakas (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00906_TheCallOfValakas/31540-03.html",
+     "when": "state CREATED; level < 83",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00906_TheCallOfValakas/31540-04.html",
+     "when": "state CREATED; NOT level < 83",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00906_TheCallOfValakas/31540-01.htm",
+     "when": "state CREATED; NOT level < 83",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00906_TheCallOfValakas/31540-07.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00906_TheCallOfValakas/31540-08.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00906_TheCallOfValakas/31540-02.html",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00906_TheCallOfValakas/31540-03.html",
+     "when": "state COMPLETED; level < 83; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00906_TheCallOfValakas/31540-04.html",
+     "when": "state COMPLETED; NOT level < 83; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00906_TheCallOfValakas/31540-01.htm",
+     "when": "state COMPLETED; NOT level < 83; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "907": {
+   "name": "Dragon Trophy - Valakas",
+   "listText": [
+    "[Dragon Trophy - Valakas]",
+    "[Dragon Trophy - Valakas (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00907_DragonTrophyValakas/31540-02.html",
+     "when": "state CREATED; level < 84",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00907_DragonTrophyValakas/31540-04.html",
+     "when": "state CREATED; NOT level < 84",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00907_DragonTrophyValakas/31540-01.htm",
+     "when": "state CREATED; NOT level < 84",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00907_DragonTrophyValakas/31540-08.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00907_DragonTrophyValakas/31540-09.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00907_DragonTrophyValakas/31540-03.html",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00907_DragonTrophyValakas/31540-02.html",
+     "when": "state COMPLETED; level < 84; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00907_DragonTrophyValakas/31540-04.html",
+     "when": "state COMPLETED; NOT level < 84; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00907_DragonTrophyValakas/31540-01.htm",
+     "when": "state COMPLETED; NOT level < 84; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "10291": {
+   "name": "Fire Dragon Destroyer",
+   "listText": [
+    "[Fire Dragon Destroyer]",
+    "[Fire Dragon Destroyer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10291_FireDragonDestroyer/31540-00.htm",
+     "when": "state CREATED; level < 83",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10291_FireDragonDestroyer/31540-02.htm",
+     "when": "state CREATED; NOT level < 83; st.hasQuestItems(FLOATING_STONE)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10291_FireDragonDestroyer/31540-01.htm",
+     "when": "state CREATED; NOT level < 83; NOT st.hasQuestItems(FLOATING_STONE)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10291_FireDragonDestroyer/31540-06.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10291_FireDragonDestroyer/31540-07.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10291_FireDragonDestroyer/31540-08.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10291_FireDragonDestroyer/31540-09.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10505": {
+   "name": "Jewel of Valakas",
+   "listText": [
+    "[Jewel of Valakas]",
+    "[Jewel of Valakas (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10505_JewelOfValakas/31540-02.html",
+     "when": "state CREATED; level < 83",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10505_JewelOfValakas/31540-04.html",
+     "when": "state CREATED; NOT level < 83; lacks items 7267",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10505_JewelOfValakas/31540-01.htm",
+     "when": "state CREATED; NOT level < 83; has items 7267",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10505_JewelOfValakas/31540-08.html",
+     "when": "state STARTED; cond 1; has items 21906",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10505_JewelOfValakas/31540-09.html",
+     "when": "state STARTED; cond 1; lacks items 21906",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10505_JewelOfValakas/31540-10.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10505_JewelOfValakas/31540-03.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31540.htm": {
+   "file": "default/31540.htm",
+   "quest": null,
+   "text": "Watcher of Valakas Klein: Why are you here? Are you by any chance looking for the Hall of Flames behind me?",
+   "header": "Watcher of Valakas Klein",
+   "links": [
+    {
+     "text": "\"Tell me more about the Hall of Flames.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/31540-1.htm"
+    },
+    {
+     "text": "\"Tell me about the Amulet of Blessing and Amulet of Rescue.\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/31540-2.htm"
+    },
+    {
+     "text": "\"I want to enter the Hall of Flames.\"",
+     "bypass": "npc_%objectId%_Quest GrandBossTeleporters",
+     "kind": "quest",
+     "script": "GrandBossTeleporters",
+     "to": "ai/npc/Teleports/GrandBossTeleporters/31540-01.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/31540-1.htm": {
+   "file": "default/31540-1.htm",
+   "quest": null,
+   "text": "Watcher of Valakas Klein: The Hall of Flames leads to Valakas, the fire dragon. It's guarded by the minions of Valakas! If you get past them, you can meet Valakas. To prevent people from entering this dangerous place, no one may actually walk the path... After all this, you still want to enter the …",
+   "header": "Watcher of Valakas Klein",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "default/31540-2.htm": {
+   "file": "default/31540-2.htm",
+   "quest": null,
+   "text": "Watcher of Valakas Klein: You must triumph over the family or gatekeepers of Valakas inside the Hall of Flames if you expect to obtain the charm of blessing or charm of relief. Either one of them will help you deal with Valakas.",
+   "header": "Watcher of Valakas Klein",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00618_IntoTheFlame/31540-01.html": {
+   "file": "Q00618_IntoTheFlame/31540-01.html",
+   "quest": 618,
+   "text": "Watcher of Valakas Klein: Do you know what's behind this Hall of Flames? Not everyone can make it through. I don't think you're ready. (Only characters of level 60 or above may undertake this quest.)",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; (player.getLevel() < MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00618_IntoTheFlame/31540-02.htm": {
+   "file": "Q00618_IntoTheFlame/31540-02.htm",
+   "quest": 618,
+   "text": "Watcher of Valakas Klein: Do you know what's behind this Hall of Flames? Not everyone can make it through. You can't get there by foot, but I can tell you how.",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "Quest Q00618_IntoTheFlame 31540-03.htm",
+     "kind": "quest-event",
+     "script": "Q00618_IntoTheFlame",
+     "event": "31540-03.htm",
+     "quest": 618,
+     "to": "Q00618_IntoTheFlame/31540-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00618_IntoTheFlame/31540-04.html": {
+   "file": "Q00618_IntoTheFlame/31540-04.html",
+   "quest": 618,
+   "text": "Watcher of Valakas Klein: You brought some Vacualite! Now I can make a Vacualite Floating Stone. Let me see it.",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state STARTED; st.isCond(4)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00618_IntoTheFlame 31540-05.html",
+     "kind": "quest-event",
+     "script": "Q00618_IntoTheFlame",
+     "event": "31540-05.html",
+     "quest": 618,
+     "to": "Q00618_IntoTheFlame/31540-05.html",
+     "toAll": [
+      "Q00618_IntoTheFlame/31540-05.html",
+      "Q00618_IntoTheFlame/31540-03.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00618_IntoTheFlame/31540-03.htm": {
+   "file": "Q00618_IntoTheFlame/31540-03.htm",
+   "quest": 618,
+   "text": "Watcher of Valakas Klein: Meet Blacksmith Hilda in the Town of Goddard and bring me Vacualite . If a magic power is infused in it, it can activate the magic. It's a very unique mineral, and can only be used once. With it I can create a Vacualite Floating Stone to get through the Hall of Flames.",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state STARTED; NOT st.isCond(4)"
+   ],
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00906_TheCallOfValakas/31540-03.html": {
+   "file": "Q00906_TheCallOfValakas/31540-03.html",
+   "quest": 906,
+   "text": "Watcher of Valakas Klein: You are not qualified to hear my request... (Only characters above level 83 can undertake this quest.)",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; level < 83",
+    "state COMPLETED; level < 83; st.isNowAvailable()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00906_TheCallOfValakas/31540-04.html": {
+   "file": "Q00906_TheCallOfValakas/31540-04.html",
+   "quest": 906,
+   "text": "Watcher of Valakas Klein: The fact that you don't have the Vacualite Floating Stone means you did not satisfy the minimum requirement for this request. If you really want to hear my request, you must first obtain a Vacualite Floating Stone .",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; NOT level < 83",
+    "state COMPLETED; NOT level < 83; st.isNowAvailable()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00906_TheCallOfValakas/31540-01.htm": {
+   "file": "Q00906_TheCallOfValakas/31540-01.htm",
+   "quest": 906,
+   "text": "Watcher of Valakas Klein: Is it hot in here or is it just me? Ha, that one never gets old... well, maybe a little. As you probably know this path leads to the lair of Valakas. Oh how many have come and became one with the flame that fills these halls... Valakas calls and those brave souls answer. N…",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; NOT level < 83",
+    "state COMPLETED; NOT level < 83; st.isNowAvailable()"
+   ],
+   "links": [
+    {
+     "text": "\"No, but I think I've got time for a history lesson.\"",
+     "bypass": "Quest Q00906_TheCallOfValakas 31540-05.htm",
+     "kind": "quest-event",
+     "script": "Q00906_TheCallOfValakas",
+     "event": "31540-05.htm",
+     "quest": 906,
+     "to": "Q00906_TheCallOfValakas/31540-05.htm"
+    }
+   ]
+  },
+  "Q00906_TheCallOfValakas/31540-07.html": {
+   "file": "Q00906_TheCallOfValakas/31540-07.html",
+   "quest": 906,
+   "text": "Watcher of Valakas Klein: Watch me pull a Lavasaurus Alpha fragment out of my hat. Ta-da! What? I don't have a Lavasaurus Alpha? What a coincidence, neither do you. Quit wasting my time... it's... valuable? Come talk to me when you have a Lavasaurus Alpha fragment.",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00906_TheCallOfValakas/31540-08.html": {
+   "file": "Q00906_TheCallOfValakas/31540-08.html",
+   "quest": 906,
+   "text": "Watcher of Valakas Klein: Would you look at that... a real Lavasaurus Alpha fragment. Give me a moment while I add this to the pile of Lavasaurus Alpha fragments all the other adventurers brought me... what? Oh, that's right. I said I would make you something with it. Well, I've got to be honest he…",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00906_TheCallOfValakas/31540-02.html": {
+   "file": "Q00906_TheCallOfValakas/31540-02.html",
+   "quest": 906,
+   "text": "Watcher of Valakas Klein: Thank you for bringing back a Lavasaurus Alpha fragment. If you obtain them again, bring them to me. (This quest can be completed only once a day. This quest gets initialized everyday at 6:30 am.)",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00907_DragonTrophyValakas/31540-02.html": {
+   "file": "Q00907_DragonTrophyValakas/31540-02.html",
+   "quest": 907,
+   "text": "Watcher of Valakas Klein: Do you look down on the fire dragon? Its claws have shattered countless lives. (Only characters at level 84 or above can undertake this quest.)",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; level < 84",
+    "state COMPLETED; level < 84; st.isNowAvailable()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00907_DragonTrophyValakas/31540-04.html": {
+   "file": "Q00907_DragonTrophyValakas/31540-04.html",
+   "quest": 907,
+   "text": "Watcher of Valakas Klein: The fact that you don't have the Floating Stone means you did not satisfy the minimum requirement for this mission. If you really want to defeat Valakas, you must first obtain a Vacualite Floating Stone.",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; NOT level < 84",
+    "state COMPLETED; NOT level < 84; st.isNowAvailable()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00907_DragonTrophyValakas/31540-01.htm": {
+   "file": "Q00907_DragonTrophyValakas/31540-01.htm",
+   "quest": 907,
+   "text": "Watcher of Valakas Klein: Is it hot in here or is it just me? Ha, that one never gets old... well, maybe a little. As you probably know this path leads to the lair of Valakas. Oh how many have come and became one with the flame that fills these halls... Valakas calls and those brave souls answer. N…",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; NOT level < 84",
+    "state COMPLETED; NOT level < 84; st.isNowAvailable()"
+   ],
+   "links": [
+    {
+     "text": "\"I do! I want to fight Valakas!\"",
+     "bypass": "Quest Q00907_DragonTrophyValakas 31540-05.htm",
+     "kind": "quest-event",
+     "script": "Q00907_DragonTrophyValakas",
+     "event": "31540-05.htm",
+     "quest": 907,
+     "to": "Q00907_DragonTrophyValakas/31540-05.htm"
+    }
+   ]
+  },
+  "Q00907_DragonTrophyValakas/31540-08.html": {
+   "file": "Q00907_DragonTrophyValakas/31540-08.html",
+   "quest": 907,
+   "text": "Watcher of Valakas Klein: Defeating Valakas is something that you must do with your comrades. I shall wait here for news of your victory against the beast.",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00907_DragonTrophyValakas/31540-09.html": {
+   "file": "Q00907_DragonTrophyValakas/31540-09.html",
+   "quest": 907,
+   "text": "Watcher of Valakas Klein: What's that you say? You managed to kill the fire dragon? Well, yes, I heard but I thought they were talking about some other adventurer who managed to kill Valakas. You must feel like Emperor Shunaiman on Aden Mountain so who would want to mess with you. Well allow me to …",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00907_DragonTrophyValakas/31540-03.html": {
+   "file": "Q00907_DragonTrophyValakas/31540-03.html",
+   "quest": 907,
+   "text": "Watcher of Valakas Klein: Glorious adventurer. The dragon's nemesis. You have defeated the dragon. Your power in defeating the evil beast shall be praised throughout the land. (This quest can be done only a day. This quest gets initialized everyday at 6:30 am.)",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10291_FireDragonDestroyer/31540-00.htm": {
+   "file": "Q10291_FireDragonDestroyer/31540-00.htm",
+   "quest": 10291,
+   "text": "Watcher of Valakas Klein: Hold on a moment. You must be at least \"this\" experienced before you can take on the thrill ride that is Valakas. (Only characters level 83 or above can take this quest.)",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; level < 83"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10291_FireDragonDestroyer/31540-02.htm": {
+   "file": "Q10291_FireDragonDestroyer/31540-02.htm",
+   "quest": 10291,
+   "text": "Watcher of Valakas Klein: Is it hot in here or is it just me? Guess that is what you get when your blood is replaced with pure liquid magma for all eternity. By the expression on your face I can tell you are wondering about Valakas, no? Heard the rumor as of late? No? Ah... you are in for a real tr…",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; NOT level < 83; st.hasQuestItems(FLOATING_STONE)"
+   ],
+   "links": [
+    {
+     "text": "Accept challenge to defeat Valakas.",
+     "bypass": "Quest Q10291_FireDragonDestroyer 31540-03.html",
+     "kind": "quest-event",
+     "script": "Q10291_FireDragonDestroyer",
+     "event": "31540-03.html",
+     "quest": 10291,
+     "to": "Q10291_FireDragonDestroyer/31540-03.html"
+    }
+   ]
+  },
+  "Q10291_FireDragonDestroyer/31540-01.htm": {
+   "file": "Q10291_FireDragonDestroyer/31540-01.htm",
+   "quest": 10291,
+   "text": "Watcher of Valakas Klein: Well, I'll give you this kid. You've got the skills to take on the Fire Dragon but you don't have the right tools for the task. If you're serious about fighting against Valakas, first go get a \"Vacualite Floating Stone\".",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; NOT level < 83; NOT st.hasQuestItems(FLOATING_STONE)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10291_FireDragonDestroyer/31540-06.html": {
+   "file": "Q10291_FireDragonDestroyer/31540-06.html",
+   "quest": 10291,
+   "text": "Watcher of Valakas Klein: I apologize I think you misunderstood me... Let me restate it to you a bit more clearly. Don't come back until you have DEFEATED Valakas. Return to me once the necklace you carry has the energy of Valakas contained in it.",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10291_FireDragonDestroyer/31540-07.html": {
+   "file": "Q10291_FireDragonDestroyer/31540-07.html",
+   "quest": 10291,
+   "text": "Watcher of Valakas Klein: What? You lost the necklace? How did you lose that necklace? That takes a special type of talent to lose something that cannot be lost. Here... take this spare necklace I have. Do not \"lose\" this one. It is the only thing that can be used to prove that you have defeated Va…",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10291_FireDragonDestroyer/31540-08.html": {
+   "file": "Q10291_FireDragonDestroyer/31540-08.html",
+   "quest": 10291,
+   "text": "Watcher of Valakas Klein: Impossible! I cannot believe it. No really, I cannot believe it. Usually I'm pretty good about sending adventurers to their death by facing Valakas, but you... just, wow. This is impressive. Soon all across the land will tell stories about the brave... what ever your name …",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10291_FireDragonDestroyer/31540-09.html": {
+   "file": "Q10291_FireDragonDestroyer/31540-09.html",
+   "quest": 10291,
+   "text": "Watcher of Valakas Klein: Well if it isn't Mr. Fancy-I-Killed-Valakas-Pants. If I could I would send you into the depths of Valakas lair to stop the Fire Dragon's return and reward you with riches of your success. I really wish I could... not really. (You have already completed this quest.)",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10505_JewelOfValakas/31540-02.html": {
+   "file": "Q10505_JewelOfValakas/31540-02.html",
+   "quest": 10505,
+   "text": "Watcher of Valakas Klein: You do not have the ability to hear my request... Please come back after raising your caliber... (Only characters above level 83 can undertake this quest.)",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; level < 83"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10505_JewelOfValakas/31540-04.html": {
+   "file": "Q10505_JewelOfValakas/31540-04.html",
+   "quest": 10505,
+   "text": "Watcher of Valakas Klein: The fact that you don't have the Vacualite Floating Stone means you did not satisfy the minimum requirement for this mission. If you really want to hear my request, you must first obtain a Vacualite Floating Stone .",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; NOT level < 83; lacks items 7267"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10505_JewelOfValakas/31540-01.htm": {
+   "file": "Q10505_JewelOfValakas/31540-01.htm",
+   "quest": 10505,
+   "text": "Watcher of Valakas Klein: You again... I thought I gave you a different errand. Or was it someone else?",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state CREATED; NOT level < 83; has items 7267"
+   ],
+   "links": [
+    {
+     "text": "\"No, you've given me a few things to do.\"",
+     "bypass": "Quest Q10505_JewelOfValakas 31540-05.htm",
+     "kind": "quest-event",
+     "script": "Q10505_JewelOfValakas",
+     "event": "31540-05.htm",
+     "quest": 10505,
+     "to": "Q10505_JewelOfValakas/31540-05.htm"
+    }
+   ]
+  },
+  "Q10505_JewelOfValakas/31540-08.html": {
+   "file": "Q10505_JewelOfValakas/31540-08.html",
+   "quest": 10505,
+   "text": "Watcher of Valakas Klein: If you truly defeat the fire dragon, that Empty Crystal shall be filled with Valakas's energy. Now, please be on your way. I shall be watching you.",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state STARTED; cond 1; has items 21906"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10505_JewelOfValakas/31540-09.html": {
+   "file": "Q10505_JewelOfValakas/31540-09.html",
+   "quest": 10505,
+   "text": "Watcher of Valakas Klein: Excellent. I can finally make my Valakas Martini. I would share with you, but given your condition of being alive I wouldn't recommend it. It has a killer bite... literally. Oh, don't look so upset... once you've become undead maybe you can try a sip, but until that time y…",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state STARTED; cond 1; lacks items 21906"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10505_JewelOfValakas/31540-10.html": {
+   "file": "Q10505_JewelOfValakas/31540-10.html",
+   "quest": 10505,
+   "text": "Watcher of Valakas Klein: Praise unto you for your great feat! You have heard my request. You have obtained the fire dragon's energy. But the fire dragon has not fully retreated... When you go against the beast in earnest, I shall give this to you...",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10505_JewelOfValakas/31540-03.html": {
+   "file": "Q10505_JewelOfValakas/31540-03.html",
+   "quest": 10505,
+   "text": "Watcher of Valakas Klein: Praise unto you for your great achievement in fulfilling my request... (You have already completed this quest.)",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/GrandBossTeleporters/31540-01.htm": {
+   "file": "ai/npc/Teleports/GrandBossTeleporters/31540-01.htm",
+   "quest": null,
+   "text": "Watcher of Valakas Klein: Until now, less than 50 people have attempted the Hall of Flames. Are you sure you want to enter it?",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "playerCount < 50"
+   ],
+   "links": [
+    {
+     "text": "Enter",
+     "bypass": "Quest GrandBossTeleporters 31540",
+     "kind": "quest-event",
+     "script": "GrandBossTeleporters",
+     "event": "31540",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/GrandBossTeleporters/31540-02.htm": {
+   "file": "ai/npc/Teleports/GrandBossTeleporters/31540-02.htm",
+   "quest": null,
+   "text": "Watcher of Valakas Klein: So far, between 50 and 100 people have entered the Hall of Flames. Do you wish to enter?",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "!playerCount < 50; playerCount < 100"
+   ],
+   "links": [
+    {
+     "text": "Enter",
+     "bypass": "Quest GrandBossTeleporters 31540",
+     "kind": "quest-event",
+     "script": "GrandBossTeleporters",
+     "event": "31540",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/GrandBossTeleporters/31540-03.htm": {
+   "file": "ai/npc/Teleports/GrandBossTeleporters/31540-03.htm",
+   "quest": null,
+   "text": "Watcher of Valakas Klein: So far, between 100 and 150 people have entered the Hall of Flames. Do you wish to enter?",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "!playerCount < 50; !playerCount < 100; playerCount < 150"
+   ],
+   "links": [
+    {
+     "text": "Enter",
+     "bypass": "Quest GrandBossTeleporters 31540",
+     "kind": "quest-event",
+     "script": "GrandBossTeleporters",
+     "event": "31540",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/GrandBossTeleporters/31540-04.htm": {
+   "file": "ai/npc/Teleports/GrandBossTeleporters/31540-04.htm",
+   "quest": null,
+   "text": "Watcher of Valakas Klein: So far, between 150 and 200 people have entered the Hall of Flames. Do you wish to enter?",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "!playerCount < 50; !playerCount < 100; !playerCount < 150; playerCount < 200"
+   ],
+   "links": [
+    {
+     "text": "Enter",
+     "bypass": "Quest GrandBossTeleporters 31540",
+     "kind": "quest-event",
+     "script": "GrandBossTeleporters",
+     "event": "31540",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/GrandBossTeleporters/31540-05.htm": {
+   "file": "ai/npc/Teleports/GrandBossTeleporters/31540-05.htm",
+   "quest": null,
+   "text": "Watcher of Valakas Klein: So far, over 200 people have entered the Hall of Flames. Do you wish to enter?",
+   "header": "Watcher of Valakas Klein",
+   "when": [
+    "!playerCount < 50; !playerCount < 100; !playerCount < 150; !playerCount < 200"
+   ],
+   "links": [
+    {
+     "text": "Enter",
+     "bypass": "Quest GrandBossTeleporters 31540",
+     "kind": "quest-event",
+     "script": "GrandBossTeleporters",
+     "event": "31540",
+     "to": null
+    }
+   ]
+  },
+  "Q00618_IntoTheFlame/31540-05.html": {
+   "file": "Q00618_IntoTheFlame/31540-05.html",
+   "quest": 618,
+   "text": "Watcher of Valakas Klein: You can defy gravity with this Vacualite Floating Stone and travel with the wind. You'll need it for the Hall of Flames.",
+   "header": "Watcher of Valakas Klein",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00906_TheCallOfValakas/31540-05.htm": {
+   "file": "Q00906_TheCallOfValakas/31540-05.htm",
+   "quest": 906,
+   "text": "Watcher of Valakas Klein: Would you believe that the Lavasaurus never used to exist? The Lavasaurus Alpha was the very first Lavasaurus ever created by Valakas here in the Forge of the Gods. Valakas created it to protect his lair. Created using a piece of Valakas's own energy. Now, that is a bit of…",
+   "header": "Watcher of Valakas Klein",
+   "links": [
+    {
+     "text": "Agree to gather the fragment.",
+     "bypass": "Quest Q00906_TheCallOfValakas 31540-06.html",
+     "kind": "quest-event",
+     "script": "Q00906_TheCallOfValakas",
+     "event": "31540-06.html",
+     "quest": 906,
+     "to": "Q00906_TheCallOfValakas/31540-06.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00906_TheCallOfValakas/31540-06.html": {
+   "file": "Q00906_TheCallOfValakas/31540-06.html",
+   "quest": 906,
+   "text": "Watcher of Valakas Klein: Excellent! I await your return with the Lavasaurus Alpha fragment. I'll be right here... as always. Won't move a step. Never have. In fact I haven't been outside this cave for who knows how long. Is Heine still around? It is? I swear one day the ocean is going to swallow t…",
+   "header": "Watcher of Valakas Klein",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00907_DragonTrophyValakas/31540-05.htm": {
+   "file": "Q00907_DragonTrophyValakas/31540-05.htm",
+   "quest": 907,
+   "text": "Watcher of Valakas Klein: That a boy... er, girl... ah... you... that's the spirit! I'm somewhat mildy confident of your chances... definitely much better than the hordes of previous adventurers who have been sent to their deaths.",
+   "header": "Watcher of Valakas Klein",
+   "links": [
+    {
+     "text": "\"Nice... anything I need to do?\"",
+     "bypass": "Quest Q00907_DragonTrophyValakas 31540-06.htm",
+     "kind": "quest-event",
+     "script": "Q00907_DragonTrophyValakas",
+     "event": "31540-06.htm",
+     "quest": 907,
+     "to": "Q00907_DragonTrophyValakas/31540-06.htm"
+    }
+   ]
+  },
+  "Q00907_DragonTrophyValakas/31540-06.htm": {
+   "file": "Q00907_DragonTrophyValakas/31540-06.htm",
+   "quest": 907,
+   "text": "Watcher of Valakas Klein: Nothing special... just march through the vast army of creatures created by the Fire Dragon Valakas into his lair and vanquish the most feared and deadly creature known to roam this land which will most likely kill you and all those around you. Nah, nothing too much. Just …",
+   "header": "Watcher of Valakas Klein",
+   "links": [
+    {
+     "text": "\"Those new Medals of Glory?\"",
+     "bypass": "Quest Q00907_DragonTrophyValakas 31540-07.html",
+     "kind": "quest-event",
+     "script": "Q00907_DragonTrophyValakas",
+     "event": "31540-07.html",
+     "quest": 907,
+     "to": "Q00907_DragonTrophyValakas/31540-07.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00907_DragonTrophyValakas/31540-07.html": {
+   "file": "Q00907_DragonTrophyValakas/31540-07.html",
+   "quest": 907,
+   "text": "Watcher of Valakas Klein: Yeah. How did you... never mind. Best of luck kid, you're gonna need it. You know I feel really dumb for saying this and stop me if you have heard it before... cause you know I've sent how many people to their countless deaths trying to kill that thing that everyone starts…",
+   "header": "Watcher of Valakas Klein",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10291_FireDragonDestroyer/31540-03.html": {
+   "file": "Q10291_FireDragonDestroyer/31540-03.html",
+   "quest": 10291,
+   "text": "Watcher of Valakas Klein: Ah... so determined I see. Are you sure you are ready to face Valakas? You may wish to reconsider. A thought in my mind, years of being stopped by adventurers like you can do horrible things to a dragon's spirit. Imagine all that pure rage combined with his newly found pow…",
+   "header": "Watcher of Valakas Klein",
+   "links": [
+    {
+     "text": "Let's do this!",
+     "bypass": "Quest Q10291_FireDragonDestroyer 31540-04.htm",
+     "kind": "quest-event",
+     "script": "Q10291_FireDragonDestroyer",
+     "event": "31540-04.htm",
+     "quest": 10291,
+     "to": "Q10291_FireDragonDestroyer/31540-04.htm"
+    }
+   ]
+  },
+  "Q10291_FireDragonDestroyer/31540-04.htm": {
+   "file": "Q10291_FireDragonDestroyer/31540-04.htm",
+   "quest": 10291,
+   "text": "Watcher of Valakas Klein: I can see that you are determined despite my warnings. I will not try to stop you any further from your haste to find a quick death. However, should you be one of the lucky few to actually survive the encounter with Valakas you will need proof that you have defeated the Fi…",
+   "header": "Watcher of Valakas Klein",
+   "links": [
+    {
+     "text": "Ask about proof.",
+     "bypass": "Quest Q10291_FireDragonDestroyer 31540-05.htm",
+     "kind": "quest-event",
+     "script": "Q10291_FireDragonDestroyer",
+     "event": "31540-05.htm",
+     "quest": 10291,
+     "to": "Q10291_FireDragonDestroyer/31540-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10291_FireDragonDestroyer/31540-05.htm": {
+   "file": "Q10291_FireDragonDestroyer/31540-05.htm",
+   "quest": 10291,
+   "text": "Watcher of Valakas Klein: Take this Poor Necklace. By itself it is worthless. However, if combined with the blood of Valakas it will absorb some of his energy into the necklace. The reaction should be instant upon the defeat of Valakas. The necklace will transform into a necklace of value. Bring me…",
+   "header": "Watcher of Valakas Klein",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10505_JewelOfValakas/31540-05.htm": {
+   "file": "Q10505_JewelOfValakas/31540-05.htm",
+   "quest": 10505,
+   "text": "Watcher of Valakas Klein: Really? Okay... Hmm... Why don't you take... ah... this Empty Crystal and... fill it with... the energy of Valakas.",
+   "header": "Watcher of Valakas Klein",
+   "links": [
+    {
+     "text": "\"Fill the crystal with energy... why?\"",
+     "bypass": "Quest Q10505_JewelOfValakas 31540-06.htm",
+     "kind": "quest-event",
+     "script": "Q10505_JewelOfValakas",
+     "event": "31540-06.htm",
+     "quest": 10505,
+     "to": "Q10505_JewelOfValakas/31540-06.htm"
+    }
+   ]
+  },
+  "Q10505_JewelOfValakas/31540-06.htm": {
+   "file": "Q10505_JewelOfValakas/31540-06.htm",
+   "quest": 10505,
+   "text": "Watcher of Valakas Klein: Never you mind, that's why! You think it is easy coming up with different reasons for you adventurers to go fight Valakas? He's big, bad, evil and scary. You want a reward for killing him then you bring me back a Crystal filled with the energy of Valakas!",
+   "header": "Watcher of Valakas Klein",
+   "links": [
+    {
+     "text": "\"Okay... I'll go fill the crystal with the energy of Valakas\"",
+     "bypass": "Quest Q10505_JewelOfValakas 31540-07.html",
+     "kind": "quest-event",
+     "script": "Q10505_JewelOfValakas",
+     "event": "31540-07.html",
+     "quest": 10505,
+     "to": "Q10505_JewelOfValakas/31540-07.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10505_JewelOfValakas/31540-07.html": {
+   "file": "Q10505_JewelOfValakas/31540-07.html",
+   "quest": 10505,
+   "text": "Watcher of Valakas Klein: Good. Here is the Empty Crystal . As always, the same rules apply. Don't go alone, it's dangerous in there, be sure to gather a large group of skilled adventurers , and try not to die. Kill the beast, grab the energy, and visit me once you have completed your task.",
+   "header": "Watcher of Valakas Klein",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "ai/npc/Teleports/GrandBossTeleporters/31540-06.htm": {
+   "file": "ai/npc/Teleports/GrandBossTeleporters/31540-06.htm",
+   "quest": null,
+   "text": "Watcher of Valakas Klein: In order to enter the Hall of Flames, you'll need a Floating Stone. To obtain one, you must do a small favor for me. Agreed?",
+   "header": "Watcher of Valakas Klein",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Into the Flames]",
+     "bypass": "npc_%objectId%_Quest Q00618_IntoTheFlame",
+     "kind": "quest",
+     "quest": 618,
+     "to": "Q00618_IntoTheFlame/31540-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Into the Flames (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00618_IntoTheFlame",
+     "kind": "quest",
+     "quest": 618,
+     "to": "Q00618_IntoTheFlame/31540-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Call of Valakas]",
+     "bypass": "npc_%objectId%_Quest Q00906_TheCallOfValakas",
+     "kind": "quest",
+     "quest": 906,
+     "to": "Q00906_TheCallOfValakas/31540-04.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Call of Valakas (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00906_TheCallOfValakas",
+     "kind": "quest",
+     "quest": 906,
+     "to": "Q00906_TheCallOfValakas/31540-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Dragon Trophy - Valakas]",
+     "bypass": "npc_%objectId%_Quest Q00907_DragonTrophyValakas",
+     "kind": "quest",
+     "quest": 907,
+     "to": "Q00907_DragonTrophyValakas/31540-04.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Dragon Trophy - Valakas (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00907_DragonTrophyValakas",
+     "kind": "quest",
+     "quest": 907,
+     "to": "Q00907_DragonTrophyValakas/31540-08.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Fire Dragon Destroyer]",
+     "bypass": "npc_%objectId%_Quest Q10291_FireDragonDestroyer",
+     "kind": "quest",
+     "quest": 10291,
+     "to": "Q10291_FireDragonDestroyer/31540-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Fire Dragon Destroyer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10291_FireDragonDestroyer",
+     "kind": "quest",
+     "quest": 10291,
+     "to": "Q10291_FireDragonDestroyer/31540-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Jewel of Valakas]",
+     "bypass": "npc_%objectId%_Quest Q10505_JewelOfValakas",
+     "kind": "quest",
+     "quest": 10505,
+     "to": "Q10505_JewelOfValakas/31540-04.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Jewel of Valakas (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10505_JewelOfValakas",
+     "kind": "quest",
+     "quest": 10505,
+     "to": "Q10505_JewelOfValakas/31540-08.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

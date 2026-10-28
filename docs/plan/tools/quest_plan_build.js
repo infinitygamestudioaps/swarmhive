@@ -102,7 +102,7 @@ if (!has('--plan')) {
 // =============================================================================================================================== PLAN
 const SRC = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8');
 const pa = SRC.indexOf('// QENGINE-PURE-BEGIN'), pb = SRC.indexOf('// QENGINE-PURE-END');
-const E = new Function(SRC.slice(pa, pb) + '\nreturn { qeDecide, qeStartTrans, qeTransAt, qeNeedList, qeDropsAt, qeDropMobs, qeSpawnOnly, qeHuntAction, qeLinksOf, qeIsQuit, qeTr, qeNeeds, qeDefaultBatch, qeRepeatable, qeTurnIn };')();
+const E = new Function(SRC.slice(pa, pb) + '\nreturn { qeDecide, qeStartTrans, qeTransAt, qeNeedList, qeDropsAt, qeDropMobs, qeSpawnOnly, qeHuntAction, qeLinksOf, qeIsQuit, qeTr, qeNeeds, qeDefaultBatch, qeRepeatable, qeTurnIn, qeMemoCheck: typeof qeMemoCheck === "function" ? qeMemoCheck : null };')();
 const mg = require('./manual_guard');
 // READY GATE (2026-10-27, owner via coordinator: "ready ONLY when quest_dryrun.js passes"): a plan the builder would call ready is checked by the
 // independent dry run (docs/plan/tools/quest_dryrun.js verifyOne: script vs data, engine flow, override fields the engine reads, geodata routes,
@@ -151,6 +151,15 @@ const DR = tryJ(path.join(DATA, 'dungeon_rooms.json'), []);
 const ROOMS_BY_MOB = new Map();
 (DR || []).forEach(d => (d.floors || []).forEach(F => (F.rooms || []).forEach(r => { r._d = d.name; r._f = F.name; (r.monsters || []).forEach(m => { if (!ROOMS_BY_MOB.has(m.id)) ROOMS_BY_MOB.set(m.id, []); ROOMS_BY_MOB.get(m.id).push(r); }); })));
 const NPCS = tryJ(path.join(DATA, 'npcs_h5.json'), {}), AGGRO = tryJ(path.join(DATA, 'aggro_h5.json'), {});
+// LOOKALIKE-2026-10-27 (live test 291: 11 Black Wolves 22232 were never attacked, the quest's script counts only 20317): monsters of another template
+// with the SAME name as a quest target give nothing (the script registers ids); the plan says so per hunting place
+const SAMENAME = (() => { const by = {}; Object.entries(NPCS).forEach(([id, n]) => { if (n && n.n && /Monster|Raid/i.test(n.ty || '')) (by[n.n] = by[n.n] || []).push(Number(id)); }); const o = new Map(); Object.values(by).forEach(ids => { if (ids.length > 1) ids.forEach(id => o.set(id, ids)); }); return o; })();
+const LOOKSP = (() => { const m = new Map(); for (const sp of tryJ(path.join(DATA, 'spawns_h5.json'), [])) { if (!SAMENAME.has(Number(sp.id))) continue; if (!m.has(sp.id)) m.set(sp.id, []); m.get(sp.id).push(sp); } return m; })();
+function lookalikes(mobs, area) {
+  if (!area || !area.at) return []; const set = new Set((mobs || []).map(Number)), out = [];
+  (mobs || []).forEach(id => (SAMENAME.get(Number(id)) || []).forEach(o => { if (set.has(o) || out.some(x => x.id === o)) return; const n = (LOOKSP.get(o) || []).filter(s => Math.hypot(s.x - area.at[0], s.y - area.at[1]) <= (area.radius || 1500) + 300 && Math.abs(s.z - area.at[2]) < 1500).reduce((a, s) => a + (s.count || 1), 0); if (n) out.push({ id: o, name: (NPCS[o] || {}).n, n, not: Number(id) }); }));
+  return out;
+}
 const AGG = new Map(); const AG = 4096;
 for (const sp of tryJ(path.join(DATA, 'spawns_h5.json'), [])) { const n = NPCS[sp.id]; if (!n || !n.l) continue; const r = AGGRO[sp.name || n.n]; if (!r) continue; const k = Math.floor(sp.x / AG) + ',' + Math.floor(sp.y / AG); if (!AGG.has(k)) AGG.set(k, []); AGG.get(k).push({ x: sp.x, y: sp.y, z: sp.z, lv: n.l, r, name: sp.name || n.n, id: sp.id }); }
 const DANGER = tryJ(path.join(DATA, 'danger_grid.json'), { data: {} });
@@ -246,15 +255,41 @@ function computedTravel(p, ref, label) {
   t.checks.reachable = legSt === 'ok' || legSt === 'pending';
   return t;
 }
+// LIVELAND-2026-10-27 (coordinator: the Hardin's Private Academy landing is stored, Oren / Valentina 105855,109782,-3200): a LIVE gatekeeper landing
+// (Scripts/data/nav_atlas_extra.json gkLinks read LIVE + Scripts/data/gk_landing_live.json "A -> B") within 8 km of a step place whose own travel is not
+// ok = .<town> -> that gatekeeper link -> the geodata leg from the landing (queued for the leg workers like every computed leg)
+const LIVELAND = (() => {
+  const out = [], seen = new Set(), add = (from, dest, l, price, src) => { if (!from || !dest || !Array.isArray(l) || l.length < 2) return; const k = from + '>' + dest; if (seen.has(k)) return; seen.add(k); out.push({ from, dest, at: l.map(Number), price: price || 0, src }); };
+  (tryJ(path.join(DATA, 'nav_atlas_extra.json'), {}).gkLinks || []).forEach(g => { if (/^LIVE$/.test(String(g.read || ''))) add(g.from, g.dest, g.landing, g.price, 'nav_atlas_extra gkLinks (LIVE)'); });
+  Object.entries(tryJ(path.join(DATA, 'gk_landing_live.json'), {})).forEach(([k, v]) => { const m = String(k).split('->').map(s => s.trim()); if (m.length === 2 && v && isFinite(v.x)) add(m[0], m[1], [v.x, v.y, v.z], 0, 'gk_landing_live.json'); });
+  return out;
+})();
+function landingTravel(p, ref, label) {
+  const c = LIVELAND.map(L => Object.assign({ d: Math.hypot(L.at[0] - p[0], L.at[1] - p[1]) }, L)).filter(L => L.d <= 8000 && Math.abs(L.at[2] - p[2]) < 1500).sort((a, b) => a.d - b.d)[0];
+  if (!c) return null;
+  const a = { x: c.at[0], y: c.at[1], z: c.at[2] }, b = { x: p[0], y: p[1], z: p[2] }, k = walkKey(a, b), w = WCACHE[k];
+  let leg = [], st = 'ok', why = [];
+  if (Math.hypot(a.x - b.x, a.y - b.y) > 150) { if (!w) { JOBLIST.set(k, { k, a, b, label }); st = 'pending'; why.push('the geodata leg from the ' + c.from + ' -> ' + c.dest + ' landing is not searched yet'); } else if (!w.ok) { st = 'unreachable'; why.push('no walk from the ' + c.dest + ' landing: ' + String(w.why || '').slice(0, 160)); } else leg = flat2pts(w.pts).slice(1); }
+  const pts = [c.at].concat(leg), ag = aggroOn(pts, ref);
+  return { src: 'computed', key: '', status: st, flags: ['live-landing'], from: c.from, length: R0(plen(pts)), sec: R0(plen(pts) / 120), steps: [{ do: 'town', town: c.from, cmd: '.' + String(c.from).toLowerCase() }, { do: 'gk', from: c.from, desc: c.from + ' -> ' + c.dest, link: c.dest, price: c.price, live: true }, { do: 'walk', len: R0(plen(pts)), how: 'geodata' }],
+    via: '.' + String(c.from).toLowerCase() + ' > ' + c.from + ' -> ' + c.dest, start: { kind: 'gk', from: c.from, desc: c.from + ' -> ' + c.dest }, simple: true, pv: thin(pts, 50), points: st === 'ok' ? pts : undefined, landing: { from: c.from, dest: c.dest, src: c.src },
+    maxDanger: Math.max(0, ...pts.map(q => dangerAt(q[0], q[1], q[2]))), needs: [], why, checks: { reachable: st !== 'unreachable', walls: 'geodata leg from a live landing (walls block)', water: false, danger: 0, dangerVsLevel: 0, aggro: ag } };
+}
+/** the step's travel, or the live-landing travel when that one is better (the own travel not ok, the landing way ok / pending) */
+function withLanding(t, p, ref, label) {
+  if (t && t.status === 'ok') return t;
+  const lt = p ? landingTravel(P3(p), ref, label) : null;
+  return lt && /^(ok|pending)$/.test(lt.status) ? lt : t;
+}
 /** travel to an NPC spawn: its own atlas route, else computed */
 function npcTravel(id, at, ref, name) {
   const rows = npcRows(id).filter(r => Math.hypot(r[1] - at[0], r[2] - at[1]) < 400);
-  if (rows.length) { const r = atlasRoute(rows[0][0]); if (r) return travelFromAtlas(Object.assign({ key: rows[0][0] }, r), ref); }
-  return computedTravel(at, ref, name);
+  if (rows.length) { const r = atlasRoute(rows[0][0]); if (r) return withLanding(travelFromAtlas(Object.assign({ key: rows[0][0] }, r), ref), at, ref, name); }
+  return withLanding(computedTravel(at, ref, name), at, ref, name);
 }
 function placeTravel(key, at, ref, name) {
-  if (key) { const r = atlasRoute(key); if (r) return travelFromAtlas(Object.assign({ key }, r), ref); }
-  return computedTravel(at, ref, name);
+  if (key) { const r = atlasRoute(key); if (r) return withLanding(travelFromAtlas(Object.assign({ key }, r), ref), at, ref, name); }
+  return withLanding(computedTravel(at, ref, name), at, ref, name);
 }
 
 // ---- reasons ----
@@ -296,7 +331,7 @@ const REASON = {
   'owner-manual': ['fixable', 'marked "manual" on the dashboard (plan override)'],
 };
 const INFO = { 'race-only': 'only some races', 'class-only': 'only some classes / class groups', 'prereq-quest': 'needs an earlier quest done', 'needs-item': 'needs an item to start',
-  'subclass': 'subclass only', 'noble': 'noblesse only', 'level-unknown': 'minimum level not found in the script', 'type-unknown': 'one-time / repeatable not found', 'one-time-done-risk': '' };
+  'party-instance': 'a Kamaloka boss: party mode', 'subclass': 'subclass only', 'noble': 'noblesse only', 'level-unknown': 'minimum level not found in the script', 'type-unknown': 'one-time / repeatable not found', 'one-time-done-risk': '' };
 function reasonsFromParse(q) {
   const o = [];
   (q.parse && q.parse.reasons || []).forEach(t => {
@@ -373,7 +408,9 @@ function buildQuest(q, prev) {
   if (rq.noble) restrictions.push({ code: 'noble', text: 'noblesse' });
   if (lvMin == null) restrictions.push({ code: 'level-unknown', text: 'minimum level unknown' });
   if (q.type === 'unknown') restrictions.push({ code: 'type-unknown', text: 'quest type unknown' });
-  reasonsFromParse(q).forEach(c => addR(c));
+  // QMEMO-2026-10-27: 'memo-state' only when the engine cannot follow the memo (swarm.js qeMemoCheck, the same check as the dry run); a memo it can place
+  // is walked by the memo-aware qeDecide and its whole flow is proven by the dry-run gate (docs/plan/tools/quest_dryrun.js) before 'ready'
+  reasonsFromParse(q).forEach(c => { if (c === 'memo-state' && E.qeMemoCheck) { const mc = E.qeMemoCheck(q); if (mc.ok) return; addR(c, REASON[c][1] + (mc.why.length ? ': ' + mc.why.join('; ') : '')); return; } addR(c); });
   const monLv = (q.monsters || []).map(m => Number(m.level) || 0).filter(Boolean);
   const ref = Math.max(1, lvMin != null ? lvMin : (monLv.length ? Math.min(...monLv) - 3 : 1));
   // ---- the steps ----
@@ -423,7 +460,8 @@ function buildQuest(q, prev) {
         if (!groups.length) gOf(nat);
         s.places = groups.map(g => { const area = huntPlace(q, g.mobs, ref); const pl = { mobs: g.mobs, items: g.items, kills: g.kills || null, area };
           if (area) { pl.travel = placeTravel(area.atlasKey, area.at, ref, area.name); if (area.danger && area.danger - ref >= 10 && (area.aggrShare || 0) > 0) pl.danger = true;
-            const ag = areaAggro(area, g.mobs, ref); if (ag.length >= 3) { pl.danger = true; pl.aggro = ag.slice(0, 6); } } return pl; });
+            const ag = areaAggro(area, g.mobs, ref); if (ag.length >= 3) { pl.danger = true; pl.aggro = ag.slice(0, 6); }
+            const lk = lookalikes(g.mobs, area); if (lk.length) { pl.lookalikes = lk; pl.note = lk.map(x => x.n + ' ' + x.name + ' ' + x.id + ' here are NOT the quest\'s monster (the script counts only ' + x.not + '): the bots leave them alone').join('; '); } } return pl; });
         s.area = (s.places[0] || {}).area || null; s.travel = (s.places[0] || {}).travel;
         if (s.places.some(p => !p.area)) s.reasons.push('no-hunt-place');
         if (s.places.some(p => p.danger)) s.reasons.push('area-danger');
@@ -439,9 +477,13 @@ function buildQuest(q, prev) {
         const ha = E.qeHuntAction(q, spawnOnly, [], killN || 1, c, null);
         const s = { i: steps.length, key: 'c' + c + ':spawn:' + spawnOnly[0], cond: c, kind: 'spawn', monsters: spawnOnly.map(id => mobInfo(q, id)), items, kills: killN || 1, reasons: [], engine: ha.act === 'spawn' ? { how: ha.how, trigger: ha.how === 'kill' ? ha.triggerMobs : ha.npcs } : { manual: ha.why } };
         s.text = title(c) || ('Make ' + s.monsters.map(m => m.name).join(', ') + ' appear and kill it');
-        if (ha.act !== 'spawn') s.reasons.push((q.spawns || []).some(x => spawnOnly.includes(Number(x.npc)) && x.by && /^(timer|other)$/.test(x.by.type)) ? 'spawn-script' : 'mob-no-spawn');
+        // QINSTANCE-2026-10-27: a Kamaloka boss = the party leader's Kamaloka mission (swarm.js qeDoInstance): no blocking reason, a party-mode restriction
+        if (ha.act === 'instance') { s.engine = { instance: ha.kind, level: ha.level }; s.text = title(c) || ('Kamaloka level ' + ha.level + ': kill ' + s.monsters.map(m => m.name).join(', ') + ' (party mode)'); if (!restrictions.some(r => r.code === 'party-instance')) restrictions.push({ code: 'party-instance', text: 'Kamaloka level ' + ha.level + ' boss: party mode (the leader runs the Kamaloka mission); one Hall a day on L2Toggle' }); else restrictions.find(r => r.code === 'party-instance').text += ' + level ' + ha.level; }
+        else if (ha.act !== 'spawn') s.reasons.push((q.spawns || []).some(x => spawnOnly.includes(Number(x.npc)) && x.by && /^(timer|other)$/.test(x.by.type)) ? 'spawn-script' : 'mob-no-spawn');
         else {
-          if (items.length) s.reasons.push('item-from-quest-mob');
+          // QSPAWN-2026-10-27: the engine does the trigger (qeDoSpawn: kill / talk, hunt rounds until it appears, then the kill); the dry-run gate checks the
+          // trigger spawns, the script's addSpawn and the levels before 'ready' -> no blocking reason, the step says it was not seen live yet
+          if (items.length) s.engine = Object.assign({}, s.engine || {}, { spawnItems: true, liveCheck: 'quest-spawned monster drop: not yet seen live' });
           const at = ha.at ? P3(ha.at) : null;
           if (ha.how === 'kill') { s.area = huntPlace(q, ha.triggerMobs, ref); if (s.area) s.travel = placeTravel(s.area.atlasKey, s.area.at, ref, s.area.name); else s.reasons.push('no-hunt-place'); }
           else if ((ha.npcs || []).length) { const np = npcPlace(q, ha.npcs[0]); s.npc = np; if (np.at) s.travel = npcTravel(np.id, np.at, ref, np.name); else s.reasons.push(np.why || 'npc-no-spawn'); }
@@ -453,7 +495,8 @@ function buildQuest(q, prev) {
       }
     }
     // talks: forward transitions at this cond
-    const talks = T.filter(t => t.trigger && /^(talk|event|firstTalk)$/.test(t.trigger.type) && t.to !== c);
+    // QGIVES-2026-10-27: a same-stage talk that gives / takes an item (Miner's Favor's four gifts, an exchange) is a step too (plan line + dialogue chain)
+    const talks = T.filter(t => t.trigger && /^(talk|event|firstTalk)$/.test(t.trigger.type) && (t.to !== c || (t.gives || []).some(x => x && Number(x.id) && Number(x.id) !== 57) || (t.takes || []).some(x => x && Number(x.id) && Number(x.id) !== 57)));
     const seenNpc = new Set();
     talks.sort((a, b) => (b.to === 'end' ? 1000 : Number(b.to) || 0) - (a.to === 'end' ? 1000 : Number(a.to) || 0)).forEach(t => {
       const npcId = ((t.trigger && t.trigger.npcs) || [])[0]; if (!npcId || seenNpc.has(npcId)) return; seenNpc.add(npcId);
@@ -483,7 +526,7 @@ function buildQuest(q, prev) {
     } }
   // the same step offered at several conds (transitions without 'from', branch quests): listed once, with every cond it belongs to
   { const seen = new Map(), out = [];
-    steps.forEach(s => { const sig = [s.kind, s.npc ? s.npc.id : '', (s.needs || []).map(x => x.id + 'x' + x.n).join('+'), (s.monsters || []).map(m => m.id).join('+'), (s.items || []).map(x => x.id).join('+'), s.trigger || ''].join('|');
+    steps.forEach(s => { const sig = [s.kind, s.npc ? s.npc.id : '', (s.needs || []).map(x => x.id + 'x' + x.n).join('+'), (s.monsters || []).map(m => m.id).join('+'), (s.items || []).map(x => x.id).join('+'), s.trigger || '', s.kind === 'hunt' || s.kind === 'spawn' ? '' : String(s.to)].join('|');   // LIVETEST-2026-10-27 (174): a talk that leads to another stage (the final hand-in) is a step of its own, never merged into an earlier talk at that NPC
       s.conds = [s.cond];
       if (s.kind !== 'start' && seen.has(sig)) { const o = seen.get(sig); if (!o.conds.includes(s.cond)) o.conds.push(s.cond); (s.reasons || []).forEach(r => { if (!o.reasons.includes(r)) o.reasons.push(r); }); return; }
       seen.set(sig, s); out.push(s); });
@@ -509,7 +552,11 @@ function buildQuest(q, prev) {
   // ---- overrides (the dashboard / phase-2 fixers): they win ----
   const ovs = (ov && ov.steps) || {};
   steps.forEach(s => {
-    const o = ovs[s.key]; if (!o) return;
+    // LIVETEST-2026-10-27: a final hand-in split off an earlier talk at the same NPC (174), or a step whose key moved (QFROM: c1 -> c2), keeps that NPC step's override (the way to that NPC)
+    let o = ovs[s.key];
+    // (also an orphaned override whose step key moved: an override is never lost, R3)
+    if (!o && s.npc && s.kind !== 'start') { const k = Object.keys(ovs).find(k2 => { const m = /^c\d+:(talk|deliver|turnin):(\d+)$/.exec(k2); return m && Number(m[2]) === Number(s.npc.id) && k2 !== s.key && !!ovs[k2]; }); if (k) { o = ovs[k]; s.overrideFrom = k; } }
+    if (!o) return;
     s.override = o;
     const fixed = [];
     if (Array.isArray(o.npcAt) && o.npcAt.length >= 2 && s.npc) { s.npc.at = P3(o.npcAt); ['npc-no-spawn', 'npc-quest-spawned', 'npc-instance'].forEach(c => fixed.push(c)); }

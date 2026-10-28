@@ -1,0 +1,662 @@
+{
+ "npcId": 30104,
+ "name": "Parman",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.841Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30104.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30104-03.htm",
+     "when": "state CREATED; level >= 37; player.getRace() == Race.DWARF; player.isInCategory(CategoryType.DWARF_2ND_GROUP)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30104-01a.html",
+     "when": "state CREATED; level >= 37; !((player.getRace() == Race.DWARF) && (player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.DWARF_2ND_GRO; player.getRace() == Race.DWARF",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30104-02.html",
+     "when": "state CREATED; !((player.getRace() == Race.DWARF) && (player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.DWARF_2ND_GRO; !((player.getRace() == Race.DWARF) && (player.getLevel() >= MIN_LEVEL)); player.getRace() == Race.DWARF",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30104-01.html",
+     "when": "state CREATED; !((player.getRace() == Race.DWARF) && (player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.DWARF_2ND_GRO; !((player.getRace() == Race.DWARF) && (player.getLevel() >= MIN_LEVEL)); !player.getRace() == Race.DWARF",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30104-06.html",
+     "when": "state STARTED; has items 3239,3241,3242,3243,3244",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30104-05.html",
+     "when": "state STARTED; has items 3239; lacks items 3241,3242,3243,3244",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30104-10.html",
+     "when": "state STARTED; has items 3268; lacks items 3239",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30104-11.html",
+     "when": "state STARTED; has items 3240,3269; lacks items 3239,3268",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30104-12.html",
+     "when": "state STARTED; has items 3240,3270,3271,3272; lacks items 3239,3268,3269",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30104-13.html",
+     "when": "state STARTED; has items 3240,3245; lacks items 3239,3268,3269,3270,3271,3272",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30104.htm": {
+   "file": "warehouse/30104.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Parman: Our Iron Gate Guild offers safekeeping for your valuables at a reasonable rate. Security and convenience for one low price! You won't find a better deal anywhere on the continent, I promise you that!",
+   "header": "Warehouse Keeper Parman",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/privatewh.htm",
+     "kind": "page",
+     "to": "warehouse/privatewh.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/clanwh.htm",
+     "kind": "page",
+     "to": "warehouse/clanwh.htm"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30104-noteach.htm": {
+   "file": "warehouse/30104-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Parman: I only train Dwarven Fighters, Scavengers and Bounty Hunters. You must find a more suitable master for what you wish to learn. If you're an Artisan, why not visit one of our Blacksmiths?",
+   "header": "Warehouse Keeper Parman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30104-03.htm": {
+   "file": "Q00221_TestimonyOfProsperity/30104-03.htm",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: You joined the union and now you act like your struggle is over! You must start preparing to be an upper-level member of the union! How about a Bounty Hunter or a Warsmith? In order to advance in the union you must pass the Test of Prosperity . It is much harder than the te…",
+   "header": "Warehouse Keeper Parman",
+   "when": [
+    "state CREATED; level >= 37; player.getRace() == Race.DWARF; player.isInCategory(CategoryType.DWARF_2ND_GROUP)"
+   ],
+   "links": [
+    {
+     "text": "\"I will take the test!\"",
+     "bypass": "Quest Q00221_TestimonyOfProsperity ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "ACCEPT",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04e.htm",
+     "toAll": [
+      "Q00221_TestimonyOfProsperity/30104-04e.htm",
+      "Q00221_TestimonyOfProsperity/30104-04.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-01a.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-01a.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: You should consider aspiring to be an upper-level member of the union, possibly a Bounty Hunter or a Warsmith. What do you think? Keep it in mind. In order to be an upper-level member, you must pass the Test of Prosperity . You are not yet ready to take this test. Return wh…",
+   "header": "Warehouse Keeper Parman",
+   "when": [
+    "state CREATED; level >= 37; !((player.getRace() == Race.DWARF) && (player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.DWARF_2ND_GRO; player.getRace() == Race.DWARF"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30104-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-02.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: You joined the union and now you act like your struggle is over! You must start preparing to be an upper-level member of the union! How about a Bounty Hunter or a Warsmith? In order to advance in the union you must pass the Test of Prosperity . It is much harder than the te…",
+   "header": "Warehouse Keeper Parman",
+   "when": [
+    "state CREATED; !((player.getRace() == Race.DWARF) && (player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.DWARF_2ND_GRO; !((player.getRace() == Race.DWARF) && (player.getLevel() >= MIN_LEVEL)); player.getRace() == Race.DWARF"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30104-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-01.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: You must know that all dwarves such as I are union members. Dwarven society is extremely competitive by definition and their unions are even more so. You must not think that just because we are always smiling that being a union member is an easy life. In or out of the union…",
+   "header": "Warehouse Keeper Parman",
+   "when": [
+    "state CREATED; !((player.getRace() == Race.DWARF) && (player.getLevel() >= MIN_LEVEL) && player.isInCategory(CategoryType.DWARF_2ND_GRO; !((player.getRace() == Race.DWARF) && (player.getLevel() >= MIN_LEVEL)); !player.getRace() == Race.DWARF"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30104-06.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-06.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: So, you have found all 4 of the tokens? Let's see... The account book of the first elder Lockirin. This is indeed a suitable token of wealth! The recipe of Emily? Ah, this was given to you by the woman who bore and raised 12 children, the secret recipe passed down through h…",
+   "header": "Warehouse Keeper Parman",
+   "when": [
+    "state STARTED; has items 3239,3241,3242,3243,3244"
+   ],
+   "links": [
+    {
+     "text": "Ask about the second test.",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-08.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-08.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-08.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-05.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-05.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: You must collect the 4 Tokens of Fertility .",
+   "header": "Warehouse Keeper Parman",
+   "when": [
+    "state STARTED; has items 3239; lacks items 3241,3242,3243,3244"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Token of Wealth",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-04a.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-04a.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04a.html"
+    },
+    {
+     "text": "Ask about the Token of Fertile Lands",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-04b.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-04b.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04b.html"
+    },
+    {
+     "text": "Ask about the Token of Fecundity",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-04c.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-04c.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04c.html"
+    },
+    {
+     "text": "Ask about the Token of Health",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-04d.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-04d.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04d.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-10.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-10.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: Finally ready to take the second test, are you? Well, let's begin! You must take part in the Guild Guild's long-cherished project to excavate Maphr's Tablet and recover the Secrets of Absolute Geometry . Recently some information came to us about an ancient relic, thought t…",
+   "header": "Warehouse Keeper Parman",
+   "when": [
+    "state STARTED; has items 3268; lacks items 3239"
+   ],
+   "links": [
+    {
+     "text": "Ask about Absolute Geometry",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-08a.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-08a.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-08a.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-11.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-11.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: Why are you still here? You must take the letter to Maestro Nikola at Cruma Tower . He will tell you the details of Maphr's Tablet.",
+   "header": "Warehouse Keeper Parman",
+   "when": [
+    "state STARTED; has items 3240,3269; lacks items 3239,3268"
+   ],
+   "links": [
+    {
+     "text": "Ask about Absolute Geometry",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-08a.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-08a.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-08a.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-12.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-12.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: The recovery of the secrets of Absolute Geometry hidden within Maphr's Tablet is the long-cherished wish of our Dwarven Guild. If you can find at least one stone fragment you will pass the second test.",
+   "header": "Warehouse Keeper Parman",
+   "when": [
+    "state STARTED; has items 3240,3270,3271,3272; lacks items 3239,3268,3269"
+   ],
+   "links": [
+    {
+     "text": "Ask about Absolute Geometry",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-08a.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-08a.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-08a.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-13.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-13.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: This is a fragment of Maphr's Tablet! Amazing! I certainly chose the right person for this mission. Well done! The elders will be very pleased. I should tell you that it is rumored that another fragment of the tablet was recently found as well. With two of them, our studies…",
+   "header": "Warehouse Keeper Parman",
+   "when": [
+    "state STARTED; has items 3240,3245; lacks items 3239,3268,3269,3270,3271,3272"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30104-04.htm": {
+   "file": "Q00221_TestimonyOfProsperity/30104-04.htm",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: As you know, all Dwarves serve Maphr, the God of fertility. Fertility and goodness are one! It is the greatest virtue and the standard of right or wrong! The word 'fertility' derives from the ancient words for wealth, profit, rich soil and a healthy body. You must discover …",
+   "header": "Warehouse Keeper Parman",
+   "links": [
+    {
+     "text": "Ask about the Token of Wealth",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-04a.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-04a.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04a.html"
+    },
+    {
+     "text": "Ask about the Token of Fertile Lands",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-04b.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-04b.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04b.html"
+    },
+    {
+     "text": "Ask about the Token of Fecundity.",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-04c.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-04c.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04c.html"
+    },
+    {
+     "text": "Ask about the Token of Health",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-04d.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-04d.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04d.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-04a.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-04a.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: First Elder Lockirin has more authoritative knowledge of wealth than anyone else. He is leader of the 6 guilds that control the economy of this continent. Go to the Dwarven Village and meet Lockirin, ask him about the token that symbolizes wealth .",
+   "header": "Warehouse Keeper Parman",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-05.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-05.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-05.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-04b.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-04b.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: In the Wastelands northwest of Gludio there is a farmer who sows crops and cultivates the land in spite of the rampaging Orcs. His name is Piotur . You should ask him about the Token of the Fertile Lands , since he is able to cultivate the Wastelands which everybody else ha…",
+   "header": "Warehouse Keeper Parman",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-05.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-05.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-05.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-04c.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-04c.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: In the Town of Dion there is a woman who bore 12 children and raised them alone. For that reason, she is called the Great Mother . She is the utmost expert of fertility . You should go and see her... I don't know her name, only that she is called the Great Mother. One of he…",
+   "header": "Warehouse Keeper Parman",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-05.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-05.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-05.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-04d.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-04d.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: It is said that on Talking Island there is an Elf that has been waiting for his lover's return for 1,000 years ! It is very unusual, even for an Elf, to live that long, isn't it? He must have amazing health . I heard this story from the Warehouse Keeper Wilford of Talking I…",
+   "header": "Warehouse Keeper Parman",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-05.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-05.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-05.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-04e.htm": {
+   "file": "Q00221_TestimonyOfProsperity/30104-04e.htm",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: As you know, Maphr is the god of the Dwarves, the god of riches. For Dwarves, the acquisition of riches is a means by which we win favor with Maphr. Ah, but you must first learn the true meaning of richness . This is the first part of your test. You must find the 4 meanings…",
+   "header": "Warehouse Keeper Parman",
+   "links": [
+    {
+     "text": "Ask about the proof of wealth.",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-04a.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-04a.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04a.html"
+    },
+    {
+     "text": "Ask about the proof of fruitful lands.",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-04b.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-04b.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04b.html"
+    },
+    {
+     "text": "Ask about the proof of fertility.",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-04c.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-04c.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04c.html"
+    },
+    {
+     "text": "Ask about the proof of health.",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-04d.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-04d.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-04d.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-07.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-07.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: Now the real test has begun! The trial up to now has just been to test your skill and determination. Next you must participate in the guild association's long-cherished project and do well at it. You are not yet ready for this task. Come back when you have more experience a…",
+   "header": "Warehouse Keeper Parman",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30104-08.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-08.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: Now the actual trial has begun. . Now you must take part in the Guild Guild's long-cherished project and achieve real results. The project is to excavate Maphr's Tablet and recover the Secrets of Absolute Geometry . Recently an ancient relic was unearthed by a team explorin…",
+   "header": "Warehouse Keeper Parman",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Ask about Absolute Geometry",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-08a.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-08a.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-08a.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-08a.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-08a.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: Absolute Geometry is an ancient science passed down to us by Maphr. It is the explanation of everything, the laws of space and motion for all things. He who understands Absolute Geometry can control the world . Our ancestors pursued the study of Absolute Geometry, which led…",
+   "header": "Warehouse Keeper Parman",
+   "links": [
+    {
+     "text": "Ask about Maphr's Tablet",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-08b.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-08b.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-08b.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-08b.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-08b.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: Maphr's Tablet is written in the language of the Giants, but we Dwarves are the true owners of the tablet . It was the Dwarves who learned directly from Maphr and to this day we retain our traditions of manufacturing, trading, and architecture! Other races, ignorant to our …",
+   "header": "Warehouse Keeper Parman",
+   "links": [
+    {
+     "text": "Ask the whereabouts of Maphr's Tablet",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30104-08c.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30104-08c.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-08c.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30104-08c.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-08c.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: Recently news came to us of an ancient relic thought to be a part of Maphr's Tablet. Since the tablet was made during the era of the Giants, it seems very likely that it will be found somewhere among the Giants' Ruins. The investigation team exploring the Cruma Tower has re…",
+   "header": "Warehouse Keeper Parman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30104-09.html": {
+   "file": "Q00221_TestimonyOfProsperity/30104-09.html",
+   "quest": 221,
+   "text": "Warehouse Keeper Parman: Your enthusiasm is admirable but you aren't ready for the second test yet. Return when you have more experience.",
+   "header": "Warehouse Keeper Parman",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Prosperity]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30104-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "warehouse/privatewh.htm": {
+   "file": "warehouse/privatewh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Private Warehouse",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item from the Private Warehouse",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "warehouse/clanwh.htm": {
+   "file": "warehouse/clanwh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item from the Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

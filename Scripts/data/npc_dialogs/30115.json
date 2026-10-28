@@ -1,0 +1,652 @@
+{
+ "npcId": 30115,
+ "name": "Jurek",
+ "title": "Grand Magister",
+ "type": "L2VillageMasterMystic",
+ "generated": "2026-10-27T18:18:02.844Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30115.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "214": {
+   "name": "Trial Of The Scholar",
+   "listText": [
+    "[Trial of the Scholar]",
+    "[Trial of the Scholar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00214_TrialOfTheScholar/30115-01.html",
+     "when": "state STARTED; has items 2676; lacks items 2690,2698",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30115-04.html",
+     "when": "state STARTED; has items 2676,2690,2698,2694; !hasItemsAtLimit(qs.getPlayer(), MONSTER_EYE_DESTROYER_SKIN, SHAMANS_NECKLACE, SHACKLES_SCALP)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30115-05.html",
+     "when": "state STARTED; has items 2676,2690,2698,2694; hasItemsAtLimit(qs.getPlayer(), MONSTER_EYE_DESTROYER_SKIN, SHAMANS_NECKLACE, SHACKLES_SCALP)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30115-06.html",
+     "when": "state STARTED; has items 2676,2690,2698; lacks items 2694,2690",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30115-07.html",
+     "when": "state STARTED; has items 2675,2677; lacks items 2676",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "350": {
+   "name": "Enhance Your Weapon",
+   "listText": [
+    "[Enhance Your Weapon]",
+    "[Enhance Your Weapon (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00350_EnhanceYourWeapon/30115-01.htm",
+     "when": "st.getInt(\"cond\") == 0",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00350_EnhanceYourWeapon/30115-03.htm",
+     "when": "!st.getInt(\"cond\") == 0; check(st)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00350_EnhanceYourWeapon/30115-21.htm",
+     "when": "!st.getInt(\"cond\") == 0; !check(st)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30115.htm": {
+   "file": "villagemaster/30115.htm",
+   "quest": null,
+   "text": "Grand Magister Jurek: Welcome! I am Grand Magister Jurek, responsiblen for the education and training of Wizards in this Wizards Guild. What has led you to this place?",
+   "header": "Grand Magister Jurek",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest ElfHumanWizardChange2",
+     "kind": "quest",
+     "script": "ElfHumanWizardChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30115-01.html": {
+   "file": "Q00214_TrialOfTheScholar/30115-01.html",
+   "quest": 214,
+   "text": "Grand Magister Jurek: Mirien has sent word that you have taken the path of the seeker. Are you prepared to test your magical abilities?",
+   "header": "Grand Magister Jurek",
+   "when": [
+    "state STARTED; has items 2676; lacks items 2690,2698"
+   ],
+   "links": [
+    {
+     "text": "Agree to the test",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30115-02.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30115-02.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30115-02.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30115-04.html": {
+   "file": "Q00214_TrialOfTheScholar/30115-04.html",
+   "quest": 214,
+   "text": "Grand Magister Jurek: It seems that you have not yet completed the investigation that I tasked you with. As I said before, please investigate the Monster Eye Destroyer, Breka Orc Shaman, and Shackle . The Monster Eye Destroyer appears at the Wasteland and the Plains of Dion, the Breka Orc Shaman ap…",
+   "header": "Grand Magister Jurek",
+   "when": [
+    "state STARTED; has items 2676,2690,2698,2694; !hasItemsAtLimit(qs.getPlayer(), MONSTER_EYE_DESTROYER_SKIN, SHAMANS_NECKLACE, SHACKLES_SCALP)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30115-05.html": {
+   "file": "Q00214_TrialOfTheScholar/30115-05.html",
+   "quest": 214,
+   "text": "Grand Magister Jurek: Let's see, Monster Eye Destroyer Skins, Shaman Necklaces, and Shackle Scalps . You have brought me all that I have asked of you. I thank you on behalf of the Mystics Guild of Giran! With this evidence, I should be able to prove my suspicions and find Hardin's true purpose. As …",
+   "header": "Grand Magister Jurek",
+   "when": [
+    "state STARTED; has items 2676,2690,2698,2694; hasItemsAtLimit(qs.getPlayer(), MONSTER_EYE_DESTROYER_SKIN, SHAMANS_NECKLACE, SHACKLES_SCALP)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30115-06.html": {
+   "file": "Q00214_TrialOfTheScholar/30115-06.html",
+   "quest": 214,
+   "text": "Grand Magister Jurek: Return to Mirien and she will instruct you regarding the next stage of the trial.",
+   "header": "Grand Magister Jurek",
+   "when": [
+    "state STARTED; has items 2676,2690,2698; lacks items 2694,2690"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30115-07.html": {
+   "file": "Q00214_TrialOfTheScholar/30115-07.html",
+   "quest": 214,
+   "text": "Grand Magister Jurek: The Trial of the Scholar is the first step toward reaching a higher understanding. I wish you luck.",
+   "header": "Grand Magister Jurek",
+   "when": [
+    "state STARTED; has items 2675,2677; lacks items 2676"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30115-01.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-01.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: Hello there, have you come to learn how to enhance the abilities of your weapon?",
+   "header": "Grand Magister Jurek",
+   "when": [
+    "st.getInt(\"cond\") == 0"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, I wish to learn more.\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-02.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-02.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-02.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30115-03.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-03.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: You must hurry and collect the souls of evil creatures in the soul crystal. You will find the evil ones in the northern part of Oren, the Forest of Mirrors, the Cave of Giants, the Devastated Castle, the higher reaches of the Tower of Insolence, deep within the Lair of Anthara…",
+   "header": "Grand Magister Jurek",
+   "when": [
+    "!st.getInt(\"cond\") == 0; check(st)"
+   ],
+   "links": [
+    {
+     "text": "Ask about the evil creatures from which you will collect souls.",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-12.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-12.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-12.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30115-21.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-21.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: How is your mission going? Oh, I see that you need a new crystal!",
+   "header": "Grand Magister Jurek",
+   "when": [
+    "!st.getInt(\"cond\") == 0; !check(st)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, please, may I have another?\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-08.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-08.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-08.htm"
+    },
+    {
+     "text": "\"Quit\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon exit.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "exit.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/exit.htm",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30115-02.html": {
+   "file": "Q00214_TrialOfTheScholar/30115-02.html",
+   "quest": 214,
+   "text": "Grand Magister Jurek: Not long after I arrived in Giran frightening monsters began to gather in the corridor to the north. During this time I learned that the creatures using magic were not originally magic users. I can't be sure, but I sense the complicity of Dark Magician Hardin. As you know, his…",
+   "header": "Grand Magister Jurek",
+   "links": [
+    {
+     "text": "Participate in the investigation",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30115-03.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30115-03.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30115-03.html",
+     "effect": "cond:16"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30115-03.html": {
+   "file": "Q00214_TrialOfTheScholar/30115-03.html",
+   "quest": 214,
+   "text": "Grand Magister Jurek: Good. Take this mark for now. I will tell you about the monsters that you must investigate. First, we have the Monster Eye Destroyers . There are many of them in the Wasteland and the Plains of Dion. Please bring back 5 of their hides. Second, we have the Breka Orc Shamans . Y…",
+   "header": "Grand Magister Jurek",
+   "sets": {
+    "cond": "16"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30115-02.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-02.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: I have a growing sense of dread of late. Something terrible is coming. Can you hear it? The trees in the forest, the birds in the sky and the fish in the ocean...They know of what I speak... I fear for the survival of the whole Human race, but I don't know what threatens it! T…",
+   "header": "Grand Magister Jurek",
+   "links": [
+    {
+     "text": "\"I will join your cause!\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-04.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-04.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-04.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30115-04.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-04.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: Oh, marvelous! If we all develop our strengths and work together, we will triumph over the coming cataclysm. My colleagues and I have recently developed a method of enhancing weaponry that should prove quite useful to all of us. This weapons enhancement boosts strength noticea…",
+   "header": "Grand Magister Jurek",
+   "links": [
+    {
+     "text": "Explanation of weapons enhancement",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-05.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-05.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-05.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30115-05.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-05.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: To enhance a weapon you will need some magical souls. You must collect the souls of evil creatures and trap them in the soul crystal I will give you. You will then take the crystal to a blacksmith and he will extract the magic from the crystal and apply it to a weapon for you.…",
+   "header": "Grand Magister Jurek",
+   "links": [
+    {
+     "text": "\"How do I collect the souls of the evil ones?\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-06.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-06.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-06.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30115-06.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-06.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: After you have sapped the evil one's strength in battle, apply the crystal to his skin. His soul will be absorbed into the crystal. His mortal body is easily dispatched. Each soul crystal can contain up to 10 souls. A more precise explanation would be that it can contain up to…",
+   "header": "Grand Magister Jurek",
+   "links": [
+    {
+     "text": "What are the precautions to take when collecting souls?\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-07.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-07.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-07.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30115-07.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-07.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: The collection of a soul doesn't always go as planned. Some evil souls will simply not be absorbed, and, if you happen to collect the wrong soul, the crystal will shatter... Soul crystals develop refined tastes, and will reject weaker souls after a while. When this happens you…",
+   "header": "Grand Magister Jurek",
+   "links": [
+    {
+     "text": "Receive a soul crystal.",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-08.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-08.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-08.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30115-08.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-08.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: Please choose one of the following three types of crystals: Each crystal bestows a different power upon the weapon it enhances, and the powers may vary from weapon to weapon.",
+   "header": "Grand Magister Jurek",
+   "links": [
+    {
+     "text": "Red Soul Crystal",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-09.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-09.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-09.htm"
+    },
+    {
+     "text": "Green Soul Crystal",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-10.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-10.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-10.htm"
+    },
+    {
+     "text": "Blue Soul Crystal",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-11.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-11.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-11.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30115-09.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-09.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: Here is a red soul crystal. Collect souls into it and take it to a blacksmith along with the weapon you wish to enhance. The stronger the weapon, the more souls needed to enhance it. Next time we meet I hope you have gained more strength.",
+   "header": "Grand Magister Jurek",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30115-10.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-10.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: Here is a green soul crystal. Collect souls into it and take it to a blacksmith along with the weapon you wish to enhance. The stronger the weapon, the more souls needed to enhance it. Next time we meet I hope you have gained more strength.",
+   "header": "Grand Magister Jurek",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30115-11.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-11.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: Here is a blue soul crystal. Collect souls into it and take it to a blacksmith along with the weapon you wish to enhance. The stronger the weapon, the more souls needed to enhance it. Next time we meet I hope you have gained more strength.",
+   "header": "Grand Magister Jurek",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30115-12.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-12.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: From the following areas, which area's evil creatures would you like to obtain more information about?",
+   "header": "Grand Magister Jurek",
+   "links": [
+    {
+     "text": "Northern Oren",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-13.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-13.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-13.htm"
+    },
+    {
+     "text": "Forest of Mirrors",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-14.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-14.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-14.htm"
+    },
+    {
+     "text": "Cave of Giants",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-15.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-15.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-15.htm"
+    },
+    {
+     "text": "Devastated Castle",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-16.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-16.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-16.htm"
+    },
+    {
+     "text": "Tower of Insolence",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-17.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-17.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-17.htm"
+    },
+    {
+     "text": "Lair of Antharas",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-18.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-18.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-18.htm"
+    },
+    {
+     "text": "Eva's Underwater Garden",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-19.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-19.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-19.htm"
+    },
+    {
+     "text": "Devil's Isle",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30115-20.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30115-20.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-20.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30115-13.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-13.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: It seems that the most evil creatures in northern Oren are the Timak Orcs. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If you notice that your crystal has stopped absorbi…",
+   "header": "Grand Magister Jurek",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30115-14.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-14.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: It seems that the most evil creatures in the Forest of Mirrors are the Forest of Mirror ghosts, mirrors and Harit Lizardmen. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. I…",
+   "header": "Grand Magister Jurek",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30115-15.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-15.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: It seems that the most evil creatures in the Cave of Giants are the Halingkas, Yintzus, Paliotes, Hamruts, and Kranrots. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If yo…",
+   "header": "Grand Magister Jurek",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30115-16.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-16.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: It seems that the most evil creatures in the Devastated Castle are the Doom Servants, Doom Guards, Doom Archers, Doom Troopers, Doom Warriors, and Doom Knights. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste …",
+   "header": "Grand Magister Jurek",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30115-17.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-17.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: It seems that the most evil creatures in the Tower of Insolence are the Erin Ediunce, members of the Platinum Tribe and their Angels. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greate…",
+   "header": "Grand Magister Jurek",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30115-18.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-18.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: It seems that the most evil creatures in the Lair of Antharas are the Malruk Knights, Malruk Berserkers, Malruk Lords, Limal Karinness, Kariks, Pytans, and Pytan Knights. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refi…",
+   "header": "Grand Magister Jurek",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30115-19.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-19.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: It seems that all of the evil creatures inhabiting Eva's Underwater Garden are appropriate soul donors. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If you notice that you…",
+   "header": "Grand Magister Jurek",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30115-20.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30115-20.htm",
+   "quest": 350,
+   "text": "Grand Magister Jurek: It seems that all of the evil creatures inhabiting Devil's Isle are appropriate soul donors. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If you notice that your crystal h…",
+   "header": "Grand Magister Jurek",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Scholar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00214_TrialOfTheScholar",
+     "kind": "quest",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30115-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Enhance Your Weapon]",
+     "bypass": "npc_%objectId%_Quest Q00350_EnhanceYourWeapon",
+     "kind": "quest",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Enhance Your Weapon (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00350_EnhanceYourWeapon",
+     "kind": "quest",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30115-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/exit.htm": {
+   "file": "Q00350_EnhanceYourWeapon/exit.htm",
+   "quest": 350,
+   "text": "Goodbye",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

@@ -1,0 +1,251 @@
+{
+ "npcId": 32116,
+ "name": "Kirikachin",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.338Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32116.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "111": {
+   "name": "Elrokian Hunter's Proof",
+   "listText": [
+    "[Elrokian Hunters]",
+    "[Elrokian Hunter's Proof (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00111_ElrokianHuntersProof/32116-01.html",
+     "when": "state STARTED; memo 1|2|3|4|5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32116-02.html",
+     "when": "state STARTED; memo 6; has items 8769",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32116-05.html",
+     "when": "state STARTED; memo 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32116-06.html",
+     "when": "state STARTED; memo 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32116-08.html",
+     "when": "state STARTED; memo 9|10|11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32116-09.html",
+     "when": "state STARTED; memo 12",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32116.htm": {
+   "file": "default/32116.htm",
+   "quest": null,
+   "text": "Kirikachin: You! Tread softly here! Can't you see that I'm hunting dinosaurs? Do you wish to alert them to my presence? Who are you, anyway? What brings you to a dangerous place like this?",
+   "header": "Kirikachin",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32116-01.html": {
+   "file": "Q00111_ElrokianHuntersProof/32116-01.html",
+   "quest": 111,
+   "text": "Kirikachin: Oh, outsider... Are there any of your race who know me, Kirikachin? ... ... Hmmm... No? You do not know? Then mind your own business! I am on an important mission and cannot be delayed!",
+   "header": "Kirikachin",
+   "when": [
+    "state STARTED; memo 1|2|3|4|5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32116-02.html": {
+   "file": "Q00111_ElrokianHuntersProof/32116-02.html",
+   "quest": 111,
+   "text": "Kirikachin: Oh, outsider... Are there any of your race who know me, Kirikachin? I once had a friend in one such as you, but I can no longer locate him. Have you news of his whereabouts? (Give him the letter.)",
+   "header": "Kirikachin",
+   "when": [
+    "state STARTED; memo 6; has items 8769"
+   ],
+   "links": [
+    {
+     "text": "\"Unfortunately, he was killed by a Velociraptor.\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32116-03.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32116-03.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32116-03.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32116-05.html": {
+   "file": "Q00111_ElrokianHuntersProof/32116-05.html",
+   "quest": 111,
+   "text": "Kirikachin: (As he reads the letter, Kirikachin's hands begin to shake and tears fall onto the page. He sobs softly.)",
+   "header": "Kirikachin",
+   "when": [
+    "state STARTED; memo 7"
+   ],
+   "links": [
+    {
+     "text": "Put your hand on his shoulder to comfort him.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32116-04.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32116-04.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32116-04.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32116-06.html": {
+   "file": "Q00111_ElrokianHuntersProof/32116-06.html",
+   "quest": 111,
+   "text": "Kirikachin: My heart is saddened, but I know he has gone to his rightful reward. My thanks to you for bringing me this letter -- now I know the truth, and that is some comfort. How can I repay you for your trouble?",
+   "header": "Kirikachin",
+   "when": [
+    "state STARTED; memo 8"
+   ],
+   "links": [
+    {
+     "text": "\"Please teach me the song that you just sang.\"",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32116-07.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32116-07.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32116-07.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32116-08.html": {
+   "file": "Q00111_ElrokianHuntersProof/32116-08.html",
+   "quest": 111,
+   "text": "Kirikachin: Ah! Thank you for your kindness. Please, outsider, find a place of safety -- these lands are filled with peril, especially for one such as yourself!",
+   "header": "Kirikachin",
+   "when": [
+    "state STARTED; memo 9|10|11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32116-09.html": {
+   "file": "Q00111_ElrokianHuntersProof/32116-09.html",
+   "quest": 111,
+   "text": "Kirikachin: What do you need? Ah, you wish to learn a skill? This is not something that just anyone can learn... And you are an outsider, after all...",
+   "header": "Kirikachin",
+   "when": [
+    "state STARTED; memo 12"
+   ],
+   "links": [
+    {
+     "text": "\"The chief has given me permission. (Hand him the practice trap that Asamah made.)",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32116-10.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32116-10.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32116-10.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32116-03.html": {
+   "file": "Q00111_ElrokianHuntersProof/32116-03.html",
+   "quest": 111,
+   "text": "Kirikachin: (As he reads the letter, Kirikachin's hands begin to shake and tears fall onto the page. He sobs softly.)",
+   "header": "Kirikachin",
+   "links": [
+    {
+     "text": "Put your hand on his shoulder to comfort him.",
+     "bypass": "Quest Q00111_ElrokianHuntersProof 32116-04.html",
+     "kind": "quest-event",
+     "script": "Q00111_ElrokianHuntersProof",
+     "event": "32116-04.html",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32116-04.html"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32116-04.html": {
+   "file": "Q00111_ElrokianHuntersProof/32116-04.html",
+   "quest": 111,
+   "text": "Kirikachin: (Before you can put your hand on his shoulder, Kirikachin suddenly lifts his head and begins to sing. You've never heard this song before, but it is so sad and moving that it brings tears to your eyes.) Talk to Kirikachin again when he has finished singing.",
+   "header": "Kirikachin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32116-07.html": {
+   "file": "Q00111_ElrokianHuntersProof/32116-07.html",
+   "quest": 111,
+   "text": "Kirikachin: (Kirikachin tells you about the origin and meaning of the song, and the sad fate that has befallen the Elroki tribe whose mighty warriors once sang the song.)",
+   "header": "Kirikachin",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32116-10.html": {
+   "file": "Q00111_ElrokianHuntersProof/32116-10.html",
+   "quest": 111,
+   "text": "Kirikachin: Ah, the practice device needed to learn this skill! Only Asamah could have made it; clearly he has accepted your hand in friendship, though you are an outsider. I'll teach you; listen carefully. When you have the trap in your hand, you can use 3 types of skills. You can only use capture…",
+   "header": "Kirikachin",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Elrokian Hunter's Proof (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00111_ElrokianHuntersProof",
+     "kind": "quest",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32116-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

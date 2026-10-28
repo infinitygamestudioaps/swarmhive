@@ -1,0 +1,197 @@
+{
+ "npcId": 30062,
+ "name": "Sonia",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.797Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30062.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "330": {
+   "name": "Adept Of Taste",
+   "listText": [
+    "[Adept of Taste]",
+    "[Adept of Taste (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00330_AdeptOfTaste/30062-01.html",
+     "when": "state STARTED; has items 1420; lacks items 1421,1424,1425; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00330_AdeptOfTaste/30062-02.html",
+     "when": "state STARTED; has items 1420,1421; lacks items 1424,1425; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; (getQuestItemsCount(player, RED_MANDRAGORA_ROOT) + getQuestItemsCount(player, WHITE_MANDRAGORA_ROOT)) < 40",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00330_AdeptOfTaste/30062-03.html",
+     "when": "state STARTED; has items 1420,1421; lacks items 1424,1425; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; !(getQuestItemsCount(player, RED_MANDRAGORA_ROOT) + getQuestItemsCount(player, WHITE_MANDRAGORA_ROOT)) < 40; getQuestItemsCount(player, WHITE_MANDRAGORA_ROOT) < 40",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00330_AdeptOfTaste/30062-06.html",
+     "when": "state STARTED; has items 1420,1421; lacks items 1424,1425; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; !(getQuestItemsCount(player, RED_MANDRAGORA_ROOT) + getQuestItemsCount(player, WHITE_MANDRAGORA_ROOT)) < 40; !getQuestItemsCount(player, WHITE_MANDRAGORA_ROOT) < 40",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00330_AdeptOfTaste/30062-07.html",
+     "when": "state STARTED; has items 1420,1424,1425; lacks items 1421; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; !(hasQuestItems(player, INGREDIENT_LIST, SONIAS_BOTANY_BOOK) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQu; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30062.htm": {
+   "file": "merchant/30062.htm",
+   "quest": null,
+   "text": "Accessory Merchant Sonia: What are you looking for? I can show you a wide range of excellent goods. If you're in the market to sell an item, you won't find a fairer price anywhere in the city.",
+   "header": "Accessory Merchant Sonia",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Buy 3006200",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy/Sell/Refund Common Items.",
+     "bypass": "npc_%objectId%_Buy 3006202",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00330_AdeptOfTaste/30062-01.html": {
+   "file": "Q00330_AdeptOfTaste/30062-01.html",
+   "quest": 330,
+   "text": "Trader Sonia: You need Mandragora Essence? I do not know who you have come on behalf of, but if you need Mandragora Essence of the finest quality, you have come to the right person. I can prepare Mandragora Essence for you, but first you must bring me forty Mandragora Roots . You can easily obtain …",
+   "header": "Trader Sonia",
+   "when": [
+    "state STARTED; has items 1420; lacks items 1421,1424,1425; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount("
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30062-02.html": {
+   "file": "Q00330_AdeptOfTaste/30062-02.html",
+   "quest": 330,
+   "text": "Trader Sonia: I can only make essence after you find forty Mandragora Roots . If you bring 40 White Mandragora Roots instead of red, I can make a clear essence that is richer and stronger in taste.",
+   "header": "Trader Sonia",
+   "when": [
+    "state STARTED; has items 1420,1421; lacks items 1424,1425; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; (getQuestItemsCount(player, RED_MANDRAGORA_ROOT) + getQuestItemsCount(player, WHITE_MANDRAGORA_ROOT)) < 40"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30062-03.html": {
+   "file": "Q00330_AdeptOfTaste/30062-03.html",
+   "quest": 330,
+   "text": "Trader Sonia: I see you have found forty Mandragora Roots. However, the number of White Mandragora Roots is far short of forty. If you are busy, I could make regular red essence with only the roots you have brought? Or will you go and collect more white roots? If you do, then I can make a clear Man…",
+   "header": "Trader Sonia",
+   "when": [
+    "state STARTED; has items 1420,1421; lacks items 1424,1425; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; !(getQuestItemsCount(player, RED_MANDRAGORA_ROOT) + getQuestItemsCount(player, WHITE_MANDRAGORA_ROOT)) < 40; getQuestItemsCount(player, WHITE_MANDRAGORA_ROOT) < 40"
+   ],
+   "links": [
+    {
+     "text": "Say you will look for more white roots",
+     "bypass": "Quest Q00330_AdeptOfTaste 30062-04.html",
+     "kind": "quest-event",
+     "script": "Q00330_AdeptOfTaste",
+     "event": "30062-04.html",
+     "quest": 330,
+     "to": "Q00330_AdeptOfTaste/30062-04.html"
+    },
+    {
+     "text": "Ask to make Mandragora Essence",
+     "bypass": "Quest Q00330_AdeptOfTaste 30062-05.html",
+     "kind": "quest-event",
+     "script": "Q00330_AdeptOfTaste",
+     "event": "30062-05.html",
+     "quest": 330,
+     "to": "Q00330_AdeptOfTaste/30062-05.html"
+    }
+   ]
+  },
+  "Q00330_AdeptOfTaste/30062-06.html": {
+   "file": "Q00330_AdeptOfTaste/30062-06.html",
+   "quest": 330,
+   "text": "Trader Sonia: I see you have found forty White Mandragora Roots. With this, I will make you Mandragora Essence of the finest quality . The extra red roots are of no use to you, so may I have them? Here, take this. It is completed Mandragora Essence. Isn't the essence clear and transparent? It is th…",
+   "header": "Trader Sonia",
+   "when": [
+    "state STARTED; has items 1420,1421; lacks items 1424,1425; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; !(getQuestItemsCount(player, RED_MANDRAGORA_ROOT) + getQuestItemsCount(player, WHITE_MANDRAGORA_ROOT)) < 40; !getQuestItemsCount(player, WHITE_MANDRAGORA_ROOT) < 40"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30062-07.html": {
+   "file": "Q00330_AdeptOfTaste/30062-07.html",
+   "quest": 330,
+   "text": "Trader Sonia: I see you still have the Mandragora Essence that I made you. I sealed the bottle so it will not spoil, but if you leave it for too long the taste may go bad. So hasten, and give the essence to the person that needs it.",
+   "header": "Trader Sonia",
+   "when": [
+    "state STARTED; has items 1420,1424,1425; lacks items 1421; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; !(hasQuestItems(player, INGREDIENT_LIST, SONIAS_BOTANY_BOOK) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQu; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount("
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30062-04.html": {
+   "file": "Q00330_AdeptOfTaste/30062-04.html",
+   "quest": 330,
+   "text": "Trader Sonia: Well then, please find a few more. You may or not know, but riper mandragoras have more chances of having white roots.",
+   "header": "Trader Sonia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30062-05.html": {
+   "file": "Q00330_AdeptOfTaste/30062-05.html",
+   "quest": 330,
+   "text": "Trader Sonia: Good. Then I will prepare the Mandragora Essence using forty of the roots you have brought. The extra roots are of no use to you anyway, so I will take them. Here, take this. It is completed Mandragora Essence. Although it is not clear but red, the quality does not fall so far short.",
+   "header": "Trader Sonia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Adept of Taste (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00330_AdeptOfTaste",
+     "kind": "quest",
+     "quest": 330,
+     "to": "Q00330_AdeptOfTaste/30062-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

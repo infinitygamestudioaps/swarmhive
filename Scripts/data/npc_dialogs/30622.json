@@ -1,0 +1,168 @@
+{
+ "npcId": 30622,
+ "name": "Box Of Titan",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.020Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30622.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30622-01.html",
+     "when": "state STARTED; has items 3240,3270; lacks items 3271",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30622-03.html",
+     "when": "state STARTED; has items 3240,3030; lacks items 3245; !(hasQuestItems(player, CLAY_DOUGH) && !hasQuestItems(player, PATTERN_OF_KEYHOLE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30622-05.html",
+     "when": "state STARTED; has items 3240; lacks items 3030,3270; !(hasQuestItems(player, CLAY_DOUGH) && !hasQuestItems(player, PATTERN_OF_KEYHOLE)); !(hasQuestItems(player, KEY_OF_TITAN) && !hasQuestItems(player, MAPHR_TABLET_FRAGMENT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30622.htm": {
+   "file": "default/30622.htm",
+   "quest": null,
+   "text": "Box of Titan: This box was created during the period of Titan.",
+   "header": "Box of Titan",
+   "links": [
+    {
+     "text": "Open the box",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30622-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30622-1.htm": {
+   "file": "default/30622-1.htm",
+   "quest": null,
+   "text": "Box of Titan: Cannot open.",
+   "header": "Box of Titan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30622-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30622-01.html",
+   "quest": 221,
+   "text": "Box of Titan: This box was created during the period of Titan.",
+   "header": "Box of Titan",
+   "when": [
+    "state STARTED; has items 3240,3270; lacks items 3271"
+   ],
+   "links": [
+    {
+     "text": "Make a pattern of the keyhole",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30622-02.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30622-02.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30622-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30622-03.html": {
+   "file": "Q00221_TestimonyOfProsperity/30622-03.html",
+   "quest": 221,
+   "text": "Box of Titan: This box was created during the period of Titan.",
+   "header": "Box of Titan",
+   "when": [
+    "state STARTED; has items 3240,3030; lacks items 3245; !(hasQuestItems(player, CLAY_DOUGH) && !hasQuestItems(player, PATTERN_OF_KEYHOLE))"
+   ],
+   "links": [
+    {
+     "text": "Use the Key of Titan",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30622-04.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30622-04.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30622-04.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30622-05.html": {
+   "file": "Q00221_TestimonyOfProsperity/30622-05.html",
+   "quest": 221,
+   "text": "Box of Titan: The box is locked.",
+   "header": "Box of Titan",
+   "when": [
+    "state STARTED; has items 3240; lacks items 3030,3270; !(hasQuestItems(player, CLAY_DOUGH) && !hasQuestItems(player, PATTERN_OF_KEYHOLE)); !(hasQuestItems(player, KEY_OF_TITAN) && !hasQuestItems(player, MAPHR_TABLET_FRAGMENT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30622-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30622-02.html",
+   "quest": 221,
+   "text": "Box of Titan: Make a keyhole pattern out of clay.",
+   "header": "Box of Titan",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30622-04.html": {
+   "file": "Q00221_TestimonyOfProsperity/30622-04.html",
+   "quest": 221,
+   "text": "Box of Titan: You have found 'Maphr's Tablet Fragment' .",
+   "header": "Box of Titan",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30622-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

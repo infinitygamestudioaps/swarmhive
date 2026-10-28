@@ -1,0 +1,250 @@
+{
+ "npcId": 30348,
+ "name": "Nelsya",
+ "title": "Sentry",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.953Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "guard/30348.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "165": {
+   "name": "Shilen's Hunt",
+   "listText": [
+    "[Shilen's Hunt]",
+    "[Shilen's Hunt (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00165_ShilensHunt/30348-02.htm",
+     "when": "state CREATED; (player.getRace() == Race.DARK_ELF); (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00165_ShilensHunt/30348-01.htm",
+     "when": "state CREATED; (player.getRace() == Race.DARK_ELF); NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00165_ShilensHunt/30348-00.htm",
+     "when": "state CREATED; NOT (player.getRace() == Race.DARK_ELF)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00165_ShilensHunt/30348-05.html",
+     "when": "state STARTED; cond 2; item 1160 >= 13",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00165_ShilensHunt/30348-04.html",
+     "when": "state STARTED; !(st.isCond(2) && (st.getQuestItemsCount(DARK_BEZOAR) >= REQUIRED_COUNT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30348.htm": {
+   "file": "guard/30348.htm",
+   "quest": null,
+   "text": "Sentry Nelsya: Pleased to meet you. I am Sentry Nelsya, in charge of this village's public order. This cave leads to the Dark Elven village located within the large mountain before you. We came here a long time ago, due to pressure from other races, and built this place with our blood and tears.",
+   "header": "Sentry Nelsya",
+   "live": {
+    "file": "Logs/questpage_Nuker11_0.html",
+    "at": "2026-10-27T17:22:35.983Z",
+    "score": 0.48
+   },
+   "dpText": "Sentry Nelsya: Pleased to meet you. I am Sentry Nelsya, in charge of this village's public order. The cave behind me leads to the underground Dark Elf Village. This place is the last home town of the Dark Elves, built with our blood and tears.",
+   "links": [
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "guard/30348-1.htm": {
+   "file": "guard/30348-1.htm",
+   "quest": null,
+   "text": "Sentry Nelsya: In a few days the mass of darkness dedicated to Shilen and Gran Kain will be held. Shilen's Hunt will be held for ten days before the mass. The purpose of his ceremony is to hunt wild animals in the name of the goddess and offer them as a sarcrifice at the sanctuary. Of course, the a…",
+   "header": "Sentry Nelsya",
+   "links": [
+    {
+     "text": "Say you will participate",
+     "bypass": "npc_%objectId%_Quest 0",
+     "kind": "quest",
+     "script": "0",
+     "live": true
+    }
+   ]
+  },
+  "Q00165_ShilensHunt/30348-02.htm": {
+   "file": "Q00165_ShilensHunt/30348-02.htm",
+   "quest": 165,
+   "text": "Sentry Nelsya: In a few days the mass of darkness dedicated to Shilen and Gran Kain will be held. Shilen's Hunt will be held for ten days before the mass. The purpose of this ceremony is to hunt wild animals in the name of the goddess and offer them as a sacrifice at the sanctuary. Of course, the a…",
+   "header": "Sentry Nelsya",
+   "when": [
+    "state CREATED; (player.getRace() == Race.DARK_ELF); (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will participate",
+     "bypass": "Quest Q00165_ShilensHunt 30348-03.htm",
+     "kind": "quest-event",
+     "script": "Q00165_ShilensHunt",
+     "event": "30348-03.htm",
+     "quest": 165,
+     "to": "Q00165_ShilensHunt/30348-03.htm",
+     "effect": "start",
+     "live": true
+    }
+   ]
+  },
+  "Q00165_ShilensHunt/30348-01.htm": {
+   "file": "Q00165_ShilensHunt/30348-01.htm",
+   "quest": 165,
+   "text": "Sentry Nelsya: In a few weeks, the mass of darkness dedicated to Shilen and Gran Kain will be held. Shilen's Hunt will be held for ten days before the mass. The purpose of the ceremony is to hunt wild animals in the name of the goddess and offer them at the temple. Of course, the act of offering a …",
+   "header": "Sentry Nelsya",
+   "when": [
+    "state CREATED; (player.getRace() == Race.DARK_ELF); NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00165_ShilensHunt/30348-00.htm": {
+   "file": "Q00165_ShilensHunt/30348-00.htm",
+   "quest": 165,
+   "text": "Sentry Nelsya: In a few weeks, the mass of darkness dedicated to Shilen and Gran Kain will be held. Shilen's Hunt will be held for ten days before the mass. Unfortunately, those of other races, like yourself, cannot participate in the hunt. But you may come and watch if you'd like. (Quest for Dark …",
+   "header": "Sentry Nelsya",
+   "when": [
+    "state CREATED; NOT (player.getRace() == Race.DARK_ELF)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00165_ShilensHunt/30348-05.html": {
+   "file": "Q00165_ShilensHunt/30348-05.html",
+   "quest": 165,
+   "text": "Sentry Nelsya: You've done it! Thirteen dark bezoars! Surely Shillien will grant our race prosperity this year. Now take this prize. It is only right that you, the victor of the hunt, should be given this reward. May the blessing of Shillien, who takes in all living things, be with you ...",
+   "header": "Sentry Nelsya",
+   "when": [
+    "state STARTED; cond 2; item 1160 >= 13"
+   ],
+   "live": {
+    "file": "Logs/questpage_Nuker11_1.html",
+    "at": "2026-10-27T17:22:36.198Z",
+    "score": 0.95
+   },
+   "dpText": "Sentry Nelsya: You've done it! Thirteen Dark Bezoars! Surely Shilen will grant our race prosperity this year. Now take this prize. It is only right that you, the victor of the hunt, should be given this reward. May the blessing of Shilen, who takes in all living things, be with you ...",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00165_ShilensHunt/30348-04.html": {
+   "file": "Q00165_ShilensHunt/30348-04.html",
+   "quest": 165,
+   "text": "Sentry Nelsya: Have you found all thirteen Dark Bezoars ? It won't be easy. Even if it is the hunt season, only one out of five animals will have the bezoar. Now! Go out into the forest again and hunt brown keltirs and gray wolves. Shilen's hunt continues even as we speak. Glory to the mother of th…",
+   "header": "Sentry Nelsya",
+   "when": [
+    "state STARTED; !(st.isCond(2) && (st.getQuestItemsCount(DARK_BEZOAR) >= REQUIRED_COUNT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00165_ShilensHunt/30348-03.htm": {
+   "file": "Q00165_ShilensHunt/30348-03.htm",
+   "quest": 165,
+   "text": "Sentry Nelsya: Among the brown keltirs and gray wolves in the forest, there are rare animals that bear a bezoar on their bellies,as a sign of being chosen by Shillien. This bezoar is black and sparkles like a jewel. Known as the dark bezoar , thisstone is not only beautiful, but possesses strong ma…",
+   "header": "Sentry Nelsya",
+   "live": {
+    "file": "Logs/questpage_Nuker11_2.html",
+    "at": "2026-10-27T16:02:28.169Z",
+    "score": 0.95
+   },
+   "dpText": "Sentry Nelsya: Among the brown keltirs and gray wolves in the forest, there are rare animals that bear a bezoar on their bellies, as a sign of being chosen by Shilen. This bezoar is black and sparkles like a jewel. Known as the Dark Bezoar , this stone is not only beautiful, but possesses strong ma…",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Shilen's Hunt]",
+     "bypass": "npc_%objectId%_Quest Q00165_ShilensHunt",
+     "kind": "quest",
+     "quest": 165,
+     "to": "Q00165_ShilensHunt/30348-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Shilen's Hunt (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00165_ShilensHunt",
+     "kind": "quest",
+     "quest": 165,
+     "to": "Q00165_ShilensHunt/30348-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of guard/30348.htm differs: live \"Sentry Nelsya: Pleased to meet you. I am Sentry Nelsya, in charge of this village's publi…\" vs datapack \"Sentry Nelsya: Pleased to meet you. I am Sentry Nelsya, in charge of this village's publi…\"",
+  "guard/30348.htm: datapack link \"See the Lord and get the tax rate information.\" not in the live page (Logs/questpage_Nuker11_0.html)",
+  "text of Q00165_ShilensHunt/30348-05.html differs: live \"Sentry Nelsya: You've done it! Thirteen dark bezoars! Surely Shillien will grant our race…\" vs datapack \"Sentry Nelsya: You've done it! Thirteen Dark Bezoars! Surely Shilen will grant our race p…\"",
+  "text of Q00165_ShilensHunt/30348-03.htm differs: live \"Sentry Nelsya: Among the brown keltirs and gray wolves in the forest, there are rare anim…\" vs datapack \"Sentry Nelsya: Among the brown keltirs and gray wolves in the forest, there are rare anim…\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "Sentry Nelsya:Pleased to meet you. I am Sentry Nelsya, in ch"
+   ],
+   "to": [
+    "Sentry Nelsya:In a few days the mass of darkness dedicated t",
+    "Sentry Nelsya:You've done it! Thirteen dark bezoars! Surely "
+   ]
+  },
+  {
+   "text": "Say you will participate",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Sentry Nelsya:In a few days the mass of darkness dedicated t"
+   ],
+   "to": [
+    "Sentry Nelsya:Among the brown keltirs and gray wolves in the"
+   ]
+  }
+ ]
+}

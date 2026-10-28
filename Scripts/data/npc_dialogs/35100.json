@@ -1,0 +1,912 @@
+{
+ "npcId": 35100,
+ "name": "Sayres",
+ "title": "Chamberlain",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.422Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "708": {
+   "name": "Path To Becoming A Lord - Gludio",
+   "listText": [
+    "[Path to Becoming a Lord - Gludio]",
+    "[Path to Becoming a Lord - Gludio (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-01.htm",
+     "when": "state CREATED; npc.isMyLord(player); !npc.isDominionOfLord(GLUDIO_ID)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-03.htm",
+     "when": "state CREATED; npc.isMyLord(player); npc.isDominionOfLord(GLUDIO_ID)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-05.html",
+     "when": "state STARTED; memo 1; qs.hasMemoState(); npc.isMyLord(player); System.currentTimeMillis() - qs.getMemoStateEx(1) < MIN_TIME",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-06.html",
+     "when": "state STARTED; memo 1; qs.hasMemoState(); npc.isMyLord(player); !System.currentTimeMillis() - qs.getMemoStateEx(1) < MIN_TIME",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-07.html",
+     "when": "state STARTED; memo 2; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); qs.hasMemoState()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-11.html",
+     "when": "state STARTED; memo 3; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); !npc.isMyLord(player); npc.getCastle().getOwnerId() == player.getClanId()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-10.html",
+     "when": "state STARTED; memo 3; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); !npc.isMyLord(player); npc.getCastle().getOwnerId() == player.getClanId()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-13a.html",
+     "when": "state STARTED; memo 4; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); !npc.isMyLord(player); npc.getCastle().getOwnerId() == player.getClanId()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-09.html",
+     "when": "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); !npc.isMyLord(player); npc.getCastle().getOwnerId() == player.getClanId()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-09.html",
+     "when": "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); !npc.isMyLord(player); npc.getCastle().getOwnerId() == player.getClanId()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-09.html",
+     "when": "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); !npc.isMyLord(player); !((npc.getCastle().getOwnerId() == player.getClanId()) && (player.getClanId() != 0))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-14.html",
+     "when": "state STARTED; memo 3; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); qs.hasMemoState()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-15.html",
+     "when": "state STARTED; memo 4; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-16.html",
+     "when": "state STARTED; memo 5; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-17.html",
+     "when": "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-18.html",
+     "when": "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-19.html",
+     "when": "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-20.html",
+     "when": "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-21.html",
+     "when": "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-22a.html",
+     "when": "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-22b.html",
+     "when": "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00708_PathToBecomingALordGludio/35100-22.html",
+     "when": "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00708_PathToBecomingALordGludio/35100-01.htm": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-01.htm",
+   "quest": 708,
+   "text": "Chamberlain Saius: My lord, Gludio may be a barren land, but it deserves a noble ruler. Its people want only a wise lord who will govern well.",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state CREATED; npc.isMyLord(player); !npc.isDominionOfLord(GLUDIO_ID)"
+   ],
+   "links": [
+    {
+     "text": "\"Do you think I can be that ruler?\"",
+     "bypass": "Quest Q00708_PathToBecomingALordGludio 35100-02.htm",
+     "kind": "quest-event",
+     "script": "Q00708_PathToBecomingALordGludio",
+     "event": "35100-02.htm",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/35100-02.htm"
+    }
+   ]
+  },
+  "Q00708_PathToBecomingALordGludio/35100-03.htm": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-03.htm",
+   "quest": 708,
+   "text": "Chamberlain Saius: Congratulations on your ascension to the lordship. I trust you will rule wisely and well.",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state CREATED; npc.isMyLord(player); npc.isDominionOfLord(GLUDIO_ID)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-05.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-05.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: I have been unable to confirm a meeting time. Please be patient, my lord. I will redouble my efforts!",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; memo 1; qs.hasMemoState(); npc.isMyLord(player); System.currentTimeMillis() - qs.getMemoStateEx(1) < MIN_TIME"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-06.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-06.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: Our efforts to repair the devastation caused by the war with Gracia depend on the Dwarven builders who belong to Grey Column Guild. They have become quite influential here in Gludio as a result. If you can win their support, you will be able to rule the territory with an easy con…",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; memo 1; qs.hasMemoState(); npc.isMyLord(player); !System.currentTimeMillis() - qs.getMemoStateEx(1) < MIN_TIME"
+   ],
+   "links": [
+    {
+     "text": "\"Perhaps I can offer my help.\"",
+     "bypass": "Quest Q00708_PathToBecomingALordGludio 35100-08.html",
+     "kind": "quest-event",
+     "script": "Q00708_PathToBecomingALordGludio",
+     "event": "35100-08.html",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/35100-08.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00708_PathToBecomingALordGludio/35100-07.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-07.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: Our efforts to repair the devastation caused by the war with Gracia depend on the Dwarven builders who belong to Grey Column Guild. They have become quite influential here in Gludio as a result. If you can win their support, you will be able to rule the territory with an easy con…",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; memo 2; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); qs.hasMemoState()"
+   ],
+   "links": [
+    {
+     "text": "\"Perhaps I can offer my help.\"",
+     "bypass": "Quest Q00708_PathToBecomingALordGludio 35100-08.html",
+     "kind": "quest-event",
+     "script": "Q00708_PathToBecomingALordGludio",
+     "event": "35100-08.html",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/35100-08.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00708_PathToBecomingALordGludio/35100-11.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-11.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: Are you the one who will meet with Blacksmith Pinter on our lord's behalf?",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; memo 3; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); !npc.isMyLord(player); npc.getCastle().getOwnerId() == player.getClanId()"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00708_PathToBecomingALordGludio 35100-12.html",
+     "kind": "quest-event",
+     "script": "Q00708_PathToBecomingALordGludio",
+     "event": "35100-12.html",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/35100-12.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00708_PathToBecomingALordGludio/35100-10.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-10.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: How do I know that you are the one whom the lord has selected as his agent? Bring him at once to verify your identity! (You may proceed only if the lord of Gludio Castle is next to you.)",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; memo 3; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); !npc.isMyLord(player); npc.getCastle().getOwnerId() == player.getClanId()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-13a.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-13a.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: What are you doing? Find Blacksmith Pinter and help him immediately!",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; memo 4; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); !npc.isMyLord(player); npc.getCastle().getOwnerId() == player.getClanId()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-09.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-09.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: Hey! Are you looking for trouble? How dare you covet the lord's position? Go away before I loose the dogs on you! (Only the lord of Gludio Castle may undertake this quest.)",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); !npc.isMyLord(player); npc.getCastle().getOwnerId() == player.getClanId()",
+    "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); !npc.isMyLord(player); !((npc.getCastle().getOwnerId() == player.getClanId()) && (player.getClanId() != 0))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-14.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-14.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: My lord, who will be your agent in this matter, acting on your behalf? Please send him to me.",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; memo 3; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); qs.hasMemoState()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-15.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-15.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: Your agent has met Blacksmith Pinter and appears to have things well in hand, my lord. We must trust him and await his report.",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; memo 4; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-16.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-16.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: I have been contacted by your representative, my lord. He says that we must determine the whereabouts of some freight Pinter and his men require for their reconstruction work, and then deliver it to them. I have already asked Captain Bathis to look into the matter -- may I sugges…",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; memo 5; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-17.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-17.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: I heard that you sent the material requested by Pinter. Well done, my lord! But unless we resolve the problem of transportation, I fear it will only be a stop-gap measure. Captain Bathis is investigating the missing freight. I suggest you ask him what he has learned.",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-18.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-18.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: Captain Bathis is investigating the matter of the missing freight. I suggest you ask him what he has learned.",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-19.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-19.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: I heard that you sent the commodities requested by Pinter. Well done, my lord! But unless we resolve the problem of the freight, I fear it will only be a stop-gap measure. This headless knight mentioned by Captain Bathis bothers me. Might I suggest that you personally confirm his…",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-20.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-20.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: This headless knight mentioned by Captain Bathis bothers me. Might I suggest that you personally confirm his existence? Only then will we be able guarantee the safety of the road from Gludin Village to the Town of Gludio.",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-21.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-21.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: Now that you have defeated the headless knights, we will not have any problems transporting the freight. Well done, my lord! The only thing remaining is to quickly provide Pinter with the supplies he requested .",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-22a.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-22a.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: I believe you should temporarily delay your plans to become lord. There are more immediate concerns you must attend to. (The quest cannot be completed during a territory war or castle siege.)",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-22b.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-22b.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: This territory must be stable before you can become lord. I urge you to conclude alliances with nearby fortresses. (You cannot become lord when a fortress is in an independent status.)",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-22.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-22.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: Now that Pinter and his men have the supplies they needed and the headless knight and his gang have been vanquished, I doubt we will have any further problems. Well done, my lord! Your popularity is soaring among the people of Gludio! Will you accept their wishes and formally bec…",
+   "header": "Chamberlain Saius",
+   "when": [
+    "state STARTED; !((qs.hasMemoState() && (qs.getMemoState() == 1) && npc.isMyLord(player))); !(qs.hasMemoState() && (qs.getMemoState() == 2)); npc.isMyLord(player); !(qs.hasMemoState() && (qs.getMemoState() == 3))"
+   ],
+   "links": [
+    {
+     "text": "\"I will do so, since it is the will of the people.\"",
+     "bypass": "Quest Q00708_PathToBecomingALordGludio 35100-23.html",
+     "kind": "quest-event",
+     "script": "Q00708_PathToBecomingALordGludio",
+     "event": "35100-23.html",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/35100-23.html"
+    }
+   ]
+  },
+  "Q00708_PathToBecomingALordGludio/35100-02.htm": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-02.htm",
+   "quest": 708,
+   "text": "Chamberlain Saius: I believe you have the necessary character, my lord. But despite your good character, remember that you asserted your claim by force. To become the true lord of this territory, recognized by all, there is still something you must do.",
+   "header": "Chamberlain Saius",
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q00708_PathToBecomingALordGludio ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00708_PathToBecomingALordGludio",
+     "event": "ACCEPT",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/35100-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00708_PathToBecomingALordGludio/35100-04.htm": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-04.htm",
+   "quest": 708,
+   "text": "Chamberlain Saius: You must win the support of the local forces in this land. If you can do so, the stability of your reign will be assured. I will arrange a meeting with them. There you must do your best to impress them. Please wait while I make the preparations, my lord.",
+   "header": "Chamberlain Saius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-08.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-08.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: An excellent idea, my lord! Their leader is Blacksmith Pinter of the Town of Gludio . I'm sure he would be grateful for any assistance you can offer. In fact, you need not do it yourself. You can appoint a trusted agent to act on your behalf in this matter. Simply let me know who…",
+   "header": "Chamberlain Saius",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-12.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-12.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: %name%, your mission is to help Blacksmith Pinter of the Town of Gludio and win his support for our lord. We are trusting you to act wisely in this matter.",
+   "header": "Chamberlain Saius",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-13.htm": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-13.htm",
+   "quest": 708,
+   "text": "Chamberlain Saius: Where did the lord go? I cannot give you the details of this mission without first verifying that you are the one whom he selected. Bring him here now.",
+   "header": "Chamberlain Saius",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00708_PathToBecomingALordGludio/35100-23.html": {
+   "file": "Q00708_PathToBecomingALordGludio/35100-23.html",
+   "quest": 708,
+   "text": "Chamberlain Saius: Understood, my lord! I look forward to your wise and benevolent rule.",
+   "header": "Chamberlain Saius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/CastleChamberlain/35100-d.html": {
+   "file": "ai/npc/CastleChamberlain/35100-d.html",
+   "quest": null,
+   "text": "Outer gate / Inner gate / Mooring place / All gates /",
+   "links": [
+    {
+     "text": "Open",
+     "bypass": "Quest CastleChamberlain operate_door 1 19210001 19210002",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 19210001 19210002",
+     "to": null
+    },
+    {
+     "text": "Close",
+     "bypass": "Quest CastleChamberlain operate_door 0 19210001 19210002",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 19210001 19210002",
+     "to": null
+    },
+    {
+     "text": "Open",
+     "bypass": "Quest CastleChamberlain operate_door 1 19210005 19210006",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 19210005 19210006",
+     "to": null
+    },
+    {
+     "text": "Close",
+     "bypass": "Quest CastleChamberlain operate_door 0 19210005 19210006",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 19210005 19210006",
+     "to": null
+    },
+    {
+     "text": "Open",
+     "bypass": "Quest CastleChamberlain operate_door 1 19210008",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 19210008",
+     "to": null
+    },
+    {
+     "text": "Close",
+     "bypass": "Quest CastleChamberlain operate_door 0 19210008",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 19210008",
+     "to": null
+    },
+    {
+     "text": "Open",
+     "bypass": "Quest CastleChamberlain operate_door 1 19210001 19210002 19210005 19210006 19210008",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 1 19210001 19210002 19210005 19210006 19210008",
+     "to": null
+    },
+    {
+     "text": "Close",
+     "bypass": "Quest CastleChamberlain operate_door 0 19210001 19210002 19210005 19210006 19210008",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "operate_door 0 19210001 19210002 19210005 19210006 19210008",
+     "to": null
+    },
+    {
+     "text": "Go back",
+     "bypass": "Quest CastleChamberlain chamberlain-01.html",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "chamberlain-01.html",
+     "to": "ai/npc/CastleChamberlain/chamberlain-01.html"
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35100-du.html": {
+   "file": "ai/npc/CastleChamberlain/35100-du.html",
+   "quest": null,
+   "text": "Reinforce castle gates: Strengthens gates and walls. Since it significantly enhances the durability of castle gates and castle walls, it is a good measure against the incursion of enemy troops into the castle.",
+   "header": "Reinforce castle gates",
+   "links": [
+    {
+     "text": "Reinforce outer castle gate.",
+     "bypass": "Quest CastleChamberlain manage_doors 1 19210001 19210002",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_doors 1 19210001 19210002",
+     "to": null
+    },
+    {
+     "text": "Reinforce inner castle gate.",
+     "bypass": "Quest CastleChamberlain manage_doors 2 19210005 19210006",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_doors 2 19210005 19210006",
+     "to": null
+    },
+    {
+     "text": "Reinforce castle walls.",
+     "bypass": "Quest CastleChamberlain manage_doors 3 19210003 19210004",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_doors 3 19210003 19210004",
+     "to": null
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest CastleChamberlain chamberlain-01.html",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "chamberlain-01.html",
+     "to": "ai/npc/CastleChamberlain/chamberlain-01.html"
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35100-t1.html": {
+   "file": "ai/npc/CastleChamberlain/35100-t1.html",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Front of the Gludio Castle",
+     "bypass": "Quest CastleChamberlain goto 13000",
+     "kind": "quest-event",
+     "confirm": "811;Front of the Gludio Castle",
+     "script": "CastleChamberlain",
+     "event": "goto 13000",
+     "to": null
+    },
+    {
+     "text": "Gludio Town Square",
+     "bypass": "Quest CastleChamberlain goto 13001",
+     "kind": "quest-event",
+     "confirm": "811;Gludio Town Square",
+     "script": "CastleChamberlain",
+     "event": "goto 13001",
+     "to": null
+    },
+    {
+     "text": "Front of the Shanty Fortress",
+     "bypass": "Quest CastleChamberlain goto 13002",
+     "kind": "quest-event",
+     "confirm": "811;Front of the Shanty Fortress",
+     "script": "CastleChamberlain",
+     "event": "goto 13002",
+     "to": null
+    },
+    {
+     "text": "Front of the Southern Fortress",
+     "bypass": "Quest CastleChamberlain goto 13003",
+     "kind": "quest-event",
+     "confirm": "811;Front of the Southern Fortress",
+     "script": "CastleChamberlain",
+     "event": "goto 13003",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35100-t2.html": {
+   "file": "ai/npc/CastleChamberlain/35100-t2.html",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Front of the Gludio Castle",
+     "bypass": "Quest CastleChamberlain goto 13000",
+     "kind": "quest-event",
+     "confirm": "811;Front of the Gludio Castle",
+     "script": "CastleChamberlain",
+     "event": "goto 13000",
+     "to": null
+    },
+    {
+     "text": "Gludio Town Square",
+     "bypass": "Quest CastleChamberlain goto 13001",
+     "kind": "quest-event",
+     "confirm": "811;Gludio Town Square",
+     "script": "CastleChamberlain",
+     "event": "goto 13001",
+     "to": null
+    },
+    {
+     "text": "Front of the Shanty Fortress",
+     "bypass": "Quest CastleChamberlain goto 13002",
+     "kind": "quest-event",
+     "confirm": "811;Front of the Shanty Fortress",
+     "script": "CastleChamberlain",
+     "event": "goto 13002",
+     "to": null
+    },
+    {
+     "text": "Front of the Southern Fortress",
+     "bypass": "Quest CastleChamberlain goto 13003",
+     "kind": "quest-event",
+     "confirm": "811;Front of the Southern Fortress",
+     "script": "CastleChamberlain",
+     "event": "goto 13003",
+     "to": null
+    },
+    {
+     "text": "Ruins of Agony - 500",
+     "bypass": "Quest CastleChamberlain goto 13004",
+     "kind": "quest-event",
+     "confirm": "811;Ruins of Agony",
+     "script": "CastleChamberlain",
+     "event": "goto 13004",
+     "to": null
+    },
+    {
+     "text": "Ruins of Despair - 500",
+     "bypass": "Quest CastleChamberlain goto 13005",
+     "kind": "quest-event",
+     "confirm": "811;Ruins of Despair",
+     "script": "CastleChamberlain",
+     "event": "goto 13005",
+     "to": null
+    },
+    {
+     "text": "The Ant Nest - 500",
+     "bypass": "Quest CastleChamberlain goto 13006",
+     "kind": "quest-event",
+     "confirm": "811;The Ant Nest",
+     "script": "CastleChamberlain",
+     "event": "goto 13006",
+     "to": null
+    },
+    {
+     "text": "Windawood Manor - 500",
+     "bypass": "Quest CastleChamberlain goto 13007",
+     "kind": "quest-event",
+     "confirm": "811;Windawood Manor",
+     "script": "CastleChamberlain",
+     "event": "goto 13007",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/35100-tu.html": {
+   "file": "ai/npc/CastleChamberlain/35100-tu.html",
+   "quest": null,
+   "text": "Activate the traps located in the interior of the island. Once activated, the flames do not distinguish friend from foe. Used properly, the trap is a very effective deterrent to invasion. Of course, it costs a fortune!",
+   "links": [
+    {
+     "text": "Activate the trap near the entrance of the inner castle.",
+     "bypass": "Quest CastleChamberlain manage_trap 0",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_trap 0",
+     "to": null
+    },
+    {
+     "text": "Activate the trap behind the garden in the inner castle.",
+     "bypass": "Quest CastleChamberlain manage_trap 1",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_trap 1",
+     "to": null
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest CastleChamberlain chamberlain-01.html",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "chamberlain-01.html",
+     "to": "ai/npc/CastleChamberlain/chamberlain-01.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path to Becoming a Lord - Gludio]",
+     "bypass": "npc_%objectId%_Quest Q00708_PathToBecomingALordGludio",
+     "kind": "quest",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/35100-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path to Becoming a Lord - Gludio (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00708_PathToBecomingALordGludio",
+     "kind": "quest",
+     "quest": 708,
+     "to": "Q00708_PathToBecomingALordGludio/35100-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/CastleChamberlain/chamberlain-01.html": {
+   "file": "ai/npc/CastleChamberlain/chamberlain-01.html",
+   "quest": null,
+   "text": "Greetings, my lord. How may I serve you today?",
+   "when": [
+    "(isOwner(player, npc))"
+   ],
+   "links": [
+    {
+     "text": "Receive report.",
+     "bypass": "Quest CastleChamberlain receive_report",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "receive_report",
+     "to": null
+    },
+    {
+     "text": "Adjust tax rate and confirm.",
+     "bypass": "Quest CastleChamberlain manage_tax",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_tax",
+     "to": null
+    },
+    {
+     "text": "Manage castle vault.",
+     "bypass": "Quest CastleChamberlain manage_vault",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_vault",
+     "to": null
+    },
+    {
+     "text": "Manage castle functions.",
+     "bypass": "Quest CastleChamberlain manage_functions",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manage_functions",
+     "to": null
+    },
+    {
+     "text": "Use castle functions.",
+     "bypass": "Quest CastleChamberlain functions",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "functions",
+     "to": null
+    },
+    {
+     "text": "View castle siege information.",
+     "bypass": "Quest CastleChamberlain list_siege_clans",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "list_siege_clans",
+     "to": null
+    },
+    {
+     "text": "View Territory War information.",
+     "bypass": "Quest CastleChamberlain list_territory_clans",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "list_territory_clans",
+     "to": null
+    },
+    {
+     "text": "Manage manor.",
+     "bypass": "Quest CastleChamberlain manor",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "manor",
+     "to": null
+    },
+    {
+     "text": "Items",
+     "bypass": "Quest CastleChamberlain products",
+     "kind": "quest-event",
+     "script": "CastleChamberlain",
+     "event": "products",
+     "to": null
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  }
+ }
+}

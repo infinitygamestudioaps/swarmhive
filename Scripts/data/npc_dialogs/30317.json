@@ -1,0 +1,645 @@
+{
+ "npcId": 30317,
+ "name": "Kluto",
+ "title": "Blacksmith",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.933Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "trainer/30317.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "406": {
+   "name": "Path Of The Elven Knight",
+   "listText": [
+    "[Path of the Elven Knight]",
+    "[Path of the Elven Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00406_PathOfTheElvenKnight/30317-01.html",
+     "when": "state STARTED; has items 1202; lacks items 1203; item 1205 >= 20; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00406_PathOfTheElvenKnight/30317-03.html",
+     "when": "state STARTED; has items 1276; lacks items 1203,1206; item 1205 >= 20; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SORIUS_LETTER) && (getQuestItemsCount(player, TOPAZ_PIECE) >= 20))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00406_PathOfTheElvenKnight/30317-04.html",
+     "when": "state STARTED; has items 1276,1206; lacks items 1203; item 1205 >= 20; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SORIUS_LETTER) && (getQuestItemsCount(player, TOPAZ_PIECE) >= 20)); !(!hasQuestItems(player, EMERALD_PIECE) && hasQuestItems(player, KLUTO_MEMO) && (getQuestItemsCount(player, TOPAZ_PIECE); getQuestItemsCount(player, EMERALD_PIECE) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00406_PathOfTheElvenKnight/30317-05.html",
+     "when": "state STARTED; has items 1276; lacks items 1203; item 1205 >= 20; item 1206 >= 20; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SORIUS_LETTER) && (getQuestItemsCount(player, TOPAZ_PIECE) >= 20)); !(!hasQuestItems(player, EMERALD_PIECE) && hasQuestItems(player, KLUTO_MEMO) && (getQuestItemsCount(player, TOPAZ_PIECE); !(hasQuestItems(player, KLUTO_MEMO, EMERALD_PIECE) && (getQuestItemsCount(player, TOPAZ_PIECE) >= 20) && (getQuestItemsC",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00406_PathOfTheElvenKnight/30317-06.html",
+     "when": "state STARTED; has items 1203; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "418": {
+   "name": "Path Of The Artisan",
+   "listText": [
+    "[Path of the Artisan]",
+    "[Path of the Artisan (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00418_PathOfTheArtisan/30317-01.html",
+     "when": "state STARTED; has items 1633; lacks items 1639,1638,1634,1641; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/30317-08.html",
+     "when": "state STARTED; has items 1633,1638,1639; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PASS_1ST_CERTIFICATE) && !hasAtLeastOneQuestItem(player, FOOTPRINT_OF_THIEF, KLUTOS_LETTER, PASS",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/30317-09.html",
+     "when": "state STARTED; has items 1633,1634,1641; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PASS_1ST_CERTIFICATE) && !hasAtLeastOneQuestItem(player, FOOTPRINT_OF_THIEF, KLUTOS_LETTER, PASS; !(hasQuestItems(player, PASS_1ST_CERTIFICATE) && hasAtLeastOneQuestItem(player, KLUTOS_LETTER, FOOTPRINT_OF_THIEF))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30317.htm": {
+   "file": "trainer/30317.htm",
+   "quest": null,
+   "text": "Blacksmith Kluto: Welcome. What made you come to see me? Interested in seeing a genius at work?",
+   "header": "Blacksmith Kluto",
+   "links": [
+    {
+     "text": "Craft a dualsword",
+     "bypass": "npc_%objectId%_Link common/duals_01.htm",
+     "kind": "page",
+     "to": "common/duals_01.htm"
+    },
+    {
+     "text": "Bestow special ability on a weapon",
+     "bypass": "npc_%objectId%_Link common/weapon_sa_01.htm",
+     "kind": "page",
+     "to": "common/weapon_sa_01.htm"
+    },
+    {
+     "text": "Craft an item",
+     "bypass": "npc_%objectId%_Link common/crafting_01.htm",
+     "kind": "page",
+     "to": "common/crafting_01.htm"
+    },
+    {
+     "text": "Seal/Unseal armor and accessories",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "trainer/30317-4.htm"
+    },
+    {
+     "text": "Augment an item",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "trainer/30317-5.htm"
+    },
+    {
+     "text": "Learn skills",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about skill enchantment",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "View information about the lord and tax rate",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30317-4.htm": {
+   "file": "trainer/30317-4.htm",
+   "quest": null,
+   "text": "Blacksmith Kluto: Sealing gloves, boots, and accessories, or removing their seal is what I do best. Just say the word.",
+   "header": "Blacksmith Kluto",
+   "links": [
+    {
+     "text": "Release seal on B-grade gloves and boots.",
+     "bypass": "npc_%objectId%_exc_multisell 1002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Put seal back on B-grade gloves and boots.",
+     "bypass": "npc_%objectId%_exc_multisell 1003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Release seal on A-grade armor.",
+     "bypass": "npc_%objectId%_exc_multisell 311262506",
+     "kind": "multisell"
+    },
+    {
+     "text": "Release seal on A-grade accessory.",
+     "bypass": "npc_%objectId%_exc_multisell 311262507",
+     "kind": "multisell"
+    },
+    {
+     "text": "Put seal back on A-grade armor.",
+     "bypass": "npc_%objectId%_exc_multisell 311262508",
+     "kind": "multisell"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30317.htm"
+    }
+   ]
+  },
+  "trainer/30317-5.htm": {
+   "file": "trainer/30317-5.htm",
+   "quest": null,
+   "text": "Blacksmith Kluto: You can augment an item or remove augment here.",
+   "header": "Blacksmith Kluto",
+   "links": [
+    {
+     "text": "Augment an item",
+     "bypass": "npc_%objectId%_Link common/augmentation_01.htm",
+     "kind": "page",
+     "to": "common/augmentation_01.htm"
+    },
+    {
+     "text": "Remove Augment",
+     "bypass": "npc_%objectId%_Link common/augmentation_02.htm",
+     "kind": "page",
+     "to": "common/augmentation_02.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30317.htm"
+    }
+   ]
+  },
+  "trainer/30317-noteach.htm": {
+   "file": "trainer/30317-noteach.htm",
+   "quest": null,
+   "text": "Blacksmith Kluto: You there! You want to learn skills from me? I am a Dwarf Fighter, and I only teach Artisans. If you are a Scavenger, you should go to Warehouse Keepers. If you're not either, go find your own Master.",
+   "header": "Blacksmith Kluto",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30317-01.html": {
+   "file": "Q00406_PathOfTheElvenKnight/30317-01.html",
+   "quest": 406,
+   "text": "Blacksmith Kluto: Oh ho, so you want to be an Elven Knight? Of course, I know how to make the brooch. However, nothing in this world is free ... If you want the Elven Knight Brooch, you must first do me a service.",
+   "header": "Blacksmith Kluto",
+   "when": [
+    "state STARTED; has items 1202; lacks items 1203; item 1205 >= 20; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Ask about the favor",
+     "bypass": "Quest Q00406_PathOfTheElvenKnight 30317-02.html",
+     "kind": "quest-event",
+     "script": "Q00406_PathOfTheElvenKnight",
+     "event": "30317-02.html",
+     "quest": 406,
+     "to": "Q00406_PathOfTheElvenKnight/30317-02.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00406_PathOfTheElvenKnight/30317-03.html": {
+   "file": "Q00406_PathOfTheElvenKnight/30317-03.html",
+   "quest": 406,
+   "text": "Blacksmith Kluto: Why have you returned so early? Were you afraid? They are only Ol Mahum Novices... You are quite timid. If I may give you a piece of advice, don't go deep into the camp. If the Ol Mahum come upon you in a group, with your skills you'd never be able to deal with them. Do you unders…",
+   "header": "Blacksmith Kluto",
+   "when": [
+    "state STARTED; has items 1276; lacks items 1203,1206; item 1205 >= 20; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SORIUS_LETTER) && (getQuestItemsCount(player, TOPAZ_PIECE) >= 20))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30317-04.html": {
+   "file": "Q00406_PathOfTheElvenKnight/30317-04.html",
+   "quest": 406,
+   "text": "Blacksmith Kluto: Did I not tell you to bring twenty jewels? I cannot accommodate you even if you are only one short.",
+   "header": "Blacksmith Kluto",
+   "when": [
+    "state STARTED; has items 1276,1206; lacks items 1203; item 1205 >= 20; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SORIUS_LETTER) && (getQuestItemsCount(player, TOPAZ_PIECE) >= 20)); !(!hasQuestItems(player, EMERALD_PIECE) && hasQuestItems(player, KLUTO_MEMO) && (getQuestItemsCount(player, TOPAZ_PIECE); getQuestItemsCount(player, EMERALD_PIECE) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30317-05.html": {
+   "file": "Q00406_PathOfTheElvenKnight/30317-05.html",
+   "quest": 406,
+   "text": "Blacksmith Kluto: Amazing! To be frank, I wasn't expecting much out of you. Indeed, Master Sorius knows a good candidate. To tell the truth, bringing back the Emeralds was also part of the test. Since Sorius saved my life long ago, I have been assisting him in testing young Elven Fighters. When we …",
+   "header": "Blacksmith Kluto",
+   "when": [
+    "state STARTED; has items 1276; lacks items 1203; item 1205 >= 20; item 1206 >= 20; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SORIUS_LETTER) && (getQuestItemsCount(player, TOPAZ_PIECE) >= 20)); !(!hasQuestItems(player, EMERALD_PIECE) && hasQuestItems(player, KLUTO_MEMO) && (getQuestItemsCount(player, TOPAZ_PIECE); !(hasQuestItems(player, KLUTO_MEMO, EMERALD_PIECE) && (getQuestItemsCount(player, TOPAZ_PIECE) >= 20) && (getQuestItemsC"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00406_PathOfTheElvenKnight/30317-06.html": {
+   "file": "Q00406_PathOfTheElvenKnight/30317-06.html",
+   "quest": 406,
+   "text": "Blacksmith Kluto: Have you not gone yet? Aren't you eager to begin your career as an Elven Knight. Get along now to Master Sorius!",
+   "header": "Blacksmith Kluto",
+   "when": [
+    "state STARTED; has items 1203; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30317-01.html": {
+   "file": "Q00418_PathOfTheArtisan/30317-01.html",
+   "quest": 418,
+   "text": "Blacksmith Kluto: Oh! Do you want to be an Artisan? I see you've already passed the first test! That Silvera, who gave you the first test, has a strange way of speaking, but she's actually quite a good-natured girl. Traveling has changed her accent though ... oh well ... My son is infatuated with t…",
+   "header": "Blacksmith Kluto",
+   "when": [
+    "state STARTED; has items 1633; lacks items 1639,1638,1634,1641; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Fine, I am a genius in matchmaking, though I may not look like one",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30317-02.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30317-02.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30317-02.html"
+    },
+    {
+     "text": "Look here, sir, I'm here to take a test!",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30317-05.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30317-05.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30317-05.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30317-08.html": {
+   "file": "Q00418_PathOfTheArtisan/30317-08.html",
+   "quest": 418,
+   "text": "Blacksmith Kluto: What, you haven't left yet? Hurry up and take the letter to Blacksmith Pinter in the town of Gludio . Then, you must return to me with the item he gives you. If you understand, then be off!",
+   "header": "Blacksmith Kluto",
+   "when": [
+    "state STARTED; has items 1633,1638,1639; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PASS_1ST_CERTIFICATE) && !hasAtLeastOneQuestItem(player, FOOTPRINT_OF_THIEF, KLUTOS_LETTER, PASS"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30317-09.html": {
+   "file": "Q00418_PathOfTheArtisan/30317-09.html",
+   "quest": 418,
+   "text": "Blacksmith Kluto: Ha ha ha, you have finally brought it. Well done! Hmmm, but isn't this the certificate for the second test of the Artisan? Where did you get it?",
+   "header": "Blacksmith Kluto",
+   "when": [
+    "state STARTED; has items 1633,1634,1641; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PASS_1ST_CERTIFICATE) && !hasAtLeastOneQuestItem(player, FOOTPRINT_OF_THIEF, KLUTOS_LETTER, PASS; !(hasQuestItems(player, PASS_1ST_CERTIFICATE) && hasAtLeastOneQuestItem(player, KLUTOS_LETTER, FOOTPRINT_OF_THIEF))"
+   ],
+   "links": [
+    {
+     "text": "Now, what was I going to do with these? I have no idea.",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30317-10.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30317-10.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30317-10.html",
+     "effect": "reward"
+    },
+    {
+     "text": "Blacksmith Pinter gave it to me",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30317-11.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30317-11.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30317-11.html"
+    }
+   ]
+  },
+  "Q00406_PathOfTheElvenKnight/30317-02.html": {
+   "file": "Q00406_PathOfTheElvenKnight/30317-02.html",
+   "quest": 406,
+   "text": "Blacksmith Kluto: East of here, there is a camp of the Ol Mahums. They are indeed ferocious scoundrels. Their trainees come out to the southeast of the Abandoned Camp, and I want you to get rid of them. You need not know the reason. There will be about twenty of them. Hmm ... I would have to know w…",
+   "header": "Blacksmith Kluto",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30317-02.html": {
+   "file": "Q00418_PathOfTheArtisan/30317-02.html",
+   "quest": 418,
+   "text": "Blacksmith Kluto: Oh, really? But aren't you here to take the test? One who has come to take a test mustn't let his mind wander to other things ... How will you take the test properly with such an attitude? I was only testing you with the story of my son ... I'm taking off points! Oh dear ...! It w…",
+   "header": "Blacksmith Kluto",
+   "links": [
+    {
+     "text": "Please give me another chance",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30317-03.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30317-03.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30317-03.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30317-03.html": {
+   "file": "Q00418_PathOfTheArtisan/30317-03.html",
+   "quest": 418,
+   "text": "Blacksmith Kluto: Give you another chance? Hmm ... Very well! In return, you must do one thing that I ask you without fail. If you complete it properly, I will give you one more chance. What do you say, will you do as I tell you?",
+   "header": "Blacksmith Kluto",
+   "links": [
+    {
+     "text": "Just give me the orders",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30317-04.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30317-04.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30317-04.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30317-04.html": {
+   "file": "Q00418_PathOfTheArtisan/30317-04.html",
+   "quest": 418,
+   "text": "Blacksmith Kluto: Good! So now listen carefully to what I have to say. First, take this letter to Blacksmith Pinter in the town of Gludio . If you give him this letter, he will give you something. Bring that back to me. What do you think? It's very easy, isn't it? If you've understood, go and get s…",
+   "header": "Blacksmith Kluto",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30317-05.html": {
+   "file": "Q00418_PathOfTheArtisan/30317-05.html",
+   "quest": 418,
+   "text": "Blacksmith Kluto: Ah, look at myself. I said something unnecessary. My apologies. But it seems you have quite a strong character. Actually, all that I said was simply to test your qualifications. You have passed, for now. I see you are a fine Dwarf. It is an unwritten law that we Dwarves do not put…",
+   "header": "Blacksmith Kluto",
+   "links": [
+    {
+     "text": "What is it?",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30317-06.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30317-06.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30317-06.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30317-06.html": {
+   "file": "Q00418_PathOfTheArtisan/30317-06.html",
+   "quest": 418,
+   "text": "Blacksmith Kluto: Hmm ... Actually ... It is a complicated matter that is a bit difficult to explain to you. However, if you help me, I will make some arrangements so you can definitely take the test of the Artisan. What do you think? Will you help me?",
+   "header": "Blacksmith Kluto",
+   "links": [
+    {
+     "text": "I have no choice, I will help you",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30317-07.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30317-07.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30317-07.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30317-07.html": {
+   "file": "Q00418_PathOfTheArtisan/30317-07.html",
+   "quest": 418,
+   "text": "Blacksmith Kluto: Thank you, youngster. So, from now on I want you to listen carefully to what I say. Take this letter that I give you to Blacksmith Pinter in the town of Gludio . If you give him the letter, he will give you something. Bring that back to me. What do you think? It's very easy, isn't…",
+   "header": "Blacksmith Kluto",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30317-10.html": {
+   "file": "Q00418_PathOfTheArtisan/30317-10.html",
+   "quest": 418,
+   "text": "Blacksmith Kluto: Ha Ha Ha, with this, you have passed the final test. Congratulations! Are you confused? I was testing your loyalty to see if you would keep a secret until the last moment. All that you have done until now was actually part of the test. The box that you brought is in fact just an e…",
+   "header": "Blacksmith Kluto",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/30317-11.html": {
+   "file": "Q00418_PathOfTheArtisan/30317-11.html",
+   "quest": 418,
+   "text": "Blacksmith Kluto: Are you sure? Did Blacksmith Pinter really give this to you? I see I have no choice. What a shame, but we will have to eternally banish our old friend from our Black Anvil guild. How could he have done such a thing, what a foolish friend ...",
+   "header": "Blacksmith Kluto",
+   "links": [
+    {
+     "text": "No, I have been mistaken. A kind Dwarf on the road gave it to me, so I unknowingly accepted it.",
+     "bypass": "Quest Q00418_PathOfTheArtisan 30317-12.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "30317-12.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30317-12.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/30317-12.html": {
+   "file": "Q00418_PathOfTheArtisan/30317-12.html",
+   "quest": 418,
+   "text": "Blacksmith Kluto: Really? So you've met such a kind-hearted Dwarf. Then I guess I have no choice. Ha ha ha, do you think that I would fall for a lie like that? But anyway, with this, you have passed the final test. Congratulations! Are you confused? My question was to test your loyalty and see if y…",
+   "header": "Blacksmith Kluto",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Elven Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00406_PathOfTheElvenKnight",
+     "kind": "quest",
+     "quest": 406,
+     "to": "Q00406_PathOfTheElvenKnight/30317-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Artisan (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00418_PathOfTheArtisan",
+     "kind": "quest",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/30317-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/duals_01.htm": {
+   "file": "common/duals_01.htm",
+   "quest": null,
+   "text": "Needless to say, in order to make a Dualsword, you first need two swords. They can be either Regular weapons, Standard weapons or Rare weapons. Regular weapons can only be combined with other Regular weapons, Standard weapons can only be combined with other Standard weapons, and Rare weapons can on…",
+   "links": [
+    {
+     "text": "View the list.",
+     "bypass": "npc_%objectId%_multisell 1001",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/weapon_sa_01.htm": {
+   "file": "common/weapon_sa_01.htm",
+   "quest": null,
+   "text": "Ah, so you wish to enhance your weapon! Well, it's the next-best thing to buying a new one, I say... But remember, a higher price doesn't necessarily mean a better product. There are many excellent weapons that are reasonably priced. As I'm sure you know, capabilities added to your weapon don't int…",
+   "live": {
+    "file": "Logs/npclive_Helton_e05f98c9.html",
+    "at": "2026-10-27T14:45:13.618Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "View list.",
+     "bypass": "npc_%objectId%_exc_multisell 1005",
+     "kind": "multisell",
+     "live": true
+    }
+   ]
+  },
+  "common/crafting_01.htm": {
+   "file": "common/crafting_01.htm",
+   "quest": null,
+   "text": "[Create ingredient item] Our Blacksmith Guild creates items at a very reasonable price. You may entrust your precious materials to our Blacksmiths. They have a long-standing tradition of integrity. We will do our best to serve you. The creation of the ingredient for A-grade items is the pride of ou…",
+   "links": [
+    {
+     "text": "See the list.",
+     "bypass": "npc_%objectId%_multisell 1004",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/augmentation_01.htm": {
+   "file": "common/augmentation_01.htm",
+   "quest": null,
+   "text": "Augmenting means give energy to weapons or accessories. Augmenting is simple, but it isn't always accurate. A few days ago, a mysterious ore called Life Stone, which has a very similar characteristic to Soul Crystals, was found in Black Anvil. If you bring this Life Stone and some other necessities…",
+   "links": [
+    {
+     "text": "Start augmenting.",
+     "bypass": "npc_%objectId%_Augment 1",
+     "kind": "other"
+    },
+    {
+     "text": "Exchange Life Stone for augmenting accesorries.",
+     "bypass": "npc_%objectId%_multisell 1008",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/augmentation_02.htm": {
+   "file": "common/augmentation_02.htm",
+   "quest": null,
+   "text": "You wish to remove the refined Life Stone? That's fine. But understand that this smelting method offers both improvement and potential penalties. It is difficult to restore the original weapon when removing the Life Stone. It requires a special chemical process and a special tool. It's also expensi…",
+   "links": [
+    {
+     "text": "Remove the refined Life Stone.",
+     "bypass": "npc_%objectId%_Augment 2",
+     "kind": "other"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

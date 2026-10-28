@@ -1,0 +1,664 @@
+{
+ "npcId": 32743,
+ "name": "Sally",
+ "title": "Investigator",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.402Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00250_WatchWhatYouEat/32743-20.html",
+   "when": "",
+   "src": "quest 250"
+  }
+ ],
+ "quests": {
+  "250": {
+   "name": "Watch What You Eat",
+   "listText": [
+    "[Watch What You Eat]",
+    "[Watch What You Eat (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00250_WatchWhatYouEat/32743-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 82)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00250_WatchWhatYouEat/32743-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 82)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00250_WatchWhatYouEat/32743-04.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00250_WatchWhatYouEat/32743-05.htm",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00250_WatchWhatYouEat/32743-06.htm",
+     "when": "state STARTED; cond 2; !(st.hasQuestItems(MOBS[0][1]) && st.hasQuestItems(MOBS[1][1]) && st.hasQuestItems(MOBS[2][1]))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00250_WatchWhatYouEat/32743-done.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "Q00250_WatchWhatYouEat/32743-20.html": {
+   "file": "Q00250_WatchWhatYouEat/32743-20.html",
+   "quest": 250,
+   "text": "Investigator Sally: Hi, I'm an investigator from the city assigned to the Plains of the Lizardmen. Truth is, I couldn't be happier. There are SO many plants here that I've never seen. Rare ones, big ones, pointy ones, pretty ones, never seen anywhere else. But there's a problem... I'm not strong en…",
+   "header": "Investigator Sally",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Ask about the rare plants",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-22.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-22.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-22.html",
+     "toAll": [
+      "Q00250_WatchWhatYouEat/32743-22.html",
+      "Q00250_WatchWhatYouEat/32743-23.html"
+     ]
+    },
+    {
+     "text": "Ask about the Leto Lizardmen",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-21.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-21.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-21.html"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-01.htm": {
+   "file": "Q00250_WatchWhatYouEat/32743-01.htm",
+   "quest": 250,
+   "text": "Investigator Sally: As I mentioned, there are some unique plants on the Plains of the Lizardmen. They're very rare and sought after because of what happens when you eat them. Pretty cool, right?",
+   "header": "Investigator Sally",
+   "when": [
+    "state CREATED; (player.getLevel() >= 82)"
+   ],
+   "links": [
+    {
+     "text": "Ask what happens when you eat the plants",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-02.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-02.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-02.htm"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-00.htm": {
+   "file": "Q00250_WatchWhatYouEat/32743-00.htm",
+   "quest": 250,
+   "text": "Investigator Sally: Agh! I'm dying to learn more about the plants and fungus on the Plains of the Lizardmen! The Plains are full of so many species, some you can't find anywhere else! But I couldn't send you, as much as I want to know. You're just not strong enough yet. (Only characters level 82 an…",
+   "header": "Investigator Sally",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 82)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00250_WatchWhatYouEat/32743-04.htm": {
+   "file": "Q00250_WatchWhatYouEat/32743-04.htm",
+   "quest": 250,
+   "text": "Investigator Sally: You still haven't found everything. That's OK... I guess. If you like living your life full of unanswered questions. Come on, I really must know about these species, so please hurry!",
+   "header": "Investigator Sally",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00250_WatchWhatYouEat/32743-05.htm": {
+   "file": "Q00250_WatchWhatYouEat/32743-05.htm",
+   "quest": 250,
+   "text": "Investigator Sally: You did it! I have to say, I'm impressed. And you didn't even eat any of them... right? RIGHT? Uh oh. Don't move! I'll analyze these plants as quickly as possible. Hm... what's that smell? Did you step in something on the way here?",
+   "header": "Investigator Sally",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00250_WatchWhatYouEat/32743-06.htm": {
+   "file": "Q00250_WatchWhatYouEat/32743-06.htm",
+   "quest": 250,
+   "text": "Investigator Sally: There you are! I finished the analysis, and the results are good. You'll live! Basically. No need for an antidote or anything. I eat various medicinal plants all the time. For research purposes only, of course. Want me to tell you about what these ones do?",
+   "header": "Investigator Sally",
+   "when": [
+    "state STARTED; cond 2; !(st.hasQuestItems(MOBS[0][1]) && st.hasQuestItems(MOBS[1][1]) && st.hasQuestItems(MOBS[2][1]))"
+   ],
+   "links": [
+    {
+     "text": "Fantasy Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-07.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-07.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-07.htm"
+    },
+    {
+     "text": "Sticky Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-08.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-08.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-08.htm"
+    },
+    {
+     "text": "Energy Plants",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-09.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-09.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-09.htm"
+    },
+    {
+     "text": "Say that you don't care.",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-end.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-end.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-end.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-done.htm": {
+   "file": "Q00250_WatchWhatYouEat/32743-done.htm",
+   "quest": 250,
+   "text": "Investigator Sally: Looking good, eh? Been trying any plants lately? Hehe, me too! ... (gurgle gurgle) (This quest is already complete.)",
+   "header": "Investigator Sally",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00250_WatchWhatYouEat/32743-02.htm": {
+   "file": "Q00250_WatchWhatYouEat/32743-02.htm",
+   "quest": 250,
+   "text": "Investigator Sally: I wish I knew, truly. I'm determined to find out...in fact, you might be able to help me, if you're willing? Look, I have no illusions about myself. I'm no fighter. Girls could beat me up. Little girls. Little sick girls. It's not a big secret or anything, but could you maybe no…",
+   "header": "Investigator Sally",
+   "links": [
+    {
+     "text": "Agree, and say you are willing to help out.",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-03.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-03.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-03.htm": {
+   "file": "Q00250_WatchWhatYouEat/32743-03.htm",
+   "quest": 250,
+   "text": "Investigator Sally: Oh, thank you so much, that's really cool of you. I wish I was tough like you... or heck, even as tough as my little niece Gretzka. She's a tough little cookie. Anyway, that's not important. What is important is that you bring me samples of the plants on the Plains. I need one b…",
+   "header": "Investigator Sally",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00250_WatchWhatYouEat/32743-07.htm": {
+   "file": "Q00250_WatchWhatYouEat/32743-07.htm",
+   "quest": 250,
+   "text": "Investigator Sally: Fantasy Mushrooms are quite strange indeed. They cause visions and euphoria - any monsters that might be aggressive towards you will be attracted to the mushroom and calmed, should its spores be released. The effect is temporary though. Need to know more? It's no bother!",
+   "header": "Investigator Sally",
+   "links": [
+    {
+     "text": "Sticky Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-08.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-08.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-08.htm"
+    },
+    {
+     "text": "Energy Plant",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-09.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-09.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-09.htm"
+    },
+    {
+     "text": "\"Nah, that's OK, I'm good.\"",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-end.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-end.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-end.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-08.htm": {
+   "file": "Q00250_WatchWhatYouEat/32743-08.htm",
+   "quest": 250,
+   "text": "Investigator Sally: Sticky Mushrooms have an extreme healing factor. They recover your HP by 90%! They're also good for headaches. There is a cost though - they pretty much knock you out for 5 seconds. I can talk about plants and fungus all day! Want to know more?",
+   "header": "Investigator Sally",
+   "links": [
+    {
+     "text": "Fantasy Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-07.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-07.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-07.htm"
+    },
+    {
+     "text": "Energy Plant",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-09.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-09.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-09.htm"
+    },
+    {
+     "text": "\"I'll pass, but thanks.\"",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-end.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-end.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-end.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-09.htm": {
+   "file": "Q00250_WatchWhatYouEat/32743-09.htm",
+   "quest": 250,
+   "text": "Investigator Sally: Energy Plants recover your hit points by 70% and so far, I haven't noticed any adverse side-effects. Well... there's one thing. They can cause extremely bad gas. Like tear-inducing, face-meltingly bad gas. But it only lasts a short while! I love talking about plants! Want to kno…",
+   "header": "Investigator Sally",
+   "links": [
+    {
+     "text": "Fantasy Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-07.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-07.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-07.htm"
+    },
+    {
+     "text": "Sticky Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-08.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-08.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-08.htm"
+    },
+    {
+     "text": "\"I think I'm good for now.\"",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-end.htm",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-end.htm",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-end.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-21.html": {
+   "file": "Q00250_WatchWhatYouEat/32743-21.html",
+   "quest": 250,
+   "text": "Investigator Sally: Most of the Leto Lizardmen died from the poisons of the plants found on the plains, but those who didn't seem to have evolved into a new race called the Tanta Lizardmen. However, I believe there are some Leto that are still living in an area outside the Plains of the Lizardmen, …",
+   "header": "Investigator Sally",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-20.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-20.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-20.html"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-22.html": {
+   "file": "Q00250_WatchWhatYouEat/32743-22.html",
+   "quest": 250,
+   "text": "Investigator Sally: There are three plants that we're especially curious about. Well, not all are plants - two are forms of fungus. The Fantasy Mushroom, Stick Mushroom, and Energy Plant are extremely plentiful on the Plains of the Lizardmen, but the strange thing is, they aren't found anywhere els…",
+   "header": "Investigator Sally",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-20.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-20.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-20.html"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-23.html": {
+   "file": "Q00250_WatchWhatYouEat/32743-23.html",
+   "quest": 250,
+   "text": "Investigator Sally: I told you everything I learned before! But you know how much I love talking about plants, so ask away. OH! Also, I found out about a new species of Frog that lives on the Plains called the Rainbow Frog that might prove useful to you! I know, I know, I am pretty awesome like tha…",
+   "header": "Investigator Sally",
+   "links": [
+    {
+     "text": "Fantasy Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-24.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-24.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-24.html"
+    },
+    {
+     "text": "Sticky Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-25.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-25.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-25.html"
+    },
+    {
+     "text": "Energy Plant",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-26.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-26.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-26.html"
+    },
+    {
+     "text": "Rainbow Frog",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-27.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-27.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-27.html"
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-20.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-20.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-20.html"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-24.html": {
+   "file": "Q00250_WatchWhatYouEat/32743-24.html",
+   "quest": 250,
+   "text": "Investigator Sally: Fantasy Mushrooms are quite strange indeed. They cause visions and euphoria - any monsters that might be aggressive towards you will be attracted to the mushroom and calmed, should its spores be released. The effect is temporary though. Need to know more? It's no bother!",
+   "header": "Investigator Sally",
+   "links": [
+    {
+     "text": "Sticky Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-25.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-25.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-25.html"
+    },
+    {
+     "text": "Energy Plant",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-26.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-26.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-26.html"
+    },
+    {
+     "text": "Rainbow Frog",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-27.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-27.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-27.html"
+    },
+    {
+     "text": "\"Nah, that's OK, I'm good.\"",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-20.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-20.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-20.html"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-25.html": {
+   "file": "Q00250_WatchWhatYouEat/32743-25.html",
+   "quest": 250,
+   "text": "Investigator Sally: Sticky Mushrooms have an extreme healing factor. They recover your HP by 90%! They're also good for headaches. There is a cost though - they pretty much knock you out for 5 seconds. I'm a plant encyclopedia. Hit me again!",
+   "header": "Investigator Sally",
+   "links": [
+    {
+     "text": "Fantasy Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-24.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-24.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-24.html"
+    },
+    {
+     "text": "Energy Plant",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-26.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-26.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-26.html"
+    },
+    {
+     "text": "Rainbow Frog",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-27.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-27.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-27.html"
+    },
+    {
+     "text": "\"I'll pass, but thanks.\"",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-20.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-20.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-20.html"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-26.html": {
+   "file": "Q00250_WatchWhatYouEat/32743-26.html",
+   "quest": 250,
+   "text": "Investigator Sally: Energy Plants recover your hit points by 70%, but like I said, there's one side effect. They can cause extremely bad gas. Like tear-inducing, face-meltingly bad gas. But it only lasts a short while! I love talking about plants! Want to know more?!",
+   "header": "Investigator Sally",
+   "links": [
+    {
+     "text": "Fantasy Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-24.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-24.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-24.html"
+    },
+    {
+     "text": "Sticky Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-25.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-25.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-25.html"
+    },
+    {
+     "text": "Rainbow Frog",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-27.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-27.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-27.html"
+    },
+    {
+     "text": "\"I think I'm good for now.\"",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-20.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-20.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-20.html"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-27.html": {
+   "file": "Q00250_WatchWhatYouEat/32743-27.html",
+   "quest": 250,
+   "text": "Investigator Sally: It turns out the Rainbow Frog is a natural antidote for the poisons found all over the Plains of the Lizardmen. Lick or eat them and you'll recover 10% of your HP, plus they have a tangy fruit-like flavor. Just try to stay away from the poison, OK? Anything else you want to know?",
+   "header": "Investigator Sally",
+   "links": [
+    {
+     "text": "Fantasy Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-24.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-24.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-24.html"
+    },
+    {
+     "text": "Sticky Mushroom",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-25.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-25.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-25.html"
+    },
+    {
+     "text": "Energy Plant",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-26.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-26.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-26.html"
+    },
+    {
+     "text": "\"No, I'm okay.\"",
+     "bypass": "Quest Q00250_WatchWhatYouEat 32743-20.html",
+     "kind": "quest-event",
+     "script": "Q00250_WatchWhatYouEat",
+     "event": "32743-20.html",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-20.html"
+    }
+   ]
+  },
+  "Q00250_WatchWhatYouEat/32743-end.htm": {
+   "file": "Q00250_WatchWhatYouEat/32743-end.htm",
+   "quest": 250,
+   "text": "Investigator Sally: Well, you really helped me out! Let me return the favor someday. And again, thanks so much!",
+   "header": "Investigator Sally",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Watch What You Eat]",
+     "bypass": "npc_%objectId%_Quest Q00250_WatchWhatYouEat",
+     "kind": "quest",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Watch What You Eat (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00250_WatchWhatYouEat",
+     "kind": "quest",
+     "quest": 250,
+     "to": "Q00250_WatchWhatYouEat/32743-04.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

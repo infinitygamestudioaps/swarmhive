@@ -1,0 +1,129 @@
+{
+ "npcId": 31959,
+ "name": "Axel",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.300Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/31959.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "warehouse/31959.htm": {
+   "file": "warehouse/31959.htm",
+   "quest": null,
+   "text": "Freighter Excel: Welcome! We can safeguard anything you'd like to leave with us. Better than carrying around a lot of nonessential weight...especially since you can reclaim any of it at any of our many convenient locations!",
+   "header": "Freighter Excel",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/privatewh.htm",
+     "kind": "page",
+     "to": "warehouse/privatewh.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/clanwh.htm",
+     "kind": "page",
+     "to": "warehouse/clanwh.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/31959-noteach.htm": {
+   "file": "warehouse/31959-noteach.htm",
+   "quest": null,
+   "text": "Freighter Excel: Sorry, but I cannot teach you the skills you wish to learn. Better luck elsewhere, friend.",
+   "header": "Freighter Excel",
+   "outcome": "refusal",
+   "links": []
+  },
+  "warehouse/privatewh.htm": {
+   "file": "warehouse/privatewh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Private Warehouse",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item from the Private Warehouse",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "warehouse/clanwh.htm": {
+   "file": "warehouse/clanwh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item from the Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

@@ -2,7 +2,7 @@
  "id": 905,
  "name": "Refined Dragon Blood",
  "version": 1,
- "generated": "2026-10-27T11:16:38.306Z",
+ "generated": "2026-10-27T18:20:04.404Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 83,
@@ -12,9 +12,15 @@
  "region": "Hunters Village",
  "requirements": {},
  "restrictions": [],
- "status": "ready",
- "reasons": [],
- "expectedMin": 9,
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 2
+  }
+ ],
+ "expectedMin": 14,
  "refLevel": 83,
  "steps": [
   {
@@ -121,7 +127,7 @@
    "key": "c1:hunt",
    "cond": 1,
    "kind": "hunt",
-   "to": null,
+   "to": 2,
    "monsters": [
     {
      "id": 22844,
@@ -238,7 +244,7 @@
      ]
     }
    ],
-   "kills": null,
+   "kills": 1,
    "reasons": [],
    "text": "Hunt Dragon Knight, Dragon Guard, Dragon Mage for Strange Red Liquid x10, Strange Blue Liquid x10",
    "places": [
@@ -892,6 +898,266 @@
        "aggro": []
       }
      }
+    },
+    {
+     "mobs": [
+      22844,
+      22848,
+      22849,
+      22850,
+      22851,
+      22852,
+      22853
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "room",
+      "id": "antharas-1-straight-g",
+      "name": "Antharas' Lair: Main lair, straight: Drake Warrior room",
+      "at": [
+       146538,
+       112709,
+       -3725
+      ],
+      "radius": 824,
+      "levels": [
+       85,
+       85
+      ],
+      "count": 71,
+      "region": "Antharas' Lair",
+      "atlasKey": "room:antharas-1-straight-g",
+      "status": "ok",
+      "sec": 177,
+      "danger": 85,
+      "reachable": true,
+      "score": -177.05,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antharas-2-left-a",
+        "name": "Antharas' Lair: Lower dens, left: Bloody Karik room",
+        "at": [
+         149001,
+         120671,
+         -4864
+        ],
+        "count": 23,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antharas-2-left-b",
+        "name": "Antharas' Lair: Lower dens, left: Dragon Guard room",
+        "at": [
+         151819,
+         117431,
+         -5242
+        ],
+        "count": 20,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antharas-2-left-h",
+        "name": "Antharas' Lair: Lower dens, left: Dragon Guard room",
+        "at": [
+         152120,
+         113800,
+         -5520
+        ],
+        "count": 12,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antharas-1-straight-g",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 15841,
+      "sec": 177,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 15841,
+        "how": "dungeon-rooms",
+        "danger": 85
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        132552,
+        114504,
+        -3712
+       ],
+       [
+        133544,
+        114568,
+        -3720
+       ],
+       [
+        134536,
+        114600,
+        -3720
+       ],
+       [
+        135528,
+        114600,
+        -3720
+       ],
+       [
+        135976,
+        114904,
+        -3720
+       ],
+       [
+        136024,
+        114904,
+        -3720
+       ],
+       [
+        136216,
+        114808,
+        -3720
+       ],
+       [
+        137208,
+        114328,
+        -3720
+       ],
+       [
+        138200,
+        114328,
+        -3720
+       ],
+       [
+        139192,
+        114328,
+        -3720
+       ],
+       [
+        140184,
+        114328,
+        -3720
+       ],
+       [
+        140664,
+        114328,
+        -3720
+       ],
+       [
+        141656,
+        114264,
+        -3720
+       ],
+       [
+        141880,
+        114264,
+        -3720
+       ],
+       [
+        142632,
+        113928,
+        -3720
+       ],
+       [
+        143288,
+        113992,
+        -3720
+       ],
+       [
+        143416,
+        114120,
+        -3720
+       ],
+       [
+        143464,
+        114136,
+        -3720
+       ],
+       [
+        144056,
+        114184,
+        -3720
+       ],
+       [
+        144776,
+        113928,
+        -3720
+       ],
+       [
+        144840,
+        113912,
+        -3720
+       ],
+       [
+        144936,
+        113832,
+        -3720
+       ],
+       [
+        145928,
+        112840,
+        -3720
+       ],
+       [
+        146536,
+        112712,
+        -3720
+       ]
+      ],
+      "maxDanger": 85,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 85,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
     }
    ],
    "area": {
@@ -1152,6 +1418,104 @@
   },
   {
    "i": 2,
+   "key": "c1:spawn:22845",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 22845,
+     "name": "Dragon Knight",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22846,
+     "name": "Elite Dragon Knight",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22847,
+     "name": "Dragon Knight Warrior",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 21913,
+     "name": "Strange Red Liquid",
+     "n": 10,
+     "from": [
+      {
+       "id": 22848,
+       "name": "Drake Leader",
+       "chance": 100
+      },
+      {
+       "id": 22849,
+       "name": "Drake Warrior",
+       "chance": 100
+      },
+      {
+       "id": 22850,
+       "name": "Drake Scout",
+       "chance": 100
+      },
+      {
+       "id": 22851,
+       "name": "Drake Mage",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 21914,
+     "name": "Strange Blue Liquid",
+     "n": 10,
+     "from": [
+      {
+       "id": 22844,
+       "name": "Dragon Knight",
+       "chance": 100
+      },
+      {
+       "id": 22852,
+       "name": "Dragon Guard",
+       "chance": 100
+      },
+      {
+       "id": 22853,
+       "name": "Dragon Mage",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "the monsters (22845, 22846, 22847) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Dragon Knight, Elite Dragon Knight, Dragon Knight Warrior appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
    "key": "c2:deliver:32864",
    "cond": 2,
    "kind": "deliver",
@@ -1268,15 +1632,5 @@
  ],
  "override": {
   "steps": {}
- },
- "dryrun": {
-  "at": "2026-10-27T11:16:38.330Z",
-  "pass": true,
-  "geo": true,
-  "fails": [],
-  "warns": [
-   "area-partial",
-   "route-detour"
-  ]
  }
 }

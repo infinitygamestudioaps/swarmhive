@@ -1,0 +1,159 @@
+{
+ "npcId": 30752,
+ "name": "Shamhai",
+ "title": "Wyrm",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.068Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30752.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "420": {
+   "name": "Little Wing",
+   "listText": [
+    "[Little Wing]",
+    "[Little Wing (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00420_LittleWing/30752-01.html",
+     "when": "state STARTED; cond 5; item 3821 >= 1",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30752-04.html",
+     "when": "state STARTED; cond 6; item 3831 >= 20",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30752-03.html",
+     "when": "state STARTED; cond 6; !getQuestItemsCount(talker, SHAMHAI_EGG) >= 20",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30752-05.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30752.htm": {
+   "file": "default/30752.htm",
+   "quest": null,
+   "text": "Wyrm Shamhai: Are you looking for me? Why? Are you going to kill me too? Unlike the other wyrms down there, I don t have any intention of attacking you& But, are you still going to try to kill me? Somebody stole the eggs of me and my fellow wyrms. We have been going to all different parts of the co…",
+   "header": "Wyrm Shamhai",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30752-01.html": {
+   "file": "Q00420_LittleWing/30752-01.html",
+   "quest": 420,
+   "text": "Wyvern Shamhai: Aaaarrgh! What are you doing! Why are you pouring that putrid liquid into my nostrils? Are you crazy? I could bite your head off with one go! Why have you come to see me? I'm crazy with grief over the loss of all my eggs!",
+   "header": "Wyvern Shamhai",
+   "when": [
+    "state STARTED; cond 5; item 3821 >= 1"
+   ],
+   "links": [
+    {
+     "text": "\"I will find your eggs if you will let me have one of them.\"",
+     "bypass": "Quest Q00420_LittleWing 30752-02.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30752-02.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30752-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30752-04.html": {
+   "file": "Q00420_LittleWing/30752-04.html",
+   "quest": 420,
+   "text": "Wyvern Shamhai: Oh, my eggs, my precious eggs...! Have you found all of them? Yes! Everyone is still healthy! Thank you for your hard work. You can go now... Oh yes, the matter of my egg. I doubt whether you can raise my baby to be strong and brave, cruel and proud. I will test you to find out. Tak…",
+   "header": "Wyvern Shamhai",
+   "when": [
+    "state STARTED; cond 6; item 3831 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30752-03.html": {
+   "file": "Q00420_LittleWing/30752-03.html",
+   "quest": 420,
+   "text": "Wyvern Shamhai: Have you found all of my precious eggs? Not yet? You must hurry! Go straight away to the Execution Grounds , kill the dead seekers and bring back my 20 precious eggs ! You must leave right away!",
+   "header": "Wyvern Shamhai",
+   "when": [
+    "state STARTED; cond 6; !getQuestItemsCount(talker, SHAMHAI_EGG) >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30752-05.html": {
+   "file": "Q00420_LittleWing/30752-05.html",
+   "quest": 420,
+   "text": "Wyvern Shamhai: Have you changed your mind? Do you wish to return my egg? No? Then why are you still here? You must hurry to Fairy Mimyu and ask her to hatch my child!",
+   "header": "Wyvern Shamhai",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30752-02.html": {
+   "file": "Q00420_LittleWing/30752-02.html",
+   "quest": 420,
+   "text": "Wyvern Shamhai: One of my eggs? I see... In other times, I would drag you into the sky and drop you to your death. But today I shall make an exception and listen to what you have to say... All right. I accept your offer. However, this is on the condition that you will find and bring back all 20 of …",
+   "header": "Wyvern Shamhai",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Little Wing (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00420_LittleWing",
+     "kind": "quest",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30752-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

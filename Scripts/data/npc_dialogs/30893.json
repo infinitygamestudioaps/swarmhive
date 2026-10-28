@@ -1,0 +1,76 @@
+{
+ "npcId": 30893,
+ "name": "Payel",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.104Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30893.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30893.htm": {
+   "file": "merchant/30893.htm",
+   "quest": null,
+   "text": "Trader Payel: Welcome to Heine! Do you know about the legendary wedding of Knight Roland Hunter and Elf Aridne in Innadrill? Their love story has been passed down as a wandering minstrel's song. It's lovely... Now, what kind of item are you looking for? We carry a large number of pigments and vario…",
+   "header": "Trader Payel",
+   "links": [
+    {
+     "text": "Buy supplies and minerals.",
+     "bypass": "npc_%objectId%_Buy 3089300",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy dyes.",
+     "bypass": "npc_%objectId%_Buy 3089301",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30893-pk.htm": {
+   "file": "merchant/30893-pk.htm",
+   "quest": null,
+   "text": "Trader Payel: I am sorry, but the Lord strictly forbids dealing with murderers and renegades. I couldn't even if I wanted to, and I don't.",
+   "header": "Trader Payel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Buy/Sell/Refund General."
+ ],
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund General.",
+   "n": 15,
+   "inDatapack": false,
+   "from": [
+    "Trader Payel:Welcome, traveler! We Elves have lived in Innad"
+   ],
+   "to": []
+  }
+ ]
+}

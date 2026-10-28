@@ -2,7 +2,7 @@
  "id": 63,
  "name": "Path Of The Warder",
  "version": 1,
- "generated": "2026-10-27T11:14:56.451Z",
+ "generated": "2026-10-27T18:18:34.523Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 18,
@@ -34,21 +34,17 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 2
   },
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 2
+   "step": 33
   }
  ],
- "expectedMin": 21,
+ "expectedMin": 44,
  "refLevel": 18,
  "steps": [
   {
@@ -264,6 +260,2624 @@
    "i": 1,
    "key": "c1:hunt",
    "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20053,
+     "name": "Ol Mahum Patrol",
+     "level": 21,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 20782,
+     "name": "Ol Mahum Novice",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9762,
+     "name": "Orders",
+     "n": 10,
+     "from": [
+      {
+       "id": 20782,
+       "name": "Ol Mahum Novice",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 9763,
+     "name": "Organization Chart",
+     "n": 5,
+     "from": [
+      {
+       "id": 20053,
+       "name": "Ol Mahum Patrol",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Ol Mahum Patrol, Ol Mahum Novice for Orders x10, Organization Chart x5",
+   "places": [
+    {
+     "mobs": [
+      20782
+     ],
+     "items": [
+      9762
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "abandoned-camp-1",
+      "name": "Abandoned Camp 1: Ol Mahum Novice area (south)",
+      "at": [
+       -49064,
+       150024,
+       -2824
+      ],
+      "radius": 4947,
+      "levels": [
+       17,
+       22
+      ],
+      "count": 10,
+      "region": "Abandoned Camp",
+      "atlasKey": "area:abandoned-camp-1",
+      "status": "ok",
+      "sec": 72,
+      "danger": 22,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -58.8,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:abandoned-camp-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 3211,
+      "sec": 72,
+      "via": ".gludin > Gludin -> Abandoned Camp",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Abandoned Camp",
+        "link": "abandoned camp",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3211,
+        "how": "field-areas",
+        "danger": 22
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Abandoned Camp"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -49848,
+        147096,
+        -2792
+       ],
+       [
+        -49848,
+        148088,
+        -2784
+       ],
+       [
+        -49848,
+        149080,
+        -2744
+       ],
+       [
+        -49064,
+        150024,
+        -2824
+       ]
+      ],
+      "maxDanger": 22,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 22,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20053
+     ],
+     "items": [
+      9763
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "abandoned-camp-4",
+      "name": "Abandoned Camp 4: Ol Mahum Patrol area (north-east)",
+      "at": [
+       -45320,
+       142040,
+       -2976
+      ],
+      "radius": 4351,
+      "levels": [
+       15,
+       22
+      ],
+      "count": 6,
+      "region": "Abandoned Camp",
+      "atlasKey": "area:abandoned-camp-4",
+      "status": "ok",
+      "sec": 102,
+      "danger": 22,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -34.3,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "abandoned-camp-2",
+        "name": "Abandoned Camp 2: Ol Mahum Patrol area (north-east)",
+        "at": [
+         -46024,
+         145032,
+         -3024
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "abandoned-camp-1",
+        "name": "Abandoned Camp 1: Ol Mahum Novice area (south)",
+        "at": [
+         -49064,
+         150024,
+         -2824
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:abandoned-camp-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 6823,
+      "sec": 102,
+      "via": ".gludin > Gludin -> Abandoned Camp",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Abandoned Camp",
+        "link": "abandoned camp",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6823,
+        "how": "field-areas",
+        "danger": 22
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Abandoned Camp"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -49848,
+        147096,
+        -2792
+       ],
+       [
+        -49304,
+        146104,
+        -2728
+       ],
+       [
+        -48392,
+        145112,
+        -2880
+       ],
+       [
+        -47400,
+        144120,
+        -2832
+       ],
+       [
+        -46408,
+        143128,
+        -2872
+       ],
+       [
+        -45416,
+        142136,
+        -2968
+       ],
+       [
+        -45320,
+        142040,
+        -2976
+       ]
+      ],
+      "maxDanger": 22,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 22,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "abandoned-camp-1",
+    "name": "Abandoned Camp 1: Ol Mahum Novice area (south)",
+    "at": [
+     -49064,
+     150024,
+     -2824
+    ],
+    "radius": 4947,
+    "levels": [
+     17,
+     22
+    ],
+    "count": 10,
+    "region": "Abandoned Camp",
+    "atlasKey": "area:abandoned-camp-1",
+    "status": "ok",
+    "sec": 72,
+    "danger": 22,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -58.8,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:abandoned-camp-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 3211,
+    "sec": 72,
+    "via": ".gludin > Gludin -> Abandoned Camp",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Abandoned Camp",
+      "link": "abandoned camp",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3211,
+      "how": "field-areas",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Abandoned Camp"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -49848,
+      147096,
+      -2792
+     ],
+     [
+      -49848,
+      148088,
+      -2784
+     ],
+     [
+      -49848,
+      149080,
+      -2744
+     ],
+     [
+      -49064,
+      150024,
+      -2824
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 322,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:27337",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27337,
+     "name": "Ol Mahum Officer Tak",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 9762,
+     "name": "Orders",
+     "n": 10,
+     "from": [
+      {
+       "id": 20782,
+       "name": "Ol Mahum Novice",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 9763,
+     "name": "Organization Chart",
+     "n": 5,
+     "from": [
+      {
+       "id": 20053,
+       "name": "Ol Mahum Patrol",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20919,
+     20920,
+     20921
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
+   },
+   "text": "Make Ol Mahum Officer Tak appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "gludio-outskirts-2",
+    "name": "Gludio outskirts 2: Maille Lizardman Scout area (west)",
+    "at": [
+     -22760,
+     121576,
+     -3584
+    ],
+    "radius": 4554,
+    "levels": [
+     20,
+     24
+    ],
+    "count": 32,
+    "region": "Gludio outskirts",
+    "atlasKey": "area:gludio-outskirts-2",
+    "status": "ok",
+    "sec": 184,
+    "danger": 24,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -176.93333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "ruins-of-agony-23",
+      "name": "Ruins of Agony 23: Maille Lizardman area (north-east)",
+      "at": [
+       -28984,
+       116648,
+       -3664
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ruins-of-agony-16",
+      "name": "Ruins of Agony 16: Giant Araneid area (north-east)",
+      "at": [
+       -30664,
+       116808,
+       -3304
+      ],
+      "count": 11,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "gludio-outskirts-1",
+      "name": "Gludio outskirts 1: Maille Lizardman Guard area (west)",
+      "at": [
+       -19736,
+       121944,
+       -3280
+      ],
+      "count": 9,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:gludio-outskirts-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 16707,
+    "sec": 184,
+    "via": ".gludio > Gludio -> Ruins of Despair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Despair",
+      "link": "ruins of despair",
+      "price": 610,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2760,
+      "how": "field-areas-gap",
+      "danger": 22
+     },
+     {
+      "do": "walk",
+      "len": 13947,
+      "how": "field-areas",
+      "danger": 24
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Despair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -19120,
+      136816,
+      -3752
+     ],
+     [
+      -19336,
+      134152,
+      -3728
+     ],
+     [
+      -19336,
+      133160,
+      -3792
+     ],
+     [
+      -19336,
+      132168,
+      -3720
+     ],
+     [
+      -19336,
+      131176,
+      -3720
+     ],
+     [
+      -19336,
+      130184,
+      -3720
+     ],
+     [
+      -19400,
+      129432,
+      -3720
+     ],
+     [
+      -19400,
+      128440,
+      -3648
+     ],
+     [
+      -19400,
+      127448,
+      -3432
+     ],
+     [
+      -19400,
+      126456,
+      -3328
+     ],
+     [
+      -19464,
+      125864,
+      -3264
+     ],
+     [
+      -19464,
+      124872,
+      -3208
+     ],
+     [
+      -20456,
+      123880,
+      -3344
+     ],
+     [
+      -21448,
+      122888,
+      -3504
+     ],
+     [
+      -22440,
+      121896,
+      -3576
+     ],
+     [
+      -22760,
+      121576,
+      -3584
+     ]
+    ],
+    "maxDanger": 24,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 24,
+     "dangerVsLevel": 6,
+     "aggro": [
+      {
+       "name": "Maille Lizardman Guard",
+       "lv": 24,
+       "n": 5
+      }
+     ]
+    }
+   },
+   "expectedSec": 484,
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:32195",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"I understand.\""
+   ],
+   "npc": {
+    "id": 32195,
+    "name": "Sione",
+    "title": "Master",
+    "town": "Gludin",
+    "at": [
+     -84697,
+     153134,
+     -3160
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sione",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32195@-84697,153134",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 6262,
+    "sec": 72,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 6262,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82104,
+      150936,
+      -3120
+     ],
+     [
+      -82328,
+      151096,
+      -3120
+     ],
+     [
+      -82568,
+      151240,
+      -3120
+     ],
+     [
+      -82760,
+      151416,
+      -3120
+     ],
+     [
+      -82936,
+      151608,
+      -3120
+     ],
+     [
+      -82952,
+      151880,
+      -3120
+     ],
+     [
+      -82968,
+      152152,
+      -3120
+     ],
+     [
+      -83032,
+      152408,
+      -3128
+     ],
+     [
+      -83048,
+      152680,
+      -3168
+     ],
+     [
+      -83224,
+      152760,
+      -3168
+     ],
+     [
+      -83400,
+      152760,
+      -3168
+     ],
+     [
+      -83672,
+      152744,
+      -3168
+     ],
+     [
+      -83928,
+      152760,
+      -3168
+     ],
+     [
+      -84200,
+      152744,
+      -3168
+     ],
+     [
+      -84472,
+      152776,
+      -3168
+     ],
+     [
+      -84504,
+      152936,
+      -3168
+     ],
+     [
+      -84568,
+      153160,
+      -3168
+     ],
+     [
+      -84696,
+      153128,
+      -3160
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 97,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c2:talk:32195",
+   "cond": 2,
+   "kind": "talk",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 32195,
+    "name": "Sione",
+    "title": "Master",
+    "town": "Gludin",
+    "at": [
+     -84697,
+     153134,
+     -3160
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sione",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32195@-84697,153134",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 6262,
+    "sec": 72,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 6262,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82104,
+      150936,
+      -3120
+     ],
+     [
+      -82328,
+      151096,
+      -3120
+     ],
+     [
+      -82568,
+      151240,
+      -3120
+     ],
+     [
+      -82760,
+      151416,
+      -3120
+     ],
+     [
+      -82936,
+      151608,
+      -3120
+     ],
+     [
+      -82952,
+      151880,
+      -3120
+     ],
+     [
+      -82968,
+      152152,
+      -3120
+     ],
+     [
+      -83032,
+      152408,
+      -3128
+     ],
+     [
+      -83048,
+      152680,
+      -3168
+     ],
+     [
+      -83224,
+      152760,
+      -3168
+     ],
+     [
+      -83400,
+      152760,
+      -3168
+     ],
+     [
+      -83672,
+      152744,
+      -3168
+     ],
+     [
+      -83928,
+      152760,
+      -3168
+     ],
+     [
+      -84200,
+      152744,
+      -3168
+     ],
+     [
+      -84472,
+      152776,
+      -3168
+     ],
+     [
+      -84504,
+      152936,
+      -3168
+     ],
+     [
+      -84568,
+      153160,
+      -3168
+     ],
+     [
+      -84696,
+      153128,
+      -3160
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 97,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2,
+    3
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c4:talk:32198",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"Here you are.\""
+   ],
+   "npc": {
+    "id": 32198,
+    "name": "Gobie",
+    "title": "Master",
+    "town": "Gludio",
+    "at": [
+     -13565,
+     125562,
+     -3128
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gobie",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32198@-13565,125562",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 7272,
+    "sec": 81,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 7272,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14344,
+      123016,
+      -3112
+     ],
+     [
+      -14392,
+      123288,
+      -3112
+     ],
+     [
+      -14408,
+      123560,
+      -3112
+     ],
+     [
+      -14424,
+      123624,
+      -3112
+     ],
+     [
+      -14408,
+      123736,
+      -3112
+     ],
+     [
+      -14344,
+      124008,
+      -3112
+     ],
+     [
+      -14360,
+      124280,
+      -3112
+     ],
+     [
+      -14328,
+      124552,
+      -3112
+     ],
+     [
+      -14296,
+      124824,
+      -3120
+     ],
+     [
+      -14088,
+      124936,
+      -3120
+     ],
+     [
+      -13912,
+      124936,
+      -3128
+     ],
+     [
+      -13640,
+      124936,
+      -3120
+     ],
+     [
+      -13560,
+      125080,
+      -3128
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125688,
+      -3136
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13400,
+      125272,
+      -3128
+     ],
+     [
+      -13320,
+      125448,
+      -3136
+     ],
+     [
+      -13464,
+      125528,
+      -3128
+     ],
+     [
+      -13560,
+      125560,
+      -3128
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 106,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c5:talk:30332",
+   "cond": 5,
+   "kind": "talk",
+   "to": 6,
+   "links": [
+    "It's nothing."
+   ],
+   "npc": {
+    "id": 30332,
+    "name": "Bathis",
+    "title": "Captain",
+    "town": "Gludio",
+    "at": [
+     -13900,
+     123822,
+     -3112
+    ],
+    "alt": []
+   },
+   "text": "Talk to Bathis",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30332@-13900,123822",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2916,
+    "sec": 44,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 2916,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12728,
+      122728,
+      -3112
+     ],
+     [
+      -12456,
+      122744,
+      -3104
+     ],
+     [
+      -12248,
+      122920,
+      -3096
+     ],
+     [
+      -12248,
+      123192,
+      -3096
+     ],
+     [
+      -12312,
+      123416,
+      -3096
+     ],
+     [
+      -12472,
+      123416,
+      -3104
+     ],
+     [
+      -12680,
+      123592,
+      -3112
+     ],
+     [
+      -12936,
+      123656,
+      -3112
+     ],
+     [
+      -13208,
+      123688,
+      -3112
+     ],
+     [
+      -13448,
+      123736,
+      -3112
+     ],
+     [
+      -13704,
+      123688,
+      -3112
+     ],
+     [
+      -13896,
+      123816,
+      -3112
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 69,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c6:talk:32198",
+   "cond": 6,
+   "kind": "talk",
+   "to": 7,
+   "links": [
+    "\"I see.\""
+   ],
+   "npc": {
+    "id": 32198,
+    "name": "Gobie",
+    "title": "Master",
+    "town": "Gludio",
+    "at": [
+     -13565,
+     125562,
+     -3128
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gobie",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32198@-13565,125562",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 7272,
+    "sec": 81,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 7272,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14344,
+      123016,
+      -3112
+     ],
+     [
+      -14392,
+      123288,
+      -3112
+     ],
+     [
+      -14408,
+      123560,
+      -3112
+     ],
+     [
+      -14424,
+      123624,
+      -3112
+     ],
+     [
+      -14408,
+      123736,
+      -3112
+     ],
+     [
+      -14344,
+      124008,
+      -3112
+     ],
+     [
+      -14360,
+      124280,
+      -3112
+     ],
+     [
+      -14328,
+      124552,
+      -3112
+     ],
+     [
+      -14296,
+      124824,
+      -3120
+     ],
+     [
+      -14088,
+      124936,
+      -3120
+     ],
+     [
+      -13912,
+      124936,
+      -3128
+     ],
+     [
+      -13640,
+      124936,
+      -3120
+     ],
+     [
+      -13560,
+      125080,
+      -3128
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125688,
+      -3136
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13400,
+      125272,
+      -3128
+     ],
+     [
+      -13320,
+      125448,
+      -3136
+     ],
+     [
+      -13464,
+      125528,
+      -3128
+     ],
+     [
+      -13560,
+      125560,
+      -3128
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 106,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c7:talk:30297",
+   "cond": 7,
+   "kind": "talk",
+   "to": 8,
+   "links": [
+    "\"Ah, I see...\""
+   ],
+   "npc": {
+    "id": 30297,
+    "name": "Tobias",
+    "title": "Grand Master",
+    "town": "Gludio",
+    "at": [
+     -12892,
+     123143,
+     -3102
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tobias",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30297@-12892,123143",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2004,
+    "sec": 37,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 2004,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12728,
+      122728,
+      -3112
+     ],
+     [
+      -12456,
+      122744,
+      -3104
+     ],
+     [
+      -12248,
+      122920,
+      -3096
+     ],
+     [
+      -12248,
+      123192,
+      -3096
+     ],
+     [
+      -12312,
+      123416,
+      -3096
+     ],
+     [
+      -12472,
+      123416,
+      -3104
+     ],
+     [
+      -12648,
+      123464,
+      -3112
+     ],
+     [
+      -12712,
+      123288,
+      -3096
+     ],
+     [
+      -12728,
+      123192,
+      -3096
+     ],
+     [
+      -12888,
+      123144,
+      -3096
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 62,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c8:talk:32195",
+   "cond": 8,
+   "kind": "talk",
+   "to": 10,
+   "links": [],
+   "npc": {
+    "id": 32195,
+    "name": "Sione",
+    "title": "Master",
+    "town": "Gludin",
+    "at": [
+     -84697,
+     153134,
+     -3160
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sione",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32195@-84697,153134",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 6262,
+    "sec": 72,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 6262,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82104,
+      150936,
+      -3120
+     ],
+     [
+      -82328,
+      151096,
+      -3120
+     ],
+     [
+      -82568,
+      151240,
+      -3120
+     ],
+     [
+      -82760,
+      151416,
+      -3120
+     ],
+     [
+      -82936,
+      151608,
+      -3120
+     ],
+     [
+      -82952,
+      151880,
+      -3120
+     ],
+     [
+      -82968,
+      152152,
+      -3120
+     ],
+     [
+      -83032,
+      152408,
+      -3128
+     ],
+     [
+      -83048,
+      152680,
+      -3168
+     ],
+     [
+      -83224,
+      152760,
+      -3168
+     ],
+     [
+      -83400,
+      152760,
+      -3168
+     ],
+     [
+      -83672,
+      152744,
+      -3168
+     ],
+     [
+      -83928,
+      152760,
+      -3168
+     ],
+     [
+      -84200,
+      152744,
+      -3168
+     ],
+     [
+      -84472,
+      152776,
+      -3168
+     ],
+     [
+      -84504,
+      152936,
+      -3168
+     ],
+     [
+      -84568,
+      153160,
+      -3168
+     ],
+     [
+      -84696,
+      153128,
+      -3160
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 97,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8,
+    9
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c8:talk:32198",
+   "cond": 8,
+   "kind": "talk",
+   "to": 9,
+   "links": [
+    "\"So complicated.\""
+   ],
+   "npc": {
+    "id": 32198,
+    "name": "Gobie",
+    "title": "Master",
+    "town": "Gludio",
+    "at": [
+     -13565,
+     125562,
+     -3128
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gobie",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32198@-13565,125562",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 7272,
+    "sec": 81,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 7272,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14344,
+      123016,
+      -3112
+     ],
+     [
+      -14392,
+      123288,
+      -3112
+     ],
+     [
+      -14408,
+      123560,
+      -3112
+     ],
+     [
+      -14424,
+      123624,
+      -3112
+     ],
+     [
+      -14408,
+      123736,
+      -3112
+     ],
+     [
+      -14344,
+      124008,
+      -3112
+     ],
+     [
+      -14360,
+      124280,
+      -3112
+     ],
+     [
+      -14328,
+      124552,
+      -3112
+     ],
+     [
+      -14296,
+      124824,
+      -3120
+     ],
+     [
+      -14088,
+      124936,
+      -3120
+     ],
+     [
+      -13912,
+      124936,
+      -3128
+     ],
+     [
+      -13640,
+      124936,
+      -3120
+     ],
+     [
+      -13560,
+      125080,
+      -3128
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125688,
+      -3136
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13400,
+      125272,
+      -3128
+     ],
+     [
+      -13320,
+      125448,
+      -3136
+     ],
+     [
+      -13464,
+      125528,
+      -3128
+     ],
+     [
+      -13560,
+      125560,
+      -3128
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 106,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c10:talk:32198",
+   "cond": 10,
+   "kind": "talk",
+   "to": 11,
+   "links": [
+    "\"I know I can do this. Trust me!\""
+   ],
+   "npc": {
+    "id": 32198,
+    "name": "Gobie",
+    "title": "Master",
+    "town": "Gludio",
+    "at": [
+     -13565,
+     125562,
+     -3128
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gobie",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32198@-13565,125562",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 7272,
+    "sec": 81,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 7272,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14344,
+      123016,
+      -3112
+     ],
+     [
+      -14392,
+      123288,
+      -3112
+     ],
+     [
+      -14408,
+      123560,
+      -3112
+     ],
+     [
+      -14424,
+      123624,
+      -3112
+     ],
+     [
+      -14408,
+      123736,
+      -3112
+     ],
+     [
+      -14344,
+      124008,
+      -3112
+     ],
+     [
+      -14360,
+      124280,
+      -3112
+     ],
+     [
+      -14328,
+      124552,
+      -3112
+     ],
+     [
+      -14296,
+      124824,
+      -3120
+     ],
+     [
+      -14088,
+      124936,
+      -3120
+     ],
+     [
+      -13912,
+      124936,
+      -3128
+     ],
+     [
+      -13640,
+      124936,
+      -3120
+     ],
+     [
+      -13560,
+      125080,
+      -3128
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125688,
+      -3136
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13400,
+      125272,
+      -3128
+     ],
+     [
+      -13320,
+      125448,
+      -3136
+     ],
+     [
+      -13464,
+      125528,
+      -3128
+     ],
+     [
+      -13560,
+      125560,
+      -3128
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 106,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c11:hunt",
+   "cond": 11,
    "kind": "hunt",
    "to": null,
    "monsters": [
@@ -678,24 +3292,14 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
     11,
     12
    ]
   },
   {
-   "i": 2,
-   "key": "c1:spawn:27337",
-   "cond": 1,
+   "i": 13,
+   "key": "c11:spawn:27337",
+   "cond": 11,
    "kind": "spawn",
    "monsters": [
     {
@@ -748,7 +3352,6 @@
    ],
    "kills": 1,
    "reasons": [
-    "item-from-quest-mob",
     "aggro-on-way"
    ],
    "engine": {
@@ -757,7 +3360,9 @@
      20919,
      20920,
      20921
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Ol Mahum Officer Tak appear and kill it",
    "area": {
@@ -966,24 +3571,14 @@
    },
    "expectedSec": 484,
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
     11,
     12
    ]
   },
   {
-   "i": 3,
-   "key": "c1:deliver:32198",
-   "cond": 1,
+   "i": 14,
+   "key": "c11:deliver:32198",
+   "cond": 11,
    "kind": "deliver",
    "to": "end",
    "links": [],
@@ -1235,536 +3830,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
-   ]
-  },
-  {
-   "i": 4,
-   "key": "c1:talk:32195",
-   "cond": 1,
-   "kind": "talk",
-   "to": 10,
-   "links": [],
-   "npc": {
-    "id": 32195,
-    "name": "Sione",
-    "title": "Master",
-    "town": "Gludin",
-    "at": [
-     -84697,
-     153134,
-     -3160
-    ],
-    "alt": []
-   },
-   "text": "Talk to Sione",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:32195@-84697,153134",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 6262,
-    "sec": 72,
-    "via": ".gludin",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "walk",
-      "len": 6262,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludin"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -80786,
-      150251,
-      -3040
-     ],
-     [
-      -80648,
-      149960,
-      -3040
-     ],
-     [
-      -80728,
-      150056,
-      -3040
-     ],
-     [
-      -80920,
-      150248,
-      -3040
-     ],
-     [
-      -81128,
-      150296,
-      -3056
-     ],
-     [
-      -81352,
-      150344,
-      -3120
-     ],
-     [
-      -81544,
-      150536,
-      -3120
-     ],
-     [
-      -81752,
-      150712,
-      -3120
-     ],
-     [
-      -81960,
-      150792,
-      -3120
-     ],
-     [
-      -82008,
-      150840,
-      -3120
-     ],
-     [
-      -82104,
-      150936,
-      -3120
-     ],
-     [
-      -82328,
-      151096,
-      -3120
-     ],
-     [
-      -82568,
-      151240,
-      -3120
-     ],
-     [
-      -82760,
-      151416,
-      -3120
-     ],
-     [
-      -82936,
-      151608,
-      -3120
-     ],
-     [
-      -82952,
-      151880,
-      -3120
-     ],
-     [
-      -82968,
-      152152,
-      -3120
-     ],
-     [
-      -83032,
-      152408,
-      -3128
-     ],
-     [
-      -83048,
-      152680,
-      -3168
-     ],
-     [
-      -83224,
-      152760,
-      -3168
-     ],
-     [
-      -83400,
-      152760,
-      -3168
-     ],
-     [
-      -83672,
-      152744,
-      -3168
-     ],
-     [
-      -83928,
-      152760,
-      -3168
-     ],
-     [
-      -84200,
-      152744,
-      -3168
-     ],
-     [
-      -84472,
-      152776,
-      -3168
-     ],
-     [
-      -84504,
-      152936,
-      -3168
-     ],
-     [
-      -84568,
-      153160,
-      -3168
-     ],
-     [
-      -84696,
-      153128,
-      -3160
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 97,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
-   ]
-  },
-  {
-   "i": 5,
-   "key": "c1:talk:30297",
-   "cond": 1,
-   "kind": "talk",
-   "to": 8,
-   "links": [
-    "\"Ah, I see...\""
-   ],
-   "npc": {
-    "id": 30297,
-    "name": "Tobias",
-    "title": "Grand Master",
-    "town": "Gludio",
-    "at": [
-     -12892,
-     123143,
-     -3102
-    ],
-    "alt": []
-   },
-   "text": "Talk to Tobias",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30297@-12892,123143",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 2004,
-    "sec": 37,
-    "via": ".gludio",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "walk",
-      "len": 2004,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludio"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -12712,
-      122776,
-      -3116
-     ],
-     [
-      -12792,
-      122776,
-      -3112
-     ],
-     [
-      -12728,
-      122728,
-      -3112
-     ],
-     [
-      -12456,
-      122744,
-      -3104
-     ],
-     [
-      -12248,
-      122920,
-      -3096
-     ],
-     [
-      -12248,
-      123192,
-      -3096
-     ],
-     [
-      -12312,
-      123416,
-      -3096
-     ],
-     [
-      -12472,
-      123416,
-      -3104
-     ],
-     [
-      -12648,
-      123464,
-      -3112
-     ],
-     [
-      -12712,
-      123288,
-      -3096
-     ],
-     [
-      -12728,
-      123192,
-      -3096
-     ],
-     [
-      -12888,
-      123144,
-      -3096
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 62,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
-   ]
-  },
-  {
-   "i": 6,
-   "key": "c1:talk:30332",
-   "cond": 1,
-   "kind": "talk",
-   "to": 6,
-   "links": [
-    "It's nothing."
-   ],
-   "npc": {
-    "id": 30332,
-    "name": "Bathis",
-    "title": "Captain",
-    "town": "Gludio",
-    "at": [
-     -13900,
-     123822,
-     -3112
-    ],
-    "alt": []
-   },
-   "text": "Talk to Bathis",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30332@-13900,123822",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludio",
-    "length": 2916,
-    "sec": 44,
-    "via": ".gludio",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludio",
-      "cmd": ".gludio"
-     },
-     {
-      "do": "walk",
-      "len": 2916,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludio"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -12712,
-      122776,
-      -3116
-     ],
-     [
-      -12792,
-      122776,
-      -3112
-     ],
-     [
-      -12728,
-      122728,
-      -3112
-     ],
-     [
-      -12456,
-      122744,
-      -3104
-     ],
-     [
-      -12248,
-      122920,
-      -3096
-     ],
-     [
-      -12248,
-      123192,
-      -3096
-     ],
-     [
-      -12312,
-      123416,
-      -3096
-     ],
-     [
-      -12472,
-      123416,
-      -3104
-     ],
-     [
-      -12680,
-      123592,
-      -3112
-     ],
-     [
-      -12936,
-      123656,
-      -3112
-     ],
-     [
-      -13208,
-      123688,
-      -3112
-     ],
-     [
-      -13448,
-      123736,
-      -3112
-     ],
-     [
-      -13704,
-      123688,
-      -3112
-     ],
-     [
-      -13896,
-      123816,
-      -3112
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 69,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
     11,
     12
    ]

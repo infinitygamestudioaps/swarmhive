@@ -1,0 +1,109 @@
+{
+ "npcId": 13001,
+ "name": "Heart of Warding",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.778Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/13001.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/13001.htm": {
+   "file": "default/13001.htm",
+   "quest": null,
+   "text": "A voice whispers in your ear: Will you confront Antharas, the worshipper of the dark holy place and the creation of Shilen?",
+   "header": "A voice whispers in your ear",
+   "links": [
+    {
+     "text": "Go to the Lair of Antharas.",
+     "bypass": "npc_%objectId%_Quest GrandBossTeleporters",
+     "kind": "quest",
+     "script": "GrandBossTeleporters",
+     "to": null
+    }
+   ]
+  },
+  "ai/individual/Antharas/13001-01.html": {
+   "file": "ai/individual/Antharas/13001-01.html",
+   "quest": null,
+   "text": "Heart of Warding: You are overcome by a voice, a voice so powerful you are helpless as it speaks. Do not expect Shilen's authority will diminish while false gods freely roam. Leave, and prepare to face the return of Antharas. (Challenging Antharas is not currently available.)",
+   "header": "Heart of Warding",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/individual/Antharas/13001-02.html": {
+   "file": "ai/individual/Antharas/13001-02.html",
+   "quest": null,
+   "text": "Heart of Warding: You are overcome by a voice, a voice so powerful you are helpless as it speaks: Do not expect that you might challenge Antharas at your own convenience. When the time is right, Shilen's authority will judge you. (Currently, other members are challenging Antharas.)",
+   "header": "Heart of Warding",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/individual/Antharas/13001-03.html": {
+   "file": "ai/individual/Antharas/13001-03.html",
+   "quest": null,
+   "text": "Heart of Warding: A voice that can shatter your entire body is resonating in your head: Do not dare to face Shilen's authority without the most determined preparation. (Only those who have the Portal Stone can challenge Antharas.)",
+   "header": "Heart of Warding",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/individual/Antharas/13001-04.html": {
+   "file": "ai/individual/Antharas/13001-04.html",
+   "quest": null,
+   "text": "Heart of Warding: You are overcome by a voice, a voice so powerful you are helpless as it speaks: No matter how many gather to follow false gods, Shilen's authority is too great. (The number of participants are above the allowed number in challenging Antharas.)",
+   "header": "Heart of Warding",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/individual/Antharas/13001-05.html": {
+   "file": "ai/individual/Antharas/13001-05.html",
+   "quest": null,
+   "text": "Heart of Warding: You are overcome by a voice, a voice so powerful you are helpless as it speaks: You seek death and defeat by coming here without your leader! You appear before Shilen's authority and you tempt Shilen's wrath! (The players who belong to an association can only enter through the Ass…",
+   "header": "Heart of Warding",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/individual/Antharas/13001.html": {
+   "file": "ai/individual/Antharas/13001.html",
+   "quest": null,
+   "text": "Heart of Warding: You are overcome by a voice, a voice so powerful you are helpless as it speaks: A terrible creature fell to the earth from above in order to vent a mother's spite, cursed and forsaken by her own children. Dark Pilgrim of the Holy Land, Do you dare face the Land Dragon Antharas? (A…",
+   "header": "Heart of Warding",
+   "links": [
+    {
+     "text": "Move to Antharas' Nest",
+     "bypass": "npc_%objectId%_Quest Antharas enter",
+     "kind": "quest-event",
+     "script": "Antharas",
+     "event": "enter",
+     "to": "ai/individual/Antharas/13001-01.html",
+     "toAll": [
+      "ai/individual/Antharas/13001-01.html",
+      "ai/individual/Antharas/13001-02.html",
+      "ai/individual/Antharas/13001-04.html",
+      "ai/individual/Antharas/13001-05.html",
+      "ai/individual/Antharas/13001-03.html"
+     ]
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

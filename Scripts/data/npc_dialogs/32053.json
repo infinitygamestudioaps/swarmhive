@@ -1,0 +1,255 @@
+{
+ "npcId": 32053,
+ "name": "Abey",
+ "title": "Railroad Worker",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.321Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32053.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "117": {
+   "name": "The Ocean of Distant Stars",
+   "listText": [
+    "[The Ocean of Distant Stars]",
+    "[The Ocean of Distant Stars (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32053-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32053-03.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32053-04.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32053-05.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32053-07.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32053-08.html",
+     "when": "state STARTED; memo 5; has items 8488",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32053-10.html",
+     "when": "state STARTED; memo 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32053.htm": {
+   "file": "default/32053.htm",
+   "quest": null,
+   "text": "Railroad Worker Abey: Hi! Nice weather, eh? We always have nice weather in these parts! What brings you way out here?",
+   "header": "Railroad Worker Abey",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00117_TheOceanOfDistantStars/32053-01.htm": {
+   "file": "Q00117_TheOceanOfDistantStars/32053-01.htm",
+   "quest": 117,
+   "text": "Railroad Worker Abey: Hey stranger, would you do me a favor? I keep hearing strange noises around here every night! Obi says he doesn't know anything about it. Could you find out what's going on around here?",
+   "header": "Railroad Worker Abey",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00117_TheOceanOfDistantStars 32053-02.htm",
+     "kind": "quest-event",
+     "script": "Q00117_TheOceanOfDistantStars",
+     "event": "32053-02.htm",
+     "quest": 117,
+     "to": "Q00117_TheOceanOfDistantStars/32053-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00117_TheOceanOfDistantStars/32053-03.htm": {
+   "file": "Q00117_TheOceanOfDistantStars/32053-03.htm",
+   "quest": 117,
+   "text": "Railroad Worker Abey: Well, to tell you the truth, I don't think you're up to it! I can see you have some experience, but not enough. Come back later. (Characters must have achieved at least level 39 to undertake this quest.)",
+   "header": "Railroad Worker Abey",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00117_TheOceanOfDistantStars/32053-04.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32053-04.html",
+   "quest": 117,
+   "text": "Railroad Worker Abey: Please, check out what is making all the noises around here at night. I'm sure you'll make it possible for me to sleep like a baby tonight!",
+   "header": "Railroad Worker Abey",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00117_TheOceanOfDistantStars/32053-05.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32053-05.html",
+   "quest": 117,
+   "text": "Railroad Worker Abey: Well, you must have done a good job! I slept like a log last night! What was making that noise?",
+   "header": "Railroad Worker Abey",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "links": [
+    {
+     "text": "\"Well, you see, there was this Dwarven ghost, and a strange hammer...\"",
+     "bypass": "Quest Q00117_TheOceanOfDistantStars 32053-06.html",
+     "kind": "quest-event",
+     "script": "Q00117_TheOceanOfDistantStars",
+     "event": "32053-06.html",
+     "quest": 117,
+     "to": "Q00117_TheOceanOfDistantStars/32053-06.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00117_TheOceanOfDistantStars/32053-07.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32053-07.html",
+   "quest": 117,
+   "text": "Railroad Worker Abey: That hammer might be in the box in the back . We keep a lot of old odds-and-ends there.",
+   "header": "Railroad Worker Abey",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00117_TheOceanOfDistantStars/32053-08.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32053-08.html",
+   "quest": 117,
+   "text": "Railroad Worker Abey: Is this the hammer? Wow! Look how rusty it is! It seems familiar to me somehow. The Black Anvil doesn't use hammers this large, but our Grey Pillar Guild does! These engravings are also of the Grey Pillar... But what are those strange stars? Oh! I've got it! I think Obi might …",
+   "header": "Railroad Worker Abey",
+   "when": [
+    "state STARTED; memo 5; has items 8488"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00117_TheOceanOfDistantStars 32053-09.html",
+     "kind": "quest-event",
+     "script": "Q00117_TheOceanOfDistantStars",
+     "event": "32053-09.html",
+     "quest": 117,
+     "to": "Q00117_TheOceanOfDistantStars/32053-09.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00117_TheOceanOfDistantStars/32053-10.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32053-10.html",
+   "quest": 117,
+   "text": "Railroad Worker Abey: Railroad worker Obi must know about that hammer!",
+   "header": "Railroad Worker Abey",
+   "when": [
+    "state STARTED; memo 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00117_TheOceanOfDistantStars/32053-02.htm": {
+   "file": "Q00117_TheOceanOfDistantStars/32053-02.htm",
+   "quest": 117,
+   "text": "Railroad Worker Abey: Oh, thank you! I haven't slept in weeks! I'm afraid those noises might mean something very bad! I'm sure you'll make it possible for me to finally get a good night's sleep! Good luck!",
+   "header": "Railroad Worker Abey",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00117_TheOceanOfDistantStars/32053-06.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32053-06.html",
+   "quest": 117,
+   "text": "Railroad Worker Abey: A ghost? Eeek! Oh, excuse me! I'm so sorry! I'm just deathly afraid of ghosts! But... The hammer! If we find that hammer, the ghost will go away, right? ... I think it's in a box in the back . We keep a lot of old odds-and-ends in there.",
+   "header": "Railroad Worker Abey",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00117_TheOceanOfDistantStars/32053-09.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32053-09.html",
+   "quest": 117,
+   "text": "Railroad Worker Abey: Please go and ask Obi about that hammer!",
+   "header": "Railroad Worker Abey",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Ocean of Distant Stars]",
+     "bypass": "npc_%objectId%_Quest Q00117_TheOceanOfDistantStars",
+     "kind": "quest",
+     "quest": 117,
+     "to": "Q00117_TheOceanOfDistantStars/32053-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Ocean of Distant Stars (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00117_TheOceanOfDistantStars",
+     "kind": "quest",
+     "quest": 117,
+     "to": "Q00117_TheOceanOfDistantStars/32053-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

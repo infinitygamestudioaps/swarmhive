@@ -1,0 +1,659 @@
+{
+ "npcId": 30458,
+ "name": "Poitan",
+ "title": "Blacksmith",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.978Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "trainer/30458.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "66": {
+   "name": "Certified Arbalester",
+   "listText": [
+    "[Certified Arbalester]",
+    "[Certified Arbalester (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00066_CertifiedArbalester/30458-01.html",
+     "when": "state STARTED; memoState < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30458-02.html",
+     "when": "state STARTED; memo 5; !memoState < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30458-04.html",
+     "when": "state STARTED; memo 6; !memoState < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30458-10.html",
+     "when": "state STARTED; memo 7; !memoState < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "214": {
+   "name": "Trial Of The Scholar",
+   "listText": [
+    "[Trial of the Scholar]",
+    "[Trial of the Scholar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00214_TrialOfTheScholar/30458-01.html",
+     "when": "state STARTED; has items 2705; lacks items 2711,2715,2709",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30458-02.html",
+     "when": "state STARTED; has items 2705,2711,2715,2709; lacks items 2715,2709",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30458-03.html",
+     "when": "state STARTED; has items 2705,2711,2715,2709; lacks items 2709; !(hasQuestItems(player, POITANS_NOTES) && !hasAtLeastOneQuestItem(player, CASIANS_LIST, SCRIPTURE_CHAPTER_4))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30458-04.html",
+     "when": "state STARTED; has items 2705,2711,2715,2709; lacks items 2711,2715; !(hasQuestItems(player, POITANS_NOTES) && !hasAtLeastOneQuestItem(player, CASIANS_LIST, SCRIPTURE_CHAPTER_4)); !(hasQuestItems(player, POITANS_NOTES, CASIANS_LIST) && !hasQuestItems(player, SCRIPTURE_CHAPTER_4))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "363": {
+   "name": "Sorrowful Sound of Flute",
+   "listText": [
+    "[Sorrowful Sound of Flute]",
+    "[Sorrowful Sound of Flute (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30458-01.html",
+     "when": "state STARTED; memo 2; (st.getInt(\"ex\") % 100) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30458-02.html",
+     "when": "state STARTED; memo 2; (st.getInt(\"ex\") % 100) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30458-03.html",
+     "when": "state STARTED; memo 2; (st.getInt(\"ex\") % 100) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30458-04.html",
+     "when": "state STARTED; !(st.isMemoState(2) && ((st.getInt(\"ex\") % 100) < 10)); st.getMemoState() >= 2; (st.getInt(\"ex\") % 100) >= 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30458.htm": {
+   "file": "trainer/30458.htm",
+   "quest": null,
+   "text": "Blacksmith Poitan: Nice to meet you, traveler. I am the Blacksmith of this village. I just opened up for business after completing the workshop's remodeling a few days ago! So, what can I do for you?",
+   "header": "Blacksmith Poitan",
+   "links": [
+    {
+     "text": "Craft a dualsword",
+     "bypass": "npc_%objectId%_Link common/duals_01.htm",
+     "kind": "page",
+     "to": "common/duals_01.htm"
+    },
+    {
+     "text": "Bestow special ability on a weapon",
+     "bypass": "npc_%objectId%_Link common/weapon_sa_01.htm",
+     "kind": "page",
+     "to": "common/weapon_sa_01.htm"
+    },
+    {
+     "text": "Craft an item",
+     "bypass": "npc_%objectId%_Link common/crafting_01.htm",
+     "kind": "page",
+     "to": "common/crafting_01.htm"
+    },
+    {
+     "text": "Seal/Unseal armor and accessories",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "trainer/30458-4.htm"
+    },
+    {
+     "text": "Augment an item",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "trainer/30458-5.htm"
+    },
+    {
+     "text": "Learn skills",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about skill enchantment",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "View information about the lord and tax rate",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30458-4.htm": {
+   "file": "trainer/30458-4.htm",
+   "quest": null,
+   "text": "Blacksmith Poitan: Do you wish to remove the seal on your armor? Sealing or seal removal can be done quite easily here.",
+   "header": "Blacksmith Poitan",
+   "links": [
+    {
+     "text": "Release seal on B-grade gloves and boots.",
+     "bypass": "npc_%objectId%_exc_multisell 1002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Put seal back on B-grade gloves and boots.",
+     "bypass": "npc_%objectId%_exc_multisell 1003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Release seal on A-grade armor.",
+     "bypass": "npc_%objectId%_exc_multisell 311262506",
+     "kind": "multisell"
+    },
+    {
+     "text": "Release seal on A-grade accessory.",
+     "bypass": "npc_%objectId%_exc_multisell 311262507",
+     "kind": "multisell"
+    },
+    {
+     "text": "Put seal back on A-grade armor.",
+     "bypass": "npc_%objectId%_exc_multisell 311262508",
+     "kind": "multisell"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30458.htm"
+    }
+   ]
+  },
+  "trainer/30458-5.htm": {
+   "file": "trainer/30458-5.htm",
+   "quest": null,
+   "text": "Blacksmith Poitan: You can augment an item or remove augment here.",
+   "header": "Blacksmith Poitan",
+   "links": [
+    {
+     "text": "Augment an item",
+     "bypass": "npc_%objectId%_Link common/augmentation_01.htm",
+     "kind": "page",
+     "to": "common/augmentation_01.htm"
+    },
+    {
+     "text": "Remove Augment",
+     "bypass": "npc_%objectId%_Link common/augmentation_02.htm",
+     "kind": "page",
+     "to": "common/augmentation_02.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30458.htm"
+    }
+   ]
+  },
+  "trainer/30458-noteach.htm": {
+   "file": "trainer/30458-noteach.htm",
+   "quest": null,
+   "text": "Blacksmith Poitan: Tsk tsk, I only teach Dwarven Fighters and Artisans. You need to pay more attention to your words. Good day now!",
+   "header": "Blacksmith Poitan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30458-01.html": {
+   "file": "Q00066_CertifiedArbalester/30458-01.html",
+   "quest": 66,
+   "text": "Blacksmith Poitan: Oh, you're a Kamael! I have so many questions for you, but... I'm very busy with Clayton's request right now... Would you mind coming back later?",
+   "header": "Blacksmith Poitan",
+   "when": [
+    "state STARTED; memoState < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30458-02.html": {
+   "file": "Q00066_CertifiedArbalester/30458-02.html",
+   "quest": 66,
+   "text": "Blacksmith Poitan: Oh, you're a Kamael! Tell me: What foods does your race eat? What gods do you worship? What powers do you possess? Any secret skills...?",
+   "header": "Blacksmith Poitan",
+   "when": [
+    "state STARTED; memo 5; !memoState < 5"
+   ],
+   "links": [
+    {
+     "text": "Uhh...well...",
+     "bypass": "Quest Q00066_CertifiedArbalester 30458-03.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30458-03.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30458-03.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30458-04.html": {
+   "file": "Q00066_CertifiedArbalester/30458-04.html",
+   "quest": 66,
+   "text": "Blacksmith Poitan: Ha! How interesting...you, a Kamael, running a Dark Elf's errands...",
+   "header": "Blacksmith Poitan",
+   "when": [
+    "state STARTED; memo 6; !memoState < 5"
+   ],
+   "links": [
+    {
+     "text": "Actually...",
+     "bypass": "Quest Q00066_CertifiedArbalester 30458-06.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30458-06.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30458-06.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30458-10.html": {
+   "file": "Q00066_CertifiedArbalester/30458-10.html",
+   "quest": 66,
+   "text": "Blacksmith Poitan: Did you speak with my friend Holvas ? Not yet? Go see him now...",
+   "header": "Blacksmith Poitan",
+   "when": [
+    "state STARTED; memo 7; !memoState < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30458-01.html": {
+   "file": "Q00214_TrialOfTheScholar/30458-01.html",
+   "quest": 214,
+   "text": "Blacksmith Poitan: The Book of Knowledge? Ha! That was sold long ago. Triff left it to cover his bar tab, but I didn't think he would pay it back so I sold it. It was a Sage who bought it. He was a very eager buyer and paid handsomely for it. If you want the book, talk to him. I have his name here,…",
+   "header": "Blacksmith Poitan",
+   "when": [
+    "state STARTED; has items 2705; lacks items 2711,2715,2709"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30458-02.html": {
+   "file": "Q00214_TrialOfTheScholar/30458-02.html",
+   "quest": 214,
+   "text": "Blacksmith Poitan: I told you the book has already been sold to Elder Casian from the Wastelands ! Go to the Wastelands if you want the book!",
+   "header": "Blacksmith Poitan",
+   "when": [
+    "state STARTED; has items 2705,2711,2715,2709; lacks items 2715,2709"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30458-03.html": {
+   "file": "Q00214_TrialOfTheScholar/30458-03.html",
+   "quest": 214,
+   "text": "Blacksmith Poitan: I guess Elder Casian gave you work to do. Well, nothing is free, my friend.",
+   "header": "Blacksmith Poitan",
+   "when": [
+    "state STARTED; has items 2705,2711,2715,2709; lacks items 2709; !(hasQuestItems(player, POITANS_NOTES) && !hasAtLeastOneQuestItem(player, CASIANS_LIST, SCRIPTURE_CHAPTER_4))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30458-04.html": {
+   "file": "Q00214_TrialOfTheScholar/30458-04.html",
+   "quest": 214,
+   "text": "Blacksmith Poitan: You have found all 4 of the books! Very impressive!",
+   "header": "Blacksmith Poitan",
+   "when": [
+    "state STARTED; has items 2705,2711,2715,2709; lacks items 2711,2715; !(hasQuestItems(player, POITANS_NOTES) && !hasAtLeastOneQuestItem(player, CASIANS_LIST, SCRIPTURE_CHAPTER_4)); !(hasQuestItems(player, POITANS_NOTES, CASIANS_LIST) && !hasQuestItems(player, SCRIPTURE_CHAPTER_4))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30458-01.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30458-01.html",
+   "quest": 363,
+   "text": "Blacksmith Poitan: Oh, Barbado. What would he want? Oh, I know! He mentioned recently that he didn't have anything to wear to a special event? Burp! Perhaps what he needs is a new outfit!",
+   "header": "Blacksmith Poitan",
+   "when": [
+    "state STARTED; memo 2; (st.getInt(\"ex\") % 100) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30458-02.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30458-02.html",
+   "quest": 363,
+   "text": "Blacksmith Poitan: Oh, Barbado. What would he want? Oh, I know! He mentioned recently that he wanted to learn a new instrument! Burp! Perhaps what he wants is a flute!",
+   "header": "Blacksmith Poitan",
+   "when": [
+    "state STARTED; memo 2; (st.getInt(\"ex\") % 100) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30458-03.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30458-03.html",
+   "quest": 363,
+   "text": "Blacksmith Poitan: Oh, Barbado. What would he want? Oh, I know! He likes nothing better than a cold glass of black beer after a performance!",
+   "header": "Blacksmith Poitan",
+   "when": [
+    "state STARTED; memo 2; (st.getInt(\"ex\") % 100) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30458-04.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30458-04.html",
+   "quest": 363,
+   "text": "Blacksmith Poitan: Ha ha ha.... I can't stop laughing! Ha ha ha...",
+   "header": "Blacksmith Poitan",
+   "when": [
+    "state STARTED; !(st.isMemoState(2) && ((st.getInt(\"ex\") % 100) < 10)); st.getMemoState() >= 2; (st.getInt(\"ex\") % 100) >= 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30458-03.html": {
+   "file": "Q00066_CertifiedArbalester/30458-03.html",
+   "quest": 66,
+   "text": "Blacksmith Poitan: Please forgive my lack of manners -- I'm afraid I let my curiosity about your race get the better of me! But tell me, my new friend, how can I help you today? (Hand over the Enmity Crystal Core.)",
+   "header": "Blacksmith Poitan",
+   "links": [
+    {
+     "text": "I was sent by Magister Clayton, but...",
+     "bypass": "Quest Q00066_CertifiedArbalester 30458-05.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30458-05.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30458-05.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30458-05.html": {
+   "file": "Q00066_CertifiedArbalester/30458-05.html",
+   "quest": 66,
+   "text": "Blacksmith Poitan: Ha! How interesting...you, a Kamael, running a Dark Elf's errands...",
+   "header": "Blacksmith Poitan",
+   "links": [
+    {
+     "text": "Actually...",
+     "bypass": "Quest Q00066_CertifiedArbalester 30458-06.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30458-06.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30458-06.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30458-06.html": {
+   "file": "Q00066_CertifiedArbalester/30458-06.html",
+   "quest": 66,
+   "text": "Blacksmith Poitan: (Talk about the Dark Elf Clayton and answer Poitan's questions.) Hmm... I see. Even before the seal on your island was removed and you began to appear on the mainland, we Dwarves were vaguely aware of your existence through various records and research left behind by beings who w…",
+   "header": "Blacksmith Poitan",
+   "links": [
+    {
+     "text": "Beings like mountains?",
+     "bypass": "Quest Q00066_CertifiedArbalester 30458-07.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30458-07.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30458-07.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30458-07.html": {
+   "file": "Q00066_CertifiedArbalester/30458-07.html",
+   "quest": 66,
+   "text": "Blacksmith Poitan: Sorry! The Giants, I mean -- sometimes I lapse into my native tongue, which is somewhat more...poetic. The Giants were a great race who lived long, long ago. Through their science, they become almost the equal of the gods themselves. Our Dwarven skills, as well as many of the mag…",
+   "header": "Blacksmith Poitan",
+   "links": [
+    {
+     "text": "I see. So where can I meet them?",
+     "bypass": "Quest Q00066_CertifiedArbalester 30458-08.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30458-08.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30458-08.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30458-08.html": {
+   "file": "Q00066_CertifiedArbalester/30458-08.html",
+   "quest": 66,
+   "text": "Blacksmith Poitan: Alas, they can no longer be found in this world. Perhaps they became extinct or migrated to another part of the world or evolved into other beings... Truthfully, we don't know. We have only a handful of myths and historians' theories. Just speculations, mind you, but... There are…",
+   "header": "Blacksmith Poitan",
+   "links": [
+    {
+     "text": "What is it?",
+     "bypass": "Quest Q00066_CertifiedArbalester 30458-09.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30458-09.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30458-09.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30458-09.html": {
+   "file": "Q00066_CertifiedArbalester/30458-09.html",
+   "quest": 66,
+   "text": "Blacksmith Poitan: I heard that a Dwarven explorer discovered some records left by the Giants about your race at the Giants' Ruins. Unfortunately, both he and the records seem to have disappeared. Nobody knows if he is alive or dead... I heard this from my close friend Holvas , so if you're interes…",
+   "header": "Blacksmith Poitan",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Arbalester (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00066_CertifiedArbalester",
+     "kind": "quest",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30458-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Trial of the Scholar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00214_TrialOfTheScholar",
+     "kind": "quest",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30458-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Sorrowful Sound of Flute (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00363_SorrowfulSoundOfFlute",
+     "kind": "quest",
+     "quest": 363,
+     "to": "Q00363_SorrowfulSoundOfFlute/30458-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/duals_01.htm": {
+   "file": "common/duals_01.htm",
+   "quest": null,
+   "text": "Needless to say, in order to make a Dualsword, you first need two swords. They can be either Regular weapons, Standard weapons or Rare weapons. Regular weapons can only be combined with other Regular weapons, Standard weapons can only be combined with other Standard weapons, and Rare weapons can on…",
+   "links": [
+    {
+     "text": "View the list.",
+     "bypass": "npc_%objectId%_multisell 1001",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/weapon_sa_01.htm": {
+   "file": "common/weapon_sa_01.htm",
+   "quest": null,
+   "text": "Ah, so you wish to enhance your weapon! Well, it's the next-best thing to buying a new one, I say... But remember, a higher price doesn't necessarily mean a better product. There are many excellent weapons that are reasonably priced. As I'm sure you know, capabilities added to your weapon don't int…",
+   "live": {
+    "file": "Logs/npclive_Helton_e05f98c9.html",
+    "at": "2026-10-27T14:45:13.618Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "View list.",
+     "bypass": "npc_%objectId%_exc_multisell 1005",
+     "kind": "multisell",
+     "live": true
+    }
+   ]
+  },
+  "common/crafting_01.htm": {
+   "file": "common/crafting_01.htm",
+   "quest": null,
+   "text": "[Create ingredient item] Our Blacksmith Guild creates items at a very reasonable price. You may entrust your precious materials to our Blacksmiths. They have a long-standing tradition of integrity. We will do our best to serve you. The creation of the ingredient for A-grade items is the pride of ou…",
+   "links": [
+    {
+     "text": "See the list.",
+     "bypass": "npc_%objectId%_multisell 1004",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/augmentation_01.htm": {
+   "file": "common/augmentation_01.htm",
+   "quest": null,
+   "text": "Augmenting means give energy to weapons or accessories. Augmenting is simple, but it isn't always accurate. A few days ago, a mysterious ore called Life Stone, which has a very similar characteristic to Soul Crystals, was found in Black Anvil. If you bring this Life Stone and some other necessities…",
+   "links": [
+    {
+     "text": "Start augmenting.",
+     "bypass": "npc_%objectId%_Augment 1",
+     "kind": "other"
+    },
+    {
+     "text": "Exchange Life Stone for augmenting accesorries.",
+     "bypass": "npc_%objectId%_multisell 1008",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/augmentation_02.htm": {
+   "file": "common/augmentation_02.htm",
+   "quest": null,
+   "text": "You wish to remove the refined Life Stone? That's fine. But understand that this smelting method offers both improvement and potential penalties. It is difficult to restore the original weapon when removing the Life Stone. It requires a special chemical process and a special tool. It's also expensi…",
+   "links": [
+    {
+     "text": "Remove the refined Life Stone.",
+     "bypass": "npc_%objectId%_Augment 2",
+     "kind": "other"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

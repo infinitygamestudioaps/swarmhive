@@ -1,0 +1,300 @@
+{
+ "npcId": 30149,
+ "name": "Creamees",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.852Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30149.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "160": {
+   "name": "Nerupa's Request",
+   "listText": [
+    "[Nerupa's Request]",
+    "[Nerupa's Request (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00160_NerupasRequest/30149-01.html",
+     "when": "state STARTED; has items 1027",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00160_NerupasRequest/30149-02.html",
+     "when": "state STARTED; has items 1028; lacks items 1027",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00160_NerupasRequest/30149-03.html",
+     "when": "state STARTED; has items 1029; lacks items 1027,1028",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "164": {
+   "name": "Blood Fiend",
+   "listText": [
+    "[Blood Fiend]",
+    "[Blood Fiend (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00164_BloodFiend/30149-03.htm",
+     "when": "state CREATED; (player.getRace() != Race.DARK_ELF); player.getLevel() >= MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00164_BloodFiend/30149-02.htm",
+     "when": "state CREATED; (player.getRace() != Race.DARK_ELF); NOT player.getLevel() >= MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00164_BloodFiend/30149-00.htm",
+     "when": "state CREATED; NOT (player.getRace() != Race.DARK_ELF)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00164_BloodFiend/30149-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00164_BloodFiend/30149-05.html",
+     "when": "state STARTED; !(st.isCond(2) && st.hasQuestItems(KIRUNAK_SKULL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30149.htm": {
+   "file": "merchant/30149.htm",
+   "quest": null,
+   "text": "Merchant Creamees: Welcome, friend! Ah, the herbs smell wonderful, don't they? My young friend Herbiel is making a new secret potion. Why don't you take a look? Perhaps you will find something you need...",
+   "header": "Merchant Creamees",
+   "links": [
+    {
+     "text": "Trade accessories.",
+     "bypass": "npc_%objectId%_Buy 3014900",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true,
+     "dpText": "Quest"
+    }
+   ]
+  },
+  "merchant/30149-pk.htm": {
+   "file": "merchant/30149-pk.htm",
+   "quest": null,
+   "text": "Trader Creamees: Leave this place before I call upon the spirits of the forest to harm you.",
+   "header": "Trader Creamees",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00160_NerupasRequest/30149-01.html": {
+   "file": "Q00160_NerupasRequest/30149-01.html",
+   "quest": 160,
+   "text": "Trader Creamees: The item that Unoren ordered? Oh, you mean the Nightshade Leaf. I went through a bit of trouble to get this... I stored it in the warehouse because it's such a rare item... If you take this ticket and go see Julia at the warehouse, she'll give you the Nightshade Leaf.",
+   "header": "Trader Creamees",
+   "when": [
+    "state STARTED; has items 1027"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00160_NerupasRequest/30149-02.html": {
+   "file": "Q00160_NerupasRequest/30149-02.html",
+   "quest": 160,
+   "text": "Trader Creamees: Did you get the Nightshade Leaf from Julia? Not yet? Go to the warehouse and show Julia the ticket I gave you. Then she will give you the Nightshade Leaf that I stored there.",
+   "header": "Trader Creamees",
+   "when": [
+    "state STARTED; has items 1028; lacks items 1027"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00160_NerupasRequest/30149-03.html": {
+   "file": "Q00160_NerupasRequest/30149-03.html",
+   "quest": 160,
+   "text": "Trader Creamees: I see you've gotten the Nightshade Leaf. Please deliver it the Unoren at the weapon shop.",
+   "header": "Trader Creamees",
+   "when": [
+    "state STARTED; has items 1029; lacks items 1027,1028"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00164_BloodFiend/30149-03.htm": {
+   "file": "Q00164_BloodFiend/30149-03.htm",
+   "quest": 164,
+   "text": "Trader Creamees: Among the many battles with the Dark Elves, the fiercest battle took place in the Underground Fortress. The last battle between the two races happened there. The blood of the injured from both sides ran red on the floor of the fortress, and crows covered the skies. Suddenly, the ga…",
+   "header": "Trader Creamees",
+   "when": [
+    "state CREATED; (player.getRace() != Race.DARK_ELF); player.getLevel() >= MIN_LVL"
+   ],
+   "links": [
+    {
+     "text": "Say you will avenge them",
+     "bypass": "Quest Q00164_BloodFiend 30149-04.htm",
+     "kind": "quest-event",
+     "script": "Q00164_BloodFiend",
+     "event": "30149-04.htm",
+     "quest": 164,
+     "to": "Q00164_BloodFiend/30149-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00164_BloodFiend/30149-02.htm": {
+   "file": "Q00164_BloodFiend/30149-02.htm",
+   "quest": 164,
+   "text": "Trader Creamees: Among the many battles with the Dark Elves, the fiercest battle took place in the Underground Fortress. The last battle between the two races happened there. The blood of the injured from both sides ran red on the floor of the fortress, and crows covered the skies. Suddenly, the ga…",
+   "header": "Trader Creamees",
+   "when": [
+    "state CREATED; (player.getRace() != Race.DARK_ELF); NOT player.getLevel() >= MIN_LVL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00164_BloodFiend/30149-00.htm": {
+   "file": "Q00164_BloodFiend/30149-00.htm",
+   "quest": 164,
+   "text": "Trader Creamees: Personally, I don't want to work with Dark Elves like you. If I think of what I lost to the race of darkness, I want to draw my sword and cut off your head this very moment. You may think me rude to say so, but that is my honest feeling. (Not available for Dark Elven characters.)",
+   "header": "Trader Creamees",
+   "when": [
+    "state CREATED; NOT (player.getRace() != Race.DARK_ELF)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00164_BloodFiend/30149-06.html": {
+   "file": "Q00164_BloodFiend/30149-06.html",
+   "quest": 164,
+   "text": "Trader Creamees: The skull of the Blood Fiend Kirunak... if only this would wash away the sins of the past... Thank you. I'll compensate you as promised. And... I must make a confession. It was not the Dark Elven Mystics, but I that called forth Kirunak from hell during the last siege of the fortre…",
+   "header": "Trader Creamees",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00164_BloodFiend/30149-05.html": {
+   "file": "Q00164_BloodFiend/30149-05.html",
+   "quest": 164,
+   "text": "Trader Creamees: In order to make our revenge complete, you must slay Kirunak , the leader of the Drevanuls. Please hurry and kill this monster. May the brilliance of Einhasad's will protect you. Do not hesitate to raise high the sword of revenge!",
+   "header": "Trader Creamees",
+   "when": [
+    "state STARTED; !(st.isCond(2) && st.hasQuestItems(KIRUNAK_SKULL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00164_BloodFiend/30149-04.htm": {
+   "file": "Q00164_BloodFiend/30149-04.htm",
+   "quest": 164,
+   "text": "Trader Creamees: The Drevanul devils that came through the gates of hell during the last battle still live in the ruins of the Underground Fortress. Their leader is the Drevanul Kirunak , also called the 'Blood Fiend'. Slay Kirunak and bring back his skull as proof of his death. Our revenge will th…",
+   "header": "Trader Creamees",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Nerupa's Request (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00160_NerupasRequest",
+     "kind": "quest",
+     "quest": 160,
+     "to": "Q00160_NerupasRequest/30149-01.html",
+     "when": "quest in progress",
+     "live": true
+    },
+    {
+     "text": "[Blood Fiend]",
+     "bypass": "npc_%objectId%_Quest Q00164_BloodFiend",
+     "kind": "quest",
+     "quest": 164,
+     "to": "Q00164_BloodFiend/30149-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Blood Fiend (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00164_BloodFiend",
+     "kind": "quest",
+     "quest": 164,
+     "to": "Q00164_BloodFiend/30149-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Quest.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Trader Creamees:Welcome, brother! The herbs smell good, don'"
+   ],
+   "to": [
+    "[Nerupa's Request (In Progress)][Blood Fiend]"
+   ]
+  },
+  {
+   "text": "[Nerupa's Request (In Progress)]",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "[Nerupa's Request (In Progress)][Blood Fiend]"
+   ],
+   "to": [
+    "Trader Creamees:The goods that Unoren ordered? Ah, you're ta"
+   ]
+  }
+ ]
+}

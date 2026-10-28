@@ -1,0 +1,354 @@
+{
+ "npcId": 30316,
+ "name": "Raut",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.932Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30316.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "214": {
+   "name": "Trial Of The Scholar",
+   "listText": [
+    "[Trial of the Scholar]",
+    "[Trial of the Scholar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00214_TrialOfTheScholar/30316-01.html",
+     "when": "state STARTED; has items 2703,2704",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30316-04.html",
+     "when": "state STARTED; has items 2703,2706,2713; lacks items 2704",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30316-05.html",
+     "when": "state STARTED; has items 2703,2706,2705; lacks items 2704,2706,2713",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "417": {
+   "name": "Path Of The Scavenger",
+   "listText": [
+    "[Path of the Scavenger]",
+    "[Path of the Scavenger (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00417_PathOfTheScavenger/30316-01.html",
+     "when": "state STARTED; has items 1657; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30316-04.html",
+     "when": "state STARTED; has items 1644; lacks items 1657; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30316-05.html",
+     "when": "state STARTED; has items 1645; lacks items 1657,1644; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30316.htm": {
+   "file": "warehouse/30316.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Raut: Welcome! Our Iron Gate Guild can safely store and deliver your items even during wartime. You can recover anything you deposit at any time, so don't worry.",
+   "header": "Warehouse Keeper Raut",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/privatewh.htm",
+     "kind": "page",
+     "to": "warehouse/privatewh.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/clanwh.htm",
+     "kind": "page",
+     "to": "warehouse/clanwh.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30316-noteach.htm": {
+   "file": "warehouse/30316-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Raut: I teach Dwarven Fighters, Scavengers, and Bounty Hunters only. If you are an Artisan, please go to a Blacksmith.",
+   "header": "Warehouse Keeper Raut",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30316-01.html": {
+   "file": "Q00214_TrialOfTheScholar/30316-01.html",
+   "quest": 214,
+   "text": "Warehouse Keeper Raut: What, this envelope? It can't be... After so long, and now...? Oh, my... Please forgive me. It was a thoughtless mistake by my brother when he was young. I apologize for him. Please forgive us this one time.",
+   "header": "Warehouse Keeper Raut",
+   "when": [
+    "state STARTED; has items 2703,2704"
+   ],
+   "links": [
+    {
+     "text": "\"I don't understand what's going on.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30316-02.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30316-02.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30316-02.html",
+     "effect": "cond:25"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30316-04.html": {
+   "file": "Q00214_TrialOfTheScholar/30316-04.html",
+   "quest": 214,
+   "text": "Warehouse Keeper Raut: Have you met my brother? He can be found near the harbor . If you give him the wine that I gave you, he will answer your questions.",
+   "header": "Warehouse Keeper Raut",
+   "when": [
+    "state STARTED; has items 2703,2706,2713; lacks items 2704"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30316-05.html": {
+   "file": "Q00214_TrialOfTheScholar/30316-05.html",
+   "quest": 214,
+   "text": "Warehouse Keeper Raut: I didn't realize that my brother had stolen such an important thing... By all means, I shall pray for you to find the rest of the Scriptures of Knowledge.",
+   "header": "Warehouse Keeper Raut",
+   "when": [
+    "state STARTED; has items 2703,2706,2705; lacks items 2704,2706,2713"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30316-01.html": {
+   "file": "Q00417_PathOfTheScavenger/30316-01.html",
+   "quest": 417,
+   "text": "Warehouse Keeper Raut: What? This takes the place of the debt? This is not even a tenth of what he borrowed from me! Hmm... I f you do one favor for me on behalf of that sneak, then I will consider the debt repaid. What do you think?",
+   "header": "Warehouse Keeper Raut",
+   "when": [
+    "state STARTED; has items 1657; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "I'll do it!",
+     "bypass": "Quest Q00417_PathOfTheScavenger 30316-02.html",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "30316-02.html",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30316-02.html",
+     "effect": "cond:10"
+    },
+    {
+     "text": "No!",
+     "bypass": "Quest Q00417_PathOfTheScavenger 30316-03.html",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "30316-03.html",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30316-03.html",
+     "effect": "cond:10"
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30316-04.html": {
+   "file": "Q00417_PathOfTheScavenger/30316-04.html",
+   "quest": 417,
+   "text": "Warehouse Keeper Raut: Torai said he was going to Dragon Valley . He speaks with an accent because he lives in the country, so you will be able to recognize him. I hope he is safe... Phew... Thank goodness.",
+   "header": "Warehouse Keeper Raut",
+   "when": [
+    "state STARTED; has items 1644; lacks items 1657; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30316-05.html": {
+   "file": "Q00417_PathOfTheScavenger/30316-05.html",
+   "quest": 417,
+   "text": "Warehouse Keeper Raut: The rascal has already arrived. Thank you. Hey, that's my wife's prized possession, taken by Torai! Give that here! Phew! Anyway, since you did the job, I will keep my promise. Here is the mark of the scavenger. Take this to Warehouse Chief Moke to change profession to Scaven…",
+   "header": "Warehouse Keeper Raut",
+   "when": [
+    "state STARTED; has items 1645; lacks items 1657,1644; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30316-02.html": {
+   "file": "Q00214_TrialOfTheScholar/30316-02.html",
+   "quest": 214,
+   "text": "Warehouse Keeper Raut: What? Weren't you here looking for the Scriptures of Knowledge? I have been suffering from bad dreams for the last couple of nights. Every night an old man appears and demands that I give the scripture to the person who brings this envelope. First I thought it was just a sill…",
+   "header": "Warehouse Keeper Raut",
+   "sets": {
+    "cond": "25"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Where is your brother?\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30316-03.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30316-03.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30316-03.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30316-03.html": {
+   "file": "Q00214_TrialOfTheScholar/30316-03.html",
+   "quest": 214,
+   "text": "Warehouse Keeper Raut: You will find my brother near the harbor . He drinks there everyday. If you go and mention my name he will talk to you.",
+   "header": "Warehouse Keeper Raut",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30316-02.html": {
+   "file": "Q00417_PathOfTheScavenger/30316-02.html",
+   "quest": 417,
+   "text": "Warehouse Keeper Raut: Good, I like your frankness. Actually, I have a nuisance of a nephew. One day the rascal was teased by his friends because he had bluffed that he could sell items to the monsters of Dragon Valley . And then the next day, he left with everything in the warehouse! Since he is t…",
+   "header": "Warehouse Keeper Raut",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30316-03.html": {
+   "file": "Q00417_PathOfTheScavenger/30316-03.html",
+   "quest": 417,
+   "text": "Warehouse Keeper Raut: I'm sorry but you must do it. Do you know what that fraud Toma gave me when he said he would repay his debts? It is none other than the mark of the raider that you want. Now do you know why you must listen to my request? Then let me tell you what you need to do. I have a nuis…",
+   "header": "Warehouse Keeper Raut",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Scholar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00214_TrialOfTheScholar",
+     "kind": "quest",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30316-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Scavenger (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00417_PathOfTheScavenger",
+     "kind": "quest",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30316-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "warehouse/privatewh.htm": {
+   "file": "warehouse/privatewh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Private Warehouse",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item from the Private Warehouse",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "warehouse/clanwh.htm": {
+   "file": "warehouse/clanwh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item from the Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "npcId": 31920,
+ "name": "Ghost Chamberlain of Elmoreden",
+ "title": "",
+ "type": "L2SepulcherNpc",
+ "generated": "2026-10-27T18:18:03.297Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Teleports/GhostChamberlainOfElmoreden/31920-01.html": {
+   "file": "ai/npc/Teleports/GhostChamberlainOfElmoreden/31920-01.html",
+   "quest": null,
+   "text": "Ghost Page of Elmoreden: I teleport travelers to the Imperial Tomb. Only those who have visited the Four Sepulchers in the past may go there. To teleport, the traveler must carry a used pass for the sepulcher. I can also teleport those who possess any document that proves that they are directly con…",
+   "header": "Ghost Page of Elmoreden",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/GhostChamberlainOfElmoreden/31920.html": {
+   "file": "ai/npc/Teleports/GhostChamberlainOfElmoreden/31920.html",
+   "quest": null,
+   "text": "Elmoreden Servant's Ghost: Woooo! I'm a ghost servant of the ancient Elmoreden Empire! I worked in the cemetery when I was a mortal being. Now I'm here to help travelers going to the Imperial Tomb. My boss is in the Pilgrim's Temple. He also helps people visit the cemetery. Would you like to visit …",
+   "header": "Elmoreden Servant's Ghost",
+   "links": [
+    {
+     "text": "\"I want to visit the Four Sepulchers.\"",
+     "bypass": "Quest GhostChamberlainOfElmoreden FOUR_SEPULCHERS",
+     "kind": "quest-event",
+     "script": "GhostChamberlainOfElmoreden",
+     "event": "FOUR_SEPULCHERS",
+     "to": "ai/npc/Teleports/GhostChamberlainOfElmoreden/31920-01.html"
+    },
+    {
+     "text": "\"I want to visit the entrance to the Imperial Tomb.\"",
+     "bypass": "Quest GhostChamberlainOfElmoreden IMPERIAL_TOMB",
+     "kind": "quest-event",
+     "script": "GhostChamberlainOfElmoreden",
+     "event": "IMPERIAL_TOMB",
+     "to": "ai/npc/Teleports/GhostChamberlainOfElmoreden/31920-01.html"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

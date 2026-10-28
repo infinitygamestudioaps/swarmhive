@@ -1,0 +1,89 @@
+{
+ "npcId": 32632,
+ "name": "Gracian Survivor",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.393Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32632.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32632.htm": {
+   "file": "default/32632.htm",
+   "quest": null,
+   "text": "Gracia Survivor: Do you know of the continent of Gracia? It is located far across the sea from Aden; its land is barren and its climate is rough. Despite these challenges -- or perhaps because of them -- it was the home of a strong, hardy people. But now all has changed... Strange Seeds appeared th…",
+   "header": "Gracia Survivor",
+   "links": [
+    {
+     "text": "Ask how to help Gracia.",
+     "bypass": "npc_%objectId%_Quest Survivor",
+     "kind": "quest",
+     "script": "Survivor",
+     "to": "ai/npc/Teleports/Survivor/32632-1.htm"
+    },
+    {
+     "text": "Ask about the current situation in Gracia.",
+     "bypass": "npc_%objectId%_Quest Survivor STATUS",
+     "kind": "quest-event",
+     "script": "Survivor",
+     "event": "STATUS",
+     "to": "ai/npc/Teleports/Survivor/32632-4.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/Survivor/32632-1.htm": {
+   "file": "ai/npc/Teleports/Survivor/32632-1.htm",
+   "quest": null,
+   "text": "Gracia Survivor: There is a place at the western end of Aden, on the shores of the Sea of Gludio, where airships depart for Gracia. It's a wharf created through ancient Giant technology and the best Aden engineers. Since it floats in mid-air, however, there's no way to go there directly. The only w…",
+   "header": "Gracia Survivor",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Move to Gludio Airship Wharf (150,000 Adena).",
+     "bypass": "Quest Survivor 32632-2.htm",
+     "kind": "quest-event",
+     "script": "Survivor",
+     "event": "32632-2.htm",
+     "to": "ai/npc/Teleports/Survivor/32632-2.htm",
+     "toAll": [
+      "ai/npc/Teleports/Survivor/32632-2.htm",
+      "ai/npc/Teleports/Survivor/32632-3.htm"
+     ]
+    }
+   ]
+  },
+  "ai/npc/Teleports/Survivor/32632-2.htm": {
+   "file": "ai/npc/Teleports/Survivor/32632-2.htm",
+   "quest": null,
+   "text": "Gracia Survivor: I understand. But as I told you earlier, if you're short of money, you can still get to Gracia through another route. Visit the gatekeeper in Gludio Castle Village or Talking Island, and they can send you to the Airship Wharf. I hope you will do so. We can use everyone we can!",
+   "header": "Gracia Survivor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/Survivor/32632-3.htm": {
+   "file": "ai/npc/Teleports/Survivor/32632-3.htm",
+   "quest": null,
+   "text": "Gracia Survivor: I understand. But Gracia is not a place to be taken lightly. Given your inexperience, even if you go there you would only be a liability to the effort. Aden also has many monsters and the need for adventurers to fight them. Build skills here, then go to Gracia. (It is recommended t…",
+   "header": "Gracia Survivor",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Teleports/Survivor/32632-4.htm": {
+   "file": "ai/npc/Teleports/Survivor/32632-4.htm",
+   "quest": null,
+   "text": "Gracia Survivor: The current situation in Gracia? For the Seed of Destruction... %sod% As for the Seed of Infinity... %soi%",
+   "header": "Gracia Survivor",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

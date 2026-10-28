@@ -1,0 +1,113 @@
+{
+ "npcId": 30762,
+ "name": "Corpse Of Lutz",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.074Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30762.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "503": {
+   "name": "Pursuit Of Clan Ambition",
+   "listText": [
+    "[Pursuit of Clan Ambition!]",
+    "[Pursuit of Clan Ambition! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30762-01.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); qs.getMemoState() < 3000; qs.getMemoState() >= 2000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30762.htm": {
+   "file": "default/30762.htm",
+   "quest": null,
+   "text": "Corpse of Lutz: The corpse of a Dwarf, apparently the victim of a grievous injury.",
+   "header": "Corpse of Lutz",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30762-1.htm": {
+   "file": "default/30762-1.htm",
+   "quest": null,
+   "text": "Corpse of Lutz: It is empty.",
+   "header": "Corpse of Lutz",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30762-01.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30762-01.html",
+   "quest": 503,
+   "text": "Corpse of Lutz: The corpse of a Dwarf with a large bag.",
+   "header": "Corpse of Lutz",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); qs.getMemoState() < 3000; qs.getMemoState() >= 2000"
+   ],
+   "links": [
+    {
+     "text": "Open the bag",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30762-02.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30762-02.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30762-02.html",
+     "toAll": [
+      "Q00503_PursuitOfClanAmbition/30762-02.html",
+      "Q00503_PursuitOfClanAmbition/30762-03.html"
+     ]
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30762-02.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30762-02.html",
+   "quest": 503,
+   "text": "Corpse of Lutz: There are three Blitz Wyrm Eggs and four Mist Drake Eggs inside.",
+   "header": "Corpse of Lutz",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30762-03.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30762-03.html",
+   "quest": 503,
+   "text": "Corpse of Lutz: It is empty.",
+   "header": "Corpse of Lutz",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Pursuit of Clan Ambition! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00503_PursuitOfClanAmbition",
+     "kind": "quest",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30762-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

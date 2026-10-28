@@ -1,0 +1,408 @@
+{
+ "npcId": 30916,
+ "name": "Gosta",
+ "title": "Captain",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.111Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "guard/30916.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "351": {
+   "name": "Black Swan",
+   "listText": [
+    "[Black Swan]",
+    "[Black Swan (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00351_BlackSwan/30916-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00351_BlackSwan/30916-04.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00351_BlackSwan/30916-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10278": {
+   "name": "Mutated Kaneus - Heine",
+   "listText": [
+    "[Mutated Kaneus - Heine]",
+    "[Mutated Kaneus - Heine (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10278_MutatedKaneusHeine/30916-01.htm",
+     "when": "state CREATED; (player.getLevel() > 37)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10278_MutatedKaneusHeine/30916-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() > 37)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10278_MutatedKaneusHeine/30916-05.htm",
+     "when": "state STARTED; (st.hasQuestItems(TISSUE_BO) && st.hasQuestItems(TISSUE_WB))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10278_MutatedKaneusHeine/30916-04.htm",
+     "when": "state STARTED; NOT (st.hasQuestItems(TISSUE_BO) && st.hasQuestItems(TISSUE_WB))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10278_MutatedKaneusHeine/30916-06.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30916.htm": {
+   "file": "guard/30916.htm",
+   "quest": null,
+   "text": "Captain Gosta: Welcome to Heine, my dear traveler. I am Captain Gosta, in charge of security for the entire city. Innaril is also know as the city of water. It is a center of commerce with trade routes to Gludio and Giran.",
+   "header": "Captain Gosta",
+   "links": [
+    {
+     "text": "Ask about Kamaloka.",
+     "bypass": "guard/kamaloka_help.htm",
+     "kind": "page",
+     "to": "guard/kamaloka_help.htm"
+    },
+    {
+     "text": "Look at the list of Kamaloka.",
+     "bypass": "guard/kamaloka_level.htm",
+     "kind": "page",
+     "to": "guard/kamaloka_level.htm"
+    },
+    {
+     "text": "Enter Kamaloka.",
+     "bypass": "npc_%objectId%_Quest Kamaloka",
+     "kind": "quest",
+     "script": "Kamaloka",
+     "live": true
+    },
+    {
+     "text": "\"Tell me more about Innadril.\"",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "guard/30916-4.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30916-4.htm": {
+   "file": "guard/30916-4.htm",
+   "quest": null,
+   "text": "Captain Gosta: Heine, located on the Innadril Peninsula, is divided into several areas. Each one is surrounded by waterways and connected to there is a store and a blacksmith shop. The guilds are located in the northeast block. The town square is in the central block and a temple and a warehouse ca…",
+   "header": "Captain Gosta",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30916.htm"
+    }
+   ]
+  },
+  "Q00351_BlackSwan/30916-01.htm": {
+   "file": "Q00351_BlackSwan/30916-01.htm",
+   "quest": 351,
+   "text": "Captain Gosta: Don't you realize that the Heine family is the most prominent family in all of Heine? For years they have dominated Innadril's commerce and it is rumored that their personal fortune has swelled to several billion Adena. Now word comes that cargo belonging to Iason Heine, the patriarc…",
+   "header": "Captain Gosta",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Was he successful?\"",
+     "bypass": "Quest Q00351_BlackSwan 30916-02.htm",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30916-02.htm",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30916-02.htm"
+    }
+   ]
+  },
+  "Q00351_BlackSwan/30916-04.html": {
+   "file": "Q00351_BlackSwan/30916-04.html",
+   "quest": 351,
+   "text": "Captain Gosta: Don't you realize that the Heine family is the most prominent family in all of Heine? For years they have dominated Innadril's commerce and it is rumored that their personal fortune has swelled to several billion Adena. Now word comes that cargo belonging to Iason Heine, the patriarc…",
+   "header": "Captain Gosta",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00351_BlackSwan/30916-05.html": {
+   "file": "Q00351_BlackSwan/30916-05.html",
+   "quest": 351,
+   "text": "Captain Gosta: How is your mission coming along? He may have many faults, but one thing you can say about Duke Iason Heine , he is not a miser. You will be well-compensated for your efforts. Still, you mustn't believe everything he says...",
+   "header": "Captain Gosta",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10278_MutatedKaneusHeine/30916-01.htm": {
+   "file": "Q10278_MutatedKaneusHeine/30916-01.htm",
+   "quest": 10278,
+   "text": "Captain Gosta: I heard tales of your recent activities. You have already acquired a reputation as an accomplished adventurer. Perhaps you have already heard about the Mutated Kaneus of Kamaloka . I have been asked to help investigate these strange creatures, but my duties unfortunately keep me far …",
+   "header": "Captain Gosta",
+   "when": [
+    "state CREATED; (player.getLevel() > 37)"
+   ],
+   "links": [
+    {
+     "text": "\"What kind of help do you need?\"",
+     "bypass": "Quest Q10278_MutatedKaneusHeine 30916-02.htm",
+     "kind": "quest-event",
+     "script": "Q10278_MutatedKaneusHeine",
+     "event": "30916-02.htm",
+     "quest": 10278,
+     "to": "Q10278_MutatedKaneusHeine/30916-02.htm"
+    }
+   ]
+  },
+  "Q10278_MutatedKaneusHeine/30916-00.htm": {
+   "file": "Q10278_MutatedKaneusHeine/30916-00.htm",
+   "quest": 10278,
+   "text": "Captain Gosta: Based on my observations, I don't think you are yet ready to handle the Kaneus. (Only characters level 38 and above are permitted to undertake this quest.)",
+   "header": "Captain Gosta",
+   "when": [
+    "state CREATED; NOT (player.getLevel() > 37)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10278_MutatedKaneusHeine/30916-05.htm": {
+   "file": "Q10278_MutatedKaneusHeine/30916-05.htm",
+   "quest": 10278,
+   "text": "Captain Gosta: Ah! Are these the cellular tissues of Blade Otis and Weird Bunei ? From their pristine appearance, I can tell you were very careful. I couldn't have done better myself. Well done! Now take these samples to Magister Minevia at the Temple of Einhasad. He will be very pleased. If we can…",
+   "header": "Captain Gosta",
+   "when": [
+    "state STARTED; (st.hasQuestItems(TISSUE_BO) && st.hasQuestItems(TISSUE_WB))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10278_MutatedKaneusHeine/30916-04.htm": {
+   "file": "Q10278_MutatedKaneusHeine/30916-04.htm",
+   "quest": 10278,
+   "text": "Captain Gosta: The magisters become agitated if their research is delayed for any reason, so deliver the cellular tissue samples as quickly as possible. Those aren't people you want irritated with you, you know! Hurry to Kamaloka, and good hunting!",
+   "header": "Captain Gosta",
+   "when": [
+    "state STARTED; NOT (st.hasQuestItems(TISSUE_BO) && st.hasQuestItems(TISSUE_WB))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10278_MutatedKaneusHeine/30916-06.htm": {
+   "file": "Q10278_MutatedKaneusHeine/30916-06.htm",
+   "quest": 10278,
+   "text": "Captain Gosta: Ah, it's you! Magister Minevia asked me to convey his gratitude to you. He said that the cellular tissues of the mutated Kaneus from the Kamaloka of Heine that you delivered to the Sages of Magic were a great help. Well done!",
+   "header": "Captain Gosta",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00351_BlackSwan/30916-02.htm": {
+   "file": "Q00351_BlackSwan/30916-02.htm",
+   "quest": 351,
+   "text": "Captain Gosta: Duke Iason Heine refused the Lord's offer, saying that it was a private matter and he would deal with it. This would be a good time to compliment the Duke on his concern for the public treasury, but, alas, I know him too well. Anyway, I'm recruiting volunteers to drive away the Tasab…",
+   "header": "Captain Gosta",
+   "links": [
+    {
+     "text": "\"I will join your effort against the Tasaba lizardmen.\"",
+     "bypass": "Quest Q00351_BlackSwan 30916-03.htm",
+     "kind": "quest-event",
+     "script": "Q00351_BlackSwan",
+     "event": "30916-03.htm",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30916-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00351_BlackSwan/30916-03.htm": {
+   "file": "Q00351_BlackSwan/30916-03.htm",
+   "quest": 351,
+   "text": "Captain Gosta: Regardless of his character, Duke Iason Heine has a point. The Tasaba lizardmen are definitely a menace to Innadril. It would be one thing if all they did was attack travelers, but now it is said they have something far more sinister planned... Take this order. I wish you luck.",
+   "header": "Captain Gosta",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10278_MutatedKaneusHeine/30916-02.htm": {
+   "file": "Q10278_MutatedKaneusHeine/30916-02.htm",
+   "quest": 10278,
+   "text": "Captain Gosta: The favor I ask is on behalf of Magister Minevia of the Temple of Einhasad. The Sages of Magic, a group of magisters of which Magister Minevia is a member, are researching the Kaneus: recently discovered monsters of Kamaloka. They know that Kamaloka exists between this world and the …",
+   "header": "Captain Gosta",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q10278_MutatedKaneusHeine 30916-03.htm",
+     "kind": "quest-event",
+     "script": "Q10278_MutatedKaneusHeine",
+     "event": "30916-03.htm",
+     "quest": 10278,
+     "to": "Q10278_MutatedKaneusHeine/30916-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10278_MutatedKaneusHeine/30916-03.htm": {
+   "file": "Q10278_MutatedKaneusHeine/30916-03.htm",
+   "quest": 10278,
+   "text": "Captain Gosta: Excellent! Visit either of the 2 Kamalokas we can enter from Heine, kill the Kaneus there and extract their cellular tissues. You will face the Blade Otis and Weird Bunei Kaneus. The Blade Otis is much weaker, so I'd advise that you pursue it first. When you have extracted all the ce…",
+   "header": "Captain Gosta",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Black Swan]",
+     "bypass": "npc_%objectId%_Quest Q00351_BlackSwan",
+     "kind": "quest",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30916-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Black Swan (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00351_BlackSwan",
+     "kind": "quest",
+     "quest": 351,
+     "to": "Q00351_BlackSwan/30916-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Mutated Kaneus - Heine]",
+     "bypass": "npc_%objectId%_Quest Q10278_MutatedKaneusHeine",
+     "kind": "quest",
+     "quest": 10278,
+     "to": "Q10278_MutatedKaneusHeine/30916-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Mutated Kaneus - Heine (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10278_MutatedKaneusHeine",
+     "kind": "quest",
+     "quest": 10278,
+     "to": "Q10278_MutatedKaneusHeine/30916-05.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "guard/kamaloka_help.htm": {
+   "file": "guard/kamaloka_help.htm",
+   "quest": null,
+   "text": "Kamaloka is an invader from another world. We do not know precisely when it happened, but we discovered a sealed space, similar to a Dimensional Rift. We call it Kamaloka. To enter it, you must meet certain requirements. You cannot enter a basic Kamaloka alone. To fight alone, find the pathfinder t…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "guard/kamaloka_level.htm": {
+   "file": "guard/kamaloka_level.htm",
+   "quest": null,
+   "text": "According to research from the Ivory Tower, the established theory is that Kamaloka is from a dimensional overlapping in Aden's land. Kamaloka has stages of power based on the strength of a monster's soul. This is cutting edge science, and we don't fully understand it. So we introduce adventurers t…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Enter Kamaloka, Hall of the Abyss (level 46). | Enter Kamaloka, Labyrinth of the Abyss (level 49)."
+ ],
+ "liveClicks": [
+  {
+   "text": "Enter Kamaloka.",
+   "n": 21,
+   "inDatapack": true,
+   "from": [
+    "Captain Gosta:Welcome to Heine, the jewel of Aden! I am Gost"
+   ],
+   "to": [
+    "Captain Gosta:What? You want to enter Kamaloka?Enter Kamalok"
+   ]
+  },
+  {
+   "text": "Enter Kamaloka, Labyrinth of the Abyss (level 49).",
+   "n": 17,
+   "inDatapack": false,
+   "from": [
+    "Captain Gosta:What? You want to enter Kamaloka?Enter Kamalok"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Enter Kamaloka, Hall of the Abyss (level 46).",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Captain Gosta:What? You want to enter Kamaloka?Enter Kamalok"
+   ],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

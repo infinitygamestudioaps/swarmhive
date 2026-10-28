@@ -2,7 +2,7 @@
  "id": 372,
  "name": "Legacy Of Insolence",
  "version": 1,
- "generated": "2026-10-27T11:15:38.360Z",
+ "generated": "2026-10-27T18:19:13.129Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 59,
@@ -25,7 +25,7 @@
    "step": 1
   }
  ],
- "expectedMin": 40,
+ "expectedMin": 41,
  "refLevel": 59,
  "steps": [
   {
@@ -2811,6 +2811,154 @@
    "key": "c1:talk:30844",
    "cond": 1,
    "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"I have found many other things besides blueprints...\""
+   ],
+   "npc": {
+    "id": 30844,
+    "name": "Walderal",
+    "title": "Warehouse Keeper",
+    "town": "Aden",
+    "at": [
+     148155,
+     26254,
+     -2217
+    ],
+    "alt": []
+   },
+   "text": "Talk to Walderal",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30844@148155,26254",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 2942,
+    "sec": 45,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 2942,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147464,
+      26504,
+      -2192
+     ],
+     [
+      147544,
+      26680,
+      -2200
+     ],
+     [
+      147736,
+      26872,
+      -2200
+     ],
+     [
+      148008,
+      26872,
+      -2200
+     ],
+     [
+      148216,
+      26776,
+      -2200
+     ],
+     [
+      148408,
+      26584,
+      -2200
+     ],
+     [
+      148312,
+      26488,
+      -2184
+     ],
+     [
+      148264,
+      26296,
+      -2184
+     ],
+     [
+      148152,
+      26248,
+      -2184
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 70,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:talk:30844",
+   "cond": 2,
+   "kind": "talk",
    "to": "end",
    "links": [
     "\"I want out of the Contract.\""
@@ -2951,12 +3099,11 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2
    ]
   },
   {
-   "i": 3,
+   "i": 4,
    "key": "c1:turnin:30839",
    "cond": 1,
    "kind": "deliver",

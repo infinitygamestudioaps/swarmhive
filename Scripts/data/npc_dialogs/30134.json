@@ -1,0 +1,613 @@
+{
+ "npcId": 30134,
+ "name": "Jasmine",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:02.848Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "teleporter/30134.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {
+  "8": {
+   "name": "An Adventure Begins",
+   "listText": [
+    "[An Adventure Begins]",
+    "[An Adventure Begins (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00008_AnAdventureBegins/30134-02.htm",
+     "when": "state CREATED; ((player.getRace() == Race.DARK_ELF) && (player.getLevel() >= MIN_LEVEL))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00008_AnAdventureBegins/30134-01.html",
+     "when": "state CREATED; NOT ((player.getRace() == Race.DARK_ELF) && (player.getLevel() >= MIN_LEVEL))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00008_AnAdventureBegins/30134-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00008_AnAdventureBegins/30134-05.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "teleporter/30134.htm": {
+   "file": "teleporter/30134.htm",
+   "quest": null,
+   "text": "Gatekeeper Jasmine: We, the Gatekeeper Guild, manage these teleportation portals. Perhaps you want to get out of this forest, and realize your dream in the bigger world, hmm? Just say the word, and I'll send you to exotic land where adventure and romance await!",
+   "header": "Gatekeeper Jasmine",
+   "links": [
+    {
+     "text": "Teleport",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/30134-1.htm",
+     "live": true
+    },
+    {
+     "text": "Exchange Dimension Diamonds.",
+     "bypass": "npc_%objectId%_multisell 002",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Noblesse Exclusive Teleport",
+     "bypass": "npc_%objectId%_Quest NoblesseTeleport",
+     "kind": "quest",
+     "script": "NoblesseTeleport",
+     "to": null,
+     "live": true,
+     "dpText": "[Noblesse Exclusive] Teleport"
+    },
+    {
+     "text": "Call Alegria",
+     "bypass": "npc_%objectId%_Quest CharacterBirthday",
+     "kind": "quest",
+     "script": "CharacterBirthday"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/30134-1.htm": {
+   "file": "teleporter/30134-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio",
+     "bypass": "npc_%objectId%_goto 1",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true,
+     "dpText": "The Town of Gludio - 10000 Adena"
+    },
+    {
+     "text": "The Village of Gludin - 18000 Adena",
+     "bypass": "npc_%objectId%_goto 16000",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin"
+    },
+    {
+     "text": "Dwarven Village",
+     "bypass": "npc_%objectId%_goto 1009",
+     "kind": "teleport",
+     "confirm": "811;The Dwarven Village",
+     "live": true,
+     "dpText": "Dwarven Village - 22000 Adena"
+    },
+    {
+     "text": "Talking Island Village",
+     "bypass": "npc_%objectId%_goto 1010",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true,
+     "dpText": "Talking Island Village - 24000 Adena"
+    },
+    {
+     "text": "Orc Village",
+     "bypass": "npc_%objectId%_goto 1012",
+     "kind": "teleport",
+     "confirm": "811;The Orc Village",
+     "live": true,
+     "dpText": "Orc Village - 13000 Adena"
+    },
+    {
+     "text": "Kamael Village",
+     "bypass": "npc_%objectId%_goto 12051",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true,
+     "dpText": "Kamael Village - 13000 Adena"
+    },
+    {
+     "text": "Dark Forest",
+     "bypass": "npc_%objectId%_goto 464",
+     "kind": "teleport",
+     "confirm": "811;Dark Forest",
+     "live": true,
+     "dpText": "Dark Forest - 890 Adena"
+    },
+    {
+     "text": "Swampland",
+     "bypass": "npc_%objectId%_goto 466",
+     "kind": "teleport",
+     "confirm": "811;Swampland",
+     "live": true,
+     "dpText": "Swampland - 1100 Adena"
+    },
+    {
+     "text": "Spider Nest",
+     "bypass": "npc_%objectId%_goto 465",
+     "kind": "teleport",
+     "confirm": "811;Spider Nest",
+     "live": true,
+     "dpText": "Spider Nest - 3600 Adena"
+    },
+    {
+     "text": "Neutral Zone",
+     "bypass": "npc_%objectId%_goto 467",
+     "kind": "teleport",
+     "confirm": "811;Neutral Zone",
+     "live": true,
+     "dpText": "Neutral Zone - 1700 Adena"
+    }
+   ]
+  },
+  "teleporter/30134-2.htm": {
+   "file": "teleporter/30134-2.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9000",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9002",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "The Center of the Neutral Zone - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9101",
+     "kind": "teleport",
+     "confirm": "811;The Center of the Neutral Zone"
+    },
+    {
+     "text": "The Center of the Dark Forest - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9102",
+     "kind": "teleport",
+     "confirm": "811;The Center of the Dark Forest"
+    },
+    {
+     "text": "Center of the School of Dark Arts - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9103",
+     "kind": "teleport",
+     "confirm": "811;Center of the School of Dark Arts"
+    },
+    {
+     "text": "Coliseum - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9001",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/30134-3.htm": {
+   "file": "teleporter/30134-3.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9900",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9902",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "The Center of the Neutral Zone - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 10001",
+     "kind": "teleport",
+     "confirm": "811;The Center of the Neutral Zone"
+    },
+    {
+     "text": "The Center of the Dark Forest - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 10002",
+     "kind": "teleport",
+     "confirm": "811;The Center of the Dark Forest"
+    },
+    {
+     "text": "Center of the School of Dark Arts - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 10003",
+     "kind": "teleport",
+     "confirm": "811;Center of the School of Dark Arts"
+    },
+    {
+     "text": "Coliseum - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9901",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/30134-pk.htm": {
+   "file": "teleporter/30134-pk.htm",
+   "quest": null,
+   "text": "Gatekeeper Jasmine: I cannot open the doors of space and time to a villain like you. This is the rule of the gatekeepers guild, as well as my own personal choice. Please do not return.",
+   "header": "Gatekeeper Jasmine",
+   "outcome": "refusal",
+   "links": []
+  },
+  "teleporter/free/30134.htm": {
+   "file": "teleporter/free/30134.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio",
+     "bypass": "npc_%objectId%_goto 1",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true
+    },
+    {
+     "text": "The Village of Gludin",
+     "bypass": "npc_%objectId%_goto 16000",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin"
+    },
+    {
+     "text": "Dwarven Village",
+     "bypass": "npc_%objectId%_goto 1009",
+     "kind": "teleport",
+     "confirm": "811;The Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Talking Island Village",
+     "bypass": "npc_%objectId%_goto 1010",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true
+    },
+    {
+     "text": "Orc Village",
+     "bypass": "npc_%objectId%_goto 1012",
+     "kind": "teleport",
+     "confirm": "811;The Orc Village",
+     "live": true
+    },
+    {
+     "text": "Kamael Village",
+     "bypass": "npc_%objectId%_goto 12051",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Dark Forest",
+     "bypass": "npc_%objectId%_goto 464",
+     "kind": "teleport",
+     "confirm": "811;Dark Forest",
+     "live": true
+    },
+    {
+     "text": "Swampland",
+     "bypass": "npc_%objectId%_goto 466",
+     "kind": "teleport",
+     "confirm": "811;Swampland",
+     "live": true
+    },
+    {
+     "text": "Spider Nest",
+     "bypass": "npc_%objectId%_goto 465",
+     "kind": "teleport",
+     "confirm": "811;Spider Nest",
+     "live": true
+    },
+    {
+     "text": "Neutral Zone",
+     "bypass": "npc_%objectId%_goto 467",
+     "kind": "teleport",
+     "confirm": "811;Neutral Zone",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/half/30134.htm": {
+   "file": "teleporter/half/30134.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Town of Gludio",
+     "bypass": "npc_%objectId%_goto 1",
+     "kind": "teleport",
+     "confirm": "811;The Town of Gludio",
+     "live": true,
+     "dpText": "The Town of Gludio - 5000 Adena"
+    },
+    {
+     "text": "The Village of Gludin - 9000 Adena",
+     "bypass": "npc_%objectId%_goto 16000",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin"
+    },
+    {
+     "text": "Dwarven Village",
+     "bypass": "npc_%objectId%_goto 1009",
+     "kind": "teleport",
+     "confirm": "811;The Dwarven Village",
+     "live": true,
+     "dpText": "Dwarven Village - 11000 Adena"
+    },
+    {
+     "text": "Talking Island Village",
+     "bypass": "npc_%objectId%_goto 1010",
+     "kind": "teleport",
+     "confirm": "811;Talking Island Village",
+     "live": true,
+     "dpText": "Talking Island Village - 12000 Adena"
+    },
+    {
+     "text": "Orc Village",
+     "bypass": "npc_%objectId%_goto 1012",
+     "kind": "teleport",
+     "confirm": "811;The Orc Village",
+     "live": true,
+     "dpText": "Orc Village - 7500 Adena"
+    },
+    {
+     "text": "Kamael Village",
+     "bypass": "npc_%objectId%_goto 12051",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true,
+     "dpText": "Kamael Village - 6500 Adena"
+    },
+    {
+     "text": "Dark Forest",
+     "bypass": "npc_%objectId%_goto 464",
+     "kind": "teleport",
+     "confirm": "811;Dark Forest",
+     "live": true,
+     "dpText": "Dark Forest - 445 Adena"
+    },
+    {
+     "text": "Swampland",
+     "bypass": "npc_%objectId%_goto 466",
+     "kind": "teleport",
+     "confirm": "811;Swampland",
+     "live": true,
+     "dpText": "Swampland - 550 Adena"
+    },
+    {
+     "text": "Spider Nest",
+     "bypass": "npc_%objectId%_goto 465",
+     "kind": "teleport",
+     "confirm": "811;Spider Nest",
+     "live": true,
+     "dpText": "Spider Nest - 1800 Adena"
+    },
+    {
+     "text": "Neutral Zone",
+     "bypass": "npc_%objectId%_goto 467",
+     "kind": "teleport",
+     "confirm": "811;Neutral Zone",
+     "live": true,
+     "dpText": "Neutral Zone - 850 Adena"
+    }
+   ]
+  },
+  "Q00008_AnAdventureBegins/30134-02.htm": {
+   "file": "Q00008_AnAdventureBegins/30134-02.htm",
+   "quest": 8,
+   "text": "Gatekeeper Jasmine: You can visit many different places through the gate of time and space. The most cosmopolitan place of all is the Town of Giran! I wasn't there for long, but I can tell you that it's a very dynamic, vibrant place. There are all sorts of people searching for adventure and romance…",
+   "header": "Gatekeeper Jasmine",
+   "when": [
+    "state CREATED; ((player.getRace() == Race.DARK_ELF) && (player.getLevel() >= MIN_LEVEL))"
+   ],
+   "links": [
+    {
+     "text": "\"It sounds awesome! Can you send me there?\"",
+     "bypass": "Quest Q00008_AnAdventureBegins 30134-03.htm",
+     "kind": "quest-event",
+     "script": "Q00008_AnAdventureBegins",
+     "event": "30134-03.htm",
+     "quest": 8,
+     "to": "Q00008_AnAdventureBegins/30134-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00008_AnAdventureBegins/30134-01.html": {
+   "file": "Q00008_AnAdventureBegins/30134-01.html",
+   "quest": 8,
+   "text": "Gatekeeper Jasmine: You can visit many places through this gate of time and space. My personal favorite, and the most cosmopolitan of all, is the Town of Giran! You'll find all sorts of people there, searching for adventure and romance. It's like a world unto itself! (Only Dark Elves of level 3 or …",
+   "header": "Gatekeeper Jasmine",
+   "when": [
+    "state CREATED; NOT ((player.getRace() == Race.DARK_ELF) && (player.getLevel() >= MIN_LEVEL))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00008_AnAdventureBegins/30134-04.html": {
+   "file": "Q00008_AnAdventureBegins/30134-04.html",
+   "quest": 8,
+   "text": "Gatekeeper Jasmine: Which part of \"no\" don't you understand? Don't make a fool of yourself like Sentry Roselyn did. Come back when you've grown up!",
+   "header": "Gatekeeper Jasmine",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00008_AnAdventureBegins/30134-05.html": {
+   "file": "Q00008_AnAdventureBegins/30134-05.html",
+   "quest": 8,
+   "text": "Gatekeeper Jasmine: Well, if that's what Magister Harne said, I guess I can't help it. I didn't think Roselyn would blow the whistle! So, what do you want?",
+   "header": "Gatekeeper Jasmine",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"As I said, I want to go to Giran.\"",
+     "bypass": "Quest Q00008_AnAdventureBegins 30134-06.html",
+     "kind": "quest-event",
+     "script": "Q00008_AnAdventureBegins",
+     "event": "30134-06.html",
+     "quest": 8,
+     "to": "Q00008_AnAdventureBegins/30134-06.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00008_AnAdventureBegins/30134-03.htm": {
+   "file": "Q00008_AnAdventureBegins/30134-03.htm",
+   "quest": 8,
+   "text": "Gatekeeper Jasmine: You don't have the money, skills or background to even think of visiting a foreign country through the gate of time and space! You must be an idiot! Believe me, I'm telling you this for your own good! Don't embarrass yourself and your race! You'd certainly make the same mistake …",
+   "header": "Gatekeeper Jasmine",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00008_AnAdventureBegins/30134-06.html": {
+   "file": "Q00008_AnAdventureBegins/30134-06.html",
+   "quest": 8,
+   "text": "Gatekeeper Jasmine: I'm afraid Giran may be too much for you right now. I can't send you there from here. If you insist on going there, take this Traveler's Mark and Scroll of Escape to the Town of Giran . The magic scroll allows you to instantaneously travel to Giran, but remember, it only works o…",
+   "header": "Gatekeeper Jasmine",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[An Adventure Begins]",
+     "bypass": "npc_%objectId%_Quest Q00008_AnAdventureBegins",
+     "kind": "quest",
+     "quest": 8,
+     "to": "Q00008_AnAdventureBegins/30134-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[An Adventure Begins (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00008_AnAdventureBegins",
+     "kind": "quest",
+     "quest": 8,
+     "to": "Q00008_AnAdventureBegins/30134-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "gatekeeper live menu (Scripts/data/gk_live/Jasmine.json) has links the datapack does not: Summon Alegria"
+ ],
+ "liveClicks": [
+  {
+   "text": "Teleport",
+   "n": 165,
+   "inDatapack": true,
+   "from": [
+    "Gatekeeper Jasmine:The Gatekeeper Guild stewards the doors o"
+   ],
+   "to": [
+    "556The Town of GludioDwarven VillageTalking Island VillageOr"
+   ]
+  },
+  {
+   "text": "Neutral Zone",
+   "n": 63,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioDwarven VillageTalking Island VillageOr"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Spider Nest",
+   "n": 51,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioDwarven VillageTalking Island VillageOr"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Swampland",
+   "n": 26,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioDwarven VillageTalking Island VillageOr"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Dark Forest",
+   "n": 25,
+   "inDatapack": true,
+   "from": [
+    "556The Town of GludioDwarven VillageTalking Island VillageOr"
+   ],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,58 @@
+{
+ "npcId": 32011,
+ "name": "Imperial Tomb Guide",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.310Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32011.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32011.htm": {
+   "file": "default/32011.htm",
+   "quest": null,
+   "text": "I feel an invisible barrier... Some sort of Magic Force Field has been put in place... ...? The guide of the Imperial mausoleum seems to have something to say.",
+   "links": [
+    {
+     "text": "Enter the Magic Force Field",
+     "bypass": "npc_%objectId%_Quest FinalEmperialTomb",
+     "kind": "quest",
+     "script": "FinalEmperialTomb"
+    },
+    {
+     "text": "Listen to Imperial Tomb Guide",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32011-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/32011-1.htm": {
+   "file": "default/32011-1.htm",
+   "quest": null,
+   "text": "Imperial Tomb Guide: Frintezza is protecting the Force Field. Even though you can pass through it, you can't meet Frintezza yet. He's put some tests in place to keep anyone from interrupting his rest. These obstacles will test all of your skills, and those of your party as well! If you pass the tes…",
+   "header": "Imperial Tomb Guide",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

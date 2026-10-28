@@ -1,0 +1,1083 @@
+{
+ "npcId": 32046,
+ "name": "Suspicious-Looking Pile of Stones",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.318Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32046.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "114": {
+   "name": "Resurrection of an Old Manager",
+   "listText": [
+    "[Resurrection of an Old Manager]",
+    "[Resurrection of an Old Manager (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32046-02.html",
+     "when": "state STARTED; cond 18",
+     "state": "STARTED",
+     "cond": [
+      18
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32046-03.html",
+     "when": "state STARTED; cond 19",
+     "state": "STARTED",
+     "cond": [
+      19
+     ],
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32046-04.html",
+     "when": "state STARTED; cond 27",
+     "state": "STARTED",
+     "cond": [
+      27
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "120": {
+   "name": "Pavel's Last Research",
+   "listText": [
+    "[Pavel's Last Research]",
+    "[Pavel's Last Research (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00120_PavelsLastResearch/32046-01.htm",
+     "when": "state CREATED; player.hasQuestCompleted(Q00114_ResurrectionOfAnOldManager.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32046-02.htm",
+     "when": "state CREATED; !player.hasQuestCompleted(Q00114_ResurrectionOfAnOldManager.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32046-12.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32046-13.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32046-16.html",
+     "when": "state STARTED; memo 4; has items 8290",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32046-17.html",
+     "when": "state STARTED; memo 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32046-28.html",
+     "when": "state STARTED; memo 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32046-29.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32046-36.html",
+     "when": "state STARTED; memo 12",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32046-37.html",
+     "when": "state STARTED; memo 19",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32046-42.html",
+     "when": "state STARTED; memo 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32046-43.html",
+     "when": "state STARTED; memo 22",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32046-45.html",
+     "when": "state STARTED; memo 23; has items 8291",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32046.htm": {
+   "file": "default/32046.htm",
+   "quest": null,
+   "text": "A suspicious stack of stones.",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32046-02.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32046-02.html",
+   "quest": 114,
+   "text": "The detector reacts very strongly near this suspicious stack of stones.",
+   "when": [
+    "state STARTED; cond 18"
+   ],
+   "links": [
+    {
+     "text": "Investigate",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32046-03.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32046-03.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32046-03.html",
+     "effect": "cond:19"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32046-03.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32046-03.html",
+   "quest": 114,
+   "text": "A symbol used by the ancient Titans. This must be reported!",
+   "when": [
+    "state STARTED; cond 19"
+   ],
+   "sets": {
+    "cond": "19"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32046-04.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32046-04.html",
+   "quest": 114,
+   "text": "The suspicious stack of stones that the detector reacted to.",
+   "when": [
+    "state STARTED; cond 27"
+   ],
+   "links": [
+    {
+     "text": "Place the Starstone",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32046-05.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32046-05.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32046-05.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-01.htm": {
+   "file": "Q00120_PavelsLastResearch/32046-01.htm",
+   "quest": 120,
+   "text": "Atlanta: You... the created... Thank you for awaking me.",
+   "header": "Atlanta",
+   "when": [
+    "state CREATED; player.hasQuestCompleted(Q00114_ResurrectionOfAnOldManager.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "\"Who are you?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-03.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-03.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-03.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-02.htm": {
+   "file": "Q00120_PavelsLastResearch/32046-02.htm",
+   "quest": 120,
+   "text": "........ (Only characters level 70 or above who have finished Resurrection of the Old Butler can take this quest.)",
+   "when": [
+    "state CREATED; !player.hasQuestCompleted(Q00114_ResurrectionOfAnOldManager.class.getSimpleName())"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-12.html": {
+   "file": "Q00120_PavelsLastResearch/32046-12.html",
+   "quest": 120,
+   "text": "Atlanta: Please, find my child! I can feel her presence nearby! I've lost most of my memory, but I know that I simply must find that child! Please, ask around about her.",
+   "header": "Atlanta",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-13.html": {
+   "file": "Q00120_PavelsLastResearch/32046-13.html",
+   "quest": 120,
+   "text": "Atlanta: Did you find my child?",
+   "header": "Atlanta",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "links": [
+    {
+     "text": "\"Wendy lost her memory, too.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-14.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-14.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-14.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-16.html": {
+   "file": "Q00120_PavelsLastResearch/32046-16.html",
+   "quest": 120,
+   "text": "Atlanta: Take this flower to Wendy. Hopefully, she'll remember it as mine from long ago... If this doesn't restore her memory, nothing will!",
+   "header": "Atlanta",
+   "when": [
+    "state STARTED; memo 4; has items 8290"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-17.html": {
+   "file": "Q00120_PavelsLastResearch/32046-17.html",
+   "quest": 120,
+   "text": "Atlanta: Did you give Wendy the flower? What did she say?",
+   "header": "Atlanta",
+   "when": [
+    "state STARTED; memo 7"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about Pavel's last study.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-18.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-18.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-18.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-28.html": {
+   "file": "Q00120_PavelsLastResearch/32046-28.html",
+   "quest": 120,
+   "text": "Atlanta: You must check out the Weathermaster device in the north wing. The password is \"ATL\" . If any project is activated, please put a stop to it at once!",
+   "header": "Atlanta",
+   "when": [
+    "state STARTED; memo 8"
+   ],
+   "links": [
+    {
+     "text": "\"How do I know if a project is activated?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-26.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-26.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-26.html"
+    },
+    {
+     "text": "\"What are the Weathermaster's defenses?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-27.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-27.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-27.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-29.html": {
+   "file": "Q00120_PavelsLastResearch/32046-29.html",
+   "quest": 120,
+   "text": "Atlanta: What's going on in the north wing laboratory, little one?",
+   "header": "Atlanta",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "links": [
+    {
+     "text": "\"This is what's going on...\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-30.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-30.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-30.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-36.html": {
+   "file": "Q00120_PavelsLastResearch/32046-36.html",
+   "quest": 120,
+   "text": "Atlanta: Go and speak with Wendy, little one! She'll know what's going on in the east wing.",
+   "header": "Atlanta",
+   "when": [
+    "state STARTED; memo 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-37.html": {
+   "file": "Q00120_PavelsLastResearch/32046-37.html",
+   "quest": 120,
+   "text": "Atlanta: What's going on in the east wing laboratory, my little one?",
+   "header": "Atlanta",
+   "when": [
+    "state STARTED; memo 19"
+   ],
+   "links": [
+    {
+     "text": "\"This is what's going on...\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-38.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-38.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-38.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-42.html": {
+   "file": "Q00120_PavelsLastResearch/32046-42.html",
+   "quest": 120,
+   "text": "Atlanta: Gigantic Golems... I must... talk to Wendy... about it... Oh, little one! Pavel's last study...N45...the failure... Must be stopped!",
+   "header": "Atlanta",
+   "when": [
+    "state STARTED; memo 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-43.html": {
+   "file": "Q00120_PavelsLastResearch/32046-43.html",
+   "quest": 120,
+   "text": "Atlanta: ..... (Atlanta shows no reaction, like the first time you met him.)",
+   "header": "Atlanta",
+   "when": [
+    "state STARTED; memo 22"
+   ],
+   "links": [
+    {
+     "text": "Look around",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-44.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-44.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-44.html",
+     "effect": "cond:23"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-45.html": {
+   "file": "Q00120_PavelsLastResearch/32046-45.html",
+   "quest": 120,
+   "text": "Only the stack of stones remains.",
+   "when": [
+    "state STARTED; memo 23; has items 8291"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32046-05.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32046-05.html",
+   "quest": 114,
+   "text": "...... (Something is moving)",
+   "links": [
+    {
+     "text": "Wait",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32046-06.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32046-06.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32046-06.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32046-06.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32046-06.html",
+   "quest": 114,
+   "text": "Atlanta: .... Who... who...is...waking......me....",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "Observe",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32046-07.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32046-07.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32046-07.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32046-07.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32046-07.html",
+   "quest": 114,
+   "text": "Atlanta: You... Descendant of the gods.... Not...a dream.... The Age of Titans ended the same way... (Continues to the next quest, \"Pavel's Research\".)",
+   "header": "Atlanta",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-03.html": {
+   "file": "Q00120_PavelsLastResearch/32046-03.html",
+   "quest": 120,
+   "text": "Atlanta: I'm Atlanta... ...the administrator of this research center... Pavel the Giant was my father! I don't currently have the strength to create the energy field I need to have a physical presence... Why did you wake me, little one?",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"I'll need to get back to you on that.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-04.htm",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-04.htm",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-04.htm"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-04.htm": {
+   "file": "Q00120_PavelsLastResearch/32046-04.htm",
+   "quest": 120,
+   "text": "Why I Woke Up Atlanta What was I thinking?",
+   "links": [
+    {
+     "text": "There must've been a good reason...",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-05.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-05.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-05.html"
+    },
+    {
+     "text": "\"I was searching for the one who controls the Horrifying Golem Army.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch quest_accept",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "quest_accept",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-08.htm",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32046-08.htm",
+      "Q00120_PavelsLastResearch/32046-07.htm"
+     ],
+     "effect": "start"
+    },
+    {
+     "text": "\"Because of the Starstones.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-06.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-06.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-06.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-05.html": {
+   "file": "Q00120_PavelsLastResearch/32046-05.html",
+   "quest": 120,
+   "text": "Atlanta: Why...? Why did you wake me? ..... It seems you don't have a good reason! Come back when you think of one.",
+   "header": "Atlanta",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-06.html": {
+   "file": "Q00120_PavelsLastResearch/32046-06.html",
+   "quest": 120,
+   "text": "Atlanta: Tradition? I know of no such tradition! If that was so, I would've woken up a long time ago! My memory seems to be coming back bit by bit... Wasn't there a good reason for your visit? Come back when you remember what it was.",
+   "header": "Atlanta",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-07.htm": {
+   "file": "Q00120_PavelsLastResearch/32046-07.htm",
+   "quest": 120,
+   "text": "Atlanta: Horrific Golem corp... Is that about the Golems around here? Too bad its too much for you to investigate. (Only character with level 70 or above and who have cleared the resurrection of the previous quest manager can take on this quest.)",
+   "header": "Atlanta",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-08.htm": {
+   "file": "Q00120_PavelsLastResearch/32046-08.htm",
+   "quest": 120,
+   "text": "Atlanta: The Horrifying Golem Army... I've never heard of them! The only Golems around here that I'm aware of are the ones who mine Starstones and the Guardian Golems. But...",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"But...?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-10.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-10.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-10.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-09.htm": {
+   "file": "Q00120_PavelsLastResearch/32046-09.htm",
+   "quest": 120,
+   "text": "Atlanta: The Horrifying Golem Army... I've never heard of them! The only Golems around here that I'm aware of are the ones who mine Starstones and the Guardian Golems. But...",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"But...?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-10.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-10.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-10.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-10.html": {
+   "file": "Q00120_PavelsLastResearch/32046-10.html",
+   "quest": 120,
+   "text": "Atlanta: I'm getting feelings in my body I've never felt before! This must be an emergency signal! What's going on here, little one? Who did what?",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"I don't have the slightest idea.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-11.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-11.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-11.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-11.html": {
+   "file": "Q00120_PavelsLastResearch/32046-11.html",
+   "quest": 120,
+   "text": "Atlanta: Oh really? Very well, then I have a favor to ask of you. I want you to find the child that once lived with me here. I feel her presence nearby! Perhaps she can help me remember... Although she's probably forgotten, too! Ask around about her, would you?",
+   "header": "Atlanta",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-14.html": {
+   "file": "Q00120_PavelsLastResearch/32046-14.html",
+   "quest": 120,
+   "text": "Atlanta: It will restore my memory? Did Wendy say that? I thought it was strange, also. The weak signal... This vague memory... Maybe the fact that she lost her memory and I fell asleep is not a coincidence...",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"What are you going to do?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-15.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-15.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-15.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-15.html": {
+   "file": "Q00120_PavelsLastResearch/32046-15.html",
+   "quest": 120,
+   "text": "Atlanta: If Wendy also slept... There might be a way! First, go and tell Wendy what has transpired. This is but a fragment of my child... If she can't restore her memory with this, then there is no other way.",
+   "header": "Atlanta",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-18.html": {
+   "file": "Q00120_PavelsLastResearch/32046-18.html",
+   "quest": 120,
+   "text": "Atlanta: Ah yes, Pavel's last study... I'm starting to remember... Number 45, Arrival of Eternal...",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"The Arrival of Eternal Spring?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-19.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-19.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-19.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-19.html": {
+   "file": "Q00120_PavelsLastResearch/32046-19.html",
+   "quest": 120,
+   "text": "Atlanta: Yes, that's it! The Flames of Pa'agrio were to be forcibly stabilized to make the weather permanently in a state of Spring... But something went horribly wrong! There was a huge explosion... and the entire laboratory was instantly engulfed in ice! We Guardian Golems lost our force fields a…",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"The Guardian Golems have also awoken.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-20.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-20.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-20.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-20.html": {
+   "file": "Q00120_PavelsLastResearch/32046-20.html",
+   "quest": 120,
+   "text": "Atlanta: That's impossible! The smaller Excavator Golems could awaken, but Guardian Golems must have the Flames of Pa'agrio to function! I myself can't restart my force field until the sacred flames are lit, so how could the Guardian Golems have awoken?",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"Dr. Chaos is behind it.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-21.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-21.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-21.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-21.html": {
+   "file": "Q00120_PavelsLastResearch/32046-21.html",
+   "quest": 120,
+   "text": "Atlanta: Ah, I see! But I haven't received a signal from the Guardian Golems... Hold on... Could this be... the signal...",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-22.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-22.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-22.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-22.html": {
+   "file": "Q00120_PavelsLastResearch/32046-22.html",
+   "quest": 120,
+   "text": "Atlanta: Could it be that the Guardian has been transformed? Could it be that he's been corrupted by a wicked Dwarf? And I'm afraid that's not the worst of it! I need your help, little one! I've got to warn you, it's not going to be easy for you! Will you help me?",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"What do you want me to do?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-23.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-23.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-23.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-23.html": {
+   "file": "Q00120_PavelsLastResearch/32046-23.html",
+   "quest": 120,
+   "text": "Atlanta: I believe that all these events are related! The explosion, Wendy and the Guardian Golems waking up... It can mean nothing else... The Weathermaster has been activated! Now, the explosion happened in the north wing of the building.... It seems obvious that something was operated in the eas…",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"What will happen?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-24.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-24.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-24.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-24.html": {
+   "file": "Q00120_PavelsLastResearch/32046-24.html",
+   "quest": 120,
+   "text": "Atlanta: Well, at the very least, there will be an explosion in the north wing! At the worst, the same thing could happen again that happened the last time... when then project, \"Arrival of the Eternal Spring\" was thwarted... So, if the Flames of Pa'agrio were to explode again... Eternal Winter wil…",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"What can I do to help?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-25.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-25.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-25.html",
+     "effect": "cond:10"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-25.html": {
+   "file": "Q00120_PavelsLastResearch/32046-25.html",
+   "quest": 120,
+   "text": "Atlanta: Please, check out the Weathermaster in the north wing of the building! The password is \"ATL\" . Basically, the password is my code name. Find out what's going on there. I'm afraid that the prototype of the project for the Arrival of Eternal Spring has been activated! If I'm right, you must …",
+   "header": "Atlanta",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"How do I find out which projects have been activated?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-26.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-26.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-26.html"
+    },
+    {
+     "text": "\"What sort of defenses does the Weathermaster have?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-27.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-27.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-27.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-26.html": {
+   "file": "Q00120_PavelsLastResearch/32046-26.html",
+   "quest": 120,
+   "text": "Atlanta: It's easy, really! Any active project will be indicated by a different color.",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"Is there anything else I need to do?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-28.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-28.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-28.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-27.html": {
+   "file": "Q00120_PavelsLastResearch/32046-27.html",
+   "quest": 120,
+   "text": "Atlanta: It's likely to be protected by some sort of Golems. The last time I was there, there were several traps set, as well... At one time, I could have endowed the Aura of Awareness to allow you to pass the traps safely... But I'm far too weak now. You must be very careful! Perhaps the Weatherma…",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"Is there anything else to do?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-28.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-28.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-28.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-30.html": {
+   "file": "Q00120_PavelsLastResearch/32046-30.html",
+   "quest": 120,
+   "text": "Atlanta: Oh my! You poor little thing! It seems the Guardian Golems are definitely being controlled by someone who knows what he's doing! Well, the fact that the recognition circuits in the east and west wing entryways are intact is a blessing in disguise.",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"Tell me more about the entryways.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-31.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-31.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-31.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-31.html": {
+   "file": "Q00120_PavelsLastResearch/32046-31.html",
+   "quest": 120,
+   "text": "Atlanta: The entryway... Impossible to issue perception... There's a relatively safe way ... The north hall... destroyed... use temperature control... east and west wings... ...",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"Tell me about the east wing entryway.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-32.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-32.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-32.html"
+    },
+    {
+     "text": "\"Tell me about the west wing entryway.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-33.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-33.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-33.html"
+    },
+    {
+     "text": "Examine the map of entryways",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-34.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-34.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-34.html"
+    },
+    {
+     "text": "Leave",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-35.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-35.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-35.html",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-32.html": {
+   "file": "Q00120_PavelsLastResearch/32046-32.html",
+   "quest": 120,
+   "text": "Atlanta: The entryway... the east wing... leads to center... from southern corner... Take west entrance... No Golems there...",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "Examine the map of entryways",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-34.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-34.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-34.html"
+    },
+    {
+     "text": "\"Tell me more about the entryways.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-31.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-31.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-31.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-33.html": {
+   "file": "Q00120_PavelsLastResearch/32046-33.html",
+   "quest": 120,
+   "text": "Atlanta: The entryway... west wing... leads to center... from first southern corner... Take east entrance... No Golems there...",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "Look at the entrance way map",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-34.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-34.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-34.html"
+    },
+    {
+     "text": "\"Tell me about the entryway.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-31.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-31.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-31.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-34.html": {
+   "file": "Q00120_PavelsLastResearch/32046-34.html",
+   "quest": 120,
+   "text": "Atlanta: Entryway Map This is a drawing of the entryway...",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"Tell me about the entryway.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-31.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-31.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-31.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-35.html": {
+   "file": "Q00120_PavelsLastResearch/32046-35.html",
+   "quest": 120,
+   "text": "Atlanta: Oh, little one! You've done it! The crisis in the north wing has been averted! But I\"m afraid we still have some serious problems in the east and west wings! Go to the east wing... it's the administration wing... You must find out... Speak with Wendy, little one! Find out what's going on i…",
+   "header": "Atlanta",
+   "sets": {
+    "cond": "13"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-38.html": {
+   "file": "Q00120_PavelsLastResearch/32046-38.html",
+   "quest": 120,
+   "text": "Atlanta: You're just full of surprises, little one!",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"Are you OK?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-39.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-39.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-39.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-39.html": {
+   "file": "Q00120_PavelsLastResearch/32046-39.html",
+   "quest": 120,
+   "text": "Atlanta: Energy source... gone! Operations... using Starstones... over! But... Gigantic Golems... dangerous! You must ask Wendy... Later! Something much more... Urgent!",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"Tell me about the urgent matter.\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-40.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-40.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-40.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-40.html": {
+   "file": "Q00120_PavelsLastResearch/32046-40.html",
+   "quest": 120,
+   "text": "Atlanta: Use the energy from the east wing... Perhaps... the Flames of Pa'agrio... in the west wing... will reach.... a critical mass! This would mean... Eternal Winter once again! Must... be... stopped! Little one! Go to the west wing... Save us all!",
+   "header": "Atlanta",
+   "links": [
+    {
+     "text": "\"Didn't you say something earlier about Gigantic Golems?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32046-41.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32046-41.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-41.html",
+     "effect": "cond:20"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32046-41.html": {
+   "file": "Q00120_PavelsLastResearch/32046-41.html",
+   "quest": 120,
+   "text": "Atlanta: Gigantic Golems... no energy... my little friend... Pavel's... last study... N45 ...failure... the darkness...",
+   "header": "Atlanta",
+   "sets": {
+    "cond": "20"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32046-44.html": {
+   "file": "Q00120_PavelsLastResearch/32046-44.html",
+   "quest": 120,
+   "text": "Atlanta: Something sparkles amidst the stack of stones.",
+   "header": "Atlanta",
+   "sets": {
+    "cond": "23"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Resurrection of an Old Manager (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00114_ResurrectionOfAnOldManager",
+     "kind": "quest",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32046-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Pavel's Last Research]",
+     "bypass": "npc_%objectId%_Quest Q00120_PavelsLastResearch",
+     "kind": "quest",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Pavel's Last Research (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00120_PavelsLastResearch",
+     "kind": "quest",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32046-12.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

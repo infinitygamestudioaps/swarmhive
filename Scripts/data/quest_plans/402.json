@@ -2,7 +2,7 @@
  "id": 402,
  "name": "Path Of The Human Knight",
  "version": 1,
- "generated": "2026-10-27T11:15:38.995Z",
+ "generated": "2026-10-27T18:19:13.812Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 18,
@@ -25,15 +25,11 @@
  "reasons": [
   {
    "code": "dryrun-fail",
-   "text": "dry run: engine-gap:start.kind=atlas, engine-gap:forMobs"
+   "text": "dry run: route-aggro"
   },
   {
-   "code": "dryrun:engine-gap:start.kind=atlas",
-   "text": "c1:hunt: start \"atlas\" (nav atlas route to Gatekeeper Siff (.gludin > Gludin -> TI Village > TI -> Elven Ruins > walk)) — rsCustomTrip knows only town / gk"
-  },
-  {
-   "code": "dryrun:engine-gap:forMobs",
-   "text": "c1:hunt: override.forMobs is not read by the engine"
+   "code": "dryrun:route-aggro",
+   "text": "step 2 (c1:hunt): area:gludio-outskirts-9: aggressive Gray Ant 26 x2, Giant Mist Leech 25 x3 on the walk (character 18)"
   }
  ],
  "expectedMin": 30,
@@ -2257,17 +2253,13 @@
   "by": "quest-fixer batch1 2026-10-27"
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:39.003Z",
+  "at": "2026-10-27T18:19:13.829Z",
   "pass": false,
   "geo": true,
   "fails": [
    {
-    "code": "engine-gap:start.kind=atlas",
-    "t": "c1:hunt: start \"atlas\" (nav atlas route to Gatekeeper Siff (.gludin > Gludin -> TI Village > TI -> Elven Ruins > walk)) — rsCustomTrip knows only town / gk"
-   },
-   {
-    "code": "engine-gap:forMobs",
-    "t": "c1:hunt: override.forMobs is not read by the engine"
+    "code": "route-aggro",
+    "t": "step 2 (c1:hunt): area:gludio-outskirts-9: aggressive Gray Ant 26 x2, Giant Mist Leech 25 x3 on the walk (character 18)"
    }
   ],
   "warns": [

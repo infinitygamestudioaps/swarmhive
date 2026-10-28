@@ -2,7 +2,7 @@
  "id": 348,
  "name": "An Arrogant Search",
  "version": 1,
- "generated": "2026-10-27T11:15:28.144Z",
+ "generated": "2026-10-27T18:19:03.332Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 60,
@@ -16,7 +16,7 @@
  "reasons": [
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 30864 \"30864-08.html\": fires at memo 2, which no transition sets; event 30864 \"30864-43.html\": fires at memo 15, which no transition sets; talk 30864: fires at memo 2, which no transition sets; talk 30864: fires at memo 8, which no transition sets; talk 30864: fires at memo 14, which no transition sets; talk 30864: fires at memo 16, which no transition sets"
   },
   {
    "code": "area-danger",
@@ -27,14 +27,9 @@
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 1
-  },
-  {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 2
   }
  ],
- "expectedMin": 59,
+ "expectedMin": 63,
  "refLevel": 60,
  "steps": [
   {
@@ -1445,7 +1440,7 @@
    },
    "expectedSec": 1190,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -1571,14 +1566,14 @@
     }
    ],
    "kills": 1,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "talk",
     "trigger": [
      30978
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Ark Guardian Elberoth, Ark Guardian Shadowfang, Seal Angel appear and kill it",
    "npc": {
@@ -1871,7 +1866,7 @@
    "key": "c2:talk:30864",
    "cond": 2,
    "kind": "talk",
-   "to": "end",
+   "to": 26,
    "links": [],
    "npc": {
     "id": 30864,
@@ -2080,7 +2075,7 @@
    },
    "expectedSec": 103,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -2106,11 +2101,7 @@
     22,
     23,
     24,
-    25,
-    26,
-    27,
-    28,
-    29
+    25
    ]
   },
   {
@@ -2164,7 +2155,7 @@
    },
    "expectedSec": 25,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -2869,7 +2860,7 @@
    },
    "expectedSec": 202,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -3403,7 +3394,7 @@
    },
    "expectedSec": 414,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -3469,7 +3460,7 @@
    },
    "expectedSec": 25,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -4157,7 +4148,7 @@
    },
    "expectedSec": 95,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -4405,7 +4396,7 @@
    },
    "expectedSec": 95,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -4884,7 +4875,7 @@
    },
    "expectedSec": 183,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -4957,7 +4948,7 @@
    },
    "expectedSec": 25,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -5847,7 +5838,7 @@
    },
    "expectedSec": 414,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
@@ -6126,11 +6117,457 @@
    },
    "expectedSec": 202,
    "engine": {
-    "act": "hunt",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
     21
+   ]
+  },
+  {
+   "i": 14,
+   "key": "c26:talk:30864",
+   "cond": 26,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30864,
+    "name": "Hanellin",
+    "title": "Magister",
+    "town": "Aden",
+    "at": [
+     144096,
+     23584,
+     -2117
+    ],
+    "alt": []
+   },
+   "text": "Talk to Hanellin",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30864@144096,23584",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 6924,
+    "sec": 78,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 6924,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25768,
+      -2008
+     ],
+     [
+      147288,
+      25768,
+      -2008
+     ],
+     [
+      147016,
+      25800,
+      -2008
+     ],
+     [
+      146744,
+      25800,
+      -2008
+     ],
+     [
+      146488,
+      25752,
+      -2008
+     ],
+     [
+      146344,
+      25512,
+      -2008
+     ],
+     [
+      146344,
+      25272,
+      -2008
+     ],
+     [
+      146376,
+      25000,
+      -2008
+     ],
+     [
+      146424,
+      24728,
+      -2008
+     ],
+     [
+      146392,
+      24456,
+      -2008
+     ],
+     [
+      146200,
+      24264,
+      -2008
+     ],
+     [
+      145928,
+      24264,
+      -2048
+     ],
+     [
+      145768,
+      24264,
+      -2080
+     ],
+     [
+      145496,
+      24264,
+      -2128
+     ],
+     [
+      145320,
+      24200,
+      -2136
+     ],
+     [
+      145128,
+      24008,
+      -2136
+     ],
+     [
+      145016,
+      23944,
+      -2136
+     ],
+     [
+      144744,
+      23944,
+      -2136
+     ],
+     [
+      144520,
+      23784,
+      -2136
+     ],
+     [
+      144504,
+      23512,
+      -2136
+     ],
+     [
+      144456,
+      23336,
+      -2136
+     ],
+     [
+      144248,
+      23192,
+      -2136
+     ],
+     [
+      143976,
+      23192,
+      -2136
+     ],
+     [
+      143784,
+      23144,
+      -2136
+     ],
+     [
+      143896,
+      23256,
+      -2136
+     ],
+     [
+      143944,
+      23528,
+      -2120
+     ],
+     [
+      143992,
+      23640,
+      -2120
+     ],
+     [
+      144104,
+      23592,
+      -2120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 103,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    26,
+    27,
+    29
+   ]
+  },
+  {
+   "i": 15,
+   "key": "c28:talk:30864",
+   "cond": 28,
+   "kind": "talk",
+   "to": 29,
+   "links": [
+    "Continue"
+   ],
+   "npc": {
+    "id": 30864,
+    "name": "Hanellin",
+    "title": "Magister",
+    "town": "Aden",
+    "at": [
+     144096,
+     23584,
+     -2117
+    ],
+    "alt": []
+   },
+   "text": "Talk to Hanellin",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30864@144096,23584",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 6924,
+    "sec": 78,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 6924,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25768,
+      -2008
+     ],
+     [
+      147288,
+      25768,
+      -2008
+     ],
+     [
+      147016,
+      25800,
+      -2008
+     ],
+     [
+      146744,
+      25800,
+      -2008
+     ],
+     [
+      146488,
+      25752,
+      -2008
+     ],
+     [
+      146344,
+      25512,
+      -2008
+     ],
+     [
+      146344,
+      25272,
+      -2008
+     ],
+     [
+      146376,
+      25000,
+      -2008
+     ],
+     [
+      146424,
+      24728,
+      -2008
+     ],
+     [
+      146392,
+      24456,
+      -2008
+     ],
+     [
+      146200,
+      24264,
+      -2008
+     ],
+     [
+      145928,
+      24264,
+      -2048
+     ],
+     [
+      145768,
+      24264,
+      -2080
+     ],
+     [
+      145496,
+      24264,
+      -2128
+     ],
+     [
+      145320,
+      24200,
+      -2136
+     ],
+     [
+      145128,
+      24008,
+      -2136
+     ],
+     [
+      145016,
+      23944,
+      -2136
+     ],
+     [
+      144744,
+      23944,
+      -2136
+     ],
+     [
+      144520,
+      23784,
+      -2136
+     ],
+     [
+      144504,
+      23512,
+      -2136
+     ],
+     [
+      144456,
+      23336,
+      -2136
+     ],
+     [
+      144248,
+      23192,
+      -2136
+     ],
+     [
+      143976,
+      23192,
+      -2136
+     ],
+     [
+      143784,
+      23144,
+      -2136
+     ],
+     [
+      143896,
+      23256,
+      -2136
+     ],
+     [
+      143944,
+      23528,
+      -2120
+     ],
+     [
+      143992,
+      23640,
+      -2120
+     ],
+     [
+      144104,
+      23592,
+      -2120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 103,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    28
    ]
   }
  ],

@@ -1,0 +1,110 @@
+{
+ "npcId": 30643,
+ "name": "First Orc",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.025Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30643.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "232": {
+   "name": "Test Of The Lord",
+   "listText": [
+    "[Test of the Lord]",
+    "[Test of the Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00232_TestOfTheLord/30643-01.html",
+     "when": "state STARTED; has items 3413,3416",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30643.htm": {
+   "file": "default/30643.htm",
+   "quest": null,
+   "text": "First Orc: I am the first and the last, the only one created from the sacred flames of the God, Paagrio! Though I do not have a body and my soul hangs on by a thread, I stay here to watch over my proud Orc descendants!",
+   "header": "First Orc",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30643-01.html": {
+   "file": "Q00232_TestOfTheLord/30643-01.html",
+   "quest": 232,
+   "text": "First Orc: I am the first and the last Orc, the sole receiver of Pa'agrio's energy, the Hierarch of all Orcs! Though my physical form is gone and my soul hangs on by a thread, I linger to look after my proud Orc descendants! In the beginning, Pa'agrio created me from the essence of fire. My body wa…",
+   "header": "First Orc",
+   "when": [
+    "state STARTED; has items 3413,3416"
+   ],
+   "links": [
+    {
+     "text": "\"Why did they kill you?\"",
+     "bypass": "Quest Q00232_TestOfTheLord 30643-02.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30643-02.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30643-02.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30643-02.html": {
+   "file": "Q00232_TestOfTheLord/30643-02.html",
+   "quest": 232,
+   "text": "First Orc: They were obviously jealous of the fact that that I, the First Orc, was much stronger than their puny creations. When Pa'agrio ordered me here, they schemed to use the abundant water of this earth to extinguish my inner fire, to harden the lava that flows in my veins. With my last dying …",
+   "header": "First Orc",
+   "links": [
+    {
+     "text": "Ask about the 7 tribes",
+     "bypass": "Quest Q00232_TestOfTheLord 30643-03.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30643-03.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30643-03.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30643-03.html": {
+   "file": "Q00232_TestOfTheLord/30643-03.html",
+   "quest": 232,
+   "text": "First Orc: The 7 tribes are Hestui, Ragna, Atuba, Neruga, Urutu, Duda-Mara, and Gandi! The Ragna tribe betrayed our race and turned away from my teachings! Their impertinence still galls me. My soul cannot rest! I heard of your punishment of the Ragna tribe betrayers on my behalf! You have partiall…",
+   "header": "First Orc",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00232_TestOfTheLord",
+     "kind": "quest",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30643-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

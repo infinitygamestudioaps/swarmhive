@@ -1,0 +1,114 @@
+{
+ "npcId": 30342,
+ "name": "Varsak",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.938Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30342.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "325": {
+   "name": "Grim Collector",
+   "listText": [
+    "[Grim Collector]",
+    "[Grim Collector (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00325_GrimCollector/30342-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30342.htm": {
+   "file": "default/30342.htm",
+   "quest": null,
+   "text": "Varsak: Have you ever seen the face of a dead man? Just as people's expressions are different, the bloodless, pale face also has different facial and eye expressions. Some have surprised or sad faces, and others meet death with a peaceful expression. Are you thinking that our conversation is disagr…",
+   "header": "Varsak",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00325_GrimCollector/30342-01.html": {
+   "file": "Q00325_GrimCollector/30342-01.html",
+   "quest": 325,
+   "text": "Varsak: Our family has been doing this work for generations. However, there are hardly any people who look for undertakers these days. It is because the priests of Einhasad encourage cremation. However, sometimes, there are a few who come to follow the old customs. Have you come to me for a funeral…",
+   "header": "Varsak",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Ask to assemble a skeleton",
+     "bypass": "Quest Q00325_GrimCollector assembleSkeleton",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "assembleSkeleton",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30342-02.html",
+     "toAll": [
+      "Q00325_GrimCollector/30342-02.html",
+      "Q00325_GrimCollector/30342-03.html",
+      "Q00325_GrimCollector/30342-04.html"
+     ]
+    }
+   ]
+  },
+  "Q00325_GrimCollector/30342-02.html": {
+   "file": "Q00325_GrimCollector/30342-02.html",
+   "quest": 325,
+   "text": "Varsak: I'm sorry, but that is impossible. To recompose a skeleton to human form, you must have all five parts: the skull, rib, spine, arm bone and thigh bone . By the way, you don't work for Samed, do you? It would be better to stay away from him. Bad rumors always follow him -- that he is a stude…",
+   "header": "Varsak",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00325_GrimCollector/30342-03.html": {
+   "file": "Q00325_GrimCollector/30342-03.html",
+   "quest": 325,
+   "text": "Varsak: I am not sure the bone pieces are from the same person, but... At any rate, I'll try to recompose the skeleton. This is the least we can do to put the angry spirit of a person who died at war to rest. Please give him or her a proper funeral. But... You don't work for Samed, do you? It would…",
+   "header": "Varsak",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00325_GrimCollector/30342-04.html": {
+   "file": "Q00325_GrimCollector/30342-04.html",
+   "quest": 325,
+   "text": "Varsak: Ah! Oh dear... Forgive me! The bone was too old... It got smashed while I was trying to recompose the skeleton.",
+   "header": "Varsak",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Grim Collector (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00325_GrimCollector",
+     "kind": "quest",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30342-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

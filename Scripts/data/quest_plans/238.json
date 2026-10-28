@@ -2,7 +2,7 @@
  "id": 238,
  "name": "Success/Failure Of Business",
  "version": 1,
- "generated": "2026-10-27T11:15:16.584Z",
+ "generated": "2026-10-27T18:18:51.906Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 82,
@@ -25,8 +25,17 @@
    "text": "239 completed"
   }
  ],
- "status": "ready",
- "reasons": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: no-dialog"
+  },
+  {
+   "code": "dryrun:no-dialog",
+   "text": "cond 0: the dialogue chain of c0:start:32641 is partial: no onTalk page of Dr. Helvetica found for CREATED"
+  }
+ ],
  "expectedMin": 23,
  "refLevel": 82,
  "steps": [
@@ -1189,10 +1198,23 @@
   "by": "quest fixer batch 3"
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:16.591Z",
-  "pass": true,
+  "at": "2026-10-27T18:18:51.917Z",
+  "pass": false,
   "geo": true,
-  "fails": [],
+  "fails": [
+   {
+    "code": "no-dialog",
+    "t": "cond 0: the dialogue chain of c0:start:32641 is partial: no onTalk page of Dr. Helvetica found for CREATED"
+   },
+   {
+    "code": "no-dialog",
+    "t": "cond 2: the dialogue chain of c2:talk:32641 is partial: no onTalk page of Dr. Helvetica found for STARTED cond 2"
+   },
+   {
+    "code": "no-dialog",
+    "t": "cond 4: the dialogue chain of c4:deliver:32641 is partial: no onTalk page of Dr. Helvetica found for STARTED cond 4"
+   }
+  ],
   "warns": []
  }
 }

@@ -1,0 +1,232 @@
+{
+ "npcId": 31613,
+ "name": "Noctisse",
+ "title": "Summoner",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.243Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31613.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "93": {
+   "name": "Saga of the Spectral Master",
+   "listText": [
+    "[Saga of the Spectral Master]",
+    "[Saga of the Spectral Master (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00093_SagaOfTheSpectralMaster/2-01.htm",
+     "when": "cond 1; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00093_SagaOfTheSpectralMaster/2-02.htm",
+     "when": "cond 2; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00093_SagaOfTheSpectralMaster/2-03.htm",
+     "when": "cond 4; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00093_SagaOfTheSpectralMaster/2-04.htm",
+     "when": "cond 5; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00093_SagaOfTheSpectralMaster/11-01.htm",
+     "when": "cond 14; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00093_SagaOfTheSpectralMaster/11-02.htm",
+     "when": "cond 15; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31613.htm": {
+   "file": "default/31613.htm",
+   "quest": null,
+   "text": "Summoner Noctisse: Cough... Dammit! My health is ruined from being stuck in this cold, damp room, working on my research! I suppose it could just be the wine I had last night... Who are you? What are you doing here? Did he send you? I must've been mistaken. Well, as you can see, I'm very busy! Plea…",
+   "header": "Summoner Noctisse",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00093_SagaOfTheSpectralMaster/2-01.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/2-01.htm",
+   "quest": 93,
+   "text": "Summoner Noctisse: Did Fairen send you here? Cough. What is that old man planning this time...? Are you working to become a Spectral Master like me? Cough, cough... Damn it! Fairen must have fed me some kind of drug. That old man is scared of becoming a has-been. That's why he's trying to stop a yo…",
+   "header": "Summoner Noctisse",
+   "when": [
+    "cond 1; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"From the beginning.\"",
+     "bypass": "Quest Q00093_SagaOfTheSpectralMaster 2-1",
+     "kind": "quest-event",
+     "script": "Q00093_SagaOfTheSpectralMaster",
+     "event": "2-1",
+     "quest": 93,
+     "to": "Q00093_SagaOfTheSpectralMaster/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00093_SagaOfTheSpectralMaster/2-02.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/2-02.htm",
+   "quest": 93,
+   "text": "Summoner Noctisse: Cough, hack! I have a favor to ask. Go to Goddard Castle Town and see Dark Elf Magister Kamilen. Ask him to make a medicine to cure this damn fever. Tell him I sent you, he won't refuse. If I don't cure this disease, I could die tomorrow! Then I couldn't help your tablet pilgrima…",
+   "header": "Summoner Noctisse",
+   "when": [
+    "cond 2; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00093_SagaOfTheSpectralMaster/2-03.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/2-03.htm",
+   "quest": 93,
+   "text": "Summoner Noctisse: Cough, hack... Is this the medicine Kamilen made? Let me see... Ah...! I feel better already! My strength is returning. He's excellent in dealing with herbs and potions. Thank you! You saved my life. In return, I'll teach you all I know about the tablet pilgrimage. You already he…",
+   "header": "Summoner Noctisse",
+   "when": [
+    "cond 4; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How?\"",
+     "bypass": "Quest Q00093_SagaOfTheSpectralMaster 2-2",
+     "kind": "quest-event",
+     "script": "Q00093_SagaOfTheSpectralMaster",
+     "event": "2-2",
+     "quest": 93,
+     "to": "Q00093_SagaOfTheSpectralMaster/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00093_SagaOfTheSpectralMaster/2-04.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/2-04.htm",
+   "quest": 93,
+   "text": "Summoner Noctisse: What are you waiting for? Follow the lead of this Stone of Commune to find the first Tablet of Vision! If you don't know it well, use the Map. Good luck, my friend!",
+   "header": "Summoner Noctisse",
+   "when": [
+    "cond 5; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00093_SagaOfTheSpectralMaster/11-01.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/11-01.htm",
+   "quest": 93,
+   "text": "Summoner Noctisse: I've been waiting for you. Much has happened since you left. That crafty old bastard wants to kill me! You must believe me! Last night, he sent a summoner to make an attempt on my life! You must complete the pilgrimage of the tablet first! I have some new information. I found the…",
+   "header": "Summoner Noctisse",
+   "when": [
+    "cond 14; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more.\"",
+     "bypass": "Quest Q00093_SagaOfTheSpectralMaster 11-9",
+     "kind": "quest-event",
+     "script": "Q00093_SagaOfTheSpectralMaster",
+     "event": "11-9",
+     "quest": 93,
+     "to": "Q00093_SagaOfTheSpectralMaster/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00093_SagaOfTheSpectralMaster/11-02.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/11-02.htm",
+   "quest": 93,
+   "text": "Summoner Noctisse: You must defeat the Archon of Halisha to get the fifth Stone of Commune. You can find him at the Imperial Tomb or the Wall of Argos. Enter one of the Sepulchers at the cemetery to find him, or slay his minions at the Shrine of the Loyal by the wall and he'll appear. You must defe…",
+   "header": "Summoner Noctisse",
+   "when": [
+    "cond 15; !((npcId == 30175) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00093_SagaOfTheSpectralMaster/11-03.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/11-03.htm",
+   "quest": 93,
+   "text": "Summoner Noctisse: There are two ways to find the evil Archon of Halisha to get the fifth Stone of Commune. Find him in one of the Sepulchers at the Imperial Tomb, or at the Shrine of the Loyal at the Wall of Argos. Go now, and good luck.",
+   "header": "Summoner Noctisse",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00093_SagaOfTheSpectralMaster/2-05.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/2-05.htm",
+   "quest": 93,
+   "text": "Summoner Noctisse: Cough, hack. Ahhh! Damn it! I can't help you at all in this condition. I have a favor to ask. Please go to Goddard Castle Town and see Dark Elf Magister Kamilen. Ask him to make a medicine to cure this damn fever. Tell him I sent you and he won't refuse. I trust you! Cough, cough!",
+   "header": "Summoner Noctisse",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00093_SagaOfTheSpectralMaster/2-06.htm": {
+   "file": "Q00093_SagaOfTheSpectralMaster/2-06.htm",
+   "quest": 93,
+   "text": "Summoner Noctisse: The answer is in this stone! It's called the Stone of Commune. If you use the power contained in it, you can understand the god's characters written on the Tablet of Vision. Also, hold the stone and you'll intuitively sense where the tablet is hidden. Aren't you curious who made …",
+   "header": "Summoner Noctisse",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Spectral Master (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00093_SagaOfTheSpectralMaster",
+     "kind": "quest",
+     "quest": 93,
+     "to": "Q00093_SagaOfTheSpectralMaster/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

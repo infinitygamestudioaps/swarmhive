@@ -1,0 +1,226 @@
+{
+ "npcId": 32007,
+ "name": "Galba",
+ "title": "Fishing Guild Member",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.310Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Fisherman/32007.htm",
+   "when": "normal (no karma); NOT player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman"
+  },
+  {
+   "page": "ai/npc/Fisherman/32007-pk.htm",
+   "when": "player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman",
+   "variant": "karma"
+  }
+ ],
+ "quests": {
+  "426": {
+   "name": "Quest for Fishing Shot",
+   "listText": [
+    "[Quest for Fishing shot]",
+    "[Quest for Fishing shot (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "ai/npc/Fisherman/32007.htm": {
+   "file": "ai/npc/Fisherman/32007.htm",
+   "quest": null,
+   "text": "Fishing Guild Member Galba: Rainbow Springs is a fishing heaven! There's no place like it. Not only are the fish large and fat, but several fisherman have even fished up a Clan Hall War Decree . Before you start fishing, let me know if you need any gear or have anything to sell.",
+   "header": "Fishing Guild Member Galba",
+   "links": [
+    {
+     "text": "Ask how to fish.",
+     "bypass": "player_help 7561.htm#7561",
+     "kind": "other"
+    },
+    {
+     "text": "Fishing Contest",
+     "bypass": "Quest AvantGarde fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "fishing_championship.htm",
+     "to": null
+    },
+    {
+     "text": "Learn fishing skill.",
+     "bypass": "Quest Fisherman LearnFishSkill",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "LearnFishSkill",
+     "to": null
+    },
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "Quest Fisherman BuySellRefund",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "BuySellRefund",
+     "to": null
+    },
+    {
+     "text": "Sell fish.",
+     "bypass": "npc_%objectId%_multisell 009",
+     "kind": "multisell"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/32007-pk.htm": {
+   "file": "ai/npc/Fisherman/32007-pk.htm",
+   "quest": null,
+   "text": "Fishing Guild Member Galba: Sorry, but I'm forbidden by my guild from doing business with criminals like you!",
+   "header": "Fishing Guild Member Galba",
+   "when": [
+    "player.getKarma() > 0; !character().karmaPlayerCanShop()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Fisherman/32007-2.htm": {
+   "file": "ai/npc/Fisherman/32007-2.htm",
+   "quest": null,
+   "text": "Fishing Guild Member Galba: Excellent! If you have anything else this good, bring it to me right away!",
+   "header": "Fishing Guild Member Galba",
+   "links": [
+    {
+     "text": "Ask how to fish.",
+     "bypass": "player_help 7561.htm#7561",
+     "kind": "other"
+    },
+    {
+     "text": "Fishing Contest",
+     "bypass": "npc_%objectId%_Link fisherman/fishing_championship.htm",
+     "kind": "page",
+     "to": null,
+     "missing": "fisherman/fishing_championship.htm"
+    },
+    {
+     "text": "Learn fishing skill.",
+     "bypass": "npc_%objectId%_FishSkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Buy 3198900",
+     "kind": "shop"
+    },
+    {
+     "text": "Sell fish.",
+     "bypass": "npc_%objectId%_multisell 517",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/32007-3.htm": {
+   "file": "ai/npc/Fisherman/32007-3.htm",
+   "quest": null,
+   "text": "Fishing Guild Member Galba: If you want to catch the biggest, use the best -- that's my motto. When you want to upgrade your gear, come find me.",
+   "header": "Fishing Guild Member Galba",
+   "links": [
+    {
+     "text": "Ask how to fish.",
+     "bypass": "player_help 7561.htm#7561",
+     "kind": "other"
+    },
+    {
+     "text": "Fishing Contest",
+     "bypass": "npc_%objectId%_Link fisherman/fishing_championship.htm",
+     "kind": "page",
+     "to": null,
+     "missing": "fisherman/fishing_championship.htm"
+    },
+    {
+     "text": "Learn fishing skill.",
+     "bypass": "npc_%objectId%_FishSkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Buy 3198900",
+     "kind": "shop"
+    },
+    {
+     "text": "Sell fish.",
+     "bypass": "npc_%objectId%_multisell 517",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/32007-5.htm": {
+   "file": "ai/npc/Fisherman/32007-5.htm",
+   "quest": null,
+   "text": "Fishing Guild Member Galba: Pal, you seem to have made a mistake. There's nothing here to buy!",
+   "header": "Fishing Guild Member Galba",
+   "links": [
+    {
+     "text": "Ask how to fish.",
+     "bypass": "player_help 7561.htm#7561",
+     "kind": "other"
+    },
+    {
+     "text": "Fishing Contest",
+     "bypass": "npc_%objectId%_Link fisherman/fishing_championship.htm",
+     "kind": "page",
+     "to": null,
+     "missing": "fisherman/fishing_championship.htm"
+    },
+    {
+     "text": "Learn fishing skill.",
+     "bypass": "npc_%objectId%_FishSkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Buy 3198900",
+     "kind": "shop"
+    },
+    {
+     "text": "Sell fish.",
+     "bypass": "npc_%objectId%_multisell 517",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Quest for Fishing shot]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Quest for Fishing shot (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

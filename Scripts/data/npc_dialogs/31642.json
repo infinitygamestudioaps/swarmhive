@@ -1,0 +1,219 @@
+{
+ "npcId": 31642,
+ "name": "Tarkai Zu Duda-Mara",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.250Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00078_SagaOfTheDoomcryer/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 78"
+  },
+  {
+   "page": "Q00078_SagaOfTheDoomcryer/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 78"
+  },
+  {
+   "page": "Q00078_SagaOfTheDoomcryer/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 78"
+  },
+  {
+   "page": "Q00078_SagaOfTheDoomcryer/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 78"
+  },
+  {
+   "page": "Q00078_SagaOfTheDoomcryer/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 78"
+  },
+  {
+   "page": "Q00078_SagaOfTheDoomcryer/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 78"
+  },
+  {
+   "page": "Q00078_SagaOfTheDoomcryer/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 78"
+  },
+  {
+   "page": "Q00078_SagaOfTheDoomcryer/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 78"
+  }
+ ],
+ "quests": {
+  "78": {
+   "name": "Saga of the Doomcryer",
+   "listText": [
+    "[Saga of the Doomcryer]",
+    "[Saga of the Doomcryer (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00078_SagaOfTheDoomcryer/4-04.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/4-04.htm",
+   "quest": 78,
+   "text": "Tarkai Zu Duda-Mara: Sharuhi's soul is on a rampage! We must fight against his wrath!",
+   "header": "Tarkai Zu Duda-Mara",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00078_SagaOfTheDoomcryer/4-06.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/4-06.htm",
+   "quest": 78,
+   "text": "Tarkai Zu Duda-Mara: Sharuhi has been defeated! It's soul will help the Orc races through you, the seed of flame. I place this in your hands.",
+   "header": "Tarkai Zu Duda-Mara",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Thank you.\"",
+     "bypass": "Quest Q00078_SagaOfTheDoomcryer 4-1",
+     "kind": "quest-event",
+     "script": "Q00078_SagaOfTheDoomcryer",
+     "event": "4-1",
+     "quest": 78,
+     "to": "Q00078_SagaOfTheDoomcryer/4-010.htm"
+    }
+   ]
+  },
+  "Q00078_SagaOfTheDoomcryer/4-01.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/4-01.htm",
+   "quest": 78,
+   "text": "Tarkai Zu Duda-Mara: You must use all your abilities to defeat this soul on my behalf.",
+   "header": "Tarkai Zu Duda-Mara",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00078_SagaOfTheDoomcryer/4-03.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/4-03.htm",
+   "quest": 78,
+   "text": "Tarkai Zu Duda-Mara: You choose to keep your distance? This will be a harsh winter if we don't stick together.",
+   "header": "Tarkai Zu Duda-Mara",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00078_SagaOfTheDoomcryer/4-05.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/4-05.htm",
+   "quest": 78,
+   "text": "Tarkai Zu Duda-Mara: This is not your fight! Stand back!",
+   "header": "Tarkai Zu Duda-Mara",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00078_SagaOfTheDoomcryer/4-07.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/4-07.htm",
+   "quest": 78,
+   "text": "Tarkai Zu Duda-Mara: I've defeated Sharuhi! It's soul will help the Orc races through you, the seed of flame. I place this in your hands.",
+   "header": "Tarkai Zu Duda-Mara",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Thank you.\"",
+     "bypass": "Quest Q00078_SagaOfTheDoomcryer 4-2",
+     "kind": "quest-event",
+     "script": "Q00078_SagaOfTheDoomcryer",
+     "event": "4-2",
+     "quest": 78,
+     "to": "Q00078_SagaOfTheDoomcryer/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00078_SagaOfTheDoomcryer/4-02.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/4-02.htm",
+   "quest": 78,
+   "text": "Tarkai Zu Duda-Mara: Stand back! This isn't your fight. Don't interfere!",
+   "header": "Tarkai Zu Duda-Mara",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00078_SagaOfTheDoomcryer/4-08.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/4-08.htm",
+   "quest": 78,
+   "text": "Tarkai Mu Duda-Mara: Look beside the burning seed of flame for the Tablet of Vision. It will teach you.",
+   "header": "Tarkai Mu Duda-Mara",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00078_SagaOfTheDoomcryer/4-010.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/4-010.htm",
+   "quest": 78,
+   "text": "Tarkai Zu Duda-Mara: This is a pilgrimage to find the power the gods left for those who would step beyond their limitations. Secret teachings from ancient times. Take this to the last tablet and you will understand what to do in the coming winter and the meaning of worship. I must go. You'll be the…",
+   "header": "Tarkai Zu Duda-Mara",
+   "links": [
+    {
+     "text": "\"Thank you.\"",
+     "bypass": "Quest Q00078_SagaOfTheDoomcryer 4-3",
+     "kind": "quest-event",
+     "script": "Q00078_SagaOfTheDoomcryer",
+     "event": "4-3",
+     "quest": 78,
+     "to": null,
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00078_SagaOfTheDoomcryer/4-011.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/4-011.htm",
+   "quest": 78,
+   "text": "Tarkai Zu Duda-Mara: This is a pilgrimage to find the power the gods left for those who would step beyond their limitations. Secret teachings from ancient times. Take this to the last tablet and you will understand what to do in the coming winter and the meaning of worship.",
+   "header": "Tarkai Zu Duda-Mara",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00078_SagaOfTheDoomcryer/4-09.htm": {
+   "file": "Q00078_SagaOfTheDoomcryer/4-09.htm",
+   "quest": 78,
+   "text": "Tarkai Mu Duda-Mara: Is the seed of flame burning yet? The Tablet of Vision beside it will teach you.",
+   "header": "Tarkai Mu Duda-Mara",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Doomcryer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00078_SagaOfTheDoomcryer",
+     "kind": "quest",
+     "quest": 78,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

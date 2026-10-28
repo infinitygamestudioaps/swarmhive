@@ -1,0 +1,101 @@
+{
+ "npcId": 30321,
+ "name": "Sydnia",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.934Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30321.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30321.htm": {
+   "file": "merchant/30321.htm",
+   "quest": null,
+   "text": "Trader Sydnia: What are you looking for? We sell only the best weapons, and we stand behind everything we sell here. Would you like to have a look around? I'm sure you'll find something you like. And I promise you that you won't find lower prices anywhere else!",
+   "header": "Trader Sydnia",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30321-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3032100",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3032101",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30321-1.htm": {
+   "file": "merchant/30321-1.htm",
+   "quest": null,
+   "text": "Trader Sydnia: Well, what exactly are you looking for?",
+   "header": "Trader Sydnia",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3032100",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3032101",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3032102",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3032103",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "merchant/30321-pk.htm": {
+   "file": "merchant/30321-pk.htm",
+   "quest": null,
+   "text": "Trader Sydnia: Oh ... you're a wanted criminal. My man may report you to the village guards if he sees you. Escape to another place at once. I cannot sell to you now, but I trust you will be a future customer. When you are free once more, please pay our shop a visit. Don't forget us.",
+   "header": "Trader Sydnia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

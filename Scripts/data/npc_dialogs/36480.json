@@ -1,0 +1,179 @@
+{
+ "npcId": 36480,
+ "name": "Scipio",
+ "title": "Reputation Manager",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.459Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/FameManager/36480-01.html",
+   "when": "NOT ((player.getFame() > 0) && (player.getLevel() >= MIN_LVL) && (player.getClassId().level() >= CLASS_L",
+   "src": "ai FameManager"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/FameManager/36480-01.html": {
+   "file": "ai/npc/FameManager/36480-01.html",
+   "quest": null,
+   "text": "Reputation Manager Scipio: Diplomacy is sometimes wiser than fighting. Nevertheless, Warriors need power if they are to protect those who depend on them. (Requires completion of second class transfer and Clan Fame level above 40.)",
+   "header": "Reputation Manager Scipio",
+   "when": [
+    "NOT ((player.getFame() > 0) && (player.getLevel() >= MIN_LVL) && (player.getClassId().level() >= CLASS_L"
+   ],
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Ask how to obtain Clan Fame points.",
+     "bypass": "Quest FameManager 36480-07.html",
+     "kind": "quest-event",
+     "script": "FameManager",
+     "event": "36480-07.html",
+     "to": "ai/npc/FameManager/36480-07.html"
+    }
+   ]
+  },
+  "ai/npc/FameManager/36480-02.html": {
+   "file": "ai/npc/FameManager/36480-02.html",
+   "quest": null,
+   "text": "Reputation Manager Scipio: If you need something, please let me know. Weapons and armor can be enhanced beyond Grade A for top-grade items and specialized for PvP. Weapons must have bestowed special abilities ... Once it is enhanced, an item can only be used by its owner . And once a multi-user ite…",
+   "header": "Reputation Manager Scipio",
+   "links": [
+    {
+     "text": "Enhance weapons and armor for PvP.",
+     "bypass": "npc_%objectId%_exc_multisell 364790001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Cancel enhancement.",
+     "bypass": "npc_%objectId%_exc_multisell 364790002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Obtain consumable item.",
+     "bypass": "npc_%objectId%_multisell 364790003",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "ai/npc/FameManager/36480-03.html": {
+   "file": "ai/npc/FameManager/36480-03.html",
+   "quest": null,
+   "text": "Reputation Manager Scipio: Whether or not you are a member of a clan, your victory cannot be acknowledged unless you possess Clan Reputation Points. Work harder for the benefit of your clan and fame will follow.",
+   "header": "Reputation Manager Scipio",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/FameManager/36480-04.html": {
+   "file": "ai/npc/FameManager/36480-04.html",
+   "quest": null,
+   "text": "Reputation Manager Scipio: You are the pride of your clan!",
+   "header": "Reputation Manager Scipio",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/FameManager/36480-05.html": {
+   "file": "ai/npc/FameManager/36480-05.html",
+   "quest": null,
+   "text": "Reputation Manager Scipio: You do not need to ask for forgiveness by lowering your Clan Fame if you did not commit an offense.",
+   "header": "Reputation Manager Scipio",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/FameManager/36480-06.html": {
+   "file": "ai/npc/FameManager/36480-06.html",
+   "quest": null,
+   "text": "Reputation Manager Scipio: You have committed a serious crime! No matter the circumstances, murder is inexcusable. I will forgive you this once, but do not do this again or the consequences will be dire...",
+   "header": "Reputation Manager Scipio",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/FameManager/36480-07.html": {
+   "file": "ai/npc/FameManager/36480-07.html",
+   "quest": null,
+   "text": "Reputation Manager Scipio: Fame comes naturally when one takes an active part in battles with others. If you have clan members with the same goal, consider jointly participating in Castle Sieges, Fortress Battles and Clan Hall Battles. If you have party members who work extremely well together, try…",
+   "header": "Reputation Manager Scipio",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/FameManager/36480.html": {
+   "file": "ai/npc/FameManager/36480.html",
+   "quest": null,
+   "text": "Reputation Manager Scipio: Warrior, are you confident that your actions are undertaken for the sake of peace rather than to serve your own greed? If so, your reward shall be as great as your accomplishment. What do you seek?",
+   "header": "Reputation Manager Scipio",
+   "links": [
+    {
+     "text": "Examine PVP exclusive items.",
+     "bypass": "Quest FameManager 36479-02.html",
+     "kind": "quest-event",
+     "script": "FameManager",
+     "event": "36479-02.html",
+     "to": "ai/npc/FameManager/36479-02.html"
+    },
+    {
+     "text": "Decrease PK count by 1 (5,000 Fame Points).",
+     "bypass": "Quest FameManager decreasePk",
+     "kind": "quest-event",
+     "script": "FameManager",
+     "event": "decreasePk",
+     "to": "ai/npc/FameManager/36480-01.html",
+     "toAll": [
+      "ai/npc/FameManager/36480-06.html",
+      "ai/npc/FameManager/36480-01.html",
+      "ai/npc/FameManager/36480-05.html"
+     ]
+    },
+    {
+     "text": "Increase Clan Fame (1,000 Fame Points).",
+     "bypass": "Quest FameManager clanRep",
+     "kind": "quest-event",
+     "script": "FameManager",
+     "event": "clanRep",
+     "to": "ai/npc/FameManager/36480-01.html",
+     "toAll": [
+      "ai/npc/FameManager/36480-04.html",
+      "ai/npc/FameManager/36480-01.html",
+      "ai/npc/FameManager/36480-03.html"
+     ]
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/FameManager/36479-02.html": {
+   "file": "ai/npc/FameManager/36479-02.html",
+   "quest": null,
+   "text": "Reputation Manager Rapidus: Tell me what you want, and if you are worthy I will help you. If you have already bestowed them with a special ability , top-grade weapons and armor can be enhanced beyond A-Grade especially for PvP combat. Once a multi-user item is specialized, you will still be able to…",
+   "header": "Reputation Manager Rapidus",
+   "links": [
+    {
+     "text": "Enhance weapons and armor for PvP.",
+     "bypass": "npc_%objectId%_exc_multisell 364790001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Cancel enhancement.",
+     "bypass": "npc_%objectId%_exc_multisell 364790002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Obtain consumable item.",
+     "bypass": "npc_%objectId%_multisell 364790003",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

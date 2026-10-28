@@ -2,7 +2,7 @@
  "id": 367,
  "name": "Electrifying Recharge!",
  "version": 1,
- "generated": "2026-10-27T11:15:38.282Z",
+ "generated": "2026-10-27T18:19:13.038Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 37,
@@ -15,11 +15,17 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 2
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 2
   }
  ],
- "expectedMin": 5,
+ "expectedMin": 8,
  "refLevel": 37,
  "steps": [
   {
@@ -656,8 +662,7 @@
     "hasItems": "hunt"
    },
    "conds": [
-    1,
-    2
+    1
    ],
    "override": {
     "fixed": [
@@ -669,6 +674,529 @@
    },
    "fixedByOverride": [
     "route-conditional"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21035,
+     "name": "Catherok",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 42,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": null,
+   "reasons": [
+    "engine-manual",
+    "route-conditional"
+   ],
+   "text": "Hunt Catherok",
+   "places": [
+    {
+     "mobs": [
+      21035
+     ],
+     "items": [],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "cruma-1-left-e",
+      "name": "Cruma Tower: 1st floor, left: Catherok room",
+      "at": [
+       11705,
+       117857,
+       -12085
+      ],
+      "radius": 1929,
+      "levels": [
+       40,
+       42
+      ],
+      "count": 10,
+      "region": "Cruma Tower",
+      "atlasKey": "room:cruma-1-left-e",
+      "status": "conditional",
+      "sec": 175,
+      "danger": 42,
+      "reachable": true,
+      "score": -7.083333333333334,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "cruma-1-left-a",
+        "name": "Cruma Tower: 1st floor, left: Catherok room",
+        "at": [
+         14560,
+         117039,
+         -12085
+        ],
+        "count": 5,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "cruma-1-left-d",
+        "name": "Cruma Tower: 1st floor, left: Ricenseo room",
+        "at": [
+         14062,
+         110675,
+         -12085
+        ],
+        "count": 5,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "cruma-1-right-d",
+        "name": "Cruma Tower: 1st floor, right: Catherok room",
+        "at": [
+         23670,
+         117155,
+         -12130
+        ],
+        "count": 5,
+        "status": "conditional"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:cruma-1-left-e",
+      "status": "conditional",
+      "flags": [
+       "conditions"
+      ],
+      "from": ".dion",
+      "length": 13817,
+      "sec": 175,
+      "via": ".dion > Dion -> Cruma Tower > floor 1st floor",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 71,
+        "how": "adjacent",
+        "danger": 34
+       },
+       {
+        "do": "floor",
+        "npc": "Mozella",
+        "link": "Teleport into the Tower.",
+        "floor": "1st floor"
+       },
+       {
+        "do": "walk",
+        "len": 13746,
+        "how": "dungeon-rooms",
+        "danger": 42
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": false,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        17296,
+        114176,
+        -3439
+       ],
+       [
+        17608,
+        114936,
+        -11720
+       ],
+       [
+        17576,
+        115928,
+        -11848
+       ],
+       [
+        17560,
+        116920,
+        -12032
+       ],
+       [
+        17560,
+        117160,
+        -12072
+       ],
+       [
+        16568,
+        117160,
+        -12160
+       ],
+       [
+        16264,
+        117096,
+        -12160
+       ],
+       [
+        15448,
+        117080,
+        -12080
+       ],
+       [
+        14456,
+        117960,
+        -12080
+       ],
+       [
+        13912,
+        118520,
+        -12080
+       ],
+       [
+        13912,
+        119512,
+        -12080
+       ],
+       [
+        13912,
+        119672,
+        -12080
+       ],
+       [
+        13160,
+        119736,
+        -12080
+       ],
+       [
+        13032,
+        119640,
+        -12080
+       ],
+       [
+        12472,
+        118648,
+        -12080
+       ],
+       [
+        12472,
+        117656,
+        -12080
+       ],
+       [
+        12472,
+        117368,
+        -12080
+       ],
+       [
+        12296,
+        116904,
+        -12080
+       ],
+       [
+        12184,
+        116824,
+        -12080
+       ],
+       [
+        12136,
+        116824,
+        -12080
+       ],
+       [
+        11704,
+        117448,
+        -12088
+       ],
+       [
+        11704,
+        117864,
+        -12080
+       ]
+      ],
+      "maxDanger": 42,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 42,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "cruma-1-left-e",
+    "name": "Cruma Tower: 1st floor, left: Catherok room",
+    "at": [
+     11705,
+     117857,
+     -12085
+    ],
+    "radius": 1929,
+    "levels": [
+     40,
+     42
+    ],
+    "count": 10,
+    "region": "Cruma Tower",
+    "atlasKey": "room:cruma-1-left-e",
+    "status": "conditional",
+    "sec": 175,
+    "danger": 42,
+    "reachable": true,
+    "score": -7.083333333333334,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "cruma-1-left-a",
+      "name": "Cruma Tower: 1st floor, left: Catherok room",
+      "at": [
+       14560,
+       117039,
+       -12085
+      ],
+      "count": 5,
+      "status": "conditional"
+     },
+     {
+      "kind": "room",
+      "id": "cruma-1-left-d",
+      "name": "Cruma Tower: 1st floor, left: Ricenseo room",
+      "at": [
+       14062,
+       110675,
+       -12085
+      ],
+      "count": 5,
+      "status": "conditional"
+     },
+     {
+      "kind": "room",
+      "id": "cruma-1-right-d",
+      "name": "Cruma Tower: 1st floor, right: Catherok room",
+      "at": [
+       23670,
+       117155,
+       -12130
+      ],
+      "count": 5,
+      "status": "conditional"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:cruma-1-left-e",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".dion",
+    "length": 13817,
+    "sec": 175,
+    "via": ".dion > Dion -> Cruma Tower > floor 1st floor",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 71,
+      "how": "adjacent",
+      "danger": 34
+     },
+     {
+      "do": "floor",
+      "npc": "Mozella",
+      "link": "Teleport into the Tower.",
+      "floor": "1st floor"
+     },
+     {
+      "do": "walk",
+      "len": 13746,
+      "how": "dungeon-rooms",
+      "danger": 42
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      17296,
+      114176,
+      -3439
+     ],
+     [
+      17608,
+      114936,
+      -11720
+     ],
+     [
+      17576,
+      115928,
+      -11848
+     ],
+     [
+      17560,
+      116920,
+      -12032
+     ],
+     [
+      17560,
+      117160,
+      -12072
+     ],
+     [
+      16568,
+      117160,
+      -12160
+     ],
+     [
+      16264,
+      117096,
+      -12160
+     ],
+     [
+      15448,
+      117080,
+      -12080
+     ],
+     [
+      14456,
+      117960,
+      -12080
+     ],
+     [
+      13912,
+      118520,
+      -12080
+     ],
+     [
+      13912,
+      119512,
+      -12080
+     ],
+     [
+      13912,
+      119672,
+      -12080
+     ],
+     [
+      13160,
+      119736,
+      -12080
+     ],
+     [
+      13032,
+      119640,
+      -12080
+     ],
+     [
+      12472,
+      118648,
+      -12080
+     ],
+     [
+      12472,
+      117656,
+      -12080
+     ],
+     [
+      12472,
+      117368,
+      -12080
+     ],
+     [
+      12296,
+      116904,
+      -12080
+     ],
+     [
+      12184,
+      116824,
+      -12080
+     ],
+     [
+      12136,
+      116824,
+      -12080
+     ],
+     [
+      11704,
+      117448,
+      -12088
+     ],
+     [
+      11704,
+      117864,
+      -12080
+     ]
+    ],
+    "maxDanger": 42,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 42,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 200,
+   "engineWhy": "no automatic step at cond 2",
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    2
    ]
   }
  ],

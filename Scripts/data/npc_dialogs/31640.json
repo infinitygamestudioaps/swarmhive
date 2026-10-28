@@ -1,0 +1,548 @@
+{
+ "npcId": 31640,
+ "name": "Pilgrim of Darkness",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.250Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31640.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "82": {
+   "name": "Saga of the Sagittarius",
+   "listText": [
+    "[Saga of the Sagittarius]",
+    "[Saga of the Sagittarius (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00082_SagaOfTheSagittarius/3-01.htm",
+     "when": "cond 10; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00082_SagaOfTheSagittarius/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00082_SagaOfTheSagittarius/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00082_SagaOfTheSagittarius/3-06.htm",
+     "when": "cond 13; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "83": {
+   "name": "Saga of the Moonlight Sentinel",
+   "listText": [
+    "[Saga of the Moonlight Sentinel]",
+    "[Saga of the Moonlight Sentinel (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00083_SagaOfTheMoonlightSentinel/3-01.htm",
+     "when": "cond 10; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00083_SagaOfTheMoonlightSentinel/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00083_SagaOfTheMoonlightSentinel/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00083_SagaOfTheMoonlightSentinel/3-06.htm",
+     "when": "cond 13; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "84": {
+   "name": "Saga of the Ghost Sentinel",
+   "listText": [
+    "[Saga of the Ghost Sentinel]",
+    "[Saga of the Ghost Sentinel (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00084_SagaOfTheGhostSentinel/3-01.htm",
+     "when": "cond 10; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00084_SagaOfTheGhostSentinel/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00084_SagaOfTheGhostSentinel/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00084_SagaOfTheGhostSentinel/3-06.htm",
+     "when": "cond 13; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31640.htm": {
+   "file": "default/31640.htm",
+   "quest": null,
+   "text": "Pilgrim of Darkness: Greetings, stranger! I'm a servant of Gran Kain, traveling from town to town, spreading his will to the world! This is my only purpose in life!",
+   "header": "Pilgrim of Darkness",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00082_SagaOfTheSagittarius/3-01.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/3-01.htm",
+   "quest": 82,
+   "text": "Pilgrim of Darkness: A while back, I saw a fellow with an amazing bow! He looked rather disreputable, somewhat like a thief, I'd say! I spoke briefly with him... He was looking for something quite valuable!",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 10; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Where did he go?\"",
+     "bypass": "Quest Q00082_SagaOfTheSagittarius 3-5",
+     "kind": "quest-event",
+     "script": "Q00082_SagaOfTheSagittarius",
+     "event": "3-5",
+     "quest": 82,
+     "to": "Q00082_SagaOfTheSagittarius/3-07.htm"
+    }
+   ]
+  },
+  "Q00082_SagaOfTheSagittarius/3-05.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/3-05.htm",
+   "quest": 82,
+   "text": "Pilgrim of Darkness: Did you bring the Divine Stone of Wisdom?",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00082_SagaOfTheSagittarius 3-8",
+     "kind": "quest-event",
+     "script": "Q00082_SagaOfTheSagittarius",
+     "event": "3-8",
+     "quest": 82,
+     "to": "Q00082_SagaOfTheSagittarius/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00082_SagaOfTheSagittarius/3-04.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/3-04.htm",
+   "quest": 82,
+   "text": "Pilgrim of Darkness: I didn't say that it was going to be easy. Like I said, Ketra Orcs and Varka Silenos do not easily trust strangers. To gain their trust, you must go to Ketra's Messenger Wahkan of the Ketra Orcs , and Varka's Messenger Naran Ashanuk of the Varka Silenos , and carry out the duty…",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00082_SagaOfTheSagittarius/3-06.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/3-06.htm",
+   "quest": 82,
+   "text": "Pilgrim of Darkness: The Tablet of Vision is in the northern part of the headquarters of the Varka Silenos. I hope you find the person you're looking for.",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 13; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/3-01.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/3-01.htm",
+   "quest": 83,
+   "text": "Pilgrim of Darkness: A while back, I saw someone with an awesome bow! He was a disreputable looking fellow, looked somewhat like a thief! I spoke with him briefly... He was looking for something quite valuable!",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 10; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Where did he go?\"",
+     "bypass": "Quest Q00083_SagaOfTheMoonlightSentinel 3-5",
+     "kind": "quest-event",
+     "script": "Q00083_SagaOfTheMoonlightSentinel",
+     "event": "3-5",
+     "quest": 83,
+     "to": "Q00083_SagaOfTheMoonlightSentinel/3-07.htm"
+    }
+   ]
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/3-05.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/3-05.htm",
+   "quest": 83,
+   "text": "Pilgrim of Darkness: Did you bring the Divine Stone of Wisdom?",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00083_SagaOfTheMoonlightSentinel 3-8",
+     "kind": "quest-event",
+     "script": "Q00083_SagaOfTheMoonlightSentinel",
+     "event": "3-8",
+     "quest": 83,
+     "to": "Q00083_SagaOfTheMoonlightSentinel/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/3-04.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/3-04.htm",
+   "quest": 83,
+   "text": "Pilgrim of Darkness: I didn't say that it was going to be easy. Like I said, Ketra Orcs and Varka Silenos do not easily trust strangers. To gain their trust, you must go to Ketra's Messenger Wahkan of the Ketra Orcs , and Varka's Messenger Naran Ashanuk of the Varka Silenos , and carry out the duty…",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/3-06.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/3-06.htm",
+   "quest": 83,
+   "text": "Pilgrim of Darkness: The Tablet of Vision is in the northern part of the headquarters of the Varka Silenos. I hope you find the person you're looking for.",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 13; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/3-01.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/3-01.htm",
+   "quest": 84,
+   "text": "Pilgrim of Darkness: A while back, I saw someone with an awesome bow! He was a disreputable looking fellow, looked somewhat like a thief! I spoke with him briefly... He was looking for something quite valuable!",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 10; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Where did he go?\"",
+     "bypass": "Quest Q00084_SagaOfTheGhostSentinel 3-5",
+     "kind": "quest-event",
+     "script": "Q00084_SagaOfTheGhostSentinel",
+     "event": "3-5",
+     "quest": 84,
+     "to": "Q00084_SagaOfTheGhostSentinel/3-07.htm"
+    }
+   ]
+  },
+  "Q00084_SagaOfTheGhostSentinel/3-05.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/3-05.htm",
+   "quest": 84,
+   "text": "Pilgrim of Darkness: Did you bring the Divine Stone of Wisdom?",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00084_SagaOfTheGhostSentinel 3-8",
+     "kind": "quest-event",
+     "script": "Q00084_SagaOfTheGhostSentinel",
+     "event": "3-8",
+     "quest": 84,
+     "to": "Q00084_SagaOfTheGhostSentinel/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00084_SagaOfTheGhostSentinel/3-04.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/3-04.htm",
+   "quest": 84,
+   "text": "Pilgrim of Darkness: I didn't say that it was going to be easy. Like I said, Ketra Orcs and Varka Silenos do not easily trust strangers. To gain their trust, you must go to Ketra's Messenger Wahkan of the Ketra Orcs , and Varka's Messenger Naran Ashanuk of the Varka Silenos , and carry out the duty…",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/3-06.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/3-06.htm",
+   "quest": 84,
+   "text": "Pilgrim of Darkness: The Tablet of Vision is in the northern part of headquarters of the Varka Silenos. I hope you find who you're looking for.",
+   "header": "Pilgrim of Darkness",
+   "when": [
+    "cond 13; !((npcId == 30702) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00082_SagaOfTheSagittarius/3-02.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/3-02.htm",
+   "quest": 82,
+   "text": "Pilgrim of Darkness: He offered to bring me the Divine Stone of Wisdom from the Ketra Orcs if I would give him what I had. Of course, if you bring me the stone first, you can have it! You can start a relationship with the Ketra Orcs if you go see Ketra's Messenger Wahkan in the Ketra Orc Outpost . …",
+   "header": "Pilgrim of Darkness",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00082_SagaOfTheSagittarius/3-03.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/3-03.htm",
+   "quest": 82,
+   "text": "Pilgrim of Darkness: He offered to bring me the Divine Stone of Wisdom from the Varka Silenos if I would give him what I had. Of course, if you bring me the stone first, you can have it! You can start a relationship with the Varka Silenos if you go see Varka's Messenger Naran Ashanuk in the Varka S…",
+   "header": "Pilgrim of Darkness",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00082_SagaOfTheSagittarius/3-07.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/3-07.htm",
+   "quest": 82,
+   "text": "Pilgrim of Darkness: Surely you've heard of the ancient rivalry between the Ketra Orcs and the Varka Silenos? Which side do you support?",
+   "header": "Pilgrim of Darkness",
+   "links": [
+    {
+     "text": "\"I'm helping the Ketra Orcs.\"",
+     "bypass": "Quest Q00082_SagaOfTheSagittarius 3-6",
+     "kind": "quest-event",
+     "script": "Q00082_SagaOfTheSagittarius",
+     "event": "3-6",
+     "quest": 82,
+     "to": "Q00082_SagaOfTheSagittarius/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'm helping the Varka Silenos.\"",
+     "bypass": "Quest Q00082_SagaOfTheSagittarius 3-7",
+     "kind": "quest-event",
+     "script": "Q00082_SagaOfTheSagittarius",
+     "event": "3-7",
+     "quest": 82,
+     "to": "Q00082_SagaOfTheSagittarius/3-03.htm"
+    }
+   ]
+  },
+  "Q00082_SagaOfTheSagittarius/3-08.htm": {
+   "file": "Q00082_SagaOfTheSagittarius/3-08.htm",
+   "quest": 82,
+   "text": "Pilgrim of Darkness: I appreciate your hard work. However, the man you seek brought me the Divine Stone of Wisdom before you did. Take this Stone of Commune to the stone tablet in the northern part headquarters of the Varka Silenos. The Tablet of Vision will show you the way.",
+   "header": "Pilgrim of Darkness",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/3-02.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/3-02.htm",
+   "quest": 83,
+   "text": "Pilgrim of Darkness: He offered to bring me the Divine Stone of Wisdom from the Ketra Orcs if I would give him what I had. Of course, if you bring me the stone first, you can have it! You can start a relationship with the Ketra Orcs if you go see Ketra's Messenger Wahkan in the Ketra Orc Outpost . …",
+   "header": "Pilgrim of Darkness",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/3-03.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/3-03.htm",
+   "quest": 83,
+   "text": "Pilgrim of Darkness: He offered to bring me the Divine Stone of Wisdom from the Varka Silenos if I would give him what I had. Of course, if you bring me the stone first, you can have it! You can start a relationship with the Varka Silenos if you go see Varka's Messenger Naran Ashanuk in the Varka S…",
+   "header": "Pilgrim of Darkness",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/3-07.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/3-07.htm",
+   "quest": 83,
+   "text": "Pilgrim of Darkness: Surely you've heard of the ancient rivalry between the Ketra Orcs and the Varka Silenos? Which side do you support?",
+   "header": "Pilgrim of Darkness",
+   "links": [
+    {
+     "text": "\"I'm helping the Ketra Orcs.\"",
+     "bypass": "Quest Q00083_SagaOfTheMoonlightSentinel 3-6",
+     "kind": "quest-event",
+     "script": "Q00083_SagaOfTheMoonlightSentinel",
+     "event": "3-6",
+     "quest": 83,
+     "to": "Q00083_SagaOfTheMoonlightSentinel/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'm helping the Varka Silenos.\"",
+     "bypass": "Quest Q00083_SagaOfTheMoonlightSentinel 3-7",
+     "kind": "quest-event",
+     "script": "Q00083_SagaOfTheMoonlightSentinel",
+     "event": "3-7",
+     "quest": 83,
+     "to": "Q00083_SagaOfTheMoonlightSentinel/3-03.htm"
+    }
+   ]
+  },
+  "Q00083_SagaOfTheMoonlightSentinel/3-08.htm": {
+   "file": "Q00083_SagaOfTheMoonlightSentinel/3-08.htm",
+   "quest": 83,
+   "text": "Pilgrim of Darkness: Thank you for your hard work. However, the man you seek brought me the Divine Stone of Wisdom before you did. Take this Stone of Commune to the stone tablet in the northern part of the headquarters of the Varka Silenos. The Tablet of Vision will give you a clue on how to find h…",
+   "header": "Pilgrim of Darkness",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/3-02.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/3-02.htm",
+   "quest": 84,
+   "text": "Pilgrim of Darkness: He offered to bring me the Divine Stone of Wisdom from the Ketra Orcs if I would give him what I had. Of course, if you bring me the stone first, you can have it! You can start a relationship with the Ketra Orcs if you go see Ketra's Messenger Wahkan in the Ketra Orc Outpost . …",
+   "header": "Pilgrim of Darkness",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/3-03.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/3-03.htm",
+   "quest": 84,
+   "text": "Pilgrim of Darkness: He offered to bring me the Divine Stone of Wisdom from the Varka Silenos if I would give him what I had. Of course, if you bring me the stone first, you can have it! You can start a relationship with the Varka Silenos if you go see Varka's Messenger Naran Ashanuk in the Varka S…",
+   "header": "Pilgrim of Darkness",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/3-07.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/3-07.htm",
+   "quest": 84,
+   "text": "Pilgrim of Darkness: Surely you've heard of the ancient rivalry between the Ketra Orcs and the Varka Silenos? Which side do you support?",
+   "header": "Pilgrim of Darkness",
+   "links": [
+    {
+     "text": "\"I'm helping the Ketra Orcs.\"",
+     "bypass": "Quest Q00084_SagaOfTheGhostSentinel 3-6",
+     "kind": "quest-event",
+     "script": "Q00084_SagaOfTheGhostSentinel",
+     "event": "3-6",
+     "quest": 84,
+     "to": "Q00084_SagaOfTheGhostSentinel/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'm helping the Varka Silenos.\"",
+     "bypass": "Quest Q00084_SagaOfTheGhostSentinel 3-7",
+     "kind": "quest-event",
+     "script": "Q00084_SagaOfTheGhostSentinel",
+     "event": "3-7",
+     "quest": 84,
+     "to": "Q00084_SagaOfTheGhostSentinel/3-03.htm"
+    }
+   ]
+  },
+  "Q00084_SagaOfTheGhostSentinel/3-08.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/3-08.htm",
+   "quest": 84,
+   "text": "Pilgrim of Darkness: Thank you for your hard work. However, the man you seek brought me the Divine Stone of Wisdom before you did. Take this Stone of Commune to the stone tablet in the northern part of the headquarters of the Varka Silenos. The Tablet of Vision will show you the way.",
+   "header": "Pilgrim of Darkness",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Sagittarius (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00082_SagaOfTheSagittarius",
+     "kind": "quest",
+     "quest": 82,
+     "to": "Q00082_SagaOfTheSagittarius/3-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Moonlight Sentinel (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00083_SagaOfTheMoonlightSentinel",
+     "kind": "quest",
+     "quest": 83,
+     "to": "Q00083_SagaOfTheMoonlightSentinel/3-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Ghost Sentinel (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00084_SagaOfTheGhostSentinel",
+     "kind": "quest",
+     "quest": 84,
+     "to": "Q00084_SagaOfTheGhostSentinel/3-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

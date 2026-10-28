@@ -1,0 +1,292 @@
+{
+ "npcId": 31272,
+ "name": "Noel",
+ "title": "Head Blacksmith",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:03.149Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/31272.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "68": {
+   "name": "Saga of the Soul Hound",
+   "listText": [
+    "[Saga of the Soul Hound]",
+    "[Saga of the Soul Hound (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00068_SagaOfTheSoulHound/1-01.htm",
+     "when": "cond 2; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00068_SagaOfTheSoulHound/1-03.htm",
+     "when": "cond 3; has items 7080; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00068_SagaOfTheSoulHound/1-02.htm",
+     "when": "cond 3; has items 7080; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00068_SagaOfTheSoulHound/1-04.htm",
+     "when": "cond 4; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/31272.htm": {
+   "file": "villagemaster/31272.htm",
+   "quest": null,
+   "text": "Head Blacksmith Noel: This icy air is perfect for pounding the steel! Scorching fire and icy air -- that's what makes good, hard steel! Conflict makes everything stronger, that's for sure! Same with life -- no matter how much sorrow or turmoil you may face, if you can endure it, you will become as …",
+   "header": "Head Blacksmith Noel",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest DwarfBlacksmithChange2",
+     "kind": "quest",
+     "script": "DwarfBlacksmithChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/1-01.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/1-01.htm",
+   "quest": 68,
+   "text": "Head Blacksmith Noel: What brings you to me? All the orders are backed up; it's chaos!",
+   "header": "Head Blacksmith Noel",
+   "when": [
+    "cond 2; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I've come to get the key Mona requested.\"",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 1-3",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "1-3",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/1-05.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/1-03.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/1-03.htm",
+   "quest": 68,
+   "text": "Head Blacksmith Noel: Have you brought the Ice Crystals? Then hurry up and give them to me! Time's a-wastin'!",
+   "header": "Head Blacksmith Noel",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); ((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "links": [
+    {
+     "text": "Give him the Ice Crystals.",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 1-4",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "1-4",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/1-06.htm",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/1-02.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/1-02.htm",
+   "quest": 68,
+   "text": "Head Blacksmith Noel: I will need Ice Crystals from Chef Jeremy of the Hot Springs area. Why don't you go and talk to him?",
+   "header": "Head Blacksmith Noel",
+   "when": [
+    "cond 3; has items 7080; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player); !((0 == 0) || hasQuestItems(player, 0))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/1-04.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/1-04.htm",
+   "quest": 68,
+   "text": "Head Blacksmith Noel: Now, take that key to Mona.",
+   "header": "Head Blacksmith Noel",
+   "when": [
+    "cond 4; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/1-05.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/1-05.htm",
+   "quest": 68,
+   "text": "Head Blacksmith Noel: Hmmm... that could be problematic. You see, I have just run out of my spare keys... If you would like me to make you a key from scratch, I will need Ice Crystals from Chef Jeremy of the Hot Springs area. Why don't you go and talk to him?",
+   "header": "Head Blacksmith Noel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/1-06.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/1-06.htm",
+   "quest": 68,
+   "text": "Head Blacksmith Noel: Wait right there. ... Here you go! Here's the key -- now take it to Mona.",
+   "header": "Head Blacksmith Noel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31272-01.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31272-01.html",
+   "quest": 241,
+   "text": "Head Blacksmith Noel: Not just anybody can restore weapons of the old Empire, what makes you think you can help me? I can't even entrust Hilda or Feynn with the job! Well, Caradine does think highly of you.",
+   "header": "Head Blacksmith Noel",
+   "links": [
+    {
+     "text": "\"I can help.\"",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 31272-02.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "31272-02.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31272-02.html"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31272-02.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31272-02.html",
+   "quest": 241,
+   "text": "Head Blacksmith Noel: OK, I'll give you the job. We need about five units of Lunargent, and a bottle of Hellfire Oil. Meet Magic Trader Wesley in the Ivory Tower. He'll tell you where to find them, or maybe you could get them from other Adventurers.",
+   "header": "Head Blacksmith Noel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31272-03.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31272-03.html",
+   "quest": 241,
+   "text": "Head Blacksmith Noel: That took a while, but you did it. I have something to tell you.",
+   "header": "Head Blacksmith Noel",
+   "links": [
+    {
+     "text": "Listen",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 31272-05.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "31272-05.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31272-05.html"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31272-04.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31272-04.html",
+   "quest": 241,
+   "text": "Head Blacksmith Noel: You came back empty-handed? Hurry up and get five units of Lunargent and a bottle of Hellfire Oil!",
+   "header": "Head Blacksmith Noel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31272-05.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31272-05.html",
+   "quest": 241,
+   "text": "Head Blacksmith Noel: Caradine wants to see you as soon as possible. You should go now.",
+   "header": "Head Blacksmith Noel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31272-06.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31272-06.html",
+   "quest": 241,
+   "text": "Head Blacksmith Noel: Didn't I tell you? Caradine was urgently looking for you. Hurry up and go see her!",
+   "header": "Head Blacksmith Noel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Soul Hound (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00068_SagaOfTheSoulHound",
+     "kind": "quest",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/1-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

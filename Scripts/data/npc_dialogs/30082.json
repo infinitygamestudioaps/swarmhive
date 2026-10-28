@@ -1,0 +1,85 @@
+{
+ "npcId": 30082,
+ "name": "Denkus",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.824Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30082.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30082.htm": {
+   "file": "merchant/30082.htm",
+   "quest": null,
+   "text": "Trader Denkus: Welcome, customer! In the market for accessories guaranteed to improve your beauty and increase your presence? You've come to the right place! We offer a better selection than anyone in Aden -- if you can't find it here, you won't find it anywhere.",
+   "header": "Trader Denkus",
+   "links": [
+    {
+     "text": "Trade accessories.",
+     "bypass": "npc_%objectId%_Buy 3008200",
+     "kind": "shop"
+    },
+    {
+     "text": "Trade a basic-type accessory.",
+     "bypass": "npc_%objectId%_Buy 3008202",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30082-pk.htm": {
+   "file": "merchant/30082-pk.htm",
+   "quest": null,
+   "text": "Grocer Denkus: No need to go on standing there staring at me. I don't want to trade with you, so go away.",
+   "header": "Grocer Denkus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Buy/Sell/Refund Common Items. | Buy/Sell/Refund."
+ ],
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund Common Items.",
+   "n": 188,
+   "inDatapack": false,
+   "from": [
+    "Grocer Denkus:Hey, friend -- check these out. As beautiful a"
+   ],
+   "to": []
+  },
+  {
+   "text": "Buy/Sell/Refund.",
+   "n": 11,
+   "inDatapack": false,
+   "from": [
+    "Grocer Denkus:Hey, friend -- check these out. As beautiful a"
+   ],
+   "to": []
+  }
+ ]
+}

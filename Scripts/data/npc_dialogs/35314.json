@@ -1,0 +1,50 @@
+{
+ "npcId": 35314,
+ "name": "Blacksmith",
+ "title": "Innadril",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.427Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/CastleBlacksmith/35314-01.html",
+   "when": "(hasRights(player, npc))",
+   "src": "ai CastleBlacksmith"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/CastleBlacksmith/35314-01.html": {
+   "file": "ai/npc/CastleBlacksmith/35314-01.html",
+   "quest": null,
+   "text": "Blacksmith: My goodness! What brings you here? We Dwarves of the Blacksmith Guild have refined our skills in order to create a greater variety of crops for our Lord. What can I do for you?",
+   "header": "Blacksmith",
+   "when": [
+    "(hasRights(player, npc))"
+   ],
+   "links": [
+    {
+     "text": "Manufacture a crop.",
+     "bypass": "Quest CastleBlacksmith 35314-02.html",
+     "kind": "quest-event",
+     "script": "CastleBlacksmith",
+     "event": "35314-02.html",
+     "to": "ai/npc/CastleBlacksmith/35314-02.html"
+    }
+   ]
+  },
+  "ai/npc/CastleBlacksmith/35314-02.html": {
+   "file": "ai/npc/CastleBlacksmith/35314-02.html",
+   "quest": null,
+   "text": "Certainly, I'd be glad to make an item for you! Bring me the ingredients I need and I'll make it immediately.",
+   "links": [
+    {
+     "text": "View the list.",
+     "bypass": "npc_%objectId%_multisell 350980006",
+     "kind": "multisell"
+    }
+   ]
+  }
+ }
+}

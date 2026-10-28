@@ -1,0 +1,170 @@
+{
+ "npcId": 32012,
+ "name": "Tantan",
+ "title": "Retired Adventurer",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.311Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32012.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "652": {
+   "name": "An Aged Ex-Adventurer",
+   "listText": [
+    "[An Aged Ex-Adventurer]",
+    "[An Aged Ex-Adventurer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00652_AnAgedExAdventurer/32012-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 46)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00652_AnAgedExAdventurer/32012-01a.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 46)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00652_AnAgedExAdventurer/32012-02.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32012.htm": {
+   "file": "default/32012.htm",
+   "quest": null,
+   "text": "Tantan: The old man with shabby cloathing looks tired, but his eyes are sharp.",
+   "header": "Tantan",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00652_AnAgedExAdventurer/32012-01.htm": {
+   "file": "Q00652_AnAgedExAdventurer/32012-01.htm",
+   "quest": 652,
+   "text": "Tantan: Ah-ha! You're a novice adventurer... I haven't met anyone like you on the plains for a long time. I'm Tantan. I may be old now, but in my day, I was a famous adventurer! You've heard of me, haven't you? Those young fellows in the village say I'm making it all up! Youngsters these days are j…",
+   "header": "Tantan",
+   "when": [
+    "state CREATED; (player.getLevel() >= 46)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll share 100 C-grade Soulshots with you. Please make your way home safely with these.\"",
+     "bypass": "Quest Q00652_AnAgedExAdventurer 32012-04.htm",
+     "kind": "quest-event",
+     "script": "Q00652_AnAgedExAdventurer",
+     "event": "32012-04.htm",
+     "quest": 652,
+     "to": "Q00652_AnAgedExAdventurer/32012-04.htm",
+     "toAll": [
+      "Q00652_AnAgedExAdventurer/32012-04.htm",
+      "Q00652_AnAgedExAdventurer/32012-05.htm"
+     ],
+     "effect": "start"
+    },
+    {
+     "text": "\"I've got problems of my own! Beat it!\"",
+     "bypass": "Quest Q00652_AnAgedExAdventurer 32012-03.html",
+     "kind": "quest-event",
+     "script": "Q00652_AnAgedExAdventurer",
+     "event": "32012-03.html",
+     "quest": 652,
+     "to": "Q00652_AnAgedExAdventurer/32012-03.html"
+    }
+   ]
+  },
+  "Q00652_AnAgedExAdventurer/32012-01a.htm": {
+   "file": "Q00652_AnAgedExAdventurer/32012-01a.htm",
+   "quest": 652,
+   "text": "Tantan: Ah-ha! You're a novice adventurer... I haven't met anyone like you on the plains for a long time. I'm Tantan. I may be old now, but in my day, I was a famous adventurer! You've heard of me, haven't you? Those young fellows in the village say I'm making it all up! Youngsters these days are j…",
+   "header": "Tantan",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 46)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00652_AnAgedExAdventurer/32012-02.html": {
+   "file": "Q00652_AnAgedExAdventurer/32012-02.html",
+   "quest": 652,
+   "text": "Tantan: You were the young fellow who helped me out! Thanks to you, I can now fight a monster if I meet one on my way back home... Thank you! If you ever visit the Town of Oren ... speak with Grocer Sara ! She's my daughter-in-law and will reward you for your good heart.",
+   "header": "Tantan",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00652_AnAgedExAdventurer/32012-03.html": {
+   "file": "Q00652_AnAgedExAdventurer/32012-03.html",
+   "quest": 652,
+   "text": "Tantan: Hump! Very well. Never mind an old fart like me, just go about your business! Like I said, young ones these days are just plain rude! It's different from my day... I want to go back home to my daughter-in-law...",
+   "header": "Tantan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00652_AnAgedExAdventurer/32012-04.htm": {
+   "file": "Q00652_AnAgedExAdventurer/32012-04.htm",
+   "quest": 652,
+   "text": "Tantan: Thank you so much... There is still chivalry left in this world! You've made me realize that I can still have adventures! I'll show those whippersnappers! It's so nice to meet someone like you who understands me.. If you ever visit the Town of Oren ... speak with Grocer Sara , my daughter-i…",
+   "header": "Tantan",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00652_AnAgedExAdventurer/32012-05.htm": {
+   "file": "Q00652_AnAgedExAdventurer/32012-05.htm",
+   "quest": 652,
+   "text": "Tantan: I guess you've used all your Soulshots... If you happen to meet any adventurers who have Soulshots... Would you ask them to help me out? Good luck! (You need 100 C-grade Soulshots.)",
+   "header": "Tantan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[An Aged Ex-Adventurer]",
+     "bypass": "npc_%objectId%_Quest Q00652_AnAgedExAdventurer",
+     "kind": "quest",
+     "quest": 652,
+     "to": "Q00652_AnAgedExAdventurer/32012-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[An Aged Ex-Adventurer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00652_AnAgedExAdventurer",
+     "kind": "quest",
+     "quest": 652,
+     "to": "Q00652_AnAgedExAdventurer/32012-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

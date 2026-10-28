@@ -1,0 +1,239 @@
+{
+ "npcId": 31289,
+ "name": "Lakan",
+ "title": "Prefect",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.155Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/31289.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "75": {
+   "name": "Saga of the Titan",
+   "listText": [
+    "[Saga of the Titan]",
+    "[Saga of the Titan (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00075_SagaOfTheTitan/2-01.htm",
+     "when": "cond 1; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00075_SagaOfTheTitan/2-02.htm",
+     "when": "cond 2; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00075_SagaOfTheTitan/2-03.htm",
+     "when": "cond 4; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00075_SagaOfTheTitan/2-04.htm",
+     "when": "cond 5; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/31289.htm": {
+   "file": "trainer/31289.htm",
+   "quest": null,
+   "text": "Prefect Rakan: Remember, even the strongest warrior has his limits. No one is invincible! Once I was the strongest of our tribe, but now I use my strength to train future generations of warriors for the good of our kind.",
+   "header": "Prefect Rakan",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/31289-noteach.htm": {
+   "file": "trainer/31289-noteach.htm",
+   "quest": null,
+   "text": "Prefect Lakan: Oomarak Booka! I can't believe these youngsters nowadays! They can't even find a teacher who is suitable for them!",
+   "header": "Prefect Lakan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00075_SagaOfTheTitan/2-01.htm": {
+   "file": "Q00075_SagaOfTheTitan/2-01.htm",
+   "quest": 75,
+   "text": "Prefect Lakan: The most powerful warrior? Yeah, right! True, I was once a brave warrior of the Atuba tribe, but that was long ago. Now I'll never live down the shame of my disgrace...",
+   "header": "Prefect Lakan",
+   "when": [
+    "cond 1; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What happened?\"",
+     "bypass": "Quest Q00075_SagaOfTheTitan 2-1",
+     "kind": "quest-event",
+     "script": "Q00075_SagaOfTheTitan",
+     "event": "2-1",
+     "quest": 75,
+     "to": "Q00075_SagaOfTheTitan/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00075_SagaOfTheTitan/2-02.htm": {
+   "file": "Q00075_SagaOfTheTitan/2-02.htm",
+   "quest": 75,
+   "text": "Prefect Lakan: I've already said too much. If you want to get me talking, bring me some Bitter Cold Vodka ! Chef Donath in the hot springs resort can make it.",
+   "header": "Prefect Lakan",
+   "when": [
+    "cond 2; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00075_SagaOfTheTitan/2-03.htm": {
+   "file": "Q00075_SagaOfTheTitan/2-03.htm",
+   "quest": 75,
+   "text": "Prefect Lakan: This Bitter Cold Vodka is truly the nectar of the gods! It seems like an eternity since I've tasted it! The burn melts my heart and brings back old memories, even though it lacks the true flame of Paagrio! I'll tell you my story now, my friend. My mistake was failing in my attempt to…",
+   "header": "Prefect Lakan",
+   "when": [
+    "cond 4; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What else happened to you?\"",
+     "bypass": "Quest Q00075_SagaOfTheTitan 2-2",
+     "kind": "quest-event",
+     "script": "Q00075_SagaOfTheTitan",
+     "event": "2-2",
+     "quest": 75,
+     "to": "Q00075_SagaOfTheTitan/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00075_SagaOfTheTitan/2-04.htm": {
+   "file": "Q00075_SagaOfTheTitan/2-04.htm",
+   "quest": 75,
+   "text": "Prefect Lakan: Take this stone south of the Tower of Insolence and commune with the tablet there. While you're at it, see if you can find out what happened to my disciple and determine what the exile from the Hestui tribe is up to.",
+   "header": "Prefect Lakan",
+   "when": [
+    "cond 5; !((npcId == 31327) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00075_SagaOfTheTitan/2-05.htm": {
+   "file": "Q00075_SagaOfTheTitan/2-05.htm",
+   "quest": 75,
+   "text": "Prefect Lakan: I can't bear to face my own people! I've even forsaken Oroka since I was betrayed by my disciple, Muhark! I'll tell you what brought me to this sorry state if you bring me some Bitter Cold Vodka , the nectar of the gods! Master Chef Donath in the hot springs area knows how to make it!",
+   "header": "Prefect Lakan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00075_SagaOfTheTitan/2-06.htm": {
+   "file": "Q00075_SagaOfTheTitan/2-06.htm",
+   "quest": 75,
+   "text": "Prefect Lakan: Umarak Buka! Have you heard of the conquest of the Tower of Insolence? Did you know that there was an exile of the Hestui tribe among the conquerors?! That exile was capable of feats that even I, previously known as the strongest of all Orcs, could not do. He followed the path of sel…",
+   "header": "Prefect Lakan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Titan (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00075_SagaOfTheTitan",
+     "kind": "quest",
+     "quest": 75,
+     "to": "Q00075_SagaOfTheTitan/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

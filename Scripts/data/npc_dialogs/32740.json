@@ -1,0 +1,173 @@
+{
+ "npcId": 32740,
+ "name": "Batracos",
+ "title": "Gatekeeper",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.401Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32740.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "423": {
+   "name": "Take Your Best Shot!",
+   "listText": [
+    "[Take Your Best Shot]",
+    "[Take Your Best Shot (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00423_TakeYourBestShot/32740-04.html",
+     "when": "state CREATED; (qs.hasQuestItems(SEER_UGOROS_PASS))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00423_TakeYourBestShot/32740-01.html",
+     "when": "state CREATED; NOT (qs.hasQuestItems(SEER_UGOROS_PASS))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00423_TakeYourBestShot/32740-02.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00423_TakeYourBestShot/32740-03.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32740.htm": {
+   "file": "default/32740.htm",
+   "quest": null,
+   "text": "Gatekeeper Batracos: Welcome. These are the tribal lands of the Seer Uguros of Tanta. I, the Gatekeeper Batracos, decide who is able to see the seer and who does not. Judging by the looks of you, I have some advice - turn back and keep your life. That shiny armor won't protect you here.",
+   "header": "Gatekeeper Batracos",
+   "links": [
+    {
+     "text": "Continue to listen",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32740-1.htm"
+    },
+    {
+     "text": "Ask him to send you to Tanta Seer Ugoros",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/32740-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/32740-1.htm": {
+   "file": "default/32740-1.htm",
+   "quest": null,
+   "text": "Gatekeeper Batracos: There's something about this place, an unescapable feeling of peace. I used to know that feeling very well here. Unfortunately, the truth behind my people's past keeps me from enjoying that feeling anymore. You see, the Plains have been showered with the blood of my people. In …",
+   "header": "Gatekeeper Batracos",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/32740.htm"
+    }
+   ]
+  },
+  "default/32740-2.htm": {
+   "file": "default/32740-2.htm",
+   "quest": null,
+   "text": "Gatekeeper Batracos: You look too inexperienced to make a journey to see Tanta Seer Ugoros. If you can convince Chief Investigator Johnny that you should go, then I will let you pass. Johnny has been everywhere and done everything. He may not be of my people but he has my respect, and anyone who ha…",
+   "header": "Gatekeeper Batracos",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00423_TakeYourBestShot/32740-04.html": {
+   "file": "Q00423_TakeYourBestShot/32740-04.html",
+   "quest": 423,
+   "text": "Gatekeeper Batracos: Well, you still look soft to me, but Johnny gave you his Approval. That's good enough for me.. ready for Tanta Seer Ugoros? Or are you just going to stand there all day..",
+   "header": "Gatekeeper Batracos",
+   "when": [
+    "state CREATED; (qs.hasQuestItems(SEER_UGOROS_PASS))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00423_TakeYourBestShot/32740-01.html": {
+   "file": "Q00423_TakeYourBestShot/32740-01.html",
+   "quest": 423,
+   "text": "Gatekeeper Batracos: You look too inexperienced to make a journey to Tanta Seer Ugoros. Convince Secondary Commander Johnny, then you can go. Johnny has been everywhere and done everything, and I still like him! His approval is good enough for me. (There is no quest that is being carried out.)",
+   "header": "Gatekeeper Batracos",
+   "when": [
+    "state CREATED; NOT (qs.hasQuestItems(SEER_UGOROS_PASS))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00423_TakeYourBestShot/32740-02.html": {
+   "file": "Q00423_TakeYourBestShot/32740-02.html",
+   "quest": 423,
+   "text": "Gatekeeper Batracos: Secondary Commander Johnny sent you? Odd, he said nothing to me.",
+   "header": "Gatekeeper Batracos",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00423_TakeYourBestShot/32740-03.html": {
+   "file": "Q00423_TakeYourBestShot/32740-03.html",
+   "quest": 423,
+   "text": "Gatekeeper Batracos: What kept you?? Secondary Commander Johnny already notified me! Here, this is Approval from Johnny . When you want to go to Tanta Seer Ugoros, just talk to me. Easy, eh?",
+   "header": "Gatekeeper Batracos",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Take Your Best Shot]",
+     "bypass": "npc_%objectId%_Quest Q00423_TakeYourBestShot",
+     "kind": "quest",
+     "quest": 423,
+     "to": "Q00423_TakeYourBestShot/32740-04.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Take Your Best Shot (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00423_TakeYourBestShot",
+     "kind": "quest",
+     "quest": 423,
+     "to": "Q00423_TakeYourBestShot/32740-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,84 @@
+{
+ "npcId": 30722,
+ "name": "Merian",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.062Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "teleporter/30722.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "teleporter/30722.htm": {
+   "file": "teleporter/30722.htm",
+   "quest": null,
+   "text": "Gatekeeper Merian: This is as far up as you're allowed to go in the Ivory Tower. Heh, it's kind of hard to tell where you are because you've moved through gates... You're currently on the 4th floor, the Dark Elf Guild is located here. The floor above is not open to the general public. Which floor w…",
+   "header": "Gatekeeper Merian",
+   "links": [
+    {
+     "text": "Go to another floor.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/30722-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "teleporter/30722-1.htm": {
+   "file": "teleporter/30722-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Underground Shopping Area",
+     "bypass": "npc_%objectId%_goto 31",
+     "kind": "teleport",
+     "confirm": "811;Underground Shopping Area"
+    },
+    {
+     "text": "1st Floor Lobby",
+     "bypass": "npc_%objectId%_goto 32",
+     "kind": "teleport",
+     "confirm": "811;1st Floor Lobby"
+    },
+    {
+     "text": "2nd Floor Human Wizard Guild",
+     "bypass": "npc_%objectId%_goto 33",
+     "kind": "teleport",
+     "confirm": "811;2nd Floor Human Wizard Guild"
+    },
+    {
+     "text": "3rd Floor Elven Wizard Guild",
+     "bypass": "npc_%objectId%_goto 34",
+     "kind": "teleport",
+     "confirm": "811;3rd Floor Elven Wizard Guild"
+    }
+   ]
+  },
+  "teleporter/30722-pk.htm": {
+   "file": "teleporter/30722-pk.htm",
+   "quest": null,
+   "text": "Gatekeeper Merian: You may not enter The Ivory Tower. Go back the way you came.",
+   "header": "Gatekeeper Merian",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

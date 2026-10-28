@@ -1,0 +1,435 @@
+{
+ "npcId": 31372,
+ "name": "Asefa",
+ "title": "Soul Guide",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.197Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/KetraOrcSupport/31372-01.html",
+   "when": "(AllianceLevel > 0); (AllianceLevel < 3)",
+   "src": "ai KetraOrcSupport"
+  },
+  {
+   "page": "ai/npc/KetraOrcSupport/31372-04.html",
+   "when": "(AllianceLevel > 0); NOT (AllianceLevel < 3)",
+   "src": "ai KetraOrcSupport"
+  },
+  {
+   "page": "ai/npc/KetraOrcSupport/31372-03.html",
+   "when": "NOT (AllianceLevel > 0)",
+   "src": "ai KetraOrcSupport"
+  }
+ ],
+ "quests": {
+  "609": {
+   "name": "Magical Power of Water - Part 1",
+   "listText": [
+    "[Magical Power of Water - Part 1]",
+    "[Magical Power of Water - Part 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00609_MagicalPowerOfWaterPart1/31372-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00609_MagicalPowerOfWaterPart1/31372-03.html",
+     "when": "state STARTED; cond 2; st.isSet(\"spawned\")",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00609_MagicalPowerOfWaterPart1/31372-02.html",
+     "when": "state STARTED; cond 2; !st.isSet(\"spawned\")",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00609_MagicalPowerOfWaterPart1/31372-04.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "610": {
+   "name": "Magical Power of Water - Part 2",
+   "listText": [
+    "[Magical Power of Water - Part 2]",
+    "[Magical Power of Water - Part 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00610_MagicalPowerOfWaterPart2/31372-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); (st.hasQuestItems(GREEN_TOTEM))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00610_MagicalPowerOfWaterPart2/31372-00a.html",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (st.hasQuestItems(GREEN_TOTEM))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00610_MagicalPowerOfWaterPart2/31372-00b.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00610_MagicalPowerOfWaterPart2/31372-03.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00610_MagicalPowerOfWaterPart2/31372-04.html",
+     "when": "state STARTED; NOT (st.isCond(1)); (st.hasQuestItems(ASHUTAR_HEART))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00610_MagicalPowerOfWaterPart2/31372-05.html",
+     "when": "state STARTED; NOT (st.isCond(1)); NOT (st.hasQuestItems(ASHUTAR_HEART))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "ai/npc/KetraOrcSupport/31372-01.html": {
+   "file": "ai/npc/KetraOrcSupport/31372-01.html",
+   "quest": null,
+   "text": "Soul Guide Asefa: Welcome, comrade of Ketra! Until the day comes when you win an honorable name on the battlefield, may the souls of our ancestors bless you and protect you!",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "(AllianceLevel > 0); (AllianceLevel < 3)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/KetraOrcSupport/31372-04.html": {
+   "file": "ai/npc/KetraOrcSupport/31372-04.html",
+   "quest": null,
+   "text": "Soul Guide Asefa: Welcome, sworn friend of Ketra! I pray that the Flame of Paagrio will shed its light on your soul! The blood of the Varka Silenos you drew has been dedicated to the souls of our great ancestors in the midst of sacred flames in heaven! You'll receive the blessings of our ancestors!",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "(AllianceLevel > 0); NOT (AllianceLevel < 3)"
+   ],
+   "links": [
+    {
+     "text": "Blessing of Wolf (Focus): Requires 2 Buffalo Horns",
+     "bypass": "Quest KetraOrcSupport 1",
+     "kind": "quest-event",
+     "script": "KetraOrcSupport",
+     "event": "1",
+     "to": null
+    },
+    {
+     "text": "Blessing of Hawk (Death Whisper): Requires 2 Buffalo Horns",
+     "bypass": "Quest KetraOrcSupport 2",
+     "kind": "quest-event",
+     "script": "KetraOrcSupport",
+     "event": "2",
+     "to": null
+    },
+    {
+     "text": "Blessing of Bear (Might): Requires 3 Buffalo Horns",
+     "bypass": "Quest KetraOrcSupport 3",
+     "kind": "quest-event",
+     "script": "KetraOrcSupport",
+     "event": "3",
+     "to": null
+    },
+    {
+     "text": "Blessing of Spider (Acumen): Requires 3 Buffalo Horns",
+     "bypass": "Quest KetraOrcSupport 4",
+     "kind": "quest-event",
+     "script": "KetraOrcSupport",
+     "event": "4",
+     "to": null
+    },
+    {
+     "text": "Blessing of Lion (Berserker): Requires 3 Buffalo Horns",
+     "bypass": "Quest KetraOrcSupport 5",
+     "kind": "quest-event",
+     "script": "KetraOrcSupport",
+     "event": "5",
+     "to": null
+    },
+    {
+     "text": "Blessing of Coyote (Vampiric Rage): Requires 3 Buffalo Horns",
+     "bypass": "Quest KetraOrcSupport 6",
+     "kind": "quest-event",
+     "script": "KetraOrcSupport",
+     "event": "6",
+     "to": null
+    },
+    {
+     "text": "Blessing of Owl (Empower): Requires 6 Buffalo Horns",
+     "bypass": "Quest KetraOrcSupport 7",
+     "kind": "quest-event",
+     "script": "KetraOrcSupport",
+     "event": "7",
+     "to": null
+    },
+    {
+     "text": "Blessing of Wild Horse (Haste): Requires 6 Buffalo Horns",
+     "bypass": "Quest KetraOrcSupport 8",
+     "kind": "quest-event",
+     "script": "KetraOrcSupport",
+     "event": "8",
+     "to": null
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/KetraOrcSupport/31372-03.html": {
+   "file": "ai/npc/KetraOrcSupport/31372-03.html",
+   "quest": null,
+   "text": "Soul Guide Asefa: You, nameless foreigner! Get away from here! Don't defile the land of our ancestors! I'll bring down the curse of flames upon the enemies of Ketra!",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "NOT (AllianceLevel > 0)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00609_MagicalPowerOfWaterPart1/31372-01.html": {
+   "file": "Q00609_MagicalPowerOfWaterPart1/31372-01.html",
+   "quest": 609,
+   "text": "Soul Guide Asefa: Welcome, comrade of Ketra! Wahkan has told me of your activities. I'm sure that you're the right person for this mission! We Ketra Orcs are unrivaled warriors. The Silenos cannot defeat us, but they've been a nuisance to our noble corps for far too long! I'm convinced that they're…",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00609_MagicalPowerOfWaterPart1/31372-03.html": {
+   "file": "Q00609_MagicalPowerOfWaterPart1/31372-03.html",
+   "quest": 609,
+   "text": "Soul Guide Asefa: Maybe I overestimated your abilities. You have to use your head to fulfill this mission! I'll distract the watchman. Now hurry!",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "state STARTED; cond 2; st.isSet(\"spawned\")"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00609_MagicalPowerOfWaterPart1/31372-02.html": {
+   "file": "Q00609_MagicalPowerOfWaterPart1/31372-02.html",
+   "quest": 609,
+   "text": "Soul Guide Asefa: Break into the Varka Silenos barracks and take the totem of Soul Guide Udan Mardui! It contains the secrets of their hidden power. Take the Thief Key with you, the box with the totem is locked. Hurry, Comrade!",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "state STARTED; cond 2; !st.isSet(\"spawned\")"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00609_MagicalPowerOfWaterPart1/31372-04.html": {
+   "file": "Q00609_MagicalPowerOfWaterPart1/31372-04.html",
+   "quest": 609,
+   "text": "Soul Guide Asefa: Excellent job, comrade of Ketra! This contains the hidden power of those insolent Varkas and will ultimately lead to their defeat! I must begin my research immediately! Take this Divine Stone of Wisdom , comrade.",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31372-01.htm": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31372-01.htm",
+   "quest": 610,
+   "text": "Soul Guide Asefa: After investigating, I found that the magical power comes from the water spirit conjured by using the totem. If you can kill it, it will weaken Udan Mardui's magical power. Will you take on this important mission?",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); (st.hasQuestItems(GREEN_TOTEM))"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "Quest Q00610_MagicalPowerOfWaterPart2 31372-02.html",
+     "kind": "quest-event",
+     "script": "Q00610_MagicalPowerOfWaterPart2",
+     "event": "31372-02.html",
+     "quest": 610,
+     "to": "Q00610_MagicalPowerOfWaterPart2/31372-02.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31372-00a.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31372-00a.html",
+   "quest": 610,
+   "text": "Soul Guide Asefa: Still looking for the totem? You disappoint me. (Quest may only be undertaken by characters with the Green Totem.)",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (st.hasQuestItems(GREEN_TOTEM))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31372-00b.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31372-00b.html",
+   "quest": 610,
+   "text": "Soul Guide Asefa: Come back when you aren't such a weakling. (Quest may only be undertaken by characters of level 75 or above.)",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31372-03.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31372-03.html",
+   "quest": 610,
+   "text": "Soul Guide Asefa: Now you must use caution. Break into the Varka Silenos barracks again and use this Green Totem at the holy altar. Then you can summon Ashutar, the soul of water. Kill it and bring me its heart of ice!",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31372-04.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31372-04.html",
+   "quest": 610,
+   "text": "Soul Guide Asefa: Did you defeat Ashutar?",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "state STARTED; NOT (st.isCond(1)); (st.hasQuestItems(ASHUTAR_HEART))"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the heart of ice.\"",
+     "bypass": "Quest Q00610_MagicalPowerOfWaterPart2 give_heart",
+     "kind": "quest-event",
+     "script": "Q00610_MagicalPowerOfWaterPart2",
+     "event": "give_heart",
+     "quest": 610,
+     "to": "Q00610_MagicalPowerOfWaterPart2/31372-06.html",
+     "toAll": [
+      "Q00610_MagicalPowerOfWaterPart2/31372-06.html",
+      "Q00610_MagicalPowerOfWaterPart2/31372-07.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31372-05.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31372-05.html",
+   "quest": 610,
+   "text": "Soul Guide Asefa: Kill Ashutar and bring me the source of the power!",
+   "header": "Soul Guide Asefa",
+   "when": [
+    "state STARTED; NOT (st.isCond(1)); NOT (st.hasQuestItems(ASHUTAR_HEART))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31372-02.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31372-02.html",
+   "quest": 610,
+   "text": "Soul Guide Asefa: Now you must use caution. Break into the Varka Silenos barracks again and use this Green Totem at the holy altar. Then you can summon Ashutar, the soul of water and the source of Udan Mardui's magical power. Kill it and bring me its heart of ice!",
+   "header": "Soul Guide Asefa",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31372-06.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31372-06.html",
+   "quest": 610,
+   "text": ">Soul Guide Asefa: Excellent job, comrade! At last I can use the magical power of Udan Mardui! You've brought our tribe much closer to victory, and we are in your debt. May glory be with us all!",
+   "header": ">Soul Guide Asefa",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00610_MagicalPowerOfWaterPart2/31372-07.html": {
+   "file": "Q00610_MagicalPowerOfWaterPart2/31372-07.html",
+   "quest": 610,
+   "text": "Soul Guide Asefa: You have to bring me the Ice Heart of Ashutar!",
+   "header": "Soul Guide Asefa",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/KetraOrcSupport/31372-02.html": {
+   "file": "ai/npc/KetraOrcSupport/31372-02.html",
+   "quest": null,
+   "text": "Soul Guide Asefa: In order to receive the blessing of the ancestors, you must dedicate a Buffalo horn to them! Go to the battleground and return victorious, you'll receive a Buffalo horn as a reward!",
+   "header": "Soul Guide Asefa",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Magical Power of Water - Part 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00609_MagicalPowerOfWaterPart1",
+     "kind": "quest",
+     "quest": 609,
+     "to": "Q00609_MagicalPowerOfWaterPart1/31372-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Magical Power of Water - Part 2]",
+     "bypass": "npc_%objectId%_Quest Q00610_MagicalPowerOfWaterPart2",
+     "kind": "quest",
+     "quest": 610,
+     "to": "Q00610_MagicalPowerOfWaterPart2/31372-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Magical Power of Water - Part 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00610_MagicalPowerOfWaterPart2",
+     "kind": "quest",
+     "quest": 610,
+     "to": "Q00610_MagicalPowerOfWaterPart2/31372-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

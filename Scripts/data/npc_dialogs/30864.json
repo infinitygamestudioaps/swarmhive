@@ -1,0 +1,1333 @@
+{
+ "npcId": 30864,
+ "name": "Hanellin",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.097Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "348": {
+   "name": "An Arrogant Search",
+   "listText": [
+    "[An Arrogant Search]",
+    "[An Arrogant Search (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00348_AnArrogantSearch/30864-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-05.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-06.html",
+     "when": "state STARTED; memo 1|2; lacks items 4287,14857",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-07.html",
+     "when": "state STARTED; memo 1|2; !((memoState == 1) && !hasQuestItems(player, TITANS_POWERSTONE) && !hasQuestItems(player, SHELL_OF_MONSTERS)); (((memoState == 1) && hasQuestItems(player, TITANS_POWERSTONE)) || hasQuestItems(player, SHELL_OF_MONSTERS) || (memoStat",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-09.html",
+     "when": "state STARTED; memo 4; switch(st.getMemoStateEx(1)) case 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-13.html",
+     "when": "state STARTED; memo 4; switch(st.getMemoStateEx(1)) case 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-14.html",
+     "when": "state STARTED; memo 4; switch(st.getMemoStateEx(1)) case 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-15.html",
+     "when": "state STARTED; memo 4; switch(st.getMemoStateEx(1)) case 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-16.html",
+     "when": "state STARTED; memo 5; (st.getMemoStateEx(1) % 10) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-17.html",
+     "when": "state STARTED; memo 5; !(st.getMemoStateEx(1) % 10) == 0; switch(st.getMemoStateEx(1)) case 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-18.html",
+     "when": "state STARTED; memo 5; !(st.getMemoStateEx(1) % 10) == 0; switch(st.getMemoStateEx(1)) case 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-19.html",
+     "when": "state STARTED; memo 5; !(st.getMemoStateEx(1) % 10) == 0; switch(st.getMemoStateEx(1)) case 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-21.html",
+     "when": "state STARTED; memo 5; has items 4397,4398,4399",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-20.html",
+     "when": "state STARTED; memo 6|7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-21.html",
+     "when": "state STARTED; memo 8; has items 4397,4398,4399",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-22.html",
+     "when": "state STARTED; memo 8; lacks items 4397,4398,4399; switch(st.getMemoStateEx(1)) case 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-33.html",
+     "when": "state STARTED; memo 8; has items 4398; lacks items 4397,4398,4399; switch(st.getMemoStateEx(1)) case 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-36.html",
+     "when": "state STARTED; memo 8; lacks items 4397,4398,4399,4400; switch(st.getMemoStateEx(1)) case 1; !(hasQuestItems(player, BLOOD_OF_SAINT) && !hasAtLeastOneQuestItem(player, BOOK_OF_SAINT, BOUGH_OF_SAINT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-34.html",
+     "when": "state STARTED; memo 8; has items 4397; lacks items 4397,4398,4399; switch(st.getMemoStateEx(1)) case 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-37.html",
+     "when": "state STARTED; memo 8; lacks items 4397,4398,4399,4400; switch(st.getMemoStateEx(1)) case 2; !(hasQuestItems(player, BOOK_OF_SAINT) && !hasAtLeastOneQuestItem(player, BLOOD_OF_SAINT, BOUGH_OF_SAINT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-35.html",
+     "when": "state STARTED; memo 8; has items 4399; lacks items 4397,4398,4399; switch(st.getMemoStateEx(1)) case 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-38.html",
+     "when": "state STARTED; memo 8; lacks items 4397,4398,4399,4400; switch(st.getMemoStateEx(1)) case 3; !(hasQuestItems(player, BOUGH_OF_SAINT) && !hasAtLeastOneQuestItem(player, BLOOD_OF_SAINT, BOOK_OF_SAINT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-40.html",
+     "when": "state STARTED; memo 8; item 4400 >= 2; st.getMemoStateEx(1) > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-41.html",
+     "when": "state STARTED; memo 8; lacks items 4397,4398,4399; item 4400 >= 1; st.getMemoStateEx(1) > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-23.html",
+     "when": "state STARTED; memo 9; ((antidoteCount < 5) || !hasQuestItems(player, GREATER_HEALING_POTION))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-24.html",
+     "when": "state STARTED; memo 9; has items 1061; !((antidoteCount < 5) || !hasQuestItems(player, GREATER_HEALING_POTION)); antidoteCount >= 5; st.getMemoStateEx(1) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-39.html",
+     "when": "state STARTED; memo 9; has items 1061; !((antidoteCount < 5) || !hasQuestItems(player, GREATER_HEALING_POTION)); antidoteCount >= 5; !st.getMemoStateEx(1) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-25.html",
+     "when": "state STARTED; memo 10; item 4294 >= 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-40.html",
+     "when": "state STARTED; memo 10; item 4400 >= 2; st.getMemoStateEx(1) > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-41.html",
+     "when": "state STARTED; memo 10; lacks items 4397,4398,4399; item 4400 >= 1; st.getMemoStateEx(1) > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-27.html",
+     "when": "state STARTED; memo 11; item 4294 >= 1; st.getMemoStateEx(1) > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-28.html",
+     "when": "state STARTED; memo 11; item 4294 >= 1; !st.getMemoStateEx(1) > 0; st.getMemoStateEx(1) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-31.html",
+     "when": "state STARTED; memo 12; item 4294 >= 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-32.html",
+     "when": "state STARTED; memo 13; item 4294 >= 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-42.html",
+     "when": "state STARTED; memo 14",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-43.html",
+     "when": "state STARTED; memo 15",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-44.html",
+     "when": "state STARTED; memo 16",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-45.html",
+     "when": "state STARTED; memo 17; has items 4294",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-46.html",
+     "when": "state STARTED; memo 17; lacks items 4294; bloodedFabricCount >= 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-48.html",
+     "when": "state STARTED; memo 17; lacks items 4294; !bloodedFabricCount >= 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-52.html",
+     "when": "state STARTED; memo 18; (memoStateEx % 10) < 7; i0 == 0; (bloodedFabricCount + i1) >= 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-53.html",
+     "when": "state STARTED; memo 18; (memoStateEx % 10) < 7; i0 == 0; !(bloodedFabricCount + i1) >= 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-54.html",
+     "when": "state STARTED; memo 18; !(memoStateEx % 10) < 7; (memoStateEx % 10) == 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30864-49.html",
+     "when": "state STARTED; memo 19",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-01.htm": {
+   "file": "Q00348_AnArrogantSearch/30864-01.htm",
+   "quest": 348,
+   "text": "Magister Hanellin: Have you heard the story of the ancient emperor who achieved immortality? He was imprisoned by the gods in a high tower where he suffered for hundreds of years before going mad and becoming a monster. The secrets of immortality, the vast treasures of the ancient empire, the secre…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Is this the story of Baium?\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-02.htm",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-02.htm",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-02.htm"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-05.html": {
+   "file": "Q00348_AnArrogantSearch/30864-05.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Listen. I'll tell you the story about an ancient king who gained eternal life but paid the price by being imprisoned in a high tower by the gods? After being trapped for hundreds of years without being able to die, the king went mad and turned into a monster... The key to eternal…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-06.html": {
+   "file": "Q00348_AnArrogantSearch/30864-06.html",
+   "quest": 348,
+   "text": "Magister Hanellin: You haven't left for the Forsaken Plains yet? Do you remember what I said? Go to the Forsaken Plains and hunt Yintzu or Paliote , and bring back the Monster's Shell as proof. Don't keep me waiting!",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 1|2; lacks items 4287,14857"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-07.html": {
+   "file": "Q00348_AnArrogantSearch/30864-07.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Have you brought me a powerstone? This should fetch a handsome price from the Dwarves, I'll give it to Blacksmith Wilbert later. Well, now at least you will avoid dying in vain. Your task will not be easy... If you have any comrades you should bring at least two with you...",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 1|2; !((memoState == 1) && !hasQuestItems(player, TITANS_POWERSTONE) && !hasQuestItems(player, SHELL_OF_MONSTERS)); (((memoState == 1) && hasQuestItems(player, TITANS_POWERSTONE)) || hasQuestItems(player, SHELL_OF_MONSTERS) || (memoStat"
+   ],
+   "links": [
+    {
+     "text": "\"I work alone.\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-08.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-08.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-08.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-09.html": {
+   "file": "Q00348_AnArrogantSearch/30864-09.html",
+   "quest": 348,
+   "text": "Magister Hanellin: The relics are contained in three separate arks. The arks are hidden in Aden, Giran and somewhere in the Dark Elven Forest beyond the Misty Mountains. Here in Aden, Madam Claudia Athebalt is searching for the ark. In Giran, a fixer named Martien of the Town of Giran is searching …",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 4; switch(st.getMemoStateEx(1)) case 0"
+   ],
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Tell me more about the sacred relics.\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-10.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-10.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-10.html"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-13.html": {
+   "file": "Q00348_AnArrogantSearch/30864-13.html",
+   "quest": 348,
+   "text": "Magister Hanellin: The three sacred relics are contained in three separate arks and hidden in Aden, Giran and somewhere in the Dark Elven Forest across the Misty Mountains. We Dark Elves have a great natural interest in the Tower of Insolence and Baium. Not long ago the lover of a former chief crea…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 4; switch(st.getMemoStateEx(1)) case 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-14.html": {
+   "file": "Q00348_AnArrogantSearch/30864-14.html",
+   "quest": 348,
+   "text": "Magister Hanellin: The three sacred relics are contained in three separate arks and hidden in Aden, Giran and somewhere in the Dark Elven Forest across the Misty Mountains. We Dark Elves have a great natural interest in the Tower of Insolence and Baium. Please go and meet with Madam Claudia Athebal…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 4; switch(st.getMemoStateEx(1)) case 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-15.html": {
+   "file": "Q00348_AnArrogantSearch/30864-15.html",
+   "quest": 348,
+   "text": "Magister Hanellin: The three sacred relics are contained in three separate arks hidden in Aden, Giran and somewhere in the Dark Elven Forest across the Misty Mountains. We Dark Elves have a great natural interest in the Tower of Insolence and Baium. You must go to the Town of Giran and meet with Ma…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 4; switch(st.getMemoStateEx(1)) case 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-16.html": {
+   "file": "Q00348_AnArrogantSearch/30864-16.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Why are you still here? You must hurry! These sort of affairs inevitably attract troublemakers, we must be very careful. You need to collect all three relics so you had better get going... First, go and meet Madam Claudia Athebalt in the village. The other two are expecting you a…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 5; (st.getMemoStateEx(1) % 10) == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-17.html": {
+   "file": "Q00348_AnArrogantSearch/30864-17.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Why are you still here? You must hurry! These sort of affairs inevitably attract troublemakers, we must be very careful. I have received an urgent request for help from the Dark Elf Village. Magister Harne is expecting you there. If you dawdle you will incur the wrath of at least…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 5; !(st.getMemoStateEx(1) % 10) == 0; switch(st.getMemoStateEx(1)) case 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-18.html": {
+   "file": "Q00348_AnArrogantSearch/30864-18.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Why are you still here? You must hurry! These sort of affairs inevitably attract troublemakers, we must be very careful. Claudia Athebaldt has been expecting you for some time now. She will start complaining soon, and I'm sure you don't want me to have to tell her that you are un…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 5; !(st.getMemoStateEx(1) % 10) == 0; switch(st.getMemoStateEx(1)) case 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-19.html": {
+   "file": "Q00348_AnArrogantSearch/30864-19.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Why are you still here? You must hurry! These sort of affairs inevitably attract troublemakers, we must be very careful. I have already sent some funding to Martien of Giran Castle . If you don't report there immediately he will get angry and call the Contract due! I don't want t…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 5; !(st.getMemoStateEx(1) % 10) == 0; switch(st.getMemoStateEx(1)) case 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-21.html": {
+   "file": "Q00348_AnArrogantSearch/30864-21.html",
+   "quest": 348,
+   "text": "Magister Hanellin: The Book of Saint, the Bough of Saint, and the Blood of Saint! Finally, the three holy items have gathered in one place. You did well, truly. I will use these to find a way for you to stand up to the mad king. In the meantime, I must ask another favor from you. It isn't anything …",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 5; has items 4397,4398,4399",
+    "state STARTED; memo 8; has items 4397,4398,4399"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-20.html": {
+   "file": "Q00348_AnArrogantSearch/30864-20.html",
+   "quest": 348,
+   "text": "Magister Hanellin: You still have not found all of the arks. Please hurry! I know you are encountering many difficulties, but I have faith in your abilities.",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 6|7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-22.html": {
+   "file": "Q00348_AnArrogantSearch/30864-22.html",
+   "quest": 348,
+   "text": "Magister Hanellin: I don't understand... I heard that you had obtained the arks, but where are they? If I didn't know better I would accuse you of hiding them away somewhere... You must have forgotten to bring them with you, am I right? You will go and get them NOW, am I right?",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 8; lacks items 4397,4398,4399; switch(st.getMemoStateEx(1)) case 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-33.html": {
+   "file": "Q00348_AnArrogantSearch/30864-33.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Oh, I'm surprised to see you still alive! Is this the blood of the saint? Well, this alone will not be enough. You must also gather the branch of the saint and the Book of the Saint...",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 8; has items 4398; lacks items 4397,4398,4399; switch(st.getMemoStateEx(1)) case 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-36.html": {
+   "file": "Q00348_AnArrogantSearch/30864-36.html",
+   "quest": 348,
+   "text": "Magister Hanellin: I have heard all about you from Magister Harne. It seems she really likes you. By the way... What happened to the blood? Did you already give it to your companion?",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 8; lacks items 4397,4398,4399,4400; switch(st.getMemoStateEx(1)) case 1; !(hasQuestItems(player, BLOOD_OF_SAINT) && !hasAtLeastOneQuestItem(player, BOOK_OF_SAINT, BOUGH_OF_SAINT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-34.html": {
+   "file": "Q00348_AnArrogantSearch/30864-34.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Oh, I'm surprised to see you still alive! Is this the book of the saint? Well, this alone will not be enough. You must also gather the branch of the saint and the blood of the saint...",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 8; has items 4397; lacks items 4397,4398,4399; switch(st.getMemoStateEx(1)) case 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-37.html": {
+   "file": "Q00348_AnArrogantSearch/30864-37.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Madam Claudia Athebalt was very impressed by you. She seemed to like you very much... By the way... what happened to the book? Did you give it to your companion?",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 8; lacks items 4397,4398,4399,4400; switch(st.getMemoStateEx(1)) case 2; !(hasQuestItems(player, BOOK_OF_SAINT) && !hasAtLeastOneQuestItem(player, BLOOD_OF_SAINT, BOUGH_OF_SAINT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-35.html": {
+   "file": "Q00348_AnArrogantSearch/30864-35.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Oh, I'm surprised to see you still alive! Is this the branch of the saint? Well, this alone will not be enough. You must also gather the book of the saint and the Blood of the Saint...",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 8; has items 4399; lacks items 4397,4398,4399; switch(st.getMemoStateEx(1)) case 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-38.html": {
+   "file": "Q00348_AnArrogantSearch/30864-38.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Martien was very impressed with you, but coming from him, that is not saying much. Ha! Just kidding. By the way... what happened to the branch? Did you give it to your companion?",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 8; lacks items 4397,4398,4399,4400; switch(st.getMemoStateEx(1)) case 3; !(hasQuestItems(player, BOUGH_OF_SAINT) && !hasAtLeastOneQuestItem(player, BLOOD_OF_SAINT, BOOK_OF_SAINT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-40.html": {
+   "file": "Q00348_AnArrogantSearch/30864-40.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Why do you still have all three cloths? Although they are quite expensive, it does you no good to have more than one, and it would be advantageous for you to work with reliable friends!",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 8; item 4400 >= 2; st.getMemoStateEx(1) > 0",
+    "state STARTED; memo 10; item 4400 >= 2; st.getMemoStateEx(1) > 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-41.html": {
+   "file": "Q00348_AnArrogantSearch/30864-41.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Surely you are now aware of the incantation woven into this cloth? When soaked with the blood of the saint it will activate the Angelic Vortex. Unfortunately, we don't have enough of the blood of the saint to soak the entire cloth... And besides, there are three cloths that need …",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 8; lacks items 4397,4398,4399; item 4400 >= 1; st.getMemoStateEx(1) > 0",
+    "state STARTED; memo 10; lacks items 4397,4398,4399; item 4400 >= 1; st.getMemoStateEx(1) > 0"
+   ],
+   "links": [
+    {
+     "text": "\"What do I need to do?\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-25.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-25.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-25.html"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-23.html": {
+   "file": "Q00348_AnArrogantSearch/30864-23.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Yes, I'm hard at work on the items that you brought me. I don't even have time to blink! I understand that you are in a hurry... But could you do a simple favor for me before you go? Just buy me five Antidotes and one Healing Potion. Please?",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 9; ((antidoteCount < 5) || !hasQuestItems(player, GREATER_HEALING_POTION))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-24.html": {
+   "file": "Q00348_AnArrogantSearch/30864-24.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Have you brought what I asked for? Please give them to me! I shall mix them together...(Gulp Gulp) Ahh~! That feels good. My research is complete. It is as I expected. The incantation that I learned from the book of the saint and the branch of the saint I wove into the fabric tha…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 9; has items 1061; !((antidoteCount < 5) || !hasQuestItems(player, GREATER_HEALING_POTION)); antidoteCount >= 5; st.getMemoStateEx(1) == 0"
+   ],
+   "links": [
+    {
+     "text": "\"What do I need to do?\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-25.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-25.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-25.html"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-39.html": {
+   "file": "Q00348_AnArrogantSearch/30864-39.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Oh, you're back! Did you bring what I asked for? Oh, thank you! Please give them to me! I'll just mix them up and...(Gulp Gulp) Ahh~! I feel much better. My research is complete. I wove the incantation from the book of the saint and the branch of the saint into the fabric that wi…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 9; has items 1061; !((antidoteCount < 5) || !hasQuestItems(player, GREATER_HEALING_POTION)); antidoteCount >= 5; !st.getMemoStateEx(1) == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-25.html": {
+   "file": "Q00348_AnArrogantSearch/30864-25.html",
+   "quest": 348,
+   "text": "Magister Hanellin: How much do you know about the Platinum tribe? They were ordered by the gods to guard Baium... They will not let anyone in or out of his room... They will even attempt to kill anyone who dares approach the top floor where the throne is located! Although their devotion to their jo…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 10; item 4294 >= 1"
+   ],
+   "links": [
+    {
+     "text": "\"What can we do?\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-26.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-26.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-26.html"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-27.html": {
+   "file": "Q00348_AnArrogantSearch/30864-27.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Listen carefully. Soak the White Fabric in the blood of Platinum tribe shamans and overlords and wrap yourself in it. The Angelic Vortex will accept you. This money should cover your travel expenses, with a little something extra for your trouble... I'm sorry that it can't be mor…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 11; item 4294 >= 1; st.getMemoStateEx(1) > 0"
+   ],
+   "sets": {
+    "cond": "24"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-28.html": {
+   "file": "Q00348_AnArrogantSearch/30864-28.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Good job! You killed all the guardians and recovered the relics! Actually, before I tell you how to disguise yourself so that you can visit the Emperor, I've got a question for you. You seem like an ambitious sort... Rather than going to meet with the old Emperor, would you rathe…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 11; item 4294 >= 1; !st.getMemoStateEx(1) > 0; st.getMemoStateEx(1) == 0"
+   ],
+   "links": [
+    {
+     "text": "\"No, I want to meet the Emperor.\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-29.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-29.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-29.html",
+     "effect": "cond:24"
+    },
+    {
+     "text": "\"I want to make some money.\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-30.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-30.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-30.html",
+     "effect": "cond:25"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-31.html": {
+   "file": "Q00348_AnArrogantSearch/30864-31.html",
+   "quest": 348,
+   "text": "Magister Hanellin: I've done everything I could do for you. Now you must kill shamans and overlords of the platinum race , soak the white cloth in their blood, wrap it around your body and present yourself to the demented emperor... Good luck!",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 12; item 4294 >= 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-32.html": {
+   "file": "Q00348_AnArrogantSearch/30864-32.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Have you forgotten your task? After soaking the cloth with the blood of shamans and overlords of the Platinum tribe , come back here. We have some more business to attend to...",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 13; item 4294 >= 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-42.html": {
+   "file": "Q00348_AnArrogantSearch/30864-42.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Ah, I am truly happy to see that you survived... Now I can continue my story... Do you recognize this? Would you like more of it?",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 14"
+   ],
+   "links": [
+    {
+     "text": "\"What do you want from me?\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-43.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-43.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-43.html"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-43.html": {
+   "file": "Q00348_AnArrogantSearch/30864-43.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Do you remember when I mentioned the bloodless angels? There is something I must tell you... That wasn't exactly true. When angels return to heaven, their physical bodies disappear. During this process a large amount of pure water is produced... This is known as the \"blood of an …",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 15"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more about the blood of an angel.\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-44.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-44.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-44.html",
+     "effect": "cond:26"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-44.html": {
+   "file": "Q00348_AnArrogantSearch/30864-44.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Now we have no use for the blood of the platinum tribe. They no longer wish to meet with Baium. We must obtain the \"blood of an angel\". Go and kill guardian angels and seal angels , soak these cloths with their blood and bring them back to me.",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 16"
+   ],
+   "sets": {
+    "cond": "26"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-45.html": {
+   "file": "Q00348_AnArrogantSearch/30864-45.html",
+   "quest": 348,
+   "text": "Magister Hanellin: What are you doing? Don't you still have work to do? Go and kill the Guardian Angels and Seal Angels. Then, dip these clothes in their blood and bring them back to me.",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 17; has items 4294"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-46.html": {
+   "file": "Q00348_AnArrogantSearch/30864-46.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Ah, yes, 10 pieces. It is good that your conscience doesn't bother you about murdering angels. Others in your position have gone mad! In fact, one died yesterday by jumping into the Blazing Swamp, shouting something about being \"punished by the gods\"! It is good that you can keep…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 17; lacks items 4294; bloodedFabricCount >= 10"
+   ],
+   "links": [
+    {
+     "text": "\"Who are 'those people'?\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-47.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-47.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-47.html",
+     "effect": "cond:27"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-48.html": {
+   "file": "Q00348_AnArrogantSearch/30864-48.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Where are the other pieces? I distinctly remember asking you to bring me 10 pieces of White Fabric soaked in blood... You haven't thrown them away or given them to someone else, have you? Oh, well, nothing can be done about it now. Since you've done the work, I'll pay you, but I …",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 17; lacks items 4294; !bloodedFabricCount >= 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-52.html": {
+   "file": "Q00348_AnArrogantSearch/30864-52.html",
+   "quest": 348,
+   "text": "Magister Hanellin: You still have the items with you, eh? Sir Gustav Athebaldt of Oren, Hardin and Iason Heine of Innadril ... They are not the kind of people you want to get on the wrong side of... They have been promised the items! Please hurry...",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 18; (memoStateEx % 10) < 7; i0 == 0; (bloodedFabricCount + i1) >= 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-53.html": {
+   "file": "Q00348_AnArrogantSearch/30864-53.html",
+   "quest": 348,
+   "text": "Magister Hanellin: What did you do with the 10 pieces of Blooded Fabric I gave you? Don't tell me you lost them!? You're a terrible disappointment to me! I've no use for the likes of you! Be gone!",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 18; (memoStateEx % 10) < 7; i0 == 0; !(bloodedFabricCount + i1) >= 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-54.html": {
+   "file": "Q00348_AnArrogantSearch/30864-54.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Good job! Thank you for your hard work. We haven't heard the last of those three, I guarantee... Ha! They may be a lot of trouble, but the money is good, no? Here is the compensation I promised. What do you want to do now? I still have quite a bit of work to do. Would you like to…",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 18; !(memoStateEx % 10) < 7; (memoStateEx % 10) == 7"
+   ],
+   "links": [
+    {
+     "text": "Continue",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-50.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-50.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-50.html",
+     "effect": "cond:29"
+    },
+    {
+     "text": "Quit",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-51.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-51.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-51.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-49.html": {
+   "file": "Q00348_AnArrogantSearch/30864-49.html",
+   "quest": 348,
+   "text": "Magister Hanellin: You haven't answered my question... What do you want to do? Do you want to continue to do this work or do you want to quit?",
+   "header": "Magister Hanellin",
+   "when": [
+    "state STARTED; memo 19"
+   ],
+   "links": [
+    {
+     "text": "Continue",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-50.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-50.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-50.html",
+     "effect": "cond:29"
+    },
+    {
+     "text": "Quit",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-51.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-51.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-51.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-02.htm": {
+   "file": "Q00348_AnArrogantSearch/30864-02.htm",
+   "quest": 348,
+   "text": "Magister Hanellin: Yes. The poor wretch is under the guard of the Platinum Tribe. Even demons gather at the Tower of Insolence expecting to obtain something... This will not be an easy task, but I intend to uncover his secrets for the good of all mankind.",
+   "header": "Magister Hanellin",
+   "links": [
+    {
+     "text": "\"Why?\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-03.htm",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-03.htm",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-03.htm"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-03.htm": {
+   "file": "Q00348_AnArrogantSearch/30864-03.htm",
+   "quest": 348,
+   "text": "Magister Hanellin: Would you believe for the good of the world? Well, it wouldn't exactly be a lie. Look, I thought you would be intrigued by this story. Whether it is the treasure, the knowledge, whatever... You can find what you want... Do you seek my help?",
+   "header": "Magister Hanellin",
+   "links": [
+    {
+     "text": "\"Please help me.\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-04.htm",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-04.htm",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-04.htm": {
+   "file": "Q00348_AnArrogantSearch/30864-04.htm",
+   "quest": 348,
+   "text": "Magister Hanellin: Very well. But you must first prove your worth. I'm a poor judge of character, so I don't want to see my efforts come to nothing just because you have a kind faith. Hmm... We don't have to go far to settle this. Do you know the Forsaken Plains ? Go there and hunt either Yintzu or…",
+   "header": "Magister Hanellin",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-08.html": {
+   "file": "Q00348_AnArrogantSearch/30864-08.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Very well, as you wish... Inside the Tower of Insolence you will find a teleportation device called the Dimensional Vortex . Oh, I see you are familiar with it. All the other devices in the tower have been activated, but this device, located on the top floor of the tower, has fru…",
+   "header": "Magister Hanellin",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"What do you want me to do?\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-09.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-09.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-09.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-10.html": {
+   "file": "Q00348_AnArrogantSearch/30864-10.html",
+   "quest": 348,
+   "text": "Magister Hanellin: There were three relics left behind by Saint Solina. The first one is her staff. The second is her diary. And the third is her own blood... When you collect all three of these items, the ancient emperor will grant an audience with you.",
+   "header": "Magister Hanellin",
+   "links": [
+    {
+     "text": "\"Why am I doing this?\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-11.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-11.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-11.html"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-11.html": {
+   "file": "Q00348_AnArrogantSearch/30864-11.html",
+   "quest": 348,
+   "text": "Magister Hanellin: The story of the construction of the Tower of Insolence and the defeat of Baium is recorded in the book of the saint. However, the book itself does not impart knowledge. About 20 years ago a book was circulated purporting to be a copy... It was total rubbish. It was a book of hym…",
+   "header": "Magister Hanellin",
+   "links": [
+    {
+     "text": "\"Tell me about the blood of the saint.\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-12.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-12.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-12.html"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-12.html": {
+   "file": "Q00348_AnArrogantSearch/30864-12.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Well, there is no guarantee that this will work... But to open the door, my theory is that any gatekeeper would respond to the owner's blood... Yes, you heard correctly. The woman known as a saint was actually the daughter of Baium! Apparently after losing his mind he murdered hi…",
+   "header": "Magister Hanellin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-26.html": {
+   "file": "Q00348_AnArrogantSearch/30864-26.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Oh, well, I digress... High-ranking members of the Platinum tribe and bloodless angels have been using the Angelic Vortex to visit the Emperor. Perhaps if you disguised yourself to look like them, you could pass through the vortex ! Follow my instructions carefully and you may su…",
+   "header": "Magister Hanellin",
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 30864-27.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "30864-27.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-27.html",
+     "toAll": [
+      "Q00348_AnArrogantSearch/30864-27.html",
+      "Q00348_AnArrogantSearch/30864-28.html"
+     ],
+     "effect": "cond:24"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30864-29.html": {
+   "file": "Q00348_AnArrogantSearch/30864-29.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Oh, really? I thought this would be a good opportunity for you... I suppose I'll have to find someone else. If you want to meet the Emperor so badly, I have an idea... You could disguise yourself as a member of the Platinum tribe! If you can trick the Angelic Vortex, you'll be ab…",
+   "header": "Magister Hanellin",
+   "sets": {
+    "cond": "24"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-30.html": {
+   "file": "Q00348_AnArrogantSearch/30864-30.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Ah, yes, I've always admired that about you. In order for me to explain our work to you properly, I must first tell you how to access the emperor's room. First, you must disguise yourself as a member of the Platinum tribe. You still have the White Fabric I gave you, right? Soak i…",
+   "header": "Magister Hanellin",
+   "sets": {
+    "cond": "25"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-47.html": {
+   "file": "Q00348_AnArrogantSearch/30864-47.html",
+   "quest": 348,
+   "text": "Magister Hanellin: Well, I suppose I will have to tell you now, since you'll have to deliver the items to them anyway... First is Sir Gustav Athebaldt of the Town of Oren . He is a black-hearted scoundrel, a distant relative of Claudia Athebalt. He has been secretly supporting young warlords and ex…",
+   "header": "Magister Hanellin",
+   "sets": {
+    "cond": "27"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-50.html": {
+   "file": "Q00348_AnArrogantSearch/30864-50.html",
+   "quest": 348,
+   "text": "Magister Hanellin: All right. Here, as always, are 10 pieces of white fabric. You know what to do next don't you? Go and kill guardian angels and seal angels . We are truly tempting the wrath of the gods...",
+   "header": "Magister Hanellin",
+   "sets": {
+    "cond": "29"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30864-51.html": {
+   "file": "Q00348_AnArrogantSearch/30864-51.html",
+   "quest": 348,
+   "text": "Magister Hanellin: You are quite a disappointment to me! I thought we were starting a long relationship... Or...have you found another? Ha! Do what you want. I appreciate your hard work and hope to work with you again some day.",
+   "header": "Magister Hanellin",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30864-1.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30864-1.html",
+   "quest": null,
+   "text": "Magister Hanellin: The king of this country so focused on foreign intrigues that he is blind to the revolt brewing in his own capital! There are dozens of plots, cabals and conspiracies to dethrone him and take over this castle. Those self-righteous Elves may frown and sniff at the goings-on, but w…",
+   "header": "Magister Hanellin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest HealerTrainer 30864.html",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "30864.html",
+     "to": "ai/npc/Trainers/HealerTrainer/30864.html"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/30864-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30864-noteach.html",
+   "quest": null,
+   "text": "Magister Henellin: I'm dreadfully sorry but I only teach Dark Elven mages. You should talk to that serious-looking fellow over there. He specializes in Dark Elven warriors. Only Dark Elves are allows in this guild.",
+   "header": "Magister Henellin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30864.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30864.html",
+   "quest": null,
+   "text": "Magister Hanellin: People say this town is the center of culture and religion, but to me it feels like like a piece of rotten wood -- ready to collapse at the slightest push. Humans are closer to Dark Elves than they think...",
+   "header": "Magister Hanellin",
+   "links": [
+    {
+     "text": "\"How can you say that?\"",
+     "bypass": "Quest HealerTrainer 30864-1.html",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "30864-1.html",
+     "to": "ai/npc/Trainers/HealerTrainer/30864-1.html"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[An Arrogant Search]",
+     "bypass": "npc_%objectId%_Quest Q00348_AnArrogantSearch",
+     "kind": "quest",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[An Arrogant Search (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00348_AnArrogantSearch",
+     "kind": "quest",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30864-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30864-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30864-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

@@ -2,7 +2,7 @@
  "id": 618,
  "name": "Into the Flame",
  "version": 1,
- "generated": "2026-10-27T11:15:41.481Z",
+ "generated": "2026-10-27T18:19:15.900Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 60,
@@ -22,12 +22,12 @@
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 1
+   "step": 2
   },
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 3
+   "step": 4
   }
  ],
  "expectedMin": 50,
@@ -1377,8 +1377,1069 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:31540",
+   "key": "c1:talk:31271",
    "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"Where can I find Vacualite ore?\""
+   ],
+   "npc": {
+    "id": 31271,
+    "name": "Hilda",
+    "title": "Blacksmith",
+    "town": "Goddard",
+    "at": [
+     146396,
+     -58696,
+     -2976
+    ],
+    "alt": []
+   },
+   "text": "Talk to Hilda",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31271@146396,-58696",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4539,
+    "sec": 58,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 4539,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147704,
+      -57640,
+      -2880
+     ],
+     [
+      147704,
+      -57912,
+      -2968
+     ],
+     [
+      147608,
+      -58008,
+      -2976
+     ],
+     [
+      147640,
+      -58136,
+      -2976
+     ],
+     [
+      147432,
+      -58280,
+      -2976
+     ],
+     [
+      147160,
+      -58280,
+      -2976
+     ],
+     [
+      146888,
+      -58280,
+      -2976
+     ],
+     [
+      146616,
+      -58296,
+      -2976
+     ],
+     [
+      146488,
+      -58280,
+      -2976
+     ],
+     [
+      146616,
+      -58360,
+      -2976
+     ],
+     [
+      146648,
+      -58552,
+      -2976
+     ],
+     [
+      146728,
+      -58696,
+      -2968
+     ],
+     [
+      146728,
+      -58936,
+      -2968
+     ],
+     [
+      146504,
+      -58792,
+      -2968
+     ],
+     [
+      146392,
+      -58696,
+      -2968
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": 3,
+   "monsters": [
+    {
+     "id": 21274,
+     "name": "Kookaburra",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21276,
+     "name": "Kookaburra",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 21282,
+     "name": "Bandersnatch",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 21283,
+     "name": "Bandersnatch",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 21284,
+     "name": "Bandersnatch",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 21290,
+     "name": "Grendel",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21291,
+     "name": "Grendel",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21292,
+     "name": "Grendel",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7265,
+     "name": "Vacualite Ore",
+     "n": 50,
+     "from": [
+      {
+       "id": 21274,
+       "name": "Kookaburra",
+       "chance": 63
+      },
+      {
+       "id": 21276,
+       "name": "Kookaburra",
+       "chance": 63
+      },
+      {
+       "id": 21282,
+       "name": "Bandersnatch",
+       "chance": 67
+      },
+      {
+       "id": 21283,
+       "name": "Bandersnatch",
+       "chance": 67
+      },
+      {
+       "id": 21284,
+       "name": "Bandersnatch",
+       "chance": 67
+      },
+      {
+       "id": 21290,
+       "name": "Grendel",
+       "chance": 71
+      },
+      {
+       "id": 21291,
+       "name": "Grendel",
+       "chance": 71
+      },
+      {
+       "id": 21292,
+       "name": "Grendel",
+       "chance": 71
+      }
+     ]
+    }
+   ],
+   "kills": 91,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Kookaburra, Kookaburra, Bandersnatch for Vacualite Ore x50",
+   "places": [
+    {
+     "mobs": [
+      21274,
+      21276,
+      21282,
+      21283,
+      21284,
+      21290,
+      21291,
+      21292
+     ],
+     "items": [
+      7265
+     ],
+     "kills": 91,
+     "area": {
+      "kind": "override",
+      "id": "override",
+      "name": "Wall of Argos 5: Kookaburra area (west)",
+      "radius": 2500,
+      "count": 0,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "varka-silenos-stronghold-14",
+        "name": "Varka Silenos Stronghold 14: Grendel area (north-east)",
+        "at": [
+         134248,
+         -47816,
+         -3224
+        ]
+       }
+      ],
+      "at": [
+       156248,
+       -46392,
+       -3760
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:wall-of-argos-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".goddard",
+      "length": 9402,
+      "sec": 123,
+      "via": ".goddard > Goddard -> Wall of Argos",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Goddard",
+        "cmd": ".goddard"
+       },
+       {
+        "do": "gk",
+        "from": "Goddard",
+        "desc": "Goddard -> Wall of Argos",
+        "link": "wall of argos",
+        "price": 2200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 8691,
+        "how": "field-areas-gap",
+        "danger": 68
+       },
+       {
+        "do": "walk",
+        "len": 711,
+        "how": "field-areas",
+        "danger": 68
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Goddard",
+       "desc": "Goddard -> Wall of Argos"
+      },
+      "simple": true,
+      "pv": [
+       [
+        165054,
+        -47861,
+        -3560
+       ],
+       [
+        156664,
+        -46968,
+        -3440
+       ],
+       [
+        156248,
+        -46392,
+        -3760
+       ]
+      ],
+      "maxDanger": 68,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 68,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Antelope",
+         "lv": 68,
+         "n": 1
+        },
+        {
+         "name": "Kookaburra",
+         "lv": 67,
+         "n": 2
+        }
+       ]
+      },
+      "anchor": {
+       "key": "area:wall-of-argos-5",
+       "name": "Wall of Argos 5: Kookaburra area (west)"
+      },
+      "points": [
+       [
+        165054,
+        -47861,
+        -3560
+       ],
+       [
+        156664,
+        -46968,
+        -3440
+       ],
+       [
+        156248,
+        -46392,
+        -3760
+       ]
+      ]
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Varka Silenos Recruit",
+       "lv": 77
+      },
+      {
+       "name": "Varka Silenos Recruit",
+       "lv": 77
+      },
+      {
+       "name": "Varka Silenos Footman",
+       "lv": 77
+      },
+      {
+       "name": "Grazing Antelope",
+       "lv": 77
+      },
+      {
+       "name": "Varka Silenos Recruit",
+       "lv": 77
+      },
+      {
+       "name": "Varka Silenos Footman",
+       "lv": 77
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "override",
+    "id": "override",
+    "name": "Wall of Argos 5: Kookaburra area (west)",
+    "radius": 2500,
+    "count": 0,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "varka-silenos-stronghold-14",
+      "name": "Varka Silenos Stronghold 14: Grendel area (north-east)",
+      "at": [
+       134248,
+       -47816,
+       -3224
+      ]
+     }
+    ],
+    "at": [
+     156248,
+     -46392,
+     -3760
+    ]
+   },
+   "travel": {
+    "src": "computed",
+    "key": "area:wall-of-argos-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 9402,
+    "sec": 123,
+    "via": ".goddard > Goddard -> Wall of Argos",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8691,
+      "how": "field-areas-gap",
+      "danger": 68
+     },
+     {
+      "do": "walk",
+      "len": 711,
+      "how": "field-areas",
+      "danger": 68
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": true,
+    "pv": [
+     [
+      165054,
+      -47861,
+      -3560
+     ],
+     [
+      156664,
+      -46968,
+      -3440
+     ],
+     [
+      156248,
+      -46392,
+      -3760
+     ]
+    ],
+    "maxDanger": 68,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 68,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Antelope",
+       "lv": 68,
+       "n": 1
+      },
+      {
+       "name": "Kookaburra",
+       "lv": 67,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:wall-of-argos-5",
+     "name": "Wall of Argos 5: Kookaburra area (west)"
+    },
+    "points": [
+     [
+      165054,
+      -47861,
+      -3560
+     ],
+     [
+      156664,
+      -46968,
+      -3440
+     ],
+     [
+      156248,
+      -46392,
+      -3760
+     ]
+    ]
+   },
+   "expectedSec": 2414,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    2
+   ],
+   "override": {
+    "area": {
+     "at": [
+      156248,
+      -46392,
+      -3760
+     ],
+     "radius": 2500,
+     "name": "Wall of Argos 5: Kookaburra area (west)"
+    },
+    "route": [
+     [
+      164456,
+      -47944,
+      -3528
+     ],
+     [
+      163480,
+      -47032,
+      -3328
+     ],
+     [
+      162488,
+      -46392,
+      -3088
+     ],
+     [
+      161512,
+      -46504,
+      -3024
+     ],
+     [
+      160520,
+      -46392,
+      -3440
+     ],
+     [
+      159528,
+      -46360,
+      -3576
+     ],
+     [
+      159272,
+      -46136,
+      -3488
+     ],
+     [
+      158984,
+      -45992,
+      -3368
+     ],
+     [
+      157992,
+      -46168,
+      -3256
+     ],
+     [
+      157048,
+      -45496,
+      -3512
+     ],
+     [
+      156920,
+      -45560,
+      -3544
+     ],
+     [
+      156248,
+      -46376,
+      -3760
+     ],
+     [
+      156248,
+      -46392,
+      -3760
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "note": "area: Wall of Argos 5 (field_areas.json, Kookaburra 67 x19 + Antelope 68, danger 68) instead of Varka Stronghold 14 (Grendel 71, Varka Recruits 77 on the way); Kookaburra 21274/21276 drop Vacualite Ore (Q00618_IntoTheFlame.java). Route: Goddard -> Wall of Argos landing + one geodata leg by raid_policy.policyLeg, 9534 units. The targets themselves are aggressive 67-68: run it at level 63+.",
+    "editedAt": "2026-10-27T10:06:26.484Z",
+    "by": "quest-fixer batch 5"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "points": [
+     [
+      164456,
+      -47944,
+      -3528
+     ],
+     [
+      163480,
+      -47032,
+      -3328
+     ],
+     [
+      162488,
+      -46392,
+      -3088
+     ],
+     [
+      161512,
+      -46504,
+      -3024
+     ],
+     [
+      160520,
+      -46392,
+      -3440
+     ],
+     [
+      159528,
+      -46360,
+      -3576
+     ],
+     [
+      159272,
+      -46136,
+      -3488
+     ],
+     [
+      158984,
+      -45992,
+      -3368
+     ],
+     [
+      157992,
+      -46168,
+      -3256
+     ],
+     [
+      157048,
+      -45496,
+      -3512
+     ],
+     [
+      156920,
+      -45560,
+      -3544
+     ],
+     [
+      156248,
+      -46376,
+      -3760
+     ],
+     [
+      156248,
+      -46392,
+      -3760
+     ]
+    ],
+    "pv": [
+     [
+      164456,
+      -47944,
+      -3528
+     ],
+     [
+      163480,
+      -47032,
+      -3328
+     ],
+     [
+      162488,
+      -46392,
+      -3088
+     ],
+     [
+      161512,
+      -46504,
+      -3024
+     ],
+     [
+      160520,
+      -46392,
+      -3440
+     ],
+     [
+      159528,
+      -46360,
+      -3576
+     ],
+     [
+      159272,
+      -46136,
+      -3488
+     ],
+     [
+      158984,
+      -45992,
+      -3368
+     ],
+     [
+      157992,
+      -46168,
+      -3256
+     ],
+     [
+      157048,
+      -45496,
+      -3512
+     ],
+     [
+      156920,
+      -45560,
+      -3544
+     ],
+     [
+      156248,
+      -46376,
+      -3760
+     ],
+     [
+      156248,
+      -46392,
+      -3760
+     ]
+    ],
+    "length": 9534,
+    "checks": {
+     "aggro": [
+      {
+       "name": "Antelope",
+       "lv": 68,
+       "n": 1
+      },
+      {
+       "name": "Kookaburra",
+       "lv": 67,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "fixedByOverride": [
+    "area-danger"
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:deliver:31271",
+   "cond": 3,
+   "kind": "deliver",
+   "to": 4,
+   "links": [
+    "\"Here you go.\""
+   ],
+   "npc": {
+    "id": 31271,
+    "name": "Hilda",
+    "title": "Blacksmith",
+    "town": "Goddard",
+    "at": [
+     146396,
+     -58696,
+     -2976
+    ],
+    "alt": []
+   },
+   "text": "Bring Vacualite Ore x50 to Hilda",
+   "needs": [
+    {
+     "id": 7265,
+     "name": "Vacualite Ore",
+     "n": 50
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31271@146396,-58696",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4539,
+    "sec": 58,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 4539,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147704,
+      -57640,
+      -2880
+     ],
+     [
+      147704,
+      -57912,
+      -2968
+     ],
+     [
+      147608,
+      -58008,
+      -2976
+     ],
+     [
+      147640,
+      -58136,
+      -2976
+     ],
+     [
+      147432,
+      -58280,
+      -2976
+     ],
+     [
+      147160,
+      -58280,
+      -2976
+     ],
+     [
+      146888,
+      -58280,
+      -2976
+     ],
+     [
+      146616,
+      -58296,
+      -2976
+     ],
+     [
+      146488,
+      -58280,
+      -2976
+     ],
+     [
+      146616,
+      -58360,
+      -2976
+     ],
+     [
+      146648,
+      -58552,
+      -2976
+     ],
+     [
+      146728,
+      -58696,
+      -2968
+     ],
+     [
+      146728,
+      -58936,
+      -2968
+     ],
+     [
+      146504,
+      -58792,
+      -2968
+     ],
+     [
+      146392,
+      -58696,
+      -2968
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:31540",
+   "cond": 4,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -1481,11 +2542,9 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
     4
    ],
+   "overrideFrom": "c1:talk:31540",
    "override": {
     "route": [
      [
@@ -2722,1067 +3781,6 @@
    },
    "fixedByOverride": [
     "route-unverified"
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:31271",
-   "cond": 1,
-   "kind": "talk",
-   "to": 2,
-   "links": [
-    "\"Where can I find Vacualite ore?\""
-   ],
-   "npc": {
-    "id": 31271,
-    "name": "Hilda",
-    "title": "Blacksmith",
-    "town": "Goddard",
-    "at": [
-     146396,
-     -58696,
-     -2976
-    ],
-    "alt": []
-   },
-   "text": "Talk to Hilda",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:31271@146396,-58696",
-    "status": "ok",
-    "flags": [],
-    "from": ".goddard",
-    "length": 4539,
-    "sec": 58,
-    "via": ".goddard",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Goddard",
-      "cmd": ".goddard"
-     },
-     {
-      "do": "walk",
-      "len": 4539,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Goddard"
-    },
-    "simple": true,
-    "pv": [
-     [
-      147732,
-      -56554,
-      -2776
-     ],
-     [
-      147704,
-      -56280,
-      -2776
-     ],
-     [
-      147704,
-      -56344,
-      -2776
-     ],
-     [
-      147704,
-      -56616,
-      -2776
-     ],
-     [
-      147720,
-      -56888,
-      -2776
-     ],
-     [
-      147720,
-      -57160,
-      -2776
-     ],
-     [
-      147720,
-      -57432,
-      -2824
-     ],
-     [
-      147704,
-      -57640,
-      -2880
-     ],
-     [
-      147704,
-      -57912,
-      -2968
-     ],
-     [
-      147608,
-      -58008,
-      -2976
-     ],
-     [
-      147640,
-      -58136,
-      -2976
-     ],
-     [
-      147432,
-      -58280,
-      -2976
-     ],
-     [
-      147160,
-      -58280,
-      -2976
-     ],
-     [
-      146888,
-      -58280,
-      -2976
-     ],
-     [
-      146616,
-      -58296,
-      -2976
-     ],
-     [
-      146488,
-      -58280,
-      -2976
-     ],
-     [
-      146616,
-      -58360,
-      -2976
-     ],
-     [
-      146648,
-      -58552,
-      -2976
-     ],
-     [
-      146728,
-      -58696,
-      -2968
-     ],
-     [
-      146728,
-      -58936,
-      -2968
-     ],
-     [
-      146504,
-      -58792,
-      -2968
-     ],
-     [
-      146392,
-      -58696,
-      -2968
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 83,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1
-   ]
-  },
-  {
-   "i": 3,
-   "key": "c2:hunt",
-   "cond": 2,
-   "kind": "hunt",
-   "to": 3,
-   "monsters": [
-    {
-     "id": 21274,
-     "name": "Kookaburra",
-     "level": 67,
-     "aggressive": false,
-     "raid": false,
-     "spawns": 14,
-     "questSpawned": false
-    },
-    {
-     "id": 21276,
-     "name": "Kookaburra",
-     "level": 67,
-     "aggressive": false,
-     "raid": false,
-     "spawns": 11,
-     "questSpawned": false
-    },
-    {
-     "id": 21282,
-     "name": "Bandersnatch",
-     "level": 69,
-     "aggressive": false,
-     "raid": false,
-     "spawns": 22,
-     "questSpawned": false
-    },
-    {
-     "id": 21283,
-     "name": "Bandersnatch",
-     "level": 69,
-     "aggressive": false,
-     "raid": false,
-     "spawns": 18,
-     "questSpawned": false
-    },
-    {
-     "id": 21284,
-     "name": "Bandersnatch",
-     "level": 69,
-     "aggressive": false,
-     "raid": false,
-     "spawns": 19,
-     "questSpawned": false
-    },
-    {
-     "id": 21290,
-     "name": "Grendel",
-     "level": 71,
-     "aggressive": false,
-     "raid": false,
-     "spawns": 14,
-     "questSpawned": false
-    },
-    {
-     "id": 21291,
-     "name": "Grendel",
-     "level": 71,
-     "aggressive": false,
-     "raid": false,
-     "spawns": 14,
-     "questSpawned": false
-    },
-    {
-     "id": 21292,
-     "name": "Grendel",
-     "level": 71,
-     "aggressive": false,
-     "raid": false,
-     "spawns": 13,
-     "questSpawned": false
-    }
-   ],
-   "items": [
-    {
-     "id": 7265,
-     "name": "Vacualite Ore",
-     "n": 50,
-     "from": [
-      {
-       "id": 21274,
-       "name": "Kookaburra",
-       "chance": 63
-      },
-      {
-       "id": 21276,
-       "name": "Kookaburra",
-       "chance": 63
-      },
-      {
-       "id": 21282,
-       "name": "Bandersnatch",
-       "chance": 67
-      },
-      {
-       "id": 21283,
-       "name": "Bandersnatch",
-       "chance": 67
-      },
-      {
-       "id": 21284,
-       "name": "Bandersnatch",
-       "chance": 67
-      },
-      {
-       "id": 21290,
-       "name": "Grendel",
-       "chance": 71
-      },
-      {
-       "id": 21291,
-       "name": "Grendel",
-       "chance": 71
-      },
-      {
-       "id": 21292,
-       "name": "Grendel",
-       "chance": 71
-      }
-     ]
-    }
-   ],
-   "kills": 91,
-   "reasons": [
-    "aggro-on-way"
-   ],
-   "text": "Hunt Kookaburra, Kookaburra, Bandersnatch for Vacualite Ore x50",
-   "places": [
-    {
-     "mobs": [
-      21274,
-      21276,
-      21282,
-      21283,
-      21284,
-      21290,
-      21291,
-      21292
-     ],
-     "items": [
-      7265
-     ],
-     "kills": 91,
-     "area": {
-      "kind": "override",
-      "id": "override",
-      "name": "Wall of Argos 5: Kookaburra area (west)",
-      "radius": 2500,
-      "count": 0,
-      "alt": [
-       {
-        "kind": "field",
-        "id": "varka-silenos-stronghold-14",
-        "name": "Varka Silenos Stronghold 14: Grendel area (north-east)",
-        "at": [
-         134248,
-         -47816,
-         -3224
-        ]
-       }
-      ],
-      "at": [
-       156248,
-       -46392,
-       -3760
-      ]
-     },
-     "travel": {
-      "src": "computed",
-      "key": "area:wall-of-argos-5",
-      "status": "ok",
-      "flags": [],
-      "from": ".goddard",
-      "length": 9402,
-      "sec": 123,
-      "via": ".goddard > Goddard -> Wall of Argos",
-      "steps": [
-       {
-        "do": "town",
-        "town": "Goddard",
-        "cmd": ".goddard"
-       },
-       {
-        "do": "gk",
-        "from": "Goddard",
-        "desc": "Goddard -> Wall of Argos",
-        "link": "wall of argos",
-        "price": 2200,
-        "live": true
-       },
-       {
-        "do": "walk",
-        "len": 8691,
-        "how": "field-areas-gap",
-        "danger": 68
-       },
-       {
-        "do": "walk",
-        "len": 711,
-        "how": "field-areas",
-        "danger": 68
-       }
-      ],
-      "start": {
-       "kind": "gk",
-       "from": "Goddard",
-       "desc": "Goddard -> Wall of Argos"
-      },
-      "simple": true,
-      "pv": [
-       [
-        165054,
-        -47861,
-        -3560
-       ],
-       [
-        156664,
-        -46968,
-        -3440
-       ],
-       [
-        156248,
-        -46392,
-        -3760
-       ]
-      ],
-      "maxDanger": 68,
-      "needs": [],
-      "why": [],
-      "checks": {
-       "reachable": true,
-       "walls": "geodata / saved / graph walks (walls block)",
-       "water": false,
-       "danger": 68,
-       "dangerVsLevel": 8,
-       "aggro": [
-        {
-         "name": "Antelope",
-         "lv": 68,
-         "n": 1
-        },
-        {
-         "name": "Kookaburra",
-         "lv": 67,
-         "n": 2
-        }
-       ]
-      },
-      "anchor": {
-       "key": "area:wall-of-argos-5",
-       "name": "Wall of Argos 5: Kookaburra area (west)"
-      },
-      "points": [
-       [
-        165054,
-        -47861,
-        -3560
-       ],
-       [
-        156664,
-        -46968,
-        -3440
-       ],
-       [
-        156248,
-        -46392,
-        -3760
-       ]
-      ]
-     },
-     "danger": true,
-     "aggro": [
-      {
-       "name": "Varka Silenos Recruit",
-       "lv": 77
-      },
-      {
-       "name": "Varka Silenos Recruit",
-       "lv": 77
-      },
-      {
-       "name": "Varka Silenos Footman",
-       "lv": 77
-      },
-      {
-       "name": "Grazing Antelope",
-       "lv": 77
-      },
-      {
-       "name": "Varka Silenos Recruit",
-       "lv": 77
-      },
-      {
-       "name": "Varka Silenos Footman",
-       "lv": 77
-      }
-     ]
-    }
-   ],
-   "area": {
-    "kind": "override",
-    "id": "override",
-    "name": "Wall of Argos 5: Kookaburra area (west)",
-    "radius": 2500,
-    "count": 0,
-    "alt": [
-     {
-      "kind": "field",
-      "id": "varka-silenos-stronghold-14",
-      "name": "Varka Silenos Stronghold 14: Grendel area (north-east)",
-      "at": [
-       134248,
-       -47816,
-       -3224
-      ]
-     }
-    ],
-    "at": [
-     156248,
-     -46392,
-     -3760
-    ]
-   },
-   "travel": {
-    "src": "computed",
-    "key": "area:wall-of-argos-5",
-    "status": "ok",
-    "flags": [],
-    "from": ".goddard",
-    "length": 9402,
-    "sec": 123,
-    "via": ".goddard > Goddard -> Wall of Argos",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Goddard",
-      "cmd": ".goddard"
-     },
-     {
-      "do": "gk",
-      "from": "Goddard",
-      "desc": "Goddard -> Wall of Argos",
-      "link": "wall of argos",
-      "price": 2200,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 8691,
-      "how": "field-areas-gap",
-      "danger": 68
-     },
-     {
-      "do": "walk",
-      "len": 711,
-      "how": "field-areas",
-      "danger": 68
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Goddard",
-     "desc": "Goddard -> Wall of Argos"
-    },
-    "simple": true,
-    "pv": [
-     [
-      165054,
-      -47861,
-      -3560
-     ],
-     [
-      156664,
-      -46968,
-      -3440
-     ],
-     [
-      156248,
-      -46392,
-      -3760
-     ]
-    ],
-    "maxDanger": 68,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 68,
-     "dangerVsLevel": 8,
-     "aggro": [
-      {
-       "name": "Antelope",
-       "lv": 68,
-       "n": 1
-      },
-      {
-       "name": "Kookaburra",
-       "lv": 67,
-       "n": 2
-      }
-     ]
-    },
-    "anchor": {
-     "key": "area:wall-of-argos-5",
-     "name": "Wall of Argos 5: Kookaburra area (west)"
-    },
-    "points": [
-     [
-      165054,
-      -47861,
-      -3560
-     ],
-     [
-      156664,
-      -46968,
-      -3440
-     ],
-     [
-      156248,
-      -46392,
-      -3760
-     ]
-    ]
-   },
-   "expectedSec": 2414,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    2
-   ],
-   "override": {
-    "area": {
-     "at": [
-      156248,
-      -46392,
-      -3760
-     ],
-     "radius": 2500,
-     "name": "Wall of Argos 5: Kookaburra area (west)"
-    },
-    "route": [
-     [
-      164456,
-      -47944,
-      -3528
-     ],
-     [
-      163480,
-      -47032,
-      -3328
-     ],
-     [
-      162488,
-      -46392,
-      -3088
-     ],
-     [
-      161512,
-      -46504,
-      -3024
-     ],
-     [
-      160520,
-      -46392,
-      -3440
-     ],
-     [
-      159528,
-      -46360,
-      -3576
-     ],
-     [
-      159272,
-      -46136,
-      -3488
-     ],
-     [
-      158984,
-      -45992,
-      -3368
-     ],
-     [
-      157992,
-      -46168,
-      -3256
-     ],
-     [
-      157048,
-      -45496,
-      -3512
-     ],
-     [
-      156920,
-      -45560,
-      -3544
-     ],
-     [
-      156248,
-      -46376,
-      -3760
-     ],
-     [
-      156248,
-      -46392,
-      -3760
-     ]
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Goddard",
-     "desc": "Goddard -> Wall of Argos"
-    },
-    "note": "area: Wall of Argos 5 (field_areas.json, Kookaburra 67 x19 + Antelope 68, danger 68) instead of Varka Stronghold 14 (Grendel 71, Varka Recruits 77 on the way); Kookaburra 21274/21276 drop Vacualite Ore (Q00618_IntoTheFlame.java). Route: Goddard -> Wall of Argos landing + one geodata leg by raid_policy.policyLeg, 9534 units. The targets themselves are aggressive 67-68: run it at level 63+.",
-    "editedAt": "2026-10-27T10:06:26.484Z",
-    "by": "quest-fixer batch 5"
-   },
-   "travelOverride": {
-    "src": "override",
-    "start": {
-     "kind": "gk",
-     "from": "Goddard",
-     "desc": "Goddard -> Wall of Argos"
-    },
-    "points": [
-     [
-      164456,
-      -47944,
-      -3528
-     ],
-     [
-      163480,
-      -47032,
-      -3328
-     ],
-     [
-      162488,
-      -46392,
-      -3088
-     ],
-     [
-      161512,
-      -46504,
-      -3024
-     ],
-     [
-      160520,
-      -46392,
-      -3440
-     ],
-     [
-      159528,
-      -46360,
-      -3576
-     ],
-     [
-      159272,
-      -46136,
-      -3488
-     ],
-     [
-      158984,
-      -45992,
-      -3368
-     ],
-     [
-      157992,
-      -46168,
-      -3256
-     ],
-     [
-      157048,
-      -45496,
-      -3512
-     ],
-     [
-      156920,
-      -45560,
-      -3544
-     ],
-     [
-      156248,
-      -46376,
-      -3760
-     ],
-     [
-      156248,
-      -46392,
-      -3760
-     ]
-    ],
-    "pv": [
-     [
-      164456,
-      -47944,
-      -3528
-     ],
-     [
-      163480,
-      -47032,
-      -3328
-     ],
-     [
-      162488,
-      -46392,
-      -3088
-     ],
-     [
-      161512,
-      -46504,
-      -3024
-     ],
-     [
-      160520,
-      -46392,
-      -3440
-     ],
-     [
-      159528,
-      -46360,
-      -3576
-     ],
-     [
-      159272,
-      -46136,
-      -3488
-     ],
-     [
-      158984,
-      -45992,
-      -3368
-     ],
-     [
-      157992,
-      -46168,
-      -3256
-     ],
-     [
-      157048,
-      -45496,
-      -3512
-     ],
-     [
-      156920,
-      -45560,
-      -3544
-     ],
-     [
-      156248,
-      -46376,
-      -3760
-     ],
-     [
-      156248,
-      -46392,
-      -3760
-     ]
-    ],
-    "length": 9534,
-    "checks": {
-     "aggro": [
-      {
-       "name": "Antelope",
-       "lv": 68,
-       "n": 1
-      },
-      {
-       "name": "Kookaburra",
-       "lv": 67,
-       "n": 1
-      }
-     ]
-    }
-   },
-   "fixedByOverride": [
-    "area-danger"
-   ]
-  },
-  {
-   "i": 4,
-   "key": "c3:deliver:31271",
-   "cond": 3,
-   "kind": "deliver",
-   "to": 4,
-   "links": [
-    "\"Here you go.\""
-   ],
-   "npc": {
-    "id": 31271,
-    "name": "Hilda",
-    "title": "Blacksmith",
-    "town": "Goddard",
-    "at": [
-     146396,
-     -58696,
-     -2976
-    ],
-    "alt": []
-   },
-   "text": "Bring Vacualite Ore x50 to Hilda",
-   "needs": [
-    {
-     "id": 7265,
-     "name": "Vacualite Ore",
-     "n": 50
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:31271@146396,-58696",
-    "status": "ok",
-    "flags": [],
-    "from": ".goddard",
-    "length": 4539,
-    "sec": 58,
-    "via": ".goddard",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Goddard",
-      "cmd": ".goddard"
-     },
-     {
-      "do": "walk",
-      "len": 4539,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Goddard"
-    },
-    "simple": true,
-    "pv": [
-     [
-      147732,
-      -56554,
-      -2776
-     ],
-     [
-      147704,
-      -56280,
-      -2776
-     ],
-     [
-      147704,
-      -56344,
-      -2776
-     ],
-     [
-      147704,
-      -56616,
-      -2776
-     ],
-     [
-      147720,
-      -56888,
-      -2776
-     ],
-     [
-      147720,
-      -57160,
-      -2776
-     ],
-     [
-      147720,
-      -57432,
-      -2824
-     ],
-     [
-      147704,
-      -57640,
-      -2880
-     ],
-     [
-      147704,
-      -57912,
-      -2968
-     ],
-     [
-      147608,
-      -58008,
-      -2976
-     ],
-     [
-      147640,
-      -58136,
-      -2976
-     ],
-     [
-      147432,
-      -58280,
-      -2976
-     ],
-     [
-      147160,
-      -58280,
-      -2976
-     ],
-     [
-      146888,
-      -58280,
-      -2976
-     ],
-     [
-      146616,
-      -58296,
-      -2976
-     ],
-     [
-      146488,
-      -58280,
-      -2976
-     ],
-     [
-      146616,
-      -58360,
-      -2976
-     ],
-     [
-      146648,
-      -58552,
-      -2976
-     ],
-     [
-      146728,
-      -58696,
-      -2968
-     ],
-     [
-      146728,
-      -58936,
-      -2968
-     ],
-     [
-      146504,
-      -58792,
-      -2968
-     ],
-     [
-      146392,
-      -58696,
-      -2968
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 83,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    3
    ]
   }
  ],

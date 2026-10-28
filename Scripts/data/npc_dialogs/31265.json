@@ -1,0 +1,138 @@
+{
+ "npcId": 31265,
+ "name": "Annette",
+ "title": "Pet Manager",
+ "type": "L2PetManager",
+ "generated": "2026-10-27T18:18:03.145Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "petmanager/31265.htm",
+   "when": "",
+   "src": "html/petmanager"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "petmanager/31265.htm": {
+   "file": "petmanager/31265.htm",
+   "quest": null,
+   "text": "Pet Manager Annette: People too easily ignore the benefits Striders have provided to civilization. Think about it! Because of Striders, battle tactics for siege warfares and large-scale blood alliance wars have changed greatly. And transportation of goods between towns has become easier, helping ac…",
+   "header": "Pet Manager Annette",
+   "links": [
+    {
+     "text": "Listen to instructions for raising a pet.",
+     "bypass": "npc_%objectId%_Link petmanager/instructions.htm",
+     "kind": "page",
+     "to": "petmanager/instructions.htm"
+    },
+    {
+     "text": "Buy pet equipment.",
+     "bypass": "npc_%objectId%_Buy 3126500",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange pet equipment for higher grade equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 1000",
+     "kind": "multisell"
+    },
+    {
+     "text": "Exchange Hatchling equipment for Strider equipment.",
+     "bypass": "npc_%objectId%_multisell 999",
+     "kind": "multisell"
+    },
+    {
+     "text": "Evolve pet.",
+     "bypass": "npc_%objectId%_Link petmanager/evolve.htm",
+     "kind": "page",
+     "to": "petmanager/evolve.htm"
+    },
+    {
+     "text": "Exchange pet exchange ticket for a pet.",
+     "bypass": "npc_%objectId%_Link petmanager/exchange.htm",
+     "kind": "page",
+     "to": "petmanager/exchange.htm"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "petmanager/instructions.htm": {
+   "file": "petmanager/instructions.htm",
+   "quest": null,
+   "text": "There are a few things you should know before deciding to raise a pet. Let me tell you what they are. First, you should know how to acquire a pet's experience. A pet gains a portion of the experience that its master obtains. The specific amount will vary depending on whether the master's own level …",
+   "outcome": "refusal",
+   "links": []
+  },
+  "petmanager/evolve.htm": {
+   "file": "petmanager/evolve.htm",
+   "quest": null,
+   "text": "Depending on its type, you may be able to evolve your pet. Evolution is only possible when the pet is summoned. Also, since the process transfers the experience value, evolving a high level pet might actually result in a decrease in the pet's level. Any items in the pet's inventory will be transfer…",
+   "links": [
+    {
+     "text": "Evolve a Wolf into a Great Wolf.",
+     "bypass": "npc_%objectId%_evolve 1",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Great Wolf into a Fenrir.",
+     "bypass": "npc_%objectId%_evolve 2",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Baby Buffalo into an Improved Baby Buffalo (for Warriors).",
+     "bypass": "npc_%objectId%_evolve 3",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Baby Kookaburra into an Improved Baby Kookaburra (for Mystics).",
+     "bypass": "npc_%objectId%_evolve 4",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Baby Cougar into an Improved Baby Cougar (for mixed professions).",
+     "bypass": "npc_%objectId%_evolve 5",
+     "kind": "other"
+    }
+   ]
+  },
+  "petmanager/exchange.htm": {
+   "file": "petmanager/exchange.htm",
+   "quest": null,
+   "text": "Pet exchange tickets allow their bearer to purchase pets, such as Kookaburra, Buffaloes or Cougars. Sales of the tickets are strictly limited to members. What kind of ticket would you like?",
+   "links": [
+    {
+     "text": "Pet Exchange Ticket: Kookaburra",
+     "bypass": "npc_%objectId%_exchange 1",
+     "kind": "other"
+    },
+    {
+     "text": "Pet Exchange Ticket: Buffalo",
+     "bypass": "npc_%objectId%_exchange 2",
+     "kind": "other"
+    },
+    {
+     "text": "Pet Exchange Ticket: Cougar",
+     "bypass": "npc_%objectId%_exchange 3",
+     "kind": "other"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

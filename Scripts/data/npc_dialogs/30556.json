@@ -1,0 +1,445 @@
+{
+ "npcId": 30556,
+ "name": "Toma",
+ "title": "Master",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.999Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30556.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30556-01.html",
+     "when": "state STARTED; has items 3239,3246; lacks items 3262,3256,3251",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30556-02.html",
+     "when": "state STARTED; has items 3239,3246,3262,3256,3251; lacks items 3262,3251",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "231": {
+   "name": "Test Of The Maestro",
+   "listText": [
+    "[Test of the Maestro]",
+    "[Test of the Maestro (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00231_TestOfTheMaestro/30556-01.html",
+     "when": "state STARTED; memo 3; has items 2871",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30556-06.html",
+     "when": "state STARTED; memo 3; has items 2916; lacks items 2871",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00231_TestOfTheMaestro/30556-07.html",
+     "when": "state STARTED; memo 3; lacks items 2871,2916; item 2872 >= 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "417": {
+   "name": "Path Of The Scavenger",
+   "listText": [
+    "[Path of the Scavenger]",
+    "[Path of the Scavenger (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00417_PathOfTheScavenger/30556-01.html",
+     "when": "state STARTED; has items 1646; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30556-02.html",
+     "when": "state STARTED; has items 1653; lacks items 1646; !(qs.isCreated() || qs.isCompleted()); !hasItemsAtLimit(player, HONEY_JAR)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30556-03.html",
+     "when": "state STARTED; has items 1653; lacks items 1646; !(qs.isCreated() || qs.isCompleted()); hasItemsAtLimit(player, HONEY_JAR)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30556-04.html",
+     "when": "state STARTED; has items 1654; lacks items 1646,1653; !(qs.isCreated() || qs.isCompleted()); !hasItemsAtLimit(player, BEAD)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30556-05a.html",
+     "when": "state STARTED; has items 1654; lacks items 1646,1653; !(qs.isCreated() || qs.isCompleted()); hasItemsAtLimit(player, BEAD)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30556-06a.html",
+     "when": "state STARTED; has items 1657; lacks items 1646,1653,1654,8543; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30556-06c.html",
+     "when": "state STARTED; memo 2; has items 8543; lacks items 1646,1653,1654,1657; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, BEAD_PARCEL) && !hasQuestItems(player, BEAD_PARCEL2))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30556-07.html",
+     "when": "state STARTED; has items 1644,1645; lacks items 1646,1653,1654; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, BEAD_PARCEL) && !hasQuestItems(player, BEAD_PARCEL2)); !(hasQuestItems(player, BEAD_PARCEL2) && !hasQuestItems(player, BEAD_PARCEL) && qs.isMemoState(2))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30556.htm": {
+   "file": "default/30556.htm",
+   "quest": null,
+   "text": "Master Toma: Who are you? I don't speak with those I do not know. Just go on!",
+   "header": "Master Toma",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30556-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30556-01.html",
+   "quest": 221,
+   "text": "Master Toma: A donation ? Let me see... Is it already time for another donation? Strange indeed! It seems like just yesterday I gave one. This wouldn't be a trick from that rascal Arin? He is so full of himself since he became an Elder... Oh, well, I can't say no to your request... Here is the dona…",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; has items 3239,3246; lacks items 3262,3256,3251"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30556-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30556-02.html",
+   "quest": 221,
+   "text": "Master Toma: Stop bothering me! I gave you the donation , so take it and go! Give it to Arin, see if I'll care!",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; has items 3239,3246,3262,3256,3251; lacks items 3262,3251"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30556-01.html": {
+   "file": "Q00231_TestOfTheMaestro/30556-01.html",
+   "quest": 231,
+   "text": "Master Toma: Ha! Well I guess you caught me! Can't get anything past you... Don't misunderstand, I didn't steal it, I just borrowed it for a while to make the machine complete. If you want it back, please help me finish my test.",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; memo 3; has items 2871"
+   ],
+   "links": [
+    {
+     "text": "I will help.",
+     "bypass": "Quest Q00231_TestOfTheMaestro 30556-02.html",
+     "kind": "quest-event",
+     "script": "Q00231_TestOfTheMaestro",
+     "event": "30556-02.html",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30556-02.html"
+    },
+    {
+     "text": "Return the teleporter at once!",
+     "bypass": "Quest Q00231_TestOfTheMaestro 30556-03.html",
+     "kind": "quest-event",
+     "script": "Q00231_TestOfTheMaestro",
+     "event": "30556-03.html",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30556-03.html"
+    }
+   ]
+  },
+  "Q00231_TestOfTheMaestro/30556-06.html": {
+   "file": "Q00231_TestOfTheMaestro/30556-06.html",
+   "quest": 231,
+   "text": "Master Toma: Ha, Don't be too mad. Now we know what to expect on our arrival! Now give me back the machine, not the broken one... Tell the old man that we broke 5 of them. Take care, then.",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; memo 3; has items 2916; lacks items 2871"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30556-07.html": {
+   "file": "Q00231_TestOfTheMaestro/30556-07.html",
+   "quest": 231,
+   "text": "Master Toma: Tell that old man that it broke too easily. Next time he should send something more durable.",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; memo 3; lacks items 2871,2916; item 2872 >= 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30556-01.html": {
+   "file": "Q00417_PathOfTheScavenger/30556-01.html",
+   "quest": 417,
+   "text": "Master Toma: Who are you? Oh, a letter from Mion? Hmm... So you want to be a Scavenger? Do just as I say. This body yearns for something sweet. What do you think? My friend says that if you kill a hunter bear, you can obtain an amazing honey. Please bring me just five Honey Jars . Knock down the Ho…",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; has items 1646; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30556-02.html": {
+   "file": "Q00417_PathOfTheScavenger/30556-02.html",
+   "quest": 417,
+   "text": "Master Toma: Shut up and bring me five Honey Jars at once! You're such an idiot! First you must kill the hunter bear . The Honey Bear will appear afterwards. Conquer the Honey Bear and search him with the spoil . Then you'll find the Honey Jars. You can find many hunter bears at the place where two…",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; has items 1653; lacks items 1646; !(qs.isCreated() || qs.isCompleted()); !hasItemsAtLimit(player, HONEY_JAR)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30556-03.html": {
+   "file": "Q00417_PathOfTheScavenger/30556-03.html",
+   "quest": 417,
+   "text": "Master Toma: Oh, mmm... mmm... Truly delicious ... This time, hunt some monsters. Go after the hunter tarantula or plunder tarantula and bring me the beads they're holding. Bring back at least twenty . And don't forget to take it out with spoil.",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; has items 1653; lacks items 1646; !(qs.isCreated() || qs.isCompleted()); hasItemsAtLimit(player, HONEY_JAR)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30556-04.html": {
+   "file": "Q00417_PathOfTheScavenger/30556-04.html",
+   "quest": 417,
+   "text": "Master Toma: Stop speaking to me. You must bring at least 20 beads . I am truly disappointed. Go back and catch hunter tarantulas or plunder tarantulas and poke around with a sweeper and quickly bring them to me.",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; has items 1654; lacks items 1646,1653; !(qs.isCreated() || qs.isCompleted()); !hasItemsAtLimit(player, BEAD)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30556-05a.html": {
+   "file": "Q00417_PathOfTheScavenger/30556-05a.html",
+   "quest": 417,
+   "text": "Master Toma: A shining bead... Well done! You can complete the test by taking this to my friend. I owe so many of my friends... How will you choose one? Well, would you prefer one that is close or far away?",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; has items 1654; lacks items 1646,1653; !(qs.isCreated() || qs.isCompleted()); hasItemsAtLimit(player, BEAD)"
+   ],
+   "links": [
+    {
+     "text": "\"The one farthest away.\"",
+     "bypass": "Quest Q00417_PathOfTheScavenger 30556-05b.html",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "30556-05b.html",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30556-05b.html",
+     "effect": "cond:9"
+    },
+    {
+     "text": "\"The closest one.\"",
+     "bypass": "Quest Q00417_PathOfTheScavenger 30556-06b.html",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "30556-06b.html",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30556-06b.html",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30556-06a.html": {
+   "file": "Q00417_PathOfTheScavenger/30556-06a.html",
+   "quest": 417,
+   "text": "Master Toma: It's for the Warehouse Keeper Route of Gludin Town. Hurry and deliver.",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; has items 1657; lacks items 1646,1653,1654,8543; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30556-06c.html": {
+   "file": "Q00417_PathOfTheScavenger/30556-06c.html",
+   "quest": 417,
+   "text": "Master Toma: Take it to Yasheni, the Warehouse Chief in the Town of Schuttgart . Hurry up!",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; memo 2; has items 8543; lacks items 1646,1653,1654,1657; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, BEAD_PARCEL) && !hasQuestItems(player, BEAD_PARCEL2))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30556-07.html": {
+   "file": "Q00417_PathOfTheScavenger/30556-07.html",
+   "quest": 417,
+   "text": "Master Toma: Scavenger-to-be, good luck!",
+   "header": "Master Toma",
+   "when": [
+    "state STARTED; has items 1644,1645; lacks items 1646,1653,1654; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, BEAD_PARCEL) && !hasQuestItems(player, BEAD_PARCEL2)); !(hasQuestItems(player, BEAD_PARCEL2) && !hasQuestItems(player, BEAD_PARCEL) && qs.isMemoState(2))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30556-02.html": {
+   "file": "Q00231_TestOfTheMaestro/30556-02.html",
+   "quest": 231,
+   "text": "Master Toma: Good choice! Now, hold the machine and press this button! If you are transported to the Dwarven Village then it is a success! Let's try it!",
+   "header": "Master Toma",
+   "links": [
+    {
+     "text": "Press the button.",
+     "bypass": "Quest Q00231_TestOfTheMaestro 30556-05.html",
+     "kind": "quest-event",
+     "script": "Q00231_TestOfTheMaestro",
+     "event": "30556-05.html",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30556-05.html"
+    },
+    {
+     "text": "Do not press the button",
+     "bypass": "Quest Q00231_TestOfTheMaestro 30556-04.html",
+     "kind": "quest-event",
+     "script": "Q00231_TestOfTheMaestro",
+     "event": "30556-04.html",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30556-04.html"
+    }
+   ]
+  },
+  "Q00231_TestOfTheMaestro/30556-03.html": {
+   "file": "Q00231_TestOfTheMaestro/30556-03.html",
+   "quest": 231,
+   "text": "Master Toma: You fool! Find me if you can!",
+   "header": "Master Toma",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30556-04.html": {
+   "file": "Q00231_TestOfTheMaestro/30556-04.html",
+   "quest": 231,
+   "text": "Master Toma: Hey! That's unfair! Just help with the test and you'll get it back!",
+   "header": "Master Toma",
+   "links": [
+    {
+     "text": "Press the button.",
+     "bypass": "Quest Q00231_TestOfTheMaestro 30556-05.html",
+     "kind": "quest-event",
+     "script": "Q00231_TestOfTheMaestro",
+     "event": "30556-05.html",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30556-05.html"
+    }
+   ]
+  },
+  "Q00231_TestOfTheMaestro/30556-05.html": {
+   "file": "Q00231_TestOfTheMaestro/30556-05.html",
+   "quest": 231,
+   "text": "Master Toma: Come back soon! Our next experiment awaits!",
+   "header": "Master Toma",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30556-05b.html": {
+   "file": "Q00417_PathOfTheScavenger/30556-05b.html",
+   "quest": 417,
+   "text": "Master Toma: A shining bead... Well done! You can finish the test by taking this to my friend Raut, a Warehouse Keeper in the Town of Gludin . Tell him I'm paying him back for the time he paid for my drinks. Good luck!",
+   "header": "Master Toma",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30556-06b.html": {
+   "file": "Q00417_PathOfTheScavenger/30556-06b.html",
+   "quest": 417,
+   "text": "Master Toma: A shining bead... Well done! You can finish the test by taking this to my friend Yasheni, a Warehouse Chief in the Town of Schuttgart . Good luck!",
+   "header": "Master Toma",
+   "sets": {
+    "cond": "12"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30556-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Maestro (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00231_TestOfTheMaestro",
+     "kind": "quest",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30556-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Scavenger (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00417_PathOfTheScavenger",
+     "kind": "quest",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30556-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

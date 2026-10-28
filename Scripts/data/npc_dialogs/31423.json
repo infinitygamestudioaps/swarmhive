@@ -1,0 +1,44 @@
+{
+ "npcId": 31423,
+ "name": "Romas",
+ "title": "Spellbook Seller",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.201Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31423.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31423.htm": {
+   "file": "merchant/31423.htm",
+   "quest": null,
+   "text": "Spellbook Seller Romas: Have you seen this temple's spire? Its proportion and balance are absolutely perfect! Isn't it beautiful? Legend says that it took several decades for the Dwarven artisans of Schuttgart to build it, and the elegant decorations were hand-made by Elves. Obviously, I sell spell…",
+   "header": "Spellbook Seller Romas",
+   "links": [
+    {
+     "text": "\"Who is the lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

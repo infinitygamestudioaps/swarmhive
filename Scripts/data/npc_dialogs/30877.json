@@ -1,0 +1,93 @@
+{
+ "npcId": 30877,
+ "name": "Grayson",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.100Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30877.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30877.htm": {
+   "file": "guard/30877.htm",
+   "quest": null,
+   "text": "Guard Grayson: Are you a traveler? Why have you come to Aden Castle Town? You're not actually planning on going to the Shilen Holy Place to the east of the National Cemetary, are you? If you're intending to go there, I'll need to investigate various matters about you here.",
+   "header": "Guard Grayson",
+   "links": [
+    {
+     "text": "Say that you are going to the Shilen Holy Place.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30877-1.htm"
+    },
+    {
+     "text": "Say that you don't have any interest in the Shilen Holy Place.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30877-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30877-1.htm": {
+   "file": "guard/30877-1.htm",
+   "quest": null,
+   "text": "Guard Grayson: Is that a fact? OK then, wait a moment. First I need to record your belongings and appearance. And what's your name? ....? .... What kind of a name is that? Alright, fine. If you're really planning to go to the Shilen Holy Place, then there are some things I need to notify you about.…",
+   "header": "Guard Grayson",
+   "links": [
+    {
+     "text": "Go back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30877.htm"
+    }
+   ]
+  },
+  "guard/30877-2.htm": {
+   "file": "guard/30877-2.htm",
+   "quest": null,
+   "text": "Guard Grayson: Hmm. OK, that's a good thing. There are rumors that some suspicious adventurers have come and gone from there so I'm guarding against that especially. As there are a lot of crazy people around, you can't ever relax. Regardless of whether it's because of the Scriptures of the Seal or …",
+   "header": "Guard Grayson",
+   "links": [
+    {
+     "text": "Ask about the Scriptures of the Seal.",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "guard/30877-3.htm"
+    }
+   ]
+  },
+  "guard/30877-3.htm": {
+   "file": "guard/30877-3.htm",
+   "quest": null,
+   "text": "Guard Grayson: No, it's nothing special. It's just the useless chatter of crazy fanatics. It has been said that, a long time ago, when Shilen caused a war against Einhasad and lost, for some reason, the gods didn't kill Shilen but rather sealed her into the location that we are speaking of now... T…",
+   "header": "Guard Grayson",
+   "links": [
+    {
+     "text": "Go back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30877.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

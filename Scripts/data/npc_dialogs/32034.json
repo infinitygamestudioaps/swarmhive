@@ -1,0 +1,56 @@
+{
+ "npcId": 32034,
+ "name": "Temple Gatekeeper",
+ "title": "",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.314Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "teleporter/32034.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "teleporter/32034.htm": {
+   "file": "teleporter/32034.htm",
+   "quest": null,
+   "text": "Temple Gatekeeper: There are two small holes at the base of this large statue. One is shaped like a rose and the other is shaped like an unusual doll.",
+   "header": "Temple Gatekeeper",
+   "links": [
+    {
+     "text": "Place the mark over a hole.",
+     "bypass": "npc_%objectId%_Quest PaganTeleporters",
+     "kind": "quest",
+     "script": "PaganTeleporters",
+     "to": "ai/npc/Teleports/PaganTeleporters/noItem.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/PaganTeleporters/noItem.htm": {
+   "file": "ai/npc/Teleports/PaganTeleporters/noItem.htm",
+   "quest": null,
+   "text": "The Temple Gatekeeper: You have nothing that would cover the holes. (You must have a Visitor's Mark, a Faded Visitor's Mark, or a Pagan's Mark in order to open this door.)",
+   "header": "The Temple Gatekeeper",
+   "when": [
+    "lacks items 8064,8065,8067"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/PaganTeleporters/FadedMark.htm": {
+   "file": "ai/npc/Teleports/PaganTeleporters/FadedMark.htm",
+   "quest": null,
+   "text": "The Temple Gatekeeper: The moment the mark touches the hole, the door swings open with a mechanical whir.",
+   "header": "The Temple Gatekeeper",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

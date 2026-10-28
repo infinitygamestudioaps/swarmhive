@@ -1,0 +1,58 @@
+{
+ "npcId": 32157,
+ "name": "Moka",
+ "title": "Head Blacksmith",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:03.347Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "villagemaster/32157.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "villagemaster/32157.htm": {
+   "file": "villagemaster/32157.htm",
+   "quest": null,
+   "text": "Head Blacksmith Moka: Ah, my young friend, what brings you to me? I am too busy to even grab a bite to eat, so you best make it quick! What is with this Isle of Souls? I've been digging and digging and found not one useful stone in this blasted land! Hey, Fisher, what do you think? Huh? And why all…",
+   "header": "Head Blacksmith Moka",
+   "links": [
+    {
+     "text": "Listen to information about first class transfer.",
+     "bypass": "npc_%objectId%_Quest FirstClassTransferTalk",
+     "kind": "quest",
+     "script": "FirstClassTransferTalk",
+     "to": null
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

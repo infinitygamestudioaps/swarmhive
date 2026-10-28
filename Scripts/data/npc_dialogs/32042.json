@@ -1,0 +1,707 @@
+{
+ "npcId": 32042,
+ "name": "Weathermaster",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.316Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32042.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "120": {
+   "name": "Pavel's Last Research",
+   "listText": [
+    "[Pavel's Last Research]",
+    "[Pavel's Last Research (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00120_PavelsLastResearch/32042-01.html",
+     "when": "memo 8",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32042-06.html",
+     "when": "memo 9",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32042-13.html",
+     "when": "memo 10; qs.isMemoStateEx(0, 10101)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32042-09.html",
+     "when": "memo 10; !qs.isMemoStateEx(0, 10101)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32042-14.html",
+     "when": "memo 11",
+     "state": null,
+     "cond": null,
+     "outcome": "cond"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32042.htm": {
+   "file": "default/32042.htm",
+   "quest": null,
+   "text": "Weathermaster: There are some buttons below the huge machine.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-01.html": {
+   "file": "Q00120_PavelsLastResearch/32042-01.html",
+   "quest": 120,
+   "text": "Weathermaster: What am I going to do?",
+   "header": "Weathermaster",
+   "when": [
+    "memo 8"
+   ],
+   "links": [
+    {
+     "text": "Enter the password",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-02.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-02.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-02.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-06.html": {
+   "file": "Q00120_PavelsLastResearch/32042-06.html",
+   "quest": 120,
+   "text": "Weathermaster: Choose a project ... .",
+   "header": "Weathermaster",
+   "when": [
+    "memo 9"
+   ],
+   "links": [
+    {
+     "text": "P_40.Summer Rainy Season",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-15.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-15.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-15.html"
+    },
+    {
+     "text": "P_42.Arctic Geyser",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-15.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-15.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-15.html"
+    },
+    {
+     "text": "P_44.Rainbow after Rain",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-15.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-15.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-15.html"
+    },
+    {
+     "text": "P_45.Spring Sunshine",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-07.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-07.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-07.html"
+    },
+    {
+     "text": "P_48. Autumn Leaves",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-15.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-15.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-15.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-13.html": {
+   "file": "Q00120_PavelsLastResearch/32042-13.html",
+   "quest": 120,
+   "text": "Weathermaster: Main Menu Welcome to the Research Laboratory.",
+   "header": "Weathermaster",
+   "when": [
+    "memo 10; qs.isMemoStateEx(0, 10101)"
+   ],
+   "links": [
+    {
+     "text": "Guardian",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-10.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-10.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-10.html"
+    },
+    {
+     "text": "Research Laboratory Building",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-11.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-11.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-11.html"
+    },
+    {
+     "text": "Working Golem",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-12.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-12.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-12.html"
+    },
+    {
+     "text": "\"Is there anything else I have to do?\"",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-14.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-14.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-14.html",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-09.html": {
+   "file": "Q00120_PavelsLastResearch/32042-09.html",
+   "quest": 120,
+   "text": "Weathermaster: Main Menu Welcome to the Research Laboratory.",
+   "header": "Weathermaster",
+   "when": [
+    "memo 10; !qs.isMemoStateEx(0, 10101)"
+   ],
+   "links": [
+    {
+     "text": "Guardian",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-10.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-10.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-10.html"
+    },
+    {
+     "text": "Research Laboratory Building",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-11.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-11.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-11.html"
+    },
+    {
+     "text": "Working Golem",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-12.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-12.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-12.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-14.html": {
+   "file": "Q00120_PavelsLastResearch/32042-14.html",
+   "quest": 120,
+   "text": "Identify further actions to take: Project N_45 has been halted. It seems that there is no more information to be obtained here. Return to Atlanta and report the current situation.",
+   "when": [
+    "memo 11"
+   ],
+   "sets": {
+    "cond": "12"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32042-02.html": {
+   "file": "Q00120_PavelsLastResearch/32042-02.html",
+   "quest": 120,
+   "text": "Weathermaster: Please enter the first letter of the password.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "A",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_1_a",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_1_a",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-03.html"
+    },
+    {
+     "text": "B",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_1_b",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_1_b",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-03.html"
+    },
+    {
+     "text": "C",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_1_c",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_1_c",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-03.html"
+    },
+    {
+     "text": "D",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_1_d",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_1_d",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-03.html"
+    },
+    {
+     "text": "L",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_1_l",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_1_l",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-03.html"
+    },
+    {
+     "text": "M",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_1_m",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_1_m",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-03.html"
+    },
+    {
+     "text": "N",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_1_n",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_1_n",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-03.html"
+    },
+    {
+     "text": "S",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_1_s",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_1_s",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-03.html"
+    },
+    {
+     "text": "T",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_1_t",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_1_t",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-03.html"
+    },
+    {
+     "text": "U",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_1_u",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_1_u",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-03.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-03.html": {
+   "file": "Q00120_PavelsLastResearch/32042-03.html",
+   "quest": 120,
+   "text": "Weathermaster: Please enter the second letter of the password.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "A",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_2_a",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_2_a",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-04.html"
+    },
+    {
+     "text": "B",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_2_b",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_2_b",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-04.html"
+    },
+    {
+     "text": "C",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_2_c",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_2_c",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-04.html"
+    },
+    {
+     "text": "D",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_2_d",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_2_d",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-04.html"
+    },
+    {
+     "text": "L",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_2_l",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_2_l",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-04.html"
+    },
+    {
+     "text": "M",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_2_m",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_2_m",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-04.html"
+    },
+    {
+     "text": "N",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_2_n",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_2_n",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-04.html"
+    },
+    {
+     "text": "S",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_2_s",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_2_s",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-04.html"
+    },
+    {
+     "text": "T",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_2_t",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_2_t",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-04.html"
+    },
+    {
+     "text": "U",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_2_u",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_2_u",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-04.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-04.html": {
+   "file": "Q00120_PavelsLastResearch/32042-04.html",
+   "quest": 120,
+   "text": "Weathermaster: Please enter the third letter of the password.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "A",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_3_a",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_3_a",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-05.html"
+    },
+    {
+     "text": "B",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_3_b",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_3_b",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-05.html"
+    },
+    {
+     "text": "C",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_3_c",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_3_c",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-05.html"
+    },
+    {
+     "text": "D",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_3_d",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_3_d",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-05.html"
+    },
+    {
+     "text": "L",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_3_l",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_3_l",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-06.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32042-06.html",
+      "Q00120_PavelsLastResearch/32042-05.html"
+     ],
+     "effect": "cond:11"
+    },
+    {
+     "text": "M",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_3_m",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_3_m",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-05.html"
+    },
+    {
+     "text": "N",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_3_n",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_3_n",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-05.html"
+    },
+    {
+     "text": "S",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_3_s",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_3_s",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-05.html"
+    },
+    {
+     "text": "T",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_3_t",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_3_t",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-05.html"
+    },
+    {
+     "text": "U",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_3_u",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_3_u",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-05.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-05.html": {
+   "file": "Q00120_PavelsLastResearch/32042-05.html",
+   "quest": 120,
+   "text": "Weathermaster: This password doesn't exist.",
+   "header": "Weathermaster",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-02.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-02.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-02.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-07.html": {
+   "file": "Q00120_PavelsLastResearch/32042-07.html",
+   "quest": 120,
+   "text": "Weathermaster: P_45. The Sunshine of Spring Actualized by temporarily raising a sun-like fire and by outputting the energy produced from the heat generated by Pa'agrio's fire through the Weathermaster. Outputting is currently halted due to an error occurring in the safety device. The energy input f…",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "Stop it",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-08.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-08.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-08.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-08.html": {
+   "file": "Q00120_PavelsLastResearch/32042-08.html",
+   "quest": 120,
+   "text": "Weathermaster: P_45. The Sunshine of Spring Actualized by temporarily raising a sun-like fire by outputting the energy produced from the heated Pa'agrio's fire through the Weathermaster. Outputting is currently halted due to a safety device error. The energy input for Pa'agrio's fire is currently h…",
+   "header": "Weathermaster",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_return",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_return",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-13.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32042-13.html",
+      "Q00120_PavelsLastResearch/32042-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-10.html": {
+   "file": "Q00120_PavelsLastResearch/32042-10.html",
+   "quest": 120,
+   "text": "Weathermaster: Golem. Ultimate Golem Spartacus Operation Rate: 1/100 Guardian Golem Operation Rate: 85% Outer Bulkhead: Open Internal Safeguard: Slow Field: In Operation Internal Safeguard: Damage Field: In Operation",
+   "header": "Weathermaster",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return to menu.",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_return",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_return",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-13.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32042-13.html",
+      "Q00120_PavelsLastResearch/32042-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-11.html": {
+   "file": "Q00120_PavelsLastResearch/32042-11.html",
+   "quest": 120,
+   "text": "Weathermaster: Research Lab Building Status North Wing: Project stopped. Natural freezing in progress. West Wing: Project in progress. Project N45. : Guardian is operating normally. : The entryway is operating normally. East Wing: Energy flowing in. Unable to confirm signal. : Guardian is operating…",
+   "header": "Weathermaster",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return to menu.",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_return",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_return",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-13.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32042-13.html",
+      "Q00120_PavelsLastResearch/32042-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-12.html": {
+   "file": "Q00120_PavelsLastResearch/32042-12.html",
+   "quest": 120,
+   "text": "Weathermaster: Administrator ATL1001_Atlanta : In Operation WDL1001_Wendy : Unable to confirm Working Golem Mode : Emergency Battle Mode",
+   "header": "Weathermaster",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00120_PavelsLastResearch wm1_return",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm1_return",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-13.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32042-13.html",
+      "Q00120_PavelsLastResearch/32042-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32042-15.html": {
+   "file": "Q00120_PavelsLastResearch/32042-15.html",
+   "quest": 120,
+   "text": "Weathermaster: This project is currently terminated.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "Go to Project Selection Screen",
+     "bypass": "Quest Q00120_PavelsLastResearch 32042-06.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32042-06.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-06.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Pavel's Last Research (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00120_PavelsLastResearch",
+     "kind": "quest",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32042-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

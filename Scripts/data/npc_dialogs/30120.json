@@ -1,0 +1,223 @@
+{
+ "npcId": 30120,
+ "name": "Maximilian",
+ "title": "High Priest",
+ "type": "L2VillageMasterPriest",
+ "generated": "2026-10-27T18:18:02.846Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30120.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "32": {
+   "name": "An Obvious Lie",
+   "listText": [
+    "[An Obvious Lie]",
+    "[An Obvious Lie (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00032_AnObviousLie/30120-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00032_AnObviousLie/30120-03.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00032_AnObviousLie/30120-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30120.htm": {
+   "file": "villagemaster/30120.htm",
+   "quest": null,
+   "text": "High Priest Maximilian: Pleased to meet you. I am High Priest Maximilian of this temple, may Einhasad's light comfort your soul's distress. Why have you come here, to the heart of our faith?",
+   "header": "High Priest Maximilian",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest ElfHumanClericChange2",
+     "kind": "quest",
+     "script": "ElfHumanClericChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00032_AnObviousLie/30120-01.htm": {
+   "file": "Q00032_AnObviousLie/30120-01.htm",
+   "quest": 32,
+   "text": "High Priest Maximilian: By the grace of Einhasad, you're here! Would you help me?",
+   "header": "High Priest Maximilian",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "What can I do?",
+     "bypass": "Quest Q00032_AnObviousLie 30120-02.html",
+     "kind": "quest-event",
+     "script": "Q00032_AnObviousLie",
+     "event": "30120-02.html",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/30120-02.html",
+     "effect": "start",
+     "live": true,
+     "dpText": "\"What can I do?\""
+    }
+   ]
+  },
+  "Q00032_AnObviousLie/30120-03.htm": {
+   "file": "Q00032_AnObviousLie/30120-03.htm",
+   "quest": 32,
+   "text": "High Priest Maximilian: Nice to meet you, traveler. The grace of Einhasad has brought you here! I'm sorry you had to come here for nothing. (Only characters of level 45 or above may undertake this quest.)",
+   "header": "High Priest Maximilian",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30120-04.html": {
+   "file": "Q00032_AnObviousLie/30120-04.html",
+   "quest": 32,
+   "text": "High Priest Maximilian: Talk to Trader Gentler of the Town of Giran for more information.",
+   "header": "High Priest Maximilian",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00032_AnObviousLie/30120-02.html": {
+   "file": "Q00032_AnObviousLie/30120-02.html",
+   "quest": 32,
+   "text": "High Priest Maximilian: I asked Trader Gentler of the Town of Giran to mix a batch of medicine for me, but he's having trouble acquiring some key ingredients. Help him find them.",
+   "header": "High Priest Maximilian",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[An Obvious Lie]",
+     "bypass": "npc_%objectId%_Quest Q00032_AnObviousLie",
+     "kind": "quest",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/30120-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[An Obvious Lie (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00032_AnObviousLie",
+     "kind": "quest",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/30120-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest.",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "High Priest Maximilian:Pleased to meet you. I am High Priest"
+   ],
+   "to": [
+    "High Priest Maximilian:By the grace of Einhasad, you're here",
+    "You are either not on a quest that involves this NPC, or you"
+   ]
+  },
+  {
+   "text": "What can I do?",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "High Priest Maximilian:By the grace of Einhasad, you're here"
+   ],
+   "to": [
+    "High Priest Maximilian:I asked Trader Gentler of Giran Castl"
+   ]
+  }
+ ]
+}

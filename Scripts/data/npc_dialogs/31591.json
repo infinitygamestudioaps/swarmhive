@@ -1,0 +1,218 @@
+{
+ "npcId": 31591,
+ "name": "Sunset Guide Luna",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.239Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00086_SagaOfTheHierophant/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 86"
+  },
+  {
+   "page": "Q00086_SagaOfTheHierophant/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 86"
+  },
+  {
+   "page": "Q00086_SagaOfTheHierophant/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 86"
+  },
+  {
+   "page": "Q00086_SagaOfTheHierophant/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 86"
+  },
+  {
+   "page": "Q00086_SagaOfTheHierophant/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 86"
+  },
+  {
+   "page": "Q00086_SagaOfTheHierophant/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 86"
+  },
+  {
+   "page": "Q00086_SagaOfTheHierophant/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 86"
+  },
+  {
+   "page": "Q00086_SagaOfTheHierophant/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 86"
+  }
+ ],
+ "quests": {
+  "86": {
+   "name": "Saga of the Hierophant",
+   "listText": [
+    "[Saga of the Hierophant]",
+    "[Saga of the Hierophant (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00086_SagaOfTheHierophant/4-04.htm": {
+   "file": "Q00086_SagaOfTheHierophant/4-04.htm",
+   "quest": 86,
+   "text": "Sunset Guide Luna: Don't stop! You have to finish this fight! You don't want the power of the darkness and corruption to cover the world again, do you?",
+   "header": "Sunset Guide Luna",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00086_SagaOfTheHierophant/4-06.htm": {
+   "file": "Q00086_SagaOfTheHierophant/4-06.htm",
+   "quest": 86,
+   "text": "Sunset Guide Luna: Nice work! The power of darkness won't disappear if you just sit praying in the temple. It must be destroyed! It's a pity that there are so many priests who don't recognize that simple truth! Even fallen angels can't neglect the power of those who have true belief, can they?",
+   "header": "Sunset Guide Luna",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"You're absolutely right!\"",
+     "bypass": "Quest Q00086_SagaOfTheHierophant 4-1",
+     "kind": "quest-event",
+     "script": "Q00086_SagaOfTheHierophant",
+     "event": "4-1",
+     "quest": 86,
+     "to": "Q00086_SagaOfTheHierophant/4-010.htm"
+    }
+   ]
+  },
+  "Q00086_SagaOfTheHierophant/4-01.htm": {
+   "file": "Q00086_SagaOfTheHierophant/4-01.htm",
+   "quest": 86,
+   "text": "Sunset Guide Luna: Why are you staring off into space? This is a fight to defeat darkness! Don't you have a stake in this? Do you think someone else will save you, like those pathetic priests in the temple? Snap out of it! Help us to conquer the forces of darkness!",
+   "header": "Sunset Guide Luna",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00086_SagaOfTheHierophant/4-03.htm": {
+   "file": "Q00086_SagaOfTheHierophant/4-03.htm",
+   "quest": 86,
+   "text": "Sunset Guide Luna: That filthy demon turned tail and ran... This fight isn't finished! I won't rest until the power of darkness is completely defeated! You'll certainly fight against him one day. Until that day, may the light protect you.",
+   "header": "Sunset Guide Luna",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00086_SagaOfTheHierophant/4-05.htm": {
+   "file": "Q00086_SagaOfTheHierophant/4-05.htm",
+   "quest": 86,
+   "text": "Sunset Guide Luna: I am invincible! Until the power of light defeats the darkness that fills the world! This isn't your fight. Stand back!",
+   "header": "Sunset Guide Luna",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00086_SagaOfTheHierophant/4-07.htm": {
+   "file": "Q00086_SagaOfTheHierophant/4-07.htm",
+   "quest": 86,
+   "text": "Sunset Guide Luna: I didn't expect to be meeting you like this. That devil seems to last forever! I can't rest until he is completely destroyed. I have something for you.",
+   "header": "Sunset Guide Luna",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00086_SagaOfTheHierophant 4-2",
+     "kind": "quest-event",
+     "script": "Q00086_SagaOfTheHierophant",
+     "event": "4-2",
+     "quest": 86,
+     "to": "Q00086_SagaOfTheHierophant/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00086_SagaOfTheHierophant/4-02.htm": {
+   "file": "Q00086_SagaOfTheHierophant/4-02.htm",
+   "quest": 86,
+   "text": "Sunset Guide Luna: I am invincible! Until the power of light defeats the darkness that fills the world! This isn't your fight. Stand back!",
+   "header": "Sunset Guide Luna",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00086_SagaOfTheHierophant/4-08.htm": {
+   "file": "Q00086_SagaOfTheHierophant/4-08.htm",
+   "quest": 86,
+   "text": "Sunset Guide Luna: This isn't your fight. Stand back! Don't you have the Stone of Commune? Use it to communicate with the Tablet of Vision. Hurry up, before Tanakia finds out!",
+   "header": "Sunset Guide Luna",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00086_SagaOfTheHierophant/4-010.htm": {
+   "file": "Q00086_SagaOfTheHierophant/4-010.htm",
+   "quest": 86,
+   "text": "Sunset Guide Luna: It's good to know I have friends fighting alongside me. Stay true to the faith! By the way, this stone was protected by Fallen angel Tanakia! You were looking for it, right? Well, take it! I must be going now. I hope we meet again someday.",
+   "header": "Sunset Guide Luna",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00086_SagaOfTheHierophant 4-3",
+     "kind": "quest-event",
+     "script": "Q00086_SagaOfTheHierophant",
+     "event": "4-3",
+     "quest": 86,
+     "to": null
+    }
+   ]
+  },
+  "Q00086_SagaOfTheHierophant/4-011.htm": {
+   "file": "Q00086_SagaOfTheHierophant/4-011.htm",
+   "quest": 86,
+   "text": "Sunset Guide Luna: This is the stone that he dropped while running away from his last fight. You're qualified to possess its secrets. Now, I must be going. I hope we meet again someday.",
+   "header": "Sunset Guide Luna",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00086_SagaOfTheHierophant/4-09.htm": {
+   "file": "Q00086_SagaOfTheHierophant/4-09.htm",
+   "quest": 86,
+   "text": "Sunset Guide Luna: Why are you still here? Do you still have the Stone of Commune that I gave you? Why haven't you communed with the tablet yet?",
+   "header": "Sunset Guide Luna",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Hierophant (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00086_SagaOfTheHierophant",
+     "kind": "quest",
+     "quest": 86,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

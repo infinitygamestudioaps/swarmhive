@@ -1,0 +1,74 @@
+{
+ "npcId": 30927,
+ "name": "Alicia",
+ "title": "Priestess",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.112Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30927.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/30927.htm": {
+   "file": "default/30927.htm",
+   "quest": null,
+   "text": "Priestess Alicia: Welcome to the Temple of Eva. All who seek rest are welcomed here! I am the Priestess Alicia. Have you met High Priestess Morelyn over there?",
+   "header": "Priestess Alicia",
+   "links": [
+    {
+     "text": "\"Yes, I've met her.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30927-1.htm"
+    },
+    {
+     "text": "\"Tell me more about High Priestess Morelyn.\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30927-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30927-1.htm": {
+   "file": "default/30927-1.htm",
+   "quest": null,
+   "text": "Priestess Alicia: Oh, I see! High Priestess Morelyn is always busy learning one thing or the other. You should go and meet with her. She will be glad to see you.",
+   "header": "Priestess Alicia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "default/30927-2.htm": {
+   "file": "default/30927-2.htm",
+   "quest": null,
+   "text": "Priestess Alicia: High Priestess Morelyn is in charge of all the priests in this temple. She is known as \"Fafurion's Watchman\" because she is always at the waterscape in the middle of the temple, watching the movements of Fafurion and the other creatures in the water.",
+   "header": "Priestess Alicia",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30927.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

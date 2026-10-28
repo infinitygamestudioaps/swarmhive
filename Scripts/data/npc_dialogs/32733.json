@@ -1,0 +1,256 @@
+{
+ "npcId": 32733,
+ "name": "Kbaldir",
+ "title": "Commander",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.400Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32733.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10282": {
+   "name": "To the Seed of Annihilation",
+   "listText": [
+    "[To the Seed of Annihilation]",
+    "[To the Seed of Annihilation (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10282_ToTheSeedOfAnnihilation/32733-09.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10282_ToTheSeedOfAnnihilation/32733-00.htm",
+     "when": "state CREATED; (player.getLevel() < 84)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10282_ToTheSeedOfAnnihilation/32733-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() < 84)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10282_ToTheSeedOfAnnihilation/32733-08.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32733.htm": {
+   "file": "default/32733.htm",
+   "quest": null,
+   "text": "Commander Kbaldir: It's been a long time since part of our fleet crashlanded into the Seed of Annihilation . I'm told the Seed abounds with a plethora of strange organisms that might be worthy of study if they weren't so dangerous. Unfortunately that's all a null point anyway because right now, our…",
+   "header": "Commander Kbaldir",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32733-09.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32733-09.htm",
+   "quest": 10282,
+   "text": "Commander Kbaldir: Oh, there you are. I heard that you delivered the order, well done. I wish the fleet was out of danger, but it's not. That's just how it is right now. At least Gracia benefits from the sword of men and women like you. One of these days, we'll share those pints I talked about! (Th…",
+   "header": "Commander Kbaldir",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32733-00.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32733-00.htm",
+   "quest": 10282,
+   "text": "Commander Kbaldir: I'm afraid you're a 'no go' for launch. Judging from my experience and what I've seen of the Seed of Annihilation, you just wouldn't cut it there. My daddy always said you need the right tool for the job. You aren't the right tool. At least not yet. (Only characters level 84 and …",
+   "header": "Commander Kbaldir",
+   "when": [
+    "state CREATED; (player.getLevel() < 84)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32733-01.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32733-01.htm",
+   "quest": 10282,
+   "text": "Commander Kbaldir: You definitely have the look of a seasoned warrior. I can tell, you and I have seen our share of battles, haven't we? Hehe, one of these days we'll have to share a few pints. But matters of state come first. I have a favor to ask if you're willing.",
+   "header": "Commander Kbaldir",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < 84)"
+   ],
+   "links": [
+    {
+     "text": "Ask about the favor.",
+     "bypass": "Quest Q10282_ToTheSeedOfAnnihilation 32733-02.htm",
+     "kind": "quest-event",
+     "script": "Q10282_ToTheSeedOfAnnihilation",
+     "event": "32733-02.htm",
+     "quest": 10282,
+     "to": "Q10282_ToTheSeedOfAnnihilation/32733-02.htm"
+    }
+   ]
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32733-08.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32733-08.htm",
+   "quest": 10282,
+   "text": "Commander Kbaldir: Move quickly! This won't be easy! Seed of Extermination is farther North than Seed of Destruction or Seed of Infinity. Hop to! Help those in need!",
+   "header": "Commander Kbaldir",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32733-02.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32733-02.htm",
+   "quest": 10282,
+   "text": "Commander Kbaldir: I need this order from the Kucereus' outpost sent to the Seed of Annihilation . That is priority one. The thing is, you need to know how to get to the Seed. Do you?",
+   "header": "Commander Kbaldir",
+   "links": [
+    {
+     "text": "Nod that you do.",
+     "bypass": "Quest Q10282_ToTheSeedOfAnnihilation 32733-03.htm",
+     "kind": "quest-event",
+     "script": "Q10282_ToTheSeedOfAnnihilation",
+     "event": "32733-03.htm",
+     "quest": 10282,
+     "to": "Q10282_ToTheSeedOfAnnihilation/32733-03.htm"
+    },
+    {
+     "text": "Admit that you don't.",
+     "bypass": "Quest Q10282_ToTheSeedOfAnnihilation 32733-04.htm",
+     "kind": "quest-event",
+     "script": "Q10282_ToTheSeedOfAnnihilation",
+     "event": "32733-04.htm",
+     "quest": 10282,
+     "to": "Q10282_ToTheSeedOfAnnihilation/32733-04.htm"
+    }
+   ]
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32733-03.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32733-03.htm",
+   "quest": 10282,
+   "text": "Commander Kbaldir: Alright good. Keep in mind, the Seed of Annihilation is farther north than the Seeds of Destruction and Infinity. Just need to be able to fly there.",
+   "header": "Commander Kbaldir",
+   "links": [
+    {
+     "text": "Nod in acknowledgement.",
+     "bypass": "Quest Q10282_ToTheSeedOfAnnihilation 32733-04.htm",
+     "kind": "quest-event",
+     "script": "Q10282_ToTheSeedOfAnnihilation",
+     "event": "32733-04.htm",
+     "quest": 10282,
+     "to": "Q10282_ToTheSeedOfAnnihilation/32733-04.htm"
+    }
+   ]
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32733-04.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32733-04.htm",
+   "quest": 10282,
+   "text": "Commander Kbaldir: Alright, I just need to confirm once more. Will you do this for me? Know that the threat there is significant; it is not a place for the feint of heart.",
+   "header": "Commander Kbaldir",
+   "links": [
+    {
+     "text": "\"I'm ready. Huzzah!\"",
+     "bypass": "Quest Q10282_ToTheSeedOfAnnihilation 32733-07.htm",
+     "kind": "quest-event",
+     "script": "Q10282_ToTheSeedOfAnnihilation",
+     "event": "32733-07.htm",
+     "quest": 10282,
+     "to": "Q10282_ToTheSeedOfAnnihilation/32733-07.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32733-05.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32733-05.htm",
+   "quest": 10282,
+   "text": "Commander Kbaldir: Like the other Seeds that have floated into Gracia, the easiest, and right now, only way to get to the Seed of Annihilation is by flight . You either need access to an airship or know the Aura Bird Transformation. If you don't have an airship, the Dwarf they call Engineer Lekon b…",
+   "header": "Commander Kbaldir",
+   "links": [
+    {
+     "text": "Nod in acknowledgement.",
+     "bypass": "Quest Q10282_ToTheSeedOfAnnihilation 32733-06.htm",
+     "kind": "quest-event",
+     "script": "Q10282_ToTheSeedOfAnnihilation",
+     "event": "32733-06.htm",
+     "quest": 10282,
+     "to": "Q10282_ToTheSeedOfAnnihilation/32733-06.htm"
+    }
+   ]
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32733-06.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32733-06.htm",
+   "quest": 10282,
+   "text": "Commander Kbaldir: Once you have some method of flight, head to the Seed of Annihilation. It's farther north than the Seed of Destruction and Seed of Infinity.",
+   "header": "Commander Kbaldir",
+   "links": [
+    {
+     "text": "\"Alright.\"",
+     "bypass": "Quest Q10282_ToTheSeedOfAnnihilation 32733-07.htm",
+     "kind": "quest-event",
+     "script": "Q10282_ToTheSeedOfAnnihilation",
+     "event": "32733-07.htm",
+     "quest": 10282,
+     "to": "Q10282_ToTheSeedOfAnnihilation/32733-07.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10282_ToTheSeedOfAnnihilation/32733-07.htm": {
+   "file": "Q10282_ToTheSeedOfAnnihilation/32733-07.htm",
+   "quest": 10282,
+   "text": "Commander Kbaldir: Alright, here's the order. Remember, once you've delivered the order, your new priority will be to help the officers and soldiers there who need it. Head out, soldier!",
+   "header": "Commander Kbaldir",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[To the Seed of Annihilation]",
+     "bypass": "npc_%objectId%_Quest Q10282_ToTheSeedOfAnnihilation",
+     "kind": "quest",
+     "quest": 10282,
+     "to": "Q10282_ToTheSeedOfAnnihilation/32733-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[To the Seed of Annihilation (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10282_ToTheSeedOfAnnihilation",
+     "kind": "quest",
+     "quest": 10282,
+     "to": "Q10282_ToTheSeedOfAnnihilation/32733-08.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

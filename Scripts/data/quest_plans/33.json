@@ -2,7 +2,7 @@
  "id": 33,
  "name": "Make a Pair of Dress Shoes",
  "version": 1,
- "generated": "2026-10-27T11:14:40.692Z",
+ "generated": "2026-10-27T18:18:20.953Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 60,
@@ -12,9 +12,18 @@
  "region": "Aden",
  "requirements": {},
  "restrictions": [],
- "status": "ready",
- "reasons": [],
- "expectedMin": 5,
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: flow-stuck"
+  },
+  {
+   "code": "dryrun:flow-stuck",
+   "text": "cond 3: talk to 30838 needs 1882x200+1868x600 — not in the bag"
+  }
+ ],
+ "expectedMin": 8,
  "refLevel": 60,
  "steps": [
   {
@@ -168,264 +177,6 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:30838",
-   "cond": 1,
-   "kind": "talk",
-   "to": "end",
-   "links": [
-    "\"Can I have the shoes?\""
-   ],
-   "npc": {
-    "id": 30838,
-    "name": "Woodley",
-    "title": "Armor Merchant",
-    "town": "Aden",
-    "at": [
-     146046,
-     27293,
-     -2189
-    ],
-    "alt": []
-   },
-   "text": "Talk to Leikar",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30838@146046,27293",
-    "status": "ok",
-    "flags": [],
-    "from": ".aden",
-    "length": 3275,
-    "sec": 47,
-    "via": ".aden",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Aden",
-      "cmd": ".aden"
-     },
-     {
-      "do": "walk",
-      "len": 3275,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Aden"
-    },
-    "simple": true,
-    "pv": [
-     [
-      147448,
-      25816,
-      -2008
-     ],
-     [
-      147768,
-      25752,
-      -2008
-     ],
-     [
-      147560,
-      25832,
-      -2008
-     ],
-     [
-      147464,
-      26008,
-      -2008
-     ],
-     [
-      147464,
-      26280,
-      -2104
-     ],
-     [
-      147448,
-      26328,
-      -2128
-     ],
-     [
-      147448,
-      26600,
-      -2200
-     ],
-     [
-      147288,
-      26824,
-      -2200
-     ],
-     [
-      147080,
-      27000,
-      -2200
-     ],
-     [
-      146904,
-      27064,
-      -2200
-     ],
-     [
-      146808,
-      27160,
-      -2200
-     ],
-     [
-      146776,
-      27128,
-      -2200
-     ],
-     [
-      146552,
-      26968,
-      -2200
-     ],
-     [
-      146280,
-      26952,
-      -2184
-     ],
-     [
-      146104,
-      27016,
-      -2184
-     ],
-     [
-      146040,
-      27288,
-      -2184
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 72,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:30164",
-   "cond": 1,
-   "kind": "talk",
-   "to": 5,
-   "links": [
-    "\"Here it is.\""
-   ],
-   "npc": {
-    "id": 30164,
-    "name": "Ian",
-    "title": "Armor Merchant",
-    "town": "Oren",
-    "at": [
-     85655,
-     15638,
-     -4271
-    ],
-    "alt": []
-   },
-   "text": "Talk to Leikar",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30164@85655,15638",
-    "status": "ok",
-    "flags": [],
-    "from": ".oren",
-    "length": 811,
-    "sec": 67,
-    "via": ".oren > Oren -> Ivory Tower > enter Verona",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "gk",
-      "from": "Oren",
-      "desc": "Oren -> Ivory Tower",
-      "link": "ivory tower",
-      "price": 3700,
-      "live": true
-     },
-     {
-      "do": "enter",
-      "how": "npc-teleport",
-      "npc": "Verona",
-      "link": "Underground Shopping Area"
-     },
-     {
-      "do": "walk",
-      "len": 811,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Oren",
-     "desc": "Oren -> Ivory Tower"
-    },
-    "simple": false,
-    "pv": [
-     [
-      84915,
-      15969,
-      -4294
-     ],
-     [
-      85656,
-      15640,
-      -4272
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 92,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 3,
    "key": "c1:talk:31520",
    "cond": 1,
    "kind": "talk",
@@ -690,9 +441,575 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    3,
-    4,
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30838",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"I'll try.\""
+   ],
+   "npc": {
+    "id": 30838,
+    "name": "Woodley",
+    "title": "Armor Merchant",
+    "town": "Aden",
+    "at": [
+     146046,
+     27293,
+     -2189
+    ],
+    "alt": []
+   },
+   "text": "Return to Woodley",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30838@146046,27293",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 3275,
+    "sec": 47,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 3275,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147288,
+      26824,
+      -2200
+     ],
+     [
+      147080,
+      27000,
+      -2200
+     ],
+     [
+      146904,
+      27064,
+      -2200
+     ],
+     [
+      146808,
+      27160,
+      -2200
+     ],
+     [
+      146776,
+      27128,
+      -2200
+     ],
+     [
+      146552,
+      26968,
+      -2200
+     ],
+     [
+      146280,
+      26952,
+      -2184
+     ],
+     [
+      146104,
+      27016,
+      -2184
+     ],
+     [
+      146040,
+      27288,
+      -2184
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 72,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:deliver:30838",
+   "cond": 3,
+   "kind": "deliver",
+   "to": 4,
+   "links": [
+    "\"Here's the money and the goods.\""
+   ],
+   "npc": {
+    "id": 30838,
+    "name": "Woodley",
+    "title": "Armor Merchant",
+    "town": "Aden",
+    "at": [
+     146046,
+     27293,
+     -2189
+    ],
+    "alt": []
+   },
+   "text": "Gather Materials and Deliver to Woodley",
+   "needs": [
+    {
+     "id": 1882,
+     "name": "Leather",
+     "n": 200
+    },
+    {
+     "id": 1868,
+     "name": "Thread",
+     "n": 600
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30838@146046,27293",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 3275,
+    "sec": 47,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 3275,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147288,
+      26824,
+      -2200
+     ],
+     [
+      147080,
+      27000,
+      -2200
+     ],
+     [
+      146904,
+      27064,
+      -2200
+     ],
+     [
+      146808,
+      27160,
+      -2200
+     ],
+     [
+      146776,
+      27128,
+      -2200
+     ],
+     [
+      146552,
+      26968,
+      -2200
+     ],
+     [
+      146280,
+      26952,
+      -2184
+     ],
+     [
+      146104,
+      27016,
+      -2184
+     ],
+     [
+      146040,
+      27288,
+      -2184
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 72,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:30164",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"Here it is.\""
+   ],
+   "npc": {
+    "id": 30164,
+    "name": "Ian",
+    "title": "Armor Merchant",
+    "town": "Oren",
+    "at": [
+     85655,
+     15638,
+     -4271
+    ],
+    "alt": []
+   },
+   "text": "Pay Ian in Oren",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30164@85655,15638",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 811,
+    "sec": 67,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "Underground Shopping Area"
+     },
+     {
+      "do": "walk",
+      "len": 811,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      84915,
+      15969,
+      -4294
+     ],
+     [
+      85656,
+      15640,
+      -4272
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 92,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:30838",
+   "cond": 5,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Can I have the shoes?\""
+   ],
+   "npc": {
+    "id": 30838,
+    "name": "Woodley",
+    "title": "Armor Merchant",
+    "town": "Aden",
+    "at": [
+     146046,
+     27293,
+     -2189
+    ],
+    "alt": []
+   },
+   "text": "Return to Woodley – Complete the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30838@146046,27293",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 3275,
+    "sec": 47,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 3275,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147288,
+      26824,
+      -2200
+     ],
+     [
+      147080,
+      27000,
+      -2200
+     ],
+     [
+      146904,
+      27064,
+      -2200
+     ],
+     [
+      146808,
+      27160,
+      -2200
+     ],
+     [
+      146776,
+      27128,
+      -2200
+     ],
+     [
+      146552,
+      26968,
+      -2200
+     ],
+     [
+      146280,
+      26952,
+      -2184
+     ],
+     [
+      146104,
+      27016,
+      -2184
+     ],
+     [
+      146040,
+      27288,
+      -2184
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 72,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
     5
    ]
   }
@@ -701,10 +1018,15 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:14:40.824Z",
-  "pass": true,
+  "at": "2026-10-27T18:18:21.066Z",
+  "pass": false,
   "geo": true,
-  "fails": [],
+  "fails": [
+   {
+    "code": "flow-stuck",
+    "t": "cond 3: talk to 30838 needs 1882x200+1868x600 — not in the bag"
+   }
+  ],
   "warns": [
    "route-detour"
   ]

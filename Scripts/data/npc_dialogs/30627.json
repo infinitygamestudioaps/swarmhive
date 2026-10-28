@@ -1,0 +1,120 @@
+{
+ "npcId": 30627,
+ "name": "Tree",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.022Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30627.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "225": {
+   "name": "Test Of The Searcher",
+   "listText": [
+    "[Test of the Searcher]",
+    "[Test of the Searcher (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00225_TestOfTheSearcher/30627-01.html",
+     "when": "state STARTED; has items 2805; lacks items 2806,2807",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30627-01.html",
+     "when": "state STARTED; has items 2805,2806,2807; item 2807 >= 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30627.htm": {
+   "file": "default/30627.htm",
+   "quest": null,
+   "text": "Tree:",
+   "header": "Tree",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30627-1.htm": {
+   "file": "default/30627-1.htm",
+   "quest": null,
+   "text": "Tree: It is an oak tree which can easily be seen in the northern part of Dion.",
+   "header": "Tree",
+   "links": [
+    {
+     "text": "Dig the root of the tree",
+     "bypass": "Quest 225_TestOfSearcher 7627_1",
+     "kind": "quest-event",
+     "script": "225_TestOfSearcher",
+     "event": "7627_1"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30627-01.html": {
+   "file": "Q00225_TestOfTheSearcher/30627-01.html",
+   "quest": 225,
+   "text": "Tree: An oak tree which can easily be seen in the northern part of Dion.",
+   "header": "Tree",
+   "when": [
+    "state STARTED; has items 2805; lacks items 2806,2807",
+    "state STARTED; has items 2805,2806,2807; item 2807 >= 20"
+   ],
+   "links": [
+    {
+     "text": "Dig the root of the tree",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30627-01a.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30627-01a.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30627-01a.html",
+     "effect": "cond:17"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30627-01a.html": {
+   "file": "Q00225_TestOfTheSearcher/30627-01a.html",
+   "quest": 225,
+   "text": "Tree: A wooden box and a rusty key was found.",
+   "header": "Tree",
+   "sets": {
+    "cond": "17"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Searcher (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00225_TestOfTheSearcher",
+     "kind": "quest",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30627-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

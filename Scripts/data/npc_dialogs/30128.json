@@ -1,0 +1,58 @@
+{
+ "npcId": 30128,
+ "name": "Atanas",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.847Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30128.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30128.htm": {
+   "file": "guard/30128.htm",
+   "quest": null,
+   "text": "Guard Atanas: I sometimes talk with my friend Reikin about what the water dragon Fafurion would look like. It s truly hard to imagine that Fafurion lives in Innadril Lake, just east from here. If that dragon ever ventured upon our village, complete annihilation would only be a matter of time, don t…",
+   "header": "Guard Atanas",
+   "links": [
+    {
+     "text": "Ask about Fafurion.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30128-1.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30128-1.htm": {
+   "file": "guard/30128-1.htm",
+   "quest": null,
+   "text": "Guard Atanas: The blue dragon Fafurion is almost as strong as the green dragon Antharas, which is supposed to be horrible. Usually, it stays in the water -- I suppose that means it's somewhere on the bottom of Lake Innadril. When I think that two dragons are so near our village ... well, it makes i…",
+   "header": "Guard Atanas",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

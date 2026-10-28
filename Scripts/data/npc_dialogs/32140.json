@@ -1,0 +1,255 @@
+{
+ "npcId": 32140,
+ "name": "Zenya",
+ "title": "Vice Hierarch",
+ "type": "L2VillageMasterKamael",
+ "generated": "2026-10-27T18:18:03.345Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "villagemaster/32140.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "172": {
+   "name": "New Horizons",
+   "listText": [
+    "[New Horizons]",
+    "[New Horizons (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00172_NewHorizons/32140-01.htm",
+     "when": "state CREATED; (player.getRace() == Race.KAMAEL); (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00172_NewHorizons/32140-02.htm",
+     "when": "state CREATED; (player.getRace() == Race.KAMAEL); NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00172_NewHorizons/32140-03.htm",
+     "when": "state CREATED; NOT (player.getRace() == Race.KAMAEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00172_NewHorizons/32140-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/32140.htm": {
+   "file": "villagemaster/32140.htm",
+   "quest": null,
+   "text": "Vice Hierarch Zenya: I am Vice Hierarch Zenya. I assist the Hierarch and watch over you, our young Kamael warriors, who are leaving the safety of our little nest. Now that the seal on the Kamael has been broken and other races come in and out of the village as they please, I am concerned that the K…",
+   "header": "Vice Hierarch Zenya",
+   "links": [
+    {
+     "text": "Listen to information about first class transfer.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "villagemaster/32140-2.htm"
+    },
+    {
+     "text": "Ask about Arbalester.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "villagemaster/32140-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "villagemaster/32140-1.htm": {
+   "file": "villagemaster/32140-1.htm",
+   "quest": null,
+   "text": "Vice Hierarch Zenya: Vice Hierarch Casca can tell you about the skills available to male Kamael -- I can tell you of the Arbalesters, those skilled female Kamael who make up the secret Steelrazor force. Strictly speaking, not all Arbalesters belong to the Steelrazor, just as not all Human Knights b…",
+   "header": "Vice Hierarch Zenya",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "villagemaster/32140.htm"
+    }
+   ]
+  },
+  "villagemaster/32140-2.htm": {
+   "file": "villagemaster/32140-2.htm",
+   "quest": null,
+   "text": "Vice Hierarch Zenya: Since our race is distinguished by gender, which denotes both physical and spiritual differences, Kamael men are meant to learn their skills from Troopers while women learn them from Warders. You, my friend, must now walk the path of the Warder. Would you like to hear more?",
+   "header": "Vice Hierarch Zenya",
+   "links": [
+    {
+     "text": "Listen to explanation about Warders.",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "villagemaster/32140-3.htm"
+    }
+   ]
+  },
+  "villagemaster/32140-3.htm": {
+   "file": "villagemaster/32140-3.htm",
+   "quest": null,
+   "text": "Vice Hierarch Zenya: The Warder is a special profession reserved only for Kamael women who possess both power and the ability to develop deadly skill with the Crossbow and Short Sword.",
+   "header": "Vice Hierarch Zenya",
+   "links": [
+    {
+     "text": "Listen to details.",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "villagemaster/32140-4.htm"
+    },
+    {
+     "text": "Back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "villagemaster/32140.htm"
+    }
+   ]
+  },
+  "villagemaster/32140-4.htm": {
+   "file": "villagemaster/32140-4.htm",
+   "quest": null,
+   "text": "Vice Hierarch Zenya: Only Kamael women may become Warders, who carry two types of weapon at this level: the Crossbow and Short Sword. While devoting themselves to study and preparation, they also learn basic trapping magic.",
+   "header": "Vice Hierarch Zenya",
+   "links": [
+    {
+     "text": "Ask how to become a Warder.",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "villagemaster/32140-5.htm"
+    },
+    {
+     "text": "Back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "villagemaster/32140.htm"
+    }
+   ]
+  },
+  "villagemaster/32140-5.htm": {
+   "file": "villagemaster/32140-5.htm",
+   "quest": null,
+   "text": "Vice Hierarch Zenya: You may become a Warder under two conditions. First, you must pass the test of the Kamael secret agency, Steelrazor. Second, you must be at least level 20. If you want to take the Steelrazor test, go to Gludin Village and look for Sione.",
+   "header": "Vice Hierarch Zenya",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "villagemaster/32140.htm"
+    }
+   ]
+  },
+  "Q00172_NewHorizons/32140-01.htm": {
+   "file": "Q00172_NewHorizons/32140-01.htm",
+   "quest": 172,
+   "text": "Vice Hierarch Zenya: Welcome, young one. Do you wish to become a strong warrior or a great adventurer? It will be difficult to achieve either without adequate experience. You must see the world, meet various people and overcome many diverse trials. In that vein... Why don't you take a journey to Gi…",
+   "header": "Vice Hierarch Zenya",
+   "when": [
+    "state CREATED; (player.getRace() == Race.KAMAEL); (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Say that you want to go.",
+     "bypass": "Quest Q00172_NewHorizons 32140-04.htm",
+     "kind": "quest-event",
+     "script": "Q00172_NewHorizons",
+     "event": "32140-04.htm",
+     "quest": 172,
+     "to": "Q00172_NewHorizons/32140-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00172_NewHorizons/32140-02.htm": {
+   "file": "Q00172_NewHorizons/32140-02.htm",
+   "quest": 172,
+   "text": "Vice Hierarch Zenya: Welcome, young one. Do you wish to become a strong warrior or a great adventurer? It will be difficult to achieve either without adequate experience. You must see the world, meet various people and overcome many diverse trials. In that vein... Why don't you leave our little isl…",
+   "header": "Vice Hierarch Zenya",
+   "when": [
+    "state CREATED; (player.getRace() == Race.KAMAEL); NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00172_NewHorizons/32140-03.htm": {
+   "file": "Q00172_NewHorizons/32140-03.htm",
+   "quest": 172,
+   "text": "Vice Hierarch Zenya: I am sorry, but this has nothing to do with the other races. (This quest is available only for Kamael characters.)",
+   "header": "Vice Hierarch Zenya",
+   "when": [
+    "state CREATED; NOT (player.getRace() == Race.KAMAEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00172_NewHorizons/32140-05.html": {
+   "file": "Q00172_NewHorizons/32140-05.html",
+   "quest": 172,
+   "text": "Vice Hierarch Zenya: Visit Village Gatekeeper Ragara and she will tell you how to travel to Giran.",
+   "header": "Vice Hierarch Zenya",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00172_NewHorizons/32140-04.htm": {
+   "file": "Q00172_NewHorizons/32140-04.htm",
+   "quest": 172,
+   "text": "Vice Hierarch Zenya: Very well. Then visit Village Gatekeeper Ragara . She will tell you how to travel to Giran.",
+   "header": "Vice Hierarch Zenya",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[New Horizons]",
+     "bypass": "npc_%objectId%_Quest Q00172_NewHorizons",
+     "kind": "quest",
+     "quest": 172,
+     "to": "Q00172_NewHorizons/32140-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[New Horizons (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00172_NewHorizons",
+     "kind": "quest",
+     "quest": 172,
+     "to": "Q00172_NewHorizons/32140-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

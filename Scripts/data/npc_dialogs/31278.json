@@ -1,0 +1,239 @@
+{
+ "npcId": 31278,
+ "name": "Bronwyn",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.151Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/31278.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "71": {
+   "name": "Saga of Eva's Templar",
+   "listText": [
+    "[Saga of Eva's Templar]",
+    "[Saga of Eva's Templar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00071_SagaOfEvasTemplar/2-01.htm",
+     "when": "cond 1; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00071_SagaOfEvasTemplar/2-02.htm",
+     "when": "cond 2; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00071_SagaOfEvasTemplar/2-03.htm",
+     "when": "cond 4; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00071_SagaOfEvasTemplar/2-04.htm",
+     "when": "cond 5; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/31278.htm": {
+   "file": "trainer/31278.htm",
+   "quest": null,
+   "text": "Master Bronwyn: It has been years since I left the welcome shade of the Mother Tree to come to the world of men, but how my heart yearns for my homeland! To walk among the trees and feel the cool forest breeze once more! Ah, but duty calls. What brings you here today?",
+   "header": "Master Bronwyn",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/31278-noteach.htm": {
+   "file": "trainer/31278-noteach.htm",
+   "quest": null,
+   "text": "Master Bronwyn: Sorry, you're in the wrong place. I only teach Elven warriors. You should be able to find a more appropriate teacher in the village. May the blessing of starlight be with you always...",
+   "header": "Master Bronwyn",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/2-01.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/2-01.htm",
+   "quest": 71,
+   "text": "Master Bronwyn: ... journey of the pilgrimage? Are you saying there is someone who still does that now? How surprising...! But, you can't leave for the journey of the pilgrimage now. I can't give you the blessing. Originally, I'm supposed to give back the stone of blessing to the one that is taking…",
+   "header": "Master Bronwyn",
+   "when": [
+    "cond 1; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Ask for the reason.",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar 2-1",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "2-1",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/2-02.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/2-02.htm",
+   "quest": 71,
+   "text": "Master Bronwyn: First I need some Pure Ice. Chef Donath in the hot springs area of Goddard Territory knows how to find some.",
+   "header": "Master Bronwyn",
+   "when": [
+    "cond 2; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/2-03.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/2-03.htm",
+   "quest": 71,
+   "text": "Master Bronwyn: Pure Ice! I didn't know you could still get it. With this I can restore life to the stone of blessing! This pilgrimage started when the goddess Eva sent young Elves to explore and experience the outside world. Other guilds now use it as a test to find out who's the most capable. Now…",
+   "header": "Master Bronwyn",
+   "when": [
+    "cond 4; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What's a Stone of Commune?\"",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar 2-2",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "2-2",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/2-04.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/2-04.htm",
+   "quest": 71,
+   "text": "Master Bronwyn: Pilgrim of goddess, you still have not finished the pilgrimage. Go to the first stone tablet in the South of Tower of Insolence",
+   "header": "Master Bronwyn",
+   "when": [
+    "cond 5; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/2-05.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/2-05.htm",
+   "quest": 71,
+   "text": "Master Bronwyn: To restore life to the stone of blessing, I need the Pure Ice and the breath of the ancestors. I can get the latter, but the Pure Ice... Head north to the hot springs region of Goddard Territory and meet with Chef Donath, the best chef in the land. He can help you find some, if he's…",
+   "header": "Master Bronwyn",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/2-06.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/2-06.htm",
+   "quest": 71,
+   "text": "Master Bronwyn: Please wait. After I heat the Pure Ice and extract a drop, I can restore the stone of blessing. Now it contains the power of the goddess Eva. Find the first stone tablet south of the Tower of Insolence to begin your pilgrimage. While holding this stone, examine the tablet. The stone…",
+   "header": "Master Bronwyn",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of Eva's Templar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00071_SagaOfEvasTemplar",
+     "kind": "quest",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

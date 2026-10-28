@@ -1,0 +1,68 @@
+{
+ "npcId": 31952,
+ "name": "Pele",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.299Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/31952.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31952.htm": {
+   "file": "merchant/31952.htm",
+   "quest": null,
+   "text": "Trader Pele: Welcome! I always enjoy meeting a fellow aficionado of magic. Some beautiful new pigments just came in today, so please have a look. I'm sure you'll like them.",
+   "header": "Trader Pele",
+   "links": [
+    {
+     "text": "Buy dyes.",
+     "bypass": "npc_%objectId%_Buy 3195200",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy supplies,",
+     "bypass": "npc_%objectId%_Buy 3195201",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Buy/Sell/Refund Dyes."
+ ],
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund Dyes.",
+   "n": 4,
+   "inDatapack": false,
+   "from": [
+    "Trader Pele:Welcome! I'm always happy to meet customers inte"
+   ],
+   "to": []
+  }
+ ]
+}

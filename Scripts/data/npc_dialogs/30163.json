@@ -1,0 +1,81 @@
+{
+ "npcId": 30163,
+ "name": "Rex",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.856Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30163.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30163.htm": {
+   "file": "merchant/30163.htm",
+   "quest": null,
+   "text": "Merchant Rex: Welcome, traveler, welcome to the Ivory Tower! Most people see this place only as the residence of Wizards, but you might be surprised to learn how many non-mystics make their home here as well. Originally, I was a Paladin who was sworn to Einhasad' service. It's not like I broke my v…",
+   "header": "Merchant Rex",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30163-1.htm"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3016300",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30163-1.htm": {
+   "file": "merchant/30163-1.htm",
+   "quest": null,
+   "text": "Merchant Rex: I'm not sure if we have what you're looking for. Tell me again...",
+   "header": "Merchant Rex",
+   "links": [
+    {
+     "text": "Buy Wizard equipment.",
+     "bypass": "npc_%objectId%_Buy 3016300",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3016301",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/30163-pk.htm": {
+   "file": "merchant/30163-pk.htm",
+   "quest": null,
+   "text": "Merchant Rex: You are very lucky today. If I were a younger man I would have picked up the sharpest sword and killed you with it. Now get lost! You are not welcome here!",
+   "header": "Merchant Rex",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

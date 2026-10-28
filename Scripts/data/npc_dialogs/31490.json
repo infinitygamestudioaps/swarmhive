@@ -1,0 +1,106 @@
+{
+ "npcId": 31490,
+ "name": "Rift Post Officer",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.205Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31490.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/31490.htm": {
+   "file": "default/31490.htm",
+   "quest": null,
+   "text": "Rift Post: Welcome to the rift between the dimensions of time and space! Where you're standing now is relatively safe. It was created using all available resources. By the way, I see that inner space where you're looking, and I must warn you... We can't guarantee your safety! Don't try to go there …",
+   "header": "Rift Post",
+   "links": [
+    {
+     "text": "\"I want to go to the inner space of the rift.\"",
+     "bypass": "npc_%objectId%_EnterRift 3",
+     "kind": "other"
+    },
+    {
+     "text": "\"I want to go back to my world.\"",
+     "bypass": "Quest OracleTeleport Return",
+     "kind": "quest-event",
+     "script": "OracleTeleport",
+     "event": "Return",
+     "to": "ai/npc/Teleports/OracleTeleport/rift_back.htm"
+    },
+    {
+     "text": "\"I want to go to the Blood Offering.\"",
+     "bypass": "Quest OracleTeleport Festival",
+     "kind": "quest-event",
+     "script": "OracleTeleport",
+     "event": "Festival",
+     "to": "ai/npc/Teleports/OracleTeleport/oracle1.htm"
+    },
+    {
+     "text": "\"Where's a good place for me to fight?\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/31490-2.htm"
+    },
+    {
+     "text": "\"Please tell me the rules and characteristics of this place.\"",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/31490-3.htm"
+    }
+   ]
+  },
+  "default/31490-2.htm": {
+   "file": "default/31490-2.htm",
+   "quest": null,
+   "text": "Rift Post: The Rift has levels based on what you are responsible for. The 30th level force consists of recruits, the 40th soldiers, the 50th officers, the 60th generals, the 70th commanders, and the higher force heroes . You are free to choose the level that fits you.",
+   "header": "Rift Post",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/31490.htm"
+    }
+   ]
+  },
+  "default/31490-3.htm": {
+   "file": "default/31490-3.htm",
+   "quest": null,
+   "text": "Rift Post: There are rules to the Rift of Dimension . Where you go and what goes on inside there remains a mystery. Once you get inside using the fragment, you'll only be able to stay for about 40 minutes before the dimension shifts . Don't forget that. If you don't like where you entered, you can …",
+   "header": "Rift Post",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/31490.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/OracleTeleport/rift_back.htm": {
+   "file": "ai/npc/Teleports/OracleTeleport/rift_back.htm",
+   "quest": null,
+   "text": "Rift Post: You've done your job well. Go back where you came from and get some rest.",
+   "header": "Rift Post",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/OracleTeleport/oracle1.htm": {
+   "file": "ai/npc/Teleports/OracleTeleport/oracle1.htm",
+   "quest": null,
+   "text": "Rift Post: I can't let you attend the Blood Offering. Perhaps the priest could help you.",
+   "header": "Rift Post",
+   "outcome": "refusal",
+   "links": []
+  }
+ }
+}

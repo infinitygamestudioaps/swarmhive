@@ -1,0 +1,218 @@
+{
+ "npcId": 31619,
+ "name": "Erica Ken Weber",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.245Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00079_SagaOfTheAdventurer/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 79"
+  },
+  {
+   "page": "Q00079_SagaOfTheAdventurer/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 79"
+  },
+  {
+   "page": "Q00079_SagaOfTheAdventurer/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 79"
+  },
+  {
+   "page": "Q00079_SagaOfTheAdventurer/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 79"
+  },
+  {
+   "page": "Q00079_SagaOfTheAdventurer/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 79"
+  },
+  {
+   "page": "Q00079_SagaOfTheAdventurer/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 79"
+  },
+  {
+   "page": "Q00079_SagaOfTheAdventurer/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 79"
+  },
+  {
+   "page": "Q00079_SagaOfTheAdventurer/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 79"
+  }
+ ],
+ "quests": {
+  "79": {
+   "name": "Saga of the Adventurer",
+   "listText": [
+    "[Saga of the Adventurer]",
+    "[Saga of the Adventurer (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00079_SagaOfTheAdventurer/4-04.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/4-04.htm",
+   "quest": 79,
+   "text": "Erica Ken Weber: Do you think this is a game? Don't say you're trying your best! I know you're not! Now, fight!",
+   "header": "Erica Ken Weber",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/4-06.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/4-06.htm",
+   "quest": 79,
+   "text": "Erica Ken Weber: Thanks for your help. I'm Erica. Although I couldn't kill him, I was able to get what I needed. Azrael dropped this earlier, during the fight. It's a Stone of Commune! You've been looking for it, right?",
+   "header": "Erica Ken Weber",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, I have!\"",
+     "bypass": "Quest Q00079_SagaOfTheAdventurer 4-1",
+     "kind": "quest-event",
+     "script": "Q00079_SagaOfTheAdventurer",
+     "event": "4-1",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/4-010.htm"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/4-01.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/4-01.htm",
+   "quest": 79,
+   "text": "Erica Ken Weber: For my sake and for the sake of my followers, I cannot surrender now! Are you with me?",
+   "header": "Erica Ken Weber",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/4-03.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/4-03.htm",
+   "quest": 79,
+   "text": "Erica Ken Weber: Damn! Missed him again! Oh, it's you! Keep that up and you'll never defeat Azrael nor obtain the Stone of Commune. If you get another chance, try harder, OK?",
+   "header": "Erica Ken Weber",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/4-05.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/4-05.htm",
+   "quest": 79,
+   "text": "Erica Ken Weber: I'm not doing this for your amusement. This is a fight I can't withdraw from. There's no room for you here. Wait your turn.",
+   "header": "Erica Ken Weber",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/4-07.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/4-07.htm",
+   "quest": 79,
+   "text": "Erica Ken Weber: Thanks for your help. I'm Erica. Although I couldn't kill him, I was able to get what I needed. Azrael dropped this earlier, during the fight. It's a Stone of Commune! Do you want it?",
+   "header": "Erica Ken Weber",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, thank you!\"",
+     "bypass": "Quest Q00079_SagaOfTheAdventurer 4-2",
+     "kind": "quest-event",
+     "script": "Q00079_SagaOfTheAdventurer",
+     "event": "4-2",
+     "quest": 79,
+     "to": "Q00079_SagaOfTheAdventurer/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/4-02.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/4-02.htm",
+   "quest": 79,
+   "text": "Erica Ken Weber: I'm not fighting only for myself! I won't give you this chance! Will you withdraw?",
+   "header": "Erica Ken Weber",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/4-08.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/4-08.htm",
+   "quest": 79,
+   "text": "Erica Ken Weber: You won't escape again, Azrael! Oh, there you are! Take the Stone of Commune I gave you earlier to the Tablet of Vision. You can use the stone to communicate with the tablet.",
+   "header": "Erica Ken Weber",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/4-010.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/4-010.htm",
+   "quest": 79,
+   "text": "Erica Ken Weber: This Stone of Commune is a key that unlocks the forbidden power that resides within the Tablet of Vision. I don't have any use for it anymore. Take it with you. Thank you for your help. If we meet again, I won't forget what you've done for me!",
+   "header": "Erica Ken Weber",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00079_SagaOfTheAdventurer 4-3",
+     "kind": "quest-event",
+     "script": "Q00079_SagaOfTheAdventurer",
+     "event": "4-3",
+     "quest": 79,
+     "to": null
+    }
+   ]
+  },
+  "Q00079_SagaOfTheAdventurer/4-011.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/4-011.htm",
+   "quest": 79,
+   "text": "Erica Ken Weber: Here it is. I hope to see you again someday. Goodbye!",
+   "header": "Erica Ken Weber",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00079_SagaOfTheAdventurer/4-09.htm": {
+   "file": "Q00079_SagaOfTheAdventurer/4-09.htm",
+   "quest": 79,
+   "text": "Erica Ken Weber: Take the Stone of Commune to the Tablet of Vision. Communicate with the tablet and you'll obtain forbidden power!",
+   "header": "Erica Ken Weber",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Adventurer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00079_SagaOfTheAdventurer",
+     "kind": "quest",
+     "quest": 79,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

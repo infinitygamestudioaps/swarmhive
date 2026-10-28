@@ -1,0 +1,76 @@
+{
+ "npcId": 31536,
+ "name": "Coffin",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.216Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31536.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "25": {
+   "name": "Hiding Behind the Truth",
+   "listText": [
+    "[Hiding Behind the Truth]",
+    "[Hiding Behind the Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00025_HidingBehindTheTruth/31536-01.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31536.htm": {
+   "file": "default/31536.htm",
+   "quest": null,
+   "text": "Coffin: This is the coffin Rose is supposed to be in.",
+   "header": "Coffin",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31536-01.html": {
+   "file": "Q00025_HidingBehindTheTruth/31536-01.html",
+   "quest": 25,
+   "text": "Coffin: You pull a red dress from the otherwise empty coffin.",
+   "header": "Coffin",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Hiding Behind the Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00025_HidingBehindTheTruth",
+     "kind": "quest",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31536-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

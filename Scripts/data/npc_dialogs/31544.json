@@ -1,0 +1,672 @@
+{
+ "npcId": 31544,
+ "name": "Naff",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.218Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31544.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "621": {
+   "name": "Egg Delivery",
+   "listText": [
+    "[Egg Delivery]",
+    "[Egg Delivery (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00621_EggDelivery/31544-01.html",
+     "when": "state STARTED; has items 7196; qs.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00621_EggDelivery/31545-01.html",
+     "when": "state STARTED; has items 7196; qs.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00621_EggDelivery/31546-01.html",
+     "when": "state STARTED; has items 7196; qs.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00621_EggDelivery/31547-01.html",
+     "when": "state STARTED; has items 7196; qs.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00621_EggDelivery/31544-04.html",
+     "when": "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, EGG_PRICE)); qs.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00621_EggDelivery/31545-04.html",
+     "when": "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, EGG_PRICE)); qs.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00621_EggDelivery/31546-04.html",
+     "when": "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, EGG_PRICE)); qs.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00621_EggDelivery/31547-04.html",
+     "when": "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, EGG_PRICE)); qs.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "622": {
+   "name": "Specialty Liquor Delivery",
+   "listText": [
+    "[Specialty Liquor Delivery]",
+    "[Specialty Liquor Delivery (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31546-01.html",
+     "when": "state STARTED; has items 7198; qs.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31545-01.html",
+     "when": "state STARTED; has items 7198; qs.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31544-01.html",
+     "when": "state STARTED; has items 7198; qs.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31543-01.html",
+     "when": "state STARTED; has items 7198; qs.isCond(cond)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31546-04.html",
+     "when": "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, SPECIAL_DRINK_PRICE)); qs.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31545-04.html",
+     "when": "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, SPECIAL_DRINK_PRICE)); qs.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31544-04.html",
+     "when": "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, SPECIAL_DRINK_PRICE)); qs.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00622_SpecialtyLiquorDelivery/31543-04.html",
+     "when": "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, SPECIAL_DRINK_PRICE)); qs.isCond(cond + 1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31544.htm": {
+   "file": "default/31544.htm",
+   "quest": null,
+   "text": "Naff: Have you heard about the beast that lurks in the hot springs area? Icicle Emperor Bumbalump, also known as the king of the yetis! It's said that he eats people alive! How gruesome. He's a voracious eater, and can put away a family in one sitting! I don't know why nobody has killed him yet!",
+   "header": "Naff",
+   "links": [
+    {
+     "text": "\"What are the hot springs good for?\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/31544-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/31544-1.htm": {
+   "file": "default/31544-1.htm",
+   "quest": null,
+   "text": "Naff: The hot springs around here are known to heal many ailments. The red hot spring is good for cholera and malaria, the yellow one for rheumatism, and the green one for influenza and malaria. If you're tired, enjoy a bath in the hot springs!",
+   "header": "Naff",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/31544.htm"
+    }
+   ]
+  },
+  "Q00621_EggDelivery/31544-01.html": {
+   "file": "Q00621_EggDelivery/31544-01.html",
+   "quest": 621,
+   "text": "Naff: Oh, that feels great! If only I had some Boiled Eggs to go with it!",
+   "header": "Naff",
+   "when": [
+    "state STARTED; has items 7196; qs.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"I have some Boiled Eggs for you!\"",
+     "bypass": "Quest Q00621_EggDelivery 31544-02.html",
+     "kind": "quest-event",
+     "script": "Q00621_EggDelivery",
+     "event": "31544-02.html",
+     "quest": 621,
+     "to": "Q00621_EggDelivery/31544-02.html",
+     "toAll": [
+      "Q00621_EggDelivery/31544-02.html",
+      "Q00621_EggDelivery/31544-03.html",
+      "Q00621_EggDelivery/31545-03.html",
+      "Q00621_EggDelivery/31546-03.html",
+      "Q00621_EggDelivery/31547-03.html"
+     ],
+     "effect": "cond:[object Object]"
+    }
+   ]
+  },
+  "Q00621_EggDelivery/31545-01.html": {
+   "file": "Q00621_EggDelivery/31545-01.html",
+   "quest": 621,
+   "text": "Crocus: The hot springs just aren't the same without hard Boiled Eggs! Do you have any eggs? Do you?!",
+   "header": "Crocus",
+   "when": [
+    "state STARTED; has items 7196; qs.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "I've got your eggs right here.",
+     "bypass": "Quest Q00621_EggDelivery 31545-02.html",
+     "kind": "quest-event",
+     "script": "Q00621_EggDelivery",
+     "event": "31545-02.html",
+     "quest": 621,
+     "to": "Q00621_EggDelivery/31545-02.html",
+     "toAll": [
+      "Q00621_EggDelivery/31545-02.html",
+      "Q00621_EggDelivery/31544-03.html",
+      "Q00621_EggDelivery/31545-03.html",
+      "Q00621_EggDelivery/31546-03.html",
+      "Q00621_EggDelivery/31547-03.html"
+     ],
+     "effect": "cond:[object Object]"
+    }
+   ]
+  },
+  "Q00621_EggDelivery/31546-01.html": {
+   "file": "Q00621_EggDelivery/31546-01.html",
+   "quest": 621,
+   "text": "Kuber: Hot hot hot springs! I'm so happy to be here! It's so heavenly... My spirit soars! All my worries~ Far~ far~ away~ Come what may~ I'll take it easy~ ~whatever happens~",
+   "header": "Kuber",
+   "when": [
+    "state STARTED; has items 7196; qs.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"Egg delivery, sir!\"",
+     "bypass": "Quest Q00621_EggDelivery 31546-02.html",
+     "kind": "quest-event",
+     "script": "Q00621_EggDelivery",
+     "event": "31546-02.html",
+     "quest": 621,
+     "to": "Q00621_EggDelivery/31546-02.html",
+     "toAll": [
+      "Q00621_EggDelivery/31546-02.html",
+      "Q00621_EggDelivery/31544-03.html",
+      "Q00621_EggDelivery/31545-03.html",
+      "Q00621_EggDelivery/31546-03.html",
+      "Q00621_EggDelivery/31547-03.html"
+     ],
+     "effect": "cond:[object Object]"
+    }
+   ]
+  },
+  "Q00621_EggDelivery/31547-01.html": {
+   "file": "Q00621_EggDelivery/31547-01.html",
+   "quest": 621,
+   "text": "Beolin: I'm so hungry I could eat a thousand wyvern eggs!You don't happen to have any eggs, do you?",
+   "header": "Beolin",
+   "when": [
+    "state STARTED; has items 7196; qs.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "I've got your eggs right here.",
+     "bypass": "Quest Q00621_EggDelivery 31547-02.html",
+     "kind": "quest-event",
+     "script": "Q00621_EggDelivery",
+     "event": "31547-02.html",
+     "quest": 621,
+     "to": "Q00621_EggDelivery/31547-02.html",
+     "toAll": [
+      "Q00621_EggDelivery/31547-02.html",
+      "Q00621_EggDelivery/31544-03.html",
+      "Q00621_EggDelivery/31545-03.html",
+      "Q00621_EggDelivery/31546-03.html",
+      "Q00621_EggDelivery/31547-03.html"
+     ],
+     "effect": "cond:[object Object]"
+    }
+   ]
+  },
+  "Q00621_EggDelivery/31544-04.html": {
+   "file": "Q00621_EggDelivery/31544-04.html",
+   "quest": 621,
+   "text": "Naff: Hmm... I know I'm sexy, but you're embarrassing me! Don't you have something else to do?",
+   "header": "Naff",
+   "when": [
+    "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, EGG_PRICE)); qs.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00621_EggDelivery/31545-04.html": {
+   "file": "Q00621_EggDelivery/31545-04.html",
+   "quest": 621,
+   "text": "Crocus: If I only had a drink... I'd be the happiest person in the world!",
+   "header": "Crocus",
+   "when": [
+    "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, EGG_PRICE)); qs.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00621_EggDelivery/31546-04.html": {
+   "file": "Q00621_EggDelivery/31546-04.html",
+   "quest": 621,
+   "text": "Kuber: I need a nap.",
+   "header": "Kuber",
+   "when": [
+    "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, EGG_PRICE)); qs.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00621_EggDelivery/31547-04.html": {
+   "file": "Q00621_EggDelivery/31547-04.html",
+   "quest": 621,
+   "text": "Beolin: That was awesome! I feel so much better! Tell Jeremy that the food was delicious!",
+   "header": "Beolin",
+   "when": [
+    "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, EGG_PRICE)); qs.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31546-01.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31546-01.html",
+   "quest": 622,
+   "text": "Kuber: That feels so good! I ordered a boiled egg to go with my drink! Once the liquor and the egg arrive, I'll be in heaven!",
+   "header": "Kuber",
+   "when": [
+    "state STARTED; has items 7198; qs.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"I'm here to deliver some liquor.\"",
+     "bypass": "Quest Q00622_SpecialtyLiquorDelivery 31546-02.html",
+     "kind": "quest-event",
+     "script": "Q00622_SpecialtyLiquorDelivery",
+     "event": "31546-02.html",
+     "quest": 622,
+     "to": "Q00622_SpecialtyLiquorDelivery/31546-02.html",
+     "toAll": [
+      "Q00622_SpecialtyLiquorDelivery/31546-02.html",
+      "Q00622_SpecialtyLiquorDelivery/31546-03.html",
+      "Q00622_SpecialtyLiquorDelivery/31545-03.html",
+      "Q00622_SpecialtyLiquorDelivery/31544-03.html",
+      "Q00622_SpecialtyLiquorDelivery/31543-03.html"
+     ],
+     "effect": "cond:[object Object]"
+    }
+   ]
+  },
+  "Q00622_SpecialtyLiquorDelivery/31545-01.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31545-01.html",
+   "quest": 622,
+   "text": "Crocus: I need a drink! Do you have any liquor?",
+   "header": "Crocus",
+   "when": [
+    "state STARTED; has items 7198; qs.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"I have your liquor right here!\"",
+     "bypass": "Quest Q00622_SpecialtyLiquorDelivery 31545-02.html",
+     "kind": "quest-event",
+     "script": "Q00622_SpecialtyLiquorDelivery",
+     "event": "31545-02.html",
+     "quest": 622,
+     "to": "Q00622_SpecialtyLiquorDelivery/31545-02.html",
+     "toAll": [
+      "Q00622_SpecialtyLiquorDelivery/31545-02.html",
+      "Q00622_SpecialtyLiquorDelivery/31546-03.html",
+      "Q00622_SpecialtyLiquorDelivery/31545-03.html",
+      "Q00622_SpecialtyLiquorDelivery/31544-03.html",
+      "Q00622_SpecialtyLiquorDelivery/31543-03.html"
+     ],
+     "effect": "cond:[object Object]"
+    }
+   ]
+  },
+  "Q00622_SpecialtyLiquorDelivery/31544-01.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31544-01.html",
+   "quest": 622,
+   "text": "Naff: The hot springs always reminds me of Jeremy's special liquor! Let me guess... You must be Jeremy's delivery man!",
+   "header": "Naff",
+   "when": [
+    "state STARTED; has items 7198; qs.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "Say \"I've brought you some specially brewed liquor!\"",
+     "bypass": "Quest Q00622_SpecialtyLiquorDelivery 31544-02.html",
+     "kind": "quest-event",
+     "script": "Q00622_SpecialtyLiquorDelivery",
+     "event": "31544-02.html",
+     "quest": 622,
+     "to": "Q00622_SpecialtyLiquorDelivery/31544-02.html",
+     "toAll": [
+      "Q00622_SpecialtyLiquorDelivery/31544-02.html",
+      "Q00622_SpecialtyLiquorDelivery/31546-03.html",
+      "Q00622_SpecialtyLiquorDelivery/31545-03.html",
+      "Q00622_SpecialtyLiquorDelivery/31544-03.html",
+      "Q00622_SpecialtyLiquorDelivery/31543-03.html"
+     ],
+     "effect": "cond:[object Object]"
+    }
+   ]
+  },
+  "Q00622_SpecialtyLiquorDelivery/31543-01.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31543-01.html",
+   "quest": 622,
+   "text": "Pulin: You're the liquor delivery man, right? Show me the booze! I came all the way from Horse Island for a drink!",
+   "header": "Pulin",
+   "when": [
+    "state STARTED; has items 7198; qs.isCond(cond)"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the liquor delivery.\"",
+     "bypass": "Quest Q00622_SpecialtyLiquorDelivery 31543-02.html",
+     "kind": "quest-event",
+     "script": "Q00622_SpecialtyLiquorDelivery",
+     "event": "31543-02.html",
+     "quest": 622,
+     "to": "Q00622_SpecialtyLiquorDelivery/31543-02.html",
+     "toAll": [
+      "Q00622_SpecialtyLiquorDelivery/31543-02.html",
+      "Q00622_SpecialtyLiquorDelivery/31546-03.html",
+      "Q00622_SpecialtyLiquorDelivery/31545-03.html",
+      "Q00622_SpecialtyLiquorDelivery/31544-03.html",
+      "Q00622_SpecialtyLiquorDelivery/31543-03.html"
+     ],
+     "effect": "cond:[object Object]"
+    }
+   ]
+  },
+  "Q00622_SpecialtyLiquorDelivery/31546-04.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31546-04.html",
+   "quest": 622,
+   "text": "Kuber: Thank you so much! I look forward to getting more deliveries from you!",
+   "header": "Kuber",
+   "when": [
+    "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, SPECIAL_DRINK_PRICE)); qs.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31545-04.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31545-04.html",
+   "quest": 622,
+   "text": "Crocus: If I could eat just one of Jeremy's eggs, I'd be the happiest person in the world!",
+   "header": "Crocus",
+   "when": [
+    "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, SPECIAL_DRINK_PRICE)); qs.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31544-04.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31544-04.html",
+   "quest": 622,
+   "text": "Naff: How could I have gotten so drunk from one glass? Woohoo! I feel great!",
+   "header": "Naff",
+   "when": [
+    "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, SPECIAL_DRINK_PRICE)); qs.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31543-04.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31543-04.html",
+   "quest": 622,
+   "text": "Pulin: I think the taste of this liquor is starting to grow on me! I'll probably be seeing you again!",
+   "header": "Pulin",
+   "when": [
+    "state STARTED; !(qs.isCond(cond) && hasQuestItems(talker, SPECIAL_DRINK_PRICE)); qs.isCond(cond + 1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00621_EggDelivery/31544-02.html": {
+   "file": "Q00621_EggDelivery/31544-02.html",
+   "quest": 621,
+   "text": "Naff: Wow, this is great!",
+   "header": "Naff",
+   "sets": {
+    "cond": "[object Object]"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00621_EggDelivery/31544-03.html": {
+   "file": "Q00621_EggDelivery/31544-03.html",
+   "quest": 621,
+   "text": "Naff: Come on in! The water's fine!",
+   "header": "Naff",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31544-02.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31544-02.html",
+   "quest": 622,
+   "text": "Naff: What a marvelous taste! It's truly worthy of the gods!",
+   "header": "Naff",
+   "sets": {
+    "cond": "[object Object]"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31544-03.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31544-03.html",
+   "quest": 622,
+   "text": "Naff: I'm trying to be patient, but it's not working! Where the hell is my liquor?",
+   "header": "Naff",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Egg Delivery (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00621_EggDelivery",
+     "kind": "quest",
+     "quest": 621,
+     "to": "Q00621_EggDelivery/31544-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Specialty Liquor Delivery (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00622_SpecialtyLiquorDelivery",
+     "kind": "quest",
+     "quest": 622,
+     "to": "Q00622_SpecialtyLiquorDelivery/31546-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "Q00621_EggDelivery/31545-03.html": {
+   "file": "Q00621_EggDelivery/31545-03.html",
+   "quest": 621,
+   "text": "Crocus: What a wonderful diversion! I'll wager that even the gods are jealous!If only I could have a taste of Jeremy's eggs...",
+   "header": "Crocus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00621_EggDelivery/31546-03.html": {
+   "file": "Q00621_EggDelivery/31546-03.html",
+   "quest": 621,
+   "text": "Kuber: If you're hungry, take a bite of this delicious hard-boiled egg! Mmm mmm mmm...!",
+   "header": "Kuber",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00621_EggDelivery/31547-03.html": {
+   "file": "Q00621_EggDelivery/31547-03.html",
+   "quest": 621,
+   "text": "Beolin: Do you have any eggs? I'm starving!",
+   "header": "Beolin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00621_EggDelivery/31545-02.html": {
+   "file": "Q00621_EggDelivery/31545-02.html",
+   "quest": 621,
+   "text": "Crocus: There's nothing quite like the taste of a good egg! Jeremy's eggs taste better than anybody's!",
+   "header": "Crocus",
+   "sets": {
+    "cond": "[object Object]"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00621_EggDelivery/31546-02.html": {
+   "file": "Q00621_EggDelivery/31546-02.html",
+   "quest": 621,
+   "text": "Kuber: Oh my god! This is it! It's so good!",
+   "header": "Kuber",
+   "sets": {
+    "cond": "[object Object]"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00621_EggDelivery/31547-02.html": {
+   "file": "Q00621_EggDelivery/31547-02.html",
+   "quest": 621,
+   "text": "Beolin: What excellent timing! If you were a minute later, I would've starved to death! Here's some money for your eggs!",
+   "header": "Beolin",
+   "sets": {
+    "cond": "[object Object]"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31546-02.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31546-02.html",
+   "quest": 622,
+   "text": "Kuber: Mmm... That's delicious! You look tired! Can I buy you a drink?",
+   "header": "Kuber",
+   "sets": {
+    "cond": "[object Object]"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31546-03.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31546-03.html",
+   "quest": 622,
+   "text": "Kuber: What happened to my liquor? I can't wait any longer!",
+   "header": "Kuber",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31545-03.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31545-03.html",
+   "quest": 622,
+   "text": "Crocus: What a wonderful diversion! I'll wager that even the gods are jealous! If only I could snack on some of Jeremy's eggs...",
+   "header": "Crocus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31543-03.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31543-03.html",
+   "quest": 622,
+   "text": "Pulin: Does alcohol taste different here? I'm scared but excited at the same time! I want a drink!",
+   "header": "Pulin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31545-02.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31545-02.html",
+   "quest": 622,
+   "text": "Crocus: The fruity bouquet and sparkling sensation on my tongue is awesome! There's absolutely nothing like this in the whole world! Jeremy's liquor is unique to this region but very popular everywhere! I'm so glad I came here.",
+   "header": "Crocus",
+   "sets": {
+    "cond": "[object Object]"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00622_SpecialtyLiquorDelivery/31543-02.html": {
+   "file": "Q00622_SpecialtyLiquorDelivery/31543-02.html",
+   "quest": 622,
+   "text": "Pulin: Actually, I'm not much of a drinker... I thought this might be different! Here's your money.",
+   "header": "Pulin",
+   "sets": {
+    "cond": "[object Object]"
+   },
+   "outcome": "cond",
+   "links": []
+  }
+ }
+}

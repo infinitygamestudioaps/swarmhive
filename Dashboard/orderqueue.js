@@ -28,8 +28,8 @@ const OQD = { ttlMs: 600000, safeTtlMs: 120000, stopTtlMs: 300000, freshMs: 4500
   keepDoneMs: 2 * 3600e3, keepMaxMs: 24 * 3600e3, maxPerFile: 60, maxIndex: 300, scanMs: 30000 };
 // = ORDER_CMDS in Scripts_dev/swarm.js (docs/plan/tools/test_order_queue.js checks they are the same)
 const ORDER_RE = /^!(stop|start|park|safespot|town|level|autolevel|supply|restock|collect|mission|raidhunt|goto|gk|soe|regroup|return|gearup|assist|dungeon|jointraid|siege|routetest|escort|career|farm|go|raid|hunthere|formation|dawn)$/;
-const TERMINAL = new Set(['done', 'failed', 'superseded', 'expired', 'cancelled']);
-const TAKEN = new Set(['acknowledged', 'running', 'done', 'failed', 'superseded', 'expired', 'cancelled']);
+const TERMINAL = new Set(['done', 'skipped', 'failed', 'superseded', 'expired', 'cancelled']);   // skipped = HOFFRACE-2026-10-27 (hands off)
+const TAKEN = new Set(['acknowledged', 'running', 'done', 'skipped', 'failed', 'superseded', 'expired', 'cancelled']);
 const lc = (s) => String(s == null ? '' : s).trim().toLowerCase();
 const clean = (t) => String(t || '').trim().replace(/^#(?=!)/, '');
 const firstWord = (t) => clean(t).split(/\s+/)[0].toLowerCase();
@@ -65,6 +65,7 @@ function windowOf(st, now) {
 }
 /** merged state of one queue entry for <name>: the bot's record wins once it took the order */
 function merge(name, q, b, win, now) {
+  if (b && b.state === 'done' && b.skipped) return { state: 'skipped', why: b.why || 'skipped (hands off)', how: b.how || 'skipped (hands off)', at: b.at || q.at, by: 'bot' };   // HOFFRACE-2026-10-27: a party order a hands-off character did not run
   if (b && b.state && b.state !== 'delivered') return { state: b.state, why: b.why || '', how: b.how || '', at: b.at || q.at, by: 'bot' };
   if (q.state && q.state !== 'queued') return { state: q.state, why: q.why || '', how: q.how || '', at: q.stateAt || q.at, by: 'dashboard' };
   const until = q.at + (q.ttlMs || OQD.ttlMs);
@@ -224,7 +225,7 @@ function create(o) {
       const names = (x.recipients || []).filter(n => !filter || !filter.names || filter.names.has(n));
       if (!names.length) continue;
       const rs = status(x.id, names, now);
-      const agg = rs.some(r => r.pending) ? 'pending' : rs.some(r => r.state === 'running' || r.state === 'acknowledged') ? 'running' : rs.some(r => r.state === 'failed') ? 'failed' : rs.every(r => r.state === 'superseded') ? 'superseded' : rs.every(r => r.state === 'expired') ? 'expired' : rs.every(r => r.state === 'cancelled') ? 'cancelled' : 'done';
+      const agg = rs.some(r => r.pending) ? 'pending' : rs.some(r => r.state === 'running' || r.state === 'acknowledged') ? 'running' : rs.some(r => r.state === 'failed') ? 'failed' : rs.every(r => r.state === 'superseded') ? 'superseded' : rs.every(r => r.state === 'expired') ? 'expired' : rs.every(r => r.state === 'cancelled') ? 'cancelled' : rs.every(r => r.state === 'skipped') ? 'skipped' : 'done';
       out.push({ id: x.id, cmd: x.cmd, at: x.at, label: x.label, targets: x.targets, safety: x.safety, ttlMs: x.ttlMs, until: x.at + (x.ttlMs || OQD.ttlMs), state: agg, recipients: rs });
       if (out.length >= (limit || 50)) break;
     }

@@ -1,0 +1,220 @@
+{
+ "npcId": 30590,
+ "name": "Rosheek",
+ "title": "Khavatari",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.007Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30590.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "415": {
+   "name": "Path Of The Orc Monk",
+   "listText": [
+    "[Path of the Orc Monk]",
+    "[Path of the Orc Monk (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30590-01.html",
+     "when": "state STARTED; has items 1593; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30590-02.html",
+     "when": "state STARTED; has items 1594; lacks items 1593,1597; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30590-03.html",
+     "when": "state STARTED; has items 1597; lacks items 1593,1594; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30590-04.html",
+     "when": "state STARTED; has items 1595; lacks items 1593,1598; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_1ST) && hasQuestItems(player, LEATHER_POUCH_1ST_FULL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30590-05.html",
+     "when": "state STARTED; has items 1598; lacks items 1593,1595; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_1ST) && hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(hasQuestItems(player, LEATHER_POUCH_2ND) && !hasQuestItems(player, LEATHER_POUCH_2ND_FULL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30590-06.html",
+     "when": "state STARTED; has items 1596; lacks items 1593,1599; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_1ST) && hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(hasQuestItems(player, LEATHER_POUCH_2ND) && !hasQuestItems(player, LEATHER_POUCH_2ND_FULL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30590-07.html",
+     "when": "state STARTED; has items 1599; lacks items 1593,1596; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_1ST) && hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(hasQuestItems(player, LEATHER_POUCH_2ND) && !hasQuestItems(player, LEATHER_POUCH_2ND_FULL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30590-08.html",
+     "when": "state STARTED; has items 1604,1603; lacks items 1593; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_1ST) && hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(hasQuestItems(player, LEATHER_POUCH_2ND) && !hasQuestItems(player, LEATHER_POUCH_2ND_FULL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30590-09.html",
+     "when": "state STARTED; has items 1603; lacks items 1593,1604,1603; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_1ST) && hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(hasQuestItems(player, LEATHER_POUCH_2ND) && !hasQuestItems(player, LEATHER_POUCH_2ND_FULL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30590.htm": {
+   "file": "default/30590.htm",
+   "quest": null,
+   "text": "Khavatari Rosheek: What brings you to this desolate snowfield, young traveler? I am Rosheek, who trains Kabart, the traditional martial art of the Orcs. As the god Paagrio has taught us, we must continuously make an effort to strengthen ourselves above all the other creatures that live. I have stay…",
+   "header": "Khavatari Rosheek",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00415_PathOfTheOrcMonk/30590-01.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30590-01.html",
+   "quest": 415,
+   "text": "Khavatari Rosheek: It's a fledgling sent by Gantaki! How dare you disturb my meditation ... I don't want to associate with someone with no skill! Go catch the kasha bear with your bare hands! Then, pull out five claws and bring them back in this pouch! Until you finish this task, don't think of com…",
+   "header": "Khavatari Rosheek",
+   "when": [
+    "state STARTED; has items 1593; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30590-02.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30590-02.html",
+   "quest": 415,
+   "text": "Khavatari Rosheek: Didn't I tell you not to come back before you caught the kasha bear and pulled out five claws? Do not disturb my discipline -- just go hunt the bear! And take heed! If you use any other weapon besides your bare fists or combat weapons, you are disqualified!",
+   "header": "Khavatari Rosheek",
+   "when": [
+    "state STARTED; has items 1594; lacks items 1593,1597; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30590-03.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30590-03.html",
+   "quest": 415,
+   "text": "Khavatari Rosheek: Tejakar Oroka! Have you come back already? I'm sorry but I am meditating, so I do not have any time to deal with you! Go hunt the kasha bladespider . And bring back five blade-shaped talons in this pouch. Then I will especially put aside some time to teach you. I tell you again, …",
+   "header": "Khavatari Rosheek",
+   "when": [
+    "state STARTED; has items 1597; lacks items 1593,1594; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30590-04.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30590-04.html",
+   "quest": 415,
+   "text": "Khavatari Rosheek: Stop bothering me and go catch kasha blade spiders with your bare fists and combat equipment only. Pull out their blade-shaped talons and bring me back five of them in the pouch that I gave you.",
+   "header": "Khavatari Rosheek",
+   "when": [
+    "state STARTED; has items 1595; lacks items 1593,1598; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_1ST) && hasQuestItems(player, LEATHER_POUCH_1ST_FULL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30590-05.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30590-05.html",
+   "quest": 415,
+   "text": "Khavatari Rosheek: Have you come back already? I was about to rest, but you've disturbed me. Don't be such a nuisance, go and kill the scarlet salamander and bring back its scales! Collect five scales in this pouch and bring them to me. Of course, you should not use anything other than your bare fi…",
+   "header": "Khavatari Rosheek",
+   "when": [
+    "state STARTED; has items 1598; lacks items 1593,1595; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_1ST) && hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(hasQuestItems(player, LEATHER_POUCH_2ND) && !hasQuestItems(player, LEATHER_POUCH_2ND_FULL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30590-06.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30590-06.html",
+   "quest": 415,
+   "text": "Khavatari Rosheek: Don't be such a nuisance! Capture the scarlet salamander with your bare fists and combat equipment and pluck out its scales. Bring back five scales in the pouch that I gave you.",
+   "header": "Khavatari Rosheek",
+   "when": [
+    "state STARTED; has items 1596; lacks items 1593,1599; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_1ST) && hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(hasQuestItems(player, LEATHER_POUCH_2ND) && !hasQuestItems(player, LEATHER_POUCH_2ND_FULL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30590-07.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30590-07.html",
+   "quest": 415,
+   "text": "Khavatari Rosheek: Very good! I haven't seen one with your guts in a long time. Actually, I have nothing to teach you that you have not already taught yourself. The flame stands for strong faith that wishes to become stronger and a fiery desire to achieve victory. I was testing whether you had the …",
+   "header": "Khavatari Rosheek",
+   "when": [
+    "state STARTED; has items 1599; lacks items 1593,1596; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_1ST) && hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(hasQuestItems(player, LEATHER_POUCH_2ND) && !hasQuestItems(player, LEATHER_POUCH_2ND_FULL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30590-08.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30590-08.html",
+   "quest": 415,
+   "text": "Khavatari Rosheek: What are you waiting for? Take the Fiery Spirit Scroll and letter that I have written you and go to Gantaki Zu Urutu in the village!",
+   "header": "Khavatari Rosheek",
+   "when": [
+    "state STARTED; has items 1604,1603; lacks items 1593; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_1ST) && hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(hasQuestItems(player, LEATHER_POUCH_2ND) && !hasQuestItems(player, LEATHER_POUCH_2ND_FULL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30590-09.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30590-09.html",
+   "quest": 415,
+   "text": "Khavatari Rosheek: Young fighter, you have not found the second scroll yet? Then you must strive all the harder!",
+   "header": "Khavatari Rosheek",
+   "when": [
+    "state STARTED; has items 1603; lacks items 1593,1604,1603; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_1ST) && !hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_1ST) && hasQuestItems(player, LEATHER_POUCH_1ST_FULL)); !(hasQuestItems(player, LEATHER_POUCH_2ND) && !hasQuestItems(player, LEATHER_POUCH_2ND_FULL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Orc Monk (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00415_PathOfTheOrcMonk",
+     "kind": "quest",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/30590-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

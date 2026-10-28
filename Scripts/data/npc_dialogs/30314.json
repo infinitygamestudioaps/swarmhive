@@ -1,0 +1,437 @@
+{
+ "npcId": 30314,
+ "name": "Nestle",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.931Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30314.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "229": {
+   "name": "Test Of Witchcraft",
+   "listText": [
+    "[Test of Witchcraft]",
+    "[Test of Witchcraft (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00229_TestOfWitchcraft/30314-01.htm",
+     "when": "state STARTED; has items 3309; lacks items 3316,3315,3320,3321,3322",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30314-03.htm",
+     "when": "state STARTED; has items 3309,3316,3315,3320,3321,3322; lacks items 3316",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30314-04.htm",
+     "when": "state STARTED; has items 3309,3316,3315,3320,3321,3322; lacks items 3315; !(hasQuestItems(player, NESTLES_MEMO) && !hasQuestItems(player, LEOPOLDS_JOURNAL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "327": {
+   "name": "Recover the Farmland",
+   "listText": [
+    "[Recover the Farmland]",
+    "[Recover the Farmland (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00327_RecoverTheFarmland/30314-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30314.htm": {
+   "file": "merchant/30314.htm",
+   "quest": null,
+   "text": "Trader Nestle: Welcome, adventurer! How's the hunting been? With so few people using our port, I'm afraid that the economy here isn't as strong as we could wish. Shouldn't we do everything we can to help each other during these difficult times? Well, have a look around -- if you see something you l…",
+   "header": "Trader Nestle",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Buy 3031400",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy/Sell/Refund Common Items.",
+     "bypass": "npc_%objectId%_Buy 3031402",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30314-pk.htm": {
+   "file": "merchant/30314-pk.htm",
+   "quest": null,
+   "text": "Trader Nestle: No matter how bad sales are, I cannot sell to the likes of you. Please leave.",
+   "header": "Trader Nestle",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30314-01.htm": {
+   "file": "Q00229_TestOfWitchcraft/30314-01.htm",
+   "quest": 229,
+   "text": "Trader Nestle: Ah, the Jewel of Aklantoth . I commissioned Trader Alexandria of Giran to sell it at auction. There were originally 6 jewels in the set, but unfortunately we have only acquired 3 of them so far. If I had the whole set I could get a much higher price...",
+   "header": "Trader Nestle",
+   "when": [
+    "state STARTED; has items 3309; lacks items 3316,3315,3320,3321,3322"
+   ],
+   "links": [
+    {
+     "text": "\"Where were the jewels found?\"",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30314-02.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30314-02.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30314-02.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30314-03.htm": {
+   "file": "Q00229_TestOfWitchcraft/30314-03.htm",
+   "quest": 229,
+   "text": "Trader Nestle: As I told you before, the jewels that you are looking for were brought by Leopold of the Black Lion Troop . Ask him for the details. I think he lives near the rebuilding site of Gludin.",
+   "header": "Trader Nestle",
+   "when": [
+    "state STARTED; has items 3309,3316,3315,3320,3321,3322; lacks items 3316"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30314-04.htm": {
+   "file": "Q00229_TestOfWitchcraft/30314-04.htm",
+   "quest": 229,
+   "text": "Trader Nestle: Such a shame... To take a life for mere jewelry...!",
+   "header": "Trader Nestle",
+   "when": [
+    "state STARTED; has items 3309,3316,3315,3320,3321,3322; lacks items 3315; !(hasQuestItems(player, NESTLES_MEMO) && !hasQuestItems(player, LEOPOLDS_JOURNAL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00327_RecoverTheFarmland/30314-01.html": {
+   "file": "Q00327_RecoverTheFarmland/30314-01.html",
+   "quest": 327,
+   "text": "Trader Nestle: Are you the mercenary Piotur hired? What is going on over at the Orc Barracks? They say that ancient relics have recently been discovered there. Have you found any? Old relics wouldn't be of any use to a mercenary like yourself, now would they? If you bring some of them I will give y…",
+   "header": "Trader Nestle",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"I will trade relics for items.\"",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-02.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-02.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-02.html"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30314-02.htm": {
+   "file": "Q00229_TestOfWitchcraft/30314-02.htm",
+   "quest": 229,
+   "text": "Trader Nestle: The soldiers brought them to me. They told me that they took the jewels during a fight with Turek Orcs. The northwest coast of Gludio is where the relics of the Elmoreden empire are often found... It is also written here in the account book! Three jewels of empirical style, sold by L…",
+   "header": "Trader Nestle",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00327_RecoverTheFarmland/30314-02.html": {
+   "file": "Q00327_RecoverTheFarmland/30314-02.html",
+   "quest": 327,
+   "text": "Trader Nestle: I have no interest is small pieces or fragments of relics. Trader Asha would be interested in the smaller pieces, she is an expert in restoring relics. Do you have any relics I might be interested in?",
+   "header": "Trader Nestle",
+   "links": [
+    {
+     "text": "Give him a Clay Pot.",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-03.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-03.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-03.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30314-03.html",
+      "Q00327_RecoverTheFarmland/30314-07.html"
+     ]
+    },
+    {
+     "text": "Give him an Ancient Brass Tiara.",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-04.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-04.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-04.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30314-04.html",
+      "Q00327_RecoverTheFarmland/30314-07.html"
+     ]
+    },
+    {
+     "text": "Give him an Ancient Bronze Mirror.",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-05.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-05.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-05.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30314-05.html",
+      "Q00327_RecoverTheFarmland/30314-07.html"
+     ]
+    },
+    {
+     "text": "Give him an Ancient Jade Necklace.",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-06.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-06.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-06.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30314-06.html",
+      "Q00327_RecoverTheFarmland/30314-07.html"
+     ]
+    },
+    {
+     "text": "Quit",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-09.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-09.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-09.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30314-03.html": {
+   "file": "Q00327_RecoverTheFarmland/30314-03.html",
+   "quest": 327,
+   "text": "Trader Nestle: Oh, my! Look at the spiral pattern on the surface... the delicate carving of the handle... This is a genuine Imperial urn! It is exquisite! Thank you! You shall have your reward! Take these! I have packed several items that will be useful to a mercenary!",
+   "header": "Trader Nestle",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-08.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-08.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-08.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30314-04.html": {
+   "file": "Q00327_RecoverTheFarmland/30314-04.html",
+   "quest": 327,
+   "text": "Trader Nestle: Oh, my! It is gorgeous! An actual tiara from the Imperial era! Isn't it beautiful? Thank you for your hard work. You shall have your reward! Here are some things that a mercenary will find useful.",
+   "header": "Trader Nestle",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-08.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-08.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-08.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30314-05.html": {
+   "file": "Q00327_RecoverTheFarmland/30314-05.html",
+   "quest": 327,
+   "text": "Trader Nestle: Oh, my, how stunning! A bronze mirror from the Imperial period! I imagine it was used by a female aristocrat of the Elmoreden kingdom... Good job! You shall have your reward. Here are some items that you will find useful.",
+   "header": "Trader Nestle",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-08.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-08.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-08.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30314-06.html": {
+   "file": "Q00327_RecoverTheFarmland/30314-06.html",
+   "quest": 327,
+   "text": "Trader Nestle: Oh, isn't it lovely! A jade necklace worn by the Mystics of the Imperial court! How did you find such a precious item? However you did it, good job! You shall have your reward as promised. Here are some items you will find useful.",
+   "header": "Trader Nestle",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-08.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-08.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-08.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30314-07.html": {
+   "file": "Q00327_RecoverTheFarmland/30314-07.html",
+   "quest": 327,
+   "text": "Trader Nestle: Are you some kind of idiot? You can't sell something you don't have!",
+   "header": "Trader Nestle",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-08.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-08.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-08.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30314-08.html": {
+   "file": "Q00327_RecoverTheFarmland/30314-08.html",
+   "quest": 327,
+   "text": "Trader Nestle: You should get rid of all that excess baggage! I'll take all the relics you have!",
+   "header": "Trader Nestle",
+   "links": [
+    {
+     "text": "Give him a Clay Pot.",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-03.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-03.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-03.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30314-03.html",
+      "Q00327_RecoverTheFarmland/30314-07.html"
+     ]
+    },
+    {
+     "text": "Give him an Ancient Brass Tiara.",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-04.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-04.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-04.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30314-04.html",
+      "Q00327_RecoverTheFarmland/30314-07.html"
+     ]
+    },
+    {
+     "text": "Give him an Ancient Bronze Mirror.",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-05.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-05.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-05.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30314-05.html",
+      "Q00327_RecoverTheFarmland/30314-07.html"
+     ]
+    },
+    {
+     "text": "Give him an Ancient Jade Necklace.",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-06.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-06.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-06.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30314-06.html",
+      "Q00327_RecoverTheFarmland/30314-07.html"
+     ]
+    },
+    {
+     "text": "Quit",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30314-09.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30314-09.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-09.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30314-09.html": {
+   "file": "Q00327_RecoverTheFarmland/30314-09.html",
+   "quest": 327,
+   "text": "Trader Nestle: It's been a pleasure doing business with you. Bring me relics anytime!",
+   "header": "Trader Nestle",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Witchcraft (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00229_TestOfWitchcraft",
+     "kind": "quest",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30314-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Recover the Farmland (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00327_RecoverTheFarmland",
+     "kind": "quest",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30314-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

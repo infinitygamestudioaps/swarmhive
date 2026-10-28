@@ -2,7 +2,7 @@
  "id": 327,
  "name": "Recover the Farmland",
  "version": 1,
- "generated": "2026-10-27T11:15:22.509Z",
+ "generated": "2026-10-27T18:18:57.197Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 25,
@@ -20,14 +20,14 @@
   },
   {
    "code": "dryrun:flow-no-end",
-   "text": "the simulation did not reach the end (last cond 3)"
+   "text": "the simulation did not reach the end (last cond 4)"
   },
   {
    "code": "dryrun:route-aggro",
    "text": "step 2 (c1:hunt): raid:25063: aggressive Turek Orc Elder 34 x4 on the walk (character 25)"
   }
  ],
- "expectedMin": 141,
+ "expectedMin": 139,
  "refLevel": 25,
  "steps": [
   {
@@ -2512,143 +2512,12 @@
     1,
     2,
     3,
+    4,
     5
    ]
   },
   {
    "i": 4,
-   "key": "c4:deliver:30597",
-   "cond": 4,
-   "kind": "deliver",
-   "to": 3,
-   "links": [],
-   "npc": {
-    "id": 30597,
-    "name": "Piotur",
-    "title": "",
-    "town": "Gludin",
-    "at": [
-     -85700,
-     106591,
-     -3555
-    ],
-    "alt": []
-   },
-   "text": "Bring Leikan's Letter to Piotur",
-   "needs": [
-    {
-     "id": 5012,
-     "name": "Leikan's Letter",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30597@-85700,106591",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 4395,
-    "sec": 82,
-    "via": ".gludin > Gludin -> Orc Barracks",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> Orc Barracks",
-      "link": "orc barracks",
-      "price": 1800,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 4395,
-      "how": "geodata",
-      "danger": 20
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> Orc Barracks"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -89763,
-      105359,
-      -3576
-     ],
-     [
-      -89208,
-      105592,
-      -3456
-     ],
-     [
-      -88712,
-      105728,
-      -3388
-     ],
-     [
-      -88216,
-      105864,
-      -3320
-     ],
-     [
-      -87224,
-      105864,
-      -3456
-     ],
-     [
-      -86680,
-      105864,
-      -3528
-     ],
-     [
-      -86472,
-      105928,
-      -3544
-     ],
-     [
-      -86072,
-      106248,
-      -3552
-     ],
-     [
-      -85704,
-      106584,
-      -3552
-     ]
-    ],
-    "maxDanger": 20,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 20,
-     "dangerVsLevel": -5,
-     "aggro": []
-    }
-   },
-   "expectedSec": 107,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    4
-   ]
-  },
-  {
-   "i": 5,
    "key": "c1:turnin:30034",
    "cond": 1,
    "kind": "deliver",
@@ -2839,13 +2708,13 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:22.524Z",
+  "at": "2026-10-27T18:18:57.229Z",
   "pass": false,
   "geo": true,
   "fails": [
    {
     "code": "flow-no-end",
-    "t": "the simulation did not reach the end (last cond 3)"
+    "t": "the simulation did not reach the end (last cond 4)"
    },
    {
     "code": "route-aggro",

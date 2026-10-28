@@ -1,0 +1,1447 @@
+{
+ "npcId": 30754,
+ "name": "Gilmore",
+ "title": "Antharas Watchman",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.071Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30754.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "241": {
+   "name": "Possessor Of A Precious Soul 1",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 1]",
+    "[Path of the Noblesse, Precious Soul - 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/30754-01.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/30754-03.html",
+     "when": "cond 3",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "254": {
+   "name": "Legendary Tales",
+   "listText": [
+    "[Legendary Tales]",
+    "[Legendary Tales (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00254_LegendaryTales/30754-00.htm",
+     "when": "state CREATED; (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00254_LegendaryTales/30754-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00254_LegendaryTales/30754-14.htm",
+     "when": "state STARTED; cond 1; (count > 0)",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00254_LegendaryTales/30754-06.html",
+     "when": "state STARTED; cond 1; NOT (count > 0)",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00254_LegendaryTales/30754-12.htm",
+     "when": "state STARTED; cond 2; (count < 7)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00254_LegendaryTales/30754-07.html",
+     "when": "state STARTED; cond 2; NOT (count < 7)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00254_LegendaryTales/30754-29.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "337": {
+   "name": "Audience With The Land Dragon",
+   "listText": [
+    "[Audience with the Land Dragon]",
+    "[Audience with the Land Dragon  (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30754-01.html",
+     "when": "state STARTED; memoState < 60000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30754-02.html",
+     "when": "state STARTED; memo 60000; !memoState < 60000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30754-05.html",
+     "when": "state STARTED; memo 70000; has items 3861; !memoState < 60000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30754-04.html",
+     "when": "state STARTED; memo 70000; lacks items 3861; !memoState < 60000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "344": {
+   "name": "1000 years, the End of Lamentation",
+   "listText": [
+    "[1000 Years, the End of Lamentation]",
+    "[1000 Years, the End of Lamentation (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00344_1000YearsTheEndOfLamentation/30754-02.htm",
+     "when": "state CREATED; (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00344_1000YearsTheEndOfLamentation/30754-01.htm",
+     "when": "state CREATED; NOT (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00344_1000YearsTheEndOfLamentation/30754-06.html",
+     "when": "state STARTED; cond 1; (hasQuestItems(talker, ARTICLES))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00344_1000YearsTheEndOfLamentation/30754-05.html",
+     "when": "state STARTED; cond 1; NOT (hasQuestItems(talker, ARTICLES))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00344_1000YearsTheEndOfLamentation/30754-14.html",
+     "when": "state STARTED; (hasItem(talker, OLD_KEY) || hasItem(talker, OLD_HILT) || hasItem(talker, TOTEM_NECKLACE) || hasItem(talker, CRUCIFIX))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00344_1000YearsTheEndOfLamentation/30754-15.html",
+     "when": "state STARTED; !(hasItem(talker, OLD_KEY) || hasItem(talker, OLD_HILT) || hasItem(talker, TOTEM_NECKLACE) || hasItem(talker, CRUCIFIX))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30754.htm": {
+   "file": "default/30754.htm",
+   "quest": null,
+   "text": "Antharas Watchman Gilmore: I am Gilmore, watcher of the beast Antharas... I must monitor every breath that demon dragon takes, every twitch of its mighty tail, to assure that it does not awaken from its deep sleep. I have watched the beast for 1,000 years, since I had an army against him. We were a…",
+   "header": "Antharas Watchman Gilmore",
+   "links": [
+    {
+     "text": "\"Tell me about the Heart of Warding.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30754-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30754-1.htm": {
+   "file": "default/30754-1.htm",
+   "quest": null,
+   "text": "Antharas Watchman Gilmore: ... The Heart of Warding is a doorway that was made by those who imprisoned Antharas... A Portal Stone activates it. Antharas Watchman Theodric distributes Portal stones to those who have been approved by the seal watchmen. If you wish to obtain a Portal Stone, you should…",
+   "header": "Antharas Watchman Gilmore",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30754.htm"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/30754-01.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/30754-01.html",
+   "quest": 241,
+   "text": "Antharas Watchman Gilmore: There is someone who's still looking for the old stories. Well, they happened such a long time ago, but I can never forget them. However, I am walking down the road of swords and watching the Land Dragon. I'm not a storyteller or poet like Talien.",
+   "header": "Antharas Watchman Gilmore",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "Wasn't there anyone who recorded the event at the time?",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 30754-02.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "30754-02.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/30754-02.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/30754-03.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/30754-03.html",
+   "quest": 241,
+   "text": "Antharas Watchman Gilmore: Baraham is now an evil creature living in a cave in the Bee Hive area. Find her and you'll find the records. Good luck!",
+   "header": "Antharas Watchman Gilmore",
+   "when": [
+    "cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00254_LegendaryTales/30754-00.htm": {
+   "file": "Q00254_LegendaryTales/30754-00.htm",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: You're too weak to enter Dragon Valley. Turn back. There is nothing for you here. (Only characters level 80 or above may do this quest)",
+   "header": "Watcher of Antharas Gilmore",
+   "when": [
+    "state CREATED; (player.getLevel() < MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00254_LegendaryTales/30754-01.htm": {
+   "file": "Q00254_LegendaryTales/30754-01.htm",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Why are you here? Are you trying to enter Dragon Valley? Don't you know of the terrors in that place?",
+   "header": "Watcher of Antharas Gilmore",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'm strong enough. I'm not afraid.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-02.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-02.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-02.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-14.htm": {
+   "file": "Q00254_LegendaryTales/30754-14.htm",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: True, unless you've been around for as long as I have it might be new to you and you wouldn't be able to tell where the skull comes from. Show me ones you've collected.",
+   "header": "Watcher of Antharas Gilmore",
+   "when": [
+    "state STARTED; cond 1; (count > 0)"
+   ],
+   "links": [
+    {
+     "text": "\"Here.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-15.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-15.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-15.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-06.html": {
+   "file": "Q00254_LegendaryTales/30754-06.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: You have not done all that I asked of you. Remember that you have to have killed seven dragons at least once each. If you haven't killed at least one Emerald Horn, Dust Rider, Bleeding Fly, Black Dagger Wing, Shadow Summoner, Spike Slasher, and Muscle Bomber each, then …",
+   "header": "Watcher of Antharas Gilmore",
+   "when": [
+    "state STARTED; cond 1; NOT (count > 0)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00254_LegendaryTales/30754-12.htm": {
+   "file": "Q00254_LegendaryTales/30754-12.htm",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: You must bring 7 Large Dragon Skulls for your reward! Where's the Large Dragon Skull that you promised me?",
+   "header": "Watcher of Antharas Gilmore",
+   "when": [
+    "state STARTED; cond 2; (count < 7)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00254_LegendaryTales/30754-07.html": {
+   "file": "Q00254_LegendaryTales/30754-07.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: You've brought all the bones I've requested! Excellent. There's something I have that will suit you, but I'm not sure what will suit you best.",
+   "header": "Watcher of Antharas Gilmore",
+   "when": [
+    "state STARTED; cond 2; NOT (count < 7)"
+   ],
+   "links": [
+    {
+     "text": "\"Let me see?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-08.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-08.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-08.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-29.html": {
+   "file": "Q00254_LegendaryTales/30754-29.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: I remember you! If you continue on, your stories will be remembered! (This quest has been completed already)",
+   "header": "Watcher of Antharas Gilmore",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30754-01.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30754-01.html",
+   "quest": 337,
+   "text": "Antharas Watchman Gilmore: Gabrielle leads the seal watchmen. She can be found in the Town of Giran . Before you make up your mind, you must consider the fact that any battle with Antharas will be to the death. If you are determined to meet Antharas, you should first meet Gabrielle and the other wa…",
+   "header": "Antharas Watchman Gilmore",
+   "when": [
+    "state STARTED; memoState < 60000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30754-02.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30754-02.html",
+   "quest": 337,
+   "text": "Antharas Watchman Gilmore: Have you heard of the abyssal jewel? I heard that the third abyssal jewel is in this valley ! You must destroy it before you confront Antharas. It will diminish his strength!",
+   "header": "Antharas Watchman Gilmore",
+   "when": [
+    "state STARTED; memo 60000; !memoState < 60000"
+   ],
+   "links": [
+    {
+     "text": "\"Where is the abyssal jewel?\"",
+     "bypass": "Quest Q00337_AudienceWithTheLandDragon 30754-03.html",
+     "kind": "quest-event",
+     "script": "Q00337_AudienceWithTheLandDragon",
+     "event": "30754-03.html",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30754-03.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00337_AudienceWithTheLandDragon/30754-05.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30754-05.html",
+   "quest": 337,
+   "text": "Antharas Watchman Gilmore: Have you destroyed the jewel? Excellent! Now, take the fragment to Antharas Watchman Theodric . You will find him at the entrance of Antharas' Lair in the deepest part of Dragon Valley.",
+   "header": "Antharas Watchman Gilmore",
+   "when": [
+    "state STARTED; memo 70000; has items 3861; !memoState < 60000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30754-04.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30754-04.html",
+   "quest": 337,
+   "text": "Antharas Watchman Gilmore: I can feel a strong dark energy in the valley... If you don't hurry and destroy the Abyss Jewel, Antharas will awaken even before you step into the dragon's nest. Hurry. Kill the Cave Keepers and Cave Maidens, then destroy the jewel! Take the jewel shards and go find Anth…",
+   "header": "Antharas Watchman Gilmore",
+   "when": [
+    "state STARTED; memo 70000; lacks items 3861; !memoState < 60000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-02.htm": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-02.htm",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: I've not left Dragon Valley since I led my men here so many years ago to battle Antharas... I have accepted the inevitability of my eternal responsibility to watch over the beast. But my heart goes out to the loyal soldiers who lost their lives due to my stubborn ignoranc…",
+   "header": "Antharas Watchman Gilmore",
+   "when": [
+    "state CREATED; (talker.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"I will help you.\"",
+     "bypass": "Quest Q00344_1000YearsTheEndOfLamentation 30754-03.htm",
+     "kind": "quest-event",
+     "script": "Q00344_1000YearsTheEndOfLamentation",
+     "event": "30754-03.htm",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30754-03.htm"
+    }
+   ]
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-01.htm": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-01.htm",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: I've not left Dragon Valley since I led my men here so many years ago to battle Antharas... I have accepted the inevitability of my eternal responsibility to watch over the beast. But my heart goes out to the loyal soldiers who lost their lives due to my stubborn ignoranc…",
+   "header": "Antharas Watchman Gilmore",
+   "when": [
+    "state CREATED; NOT (talker.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-06.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-06.html",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: Believe it or not we gave our lives willingly to save Giran! But we never counted on being here for eternity, let alone looking like this! It's been a thousand years and still I long for my mortal life...",
+   "header": "Antharas Watchman Gilmore",
+   "when": [
+    "state STARTED; cond 1; (hasQuestItems(talker, ARTICLES))"
+   ],
+   "links": [
+    {
+     "text": "Give him the relics.",
+     "bypass": "Quest Q00344_1000YearsTheEndOfLamentation 30754-08.html",
+     "kind": "quest-event",
+     "script": "Q00344_1000YearsTheEndOfLamentation",
+     "event": "30754-08.html",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30754-08.html",
+     "toAll": [
+      "Q00344_1000YearsTheEndOfLamentation/30754-08.html",
+      "Q00344_1000YearsTheEndOfLamentation/30754-07.html",
+      "Q00344_1000YearsTheEndOfLamentation/30754-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-05.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-05.html",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: Is there something keeping you here? Why aren't you out killing cave servants? Bring me back any relics they leave behind.",
+   "header": "Antharas Watchman Gilmore",
+   "when": [
+    "state STARTED; cond 1; NOT (hasQuestItems(talker, ARTICLES))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-14.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-14.html",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: Please go ahead and deliver the relic I gave you. You can come back and resume dispatching the cave servants afterwards.",
+   "header": "Antharas Watchman Gilmore",
+   "when": [
+    "state STARTED; (hasItem(talker, OLD_KEY) || hasItem(talker, OLD_HILT) || hasItem(talker, TOTEM_NECKLACE) || hasItem(talker, CRUCIFIX))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-15.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-15.html",
+   "quest": 344,
+   "text": "Watcher of Antharas Gilmore: Oh, you're back? Perhaps I should reward for your good work, hmm? Now, while you're here, I'd like to ask you to help with the same task in your future endeavours, as there are other friends of mine who still cannot rest in the watcher's tomb. Would you do this for me a…",
+   "header": "Watcher of Antharas Gilmore",
+   "when": [
+    "state STARTED; !(hasItem(talker, OLD_KEY) || hasItem(talker, OLD_HILT) || hasItem(talker, TOTEM_NECKLACE) || hasItem(talker, CRUCIFIX))"
+   ],
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00344_1000YearsTheEndOfLamentation 30754-16.html",
+     "kind": "quest-event",
+     "script": "Q00344_1000YearsTheEndOfLamentation",
+     "event": "30754-16.html",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30754-16.html"
+    },
+    {
+     "text": "\"Sorry, I can't.\"",
+     "bypass": "Quest Q00344_1000YearsTheEndOfLamentation 30754-17.html",
+     "kind": "quest-event",
+     "script": "Q00344_1000YearsTheEndOfLamentation",
+     "event": "30754-17.html",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30754-17.html"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/30754-02.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/30754-02.html",
+   "quest": 241,
+   "text": "Antharas Watchman Gilmore: Of the seventeen of us, the Elf Witch Baraham was best at telling stories and keeping records. She kept journals even during our difficult travels. She can tell you where to find what Talien is looking for. One problem remains, she has turned into an evil creature and can…",
+   "header": "Antharas Watchman Gilmore",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00254_LegendaryTales/30754-02.html": {
+   "file": "Q00254_LegendaryTales/30754-02.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: How arrogant. But... How sad it would be, if you were all talk. I've seen many like you, you know. All talk; none have proven their strength. Most people run from the monsters, and those brave enough to fight are soon enough killed.",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"I'm different.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-03.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-03.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-03.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-03.html": {
+   "file": "Q00254_LegendaryTales/30754-03.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Then prove it! If I told you to defeat the servants of the land dragon known as the Wings of Sand ... would that be possible? ...If you can show me that much strength, you can be compared to... Yes, can be compared to the Legendary Hero .",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"Legend?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-04.htm",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-04.htm",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-04.htm"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-04.htm": {
+   "file": "Q00254_LegendaryTales/30754-04.htm",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Yes. The name of that dark elf is... No, it doesn't really matter what his name was... nor his race. He proved his strength, and he challenged the land dragon alone even after I warned him. He could not defeat the land dragon Antharas, but his strength was shocking. Whe…",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"And I will.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-05.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-05.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-05.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-05.html": {
+   "file": "Q00254_LegendaryTales/30754-05.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Then prove it with your skills, not words! You'll get a Large Dragon Bone when you defeat the monsters in this region. Bring the bone to one of the Dragon Votrexes found in many places in the Dragon Valley, You will meet one of the servant of the land dragon. Kill a Eme…",
+   "header": "Watcher of Antharas Gilmore",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00254_LegendaryTales/30754-08.html": {
+   "file": "Q00254_LegendaryTales/30754-08.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Okay. Choose.",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "Vesper Thrower",
+     "bypass": "Quest Q00254_LegendaryTales 13467",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "13467",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Vesper Singer",
+     "bypass": "Quest Q00254_LegendaryTales 13466",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "13466",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Vesper Caster",
+     "bypass": "Quest Q00254_LegendaryTales 13465",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "13465",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Vesper Retributer",
+     "bypass": "Quest Q00254_LegendaryTales 13464",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "13464",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Vesper Avenger",
+     "bypass": "Quest Q00254_LegendaryTales 13463",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "13463",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Vesper Cutter",
+     "bypass": "Quest Q00254_LegendaryTales 13457",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "13457",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Vesper Slasher",
+     "bypass": "Quest Q00254_LegendaryTales 13458",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "13458",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Vesper Buster",
+     "bypass": "Quest Q00254_LegendaryTales 13459",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "13459",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Vesper Sharper",
+     "bypass": "Quest Q00254_LegendaryTales 13460",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "13460",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Vesper Fighter",
+     "bypass": "Quest Q00254_LegendaryTales 13461",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "13461",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Vesper Stormer",
+     "bypass": "Quest Q00254_LegendaryTales 13462",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "13462",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-09.html": {
+   "file": "Q00254_LegendaryTales/30754-09.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: I will remember your achievements. Your story will become a legend someday! I hope the item you've selected will add to your story.",
+   "header": "Watcher of Antharas Gilmore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00254_LegendaryTales/30754-15.html": {
+   "file": "Q00254_LegendaryTales/30754-15.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Hm, I see. You've brought a skull. Okay, then ask away.",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"Do I have a Emerald Horn skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25718",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25718",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-22.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-22.html",
+      "Q00254_LegendaryTales/30754-16.html"
+     ]
+    },
+    {
+     "text": "\"Do I have a Dust Rider skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25719",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25719",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-23.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-23.html",
+      "Q00254_LegendaryTales/30754-17.html"
+     ]
+    },
+    {
+     "text": "\"Do I have a Bleeding Fly skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25720",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25720",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-24.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-24.html",
+      "Q00254_LegendaryTales/30754-18.html"
+     ]
+    },
+    {
+     "text": "\"Do I have a Black Dagger Wyrm skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25721",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25721",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-25.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-25.html",
+      "Q00254_LegendaryTales/30754-19.html"
+     ]
+    },
+    {
+     "text": "\"Do I have a Shadow Summoner skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25722",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25722",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-26.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-26.html",
+      "Q00254_LegendaryTales/30754-16.html"
+     ]
+    },
+    {
+     "text": "\"Do I have a Spike Slasher skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25723",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25723",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-27.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-27.html",
+      "Q00254_LegendaryTales/30754-17.html"
+     ]
+    },
+    {
+     "text": "\"Do I have a Muscle Bomber skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25724",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25724",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-28.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-28.html",
+      "Q00254_LegendaryTales/30754-18.html"
+     ]
+    },
+    {
+     "text": "\"No thanks. Goodbye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-16.html": {
+   "file": "Q00254_LegendaryTales/30754-16.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: No, the skull contains a certain characteristic that this one does not have. I can say that this is not their skull.",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"What about others skulls I have?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-15.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-15.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-15.html"
+    },
+    {
+     "text": "\"Goodbye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-17.html": {
+   "file": "Q00254_LegendaryTales/30754-17.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Nope, you do not have any skulls that match theirs.",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"What about others skulls I have?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-15.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-15.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-15.html"
+    },
+    {
+     "text": "\"Goodbye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-18.html": {
+   "file": "Q00254_LegendaryTales/30754-18.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Hmmm... it doesn't look like you have any dragon skulls that look like this creature. Are you sure you killed the right one?",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"What about others skulls I have?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-15.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-15.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-15.html"
+    },
+    {
+     "text": "\"Wow, my mistake. Guess that would help. Bye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-19.html": {
+   "file": "Q00254_LegendaryTales/30754-19.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: No, it does not look like you have this dragon skull.",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"What about others skulls I have?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-15.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-15.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-15.html"
+    },
+    {
+     "text": "\"Goodbye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-20.html": {
+   "file": "Q00254_LegendaryTales/30754-20.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: I hope you finish your hunt safe and sound. You should talk to me again if you have any other questions.",
+   "header": "Watcher of Antharas Gilmore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00254_LegendaryTales/30754-21.html": {
+   "file": "Q00254_LegendaryTales/30754-21.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Ask away! What do you want to know about?",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"Do I have a Emerald Horn skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25718",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25718",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-22.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-22.html",
+      "Q00254_LegendaryTales/30754-16.html"
+     ]
+    },
+    {
+     "text": "\"Do I have a Dust Rider skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25719",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25719",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-23.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-23.html",
+      "Q00254_LegendaryTales/30754-17.html"
+     ]
+    },
+    {
+     "text": "\"Do I have a Bleeding Fly skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25720",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25720",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-24.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-24.html",
+      "Q00254_LegendaryTales/30754-18.html"
+     ]
+    },
+    {
+     "text": "\"Do I have a Black Dagger Wyrm skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25721",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25721",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-25.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-25.html",
+      "Q00254_LegendaryTales/30754-19.html"
+     ]
+    },
+    {
+     "text": "\"Do I have a Shadow Summoner skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25722",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25722",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-26.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-26.html",
+      "Q00254_LegendaryTales/30754-16.html"
+     ]
+    },
+    {
+     "text": "\"Do I have a Spike Slasher skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25723",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25723",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-27.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-27.html",
+      "Q00254_LegendaryTales/30754-17.html"
+     ]
+    },
+    {
+     "text": "\"Do I have a Muscle Bomber skull?\"",
+     "bypass": "Quest Q00254_LegendaryTales 25724",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "25724",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-28.html",
+     "toAll": [
+      "Q00254_LegendaryTales/30754-28.html",
+      "Q00254_LegendaryTales/30754-18.html"
+     ]
+    },
+    {
+     "text": "\"No thanks. Goodbye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-22.html": {
+   "file": "Q00254_LegendaryTales/30754-22.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: That's right, you got it! This dragon skull is definitely from an Emerald Horn .",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"Are there others?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-21.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-21.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-21.html"
+    },
+    {
+     "text": "\"Goodbye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-23.html": {
+   "file": "Q00254_LegendaryTales/30754-23.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Hm, yes this Dragon Skull is definitely from a Dust Rider . You have done well.",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"Are there more?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-21.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-21.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-21.html"
+    },
+    {
+     "text": "\"Goodbye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-24.html": {
+   "file": "Q00254_LegendaryTales/30754-24.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: The skull of the Bleeding Fly ?! Correct, you know it well!",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"What about the other skulls?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-21.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-21.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-21.html"
+    },
+    {
+     "text": "\"Goodbye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-25.html": {
+   "file": "Q00254_LegendaryTales/30754-25.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: You think this skull is from a Black Dagger Wing ? You're correct!",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"What about the other skulls?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-21.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-21.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-21.html"
+    },
+    {
+     "text": "\"Goodbye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-26.html": {
+   "file": "Q00254_LegendaryTales/30754-26.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Correct! You can clearly see the characteristics of the Shadow Summoner in this skull.",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"What about the other skulls?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-21.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-21.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-21.html"
+    },
+    {
+     "text": "\"Goodbye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-27.html": {
+   "file": "Q00254_LegendaryTales/30754-27.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Ah, a Spike Slasher skull! You know it well. That's right.",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"What about the other Dragon Skulls?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-21.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-21.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-21.html"
+    },
+    {
+     "text": "\"Goodbye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00254_LegendaryTales/30754-28.html": {
+   "file": "Q00254_LegendaryTales/30754-28.html",
+   "quest": 254,
+   "text": "Watcher of Antharas Gilmore: Yes, you're correct! The skull you showed me is of the Muscle Bomber .",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"What about the other skulls?\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-21.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-21.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-21.html"
+    },
+    {
+     "text": "\"Goodbye.\"",
+     "bypass": "Quest Q00254_LegendaryTales 30754-20.html",
+     "kind": "quest-event",
+     "script": "Q00254_LegendaryTales",
+     "event": "30754-20.html",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-20.html"
+    }
+   ]
+  },
+  "Q00337_AudienceWithTheLandDragon/30754-03.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30754-03.html",
+   "quest": 337,
+   "text": "Antharas Watchman Gilmore: The Cave Keepers and Cave Maidens protect the Abyss Jewel. They have hidden the jewel with their sorcery, so if you kill them as they attack, the power of their sorcery will weaken and the jewel will appear. Destroy the jewel, bring back its shards, and meet Antharas Watc…",
+   "header": "Antharas Watchman Gilmore",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-03.htm": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-03.htm",
+   "quest": 344,
+   "text": "Watcher of Antharas Gilmore: I buried my former subordinates in a corner of this Valley in a region called the Watcher's Tomb . However, they strangely came back from the dead after Antharas and Desparion used their magic. My mind is still strong, but they turned into monsters after blood and death…",
+   "header": "Watcher of Antharas Gilmore",
+   "links": [
+    {
+     "text": "\"Carry on.\"",
+     "bypass": "Quest Q00344_1000YearsTheEndOfLamentation 30754-04.htm",
+     "kind": "quest-event",
+     "script": "Q00344_1000YearsTheEndOfLamentation",
+     "event": "30754-04.htm",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30754-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-04.htm": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-04.htm",
+   "quest": 344,
+   "text": "Watcher of Antharas Gilmore: You probably know as well, but there were many, many people that tried to kill Antharas. None were able, but their death was not the end for all. While some were undoubtedly held by Shilen's grasp, others become Cave Servants. Right now, I don't even know how many Cave …",
+   "header": "Watcher of Antharas Gilmore",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-07.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-07.html",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: What's that? Oh, for some reason, I was sure that you had brought back relics. You should be out killing cave servants. You must do whatever you can to release my men from their endless torment.",
+   "header": "Antharas Watchman Gilmore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-08.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-08.html",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: Thank you! Please take this as a token of my appreciation. Thanks to you the noble soldiers can finally rest in peace... I am afraid that there are many more, however, who still wander this valley. Would you be willing to continue doing this for a while?",
+   "header": "Antharas Watchman Gilmore",
+   "links": [
+    {
+     "text": "\"I will continue the work.\"",
+     "bypass": "Quest Q00344_1000YearsTheEndOfLamentation 30754-16.html",
+     "kind": "quest-event",
+     "script": "Q00344_1000YearsTheEndOfLamentation",
+     "event": "30754-16.html",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30754-16.html"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00344_1000YearsTheEndOfLamentation 30754-17.html",
+     "kind": "quest-event",
+     "script": "Q00344_1000YearsTheEndOfLamentation",
+     "event": "30754-17.html",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30754-17.html"
+    }
+   ]
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-09.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-09.html",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: Could it be? If my eyes aren't deceiving me this used to belong to a friend of mine...",
+   "header": "Antharas Watchman Gilmore",
+   "links": [
+    {
+     "text": "\"Tell me more, Gilmore.\"",
+     "bypass": "Quest Q00344_1000YearsTheEndOfLamentation relic_info",
+     "kind": "quest-event",
+     "script": "Q00344_1000YearsTheEndOfLamentation",
+     "event": "relic_info",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30754-10.html",
+     "toAll": [
+      "Q00344_1000YearsTheEndOfLamentation/30754-10.html",
+      "Q00344_1000YearsTheEndOfLamentation/30754-11.html",
+      "Q00344_1000YearsTheEndOfLamentation/30754-12.html",
+      "Q00344_1000YearsTheEndOfLamentation/30754-13.html"
+     ]
+    }
+   ]
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-10.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-10.html",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: My personal aide wore this key around his neck. He stood by my side during the battle with Antharas 1,000 years ago. He was the first-born son in his family... This key was very important to him. I believe one of his descendants is living in the Town of Giran . He has the…",
+   "header": "Antharas Watchman Gilmore",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-11.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-11.html",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: This sword belonged to one of my aides who fought alongside me against Antharas 1,000 years ago. In the intervening years the blade must have rusted away and only this hilt is left. He was a swordsman without parallel... It is said that one of his descendants is living in…",
+   "header": "Antharas Watchman Gilmore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-12.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-12.html",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: This necklace belonged to a soldier that served under my command in the battle against Antharas. He was the finest Orc I've ever known, a true intellectual. Seriously! I'm fairly certain he was of aristocratic birth. Come to think of it, I've seen that necklace elsewhere.…",
+   "header": "Antharas Watchman Gilmore",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-13.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-13.html",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: This crucifix belonged to one of the brave young soldiers who accompanied me here 1,000 years ago to battle the beast Antharas. At that time it shone like the sun. Now it looks so old and weathered... He worshipped in a temple that stood where Aden Castle stands now. Plea…",
+   "header": "Antharas Watchman Gilmore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-16.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-16.html",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: Oh, thank you! I knew I could depend on you. This could go on for a while. There seems to be no end of cave servants in this cursed valley.",
+   "header": "Antharas Watchman Gilmore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30754-17.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30754-17.html",
+   "quest": 344,
+   "text": "Antharas Watchman Gilmore: Oh, well, you have done much good. I knew you wouldn't stay here forever, as I and my soldiers must do. Thank you for helping me and my men. Goodbye...",
+   "header": "Antharas Watchman Gilmore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00241_PossessorOfAPreciousSoul1",
+     "kind": "quest",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/30754-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Legendary Tales]",
+     "bypass": "npc_%objectId%_Quest Q00254_LegendaryTales",
+     "kind": "quest",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Legendary Tales (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00254_LegendaryTales",
+     "kind": "quest",
+     "quest": 254,
+     "to": "Q00254_LegendaryTales/30754-14.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Audience with the Land Dragon  (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00337_AudienceWithTheLandDragon",
+     "kind": "quest",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30754-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[1000 Years, the End of Lamentation]",
+     "bypass": "npc_%objectId%_Quest Q00344_1000YearsTheEndOfLamentation",
+     "kind": "quest",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30754-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[1000 Years, the End of Lamentation (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00344_1000YearsTheEndOfLamentation",
+     "kind": "quest",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30754-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

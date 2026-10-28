@@ -1,0 +1,108 @@
+{
+ "npcId": 31752,
+ "name": "Corpse of Angel",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.275Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31752.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "242": {
+   "name": "Possessor Of A Precious Soul 2",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 2]",
+    "[Path of the Noblesse, Precious Soul - 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/31752-01.html",
+     "when": "cond 4; chance 21%",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/31752-02.html",
+     "when": "cond 4; chance 79%",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/31752-02.html",
+     "when": "cond 5",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31752.htm": {
+   "file": "default/31752.htm",
+   "quest": null,
+   "text": "Angel Corpse: A godforsaken, dusty place. An angel with broken wings lies dead, face down, reminiscent of a slain dove.",
+   "header": "Angel Corpse",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00242_PossessorOfAPreciousSoul2/31752-01.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/31752-01.html",
+   "quest": 242,
+   "text": "Angel Corpse: A long, blonde hair was found. Could it be from a blonde woman?",
+   "header": "Angel Corpse",
+   "when": [
+    "cond 4; chance 21%"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00242_PossessorOfAPreciousSoul2/31752-02.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/31752-02.html",
+   "quest": 242,
+   "text": "Angel Corpse: Nothing unusual.",
+   "header": "Angel Corpse",
+   "when": [
+    "cond 4; chance 79%",
+    "cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00242_PossessorOfAPreciousSoul2",
+     "kind": "quest",
+     "quest": 242,
+     "to": "Q00242_PossessorOfAPreciousSoul2/31752-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

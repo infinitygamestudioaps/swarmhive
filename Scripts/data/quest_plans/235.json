@@ -2,7 +2,7 @@
  "id": 235,
  "name": "Mimir's Elixir",
  "version": 1,
- "generated": "2026-10-27T11:15:16.510Z",
+ "generated": "2026-10-27T18:18:51.840Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 75,
@@ -39,20 +39,20 @@
   },
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 30718 \"30718-06.html\": fires at memo 4, which no transition sets; event 31149 \"31149-11.html\": fires at memo 7, which no transition sets"
   },
   {
    "code": "item-from-elsewhere",
    "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
-   "step": 3
+   "step": 2
   },
   {
    "code": "no-route",
    "text": "no route to a step place (atlas unreachable / no geodata walk)",
-   "step": 3
+   "step": 2
   }
  ],
- "expectedMin": 12,
+ "expectedMin": 14,
  "refLevel": 75,
  "steps": [
   {
@@ -1504,121 +1504,6 @@
   },
   {
    "i": 2,
-   "key": "c1:deliver:30721",
-   "cond": 1,
-   "kind": "deliver",
-   "to": "end",
-   "links": [
-    "Drink the elixir."
-   ],
-   "npc": {
-    "id": 30721,
-    "name": "Ladd",
-    "title": "Magister",
-    "town": "Oren",
-    "at": [
-     84985,
-     15991,
-     -1769
-    ],
-    "alt": []
-   },
-   "text": "Bring Magister's Mixing Stone, Mimir's Elixir to Ladd",
-   "needs": [
-    {
-     "id": 5905,
-     "name": "Magister's Mixing Stone",
-     "n": 1
-    },
-    {
-     "id": 6319,
-     "name": "Mimir's Elixir",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30721@84985,15991",
-    "status": "ok",
-    "flags": [],
-    "from": ".oren",
-    "length": 463,
-    "sec": 64,
-    "via": ".oren > Oren -> Ivory Tower > enter Verona",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "gk",
-      "from": "Oren",
-      "desc": "Oren -> Ivory Tower",
-      "link": "ivory tower",
-      "price": 3700,
-      "live": true
-     },
-     {
-      "do": "enter",
-      "how": "npc-teleport",
-      "npc": "Verona",
-      "link": "4th Floor Dark Wizard Guild"
-     },
-     {
-      "do": "walk",
-      "len": 463,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Oren",
-     "desc": "Oren -> Ivory Tower"
-    },
-    "simple": false,
-    "pv": [
-     [
-      85399,
-      16197,
-      -1776
-     ],
-     [
-      84984,
-      15992,
-      -1776
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 89,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    5,
-    6,
-    8
-   ]
-  },
-  {
-   "i": 3,
    "key": "c1:deliver:31149",
    "cond": 1,
    "kind": "deliver",
@@ -1736,11 +1621,12 @@
     2,
     3,
     5,
-    6
+    6,
+    8
    ]
   },
   {
-   "i": 4,
+   "i": 3,
    "key": "c1:deliver:30718",
    "cond": 1,
    "kind": "deliver",
@@ -1844,36 +1730,37 @@
     1,
     2,
     3,
+    5,
     6,
     8
    ]
   },
   {
-   "i": 5,
-   "key": "c5:talk:30718",
-   "cond": 5,
+   "i": 4,
+   "key": "c1:talk:30721",
+   "cond": 1,
    "kind": "talk",
-   "to": 3,
+   "to": 2,
    "links": [
-    "\"I will help you.\""
+    "\"So, is this all you need to make the elixir?\""
    ],
    "npc": {
-    "id": 30718,
-    "name": "Joan",
+    "id": 30721,
+    "name": "Ladd",
     "title": "Magister",
     "town": "Oren",
     "at": [
      84985,
      15991,
-     -2285
+     -1769
     ],
     "alt": []
    },
-   "text": "Talk to Joan",
+   "text": "Talk to Ladd",
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:30718@84985,15991",
+    "key": "npc:30721@84985,15991",
     "status": "ok",
     "flags": [],
     "from": ".oren",
@@ -1898,7 +1785,7 @@
       "do": "enter",
       "how": "npc-teleport",
       "npc": "Verona",
-      "link": "3rd Floor Elven Wizard Guild"
+      "link": "4th Floor Dark Wizard Guild"
      },
      {
       "do": "walk",
@@ -1917,12 +1804,110 @@
      [
       85399,
       16197,
-      -2293
+      -1776
      ],
      [
       84984,
       15992,
-      -2288
+      -1776
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:30721",
+   "cond": 5,
+   "kind": "talk",
+   "to": 6,
+   "links": [
+    "\"How do you mix the elixir?\""
+   ],
+   "npc": {
+    "id": 30721,
+    "name": "Ladd",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     84985,
+     15991,
+     -1769
+    ],
+    "alt": []
+   },
+   "text": "Talk to Ladd",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30721@84985,15991",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 463,
+    "sec": 64,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "4th Floor Dark Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 463,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -1776
+     ],
+     [
+      84984,
+      15992,
+      -1776
      ]
     ],
     "maxDanger": 0,
@@ -1944,6 +1929,116 @@
    },
    "conds": [
     5
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c8:deliver:30721",
+   "cond": 8,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Drink the elixir."
+   ],
+   "npc": {
+    "id": 30721,
+    "name": "Ladd",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     84985,
+     15991,
+     -1769
+    ],
+    "alt": []
+   },
+   "text": "Bring Magister's Mixing Stone, Mimir's Elixir to Ladd",
+   "needs": [
+    {
+     "id": 5905,
+     "name": "Magister's Mixing Stone",
+     "n": 1
+    },
+    {
+     "id": 6319,
+     "name": "Mimir's Elixir",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30721@84985,15991",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 463,
+    "sec": 64,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "4th Floor Dark Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 463,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -1776
+     ],
+     [
+      84984,
+      15992,
+      -1776
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
    ]
   }
  ],

@@ -1,0 +1,259 @@
+{
+ "npcId": 30416,
+ "name": "Triskel",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.974Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30416.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "411": {
+   "name": "Path Of The Assassin",
+   "listText": [
+    "[Path of the Assassin]",
+    "[Path of the Assassin (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00411_PathOfTheAssassin/30416-01.htm",
+     "when": "lacks items 1252; (qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30416-04.htm",
+     "when": "has items 1252; (qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30416-06.html",
+     "when": "state STARTED; has items 1251; lacks items 1246,1247,1250,1252; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30416-07.html",
+     "when": "state STARTED; has items 1246; lacks items 1247,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, IRON_HEART) && hasQuestItems(player, ARK",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30416-08.html",
+     "when": "state STARTED; has items 1247; lacks items 1246,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, IRON_HEART) && hasQuestItems(player, ARK; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30416-09.html",
+     "when": "state STARTED; lacks items 1246,1247,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, IRON_HEART) && hasQuestItems(player, ARK; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && ",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30416-10.html",
+     "when": "state STARTED; has items 1246,1247,1250,1251,1252,1245; lacks items 1246,1247,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, IRON_HEART) && hasQuestItems(player, ARK; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && ",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00411_PathOfTheAssassin/30416-11.html",
+     "when": "state STARTED; has items 1246,1247,1250,1251,1252,1245; lacks items 1246,1247,1250,1251,1252; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, IRON_HEART) && hasQuestItems(player, ARK; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && ",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30416.htm": {
+   "file": "default/30416.htm",
+   "quest": null,
+   "text": "Triskel: I am Triskel. Remember that! If you want to become an Assassin, you will have to meet me again someday.",
+   "header": "Triskel",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00411_PathOfTheAssassin/30416-01.htm": {
+   "file": "Q00411_PathOfTheAssassin/30416-01.htm",
+   "quest": 411,
+   "text": "Triskel: Assassins are murderers who kill quietly and swiftly, then vanish into the forest. They are also fighters of darkness who are talented in concealment and spying. They target the enemy's weak points with small but convenient weapons like daggers, or shoot arrows from a long distance.",
+   "header": "Triskel",
+   "when": [
+    "lacks items 1252; (qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you want to be an Assassin.",
+     "bypass": "Quest Q00411_PathOfTheAssassin ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00411_PathOfTheAssassin",
+     "event": "ACCEPT",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30416-04.htm",
+     "toAll": [
+      "Q00411_PathOfTheAssassin/30416-04.htm",
+      "Q00411_PathOfTheAssassin/30416-05.htm",
+      "Q00411_PathOfTheAssassin/30416-03.htm",
+      "Q00411_PathOfTheAssassin/30416-02a.htm",
+      "Q00411_PathOfTheAssassin/30416-02.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00411_PathOfTheAssassin/30416-04.htm": {
+   "file": "Q00411_PathOfTheAssassin/30416-04.htm",
+   "quest": 411,
+   "text": "Triskel: You already have the Iron Heart! You already have the qualifications to become an Assassin! Take the Iron Heart and go to Grand Master Tobias of the Dark Elf Guild to change profession!",
+   "header": "Triskel",
+   "when": [
+    "has items 1252; (qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30416-06.html": {
+   "file": "Q00411_PathOfTheAssassin/30416-06.html",
+   "quest": 411,
+   "text": "Triskel: O ho, your skills are quite good! So, you received the acknowledgement of Arkenia. Indeed, I have keen insight when it comes to seeing potential. Now take this Iron Heart and go to a Grand Master of the Dark Elf Guild, who will give you what you want. The nearest choice would be to go to G…",
+   "header": "Triskel",
+   "when": [
+    "state STARTED; has items 1251; lacks items 1246,1247,1250,1252; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30416-07.html": {
+   "file": "Q00411_PathOfTheAssassin/30416-07.html",
+   "quest": 411,
+   "text": "Triskel: Wretched fellow! Don't keep Arkenia waiting!",
+   "header": "Triskel",
+   "when": [
+    "state STARTED; has items 1246; lacks items 1247,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, IRON_HEART) && hasQuestItems(player, ARK"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30416-08.html": {
+   "file": "Q00411_PathOfTheAssassin/30416-08.html",
+   "quest": 411,
+   "text": "Triskel: You are truly pitiful! Don't mope, run quickly!",
+   "header": "Triskel",
+   "when": [
+    "state STARTED; has items 1247; lacks items 1246,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, IRON_HEART) && hasQuestItems(player, ARK; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30416-09.html": {
+   "file": "Q00411_PathOfTheAssassin/30416-09.html",
+   "quest": 411,
+   "text": "Triskel: You really irritate me. You wretched creature! Why are you still lingering in the village when you know who the thief is? Quickly run to the School of Dark Arts and catch that thief!",
+   "header": "Triskel",
+   "when": [
+    "state STARTED; lacks items 1246,1247,1250,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, IRON_HEART) && hasQuestItems(player, ARK; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && "
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30416-10.html": {
+   "file": "Q00411_PathOfTheAssassin/30416-10.html",
+   "quest": 411,
+   "text": "Triskel: Ha ha ha ... Finally you have solved the case. I knew you could do it. What are you waiting for? Go give this joyful news to Arkenia in the temple!",
+   "header": "Triskel",
+   "when": [
+    "state STARTED; has items 1246,1247,1250,1251,1252,1245; lacks items 1246,1247,1251,1252,1245; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, IRON_HEART) && hasQuestItems(player, ARK; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && "
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30416-11.html": {
+   "file": "Q00411_PathOfTheAssassin/30416-11.html",
+   "quest": 411,
+   "text": "Triskel: You fool! Pick up your heels and run to Arkenia at the Altar of Rites as fast as your legs can take you!",
+   "header": "Triskel",
+   "when": [
+    "state STARTED; has items 1246,1247,1250,1251,1252,1245; lacks items 1246,1247,1250,1251,1252; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, LEIKANS_NOTE, SHILENS_TEARS, IRON_HEART) && hasQuestItems(player, ARK; !(!hasAtLeastOneQuestItem(player, LEIKANS_NOTE, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && has; !(!hasAtLeastOneQuestItem(player, ARKENIAS_LETTER, SHILENS_TEARS, ARKENIAS_RECOMMENDATION, IRON_HEART, SHILENS_CALL) && "
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30416-02.htm": {
+   "file": "Q00411_PathOfTheAssassin/30416-02.htm",
+   "quest": 411,
+   "text": "Triskel: Triskel does not speak with foolish fellows who do not know their profession!",
+   "header": "Triskel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30416-02a.htm": {
+   "file": "Q00411_PathOfTheAssassin/30416-02a.htm",
+   "quest": 411,
+   "text": "Triskel: Why would one who is already an Assassin want to become an Assassin again? Triskel does not speak with foolish fellows that do not know their profession!",
+   "header": "Triskel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30416-03.htm": {
+   "file": "Q00411_PathOfTheAssassin/30416-03.htm",
+   "quest": 411,
+   "text": "Triskel: Hey, you little punk...you want to be an assassin? Go home to your mother! (Only characters level 18 and above may undertake this quest.)",
+   "header": "Triskel",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00411_PathOfTheAssassin/30416-05.htm": {
+   "file": "Q00411_PathOfTheAssassin/30416-05.htm",
+   "quest": 411,
+   "text": "Triskel: Hmm ... So the likes of you wants to change profession to an Assassin? Good. As luck would have it, I was just now in need of a nimble fellow. You must know that the foundation of an Assassin is quick movements! Use this opportunity to prove your skills to me! Now take this and go to Arken…",
+   "header": "Triskel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Assassin]",
+     "bypass": "npc_%objectId%_Quest Q00411_PathOfTheAssassin",
+     "kind": "quest",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30416-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Assassin (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00411_PathOfTheAssassin",
+     "kind": "quest",
+     "quest": 411,
+     "to": "Q00411_PathOfTheAssassin/30416-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

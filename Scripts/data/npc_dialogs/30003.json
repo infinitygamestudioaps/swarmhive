@@ -1,0 +1,117 @@
+{
+ "npcId": 30003,
+ "name": "Silvia",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.783Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30003.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "153": {
+   "name": "Deliver Goods",
+   "listText": [
+    "[Deliver Goods]",
+    "[Deliver Goods (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00153_DeliverGoods/30003-01.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00153_DeliverGoods/30003-02.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30003.htm": {
+   "file": "merchant/30003.htm",
+   "quest": null,
+   "text": "Accessory Merchant Silvia: Hey there! If you see something you like, buy it quickly. I don't have time to waste sitting here all day, despite what my aunt thinks. A pretty girl like me deserves to have some fun, you know!",
+   "header": "Accessory Merchant Silvia",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Buy 3000300",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30003-pk.htm": {
+   "file": "merchant/30003-pk.htm",
+   "quest": null,
+   "text": "Accessory Merchant Silvia: How rude. That someone like you should dare to come to my shop! I suggest you go away before all men of the village gather and punish you.",
+   "header": "Accessory Merchant Silvia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00153_DeliverGoods/30003-01.html": {
+   "file": "Q00153_DeliverGoods/30003-01.html",
+   "quest": 153,
+   "text": "Trader Silvia: Oh, the cloth I ordered has arrived. Thank you. So kind of you to personally deliver it to the store... Now I can make a new robe for Cristel to wear on her outings. Wait a moment... take this receipt. And here, take this as a reward for personally delivering the goods to me. Have a …",
+   "header": "Trader Silvia",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00153_DeliverGoods/30003-02.html": {
+   "file": "Q00153_DeliverGoods/30003-02.html",
+   "quest": 153,
+   "text": "Trader Silvia: Go and show the receipt I gave you to Guard Arnold. And please tell him thank you, I have received the goods in good condition.",
+   "header": "Trader Silvia",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Deliver Goods (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00153_DeliverGoods",
+     "kind": "quest",
+     "quest": 153,
+     "to": "Q00153_DeliverGoods/30003-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

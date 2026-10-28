@@ -2,7 +2,7 @@
  "id": 153,
  "name": "Deliver Goods",
  "version": 1,
- "generated": "2026-10-27T11:15:13.051Z",
+ "generated": "2026-10-27T18:18:48.739Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 2,
@@ -16,11 +16,15 @@
  "reasons": [
   {
    "code": "dryrun-fail",
-   "text": "dry run: talk-no-npc, npc-no-spawn"
+   "text": "dry run: talk-no-npc, no-dialog, npc-no-spawn"
   },
   {
    "code": "dryrun:talk-no-npc",
    "text": "cond 1: the engine must talk but the data names no NPC (qeDoTalk = fatal \"no NPC for this step\")"
+  },
+  {
+   "code": "dryrun:no-dialog",
+   "text": "cond 1: no dialogue chain for the talk to  (Scripts/data/quest_dialogs/153.json)"
   },
   {
    "code": "dryrun:npc-no-spawn",
@@ -789,13 +793,17 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:13.159Z",
+  "at": "2026-10-27T18:18:48.815Z",
   "pass": false,
   "geo": true,
   "fails": [
    {
     "code": "talk-no-npc",
     "t": "cond 1: the engine must talk but the data names no NPC (qeDoTalk = fatal \"no NPC for this step\")"
+   },
+   {
+    "code": "no-dialog",
+    "t": "cond 1: no dialogue chain for the talk to  (Scripts/data/quest_dialogs/153.json)"
    },
    {
     "code": "npc-no-spawn",

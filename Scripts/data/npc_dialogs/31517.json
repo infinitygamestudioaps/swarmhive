@@ -1,0 +1,601 @@
+{
+ "npcId": 31517,
+ "name": "Hierarch",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.210Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31517.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "15": {
+   "name": "Sweet Whispers",
+   "listText": [
+    "[Sweet Whispers]",
+    "[Sweet Whispers (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00015_SweetWhispers/31517-00.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "16": {
+   "name": "The Coming Darkness",
+   "listText": [
+    "[The Coming Darkness]",
+    "[The Coming Darkness (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00016_TheComingDarkness/31517-04.html",
+     "when": "st2 != null",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00016_TheComingDarkness/31517-00.htm",
+     "when": "state CREATED; (player.getLevel() >= 62)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00016_TheComingDarkness/31517-05.html",
+     "when": "state CREATED; NOT (player.getLevel() >= 62)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00016_TheComingDarkness/31517-03.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00016_TheComingDarkness/31517-02a.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "17": {
+   "name": "Light and Darkness",
+   "listText": [
+    "[Light and Darkness]",
+    "[Light and Darkness (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00017_LightAndDarkness/31517-00.htm",
+     "when": "state CREATED; (player.hasQuestCompleted(Q00015_SweetWhispers.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31517-06.html",
+     "when": "state CREATED; NOT (player.hasQuestCompleted(Q00015_SweetWhispers.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31517-05.html",
+     "when": "state STARTED; cond <5; (blood >= 5)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31517-04.html",
+     "when": "state STARTED; cond <5; NOT (blood >= 5)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00017_LightAndDarkness/31517-03.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "626": {
+   "name": "A Dark Twilight",
+   "listText": [
+    "[A Dark Twilight]",
+    "[A Dark Twilight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00626_ADarkTwilight/31517-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL_REQUIRED)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00626_ADarkTwilight/31517-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL_REQUIRED)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00626_ADarkTwilight/31517-03.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00626_ADarkTwilight/31517-04.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31517.htm": {
+   "file": "default/31517.htm",
+   "quest": null,
+   "text": "Hierarch: Welcome, dear traveler! What brings you to this dark and gloomy place? You shouldn't be here! Go do your exploring somewhere else!",
+   "header": "Hierarch",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00015_SweetWhispers/31517-00.html": {
+   "file": "Q00015_SweetWhispers/31517-00.html",
+   "quest": 15,
+   "text": "Hierarch: What are you doing here? We don't let just anybody in here!",
+   "header": "Hierarch",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "Vladimir sent me.",
+     "bypass": "Quest Q00015_SweetWhispers 31517-01.html",
+     "kind": "quest-event",
+     "script": "Q00015_SweetWhispers",
+     "event": "31517-01.html",
+     "quest": 15,
+     "to": "Q00015_SweetWhispers/31517-01.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00016_TheComingDarkness/31517-04.html": {
+   "file": "Q00016_TheComingDarkness/31517-04.html",
+   "quest": 16,
+   "text": "Hierarch: Quest Light and Darkness need to be finished first.",
+   "header": "Hierarch",
+   "when": [
+    "st2 != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00016_TheComingDarkness/31517-00.htm": {
+   "file": "Q00016_TheComingDarkness/31517-00.htm",
+   "quest": 16,
+   "text": "Hierarch: Brother, you've been with us for a long time! You've earned our trust, and therefore I believe you're ready for an important mission!",
+   "header": "Hierarch",
+   "when": [
+    "state CREATED; (player.getLevel() >= 62)"
+   ],
+   "links": [
+    {
+     "text": "\"I'm ready!\"",
+     "bypass": "Quest Q00016_TheComingDarkness 31517-01.htm",
+     "kind": "quest-event",
+     "script": "Q00016_TheComingDarkness",
+     "event": "31517-01.htm",
+     "quest": 16,
+     "to": "Q00016_TheComingDarkness/31517-01.htm"
+    }
+   ]
+  },
+  "Q00016_TheComingDarkness/31517-05.html": {
+   "file": "Q00016_TheComingDarkness/31517-05.html",
+   "quest": 16,
+   "text": "Hierarch: We've spent much time together, dear brother, but I regret to tell you that you're not yet ready! Try again when your faith and conviction are more firmly established. (Only characters of level 62 and above may undertake this quest.)",
+   "header": "Hierarch",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 62)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00016_TheComingDarkness/31517-03.html": {
+   "file": "Q00016_TheComingDarkness/31517-03.html",
+   "quest": 16,
+   "text": "Hierarch: You've done well! Welcome to the brotherhood! You're now a member of the Benandanti Cartel! I'll see that you're well-rewarded!",
+   "header": "Hierarch",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00016_TheComingDarkness/31517-02a.html": {
+   "file": "Q00016_TheComingDarkness/31517-02a.html",
+   "quest": 16,
+   "text": "Hierarch: You haven't finished your job yet! Come back when you've broken the seal. I'll be waiting.",
+   "header": "Hierarch",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31517-00.htm": {
+   "file": "Q00017_LightAndDarkness/31517-00.htm",
+   "quest": 17,
+   "text": "Hierarch: Brother, you've been with us for a long time! You've earned our trust, and therefore I believe you're ready for an important mission! Are you up to the task?",
+   "header": "Hierarch",
+   "when": [
+    "state CREATED; (player.hasQuestCompleted(Q00015_SweetWhispers.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "\"What do you need done?",
+     "bypass": "Quest Q00017_LightAndDarkness 31517-01.htm",
+     "kind": "quest-event",
+     "script": "Q00017_LightAndDarkness",
+     "event": "31517-01.htm",
+     "quest": 17,
+     "to": "Q00017_LightAndDarkness/31517-01.htm"
+    }
+   ]
+  },
+  "Q00017_LightAndDarkness/31517-06.html": {
+   "file": "Q00017_LightAndDarkness/31517-06.html",
+   "quest": 17,
+   "text": "Heirarch: Quest Sweet Whispers need to be finished first.",
+   "header": "Heirarch",
+   "when": [
+    "state CREATED; NOT (player.hasQuestCompleted(Q00015_SweetWhispers.class.getSimpleName()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31517-05.html": {
+   "file": "Q00017_LightAndDarkness/31517-05.html",
+   "quest": 17,
+   "text": "Heirarch: Where is the Blood of Saint I gave you? How could you betray our trust like that?! You are no longer our brother! Get out! We cast you out in the name of Triol! May your remaining days be full of terrible pain and suffering...",
+   "header": "Heirarch",
+   "when": [
+    "state STARTED; cond <5; (blood >= 5)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31517-04.html": {
+   "file": "Q00017_LightAndDarkness/31517-04.html",
+   "quest": 17,
+   "text": "Heirarch: You haven't finished your mission. Come back when you're done.",
+   "header": "Heirarch",
+   "when": [
+    "state STARTED; cond <5; NOT (blood >= 5)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31517-03.html": {
+   "file": "Q00017_LightAndDarkness/31517-03.html",
+   "quest": 17,
+   "text": "Heirarch: Good job! We are really starting to trust you! Someday, perhaps, you'll be our true brother! Congratulations! Now choose your reward!",
+   "header": "Heirarch",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00626_ADarkTwilight/31517-01.htm": {
+   "file": "Q00626_ADarkTwilight/31517-01.htm",
+   "quest": 626,
+   "text": "Hierarch: We think alike, you and me! Will you join us in our work to make this world a better place? We're making great advances every day, but there are some who are jealous and are trying to interfere with our work... They're keeping us from attaining our goal! Will you help us?",
+   "header": "Hierarch",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL_REQUIRED)"
+   ],
+   "links": [
+    {
+     "text": "I'll help you.",
+     "bypass": "Quest Q00626_ADarkTwilight 31517-02.htm",
+     "kind": "quest-event",
+     "script": "Q00626_ADarkTwilight",
+     "event": "31517-02.htm",
+     "quest": 626,
+     "to": "Q00626_ADarkTwilight/31517-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00626_ADarkTwilight/31517-00.htm": {
+   "file": "Q00626_ADarkTwilight/31517-00.htm",
+   "quest": 626,
+   "text": "Hierarch: We think alike, you and me! Will you join us in our work to make this world a better place? We're making great advances every day, but there are some who are jealous and are trying to interfere with our work... They're keeping us from attaining our goal! You know, we really do need help, …",
+   "header": "Hierarch",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL_REQUIRED)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00626_ADarkTwilight/31517-03.html": {
+   "file": "Q00626_ADarkTwilight/31517-03.html",
+   "quest": 626,
+   "text": "Hierarch: Hey! What are you doing? You promised to help us! Bring justice to those Eyes of Splendor, Flashes of Splendor, Knife Edges of Splendor, Wisdom of Splendor, Souls of Splendor, Victories of Splendor, Vengeance of Splendor, Shouts of Splendor, Seals of Splendor, Crowns of Splendor and Waili…",
+   "header": "Hierarch",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00626_ADarkTwilight/31517-04.html": {
+   "file": "Q00626_ADarkTwilight/31517-04.html",
+   "quest": 626,
+   "text": "Hierarch: Have you brought the Blood of Saint? Your success has helped us achieve our goal! We couldn't have done it without you! Now choose your reward!",
+   "header": "Hierarch",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"A reward?\"",
+     "bypass": "Quest Q00626_ADarkTwilight 31517-05.html",
+     "kind": "quest-event",
+     "script": "Q00626_ADarkTwilight",
+     "event": "31517-05.html",
+     "quest": 626,
+     "to": "Q00626_ADarkTwilight/31517-05.html"
+    }
+   ]
+  },
+  "Q00015_SweetWhispers/31517-01.html": {
+   "file": "Q00015_SweetWhispers/31517-01.html",
+   "quest": 15,
+   "text": "Hierarch: Oh, he sent you! Fine! We'll be working together then! Your first task will only be a test. After I assess your ability, I'll assign you a mission that's more appropriate for you. Come back later.",
+   "header": "Hierarch",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00016_TheComingDarkness/31517-01.htm": {
+   "file": "Q00016_TheComingDarkness/31517-01.htm",
+   "quest": 16,
+   "text": "Hierarch: You're very well prepared! I wish all of us could be as well prepared as you! You've chosen a path that holds many trials, one that your brothers have traveled before you! Do you have the faith you'll need to complete your journey?",
+   "header": "Hierarch",
+   "links": [
+    {
+     "text": "\"I have enough faith.\"",
+     "bypass": "Quest Q00016_TheComingDarkness 31517-02.htm",
+     "kind": "quest-event",
+     "script": "Q00016_TheComingDarkness",
+     "event": "31517-02.htm",
+     "quest": 16,
+     "to": "Q00016_TheComingDarkness/31517-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00016_TheComingDarkness/31517-02.htm": {
+   "file": "Q00016_TheComingDarkness/31517-02.htm",
+   "quest": 16,
+   "text": "Hierarch: Very well. Based on the trust we have for you, brother, I'll give you a mission. Use these five crystals of binding to break open the seals that have been placed throughout this region. Watch the altar carefully; you'll discover how to use these crystals. I'll wait here until you break al…",
+   "header": "Hierarch",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31517-01.htm": {
+   "file": "Q00017_LightAndDarkness/31517-01.htm",
+   "quest": 17,
+   "text": "Hierarch: Before I tell you, I need to ask you something. How strong is your faith in the work that we do? Are you certain that you can persevere no matter what happens while carrying out this mission?",
+   "header": "Hierarch",
+   "links": [
+    {
+     "text": "\"I will persevere\"",
+     "bypass": "Quest Q00017_LightAndDarkness 31517-02.html",
+     "kind": "quest-event",
+     "script": "Q00017_LightAndDarkness",
+     "event": "31517-02.html",
+     "quest": 17,
+     "to": "Q00017_LightAndDarkness/31517-02.html",
+     "toAll": [
+      "Q00017_LightAndDarkness/31517-02.html",
+      "Q00017_LightAndDarkness/31517-02a.html"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00017_LightAndDarkness/31517-02.html": {
+   "file": "Q00017_LightAndDarkness/31517-02.html",
+   "quest": 17,
+   "text": "Hierarch: Very well, brother. Listen carefully! Go to the Altar of Saints, sprinkle this Blood of Saint on it and then come back. You may think that this sounds simple... But I warn you... Unless your faith in us is very strong, you won't complete this mission! So go sprinkle the blood on the Altar…",
+   "header": "Hierarch",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00017_LightAndDarkness/31517-02a.html": {
+   "file": "Q00017_LightAndDarkness/31517-02a.html",
+   "quest": 17,
+   "text": "Heirarch: We've spent much time together, dear brother, but I regret to tell you that you're not yet ready! Try again when your faith and conviction are more firmly established. (Only characters of level 61 and above may undertake this quest.)",
+   "header": "Heirarch",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00626_ADarkTwilight/31517-02.htm": {
+   "file": "Q00626_ADarkTwilight/31517-02.htm",
+   "quest": 626,
+   "text": "Hierarch: Your passionate resolve is breathtaking! Your job is deceptively simple! You must merely exterminate those execrable servants of Einhasad that infest this altar. They're called the Eye of Splendor, Flash of Splendor, Blade of Splendor, Wisdom of Splendor, Soul of Splendor, Victory of Sple…",
+   "header": "Hierarch",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00626_ADarkTwilight/31517-05.html": {
+   "file": "Q00626_ADarkTwilight/31517-05.html",
+   "quest": 626,
+   "text": "Hierarch: Here you go! Take your pick! Of course, you must first give me 300 units of Blood of Saint. Just put it over there. Now choose your reward!",
+   "header": "Hierarch",
+   "links": [
+    {
+     "text": "Increase Exp and SP",
+     "bypass": "Quest Q00626_ADarkTwilight Exp",
+     "kind": "quest-event",
+     "script": "Q00626_ADarkTwilight",
+     "event": "Exp",
+     "quest": 626,
+     "to": "Q00626_ADarkTwilight/31517-06.html",
+     "toAll": [
+      "Q00626_ADarkTwilight/31517-06.html",
+      "Q00626_ADarkTwilight/31517-07.html"
+     ]
+    },
+    {
+     "text": "Receive Adena",
+     "bypass": "Quest Q00626_ADarkTwilight Adena",
+     "kind": "quest-event",
+     "script": "Q00626_ADarkTwilight",
+     "event": "Adena",
+     "quest": 626,
+     "to": "Q00626_ADarkTwilight/31517-06.html",
+     "toAll": [
+      "Q00626_ADarkTwilight/31517-06.html",
+      "Q00626_ADarkTwilight/31517-07.html"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00626_ADarkTwilight/31517-06.html": {
+   "file": "Q00626_ADarkTwilight/31517-06.html",
+   "quest": 626,
+   "text": "Hierarch: You said you brought them, so where are they? Are you some kind of a trickster?",
+   "header": "Hierarch",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00626_ADarkTwilight/31517-07.html": {
+   "file": "Q00626_ADarkTwilight/31517-07.html",
+   "quest": 626,
+   "text": "Hierarch: Good choice! I hope you're satisfied! The proofs you brought will be very useful to us. Just wait!",
+   "header": "Hierarch",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Sweet Whispers (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00015_SweetWhispers",
+     "kind": "quest",
+     "quest": 15,
+     "to": "Q00015_SweetWhispers/31517-00.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Coming Darkness]",
+     "bypass": "npc_%objectId%_Quest Q00016_TheComingDarkness",
+     "kind": "quest",
+     "quest": 16,
+     "to": "Q00016_TheComingDarkness/31517-00.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Coming Darkness (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00016_TheComingDarkness",
+     "kind": "quest",
+     "quest": 16,
+     "to": "Q00016_TheComingDarkness/31517-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Light and Darkness]",
+     "bypass": "npc_%objectId%_Quest Q00017_LightAndDarkness",
+     "kind": "quest",
+     "quest": 17,
+     "to": "Q00017_LightAndDarkness/31517-00.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Light and Darkness (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00017_LightAndDarkness",
+     "kind": "quest",
+     "quest": 17,
+     "to": "Q00017_LightAndDarkness/31517-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[A Dark Twilight]",
+     "bypass": "npc_%objectId%_Quest Q00626_ADarkTwilight",
+     "kind": "quest",
+     "quest": 626,
+     "to": "Q00626_ADarkTwilight/31517-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[A Dark Twilight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00626_ADarkTwilight",
+     "kind": "quest",
+     "quest": 626,
+     "to": "Q00626_ADarkTwilight/31517-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

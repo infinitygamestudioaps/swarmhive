@@ -1,0 +1,308 @@
+{
+ "npcId": 31581,
+ "name": "Anastia",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.236Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/31581.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "98": {
+   "name": "Saga of the Shillien Saint",
+   "listText": [
+    "[Saga of the Shillien Saint]",
+    "[Saga of the Shillien Saint (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00098_SagaOfTheShillienSaint/0-01.htm",
+     "when": "cond 0; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00098_SagaOfTheShillienSaint/0-04.htm",
+     "when": "cond 1; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00098_SagaOfTheShillienSaint/0-06.htm",
+     "when": "cond 19; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00098_SagaOfTheShillienSaint/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00098_SagaOfTheShillienSaint/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/31581.htm": {
+   "file": "trainer/31581.htm",
+   "quest": null,
+   "text": "Magister Anastia: Welcome to Hardin's Academy. I hope you're not some tourist looking for a good story to tell back home. This place is dangerous enough even for the most skilled of practitioners. So, what do you want to know? I don't have much time, so be quick about it!",
+   "header": "Magister Anastia",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/31581-noteach.htm": {
+   "file": "trainer/31581-noteach.htm",
+   "quest": null,
+   "text": "Magister Anastia: When I look into your eyes... I get a queasy feeling... I'm sorry! I don;t think this is going to work out.",
+   "header": "Magister Anastia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/0-01.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/0-01.htm",
+   "quest": 98,
+   "text": "Magister Anastia: A Saint of Light has been sighted in Goddard Castle Town. It could be a fake, like the one that appeared briefly in Gludio, but things are a little different this time.",
+   "header": "Magister Anastia",
+   "when": [
+    "cond 0; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What's different?\"",
+     "bypass": "Quest Q00098_SagaOfTheShillienSaint 0-1",
+     "kind": "quest-event",
+     "script": "Q00098_SagaOfTheShillienSaint",
+     "event": "0-1",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/0-05.htm",
+     "toAll": [
+      "Q00098_SagaOfTheShillienSaint/0-02.htm",
+      "Q00098_SagaOfTheShillienSaint/0-05.htm"
+     ]
+    }
+   ]
+  },
+  "Q00098_SagaOfTheShillienSaint/0-04.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/0-04.htm",
+   "quest": 98,
+   "text": "Magister Anastia: Go to the Saint of Light in Goddard Castle Town and test your fate.",
+   "header": "Magister Anastia",
+   "when": [
+    "cond 1; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/0-06.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/0-06.htm",
+   "quest": 98,
+   "text": "Magister Anastia: Congratulations! You've acquired new understanding and earned Alcadia's recognition.",
+   "header": "Magister Anastia",
+   "when": [
+    "cond 19; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What's next?\"",
+     "bypass": "Quest Q00098_SagaOfTheShillienSaint 0-2",
+     "kind": "quest-event",
+     "script": "Q00098_SagaOfTheShillienSaint",
+     "event": "0-2",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/0-07.htm",
+     "toAll": [
+      "Q00098_SagaOfTheShillienSaint/0-08.htm",
+      "Q00098_SagaOfTheShillienSaint/0-07.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00098_SagaOfTheShillienSaint/0-09.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/0-09.htm",
+   "quest": 98,
+   "text": "Magister Anastia: The title of Shillien Elder doesn't become you any more. You've earned the title of Shillien Saint. May your steadfast faith be a guiding light to others!",
+   "header": "Magister Anastia",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/0-010.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/0-010.htm",
+   "quest": 98,
+   "text": "Magister Anastia: Your understanding doesn't yet equal your faith. (Only a character of level 76 or above is allowed to transfer class. Do not abandon quest before transfer is complete!)",
+   "header": "Magister Anastia",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 31581) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/0-02.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/0-02.htm",
+   "quest": 98,
+   "text": "Magister Anastia: I'll ask you who is following the Path of Faith. What are you doing to get away from your destiny? It seems that you still have to go further to the Path of Faith. Please come back when your convictions are stronger. (This quest may only be undertaken by a Shillien Elder of level …",
+   "header": "Magister Anastia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/0-03.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/0-03.htm",
+   "quest": 98,
+   "text": "Magister Anastia: Meet with the Saint of Light in Goddard Castle Town. You must decide what to do from there. Come back when you are done. In this book you will find how to deal with the devil in the north should you run into it.",
+   "header": "Magister Anastia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/0-05.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/0-05.htm",
+   "quest": 98,
+   "text": "Magister Anastia: Humans and Elves are already accepting signs that she's a real saint. Dawn Witness Franz has officially acknowledged her. Guide of Twilight Luna and Sage of Greenleaves Elexia are about to as well. Will you meet her and test your fate?",
+   "header": "Magister Anastia",
+   "links": [
+    {
+     "text": "\"I will!\"",
+     "bypass": "Quest Q00098_SagaOfTheShillienSaint accept",
+     "kind": "quest-event",
+     "script": "Q00098_SagaOfTheShillienSaint",
+     "event": "accept",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00098_SagaOfTheShillienSaint/0-07.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/0-07.htm",
+   "quest": 98,
+   "text": "Magister Anastia: So, the title of Shillien Elder doesn't become you any more. You have earned the title of Shillien Saint. Your fate is to become a guiding light for others.",
+   "header": "Magister Anastia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/0-08.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/0-08.htm",
+   "quest": 98,
+   "text": "Magister Anastia: Your understanding doesn't yet equal your faith! (Only a character of level 76 or above is allowed to transfer class. Do not abandon quest before transfer is complete!)",
+   "header": "Magister Anastia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Shillien Saint]",
+     "bypass": "npc_%objectId%_Quest Q00098_SagaOfTheShillienSaint",
+     "kind": "quest",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Shillien Saint (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00098_SagaOfTheShillienSaint",
+     "kind": "quest",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/0-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

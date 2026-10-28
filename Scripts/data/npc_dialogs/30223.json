@@ -1,0 +1,300 @@
+{
+ "npcId": 30223,
+ "name": "Arujien",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.913Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30223.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "2": {
+   "name": "What Women Want",
+   "listText": [
+    "[What Women Want]",
+    "[What Women Want (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00002_WhatWomenWant/30223-00.htm",
+     "when": "state CREATED; ((player.getRace() != Race.ELF) && (player.getRace() != Race.HUMAN))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00002_WhatWomenWant/30223-02.htm",
+     "when": "state CREATED; NOT ((player.getRace() != Race.ELF) && (player.getRace() != Race.HUMAN)); (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00002_WhatWomenWant/30223-01.html",
+     "when": "state CREATED; NOT ((player.getRace() != Race.ELF) && (player.getRace() != Race.HUMAN)); NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00002_WhatWomenWant/30223-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00002_WhatWomenWant/30223-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00002_WhatWomenWant/30223-07.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00002_WhatWomenWant/30223-10.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00002_WhatWomenWant/30223-11.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30223.htm": {
+   "file": "default/30223.htm",
+   "quest": null,
+   "text": "Arujien: Sometimes I wonder if we've forgotten the truly important things in life. I once was a student studying magic. There was a time when I spent all my energy on research and discipline--hungry to put my hands on the greatest magical powers. But at this instant, as I feel the cool wind blowing…",
+   "header": "Arujien",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00002_WhatWomenWant/30223-00.htm": {
+   "file": "Q00002_WhatWomenWant/30223-00.htm",
+   "quest": 2,
+   "text": "Arujien: Have you ever been in love? Have you ever felt your heart leap at the sight of your beloved, or your pulse race at the sound of their voice? No? I know members of your race laugh at such emotions. What a pity! You have no idea how much you're missing... (Only Elves and Humans may undertake…",
+   "header": "Arujien",
+   "when": [
+    "state CREATED; ((player.getRace() != Race.ELF) && (player.getRace() != Race.HUMAN))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00002_WhatWomenWant/30223-02.htm": {
+   "file": "Q00002_WhatWomenWant/30223-02.htm",
+   "quest": 2,
+   "text": "Arujien: Have you ever been in love? Have you ever felt your heart leap at the sight of your beloved, or your pulse race at the sound of her voice? I can think of nothing else; I cannot eat or sleep or even work! If she would only have me, I would gladly devote the rest of my life to making her hap…",
+   "header": "Arujien",
+   "when": [
+    "state CREATED; NOT ((player.getRace() != Race.ELF) && (player.getRace() != Race.HUMAN)); (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Ask about Arujien's beloved.",
+     "bypass": "Quest Q00002_WhatWomenWant 30223-03.html",
+     "kind": "quest-event",
+     "script": "Q00002_WhatWomenWant",
+     "event": "30223-03.html",
+     "quest": 2,
+     "to": "Q00002_WhatWomenWant/30223-03.html"
+    }
+   ]
+  },
+  "Q00002_WhatWomenWant/30223-01.html": {
+   "file": "Q00002_WhatWomenWant/30223-01.html",
+   "quest": 2,
+   "text": "Arujien: Have you ever been in love? Have you ever felt your heart leap at the sight of your beloved, or your pulse race at the sound of her voice? I can think of nothing else; I cannot eat or sleep or even work! But I lack the courage to confess my feelings, so I suffer in silence. But I must know…",
+   "header": "Arujien",
+   "when": [
+    "state CREATED; NOT ((player.getRace() != Race.ELF) && (player.getRace() != Race.HUMAN)); NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00002_WhatWomenWant/30223-05.html": {
+   "file": "Q00002_WhatWomenWant/30223-05.html",
+   "quest": 2,
+   "text": "Arujien: Have you learned anything about Greenis' feelings for me? What did Mirabel say? Oh, you haven't spoken to her yet?! Please hurry! This waiting is tearing me apart!",
+   "header": "Arujien",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00002_WhatWomenWant/30223-06.html": {
+   "file": "Q00002_WhatWomenWant/30223-06.html",
+   "quest": 2,
+   "text": "Arujien: So Mirabel said to ask Trader Herbiel ? He is Greenis' uncle, of course, but it would be awkward for me to approach him on so...sensitive...a subject. But if Mirabel thinks he can help... Perhaps you would be willing to speak with him for me? Please show him my letter, then hurry back and …",
+   "header": "Arujien",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00002_WhatWomenWant/30223-07.html": {
+   "file": "Q00002_WhatWomenWant/30223-07.html",
+   "quest": 2,
+   "text": "Arujien: What did Herbiel say? Do I have a place in Greenis' heart? Tell me! You have the power to make me the happiest Elf in the world...or to shatter my heart to pieces.",
+   "header": "Arujien",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "Tell him Greenis has feelings for him, too.",
+     "bypass": "Quest Q00002_WhatWomenWant 30223-08.html",
+     "kind": "quest-event",
+     "script": "Q00002_WhatWomenWant",
+     "event": "30223-08.html",
+     "quest": 2,
+     "to": "Q00002_WhatWomenWant/30223-08.html",
+     "effect": "cond:4"
+    },
+    {
+     "text": "Tell him to forget Greenis.",
+     "bypass": "Quest Q00002_WhatWomenWant 30223-09.html",
+     "kind": "quest-event",
+     "script": "Q00002_WhatWomenWant",
+     "event": "30223-09.html",
+     "quest": 2,
+     "to": "Q00002_WhatWomenWant/30223-09.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00002_WhatWomenWant/30223-10.html": {
+   "file": "Q00002_WhatWomenWant/30223-10.html",
+   "quest": 2,
+   "text": "Arujien: Have you given Greenis my book of poems yet? No?! Please hurry. My nerves can't stand the strain of waiting!",
+   "header": "Arujien",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00002_WhatWomenWant/30223-11.html": {
+   "file": "Q00002_WhatWomenWant/30223-11.html",
+   "quest": 2,
+   "text": "Arujien: Ah, so this is where my love has brought me! How I wish I had never said anything to her. Ignorance was bliss compared to the pain of the truth! How will I ever show my face in the village again? Well, you've been a faithful friend, and I'm sure you did the best you could. Take this for yo…",
+   "header": "Arujien",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00002_WhatWomenWant/30223-03.html": {
+   "file": "Q00002_WhatWomenWant/30223-03.html",
+   "quest": 2,
+   "text": "Arujien: If I tell you her name, you must give me your word that you will not reveal it -- I would sooner die than embarrass her publicly! Well... Her name is Greenis . Even saying her name aloud makes my heart beat faster! But I must know if she has feelings for me as well. If she does not, I won'…",
+   "header": "Arujien",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00002_WhatWomenWant 30223-04.htm",
+     "kind": "quest-event",
+     "script": "Q00002_WhatWomenWant",
+     "event": "30223-04.htm",
+     "quest": 2,
+     "to": "Q00002_WhatWomenWant/30223-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00002_WhatWomenWant/30223-04.htm": {
+   "file": "Q00002_WhatWomenWant/30223-04.htm",
+   "quest": 2,
+   "text": "Arujien: Thank you! I won't forget your kindness. Obviously, I can't approach Greenis directly -- what would people say! -- but she has a younger sister, Gatekeeper Mirabel . She will know Greenis' heart, and she can be trusted to be discreet. Take this letter to Mirabel and return to me with her a…",
+   "header": "Arujien",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00002_WhatWomenWant/30223-08.html": {
+   "file": "Q00002_WhatWomenWant/30223-08.html",
+   "quest": 2,
+   "text": "Arujien: Eva be praised! I want to shout my happiness to the whole forest! I have one more favor to ask of you, my friend. I've written a book of poems to give Greenis, but now I find myself a little embarrassed to deliver it in person. Some of the poems are rather...intimate. Perhaps you could tak…",
+   "header": "Arujien",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00002_WhatWomenWant/30223-09.html": {
+   "file": "Q00002_WhatWomenWant/30223-09.html",
+   "quest": 2,
+   "text": "Arujien: No...I can't believe it! How can I go on living with the pain of her rejection? I am nothing more than love's fool. Pity me, my friend! Well, thank you for your efforts on my behalf. Take this for your trouble -- I have no use for worldly possessions now...",
+   "header": "Arujien",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[What Women Want]",
+     "bypass": "npc_%objectId%_Quest Q00002_WhatWomenWant",
+     "kind": "quest",
+     "quest": 2,
+     "to": "Q00002_WhatWomenWant/30223-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[What Women Want (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00002_WhatWomenWant",
+     "kind": "quest",
+     "quest": 2,
+     "to": "Q00002_WhatWomenWant/30223-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,218 @@
+{
+ "npcId": 31643,
+ "name": "Silver Feyshar",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.251Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00089_SagaOfTheMysticMuse/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 89"
+  },
+  {
+   "page": "Q00089_SagaOfTheMysticMuse/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 89"
+  },
+  {
+   "page": "Q00089_SagaOfTheMysticMuse/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 89"
+  },
+  {
+   "page": "Q00089_SagaOfTheMysticMuse/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 89"
+  },
+  {
+   "page": "Q00089_SagaOfTheMysticMuse/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 89"
+  },
+  {
+   "page": "Q00089_SagaOfTheMysticMuse/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 89"
+  },
+  {
+   "page": "Q00089_SagaOfTheMysticMuse/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 89"
+  },
+  {
+   "page": "Q00089_SagaOfTheMysticMuse/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 89"
+  }
+ ],
+ "quests": {
+  "89": {
+   "name": "Saga of the Mystic Muse",
+   "listText": [
+    "[Saga of the Mystic Muse]",
+    "[Saga of the Mystic Muse (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00089_SagaOfTheMysticMuse/4-04.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/4-04.htm",
+   "quest": 89,
+   "text": "Silver Feyshar: Damn it! I'll miss him like this. Help me! He's the source of your trouble.",
+   "header": "Silver Feyshar",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/4-06.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/4-06.htm",
+   "quest": 89,
+   "text": "Silver Feyshar: Let me introduce myself. I'm Feyshar, not Alminas as you may remember me. Somebody is hindering the transfer to Mystic Muse, so I was investigating in disguise. The real Alminas is probably back to Goddard Castle Town by now. As I suspected, Grand Magister Arkenias is behind it! You…",
+   "header": "Silver Feyshar",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "Listen",
+     "bypass": "Quest Q00089_SagaOfTheMysticMuse 4-1",
+     "kind": "quest-event",
+     "script": "Q00089_SagaOfTheMysticMuse",
+     "event": "4-1",
+     "quest": 89,
+     "to": "Q00089_SagaOfTheMysticMuse/4-010.htm"
+    }
+   ]
+  },
+  "Q00089_SagaOfTheMysticMuse/4-01.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/4-01.htm",
+   "quest": 89,
+   "text": "Silver Feyshar: Damn it. I'll miss him like this. Help me! He's the source of your trouble.",
+   "header": "Silver Feyshar",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/4-03.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/4-03.htm",
+   "quest": 89,
+   "text": "Silver Feyshar: Missed again! I must continue the chase.",
+   "header": "Silver Feyshar",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/4-05.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/4-05.htm",
+   "quest": 89,
+   "text": "Silver Feyshar: Damn it! I'll miss him like this.",
+   "header": "Silver Feyshar",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/4-07.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/4-07.htm",
+   "quest": 89,
+   "text": "Silver Feyshar: Let me introduce myself. I'm Feyshar, not Alminas as you may remember me. Somebody is hindering the transfer to Mystic Muse, so I was investigating in disguise. The real Alminas is probably back to Goddard Castle Town by now. As I suspected, Grand Magister Arkenias is behind it! You…",
+   "header": "Silver Feyshar",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "Listen",
+     "bypass": "Quest Q00089_SagaOfTheMysticMuse 4-2",
+     "kind": "quest-event",
+     "script": "Q00089_SagaOfTheMysticMuse",
+     "event": "4-2",
+     "quest": 89,
+     "to": "Q00089_SagaOfTheMysticMuse/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00089_SagaOfTheMysticMuse/4-02.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/4-02.htm",
+   "quest": 89,
+   "text": "Silver Feyshar: Damn it! I'll miss him like this.",
+   "header": "Silver Feyshar",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/4-08.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/4-08.htm",
+   "quest": 89,
+   "text": "Silver Feyshar: Damn it! He won't talk easily. Commune with the Tablet of Vision using the stone I gave you.",
+   "header": "Silver Feyshar",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/4-010.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/4-010.htm",
+   "quest": 89,
+   "text": "Silver Feyshar: I missed Arkenias, but I robbed him of the Stone of Commune! Either he was hiding it to try to interrupt, or he's guarding the tablet to prevent you communing with it. He didn't put up much of a fight, he could easily have handled us both. This should finish your class transfer. See…",
+   "header": "Silver Feyshar",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00089_SagaOfTheMysticMuse 4-3",
+     "kind": "quest-event",
+     "script": "Q00089_SagaOfTheMysticMuse",
+     "event": "4-3",
+     "quest": 89,
+     "to": null
+    }
+   ]
+  },
+  "Q00089_SagaOfTheMysticMuse/4-011.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/4-011.htm",
+   "quest": 89,
+   "text": "Silver Feyshar: I missed Arkenias, but I robbed him of the Stone of Commune! Either he was hiding it to try to interrupt, or he's guarding the tablet to prevent you communing with it. He didn't put up much of a fight, he could easily have handled us both. This should finish your class transfer. See…",
+   "header": "Silver Feyshar",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/4-09.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/4-09.htm",
+   "quest": 89,
+   "text": "Silver Feyshar: I'll follow him to find the truth. Commune with the Tablet of Vision using the stone I gave you.",
+   "header": "Silver Feyshar",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Mystic Muse (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00089_SagaOfTheMysticMuse",
+     "kind": "quest",
+     "quest": 89,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

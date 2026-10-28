@@ -1,0 +1,53 @@
+{
+ "npcId": 30713,
+ "name": "Gardner",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.058Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30713.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30713.htm": {
+   "file": "guard/30713.htm",
+   "quest": null,
+   "text": "Guard Gardner: Hello, do you wish to journey to the east? Then you might pass through the Forest of Mirrors... If you hear a voice behind you while traveling through the Forest of Mirrors, never look back. Have a nice trip...",
+   "header": "Guard Gardner",
+   "links": [
+    {
+     "text": "Ask about the strange greeting.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30713-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30713-1.htm": {
+   "file": "guard/30713-1.htm",
+   "quest": null,
+   "text": "Guard Gardner: In the past it was known as the Forest of Doppelgangers. Monsters there masqueraded as known Men and attacked unwary victims... Honestly I have never seen my doppelganger. It is said the you will die instantly if you do... However I am fairly sure that these monsters existed in the p…",
+   "header": "Guard Gardner",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,263 @@
+{
+ "npcId": 31276,
+ "name": "Bernhard",
+ "title": "Grand Master",
+ "type": "L2VillageMasterFighter",
+ "generated": "2026-10-27T18:18:03.151Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/31276.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "74": {
+   "name": "Saga of the Dreadnought",
+   "listText": [
+    "[Saga of the Dreadnought]",
+    "[Saga of the Dreadnought (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00074_SagaOfTheDreadnought/3-01.htm",
+     "when": "cond 10; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00074_SagaOfTheDreadnought/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00074_SagaOfTheDreadnought/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00074_SagaOfTheDreadnought/3-06.htm",
+     "when": "cond 13; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/31276.htm": {
+   "file": "villagemaster/31276.htm",
+   "quest": null,
+   "text": "Grand Master Bernhard: What in the world are you doing there! Don't be shy -- come here! I won't bite. Ah, you certainly look like someone worth meeting. As you can see, the best warriors gather here in Goddard. I've been noticing a number of talented young people like yourself these days. Somethin…",
+   "header": "Grand Master Bernhard",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest ElfHumanFighterChange2",
+     "kind": "quest",
+     "script": "ElfHumanFighterChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/3-01.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/3-01.htm",
+   "quest": 74,
+   "text": "Grand Master Bernhard: Ha! Are you the successor mentioned by the bride of Antharas ? Of course! She visited me a while back. She said that someone was following her footsteps, seeking the power of the dragon! Can you solve the riddle?",
+   "header": "Grand Master Bernhard",
+   "when": [
+    "cond 10; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Let's find out!\"",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought 3-5",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "3-5",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/3-07.htm"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/3-05.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/3-05.htm",
+   "quest": 74,
+   "text": "Grand Master Bernhard: You're back! Did you bring the Divine Stone of Wisdom? Good job! You are as capable as the bride of Antharas told me. Now I'll give you the Stone of Commune. The stone tablet that forms a union with it is north of the Varka Silenos stronghold. I'd like to see it myself, but I…",
+   "header": "Grand Master Bernhard",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What's it say?\"",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought 3-8",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "3-8",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/3-04.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/3-04.htm",
+   "quest": 74,
+   "text": "Grand Master Bernhard: Have you earned their trust? Go to either the Varka Silenos or the Ketra Orcs to obtain a Divine Stone of Wisdom and bring it to me. Pick either one, it doesn't matter. Change your mind if you choose. Just get it.",
+   "header": "Grand Master Bernhard",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/3-06.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/3-06.htm",
+   "quest": 74,
+   "text": "Grand Master Bernhard: Didn't I tell you? Look for the Tablet of Vision!",
+   "header": "Grand Master Bernhard",
+   "when": [
+    "cond 13; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/3-02.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/3-02.htm",
+   "quest": 74,
+   "text": "Grand Master Bernhard: Go to the Ketra Orcs advance base and meet with Messenger Wahkan! He will tell you how to befriend them. Since you're skilled, I'm sure they'll welcome you. Earn their trust, obtain the Divine Stone of Wisdom and return here!",
+   "header": "Grand Master Bernhard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/3-03.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/3-03.htm",
+   "quest": 74,
+   "text": "Grand Master Bernhard: First go to the Varka Silenos stronghold and meet with Naran Ashanuk, Varka's Messenger! He'll tell you how to befriend them. Since you're skilled I'm sure they'll welcome you. Earn their trust, obtain the Divine Stone of Wisdom and return here!",
+   "header": "Grand Master Bernhard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/3-07.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/3-07.htm",
+   "quest": 74,
+   "text": "Grand Master Bernhard: She asked me to keep the Stone of Commune until someone worthy came to me for it. She also says that it's not complete. To make it perfect you will need a Divine Stone of Wisdom ! There are two pieces held by opposing forces, the Ketra Orcs and the Varka Silenos. Both threate…",
+   "header": "Grand Master Bernhard",
+   "links": [
+    {
+     "text": "Ketra Orcs",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought 3-6",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "3-6",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "Varka Silenos",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought 3-7",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "3-7",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/3-03.htm",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/3-08.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/3-08.htm",
+   "quest": 74,
+   "text": "Grand Master Bernhard: Here it says, \"Since you're reading this, you must have defeated the white-winged fighters.\" Is that so? Anyways... \"You can follow in my footsteps and learn the vision of the dragon. Some will try to stop us. You'll see...\" I don't know what she means, but here's the Stone o…",
+   "header": "Grand Master Bernhard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Dreadnought (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00074_SagaOfTheDreadnought",
+     "kind": "quest",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/3-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

@@ -2,7 +2,7 @@
  "id": 901,
  "name": "How Lavasauruses Are Made",
  "version": 1,
- "generated": "2026-10-27T11:16:38.287Z",
+ "generated": "2026-10-27T18:20:04.381Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 76,
@@ -26,6 +26,11 @@
   {
    "code": "mob-no-spawn",
    "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
    "step": 1
   },
   {
@@ -110,21 +115,23 @@
    "items": [],
    "kills": 1,
    "reasons": [
-    "mob-no-spawn"
+    "mob-no-spawn",
+    "engine-manual"
    ],
    "engine": {
     "manual": "the monsters (18799, 18800, 18801, 18802) only appear through the quest script and no trigger is known"
    },
    "text": "Make Newborn Lavasaurus, Fledgling Lavasaurus, Adult Lavasaurus, Elderly Lavasaurus appear and kill it",
    "expectedSec": 300,
+   "engineWhy": "the monsters (18799) only appear through the quest script and no trigger is known",
    "conds": [
     1
    ]
   },
   {
    "i": 2,
-   "key": "c1:talk:32049",
-   "cond": 1,
+   "key": "c2:talk:32049",
+   "cond": 2,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -149,7 +156,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2
    ]
   }

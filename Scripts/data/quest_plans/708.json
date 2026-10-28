@@ -2,7 +2,7 @@
  "id": 708,
  "name": "Path To Becoming A Lord - Gludio",
  "version": 1,
- "generated": "2026-10-27T11:16:38.206Z",
+ "generated": "2026-10-27T18:20:04.317Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": null,
@@ -30,7 +30,7 @@
  "reasons": [
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 30298 \"30298-09.html\": changes neither the cond nor the memo in the data; event 30332 \"30332-02.html\": changes neither the cond nor the memo in the data; event 30332 \"30332-05.html\": changes neither the cond nor the memo in the data; kill 27393: changes neither the cond nor the memo in the data; talk 35100: changes neither the cond nor the memo in the data"
   },
   {
    "code": "route-blocked",
@@ -46,9 +46,24 @@
    "code": "route-blocked",
    "text": "a closed door on the way the party cannot open",
    "step": 2
+  },
+  {
+   "code": "route-blocked",
+   "text": "a closed door on the way the party cannot open",
+   "step": 6
+  },
+  {
+   "code": "route-blocked",
+   "text": "a closed door on the way the party cannot open",
+   "step": 10
+  },
+  {
+   "code": "route-blocked",
+   "text": "a closed door on the way the party cannot open",
+   "step": 16
   }
  ],
- "expectedMin": 19,
+ "expectedMin": 31,
  "refLevel": 12,
  "steps": [
   {
@@ -853,11 +868,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5
+    1
    ]
   },
   {
@@ -1237,6 +1248,580 @@
   },
   {
    "i": 5,
+   "key": "c2:talk:35100",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"Perhaps I can offer my help.\""
+   ],
+   "npc": {
+    "id": 35100,
+    "name": "Sayres",
+    "title": "Chamberlain",
+    "town": "Gludio",
+    "at": [
+     -18212,
+     108827,
+     -2472
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sayres",
+   "reasons": [
+    "route-blocked"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:35100@-18212,108827",
+    "status": "blocked",
+    "flags": [
+     "doors",
+     "swim"
+    ],
+    "from": ".gludio",
+    "length": 17416,
+    "sec": 203,
+    "via": ".gludio > door gludio_castle_outter_002 > door gludio_castle_inner_002",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 12856,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "door",
+      "name": "gludio_castle_outter_002",
+      "need": {
+       "owner": "castle",
+       "blocked": true
+      }
+     },
+     {
+      "do": "walk",
+      "len": 2845,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "door",
+      "name": "gludio_castle_inner_002",
+      "need": {
+       "owner": "castle",
+       "blocked": true
+      }
+     },
+     {
+      "do": "walk",
+      "len": 1715,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -13224,
+      122632,
+      -3048
+     ],
+     [
+      -13352,
+      122424,
+      -2984
+     ],
+     [
+      -13928,
+      121976,
+      -2984
+     ],
+     [
+      -14328,
+      121480,
+      -2984
+     ],
+     [
+      -14728,
+      120984,
+      -2984
+     ],
+     [
+      -14888,
+      120760,
+      -3016
+     ],
+     [
+      -15352,
+      120344,
+      -3132
+     ],
+     [
+      -15816,
+      119928,
+      -3248
+     ],
+     [
+      -15832,
+      119928,
+      -3280
+     ],
+     [
+      -15848,
+      119896,
+      -3344
+     ],
+     [
+      -16320,
+      119400,
+      -3632
+     ],
+     [
+      -16792,
+      118904,
+      -3920
+     ],
+     [
+      -16248,
+      118280,
+      -3920
+     ],
+     [
+      -15736,
+      117512,
+      -3664
+     ],
+     [
+      -15752,
+      117480,
+      -3632
+     ],
+     [
+      -16248,
+      116984,
+      -3332
+     ],
+     [
+      -16744,
+      116488,
+      -3032
+     ],
+     [
+      -17240,
+      115992,
+      -2904
+     ],
+     [
+      -17736,
+      115496,
+      -2776
+     ],
+     [
+      -17976,
+      115000,
+      -2776
+     ],
+     [
+      -18216,
+      114504,
+      -2776
+     ],
+     [
+      -18232,
+      113512,
+      -2760
+     ],
+     [
+      -18302,
+      113071,
+      -2765
+     ],
+     [
+      -18344,
+      112808,
+      -2768
+     ],
+     [
+      -18712,
+      112440,
+      -2768
+     ],
+     [
+      -18728,
+      112392,
+      -2768
+     ],
+     [
+      -18728,
+      112248,
+      -2752
+     ],
+     [
+      -18472,
+      111752,
+      -2664
+     ],
+     [
+      -18216,
+      111256,
+      -2576
+     ],
+     [
+      -18057,
+      110526,
+      -2513
+     ],
+     [
+      -18056,
+      110520,
+      -2512
+     ],
+     [
+      -18136,
+      110024,
+      -2512
+     ],
+     [
+      -18216,
+      109528,
+      -2512
+     ],
+     [
+      -18216,
+      108824,
+      -2480
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "no way around: the only way goes through castle — only the owner clan opens those gates (2 doors)"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 1571,
+      "maxSwim": 1571,
+      "overBreath": false
+     },
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 228,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c3:talk:35100",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 35100,
+    "name": "Sayres",
+    "title": "Chamberlain",
+    "town": "Gludio",
+    "at": [
+     -18212,
+     108827,
+     -2472
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sayres",
+   "reasons": [
+    "route-blocked"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:35100@-18212,108827",
+    "status": "blocked",
+    "flags": [
+     "doors",
+     "swim"
+    ],
+    "from": ".gludio",
+    "length": 17416,
+    "sec": 203,
+    "via": ".gludio > door gludio_castle_outter_002 > door gludio_castle_inner_002",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 12856,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "door",
+      "name": "gludio_castle_outter_002",
+      "need": {
+       "owner": "castle",
+       "blocked": true
+      }
+     },
+     {
+      "do": "walk",
+      "len": 2845,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "door",
+      "name": "gludio_castle_inner_002",
+      "need": {
+       "owner": "castle",
+       "blocked": true
+      }
+     },
+     {
+      "do": "walk",
+      "len": 1715,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -13224,
+      122632,
+      -3048
+     ],
+     [
+      -13352,
+      122424,
+      -2984
+     ],
+     [
+      -13928,
+      121976,
+      -2984
+     ],
+     [
+      -14328,
+      121480,
+      -2984
+     ],
+     [
+      -14728,
+      120984,
+      -2984
+     ],
+     [
+      -14888,
+      120760,
+      -3016
+     ],
+     [
+      -15352,
+      120344,
+      -3132
+     ],
+     [
+      -15816,
+      119928,
+      -3248
+     ],
+     [
+      -15832,
+      119928,
+      -3280
+     ],
+     [
+      -15848,
+      119896,
+      -3344
+     ],
+     [
+      -16320,
+      119400,
+      -3632
+     ],
+     [
+      -16792,
+      118904,
+      -3920
+     ],
+     [
+      -16248,
+      118280,
+      -3920
+     ],
+     [
+      -15736,
+      117512,
+      -3664
+     ],
+     [
+      -15752,
+      117480,
+      -3632
+     ],
+     [
+      -16248,
+      116984,
+      -3332
+     ],
+     [
+      -16744,
+      116488,
+      -3032
+     ],
+     [
+      -17240,
+      115992,
+      -2904
+     ],
+     [
+      -17736,
+      115496,
+      -2776
+     ],
+     [
+      -17976,
+      115000,
+      -2776
+     ],
+     [
+      -18216,
+      114504,
+      -2776
+     ],
+     [
+      -18232,
+      113512,
+      -2760
+     ],
+     [
+      -18302,
+      113071,
+      -2765
+     ],
+     [
+      -18344,
+      112808,
+      -2768
+     ],
+     [
+      -18712,
+      112440,
+      -2768
+     ],
+     [
+      -18728,
+      112392,
+      -2768
+     ],
+     [
+      -18728,
+      112248,
+      -2752
+     ],
+     [
+      -18472,
+      111752,
+      -2664
+     ],
+     [
+      -18216,
+      111256,
+      -2576
+     ],
+     [
+      -18057,
+      110526,
+      -2513
+     ],
+     [
+      -18056,
+      110520,
+      -2512
+     ],
+     [
+      -18136,
+      110024,
+      -2512
+     ],
+     [
+      -18216,
+      109528,
+      -2512
+     ],
+     [
+      -18216,
+      108824,
+      -2480
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "no way around: the only way goes through castle — only the owner clan opens those gates (2 doors)"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 1571,
+      "maxSwim": 1571,
+      "overBreath": false
+     },
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 228,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 7,
    "key": "c4:talk:30298",
    "cond": 4,
    "kind": "talk",
@@ -1436,6 +2021,292 @@
    },
    "conds": [
     4
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c4:talk:35100",
+   "cond": 4,
+   "kind": "talk",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 35100,
+    "name": "Sayres",
+    "title": "Chamberlain",
+    "town": "Gludio",
+    "at": [
+     -18212,
+     108827,
+     -2472
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sayres",
+   "reasons": [
+    "route-blocked"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:35100@-18212,108827",
+    "status": "blocked",
+    "flags": [
+     "doors",
+     "swim"
+    ],
+    "from": ".gludio",
+    "length": 17416,
+    "sec": 203,
+    "via": ".gludio > door gludio_castle_outter_002 > door gludio_castle_inner_002",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 12856,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "door",
+      "name": "gludio_castle_outter_002",
+      "need": {
+       "owner": "castle",
+       "blocked": true
+      }
+     },
+     {
+      "do": "walk",
+      "len": 2845,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "door",
+      "name": "gludio_castle_inner_002",
+      "need": {
+       "owner": "castle",
+       "blocked": true
+      }
+     },
+     {
+      "do": "walk",
+      "len": 1715,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -13224,
+      122632,
+      -3048
+     ],
+     [
+      -13352,
+      122424,
+      -2984
+     ],
+     [
+      -13928,
+      121976,
+      -2984
+     ],
+     [
+      -14328,
+      121480,
+      -2984
+     ],
+     [
+      -14728,
+      120984,
+      -2984
+     ],
+     [
+      -14888,
+      120760,
+      -3016
+     ],
+     [
+      -15352,
+      120344,
+      -3132
+     ],
+     [
+      -15816,
+      119928,
+      -3248
+     ],
+     [
+      -15832,
+      119928,
+      -3280
+     ],
+     [
+      -15848,
+      119896,
+      -3344
+     ],
+     [
+      -16320,
+      119400,
+      -3632
+     ],
+     [
+      -16792,
+      118904,
+      -3920
+     ],
+     [
+      -16248,
+      118280,
+      -3920
+     ],
+     [
+      -15736,
+      117512,
+      -3664
+     ],
+     [
+      -15752,
+      117480,
+      -3632
+     ],
+     [
+      -16248,
+      116984,
+      -3332
+     ],
+     [
+      -16744,
+      116488,
+      -3032
+     ],
+     [
+      -17240,
+      115992,
+      -2904
+     ],
+     [
+      -17736,
+      115496,
+      -2776
+     ],
+     [
+      -17976,
+      115000,
+      -2776
+     ],
+     [
+      -18216,
+      114504,
+      -2776
+     ],
+     [
+      -18232,
+      113512,
+      -2760
+     ],
+     [
+      -18302,
+      113071,
+      -2765
+     ],
+     [
+      -18344,
+      112808,
+      -2768
+     ],
+     [
+      -18712,
+      112440,
+      -2768
+     ],
+     [
+      -18728,
+      112392,
+      -2768
+     ],
+     [
+      -18728,
+      112248,
+      -2752
+     ],
+     [
+      -18472,
+      111752,
+      -2664
+     ],
+     [
+      -18216,
+      111256,
+      -2576
+     ],
+     [
+      -18057,
+      110526,
+      -2513
+     ],
+     [
+      -18056,
+      110520,
+      -2512
+     ],
+     [
+      -18136,
+      110024,
+      -2512
+     ],
+     [
+      -18216,
+      109528,
+      -2512
+     ],
+     [
+      -18216,
+      108824,
+      -2480
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "no way around: the only way goes through castle — only the owner clan opens those gates (2 doors)"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 1571,
+      "maxSwim": 1571,
+      "overBreath": false
+     },
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 228,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4,
+    5
    ]
   }
  ],

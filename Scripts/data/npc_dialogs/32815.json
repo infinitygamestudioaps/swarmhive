@@ -1,0 +1,161 @@
+{
+ "npcId": 32815,
+ "name": "Odd Globe",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.413Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32815.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10294": {
+   "name": "Seven Signs, To the Monastery of Silence",
+   "listText": [
+    "[Seven Signs, To the Monastery of Silence]",
+    "[Seven Signs, To the Monastery of Silence (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32815-01.html",
+     "when": "cond <3",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "10296": {
+   "name": "Seven Signs, One Who Seeks the Power of the Seal",
+   "listText": [
+    "[Seven Signs, One Who Seeks the Power of the Seal]",
+    "[Seven Signs, One Who Seeks the Power of the Seal (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32815-01.html",
+     "when": "state CREATED; player.hasQuestCompleted(Q10295_SevenSignsSolinasTomb.class.getSimpleName()); !((npc.getId() == ERISS_EVIL_THOUGHTS) && (player.getLevel() >= MIN_LEVEL))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32815-01.html",
+     "when": "state STARTED; memoState > 0; memoState <= 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32815-02.html",
+     "when": "state STARTED; !((memoState > 0) && (memoState <= 2)); memoState > 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32815.htm": {
+   "file": "default/32815.htm",
+   "quest": null,
+   "text": "You see a large globe shaped device, and hear quiet crunching sounds. It seems that some unknown power is leaking from it.",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32815-01.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32815-01.html",
+   "quest": 10294,
+   "text": "There's a globe with a strange aura. When you touch the globe, an image of a small room with books and supplies shows.",
+   "when": [
+    "cond <3"
+   ],
+   "links": [
+    {
+     "text": "Activate the globe and go to the room.",
+     "bypass": "Quest MonasteryOfSilence1",
+     "kind": "quest",
+     "script": "MonasteryOfSilence1"
+    }
+   ]
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32815-01.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32815-01.html",
+   "quest": 10296,
+   "text": "There's a globe with a strange aura. When you touch the globe, an image of a small room with books and supplies shows.",
+   "when": [
+    "state CREATED; player.hasQuestCompleted(Q10295_SevenSignsSolinasTomb.class.getSimpleName()); !((npc.getId() == ERISS_EVIL_THOUGHTS) && (player.getLevel() >= MIN_LEVEL))",
+    "state STARTED; memoState > 0; memoState <= 2"
+   ],
+   "links": [
+    {
+     "text": "Activate the globe and go to the room",
+     "bypass": "Quest MonasteryOfSilence1",
+     "kind": "quest",
+     "script": "MonasteryOfSilence1"
+    }
+   ]
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32815-02.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32815-02.html",
+   "quest": 10296,
+   "text": "I don't think there's ever a reason to come back here. Let's hope Aeris and Solina are no longer tied to the earth as spirits and have reached the heavens peacefully.",
+   "when": [
+    "state STARTED; !((memoState > 0) && (memoState <= 2)); memoState > 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, To the Monastery of Silence]",
+     "bypass": "npc_%objectId%_Quest Q10294_SevenSignsToTheMonasteryOfSilence",
+     "kind": "quest",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32815-01.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, To the Monastery of Silence (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10294_SevenSignsToTheMonasteryOfSilence",
+     "kind": "quest",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32815-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, One Who Seeks the Power of the Seal]",
+     "bypass": "npc_%objectId%_Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "kind": "quest",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32815-01.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, One Who Seeks the Power of the Seal (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "kind": "quest",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32815-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

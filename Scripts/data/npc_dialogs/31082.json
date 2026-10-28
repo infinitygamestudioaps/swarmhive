@@ -1,0 +1,166 @@
+{
+ "npcId": 31082,
+ "name": "Priest of Dawn",
+ "title": "",
+ "type": "L2DawnPriest",
+ "generated": "2026-10-27T18:18:03.135Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Teleports/HuntingGroundsTeleport/low_heine.htm": {
+   "file": "ai/npc/Teleports/HuntingGroundsTeleport/low_heine.htm",
+   "quest": null,
+   "text": "&$556;",
+   "when": [
+    "check"
+   ],
+   "links": [
+    {
+     "text": "Necropolis of Worship - 3300 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 107514 174329 -3704 3300",
+     "kind": "other"
+    },
+    {
+     "text": "The Pilgrim's Necropolis - 8200 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 45600 126944 -3680 8200",
+     "kind": "other"
+    },
+    {
+     "text": "The Catacomb of the Heretic - 7600 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 39232 143568 -3648 7600",
+     "kind": "other"
+    },
+    {
+     "text": "Catacomb of the Branded - 8100 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 43200 170688 -3248 8100",
+     "kind": "other"
+    },
+    {
+     "text": "The Saint's Necropolis - 5700 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 79296 209584 -3704 5700",
+     "kind": "other"
+    }
+   ]
+  },
+  "ai/npc/Teleports/HuntingGroundsTeleport/hg_heine.htm": {
+   "file": "ai/npc/Teleports/HuntingGroundsTeleport/hg_heine.htm",
+   "quest": null,
+   "text": "&$556;",
+   "when": [
+    "NOT check"
+   ],
+   "links": [
+    {
+     "text": "Necropolis of Worship - 5500 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 107514 174329 -3704 5500",
+     "kind": "other"
+    },
+    {
+     "text": "The Pilgrim's Necropolis - 13000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 45600 126944 -3680 13000",
+     "kind": "other"
+    },
+    {
+     "text": "The Catacomb of the Heretic - 12000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 39232 143568 -3648 12000",
+     "kind": "other"
+    },
+    {
+     "text": "Catacomb of the Branded - 13000 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 43200 170688 -3248 13000",
+     "kind": "other"
+    },
+    {
+     "text": "The Saint's Necropolis - 9600 Ancient Adena",
+     "bypass": "npc_%objectId%_SevenSigns 11 79296 209584 -3704 9600",
+     "kind": "other"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Purchase Record of the Seven Signs. | Buy | Participation in the Seven Signs | Seal of Avarice | \"I wish to fight for the Seal of Avarice.\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Participation in the Seven Signs",
+   "n": 35,
+   "inDatapack": false,
+   "from": [
+    "Priest of Dawn: Glory to the twilight empire! The Seal of De"
+   ],
+   "to": [
+    "[Participation in the Seven Signs] Do you wish to participat"
+   ]
+  },
+  {
+   "text": "Seal of Avarice",
+   "n": 35,
+   "inDatapack": false,
+   "from": [
+    "[Participation in the Seven Signs] Do you wish to participat"
+   ],
+   "to": [
+    "[Seal of Avarice] The Seal of Avarice bestows the following "
+   ]
+  },
+  {
+   "text": "\"I wish to fight for the Seal of Avarice.\"",
+   "n": 35,
+   "inDatapack": false,
+   "from": [
+    "[Seal of Avarice] The Seal of Avarice bestows the following "
+   ],
+   "to": [
+    "Your application has been accepted. Congratulations! You're "
+   ]
+  },
+  {
+   "text": "Purchase Record of the Seven Signs.",
+   "n": 2,
+   "inDatapack": false,
+   "from": [
+    "Priest of Dawn: Glory to the twilight empire! The Seal of De"
+   ],
+   "to": [
+    "[Purchase the Record of the Seven Seals] The Record of Seven"
+   ]
+  },
+  {
+   "text": "Buy",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "[Purchase the Record of the Seven Seals] The Record of Seven"
+   ],
+   "to": []
+  }
+ ]
+}

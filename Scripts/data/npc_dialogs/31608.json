@@ -1,0 +1,268 @@
+{
+ "npcId": 31608,
+ "name": "Belinda",
+ "title": "Summoner",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.243Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31608.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "91": {
+   "name": "Saga of the Arcana Lord",
+   "listText": [
+    "[Saga of the Arcana Lord]",
+    "[Saga of the Arcana Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00091_SagaOfTheArcanaLord/3-01.htm",
+     "when": "cond 10; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00091_SagaOfTheArcanaLord/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00091_SagaOfTheArcanaLord/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00091_SagaOfTheArcanaLord/3-06.htm",
+     "when": "cond 13; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00091_SagaOfTheArcanaLord/11-01.htm",
+     "when": "cond 14; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00091_SagaOfTheArcanaLord/11-02.htm",
+     "when": "cond 15; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31608.htm": {
+   "file": "default/31608.htm",
+   "quest": null,
+   "text": "Summoner Belinda: Elemental Masters have communicated with the spirits of nature since ancient times. These spirits were once of this world, until the harmony of Mother Nature was destroyed! Elemental Masters have the ability and duty to bring them back into our world.",
+   "header": "Summoner Belinda",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00091_SagaOfTheArcanaLord/3-01.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/3-01.htm",
+   "quest": 91,
+   "text": "Summoner Belinda: Sparky told me about you... you're that friend of Keats, aren't you? Poor Keats... He just wouldn't take no for an answer... I finally had to turn him into a frog! Did a good job of it, too! Even the Grand Magisters can't reverse the spell! Sigh... I tried everything, but the poor…",
+   "header": "Summoner Belinda",
+   "when": [
+    "cond 10; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Where is the Stone of Commune?\"",
+     "bypass": "Quest Q00091_SagaOfTheArcanaLord 3-5",
+     "kind": "quest-event",
+     "script": "Q00091_SagaOfTheArcanaLord",
+     "event": "3-5",
+     "quest": 91,
+     "to": "Q00091_SagaOfTheArcanaLord/3-07.htm"
+    }
+   ]
+  },
+  "Q00091_SagaOfTheArcanaLord/3-05.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/3-05.htm",
+   "quest": 91,
+   "text": "Summoner Belinda: Those idiotic barbarians worship the stone fragment, and call it their Divine Stone of Wisdom! It's actually a part of the Stone of Commune we need! If we can get it, I 'll join it with this other fragment I have to form the Stone of Commune!",
+   "header": "Summoner Belinda",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is. Join the fragments together.\"",
+     "bypass": "Quest Q00091_SagaOfTheArcanaLord 3-8",
+     "kind": "quest-event",
+     "script": "Q00091_SagaOfTheArcanaLord",
+     "event": "3-8",
+     "quest": 91,
+     "to": "Q00091_SagaOfTheArcanaLord/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00091_SagaOfTheArcanaLord/3-04.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/3-04.htm",
+   "quest": 91,
+   "text": "Summoner Belinda: To complete the fourth Stone of Commune, you must get the Divine Stone of Wisdom from the Ketra Orcs or the Varka Silenos. You'll need to gain their trust, and it won't be easy! Good luck!",
+   "header": "Summoner Belinda",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/3-06.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/3-06.htm",
+   "quest": 91,
+   "text": "Summoner Belinda: Take the Stone of Commune to the fourth Tablet of Vision. The stone should guide you there. If not, just check out the Map!",
+   "header": "Summoner Belinda",
+   "when": [
+    "cond 13; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/11-01.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/11-01.htm",
+   "quest": 91,
+   "text": "Summoner Belinda: I've been waiting for you. While you were away I did some research! I've located the fifth Stone of Commune, but unfortunately, it's already lost its power. You must've felt this Stone of Commune. Didn't it feel weaker than before? Fortunately, there are two more Stones of Commune…",
+   "header": "Summoner Belinda",
+   "when": [
+    "cond 14; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"And...?\"",
+     "bypass": "Quest Q00091_SagaOfTheArcanaLord 11-9",
+     "kind": "quest-event",
+     "script": "Q00091_SagaOfTheArcanaLord",
+     "event": "11-9",
+     "quest": 91,
+     "to": "Q00091_SagaOfTheArcanaLord/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00091_SagaOfTheArcanaLord/11-02.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/11-02.htm",
+   "quest": 91,
+   "text": "Summoner Belinda: To get the fifth Stone of Commune, you must slay the Archon of Halisha . Find that devil in the Imperial Tomb or at the Wall of Argos. If you go to the Imperial Tomb, you'll find him in the Four Sepulchers. At the Shrine of the Loyal, the Archon will appear after you destroy many …",
+   "header": "Summoner Belinda",
+   "when": [
+    "cond 15; !((npcId == 31605) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/11-03.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/11-03.htm",
+   "quest": 91,
+   "text": "Summoner Belinda: Wherever you find him, you must kill the Archon of Halisha if you are to get the fifth Stone of Commune. At the Imperial Tomb, you'll find him in the Four Sepulchers. At the Shrine of the Loyal, he'll appear after you destroy many of his minions. Please, get going! Good luck!",
+   "header": "Summoner Belinda",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/3-02.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/3-02.htm",
+   "quest": 91,
+   "text": "Summoner Belinda: First, you must speak with Messenger Wahkan of the Ketra Orcs. They're hiring mercenaries, and this is a great opportunity to earn their trust! Soul Guide Asefa , the Chief Shaman of the Ketra Orcs, has something they call the Divine Stone of Wisdom . We must get it from them! If …",
+   "header": "Summoner Belinda",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/3-03.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/3-03.htm",
+   "quest": 91,
+   "text": "Summoner Belinda: First, you must speak with Messenger Naran Ashanuk of the Varka Silenos tribe. They've been hiring mercenaries, and this is a great opportunity to earn their trust! Soul Guide Udan Mardui , the Chief Shaman of the Varka Silenos, has something they call the Divine Stone of Wisdom .…",
+   "header": "Summoner Belinda",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00091_SagaOfTheArcanaLord/3-07.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/3-07.htm",
+   "quest": 91,
+   "text": "Summoner Belinda: The power that you felt comes from this small stone. It's the part of the fourth Stone of Commune. However, you must find the other fragments and put all of the fragments together to properly operate the Stone of Commune. The other fragments of the Stone of Commune are worshiped b…",
+   "header": "Summoner Belinda",
+   "links": [
+    {
+     "text": "\"I'll go to the Ketra Orcs.\"",
+     "bypass": "Quest Q00091_SagaOfTheArcanaLord 3-6",
+     "kind": "quest-event",
+     "script": "Q00091_SagaOfTheArcanaLord",
+     "event": "3-6",
+     "quest": 91,
+     "to": "Q00091_SagaOfTheArcanaLord/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'll go to Varka Silenos.\"",
+     "bypass": "Quest Q00091_SagaOfTheArcanaLord 3-7",
+     "kind": "quest-event",
+     "script": "Q00091_SagaOfTheArcanaLord",
+     "event": "3-7",
+     "quest": 91,
+     "to": "Q00091_SagaOfTheArcanaLord/3-03.htm"
+    }
+   ]
+  },
+  "Q00091_SagaOfTheArcanaLord/3-08.htm": {
+   "file": "Q00091_SagaOfTheArcanaLord/3-08.htm",
+   "quest": 91,
+   "text": "Summoner Belinda: The two fragments fit together perfectly! Very well, here is the Stone of Commune! Take it to the fourth Tablet of Vision. You must quickly become an Arcana Lord and help me to reverse the spell I foolishly cast on Keats! I simply must restore his humanity! Please help me!",
+   "header": "Summoner Belinda",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Arcana Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00091_SagaOfTheArcanaLord",
+     "kind": "quest",
+     "quest": 91,
+     "to": "Q00091_SagaOfTheArcanaLord/3-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

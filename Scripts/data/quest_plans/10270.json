@@ -2,7 +2,7 @@
  "id": 10270,
  "name": "Birth of the Seed",
  "version": 1,
- "generated": "2026-10-27T11:16:38.381Z",
+ "generated": "2026-10-27T18:20:04.476Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 75,
@@ -16,7 +16,7 @@
  "reasons": [
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 32567 \"32567-04.html\": fires at memo 10, which no transition sets"
   },
   {
    "code": "mob-no-spawn",
@@ -29,27 +29,42 @@
    "step": 1
   },
   {
-   "code": "engine-manual",
-   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
-   "step": 3
-  },
-  {
    "code": "no-route",
    "text": "no route to a step place (atlas unreachable / no geodata walk)",
-   "step": 3
+   "step": 2
   },
   {
    "code": "owner-manual",
    "text": "marked \"manual\" on the dashboard (plan override)",
-   "step": 3
+   "step": 2
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 4
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 4
   },
   {
    "code": "engine-manual",
    "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
-   "step": 4
+   "step": 6
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 15
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 15
   }
  ],
- "expectedMin": 24,
+ "expectedMin": 56,
  "refLevel": 75,
  "steps": [
   {
@@ -218,44 +233,7 @@
      "questSpawned": false
     }
    ],
-   "items": [
-    {
-     "id": 13868,
-     "name": "Yehan Klodekus' Badge",
-     "n": 1,
-     "from": [
-      {
-       "id": 25665,
-       "name": "Yehan Klodekus",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 13869,
-     "name": "Yehan Klanikus' Badge",
-     "n": 1,
-     "from": [
-      {
-       "id": 25666,
-       "name": "Yehan Klanikus",
-       "chance": 100
-      }
-     ]
-    },
-    {
-     "id": 13870,
-     "name": "Lich Crystal",
-     "n": 1,
-     "from": [
-      {
-       "id": 25634,
-       "name": "Cohemenes",
-       "chance": 100
-      }
-     ]
-    }
-   ],
+   "items": [],
    "kills": 1,
    "reasons": [
     "mob-no-spawn",
@@ -268,7 +246,6 @@
    "expectedSec": 300,
    "conds": [
     1,
-    2,
     3,
     4,
     5
@@ -276,11 +253,77 @@
   },
   {
    "i": 2,
+   "key": "c1:talk:32567",
+   "cond": 1,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"Oh joy.\""
+   ],
+   "npc": {
+    "id": 32567,
+    "name": "Lelrikia",
+    "title": "Priest of Shilen",
+    "town": "",
+    "at": [
+     -23966,
+     -8963,
+     -5389
+    ],
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Lelrikia",
+   "reasons": [
+    "no-route",
+    "owner-manual"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "override": {
+    "npcAt": [
+     -23966,
+     -8963,
+     -5389
+    ],
+    "manual": true,
+    "note": "Lelrikia: instance \"Secret Area in the Keucereus Fortress\" only (dp data/instances/SecretAreaInTheKeucereusFortress.xml), entered through Ginby (memo 5) - engine: instance entry",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "fixedByOverride": [
+    "npc-no-spawn"
+   ]
+  },
+  {
+   "i": 3,
    "key": "c1:talk:32559",
    "cond": 1,
    "kind": "talk",
-   "to": "end",
-   "links": [],
+   "to": 2,
+   "links": [
+    "I'm here because of the mission Plenos mentioned"
+   ],
    "npc": {
     "id": 32559,
     "name": "Artius",
@@ -400,15 +443,11 @@
    },
    "expectedSec": 539,
    "engine": {
-    "act": "manual",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5
+    1
    ],
    "override": {
     "fixed": [
@@ -423,75 +462,407 @@
    ]
   },
   {
-   "i": 3,
-   "key": "c1:talk:32567",
-   "cond": 1,
-   "kind": "talk",
-   "to": 5,
-   "links": [
-    "\"Oh joy.\""
+   "i": 4,
+   "key": "c2:spawn:25665",
+   "cond": 2,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 25665,
+     "name": "Yehan Klodekus",
+     "level": 81,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25666,
+     "name": "Yehan Klanikus",
+     "level": 81,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25634,
+     "name": "Cohemenes",
+     "level": 81,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
    ],
-   "npc": {
-    "id": 32567,
-    "name": "Lelrikia",
-    "title": "Priest of Shilen",
-    "town": "",
-    "at": [
-     -23966,
-     -8963,
-     -5389
-    ],
-    "alt": [],
-    "why": "npc-no-spawn"
-   },
-   "text": "Talk to Lelrikia",
+   "items": [
+    {
+     "id": 13868,
+     "name": "Yehan Klodekus' Badge",
+     "n": 1,
+     "from": [
+      {
+       "id": 25665,
+       "name": "Yehan Klodekus",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 13869,
+     "name": "Yehan Klanikus' Badge",
+     "n": 1,
+     "from": [
+      {
+       "id": 25666,
+       "name": "Yehan Klanikus",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 13870,
+     "name": "Lich Crystal",
+     "n": 1,
+     "from": [
+      {
+       "id": 25634,
+       "name": "Cohemenes",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
    "reasons": [
-    "engine-manual",
-    "no-route",
-    "owner-manual"
+    "mob-no-spawn",
+    "needs-party"
    ],
-   "expectedSec": 25,
+   "engine": {
+    "manual": "the monsters (25665, 25666, 25634) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Yehan Klodekus, Yehan Klanikus, Cohemenes appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c2:deliver:32559",
+   "cond": 2,
+   "kind": "deliver",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 32559,
+    "name": "Artius",
+    "title": "War Mage",
+    "town": "Talking Island",
+    "at": [
+     -186109,
+     242500,
+     2552
+    ],
+    "alt": []
+   },
+   "text": "Bring Yehan Klodekus' Badge, Yehan Klanikus' Badge, Lich Crystal to Artius",
+   "needs": [
+    {
+     "id": 13868,
+     "name": "Yehan Klodekus' Badge",
+     "n": 1
+    },
+    {
+     "id": 13869,
+     "name": "Yehan Klanikus' Badge",
+     "n": 1
+    },
+    {
+     "id": 13870,
+     "name": "Lich Crystal",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "engine-manual"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32559@-186109,242500",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 3499,
+    "sec": 514,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 1187,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186333,
+      243095,
+      2580
+     ],
+     [
+      -186104,
+      242600,
+      2552
+     ],
+     [
+      -186104,
+      242504,
+      2552
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 539,
+   "engineWhy": "the monsters (25665, 25666, 25634) only appear through the quest script and no trigger is known",
    "engine": {
     "act": "manual",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5
+    2
    ],
+   "overrideFrom": "c1:talk:32559",
    "override": {
-    "npcAt": [
-     -23966,
-     -8963,
-     -5389
+    "fixed": [
+     "route-conditional"
     ],
-    "manual": true,
-    "note": "Lelrikia: instance \"Secret Area in the Keucereus Fortress\" only (dp data/instances/SecretAreaInTheKeucereusFortress.xml), entered through Ginby (memo 5) - engine: instance entry",
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
     "editedAt": "2026-10-27T10:16:35.502Z",
     "by": "quest-fixer batch1 2026-10-27"
    },
-   "travel": {
-    "src": "none",
-    "status": "unreachable",
-    "why": [
-     "no atlas route within 16 km to start from"
-    ],
-    "checks": {
-     "reachable": false
-    },
-    "pv": []
-   },
    "fixedByOverride": [
-    "npc-no-spawn"
+    "route-conditional"
    ]
   },
   {
-   "i": 4,
-   "key": "c1:talk:32566",
-   "cond": 1,
+   "i": 6,
+   "key": "c3:talk:32559",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "\"His?\""
+   ],
+   "npc": {
+    "id": 32559,
+    "name": "Artius",
+    "title": "War Mage",
+    "town": "Talking Island",
+    "at": [
+     -186109,
+     242500,
+     2552
+    ],
+    "alt": []
+   },
+   "text": "Talk to Artius",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32559@-186109,242500",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 3499,
+    "sec": 514,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 1187,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186333,
+      243095,
+      2580
+     ],
+     [
+      -186104,
+      242600,
+      2552
+     ],
+     [
+      -186104,
+      242504,
+      2552
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 539,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ],
+   "overrideFrom": "c1:talk:32559",
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c4:talk:32566",
+   "cond": 4,
    "kind": "talk",
    "to": null,
    "links": [
@@ -510,9 +881,7 @@
     "alt": []
    },
    "text": "Talk to Ginby",
-   "reasons": [
-    "engine-manual"
-   ],
+   "reasons": [],
    "travel": {
     "src": "none",
     "status": "unreachable",
@@ -525,18 +894,14 @@
     "pv": []
    },
    "expectedSec": 25,
-   "engineWhy": "the monsters (25665, 25666, 25634) only appear through the quest script and no trigger is known",
    "engine": {
-    "act": "manual",
+    "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5
+    4
    ],
+   "overrideFrom": "c1:talk:32566",
    "override": {
     "route": [
      [
@@ -687,6 +1052,213 @@
    },
    "fixedByOverride": [
     "no-route"
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c5:talk:32559",
+   "cond": 5,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32559,
+    "name": "Artius",
+    "title": "War Mage",
+    "town": "Talking Island",
+    "at": [
+     -186109,
+     242500,
+     2552
+    ],
+    "alt": []
+   },
+   "text": "Talk to Artius",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32559@-186109,242500",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 3499,
+    "sec": 514,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 1187,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186333,
+      243095,
+      2580
+     ],
+     [
+      -186104,
+      242600,
+      2552
+     ],
+     [
+      -186104,
+      242504,
+      2552
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 539,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ],
+   "overrideFrom": "c1:talk:32559",
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c5:talk:32567",
+   "cond": 5,
+   "kind": "talk",
+   "to": null,
+   "links": [
+    "\"Okay. I will go to the fortress.\""
+   ],
+   "npc": {
+    "id": 32567,
+    "name": "Lelrikia",
+    "title": "Priest of Shilen",
+    "town": "",
+    "at": [
+     -23966,
+     -8963,
+     -5389
+    ],
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Lelrikia",
+   "reasons": [
+    "no-route",
+    "owner-manual"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ],
+   "overrideFrom": "c1:talk:32567",
+   "override": {
+    "npcAt": [
+     -23966,
+     -8963,
+     -5389
+    ],
+    "manual": true,
+    "note": "Lelrikia: instance \"Secret Area in the Keucereus Fortress\" only (dp data/instances/SecretAreaInTheKeucereusFortress.xml), entered through Ginby (memo 5) - engine: instance entry",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "fixedByOverride": [
+    "npc-no-spawn"
    ]
   }
  ],

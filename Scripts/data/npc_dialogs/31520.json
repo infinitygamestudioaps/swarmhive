@@ -1,0 +1,407 @@
+{
+ "npcId": 31520,
+ "name": "Leikar",
+ "title": "Maid",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.211Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/31520.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "33": {
+   "name": "Make a Pair of Dress Shoes",
+   "listText": [
+    "[Make a Pair of Dress Shoes]",
+    "[Make a Pair of Dress Shoes (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00033_MakeAPairOfDressShoes/31520-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00033_MakeAPairOfDressShoes/31520-03.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "37": {
+   "name": "Make Formal Wear",
+   "listText": [
+    "[Make Formal Wear]",
+    "[Make Formal Wear (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00037_MakeFormalWear/31520-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00037_MakeFormalWear/31520-03.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00037_MakeFormalWear/31520-04.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00037_MakeFormalWear/31520-06.html",
+     "when": "state STARTED; cond 6; (st.hasQuestItems(SEWING_KIT, JEWEL_BOX, MYSTERIOUS_CLOTH))",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00037_MakeFormalWear/31520-07.html",
+     "when": "state STARTED; cond 6; NOT (st.hasQuestItems(SEWING_KIT, JEWEL_BOX, MYSTERIOUS_CLOTH))",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00037_MakeFormalWear/31520-10.html",
+     "when": "state STARTED; cond 7; (st.hasQuestItems(DRESS_SHOES_BOX))",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00037_MakeFormalWear/31520-11.html",
+     "when": "state STARTED; cond 7; NOT (st.hasQuestItems(DRESS_SHOES_BOX))",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31520.htm": {
+   "file": "default/31520.htm",
+   "quest": null,
+   "text": "Maid Leikar: It's such a beautiful day! I could travel anywhere on a day like this! But I've got to work... Oh, hello! Have a nice day!",
+   "header": "Leikar",
+   "live": {
+    "file": "Logs/npclive_Leikar_f46c802e.html",
+    "at": "2026-10-27T14:36:57.291Z",
+    "score": 0.94
+   },
+   "dpText": "Leikar: It's such a beautiful day! I could travel anywhere on a day like this! But I've got to work... Oh, hello! Have a nice day!",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00033_MakeAPairOfDressShoes/31520-01.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/31520-01.html",
+   "quest": 33,
+   "text": "Leikar: Have you already been to Mr. Woodley? Even Mr. Woodley couldn't have made a pair of formal dress shoes so quickly! Did something happen that I need to know about?",
+   "header": "Leikar",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"I need the materials for the Formal Wear.\"",
+     "bypass": "Quest Q00033_MakeAPairOfDressShoes 31520-02.html",
+     "kind": "quest-event",
+     "script": "Q00033_MakeAPairOfDressShoes",
+     "event": "31520-02.html",
+     "quest": 33,
+     "to": "Q00033_MakeAPairOfDressShoes/31520-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00033_MakeAPairOfDressShoes/31520-03.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/31520-03.html",
+   "quest": 33,
+   "text": "Leikar: You haven't left yet? I can't get new fabric... Tell Mr. Woodley to use the same color as before for the shoes.",
+   "header": "Leikar",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/31520-01.html": {
+   "file": "Q00037_MakeFormalWear/31520-01.html",
+   "quest": 37,
+   "text": "Maid Leikar: Hello! What can I do for you? Formal Wear? I'm sorry, but I need to run an errand now. I'll be gone for quite a while... Don't make that face! Hmm...I have an idea! Will you help me? I need to run an errand that will take a while. If you do it for me, I'll start the preparations for yo…",
+   "header": "Maid Leikar",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"What's the errand?\"",
+     "bypass": "Quest Q00037_MakeFormalWear 31520-02.html",
+     "kind": "quest-event",
+     "script": "Q00037_MakeFormalWear",
+     "event": "31520-02.html",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/31520-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00037_MakeFormalWear/31520-03.html": {
+   "file": "Q00037_MakeFormalWear/31520-03.html",
+   "quest": 37,
+   "text": "Maid Leikar: You haven't left yet? Speak with Chef Jeremy at the hot springs resort and bring back the cookies I ordered!",
+   "header": "Maid Leikar",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/31520-04.html": {
+   "file": "Q00037_MakeFormalWear/31520-04.html",
+   "quest": 37,
+   "text": "Maid Leikar: Ah, the cookies I requested! Great! It wasn't too hard, was it? It didn't seem to give you much trouble. I've asked several people to find the materials to make the Formal Wear I promised you, but I haven't heard back from them yet. If I don't get them soon, I may not make it on time. …",
+   "header": "Maid Leikar",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"What do I need to do?\"",
+     "bypass": "Quest Q00037_MakeFormalWear 31520-05.html",
+     "kind": "quest-event",
+     "script": "Q00037_MakeFormalWear",
+     "event": "31520-05.html",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/31520-05.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00037_MakeFormalWear/31520-06.html": {
+   "file": "Q00037_MakeFormalWear/31520-06.html",
+   "quest": 37,
+   "text": "Maid Leikar: Oh, you're wonderful! You brought all the items I requested! That was quite a journey you made! Please give me the materials. You can take a rest under the tree over there! We don't have much time left, so I'll get started right away. By the way, do you happen to have the dress shoes w…",
+   "header": "Maid Leikar",
+   "when": [
+    "state STARTED; cond 6; (st.hasQuestItems(SEWING_KIT, JEWEL_BOX, MYSTERIOUS_CLOTH))"
+   ],
+   "links": [
+    {
+     "text": "\"Oh no! I don't!\"",
+     "bypass": "Quest Q00037_MakeFormalWear 31520-08.html",
+     "kind": "quest-event",
+     "script": "Q00037_MakeFormalWear",
+     "event": "31520-08.html",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/31520-08.html",
+     "toAll": [
+      "Q00037_MakeFormalWear/31520-08.html",
+      "Q00037_MakeFormalWear/31520-09.html"
+     ],
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00037_MakeFormalWear/31520-07.html": {
+   "file": "Q00037_MakeFormalWear/31520-07.html",
+   "quest": 37,
+   "text": "Maid Leikar: Have you forgotten whom you need to visit? Pick up a Sewing kit from Blacksmith Ferris of the Town of Aden , gemstones from Jeweler Ellie of the Town of Giran and the fabric from Radia of the Town of Giran . Hurry back!",
+   "header": "Maid Leikar",
+   "when": [
+    "state STARTED; cond 6; NOT (st.hasQuestItems(SEWING_KIT, JEWEL_BOX, MYSTERIOUS_CLOTH))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/31520-10.html": {
+   "file": "Q00037_MakeFormalWear/31520-10.html",
+   "quest": 37,
+   "text": "Maid Leikar: I'm just about finished with the Formal Wear. Would you give me the dress shoes? I'll compare them with the Formal Wear.",
+   "header": "Maid Leikar",
+   "when": [
+    "state STARTED; cond 7; (st.hasQuestItems(DRESS_SHOES_BOX))"
+   ],
+   "links": [
+    {
+     "text": "\"Here they are!\"",
+     "bypass": "Quest Q00037_MakeFormalWear 31520-12.html",
+     "kind": "quest-event",
+     "script": "Q00037_MakeFormalWear",
+     "event": "31520-12.html",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/31520-12.html",
+     "toAll": [
+      "Q00037_MakeFormalWear/31520-12.html",
+      "Q00037_MakeFormalWear/31520-13.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00037_MakeFormalWear/31520-11.html": {
+   "file": "Q00037_MakeFormalWear/31520-11.html",
+   "quest": 37,
+   "text": "Maid Leikar: Your Formal Wear is almost complete. Did you have the shoes made? If you haven't, please visit Trader Woodley immediately and ask him to make them for you.",
+   "header": "Maid Leikar",
+   "when": [
+    "state STARTED; cond 7; NOT (st.hasQuestItems(DRESS_SHOES_BOX))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00033_MakeAPairOfDressShoes/31520-02.html": {
+   "file": "Q00033_MakeAPairOfDressShoes/31520-02.html",
+   "quest": 33,
+   "text": "Leikar: Oh! We need the fabric for the Formal Wear so that we can match the color of the shoes. Tell Mr. Woodley that I don't have any fabric to give him now and he should use his best judgement regarding the shoes. Tell him to make them the same as before, he'll understand.",
+   "header": "Leikar",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/31520-02.html": {
+   "file": "Q00037_MakeFormalWear/31520-02.html",
+   "quest": 37,
+   "text": "Maid Leikar: Ha! You look happier now! I need you to take this Signet Ring to Chef Jeremy at the hot springs resort and pick up the cookies I ordered. I'd really appreciate it if you'd do this for me.",
+   "header": "Maid Leikar",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/31520-05.html": {
+   "file": "Q00037_MakeFormalWear/31520-05.html",
+   "quest": 37,
+   "text": "Maid Leikar: I asked Blacksmith Ferris in the Town of Aden to make a Sewing kit for me, and I asked Jeweler Ellie of the Town of Giran for some gemstones . I also asked Radia of the Town of Giran to make me some fabric . None of them has contacted me yet. Would you go see them and bring back the ma…",
+   "header": "Maid Leikar",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/31520-08.html": {
+   "file": "Q00037_MakeFormalWear/31520-08.html",
+   "quest": 37,
+   "text": "Maid Leikar: If you don't have the shoes, while I'm making the Formal Wear, go to Trader Woodley and ask him to make the shoes. If the Formal Wear and the shoes don't match, that would be tragic, don't you agree? Now, hurry to Mr. Woodley !",
+   "header": "Maid Leikar",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/31520-09.html": {
+   "file": "Q00037_MakeFormalWear/31520-09.html",
+   "quest": 37,
+   "text": "Maid Leikar: Did you go see Mr. Woodley? Without the shoes, no matter how pretty the Formal Wear I make is, it will be totally useless. Go to Trader Woodley and ask him to make you a pair of shoes. Hurry!",
+   "header": "Maid Leikar",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/31520-12.html": {
+   "file": "Q00037_MakeFormalWear/31520-12.html",
+   "quest": 37,
+   "text": "Maid Leikar: Yes? Just a second! ...... Voila! It's done! Would you please try it on? Well, I guess since you would need to get naked, you should try it on at home! Ha! I used your exact measurements, so I'm not worried about the fit. Well, I hope you have a wonderful wedding! Let me know how it tu…",
+   "header": "Maid Leikar",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00037_MakeFormalWear/31520-13.html": {
+   "file": "Q00037_MakeFormalWear/31520-13.html",
+   "quest": 37,
+   "text": "Maid Leikar: Where are the shoes? I guess you don't want me to make your beautiful Formal Wear. Now, stop fooling around and go get those shoes!",
+   "header": "Maid Leikar",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Make a Pair of Dress Shoes (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00033_MakeAPairOfDressShoes",
+     "kind": "quest",
+     "quest": 33,
+     "to": "Q00033_MakeAPairOfDressShoes/31520-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Make Formal Wear (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00037_MakeFormalWear",
+     "kind": "quest",
+     "quest": 37,
+     "to": "Q00037_MakeFormalWear/31520-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of default/31520.htm differs: live \"Maid Leikar: It's such a beautiful day! I could travel anywhere on a day like this! But I…\" vs datapack \"Leikar: It's such a beautiful day! I could travel anywhere on a day like this! But I've g…\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Maid Leikar:It's such a beautiful day! I could travel anywhe"
+   ],
+   "to": [
+    "You are either not on a quest that involves this NPC, or you"
+   ]
+  }
+ ]
+}

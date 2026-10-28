@@ -2,7 +2,7 @@
  "id": 10294,
  "name": "Seven Signs, To the Monastery of Silence",
  "version": 1,
- "generated": "2026-10-27T11:16:38.533Z",
+ "generated": "2026-10-27T18:20:04.687Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 81,
@@ -45,9 +45,14 @@
    "code": "npc-no-spawn",
    "text": "an NPC of a step has no spawn in the datapack",
    "step": 2
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 3
   }
  ],
- "expectedMin": 1,
+ "expectedMin": 2,
  "refLevel": 81,
  "steps": [
   {
@@ -105,8 +110,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    3
+    1
    ]
   },
   {
@@ -136,6 +140,37 @@
    },
    "conds": [
     2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:32792",
+   "cond": 3,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "I want the truth of Embryo."
+   ],
+   "npc": {
+    "id": 32792,
+    "name": "Eris's Evil Thoughts",
+    "title": "Director",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Eris's Evil Thoughts",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
    ]
   }
  ],

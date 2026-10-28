@@ -1,0 +1,281 @@
+{
+ "npcId": 30346,
+ "name": "Kayleen",
+ "title": "Sentry",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.953Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30346.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "263": {
+   "name": "Orc Subjugation",
+   "listText": [
+    "[Orc Subjugation]",
+    "[Orc Subjugation (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00263_OrcSubjugation/30346-03.htm",
+     "when": "state CREATED; (player.getRace() == Race.DARK_ELF); (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00263_OrcSubjugation/30346-02.htm",
+     "when": "state CREATED; (player.getRace() == Race.DARK_ELF); NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00263_OrcSubjugation/30346-01.htm",
+     "when": "state CREATED; NOT (player.getRace() == Race.DARK_ELF)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00263_OrcSubjugation/30346-06.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00263_OrcSubjugation/30346-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30346.htm": {
+   "file": "guard/30346.htm",
+   "quest": null,
+   "text": "Sentry Kayleen: Greetings. Have you seen many places? My wish is to adventure in the wide, outside world someday. When I give up my job as sentry, I am thinking of traveling to Elmore. If you go there, there is the village of Pabell built by Dark Elves. Maybe it's just because of the oppressive atm…",
+   "header": "Sentry Kayleen",
+   "links": [
+    {
+     "text": "Ask about Pabell of Elmore.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30346-2.htm"
+    },
+    {
+     "text": "Ask about the School of Dark Arts.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30346-1.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30346-1.htm": {
+   "file": "guard/30346-1.htm",
+   "quest": null,
+   "text": "Sentry Kayleen: If you follow the coastline from the village and go southwest, you will come to an underground complex that served as a research institute in the past. Now it is abandoned and no one uses it. Therefore, strange monsters may be living in that space. Sometimes, there are people who go…",
+   "header": "Sentry Kayleen",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30346.htm"
+    }
+   ]
+  },
+  "guard/30346-2.htm": {
+   "file": "guard/30346-2.htm",
+   "quest": null,
+   "text": "Sentry Kayleen: Pabell is in the kingdom of Elmore, to the north of Aden. They say it is the northernmost place in Elmore, a cold region where snow remains on the ground all year round. About fifty years ago, remains of Shilen were discovered, and many Dark Elves moved there to begin research. They…",
+   "header": "Sentry Kayleen",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30346.htm"
+    }
+   ]
+  },
+  "Q00263_OrcSubjugation/30346-03.htm": {
+   "file": "Q00263_OrcSubjugation/30346-03.htm",
+   "quest": 263,
+   "text": "Sentry Kayleen: I do not know why, but the balor orcs , who had been hiding in the Misty Mountains, have started to invade our forest in groups. It is unpardonable that the balor orcs, who used to be our slaves, have forgotten their place and dare to challenge us! According to the reports of the as…",
+   "header": "Sentry Kayleen",
+   "when": [
+    "state CREATED; (player.getRace() == Race.DARK_ELF); (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will participate",
+     "bypass": "Quest Q00263_OrcSubjugation 30346-04.htm",
+     "kind": "quest-event",
+     "script": "Q00263_OrcSubjugation",
+     "event": "30346-04.htm",
+     "quest": 263,
+     "to": "Q00263_OrcSubjugation/30346-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00263_OrcSubjugation/30346-02.htm": {
+   "file": "Q00263_OrcSubjugation/30346-02.htm",
+   "quest": 263,
+   "text": "Sentry Kayleen: I don't know why, but the Balor Orcs, who had been hiding in the Misty Mountains, have started to invade our forest in groups. It is unpardonable that the Balor Orcs, who used to be our slaves, have forgotten their place and dare to challenge us! The Assassin scouts are following th…",
+   "header": "Sentry Kayleen",
+   "when": [
+    "state CREATED; (player.getRace() == Race.DARK_ELF); NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00263_OrcSubjugation/30346-01.htm": {
+   "file": "Q00263_OrcSubjugation/30346-01.htm",
+   "quest": 263,
+   "text": "Sentry Kayleen: Foreign traveler, do not wander around this place. Please conduct your business in the village quickly and leave. Soon, our Dark Elven Race will go to war with the balor orcs of the Misty Mountains. When the fighting begins, the roads will become dangerous and you may be forced to s…",
+   "header": "Sentry Kayleen",
+   "when": [
+    "state CREATED; NOT (player.getRace() == Race.DARK_ELF)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00263_OrcSubjugation/30346-06.html": {
+   "file": "Q00263_OrcSubjugation/30346-06.html",
+   "quest": 263,
+   "text": "Sentry Kayleen: You have fought very well. In the name of Tetrarch Vellior, I will give you a reward for every balor Orc that you strike down. Those who fight on behalf of the race of darkness will reap a rich reward for their bravery. But the battle is not over yet. The foreign invaders still lurk…",
+   "header": "Sentry Kayleen",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00263_OrcSubjugation 30346-08.html",
+     "kind": "quest-event",
+     "script": "Q00263_OrcSubjugation",
+     "event": "30346-08.html",
+     "quest": 263,
+     "to": "Q00263_OrcSubjugation/30346-08.html"
+    },
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00263_OrcSubjugation 30346-07.html",
+     "kind": "quest-event",
+     "script": "Q00263_OrcSubjugation",
+     "event": "30346-07.html",
+     "quest": 263,
+     "to": "Q00263_OrcSubjugation/30346-07.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00263_OrcSubjugation/30346-05.html": {
+   "file": "Q00263_OrcSubjugation/30346-05.html",
+   "quest": 263,
+   "text": "Sentry Kayleen: Why are your hands so clean when they should be stained with the blood of the balor orcs? Go quickly into the woods and dispose of the balor orcs! Go forth in the name of Shilen and take fear as dark as the abyss and death as cold as the deep lakes to those invaders who have violate…",
+   "header": "Sentry Kayleen",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Say you will go into the midst of battle",
+     "bypass": "Quest Q00263_OrcSubjugation 30346-08.html",
+     "kind": "quest-event",
+     "script": "Q00263_OrcSubjugation",
+     "event": "30346-08.html",
+     "quest": 263,
+     "to": "Q00263_OrcSubjugation/30346-08.html"
+    },
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00263_OrcSubjugation 30346-07.html",
+     "kind": "quest-event",
+     "script": "Q00263_OrcSubjugation",
+     "event": "30346-07.html",
+     "quest": 263,
+     "to": "Q00263_OrcSubjugation/30346-07.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00263_OrcSubjugation/30346-04.htm": {
+   "file": "Q00263_OrcSubjugation/30346-04.htm",
+   "quest": 263,
+   "text": "Sentry Kayleen: Go to the woods and strike down any balor orcs you meet! Someone with your skills can easily take care of the Balor Orc archers, but the fighters and leaders are much stronger than regular balor orcs, so do not let your guard down! Tetrarch Vellior made a proclamation just a few day…",
+   "header": "Sentry Kayleen",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00263_OrcSubjugation/30346-07.html": {
+   "file": "Q00263_OrcSubjugation/30346-07.html",
+   "quest": 263,
+   "text": "Sentry Kayleen: Then set down your sword and staff now, and go seek rest. May you find tranquility and safety in the darkness of the abyss.",
+   "header": "Sentry Kayleen",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00263_OrcSubjugation/30346-08.html": {
+   "file": "Q00263_OrcSubjugation/30346-08.html",
+   "quest": 263,
+   "text": "Sentry Kayleen: Bring death upon the fighters and an unforgettable fear upon their widows, so that the balor orcs will never again dream of coming into our woods. May Shilen's will guide your sword and arrows straight to the hearts of your enemies! May Gran Kain increase the strength of your spells…",
+   "header": "Sentry Kayleen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Orc Subjugation]",
+     "bypass": "npc_%objectId%_Quest Q00263_OrcSubjugation",
+     "kind": "quest",
+     "quest": 263,
+     "to": "Q00263_OrcSubjugation/30346-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Orc Subjugation (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00263_OrcSubjugation",
+     "kind": "quest",
+     "quest": 263,
+     "to": "Q00263_OrcSubjugation/30346-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,305 @@
+{
+ "npcId": 30569,
+ "name": "Brukurse",
+ "title": "Prefect",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.002Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30569.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "274": {
+   "name": "Skirmish with the Werewolves",
+   "listText": [
+    "[Skirmish with the Werewolves]",
+    "[Skirmish with the Werewolves (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00274_SkirmishWithTheWerewolves/30569-03.htm",
+     "when": "state CREATED; has items 1507,1506; (player.getRace() == Race.ORC); (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00274_SkirmishWithTheWerewolves/30569-02.html",
+     "when": "state CREATED; has items 1507,1506; (player.getRace() == Race.ORC); NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00274_SkirmishWithTheWerewolves/30569-01.html",
+     "when": "state CREATED; has items 1507,1506; NOT (player.getRace() == Race.ORC)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00274_SkirmishWithTheWerewolves/30569-08.html",
+     "when": "state CREATED; lacks items 1507,1506",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00274_SkirmishWithTheWerewolves/30569-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00274_SkirmishWithTheWerewolves/30569-07.html",
+     "when": "state STARTED; cond 2; heads >= 40; (totems > 0)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00274_SkirmishWithTheWerewolves/30569-06.html",
+     "when": "state STARTED; cond 2; heads >= 40; NOT (totems > 0)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30569.htm": {
+   "file": "trainer/30569.htm",
+   "quest": null,
+   "text": "Prefect Brukurse: This world respects only power. We Orcs must become stronger! We must drive our enemies before us and bring honor to our ancestors whose spirits rest in the Cave of Trials .",
+   "header": "Prefect Brukurse",
+   "links": [
+    {
+     "text": "Ask about the Cave of Trials.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30569-1.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30569-1.htm": {
+   "file": "trainer/30569-1.htm",
+   "quest": null,
+   "text": "Prefect Brukurse: The Cave of Trials is also called the Founder's Cave. It is a sacred place created by the founder of our race, and it houses the remains of our ancestors. In the beginning, great Pa'agrio used the seeds of fire to create our race. But the other gods feared our power, and they join…",
+   "header": "Prefect Brukurse",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30569.htm"
+    }
+   ]
+  },
+  "trainer/30569-noteach.htm": {
+   "file": "trainer/30569-noteach.htm",
+   "quest": null,
+   "text": "Prefect Brukurse: You are not qualified to inherit my power. Find the right way for you!",
+   "header": "Prefect Brukurse",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00274_SkirmishWithTheWerewolves/30569-03.htm": {
+   "file": "Q00274_SkirmishWithTheWerewolves/30569-03.htm",
+   "quest": 274,
+   "text": "Prefect Brukurse: This Immortal Plateau has been the holiest land of the Orcs since ancient times! The place where our progenitor -- made by the great Pa'agrio of flame -- took his first steps, is none other than the Immortal Plateau. However, there is a group of fools that will not understand that…",
+   "header": "Prefect Brukurse",
+   "when": [
+    "state CREATED; has items 1507,1506; (player.getRace() == Race.ORC); (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say that you will fight the werewolves",
+     "bypass": "Quest Q00274_SkirmishWithTheWerewolves 30569-04.htm",
+     "kind": "quest-event",
+     "script": "Q00274_SkirmishWithTheWerewolves",
+     "event": "30569-04.htm",
+     "quest": 274,
+     "to": "Q00274_SkirmishWithTheWerewolves/30569-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00274_SkirmishWithTheWerewolves/30569-02.html": {
+   "file": "Q00274_SkirmishWithTheWerewolves/30569-02.html",
+   "quest": 274,
+   "text": "Prefect Brukurse: This Immortal Plateau has been the holiest land of the Orcs since ancient times! The place where our progenitor -- made by the great Pa'agrio of the flame -- took his first steps, is none other than the Immortal Plateau. However, there is a group of fools that will not understand …",
+   "header": "Prefect Brukurse",
+   "when": [
+    "state CREATED; has items 1507,1506; (player.getRace() == Race.ORC); NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00274_SkirmishWithTheWerewolves/30569-01.html": {
+   "file": "Q00274_SkirmishWithTheWerewolves/30569-01.html",
+   "quest": 274,
+   "text": "Prefect Brukurse: Your courage is admirable, small creature of another race! However, I have no task to give to a weak one like you! (Quest for Orc characters.)",
+   "header": "Prefect Brukurse",
+   "when": [
+    "state CREATED; has items 1507,1506; NOT (player.getRace() == Race.ORC)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00274_SkirmishWithTheWerewolves/30569-08.html": {
+   "file": "Q00274_SkirmishWithTheWerewolves/30569-08.html",
+   "quest": 274,
+   "text": "Prefect Brukurse: This Immortal Plateau has been the holiest of lands for the Orcs since ancient times! The place where our progenitor -- made by the great Pa'agrio of flame -- took his first steps, is none other than the Immortal Plateau. However, there is a group of fools that refuses to understa…",
+   "header": "Prefect Brukurse",
+   "when": [
+    "state CREATED; lacks items 1507,1506"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00274_SkirmishWithTheWerewolves/30569-05.html": {
+   "file": "Q00274_SkirmishWithTheWerewolves/30569-05.html",
+   "quest": 274,
+   "text": "Prefect Brukurse: Young Orc, have you come back already? The punishment of those maraku wolfmen who dare to challenge us has not ended yet! Don't even think about coming back here until you have forty werewolf heads!",
+   "header": "Prefect Brukurse",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00274_SkirmishWithTheWerewolves/30569-07.html": {
+   "file": "Q00274_SkirmishWithTheWerewolves/30569-07.html",
+   "quest": 274,
+   "text": "Prefect Brukurse: Tejakar Oroka! Well done indeed, my young Orc! The crude item in your hand is a totem worshipped by the wolfmen! That is a great war trophy to commemorate this battle. But if you are not interested in trophies, you can sell it to the merchants. I heard some brothers will pay a for…",
+   "header": "Prefect Brukurse",
+   "when": [
+    "state STARTED; cond 2; heads >= 40; (totems > 0)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00274_SkirmishWithTheWerewolves/30569-06.html": {
+   "file": "Q00274_SkirmishWithTheWerewolves/30569-06.html",
+   "quest": 274,
+   "text": "Prefect Brukurse: Tejakar Oroka! Well done indeed, my young Orc! The severed heads of the werewolves that you brought back will all be skewered on spears and placed outside the village. We will show the world the consequences of challenging us! But the maraku wolfmen will not retreat so easily! Thi…",
+   "header": "Prefect Brukurse",
+   "when": [
+    "state STARTED; cond 2; heads >= 40; NOT (totems > 0)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00274_SkirmishWithTheWerewolves/30569-04.htm": {
+   "file": "Q00274_SkirmishWithTheWerewolves/30569-04.htm",
+   "quest": 274,
+   "text": "Prefect Brukurse: Tejakar Oroka! Young Orc, go to the wilderness right now and kill those maraku wolfmen without mercy! Collect forty of their severed heads and bring them back to me! The maraku tribe leaders are quite powerful so be careful when you deal with them! I will pierce the heads of that …",
+   "header": "Prefect Brukurse",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Skirmish with the Werewolves]",
+     "bypass": "npc_%objectId%_Quest Q00274_SkirmishWithTheWerewolves",
+     "kind": "quest",
+     "quest": 274,
+     "to": "Q00274_SkirmishWithTheWerewolves/30569-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Skirmish with the Werewolves (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00274_SkirmishWithTheWerewolves",
+     "kind": "quest",
+     "quest": 274,
+     "to": "Q00274_SkirmishWithTheWerewolves/30569-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

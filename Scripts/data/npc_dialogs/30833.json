@@ -1,0 +1,342 @@
+{
+ "npcId": 30833,
+ "name": "Kaspar",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.077Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30833.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "234": {
+   "name": "Fate's Whisper",
+   "listText": [
+    "[Fate's Whisper]",
+    "[Fate's Whisper (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00234_FatesWhisper/30833-01.html",
+     "when": "memo 7",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-03.html",
+     "when": "memo 8; whiteBloodyFabricCount <= 0",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-04.html",
+     "when": "memo 8; whiteBloodyFabricCount <= 0",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-03c.html",
+     "when": "memo 8; bloodyFabricCount < 30; whiteBloodyFabricCount >= 30",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-03d.html",
+     "when": "memo 8; bloodyFabricCount >= 30; whiteBloodyFabricCount >= 30",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-03e.html",
+     "when": "memo 8; whiteBloodyFabricCount < 30; whiteBloodyFabricCount > 0",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-05.html",
+     "when": "qs.getMemoState() >= 9",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30833.htm": {
+   "file": "trainer/30833.htm",
+   "quest": null,
+   "text": "Magister Kaspar: Hardin's Academy welcomes you, stranger. I am Kaspar. Stay here as long as you like, but take care not to interfere with any of the ongoing studies or experiments. If you wish to offer your collaboration, we will gladly accept it. Perhaps you can exchange your help for instruction …",
+   "header": "Magister Kaspar",
+   "links": [
+    {
+     "text": "Ask about Hardin's Academy.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30833-1.htm"
+    },
+    {
+     "text": "Ask about Lich King Icarus.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "trainer/30833-2.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30833-1.htm": {
+   "file": "trainer/30833-1.htm",
+   "quest": null,
+   "text": "Magister Kaspar: Here Master Hardin and his diciples seek to unlock the mysteries of the arcane. Our master rejected the elitist dogma of the Ivory Tower and personally established this Academy to pursue truth, regardless of where it lies. Those of us who share his vision flocked here. I have heard…",
+   "header": "Magister Kaspar",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30833.htm"
+    }
+   ]
+  },
+  "trainer/30833-2.htm": {
+   "file": "trainer/30833-2.htm",
+   "quest": null,
+   "text": "Magister Kaspar: Do you know Icarus? Frankly, he frightens me. He is undead, so he neither sleeps nor eats. But no one can deny that his knowledge of Necromancy is unparalleled on this continent. And Hardin keeps him contained. There is no question that he is dangerous, but risk is part and parcel …",
+   "header": "Magister Kaspar",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30833.htm"
+    }
+   ]
+  },
+  "trainer/30833-noteach.htm": {
+   "file": "trainer/30833-noteach.htm",
+   "quest": null,
+   "text": "Magister Kaspar: Though I am not an exceptionally talented teacher, I can tell the difference between who can be taught and who cannot. I think that you would be better served in finding a more suitable teacher for your needs.",
+   "header": "Magister Kaspar",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-01.html": {
+   "file": "Q00234_FatesWhisper/30833-01.html",
+   "quest": 234,
+   "text": "Magister Kaspar: Ah, you must have come for Maestro Reorin's Mold. How is Reorin? I should check you out. Uh oh, did I say that out loud? Sorry... I was just talking to myself. If you knew what I went throught to get this mold, you would understand why I can't just give it to you for nothing... If …",
+   "header": "Magister Kaspar",
+   "when": [
+    "memo 7"
+   ],
+   "links": [
+    {
+     "text": "\"What do you want me to do?\"",
+     "bypass": "Quest Q00234_FatesWhisper 1",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "1",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/30833-02.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/30833-03.html": {
+   "file": "Q00234_FatesWhisper/30833-03.html",
+   "quest": 234,
+   "text": "Magister Kaspar: Have you met Magister Hanellin of the Town of Aden ? Baium will tell you how to access the sealed room on the top floor of the Tower of Insolence. Please don't forget that you promised to cut Baium with the pipet knife I gave you, and absorb at least a few drops of his blood. This …",
+   "header": "Magister Kaspar",
+   "when": [
+    "memo 8; whiteBloodyFabricCount <= 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-04.html": {
+   "file": "Q00234_FatesWhisper/30833-04.html",
+   "quest": 234,
+   "text": "Magister Kaspar: You exceeded my expectations! Excellent job! Obviously, there is more to you than meets the eye. I now see that the attention you've been getting is well-deserved. Well, as promised, here is Maestro Reorin's Mold . As it is said, a person's belongings have a way of finding their wa…",
+   "header": "Magister Kaspar",
+   "when": [
+    "memo 8; whiteBloodyFabricCount <= 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-03c.html": {
+   "file": "Q00234_FatesWhisper/30833-03c.html",
+   "quest": 234,
+   "text": "Magister Kaspar: Did you acquire the Blood of the Angel? Staining the white cloth I gave to you with it will be easier than going to Baium, don't you think? But is this all you've done? Time to prove your worth, my young friend.",
+   "header": "Magister Kaspar",
+   "when": [
+    "memo 8; bloodyFabricCount < 30; whiteBloodyFabricCount >= 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-03d.html": {
+   "file": "Q00234_FatesWhisper/30833-03d.html",
+   "quest": 234,
+   "text": "Magister Kaspar: You're as good as advertised. Well done! To be honest, I had my doubts you would succeed. But you exceeded my expectations. Now I now why so many speak so highly of you. Now, as promised, I'll return Maestro Reorin's mold to you. It's only right that an item like this should go bac…",
+   "header": "Magister Kaspar",
+   "when": [
+    "memo 8; bloodyFabricCount >= 30; whiteBloodyFabricCount >= 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-03e.html": {
+   "file": "Q00234_FatesWhisper/30833-03e.html",
+   "quest": 234,
+   "text": "Magister Kaspar: Did you forget your promise? I don't know why your reputation is as high as it is. But I suppose everyone can fall flat now and again. I'll give you another chance: take these 30 pieces of white cloth and dye all of them with the Blood of the Angel.",
+   "header": "Magister Kaspar",
+   "when": [
+    "memo 8; whiteBloodyFabricCount < 30; whiteBloodyFabricCount > 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-05.html": {
+   "file": "Q00234_FatesWhisper/30833-05.html",
+   "quest": 234,
+   "text": "Magister Kaspar: Maestro Reorin's \"Dasparion's Staff\" is world-renowned, even among the Magi. It is rumored that he is working on a new weapon! I can't wait to see what he comes up with!",
+   "header": "Magister Kaspar",
+   "when": [
+    "qs.getMemoState() >= 9"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-02.html": {
+   "file": "Q00234_FatesWhisper/30833-02.html",
+   "quest": 234,
+   "text": "Magister Kaspar: I heard that you explored the Tower of Insolence while working for Reorin. Don't look so surprised! Hardin's Academy is no mere educational institute. We pay close attention to events beyond our walls. We are particularly interested in the Tower of Insolence -- nor are we the only …",
+   "header": "Magister Kaspar",
+   "links": [
+    {
+     "text": "\"I want to face Baium.\"",
+     "bypass": "Quest Q00234_FatesWhisper 2",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "2",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/30833-03a.html"
+    },
+    {
+     "text": "\"I want to face the Platinum Tribe.\"",
+     "bypass": "Quest Q00234_FatesWhisper 3",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "3",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/30833-03b.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/30833-03a.html": {
+   "file": "Q00234_FatesWhisper/30833-03a.html",
+   "quest": 234,
+   "text": "Magister Kaspar: We seek Baium's Blood here in the Tower of Insolence. Baium is the only descendant of Emperor Shunaiman, who received Einhasad's blessing, and the blood of the cursed royal family that was sealed by the angels flows in his body. That is what we need. Now, take this Pipette Knife. I…",
+   "header": "Magister Kaspar",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-03b.html": {
+   "file": "Q00234_FatesWhisper/30833-03b.html",
+   "quest": 234,
+   "text": "Magister Kaspar: You learn quickly. What we want from the Tower of Insolence is none other than the Blood of the Angel . I won't go into details, since if you helped Hanellin you already know what it is and what it can do. I will simply ask that you enter the Tower of Insolence and dye these 30 pie…",
+   "header": "Magister Kaspar",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Fate's Whisper (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00234_FatesWhisper",
+     "kind": "quest",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/30833-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

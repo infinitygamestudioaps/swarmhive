@@ -1,0 +1,1049 @@
+{
+ "npcId": 30832,
+ "name": "Hardin",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.077Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30832.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "94": {
+   "name": "Saga of the Soultaker",
+   "listText": [
+    "[Saga of the Soultaker]",
+    "[Saga of the Soultaker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00094_SagaOfTheSoultaker/0-01.htm",
+     "when": "cond 0; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/0-04.htm",
+     "when": "cond 1; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/0-06.htm",
+     "when": "cond 19; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00094_SagaOfTheSoultaker/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "136": {
+   "name": "More Than Meets the Eye",
+   "listText": [
+    "[More Than Meets The Eye]",
+    "[More Than Meets The Eye (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30832-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30832-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30832-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30832-08.html",
+     "when": "state STARTED; cond 2|3|4",
+     "state": "STARTED",
+     "cond": [
+      2,
+      3,
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30832-10.html",
+     "when": "state STARTED; cond 5; st.getInt(\"talked\") == 1",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30832-12.html",
+     "when": "state STARTED; cond 5; !st.getInt(\"talked\") == 1; st.getInt(\"talked\") == 2",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30832-09.html",
+     "when": "state STARTED; cond 5; !st.getInt(\"talked\") == 1; !st.getInt(\"talked\") == 2",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30832-08.html",
+     "when": "state STARTED; cond 5; !st.getInt(\"talked\") == 1; !st.getInt(\"talked\") == 2",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30832-15.html",
+     "when": "state STARTED; cond 6|7|8",
+     "state": "STARTED",
+     "cond": [
+      6,
+      7,
+      8
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30832-17.html",
+     "when": "state STARTED; cond 9; st.getInt(\"talked\") == 1",
+     "state": "STARTED",
+     "cond": [
+      9
+     ],
+     "outcome": "reward"
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30832-18.html",
+     "when": "state STARTED; cond 9; !st.getInt(\"talked\") == 1; st.getInt(\"talked\") == 2",
+     "state": "STARTED",
+     "cond": [
+      9
+     ],
+     "outcome": "reward"
+    },
+    {
+     "page": "Q00136_MoreThanMeetsTheEye/30832-16.html",
+     "when": "state STARTED; cond 9; !st.getInt(\"talked\") == 1; !st.getInt(\"talked\") == 2",
+     "state": "STARTED",
+     "cond": [
+      9
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "348": {
+   "name": "An Arrogant Search",
+   "listText": [
+    "[An Arrogant Search]",
+    "[An Arrogant Search (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00348_AnArrogantSearch/30832-01.html",
+     "when": "state STARTED; item 4295 >= 1; st.getMemoStateEx(0) == 18; (st.getMemoStateEx(1) % 4) < 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30832-02.html",
+     "when": "state STARTED; st.getMemoStateEx(0) == 18; (st.getMemoStateEx(1) % 4) < 2; !getQuestItemsCount(player, BLOODED_FABRIC) >= 1; getQuestItemsCount(player, BLOODED_FABRIC) < 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30832-03.html",
+     "when": "state STARTED; st.getMemoStateEx(0) == 18; !(st.getMemoStateEx(1) % 4) < 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10292": {
+   "name": "Seven Signs, Girl of Doubt",
+   "listText": [
+    "[Seven Signs, Girl of Doubt]",
+    "[Seven Signs, Girl of Doubt (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/30832-01.html",
+     "when": "state STARTED; memo 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/30832-03.html",
+     "when": "state STARTED; memo 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10296": {
+   "name": "Seven Signs, One Who Seeks the Power of the Seal",
+   "listText": [
+    "[Seven Signs, One Who Seeks the Power of the Seal]",
+    "[Seven Signs, One Who Seeks the Power of the Seal (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-01.html",
+     "when": "state STARTED; memoState < 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-02.html",
+     "when": "state STARTED; memo 4; !memoState < 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-04.html",
+     "when": "state STARTED; !memoState < 4; memoState > 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30832.htm": {
+   "file": "default/30832.htm",
+   "quest": null,
+   "text": "Hardin: Greetings. I am the Mystic known as Hardin. I am sure that my reputation precedes me. Am I as you expected? Although I am an alumnus of the Ivory Tower, I detested the elitism there. Perhaps it was because of my youth, but... Anyway, I took my opinions very seriously at that time... Let me …",
+   "header": "Hardin",
+   "links": [
+    {
+     "text": "\"Tell me about the Academy building.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30832-1.htm"
+    },
+    {
+     "text": "\"Tell me about Necromancers.\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30832-2.htm"
+    },
+    {
+     "text": "\"Tell me about Beleth.\"",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/30832-3.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30832-1.htm": {
+   "file": "default/30832-1.htm",
+   "quest": null,
+   "text": "Hardin: Oh, you mean this cave? It is very well-suited to the needs of my pupils and myself. Does it seems a little rustic? Lich King Icarus could answer more of your questions about this place. He was the original owner here. I'm the second or third... I met him shortly after having left my master…",
+   "header": "Hardin",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30832.htm"
+    }
+   ]
+  },
+  "default/30832-2.htm": {
+   "file": "default/30832-2.htm",
+   "quest": null,
+   "text": "Hardin: Many people are unnecessarily frightened of Necromancers. Humans have an irrational fear of blood and that seems to drive their prejudice. Basicaly, a Necromancer is just a person who studies the lives of humans and other living beings. This knowledge was passed down from the time of the Ti…",
+   "header": "Hardin",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30832.htm"
+    }
+   ]
+  },
+  "default/30832-3.htm": {
+   "file": "default/30832-3.htm",
+   "quest": null,
+   "text": "Hardin: The Mystic Beleth graduated from the Ivory Tower during the time of Elmoreden. He had such an awesome power that he seemed immortal even then. He became greedy and misused his power to such a degree that he became known as a demon... But why do you want to know about him...? Do you think I …",
+   "header": "Hardin",
+   "links": [
+    {
+     "text": "Go back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30832.htm"
+    }
+   ]
+  },
+  "Q00094_SagaOfTheSoultaker/0-01.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/0-01.htm",
+   "quest": 94,
+   "text": "Hardin: So, you want to be a Soultaker, eh? Well, you came at just the right time! First, you must accomplish a task to prove that you're worthy. Have you met a necromancer by the name of Hindemith ? He was sent to spy on the followers of Lich King Akron , but it's been rumored that he's become a f…",
+   "header": "Hardin",
+   "when": [
+    "cond 0; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What is the Pilgrimage of Tablets of Vision?\"",
+     "bypass": "Quest Q00094_SagaOfTheSoultaker 0-1",
+     "kind": "quest-event",
+     "script": "Q00094_SagaOfTheSoultaker",
+     "event": "0-1",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/0-05.htm",
+     "toAll": [
+      "Q00094_SagaOfTheSoultaker/0-02.htm",
+      "Q00094_SagaOfTheSoultaker/0-05.htm"
+     ]
+    }
+   ]
+  },
+  "Q00094_SagaOfTheSoultaker/0-04.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/0-04.htm",
+   "quest": 94,
+   "text": "Hardin: Please find out what you can about a necromancer named Hindemith who's been seen near the Tablet of Vision. A while back he was sent to spy on the followers of Lich King Akron. Word has come to me that he has actually allied with that wicked despot ! I think Hindemith has undertaken the Pil…",
+   "header": "Hardin",
+   "when": [
+    "cond 1; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/0-06.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/0-06.htm",
+   "quest": 94,
+   "text": "Hardin: Ah, you're back! Do you bring news of Hindemith?",
+   "header": "Hardin",
+   "when": [
+    "cond 19; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Hindemith hasn't allied with Lich King Akron.\"",
+     "bypass": "Quest Q00094_SagaOfTheSoultaker 0-2",
+     "kind": "quest-event",
+     "script": "Q00094_SagaOfTheSoultaker",
+     "event": "0-2",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/0-07.htm",
+     "toAll": [
+      "Q00094_SagaOfTheSoultaker/0-08.htm",
+      "Q00094_SagaOfTheSoultaker/0-07.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00094_SagaOfTheSoultaker/0-09.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/0-09.htm",
+   "quest": 94,
+   "text": "Hardin: Thanks for your hard work. Great job! Congratulations on becoming a Soultaker.",
+   "header": "Hardin",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/0-010.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/0-010.htm",
+   "quest": 94,
+   "text": "Hardin: You're not ready to transfer classes. Come back when you've improved your strength and ability and I'll make you a Soultaker. (Only a character of level 76 or above may become a Soultaker. Don't abandon the quest until class transfer is complete.)",
+   "header": "Hardin",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 30832) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-01.htm": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-01.htm",
+   "quest": 136,
+   "text": "Hardin: Among Shilen's creatures, there are those who are able to change their appearance to terrorize and attack people. As a Necromancer, I am naturally very interested in such abilities. What if their power could be utilized as a kind of magic? ... Why do I research transformation magic? At the …",
+   "header": "Hardin",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "It sounds interesting. Say that you will help.",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-03.htm",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-03.htm",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-02.htm": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-02.htm",
+   "quest": 136,
+   "text": "Hardin: Adventurer, you may believe that you are skilled and strong, but your soul is not yet strong enough to endure this transformation experiment. (Only characters level 50 or above may undertake this quest.)",
+   "header": "Hardin",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-04.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-04.html",
+   "quest": 136,
+   "text": "Hardin: Thank you for agreeing to help me complete my experiment. Now, listen carefully... The transformations that I am researching are not like illusions or hypnosis or some other parlor tricks...",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-05.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-05.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-05.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-08.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-08.html",
+   "quest": 136,
+   "text": "Hardin: Please bring me Stabilized Ectoplasm from Dark Elf Magister Errickin in Hunters Village . Don't delay!",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; cond 2|3|4",
+    "state STARTED; cond 5; !st.getInt(\"talked\") == 1; !st.getInt(\"talked\") == 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-10.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-10.html",
+   "quest": 136,
+   "text": "Hardin: Through research and experiment, I have arrived at certain conclusions. The energy that makes up the soul is like the water in a water balloon. Depending on the shape of the balloon, it can be shaped into different forms, but once the shape within the water balloon is fixed, it cannot endur…",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; cond 5; st.getInt(\"talked\") == 1"
+   ],
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-11.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-11.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-11.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-12.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-12.html",
+   "quest": 136,
+   "text": "Hardin: The soul's combination of information and energy that is necessary to preserve a living being's outward appearance can be magically stored in a Seal of Transformation... Unfortunately, I cannot personally link this Seal of Transformation with your individual body. It is simply not my specia…",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; cond 5; !st.getInt(\"talked\") == 1; st.getInt(\"talked\") == 2"
+   ],
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"How do I do that?\"",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-13.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-13.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-13.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-09.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-09.html",
+   "quest": 136,
+   "text": "Hardin: Ah, I see that you have brought me the Stabilized Ectoplasm. Excellent! I see you are bursting with questions; let me satisfy at least a portion of your curiosity. Through research and experiment, I have arrived at certain conclusions. The energy that makes up the soul is like the water in …",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; cond 5; !st.getInt(\"talked\") == 1; !st.getInt(\"talked\") == 2"
+   ],
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-11.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-11.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-11.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-15.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-15.html",
+   "quest": 136,
+   "text": "Hardin: Go find Magister Clayton in Dion Village and bring back the empty Book of Seal.",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; cond 6|7|8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-17.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-17.html",
+   "quest": 136,
+   "text": "Hardin: (As soon as you drink the liquid, you feel stabbing pain inside your head. You can't seem to pull yourself together; you feel as though you are seeing the world from two perspectives, almost as through a mirror. Everything is spinning. Something fundamental in your soul feels like it is cha…",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; cond 9; st.getInt(\"talked\") == 1"
+   ],
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "Then can I transform now?",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-18.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-18.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-18.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-18.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-18.html",
+   "quest": 136,
+   "text": "Hardin: Such impatience! The experiment was intended to create a stable state for the soul prior to transformation. We have done so... However, since you have incurred some risk -- however marginal -- to assist me, I will help you attain a simple transformation. That is why I asked you to bring the…",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; cond 9; !st.getInt(\"talked\") == 1; st.getInt(\"talked\") == 2"
+   ],
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "Wait.",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-19.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-19.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-19.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-16.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-16.html",
+   "quest": 136,
+   "text": "Hardin: I see that you have brought the empty Book of Seal. With this, all our preparations are completed! While you were gone, I made an infusion using the Stabilized Ectoplasm and Mimir's Elixir. Drink this and your soul should be able to endure the transformation process. Not nervous, are you? I…",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; cond 9; !st.getInt(\"talked\") == 1; !st.getInt(\"talked\") == 2"
+   ],
+   "links": [
+    {
+     "text": "Drink the concoction.",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-17.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-17.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-17.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30832-01.html": {
+   "file": "Q00348_AnArrogantSearch/30832-01.html",
+   "quest": 348,
+   "text": "Hardin: I've been waiting for you! Let's see the item... Ah, yes, the \"Blooded Fabric\"... I formally accept it. Goodbye.",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; item 4295 >= 1; st.getMemoStateEx(0) == 18; (st.getMemoStateEx(1) % 4) < 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30832-02.html": {
+   "file": "Q00348_AnArrogantSearch/30832-02.html",
+   "quest": 348,
+   "text": "Hardin: I've been waiting for you! Give me the Blooded Fabric! What? You don't have it? I insist that you go back to her, get the Blooded Fabric and bring it to me immediately!",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; st.getMemoStateEx(0) == 18; (st.getMemoStateEx(1) % 4) < 2; !getQuestItemsCount(player, BLOODED_FABRIC) >= 1; getQuestItemsCount(player, BLOODED_FABRIC) < 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30832-03.html": {
+   "file": "Q00348_AnArrogantSearch/30832-03.html",
+   "quest": 348,
+   "text": "Hardin: Back so soon? What do you want? Oh, I see! You wish to know what I intend to do with the item you brought me...Ha! Well, I'm afraid you won't be very impressed, I just thought it would come in handy in my practice of the dark arts.",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; st.getMemoStateEx(0) == 18; !(st.getMemoStateEx(1) % 4) < 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/30832-01.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/30832-01.html",
+   "quest": 10292,
+   "text": "Hardin: Embryo... The information miss Elcadia was looking for was regarding Embryo. Unfortunately, I couldn't satisfy her desire for answers... I remember very vaguely finding that there are others who whisper its name.",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; memo 7"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more.\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 30832-02.html",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "30832-02.html",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/30832-02.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/30832-03.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/30832-03.html",
+   "quest": 10292,
+   "text": "Hardin: Library of Sages holds so many ancient books. I believe you might be able to find whatever you seek there, friend. Please tell Elcadia she should head there first.",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; memo 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-01.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-01.html",
+   "quest": 10296,
+   "text": "Hardin: Oh, hello. How's the research on Embryo going? Miss Elcadia is waiting for you.",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; memoState < 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-02.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-02.html",
+   "quest": 10296,
+   "text": "Hardin: I have been waiting for you. Hahaha, Elcadia, you have worked so hard. Now, do you have the result you craved? Hahaha. You seem like you have no idea what I am talking about. The Revolutionaries of Dusk and the Priests of Dawn are mere rabbles - your purpose was to watch them with Elcadia a…",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; memo 4; !memoState < 4"
+   ],
+   "links": [
+    {
+     "text": "\"How do you know that?\"",
+     "bypass": "Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal 30832-03.html",
+     "kind": "quest-event",
+     "script": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "event": "30832-03.html",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-03.html"
+    }
+   ]
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-04.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-04.html",
+   "quest": 10296,
+   "text": "Hardin: I see. I will tell Franz when I go back. I'll tell him that he should face the future threats more squarely and be prepared. Just as you saw with your bare eyes, Embryo's threat is just beginning... Tell him also that the Emperor's Seven Signs cannot be manipulated by mere humans...",
+   "header": "Hardin",
+   "when": [
+    "state STARTED; !memoState < 4; memoState > 4"
+   ],
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/0-02.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/0-02.htm",
+   "quest": 94,
+   "text": "Hardin: Hmm... A Soultaker, eh? You're not ready yet. Come back when you've had more training. (The quest may only be undertaken by a Necromancer of level 76 or above.)",
+   "header": "Hardin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/0-03.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/0-03.htm",
+   "quest": 94,
+   "text": "Hardin: Excellent! Well, as I said, Hindemith has been seen near the Tablet of Vision. I believe that he's undertaken the Pilgrimage of the Tablets of Vision ! Join that pilgrimage and find out what he's up to. First, visit High Priest Gregory in Goddard Castle Town . He'll tell you what to do next…",
+   "header": "Hardin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/0-05.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/0-05.htm",
+   "quest": 94,
+   "text": "Hardin: In order for a Necromancer to become a Soultaker, you must shed your mortal perspective and attain the consciousness of the gods. Long ago, the gods sealed this power and dispersed it throughout the world in order to keep Humans from reaching their full potential. You must reclaim this long…",
+   "header": "Hardin",
+   "links": [
+    {
+     "text": "\"I'll help you.\"",
+     "bypass": "Quest Q00094_SagaOfTheSoultaker accept",
+     "kind": "quest-event",
+     "script": "Q00094_SagaOfTheSoultaker",
+     "event": "accept",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00094_SagaOfTheSoultaker/0-07.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/0-07.htm",
+   "quest": 94,
+   "text": "Hardin: I knew it! Hindemith couldn't have done such a thing! This should relieve the pressure our guild has been under, and get Hindemith out from under a cloud as well. By the way, while you were doing this, you've completed your own Pilgrimage of the Tablets of Vision. Henceforth you shall be kn…",
+   "header": "Hardin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00094_SagaOfTheSoultaker/0-08.htm": {
+   "file": "Q00094_SagaOfTheSoultaker/0-08.htm",
+   "quest": 94,
+   "text": "Hardin: I knew it! He would never have done such a thing! This will surely put the false rumors about him to rest once and for all. By the way, congratulations on completing the Pilgrimage of the Tablets of Vision! You've shown that you've got what it takes to be a Soultaker, but... You don't yet h…",
+   "header": "Hardin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-03.htm": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-03.htm",
+   "quest": 136,
+   "text": "Hardin: Thank you for agreeing to help me complete my experiment. Now, listen carefully... The transformations that I am researching are not like illusions or hypnosis or some other parlor tricks...",
+   "header": "Hardin",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-05.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-05.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-05.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-05.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-05.html",
+   "quest": 136,
+   "text": "Hardin: My process will physically change the subject's actual material form. Understand that the body of a living being is merely a vessel for the soul. Outward appearance is an expression of that inner substance; put another way, the body is intimately connected to the soul. By using powerful mag…",
+   "header": "Hardin",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Does that mean the soul has to be transformed as well?",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-06.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-06.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-06.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-06.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-06.html",
+   "quest": 136,
+   "text": "Hardin: Very good! You are a quick study, I see. Yes, in order to successfully transform a subject's physical appearance, the soul must also be transformed to some degree.",
+   "header": "Hardin",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Is it even possible to transform the soul? Moreover, if the soul transforms, wouldn't there be a loss of identity?",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-07.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-07.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-07.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-07.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-07.html",
+   "quest": 136,
+   "text": "Hardin: Ha! An adventurer after my own heart... Don't try to satisfy your curiosity in one gulp, though. If we make progress with these experiments, I'm sure all of your questions will be answered. At this stage in my research, I absolutely require Stabilized Ectoplasm . I have learned that it can …",
+   "header": "Hardin",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-11.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-11.html",
+   "quest": 136,
+   "text": "Hardin: The ability to change the soul and then restore it to its original state is an essential condition for transformation magic. If the soul perishes after transformation, or if the subject cannot be returned to its original state, the power is worthless. Needless to say, this posed an extremel…",
+   "header": "Hardin",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Seal of Transformation?",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-12.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-12.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-12.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-13.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-13.html",
+   "quest": 136,
+   "text": "Hardin: You must produce a Book of the Seal of Transformation, a specially made Book of Magic. In it will be described the meaning of the Seal of Transformation and the detailed method of preparation. You must also use special arcane methods to write the transformation magic and store its power in …",
+   "header": "Hardin",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "How do I make this empty Book of Seal?",
+     "bypass": "Quest Q00136_MoreThanMeetsTheEye 30832-14.html",
+     "kind": "quest-event",
+     "script": "Q00136_MoreThanMeetsTheEye",
+     "event": "30832-14.html",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-14.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-14.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-14.html",
+   "quest": 136,
+   "text": "Hardin: Take these detailed instructions to Magister Clayton in Dion Village . He will craft an empty Book of Seal for you.",
+   "header": "Hardin",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00136_MoreThanMeetsTheEye/30832-19.html": {
+   "file": "Q00136_MoreThanMeetsTheEye/30832-19.html",
+   "quest": 136,
+   "text": "Hardin: (Hardin draws something and begins writing in the empty Book of Seal. Once finished, he casts some sort of spell on the Book of Seal, which flashes for a moment.) Now take this Book of Seal to Avant-Garde, the Transformation Wizard on the 2nd floor of the Ivory Tower and you should be able …",
+   "header": "Hardin",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/30832-02.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/30832-02.html",
+   "quest": 10292,
+   "text": "Hardin: Wait a sec... I didn't mean that the information is right here, I just remember seeing a book mentioning Embryo when I last stayed at the Ivory Tower. I don't know what the book was about exactly, though, but, if you find the book, you might be able to find the information you have been loo…",
+   "header": "Hardin",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Where is the book?\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 30832-03.html",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "30832-03.html",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/30832-03.html"
+    }
+   ]
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-03.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-03.html",
+   "quest": 10296,
+   "text": "Hardin: Hahaha... I don't know what you think of me, but I see through the minds of pitiful humans like Franz. In the end, however, I've got what I wanted with the help of Elcadia and you have been made aware of the upcoming threats to this world. Of course I do not want to take any side...",
+   "header": "Hardin",
+   "links": [
+    {
+     "text": "\"Just get to the point.\"",
+     "bypass": "Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal 30832-04.html",
+     "kind": "quest-event",
+     "script": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "event": "30832-04.html",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-04.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Soultaker]",
+     "bypass": "npc_%objectId%_Quest Q00094_SagaOfTheSoultaker",
+     "kind": "quest",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Soultaker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00094_SagaOfTheSoultaker",
+     "kind": "quest",
+     "quest": 94,
+     "to": "Q00094_SagaOfTheSoultaker/0-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[More Than Meets The Eye]",
+     "bypass": "npc_%objectId%_Quest Q00136_MoreThanMeetsTheEye",
+     "kind": "quest",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[More Than Meets The Eye (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00136_MoreThanMeetsTheEye",
+     "kind": "quest",
+     "quest": 136,
+     "to": "Q00136_MoreThanMeetsTheEye/30832-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[An Arrogant Search (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00348_AnArrogantSearch",
+     "kind": "quest",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30832-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, Girl of Doubt (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10292_SevenSignsGirlOfDoubt",
+     "kind": "quest",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/30832-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, One Who Seeks the Power of the Seal (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "kind": "quest",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/30832-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

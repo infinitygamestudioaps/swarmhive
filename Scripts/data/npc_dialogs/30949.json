@@ -1,0 +1,226 @@
+{
+ "npcId": 30949,
+ "name": "Keplon",
+ "title": "Researcher",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.114Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/30949.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/30949.htm": {
+   "file": "default/30949.htm",
+   "quest": null,
+   "text": "Researcher Keplon: Hey, you! Do you not know how dangerous this place is? Your head might roll if you hang around here! Don't be stubborn - go back to town now!",
+   "header": "Researcher Keplon",
+   "live": {
+    "file": "Logs/toi_keplon.html",
+    "at": "2026-10-18T11:02:23.000Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "\"What the hell are you doing here then?\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30949-1.htm",
+     "live": true
+    },
+    {
+     "text": "\"What's so dangerous?\"",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/30949-3.htm",
+     "live": true
+    },
+    {
+     "text": "\"What is a Dimensional Vortex?\"",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "default/30949-4.htm",
+     "live": true
+    },
+    {
+     "text": "\"Do you have any Dimensional Stones on you?\"",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "default/30949-5.htm",
+     "live": true
+    },
+    {
+     "text": "Quest",
+     "bypass": "talk_select",
+     "kind": "other",
+     "live": true
+    }
+   ]
+  },
+  "default/30949-1.htm": {
+   "file": "default/30949-1.htm",
+   "quest": null,
+   "text": "Researcher Keplon: Good lord! You really won't listen to this old man. Young lads lately have problems...tsktsk... Ahem, anyway! I am one of the researchers dispatched by the Grey Column guild to research the Tower of Insolence! Our mission is to research the secrets of the tower, known as the grea…",
+   "header": "Researcher Keplon",
+   "links": [
+    {
+     "text": "\"Secret of the tower...?\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30949-2.htm"
+    },
+    {
+     "text": "\"What is a Dimensional Vortex?\"",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "default/30949-4.htm"
+    }
+   ]
+  },
+  "default/30949-2.htm": {
+   "file": "default/30949-2.htm",
+   "quest": null,
+   "text": "Researcher Keplon: As you are no doubt aware this tower is the greatest achievement of Baium, the last king of the Elmoreden Empire. It was a feat unimaginable to even the most advanced Human architects of that time. Baium kidnapped 10 Elven architects and forced them to design this spectacular tow…",
+   "header": "Researcher Keplon",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30949.htm"
+    }
+   ]
+  },
+  "default/30949-3.htm": {
+   "file": "default/30949-3.htm",
+   "quest": null,
+   "text": "Researcher Keplon: Don't you get it?! This tower is itself a battleground! I don't know what is on the top floor, only that there are many who seek it. Worst among them are Death Lord Hallate and his legion . Hallate is responsible for the destruction of the force field that once protected the towe…",
+   "header": "Researcher Keplon",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30949.htm"
+    }
+   ]
+  },
+  "default/30949-4.htm": {
+   "file": "default/30949-4.htm",
+   "quest": null,
+   "text": "Researcher Keplon: It's a device that allows for teleportation to different levels within the tower. I don't know exactly how it works, but after much trial and error, I found out that you can go to many different parts of the tower. So, in order to go to the Middle Level , you need a Blue Dimensio…",
+   "header": "Researcher Keplon",
+   "links": [
+    {
+     "text": "\"Who is Hallant?\"",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/30949-3.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30949.htm"
+    }
+   ]
+  },
+  "default/30949-5.htm": {
+   "file": "default/30949-5.htm",
+   "quest": null,
+   "text": "Researcher Keplon: Hm..Unfortunately I don't have enough Dimensional Stones myself... I could help you if you absolutely need them. I could sell some of mine to you?",
+   "header": "Researcher Keplon",
+   "live": {
+    "file": "Logs/toi_keplon_stones.html",
+    "at": "2026-10-18T11:02:31.000Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy a Green Dimensional Stone. (10,000 Adena)",
+     "bypass": "Quest ToIVortex GREEN",
+     "kind": "quest-event",
+     "script": "ToIVortex",
+     "event": "GREEN",
+     "to": null
+    },
+    {
+     "text": "Buy a Blue Dimensional Stone. (10,000 Adena)",
+     "bypass": "Quest ToIVortex BLUE",
+     "kind": "quest-event",
+     "script": "ToIVortex",
+     "event": "BLUE",
+     "to": null
+    },
+    {
+     "text": "Buy a Red Dimensional Stone. (10,000 Adena)",
+     "bypass": "Quest ToIVortex RED",
+     "kind": "quest-event",
+     "script": "ToIVortex",
+     "event": "RED",
+     "to": null
+    },
+    {
+     "text": "Buy a Green Dimensional Stone (100,000 Adena)",
+     "bypass": "live 00",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Buy a Blue Dimensional Stone (100,000 Adena)",
+     "bypass": "live 01",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Buy a Red Dimensional Stone (100,000 Adena)",
+     "bypass": "live 02",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Buy Green Dimensional Stones for the Party",
+     "bypass": "live 03",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Buy Blue Dimensional Stones for the Party",
+     "bypass": "live 04",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Buy Red Dimensional Stones for the Party",
+     "bypass": "live 05",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "default/30949-5.htm: datapack link \"Buy a Green Dimensional Stone. (10,000 Adena)\" not in the live page (Logs/toi_keplon_stones.html)",
+  "default/30949-5.htm: datapack link \"Buy a Blue Dimensional Stone. (10,000 Adena)\" not in the live page (Logs/toi_keplon_stones.html)",
+  "default/30949-5.htm: datapack link \"Buy a Red Dimensional Stone. (10,000 Adena)\" not in the live page (Logs/toi_keplon_stones.html)",
+  "default/30949-5.htm: live-only link \"Buy a Green Dimensional Stone (100,000 Adena)\" (server custom)",
+  "default/30949-5.htm: live-only link \"Buy a Blue Dimensional Stone (100,000 Adena)\" (server custom)",
+  "default/30949-5.htm: live-only link \"Buy a Red Dimensional Stone (100,000 Adena)\" (server custom)",
+  "default/30949-5.htm: live-only link \"Buy Green Dimensional Stones for the Party\" (server custom)",
+  "default/30949-5.htm: live-only link \"Buy Blue Dimensional Stones for the Party\" (server custom)",
+  "default/30949-5.htm: live-only link \"Buy Red Dimensional Stones for the Party\" (server custom)"
+ ]
+}

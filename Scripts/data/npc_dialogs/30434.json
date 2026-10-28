@@ -1,0 +1,283 @@
+{
+ "npcId": 30434,
+ "name": "Samed",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.976Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30434.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "325": {
+   "name": "Grim Collector",
+   "listText": [
+    "[Grim Collector]",
+    "[Grim Collector (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00325_GrimCollector/30434-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00325_GrimCollector/30434-04.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00325_GrimCollector/30434-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00325_GrimCollector/30434-08.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30434.htm": {
+   "file": "default/30434.htm",
+   "quest": null,
+   "text": "Samed: Hmm? How strange it is for someone to speak to me. Aren't you afraid of me? Everyone avoids me, whispering that I am a leper or a pagan. They are a foolish race that is afraid or jealous if something is slightly different from themselves ... Well ...! It is rather better for me. It is comfor…",
+   "header": "Samed",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00325_GrimCollector/30434-01.html": {
+   "file": "Q00325_GrimCollector/30434-01.html",
+   "quest": 325,
+   "text": "Samed: What could a humble person like me have to ask you? It would be nice if you just left me alone so I could live quietly...",
+   "header": "Samed",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Say that Curtis sent you",
+     "bypass": "Quest Q00325_GrimCollector 30434-02.htm",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "30434-02.htm",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30434-02.htm"
+    }
+   ]
+  },
+  "Q00325_GrimCollector/30434-04.html": {
+   "file": "Q00325_GrimCollector/30434-04.html",
+   "quest": 325,
+   "text": "Samed: You have returned already? I see you have not found the items I asked you for. I am very disappointed... I will explain to you again, so listen carefully. Go to the Ruins of Despair or the Ruins of Agony and find me the corpse pieces of the undead and I will give you an ample reward. If you …",
+   "header": "Samed",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit.",
+     "bypass": "Quest Q00325_GrimCollector 30434-06.html",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "30434-06.html",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30434-06.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue.",
+     "bypass": "Quest Q00325_GrimCollector 30434-07.html",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "30434-07.html",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30434-07.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00325_GrimCollector/30434-05.html": {
+   "file": "Q00325_GrimCollector/30434-05.html",
+   "quest": 325,
+   "text": "Samed: Did you come unseen by the guards? Do you have the items I asked you for? Give them to me before the smell of decay fills the village!",
+   "header": "Samed",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Calculate items",
+     "bypass": "Quest Q00325_GrimCollector 30434-07.html",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "30434-07.html",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30434-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00325_GrimCollector 30434-06.html",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "30434-06.html",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30434-06.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00325_GrimCollector/30434-08.html": {
+   "file": "Q00325_GrimCollector/30434-08.html",
+   "quest": 325,
+   "text": "Samed: Ohh! You brought back a Complete Skeleton! You haven't dug up some cemetery, have you? Well, hand it over to me before the villagers see!",
+   "header": "Samed",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Calculate Complete Skeleton",
+     "bypass": "Quest Q00325_GrimCollector 30434-09.html",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "30434-09.html",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30434-09.html"
+    },
+    {
+     "text": "Calculate corpse pieces",
+     "bypass": "Quest Q00325_GrimCollector 30434-07.html",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "30434-07.html",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30434-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00325_GrimCollector 30434-06.html",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "30434-06.html",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30434-06.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00325_GrimCollector/30434-02.htm": {
+   "file": "Q00325_GrimCollector/30434-02.htm",
+   "quest": 325,
+   "text": "Samed: Hmm? So you came to me for a job. Well, are you thinking of going to the ruins? If you find me a few things from there, I will generously reward you afterwards. Though I am not sure whether you will come back alive from that place that crawls with zombies and skeletons. You must find me corp…",
+   "header": "Samed",
+   "links": [
+    {
+     "text": "Ask about the corpse pieces",
+     "bypass": "Quest Q00325_GrimCollector 30434-03.html",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "30434-03.html",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30434-03.html"
+    }
+   ]
+  },
+  "Q00325_GrimCollector/30434-03.html": {
+   "file": "Q00325_GrimCollector/30434-03.html",
+   "quest": 325,
+   "text": "Samed: Collect corpse pieces from the Ruins of Despair or the Ruins of Agony. If you don't know how to find the ruins, ask Guard Curtis or Guard Babenco. From the zombies, bring their head, heart, and liver. From the skeletons, bring the skull, spine, rib, arm bone, and thigh bone. I also need bone…",
+   "header": "Samed",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00325_GrimCollector/30434-06.html": {
+   "file": "Q00325_GrimCollector/30434-06.html",
+   "quest": 325,
+   "text": "Samed: You seem exhausted from dealing with the dead souls. Well, it may have been too difficult for someone like you, who has lived only in the bright world. But I keep my promises, don't I? I will compensate you for the number of items you have brought. I have put the money in this coin purse, so…",
+   "header": "Samed",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00325_GrimCollector/30434-07.html": {
+   "file": "Q00325_GrimCollector/30434-07.html",
+   "quest": 325,
+   "text": "Samed: Then I will pay you according to the number of corpse pieces you have brought. Keep up the good work. Ah! And let me give you one word of advice. You do not need to be frightened by the undead of the ruins. They move by the power of black magic, but they are really just decayed pieces of mea…",
+   "header": "Samed",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00325_GrimCollector/30434-09.html": {
+   "file": "Q00325_GrimCollector/30434-09.html",
+   "quest": 325,
+   "text": "Samed: As I promised, I will compensate you according to the number of remains. I have filled this pouch full of coins so keep it safe. Looking at your pocket, I see you have many small corpse pieces in addition to Complete Skeletons. Give them to me before the smell of decay fills the village!",
+   "header": "Samed",
+   "links": [
+    {
+     "text": "Calculate corpse pieces",
+     "bypass": "Quest Q00325_GrimCollector 30434-07.html",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "30434-07.html",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30434-07.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00325_GrimCollector 30434-06.html",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "30434-06.html",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30434-06.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Grim Collector (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00325_GrimCollector",
+     "kind": "quest",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30434-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

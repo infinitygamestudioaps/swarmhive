@@ -1,0 +1,236 @@
+{
+ "npcId": 32164,
+ "name": "Erinu",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.349Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/32164.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "286": {
+   "name": "Fabulous Feathers",
+   "listText": [
+    "[Fabulous Feathers]",
+    "[Fabulous Feathers (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00286_FabulousFeathers/32164-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00286_FabulousFeathers/32164-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00286_FabulousFeathers/32164-04.html",
+     "when": "state STARTED; (qs.isCond(2) && hasItemsAtLimit(player, COMMANDERS_FEATHER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00286_FabulousFeathers/32164-05.html",
+     "when": "state STARTED; NOT (qs.isCond(2) && hasItemsAtLimit(player, COMMANDERS_FEATHER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/32164.htm": {
+   "file": "merchant/32164.htm",
+   "quest": null,
+   "text": "Trader Erinu: Welcome! Adventurers should know how to equip themselves at any given moment. If it were like it was before, I could give away some freebies to help you out, but there are so many adventurers nowadays and I have to import the equipment from overseas, so... Well, the most important thi…",
+   "header": "Trader Erinu",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/32164-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3216400",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3216401",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/32164-1.htm": {
+   "file": "merchant/32164-1.htm",
+   "quest": null,
+   "text": "Trader Erinu: Tell me what you'd like.",
+   "header": "Trader Erinu",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3216400",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3216401",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "Q00286_FabulousFeathers/32164-01.htm": {
+   "file": "Q00286_FabulousFeathers/32164-01.htm",
+   "quest": 286,
+   "text": "Trader Erinu: I've heard that you are ready to enter Nornil's Cave. That means that the time is also drawing near for you to leave this island. Well, they say that the mainland is also filled with adventure. Before you leave, though, would you do me a small favor by retrieving something for me from…",
+   "header": "Trader Erinu",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Ask what it is.",
+     "bypass": "Quest Q00286_FabulousFeathers 32164-03.htm",
+     "kind": "quest-event",
+     "script": "Q00286_FabulousFeathers",
+     "event": "32164-03.htm",
+     "quest": 286,
+     "to": "Q00286_FabulousFeathers/32164-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00286_FabulousFeathers/32164-02.htm": {
+   "file": "Q00286_FabulousFeathers/32164-02.htm",
+   "quest": 286,
+   "text": "Trader Erinu: How is your training progressing? When you need more challenges than this island can offer, please come and see me again. (Only characters who are level 17 or higher may undertake this quest.)",
+   "header": "Trader Erinu",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00286_FabulousFeathers/32164-04.html": {
+   "file": "Q00286_FabulousFeathers/32164-04.html",
+   "quest": 286,
+   "text": "Trader Erinu: Ah, you've returned with 80 Muertos feathers? Well done! I hear that the noble women who inhabit those big mainland castles are eager for large fans made from these feathers. Naturally, I'll buy them from you for a fair price. Let's see...how does 4,160 Adena sound?",
+   "header": "Trader Erinu",
+   "when": [
+    "state STARTED; (qs.isCond(2) && hasItemsAtLimit(player, COMMANDERS_FEATHER))"
+   ],
+   "links": [
+    {
+     "text": "Accept",
+     "bypass": "Quest Q00286_FabulousFeathers 32164-06.html",
+     "kind": "quest-event",
+     "script": "Q00286_FabulousFeathers",
+     "event": "32164-06.html",
+     "quest": 286,
+     "to": "Q00286_FabulousFeathers/32164-06.html",
+     "toAll": [
+      "Q00286_FabulousFeathers/32164-06.html",
+      "Q00286_FabulousFeathers/32164-07.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00286_FabulousFeathers/32164-05.html": {
+   "file": "Q00286_FabulousFeathers/32164-05.html",
+   "quest": 286,
+   "text": "Trader Erinu: Bring me 80 Muertos feathers and I'll pay you well! You can obtain the feathers by defeating the Shady Muertos Captains, Warriors, Archers, Leaders and Magicians that inhabit Nornil's Cave.",
+   "header": "Trader Erinu",
+   "when": [
+    "state STARTED; NOT (qs.isCond(2) && hasItemsAtLimit(player, COMMANDERS_FEATHER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00286_FabulousFeathers/32164-03.htm": {
+   "file": "Q00286_FabulousFeathers/32164-03.htm",
+   "quest": 286,
+   "text": "Trader Erinu: When you enter Nornil's Cave, you will encounter bird-like humanoid creatures called Muertos. Among them are Captains, Warriors, Archers, Leaders and Wizards , all of which can be distinguished by their powerful wings. Some Humans will pay a premium for Muertos feathers to use as deco…",
+   "header": "Trader Erinu",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00286_FabulousFeathers/32164-06.html": {
+   "file": "Q00286_FabulousFeathers/32164-06.html",
+   "quest": 286,
+   "text": "Trader Erinu: Good! It's a deal, then. Well, we've managed to fill one box, but we can certainly sell more if you're willing to go back and collect another batch of feathers.",
+   "header": "Trader Erinu",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00286_FabulousFeathers/32164-07.html": {
+   "file": "Q00286_FabulousFeathers/32164-07.html",
+   "quest": 286,
+   "text": "Trader Erinu: Very well. Then just give me the feather...huh? What did you do with the feather you just showed me? Give it to me!",
+   "header": "Trader Erinu",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Fabulous Feathers]",
+     "bypass": "npc_%objectId%_Quest Q00286_FabulousFeathers",
+     "kind": "quest",
+     "quest": 286,
+     "to": "Q00286_FabulousFeathers/32164-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Fabulous Feathers (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00286_FabulousFeathers",
+     "kind": "quest",
+     "quest": 286,
+     "to": "Q00286_FabulousFeathers/32164-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

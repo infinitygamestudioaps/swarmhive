@@ -1,0 +1,81 @@
+{
+ "npcId": 30709,
+ "name": "Norton",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.058Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30709.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30709.htm": {
+   "file": "guard/30709.htm",
+   "quest": null,
+   "text": "Guard Norton: Welcome to Hunters Village! Normally ruffians gather here, but recently I've been seeing more and more normal people like you around. I will ask you a favor though... please don't stir up any commotions. To the south of the Hunters Village is Dragon Valley, and over by Castle Giran, G…",
+   "header": "Guard Norton",
+   "links": [
+    {
+     "text": "Ask about Dragon Valley.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30709-1.htm"
+    },
+    {
+     "text": "Ask about Giran Castle Town.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30709-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30709-1.htm": {
+   "file": "guard/30709-1.htm",
+   "quest": null,
+   "text": "Guard Norton: You will find the Valley of Dragons south of the village. To reach the entrance of the valley you must go by Hardin's Academy and go west. The Valley of Dragons got its name from the legend that dragons come to the valley to die. But there is one dragon whom death does not threaten. H…",
+   "header": "Guard Norton",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30709.htm"
+    }
+   ]
+  },
+  "guard/30709-2.htm": {
+   "file": "guard/30709-2.htm",
+   "quest": null,
+   "text": "Guard Norton: Giran has become rich as a result of the business acumen of Lord Carmon Esdus. Giran Castle Town is located below Giran Castle. This town is more complex and splendid than most other towns. The Trader's Guild Headquarters and the harbor guarantee a thriving manufacturing sector. On th…",
+   "header": "Guard Norton",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30709.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

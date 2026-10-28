@@ -1,0 +1,50 @@
+{
+ "npcId": 35642,
+ "name": "Fortress Guard",
+ "title": "",
+ "type": "L2CastleDoormen",
+ "generated": "2026-10-27T18:18:03.438Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "doormen/35642.htm",
+   "when": "",
+   "src": "html/doormen"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "doormen/35642.htm": {
+   "file": "doormen/35642.htm",
+   "quest": null,
+   "text": "Please, settle our clan's old scores! By the way, what was it you wanted?",
+   "links": [
+    {
+     "text": "\"Open the door.\"",
+     "bypass": "npc_%objectId%_open_doors 1, 21170005, 21170006",
+     "kind": "other"
+    },
+    {
+     "text": "\"Close the door.\"",
+     "bypass": "npc_%objectId%_close_doors 1, 21170005, 21170006",
+     "kind": "other"
+    }
+   ]
+  },
+  "doormen/35642-busy.htm": {
+   "file": "doormen/35642-busy.htm",
+   "quest": null,
+   "text": "Oh! Our castle is being attacked and I can't do anything for you right now.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "doormen/35642-no.htm": {
+   "file": "doormen/35642-no.htm",
+   "quest": null,
+   "text": "Ha! Are you kidding? Get out of here quick or you'll regret it!",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

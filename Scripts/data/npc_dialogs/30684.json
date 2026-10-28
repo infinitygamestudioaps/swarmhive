@@ -1,0 +1,502 @@
+{
+ "npcId": 30684,
+ "name": "Viktor",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.039Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30684.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "213": {
+   "name": "Trial Of The Seeker",
+   "listText": [
+    "[Trial of the Seeker]",
+    "[Trial of the Seeker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00213_TrialOfTheSeeker/30684-01.html",
+     "when": "state STARTED; has items 2650",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30684-12.html",
+     "when": "state STARTED; has items 2652; lacks items 2650",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30684-13.html",
+     "when": "state STARTED; has items 2659; lacks items 2650,2652; getQuestItemsCount(player, MEDUSA_SCALES) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30684-14.html",
+     "when": "state STARTED; has items 2659; lacks items 2650,2652; !getQuestItemsCount(player, MEDUSA_SCALES) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30684-16.html",
+     "when": "state STARTED; has items 2661,2662; lacks items 2650,2652,2659",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30684-17.html",
+     "when": "state STARTED; has items 2663,2664,2662,2672; lacks items 2650,2652,2659,2661,2662",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00213_TrialOfTheSeeker/30684-05.html",
+     "when": "state STARTED; has items 2651; lacks items 2650,2652,2659,2661,2662,2663,2664,2672",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30684.htm": {
+   "file": "merchant/30684.htm",
+   "quest": null,
+   "text": "Trader Viktor: Welcome, customer! Are here to hunt the Unicorn? The Prime? Perhaps the Satyr? Make sure you equip yourself accordingly. The Valley of Dragons, the Enchanted Valley, the Forest of Mirrors, the Giant's Cave -- these are no places for amateurs!",
+   "header": "Trader Viktor",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30684-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3068400",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3068401",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30684-1.htm": {
+   "file": "merchant/30684-1.htm",
+   "quest": null,
+   "text": "Trader Viktor: Well, let's see what you're looking for.",
+   "header": "Trader Viktor",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3068400",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3068401",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3068402",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3068403",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy a Shadow item",
+     "bypass": "npc_%objectId%_BuyShadowItem",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/30684-pk.htm": {
+   "file": "merchant/30684-pk.htm",
+   "quest": null,
+   "text": "Trader Viktor: There is n-n-n-no way w-w-w-we will ever s-s-sell anything to y-y-you! Puh, puh, please just leave us! Or else... Or else... I will call Master Erikin! He will r-r-r-rip you apart!",
+   "header": "Trader Viktor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30684-01.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-01.html",
+   "quest": 213,
+   "text": "Trader Viktor: A clairvoyant? Me? What do you mean? I never had such a nickname. You must be thinking about someone else. If you want to buy anything, I will treat you with respect. Otherwise, buzz off!",
+   "header": "Trader Viktor",
+   "when": [
+    "state STARTED; has items 2650"
+   ],
+   "links": [
+    {
+     "text": "Show him Terry's Letter.",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-02.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-02.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-02.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30684-12.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-12.html",
+   "quest": 213,
+   "text": "Trader Viktor: Yes I see that you are indeed sent by Hawkeye. I was already fairly certain... You are right, I am the clairvoyant Viktor. I see from the letter that this is a very serious matter.",
+   "header": "Trader Viktor",
+   "when": [
+    "state STARTED; has items 2652; lacks items 2650"
+   ],
+   "links": [
+    {
+     "text": "Show the letter from Hawkeye.",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-06.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-06.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-06.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30684-13.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-13.html",
+   "quest": 213,
+   "text": "Trader Viktor: Did you forget my request already? I asked you to find 10 scales of Medusa for me. I shall begin my research on the bezoars, trusting you to do your part.",
+   "header": "Trader Viktor",
+   "when": [
+    "state STARTED; has items 2659; lacks items 2650,2652; getQuestItemsCount(player, MEDUSA_SCALES) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30684-14.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-14.html",
+   "quest": 213,
+   "text": "Trader Viktor: 1, 2, 3... 10! Yes you have brought all 10 of them. Ha ha...This takes me one step further in my plan... Ha ha ha! Did I say that out loud? Never mind, I was just daydreaming... You have proven yourself and I shall give you the information you seek. While you were hunting I was study…",
+   "header": "Trader Viktor",
+   "when": [
+    "state STARTED; has items 2659; lacks items 2650,2652; !getQuestItemsCount(player, MEDUSA_SCALES) < 10"
+   ],
+   "links": [
+    {
+     "text": "\"What is the problem?\"",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-15.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-15.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-15.html",
+     "effect": "cond:11"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30684-16.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-16.html",
+   "quest": 213,
+   "text": "Trader Viktor: Find Magister Marina in the Ivory Tower of Oren. Don't forget to show her the letter that I gave you. She is an expert in this area.",
+   "header": "Trader Viktor",
+   "when": [
+    "state STARTED; has items 2661,2662; lacks items 2650,2652,2659"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30684-17.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-17.html",
+   "quest": 213,
+   "text": "Trader Viktor: I am sure Marina will be able to discover the secrets of the bezoar. Report her findings to Master Terry. Good luck!",
+   "header": "Trader Viktor",
+   "when": [
+    "state STARTED; has items 2663,2664,2662,2672; lacks items 2650,2652,2659,2661,2662"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30684-05.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-05.html",
+   "quest": 213,
+   "text": "Trader Viktor: You... Who are you? Bug off! If it is true that you have simply forgotten the name, then go back and find out what it is!",
+   "header": "Trader Viktor",
+   "when": [
+    "state STARTED; has items 2651; lacks items 2650,2652,2659,2661,2662,2663,2664,2672"
+   ],
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30684-02.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-02.html",
+   "quest": 213,
+   "text": "Trader Viktor: Terry? Who the hell is this? What idiot sent me this letter! What a pain in the ass. OK, well then, I'll give it a try. Wait...! This sign... Hawkeye?! Could this be true that Hawkeye is still alive? His name is now 'Master Terry'? Ha! Good joke! He had so many enemies that I thought…",
+   "header": "Trader Viktor",
+   "links": [
+    {
+     "text": "\"Hawkeye is still alive!\"",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-03.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-03.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-03.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30684-03.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-03.html",
+   "quest": 213,
+   "text": "Trader Viktor: That is wonderful news! Ha, what a surprise. By the way, if you are truly sent by Hawkeye, you should know what his real name is... What is it?",
+   "header": "Trader Viktor",
+   "links": [
+    {
+     "text": "Alberto Terrious",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-04.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-04.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-04.html"
+    },
+    {
+     "text": "Altebar Karryos",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-06.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-06.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-06.html"
+    },
+    {
+     "text": "Terrious junior",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-04.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-04.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-04.html"
+    },
+    {
+     "text": "Terry",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-04.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-04.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-04.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30684-04.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-04.html",
+   "quest": 213,
+   "text": "Trader Viktor: Well, we'll just chalk that one up to a fuzzy memory. Tell me again! What is his real name?",
+   "header": "Trader Viktor",
+   "links": [
+    {
+     "text": "Alberto Terrious",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-05.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-05.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-05.html",
+     "effect": "cond:7"
+    },
+    {
+     "text": "Altebar Karryos",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-06.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-06.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-06.html"
+    },
+    {
+     "text": "Terrious junior",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-05.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-05.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-05.html",
+     "effect": "cond:7"
+    },
+    {
+     "text": "Terry",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-05.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-05.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-05.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30684-06.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-06.html",
+   "quest": 213,
+   "text": "Trader Viktor: Yes I see that you are indeed sent by Hawkeye. I thought I recognized his handwriting... You are right, I am the clairvoyant Viktor. By the way, I see from the letter that it is regarding a very serious matter.",
+   "header": "Trader Viktor",
+   "links": [
+    {
+     "text": "Show him the bezoars.",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-07.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-07.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-07.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30684-07.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-07.html",
+   "quest": 213,
+   "text": "Trader Viktor: Hmm, what is this? So these are the bezoars...Ok, I see. You want me to check out these bezoars? You must realize that there is no such thing as pro bono in my occupation. I am sure you are aware of that already? Even though you were probably sent by the Hawkeye, my services won't be…",
+   "header": "Trader Viktor",
+   "links": [
+    {
+     "text": "\"Yes\"",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-08.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-08.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-08.html"
+    },
+    {
+     "text": "\"No\"",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-09.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-09.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-09.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30684-08.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-08.html",
+   "quest": 213,
+   "text": "Trader Viktor: Don't lie to me, mister. I can tell by your shabby clothes that you have nothing of value. That equipment? Worthless!",
+   "header": "Trader Viktor",
+   "links": [
+    {
+     "text": "\"Then what is it that you want?\"",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-10.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-10.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-10.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30684-09.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-09.html",
+   "quest": 213,
+   "text": "Trader Viktor: Hey, young fellow. Are you an idiot?",
+   "header": "Trader Viktor",
+   "links": [
+    {
+     "text": "\"Then what is it that you want?\"",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-10.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-10.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-10.html"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30684-10.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-10.html",
+   "quest": 213,
+   "text": "Trader Viktor: Hmm, let me think... Yes! I am involved in a secret project these days. I don't have the time to do everything alone. Would you please help me?",
+   "header": "Trader Viktor",
+   "links": [
+    {
+     "text": "Say you will do the favor.",
+     "bypass": "Quest Q00213_TrialOfTheSeeker 30684-11.html",
+     "kind": "quest-event",
+     "script": "Q00213_TrialOfTheSeeker",
+     "event": "30684-11.html",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-11.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00213_TrialOfTheSeeker/30684-11.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-11.html",
+   "quest": 213,
+   "text": "Trader Viktor: Ah, good, so we understand each other. Now that we have come to an understanding I feel closer to you. You seem to understand me. Anyway, let me fill you in on my project. In Giran there is a monster called the Medusa. Have you seen her already? This Medusa is, in fact...oops, no, th…",
+   "header": "Trader Viktor",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00213_TrialOfTheSeeker/30684-15.html": {
+   "file": "Q00213_TrialOfTheSeeker/30684-15.html",
+   "quest": 213,
+   "text": "Trader Viktor: The appearance of the pattern is very irregular. The probabilities are random and its condition is still a mystery. Moreover, I don't understand why the bezoar is only found in the body of an aggressive monster. We must send it to Marina to find out more specifics... She is a Magiste…",
+   "header": "Trader Viktor",
+   "sets": {
+    "cond": "11"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Seeker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00213_TrialOfTheSeeker",
+     "kind": "quest",
+     "quest": 213,
+     "to": "Q00213_TrialOfTheSeeker/30684-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

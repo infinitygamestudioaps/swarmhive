@@ -1,0 +1,432 @@
+{
+ "npcId": 30058,
+ "name": "Holvas",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.795Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30058.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "66": {
+   "name": "Certified Arbalester",
+   "listText": [
+    "[Certified Arbalester]",
+    "[Certified Arbalester (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00066_CertifiedArbalester/30058-01.html",
+     "when": "state STARTED; memoState < 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30058-02.html",
+     "when": "state STARTED; memo 7; !memoState < 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30058-06.html",
+     "when": "state STARTED; memo 8; !memoState < 7; getQuestItemsCount(player, MANUSCRIPT_PAGE) < 30",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30058-07.html",
+     "when": "state STARTED; memo 8; !memoState < 7; !getQuestItemsCount(player, MANUSCRIPT_PAGE) < 30",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30058-09.html",
+     "when": "state STARTED; memo 9; !memoState < 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/30058-10.html",
+     "when": "state STARTED; !memoState < 7; memoState > 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "363": {
+   "name": "Sorrowful Sound of Flute",
+   "listText": [
+    "[Sorrowful Sound of Flute]",
+    "[Sorrowful Sound of Flute (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30058-01.html",
+     "when": "state STARTED; memo 2; (st.getInt(\"ex\") % 1000) < 100",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30058-02.html",
+     "when": "state STARTED; memo 2; (st.getInt(\"ex\") % 1000) < 100",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30058-03.html",
+     "when": "state STARTED; memo 2; (st.getInt(\"ex\") % 1000) < 100",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00363_SorrowfulSoundOfFlute/30058-04.html",
+     "when": "state STARTED; !(st.isMemoState(2) && ((st.getInt(\"ex\") % 1000) < 100)); st.getMemoState() >= 2; (st.getInt(\"ex\") % 1000) >= 100",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30058.htm": {
+   "file": "warehouse/30058.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Holvas: This warehouse is as safe as our long experience and unique technology can make it. Why, we've never lost so much as a single Adena!",
+   "header": "Warehouse Keeper Holvas",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/30058-1.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/30058-2.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30058-1.htm": {
+   "file": "warehouse/30058-1.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Holvas:",
+   "header": "Warehouse Keeper Holvas",
+   "links": [
+    {
+     "text": "Deposit an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30058.htm"
+    }
+   ]
+  },
+  "warehouse/30058-2.htm": {
+   "file": "warehouse/30058-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Holvas:",
+   "header": "Warehouse Keeper Holvas",
+   "links": [
+    {
+     "text": "Deposit an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30058.htm"
+    }
+   ]
+  },
+  "warehouse/30058-noteach.htm": {
+   "file": "warehouse/30058-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Holvas: Get a grip on yourself. I teach Dwarven Fighters, Scavengers and Bounty Hunters only. If you are an Artisan, go to a Blacksmith.",
+   "header": "Warehouse Keeper Holvas",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30058-01.html": {
+   "file": "Q00066_CertifiedArbalester/30058-01.html",
+   "quest": 66,
+   "text": "Warehouse Keeper Holvas: Kamael... I am very curious about your race, but I'm afraid I'm absolutely swamped with work at the moment. Perhaps you could come back at another time...",
+   "header": "Warehouse Keeper Holvas",
+   "when": [
+    "state STARTED; memoState < 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30058-02.html": {
+   "file": "Q00066_CertifiedArbalester/30058-02.html",
+   "quest": 66,
+   "text": "Warehouse Keeper Holvas: Kamael! What a surprise! I have so many questions for you. Oh, don't be offended -- we Dwarves are simply naturally curious, you know... How can I help you?",
+   "header": "Warehouse Keeper Holvas",
+   "when": [
+    "state STARTED; memo 7; !memoState < 7"
+   ],
+   "links": [
+    {
+     "text": "Tell me about the book written by the Giants concerning the Kamael.",
+     "bypass": "Quest Q00066_CertifiedArbalester 30058-03.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30058-03.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30058-03.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30058-06.html": {
+   "file": "Q00066_CertifiedArbalester/30058-06.html",
+   "quest": 66,
+   "text": "Warehouse Keeper Holvas: The manuscript pieces are 30 pages in total ... Go to the execution ground and eliminate the Amber Basilisk, Strain, Ghoul, Granite Golem, Corpse Pursuer and Hanged Man Ripper . Please gather the pieces of the manuscript and bring them to me as quickly as you can...",
+   "header": "Warehouse Keeper Holvas",
+   "when": [
+    "state STARTED; memo 8; !memoState < 7; getQuestItemsCount(player, MANUSCRIPT_PAGE) < 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30058-07.html": {
+   "file": "Q00066_CertifiedArbalester/30058-07.html",
+   "quest": 66,
+   "text": "Warehouse Keeper Holvas: You did it! Well done! Let me examine this. Hmmm... as I expected, I am already familiar with most of this content. It covers your race's physical appearance and combat prowess. Interesting, but not particularly unique... Wait a moment...",
+   "header": "Warehouse Keeper Holvas",
+   "when": [
+    "state STARTED; memo 8; !memoState < 7; !getQuestItemsCount(player, MANUSCRIPT_PAGE) < 30"
+   ],
+   "links": [
+    {
+     "text": "What is it?",
+     "bypass": "Quest Q00066_CertifiedArbalester 30058-08.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30058-08.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30058-08.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30058-09.html": {
+   "file": "Q00066_CertifiedArbalester/30058-09.html",
+   "quest": 66,
+   "text": "Warehouse Keeper Holvas: When I hold these pages up to the light, I can see hidden words here Hmmm... These words are similar to the Kamael tongue, but they seem somehow older... Besides being written in a dead language, it also appears to be written in a code that I can't decipher... If you have s…",
+   "header": "Warehouse Keeper Holvas",
+   "when": [
+    "state STARTED; memo 9; !memoState < 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30058-10.html": {
+   "file": "Q00066_CertifiedArbalester/30058-10.html",
+   "quest": 66,
+   "text": "Warehouse Keeper Holvas: I do not have any items that would interest you at the moment. Please come again later.",
+   "when": [
+    "state STARTED; !memoState < 7; memoState > 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30058-01.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30058-01.html",
+   "quest": 363,
+   "text": "Warehouse Keeper Holvas: What would Barbado like? Well, recently he was complaining about not having anything to wear to an event... Maybe he would like a new outfit!",
+   "header": "Warehouse Keeper Holvas",
+   "when": [
+    "state STARTED; memo 2; (st.getInt(\"ex\") % 1000) < 100"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30058-02.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30058-02.html",
+   "quest": 363,
+   "text": "Warehouse Keeper Holvas: Hmmm, what would Barbado like to have? Well, he is a musician and has expressed an interest in learning to play a new instrument... Yes, I believe he mentioned that he wanted to learn to play the flute!",
+   "header": "Warehouse Keeper Holvas",
+   "when": [
+    "state STARTED; memo 2; (st.getInt(\"ex\") % 1000) < 100"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30058-03.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30058-03.html",
+   "quest": 363,
+   "text": "Warehouse Keeper Holvas: I think Barbado would be happiest with a cold black beer after one of his musical performances!",
+   "header": "Warehouse Keeper Holvas",
+   "when": [
+    "state STARTED; memo 2; (st.getInt(\"ex\") % 1000) < 100"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00363_SorrowfulSoundOfFlute/30058-04.html": {
+   "file": "Q00363_SorrowfulSoundOfFlute/30058-04.html",
+   "quest": 363,
+   "text": "Warehouse Keeper Holvas: You know, come to think of it, a beer sounds pretty good to me, too! If you have the time, could you bring me one?",
+   "header": "Warehouse Keeper Holvas",
+   "when": [
+    "state STARTED; !(st.isMemoState(2) && ((st.getInt(\"ex\") % 1000) < 100)); st.getMemoState() >= 2; (st.getInt(\"ex\") % 1000) >= 100"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30058-03.html": {
+   "file": "Q00066_CertifiedArbalester/30058-03.html",
+   "quest": 66,
+   "text": "Warehouse Keeper Holvas: How do you know about that?",
+   "header": "Warehouse Keeper Holvas",
+   "links": [
+    {
+     "text": "I chanced to hear it from Poitan.",
+     "bypass": "Quest Q00066_CertifiedArbalester 30058-04.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30058-04.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30058-04.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30058-04.html": {
+   "file": "Q00066_CertifiedArbalester/30058-04.html",
+   "quest": 66,
+   "text": "Warehouse Keeper Holvas: Is that so? Well, if Poitan saw fit to tell you, then I guess I can tell you as well. There are many people who are curious about you, you know... That's why I think I can sell this manuscript for a handsome price! I was able to procure the manuscript secretly, and I intend…",
+   "header": "Warehouse Keeper Holvas",
+   "links": [
+    {
+     "text": "Agree.",
+     "bypass": "Quest Q00066_CertifiedArbalester 30058-05.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "30058-05.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30058-05.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/30058-05.html": {
+   "file": "Q00066_CertifiedArbalester/30058-05.html",
+   "quest": 66,
+   "text": "Warehouse keeper Holvas: Eliminate the Amber Basilisk, Strain, Ghoul, Granite Golem, Corpse Pursuer and Hanged Man Ripper . Then please gather the pieces of the manuscript -- it should be about 30 pages ... Please be careful...",
+   "header": "Warehouse keeper Holvas",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/30058-08.html": {
+   "file": "Q00066_CertifiedArbalester/30058-08.html",
+   "quest": 66,
+   "text": "Warehouse Keeper Holvas: When I hold these pages up to the light, I can see hidden words here Hmmm... These words are similar to the Kamael tongue, but they seem somehow older... Besides being written in a dead language, it also appears to be written in a code that I can't decipher... If you have s…",
+   "header": "Warehouse Keeper Holvas",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Arbalester (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00066_CertifiedArbalester",
+     "kind": "quest",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/30058-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Sorrowful Sound of Flute (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00363_SorrowfulSoundOfFlute",
+     "kind": "quest",
+     "quest": 363,
+     "to": "Q00363_SorrowfulSoundOfFlute/30058-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

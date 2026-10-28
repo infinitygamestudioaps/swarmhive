@@ -1,0 +1,101 @@
+{
+ "npcId": 32282,
+ "name": "Yiyen",
+ "title": "Archaeologist",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.367Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32282.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32282.htm": {
+   "file": "default/32282.htm",
+   "quest": null,
+   "text": "Yiyen: Yikes! That was a surprise. ... I'm sorry. I didn't mean to act so shocked -- it's just so unusual to see people in this area... My name is Yiyen, and I'm an archeologist searching for a magical ruin that may be responsible for some strange phenomena on the Isle of Prayer. Thank the gods, I …",
+   "header": "Yiyen",
+   "links": [
+    {
+     "text": "Ask about the interior of the Mansion.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32282-1.htm"
+    },
+    {
+     "text": "Ignore her and enter the Darkcloud Mansion.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/32282-2.htm"
+    }
+   ]
+  },
+  "default/32282-1.htm": {
+   "file": "default/32282-1.htm",
+   "quest": null,
+   "text": "Yiyen: Ah, that is... I'm sorry. To tell you the truth, I haven't actually been inside either. Perhaps I should have gone in, but I've been so busy investigating the surroundings, finding a place to stay and writing letters to my father. I've been procrastinating, I know. ... No, no, no -- it's not…",
+   "header": "Yiyen",
+   "links": [
+    {
+     "text": "Enter the Dark Cloud Mansion",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/32282-2.htm"
+    }
+   ]
+  },
+  "default/32282-2.htm": {
+   "file": "default/32282-2.htm",
+   "quest": null,
+   "text": "Yiyen: Ah, wait! There is a force field within the building. You may only enter under certain conditions. Did i already tell you about this? Did you find out from someone else? ... I'm so absent-minded these days",
+   "header": "Yiyen",
+   "links": [
+    {
+     "text": "Ask about how to enter the Mansion.",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/32282-3.htm"
+    },
+    {
+     "text": "Ignore her and enter the Dark Cloud Mansion.",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "default/32282-4.htm"
+    }
+   ]
+  },
+  "default/32282-3.htm": {
+   "file": "default/32282-3.htm",
+   "quest": null,
+   "text": "Yiyen: So impatient! Good manners never hurt anyone, you know... Oh, well, so you wish to know about the requirements for entry? Very well. First of all, the magical characters above the entrance signify two people holding hands. I interpret this to mean that one person alone will not be granted en…",
+   "header": "Yiyen",
+   "links": [
+    {
+     "text": "Enter the Dark Cloud Mansion.",
+     "bypass": "npc_%objectId%_Quest DarkCloudMansion",
+     "kind": "quest",
+     "script": "DarkCloudMansion"
+    }
+   ]
+  },
+  "default/32282-4.htm": {
+   "file": "default/32282-4.htm",
+   "quest": null,
+   "text": "Yiyen:",
+   "header": "Yiyen",
+   "links": [
+    {
+     "text": "Enter the Dark Cloud Mansion.",
+     "bypass": "npc_%objectId%_Quest DarkCloudMansion",
+     "kind": "quest",
+     "script": "DarkCloudMansion"
+    }
+   ]
+  }
+ }
+}

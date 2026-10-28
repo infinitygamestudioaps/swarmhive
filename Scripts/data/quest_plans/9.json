@@ -2,7 +2,7 @@
  "id": 9,
  "name": "Into the City of Humans",
  "version": 1,
- "generated": "2026-10-27T11:14:35.682Z",
+ "generated": "2026-10-27T18:18:15.875Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 3,
@@ -232,104 +232,6 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:30576",
-   "cond": 1,
-   "kind": "talk",
-   "to": "end",
-   "links": [
-    "\"Yes I do.\""
-   ],
-   "npc": {
-    "id": 30576,
-    "name": "Tamil",
-    "title": "Gatekeeper",
-    "town": "Orc Village",
-    "at": [
-     -45264,
-     -112512,
-     -240
-    ],
-    "alt": []
-   },
-   "text": "Talk to Seer Tanapi",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30576@-45264,-112512",
-    "status": "ok",
-    "flags": [],
-    "from": ".schuttgart",
-    "length": 127,
-    "sec": 46,
-    "via": ".schuttgart > Schuttgart -> Orc Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Schuttgart",
-      "cmd": ".schuttgart"
-     },
-     {
-      "do": "gk",
-      "from": "Schuttgart",
-      "desc": "Schuttgart -> Orc Village",
-      "link": "orc village",
-      "price": 13000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 127,
-      "how": "town-graph",
-      "danger": 2
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Schuttgart",
-     "desc": "Schuttgart -> Orc Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -45158,
-      -112583,
-      -240
-     ],
-     [
-      -45160,
-      -112584,
-      -240
-     ],
-     [
-      -45256,
-      -112504,
-      -240
-     ]
-    ],
-    "maxDanger": 2,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 2,
-     "dangerVsLevel": -1,
-     "aggro": []
-    }
-   },
-   "expectedSec": 71,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2
-   ]
-  },
-  {
-   "i": 2,
    "key": "c1:talk:30571",
    "cond": 1,
    "kind": "talk",
@@ -659,13 +561,110 @@
    "conds": [
     1
    ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30576",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Yes I do.\""
+   ],
+   "npc": {
+    "id": 30576,
+    "name": "Tamil",
+    "title": "Gatekeeper",
+    "town": "Orc Village",
+    "at": [
+     -45264,
+     -112512,
+     -240
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gatekeeper Tamil – Complete the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30576@-45264,-112512",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 127,
+    "sec": 46,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 127,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45256,
+      -112504,
+      -240
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
   }
  ],
  "override": {
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:14:35.688Z",
+  "at": "2026-10-27T18:18:15.904Z",
   "pass": true,
   "geo": true,
   "fails": [],

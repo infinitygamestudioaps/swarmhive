@@ -1,0 +1,112 @@
+{
+ "npcId": 30662,
+ "name": "Piper Longbow",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.028Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30662.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "226": {
+   "name": "Test Of The Healer",
+   "listText": [
+    "[Test of the Healer]",
+    "[Test of the Healer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00226_TestOfTheHealer/30662-01.html",
+     "when": "state STARTED; memo 8; has items 2816; lacks items 2817",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30662-02.html",
+     "when": "state STARTED; memo 8; has items 2817; lacks items 2818,2819; !(hasQuestItems(player, SECRET_LETTER1) && !hasQuestItems(player, SECRET_LETTER2))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30662-03.html",
+     "when": "state STARTED; memo 8; has items 2817,2818,2819; !(hasQuestItems(player, SECRET_LETTER1) && !hasQuestItems(player, SECRET_LETTER2)); !(hasQuestItems(player, SECRET_LETTER2) && !hasQuestItems(player, SECRET_LETTER3, SECRET_LETTER4))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30662.htm": {
+   "file": "default/30662.htm",
+   "quest": null,
+   "text": "Piper Longbow: Traveler, this is a dangerous place where Shilen's malignant spirits wander freely. For your safety, I encourage you to take another route for your journey.",
+   "header": "Piper Longbow",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00226_TestOfTheHealer/30662-01.html": {
+   "file": "Q00226_TestOfTheHealer/30662-01.html",
+   "quest": 226,
+   "text": "Piper Longbow: My name is Piper. I was sent by Daurin to help you. I have been following a mysterious Dark Elf , he is nearby. Did you hear that? Let's investigate...",
+   "header": "Piper Longbow",
+   "when": [
+    "state STARTED; memo 8; has items 2816; lacks items 2817"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30662-02.html": {
+   "file": "Q00226_TestOfTheHealer/30662-02.html",
+   "quest": 226,
+   "text": "Piper Longbow: I think he saw us coming and ran away... Why was he at the altar? It seemed important, he may come back.",
+   "header": "Piper Longbow",
+   "when": [
+    "state STARTED; memo 8; has items 2817; lacks items 2818,2819; !(hasQuestItems(player, SECRET_LETTER1) && !hasQuestItems(player, SECRET_LETTER2))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30662-03.html": {
+   "file": "Q00226_TestOfTheHealer/30662-03.html",
+   "quest": 226,
+   "text": "Piper Longbow: I have found the saint that you were looking for! She is in a tent near the Altar of Rites ! Go and see her now!",
+   "header": "Piper Longbow",
+   "when": [
+    "state STARTED; memo 8; has items 2817,2818,2819; !(hasQuestItems(player, SECRET_LETTER1) && !hasQuestItems(player, SECRET_LETTER2)); !(hasQuestItems(player, SECRET_LETTER2) && !hasQuestItems(player, SECRET_LETTER3, SECRET_LETTER4))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Healer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00226_TestOfTheHealer",
+     "kind": "quest",
+     "quest": 226,
+     "to": "Q00226_TestOfTheHealer/30662-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

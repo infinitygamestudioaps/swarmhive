@@ -1,0 +1,147 @@
+{
+ "npcId": 36490,
+ "name": "Territory Manager",
+ "title": "Gludio",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.461Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/TerritoryManagers/36490-08.html",
+   "when": "((player.getClassId().level() < 2) || (player.getLevel() < 40))",
+   "src": "ai TerritoryManagers"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/TerritoryManagers/36490-08.html": {
+   "file": "ai/npc/TerritoryManagers/36490-08.html",
+   "quest": null,
+   "text": "You require more training. (You must have completed your 2nd class transfer and be at least level 40.)",
+   "when": [
+    "((player.getClassId().level() < 2) || (player.getLevel() < 40))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/TerritoryManagers/36490-02.html": {
+   "file": "ai/npc/TerritoryManagers/36490-02.html",
+   "quest": null,
+   "text": "We all want peace and prosperity... But if you want to be able to purchase special products or advance to higher positions, you must first do something of merit for this territory. Show me your badge and I'll show you as many special products as you want!",
+   "links": [
+    {
+     "text": "Ask about badges.",
+     "bypass": "Quest TerritoryManagers 36490-03.html",
+     "kind": "quest-event",
+     "script": "TerritoryManagers",
+     "event": "36490-03.html",
+     "to": "ai/npc/TerritoryManagers/36490-03.html"
+    },
+    {
+     "text": "Quest",
+     "bypass": "Quest TerritoryManagers CalcRewards",
+     "kind": "quest-event",
+     "script": "TerritoryManagers",
+     "event": "CalcRewards",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/TerritoryManagers/36490-03.html": {
+   "file": "ai/npc/TerritoryManagers/36490-03.html",
+   "quest": null,
+   "text": "You can obtain the badge by carrying out various missions assigned by the lord during a Territory War. You may access his orders through the Territory Managers or by participating in the Territory War.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/TerritoryManagers/36490-04.html": {
+   "file": "ai/npc/TerritoryManagers/36490-04.html",
+   "quest": null,
+   "text": "Territory Manager: If you can prove you're qualified, I can personally appoint you as a Noblesse on the lord's behalf. Bring me %badge% territory badges to prove your worth. (Please note: doing this will cancel all Noblesse-related quests in your quest log.)",
+   "header": "Territory Manager",
+   "links": [
+    {
+     "text": "\"I have all that you require. Please make me a Noblesse!\"",
+     "bypass": "Quest TerritoryManagers MakeMeNoble",
+     "kind": "quest-event",
+     "confirm": "2964",
+     "script": "TerritoryManagers",
+     "event": "MakeMeNoble",
+     "to": "ai/npc/TerritoryManagers/36490-02.html",
+     "toAll": [
+      "ai/npc/TerritoryManagers/36490-02.html",
+      "ai/npc/TerritoryManagers/36490-05.html",
+      "ai/npc/TerritoryManagers/36490-06.html"
+     ]
+    }
+   ]
+  },
+  "ai/npc/TerritoryManagers/36490-05.html": {
+   "file": "ai/npc/TerritoryManagers/36490-05.html",
+   "quest": null,
+   "text": "Aren't you already Noblesse? Is your strength simply a charade?",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/TerritoryManagers/36490-06.html": {
+   "file": "ai/npc/TerritoryManagers/36490-06.html",
+   "quest": null,
+   "text": "In order to be recognized as Noblesse, you must be level 75 or higher.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/TerritoryManagers/36490-07.html": {
+   "file": "ai/npc/TerritoryManagers/36490-07.html",
+   "quest": null,
+   "text": "Congratulations! You are now a mighty Noble. Act honorably and win fame and glory for yourself!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/TerritoryManagers/36490.html": {
+   "file": "ai/npc/TerritoryManagers/36490.html",
+   "quest": null,
+   "text": "Territory Manager: I'm a merchant dispatched by the lord in order to announce his intentions and distribute special products to his subjects. I'm also in charge of assigning tasks for certain positions.",
+   "header": "Territory Manager",
+   "links": [
+    {
+     "text": "Buy special products.",
+     "bypass": "Quest TerritoryManagers BuyProducts",
+     "kind": "quest-event",
+     "script": "TerritoryManagers",
+     "event": "BuyProducts",
+     "to": "ai/npc/TerritoryManagers/36490-02.html"
+    },
+    {
+     "text": "Make me a Noblesse.",
+     "bypass": "Quest TerritoryManagers 36490-04.html",
+     "kind": "quest-event",
+     "script": "TerritoryManagers",
+     "event": "36490-04.html",
+     "to": "ai/npc/TerritoryManagers/36490-04.html"
+    },
+    {
+     "text": "Tell me about badges.",
+     "bypass": "Quest TerritoryManagers 36490-03.html",
+     "kind": "quest-event",
+     "script": "TerritoryManagers",
+     "event": "36490-03.html",
+     "to": "ai/npc/TerritoryManagers/36490-03.html"
+    },
+    {
+     "text": "Ask about the fortress's current status.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "Quest TerritoryManagers CalcRewards",
+     "kind": "quest-event",
+     "script": "TerritoryManagers",
+     "event": "CalcRewards",
+     "to": null
+    }
+   ]
+  }
+ }
+}

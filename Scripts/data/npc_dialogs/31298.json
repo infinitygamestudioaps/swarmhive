@@ -1,0 +1,200 @@
+{
+ "npcId": 31298,
+ "name": "Ulrich",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.182Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/31298.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "74": {
+   "name": "Saga of the Dreadnought",
+   "listText": [
+    "[Saga of the Dreadnought]",
+    "[Saga of the Dreadnought (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00074_SagaOfTheDreadnought/2-01.htm",
+     "when": "cond 1; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00074_SagaOfTheDreadnought/2-02.htm",
+     "when": "cond 2; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00074_SagaOfTheDreadnought/2-03.htm",
+     "when": "cond 4; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00074_SagaOfTheDreadnought/2-04.htm",
+     "when": "cond 5; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/31298.htm": {
+   "file": "guard/31298.htm",
+   "quest": null,
+   "text": "Guard Ulrich: An adventurer, eh? Really?! You should be able to find plenty to keep you busy around here. East of this village you'll find Argos Wall , where thousands of gleaming eyes stare back at you! They're actually part of the wall! I'd like to see that myself someday...",
+   "header": "Guard Ulrich",
+   "links": [
+    {
+     "text": "\"Eyes in a stone wall?\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/31298-1.htm"
+    },
+    {
+     "text": "\"Who is the lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/31298-1.htm": {
+   "file": "guard/31298-1.htm",
+   "quest": null,
+   "text": "Guard Ulrich: Well, I'm just a guard, so I don't really know anything for sure... But I've heard people talk! When the giants were defeated after rebelling against the gods, Argos, the giant with 1,000 eyes, was buried alive in that valley! All those eyes embedded in the stone wall belong to him. W…",
+   "header": "Guard Ulrich",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31298.htm"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/2-01.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/2-01.htm",
+   "quest": 74,
+   "text": "Guard Ulrich: You must mean Leona Blackbird, the last lord of the manor in Giran. Yes, I saw her, all right! I summarized her accounts of her battles in this book! Considering your willingness to chase her, you must be an accomplished Warlord! Could I ask you a favor?",
+   "header": "Guard Ulrich",
+   "when": [
+    "cond 1; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Go ahead and ask.\"",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought 2-1",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "2-1",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/2-02.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/2-02.htm",
+   "quest": 74,
+   "text": "Guard Ulrich: I know this is quite sudden, but I don't have a choice. If you go to the hot springs region in the north and get some fish soup made by Chef Donath, I'll tell you everything Miss Leona told me.",
+   "header": "Guard Ulrich",
+   "when": [
+    "cond 2; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/2-03.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/2-03.htm",
+   "quest": 74,
+   "text": "Guard Ulrich: Thank you! My mother will be so happy to get this! Now I'll tell you what Miss Leona told me. She recounted an old story told by Valakas about a stone tablet with legendary power. She explained that the skills of a Warlord can be learned by watching a dragon, but to understand how a d…",
+   "header": "Guard Ulrich",
+   "when": [
+    "cond 4; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What is the Tablet of Vision?\"",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought 2-2",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "2-2",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/2-04.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/2-04.htm",
+   "quest": 74,
+   "text": "Guard Ulrich: She said that the first Tablet of Vision can be found on the south side of the Tower of Insolence. Did you put the Stone of Commune I gave you in a safe place?",
+   "header": "Guard Ulrich",
+   "when": [
+    "cond 5; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/2-05.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/2-05.htm",
+   "quest": 74,
+   "text": "Guard Ulrich: My mother is seriously ill! I've heard that dead souls fish soup might cure her, but it must be prepared by an excellent chef! Please visit Chef Donath in the hot springs region to the north and get some of this soup. Bring it to me and I'll tell you a story.",
+   "header": "Guard Ulrich",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/2-06.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/2-06.htm",
+   "quest": 74,
+   "text": "Guard Ulrich: The Tablets of Vision contain the secret power of the gods. They were divided and scattered throughout the world. Each must be paired with its own Stone of Commune before the information within can be accessed. The first tablet can be found on the south side of the Tower of Insolence.…",
+   "header": "Guard Ulrich",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Dreadnought (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00074_SagaOfTheDreadnought",
+     "kind": "quest",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

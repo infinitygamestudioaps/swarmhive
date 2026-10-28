@@ -1,0 +1,257 @@
+{
+ "npcId": 31315,
+ "name": "Daisy",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.185Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/31315.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "18": {
+   "name": "Meeting With The Golden Ram",
+   "listText": [
+    "[Meeting with the Golden Ram]",
+    "[Meeting with the Golden Ram (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00018_MeetingWithTheGoldenRam/31315-01.html",
+     "when": "state STARTED; (st.getCond() < 2)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00018_MeetingWithTheGoldenRam/31315-03.html",
+     "when": "state STARTED; NOT (st.getCond() < 2)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/31315.htm": {
+   "file": "warehouse/31315.htm",
+   "quest": null,
+   "text": "Freighter Daisy: ??, ??, ?? -- my beloved siblings, all 3 of them, though they can be a handful! Ah well, I wouldn't trade them for their weight in gold. You know, it is very rare for the whole family to be posted to the same place, even within the same guild. We owe our good fortune to Uncle ???. …",
+   "header": "Freighter Daisy",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/privatewh.htm",
+     "kind": "page",
+     "to": "warehouse/privatewh.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/clanwh.htm",
+     "kind": "page",
+     "to": "warehouse/clanwh.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/31315-noteach.htm": {
+   "file": "warehouse/31315-noteach.htm",
+   "quest": null,
+   "text": "Freighter Daisy: Oh, my! I only teach Scavengers and Bounty Hunters, and sometimes the occasional Dwarven Fighter. But I'm afraid there's nothing I can teach you...",
+   "header": "Freighter Daisy",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00018_MeetingWithTheGoldenRam/31315-01.html": {
+   "file": "Q00018_MeetingWithTheGoldenRam/31315-01.html",
+   "quest": 18,
+   "text": "Warehouse Freightman Daisy: Uncle Donal sent you? Here's the box! Heavy, isn't it? Deliver it quickly before the winter comes!",
+   "header": "Warehouse Freightman Daisy",
+   "when": [
+    "state STARTED; (st.getCond() < 2)"
+   ],
+   "links": [
+    {
+     "text": "\"You can count on me.\"",
+     "bypass": "Quest Q00018_MeetingWithTheGoldenRam 31315-02.html",
+     "kind": "quest-event",
+     "script": "Q00018_MeetingWithTheGoldenRam",
+     "event": "31315-02.html",
+     "quest": 18,
+     "to": "Q00018_MeetingWithTheGoldenRam/31315-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00018_MeetingWithTheGoldenRam/31315-03.html": {
+   "file": "Q00018_MeetingWithTheGoldenRam/31315-03.html",
+   "quest": 18,
+   "text": "Warehouse Freightman Daisy: Hurry and deliver the box to Mercenary Supplier Abercrombie! I marked the Map, didn't I?",
+   "header": "Warehouse Freightman Daisy",
+   "when": [
+    "state STARTED; NOT (st.getCond() < 2)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00018_MeetingWithTheGoldenRam/31315-02.html": {
+   "file": "Q00018_MeetingWithTheGoldenRam/31315-02.html",
+   "quest": 18,
+   "text": "Warehouse Freightman Daisy: Take it to the mercenary forces temporary outpost in the east part of the Swamp of Screams. I'll mark it on your Map. Speak with Mercenary Supplier Abercrombie. Thanks, and be careful!",
+   "header": "Warehouse Freightman Daisy",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Meeting with the Golden Ram (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00018_MeetingWithTheGoldenRam",
+     "kind": "quest",
+     "quest": 18,
+     "to": "Q00018_MeetingWithTheGoldenRam/31315-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "warehouse/privatewh.htm": {
+   "file": "warehouse/privatewh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Private Warehouse",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item from the Private Warehouse",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "warehouse/clanwh.htm": {
+   "file": "warehouse/clanwh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item from the Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

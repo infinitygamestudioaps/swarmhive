@@ -1,0 +1,431 @@
+{
+ "npcId": 31297,
+ "name": "Bayard",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.181Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/31297.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "95": {
+   "name": "Saga of the Hell Knight",
+   "listText": [
+    "[Saga of the Hell Knight]",
+    "[Saga of the Hell Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00095_SagaOfTheHellKnight/2-01.htm",
+     "when": "cond 1; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/2-02.htm",
+     "when": "cond 2; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/2-03.htm",
+     "when": "cond 4; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/2-04.htm",
+     "when": "cond 5; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/3-01.htm",
+     "when": "cond 10; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/3-06.htm",
+     "when": "cond 13; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/11-01.htm",
+     "when": "cond 14; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00095_SagaOfTheHellKnight/11-02.htm",
+     "when": "cond 15; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/31297.htm": {
+   "file": "guard/31297.htm",
+   "quest": null,
+   "text": "Guard Bayard: Hey there, stranger! Are you an adventurer? Really! Most outsiders I've seen lately have been from the south! Do you have any exciting stories to tell of your adventures? Heard any interesting rumors? I've heard talk that there's been quite a commotion in the hot springs area and in t…",
+   "header": "Guard Bayard",
+   "links": [
+    {
+     "text": "\"Tell me more about the hot springs region!\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/31297-1.htm"
+    },
+    {
+     "text": "\"Tell me more about the Gods' Cauldron!\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/31297-2.htm"
+    },
+    {
+     "text": "See the lord & tax rate info.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/31297-1.htm": {
+   "file": "guard/31297-1.htm",
+   "quest": null,
+   "text": "Guard Bayard: You must be new to Goddard! The hot springs are the result of a volcanic fault line. There is an excellent resort to the north of here that features an excellent hot springs! Unfortunately, ferocious beasts seem to be attracted to the smell of Sulfur in the water there... You may find…",
+   "header": "Guard Bayard",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31297.htm"
+    }
+   ]
+  },
+  "guard/31297-2.htm": {
+   "file": "guard/31297-2.htm",
+   "quest": null,
+   "text": "Guard Bayard: The volcanic region in the northeastern part of Goddard is known as the gods' cauldron. It's said that rivers of lava flow there! I don't think it's a place you'd want to spend your vacation! Someone else told me that Bigfoot was seen there, too! Getting into a UFO! Are you listening …",
+   "header": "Guard Bayard",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31297.htm"
+    }
+   ]
+  },
+  "Q00095_SagaOfTheHellKnight/2-01.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/2-01.htm",
+   "quest": 95,
+   "text": "Guard Bayard: I'm glad you came to me about Waldstein. Do you remember the massacre of priests in Goddard Castle Town by the Death Lords some time ago? Their pursuers were killed as well. I heard Waldstein was seen traveling with the Death Lords! I find it hard to believe such a trustworthy man wou…",
+   "header": "Guard Bayard",
+   "when": [
+    "cond 1; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"By the way what?\"",
+     "bypass": "Quest Q00095_SagaOfTheHellKnight 2-1",
+     "kind": "quest-event",
+     "script": "Q00095_SagaOfTheHellKnight",
+     "event": "2-1",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00095_SagaOfTheHellKnight/2-02.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/2-02.htm",
+   "quest": 95,
+   "text": "Guard Bayard: Have you gone to the hot springs area yet? Go see Information Broker Bavarin and get the report . He should be finished. Bring it to me and I'll tell you how to nab Waldstein.",
+   "header": "Guard Bayard",
+   "when": [
+    "cond 2; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/2-03.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/2-03.htm",
+   "quest": 95,
+   "text": "Guard Bayard: Good work! Show me the report. Hmm... This confirms Waldstein was seen with the gang of Death Lords! It's believed Waldstein is making the Pilgrimage of the Tablet of Vision to become a Hell Knight. To complete the pilgrimage you must commune with each of six stone tablets. You must h…",
+   "header": "Guard Bayard",
+   "when": [
+    "cond 4; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How will the path open to me?\"",
+     "bypass": "Quest Q00095_SagaOfTheHellKnight 2-2",
+     "kind": "quest-event",
+     "script": "Q00095_SagaOfTheHellKnight",
+     "event": "2-2",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00095_SagaOfTheHellKnight/2-04.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/2-04.htm",
+   "quest": 95,
+   "text": "Guard Bayard: Try communicating with the Tablet of Vision south of the Tower of Insolence by using the Stone of Commune that I gave you. The path will then be revealed to you.",
+   "header": "Guard Bayard",
+   "when": [
+    "cond 5; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/3-01.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/3-01.htm",
+   "quest": 95,
+   "text": "Guard Bayard: Back, huh? Any clues about Waldstein? Yes? Now we can be sure he's on the Pilgrimage of the Tablets of Vision! If you continue the pilgrimage, I'm sure you'll find him. I have the next Stone of Commune. But it is unstable. You must find the missing fragment .",
+   "header": "Guard Bayard",
+   "when": [
+    "cond 10; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Where is it?\"",
+     "bypass": "Quest Q00095_SagaOfTheHellKnight 3-5",
+     "kind": "quest-event",
+     "script": "Q00095_SagaOfTheHellKnight",
+     "event": "3-5",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/3-07.htm"
+    }
+   ]
+  },
+  "Q00095_SagaOfTheHellKnight/3-05.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/3-05.htm",
+   "quest": 95,
+   "text": "Guard Bayard: You got the stone! Waldstein was seen yesterday in the Varka Silenos stronghold and the Ketra Orc advance base. It seems like Waldstein was also looking for a stone. He may be headed towards the tablet! Let's hurry! I'll stabilize the stone.",
+   "header": "Guard Bayard",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Watch",
+     "bypass": "Quest Q00095_SagaOfTheHellKnight 3-8",
+     "kind": "quest-event",
+     "script": "Q00095_SagaOfTheHellKnight",
+     "event": "3-8",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00095_SagaOfTheHellKnight/3-04.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/3-04.htm",
+   "quest": 95,
+   "text": "Guard Bayard: Go to the Ketra Orcs or the Varka Silenos to get the missing fragment, the Divine Stone of Wisdom . They both know the mysterious knowledge of the stone, but not its exact use. They'll give it to the wisest of the tribe. So, it is presented as some kind of mark for &lsquo;the wisest m…",
+   "header": "Guard Bayard",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/3-06.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/3-06.htm",
+   "quest": 95,
+   "text": "Guard Bayard: Take the Stone of Commune to the the Tablet of Vision north of the Varka Silenos barracks . Hurry up and find Waldstein!",
+   "header": "Guard Bayard",
+   "when": [
+    "cond 13; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/11-01.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/11-01.htm",
+   "quest": 95,
+   "text": "Guard Bayard: You didn't find Waldstein? He'll be hard to find once the pilgrimage is over. You must act swiftly! Now I'll join the search. You'll need your own Stone of Commune.",
+   "header": "Guard Bayard",
+   "when": [
+    "cond 14; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Where can I get one?\"",
+     "bypass": "Quest Q00095_SagaOfTheHellKnight 11-9",
+     "kind": "quest-event",
+     "script": "Q00095_SagaOfTheHellKnight",
+     "event": "11-9",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00095_SagaOfTheHellKnight/11-02.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/11-02.htm",
+   "quest": 95,
+   "text": "Guard Bayard: To find the next stone you must defeat the Archon of Halisha inside the Four Sepulchers . To enter will not be easy. If you can't form a strong party, go to the Shrine of the Loyal . There you'll find Halisha's subordinates. Collect 700 of their marks and the Archon of Halisha will ap…",
+   "header": "Guard Bayard",
+   "when": [
+    "cond 15; !((npcId == 31582) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/11-03.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/11-03.htm",
+   "quest": 95,
+   "text": "Guard Bayard: To find the next stone you must defeat the Archon of Halisha inside the Four Sepulchers . To enter will not be easy. If you can't form a strong party, go to the Shrine of the Loyal . There you'll find Halisha's subordinates. Collect 700 of their marks and the Archon of Halisha will ap…",
+   "header": "Guard Bayard",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/2-05.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/2-05.htm",
+   "quest": 95,
+   "text": "Guard Bayard: Go and see Information Broker Bavarin at the hot springs area. Bring me the report I asked him to prepare. Then I'll tell you how to find Waldstein.",
+   "header": "Guard Bayard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/2-06.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/2-06.htm",
+   "quest": 95,
+   "text": "Guard Bayard: The Stone of Commune and the Tablet of Vision are attracted to each other.This will guide you. Simply put, commune with the tablet and the location of the next stone will be revealed to you. Once you find the next stone, you will see where to find the next tablet. This is Waldstein's …",
+   "header": "Guard Bayard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/3-02.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/3-02.htm",
+   "quest": 95,
+   "text": "Guard Bayard: Well. Then visit the Ketra Orcs to get the missing fragment, the Divine Stone of Wisdom . If you earn the trust of Asefa, guide of dead souls, through Ketra's Messenger Wahkan and prove to her your wisdom, you'll find it. If you change your mind halfway, you can get it from the best S…",
+   "header": "Guard Bayard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/3-03.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/3-03.htm",
+   "quest": 95,
+   "text": "Guard Bayard: Well, then visit the Varka Silenos to get the missing fragment, the Divine Stone of Wisdom . If you earn the Soul Guide Udan Mardui through Varka's Messenger Naran Ashanuk and prove to her your wisdom, you'll find it. If you change your mind halfway, you can get it from the best Shama…",
+   "header": "Guard Bayard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00095_SagaOfTheHellKnight/3-07.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/3-07.htm",
+   "quest": 95,
+   "text": "Guard Bayard: Asefa, Chief Shaman of the Ketra Orcs, and Udan Mardui, Chief Shaman of Varka Silenos are both guides of dead souls. Each has a Divine Stone of Wisdom, a fragment of the Stone of Commune . Bring one to me. They both know the mysterious knowledge of the stone, but not its exact use. Th…",
+   "header": "Guard Bayard",
+   "links": [
+    {
+     "text": "The Ketra Orcs",
+     "bypass": "Quest Q00095_SagaOfTheHellKnight 3-6",
+     "kind": "quest-event",
+     "script": "Q00095_SagaOfTheHellKnight",
+     "event": "3-6",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "The Varka Silenos",
+     "bypass": "Quest Q00095_SagaOfTheHellKnight 3-7",
+     "kind": "quest-event",
+     "script": "Q00095_SagaOfTheHellKnight",
+     "event": "3-7",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/3-03.htm"
+    }
+   ]
+  },
+  "Q00095_SagaOfTheHellKnight/3-08.htm": {
+   "file": "Q00095_SagaOfTheHellKnight/3-08.htm",
+   "quest": 95,
+   "text": "Guard Bayard: The stone is complete! Go to the Tablet of Vision north of the Varka Silenos barracks. Hurry and find Waldstein!",
+   "header": "Guard Bayard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Hell Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00095_SagaOfTheHellKnight",
+     "kind": "quest",
+     "quest": 95,
+     "to": "Q00095_SagaOfTheHellKnight/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

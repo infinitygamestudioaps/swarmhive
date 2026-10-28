@@ -1,0 +1,301 @@
+{
+ "npcId": 30690,
+ "name": "Luther",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.047Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30690.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "225": {
+   "name": "Test Of The Searcher",
+   "listText": [
+    "[Test of the Searcher]",
+    "[Test of the Searcher (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00225_TestOfTheSearcher/30690-04.htm",
+     "when": "state CREATED; level >= 39; ((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || (player.getClassId() == ClassI; player.getClassId() == ClassId.scavenger",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30690-03.htm",
+     "when": "state CREATED; level >= 39; ((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || (player.getClassId() == ClassI; !player.getClassId() == ClassId.scavenger",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30690-02.html",
+     "when": "state CREATED; NOT level >= 39; ((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || (player.getClassId() == ClassI",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30690-01.html",
+     "when": "state CREATED; !((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || (player.getClassId() == Class",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30690-06.html",
+     "when": "state STARTED; has items 2784; lacks items 2808",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30690-07.html",
+     "when": "state STARTED; lacks items 2784,2808; !(hasQuestItems(player, LUTHERS_LETTER) && !hasQuestItems(player, ALEXS_RECOMMEND))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30690-08.html",
+     "when": "state STARTED; has items 2784,2808; lacks items 2784; !(hasQuestItems(player, LUTHERS_LETTER) && !hasQuestItems(player, ALEXS_RECOMMEND))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30690.htm": {
+   "file": "trainer/30690.htm",
+   "quest": null,
+   "text": "Master Luther: The very chaos that attracts hunters to this village threatens to overwhelm it now... A host of self-made \"lords\" now vie for supremacy, heedless of the consequences of their rash actions. I am sickened by them! Are you sure you wish to remain here?",
+   "header": "Master Luther",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30690-noteach.htm": {
+   "file": "trainer/30690-noteach.htm",
+   "quest": null,
+   "text": "Master Luther: You can find a better Master than I... Have you looked in the other buildings?",
+   "header": "Master Luther",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30690-04.htm": {
+   "file": "Q00225_TestOfTheSearcher/30690-04.htm",
+   "quest": 225,
+   "text": "Master Luther: Have you come for the Mark of the Searcher? This mark is reserved for those with recognized detection skills. Every year, many Hunters, Scouts, Excavators and even some Assassins come to me in hope of taking the Test of the Searcher , but a Dwarf like you? Do you happen to be a Bount…",
+   "header": "Master Luther",
+   "when": [
+    "state CREATED; level >= 39; ((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || (player.getClassId() == ClassI; player.getClassId() == ClassId.scavenger"
+   ],
+   "links": [
+    {
+     "text": "Say that you will take the Test of the Searcher",
+     "bypass": "Quest Q00225_TestOfTheSearcher ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "ACCEPT",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30690-05a.htm",
+     "toAll": [
+      "Q00225_TestOfTheSearcher/30690-05a.htm",
+      "Q00225_TestOfTheSearcher/30690-05.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30690-03.htm": {
+   "file": "Q00225_TestOfTheSearcher/30690-03.htm",
+   "quest": 225,
+   "text": "Master Luther: Have you come for the Mark of the Searcher? This mark is reserved for those with recognized detection skills. Every year, many Hunters, Scouts, Excavators and even some Assassins come to me in hope of taking the Test of the Searcher . Is this what you seek? .",
+   "header": "Master Luther",
+   "when": [
+    "state CREATED; level >= 39; ((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || (player.getClassId() == ClassI; !player.getClassId() == ClassId.scavenger"
+   ],
+   "links": [
+    {
+     "text": "Say that you will take the Test of the Searcher",
+     "bypass": "Quest Q00225_TestOfTheSearcher ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "ACCEPT",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30690-05a.htm",
+     "toAll": [
+      "Q00225_TestOfTheSearcher/30690-05a.htm",
+      "Q00225_TestOfTheSearcher/30690-05.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30690-02.html": {
+   "file": "Q00225_TestOfTheSearcher/30690-02.html",
+   "quest": 225,
+   "text": "Master Luther: Have you come for the Mark of the Searcher? This mark is reserved for those who's ability for 'finding hidden things' is recognized. Every year, many Hunters, Scouts, Excavators and even some Assassins come to me in hope of taking the 'Test of the Searcher , but you do not have enoug…",
+   "header": "Master Luther",
+   "when": [
+    "state CREATED; NOT level >= 39; ((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || (player.getClassId() == ClassI"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30690-01.html": {
+   "file": "Q00225_TestOfTheSearcher/30690-01.html",
+   "quest": 225,
+   "text": "Master Luther: Have you come for the Mark of the Searcher? The Mark is reserved for those with proven detection skills. Every year, many Hunters, Scouts, Excavators and even some Assassins come to me in hope of taking the Test of the Searcher , though you seem different from them... Are you sure th…",
+   "header": "Master Luther",
+   "when": [
+    "state CREATED; !((player.getClassId() == ClassId.rogue) || (player.getClassId() == ClassId.elvenScout) || (player.getClassId() == Class"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30690-06.html": {
+   "file": "Q00225_TestOfTheSearcher/30690-06.html",
+   "quest": 225,
+   "text": "Master Luther: Why are you still here? Alex's militia corps are in dire need of help.. Now go to Floran Village !",
+   "header": "Master Luther",
+   "when": [
+    "state STARTED; has items 2784; lacks items 2808"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30690-07.html": {
+   "file": "Q00225_TestOfTheSearcher/30690-07.html",
+   "quest": 225,
+   "text": "Master Luther: How was your visit with Alex ? I assume he hasn't given you the letter yet. I would think that he would be in need of your help right now! He must have given you a task...",
+   "header": "Master Luther",
+   "when": [
+    "state STARTED; lacks items 2784,2808; !(hasQuestItems(player, LUTHERS_LETTER) && !hasQuestItems(player, ALEXS_RECOMMEND))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30690-08.html": {
+   "file": "Q00225_TestOfTheSearcher/30690-08.html",
+   "quest": 225,
+   "text": "Master Luther: Ha, I guess Alex grew somewhat attached to you... At the end of the Recommendation letter he joked that he would like me to come up with a reason to send you back to him. I heard that you recovered Ashton's gold from the delu lizardmen! That must have been interesting... So how about…",
+   "header": "Master Luther",
+   "when": [
+    "state STARTED; has items 2784,2808; lacks items 2784; !(hasQuestItems(player, LUTHERS_LETTER) && !hasQuestItems(player, ALEXS_RECOMMEND))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30690-05.htm": {
+   "file": "Q00225_TestOfTheSearcher/30690-05.htm",
+   "quest": 225,
+   "text": "Master Luther: First you must visit Alex in Floran Village . He was once the kingdom's best Scout, and is famous for his activities as King Cadmus' immediate spy and messenger during the war with Gracia. But he grew disillusioned by the royal family and aristocrats at the time of the peasant's upri…",
+   "header": "Master Luther",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30690-05a.htm": {
+   "file": "Q00225_TestOfTheSearcher/30690-05a.htm",
+   "quest": 225,
+   "text": "Master Luther: Visit Alex in Floran Village . Once the best scout in the kingdom, he served as King Cadmus' special messenger and spy during the Grecian War. Disenchanted by the nobility by their actions during the peasant revolt, he now fights alongside the Floran militia. I have heard that he is …",
+   "header": "Master Luther",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Searcher]",
+     "bypass": "npc_%objectId%_Quest Q00225_TestOfTheSearcher",
+     "kind": "quest",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30690-04.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Test of the Searcher (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00225_TestOfTheSearcher",
+     "kind": "quest",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30690-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

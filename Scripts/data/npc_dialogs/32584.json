@@ -1,0 +1,173 @@
+{
+ "npcId": 32584,
+ "name": "Merchant of Mammon",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.389Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00196_SevenSignsSealOfTheEmperor/32584.htm",
+   "when": "",
+   "src": "quest 196"
+  }
+ ],
+ "quests": {
+  "196": {
+   "name": "Seven Signs, Seal of the Emperor",
+   "listText": [
+    "[Seven Signs, Seal of the Emperor]",
+    "[Seven Signs, Seal of the Emperor (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00196_SevenSignsSealOfTheEmperor/32584-01.html",
+     "when": "state STARTED; cond 1; (npc.isScriptValue(player.getObjectId()))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00196_SevenSignsSealOfTheEmperor/32584-06.html",
+     "when": "state STARTED; cond 1; NOT (npc.isScriptValue(player.getObjectId()))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "Q00196_SevenSignsSealOfTheEmperor/32584.htm": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/32584.htm",
+   "quest": 196,
+   "text": "Merchant of Mammon: Is it finally time? Is this the day that the Merchants of Mammon are finally asked to keep their ancient promise?",
+   "header": "Merchant of Mammon",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/32584-01.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/32584-01.html",
+   "quest": 196,
+   "text": "Merchant of Mammon: Was it you who summoned me from the Necropolis? Then you must have Shunaiman's contract in your possession.... We inked our names in that document 1500 years ago, but still the paper bears our names, and still we are bound to honor the terms set out in it. I assume you have summ…",
+   "header": "Merchant of Mammon",
+   "when": [
+    "state STARTED; cond 1; (npc.isScriptValue(player.getObjectId()))"
+   ],
+   "links": [
+    {
+     "text": "\"Actually...\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor 32584-02.html",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "32584-02.html",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/32584-02.html"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/32584-06.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/32584-06.html",
+   "quest": 196,
+   "text": "Merchant of Mammon: You were not the one who summoned me! Leave--now!",
+   "header": "Merchant of Mammon",
+   "when": [
+    "state STARTED; cond 1; NOT (npc.isScriptValue(player.getObjectId()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/32584-02.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/32584-02.html",
+   "quest": 196,
+   "text": "Merchant of Mammon: It was a simple enough deal: the Merchants of Mammon would supply the Emperor with funds and military hardware, and in return our trading would be left unhindered. The profits we made were astonishing, beating even our most optimistic projections. In return though, the Emperor g…",
+   "header": "Merchant of Mammon",
+   "links": [
+    {
+     "text": "\"What power?\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor 32584-03.html",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "32584-03.html",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/32584-03.html"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/32584-03.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/32584-03.html",
+   "quest": 196,
+   "text": "Merchant of Mammon: The power to move between planes, child! We first used it to travel from Necropolis to Necropolis, but soon augmented our device to allow us travel on a different axis: time itself . We called it 'The Promise of Mammon' . It was the most powerful creation in Aden's history, and …",
+   "header": "Merchant of Mammon",
+   "links": [
+    {
+     "text": "\"Where is it?\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor 32584-04.html",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "32584-04.html",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/32584-04.html"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/32584-04.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/32584-04.html",
+   "quest": 196,
+   "text": "Merchant of Mammon: It lies near the entrance to the Disciple's Necropolis . You must find it, and meet with Emperor Shunaiman. Aid him and our word will finally be honored, we will be released from that infernal contract....",
+   "header": "Merchant of Mammon",
+   "links": [
+    {
+     "text": "\"You can't go yourself?\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor 32584-05.html",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "32584-05.html",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/32584-05.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/32584-05.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/32584-05.html",
+   "quest": 196,
+   "text": "Merchant of Mammon: I am little more than dust these days, child. We always expected to be called in our lifetimes, but this is your time now, not ours. Help the Emperor. Help Shunaiman!",
+   "header": "Merchant of Mammon",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Seal of the Emperor (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00196_SevenSignsSealOfTheEmperor",
+     "kind": "quest",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/32584-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

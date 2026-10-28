@@ -97,18 +97,19 @@ check(/  if \(swarmFightNow\(\)\) return;\s+\/\/ SWARMFIGHT: the L2Swarm profile
 check(/isLeader\(\) \|\| stuckFollow\.busy \|\| benched\(\) \|\| swarmFightNow\(\)\) return;/.test(src), 'member: no back-to-the-middle walk in the phase');
 check(/now\(\) < \(state\.fleeUntil \|\| 0\) \|\| swarmFightNow\(\)\) \{ aloneFight\.since = 0; return; \}/.test(src), 'nobody: no Hive alone-in-a-fight escape in the phase');
 check(/function rgFollowTick\(\) \{[\s\S]{0,600}try \{ if \(swarmFightNow\(\)\) return false; \}/.test(src), 'member: no Hive room follow in the phase (L2Swarm Follow)');
-const mem = src.slice(src.indexOf("App.on('swarm.sf'"), src.indexOf("App.on('swarm.sf'") + 1600);
+const mem = src.slice(src.indexOf("App.on('swarm.sf'"), src.indexOf('const stuckFollow = ', src.indexOf("App.on('swarm.sf'")));   // SFKEEP-2026-10-27: the handler + sfOwnCombatStep + the member loop
 check(/SF\.until = d\.on \? now\(\) \+ 12000 : 0/.test(mem) && /d\.leader !== CONFIG\.leader/.test(mem), 'member: hears only its own leader');
 check(/if \(!swarmFightNow\(\)\) \{ SF\.atkSet = false; return; \}/.test(mem) && /Options\.ActiveFollow = true/.test(mem) && /Options\.FollowName = CONFIG\.leader/.test(mem), 'member: L2Swarm Follow on the leader in the phase');
 check(/if \(state\.followHoldUntil > now\(\)\) return;/.test(mem), "member: never over a task's follow hold (trade, teleport, route)");
 check(/if \(!SF\.atkSet\) \{ SF\.atkSet = true; if \(!isHealerRole\(\) && !noMelee\(\) && !Options\.FollowAtk\) Options\.FollowAtk = true;/.test(mem), 'member: Follow Attack switched on ONCE per phase, never for healers / no-melee roles (the player may switch it off)');
-check(mem.includes("setInterval(() => {\n  try {\n    if (isLeader() || !IsCharacterReady() || Me.IsDead) return;\n    if (sfMember())"), 'the host part only reads SF inside callbacks (after the whole script loaded)');
+check(mem.includes("setInterval(() => {\n  try {\n    if (isLeader() || !IsCharacterReady() || Me.IsDead) return;\n    let sfStart = false;\n    if (sfMember())"), 'the host part only reads SF inside callbacks (after the whole script loaded)');
 check(/function swarmFightOn\(\) \{\n  if \(!SF\) return false;/.test(src), 'swarmFightOn is safe before the top level created SF');
 // SFMEMBER-2026-10-16 (Vykaax: "only the leader should StartCombat() ... they all created their own combat box")
 check(/function sfMember\(\) \{ try \{ return !isLeader\(\) && swarmFightOn\(\) && !sfExcluded\(\); \}/.test(src), 'sfMember: a member of a Fight-with-L2Swarm party outside raids / instances / missions');
-check(/function startCombatG\(\) \{\n  if \(recHold\(\)\) return;[^\n]*\n(?:  \/\/[^\n]*\n)*  if \(sfMember\(\)\) \{ try \{ if \(IsInCombat\) StopCombat\(\); \} catch \(e\) \{ \} return; \}/.test(src), 'member: startCombatG never starts L2Swarm combat (no own combat box), stops a running one');
+check(/function startCombatG\(\) \{\n  if \(recHold\(\)\) return;[^\n]*\n(?:  \/\/[^\n]*\n)*  if \(sfMember\(\)\) return;/.test(src), 'member: startCombatG never starts L2Swarm combat (no own combat box) and never stops one (SFKEEP-2026-10-27)');
 check(/deadlockFixed\(\) && !sfMember\(\); \}/.test(src), 'member: self-defence with script attacks, never its own L2Swarm combat');
-check(/if \(sfMember\(\)\) \{ try \{ if \(IsInCombat\) \{ StopCombat\(\);/.test(mem), 'member: a running L2Swarm combat (combat box) is stopped every 2 s');
+// SFKEEP-2026-10-27 (Vykaax: "If I press Start Combat in OOG Swarm it immediately turns itself off again"): the member loop no longer stops it
+check(!/StopCombat\(\)/.test(mem) && /sfOwnCombatStep\(\{ inCombat: ic, phase: swarmFightNow\(\)/.test(mem), 'member: a running L2Swarm combat the player started is LEFT ON (was: stopped every 2 s); details test_vykaax_1027.js');
 { const body = src.slice(src.indexOf('function sfMember()'), src.indexOf('\n', src.indexOf('function sfMember()')));
   const f = (lead, on, ex) => new Function('isLeader', 'swarmFightOn', 'sfExcluded', body + '\nreturn sfMember();')(() => lead, () => on, () => ex);
   check(f(false, true, false) === true && f(true, true, false) === false && f(false, false, false) === false && f(false, true, true) === false, 'sfMember stubs: member + on = true; leader / off / raid = false'); }

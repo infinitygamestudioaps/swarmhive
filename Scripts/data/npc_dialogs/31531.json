@@ -1,0 +1,193 @@
+{
+ "npcId": 31531,
+ "name": "Tombstone",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.215Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31531.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "24": {
+   "name": "Inhabitants of the Forest of the Dead",
+   "listText": [
+    "[Inhabitants of the Forest of the Dead]",
+    "[Inhabitants of the Forest of the Dead (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31531-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31531-03.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "25": {
+   "name": "Hiding Behind the Truth",
+   "listText": [
+    "[Hiding Behind the Truth]",
+    "[Hiding Behind the Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00025_HidingBehindTheTruth/31531-01.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31531-03.html",
+     "when": "state STARTED; memo 12",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31531.htm": {
+   "file": "default/31531.htm",
+   "quest": null,
+   "text": "Tombstone: There is a tombstone engraved with an epitaph. Someone is buried in the grave. Moonface flowers bloom splendidly around the tombstone.",
+   "header": "Tombstone",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31531-01.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31531-01.html",
+   "quest": 24,
+   "text": "Tombstone: Here lies Rose, a faithful, loving servant. May she rest in peace.",
+   "header": "Tombstone",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Place flowers on the grave.",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31531-02.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31531-02.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31531-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31531-03.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31531-03.html",
+   "quest": 24,
+   "text": "Tombstone: The tombstone bears an epitaph: Here lies Rose, a faithful and loving servant. May she rest in peace. Moon Face Flowers bloom brilliantly around the tomb.",
+   "header": "Tombstone",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31531-01.html": {
+   "file": "Q00025_HidingBehindTheTruth/31531-01.html",
+   "quest": 25,
+   "text": "Tombstone: This is Rose's tombstone, but how can you be sure that she's really down there?",
+   "header": "Tombstone",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "links": [
+    {
+     "text": "Dig.",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31531-02.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31531-02.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31531-02.html",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31531-03.html": {
+   "file": "Q00025_HidingBehindTheTruth/31531-03.html",
+   "quest": 25,
+   "text": "Tombstone: The coffin is empty! Where is Rose's body?",
+   "header": "Tombstone",
+   "when": [
+    "state STARTED; memo 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31531-02.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31531-02.html",
+   "quest": 24,
+   "text": "Tombstone: You've placed flowers on the grave.",
+   "header": "Tombstone",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31531-02.html": {
+   "file": "Q00025_HidingBehindTheTruth/31531-02.html",
+   "quest": 25,
+   "text": "Tombstone: The coffin is out of the tomb.",
+   "header": "Tombstone",
+   "sets": {
+    "cond": "12"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Inhabitants of the Forest of the Dead (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00024_InhabitantsOfTheForestOfTheDead",
+     "kind": "quest",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31531-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Hiding Behind the Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00025_HidingBehindTheTruth",
+     "kind": "quest",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31531-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

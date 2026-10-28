@@ -1,0 +1,112 @@
+{
+ "npcId": 30538,
+ "name": "Zimenf",
+ "title": "Priest of the Earth",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.995Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30538.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "417": {
+   "name": "Path Of The Scavenger",
+   "listText": [
+    "[Path of the Scavenger]",
+    "[Path of the Scavenger (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00417_PathOfTheScavenger/30538-01.html",
+     "when": "state STARTED; has items 1649; !(qs.isCreated() || qs.isCompleted()); qs.getMemoStateEx(1) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30538-02.html",
+     "when": "state STARTED; has items 1649; !(qs.isCreated() || qs.isCompleted()); !qs.getMemoStateEx(1) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30538-03.html",
+     "when": "state STARTED; has items 1652; lacks items 1649; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30538.htm": {
+   "file": "default/30538.htm",
+   "quest": null,
+   "text": "Priest of the Earth Zimenf: Carna Maphr , I am Priest Zimenf. Great Maphr, the goddess of the earth created us Dwarves by infusing the power of the earth and the spirit of the light of Einhasad. It is also said that the goddess gave us the ability to create anything in accordance with the law of th…",
+   "header": "Priest of the Earth Zimenf",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30538-01.html": {
+   "file": "Q00417_PathOfTheScavenger/30538-01.html",
+   "quest": 417,
+   "text": "Priest of the Earth Zimenf: Thank you. Now I can prepare for the ritual, I say! I sincerely, truly thank you!! I must hurry to prepare the ritual. I say, the high priest will scold me if I am late. Take this. It is the payment for the item, I say. Please tell Mion that I am grateful. Karna Mafra!",
+   "header": "Priest of the Earth Zimenf",
+   "when": [
+    "state STARTED; has items 1649; !(qs.isCreated() || qs.isCompleted()); qs.getMemoStateEx(1) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30538-02.html": {
+   "file": "Q00417_PathOfTheScavenger/30538-02.html",
+   "quest": 417,
+   "text": "Priest of the Earth Zimenf: I sincerely truly thank you!! Now I can prepare for the ritual, I say! I sincerely, truly thank you!! I must hurry to prepare the ritual. I say, the high priest will scold me if I am late. (I see Mion is sending you on errands with her brother as bait ... hee hee hee ...…",
+   "header": "Priest of the Earth Zimenf",
+   "when": [
+    "state STARTED; has items 1649; !(qs.isCreated() || qs.isCompleted()); !qs.getMemoStateEx(1) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30538-03.html": {
+   "file": "Q00417_PathOfTheScavenger/30538-03.html",
+   "quest": 417,
+   "text": "Priest of the Earth Zimenf: Please thank Mion for the item. And I say, be careful in taking the payment that I gave you. Karna Mafra ...",
+   "header": "Priest of the Earth Zimenf",
+   "when": [
+    "state STARTED; has items 1652; lacks items 1649; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Scavenger (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00417_PathOfTheScavenger",
+     "kind": "quest",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30538-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

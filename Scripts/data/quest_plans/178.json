@@ -2,7 +2,7 @@
  "id": 178,
  "name": "Iconic Trinity",
  "version": 1,
- "generated": "2026-10-27T11:15:14.318Z",
+ "generated": "2026-10-27T18:18:49.570Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 17,
@@ -24,8 +24,9 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 1
   },
   {
    "code": "no-route",
@@ -36,11 +37,6 @@
    "code": "no-route",
    "text": "no route to a step place (atlas unreachable / no geodata walk)",
    "step": 3
-  },
-  {
-   "code": "no-route",
-   "text": "no route to a step place (atlas unreachable / no geodata walk)",
-   "step": 4
   }
  ],
  "expectedMin": 5,
@@ -266,8 +262,143 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:32138",
+   "key": "c1:talk:32255",
    "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"Someone other than a god, perhaps...?\""
+   ],
+   "npc": {
+    "id": 32255,
+    "name": "Icon of the Past",
+    "title": "",
+    "town": "Kamael Village",
+    "at": [
+     -79624,
+     55755,
+     -4952
+    ],
+    "alt": []
+   },
+   "text": "Talk to Icon of the Past",
+   "reasons": [
+    "no-route"
+   ],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:32256",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"Why did the Kamael have to hide themselves in the first place?\""
+   ],
+   "npc": {
+    "id": 32256,
+    "name": "Icon of the Present",
+    "title": "",
+    "town": "Kamael Village",
+    "at": [
+     -88066,
+     55755,
+     -4568
+    ],
+    "alt": []
+   },
+   "text": "Talk to Icon of the Present",
+   "reasons": [
+    "no-route"
+   ],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:32257",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "\"If the Isle of Souls was hidden to avoid discovery, why would it be revealed now?\""
+   ],
+   "npc": {
+    "id": 32257,
+    "name": "Icon of the Future",
+    "title": "",
+    "town": "Kamael Village",
+    "at": [
+     -88453,
+     51531,
+     -4472
+    ],
+    "alt": []
+   },
+   "text": "Talk to Icon of the Future",
+   "reasons": [
+    "no-route"
+   ],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:32138",
+   "cond": 4,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -483,153 +614,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:32257",
-   "cond": 1,
-   "kind": "talk",
-   "to": 4,
-   "links": [
-    "\"If the Isle of Souls was hidden to avoid discovery, why would it be revealed now?\""
-   ],
-   "npc": {
-    "id": 32257,
-    "name": "Icon of the Future",
-    "title": "",
-    "town": "Kamael Village",
-    "at": [
-     -88453,
-     51531,
-     -4472
-    ],
-    "alt": []
-   },
-   "text": "Talk to Icon of the Future",
-   "reasons": [
-    "no-route"
-   ],
-   "travel": {
-    "src": "none",
-    "status": "unreachable",
-    "why": [
-     "no atlas route within 16 km to start from"
-    ],
-    "checks": {
-     "reachable": false
-    },
-    "pv": []
-   },
-   "expectedSec": 25,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 3,
-   "key": "c1:talk:32256",
-   "cond": 1,
-   "kind": "talk",
-   "to": 3,
-   "links": [
-    "\"Why did the Kamael have to hide themselves in the first place?\""
-   ],
-   "npc": {
-    "id": 32256,
-    "name": "Icon of the Present",
-    "title": "",
-    "town": "Kamael Village",
-    "at": [
-     -88066,
-     55755,
-     -4568
-    ],
-    "alt": []
-   },
-   "text": "Talk to Icon of the Present",
-   "reasons": [
-    "no-route"
-   ],
-   "travel": {
-    "src": "none",
-    "status": "unreachable",
-    "why": [
-     "no atlas route within 16 km to start from"
-    ],
-    "checks": {
-     "reachable": false
-    },
-    "pv": []
-   },
-   "expectedSec": 25,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 4,
-   "key": "c1:talk:32255",
-   "cond": 1,
-   "kind": "talk",
-   "to": 2,
-   "links": [
-    "\"Someone other than a god, perhaps...?\""
-   ],
-   "npc": {
-    "id": 32255,
-    "name": "Icon of the Past",
-    "title": "",
-    "town": "Kamael Village",
-    "at": [
-     -79624,
-     55755,
-     -4952
-    ],
-    "alt": []
-   },
-   "text": "Talk to Icon of the Past",
-   "reasons": [
-    "no-route"
-   ],
-   "travel": {
-    "src": "none",
-    "status": "unreachable",
-    "why": [
-     "no atlas route within 16 km to start from"
-    ],
-    "checks": {
-     "reachable": false
-    },
-    "pv": []
-   },
-   "expectedSec": 25,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
     4
    ]
   }

@@ -1,0 +1,717 @@
+{
+ "npcId": 30006,
+ "name": "Roxxy",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:02.786Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "teleporter/30006.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {
+  "1": {
+   "name": "Letters of Love",
+   "listText": [
+    "[Letters of Love]",
+    "[Letters of Love (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00001_LettersOfLove/30006-01.html",
+     "when": "state STARTED; cond 1; has items 687; lacks items 688",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00001_LettersOfLove/30006-02.html",
+     "when": "state STARTED; cond 2; has items 688",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00001_LettersOfLove/30006-03.html",
+     "when": "state STARTED; cond 3; (hasQuestItems(player, DARINS_RECEIPT) || hasQuestItems(player, BAULROS_POTION))",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00001_LettersOfLove/30006-03.html",
+     "when": "state STARTED; cond 4; has items 1080",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "6": {
+   "name": "Step Into the Future",
+   "listText": [
+    "[Step Into the Future]",
+    "[Step Into the Future (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00006_StepIntoTheFuture/30006-02.htm",
+     "when": "state CREATED; ((player.getRace() == Race.HUMAN) && (player.getLevel() >= MIN_LEVEL))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00006_StepIntoTheFuture/30006-01.html",
+     "when": "state CREATED; NOT ((player.getRace() == Race.HUMAN) && (player.getLevel() >= MIN_LEVEL))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00006_StepIntoTheFuture/30006-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00006_StepIntoTheFuture/30006-05.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "teleporter/30006.htm": {
+   "file": "teleporter/30006.htm",
+   "quest": null,
+   "text": "Gatekeeper Roxxy: Welcome! I am Gatekeeper Roxxy, dispatched from the Ivory Tower. I'm very happy to return to my hometown. Perhaps you have been to the Einhovant's School of Magic? Grand Magister Gallint was my old teacher. Well then, what can I do for you?",
+   "header": "Gatekeeper Roxxy",
+   "links": [
+    {
+     "text": "Ask about the airship wharf.",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "teleporter/30006-5.htm",
+     "live": true,
+     "dpText": "Ask about the Airship Wharf."
+    },
+    {
+     "text": "Ask about the Ivory Tower.",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "teleporter/30006-4.htm",
+     "live": true
+    },
+    {
+     "text": "Teleport",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "teleporter/30006-1.htm",
+     "live": true
+    },
+    {
+     "text": "Exchange Dimension Diamonds.",
+     "bypass": "npc_%objectId%_multisell 002",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Noblesse Exclusive Teleport",
+     "bypass": "npc_%objectId%_Quest NoblesseTeleport",
+     "kind": "quest",
+     "script": "NoblesseTeleport",
+     "to": null,
+     "live": true,
+     "dpText": "[Noblesse Exclusive] Teleport"
+    },
+    {
+     "text": "Call Alegria",
+     "bypass": "npc_%objectId%_Quest CharacterBirthday",
+     "kind": "quest",
+     "script": "CharacterBirthday"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/30006-1.htm": {
+   "file": "teleporter/30006-1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Village of Gludin - 18000 Adena",
+     "bypass": "npc_%objectId%_goto 15",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin",
+     "live": true
+    },
+    {
+     "text": "Dark Elf Village - 24000 Adena",
+     "bypass": "npc_%objectId%_goto 1005",
+     "kind": "teleport",
+     "confirm": "811;Dark Elven Village"
+    },
+    {
+     "text": "Dwarven Village - 46000 Adena",
+     "bypass": "npc_%objectId%_goto 1006",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Elven Village - 23000 Adena",
+     "bypass": "npc_%objectId%_goto 1007",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Orc Village - 35000 Adena",
+     "bypass": "npc_%objectId%_goto 1008",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true
+    },
+    {
+     "text": "Kamael Village - 20000 Adena",
+     "bypass": "npc_%objectId%_goto 12055",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Elven Ruins - 830 Adena",
+     "bypass": "npc_%objectId%_goto 1003",
+     "kind": "teleport",
+     "confirm": "811;Elven Ruins",
+     "live": true
+    },
+    {
+     "text": "Singing Waterfall - 770 Adena",
+     "bypass": "npc_%objectId%_goto 1004",
+     "kind": "teleport",
+     "confirm": "811;Singing Waterfall",
+     "live": true
+    },
+    {
+     "text": "Talking Island, Northern Territory - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 1002",
+     "kind": "teleport",
+     "confirm": "811;Talking Island, Northern Territory",
+     "live": true
+    },
+    {
+     "text": "Obelisk of Victory - 470 Adena",
+     "bypass": "npc_%objectId%_goto 1001",
+     "kind": "teleport",
+     "confirm": "811;Obelisk of Victory",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/30006-2.htm": {
+   "file": "teleporter/30006-2.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9000",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9002",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "Center of the Elven Ruins - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9104",
+     "kind": "teleport",
+     "confirm": "811;Center of the Elven Ruins"
+    },
+    {
+     "text": "Coliseum - 1000 Adena",
+     "bypass": "npc_%objectId%_goto 9001",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/30006-3.htm": {
+   "file": "teleporter/30006-3.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Gludin Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9900",
+     "kind": "teleport",
+     "confirm": "811;Gludin Arena"
+    },
+    {
+     "text": "Giran Arena - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9902",
+     "kind": "teleport",
+     "confirm": "811;Giran Arena"
+    },
+    {
+     "text": "Center of the Elven Ruins - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 10004",
+     "kind": "teleport",
+     "confirm": "811;Center of the Elven Ruins"
+    },
+    {
+     "text": "Coliseum - 1 Olympiad Token",
+     "bypass": "npc_%objectId%_goto 9901",
+     "kind": "teleport",
+     "confirm": "811;Coliseum"
+    }
+   ]
+  },
+  "teleporter/30006-4.htm": {
+   "file": "teleporter/30006-4.htm",
+   "quest": null,
+   "text": "Gatekeeper Roxxy: Since the time of the Elmoreden Empire, the Ivory Tower has been the center of mystical research for all Aden. If you should have occasion to visit it, please give my regards to my former mentor, Grand Magister Valleria.",
+   "header": "Gatekeeper Roxxy",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "teleporter/30006.htm"
+    }
+   ]
+  },
+  "teleporter/30006-5.htm": {
+   "file": "teleporter/30006-5.htm",
+   "quest": null,
+   "text": "Gatekeeper Roxxy: The Airship Field is where Airships heading to and from Gracia dock. A powerful magic force field prevents entry to Gracia from sea or via teleportation. But Gracian-made Airships can travel safely through the force field. It is still a dangerous journey, though! After several yea…",
+   "header": "Gatekeeper Roxxy",
+   "links": [
+    {
+     "text": "Teleport to Gludio Airship Field.",
+     "bypass": "npc_%objectId%_goto 12120",
+     "kind": "teleport"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "teleporter/30006.htm"
+    }
+   ]
+  },
+  "teleporter/30006-pk.htm": {
+   "file": "teleporter/30006-pk.htm",
+   "quest": null,
+   "text": "Gatekeeper Roxxy: I'm sorry, but the Ivory Tower, to which I am assigned, forbids giving magical help to someone like you. Sorry, but you must reflect on yourself and repent some more before coming back.",
+   "header": "Gatekeeper Roxxy",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "teleporter/free/30006.htm": {
+   "file": "teleporter/free/30006.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Village of Gludin",
+     "bypass": "npc_%objectId%_goto 15",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin",
+     "live": true
+    },
+    {
+     "text": "Dark Elf Village",
+     "bypass": "npc_%objectId%_goto 1005",
+     "kind": "teleport",
+     "confirm": "811;Dark Elven Village"
+    },
+    {
+     "text": "Dwarven Village",
+     "bypass": "npc_%objectId%_goto 1006",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Elven Village",
+     "bypass": "npc_%objectId%_goto 1007",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Orc Village",
+     "bypass": "npc_%objectId%_goto 1008",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true
+    },
+    {
+     "text": "Kamael Village",
+     "bypass": "npc_%objectId%_goto 12055",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Elven Ruins",
+     "bypass": "npc_%objectId%_goto 1003",
+     "kind": "teleport",
+     "confirm": "811;Elven Ruins",
+     "live": true
+    },
+    {
+     "text": "Singing Waterfall",
+     "bypass": "npc_%objectId%_goto 1004",
+     "kind": "teleport",
+     "confirm": "811;Singing Waterfall",
+     "live": true
+    },
+    {
+     "text": "Talking Island, Northern Territory",
+     "bypass": "npc_%objectId%_goto 1002",
+     "kind": "teleport",
+     "confirm": "811;Talking Island, Northern Territory",
+     "live": true
+    },
+    {
+     "text": "Obelisk of Victory",
+     "bypass": "npc_%objectId%_goto 1001",
+     "kind": "teleport",
+     "confirm": "811;Obelisk of Victory",
+     "live": true
+    }
+   ]
+  },
+  "teleporter/half/30006.htm": {
+   "file": "teleporter/half/30006.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "The Village of Gludin - 9000 Adena",
+     "bypass": "npc_%objectId%_goto 15",
+     "kind": "teleport",
+     "confirm": "811;The Village of Gludin",
+     "live": true
+    },
+    {
+     "text": "Dark Elven Village - 12000 Adena",
+     "bypass": "npc_%objectId%_goto 1005",
+     "kind": "teleport",
+     "confirm": "811;Dark Elf Village"
+    },
+    {
+     "text": "Dwarven Village - 23000 Adena",
+     "bypass": "npc_%objectId%_goto 1006",
+     "kind": "teleport",
+     "confirm": "811;Dwarven Village",
+     "live": true
+    },
+    {
+     "text": "Elven Village - 11500 Adena",
+     "bypass": "npc_%objectId%_goto 1007",
+     "kind": "teleport",
+     "confirm": "811;Elven Village"
+    },
+    {
+     "text": "Orc Village - 17500 Adena",
+     "bypass": "npc_%objectId%_goto 1008",
+     "kind": "teleport",
+     "confirm": "811;Orc Village",
+     "live": true
+    },
+    {
+     "text": "Kamael Village - 10000 Adena",
+     "bypass": "npc_%objectId%_goto 12055",
+     "kind": "teleport",
+     "confirm": "811;Kamael Village",
+     "live": true
+    },
+    {
+     "text": "Elven Ruins - 415 Adena",
+     "bypass": "npc_%objectId%_goto 1003",
+     "kind": "teleport",
+     "confirm": "811;Elven Ruins",
+     "live": true
+    },
+    {
+     "text": "Singing Waterfall - 385 Adena",
+     "bypass": "npc_%objectId%_goto 1004",
+     "kind": "teleport",
+     "confirm": "811;Singing Waterfall",
+     "live": true
+    },
+    {
+     "text": "Talking Island, Northern Territory - 500 Adena",
+     "bypass": "npc_%objectId%_goto 1002",
+     "kind": "teleport",
+     "confirm": "811;Talking Island, Northern Territory",
+     "live": true
+    },
+    {
+     "text": "Obelisk of Victory - 235 Adena",
+     "bypass": "npc_%objectId%_goto 1001",
+     "kind": "teleport",
+     "confirm": "811;Obelisk of Victory",
+     "live": true
+    }
+   ]
+  },
+  "Q00001_LettersOfLove/30006-01.html": {
+   "file": "Q00001_LettersOfLove/30006-01.html",
+   "quest": 1,
+   "text": "Roxxy: A letter...for me? From Darin? What does it say, I wonder... Oh my, I had no idea he had these feelings for me. I wish he hadn't waited so long to tell me! Please give Darin my handkerchief as a pledge of my affection for him. And tell him...tell him not to waste any more time. Tell him to c…",
+   "header": "Roxxy",
+   "when": [
+    "state STARTED; cond 1; has items 687; lacks items 688"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00001_LettersOfLove/30006-02.html": {
+   "file": "Q00001_LettersOfLove/30006-02.html",
+   "quest": 1,
+   "text": "Roxxy: You haven't given my handkerchief to Darin yet? He must be suffering terribly waiting for my answer. Please put his mind at ease. Hurry to him and tell him that I have feelings for him as well.",
+   "header": "Roxxy",
+   "when": [
+    "state STARTED; cond 2; has items 688"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00001_LettersOfLove/30006-03.html": {
+   "file": "Q00001_LettersOfLove/30006-03.html",
+   "quest": 1,
+   "text": "Roxxy: Did you give Darin my handkerchief? What did he say? Oh... I thought he would rush over and ask permission to court me, but instead... Sometimes he acts just like a shy little boy! Although I have to confess that that's a large part of why I find him so attractive. I think he brings out the …",
+   "header": "Roxxy",
+   "when": [
+    "state STARTED; cond 3; (hasQuestItems(player, DARINS_RECEIPT) || hasQuestItems(player, BAULROS_POTION))",
+    "state STARTED; cond 4; has items 1080"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00006_StepIntoTheFuture/30006-02.htm": {
+   "file": "Q00006_StepIntoTheFuture/30006-02.htm",
+   "quest": 6,
+   "text": "Gatekeeper Roxxy: I'm very fortunate to have a job that allows me to travel across the continent. How many others can say they've seen the grandeur of Aden Castle or visited Giran's bustling markets or watched the sun set over the waters of Heine? Despite my love of travel, though, I was happy to r…",
+   "header": "Gatekeeper Roxxy",
+   "when": [
+    "state CREATED; ((player.getRace() == Race.HUMAN) && (player.getLevel() >= MIN_LEVEL))"
+   ],
+   "links": [
+    {
+     "text": "\"I want to go to Giran!\"",
+     "bypass": "Quest Q00006_StepIntoTheFuture 30006-03.htm",
+     "kind": "quest-event",
+     "script": "Q00006_StepIntoTheFuture",
+     "event": "30006-03.htm",
+     "quest": 6,
+     "to": "Q00006_StepIntoTheFuture/30006-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00006_StepIntoTheFuture/30006-01.html": {
+   "file": "Q00006_StepIntoTheFuture/30006-01.html",
+   "quest": 6,
+   "text": "Gatekeeper Roxxy: I'm very fortunate to have a job that allows me to travel across the continent. How many others can say they've seen the grandeur of Aden Castle or visited Giran's bustling markets or watched the sun set over the waters of Heine? Despite my love of travel, though, I was happy to r…",
+   "header": "Gatekeeper Roxxy",
+   "when": [
+    "state CREATED; NOT ((player.getRace() == Race.HUMAN) && (player.getLevel() >= MIN_LEVEL))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00006_StepIntoTheFuture/30006-04.html": {
+   "file": "Q00006_StepIntoTheFuture/30006-04.html",
+   "quest": 6,
+   "text": "Gatekeeper Roxxy: Go to the Temple of Einhasad and speak with Magister Baulro . Perhaps he will help you!",
+   "header": "Gatekeeper Roxxy",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00006_StepIntoTheFuture/30006-05.html": {
+   "file": "Q00006_StepIntoTheFuture/30006-05.html",
+   "quest": 6,
+   "text": "Gatekeeper Roxxy: Ah, it's you again! Did you speak with Magister Baulro?",
+   "header": "Gatekeeper Roxxy",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"Magister Baulro persuaded Sir Colin Windawood pay for my journey!\"",
+     "bypass": "Quest Q00006_StepIntoTheFuture 30006-06.html",
+     "kind": "quest-event",
+     "script": "Q00006_StepIntoTheFuture",
+     "event": "30006-06.html",
+     "quest": 6,
+     "to": "Q00006_StepIntoTheFuture/30006-06.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00006_StepIntoTheFuture/30006-03.htm": {
+   "file": "Q00006_StepIntoTheFuture/30006-03.htm",
+   "quest": 6,
+   "text": "Gatekeeper Roxxy: Oh, I hope I didn't give you the wrong impression! Traveling to Giran from here is very, very expensive! I doubt you could afford it... But perhaps there is another way. Speak with Magister Baulro at the Temple of Einhasad. He's always happy to meet students from Talking Island; i…",
+   "header": "Gatekeeper Roxxy",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00006_StepIntoTheFuture/30006-06.html": {
+   "file": "Q00006_StepIntoTheFuture/30006-06.html",
+   "quest": 6,
+   "text": "Gatekeeper Roxxy: How wonderful for you! Both Baulro and Sir Colin are such helpful people that I'm not surprised. Here is a special Scroll of Escape capable of opening a Dimensional Door to Giran. Pay close attention: it can only be used once! Use it like any other Scroll of Escape. Here as well i…",
+   "header": "Gatekeeper Roxxy",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Letters of Love (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00001_LettersOfLove",
+     "kind": "quest",
+     "quest": 1,
+     "to": "Q00001_LettersOfLove/30006-01.html",
+     "when": "quest in progress",
+     "live": true
+    },
+    {
+     "text": "[Step Into the Future]",
+     "bypass": "npc_%objectId%_Quest Q00006_StepIntoTheFuture",
+     "kind": "quest",
+     "quest": 6,
+     "to": "Q00006_StepIntoTheFuture/30006-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Step Into the Future (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00006_StepIntoTheFuture",
+     "kind": "quest",
+     "quest": 6,
+     "to": "Q00006_StepIntoTheFuture/30006-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "gatekeeper live menu (Scripts/data/gk_live/Roxxy.json) has links the datapack does not: Summon Alegria | The Dark Elf Village - 24000 &#57; | The Elven Village - 23000 &#57;"
+ ],
+ "liveClicks": [
+  {
+   "text": "Teleport",
+   "n": 7,
+   "inDatapack": true,
+   "from": [
+    "Gatekeeper Roxxy:Welcome! I am Gatekeeper Roxxy:, dispatched"
+   ],
+   "to": [
+    "556The Village of GludinThe Dark Elf VillageDwarven VillageT",
+    "556The Village of Gludin - 18000 &#57;The Dark Elf Village -"
+   ]
+  },
+  {
+   "text": "Obelisk of Victory",
+   "n": 5,
+   "inDatapack": true,
+   "from": [
+    "556The Village of GludinThe Dark Elf VillageDwarven VillageT"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Obelisk of Victory - 470 &#57;",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "556The Village of Gludin - 18000 &#57;The Dark Elf Village -"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Quest",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Gatekeeper Roxxy:Welcome! I am Gatekeeper Roxxy:, dispatched"
+   ],
+   "to": [
+    "[Letters of Love (In Progress)][Step Into the Future]"
+   ]
+  },
+  {
+   "text": "[Letters of Love (In Progress)]",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "[Letters of Love (In Progress)][Step Into the Future]"
+   ],
+   "to": [
+    "Roxxy:A letter...for me? From Darin? What does it say, I won"
+   ]
+  },
+  {
+   "text": "Elven Ruins - 830 &#57;",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "556The Village of Gludin - 18000 &#57;The Dark Elf Village -"
+   ],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

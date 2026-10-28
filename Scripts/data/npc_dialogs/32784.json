@@ -1,0 +1,844 @@
+{
+ "npcId": 32784,
+ "name": "Elcadia",
+ "title": "Abyssal Saintess",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.407Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "10292": {
+   "name": "Seven Signs, Girl of Doubt",
+   "listText": [
+    "[Seven Signs, Girl of Doubt]",
+    "[Seven Signs, Girl of Doubt (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32784-01.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32784-03.html",
+     "when": "state STARTED; memo 3; !hasItemsAtLimit(player, ELCADIAS_MARK)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32784-04.html",
+     "when": "state STARTED; memo 3; hasItemsAtLimit(player, ELCADIAS_MARK)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32784-08.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32784-09.html",
+     "when": "state STARTED; memo 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32784-10.html",
+     "when": "state STARTED; memo 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32784-14.html",
+     "when": "state STARTED; memo 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32784-15.html",
+     "when": "state STARTED; memo 8; player.isSubClassActive()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32784-16.html",
+     "when": "state STARTED; memo 8; !player.isSubClassActive()",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "10293": {
+   "name": "Seven Signs, Forbidden Book of the Elmore-Aden Kingdom",
+   "listText": [
+    "[Seven Signs, Forbidden Book of the Elmore-Aden Kingdom]",
+    "[Seven Signs, Forbidden Book of the Elmore-Aden Kingdom (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-02.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10292_SevenSignsGirlOfDoubt.class.get",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-11.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10292_SevenSignsGirlOfDoubt.class.get",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-06.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-07.html",
+     "when": "state STARTED; cond 8",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "10294": {
+   "name": "Seven Signs, To the Monastery of Silence",
+   "listText": [
+    "[Seven Signs, To the Monastery of Silence]",
+    "[Seven Signs, To the Monastery of Silence (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-02.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10293_SevenSignsForbiddenBookOfTheElm",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-07.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10293_SevenSignsForbiddenBookOfTheElm",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-06.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10296": {
+   "name": "Seven Signs, One Who Seeks the Power of the Seal",
+   "listText": [
+    "[Seven Signs, One Who Seeks the Power of the Seal]",
+    "[Seven Signs, One Who Seeks the Power of the Seal (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-01.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-04.html",
+     "when": "state STARTED; memoState > 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-01.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-01.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: Are you here to help me? Hm... you have an air of confidence about you, perhaps you will do. But you will have to earn my trust, and I cannot promise your safety. Are you sure you want to become involved?",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"I will help you.\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32784-02.html",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32784-02.html",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32784-02.html"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-03.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-03.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: Alright. Then how about proving yourself by slaying the monsters around here, without venturing too far? The Farm Bandits and Beast Devourers lurking around the Beast Farm have been marked using my magic. Slay them, and they will give up these marks. Your test is to collec…",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; memo 3; !hasItemsAtLimit(player, ELCADIAS_MARK)"
+   ],
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-04.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-04.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: Hm.. You are better than I thought. But that was just a small test.",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; memo 3; hasItemsAtLimit(player, ELCADIAS_MARK)"
+   ],
+   "links": [
+    {
+     "text": "\"Did I pass the test?\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32784-05.html",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32784-05.html",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32784-05.html"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-08.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-08.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: I love your confidence, especially if you can back it up. Why not show me firsthand what you can do? Are you ready?",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "links": [
+    {
+     "text": "\"Always!\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt SPAWN",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "SPAWN",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32784-07.html"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-09.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-09.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: I'm surprised, and not in a good way. What happened to you? Are you better now? Ready to show me your true skills?",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; memo 5"
+   ],
+   "links": [
+    {
+     "text": "\"Absolutely!\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt SPAWN",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "SPAWN",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32784-07.html"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-10.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-10.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: You are very skilled, and I am not easily impressed... Alright. Consider this a formal request. I'm in need of someone who I can count on in a number of ways, especially someone who can keep a secret. What do you say, are you willing to help me?",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; memo 6"
+   ],
+   "links": [
+    {
+     "text": "\"Leave it to me.\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32784-11.html",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32784-11.html",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32784-11.html"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-14.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-14.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: If you meet Hardin, ask him about the word Embryo. When he asks who sent you, give him my name. We're not close, but he knows who I am.",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; memo 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-15.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-15.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: Oh? You seem different than when I met you. If you changed your class or if you're in a different state than before, you would have to return to your original state. Said again, I have no intention of talking with you if you're in a subclass condition. (You cannot complete…",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; memo 8; player.isSubClassActive()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-16.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-16.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: You think the book where Embryo is mentioned is in the Rune Library? Hmm... I see. Well, that was easier than I thought it would be, but don't worry. This is just the beginning.",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; memo 8; !player.isSubClassActive()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-02.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-02.html",
+   "quest": 10293,
+   "text": "Abyssal Saintess Elcadia: From where I'm standing it looks like you've completed everything for now... (You have already completed this quest.)",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-01.htm": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-01.htm",
+   "quest": 10293,
+   "text": "Abyssal Saintess Elcadia: I need your help now. Things just got complicated.",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10292_SevenSignsGirlOfDoubt.class.get"
+   ],
+   "links": [
+    {
+     "text": "Ask what you should do.",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32784-03.htm",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32784-03.htm",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-03.htm"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-11.htm": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-11.htm",
+   "quest": 10293,
+   "text": "Abyssal Saintess Elcadia: There is more you must do first. Return when you can help me. (Only characters with level 81 or above can take on this quest.)",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10292_SevenSignsGirlOfDoubt.class.get"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-06.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-06.html",
+   "quest": 10293,
+   "text": "Abyssal Saintess Elcadia: Why are you wasting time? I told you we need to search Rune's Library for the book we need.",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-07.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-07.html",
+   "quest": 10293,
+   "text": "Abyssal Saintess Elcadia: My eternal thanks to you, I can finally begin investigating Embryo because of you. While my investigation has just begun, I want to tell you about my future plans.",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; cond 8"
+   ],
+   "links": [
+    {
+     "text": "Future plans? Oh great...",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32784-08.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32784-08.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-08.html"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32784-02.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-02.html",
+   "quest": 10294,
+   "text": "Abyssal Saintess Elcadia: We have completed everything for now. But stay vigilant, I will neeed your help for other things. (You have already completed this quest.)",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32784-01.htm": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-01.htm",
+   "quest": 10294,
+   "text": "Abyssal Saintess Elcadia: Well, it's time for us to get moving. I think I know what I must do to get what I want.",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10293_SevenSignsForbiddenBookOfTheElm"
+   ],
+   "links": [
+    {
+     "text": "What is it?",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32784-03.htm",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32784-03.htm",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-03.htm"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32784-07.htm": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-07.htm",
+   "quest": 10294,
+   "text": "Abyssal Saintess Elcadia: There is more you must do first. Return when you can help me. (Only characters with level 81 or above can take on this quest.)",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10293_SevenSignsForbiddenBookOfTheElm"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32784-06.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-06.html",
+   "quest": 10294,
+   "text": "Abyssal Saintess Elcadia: The path to Abbot's Room from the Monastery of Silence means there is a teleporter hidden somewhere inside the main room connected to the library. We should find that teleporter. Get ready and we'll leave for the Monastery of Silence. We might find something if we search t…",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-01.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-01.html",
+   "quest": 10296,
+   "text": "Abyssal Saintess Elcadia: That was an unbelievable fight! Etis van Etina... He is the one behind everything. Embryo and Etis are scheming to find the remaining seals and take control of this world. His power here was incomplete, and moreover his body was not real, but he was quite formidable noneth…",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "links": [
+    {
+     "text": "\"What should I do from now?\"",
+     "bypass": "Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal 32784-02.html",
+     "kind": "quest-event",
+     "script": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "event": "32784-02.html",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-02.html"
+    }
+   ]
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-04.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-04.html",
+   "quest": 10296,
+   "text": "Abyssal Saintess Elcadia: I must go back now and inform my people of this. We will come up with something. Thank you, I never would have reached this far without you. I know I have been difficult, but I hope you will consider me a friend? I will think of you as one. Oh, before I forget, Hardin want…",
+   "header": "Abyssal Saintess Elcadia",
+   "when": [
+    "state STARTED; memoState > 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-02.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-02.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: Alright. If you think you have what it takes, I'll just require a small demonstration. But know this, those who have come before you quickly discovered it takes more than confidence to pass this test. We shall see soon enough if you have what it takes, do you accept?",
+   "header": "Abyssal Saintess Elcadia",
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32784-03.html",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32784-03.html",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32784-03.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-05.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-05.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: Not yet... This is just a basic test. Let's call it research for a client. Can you demonstrate your abilities so I can see for myself?",
+   "header": "Abyssal Saintess Elcadia",
+   "links": [
+    {
+     "text": "\"No problem.\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32784-06.html",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32784-06.html",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32784-06.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-06.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-06.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: Yes, you certainly sound confident in battle... But can you prove it, here and now? What do you think? Are you ready?",
+   "header": "Abyssal Saintess Elcadia",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Absolutely!\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt SPAWN",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "SPAWN",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32784-07.html"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-07.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-07.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: Hey, pay attention to detail. See all these monsters around here? I said defeat them.",
+   "header": "Abyssal Saintess Elcadia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-11.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-11.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: My request is simple, just accompany me until I get the information I need. Right now I need information on a place called Embryo. I don't even know if its a place or a person, but whatever it is I need to know.",
+   "header": "Abyssal Saintess Elcadia",
+   "links": [
+    {
+     "text": "\"Hmm... What do you want me to do?\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32784-12.html",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32784-12.html",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32784-12.html"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-12.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-12.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: Have you heard of the great wizard Hardin? He used to reside in Ivory Tower, and now he is studying dark magic at Hardin's Academy. He knows more than most will forget in their lifetime, he will know the information we need. I want you to find Hardin.",
+   "header": "Abyssal Saintess Elcadia",
+   "links": [
+    {
+     "text": "\"Okay. I will go find him now.\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32784-13.html",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32784-13.html",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32784-13.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32784-13.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32784-13.html",
+   "quest": 10292,
+   "text": "Abyssal Saintess Elcadia: If you meet Hardin, remember to ask him about Embryo. If he asks who sent you, give him my name. He knows who I am.",
+   "header": "Abyssal Saintess Elcadia",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-03.htm": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-03.htm",
+   "quest": 10293,
+   "text": "Abyssal Saintess Elcadia: We've researched the information you brought from Hardin. It seems the book we're looking for is in the Rune's Main Library. You should come with me to the library and search for this book. I'll have to get ready, so why don't we meet at Rune's Main Library?",
+   "header": "Abyssal Saintess Elcadia",
+   "links": [
+    {
+     "text": "Plan to meet at the Rune's Library.",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32784-04.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32784-04.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-04.html",
+     "effect": "start"
+    },
+    {
+     "text": "Not quite ready yet, I need to make preparations.",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32784-05.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32784-05.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-05.html"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-04.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-04.html",
+   "quest": 10293,
+   "text": "Abyssal Saintess Elcadia: Alright. Then, let's meet up at Rune's Library. Library Director Sophia can help you with any questions. I'll catch up with you soon.",
+   "header": "Abyssal Saintess Elcadia",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-05.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-05.html",
+   "quest": 10293,
+   "text": "Abyssal Saintess Elcadia: What preparation could you need? Fine, go if you must. Just hurry, and let me know when you're actually ready.",
+   "header": "Abyssal Saintess Elcadia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-08.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-08.html",
+   "quest": 10293,
+   "text": "Abyssal Saintess Elcadia: According to Solina's Biography that we read in the library, the Embryo group is deeply connected to Saintess Solina. But there is almost nothing about Solina herself. Of course, it would be her nature to let people know only what she wants them to know. Anyway, in order f…",
+   "header": "Abyssal Saintess Elcadia",
+   "links": [
+    {
+     "text": "Monastery of Silence?",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom REWARD",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "REWARD",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-10.html",
+     "toAll": [
+      "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-10.html",
+      "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-09.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-09.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-09.html",
+   "quest": 10293,
+   "text": "Abyssal Saintess Elcadia: Monastery of Silence was where Saintess Solina and her pupils were staying. The Monastery's true history is known only to a few... Anyway, according to this book, we can learn more about Solina and her pupils from inside the Monastery. I will make plans to sneak inside the…",
+   "header": "Abyssal Saintess Elcadia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-10.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-10.html",
+   "quest": 10293,
+   "text": "Abyssal Saintess Elcadia: Oh? You seem different than when I met you. If you changed your class or if you're in a different state than before, you would have to return to your original state. (You cannot complete the quest when you're in a sub job condition.)",
+   "header": "Abyssal Saintess Elcadia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32784-03.htm": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-03.htm",
+   "quest": 10294,
+   "text": "Abyssal Saintess Elcadia: We accomplished more from the Library of Sages than we first thought. We learned that the information I need about Embryo is in a place called the Monastery of Silence. The problem is where that information is located in the Monastery. We will just have to search... Are yo…",
+   "header": "Abyssal Saintess Elcadia",
+   "links": [
+    {
+     "text": "I'm ready.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32784-05.html",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32784-05.html",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-05.html",
+     "effect": "start"
+    },
+    {
+     "text": "I'm not ready yet.",
+     "bypass": "Quest Q10294_SevenSignsToTheMonasteryOfSilence 32784-04.htm",
+     "kind": "quest-event",
+     "script": "Q10294_SevenSignsToTheMonasteryOfSilence",
+     "event": "32784-04.htm",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-04.htm"
+    }
+   ]
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32784-04.htm": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-04.htm",
+   "quest": 10294,
+   "text": "Abyssal Saintess Elcadia: What happened? Don't you think it's best to get rid of them quickly? I won't wait all day, but if you have something else to do right now you may as well get it done and come back.",
+   "header": "Abyssal Saintess Elcadia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10294_SevenSignsToTheMonasteryOfSilence/32784-05.html": {
+   "file": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-05.html",
+   "quest": 10294,
+   "text": "Abyssal Saintess Elcadia: We were looking for information from the book we found in Rune's Library. There was a cryptic phrase, \"At the large path to the library, turn the outer block of the Monastery, you will find a device to the Abbot's Room,\" written in special ink. We have to find that telepor…",
+   "header": "Abyssal Saintess Elcadia",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-02.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-02.html",
+   "quest": 10296,
+   "text": "Abyssal Saintess Elcadia: You fought well, perhaps you were confidant having fought him before. He had only absorbed the power of 2 seals, and by using a virtual image he found us in this dimension. The scary part is that even with his limited power, I couldn't defeat him. We cannot allow any remai…",
+   "header": "Abyssal Saintess Elcadia",
+   "links": [
+    {
+     "text": "\"How can I stop Embryo?\"",
+     "bypass": "Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal 32784-03.html",
+     "kind": "quest-event",
+     "script": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "event": "32784-03.html",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-03.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-03.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-03.html",
+   "quest": 10296,
+   "text": "Abyssal Saintess Elcadia: I will go back and inform everyone of this situation. Someone will know what to do. Thank you. You are the reason I've made it this far. I think of us as friends, I hope you do as well. Oh, right. Hardin wanted me to ask you to come visit him, he wants to tell you somethin…",
+   "header": "Abyssal Saintess Elcadia",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Girl of Doubt (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10292_SevenSignsGirlOfDoubt",
+     "kind": "quest",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32784-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, Forbidden Book of the Elmore-Aden Kingdom]",
+     "bypass": "npc_%objectId%_Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "kind": "quest",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, Forbidden Book of the Elmore-Aden Kingdom (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "kind": "quest",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32784-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, To the Monastery of Silence]",
+     "bypass": "npc_%objectId%_Quest Q10294_SevenSignsToTheMonasteryOfSilence",
+     "kind": "quest",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, To the Monastery of Silence (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10294_SevenSignsToTheMonasteryOfSilence",
+     "kind": "quest",
+     "quest": 10294,
+     "to": "Q10294_SevenSignsToTheMonasteryOfSilence/32784-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, One Who Seeks the Power of the Seal (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "kind": "quest",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32784-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

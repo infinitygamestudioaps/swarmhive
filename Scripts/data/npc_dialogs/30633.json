@@ -1,0 +1,125 @@
+{
+ "npcId": 30633,
+ "name": "Evert",
+ "title": "Fisher",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.023Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30633.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "229": {
+   "name": "Test Of Witchcraft",
+   "listText": [
+    "[Test of Witchcraft]",
+    "[Test of Witchcraft (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00229_TestOfWitchcraft/30633-01.htm",
+     "when": "state STARTED; has items 3324,3332,3029; lacks items 3335",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30633-02.htm",
+     "when": "state STARTED; has items 3324,3332,3335; lacks items 3334; !(hasQuestItems(player, SOULTRAP_CRYSTAL, SWORD_OF_BINDING) && !hasQuestItems(player, BRIMSTONE_2ND))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30633-03.htm",
+     "when": "state STARTED; has items 3324,3334; lacks items 3332,3335; !(hasQuestItems(player, SOULTRAP_CRYSTAL, SWORD_OF_BINDING) && !hasQuestItems(player, BRIMSTONE_2ND)); !(hasQuestItems(player, SOULTRAP_CRYSTAL, BRIMSTONE_2ND) && !hasQuestItems(player, ZERUEL_BIND_CRYSTAL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30633.htm": {
+   "file": "default/30633.htm",
+   "quest": null,
+   "text": "Fisher Evert: When I was young, I also dreamed of traveling the world and seeking adventure. But eventually I fell in love with a woman and became a fisherman. Now I'm retired and cast my line in the lazy afternoon... It's not a bad life after all, eh?",
+   "header": "Fisher Evert",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30633-01.htm": {
+   "file": "Q00229_TestOfWitchcraft/30633-01.htm",
+   "quest": 229,
+   "text": "Fisher Evert: When I was young, I also dreamed of traveling the world and seeking adventure. But eventually I fell in love with a woman and became a fisherman. Now I am retired, with no care but to cast my line on a peaceful afternoon... This is not a bad life at all, is it? Please remove that swor…",
+   "header": "Fisher Evert",
+   "when": [
+    "state STARTED; has items 3324,3332,3029; lacks items 3335"
+   ],
+   "links": [
+    {
+     "text": "Pull out the Sword of Binding",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30633-02.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30633-02.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30633-02.htm",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30633-02.htm": {
+   "file": "Q00229_TestOfWitchcraft/30633-02.htm",
+   "quest": 229,
+   "text": "Fisher Evert: If you had only minded your own business and continued on your way you would have lived another day... Do you seriously intend to challenge the Prince of Darkness?! A foolhardy move indeed!",
+   "header": "Fisher Evert",
+   "when": [
+    "state STARTED; has items 3324,3332,3335; lacks items 3334; !(hasQuestItems(player, SOULTRAP_CRYSTAL, SWORD_OF_BINDING) && !hasQuestItems(player, BRIMSTONE_2ND))"
+   ],
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30633-03.htm": {
+   "file": "Q00229_TestOfWitchcraft/30633-03.htm",
+   "quest": 229,
+   "text": "Fisher Evert: What...what is going on...? Oh that was horrible... What a terrible nightmare!",
+   "header": "Fisher Evert",
+   "when": [
+    "state STARTED; has items 3324,3334; lacks items 3332,3335; !(hasQuestItems(player, SOULTRAP_CRYSTAL, SWORD_OF_BINDING) && !hasQuestItems(player, BRIMSTONE_2ND)); !(hasQuestItems(player, SOULTRAP_CRYSTAL, BRIMSTONE_2ND) && !hasQuestItems(player, ZERUEL_BIND_CRYSTAL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Witchcraft (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00229_TestOfWitchcraft",
+     "kind": "quest",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30633-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

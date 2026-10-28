@@ -1,0 +1,243 @@
+{
+ "npcId": 32610,
+ "name": "Olf Kanore",
+ "title": "Weaver",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.392Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/32610.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/32610.htm": {
+   "file": "merchant/32610.htm",
+   "quest": null,
+   "text": "Weaver Olf Kanore: Welcome! I am Olf Kanore, a weaver of Rauren Olf Company, the best weaving guild in Aden. We fashion clothes tailored just for you. Quality and value is out motto! Whatever you're looking for, I promise you'll be satisfied. Now, what can i get you?",
+   "header": "Weaver Olf Kanore",
+   "links": [
+    {
+     "text": "Buy a belt.",
+     "bypass": "npc_%objectId%_exc_multisell 326100001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Order a custom-tailored cloak.",
+     "bypass": "npc_%objectId%_multisell 326100002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Remove the seal on a pin, pouch, clip or accessory.",
+     "bypass": "npc_%objectId%_Quest WeaverOlf",
+     "kind": "quest",
+     "script": "WeaverOlf",
+     "to": "ai/npc/WeaverOlf/32610-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/WeaverOlf/32610-1.htm": {
+   "file": "ai/npc/WeaverOlf/32610-1.htm",
+   "quest": null,
+   "text": "Weaver Olf Kanore: Select an item from which you wish the seal removed.",
+   "header": "Weaver Olf Kanore",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Remove the seal on the pin.",
+     "bypass": "Quest WeaverOlf 32610-2.htm",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "32610-2.htm",
+     "to": "ai/npc/WeaverOlf/32610-2.htm"
+    },
+    {
+     "text": "Remove the seal on the pouch.",
+     "bypass": "Quest WeaverOlf 32610-3.htm",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "32610-3.htm",
+     "to": "ai/npc/WeaverOlf/32610-3.htm"
+    },
+    {
+     "text": "Remove the seal on the clip.",
+     "bypass": "Quest WeaverOlf 32610-4.htm",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "32610-4.htm",
+     "to": "ai/npc/WeaverOlf/32610-4.htm"
+    },
+    {
+     "text": "Remove the seal on the accessory.",
+     "bypass": "Quest WeaverOlf 32610-5.htm",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "32610-5.htm",
+     "to": "ai/npc/WeaverOlf/32610-5.htm"
+    }
+   ]
+  },
+  "ai/npc/WeaverOlf/32610-2.htm": {
+   "file": "ai/npc/WeaverOlf/32610-2.htm",
+   "quest": null,
+   "text": "Weaver Olf Kanore: Select a magic pin from which to remove the seal. Keep in mind that there is a fee for doing so.",
+   "header": "Weaver Olf Kanore",
+   "links": [
+    {
+     "text": "C-Grade Magic Pin (3200 Adena)",
+     "bypass": "Quest WeaverOlf 0_grade_pin",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "0_grade_pin",
+     "to": null
+    },
+    {
+     "text": "B-Grade Magic Pin (11,800 Adena)",
+     "bypass": "Quest WeaverOlf 1_grade_pin",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "1_grade_pin",
+     "to": null
+    },
+    {
+     "text": "A-Grade Magic Pin (26,500 Adena)",
+     "bypass": "Quest WeaverOlf 2_grade_pin",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "2_grade_pin",
+     "to": null
+    },
+    {
+     "text": "S-Grade Magic Pin (136,600 Adena)",
+     "bypass": "Quest WeaverOlf 3_grade_pin",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "3_grade_pin",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/WeaverOlf/32610-3.htm": {
+   "file": "ai/npc/WeaverOlf/32610-3.htm",
+   "quest": null,
+   "text": "Weaver Olf Kanore: Select a magic pouch from which to remove the seal. Keep in mind that there is a fee for doing so.",
+   "header": "Weaver Olf Kanore",
+   "links": [
+    {
+     "text": "C-Grade Magic Pouch (3200 Adena)",
+     "bypass": "Quest WeaverOlf 0_grade_pouch",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "0_grade_pouch",
+     "to": null
+    },
+    {
+     "text": "B-Grade Magic Pouch (11,800 Adena)",
+     "bypass": "Quest WeaverOlf 1_grade_pouch",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "1_grade_pouch",
+     "to": null
+    },
+    {
+     "text": "A-Grade Magic Pouch (26,500 Adena)",
+     "bypass": "Quest WeaverOlf 2_grade_pouch",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "2_grade_pouch",
+     "to": null
+    },
+    {
+     "text": "S-Grade Magic Pouch (136,600 Adena)",
+     "bypass": "Quest WeaverOlf 3_grade_pouch",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "3_grade_pouch",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/WeaverOlf/32610-4.htm": {
+   "file": "ai/npc/WeaverOlf/32610-4.htm",
+   "quest": null,
+   "text": "Weaver Olf Kanore: Select a magic clip from which to remove the seal. Keep in mind that there is a fee for doing so.",
+   "header": "Weaver Olf Kanore",
+   "links": [
+    {
+     "text": "A-Grade Magic Clip (26,500 Adena)",
+     "bypass": "Quest WeaverOlf 2_grade_clip",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "2_grade_clip",
+     "to": null
+    },
+    {
+     "text": "S-Grade Magic Clip (136,600 Adena)",
+     "bypass": "Quest WeaverOlf 3_grade_clip",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "3_grade_clip",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/WeaverOlf/32610-5.htm": {
+   "file": "ai/npc/WeaverOlf/32610-5.htm",
+   "quest": null,
+   "text": "Weaver Olf Kanore: Select an accessory from which to remove the seal. Keep in mind that there is a fee for doing so.",
+   "header": "Weaver Olf Kanore",
+   "links": [
+    {
+     "text": "A-Grade Accessory (26,500 Adena)",
+     "bypass": "Quest WeaverOlf 2_grade_ornament",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "2_grade_ornament",
+     "to": null
+    },
+    {
+     "text": "S-Grade Accessory (136,600 Adena)",
+     "bypass": "Quest WeaverOlf 3_grade_ornament",
+     "kind": "quest-event",
+     "script": "WeaverOlf",
+     "event": "3_grade_ornament",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/WeaverOlf/32610-low.htm": {
+   "file": "ai/npc/WeaverOlf/32610-low.htm",
+   "quest": null,
+   "text": "Weaver Olf Kanore: Either you have no sealed items for me to release, or you don't have enough Adena to pay the fee.",
+   "header": "Weaver Olf Kanore",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/WeaverOlf/32610-no.htm": {
+   "file": "ai/npc/WeaverOlf/32610-no.htm",
+   "quest": null,
+   "text": "Weaver Olf Kanore: I see no sealed items here...",
+   "header": "Weaver Olf Kanore",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

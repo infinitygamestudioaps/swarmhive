@@ -1,0 +1,53 @@
+{
+ "npcId": 32518,
+ "name": "Vortex Gate",
+ "title": "Aerial Cleft",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.378Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32518.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32518.htm": {
+   "file": "default/32518.htm",
+   "quest": null,
+   "text": "Vortex: Vortex of confusion... One piece... Mysterious power... You would get something from here. (This place is for those who are able to transform into Flying Transformed Objects.)",
+   "header": "Vortex",
+   "links": [
+    {
+     "text": "Register for battle.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    },
+    {
+     "text": "Learn about this place.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32518-1.htm"
+    }
+   ]
+  },
+  "default/32518-1.htm": {
+   "file": "default/32518-1.htm",
+   "quest": null,
+   "text": "Vortex: Vortex of confusion... One piece... Mysterious power... Aerial Cleft... This place is a battlefield where one can enter through a small vortex hall, which releases mysterious energy. When you register, you can choose between red and blue teams. When a number of members for each team is over…",
+   "header": "Vortex",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

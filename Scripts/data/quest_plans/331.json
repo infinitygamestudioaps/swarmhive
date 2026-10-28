@@ -2,7 +2,7 @@
  "id": 331,
  "name": "Arrow for Vengeance",
  "version": 1,
- "generated": "2026-10-27T11:15:22.547Z",
+ "generated": "2026-10-27T18:18:57.251Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 32,
@@ -12,8 +12,17 @@
  "region": "Giran",
  "requirements": {},
  "restrictions": [],
- "status": "ready",
- "reasons": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: no-dialog"
+  },
+  {
+   "code": "dryrun:no-dialog",
+   "text": "cond 1: the dialogue chain of c1:talk:30125 is partial: no link with event 30125-06.html on the pages of Belton"
+  }
+ ],
  "expectedMin": 22,
  "refLevel": 32,
  "steps": [
@@ -1320,10 +1329,15 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:27.643Z",
-  "pass": true,
+  "at": "2026-10-27T18:19:01.982Z",
+  "pass": false,
   "geo": true,
-  "fails": [],
+  "fails": [
+   {
+    "code": "no-dialog",
+    "t": "cond 1: the dialogue chain of c1:talk:30125 is partial: no link with event 30125-06.html on the pages of Belton"
+   }
+  ],
   "warns": [
    "area-partial",
    "route-detour"

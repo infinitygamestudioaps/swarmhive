@@ -1,0 +1,46 @@
+{
+ "npcId": 32373,
+ "name": "Dorian",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.374Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32373.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32373.htm": {
+   "file": "default/32373.htm",
+   "quest": null,
+   "text": "Dorian: Welcome! I have waited for you for so long... I must tell you that there is a strong magical barrier surrounding Steel Citadel. If any non-devil attempts to enter the tower, the barrier will activate, breaking everything in its field into pieces. Fortunately, I know how to circumvent that m…",
+   "header": "Dorian",
+   "links": [
+    {
+     "text": "Get help.",
+     "bypass": "Quest TullyWorkshop enter",
+     "kind": "quest-event",
+     "script": "TullyWorkshop",
+     "event": "enter"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

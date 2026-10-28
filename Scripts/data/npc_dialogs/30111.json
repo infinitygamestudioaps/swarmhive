@@ -1,0 +1,590 @@
+{
+ "npcId": 30111,
+ "name": "Dieter",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.843Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30111.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "214": {
+   "name": "Trial Of The Scholar",
+   "listText": [
+    "[Trial of the Scholar]",
+    "[Trial of the Scholar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00214_TrialOfTheScholar/30111-01.html",
+     "when": "state STARTED; has items 2677,2691,2699",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30111-06.html",
+     "when": "state STARTED; has items 2677,2691,2700; lacks items 2699",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30111-07.html",
+     "when": "state STARTED; has items 2677,2691,2701; lacks items 2699,2700",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30111-10.html",
+     "when": "state STARTED; has items 2677,2691,2703,2702; lacks items 2699,2700,2701",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30111-11.html",
+     "when": "state STARTED; has items 2677,2691,2703,2704; lacks items 2699,2700,2701,2703,2702",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30111-13.html",
+     "when": "state STARTED; has items 2677,2691,2703,2706,2707,2708,2709; lacks items 2699,2700,2701,2703,2702,2704",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30111-12.html",
+     "when": "state STARTED; has items 2677,2691,2703; lacks items 2699,2700,2701,2703,2702,2704,2706,2707,2708,2709",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00214_TrialOfTheScholar/30111-15.html",
+     "when": "state STARTED; has items 2720; lacks items 2677,2691",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "366": {
+   "name": "Silver Haired Shaman",
+   "listText": [
+    "[Silver Haired Shaman]",
+    "[Silver Haired Shaman (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00366_SilverHairedShaman/30111-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00366_SilverHairedShaman/30111-03.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00366_SilverHairedShaman/30111-04.html",
+     "when": "state STARTED; has items 5874",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00366_SilverHairedShaman/30111-07.html",
+     "when": "state STARTED; lacks items 5874",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30111.htm": {
+   "file": "trainer/30111.htm",
+   "quest": null,
+   "text": "Magister Dieter: Welcome, you who seeks the truth of evil magic. Your eyes shine with the desire for learning. Yes, you should be greedy for knowledge if you ever hope to become a powerful wizard. But even here there are boundaries, areas that must not be transgressed. An excess of curiosity can le…",
+   "header": "Magister Dieter",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Ask about forbidden magic.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30111-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30111-1.htm": {
+   "file": "trainer/30111-1.htm",
+   "quest": null,
+   "text": "Magister Dieter: And after I just warned you about the dangerous curiosity... Tut tut! Well, best you hear it from me, I suppose, rather than discover it for yourself. You have heard of the wizard named Hardin, have you not? He is a Necromancer who studies the Dark Magic prohibited by the commandme…",
+   "header": "Magister Dieter",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30111.htm"
+    }
+   ]
+  },
+  "trainer/30111-noteach.htm": {
+   "file": "trainer/30111-noteach.htm",
+   "quest": null,
+   "text": "Magister Dieter: I only teach Human Mystics. I am sorry but I cannot help you. There now, don't be too disappointed -- you will certainly find one whom you will be able to call teacher.",
+   "header": "Magister Dieter",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30111-01.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-01.html",
+   "quest": 214,
+   "text": "Magister Dieter: Yes, I used to work for Master Cronos. Ha, he told you that, did he? I took that job because I wanted to learn magic. He mainly wanted an errand boy, but I was able to learn much from him eventually. Master Cronos was a nice man. He asked you to find the Book of Intelligence? I shu…",
+   "header": "Magister Dieter",
+   "when": [
+    "state STARTED; has items 2677,2691,2699"
+   ],
+   "links": [
+    {
+     "text": "Ask about the whereabouts of the books",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30111-02.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30111-02.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30111-02.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30111-06.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-06.html",
+   "quest": 214,
+   "text": "Magister Dieter: I thought you might show my key to the astrologer... I see that you haven't yet.",
+   "header": "Magister Dieter",
+   "when": [
+    "state STARTED; has items 2677,2691,2700; lacks items 2699"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30111-07.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-07.html",
+   "quest": 214,
+   "text": "Magister Dieter: What did the astrologer say? Is this letter from him? Let me see... Hmm... the guy seems to have real powers... Creta... Is that a real name? I didn't realize he would be so helpful! Let me read it to you.",
+   "header": "Magister Dieter",
+   "when": [
+    "state STARTED; has items 2677,2691,2701; lacks items 2699,2700"
+   ],
+   "links": [
+    {
+     "text": "Read Creta's letter",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30111-08.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30111-08.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30111-08.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30111-10.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-10.html",
+   "quest": 214,
+   "text": "Magister Dieter: Meet my friend Edroc at the weapon shop in the Hunters Village . He might have some useful information for you.",
+   "header": "Magister Dieter",
+   "when": [
+    "state STARTED; has items 2677,2691,2703,2702; lacks items 2699,2700,2701"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30111-11.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-11.html",
+   "quest": 214,
+   "text": "Magister Dieter: Hmm... Is that so? Gludin Township, and Warehouse Keeper Route... Isn't this letter from the Warehouse Keeper Route of Gludin Township ...,? It must be investigated. I have to ask you one more time.",
+   "header": "Magister Dieter",
+   "when": [
+    "state STARTED; has items 2677,2691,2703,2704; lacks items 2699,2700,2701,2703,2702"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30111-13.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-13.html",
+   "quest": 214,
+   "text": "Magister Dieter: Ah, the Scriptures are safely returned and my master's anger shall be appeased. This certainly takes a weight off of my mind. I cannot thank you enough!",
+   "header": "Magister Dieter",
+   "when": [
+    "state STARTED; has items 2677,2691,2703,2706,2707,2708,2709; lacks items 2699,2700,2701,2703,2702,2704"
+   ],
+   "links": [
+    {
+     "text": "I heard that the Book of Intelligence is 6 volumes altogether.",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30111-14.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30111-14.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30111-14.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30111-12.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-12.html",
+   "quest": 214,
+   "text": "Magister Dieter: Have you made any progress locating the Book of Intelligence? Please, you must find it!",
+   "header": "Magister Dieter",
+   "when": [
+    "state STARTED; has items 2677,2691,2703; lacks items 2699,2700,2701,2703,2702,2704,2706,2707,2708,2709"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30111-15.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-15.html",
+   "quest": 214,
+   "text": "Magister Dieter: Thank you so much for returning the Scriptures to their rightful owner. I feel like a new man now that that has been resolved!",
+   "header": "Magister Dieter",
+   "when": [
+    "state STARTED; has items 2720; lacks items 2677,2691"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00366_SilverHairedShaman/30111-01.htm": {
+   "file": "Q00366_SilverHairedShaman/30111-01.htm",
+   "quest": 366,
+   "text": "Magister Dieter: Have you ever been to Devil's Isle ? It is the home of the devil Zaken. Of course he is not alone. There are all manner of nasty beasts there with him. Deep in the interior of the island you will find living dolls with silvery hair that seems to be bathed in perpetual moonlight. Th…",
+   "header": "Magister Dieter",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I will collect the dolls' hair for you.\"",
+     "bypass": "Quest Q00366_SilverHairedShaman 30111-02.htm",
+     "kind": "quest-event",
+     "script": "Q00366_SilverHairedShaman",
+     "event": "30111-02.htm",
+     "quest": 366,
+     "to": "Q00366_SilverHairedShaman/30111-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00366_SilverHairedShaman/30111-03.html": {
+   "file": "Q00366_SilverHairedShaman/30111-03.html",
+   "quest": 366,
+   "text": "Magister Dieter: Have you ever been to Devil's Isle? It is the home of the devil Zaken. Of course he is not alone. There are all manner of nasty beasts there with him. Deep in the interior of the island you will find living dolls with silvery hair that seems to be bathed in perpetual moonlight. The…",
+   "header": "Magister Dieter",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00366_SilverHairedShaman/30111-04.html": {
+   "file": "Q00366_SilverHairedShaman/30111-04.html",
+   "quest": 366,
+   "text": "Magister Dieter: You have done well! At last, I can... Ah, yes, your pay. Please bring me some more hair! The more the better! Please don't tell anyone I'm collecting this stuff...",
+   "header": "Magister Dieter",
+   "when": [
+    "state STARTED; has items 5874"
+   ],
+   "links": [
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00366_SilverHairedShaman 30111-05.html",
+     "kind": "quest-event",
+     "script": "Q00366_SilverHairedShaman",
+     "event": "30111-05.html",
+     "quest": 366,
+     "to": "Q00366_SilverHairedShaman/30111-05.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"I will continue working for you.\"",
+     "bypass": "Quest Q00366_SilverHairedShaman 30111-06.html",
+     "kind": "quest-event",
+     "script": "Q00366_SilverHairedShaman",
+     "event": "30111-06.html",
+     "quest": 366,
+     "to": "Q00366_SilverHairedShaman/30111-06.html"
+    }
+   ]
+  },
+  "Q00366_SilverHairedShaman/30111-07.html": {
+   "file": "Q00366_SilverHairedShaman/30111-07.html",
+   "quest": 366,
+   "text": "Magister Dieter: As I said, you must go to Devil's Isle , slay Sairon, Sairon's doll and Sairon's puppet and bring back Sairon's Silver Hair . You will be amply rewarded.",
+   "header": "Magister Dieter",
+   "when": [
+    "state STARTED; lacks items 5874"
+   ],
+   "links": [
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00366_SilverHairedShaman 30111-05.html",
+     "kind": "quest-event",
+     "script": "Q00366_SilverHairedShaman",
+     "event": "30111-05.html",
+     "quest": 366,
+     "to": "Q00366_SilverHairedShaman/30111-05.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"I will continue working for you.\"",
+     "bypass": "Quest Q00366_SilverHairedShaman 30111-06.html",
+     "kind": "quest-event",
+     "script": "Q00366_SilverHairedShaman",
+     "event": "30111-06.html",
+     "quest": 366,
+     "to": "Q00366_SilverHairedShaman/30111-06.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30111-02.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-02.html",
+   "quest": 214,
+   "text": "Magister Dieter: These memories bring me such pain... Well, you'll find out soon enough so I might as well tell you. I stole the books. Master crossed the line that day. I was enraged when he told me I should consider being a farmer... I stole the books that night to spite him. I hid the books in a…",
+   "header": "Magister Dieter",
+   "links": [
+    {
+     "text": "Ask what happened afterwards",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30111-03.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30111-03.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30111-03.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30111-03.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-03.html",
+   "quest": 214,
+   "text": "Magister Dieter: Since then I have been searching without success for any sign of the books. If this gets out I would be strung up for sure. So, I forgot it until today. I have no idea where the scripture may be... Do you have any ideas? I would be very grateful if we could find that book...",
+   "header": "Magister Dieter",
+   "links": [
+    {
+     "text": "Introduce Astrologer Creta",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30111-04.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30111-04.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30111-04.html"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30111-04.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-04.html",
+   "quest": 214,
+   "text": "Magister Dieter: Isn't an astrologer the same thing as a fortune-teller? If word got around to the other Magisters that I consulted a fortune-teller I would never hear the end of it. No way!",
+   "header": "Magister Dieter",
+   "links": [
+    {
+     "text": "\"Don't worry. I will handle it.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30111-05.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30111-05.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30111-05.html",
+     "effect": "cond:21"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30111-05.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-05.html",
+   "quest": 214,
+   "text": "Magister Dieter: Really? Thank you! However, is this Astrologer Creta trustworthy? Solved that robbery case, huh? That's impressive. I am not familiar with such things but I get the sense there may be some truth to it. I will take your word for it. If you are looking for clues, you may find this in…",
+   "header": "Magister Dieter",
+   "sets": {
+    "cond": "21"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30111-08.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-08.html",
+   "quest": 214,
+   "text": "Magister Dieter: This vision came to me from the key you gave me. \"You were being watched by the thieves before you even stole the scripture. Because it was so long ago I was not able to distinguish much about them. There were 4 shadows. One of them was definitely a Dwarf, obvious from the short sh…",
+   "header": "Magister Dieter",
+   "links": [
+    {
+     "text": "\"Take your time and try to remember.\"",
+     "bypass": "Quest Q00214_TrialOfTheScholar 30111-09.html",
+     "kind": "quest-event",
+     "script": "Q00214_TrialOfTheScholar",
+     "event": "30111-09.html",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30111-09.html",
+     "effect": "cond:23"
+    }
+   ]
+  },
+  "Q00214_TrialOfTheScholar/30111-09.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-09.html",
+   "quest": 214,
+   "text": "Magister Dieter: The loss of the scriptures diminished my reasoning for a time... There were many outsiders around in those days... Mostly ill-trained hunters, watching for a chance for one shot at the village. They were laughable. However there were some outsiders who did not hunt and were always …",
+   "header": "Magister Dieter",
+   "sets": {
+    "cond": "23"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00214_TrialOfTheScholar/30111-14.html": {
+   "file": "Q00214_TrialOfTheScholar/30111-14.html",
+   "quest": 214,
+   "text": "Magister Dieter: What?! That's not possible...! There were only 4 that I know of. He must have been misunderstood. Don't worry. Now carry all the books of intelligence to my master. I'm sure he will be happy to see them. This will be such a relief for me. Thank you very much.",
+   "header": "Magister Dieter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00366_SilverHairedShaman/30111-02.htm": {
+   "file": "Q00366_SilverHairedShaman/30111-02.htm",
+   "quest": 366,
+   "text": "Magister Dieter: Great news. Now, please go to Devil's Isle and slay Sairon, Sairon's Doll and Sairon's Puppet . But don't forget to bring back Sairon's Silver Hair . You will be amply rewarded.",
+   "header": "Magister Dieter",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00366_SilverHairedShaman/30111-05.html": {
+   "file": "Q00366_SilverHairedShaman/30111-05.html",
+   "quest": 366,
+   "text": "Magister Dieter: That's too bad. I was hoping to collect more hair. If you change your mind, please come back and see me.",
+   "header": "Magister Dieter",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00366_SilverHairedShaman/30111-06.html": {
+   "file": "Q00366_SilverHairedShaman/30111-06.html",
+   "quest": 366,
+   "text": "Magister Dieter: Go to Devil's Isle , slay Sairon, Sairon's doll and Sairon's puppet and bring back their hair.",
+   "header": "Magister Dieter",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Scholar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00214_TrialOfTheScholar",
+     "kind": "quest",
+     "quest": 214,
+     "to": "Q00214_TrialOfTheScholar/30111-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Silver Haired Shaman]",
+     "bypass": "npc_%objectId%_Quest Q00366_SilverHairedShaman",
+     "kind": "quest",
+     "quest": 366,
+     "to": "Q00366_SilverHairedShaman/30111-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Silver Haired Shaman (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00366_SilverHairedShaman",
+     "kind": "quest",
+     "quest": 366,
+     "to": "Q00366_SilverHairedShaman/30111-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

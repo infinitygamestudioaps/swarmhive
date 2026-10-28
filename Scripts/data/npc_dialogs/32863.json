@@ -1,0 +1,127 @@
+{
+ "npcId": 32863,
+ "name": "Sophia",
+ "title": "Library Director of Saints",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.417Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-01.html",
+   "when": "cond >=1 <8",
+   "src": "quest 10293"
+  },
+  {
+   "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-04.html",
+   "when": "!((qs.getCond() >= 1) && (qs.getCond() < 8))",
+   "src": "quest 10293"
+  }
+ ],
+ "quests": {
+  "10293": {
+   "name": "Seven Signs, Forbidden Book of the Elmore-Aden Kingdom",
+   "listText": [
+    "[Seven Signs, Forbidden Book of the Elmore-Aden Kingdom]",
+    "[Seven Signs, Forbidden Book of the Elmore-Aden Kingdom (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-01.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-01.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia: This is the underground library. It's where we store forbidden and old books that cannot be circulated outside. You can probably find Solina's Biography here. Please look now.",
+   "header": "Library of Sages Director Sophia",
+   "when": [
+    "cond >=1 <8"
+   ],
+   "links": [
+    {
+     "text": "\"I'm finished here, let me leave.\"",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32863-02.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32863-02.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-02.html"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-04.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-04.html",
+   "quest": 10293,
+   "text": "Saints Library Director Sophia: Did you find what you were looking for? If you're done here, I can lead you back to the Library of Saints.",
+   "header": "Saints Library Director Sophia",
+   "when": [
+    "!((qs.getCond() >= 1) && (qs.getCond() < 8))"
+   ],
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest LibraryOfSages ENTER",
+     "kind": "quest-event",
+     "script": "LibraryOfSages",
+     "event": "ENTER"
+    },
+    {
+     "text": "\"I'm still looking.\"",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32863-03.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32863-03.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-03.html"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-02.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-02.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia: Did you find the book you were looking for? If you're finished, I will lead you back to Library of Sages..",
+   "header": "Library of Sages Director Sophia",
+   "links": [
+    {
+     "text": "Go to Library of Sages",
+     "bypass": "Quest LibraryOfSages ENTER",
+     "kind": "quest-event",
+     "script": "LibraryOfSages",
+     "event": "ENTER"
+    },
+    {
+     "text": "\"I'm not ready yet.\"",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32863-03.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32863-03.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-03.html"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-03.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32863-03.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia: Please finish what you started.",
+   "header": "Library of Sages Director Sophia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Forbidden Book of the Elmore-Aden Kingdom (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "kind": "quest",
+     "quest": 10293,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

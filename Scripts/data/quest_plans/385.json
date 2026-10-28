@@ -2,7 +2,7 @@
  "id": 385,
  "name": "Yoke of the Past",
  "version": 1,
- "generated": "2026-10-27T11:15:38.947Z",
+ "generated": "2026-10-27T18:19:13.746Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 20,
@@ -16,7 +16,11 @@
  "reasons": [
   {
    "code": "dryrun-fail",
-   "text": "dry run: npc-no-spawn, route-status"
+   "text": "dry run: no-dialog, npc-no-spawn, route-status"
+  },
+  {
+   "code": "dryrun:no-dialog",
+   "text": "cond 0: the dialogue chain of c0:start:31095 is partial: no onTalk page of Gatekeeper Ziggurat found for CREATED"
   },
   {
    "code": "dryrun:npc-no-spawn",
@@ -943,10 +947,18 @@
   "by": "quest-fixer batch1 2026-10-27"
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:38.959Z",
+  "at": "2026-10-27T18:19:13.767Z",
   "pass": false,
   "geo": true,
   "fails": [
+   {
+    "code": "no-dialog",
+    "t": "cond 0: the dialogue chain of c0:start:31095 is partial: no onTalk page of Gatekeeper Ziggurat found for CREATED"
+   },
+   {
+    "code": "no-dialog",
+    "t": "cond 1: no dialogue chain for the talk to  (Scripts/data/quest_dialogs/385.json)"
+   },
    {
     "code": "npc-no-spawn",
     "t": "cond 1: engine talks to  — no spawn"

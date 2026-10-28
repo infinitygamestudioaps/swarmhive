@@ -1,0 +1,67 @@
+{
+ "npcId": 32376,
+ "name": "Teleportation Cubic",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.374Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32376.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32376.htm": {
+   "file": "default/32376.htm",
+   "quest": null,
+   "text": "Teleport Cube: The device seems to be able to physically transport people to a different dimension, to the place where Beleth sleeps.",
+   "header": "Teleport Cube",
+   "links": [
+    {
+     "text": "Meet Beleth.",
+     "bypass": "npc_%objectId%_Quest SteelCitadelTeleport",
+     "kind": "quest",
+     "script": "SteelCitadelTeleport",
+     "to": "ai/npc/Teleports/SteelCitadelTeleport/32376-02.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/SteelCitadelTeleport/32376-02.htm": {
+   "file": "ai/npc/Teleports/SteelCitadelTeleport/32376-02.htm",
+   "quest": null,
+   "text": "Teleportation Cubic: The machine is unable to draw on Beleth's energy and so is not functioning properly at this time.",
+   "header": "Teleportation Cubic",
+   "when": [
+    "belethStatus == 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/SteelCitadelTeleport/32376-03.htm": {
+   "file": "ai/npc/Teleports/SteelCitadelTeleport/32376-03.htm",
+   "quest": null,
+   "text": "Teleportation Cubic: Beleth is already engaged in combat with others.",
+   "header": "Teleportation Cubic",
+   "when": [
+    "belethStatus > 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/SteelCitadelTeleport/32376-02a.htm": {
+   "file": "ai/npc/Teleports/SteelCitadelTeleport/32376-02a.htm",
+   "quest": null,
+   "text": "Teleportation Cubic: The machine is not functioning properly at this time. You should gather more companions. (A leader who can create a command channel of 36 or more people should initiate the conversation.)",
+   "header": "Teleportation Cubic",
+   "when": [
+    "((channel == null) || (channel.getLeader().getObjectId() != player.getObjectId()) || (channel.getMemberCount() < grandBo"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

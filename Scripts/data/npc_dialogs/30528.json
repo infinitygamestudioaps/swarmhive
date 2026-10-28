@@ -1,0 +1,163 @@
+{
+ "npcId": 30528,
+ "name": "Laferon",
+ "title": "Foreman",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.992Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00255_Tutorial/30528-001.htm",
+   "when": "",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30528-004.htm",
+   "when": "qs.getMemoStateEx(1) > 3",
+   "src": "quest 255"
+  },
+  {
+   "page": "Q00255_Tutorial/30528-003.htm",
+   "when": "!(!qs.hasQuestItems(LICENSE_OF_MINER) && (qs.getMemoStateEx(1) > 3)); qs.getMemoStateEx(1) <= 3",
+   "src": "quest 255"
+  }
+ ],
+ "quests": {
+  "255": {
+   "name": "Tutorial",
+   "listText": [
+    "[Tutorial]",
+    "[Tutorial (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00255_Tutorial/30528-001.htm": {
+   "file": "Q00255_Tutorial/30528-001.htm",
+   "quest": 255,
+   "text": "Foreman Laferon: Pleased to meet you, my young friend! I'm foreman of this strip mine, and have trained many fine young Dwarves here. Have you gotten a mining license from the Newbie Helper?",
+   "header": "Foreman Laferon",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "\"I have a mining license.\"",
+     "bypass": "Quest Q00255_Tutorial 31",
+     "kind": "quest-event",
+     "script": "Q00255_Tutorial",
+     "event": "31",
+     "quest": 255,
+     "to": "Q00255_Tutorial/30528-002.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00255_Tutorial/30528-004.htm": {
+   "file": "Q00255_Tutorial/30528-004.htm",
+   "quest": 255,
+   "text": "Foreman Laferon: Go to the Dwarven Village and meet the Newbie Guide . The Newbie Guide will teach you many things you need to know about the game.",
+   "header": "Foreman Laferon",
+   "when": [
+    "qs.getMemoStateEx(1) > 3"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00255_Tutorial/30528-003.htm": {
+   "file": "Q00255_Tutorial/30528-003.htm",
+   "quest": 255,
+   "text": "Foreman Laferon: First, you must learn the basic methods of control in the game. Let me introduce my little friend, the newbie helper . He will teach you many things you need to know about the game.",
+   "header": "Foreman Laferon",
+   "when": [
+    "!(!qs.hasQuestItems(LICENSE_OF_MINER) && (qs.getMemoStateEx(1) > 3)); qs.getMemoStateEx(1) <= 3"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00255_Tutorial/30528-002.htm": {
+   "file": "Q00255_Tutorial/30528-002.htm",
+   "quest": 255,
+   "text": "Foreman Laferon: You have learned the basic operations of the game well. From here on out, you will be able to really enjoy the adventure! Take this gift -- I presume you have already heard instructions about how to use it? You now have a choice to make. You can either start your adventure here in …",
+   "header": "Foreman Laferon",
+   "links": [
+    {
+     "text": "\"I will go to the Dwarven Village.\"",
+     "bypass": "Quest Q00255_Tutorial 42",
+     "kind": "quest-event",
+     "script": "Q00255_Tutorial",
+     "event": "42",
+     "quest": 255,
+     "to": "Q00255_Tutorial/30528-006.htm"
+    },
+    {
+     "text": "\"I will go to the Kamael Village.\"",
+     "bypass": "Quest Q00255_Tutorial 41",
+     "kind": "quest-event",
+     "script": "Q00255_Tutorial",
+     "event": "41",
+     "quest": 255,
+     "to": "Q00255_Tutorial/30528-005.htm"
+    }
+   ]
+  },
+  "Q00255_Tutorial/30528-005.htm": {
+   "file": "Q00255_Tutorial/30528-005.htm",
+   "quest": 255,
+   "text": "Foreman Laferon: Then please seek out the Newbie Guide in Kamael Village , the chief town of the Kamael. He will give you many important tips, as well as an item that will prove useful in your adventures. You can find the Newbie Guide by following the direction arrow you see above your head. Farewe…",
+   "header": "Foreman Laferon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00255_Tutorial/30528-006.htm": {
+   "file": "Q00255_Tutorial/30528-006.htm",
+   "quest": 255,
+   "text": "Foreman Laferon: Go to the Dwarven Village and speak to the Newbie Guide there. He will advise you about what to do next, as well as give you a useful gift. To find him, just follow the arrow above your head. Farewell and good luck!",
+   "header": "Foreman Laferon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Tutorial]",
+     "bypass": "npc_%objectId%_Quest Q00255_Tutorial",
+     "kind": "quest",
+     "quest": 255,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Tutorial (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00255_Tutorial",
+     "kind": "quest",
+     "quest": 255,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

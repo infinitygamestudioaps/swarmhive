@@ -1,0 +1,180 @@
+{
+ "npcId": 30750,
+ "name": "Kalibran",
+ "title": "Drake",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.068Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30750.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "420": {
+   "name": "Little Wing",
+   "listText": [
+    "[Little Wing]",
+    "[Little Wing (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00420_LittleWing/30750-01.html",
+     "when": "state STARTED; cond 5; item 3821 >= 1",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30750-04.html",
+     "when": "state STARTED; cond 6; item 3827 >= 20",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30750-03.html",
+     "when": "state STARTED; cond 6; !getQuestItemsCount(talker, KALIBRAN_EGG) >= 20",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30750-06.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30750.htm": {
+   "file": "default/30750.htm",
+   "quest": null,
+   "text": "Drake Kalibran: The towers and transparent barrier that appear far to the west are things that not even creatures such as myself with large wings and strong power can penetrate. Sea of Spores... I, Kalibran, am a wretched drake who has lost my offspring, my babies.",
+   "header": "Drake Kalibran",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30750-01.html": {
+   "file": "Q00420_LittleWing/30750-01.html",
+   "quest": 420,
+   "text": "Drake Kalibran: What is that foul odor? Could it be the stench of monkshood? Oh well, thanks to you I have regained my wits... I see that you are covered in Elven dust. While you were searching for my lost eggs, you sought help from Fairy Mimyu, didn't you?... Did she send you to help me?",
+   "header": "Drake Kalibran",
+   "when": [
+    "state STARTED; cond 5; item 3821 >= 1"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, I will help, but...\"",
+     "bypass": "Quest Q00420_LittleWing 30750-02.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30750-02.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30750-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30750-04.html": {
+   "file": "Q00420_LittleWing/30750-04.html",
+   "quest": 420,
+   "text": "Drake Kalibran: ...My eggs! They are all here! And still warm! How marvelous! Sob! Oooh.... Sniff...! Why are you staring? Do you take pleasure in seeing a drake cry? Ah yes, the promise that I made to you. What do you ask of me?",
+   "header": "Drake Kalibran",
+   "when": [
+    "state STARTED; cond 6; item 3827 >= 20"
+   ],
+   "links": [
+    {
+     "text": "\"Please give me one of the eggs.\"",
+     "bypass": "Quest Q00420_LittleWing 30750-05.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30750-05.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30750-05.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30750-03.html": {
+   "file": "Q00420_LittleWing/30750-03.html",
+   "quest": 420,
+   "text": "Drake Kalibran: Where are my eggs? You must hurry to the Death Pass , kill the road scavengers and retrieve my 20 eggs !",
+   "header": "Drake Kalibran",
+   "when": [
+    "state STARTED; cond 6; !getQuestItemsCount(talker, KALIBRAN_EGG) >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30750-06.html": {
+   "file": "Q00420_LittleWing/30750-06.html",
+   "quest": 420,
+   "text": "Drake Kalibran: Please take this child to Fairy Mimyu , she will know what to do. May the divine blessings of the gods be upon you and this child whom I love so.",
+   "header": "Drake Kalibran",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30750-02.html": {
+   "file": "Q00420_LittleWing/30750-02.html",
+   "quest": 420,
+   "text": "Drake Kalibran: Ah yes, you two-legged creatures must always receive payment for your efforts. I understand. My eggs were stolen by road scavengers . They attacked me and stole my eggs. I have no idea why they would do such a thing. They are camping near the valley the Humans call the \"Death Pass.\"…",
+   "header": "Drake Kalibran",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00420_LittleWing/30750-05.html": {
+   "file": "Q00420_LittleWing/30750-05.html",
+   "quest": 420,
+   "text": "Drake Kalibran: Oh my! How could you! No, no way...! Please, anything else! OK... Your kind loves money, don't you? I will do anything to give you as much as you want! No? How cruel you are! You must be aware that fairies cannot break a promise once made. Sob... I understand. A promise is a promise…",
+   "header": "Drake Kalibran",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Little Wing (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00420_LittleWing",
+     "kind": "quest",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30750-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

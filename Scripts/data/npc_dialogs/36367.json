@@ -1,0 +1,50 @@
+{
+ "npcId": 36367,
+ "name": "Doorman",
+ "title": "",
+ "type": "L2FortDoormen",
+ "generated": "2026-10-27T18:18:03.458Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "doormen/36367.htm",
+   "when": "",
+   "src": "html/doormen"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "doormen/36367.htm": {
+   "file": "doormen/36367.htm",
+   "quest": null,
+   "text": "All is well, my Lord. What is your command?",
+   "links": [
+    {
+     "text": "Open the Inner Fort Gate",
+     "bypass": "npc_%objectId%_open_doors 121, 22150006, 22150007, 22150003, 22150002",
+     "kind": "other"
+    },
+    {
+     "text": "Close the Inner Fort Gate",
+     "bypass": "npc_%objectId%_close_doors 121, 22150006, 22150007, 22150003, 22150002",
+     "kind": "other"
+    }
+   ]
+  },
+  "doormen/36367-busy.htm": {
+   "file": "doormen/36367-busy.htm",
+   "quest": null,
+   "text": "Oh! Our Fortress is being attacked and I can't do anything for you right now.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "doormen/36367-no.htm": {
+   "file": "doormen/36367-no.htm",
+   "quest": null,
+   "text": "You cannot enter if you are not qualified!",
+   "outcome": "refusal",
+   "links": []
+  }
+ }
+}

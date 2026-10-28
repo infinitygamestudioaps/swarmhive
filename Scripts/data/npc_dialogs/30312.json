@@ -1,0 +1,203 @@
+{
+ "npcId": 30312,
+ "name": "Rockswell",
+ "title": "Lighthouse Keeper",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.930Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30312.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "154": {
+   "name": "Sacrifice to the Sea",
+   "listText": [
+    "[Sacrifice to the Sea]",
+    "[Sacrifice to the Sea (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00154_SacrificeToTheSea/30312-01.htm",
+     "when": "state CREATED; (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00154_SacrificeToTheSea/30312-02.htm",
+     "when": "state CREATED; NOT (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00154_SacrificeToTheSea/30312-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00154_SacrificeToTheSea/30312-07.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00154_SacrificeToTheSea/30312-05.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00154_SacrificeToTheSea/30312-06.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30312.htm": {
+   "file": "default/30312.htm",
+   "quest": null,
+   "text": "Lighthouse Keeper Rockswell: Have you ever thought that the sea is alive? If you look down at the sea from this lighthouse, you'll get to know what tales the sea has to tell. It shows you a far different face when it's clear out than when there's a hurricane. Usually, it's calm and quiet, but there…",
+   "header": "Lighthouse Keeper Rockswell",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00154_SacrificeToTheSea/30312-01.htm": {
+   "file": "Q00154_SacrificeToTheSea/30312-01.htm",
+   "quest": 154,
+   "text": "Lighthouse Keeper Rockswell: The goddess of the seas must be really angry this year. The recent storms were fierce, unlike anything ever seen before. They say that trade ships sailing to Giran have been shipwrecked in these parts ... the waves don't seem normal this year. You know, this is all beca…",
+   "header": "Lighthouse Keeper Rockswell",
+   "when": [
+    "state CREATED; (talker.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00154_SacrificeToTheSea 30312-03.htm",
+     "kind": "quest-event",
+     "script": "Q00154_SacrificeToTheSea",
+     "event": "30312-03.htm",
+     "quest": 154,
+     "to": "Q00154_SacrificeToTheSea/30312-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00154_SacrificeToTheSea/30312-02.htm": {
+   "file": "Q00154_SacrificeToTheSea/30312-02.htm",
+   "quest": 154,
+   "text": "Lighthouse Keeper Rockswell: The goddess of the seas must be angry this year. The waves are particularly fierce, and that recent storm didn't look normal. Plus, they say that trade ships going to Giran have been shipwrecked in these parts. Tsk tsk ... This is all because people have started to beli…",
+   "header": "Lighthouse Keeper Rockswell",
+   "when": [
+    "state CREATED; NOT (talker.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00154_SacrificeToTheSea/30312-04.html": {
+   "file": "Q00154_SacrificeToTheSea/30312-04.html",
+   "quest": 154,
+   "text": "Lighthouse Keeper Rockswell: You still don't have enough keltir fur. If you collect ten pelts of keltir fur and go see Cristel, she will make them into yarn for you. You can meet Cristel at the well in front of the village warehouse. Then, take the yarn she gives you and go find Rolfe. You can meet…",
+   "header": "Lighthouse Keeper Rockswell",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00154_SacrificeToTheSea/30312-07.html": {
+   "file": "Q00154_SacrificeToTheSea/30312-07.html",
+   "quest": 154,
+   "text": "Lighthouse Keeper Rockswell: I see that you've collected ten pelts of keltir fur. Bring them to Cristel. You can meet her at the well in front of the village warehouse. She will use the keltir fur to make yarn. Take the yarn made from keltir fur and go find Rolfe. You can meet Rolfe at the warehous…",
+   "header": "Lighthouse Keeper Rockswell",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00154_SacrificeToTheSea/30312-05.html": {
+   "file": "Q00154_SacrificeToTheSea/30312-05.html",
+   "quest": 154,
+   "text": "Lighthouse Keeper Rockswell: I see that Cristel has made the yarn. I'm always thankful to her. Give this yarn to Rolfe. You can meet Rolfe at the warehouse.",
+   "header": "Lighthouse Keeper Rockswell",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00154_SacrificeToTheSea/30312-06.html": {
+   "file": "Q00154_SacrificeToTheSea/30312-06.html",
+   "quest": 154,
+   "text": "Lighthouse Keeper Rockswell: So this is the doll that Rolfe made. He really is talented with his hands, as a famous tailor should be. The glass eyes make it seem almost alive. It won't be a problem in using it as a sacrifice to Shilen of the deep sea. Well, good work. Here is the reward as promised…",
+   "header": "Lighthouse Keeper Rockswell",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00154_SacrificeToTheSea/30312-03.htm": {
+   "file": "Q00154_SacrificeToTheSea/30312-03.htm",
+   "quest": 154,
+   "text": "Lighthouse Keeper Rockswell: They say that virgins were sacrificed to the sea a long time ago, but waterfolk like me have changed our ways. Instead, we make a doll in the shape of a girl, place it in a boat, and send it out to sea. The doll is our sacrifice to the sea. We asked Warehouse Keeper Rol…",
+   "header": "Lighthouse Keeper Rockswell",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Sacrifice to the Sea]",
+     "bypass": "npc_%objectId%_Quest Q00154_SacrificeToTheSea",
+     "kind": "quest",
+     "quest": 154,
+     "to": "Q00154_SacrificeToTheSea/30312-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Sacrifice to the Sea (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00154_SacrificeToTheSea",
+     "kind": "quest",
+     "quest": 154,
+     "to": "Q00154_SacrificeToTheSea/30312-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,2482 @@
+{
+ "npcId": 32020,
+ "name": "Rafforty",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.313Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "115": {
+   "name": "The Other Side of Truth",
+   "listText": [
+    "[The Other Side of Truth]",
+    "[The Other Side of Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-03.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-05.html",
+     "when": "state STARTED; cond 2; (!st.hasQuestItems(MISAS_LETTER))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "end"
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-06.html",
+     "when": "state STARTED; cond 2; NOT (!st.hasQuestItems(MISAS_LETTER))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-16.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-17.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-18.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-19.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-20.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-21.html",
+     "when": "state STARTED; cond 7|8",
+     "state": "STARTED",
+     "cond": [
+      7,
+      8
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-22.html",
+     "when": "state STARTED; cond 9",
+     "state": "STARTED",
+     "cond": [
+      9
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-24.html",
+     "when": "state STARTED; cond 10",
+     "state": "STARTED",
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-29.html",
+     "when": "state STARTED; cond 11",
+     "state": "STARTED",
+     "cond": [
+      11
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00115_TheOtherSideOfTruth/32020-30.html",
+     "when": "state STARTED; cond 11",
+     "state": "STARTED",
+     "cond": [
+      11
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "648": {
+   "name": "An Ice Merchants Dream",
+   "listText": [
+    "[An Ice Merchant's Dream]",
+    "[An Ice Merchant's Dream (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00648_AnIceMerchantsDream/32020-01.htm",
+     "when": "state CREATED; level < 53",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00648_AnIceMerchantsDream/32020-02.htm",
+     "when": "state CREATED; NOT level < 53; (player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00648_AnIceMerchantsDream/32020-03.htm",
+     "when": "state CREATED; NOT level < 53; NOT (player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00648_AnIceMerchantsDream/32020-13.html",
+     "when": "state STARTED; player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSimpleName()); (hasQuestItems > 0)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00648_AnIceMerchantsDream/32020-11.html",
+     "when": "state STARTED; player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSimpleName()); NOT (hasQuestItems > 0)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00648_AnIceMerchantsDream/32020-12.html",
+     "when": "state STARTED; !player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSimpleName()); (hasQuestItems > 0)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00648_AnIceMerchantsDream/32020-10.html",
+     "when": "state STARTED; !player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSimpleName()); NOT (hasQuestItems > 0)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "10283": {
+   "name": "Request of Ice Merchant",
+   "listText": [
+    "[Request of Ice Merchant]",
+    "[Request of Ice Merchant (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10283_RequestOfIceMerchant/32020-02.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10283_RequestOfIceMerchant/32020-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSi",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10283_RequestOfIceMerchant/32020-08.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSi",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10283_RequestOfIceMerchant/32020-09.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10283_RequestOfIceMerchant/32020-10.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10284": {
+   "name": "Acquisition of Divine Sword",
+   "listText": [
+    "[Acquisition of Divine Sword]",
+    "[Acquisition of Divine Sword (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32020-05.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32020-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10283_RequestOfIceMerchant.class.getS",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32020-04.html",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10283_RequestOfIceMerchant.class.getS",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32020-06.html",
+     "when": "state STARTED; memo 1; (player.getLevel() >= MIN_LEVEL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32020-08.html",
+     "when": "state STARTED; memo 1; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10284_AcquisitionOfDivineSword/32020-07.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10285": {
+   "name": "Meeting Sirra",
+   "listText": [
+    "[Meeting Sirra]",
+    "[Meeting Sirra (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10285_MeetingSirra/32020-05.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10285_MeetingSirra/32020-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10284_AcquisitionOfDivineSword.class.",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10285_MeetingSirra/32020-04.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10284_AcquisitionOfDivineSword.class.",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10285_MeetingSirra/32020-06.html",
+     "when": "state STARTED; memo 1; (player.getLevel() >= MIN_LEVEL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10285_MeetingSirra/32020-09.html",
+     "when": "state STARTED; memo 1; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10285_MeetingSirra/32020-07.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10285_MeetingSirra/32020-08.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10286": {
+   "name": "Reunion with Sirra",
+   "listText": [
+    "[Reunion with Sirra]",
+    "[Reunion with Sirra (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10286_ReunionWithSirra/32020-05.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10286_ReunionWithSirra/32020-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10285_MeetingSirra.class.getSimpleNam",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10286_ReunionWithSirra/32020-04.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10285_MeetingSirra.class.getSimpleNam",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10286_ReunionWithSirra/32020-06.html",
+     "when": "state STARTED; memo 1; (player.getLevel() >= MIN_LEVEL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10286_ReunionWithSirra/32020-08.html",
+     "when": "state STARTED; memo 1; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10286_ReunionWithSirra/32020-07.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10287": {
+   "name": "Story of Those Left",
+   "listText": [
+    "[Story of Those Left]",
+    "[Story of Those Left (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10287_StoryOfThoseLeft/32020-04.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10287_StoryOfThoseLeft/32020-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10286_ReunionWithSirra.class.getSimpl",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10287_StoryOfThoseLeft/32020-03.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10286_ReunionWithSirra.class.getSimpl",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10287_StoryOfThoseLeft/32020-05.html",
+     "when": "state STARTED; memo 1; (player.getLevel() >= MIN_LEVEL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10287_StoryOfThoseLeft/32020-06.html",
+     "when": "state STARTED; memo 1; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10287_StoryOfThoseLeft/32020-07.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-01.htm": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-01.htm",
+   "quest": 115,
+   "text": "Rafforty: Have you recovered your strength? You certainly look a lot better. Would you like to go for a walk? Walk down the road to the lake, meet a person and come back.",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Who am I supposed to meet?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-02.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-02.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-02.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-03.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-03.html",
+   "quest": 115,
+   "text": "Rafforty: You definitely shouldn't wander around here in your condition. I don't want another corpse to deal with. (Characters must have achieved at least level 53 to undertake this quest.)",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-04.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-04.html",
+   "quest": 115,
+   "text": "Rafforty: What are you still doing here? Don't keep her waiting too long! Your task will be over once you've met her at Frost Lake and come back. Be careful! Don't fool around and get yourself hurt!",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-05.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-05.html",
+   "quest": 115,
+   "text": "Rafforty: Where's my letter? I was a fool to trust you.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 2; (!st.hasQuestItems(MISAS_LETTER))"
+   ],
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-06.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-06.html",
+   "quest": 115,
+   "text": "Rafforty: Didn't she say to give me the letter? Then give it to me! Hmm.. Are you sure you didn't open it? The seal looks broken...",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 2; NOT (!st.hasQuestItems(MISAS_LETTER))"
+   ],
+   "links": [
+    {
+     "text": "\"Are you doubting me?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-07.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-07.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-07.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "\"I'm sorry, my curiosity got the better of me.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-08.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-08.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-08.html"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-16.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-16.html",
+   "quest": 115,
+   "text": "Rafforty: Hey, don't be so touchy! I was just asking! I'm sorry if I hurt your feelings. It's hard to trust anyone these days, you know?",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"Why do you doubt me?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-09.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-09.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-09.html"
+    },
+    {
+     "text": "\"No big deal.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-10.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-10.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-10.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-17.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-17.html",
+   "quest": 115,
+   "text": "Rafforty: You were thinking about something else... I'll say it again. Would you like to work with the Zinnia Guild? You have nothing to lose! If it is difficult for you to decide, perhaps you have some questions?",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the Zinnia Guild.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-13.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-13.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-13.html"
+    },
+    {
+     "text": "\"Tell me about Queen Freya.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-14.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-14.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-14.html"
+    },
+    {
+     "text": "\"What exactly am I going to do?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-15.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-15.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-15.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-18.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-18.html",
+   "quest": 115,
+   "text": "Rafforty: I've heard that Misa has some very good information! You've already met her, so you shouldn't have any trouble finding her again. Would you check and see if it's true? She never comes out during the day, you'll need to meet her at night at Frost Lake . Give this letter to her, she'll take…",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-19.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-19.html",
+   "quest": 115,
+   "text": "Rafforty: You haven't left yet? Go see Misa at Frost Lake tonight and check the information. I'll rely on your judgment.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-20.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-20.html",
+   "quest": 115,
+   "text": "Rafforty: Where is the letter? You just can't keep losing it! Help us keep the faith. Give the letter to Misa .",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-21.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-21.html",
+   "quest": 115,
+   "text": "Rafforty: Misa tells me that you've been investigating. I'm anticipating good results.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 7|8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-22.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-22.html",
+   "quest": 115,
+   "text": "Rafforty: Thank you! So, you've found the whereabouts of Kierre? What an accomplishment! My guild will be overjoyed! Your hard work has really paid off! Did you find anything useful when you found Kierre?",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 9"
+   ],
+   "links": [
+    {
+     "text": "\"Here's a piece of the report.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-23.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-23.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-23.html",
+     "effect": "cond:10"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-24.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-24.html",
+   "quest": 115,
+   "text": "Rafforty: Good timing! We've decrypted the report, and it was very interesting! It says that we still need some Tablet Fragments to obtain the information. Did you happen to see any Tablet Fragments during your investigation?",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 10"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the Tablet Fragment.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth finish",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "finish",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-25.html",
+     "toAll": [
+      "Q00115_TheOtherSideOfTruth/32020-25.html",
+      "Q00115_TheOtherSideOfTruth/32020-26.html"
+     ],
+     "effect": "reward|cond:11"
+    },
+    {
+     "text": "\"No, but I'll look for it.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth finish2",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "finish2",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-27.html",
+     "toAll": [
+      "Q00115_TheOtherSideOfTruth/32020-27.html",
+      "Q00115_TheOtherSideOfTruth/32020-28.html"
+     ],
+     "effect": "reward|cond:11"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-29.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-29.html",
+   "quest": 115,
+   "text": "Rafforty: Please try to find the Tablet Fragment .",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-30.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-30.html",
+   "quest": 115,
+   "text": "Rafforty: Ah.... Yes, this is it. I must start an investigation at once! Thank you for your help. Please accept this reward. It's not much, but it is a token of our appreciation for your hard work.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; cond 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00648_AnIceMerchantsDream/32020-01.htm": {
+   "file": "Q00648_AnIceMerchantsDream/32020-01.htm",
+   "quest": 648,
+   "text": "Rafforty: I don't know how you got here, but you shouldn't be wandering around by yourself. You must leave this place before the Ice Queen finds out you're here! (Characters must have achieved at least level 53 to undertake this quest.)",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; level < 53"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00648_AnIceMerchantsDream/32020-02.htm": {
+   "file": "Q00648_AnIceMerchantsDream/32020-02.htm",
+   "quest": 648,
+   "text": "Rafforty: Welcome! You've helped to give our Zinnia Guild a long-term goal. Honestly though, we could use some more help. Could you help us again? We'll give you reward, but I'm not sure if you'll be satisfied with it...",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; NOT level < 53; (player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "I'll help you.",
+     "bypass": "Quest Q00648_AnIceMerchantsDream ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "ACCEPT",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-04.htm",
+     "toAll": [
+      "Q00648_AnIceMerchantsDream/32020-04.htm",
+      "Q00648_AnIceMerchantsDream/32020-05.htm"
+     ],
+     "effect": "start|cond:2"
+    }
+   ]
+  },
+  "Q00648_AnIceMerchantsDream/32020-03.htm": {
+   "file": "Q00648_AnIceMerchantsDream/32020-03.htm",
+   "quest": 648,
+   "text": "Rafforty: Why are you here? Well, since you're here anyway, why you take a little rest and then help us out?",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; NOT level < 53; NOT (player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "What can I do for you?",
+     "bypass": "Quest Q00648_AnIceMerchantsDream ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "ACCEPT",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-04.htm",
+     "toAll": [
+      "Q00648_AnIceMerchantsDream/32020-04.htm",
+      "Q00648_AnIceMerchantsDream/32020-05.htm"
+     ],
+     "effect": "start|cond:2"
+    }
+   ]
+  },
+  "Q00648_AnIceMerchantsDream/32020-13.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-13.html",
+   "quest": 648,
+   "text": "Rafforty: Any success? You look exhausted, my friend! I can feel the unique energy of Ice Crystals coming from you! Can I have them? I'll pay you well!",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSimpleName()); (hasQuestItems > 0)"
+   ],
+   "links": [
+    {
+     "text": "What's the reward?",
+     "bypass": "Quest Q00648_AnIceMerchantsDream ASK",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "ASK",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-14.html",
+     "toAll": [
+      "Q00648_AnIceMerchantsDream/32020-14.html",
+      "Q00648_AnIceMerchantsDream/32020-15.html"
+     ]
+    },
+    {
+     "text": "I'll give it to you later.",
+     "bypass": "Quest Q00648_AnIceMerchantsDream LATER",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "LATER",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-19.html",
+     "toAll": [
+      "Q00648_AnIceMerchantsDream/32020-19.html",
+      "Q00648_AnIceMerchantsDream/32020-20.html"
+     ]
+    },
+    {
+     "text": "I quit.",
+     "bypass": "Quest Q00648_AnIceMerchantsDream QUIT",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "QUIT",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-21.html",
+     "toAll": [
+      "Q00648_AnIceMerchantsDream/32020-21.html",
+      "Q00648_AnIceMerchantsDream/32020-22.html"
+     ],
+     "effect": "end"
+    },
+    {
+     "text": "How do I use Silver Hemocytes?",
+     "bypass": "Quest Q00648_AnIceMerchantsDream 32020-08.html",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "32020-08.html",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-08.html"
+    }
+   ]
+  },
+  "Q00648_AnIceMerchantsDream/32020-11.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-11.html",
+   "quest": 648,
+   "text": "Rafforty: It's dangerous outside, so please be careful! I'm telling you, most of the creatures living in the Frozen Labyrinth have a Silver Ice Crystal in their bodies. Bring me these crystals and you'll be well-rewarded. Black Ice Crystals are quite rare, but if you find one and bring it back to m…",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSimpleName()); NOT (hasQuestItems > 0)"
+   ],
+   "links": [
+    {
+     "text": "How do I get Black Ice Crystals?",
+     "bypass": "Quest Q00648_AnIceMerchantsDream 32020-06.html",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "32020-06.html",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-06.html"
+    },
+    {
+     "text": "Where do I use Silver Hemocytes?",
+     "bypass": "Quest Q00648_AnIceMerchantsDream 32020-08.html",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "32020-08.html",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-08.html"
+    }
+   ]
+  },
+  "Q00648_AnIceMerchantsDream/32020-12.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-12.html",
+   "quest": 648,
+   "text": "Rafforty: You look like you did something big outside. I can feel the unique energy of Ice Crystals coming from you! You have them, don't you? Don't you want to give it to me? I'll pay you well!",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; !player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSimpleName()); (hasQuestItems > 0)"
+   ],
+   "links": [
+    {
+     "text": "What's the reward?",
+     "bypass": "Quest Q00648_AnIceMerchantsDream ASK",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "ASK",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-14.html",
+     "toAll": [
+      "Q00648_AnIceMerchantsDream/32020-14.html",
+      "Q00648_AnIceMerchantsDream/32020-15.html"
+     ]
+    },
+    {
+     "text": "I'll give it to you later.",
+     "bypass": "Quest Q00648_AnIceMerchantsDream LATER",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "LATER",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-19.html",
+     "toAll": [
+      "Q00648_AnIceMerchantsDream/32020-19.html",
+      "Q00648_AnIceMerchantsDream/32020-20.html"
+     ]
+    },
+    {
+     "text": "I want to quit doing this.",
+     "bypass": "Quest Q00648_AnIceMerchantsDream QUIT",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "QUIT",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-21.html",
+     "toAll": [
+      "Q00648_AnIceMerchantsDream/32020-21.html",
+      "Q00648_AnIceMerchantsDream/32020-22.html"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00648_AnIceMerchantsDream/32020-10.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-10.html",
+   "quest": 648,
+   "text": "Rafforty: Haven't you left yet? I'm telling you again, most of the creatures around here have a Black Ice Crystal in their bodies! It seems like those crystals make them very violent. We need to study those crystals. Bring me some and you'll be well-rewarded! Of course, you probably won't get a Bla…",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; !player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSimpleName()); NOT (hasQuestItems > 0)"
+   ],
+   "links": [
+    {
+     "text": "How do I get the Black Ice Crystals?",
+     "bypass": "Quest Q00648_AnIceMerchantsDream 32020-07.html",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "32020-07.html",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-07.html"
+    }
+   ]
+  },
+  "Q10283_RequestOfIceMerchant/32020-02.html": {
+   "file": "Q10283_RequestOfIceMerchant/32020-02.html",
+   "quest": 10283,
+   "text": "Rafforty: I'm happy for your safe return. Think about getting some leisure time before your next mission, I personally like the hot springs. (You have already completed this quest.)",
+   "header": "Rafforty",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10283_RequestOfIceMerchant/32020-01.htm": {
+   "file": "Q10283_RequestOfIceMerchant/32020-01.htm",
+   "quest": 10283,
+   "text": "Rafforty: Everything we needed was in the report and tablet piece you gave us. If you ever need a good reference, look no further!",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSi"
+   ],
+   "links": [
+    {
+     "text": "Ask about that information.",
+     "bypass": "Quest Q10283_RequestOfIceMerchant 32020-03.htm",
+     "kind": "quest-event",
+     "script": "Q10283_RequestOfIceMerchant",
+     "event": "32020-03.htm",
+     "quest": 10283,
+     "to": "Q10283_RequestOfIceMerchant/32020-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10283_RequestOfIceMerchant/32020-08.htm": {
+   "file": "Q10283_RequestOfIceMerchant/32020-08.htm",
+   "quest": 10283,
+   "text": "Rafforty: Haven't you heard of this place? It's too dangerous, just remain here... curious from a distance. (Only characters level 82 or above who have completed quest \"The Other Side of Truth\" may take on this quest.)",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00115_TheOtherSideOfTruth.class.getSi"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10283_RequestOfIceMerchant/32020-09.html": {
+   "file": "Q10283_RequestOfIceMerchant/32020-09.html",
+   "quest": 10283,
+   "text": "Rafforty: Then, allow me to continue. We have not found a way to save our guild members or Kier. For now they seem doomed to remain ice sculptures. But the information they died for is very valuable. They discovered how to defeat Ice Queen Freya ! And for that, their deaths were not in vain!",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q10283_RequestOfIceMerchant 32020-05.html",
+     "kind": "quest-event",
+     "script": "Q10283_RequestOfIceMerchant",
+     "event": "32020-05.html",
+     "quest": 10283,
+     "to": "Q10283_RequestOfIceMerchant/32020-05.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q10283_RequestOfIceMerchant/32020-10.html": {
+   "file": "Q10283_RequestOfIceMerchant/32020-10.html",
+   "quest": 10283,
+   "text": "Rafforty: According to Kier's code, the Divine Sword is a weapon capable of sealing away Freya. As such, our new objective is to go to Kier's ice sculpture and look for some clue as to where the Divine Sword is.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10284_AcquisitionOfDivineSword/32020-05.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32020-05.html",
+   "quest": 10284,
+   "text": "Rafforty: Back for more? Such stamina! What's your secret? Haha! (You have already completed this quest.)",
+   "header": "Rafforty",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10284_AcquisitionOfDivineSword/32020-01.htm": {
+   "file": "Q10284_AcquisitionOfDivineSword/32020-01.htm",
+   "quest": 10284,
+   "text": "Rafforty: So, you didn't find the Divine Sword, but I hear you finally met Jinia. She's a bit severe, but she has a lot of responsibility on her shoulders, so forgive her attitude. Alright, listen. I don't want there to be any doubt about this. What we're going to ask you to do will be dangerous, a…",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10283_RequestOfIceMerchant.class.getS"
+   ],
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32020-02.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32020-02.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32020-02.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32020-04.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32020-04.html",
+   "quest": 10284,
+   "text": "Rafforty: This is a family matter, adventurer, and is best left that way. If you don't mind. (Only characters level 82 or above who have completed quest \"Request of Ice Merchant\" may take on this quest.)",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10283_RequestOfIceMerchant.class.getS"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10284_AcquisitionOfDivineSword/32020-06.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32020-06.html",
+   "quest": 10284,
+   "text": "Rafforty: Jinia awaits in the Clan Hall. Remember, we take measures to keep its location secret so only I can take you there. Are you ready now?",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 1; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Please let me in.\"",
+     "bypass": "npc_%objectId%_Quest JiniaGuildHideout1",
+     "kind": "quest",
+     "script": "JiniaGuildHideout1"
+    },
+    {
+     "text": "\"I still need time to prepare.\"",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32020-03.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32020-03.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32020-03.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32020-08.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32020-08.html",
+   "quest": 10284,
+   "text": "Rafforty: Sorry friend, it's not a good time. There's a heated meeting among the guild members. Please come back when the meeting is over.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 1; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10284_AcquisitionOfDivineSword/32020-07.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32020-07.html",
+   "quest": 10284,
+   "text": "Rafforty: I take it your talk with Jinia was fruitful? Now it's off to the Mithril Mines with you. Just make sure you come back safely - that's an order.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32020-05.htm": {
+   "file": "Q10285_MeetingSirra/32020-05.htm",
+   "quest": 10285,
+   "text": "Rafforty: You lucked out to have us around is what happened. Now get some rest, try a mug of ale at the pub. Maybe a dark brew with a nice foamy head. We will discuss this later. (You have already completed this quest.)",
+   "header": "Rafforty",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32020-01.htm": {
+   "file": "Q10285_MeetingSirra/32020-01.htm",
+   "quest": 10285,
+   "text": "Rafforty: You're back, and alive, thank the Gods! And you rescued Kegor? Courage and skill in battle a rare commodity these days. We owe you immensely.",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10284_AcquisitionOfDivineSword.class."
+   ],
+   "links": [
+    {
+     "text": "\"I just helped a man in trouble.\"",
+     "bypass": "Quest Q10285_MeetingSirra 32020-02.htm",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32020-02.htm",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32020-02.htm"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32020-04.htm": {
+   "file": "Q10285_MeetingSirra/32020-04.htm",
+   "quest": 10285,
+   "text": "Rafforty: It's not time. Patience. (Only characters level 82 or above who have completed quest \"Acquisition of Divine Sword\" may take on this quest.)",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10284_AcquisitionOfDivineSword.class."
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32020-06.html": {
+   "file": "Q10285_MeetingSirra/32020-06.html",
+   "quest": 10285,
+   "text": "Rafforty: You are always welcome inside the Jinia Guild Clan Hall. Jinia and Kegor are waiting for you. Enter now?",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 1; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Enter.",
+     "bypass": "npc_%objectId%_Quest JiniaGuildHideout2",
+     "kind": "quest",
+     "script": "JiniaGuildHideout2"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32020-09.html": {
+   "file": "Q10285_MeetingSirra/32020-09.html",
+   "quest": 10285,
+   "text": "Rafforty: Forgive me, but can you come back later? The Guild is having an important meeting right now.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 1; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32020-07.html": {
+   "file": "Q10285_MeetingSirra/32020-07.html",
+   "quest": 10285,
+   "text": "Rafforty: We respect your decision. Jinia Guild will find a solution to this problem somehow, even without you.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32020-08.html": {
+   "file": "Q10285_MeetingSirra/32020-08.html",
+   "quest": 10285,
+   "text": "Rafforty: Hello? Are you OK there? Come on now, pull yourself together...",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10286_ReunionWithSirra/32020-05.html": {
+   "file": "Q10286_ReunionWithSirra/32020-05.html",
+   "quest": 10286,
+   "text": "Rafforty: We can reminisce once the future is in good hands, friend. (You have already completed this quest.)",
+   "header": "Rafforty",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10286_ReunionWithSirra/32020-01.htm": {
+   "file": "Q10286_ReunionWithSirra/32020-01.htm",
+   "quest": 10286,
+   "text": "Rafforty: You were hit with Freya's Eternal Blizzard during the battle at the castle. We rescued you before the freeze fully set in. Any later and you'd be in no better shape than Kier.",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10285_MeetingSirra.class.getSimpleNam"
+   ],
+   "links": [
+    {
+     "text": "\"It's such a blur, I can't remember...\"",
+     "bypass": "Quest Q10286_ReunionWithSirra 32020-02.htm",
+     "kind": "quest-event",
+     "script": "Q10286_ReunionWithSirra",
+     "event": "32020-02.htm",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32020-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32020-04.htm": {
+   "file": "Q10286_ReunionWithSirra/32020-04.htm",
+   "quest": 10286,
+   "text": "Rafforty: It's not time for that yet. (Only character with level 82 or above and who has completed the quest \"Meeting Sirra\" can take on this quest.)",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10285_MeetingSirra.class.getSimpleNam"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10286_ReunionWithSirra/32020-06.html": {
+   "file": "Q10286_ReunionWithSirra/32020-06.html",
+   "quest": 10286,
+   "text": "Rafforty: Jinia's ready to see you.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 1; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Enter.",
+     "bypass": "npc_%objectId%_Quest JiniaGuildHideout3",
+     "kind": "quest",
+     "script": "JiniaGuildHideout3"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32020-08.html": {
+   "file": "Q10286_ReunionWithSirra/32020-08.html",
+   "quest": 10286,
+   "text": "Rafforty: Best not to try right now. Private guild meeting going on. Come back later okay?",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 1; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10286_ReunionWithSirra/32020-07.html": {
+   "file": "Q10286_ReunionWithSirra/32020-07.html",
+   "quest": 10286,
+   "text": "Rafforty: Be sure to bring me some good news, and don't let anything happen to Jinia. Ahh, you swore it!",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10287_StoryOfThoseLeft/32020-04.html": {
+   "file": "Q10287_StoryOfThoseLeft/32020-04.html",
+   "quest": 10287,
+   "text": "Rafforty: Jinia guild remains committed to ending the reign of the Ice Queen. Hoorah! (You have already completed this quest.)",
+   "header": "Rafforty",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10287_StoryOfThoseLeft/32020-01.htm": {
+   "file": "Q10287_StoryOfThoseLeft/32020-01.htm",
+   "quest": 10287,
+   "text": "Rafforty: Hey, Jinia needs to speak with you right away. Something about a story of the last battle... Will you listen?",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10286_ReunionWithSirra.class.getSimpl"
+   ],
+   "links": [
+    {
+     "text": "I want to hear the story.",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 32020-02.htm",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "32020-02.htm",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32020-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10287_StoryOfThoseLeft/32020-03.htm": {
+   "file": "Q10287_StoryOfThoseLeft/32020-03.htm",
+   "quest": 10287,
+   "text": "Rafforty: This chapter comes later. Nice try though! (Only characters level 82 or above who have completed quest \"Reunion with Sirra\" may take on this quest.)",
+   "header": "Rafforty",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q10286_ReunionWithSirra.class.getSimpl"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10287_StoryOfThoseLeft/32020-05.html": {
+   "file": "Q10287_StoryOfThoseLeft/32020-05.html",
+   "quest": 10287,
+   "text": "Rafforty: Always running things, Jinia is in the clan hall. Go to the instant zone to talk to her.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 1; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Teleport to the clan hall of Jinia guild.",
+     "bypass": "npc_%objectId%_Quest JiniaGuildHideout4",
+     "kind": "quest",
+     "script": "JiniaGuildHideout4"
+    }
+   ]
+  },
+  "Q10287_StoryOfThoseLeft/32020-06.html": {
+   "file": "Q10287_StoryOfThoseLeft/32020-06.html",
+   "quest": 10287,
+   "text": "Rafforty: Sorry, it's not a good time. Another private Guild meeting. You understand.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 1; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10287_StoryOfThoseLeft/32020-07.html": {
+   "file": "Q10287_StoryOfThoseLeft/32020-07.html",
+   "quest": 10287,
+   "text": "Rafforty: Jinia asked me to give you something. You will know better than me what will aid you the most. Take your time.",
+   "header": "Rafforty",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "Look through the list.",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 32020-08.html",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "32020-08.html",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32020-08.html"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-02.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-02.html",
+   "quest": 115,
+   "text": "Rafforty: I want you to meet a woman! Why are you blushing? You know how it is... I just can't refuse her! So I want you to go there to refuse for me! That's it! It should be easy for you since you haven't met her before. Follow the road to the northwest until you get to Frost Lake and meet a woman…",
+   "header": "Rafforty",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-07.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-07.html",
+   "quest": 115,
+   "text": "Rafforty: Hey, don't be so touchy! I was just asking! I'm sorry if I hurt your feelings. It's hard to trust anyone these days, you know?",
+   "header": "Rafforty",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Why did you ask me to do this?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-09.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-09.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-09.html"
+    },
+    {
+     "text": "\"No big deal.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-10.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-10.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-10.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-08.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-08.html",
+   "quest": 115,
+   "text": "Rafforty: Hmmm.. It's just wrong to read someone else's mail! I didn't think you'd do such a thing... I'm really disappointed in you! I'm through talking to you! Get out as soon as you've recovered!",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-09.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-09.html",
+   "quest": 115,
+   "text": "Rafforty: Well, I'll just come out with it then! What kind of relationship do you have with Queen Freya?",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "\"Who's Queen Freya?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-11.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-11.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-11.html",
+     "effect": "cond:4"
+    },
+    {
+     "text": "\"Certainly you don't think I'm involved with her?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-12.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-12.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-12.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-10.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-10.html",
+   "quest": 115,
+   "text": "Rafforty: Thank you for understanding. Oh, yes! Don't let my accent fool you! I'm Rafforty, from the Zinnia Guild! I actually tested you a while back, and you're not involved with Queen Freya. I'd like to ask for a favor... Or would you like to hear about the current situation?",
+   "header": "Rafforty",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"The Zinnia Guild...?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-13.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-13.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-13.html"
+    },
+    {
+     "text": "\"Who's Queen Freya?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-14.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-14.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-14.html"
+    },
+    {
+     "text": "\"What can I do for you?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-15.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-15.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-15.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-11.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-11.html",
+   "quest": 115,
+   "text": "Rafforty: You don't know about Queen Freya? She rules this whole area! You must not be related to Freya if you don't even know who she is! I'm sorry I didn't trust you! The situation here has just gotten to the point... Well, I'll just come out with it... Would you like to join the Zinnia Guild? I …",
+   "header": "Rafforty",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Tell me about the Zinnia Guild.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-13.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-13.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-13.html"
+    },
+    {
+     "text": "\"Tell me about Queen Freya.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-14.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-14.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-14.html"
+    },
+    {
+     "text": "\"What can I do for you?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-15.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-15.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-15.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-12.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-12.html",
+   "quest": 115,
+   "text": "Rafforty: Well, honestly, you're acting kind of shifty! We obviously don't trust each other, so let's just end it now. Please get out as soon as you're recovered.",
+   "header": "Rafforty",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-13.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-13.html",
+   "quest": 115,
+   "text": "Rafforty: We of the Zinnia Guild maintain the Order of Canna Knights that guarded Queen Freya before she became the Ice Queen. We've long sought a way to restore her to her original self. But as the sacrifices of our guild members have increased, we must now look to the outside for help.",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "\"Tell me about Queen Freya.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-14.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-14.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-14.html"
+    },
+    {
+     "text": "\"What can I do for you?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-15.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-15.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-15.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-14.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-14.html",
+   "quest": 115,
+   "text": "Rafforty: The Ice Queen Freya rules this territory. She was not always like this... One day she just changed into a cruel, ice-cold person! You'd do well to avoid her!",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "\"Tell me about the Zinnia Guild.\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-13.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-13.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-13.html"
+    },
+    {
+     "text": "\"What can I do for you?\"",
+     "bypass": "Quest Q00115_TheOtherSideOfTruth 32020-15.html",
+     "kind": "quest-event",
+     "script": "Q00115_TheOtherSideOfTruth",
+     "event": "32020-15.html",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-15.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00115_TheOtherSideOfTruth/32020-15.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-15.html",
+   "quest": 115,
+   "text": "Rafforty: Our guild's goal is to restore Queen Freya to her original self. Misa, who you met a while ago, is also a guild member. I'd like you to investigate the information we've collected so far. Hmmmm....? I have a meeting, would you please come back later?",
+   "header": "Rafforty",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-23.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-23.html",
+   "quest": 115,
+   "text": "Rafforty: It appears to be one of our cryptograms... But it's very old! It will take some time to decrypt it... Would you mind coming back later?",
+   "header": "Rafforty",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-25.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-25.html",
+   "quest": 115,
+   "text": "Rafforty: Ah.... Yes, this is it! I must start an investigation at once! Thank you for your help. Please accept this reward... It's not much, but it is a token of our appreciation for your hard work.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-26.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-26.html",
+   "quest": 115,
+   "text": "Rafforty: What am I supposed to do when you show me empty hands like that? It seems you've seen something like a Tablet Fragment... Would you please look for it?",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-27.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-27.html",
+   "quest": 115,
+   "text": "Rafforty: Uh... What's that in your pocket? Can I see it? ... I think this may be the right one! I must start an investigation at once! Thank you for all your help. Please accept this reward. It's not much, but it is a token of our appreciation for your hard work.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00115_TheOtherSideOfTruth/32020-28.html": {
+   "file": "Q00115_TheOtherSideOfTruth/32020-28.html",
+   "quest": 115,
+   "text": "Rafforty: You look like you saw something. Please try to find the Tablet Fragment.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00648_AnIceMerchantsDream/32020-04.htm": {
+   "file": "Q00648_AnIceMerchantsDream/32020-04.htm",
+   "quest": 648,
+   "text": "Repre: I'm saying that the lifeforms in this area for the most part have something called Black Ice Crystals inside their bodies. The crystals cause the creatures to become violent, which is why there are a few hunters collecting the crystals for research. If you collect some for them, you'll get a…",
+   "header": "Repre",
+   "links": [
+    {
+     "text": "\"How do I obtain Black Ice Crystals?\"",
+     "bypass": "Quest Q00648_AnIceMerchantsDream 32020-07.html",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "32020-07.html",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-07.html"
+    }
+   ]
+  },
+  "Q00648_AnIceMerchantsDream/32020-05.htm": {
+   "file": "Q00648_AnIceMerchantsDream/32020-05.htm",
+   "quest": 648,
+   "text": "Rafforty: Thank you for your help. According to the information we acquired from you, to turn Freya back into her old self, we have to collect Ice Crystals that are spread all over this territory and which are grown within creatures' bodies. They usually have a silver color, and that's why they're …",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "How do I get a Black Ice Crystal?",
+     "bypass": "Quest Q00648_AnIceMerchantsDream 32020-06.html",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "32020-06.html",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-06.html"
+    },
+    {
+     "text": "Where do I use Silver Hemocytes?",
+     "bypass": "Quest Q00648_AnIceMerchantsDream 32020-08.html",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "32020-08.html",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-08.html"
+    }
+   ]
+  },
+  "Q00648_AnIceMerchantsDream/32020-06.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-06.html",
+   "quest": 648,
+   "text": "Rafforty: A Black Ice Crystal can be made out of a Silver Ice Crystal by using the tools on the shelf. Generally, Artisans do this, so it is not easy, but if you can make it into a Black Ice Crystal, then I'll reward you well. Failure will bring you nothing, so be careful.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00648_AnIceMerchantsDream/32020-07.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-07.html",
+   "quest": 648,
+   "text": "Rafforty: You may get a Black Ice Crystal by processing a Silver Ice Crystal using the tools on the shelf. It won't be easy, as it is a job usually done only by professional craftsmen. If you succeed in creating the Black Ice Crystal, I'll pay you very well for it. Be careful, however, because fail…",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00648_AnIceMerchantsDream/32020-08.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-08.html",
+   "quest": 648,
+   "text": "Rafforty: The blood of the creatures that have been under the control of the Black Ice Crystal for a long time gradually changes to silver. The Ice Queen's pets are enticed by this blood, and we must have it for our plan as well. Please collect the Silver Hemocytes for us. The monsters in the Froze…",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "\"Tell me more about your plan.\"",
+     "bypass": "Quest Q00648_AnIceMerchantsDream 32020-09.html",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "32020-09.html",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-09.html"
+    }
+   ]
+  },
+  "Q00648_AnIceMerchantsDream/32020-09.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-09.html",
+   "quest": 648,
+   "text": "Rafforty: As part of the Jinia Guild's goal to restore Queen Freya to her original self, we needed Silver Hemocytes to enter the Ice Queen's Castle. Now that Ice Fairy Sirra has been defeated and we've entered the next stage in our plan... that is to say, fight Freya herself... we no longer need yo…",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00648_AnIceMerchantsDream/32020-14.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-14.html",
+   "quest": 648,
+   "text": "Rafforty: Well, of course, I'll pay you with Adena! You can use it anywhere! Are you willing to hand over the Black Ice Crystals to me?",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "Here they are.",
+     "bypass": "Quest Q00648_AnIceMerchantsDream REWARD",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "REWARD",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-16.html",
+     "toAll": [
+      "Q00648_AnIceMerchantsDream/32020-16.html",
+      "Q00648_AnIceMerchantsDream/32020-17.html",
+      "Q00648_AnIceMerchantsDream/32020-18.html"
+     ]
+    },
+    {
+     "text": "I'll give them to you later.",
+     "bypass": "Quest Q00648_AnIceMerchantsDream LATER",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "LATER",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-19.html",
+     "toAll": [
+      "Q00648_AnIceMerchantsDream/32020-19.html",
+      "Q00648_AnIceMerchantsDream/32020-20.html"
+     ]
+    }
+   ]
+  },
+  "Q00648_AnIceMerchantsDream/32020-15.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-15.html",
+   "quest": 648,
+   "text": "Rafforty: Yes. Then will you give the Ice Crystals to me? Ah! How would you like be paid? Do you want Adena for it all? Or perhaps you'd like to trade for some other items? I must warn you, however... If you want good materials, you'd better have lots of Ice Crystals.",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "Give me money.",
+     "bypass": "Quest Q00648_AnIceMerchantsDream REWARD",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "REWARD",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-16.html",
+     "toAll": [
+      "Q00648_AnIceMerchantsDream/32020-16.html",
+      "Q00648_AnIceMerchantsDream/32020-17.html",
+      "Q00648_AnIceMerchantsDream/32020-18.html"
+     ]
+    },
+    {
+     "text": "\"Show me the items.\"",
+     "bypass": "npc_%objectId%_multisell 648",
+     "kind": "multisell"
+    },
+    {
+     "text": "I changed my mind. I'll do it later.",
+     "bypass": "Quest Q00648_AnIceMerchantsDream LATER",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "LATER",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-19.html",
+     "toAll": [
+      "Q00648_AnIceMerchantsDream/32020-19.html",
+      "Q00648_AnIceMerchantsDream/32020-20.html"
+     ]
+    }
+   ]
+  },
+  "Q00648_AnIceMerchantsDream/32020-16.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-16.html",
+   "quest": 648,
+   "text": "Rafforty: Here's your reward. This should compensate you for your hard work. If you find any more Ice Crystals, come back to see me again.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00648_AnIceMerchantsDream/32020-17.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-17.html",
+   "quest": 648,
+   "text": "Rafforty: Here, I've filled this full of Adena for you. If you find more Ice Crystals, please bring them to me.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00648_AnIceMerchantsDream/32020-18.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-18.html",
+   "quest": 648,
+   "text": "Rafforty: Where did you put the crystals? There's nothing in this pouch.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00648_AnIceMerchantsDream/32020-19.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-19.html",
+   "quest": 648,
+   "text": "Rafforty: OK. If you change your mind, please come back and find me.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00648_AnIceMerchantsDream/32020-20.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-20.html",
+   "quest": 648,
+   "text": "Rafforty: Very well. You know how important those crystals are to us, so I'll wait. Please, be careful!",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00648_AnIceMerchantsDream/32020-21.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-21.html",
+   "quest": 648,
+   "text": "Rafforty: OK. I won't do any more business with you. Good-bye.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00648_AnIceMerchantsDream/32020-22.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-22.html",
+   "quest": 648,
+   "text": "Rafforty: Are you really quitting? Is something bothering you?",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "I just need a rest.",
+     "bypass": "Quest Q00648_AnIceMerchantsDream 32020-23.html",
+     "kind": "quest-event",
+     "script": "Q00648_AnIceMerchantsDream",
+     "event": "32020-23.html",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-23.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00648_AnIceMerchantsDream/32020-23.html": {
+   "file": "Q00648_AnIceMerchantsDream/32020-23.html",
+   "quest": 648,
+   "text": "Rafforty: Very well! You've been a lot of help to us! Come back anytime!",
+   "header": "Rafforty",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q10283_RequestOfIceMerchant/32020-03.htm": {
+   "file": "Q10283_RequestOfIceMerchant/32020-03.htm",
+   "quest": 10283,
+   "text": "Rafforty: Hm... it looks like we could use you to look deeper into this. The data you brought proved very valuable. We need to know without any doubt that we can trust you. The survival of the Jinia guild depends on nothing less. I can tell when someone is lying to me... Look me in the eye and say …",
+   "header": "Rafforty",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"I swear I will not betray you!\"",
+     "bypass": "Quest Q10283_RequestOfIceMerchant 32020-04.htm",
+     "kind": "quest-event",
+     "script": "Q10283_RequestOfIceMerchant",
+     "event": "32020-04.htm",
+     "quest": 10283,
+     "to": "Q10283_RequestOfIceMerchant/32020-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10283_RequestOfIceMerchant/32020-04.htm": {
+   "file": "Q10283_RequestOfIceMerchant/32020-04.htm",
+   "quest": 10283,
+   "text": "Rafforty: Thank you for humoring me. This matter is urgent, I'll continue. Unfortunately, Kier and the other guild members cannot be saved. They are forever cursed as ice sculptures. However, we can now honor their sacrifice by using the information they died for. It seems they found a way to defea…",
+   "header": "Rafforty",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q10283_RequestOfIceMerchant 32020-05.html",
+     "kind": "quest-event",
+     "script": "Q10283_RequestOfIceMerchant",
+     "event": "32020-05.html",
+     "quest": 10283,
+     "to": "Q10283_RequestOfIceMerchant/32020-05.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q10283_RequestOfIceMerchant/32020-05.html": {
+   "file": "Q10283_RequestOfIceMerchant/32020-05.html",
+   "quest": 10283,
+   "text": "Rafforty: No, 'defeat' is the wrong word. That is, it might better be described as 'sealing' her. That's why Kier was turned into ice! HE found a way to seal Freya away for good!",
+   "header": "Rafforty",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Ask what that secret is.",
+     "bypass": "Quest Q10283_RequestOfIceMerchant 32020-06.html",
+     "kind": "quest-event",
+     "script": "Q10283_RequestOfIceMerchant",
+     "event": "32020-06.html",
+     "quest": 10283,
+     "to": "Q10283_RequestOfIceMerchant/32020-06.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q10283_RequestOfIceMerchant/32020-06.html": {
+   "file": "Q10283_RequestOfIceMerchant/32020-06.html",
+   "quest": 10283,
+   "text": "Rafforty: According to Kier's ancient code, the only weapon that can be used against Freya is the Divine Sword . Unfortunately, no one knows what it is or where it might be. Can you go to Kier's ice sculpture once more and look for something that might resemble a Divine Sword? We can't think of any…",
+   "header": "Rafforty",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Say you will.",
+     "bypass": "Quest Q10283_RequestOfIceMerchant 32020-07.html",
+     "kind": "quest-event",
+     "script": "Q10283_RequestOfIceMerchant",
+     "event": "32020-07.html",
+     "quest": 10283,
+     "to": "Q10283_RequestOfIceMerchant/32020-07.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q10283_RequestOfIceMerchant/32020-07.html": {
+   "file": "Q10283_RequestOfIceMerchant/32020-07.html",
+   "quest": 10283,
+   "text": "Rafforty: I'm sorry that I don't have all the answers. No plan is ever perfect. If the Divine Sword is not there, there at least may be a clue that can lead us to it.",
+   "header": "Rafforty",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10284_AcquisitionOfDivineSword/32020-02.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32020-02.html",
+   "quest": 10284,
+   "text": "Rafforty: (laughs) Alright, well, you're in for something else. You've earned our trust, so I've been told to take you to meet Jinia in our Guild Clan Hall. We get travelers from time to time, but the location is still kept secret. I'll get you in when you're ready to go.",
+   "header": "Rafforty",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Please let me in.\"",
+     "bypass": "npc_%objectId%_Quest JiniaGuildHideout1",
+     "kind": "quest",
+     "script": "JiniaGuildHideout1"
+    },
+    {
+     "text": "\"Hmm... I could use some time to prepare.\"",
+     "bypass": "Quest Q10284_AcquisitionOfDivineSword 32020-03.html",
+     "kind": "quest-event",
+     "script": "Q10284_AcquisitionOfDivineSword",
+     "event": "32020-03.html",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32020-03.html"
+    }
+   ]
+  },
+  "Q10284_AcquisitionOfDivineSword/32020-03.html": {
+   "file": "Q10284_AcquisitionOfDivineSword/32020-03.html",
+   "quest": 10284,
+   "text": "Rafforty: Alright, understood. Not ready 'til you're ready, my uncle used to say.",
+   "header": "Rafforty",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10285_MeetingSirra/32020-02.htm": {
+   "file": "Q10285_MeetingSirra/32020-02.htm",
+   "quest": 10285,
+   "text": "Rafforty: The Divine Sword is ours once again! Now comes the time to actually use the darned thing... Now a guild member could wield it, sure. But none of us compare to you - you are truly a demon on the battlefield. Will you see this through with us?",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "\"I've come this far. Let's end the reign of the Ice Queen together!\"",
+     "bypass": "Quest Q10285_MeetingSirra 32020-03.htm",
+     "kind": "quest-event",
+     "script": "Q10285_MeetingSirra",
+     "event": "32020-03.htm",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32020-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10285_MeetingSirra/32020-03.htm": {
+   "file": "Q10285_MeetingSirra/32020-03.htm",
+   "quest": 10285,
+   "text": "Rafforty: We're thrilled to have you, truly. Come inside the clan hall. Jinia and Kegor have much to speak about with you. Ready to go in?",
+   "header": "Rafforty",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Enter.",
+     "bypass": "npc_%objectId%_Quest JiniaGuildHideout2",
+     "kind": "quest",
+     "script": "JiniaGuildHideout2"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32020-02.htm": {
+   "file": "Q10286_ReunionWithSirra/32020-02.htm",
+   "quest": 10286,
+   "text": "Rafforty: Honestly, if we'd lost you like we did Kier... I'm not exaggerating when I say there would be no hope.",
+   "header": "Rafforty",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Continue listening.",
+     "bypass": "Quest Q10286_ReunionWithSirra 32020-03.html",
+     "kind": "quest-event",
+     "script": "Q10286_ReunionWithSirra",
+     "event": "32020-03.html",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32020-03.html"
+    }
+   ]
+  },
+  "Q10286_ReunionWithSirra/32020-03.html": {
+   "file": "Q10286_ReunionWithSirra/32020-03.html",
+   "quest": 10286,
+   "text": "Rafforty: Sorry, I'm a little long winded at times. If I keep Jinia waiting any longer, I have a feeling Freya would no longer be my biggest worry.",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "Enter.",
+     "bypass": "npc_%objectId%_Quest JiniaGuildHideout3",
+     "kind": "quest",
+     "script": "JiniaGuildHideout3"
+    }
+   ]
+  },
+  "Q10287_StoryOfThoseLeft/32020-02.htm": {
+   "file": "Q10287_StoryOfThoseLeft/32020-02.htm",
+   "quest": 10287,
+   "text": "Rafforty: If she's not sleeping she's working. Jinia is in the clan hall. Go inside to talk to her. I can teleport you.",
+   "header": "Rafforty",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Teleport to the clan hall of Jinia guild.",
+     "bypass": "npc_%objectId%_Quest JiniaGuildHideout4",
+     "kind": "quest",
+     "script": "JiniaGuildHideout4"
+    }
+   ]
+  },
+  "Q10287_StoryOfThoseLeft/32020-08.html": {
+   "file": "Q10287_StoryOfThoseLeft/32020-08.html",
+   "quest": 10287,
+   "text": "Rafforty: Which one are you going to choose?",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "Forgotten Scroll - Protection of Rune",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 10549",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "10549",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32020-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Forgotten Scroll - Protection of Elemental",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 10550",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "10550",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32020-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Forgotten Scroll - Protection of Alignment",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 10551",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "10551",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32020-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Forgotten Scroll - Fighter's Will",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 10552",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "10552",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32020-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Forgotten Scroll - Archer's Will",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 10553",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "10553",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32020-09.html",
+     "effect": "end"
+    },
+    {
+     "text": "Forgotten Scroll - Magician's Will",
+     "bypass": "Quest Q10287_StoryOfThoseLeft 14219",
+     "kind": "quest-event",
+     "script": "Q10287_StoryOfThoseLeft",
+     "event": "14219",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32020-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q10287_StoryOfThoseLeft/32020-09.html": {
+   "file": "Q10287_StoryOfThoseLeft/32020-09.html",
+   "quest": 10287,
+   "text": "Rafforty: Do you have a reading date with a friend later? Here's your book. The Jinia guild hopes to call on you again. Until next time, friend. Be well.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Rafforty/32020-01.html": {
+   "file": "ai/npc/Rafforty/32020-01.html",
+   "quest": null,
+   "text": "Rafforty: Is this a Freya Necklace? Hmm... it's okay I guess. It isn't as interesting as a Blessed Freya Necklace. You could be lucky enough to get one, or if you happen to acquire Freya's Soul in a bottle you can create a Blessed Freya Necklace. However the process is, well... different. Tell you …",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "\"I have a Bottle of Freya's Soul.\"",
+     "bypass": "Quest Rafforty 32020-04.html",
+     "kind": "quest-event",
+     "script": "Rafforty",
+     "event": "32020-04.html",
+     "to": "ai/npc/Rafforty/32020-04.html",
+     "toAll": [
+      "ai/npc/Rafforty/32020-04.html",
+      "ai/npc/Rafforty/32020-05.html"
+     ]
+    },
+    {
+     "text": "\"Where can I get Freya's Soul?\"",
+     "bypass": "Quest Rafforty 32020-03.html",
+     "kind": "quest-event",
+     "script": "Rafforty",
+     "event": "32020-03.html",
+     "to": "ai/npc/Rafforty/32020-03.html"
+    }
+   ]
+  },
+  "ai/npc/Rafforty/32020-02.html": {
+   "file": "ai/npc/Rafforty/32020-02.html",
+   "quest": null,
+   "text": "Rafforty: I wish I could tell you more about whatever it is you have to show me. But it doesn't look like you have anything to show. (Requires a Freya Necklace.)",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Rafforty/32020-03.html": {
+   "file": "ai/npc/Rafforty/32020-03.html",
+   "quest": null,
+   "text": "Rafforty: I don't know the details, but if I had to hazard a guess, it would be something you would get after defeating Freya. You could always ask around to see what other people have to say.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Rafforty/32020-04.html": {
+   "file": "ai/npc/Rafforty/32020-04.html",
+   "quest": null,
+   "text": "Rafforty: Yes, I sensed that you had Freya's Soul contained in a Bottle before you even answered! Nah, I saw it when you were showing me your Freya Necklace. You must have made her very angry. If you are ready, I can begin the process of making a Blessed Freya Necklace.",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "\"Make me a Blessed Freya Necklace.\"",
+     "bypass": "Quest Rafforty 32020-07.html",
+     "kind": "quest-event",
+     "script": "Rafforty",
+     "event": "32020-07.html",
+     "to": "ai/npc/Rafforty/32020-07.html",
+     "toAll": [
+      "ai/npc/Rafforty/32020-07.html",
+      "ai/npc/Rafforty/32020-08.html"
+     ]
+    },
+    {
+     "text": "\"I do not want a Blessed Freya Necklace.\"",
+     "bypass": "Quest Rafforty 32020-06.html",
+     "kind": "quest-event",
+     "script": "Rafforty",
+     "event": "32020-06.html",
+     "to": "ai/npc/Rafforty/32020-06.html"
+    }
+   ]
+  },
+  "ai/npc/Rafforty/32020-05.html": {
+   "file": "ai/npc/Rafforty/32020-05.html",
+   "quest": null,
+   "text": "Rafforty: Sorry there, stranger, but unless you can bring me a Bottle of Freya's Soul, I can't do anything with that Freya Necklace you are carrying. Speak to me when you actually have these items.",
+   "header": "Rafforty",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Rafforty/32020-06.html": {
+   "file": "ai/npc/Rafforty/32020-06.html",
+   "quest": null,
+   "text": "Rafforty: Wow. Lack of trust, huh? Good luck finding someone else who can make a Blessed Freya Necklace.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Rafforty/32020-07.html": {
+   "file": "ai/npc/Rafforty/32020-07.html",
+   "quest": null,
+   "text": "Rafforty: Ah... a masterpiece if I do say so myself. Here is your Blessed Freya Necklace. Now you truly have something that is interesting.",
+   "header": "Rafforty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Rafforty/32020-08.html": {
+   "file": "ai/npc/Rafforty/32020-08.html",
+   "quest": null,
+   "text": "Rafforty: If you want me to help you will have to give me the item. I cannot do anything without it.",
+   "header": "Rafforty",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Rafforty/32020.html": {
+   "file": "ai/npc/Rafforty/32020.html",
+   "quest": null,
+   "text": "Rafforty: Welcome to my little oasis. Although it may be cold and blustery out there, it's like an endless spring day in here. Needless to say, I don't really venture outside much any more. Although I like my privacy, I'm always willing to lend a helping hand to those in need. And if you don't mind…",
+   "header": "Rafforty",
+   "links": [
+    {
+     "text": "I have a necklace I'd like you to look at.",
+     "bypass": "Quest Rafforty 32020-01.html",
+     "kind": "quest-event",
+     "script": "Rafforty",
+     "event": "32020-01.html",
+     "to": "ai/npc/Rafforty/32020-01.html",
+     "toAll": [
+      "ai/npc/Rafforty/32020-01.html",
+      "ai/npc/Rafforty/32020-02.html"
+     ]
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Other Side of Truth]",
+     "bypass": "npc_%objectId%_Quest Q00115_TheOtherSideOfTruth",
+     "kind": "quest",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Other Side of Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00115_TheOtherSideOfTruth",
+     "kind": "quest",
+     "quest": 115,
+     "to": "Q00115_TheOtherSideOfTruth/32020-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[An Ice Merchant's Dream]",
+     "bypass": "npc_%objectId%_Quest Q00648_AnIceMerchantsDream",
+     "kind": "quest",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[An Ice Merchant's Dream (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00648_AnIceMerchantsDream",
+     "kind": "quest",
+     "quest": 648,
+     "to": "Q00648_AnIceMerchantsDream/32020-13.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Request of Ice Merchant]",
+     "bypass": "npc_%objectId%_Quest Q10283_RequestOfIceMerchant",
+     "kind": "quest",
+     "quest": 10283,
+     "to": "Q10283_RequestOfIceMerchant/32020-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Request of Ice Merchant (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10283_RequestOfIceMerchant",
+     "kind": "quest",
+     "quest": 10283,
+     "to": "Q10283_RequestOfIceMerchant/32020-09.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Acquisition of Divine Sword]",
+     "bypass": "npc_%objectId%_Quest Q10284_AcquisitionOfDivineSword",
+     "kind": "quest",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32020-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Acquisition of Divine Sword (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10284_AcquisitionOfDivineSword",
+     "kind": "quest",
+     "quest": 10284,
+     "to": "Q10284_AcquisitionOfDivineSword/32020-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Meeting Sirra]",
+     "bypass": "npc_%objectId%_Quest Q10285_MeetingSirra",
+     "kind": "quest",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32020-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Meeting Sirra (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10285_MeetingSirra",
+     "kind": "quest",
+     "quest": 10285,
+     "to": "Q10285_MeetingSirra/32020-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Reunion with Sirra]",
+     "bypass": "npc_%objectId%_Quest Q10286_ReunionWithSirra",
+     "kind": "quest",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32020-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Reunion with Sirra (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10286_ReunionWithSirra",
+     "kind": "quest",
+     "quest": 10286,
+     "to": "Q10286_ReunionWithSirra/32020-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Story of Those Left]",
+     "bypass": "npc_%objectId%_Quest Q10287_StoryOfThoseLeft",
+     "kind": "quest",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32020-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Story of Those Left (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10287_StoryOfThoseLeft",
+     "kind": "quest",
+     "quest": 10287,
+     "to": "Q10287_StoryOfThoseLeft/32020-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

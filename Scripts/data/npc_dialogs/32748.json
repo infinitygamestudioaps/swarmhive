@@ -1,0 +1,47 @@
+{
+ "npcId": 32748,
+ "name": "Teleport Device",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.402Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32748.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32748.htm": {
+   "file": "default/32748.htm",
+   "quest": null,
+   "text": "Teleport Device: It's a teleporter where one can travel around space.",
+   "header": "Teleport Device",
+   "links": [
+    {
+     "text": "Go upstairs.",
+     "bypass": "Quest TowerOfInfinitum up",
+     "kind": "quest-event",
+     "script": "TowerOfInfinitum",
+     "event": "up"
+    },
+    {
+     "text": "Go downstairs.",
+     "bypass": "Quest TowerOfInfinitum down",
+     "kind": "quest-event",
+     "script": "TowerOfInfinitum",
+     "event": "down"
+    },
+    {
+     "text": "Face Demon Prince.",
+     "bypass": "npc_%objectId%_Quest DemonPrinceFloor",
+     "kind": "quest",
+     "script": "DemonPrinceFloor"
+    }
+   ]
+  }
+ }
+}

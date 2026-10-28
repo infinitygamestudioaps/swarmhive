@@ -1,0 +1,413 @@
+{
+ "npcId": 31518,
+ "name": "Mysterious Necromancer",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.210Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31518.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "15": {
+   "name": "Sweet Whispers",
+   "listText": [
+    "[Sweet Whispers]",
+    "[Sweet Whispers (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00015_SweetWhispers/31518-00.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00015_SweetWhispers/31518-01a.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "627": {
+   "name": "Heart in Search of Power",
+   "listText": [
+    "[Heart in Search of Power]",
+    "[Heart in Search of Power (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00627_HeartInSearchOfPower/31518-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL_REQUIRED)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00627_HeartInSearchOfPower/31518-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL_REQUIRED)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00627_HeartInSearchOfPower/31518-03.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00627_HeartInSearchOfPower/31518-04.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00627_HeartInSearchOfPower/31518-07.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00627_HeartInSearchOfPower/31518-08.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31518.htm": {
+   "file": "default/31518.htm",
+   "quest": null,
+   "text": "Mysterious Necromancer: I must have power... Real power!! How long have you been standing there? You've seen my dark side! This is the way to the Valley of Saints, final resting place for our most beloved ancestors. You should visit them there and soothe their souls!",
+   "header": "Mysterious Necromancer",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00015_SweetWhispers/31518-00.html": {
+   "file": "Q00015_SweetWhispers/31518-00.html",
+   "quest": 15,
+   "text": "Mysterious Necromancer: What business do you have here? What do you want from me?",
+   "header": "Mysterious Necromancer",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "I want to change my ways.",
+     "bypass": "Quest Q00015_SweetWhispers 31518-01.html",
+     "kind": "quest-event",
+     "script": "Q00015_SweetWhispers",
+     "event": "31518-01.html",
+     "quest": 15,
+     "to": "Q00015_SweetWhispers/31518-01.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00015_SweetWhispers/31518-01a.html": {
+   "file": "Q00015_SweetWhispers/31518-01a.html",
+   "quest": 15,
+   "text": "Mysterious Necromancer: Hmmph! I've already told you where to look for him! Past the Entrance of the Saints you'll see the valley. Go to the deepest part of the valley and enter the cave there. You'll find the elder that you seek.",
+   "header": "Mysterious Necromancer",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00627_HeartInSearchOfPower/31518-01.htm": {
+   "file": "Q00627_HeartInSearchOfPower/31518-01.htm",
+   "quest": 627,
+   "text": "Mysterious Necromancer: You aren't a pilgrim, are you? Anyway, you've traveled a long way, haven't you? Could you help me with something? I'm trying to create a new type of chimera! I've tried all sorts of ingredients, including blood of vampire and muscle of Ogre! I've come here to find a new sour…",
+   "header": "Mysterious Necromancer",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL_REQUIRED)"
+   ],
+   "links": [
+    {
+     "text": "\"What do you want me to do?\"",
+     "bypass": "Quest Q00627_HeartInSearchOfPower 31518-02.htm",
+     "kind": "quest-event",
+     "script": "Q00627_HeartInSearchOfPower",
+     "event": "31518-02.htm",
+     "quest": 627,
+     "to": "Q00627_HeartInSearchOfPower/31518-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00627_HeartInSearchOfPower/31518-00.htm": {
+   "file": "Q00627_HeartInSearchOfPower/31518-00.htm",
+   "quest": 627,
+   "text": "Mysterious Necromancer: You seem too weak to travel here. Come back again after training some more. Otherwise, I cannot guarantee your safety. (Quest available for the character of LEVEL 60 or above.)",
+   "header": "Mysterious Necromancer",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL_REQUIRED)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00627_HeartInSearchOfPower/31518-03.html": {
+   "file": "Q00627_HeartInSearchOfPower/31518-03.html",
+   "quest": 627,
+   "text": "Mysterious Necromancer: Where are the 300 beads of obedience I asked for? You can get them from eyes of splendor, flashes of splendor, knife edges of splendor, Wisdom of Splendor, souls of splendor, victories of splendor, vengeance of splendor, shouts of splendor, seals of splendor, crowns of splen…",
+   "header": "Mysterious Necromancer",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00627_HeartInSearchOfPower/31518-04.html": {
+   "file": "Q00627_HeartInSearchOfPower/31518-04.html",
+   "quest": 627,
+   "text": "Mysterious Necromancer: You've collected all 300 beads of obedience for me! Now I can use them to make a Seal of Light! Please give them to me.",
+   "header": "Mysterious Necromancer",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Here you go.\"",
+     "bypass": "Quest Q00627_HeartInSearchOfPower 31518-06.html",
+     "kind": "quest-event",
+     "script": "Q00627_HeartInSearchOfPower",
+     "event": "31518-06.html",
+     "quest": 627,
+     "to": "Q00627_HeartInSearchOfPower/31518-06.html",
+     "toAll": [
+      "Q00627_HeartInSearchOfPower/31518-06.html",
+      "Q00627_HeartInSearchOfPower/31518-05.html"
+     ],
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00627_HeartInSearchOfPower/31518-07.html": {
+   "file": "Q00627_HeartInSearchOfPower/31518-07.html",
+   "quest": 627,
+   "text": "Mysterious Necromancer: What are you still doing here? Don't you know how important this is? Bring me some remains of saints right away!",
+   "header": "Mysterious Necromancer",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00627_HeartInSearchOfPower/31518-08.html": {
+   "file": "Q00627_HeartInSearchOfPower/31518-08.html",
+   "quest": 627,
+   "text": "Mysterious Necromancer: You brought me the remains of saints! Did you have any serious problems? I'm so glad to hear it! Now, please give me the remains of saints!",
+   "header": "Mysterious Necromancer",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"Not until I get my reward!\"",
+     "bypass": "Quest Q00627_HeartInSearchOfPower 31518-09.html",
+     "kind": "quest-event",
+     "script": "Q00627_HeartInSearchOfPower",
+     "event": "31518-09.html",
+     "quest": 627,
+     "to": "Q00627_HeartInSearchOfPower/31518-09.html"
+    }
+   ]
+  },
+  "Q00015_SweetWhispers/31518-01.html": {
+   "file": "Q00015_SweetWhispers/31518-01.html",
+   "quest": 15,
+   "text": "Mysterious Necromancer: Ah! You're looking for the elder too, aren't you? Lots of folks looking for him these days... This is getting old! Do I look like a street sign to you? Anyway, past the Entrance of the Saints, you'll see the valley. Go to the deepest part of the valley and enter the cave. Yo…",
+   "header": "Mysterious Necromancer",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00627_HeartInSearchOfPower/31518-02.htm": {
+   "file": "Q00627_HeartInSearchOfPower/31518-02.htm",
+   "quest": 627,
+   "text": "Mysterious Necromancer: All I know so far is that the remains of saints are in a place called Enfeux , which is sealed. I must make a seal from beads of obedience to unlock it. Beads of obedience control the thoughts of the creatures that guard the Valley of Saints. Bring me 300 of them. You can ta…",
+   "header": "Mysterious Necromancer",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00627_HeartInSearchOfPower/31518-05.html": {
+   "file": "Q00627_HeartInSearchOfPower/31518-05.html",
+   "quest": 627,
+   "text": "Mysterious Necromancer: Where are the 300 beads of obedience?",
+   "header": "Mysterious Necromancer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00627_HeartInSearchOfPower/31518-06.html": {
+   "file": "Q00627_HeartInSearchOfPower/31518-06.html",
+   "quest": 627,
+   "text": "Mysterious Necromancer: The beads of obedience allowed me to create a Seal of Light. Could you possibly help me some more? Enfeux is in the deepest part of the Valley of Saints. It's marked on this Map. You can take it with you. To extract the remains of saints, you must insert this Seal of Light i…",
+   "header": "Mysterious Necromancer",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00627_HeartInSearchOfPower/31518-09.html": {
+   "file": "Q00627_HeartInSearchOfPower/31518-09.html",
+   "quest": 627,
+   "text": "Mysterious Necromancer: Since you brought me the remains you will be rewarded. Would you care for some Adena or a basic ingredient? Which do you choose?",
+   "header": "Mysterious Necromancer",
+   "links": [
+    {
+     "text": "\"Adena.\"",
+     "bypass": "Quest Q00627_HeartInSearchOfPower Adena",
+     "kind": "quest-event",
+     "script": "Q00627_HeartInSearchOfPower",
+     "event": "Adena",
+     "quest": 627,
+     "to": "Q00627_HeartInSearchOfPower/31518-11.html",
+     "toAll": [
+      "Q00627_HeartInSearchOfPower/31518-11.html",
+      "Q00627_HeartInSearchOfPower/31518-10.html"
+     ],
+     "effect": "reward"
+    },
+    {
+     "text": "\"Asofes.\"",
+     "bypass": "Quest Q00627_HeartInSearchOfPower Asofes",
+     "kind": "quest-event",
+     "script": "Q00627_HeartInSearchOfPower",
+     "event": "Asofes",
+     "quest": 627,
+     "to": "Q00627_HeartInSearchOfPower/31518-11.html",
+     "toAll": [
+      "Q00627_HeartInSearchOfPower/31518-11.html",
+      "Q00627_HeartInSearchOfPower/31518-10.html"
+     ]
+    },
+    {
+     "text": "\"Thons.\"",
+     "bypass": "Quest Q00627_HeartInSearchOfPower Thons",
+     "kind": "quest-event",
+     "script": "Q00627_HeartInSearchOfPower",
+     "event": "Thons",
+     "quest": 627,
+     "to": "Q00627_HeartInSearchOfPower/31518-11.html",
+     "toAll": [
+      "Q00627_HeartInSearchOfPower/31518-11.html",
+      "Q00627_HeartInSearchOfPower/31518-10.html"
+     ]
+    },
+    {
+     "text": "\"Enrias.\"",
+     "bypass": "Quest Q00627_HeartInSearchOfPower Enrias",
+     "kind": "quest-event",
+     "script": "Q00627_HeartInSearchOfPower",
+     "event": "Enrias",
+     "quest": 627,
+     "to": "Q00627_HeartInSearchOfPower/31518-11.html",
+     "toAll": [
+      "Q00627_HeartInSearchOfPower/31518-11.html",
+      "Q00627_HeartInSearchOfPower/31518-10.html"
+     ]
+    },
+    {
+     "text": "\"Mold Hardener.\"",
+     "bypass": "Quest Q00627_HeartInSearchOfPower Mold_Hardener",
+     "kind": "quest-event",
+     "script": "Q00627_HeartInSearchOfPower",
+     "event": "Mold_Hardener",
+     "quest": 627,
+     "to": "Q00627_HeartInSearchOfPower/31518-11.html",
+     "toAll": [
+      "Q00627_HeartInSearchOfPower/31518-11.html",
+      "Q00627_HeartInSearchOfPower/31518-10.html"
+     ]
+    }
+   ]
+  },
+  "Q00627_HeartInSearchOfPower/31518-10.html": {
+   "file": "Q00627_HeartInSearchOfPower/31518-10.html",
+   "quest": 627,
+   "text": "Mysterious Necromancer: I wish it could be more, but this is all I can give you. I hope you'll find it useful. Feel free to come back and help anytime!",
+   "header": "Mysterious Necromancer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00627_HeartInSearchOfPower/31518-11.html": {
+   "file": "Q00627_HeartInSearchOfPower/31518-11.html",
+   "quest": 627,
+   "text": "Mysterious Necromancer: Where are the remains of saints? You can't fool me!",
+   "header": "Mysterious Necromancer",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Sweet Whispers (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00015_SweetWhispers",
+     "kind": "quest",
+     "quest": 15,
+     "to": "Q00015_SweetWhispers/31518-00.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Heart in Search of Power]",
+     "bypass": "npc_%objectId%_Quest Q00627_HeartInSearchOfPower",
+     "kind": "quest",
+     "quest": 627,
+     "to": "Q00627_HeartInSearchOfPower/31518-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Heart in Search of Power (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00627_HeartInSearchOfPower",
+     "kind": "quest",
+     "quest": 627,
+     "to": "Q00627_HeartInSearchOfPower/31518-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

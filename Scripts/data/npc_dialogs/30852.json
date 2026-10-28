@@ -1,0 +1,488 @@
+{
+ "npcId": 30852,
+ "name": "Sinden",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.094Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "trainer/30852.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "71": {
+   "name": "Saga of Eva's Templar",
+   "listText": [
+    "[Saga of Eva's Templar]",
+    "[Saga of Eva's Templar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00071_SagaOfEvasTemplar/0-01.htm",
+     "when": "cond 0; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00071_SagaOfEvasTemplar/0-04.htm",
+     "when": "cond 1; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00071_SagaOfEvasTemplar/3-01.htm",
+     "when": "cond 10; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00071_SagaOfEvasTemplar/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00071_SagaOfEvasTemplar/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00071_SagaOfEvasTemplar/3-06.htm",
+     "when": "cond 13; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00071_SagaOfEvasTemplar/0-06.htm",
+     "when": "cond 19; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00071_SagaOfEvasTemplar/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00071_SagaOfEvasTemplar/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30852.htm": {
+   "file": "trainer/30852.htm",
+   "quest": null,
+   "text": "Master Sinden: May the smile of Eva bring you peace and tranquility. I believe that us races with good sense will have to combine our strength together in order to overcome the era of chaos that is coming. That's because your strength and diligent efforts will be required in that work.",
+   "header": "Master Sinden",
+   "live": {
+    "file": "Logs/npclive_Sinden_2ef0d859.html",
+    "at": "2026-10-27T14:42:21.672Z",
+    "score": 0.36
+   },
+   "dpText": "Master Sinden: May Eva smile upon you and give you peace! The coming age of chaos can only be overcome by the combined efforts of all the races. Are you prepared to do your utmost in the defense of order?",
+   "links": [
+    {
+     "text": "Learn Skills",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills",
+     "live": true,
+     "dpText": "Learn skills."
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm",
+     "live": true
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "trainer/30852-noteach.htm": {
+   "file": "trainer/30852-noteach.htm",
+   "quest": null,
+   "text": "Master Sinden: Movements that flow like water culminate in a sudden, fierce attack... The movement of Elves is more delicate than Humans and sharper than the Orcs. I am not sure that I can teach you those techniques.",
+   "header": "Master Sinden",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/0-01.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/0-01.htm",
+   "quest": 71,
+   "text": "Master Sinden: When the Elder told me of a new guardian of the Mother Tree, I thought of you. I've seen a lot here in Aden. We should talk.",
+   "header": "Master Sinden",
+   "when": [
+    "cond 0; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Listen.",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar 0-1",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "0-1",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/0-05.htm",
+     "toAll": [
+      "Q00071_SagaOfEvasTemplar/0-02.htm",
+      "Q00071_SagaOfEvasTemplar/0-05.htm"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/0-04.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/0-04.htm",
+   "quest": 71,
+   "text": "Master Sinden: Meet with Master Bronwyn of Goddard Castle Town to begin the pilgrimage!",
+   "header": "Master Sinden",
+   "when": [
+    "cond 1; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/3-01.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/3-01.htm",
+   "quest": 71,
+   "text": "Master Sinden: Panacea speaks the truth. That's why I gave up and came back. We should no longer rely on the great history of our race to guide us. Take pride in your heritage, but also understand and accept other races. If you only think of yourself, you can't protect and guide others.",
+   "header": "Master Sinden",
+   "when": [
+    "cond 10; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What about the Stone of Commune?\"",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar 3-5",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "3-5",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/3-07.htm"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/3-05.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/3-05.htm",
+   "quest": 71,
+   "text": "Master Sinden: The Divine Stone of Wisdom! Panacea said entrusting the lesser Orcs with the key of binding would end up helping our enemies! Should we have acted differently?",
+   "header": "Master Sinden",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "......",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar 3-8",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "3-8",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/3-04.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/3-04.htm",
+   "quest": 71,
+   "text": "Master Sinden: You can't win their trust with force, you have to earn it. Approach them patiently with a sincere heart. Return when you have the Divine Stone of Wisdom!",
+   "header": "Master Sinden",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/3-06.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/3-06.htm",
+   "quest": 71,
+   "text": "Master Sinden: Go to the fourth tablet in the north of the Varka Silenos Camp. Your travel of the pilgrimage hasn't finished yet.",
+   "header": "Master Sinden",
+   "when": [
+    "cond 13; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/0-06.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/0-06.htm",
+   "quest": 71,
+   "text": "Master Sinden: Have you learned much? I can't easily forget our past. I understand my limitations. Let me help you to find the right path.",
+   "header": "Master Sinden",
+   "when": [
+    "cond 19; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What should I do now?\"",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar 0-2",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "0-2",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/0-07.htm",
+     "toAll": [
+      "Q00071_SagaOfEvasTemplar/0-08.htm",
+      "Q00071_SagaOfEvasTemplar/0-07.htm"
+     ],
+     "effect": "cond:20|reward"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/0-09.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/0-09.htm",
+   "quest": 71,
+   "text": "Master Sinden: You're no longer an ordinary Elven Knight! The Mother Tree you're protecting symbolizes the world that produced the tree. You're also guarding that world. From now on, live your life according to what you feel is right. That is the will of Eva!",
+   "header": "Master Sinden",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/0-010.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/0-010.htm",
+   "quest": 71,
+   "text": "Master Sinden: You haven't recovered yet. Come back later. (Only a character of level 76 or above is allowed to do a class transfer. Do not abandon quest before transfer is complete!)",
+   "header": "Master Sinden",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 30852) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/0-02.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/0-02.htm",
+   "quest": 71,
+   "text": "Master Sinden: This is too dangerous for you. Brother, don't be too proud! This pilgrimage is the path of legend. No one knows the danger that lies ahead. Come see me when you are better prepared! (This quest may only be undertaken by a Temple Knight of level 76 or above.)",
+   "header": "Master Sinden",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/0-03.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/0-03.htm",
+   "quest": 71,
+   "text": "Master Sinden: This journey may uncover some shameful parts of our Elven history. Read the legend in this book about the guardian of the Mother Tree who vowed to stop this pilgrimage. He felt an Elf should always protect the Mother tree and only help other Elves. Meet with Master Bronwyn, a former …",
+   "header": "Master Sinden",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/0-05.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/0-05.htm",
+   "quest": 71,
+   "text": "Master Sinden: The highest honor amongst Elves is to be a guardian of the Mother Tree. However, we are destined to leave the Mother Tree eventually. You sense this as well since you've been fighting so long. Here many people gather and live preparing the future. We are saddened not to have your ski…",
+   "header": "Master Sinden",
+   "links": [
+    {
+     "text": "\"Yes!\"",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar accept",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "accept",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/0-07.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/0-07.htm",
+   "quest": 71,
+   "text": "Master Sinden: You're no longer an ordinary Elven Knight! The Mother Tree you're protecting symbolizes the world that produced the tree. You're also guarding that world. From now on, live your life according to what you feel is right. That is the will of Eva!",
+   "header": "Master Sinden",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/0-08.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/0-08.htm",
+   "quest": 71,
+   "text": "Master Sinden: You're no longer an ordinary Elven Knight! The Mother Tree you're protecting symbolizes the world that produced the tree. You're also guarding that world. You need more experience! (Only a character of level 76 or above is allowed to transfer class. Don't abandon quest before complet…",
+   "header": "Master Sinden",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/3-02.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/3-02.htm",
+   "quest": 71,
+   "text": "Master Sinden: The Ketra Orcs are in a territorial war with the Varka Silenos. You'll end up fighting against the Varka Silenos if you help the Ketra Orcs. You can always switch sides. Remember, by choosing to fight for one side, you're fighting against the other! It's your choice. Now go get the D…",
+   "header": "Master Sinden",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/3-03.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/3-03.htm",
+   "quest": 71,
+   "text": "Master Sinden: You choose to help the Varka Silenos in their territorial war with the Ketra Orcs? You can always switch sides. Remember though, by choosing to fight for one side, you are fighting against the other! Now go get the Divine Stone of Wisdom !",
+   "header": "Master Sinden",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00071_SagaOfEvasTemplar/3-07.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/3-07.htm",
+   "quest": 71,
+   "text": "Master Sinden: Panacea had a fight with his younger brother, Kastien, who felt it wasn't right to stop the pilgrimage since it was established by the goddess Eva. He gave me the Stone of Commune and sealed it so that only by helping other races could it be used. The key of binding was divided in tw…",
+   "header": "Master Sinden",
+   "links": [
+    {
+     "text": "Ketra Orcs",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar 3-6",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "3-6",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "Varka Silenos",
+     "bypass": "Quest Q00071_SagaOfEvasTemplar 3-7",
+     "kind": "quest-event",
+     "script": "Q00071_SagaOfEvasTemplar",
+     "event": "3-7",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/3-03.htm",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00071_SagaOfEvasTemplar/3-08.htm": {
+   "file": "Q00071_SagaOfEvasTemplar/3-08.htm",
+   "quest": 71,
+   "text": "Master Sinden: I learned from a preacher in the wasteland that I can communicate with lesser Orcs or Silenos. Living beings may have different goals but we all share the same origin! The Stone of Commune has been activated! Take it and go to the fourth tablet in the north of the Varka Silenos Camp.",
+   "header": "Master Sinden",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of Eva's Templar]",
+     "bypass": "npc_%objectId%_Quest Q00071_SagaOfEvasTemplar",
+     "kind": "quest",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of Eva's Templar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00071_SagaOfEvasTemplar",
+     "kind": "quest",
+     "quest": 71,
+     "to": "Q00071_SagaOfEvasTemplar/0-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "text of trainer/30852.htm differs: live \"Master Sinden: May the smile of Eva bring you peace and tranquility. I believe that us ra…\" vs datapack \"Master Sinden: May Eva smile upon you and give you peace! The coming age of chaos can onl…\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Master Sinden:May the smile of Eva bring you peace and tranq"
+   ],
+   "to": [
+    "You are either not on a quest that involves this NPC, or you"
+   ]
+  }
+ ]
+}

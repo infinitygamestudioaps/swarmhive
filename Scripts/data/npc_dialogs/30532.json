@@ -1,0 +1,619 @@
+{
+ "npcId": 30532,
+ "name": "Spiron",
+ "title": "Golden Wheel's",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.993Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30532.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30532-01.html",
+     "when": "state STARTED; has items 3239,3246,3247; lacks items 3252,3258",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30532-02.html",
+     "when": "state STARTED; has items 3239,3246; lacks items 3258,3252,3247; !(hasQuestItems(player, LOCKIRINS_1ST_NOTICE) && !hasAtLeastOneQuestItem(player, CONTRIBUTION_OF_SHARI, RECEIPT_OF_CONTR",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30532-03.html",
+     "when": "state STARTED; has items 3239,3246,3258,3252,3247; lacks items 3258,3247; !(hasQuestItems(player, LOCKIRINS_1ST_NOTICE) && !hasAtLeastOneQuestItem(player, CONTRIBUTION_OF_SHARI, RECEIPT_OF_CONTR",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30532-04.html",
+     "when": "state STARTED; has items 3239,3246,3258,3252,3247; lacks items 3252,3247; !(hasQuestItems(player, LOCKIRINS_1ST_NOTICE) && !hasAtLeastOneQuestItem(player, CONTRIBUTION_OF_SHARI, RECEIPT_OF_CONTR; !(hasQuestItems(player, CONTRIBUTION_OF_SHARI) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_1ST, LOCKIRINS",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "231": {
+   "name": "Test Of The Maestro",
+   "listText": [
+    "[Test of the Maestro]",
+    "[Test of the Maestro (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00231_TestOfTheMaestro/30532-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "292": {
+   "name": "Brigands Sweep",
+   "listText": [
+    "[Brigands Sweep]",
+    "[Brigands Sweep (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00292_BrigandsSweep/30532-02.htm",
+     "when": "state CREATED; (talker.getRace() == Race.DWARF); (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00292_BrigandsSweep/30532-01.htm",
+     "when": "state CREATED; (talker.getRace() == Race.DWARF); NOT (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00292_BrigandsSweep/30532-00.htm",
+     "when": "state CREATED; NOT (talker.getRace() == Race.DWARF)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00292_BrigandsSweep/30532-04.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00292_BrigandsSweep/30532-05.html",
+     "when": "state STARTED; lacks items 1486,1487; sum > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00292_BrigandsSweep/30532-10.html",
+     "when": "state STARTED; has items 1487; !((sum > 0) && !hasAtLeastOneQuestItem(talker, SUSPICIOUS_MEMO.getId(), SUSPICIOUS_CONTRACT)); memos == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00292_BrigandsSweep/30532-08.html",
+     "when": "state STARTED; !((sum > 0) && !hasAtLeastOneQuestItem(talker, SUSPICIOUS_MEMO.getId(), SUSPICIOUS_CONTRACT)); !((memos == 0) && hasQuestItems(talker, SUSPICIOUS_CONTRACT)); memos == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00292_BrigandsSweep/30532-09.html",
+     "when": "state STARTED; !((sum > 0) && !hasAtLeastOneQuestItem(talker, SUSPICIOUS_MEMO.getId(), SUSPICIOUS_CONTRACT)); !((memos == 0) && hasQuestItems(talker, SUSPICIOUS_CONTRACT)); !memos == 1; memos >= 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "347": {
+   "name": "Go Get the Calculator",
+   "listText": [
+    "[Go Get the Calculator]",
+    "[Go Get the Calculator (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00347_GoGetTheCalculator/30532-01.html",
+     "when": "state STARTED; qs.isCond(1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00347_GoGetTheCalculator/30532-05.html",
+     "when": "state STARTED; NOT qs.isCond(1)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30532.htm": {
+   "file": "default/30532.htm",
+   "quest": null,
+   "text": "Elder Spiron: Come, come, my young friend. I hope you are blessed with wealth enough to share generously! I am Spiron, the Elder Chief of the Golden Wheel Guild . I am currently having difficulty negotiating a trade treaty with the Kingdom of Elmore .",
+   "header": "Elder Spiron",
+   "links": [
+    {
+     "text": "Ask about the Golden Wheel Guild",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30532-1.htm"
+    },
+    {
+     "text": "Ask about the Kingdom of Elmore",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30532-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30532-1.htm": {
+   "file": "default/30532-1.htm",
+   "quest": null,
+   "text": "Elder Spiron: As an association of the most successful traders, we are in charge of exporting goods made by Dwarven craftsmen to other areas and importing goods and resources that we need. Since we understand great craftsmanship and the value of the noble artisan spirit, we support many craftsmen a…",
+   "header": "Elder Spiron",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30532.htm"
+    }
+   ]
+  },
+  "default/30532-2.htm": {
+   "file": "default/30532-2.htm",
+   "quest": null,
+   "text": "Elder Spiron: Elmore is a kingdom of Humans which dominates the northern part of the continent. They are, as a rule, unpleasant fellows who think Dwarves are inferior. They have all too often dispatched an army on some pretext or other, in actuality to meddle in our domestic administration and anta…",
+   "header": "Elder Spiron",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30532.htm"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30532-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30532-01.html",
+   "quest": 221,
+   "text": "Elder Spiron: May you be blessed with wealth and the virtue of generosity! I am Spiron, the Chief Elder of the Golden Wheel Guild. Ah! I remember you. Did you not rid us of the goblin brigand? Though my memory has faded somewhat... You have grown much since I last saw you. So, you have come to coll…",
+   "header": "Elder Spiron",
+   "when": [
+    "state STARTED; has items 3239,3246,3247; lacks items 3252,3258"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30532-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30532-02.html",
+   "quest": 221,
+   "text": "Elder Spiron: Go see Trader Shari of the weapons shop , collect his guild dues and bring them to me.",
+   "header": "Elder Spiron",
+   "when": [
+    "state STARTED; has items 3239,3246; lacks items 3258,3252,3247; !(hasQuestItems(player, LOCKIRINS_1ST_NOTICE) && !hasAtLeastOneQuestItem(player, CONTRIBUTION_OF_SHARI, RECEIPT_OF_CONTR"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30532-03.html": {
+   "file": "Q00221_TestimonyOfProsperity/30532-03.html",
+   "quest": 221,
+   "text": "Elder Spiron: Thank you very much. With this payment all of our members have paid their dues. Here is the receipt . Please take this to First Elder Lockirin. I hear Shari's business is not doing so well. I wonder how she managed to pay her dues...? What? She went into debt to make this payment? My …",
+   "header": "Elder Spiron",
+   "when": [
+    "state STARTED; has items 3239,3246,3258,3252,3247; lacks items 3258,3247; !(hasQuestItems(player, LOCKIRINS_1ST_NOTICE) && !hasAtLeastOneQuestItem(player, CONTRIBUTION_OF_SHARI, RECEIPT_OF_CONTR"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30532-04.html": {
+   "file": "Q00221_TestimonyOfProsperity/30532-04.html",
+   "quest": 221,
+   "text": "Elder Spiron: I see you are working hard to collect the guild payment receipts. You will be generously rewarded for your efforts. Have faith!",
+   "header": "Elder Spiron",
+   "when": [
+    "state STARTED; has items 3239,3246,3258,3252,3247; lacks items 3252,3247; !(hasQuestItems(player, LOCKIRINS_1ST_NOTICE) && !hasAtLeastOneQuestItem(player, CONTRIBUTION_OF_SHARI, RECEIPT_OF_CONTR; !(hasQuestItems(player, CONTRIBUTION_OF_SHARI) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_1ST, LOCKIRINS"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00231_TestOfTheMaestro/30532-01.html": {
+   "file": "Q00231_TestOfTheMaestro/30532-01.html",
+   "quest": 231,
+   "text": "Elder Spiron: Ah, Balanki... So proud over the success of such a small deal... He'll get a taste of his own medicine soon. He he he. Oh! Who are you? What do you want? A letter of Recommendation? Can't you see how busy I am? Go get your letter somewhere else!",
+   "header": "Elder Spiron",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00292_BrigandsSweep/30532-02.htm": {
+   "file": "Q00292_BrigandsSweep/30532-02.htm",
+   "quest": 292,
+   "text": "Elder Spiron: Business is bad these days because of the goblin brigands . The goblins have become so bold that they attack freight wagons now! Our guild has been taking great losses lately because our wagons are being attacked. I am thinking of addressing this brigand issue next month at the Guild …",
+   "header": "Elder Spiron",
+   "when": [
+    "state CREATED; (talker.getRace() == Race.DWARF); (talker.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say you want to be a talented Dwarf.",
+     "bypass": "Quest Q00292_BrigandsSweep 30532-03.htm",
+     "kind": "quest-event",
+     "script": "Q00292_BrigandsSweep",
+     "event": "30532-03.htm",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00292_BrigandsSweep/30532-01.htm": {
+   "file": "Q00292_BrigandsSweep/30532-01.htm",
+   "quest": 292,
+   "text": "Elder Spiron: Business is bad these days because of the goblin brigands . The goblins have become so bold that they attack freight wagons now! Just last week, a wagon belonging to our guild was attacked by the goblin brigands. I am thinking of addressing this brigand issue next month at the Guild A…",
+   "header": "Elder Spiron",
+   "when": [
+    "state CREATED; (talker.getRace() == Race.DWARF); NOT (talker.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00292_BrigandsSweep/30532-00.htm": {
+   "file": "Q00292_BrigandsSweep/30532-00.htm",
+   "quest": 292,
+   "text": "Elder Spiron: Young stranger of a foreign race, you wish to help me? I appreciate the thought, but ... I cannot entrust guild business to an outsider. (Quest for Dwarven characters.)",
+   "header": "Elder Spiron",
+   "when": [
+    "state CREATED; NOT (talker.getRace() == Race.DWARF)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00292_BrigandsSweep/30532-04.html": {
+   "file": "Q00292_BrigandsSweep/30532-04.html",
+   "quest": 292,
+   "text": "Elder Spiron: Why have you returned empty handed? Don't tell me that you've forgotten what your job is. Given the urgency of the situation, let me tell you one more time! Your job is to punish the insolent goblins that are interrupting our guild's trade. Defeat the goblins and bring their necklaces…",
+   "header": "Elder Spiron",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00292_BrigandsSweep 30532-06.html",
+     "kind": "quest-event",
+     "script": "Q00292_BrigandsSweep",
+     "event": "30532-06.html",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-06.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00292_BrigandsSweep 30532-07.html",
+     "kind": "quest-event",
+     "script": "Q00292_BrigandsSweep",
+     "event": "30532-07.html",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-07.html"
+    }
+   ]
+  },
+  "Q00292_BrigandsSweep/30532-05.html": {
+   "file": "Q00292_BrigandsSweep/30532-05.html",
+   "quest": 292,
+   "text": "Elder Spiron: Welcome back! So you have taken care of the insolent goblins that interfered with our business! Now I'll finally get a good night's sleep! Of course, we need to work very hard to cover last month's loss ... Whew ... Anyway, you have done well! As promised, I will reward you based on t…",
+   "header": "Elder Spiron",
+   "when": [
+    "state STARTED; lacks items 1486,1487; sum > 0"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00292_BrigandsSweep 30532-06.html",
+     "kind": "quest-event",
+     "script": "Q00292_BrigandsSweep",
+     "event": "30532-06.html",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-06.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00292_BrigandsSweep 30532-07.html",
+     "kind": "quest-event",
+     "script": "Q00292_BrigandsSweep",
+     "event": "30532-07.html",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-07.html"
+    }
+   ]
+  },
+  "Q00292_BrigandsSweep/30532-10.html": {
+   "file": "Q00292_BrigandsSweep/30532-10.html",
+   "quest": 292,
+   "text": "Elder Spiron: Well done! As promised, I will reward you based on the number and type of necklaces you have brought after killing the goblins. Their spirits must be significantly deflated! What is this, a Contract ...? This is the Suspicious Memos all combined! Let me see ... Hmm ... Yes ... As I th…",
+   "header": "Elder Spiron",
+   "when": [
+    "state STARTED; has items 1487; !((sum > 0) && !hasAtLeastOneQuestItem(talker, SUSPICIOUS_MEMO.getId(), SUSPICIOUS_CONTRACT)); memos == 0"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00292_BrigandsSweep 30532-06.html",
+     "kind": "quest-event",
+     "script": "Q00292_BrigandsSweep",
+     "event": "30532-06.html",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-06.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00292_BrigandsSweep 30532-07.html",
+     "kind": "quest-event",
+     "script": "Q00292_BrigandsSweep",
+     "event": "30532-07.html",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-07.html"
+    }
+   ]
+  },
+  "Q00292_BrigandsSweep/30532-08.html": {
+   "file": "Q00292_BrigandsSweep/30532-08.html",
+   "quest": 292,
+   "text": "Elder Spiron: Well done! As promised, I will reward you based on the number and types of necklaces you have brought after killing the goblins. What are these memos ...? This paper is used by Dwarven Guilds when writing official documents ... Also, the handwriting is Dwarvish ... This means those in…",
+   "header": "Elder Spiron",
+   "when": [
+    "state STARTED; !((sum > 0) && !hasAtLeastOneQuestItem(talker, SUSPICIOUS_MEMO.getId(), SUSPICIOUS_CONTRACT)); !((memos == 0) && hasQuestItems(talker, SUSPICIOUS_CONTRACT)); memos == 1"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00292_BrigandsSweep 30532-06.html",
+     "kind": "quest-event",
+     "script": "Q00292_BrigandsSweep",
+     "event": "30532-06.html",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-06.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00292_BrigandsSweep 30532-07.html",
+     "kind": "quest-event",
+     "script": "Q00292_BrigandsSweep",
+     "event": "30532-07.html",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-07.html"
+    }
+   ]
+  },
+  "Q00292_BrigandsSweep/30532-09.html": {
+   "file": "Q00292_BrigandsSweep/30532-09.html",
+   "quest": 292,
+   "text": "Elder Spiron: Well done! As promised, I will reward you based on the number and type of necklaces you have brought after killing the goblins. Have you found the rest of the Suspicious Memos? Please help me out once more, my friend! You know that you are the only one I can trust. I must find the res…",
+   "header": "Elder Spiron",
+   "when": [
+    "state STARTED; !((sum > 0) && !hasAtLeastOneQuestItem(talker, SUSPICIOUS_MEMO.getId(), SUSPICIOUS_CONTRACT)); !((memos == 0) && hasQuestItems(talker, SUSPICIOUS_CONTRACT)); !memos == 1; memos >= 2"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00292_BrigandsSweep 30532-06.html",
+     "kind": "quest-event",
+     "script": "Q00292_BrigandsSweep",
+     "event": "30532-06.html",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-06.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00292_BrigandsSweep 30532-07.html",
+     "kind": "quest-event",
+     "script": "Q00292_BrigandsSweep",
+     "event": "30532-07.html",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-07.html"
+    }
+   ]
+  },
+  "Q00347_GoGetTheCalculator/30532-01.html": {
+   "file": "Q00347_GoGetTheCalculator/30532-01.html",
+   "quest": 347,
+   "text": "Golden Wheel's Spiron: What use would you have for such advanced technology? Oh, I get it! Its for Brunon! Mark my words, that fool is in over his head! You should be very careful in your dealings with him... Well, my friend, we don't have the Calculator you seek, but I do know where it can be foun…",
+   "header": "Golden Wheel's Spiron",
+   "when": [
+    "state STARTED; qs.isCond(1)"
+   ],
+   "links": [
+    {
+     "text": "Golden Wheel",
+     "bypass": "Quest Q00347_GoGetTheCalculator 30532-02.html",
+     "kind": "quest-event",
+     "script": "Q00347_GoGetTheCalculator",
+     "event": "30532-02.html",
+     "quest": 347,
+     "to": "Q00347_GoGetTheCalculator/30532-02.html",
+     "effect": "cond:2"
+    },
+    {
+     "text": "Silver Scale",
+     "bypass": "Quest Q00347_GoGetTheCalculator 30532-03.html",
+     "kind": "quest-event",
+     "script": "Q00347_GoGetTheCalculator",
+     "event": "30532-03.html",
+     "quest": 347,
+     "to": "Q00347_GoGetTheCalculator/30532-03.html"
+    },
+    {
+     "text": "I don't know.",
+     "bypass": "Quest Q00347_GoGetTheCalculator 30532-04.html",
+     "kind": "quest-event",
+     "script": "Q00347_GoGetTheCalculator",
+     "event": "30532-04.html",
+     "quest": 347,
+     "to": "Q00347_GoGetTheCalculator/30532-04.html"
+    }
+   ]
+  },
+  "Q00347_GoGetTheCalculator/30532-05.html": {
+   "file": "Q00347_GoGetTheCalculator/30532-05.html",
+   "quest": 347,
+   "text": "Golden Wheel's Spiron: Ah yes, the Calculator... Tell Brunon this: \"The enemy is within your own house.\" Or, \"It is closer than you think.\" If you don't understand this, I give up. Go and ask someone else...",
+   "header": "Golden Wheel's Spiron",
+   "when": [
+    "state STARTED; NOT qs.isCond(1)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00292_BrigandsSweep/30532-03.htm": {
+   "file": "Q00292_BrigandsSweep/30532-03.htm",
+   "quest": 292,
+   "text": "Elder Spiron: Very well! Now let me give you the details. Your job is to wipe out the insolent goblins that have been attacking our Guild freight wagons. Of course, I could hire guard escorts, but under these circumstances I cannot trust anyone except for my guild members. In the interest of good b…",
+   "header": "Elder Spiron",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00292_BrigandsSweep/30532-06.html": {
+   "file": "Q00292_BrigandsSweep/30532-06.html",
+   "quest": 292,
+   "text": "Elder Spiron: You want to quit? Why? It's not because you think the reward isn't enough, is it? People may say that I'm stingy, but upon my word I always treat those who work for our guild very well. You should think again, young friend! You can broaden your experience, while making money. Don't mi…",
+   "header": "Elder Spiron",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00292_BrigandsSweep/30532-07.html": {
+   "file": "Q00292_BrigandsSweep/30532-07.html",
+   "quest": 292,
+   "text": "Elder Spiron: Please carry on then! It is thanks to earnest youngsters like you that the business of our Dwarven Guilds flourishes!",
+   "header": "Elder Spiron",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00347_GoGetTheCalculator/30532-02.html": {
+   "file": "Q00347_GoGetTheCalculator/30532-02.html",
+   "quest": 347,
+   "text": "Golden Wheel's Spiron: Ah, yes, your honest admiration for our clan will not go unrewarded... Now, Brunon is the one who seeks the Calculator, correct? To him I would say this: \"The enemy is within your own house.\" Said another way: \"It is closer than you think.\" I suppose that makes more sense! Th…",
+   "header": "Golden Wheel's Spiron",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00347_GoGetTheCalculator/30532-03.html": {
+   "file": "Q00347_GoGetTheCalculator/30532-03.html",
+   "quest": 347,
+   "text": "Golden Wheel's Spiron: Are you serious? The Silver Scale? Ha! What makes you think those buffoons are better than the mightly Golden Wheel? Who told you that? Its bull!",
+   "header": "Golden Wheel's Spiron",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00347_GoGetTheCalculator/30532-04.html": {
+   "file": "Q00347_GoGetTheCalculator/30532-04.html",
+   "quest": 347,
+   "text": "Golden Wheel's Spiron: What do mean you don't know! Any idiot should be able to answer this question without thinking! Among the top six Dwarven guilds, only two are trade guilds. I, Spiron, am elder of the mighty Golden Wheel Guild and Balanki is the elder of the Silver Scale Guild. Now say it! Wh…",
+   "header": "Golden Wheel's Spiron",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30532-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Maestro (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00231_TestOfTheMaestro",
+     "kind": "quest",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30532-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Brigands Sweep]",
+     "bypass": "npc_%objectId%_Quest Q00292_BrigandsSweep",
+     "kind": "quest",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Brigands Sweep (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00292_BrigandsSweep",
+     "kind": "quest",
+     "quest": 292,
+     "to": "Q00292_BrigandsSweep/30532-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Go Get the Calculator (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00347_GoGetTheCalculator",
+     "kind": "quest",
+     "quest": 347,
+     "to": "Q00347_GoGetTheCalculator/30532-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

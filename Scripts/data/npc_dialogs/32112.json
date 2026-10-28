@@ -1,0 +1,64 @@
+{
+ "npcId": 32112,
+ "name": "Gariachin",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.326Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Teleports/ElrokiTeleporters/32112-no.html": {
+   "file": "ai/npc/Teleports/ElrokiTeleporters/32112-no.html",
+   "quest": null,
+   "text": "Gariachin: Oh, no! This is not good, not good at all. My sincerest apologies -- I cannot tell you what happened in detail -- but I cannot teleport you to your destination at the moment. I'm terribly sorry for the inconvenience.",
+   "header": "Gariachin",
+   "when": [
+    "talker.isInCombat()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Teleports/ElrokiTeleporters/32112.html": {
+   "file": "ai/npc/Teleports/ElrokiTeleporters/32112.html",
+   "quest": null,
+   "text": "Gariachin: Welcome! I am Gariachin. I am entrusted with the teleportation of visitors to this island. It may sound strange to you, but I've come to love this island and respect its people. It is a precious place, housing the hope, wisdom and future of the Elroki tribe. I will transport you to the s…",
+   "header": "Gariachin",
+   "links": [
+    {
+     "text": "Teleport.",
+     "bypass": "npc_%objectId%_Quest ElrokiTeleporters",
+     "kind": "quest",
+     "script": "ElrokiTeleporters",
+     "to": "ai/npc/Teleports/ElrokiTeleporters/32112-no.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

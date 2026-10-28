@@ -1,0 +1,241 @@
+{
+ "npcId": 30337,
+ "name": "Moretti",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.938Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30337.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "407": {
+   "name": "Path of the Elven Scout",
+   "listText": [
+    "[Path of the Elven Scout]",
+    "[Path of the Elven Scout (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00407_PathOfTheElvenScout/30337-01.html",
+     "when": "state STARTED; has items 1207; !(qs.isCreated() || qs.isCompleted()); letterCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00407_PathOfTheElvenScout/30337-04.html",
+     "when": "state STARTED; lacks items 1214,1215,1216; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, REISAS_LETTER) && (letterCount == 0)); qs.getInt(\"variable\") == 1; letterCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00407_PathOfTheElvenScout/30337-05.html",
+     "when": "state STARTED; lacks items 1214,1215,1216; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, REISAS_LETTER) && (letterCount == 0)); qs.getInt(\"variable\") == 1; !letterCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00407_PathOfTheElvenScout/30337-06.html",
+     "when": "state STARTED; lacks items 1214,1215,1216; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, REISAS_LETTER) && (letterCount == 0)); qs.getInt(\"variable\") == 1; !letterCount == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00407_PathOfTheElvenScout/30337-07.html",
+     "when": "state STARTED; has items 1215; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, REISAS_LETTER) && (letterCount == 0)); !((qs.getInt(\"variable\") == 1) && !hasAtLeastOneQuestItem(player, MORETTIS_LETTER, PRIASS_LETTER, HONORARY_GUARD))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00407_PathOfTheElvenScout/30337-09.html",
+     "when": "state STARTED; has items 1212,1214; lacks items 1215; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, REISAS_LETTER) && (letterCount == 0)); !((qs.getInt(\"variable\") == 1) && !hasAtLeastOneQuestItem(player, MORETTIS_LETTER, PRIASS_LETTER, HONORARY_GUARD))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00407_PathOfTheElvenScout/30337-08.html",
+     "when": "state STARTED; has items 1216; lacks items 1215,1212,1214; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, REISAS_LETTER) && (letterCount == 0)); !((qs.getInt(\"variable\") == 1) && !hasAtLeastOneQuestItem(player, MORETTIS_LETTER, PRIASS_LETTER, HONORARY_GUARD))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30337.htm": {
+   "file": "guard/30337.htm",
+   "quest": null,
+   "text": "Guard Moretti: Greetings! You may think it is boring to stand guard here all day, but it is always enjoyable having a word or two with travelers. Especially when I stand guard here at the west gate, I frequently meet the Elves from the Elven Forest. I m used to it now, but I was really fascinated t…",
+   "header": "Guard Moretti",
+   "links": [
+    {
+     "text": "Ask about the 'Elven Forest'.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30337-1.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30337-1.htm": {
+   "file": "guard/30337-1.htm",
+   "quest": null,
+   "text": "Guard Moretti: If you cross this bridge and follow the road, you can reach the Elven Forest. I have never been there myself, but according to the Elves that come here it is a very beautiful place. Until just recently, the Elves had erected a magic force around their forest so that no one could ente…",
+   "header": "Guard Moretti",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30337-01.html": {
+   "file": "Q00407_PathOfTheElvenScout/30337-01.html",
+   "quest": 407,
+   "text": "Guard Moretti: Ah, you were sent by Reisa. Greetings. In this letter, Reisa says that you will complete this task without fail. Very well, then let me explain to you exactly what is required. I hope we can find the whereabouts of Prias as soon as possible ...",
+   "header": "Guard Moretti",
+   "when": [
+    "state STARTED; has items 1207; !(qs.isCreated() || qs.isCompleted()); letterCount == 0"
+   ],
+   "links": [
+    {
+     "text": "Listen to details",
+     "bypass": "Quest Q00407_PathOfTheElvenScout 30337-02.html",
+     "kind": "quest-event",
+     "script": "Q00407_PathOfTheElvenScout",
+     "event": "30337-02.html",
+     "quest": 407,
+     "to": "Q00407_PathOfTheElvenScout/30337-02.html"
+    }
+   ]
+  },
+  "Q00407_PathOfTheElvenScout/30337-04.html": {
+   "file": "Q00407_PathOfTheElvenScout/30337-04.html",
+   "quest": 407,
+   "text": "Guard Moretti: You haven't found the Ol Mahum patrols yet? I think it would be best to go to the Abandoned Camp first. If you don't know how to go there, ask Guard Babenco. He is at the west entrance of the village. Thank you in advance.",
+   "header": "Guard Moretti",
+   "when": [
+    "state STARTED; lacks items 1214,1215,1216; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, REISAS_LETTER) && (letterCount == 0)); qs.getInt(\"variable\") == 1; letterCount == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30337-05.html": {
+   "file": "Q00407_PathOfTheElvenScout/30337-05.html",
+   "quest": 407,
+   "text": "Guard Moretti: Oh, what is this? Prias's Letter! Ah... seeing that it is torn, I'm sure he tore it up while he was writing us a message because he was discovered. Unfortunately, the letter is so badly torn that I cannot tell exactly what he wanted to say... 'Ol Mahum... Urgent... Attack... Elves...…",
+   "header": "Guard Moretti",
+   "when": [
+    "state STARTED; lacks items 1214,1215,1216; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, REISAS_LETTER) && (letterCount == 0)); qs.getInt(\"variable\") == 1; !letterCount == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30337-06.html": {
+   "file": "Q00407_PathOfTheElvenScout/30337-06.html",
+   "quest": 407,
+   "text": "Guard Moretti: Why, this is a letter Prias left behind! And it is torn into pieces... I am sure he ripped it up while he was trying to leave us a message. Anyway, let's quickly assemble the pieces and read the letter. Hmm... If I put this one on top... Ah! At last, I can read it. \"I write in haste.…",
+   "header": "Guard Moretti",
+   "when": [
+    "state STARTED; lacks items 1214,1215,1216; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, REISAS_LETTER) && (letterCount == 0)); qs.getInt(\"variable\") == 1; !letterCount == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30337-07.html": {
+   "file": "Q00407_PathOfTheElvenScout/30337-07.html",
+   "quest": 407,
+   "text": "Guard Moretti: Ah, you have finally returned. Is Prias safe? What about his letter? Hmm... Ah, I do not know whether my friend is truly courageous or merely rash. I can't believe he is staying behind to patrol. Anyway, he is very obliged to you. He may seem a little impolite on the outside, but he …",
+   "header": "Guard Moretti",
+   "when": [
+    "state STARTED; has items 1215; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, REISAS_LETTER) && (letterCount == 0)); !((qs.getInt(\"variable\") == 1) && !hasAtLeastOneQuestItem(player, MORETTIS_LETTER, PRIASS_LETTER, HONORARY_GUARD))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30337-09.html": {
+   "file": "Q00407_PathOfTheElvenScout/30337-09.html",
+   "quest": 407,
+   "text": "Guard Moretti: Please find my friend Prias somewhere in the Neutral Zone, and give him the herb and letter that I gave you. The Neutral Zone is to the north of our village, across the bridge and along the road. It is the region where Dark Elven and Elven soldiers stand face to face with one another.",
+   "header": "Guard Moretti",
+   "when": [
+    "state STARTED; has items 1212,1214; lacks items 1215; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, REISAS_LETTER) && (letterCount == 0)); !((qs.getInt(\"variable\") == 1) && !hasAtLeastOneQuestItem(player, MORETTIS_LETTER, PRIASS_LETTER, HONORARY_GUARD))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30337-08.html": {
+   "file": "Q00407_PathOfTheElvenScout/30337-08.html",
+   "quest": 407,
+   "text": "Guard Moretti: Ah, you haven't gone to Reisa yet? Go on now and see Reisa. I hear you want to be an Elven Scout. I'm sure everything will turn out well. I am busy, so please excuse me.",
+   "header": "Guard Moretti",
+   "when": [
+    "state STARTED; has items 1216; lacks items 1215,1212,1214; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, REISAS_LETTER) && (letterCount == 0)); !((qs.getInt(\"variable\") == 1) && !hasAtLeastOneQuestItem(player, MORETTIS_LETTER, PRIASS_LETTER, HONORARY_GUARD))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30337-02.html": {
+   "file": "Q00407_PathOfTheElvenScout/30337-02.html",
+   "quest": 407,
+   "text": "Guard Moretti: All right, It's time to tell you what is going on. A fortnight ago, I set off on a regular patrol of the ruins with a few of my colleagues. However, while we were looking around the reconstruction site, a group of Ol Mahum patrollers suddenly attacked us! In our experience, they usua…",
+   "header": "Guard Moretti",
+   "links": [
+    {
+     "text": "Say you will begin the search",
+     "bypass": "Quest Q00407_PathOfTheElvenScout 30337-03.html",
+     "kind": "quest-event",
+     "script": "Q00407_PathOfTheElvenScout",
+     "event": "30337-03.html",
+     "quest": 407,
+     "to": "Q00407_PathOfTheElvenScout/30337-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00407_PathOfTheElvenScout/30337-03.html": {
+   "file": "Q00407_PathOfTheElvenScout/30337-03.html",
+   "quest": 407,
+   "text": "Guard Moretti: Thank you for your decision to help us in our task. My colleagues traced the footsteps of the Ol Mahum patrols, and it seems that they are staying in the abandoned camp. I think that would be the best place to start searching. If you are not familiar with the geography around here, a…",
+   "header": "Guard Moretti",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Elven Scout (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00407_PathOfTheElvenScout",
+     "kind": "quest",
+     "quest": 407,
+     "to": "Q00407_PathOfTheElvenScout/30337-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

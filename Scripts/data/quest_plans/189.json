@@ -2,7 +2,7 @@
  "id": 189,
  "name": "Contract Completion",
  "version": 1,
- "generated": "2026-10-27T11:15:14.360Z",
+ "generated": "2026-10-27T18:18:49.717Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 42,
@@ -25,14 +25,9 @@
    "text": "186 completed"
   }
  ],
- "status": "fixable",
- "reasons": [
-  {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  }
- ],
- "expectedMin": 6,
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 7,
  "refLevel": 42,
  "steps": [
   {
@@ -191,8 +186,348 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:30512",
+   "key": "c1:talk:30673",
    "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Give her the decoded document."
+   ],
+   "npc": {
+    "id": 30673,
+    "name": "Lorain",
+    "title": "Researcher",
+    "town": "Dion",
+    "at": [
+     16460,
+     113488,
+     -3575
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lorain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30673@16460,113488",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1436,
+    "sec": 57,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1436,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114024,
+      -3528
+     ],
+     [
+      16488,
+      113560,
+      -3576
+     ],
+     [
+      16488,
+      113528,
+      -3576
+     ],
+     [
+      16456,
+      113496,
+      -3576
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30068",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"It was mentioned in an old record of the Giants we recovered from the ruins of the Tower of Cruma.\""
+   ],
+   "npc": {
+    "id": 30068,
+    "name": "Shegfield",
+    "title": "Priest",
+    "town": "Dion",
+    "at": [
+     16456,
+     142447,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Talk to Shegfield",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30068@16456,142447",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1945,
+    "sec": 36,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 1945,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      16104,
+      142312,
+      -2688
+     ],
+     [
+      16376,
+      142312,
+      -2688
+     ],
+     [
+      16456,
+      142440,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 61,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:30673",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 30673,
+    "name": "Lorain",
+    "title": "Researcher",
+    "town": "Dion",
+    "at": [
+     16460,
+     113488,
+     -3575
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lorain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30673@16460,113488",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1436,
+    "sec": 57,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1436,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114024,
+      -3528
+     ],
+     [
+      16488,
+      113560,
+      -3576
+     ],
+     [
+      16488,
+      113528,
+      -3576
+     ],
+     [
+      16456,
+      113496,
+      -3576
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:30512",
+   "cond": 4,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -364,253 +699,18 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:30068",
-   "cond": 1,
-   "kind": "talk",
-   "to": 3,
-   "links": [
-    "\"It was mentioned in an old record of the Giants we recovered from the ruins of the Tower of Cruma.\""
-   ],
-   "npc": {
-    "id": 30068,
-    "name": "Shegfield",
-    "title": "Priest",
-    "town": "Dion",
-    "at": [
-     16456,
-     142447,
-     -2688
-    ],
-    "alt": []
-   },
-   "text": "Talk to Shegfield",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30068@16456,142447",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 1945,
-    "sec": 36,
-    "via": ".dion",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "walk",
-      "len": 1945,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Dion"
-    },
-    "simple": true,
-    "pv": [
-     [
-      15619,
-      143132,
-      -2688
-     ],
-     [
-      15480,
-      142888,
-      -2696
-     ],
-     [
-      15624,
-      142888,
-      -2696
-     ],
-     [
-      15688,
-      142888,
-      -2696
-     ],
-     [
-      15832,
-      142984,
-      -2696
-     ],
-     [
-      15976,
-      142872,
-      -2696
-     ],
-     [
-      15960,
-      142600,
-      -2680
-     ],
-     [
-      15896,
-      142472,
-      -2688
-     ],
-     [
-      16104,
-      142312,
-      -2688
-     ],
-     [
-      16376,
-      142312,
-      -2688
-     ],
-     [
-      16456,
-      142440,
-      -2688
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 61,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    4
-   ]
-  },
-  {
-   "i": 3,
-   "key": "c1:talk:30673",
-   "cond": 1,
-   "kind": "talk",
-   "to": 2,
-   "links": [
-    "Give her the decoded document."
-   ],
-   "npc": {
-    "id": 30673,
-    "name": "Lorain",
-    "title": "Researcher",
-    "town": "Dion",
-    "at": [
-     16460,
-     113488,
-     -3575
-    ],
-    "alt": []
-   },
-   "text": "Talk to Lorain",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30673@16460,113488",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 1436,
-    "sec": 57,
-    "via": ".dion > Dion -> Cruma Tower",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "gk",
-      "from": "Dion",
-      "desc": "Dion -> Cruma Tower",
-      "link": "cruma tower",
-      "price": 2300,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 1436,
-      "how": "geodata",
-      "danger": 34
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Cruma Tower"
-    },
-    "simple": true,
-    "pv": [
-     [
-      17225,
-      114173,
-      -3440
-     ],
-     [
-      16360,
-      114024,
-      -3528
-     ],
-     [
-      16488,
-      113560,
-      -3576
-     ],
-     [
-      16488,
-      113528,
-      -3576
-     ],
-     [
-      16456,
-      113496,
-      -3576
-     ]
-    ],
-    "maxDanger": 34,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 34,
-     "dangerVsLevel": -8,
-     "aggro": []
-    }
-   },
-   "expectedSec": 82,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    3,
     4
    ]
   }
  ],
  "override": {
   "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T18:18:49.733Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
  }
 }

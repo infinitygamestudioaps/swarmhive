@@ -1,0 +1,706 @@
+{
+ "npcId": 32052,
+ "name": "Obi",
+ "title": "Railroad Worker",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.321Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32052.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "116": {
+   "name": "Beyond the Hills of Winter",
+   "listText": [
+    "[Beyond the Hills of Winter]",
+    "[Beyond the Hills of Winter (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00116_BeyondTheHillsOfWinter/32052-01.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "117": {
+   "name": "The Ocean of Distant Stars",
+   "listText": [
+    "[The Ocean of Distant Stars]",
+    "[The Ocean of Distant Stars (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32052-01.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32052-03.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32052-04.html",
+     "when": "state STARTED; memo 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32052-06.html",
+     "when": "state STARTED; memo 7; has items 8495",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32052-08.html",
+     "when": "state STARTED; memo 7; lacks items 8495",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32052-09.html",
+     "when": "state STARTED; memo 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "418": {
+   "name": "Path Of The Artisan",
+   "listText": [
+    "[Path of the Artisan]",
+    "[Path of the Artisan (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00418_PathOfTheArtisan/32052-01.html",
+     "when": "state STARTED; memo 10; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/32052-08.html",
+     "when": "state STARTED; memo 100; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00418_PathOfTheArtisan/32052-09.html",
+     "when": "state STARTED; memo 102; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "649": {
+   "name": "A Looter and a Railroad Man",
+   "listText": [
+    "[A Looter and a Railroad Man]",
+    "[A Looter and a Railroad Man (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00649_ALooterAndARailroadMan/32052-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00649_ALooterAndARailroadMan/32052-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00649_ALooterAndARailroadMan/32052-04.html",
+     "when": "state STARTED; (st.getQuestItemsCount(THIEF_GUILD_MARK) == 200)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00649_ALooterAndARailroadMan/32052-05.html",
+     "when": "state STARTED; NOT (st.getQuestItemsCount(THIEF_GUILD_MARK) == 200)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32052.htm": {
+   "file": "default/32052.htm",
+   "quest": null,
+   "text": "Railroad Worker Obi: Hmm.. It's hard to believe that trains used to run through this station in the past. There was even a bustling village here! Now there's only thieves and the damned year-round snow!",
+   "header": "Railroad Worker Obi",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00116_BeyondTheHillsOfWinter/32052-01.html": {
+   "file": "Q00116_BeyondTheHillsOfWinter/32052-01.html",
+   "quest": 116,
+   "text": "Railroad Worker Obi: It looks like it came from Filaur of the Gray Pillar Guild. All right... I didn't see this coming. We may still survive after all! What a relief! Hmm... I think this is for you...",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00116_BeyondTheHillsOfWinter 32052-02.html",
+     "kind": "quest-event",
+     "script": "Q00116_BeyondTheHillsOfWinter",
+     "event": "32052-02.html",
+     "quest": 116,
+     "to": "Q00116_BeyondTheHillsOfWinter/32052-02.html"
+    }
+   ]
+  },
+  "Q00117_TheOceanOfDistantStars/32052-01.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32052-01.html",
+   "quest": 117,
+   "text": "Railroad Worker Obi: I've been watching you for a while now, and you talk to yourself a lot! Is that normal where you come from, talking to yourself?",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"You see, there was this ghost...\"",
+     "bypass": "Quest Q00117_TheOceanOfDistantStars 32052-02.html",
+     "kind": "quest-event",
+     "script": "Q00117_TheOceanOfDistantStars",
+     "event": "32052-02.html",
+     "quest": 117,
+     "to": "Q00117_TheOceanOfDistantStars/32052-02.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00117_TheOceanOfDistantStars/32052-03.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32052-03.html",
+   "quest": 117,
+   "text": "Railroad Worker Obi: A ghost, huh? I don't know. Why don't you ask Abey when she wakes up later?",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00117_TheOceanOfDistantStars/32052-04.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32052-04.html",
+   "quest": 117,
+   "text": "Railroad Worker Obi: Hmmmm....? A hammer? Let me see... What? This is really old! I haven't seen this kind of hammer in a long time! So, this pillar, I'm sure you know, stands for our Gray Pillar Guild. And the star that is connected to this column, you see the two lines between them? These lines s…",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state STARTED; memo 6"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the Sky Wagon.\"",
+     "bypass": "Quest Q00117_TheOceanOfDistantStars 32052-05.html",
+     "kind": "quest-event",
+     "script": "Q00117_TheOceanOfDistantStars",
+     "event": "32052-05.html",
+     "quest": 117,
+     "to": "Q00117_TheOceanOfDistantStars/32052-05.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00117_TheOceanOfDistantStars/32052-06.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32052-06.html",
+   "quest": 117,
+   "text": "Railroad Worker Obi: Oh, you brought the book! Yes, I remember now! The Sky Wagon was planned by the giants of the Age of Titans! After they were extinct, the Dwarves proceeded with the plan as if it were their own! But once the Dwarf King was dead and the Elders started governing the Dwarves, the …",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state STARTED; memo 7; has items 8495"
+   ],
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00117_TheOceanOfDistantStars 32052-07.html",
+     "kind": "quest-event",
+     "script": "Q00117_TheOceanOfDistantStars",
+     "event": "32052-07.html",
+     "quest": 117,
+     "to": "Q00117_TheOceanOfDistantStars/32052-07.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00117_TheOceanOfDistantStars/32052-08.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32052-08.html",
+   "quest": 117,
+   "text": "Railroad Worker Obi: About the Sky Wagon... I don't really remember much, but there was a book here about it around here... Oh yes! It was stolen by bandits not too long ago. It was thin with a gray cover... I'll bet the Bandit Leaders or Warriors will know about the book.",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state STARTED; memo 7; lacks items 8495"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00117_TheOceanOfDistantStars/32052-09.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32052-09.html",
+   "quest": 117,
+   "text": "Railroad Worker Obi: I think it best to return that hammer to that ghost that's been hanging around here.",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state STARTED; memo 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/32052-01.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-01.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: The Artisan's test? Isn't that test conducted by the Black Anvil Guild? Obviously, I'm a miner from the Gray Pillar Guild. I have nothing to do with Artisans!",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state STARTED; memo 10; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "\"Oh, I'm sorry.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 32052-02.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "32052-02.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/32052-02.html"
+    },
+    {
+     "text": "\"I was sent to see you.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 32052-04.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "32052-04.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/32052-04.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/32052-08.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-08.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: I already told you. Deliver the message to Mineral Trader Hitchi in the Town of Schuttgart .",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state STARTED; memo 100; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/32052-09.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-09.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: You're back so soon? Do you have a message for me?",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state STARTED; memo 102; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Message received, will wait for the execution date",
+     "bypass": "Quest Q00418_PathOfTheArtisan 32052-10.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "32052-10.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/32052-10.html"
+    }
+   ]
+  },
+  "Q00649_ALooterAndARailroadMan/32052-01.htm": {
+   "file": "Q00649_ALooterAndARailroadMan/32052-01.htm",
+   "quest": 649,
+   "text": "Railroad Worker Obi: This area has gone to hell lately! The security was never that great, but once there were merchants and warehouses, security guards and adventurers... But that was a long time ago.... Now they're all gone! All that's left is this old, worn-out railroad station and the Bandits w…",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Tell me more about the Bandits.",
+     "bypass": "Quest Q00649_ALooterAndARailroadMan 32052-03.htm",
+     "kind": "quest-event",
+     "script": "Q00649_ALooterAndARailroadMan",
+     "event": "32052-03.htm",
+     "quest": 649,
+     "to": "Q00649_ALooterAndARailroadMan/32052-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00649_ALooterAndARailroadMan/32052-02.htm": {
+   "file": "Q00649_ALooterAndARailroadMan/32052-02.htm",
+   "quest": 649,
+   "text": "Railroad Worker Obi: The Bandits around here are known as Rayito's Bandits . They're not very strong but they're tenacious! Honestly, friend, I don't think you're ready to take these fellows on! Come back when you've had more experience. (Characters must have achieved at least level 30 to undertake…",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00649_ALooterAndARailroadMan/32052-04.html": {
+   "file": "Q00649_ALooterAndARailroadMan/32052-04.html",
+   "quest": 649,
+   "text": "Railroad Worker Obi: Do you have 200 proofs from the Bandits?",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state STARTED; (st.getQuestItemsCount(THIEF_GUILD_MARK) == 200)"
+   ],
+   "links": [
+    {
+     "text": "Here they are.",
+     "bypass": "Quest Q00649_ALooterAndARailroadMan 32052-06.html",
+     "kind": "quest-event",
+     "script": "Q00649_ALooterAndARailroadMan",
+     "event": "32052-06.html",
+     "quest": 649,
+     "to": "Q00649_ALooterAndARailroadMan/32052-06.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00649_ALooterAndARailroadMan/32052-05.html": {
+   "file": "Q00649_ALooterAndARailroadMan/32052-05.html",
+   "quest": 649,
+   "text": "Railroad Worker Obi: Defeat the Bandits and bring me 200 proofs.",
+   "header": "Railroad Worker Obi",
+   "when": [
+    "state STARTED; NOT (st.getQuestItemsCount(THIEF_GUILD_MARK) == 200)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00116_BeyondTheHillsOfWinter/32052-02.html": {
+   "file": "Q00116_BeyondTheHillsOfWinter/32052-02.html",
+   "quest": 116,
+   "text": "Railroad Worker Obi: This symbol is used by the Gray Pillar Guild, of which we are members. Well, shall we open it together? Hmm... Unless someone can use D-Grade materials, it doesn't seem very helpful! What shall we do with it? Do you want it, or do you want me to give you some adena for it?",
+   "header": "Railroad Worker Obi",
+   "links": [
+    {
+     "text": "\"I'll take the materials.\"",
+     "bypass": "Quest Q00116_BeyondTheHillsOfWinter MATERIAL",
+     "kind": "quest-event",
+     "script": "Q00116_BeyondTheHillsOfWinter",
+     "event": "MATERIAL",
+     "quest": 116,
+     "to": "Q00116_BeyondTheHillsOfWinter/32052-03.html",
+     "effect": "reward"
+    },
+    {
+     "text": "\"I'll take the adena.\"",
+     "bypass": "Quest Q00116_BeyondTheHillsOfWinter ADENA",
+     "kind": "quest-event",
+     "script": "Q00116_BeyondTheHillsOfWinter",
+     "event": "ADENA",
+     "quest": 116,
+     "to": "Q00116_BeyondTheHillsOfWinter/32052-03.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00116_BeyondTheHillsOfWinter/32052-03.html": {
+   "file": "Q00116_BeyondTheHillsOfWinter/32052-03.html",
+   "quest": 116,
+   "text": "Railroad Worker Obi: Ok, here it goes... My sister Abey and I have been looking for a skilled adventurer like you! Abey sleeps a lot so it might be hard to catch her... If you have some free time, please come back to see us. Have a good trip!",
+   "header": "Railroad Worker Obi",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00117_TheOceanOfDistantStars/32052-02.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32052-02.html",
+   "quest": 117,
+   "text": "Railroad Worker Obi: What? A ghost? Huh...? I have no idea! Why don't you ask Abey when she wakes up later?",
+   "header": "Railroad Worker Obi",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00117_TheOceanOfDistantStars/32052-05.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32052-05.html",
+   "quest": 117,
+   "text": "Railroad Worker Obi: You want to know about the Sky Wagon, eh? There used to be a book about it around here somewhere... Oh yeah, the bandit stole it! It's a thin book with a grey cover ... The Bandit Warrior or Inspector could tell you more about that book.",
+   "header": "Railroad Worker Obi",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00117_TheOceanOfDistantStars/32052-07.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32052-07.html",
+   "quest": 117,
+   "text": "Railroad Worker Obi: Humm...! Then... That must be the ghost of someone who actually worked on the Sky Train project! Our train station was built to transport the raw materials for the construction of the Sky Train... The project suffered from cost overruns and had to be shut down. Now only abandon…",
+   "header": "Railroad Worker Obi",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/32052-02.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-02.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: Hey, why did you give up so easy? It doesn't matter whether I belong to the Gray Pillar guild or not, does it? All six guilds are closely related and share collaborative relationships with each other. I even know some Collectors who work in Blacksmith Shops! Then, it shouldn't …",
+   "header": "Railroad Worker Obi",
+   "links": [
+    {
+     "text": "\"I'm sorry.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 32052-03.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "32052-03.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/32052-03.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/32052-03.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-03.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: Oh, well, you're a youngster, and youngsters make a lot of mistakes! Just don't forget that all of our guilds have the same aim, that is, we exist to protect all Dwarves and independence! Are you ready to hear about the test?",
+   "header": "Railroad Worker Obi",
+   "links": [
+    {
+     "text": "\"Tell me about the test.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 32052-05.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "32052-05.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/32052-05.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/32052-04.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-04.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: You have a good mind, and I think you'll make a good Artisan. Never forget, we Dwarves stick together, no matter which guild we belong to.",
+   "header": "Railroad Worker Obi",
+   "links": [
+    {
+     "text": "\"Tell me about the test.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 32052-05.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "32052-05.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/32052-05.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/32052-05.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-05.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: The test isn't very hard at all. All you have to do is listen to a story and deliver it Mineral Trader Hitchi in the Town of Schuttgart as it is, and follow his orders. Isn't that simple?",
+   "header": "Railroad Worker Obi",
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 32052-06.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "32052-06.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/32052-06.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/32052-06.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-06.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: OK, but remember, you must never tell this story to anyone else! All Artisans must learn the importance of keeping secrets! And, you must suppress your curiousity as well. Your role is only to deliver my words just as they are. Well, are you ready?",
+   "header": "Railroad Worker Obi",
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 32052-07.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "32052-07.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/32052-07.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/32052-07.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-07.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: The Golden Wheels are shaking. If you hit now, you can change the balance of the six pillars Deliver these words to Mineral Trader Hitchi in the Town of Schuttgart . I'll answer no questions! If you want to pass the test, follow my words to the letter.",
+   "header": "Railroad Worker Obi",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/32052-10.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-10.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: I see. Then I'll proceed with my assignment. Haven't you felt anything while doing this?",
+   "header": "Railroad Worker Obi",
+   "links": [
+    {
+     "text": "\"Why did you use me?\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 32052-11.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "32052-11.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/32052-11.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/32052-11.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-11.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: I didn't use you! That was the test! Well, let's call it your education. Artisans make things. Once things are made, they are out of our control. Therefore, we must always think carefully about what we're making.",
+   "header": "Railroad Worker Obi",
+   "links": [
+    {
+     "text": "\"I thought about it.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 32052-12.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "32052-12.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/32052-12.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/32052-12.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-12.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: That's right! That's the conclusion after serious thought, but doesn't just want to admit fostering trouble in our Dwarven Guilds. We, Dwarves have been persecuted too long. Even though we're extremely dextrous, and quite rich, we lack any real political power! Why? We've been …",
+   "header": "Railroad Worker Obi",
+   "links": [
+    {
+     "text": "\"I got it.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 32052-13.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "32052-13.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/32052-13.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/32052-13.html": {
+   "file": "Q00418_PathOfTheArtisan/32052-13.html",
+   "quest": 418,
+   "text": "Railroad Worker Obi: Now I'll give you this Final Pass Certificate. You're fully qualified to become an Artisan. Speak with the Head Blacksmith near here. Congratulations!",
+   "header": "Railroad Worker Obi",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00649_ALooterAndARailroadMan/32052-03.htm": {
+   "file": "Q00649_ALooterAndARailroadMan/32052-03.htm",
+   "quest": 649,
+   "text": "Railroad Worker Obi: The Bandits around these parts are known as Rayito's Bandits . They're not very strong but they're tenacious like bugs at a picnic. They survive by hunting the wild beasts around here. They use the beasts' teeth to decorate themselves! Nasty! Bring me proof that you killed 200 …",
+   "header": "Railroad Worker Obi",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00649_ALooterAndARailroadMan/32052-06.html": {
+   "file": "Q00649_ALooterAndARailroadMan/32052-06.html",
+   "quest": 649,
+   "text": "Railroad Worker Obi: You brought 200 Bandit proofs. That's great! We can rest easily for a while now. Please accept this token of our gratitude. It's not much, but please accept it.",
+   "header": "Railroad Worker Obi",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Beyond the Hills of Winter (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00116_BeyondTheHillsOfWinter",
+     "kind": "quest",
+     "quest": 116,
+     "to": "Q00116_BeyondTheHillsOfWinter/32052-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Ocean of Distant Stars (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00117_TheOceanOfDistantStars",
+     "kind": "quest",
+     "quest": 117,
+     "to": "Q00117_TheOceanOfDistantStars/32052-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Artisan (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00418_PathOfTheArtisan",
+     "kind": "quest",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/32052-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[A Looter and a Railroad Man]",
+     "bypass": "npc_%objectId%_Quest Q00649_ALooterAndARailroadMan",
+     "kind": "quest",
+     "quest": 649,
+     "to": "Q00649_ALooterAndARailroadMan/32052-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[A Looter and a Railroad Man (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00649_ALooterAndARailroadMan",
+     "kind": "quest",
+     "quest": 649,
+     "to": "Q00649_ALooterAndARailroadMan/32052-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

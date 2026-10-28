@@ -1,0 +1,59 @@
+{
+ "npcId": 32659,
+ "name": "Guardian of Western Seal",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.396Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32659.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32659.htm": {
+   "file": "default/32659.htm",
+   "quest": null,
+   "text": "Guardian of the Western Seal: I am a guardian in charge of the Western Seal in the Chamber of Delusion. What brings you here?",
+   "header": "Guardian of the Western Seal",
+   "links": [
+    {
+     "text": "Enter the Western Seal.",
+     "bypass": "npc_%objectId%_Quest ChamberOfDelusionWest",
+     "kind": "quest",
+     "script": "ChamberOfDelusionWest"
+    },
+    {
+     "text": "Ask about the Chamber of Delusion.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32659-1.htm"
+    },
+    {
+     "text": "Use Guiding Tea Leaves.",
+     "bypass": "npc_%objectId%_multisell 326580001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Wake up from the Chamber of Delusion.",
+     "bypass": "npc_%objectId%_Quest DelusionTeleport",
+     "kind": "quest",
+     "script": "DelusionTeleport",
+     "to": null
+    }
+   ]
+  },
+  "default/32659-1.htm": {
+   "file": "default/32659-1.htm",
+   "quest": null,
+   "text": "Guardian of the Western Seal: This is the Western Seal in the Chamber of Delusion. Here are the remains of wizards who used magic.",
+   "header": "Guardian of the Western Seal",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

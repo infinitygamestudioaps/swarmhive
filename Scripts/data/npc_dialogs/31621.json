@@ -1,0 +1,218 @@
+{
+ "npcId": 31621,
+ "name": "Abyssal Saintess Elcadia",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.245Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00098_SagaOfTheShillienSaint/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 98"
+  },
+  {
+   "page": "Q00098_SagaOfTheShillienSaint/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 98"
+  },
+  {
+   "page": "Q00098_SagaOfTheShillienSaint/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 98"
+  },
+  {
+   "page": "Q00098_SagaOfTheShillienSaint/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 98"
+  },
+  {
+   "page": "Q00098_SagaOfTheShillienSaint/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 98"
+  },
+  {
+   "page": "Q00098_SagaOfTheShillienSaint/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 98"
+  },
+  {
+   "page": "Q00098_SagaOfTheShillienSaint/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 98"
+  },
+  {
+   "page": "Q00098_SagaOfTheShillienSaint/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 98"
+  }
+ ],
+ "quests": {
+  "98": {
+   "name": "Saga of the Shillien Saint",
+   "listText": [
+    "[Saga of the Shillien Saint]",
+    "[Saga of the Shillien Saint (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00098_SagaOfTheShillienSaint/4-04.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/4-04.htm",
+   "quest": 98,
+   "text": "Abyssal Saint Elcardia: You won't defeat Tanakia like that! He's a fallen angel, remember? You can't defeat him with half-measures... Get serious! I'll do my best to help you.",
+   "header": "Abyssal Saint Elcardia",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/4-06.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/4-06.htm",
+   "quest": 98,
+   "text": "Abyssal Saint Elcardia: I came here with the noblest of intentions, to save the innocent from a grisly fate... Now, seeing you, I realize how naive I was! Now I see that I was meant to give you this Stone of Commune. Take it, you'll need it.",
+   "header": "Abyssal Saint Elcardia",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"A Stone of Commune?\"",
+     "bypass": "Quest Q00098_SagaOfTheShillienSaint 4-1",
+     "kind": "quest-event",
+     "script": "Q00098_SagaOfTheShillienSaint",
+     "event": "4-1",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/4-010.htm"
+    }
+   ]
+  },
+  "Q00098_SagaOfTheShillienSaint/4-01.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/4-01.htm",
+   "quest": 98,
+   "text": "Abyssal Saint Elcardia: I know what you're up to, Tanakia! You won't fool me again! I may be alone, but I'm perfectly capable of defending myself! I owe that much to my supporters! Dear Priest, will you help me defeat Tanakia?",
+   "header": "Abyssal Saint Elcardia",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/4-03.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/4-03.htm",
+   "quest": 98,
+   "text": "Abyssal Saint Elcardia: Whew, that was a close one, and it's not over yet! You'll have another chance at Tanakia! Good luck!",
+   "header": "Abyssal Saint Elcardia",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/4-05.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/4-05.htm",
+   "quest": 98,
+   "text": "Abyssal Saint Elcardia: Listen, this isn't your fight! This will be a tough struggle for both myself and whoever helps me... How can I say it... You're not up to it! I'm surprised you made it this far! Lucky for you I'm a nice guy!",
+   "header": "Abyssal Saint Elcardia",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/4-07.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/4-07.htm",
+   "quest": 98,
+   "text": "Abyssal Saint Elcardia: Fate has surely brought me to this place. I'm here to give you this stone.",
+   "header": "Abyssal Saint Elcardia",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Is that a Stone of Commune?\"",
+     "bypass": "Quest Q00098_SagaOfTheShillienSaint 4-2",
+     "kind": "quest-event",
+     "script": "Q00098_SagaOfTheShillienSaint",
+     "event": "4-2",
+     "quest": 98,
+     "to": "Q00098_SagaOfTheShillienSaint/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00098_SagaOfTheShillienSaint/4-02.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/4-02.htm",
+   "quest": 98,
+   "text": "Abyssal Saint Elcardia: Listen, this isn't your fight! This is something I've got to do alone.",
+   "header": "Abyssal Saint Elcardia",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/4-08.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/4-08.htm",
+   "quest": 98,
+   "text": "Abyssal Saint Elcardia: Your plan is bound to fail, Tanakia! It was all for nothing! You don't stand a chance! So now you have the Stone of Commune, eh? It works with that Tablet of Vision over there! Go on! Do it!",
+   "header": "Abyssal Saint Elcardia",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/4-010.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/4-010.htm",
+   "quest": 98,
+   "text": "Abyssal Saint Elcardia: Yes, it is. It's the reason you're here, isn't it? Tanakia must have brought me here to prevent the Stone of Commune from falling into your hands! But you've set me free, and now I can give it to you! Thank you! I hope our paths cross again someday!",
+   "header": "Abyssal Saint Elcardia",
+   "links": [
+    {
+     "text": "\"Wait! Hold on!\"",
+     "bypass": "Quest Q00098_SagaOfTheShillienSaint 4-3",
+     "kind": "quest-event",
+     "script": "Q00098_SagaOfTheShillienSaint",
+     "event": "4-3",
+     "quest": 98,
+     "to": null
+    }
+   ]
+  },
+  "Q00098_SagaOfTheShillienSaint/4-011.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/4-011.htm",
+   "quest": 98,
+   "text": "Abyssal Saint Elcardia: Absolutely! You were destined to have the Stone of Commune! Here it is.",
+   "header": "Abyssal Saint Elcardia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00098_SagaOfTheShillienSaint/4-09.htm": {
+   "file": "Q00098_SagaOfTheShillienSaint/4-09.htm",
+   "quest": 98,
+   "text": "Abyssal Saint Elcardia: Behold, the Stone of Commune! Tanakia doesn't want you to have it, and he's holding me hostage to make sure that doesn't happen! This stone can be used to communicate with the Tablet of Vision! Now, hurry to where the tablet is! This was all meant to be!",
+   "header": "Abyssal Saint Elcardia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Shillien Saint (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00098_SagaOfTheShillienSaint",
+     "kind": "quest",
+     "quest": 98,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

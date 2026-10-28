@@ -1,0 +1,3370 @@
+{
+ "npcId": 31002,
+ "name": "Reorin",
+ "title": "Maestro",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.126Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31002.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "234": {
+   "name": "Fate's Whisper",
+   "listText": [
+    "[Fate's Whisper]",
+    "[Fate's Whisper (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00234_FatesWhisper/31002-01.htm",
+     "when": "state CREATED; level >= 75",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-01a.htm",
+     "when": "state CREATED; level < 75",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-09.html",
+     "when": "memo 1",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-10.html",
+     "when": "memo 1",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-12.html",
+     "when": "memo 2; lacks items 4668,4669",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-13.html",
+     "when": "memo 2; has items 4668,4669",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-15.html",
+     "when": "memo 4",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-16.html",
+     "when": "memo 4",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-18.html",
+     "when": "memo 5",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-19.html",
+     "when": "memo 5",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-21.html",
+     "when": "qs.getMemoState() < 9; qs.getMemoState() >= 6",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-22.html",
+     "when": "memo 9",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-24.html",
+     "when": "memo 10; qs.getQuestItemsCount(CRYSTAL_B) < 984",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-25.html",
+     "when": "memo 10; item 1460 >= 984",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-35.html",
+     "when": "memo 11; has items 79,4717,4718,4719",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-35a.html",
+     "when": "memo 11",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-36.html",
+     "when": "memo 12; has items 4828,4829,4830,287",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-36a.html",
+     "when": "memo 12",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-37.html",
+     "when": "memo 13; has items 4858,4859,4860,97",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-37a.html",
+     "when": "memo 13",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-38.html",
+     "when": "memo 14; has items 4753,4754,4755,175",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-38a.html",
+     "when": "memo 14",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-39.html",
+     "when": "memo 15; has items 4900,4901,4902,210",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-39a.html",
+     "when": "memo 15",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-40.html",
+     "when": "memo 16; has items 4780,4781,4782,234",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-40a.html",
+     "when": "memo 16",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-41.html",
+     "when": "memo 17; has items 4804,4805,4806,268",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-41a.html",
+     "when": "memo 17",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-42.html",
+     "when": "memo 18; has items 4750,4751,4752,171",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-42a.html",
+     "when": "memo 18",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-43.html",
+     "when": "memo 19; has items 2626",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-43a.html",
+     "when": "memo 19",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-43b.html",
+     "when": "memo 41; has items 7883,8105,8106,8107",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-43c.html",
+     "when": "memo 41",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-43d.html",
+     "when": "memo 42; has items 7889,8117,8118,8119",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-43e.html",
+     "when": "memo 42",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-43f.html",
+     "when": "memo 43; has items 7901,8132,8133,8134",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-43g.html",
+     "when": "memo 43",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-43h.html",
+     "when": "memo 44; has items 7893,8144,8145,8146",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/31002-43i.html",
+     "when": "memo 44",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31002.htm": {
+   "file": "default/31002.htm",
+   "quest": null,
+   "text": "Maestro Reorin: Hiccup~ Who goes there?... What could you possibly want from me, the \"Blacksmith of Demons\"? Sorry, but the shop is closed! Permanently! Hey, buddy, you don't have any liquor on you, by chance? I could really use a drink!",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"I need directions.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/31002-1.htm"
+    },
+    {
+     "text": "\"Why are you a drunk?\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/31002-2.htm"
+    },
+    {
+     "text": "\"Quest\"",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/31002-1.htm": {
+   "file": "default/31002-1.htm",
+   "quest": null,
+   "text": "Maestro Reorin: Hiccup~! Are you lost? I know how that feels! Hiccup~ Well, let's see... if you look to the west you will see Oren Castle Town... And that castle to north? That is Oren Castle... Hiccup~! Past the castle, cross the river and keep heading north... you will reach the Ivory Tower, home…",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Return\"",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/31002.htm"
+    }
+   ]
+  },
+  "default/31002-2.htm": {
+   "file": "default/31002-2.htm",
+   "quest": null,
+   "text": "Maestro Reorin: Hiccup~! Are you sure you want to hear such a sad story? I, who at one time was a prominent maestro... How the mighty have fallen... Thrown out of the guild and seduced by demons. Are you sure you want to hear all of this",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Tell me everything.\"",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/31002-3.htm"
+    }
+   ]
+  },
+  "default/31002-3.htm": {
+   "file": "default/31002-3.htm",
+   "quest": null,
+   "text": "Maestro Reorin: Well, lets see... About 50 years ago I became the youngest blacksmith in the history of the Black Anvil Guild to earn the postition of Maestro! I truly was at the pinnacle of success! Many heroes of that day would trust only me for thier weapons and armor. I made the sword of Sir Ce…",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"But...?\"",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "default/31002-4.htm"
+    }
+   ]
+  },
+  "default/31002-4.htm": {
+   "file": "default/31002-4.htm",
+   "quest": null,
+   "text": "Maestro Reorin: I was not satisfied. I had enough adena that I never needed to work again. I could have retired with my lovely wife to a life of leisure. I was highly respected by all, but still I wanted more. I dreamed of creating a masterpiece that would go down in history. It was all I could thi…",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"How did they tempt you?\"",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "default/31002-5.htm"
+    }
+   ]
+  },
+  "default/31002-5.htm": {
+   "file": "default/31002-5.htm",
+   "quest": null,
+   "text": "Maestro Reorin: It was the evil Death Lord Hallate. He who leads the army of darkness... He who is known as the insolent invader or the archenemy of the angels. He made me an offer that I couldn't refuse. He promised me that he would help me to create a masterpiece that would go down in history. Ig…",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Return\"",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/31002.htm"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-01.htm": {
+   "file": "Q00234_FatesWhisper/31002-01.htm",
+   "quest": 234,
+   "text": "Maestro Reorin: Hiccup~! Hey you whippersnapper! Stop bothering me...Go on, bother someone else!",
+   "header": "Maestro Reorin",
+   "when": [
+    "state CREATED; level >= 75"
+   ],
+   "links": [
+    {
+     "text": "\"I am here to ask you to make a weapon for me.\"",
+     "bypass": "Quest Q00234_FatesWhisper 1",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "1",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-02.htm"
+    },
+    {
+     "text": "\"Why are you a drunk? \"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-003.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-003.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-003.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-01a.htm": {
+   "file": "Q00234_FatesWhisper/31002-01a.htm",
+   "quest": 234,
+   "text": "Maestro Reorin: Garrr! Go away, boy, and stop bothering me! (Only characters level 75 and above are permitted to take on this quest.)",
+   "header": "Maestro Reorin",
+   "when": [
+    "state CREATED; level < 75"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-09.html": {
+   "file": "Q00234_FatesWhisper/31002-09.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Please help me send my darling Reiria to her eternal rest. She is being held captive by Messenger Cabrio . He can be found hovering around the Cemetery of Aden. He is a fearsome foe. I am trusting you to free the soul of my wife from his evil clutches! But mark my words, if she is m…",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 1"
+   ],
+   "links": [
+    {
+     "text": "\"Who was the woman?\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-09a.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-09a.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-09a.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-10.html": {
+   "file": "Q00234_FatesWhisper/31002-10.html",
+   "quest": 234,
+   "text": "Maestro Reorin: The soul of Reiria is at rest... Yes, I feel she is finally at peace! My friend, I am in your debt. Now I shall have my revenge on her tormentor. My honor can now be restored, but I will need your help!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 1"
+   ],
+   "links": [
+    {
+     "text": "\"I will help you.\"",
+     "bypass": "Quest Q00234_FatesWhisper 5",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "5",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-11.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-12.html": {
+   "file": "Q00234_FatesWhisper/31002-12.html",
+   "quest": 234,
+   "text": "Maestro Reorin: My friend, I must have your help recovering the three infernium scepters from Death Lord Hallate and his minions . They are the most powerful weapons I have ever created, and if you help me get them back, I will melt them in a furnace and make a new weapon for you!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 2; lacks items 4668,4669"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more about Death Lord Hallate.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-11a.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-11a.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-11a.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-13.html": {
+   "file": "Q00234_FatesWhisper/31002-13.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Is it true? Have you really slain Death Lord Hallate and his underlings...? Indeed, the mysterious woman was telling the truth. Yes, the infernium scepters... My greatest masterpiece and the key to my downfall... Now, I will gladly destroy them and create an even more powerful weapo…",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 2; has items 4668,4669"
+   ],
+   "links": [
+    {
+     "text": "\"Where can I find Infernium Varnish?\"",
+     "bypass": "Quest Q00234_FatesWhisper 6",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "6",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-14.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-15.html": {
+   "file": "Q00234_FatesWhisper/31002-15.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Go and see my former apprentice, Cliff. He will have the Infernium Varnish . He is a warehouse keeper in the Town of Oren . I am so embarassed by the way I treated him that I cannot bear to go myself...",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-16.html": {
+   "file": "Q00234_FatesWhisper/31002-16.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Ah, the Infernium Varnish! I wish that you hadn't told him so much... I just wanted you to get the Varnish, not gossip about my personal business! Anyway, thanks for the Varnish. Things are going well. Yesterday, I received a letter from the president of the Black Anvil Guild! He sa…",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 4"
+   ],
+   "links": [
+    {
+     "text": "\"Where is your hammer?\"",
+     "bypass": "Quest Q00234_FatesWhisper 7",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "7",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-17.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-18.html": {
+   "file": "Q00234_FatesWhisper/31002-18.html",
+   "quest": 234,
+   "text": "Maestro Reorin: To make A-Grade A weapon for you, I must have my special hammer! It is currently in the possession of Head Blacksmith Ferris of the Town of Aden . At one time he was my apprentice but when I had my problems with the guild he turned against me. I cannot bear to see him. Please go and…",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-19.html": {
+   "file": "Q00234_FatesWhisper/31002-19.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Ah, my hammer! Good job! It feels good to hold it in my hand again. How long has it been! The infernium is almost ready to be formed... Now the work can begin! Ah, yes, all I need now is the mold... Ahem...",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 5"
+   ],
+   "links": [
+    {
+     "text": "\"Where is the mold?\"",
+     "bypass": "Quest Q00234_FatesWhisper 8",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "8",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-20.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-21.html": {
+   "file": "Q00234_FatesWhisper/31002-21.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I sold the mold to buy liqueur! There, I said it! Now, please, go and see Trader Zenkin of the Town of Oren and see if he will sell it back to me. Please!",
+   "header": "Maestro Reorin",
+   "when": [
+    "qs.getMemoState() < 9; qs.getMemoState() >= 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-22.html": {
+   "file": "Q00234_FatesWhisper/31002-22.html",
+   "quest": 234,
+   "text": "Maestro Reorin: My goodness, you had to go all the way to the Tower of Insolence to get this for me? Good job! Thanks to you, I can finally begin work on the weapon! Now I only need the last ingredient...",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 9"
+   ],
+   "links": [
+    {
+     "text": "\"What do you need now?!\"",
+     "bypass": "Quest Q00234_FatesWhisper 9",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "9",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-23.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-24.html": {
+   "file": "Q00234_FatesWhisper/31002-24.html",
+   "quest": 234,
+   "text": "Maestro Reorin: If I apply this formula to the mass of the metal and allow for its tensile strength... I have determined that I will need exactly 984 B-Grade crystals . Please bring them to me immediately!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 10; qs.getQuestItemsCount(CRYSTAL_B) < 984"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-25.html": {
+   "file": "Q00234_FatesWhisper/31002-25.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Did you bring all 984 Grade B Crystals? You came just in time. We've reached the perfect temperature for inserting the Crystals... Uh huh, it's not over yet! I still need one more ingredient. Pure Infernium is too soft to be made into weapons.It must be mixed with high quality Mithr…",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 10; item 1460 >= 984"
+   ],
+   "links": [
+    {
+     "text": "Sword of Damascus.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25a.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25a.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25a.html"
+    },
+    {
+     "text": "Samurai Dualsword.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25b.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25b.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25b.html"
+    },
+    {
+     "text": "Bow of Peril.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25c.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25c.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25c.html"
+    },
+    {
+     "text": "Lance.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25d.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25d.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25d.html"
+    },
+    {
+     "text": "Art of Battle Axe.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25e.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25e.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25e.html"
+    },
+    {
+     "text": "Staff of Evil Spirits.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25f.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25f.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25f.html"
+    },
+    {
+     "text": "Demon Dagger.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25g.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25g.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25g.html"
+    },
+    {
+     "text": "Bellion Cestus.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25h.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25h.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25h.html"
+    },
+    {
+     "text": "Deadman's Glory.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25i.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25i.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25i.html"
+    },
+    {
+     "text": "Guardian Sword.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25k.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25k.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25k.html"
+    },
+    {
+     "text": "Wizard's Tear.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25l.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25l.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25l.html"
+    },
+    {
+     "text": "Star Buster.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25m.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25m.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25m.html"
+    },
+    {
+     "text": "Kaim Vanul's Bones.",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25n.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25n.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25n.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-35.html": {
+   "file": "Q00234_FatesWhisper/31002-35.html",
+   "quest": 234,
+   "text": "Maestro Reorin: What a perfect Sword of Damascus! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 11; has items 79,4717,4718,4719"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Eye of Soul",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-35a.html": {
+   "file": "Q00234_FatesWhisper/31002-35a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Sword of Damascus . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-36.html": {
+   "file": "Q00234_FatesWhisper/31002-36.html",
+   "quest": 234,
+   "text": "Maestro Reorin: What a perfect Bow of Peril! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 12; has items 4828,4829,4830,287"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Eye of Soul",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-36a.html": {
+   "file": "Q00234_FatesWhisper/31002-36a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Bow of Peril . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-37.html": {
+   "file": "Q00234_FatesWhisper/31002-37.html",
+   "quest": 234,
+   "text": "Maestro Reorin: What a perfect Lance! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 13; has items 4858,4859,4860,97"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Eye of Soul",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-37a.html": {
+   "file": "Q00234_FatesWhisper/31002-37a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Lance . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 13"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-38.html": {
+   "file": "Q00234_FatesWhisper/31002-38.html",
+   "quest": 234,
+   "text": "Maestro Reorin: What a perfect Art of Battle Axe! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 14; has items 4753,4754,4755,175"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Eye of Soul",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-38a.html": {
+   "file": "Q00234_FatesWhisper/31002-38a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Art of Battle Axe . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 14"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-39.html": {
+   "file": "Q00234_FatesWhisper/31002-39.html",
+   "quest": 234,
+   "text": "Maestro Reorin: What a perfect Staff of Evil Spirits! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 15; has items 4900,4901,4902,210"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Eye of Soul",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-39a.html": {
+   "file": "Q00234_FatesWhisper/31002-39a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Staff of Evil Spirits . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 15"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-40.html": {
+   "file": "Q00234_FatesWhisper/31002-40.html",
+   "quest": 234,
+   "text": "Maestro Reorin: What a perfect Demon's Sword! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 16; has items 4780,4781,4782,234"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Eye of Soul",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-40a.html": {
+   "file": "Q00234_FatesWhisper/31002-40a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Demon Dagger . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 16"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-41.html": {
+   "file": "Q00234_FatesWhisper/31002-41.html",
+   "quest": 234,
+   "text": "Maestro Reorin: What a perfect Bellion Cestus! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 17; has items 4804,4805,4806,268"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Eye of Soul",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-41a.html": {
+   "file": "Q00234_FatesWhisper/31002-41a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Bellion Cestus . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 17"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-42.html": {
+   "file": "Q00234_FatesWhisper/31002-42.html",
+   "quest": 234,
+   "text": "Maestro Reorin: What a perfect Deadman's Glory! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 18; has items 4750,4751,4752,171"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Eye of Soul",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-42a.html": {
+   "file": "Q00234_FatesWhisper/31002-42a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Deadman's Glory . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 18"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-43.html": {
+   "file": "Q00234_FatesWhisper/31002-43.html",
+   "quest": 234,
+   "text": "Maestro Reorin: What a perfect Samurai Dual-sword! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 19; has items 2626"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Eye of Soul",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-43a.html": {
+   "file": "Q00234_FatesWhisper/31002-43a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Samurai Dualsword . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 19"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-43b.html": {
+   "file": "Q00234_FatesWhisper/31002-43b.html",
+   "quest": 234,
+   "text": "Maestro Reorin: What a perfect Guardian Sword! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 41; has items 7883,8105,8106,8107"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Spiritual Eye",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-43c.html": {
+   "file": "Q00234_FatesWhisper/31002-43c.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Guardian Sword . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 41"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-43d.html": {
+   "file": "Q00234_FatesWhisper/31002-43d.html",
+   "quest": 234,
+   "text": "Maestro Reorin: The perfect Wizard's Tear! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 42; has items 7889,8117,8118,8119"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Spiritual Eye",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-43e.html": {
+   "file": "Q00234_FatesWhisper/31002-43e.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Wizard's Tear . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 42"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-43f.html": {
+   "file": "Q00234_FatesWhisper/31002-43f.html",
+   "quest": 234,
+   "text": "Maestro Reorin: What a perfect Star Buster! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 43; has items 7901,8132,8133,8134"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Spiritual Eye",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-43g.html": {
+   "file": "Q00234_FatesWhisper/31002-43g.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Star Buster . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 43"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-43h.html": {
+   "file": "Q00234_FatesWhisper/31002-43h.html",
+   "quest": 234,
+   "text": "Maestro Reorin: What a perfect Bone of Kaim Vanul! This will suit our purpose admirably. So, what kind of A-Grade weapon do you want? I can make quite a variety; I am practically a walking blueprint library! Ask, and I'll make it right away.",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 44; has items 7893,8144,8145,8146"
+   ],
+   "links": [
+    {
+     "text": "Tallum Blade",
+     "bypass": "Quest Q00234_FatesWhisper 21",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "21",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Carnage Bow",
+     "bypass": "Quest Q00234_FatesWhisper 22",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "22",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Halberd",
+     "bypass": "Quest Q00234_FatesWhisper 23",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "23",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Elemental Sword",
+     "bypass": "Quest Q00234_FatesWhisper 24",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "24",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Dasparion's Staff",
+     "bypass": "Quest Q00234_FatesWhisper 25",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "25",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Bloody Orchid",
+     "bypass": "Quest Q00234_FatesWhisper 26",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "26",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Blood Tornado",
+     "bypass": "Quest Q00234_FatesWhisper 27",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "27",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Meteor Shower",
+     "bypass": "Quest Q00234_FatesWhisper 28",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "28",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Keshanberk Dual-sword",
+     "bypass": "Quest Q00234_FatesWhisper 29",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "29",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Infernal Master",
+     "bypass": "Quest Q00234_FatesWhisper 30",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "30",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Spiritual Eye",
+     "bypass": "Quest Q00234_FatesWhisper 31",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    },
+    {
+     "text": "Destroyer's Hammer",
+     "bypass": "Quest Q00234_FatesWhisper 32",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "32",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-44.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-43i.html": {
+   "file": "Q00234_FatesWhisper/31002-43i.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I understand it's a difficult task, but please bring me the Kaim Vanul's Bones . Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "when": [
+    "memo 44"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-001.html": {
+   "file": "Q00234_FatesWhisper/31002-001.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Hiccup~ Who goes there?... What could you possibly want from me, the \"blacksmith of demons\"? Sorry, but the shop is closed! Permanently! Hey, buddy, you don't have any liquor on you, by chance? I could really use a drink!",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"I need directions.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-002.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-002.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-002.html"
+    },
+    {
+     "text": "\"Why are you a drunk?\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-003.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-003.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-003.html"
+    },
+    {
+     "text": "Quest",
+     "bypass": "quest",
+     "kind": "other"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-002.html": {
+   "file": "Q00234_FatesWhisper/31002-002.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Hiccup~! Are you lost? I know how that feels! Hiccup~ Well, let's see... If you look to the west you will see the Town of Oren... And that castle to the north? That is Oren Castle... Hiccup~! Past the castle, cross the river and keep heading north... you will reach the Ivory Tower, …",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00234_FatesWhisper 31002-001.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-001.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-001.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-003.html": {
+   "file": "Q00234_FatesWhisper/31002-003.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Hiccup~! Are you sure you want to hear such a sad story? I, who at one time was a prominent maestro... How the mighty have fallen... Thrown out of the guild and seduced by demons. Are you sure you want to hear all of this?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Tell me everything.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-004.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-004.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-004.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-004.html": {
+   "file": "Q00234_FatesWhisper/31002-004.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Well, let's see... About fifty years ago I became the youngest blacksmith in the history of the Black Anvil Guild to earn the position of Maestro! I truly was at the pinnacle of success! Many heroes of that day would trust only me for their weapons and armor. I made the sword of Sir…",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"But...?\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-005.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-005.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-005.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-005.html": {
+   "file": "Q00234_FatesWhisper/31002-005.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I was not satisfied. I had enough Adena that I never needed to work again. I could have retired with my lovely wife to a life of leisure. I was highly respected by all, but still I wanted more. I dreamed of creating a masterpiece that would go down in history. It was all I could thi…",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"How did they tempt you?\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-006.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-006.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-006.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-006.html": {
+   "file": "Q00234_FatesWhisper/31002-006.html",
+   "quest": 234,
+   "text": "Maestro Reorin: It was the evil Death Lord Hallate . He who leads the army of darkness... He who is known as the insolent invader or the archenemy of the angels. He made me an offer that I couldn't refuse. He promised me that he would help me to create a masterpiece that would go down in history. I…",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00234_FatesWhisper 31002-001.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-001.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-001.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-02.htm": {
+   "file": "Q00234_FatesWhisper/31002-02.htm",
+   "quest": 234,
+   "text": "Maestro Reorin: Are you the one that woman was talking about? What woman...? I don't know. I had never seen her before. She was quite beautiful, with blonde hair and blue eyes. She said that soon I would have an important visitor and that I should make a top-quality weapon for that person! Sadly, I…",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Why were you thrown out of the guild?\"",
+     "bypass": "Quest Q00234_FatesWhisper 2",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "2",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-03.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-03.html": {
+   "file": "Q00234_FatesWhisper/31002-03.html",
+   "quest": 234,
+   "text": "Maestro Reorin: I thought I had told you that already! I foolishly broke the guild's taboo and had dealings with a demon. My desire to create a masterpiece has been my ruin! However, I cannot turn back the hands of time. My honor has been destroyed and all of my apprentices have abandoned me. My pr…",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"I will restore your honor!\"",
+     "bypass": "Quest Q00234_FatesWhisper 3",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "3",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-04.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-04.html": {
+   "file": "Q00234_FatesWhisper/31002-04.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Don't bother! The only way I could possibly have my honor restored would be to stop my dealings with demons. However I... I... cannot refuse their requests. They have the soul of my wife, and are holding her hostage! If I don't do exactly as they say, they will throw her soul into e…",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"I will rescue the soul of your wife!\"",
+     "bypass": "Quest Q00234_FatesWhisper 4",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "4",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-05.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-05.html": {
+   "file": "Q00234_FatesWhisper/31002-05.html",
+   "quest": 234,
+   "text": "Maestro Reorin: You? No. I can't let you do that. No one can stand up to those demons. Cabrio, the messenger of Shilen is the one who holds the soul of my wife in his grasp... However, if what that beautiful woman said is true... if you really are \"the one who will shape the face of this continent …",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"I will save the soul of your wife!\"",
+     "bypass": "Quest Q00234_FatesWhisper QUEST_ACCEPTED",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "QUEST_ACCEPTED",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-06.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-06.html": {
+   "file": "Q00234_FatesWhisper/31002-06.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Well, I suppose that I will have to trust you. But mark my words, if the soul of my wife suffers any torment, I will hold you personally responsible! Now listen carefully. Messenger Cabrio is a cruel collector of souls. This demon keeps the souls in this world, never allowing them t…",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Tell me more about the woman who came to see you?\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-07.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-07.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-07.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-07.html": {
+   "file": "Q00234_FatesWhisper/31002-07.html",
+   "quest": 234,
+   "text": "Maestro Reorin: That is all very hazy to me. I was sitting on my front porch, drunk as usual, and she appeared. She was accompanied by a black knight. Although I shall never forget that day, I cannot tell you much about their appearance. Now it seems like it was a dream... I do remember that she ha…",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-08.html": {
+   "file": "Q00234_FatesWhisper/31002-08.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Ah yes, I shall never forget her words. In a soft and melodious voice she said, \"Soon you will be visited by a very important person. One who will re-shape the face of the continent. Please make a top quality weapon for him.\" Then she smiled and turned away. The black knight then ga…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-09a.html": {
+   "file": "Q00234_FatesWhisper/31002-09a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: That is all very hazy to me. I was sitting on my front porch, drunk as usual, and she appeared. She was accompanied by a black knight. Although I shall never forget that day, I cannot tell you much about their appearance. Now it seems like it was a dream... I do remember that she ha…",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"What did she say?\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-08.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-08.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-08.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-11.html": {
+   "file": "Q00234_FatesWhisper/31002-11.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Those wicked demons forced me to make an infernium scepter . Infernium is a very rare element, seldom seen since the time of the Titans. They told me that I should be honored to be working with such a precious material. I must admit that this thought appealed to me, and I quickly se…",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Tell me about Death Lord Hallate.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-11a.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-11a.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-11a.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-11a.html": {
+   "file": "Q00234_FatesWhisper/31002-11a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Ah, yes, Death Lord Hallate ... He leads the army of darkness. He is also known as the insolent invader and the archenemy of the angels. He plans to invade the Tower of Insolence and steal the ancient treasure that is on its highest floor. Longhorn Golkonda and Kernon are assisting …",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-14.html": {
+   "file": "Q00234_FatesWhisper/31002-14.html",
+   "quest": 234,
+   "text": "Maestro Reorin: My former apprentice Cliff should have some. I must admit, I cannot bear to look him in the face. Through my darkest days, Cliff stuck by me. He only left after I became a drunk and physically threw him out... Please go see Cliff and obtain the Infernium Varnish. He is now a warehou…",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-17.html": {
+   "file": "Q00234_FatesWhisper/31002-17.html",
+   "quest": 234,
+   "text": "Maestro Reorin: My rivals stole it from me when I was expelled from the guild! Instead of defending me, they helped themselves to my materials and tools! Thankfully, I was able to hide away my work journal. I have heard that Head Blacksmith Ferris of the Town of Aden has my hammer. At one time he w…",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-20.html": {
+   "file": "Q00234_FatesWhisper/31002-20.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Well, you see, I was out of money and I really needed a drink, and well, you know... I sold it to Trader Zenkin of the Town of Oren ... Could I ask you but one more favor? Will you please go and see Trader Zenkin and buy the mold back for me? Oh, thank you! You are such a helpful pe…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-23.html": {
+   "file": "Q00234_FatesWhisper/31002-23.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Don't get upset, it's just one more little thing. Before the metal cools I must add some B-Grade crystals. If I apply this formula to the mass of the metal and allow for its its tensile strength... I have determined that I will need exactly 984 B-Grade crystals . Please bring them t…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-25a.html": {
+   "file": "Q00234_FatesWhisper/31002-25a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: A Sword of Damascus ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, a Sword of Damascus.\"",
+     "bypass": "Quest Q00234_FatesWhisper 10",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "10",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-26.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-26.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-25b.html": {
+   "file": "Q00234_FatesWhisper/31002-25b.html",
+   "quest": 234,
+   "text": "Maestro Reorin: A Samurai Dual-Sword ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, a Samurai Dual-Sword.\"",
+     "bypass": "Quest Q00234_FatesWhisper 11",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "11",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-26a.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-26a.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-25c.html": {
+   "file": "Q00234_FatesWhisper/31002-25c.html",
+   "quest": 234,
+   "text": "Maestro Reorin: A Bow of Peril ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, a Bow of Peril.\"",
+     "bypass": "Quest Q00234_FatesWhisper 12",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "12",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-27.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-27.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-25d.html": {
+   "file": "Q00234_FatesWhisper/31002-25d.html",
+   "quest": 234,
+   "text": "Maestro Reorin: A Lance ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, a Lance.\"",
+     "bypass": "Quest Q00234_FatesWhisper 13",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "13",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-28.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-28.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-25e.html": {
+   "file": "Q00234_FatesWhisper/31002-25e.html",
+   "quest": 234,
+   "text": "Maestro Reorin: An Art of Battle Axe ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, an Art of Battle Axe.\"",
+     "bypass": "Quest Q00234_FatesWhisper 14",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "14",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-29.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-29.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-25f.html": {
+   "file": "Q00234_FatesWhisper/31002-25f.html",
+   "quest": 234,
+   "text": "Maestro Reorin: A Staff of Evil Spirits ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, a Staff of Evil Spirits.\"",
+     "bypass": "Quest Q00234_FatesWhisper 15",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "15",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-30.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-30.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-25g.html": {
+   "file": "Q00234_FatesWhisper/31002-25g.html",
+   "quest": 234,
+   "text": "Maestro Reorin: A Demon's Sword ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, a Demon's Sword.\"",
+     "bypass": "Quest Q00234_FatesWhisper 16",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "16",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-31.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-31.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-25h.html": {
+   "file": "Q00234_FatesWhisper/31002-25h.html",
+   "quest": 234,
+   "text": "Maestro Reorin: A Bellion Cestus ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, a Bellion Cestus.\"",
+     "bypass": "Quest Q00234_FatesWhisper 17",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "17",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-32.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-32.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-25i.html": {
+   "file": "Q00234_FatesWhisper/31002-25i.html",
+   "quest": 234,
+   "text": "Maestro Reorin: A Deadman's Glory ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, a Deadman's Glory.\"",
+     "bypass": "Quest Q00234_FatesWhisper 18",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "18",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-33.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-33.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-25j.html": {
+   "file": "Q00234_FatesWhisper/31002-25j.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Think it over, then, and let me know.",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-25k.html": {
+   "file": "Q00234_FatesWhisper/31002-25k.html",
+   "quest": 234,
+   "text": "Maestro Reorin: A Guardian Sword ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, a Guardian Sword.\"",
+     "bypass": "Quest Q00234_FatesWhisper 41",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "41",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-33a.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-33a.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-25l.html": {
+   "file": "Q00234_FatesWhisper/31002-25l.html",
+   "quest": 234,
+   "text": "Maestro Reorin: The Wizard's Tear ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, the Wizard's Tear.\"",
+     "bypass": "Quest Q00234_FatesWhisper 42",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "42",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-33b.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-33b.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-25m.html": {
+   "file": "Q00234_FatesWhisper/31002-25m.html",
+   "quest": 234,
+   "text": "Maestro Reorin: A Star Buster ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, a Star Buster.\"",
+     "bypass": "Quest Q00234_FatesWhisper 43",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "43",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-33c.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-33c.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-25n.html": {
+   "file": "Q00234_FatesWhisper/31002-25n.html",
+   "quest": 234,
+   "text": "Maestro Reorin: A Bone of Kaim Vanul ? Are you sure?",
+   "header": "Maestro Reorin",
+   "links": [
+    {
+     "text": "\"Yes, a Bone of Kaim Vanul.\"",
+     "bypass": "Quest Q00234_FatesWhisper 44",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "44",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-33d.html",
+     "toAll": [
+      "Q00234_FatesWhisper/31002-33d.html",
+      "Q00234_FatesWhisper/31002-34.html"
+     ]
+    },
+    {
+     "text": "\"Let me think it over.\"",
+     "bypass": "Quest Q00234_FatesWhisper 31002-25j.html",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "31002-25j.html",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-25j.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/31002-26.html": {
+   "file": "Q00234_FatesWhisper/31002-26.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Sword of Damascus . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-26a.html": {
+   "file": "Q00234_FatesWhisper/31002-26a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Samurai Dualsword . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-27.html": {
+   "file": "Q00234_FatesWhisper/31002-27.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Bow of Peril . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-28.html": {
+   "file": "Q00234_FatesWhisper/31002-28.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Lance . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-29.html": {
+   "file": "Q00234_FatesWhisper/31002-29.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Art of Battle Axe . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-30.html": {
+   "file": "Q00234_FatesWhisper/31002-30.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Staff of Evil Spirits . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-31.html": {
+   "file": "Q00234_FatesWhisper/31002-31.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Demon Dagger . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-32.html": {
+   "file": "Q00234_FatesWhisper/31002-32.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Bellion Cestus . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-33.html": {
+   "file": "Q00234_FatesWhisper/31002-33.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Deadman's Glory . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-33a.html": {
+   "file": "Q00234_FatesWhisper/31002-33a.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Guardian Sword . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-33b.html": {
+   "file": "Q00234_FatesWhisper/31002-33b.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Wizard's Tear . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-33c.html": {
+   "file": "Q00234_FatesWhisper/31002-33c.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Star Buster . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-33d.html": {
+   "file": "Q00234_FatesWhisper/31002-33d.html",
+   "quest": 234,
+   "text": "Maestro Reorin: All right, I will feed the fire in the blast furnace until you bring me the Kaim Vanul's Bones . I know this a difficult task but it is absolutely necessary -- you must do your best! Remember, augmented weapons or standard weapons cannot be used. Don't forget!",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-34.html": {
+   "file": "Q00234_FatesWhisper/31002-34.html",
+   "quest": 234,
+   "text": "Maestro Reorin: There aren't enough crystals! Have you already forgotten how many we need? According to my calculations, taking into account the density of the molten liquid and the strength of the metal after processing, we need 984 Grade B Crystals . Hurry and bring them to me! Remember, augmente…",
+   "header": "Maestro Reorin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-44.html": {
+   "file": "Q00234_FatesWhisper/31002-44.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Be patient my young friend! I shall create a marvelous weapon for you, one that will make the earth tremble! Clang! Clang! Behold the power of the hammer of Maphr! Clang! Clang! Boom! Boom! Forged in the flames of Pa'agrio! Clang! Clang! Bang bang! Immersed in the water of Eva! Clan…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-45.html": {
+   "file": "Q00234_FatesWhisper/31002-45.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Be patient my young friend! I shall create a marvelous weapon for you, one that will make the earth tremble! Clang! Clang! Behold the power of the hammer of Maphr! Clang! Clang! Boom! Boom! Forged in the flames of Pa'agrio! Clang! Clang! Bang bang! Immersed in the water of Eva! Clan…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-46.html": {
+   "file": "Q00234_FatesWhisper/31002-46.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Be patient my young friend! I shall create a marvelous weapon for you, one that will make the earth tremble! Clang! Clang! Behold the power of the hammer of Maphr! Clang! Clang! Boom! Boom! Forged in the flames of Pa'agrio! Clang! Clang! Bang bang! Immersed in the water of Eva! Clan…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-47.html": {
+   "file": "Q00234_FatesWhisper/31002-47.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Be patient my young friend! I shall create a marvelous weapon for you, one that will make the earth tremble! Clang! Clang! Behold the power of the hammer of Maphr! Clang! Clang! Boom! Boom! Forged in the flames of Pa'agrio! Clang! Clang! Bang bang! Immersed in the water of Eva! Clan…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-48.html": {
+   "file": "Q00234_FatesWhisper/31002-48.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Be patient my young friend! I shall create a marvelous weapon for you, one that will make the earth tremble! Clang! Clang! Behold the power of the hammer of Maphr! Clang! Clang! Boom! Boom! Forged in the flames of Pa'agrio! Clang! Clang! Bang bang! Immersed in the water of Eva! Clan…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-49.html": {
+   "file": "Q00234_FatesWhisper/31002-49.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Be patient my young friend! I shall create a marvelous weapon for you, one that will make the earth tremble! Clang! Clang! Behold the power of the hammer of Maphr! Clang! Clang! Boom! Boom! Forged in the flames of Pa'agrio! Clang! Clang! Bang bang! Immersed in the water of Eva! Clan…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-50.html": {
+   "file": "Q00234_FatesWhisper/31002-50.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Be patient my young friend! I shall create a marvelous weapon for you, one that will make the earth tremble! Clang! Clang! Behold the power of the hammer of Maphr! Clang! Clang! Boom! Boom! Forged in the flames of Pa'agrio! Clang! Clang! Bang bang! Immersed in the water of Eva! Clan…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-51.html": {
+   "file": "Q00234_FatesWhisper/31002-51.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Be patient my young friend! I shall create a marvelous weapon for you, one that will make the earth tremble! Clang! Clang! Behold the power of the hammer of Maphr! Clang! Clang! Boom! Boom! Forged in the flames of Pa'agrio! Clang! Clang! Bang bang! Immersed in the water of Eva! Clan…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-52.html": {
+   "file": "Q00234_FatesWhisper/31002-52.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Be patient my young friend! I shall create a marvelous weapon for you, one that will make the earth tremble! Clang! Clang! Behold the power of the hammer of Maphr! Clang! Clang! Boom! Boom! Forged in the flames of Pa'agrio! Clang! Clang! Bang bang! Immersed in the water of Eva! Clan…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-53.html": {
+   "file": "Q00234_FatesWhisper/31002-53.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Young man, just wait for a bit while I work on it, and I'll make you a weapon that'll shock the world. You can count on it! Clang! Clang! Hit it with Maphr's hammer! Just like tapping on her window! Clang! Clang! Clang! Clang! Heat it up with the flames of Pa'agrio! Just like whispe…",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-54.html": {
+   "file": "Q00234_FatesWhisper/31002-54.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Maestro Reorin: Young man, just wait for a bit while I work on it, and I'll make you a weapon that'll shock the world. You can count on it! Clang! Clang! Hit it with Maphr's hammer! Just like tapping on her window! Clang! Clang! Clang! Clang! Heat it up with the flames of Pa'agrio! …",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/31002-55.html": {
+   "file": "Q00234_FatesWhisper/31002-55.html",
+   "quest": 234,
+   "text": "Maestro Reorin: Maestro Reorin: Young man, just wait for a bit while I work on it, and I'll make you a weapon that'll shock the world. You can count on it! Clang! Clang! Hit it with Maphr's hammer! Just like tapping on her window! Clang! Clang! Clang! Clang! Heat it up with the flames of Pa'agrio! …",
+   "header": "Maestro Reorin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Fate's Whisper]",
+     "bypass": "npc_%objectId%_Quest Q00234_FatesWhisper",
+     "kind": "quest",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Fate's Whisper (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00234_FatesWhisper",
+     "kind": "quest",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/31002-09.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

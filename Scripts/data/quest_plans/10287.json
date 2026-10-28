@@ -2,7 +2,7 @@
  "id": 10287,
  "name": "Story of Those Left",
  "version": 1,
- "generated": "2026-10-27T11:16:38.496Z",
+ "generated": "2026-10-27T18:20:04.641Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 82,
@@ -28,13 +28,9 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
    "code": "npc-no-spawn",
    "text": "an NPC of a step has no spawn in the datapack",
-   "step": 2
+   "step": 1
   }
  ],
  "expectedMin": 12,
@@ -141,124 +137,11 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:32020",
-   "cond": 1,
-   "kind": "talk",
-   "to": "end",
-   "links": [
-    "Forgotten Scroll - Protection of Rune",
-    "Forgotten Scroll - Protection of Elemental",
-    "Forgotten Scroll - Protection of Alignment",
-    "Forgotten Scroll - Fighter's Will",
-    "Forgotten Scroll - Archer's Will",
-    "Forgotten Scroll - Magician's Will"
-   ],
-   "npc": {
-    "id": 32020,
-    "name": "Rafforty",
-    "title": "",
-    "town": "Schuttgart",
-    "at": [
-     113808,
-     -109344,
-     -846
-    ],
-    "alt": []
-   },
-   "text": "Talk to Rafforty",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:32020@113808,-109344",
-    "status": "ok",
-    "flags": [],
-    "from": ".schuttgart",
-    "length": 590,
-    "sec": 50,
-    "via": ".schuttgart > Schuttgart -> Iceman's Hut",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Schuttgart",
-      "cmd": ".schuttgart"
-     },
-     {
-      "do": "gk",
-      "from": "Schuttgart",
-      "desc": "Schuttgart -> Iceman's Hut",
-      "link": "iceman hut",
-      "price": 3500,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 0,
-      "how": "adjacent",
-      "danger": 0
-     },
-     {
-      "do": "walk",
-      "len": 590,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Schuttgart",
-     "desc": "Schuttgart -> Iceman's Hut"
-    },
-    "simple": true,
-    "pv": [
-     [
-      113903,
-      -108752,
-      -856
-     ],
-     [
-      113903,
-      -108752,
-      -856
-     ],
-     [
-      113816,
-      -109336,
-      -840
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 75,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    3,
-    4,
-    5
-   ]
-  },
-  {
-   "i": 2,
    "key": "c1:talk:32760",
    "cond": 1,
    "kind": "talk",
    "to": 5,
-   "links": [
-    "Go out of the hideout."
-   ],
+   "links": [],
    "npc": {
     "id": 32760,
     "name": "Jinia",
@@ -280,12 +163,11 @@
    "conds": [
     1,
     3,
-    4,
-    5
+    4
    ]
   },
   {
-   "i": 3,
+   "i": 2,
    "key": "c1:talk:32761",
    "cond": 1,
    "kind": "talk",
@@ -1156,7 +1038,114 @@
    },
    "conds": [
     1,
-    3,
+    3
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c5:talk:32020",
+   "cond": 5,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Forgotten Scroll - Protection of Rune",
+    "Forgotten Scroll - Protection of Elemental",
+    "Forgotten Scroll - Protection of Alignment",
+    "Forgotten Scroll - Fighter's Will",
+    "Forgotten Scroll - Archer's Will",
+    "Forgotten Scroll - Magician's Will"
+   ],
+   "npc": {
+    "id": 32020,
+    "name": "Rafforty",
+    "title": "",
+    "town": "Schuttgart",
+    "at": [
+     113808,
+     -109344,
+     -846
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rafforty",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32020@113808,-109344",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 590,
+    "sec": 50,
+    "via": ".schuttgart > Schuttgart -> Iceman's Hut",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Iceman's Hut",
+      "link": "iceman hut",
+      "price": 3500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 590,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Iceman's Hut"
+    },
+    "simple": true,
+    "pv": [
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113816,
+      -109336,
+      -840
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
     5
    ]
   }

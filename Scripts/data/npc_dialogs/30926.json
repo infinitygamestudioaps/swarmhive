@@ -1,0 +1,258 @@
+{
+ "npcId": 30926,
+ "name": "Restina",
+ "title": "Priestess",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.112Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30926.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "368": {
+   "name": "Trespassing into the Holy Ground",
+   "listText": [
+    "[Trespassing into the Holy Ground]",
+    "[Trespassing into the Holy Ground (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00368_TrespassingIntoTheHolyGround/30926-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00368_TrespassingIntoTheHolyGround/30926-03.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00368_TrespassingIntoTheHolyGround/30926-04.html",
+     "when": "state STARTED; has items 5881",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00368_TrespassingIntoTheHolyGround/30926-07.html",
+     "when": "state STARTED; lacks items 5881",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30926.htm": {
+   "file": "default/30926.htm",
+   "quest": null,
+   "text": "Priestess Restina: May the smile of Eva give you peace! I am Priestess Restina. What do you seek?",
+   "header": "Priestess Restina",
+   "links": [
+    {
+     "text": "\"Tell me about Innadril and the Elves who live there.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30926-1.htm"
+    },
+    {
+     "text": "\"Tell me about the Lady of the Lake.\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30926-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30926-1.htm": {
+   "file": "default/30926-1.htm",
+   "quest": null,
+   "text": "Priestess Restina: The Elves of Innadril originally came here from the Elven Forest around ED. 1200. Tetrarch Terestien and his young followers settled in the Emerald Forest near Innadril Lake. This was the beginning of the Elven migration to Innadril. Since our peoples share a devotion to the godd…",
+   "header": "Priestess Restina",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30926.htm"
+    }
+   ]
+  },
+  "default/30926-2.htm": {
+   "file": "default/30926-2.htm",
+   "quest": null,
+   "text": "Priestess Restina: The \"Lady of the Lake\" is Eva, the mother of all Elves. Even before the Elven migration, the people of Innadril knew the goddess of water well. There was a time when Elves regarded Eva as unapproachable and sacred, and this is still true in most parts of the Elven Forest. But due…",
+   "header": "Priestess Restina",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30926.htm"
+    }
+   ]
+  },
+  "Q00368_TrespassingIntoTheHolyGround/30926-01.htm": {
+   "file": "Q00368_TrespassingIntoTheHolyGround/30926-01.htm",
+   "quest": 368,
+   "text": "Priestess Restina: Have you heard of the Garden of Eva ? You may occasionally find the goddess herself resting there. She doesn't like to be disturbed, so her garden is in the deepest part of the sea, with entry gained only through an elaborate labyrinth. Recently, some who wish to harm her have in…",
+   "header": "Priestess Restina",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I will help.\"",
+     "bypass": "Quest Q00368_TrespassingIntoTheHolyGround 30926-02.htm",
+     "kind": "quest-event",
+     "script": "Q00368_TrespassingIntoTheHolyGround",
+     "event": "30926-02.htm",
+     "quest": 368,
+     "to": "Q00368_TrespassingIntoTheHolyGround/30926-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00368_TrespassingIntoTheHolyGround/30926-03.html": {
+   "file": "Q00368_TrespassingIntoTheHolyGround/30926-03.html",
+   "quest": 368,
+   "text": "Priestess Restina: Have you heard of the Garden of Eva ? You may occasionally find the goddess herself resting there. She doesn't like to be disturbed, so her garden is in the deepest part of the sea, with entry gained only through an elaborate labyrinth. Recently, some who wish to harm her have in…",
+   "header": "Priestess Restina",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00368_TrespassingIntoTheHolyGround/30926-04.html": {
+   "file": "Q00368_TrespassingIntoTheHolyGround/30926-04.html",
+   "quest": 368,
+   "text": "Priestess Restina: Thank you for helping us. As promised, you shall receive a reward commensurate with your performance . Your brave efforts have spelled the doom of all who have invaded the Garden of Eva! Will you stay and help us finish them off?",
+   "header": "Priestess Restina",
+   "when": [
+    "state STARTED; has items 5881"
+   ],
+   "links": [
+    {
+     "text": "\"I must be going.\"",
+     "bypass": "Quest Q00368_TrespassingIntoTheHolyGround 30926-05.html",
+     "kind": "quest-event",
+     "script": "Q00368_TrespassingIntoTheHolyGround",
+     "event": "30926-05.html",
+     "quest": 368,
+     "to": "Q00368_TrespassingIntoTheHolyGround/30926-05.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"Death to the blade stakatos!\"",
+     "bypass": "Quest Q00368_TrespassingIntoTheHolyGround 30926-06.html",
+     "kind": "quest-event",
+     "script": "Q00368_TrespassingIntoTheHolyGround",
+     "event": "30926-06.html",
+     "quest": 368,
+     "to": "Q00368_TrespassingIntoTheHolyGround/30926-06.html"
+    }
+   ]
+  },
+  "Q00368_TrespassingIntoTheHolyGround/30926-07.html": {
+   "file": "Q00368_TrespassingIntoTheHolyGround/30926-07.html",
+   "quest": 368,
+   "text": "Priestess Restina: As I said, go to the Garden of Eva and slay the blade stakato, the blade stakato worker, the blade stakato warrior and the blade stakato drone . As proof of your victory bring back their fangs . You'll be well rewarded for your efforts.",
+   "header": "Priestess Restina",
+   "when": [
+    "state STARTED; lacks items 5881"
+   ],
+   "links": [
+    {
+     "text": "\"No, I quit.\"",
+     "bypass": "Quest Q00368_TrespassingIntoTheHolyGround 30926-05.html",
+     "kind": "quest-event",
+     "script": "Q00368_TrespassingIntoTheHolyGround",
+     "event": "30926-05.html",
+     "quest": 368,
+     "to": "Q00368_TrespassingIntoTheHolyGround/30926-05.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"I will continue to hunt the stakatos.\"",
+     "bypass": "Quest Q00368_TrespassingIntoTheHolyGround 30926-06.html",
+     "kind": "quest-event",
+     "script": "Q00368_TrespassingIntoTheHolyGround",
+     "event": "30926-06.html",
+     "quest": 368,
+     "to": "Q00368_TrespassingIntoTheHolyGround/30926-06.html"
+    }
+   ]
+  },
+  "Q00368_TrespassingIntoTheHolyGround/30926-02.htm": {
+   "file": "Q00368_TrespassingIntoTheHolyGround/30926-02.htm",
+   "quest": 368,
+   "text": "Priestess Restina: Thank you. You should know that it is forbidden for outsiders to enter the Garden of Eva. We are breaking the rules, but these are desperate times. Go to the Garden of Eva and slay the blade stakato, the blade stakato worker, the blade stakato warrior and the blade stakato drone …",
+   "header": "Priestess Restina",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00368_TrespassingIntoTheHolyGround/30926-05.html": {
+   "file": "Q00368_TrespassingIntoTheHolyGround/30926-05.html",
+   "quest": 368,
+   "text": "Priestess Restina: I'm sorry to hear that. I'm sure you have your own reasons. Thank you for your help. May the blessing of Eva be with you always...",
+   "header": "Priestess Restina",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00368_TrespassingIntoTheHolyGround/30926-06.html": {
+   "file": "Q00368_TrespassingIntoTheHolyGround/30926-06.html",
+   "quest": 368,
+   "text": "Priestess Restina: I knew I could count on you!",
+   "header": "Priestess Restina",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trespassing into the Holy Ground]",
+     "bypass": "npc_%objectId%_Quest Q00368_TrespassingIntoTheHolyGround",
+     "kind": "quest",
+     "quest": 368,
+     "to": "Q00368_TrespassingIntoTheHolyGround/30926-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Trespassing into the Holy Ground (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00368_TrespassingIntoTheHolyGround",
+     "kind": "quest",
+     "quest": 368,
+     "to": "Q00368_TrespassingIntoTheHolyGround/30926-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

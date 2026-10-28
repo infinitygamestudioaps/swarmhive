@@ -1,0 +1,365 @@
+{
+ "npcId": 30421,
+ "name": "Varika",
+ "title": "Witch",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.975Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30421.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "412": {
+   "name": "Path Of The Dark Wizard",
+   "listText": [
+    "[Path of the Dark Wizard]",
+    "[Path of the Dark Wizard (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00412_PathOfTheDarkWizard/30421-01.htm",
+     "when": "lacks items 1261; (qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00412_PathOfTheDarkWizard/30421-04.htm",
+     "when": "has items 1261; (qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00412_PathOfTheDarkWizard/30421-13.html",
+     "when": "state STARTED; has items 1254,1255,1256,1253; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00412_PathOfTheDarkWizard/30421-14.html",
+     "when": "state STARTED; has items 1254; lacks items 1254,1255,1256,1253; !(qs.isCreated() || qs.isCompleted()); !hasAtLeastOneQuestItem(player, FAMILYS_REMAINS.getId(), LUCKY_KEY, CANDLE, HUB_SCENT, KNEE_BONE.getId(), HEART_OF_LUNAC",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00412_PathOfTheDarkWizard/30421-08.html",
+     "when": "state STARTED; has items 1254; lacks items 1254,1255,1256,1253; !(qs.isCreated() || qs.isCompleted()); hasAtLeastOneQuestItem(player, FAMILYS_REMAINS.getId(), LUCKY_KEY, CANDLE, HUB_SCENT, KNEE_BONE.getId(), HEART_OF_LUNACY",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00412_PathOfTheDarkWizard/30421-15.html",
+     "when": "state STARTED; has items 1254,1253; lacks items 1254,1255,1256,1253; !(qs.isCreated() || qs.isCompleted()); hasAtLeastOneQuestItem(player, FAMILYS_REMAINS.getId(), LUCKY_KEY, CANDLE, HUB_SCENT, KNEE_BONE.getId(), HEART_OF_LUNACY",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00412_PathOfTheDarkWizard/30421-12.html",
+     "when": "state STARTED; has items 1254,1253,1255; lacks items 1254,1255,1256,1253; !(qs.isCreated() || qs.isCompleted()); hasAtLeastOneQuestItem(player, FAMILYS_REMAINS.getId(), LUCKY_KEY, CANDLE, HUB_SCENT, KNEE_BONE.getId(), HEART_OF_LUNACY",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30421.htm": {
+   "file": "default/30421.htm",
+   "quest": null,
+   "text": "Varika: Long ago, our mother Shilen was insulted by Einhasad and betrayed by the Elves when they began serving Eva. Since then, the origin of our power is darkness, like our mother Shilen. The Dark Elven magic takes the power of darkness and sublimates it to make it one's own.",
+   "header": "Varika",
+   "links": [
+    {
+     "text": "Quest to change occupations to a Dark Wizard",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00412_PathOfTheDarkWizard/30421-01.htm": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-01.htm",
+   "quest": 412,
+   "text": "Varika: Do you want the ultimate power in your hands? If so, then you must not hesitate. Decision is always important. If you become a Dark Wizard, you will have the power to command the spirits as you wish. Well, do you want the power of the Dark Wizard that commands spirits?",
+   "header": "Varika",
+   "when": [
+    "lacks items 1261; (qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Want to obtain power",
+     "bypass": "Quest Q00412_PathOfTheDarkWizard ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00412_PathOfTheDarkWizard",
+     "event": "ACCEPT",
+     "quest": 412,
+     "to": "Q00412_PathOfTheDarkWizard/30421-05.htm",
+     "toAll": [
+      "Q00412_PathOfTheDarkWizard/30421-04.htm",
+      "Q00412_PathOfTheDarkWizard/30421-05.htm",
+      "Q00412_PathOfTheDarkWizard/30421-02.htm",
+      "Q00412_PathOfTheDarkWizard/30421-02a.htm",
+      "Q00412_PathOfTheDarkWizard/30421-03.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00412_PathOfTheDarkWizard/30421-04.htm": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-04.htm",
+   "quest": 412,
+   "text": "Varika: I see you already have the Jewel of Darkness. That means you are qualified to become a Dark Wizard. Take the jewel and go to a Grand Master of the Dark Elf Guild in Gludio. The closest is the village of Gludin. Follow the road and continue on south. Go to the Dark Elf Guild there and meet G…",
+   "header": "Varika",
+   "when": [
+    "has items 1261; (qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30421-13.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-13.html",
+   "quest": 412,
+   "text": "Varika: So you have finally collected the Seeds of Anger, Despair, Horror and Lunacy. Now do you know the source of our power? There is no need to be afraid. All you have to do is control these by your will. Emotion is important when dealing with nature's elementals. Don't forget that emotion is th…",
+   "header": "Varika",
+   "when": [
+    "state STARTED; has items 1254,1255,1256,1253; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30421-14.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-14.html",
+   "quest": 412,
+   "text": "Varika: Dark Wizards can control the power of nature and perform powerful magic. But you should be aware of the origin of power that enables it. Long ago, our mother Shilen was insulted by Einhasad and betrayed by the Elves. Since then, the origin of our power is darkness, like our mother Shilen. D…",
+   "header": "Varika",
+   "when": [
+    "state STARTED; has items 1254; lacks items 1254,1255,1256,1253; !(qs.isCreated() || qs.isCompleted()); !hasAtLeastOneQuestItem(player, FAMILYS_REMAINS.getId(), LUCKY_KEY, CANDLE, HUB_SCENT, KNEE_BONE.getId(), HEART_OF_LUNAC"
+   ],
+   "links": [
+    {
+     "text": "Seed of anger",
+     "bypass": "Quest Q00412_PathOfTheDarkWizard 30421-06.html",
+     "kind": "quest-event",
+     "script": "Q00412_PathOfTheDarkWizard",
+     "event": "30421-06.html",
+     "quest": 412,
+     "to": "Q00412_PathOfTheDarkWizard/30421-06.html",
+     "toAll": [
+      "Q00412_PathOfTheDarkWizard/30421-06.html",
+      "Q00412_PathOfTheDarkWizard/30421-07.html"
+     ]
+    },
+    {
+     "text": "Seed of horror",
+     "bypass": "Quest Q00412_PathOfTheDarkWizard 30421-09.html",
+     "kind": "quest-event",
+     "script": "Q00412_PathOfTheDarkWizard",
+     "event": "30421-09.html",
+     "quest": 412,
+     "to": "Q00412_PathOfTheDarkWizard/30421-09.html",
+     "toAll": [
+      "Q00412_PathOfTheDarkWizard/30421-09.html",
+      "Q00412_PathOfTheDarkWizard/30421-10.html"
+     ]
+    },
+    {
+     "text": "Seed of lunacy",
+     "bypass": "Quest Q00412_PathOfTheDarkWizard 30421-11.html",
+     "kind": "quest-event",
+     "script": "Q00412_PathOfTheDarkWizard",
+     "event": "30421-11.html",
+     "quest": 412,
+     "to": "Q00412_PathOfTheDarkWizard/30421-11.html",
+     "toAll": [
+      "Q00412_PathOfTheDarkWizard/30421-11.html",
+      "Q00412_PathOfTheDarkWizard/30421-12.html"
+     ]
+    }
+   ]
+  },
+  "Q00412_PathOfTheDarkWizard/30421-08.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-08.html",
+   "quest": 412,
+   "text": "Varika: The young man called Charkeren was greatly afflicted. He will have great knots in his heart. Undo the knots and they will form a Seed of Anger. Please help that poor man as soon as possible.",
+   "header": "Varika",
+   "when": [
+    "state STARTED; has items 1254; lacks items 1254,1255,1256,1253; !(qs.isCreated() || qs.isCompleted()); hasAtLeastOneQuestItem(player, FAMILYS_REMAINS.getId(), LUCKY_KEY, CANDLE, HUB_SCENT, KNEE_BONE.getId(), HEART_OF_LUNACY"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30421-15.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-15.html",
+   "quest": 412,
+   "text": "Varika: The Knee Bones of the undead can be made into many different kinds of medicine and are often used for teaching in school. Annika seems to be unexpectedly clever, despite her appearance. A girl of her age shouldn't want to spend the entire day in a depressing dungeon. Give the girl these Kne…",
+   "header": "Varika",
+   "when": [
+    "state STARTED; has items 1254,1253; lacks items 1254,1255,1256,1253; !(qs.isCreated() || qs.isCompleted()); hasAtLeastOneQuestItem(player, FAMILYS_REMAINS.getId(), LUCKY_KEY, CANDLE, HUB_SCENT, KNEE_BONE.getId(), HEART_OF_LUNACY"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30421-12.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-12.html",
+   "quest": 412,
+   "text": "Varika: For methods of finding a Seed of Lunacy, go and ask my sister Arkenia. She will tell you in detail what you wish to know. When you have found a Seed of Lunacy, come and seek me again.",
+   "header": "Varika",
+   "when": [
+    "state STARTED; has items 1254,1253,1255; lacks items 1254,1255,1256,1253; !(qs.isCreated() || qs.isCompleted()); hasAtLeastOneQuestItem(player, FAMILYS_REMAINS.getId(), LUCKY_KEY, CANDLE, HUB_SCENT, KNEE_BONE.getId(), HEART_OF_LUNACY"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30421-02.htm": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-02.htm",
+   "quest": 412,
+   "text": "Witch Varika: You are not experienced enough to become a Dark Wizard. You must have achieved at least level 18 before you can wield that kind of power.",
+   "header": "Witch Varika",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30421-02a.htm": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-02a.htm",
+   "quest": 412,
+   "text": "Varika: It seems that ... You already have the power of a Dark Wizard ... I cannot help you. Please research power of a higher level.",
+   "header": "Varika",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30421-03.htm": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-03.htm",
+   "quest": 412,
+   "text": "Varika: You are already walking another path. You are not eligible to take the test to become a Dark Wizard.",
+   "header": "Varika",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30421-05.htm": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-05.htm",
+   "quest": 412,
+   "text": "Varika: Dark Wizards can control the power of nature and perform powerful magic. But you should be aware of the origin of power that enables magic. Long ago, our mother Shilen was insulted by Einhasad and betrayed by the Elves when they began to serve Eva. Since then, the origin of our power is dar…",
+   "header": "Varika",
+   "links": [
+    {
+     "text": "Seed of Anger",
+     "bypass": "Quest Q00412_PathOfTheDarkWizard 30421-06.html",
+     "kind": "quest-event",
+     "script": "Q00412_PathOfTheDarkWizard",
+     "event": "30421-06.html",
+     "quest": 412,
+     "to": "Q00412_PathOfTheDarkWizard/30421-06.html",
+     "toAll": [
+      "Q00412_PathOfTheDarkWizard/30421-06.html",
+      "Q00412_PathOfTheDarkWizard/30421-07.html"
+     ]
+    },
+    {
+     "text": "Seed of Horror",
+     "bypass": "Quest Q00412_PathOfTheDarkWizard 30421-09.html",
+     "kind": "quest-event",
+     "script": "Q00412_PathOfTheDarkWizard",
+     "event": "30421-09.html",
+     "quest": 412,
+     "to": "Q00412_PathOfTheDarkWizard/30421-09.html",
+     "toAll": [
+      "Q00412_PathOfTheDarkWizard/30421-09.html",
+      "Q00412_PathOfTheDarkWizard/30421-10.html"
+     ]
+    },
+    {
+     "text": "Seed of Lunacy",
+     "bypass": "Quest Q00412_PathOfTheDarkWizard 30421-11.html",
+     "kind": "quest-event",
+     "script": "Q00412_PathOfTheDarkWizard",
+     "event": "30421-11.html",
+     "quest": 412,
+     "to": "Q00412_PathOfTheDarkWizard/30421-11.html",
+     "toAll": [
+      "Q00412_PathOfTheDarkWizard/30421-11.html",
+      "Q00412_PathOfTheDarkWizard/30421-12.html"
+     ]
+    }
+   ]
+  },
+  "Q00412_PathOfTheDarkWizard/30421-06.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-06.html",
+   "quest": 412,
+   "text": "Varika: Are you trying to trick me? Others may be easily fooled, but it will not be easy to fool me. I see you already have the Seed of Anger. Go find the remaining seeds.",
+   "header": "Varika",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30421-07.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-07.html",
+   "quest": 412,
+   "text": "Varika: Go to the waterfall that is north of the Neutral Zone and northeast of here. There, you will feel a tremendous force of anger. I have foreseen that the one emitting the anger is a young Dark Elven youth by the name of Charkeren. Bring the Seed of Anger planted in his heart.",
+   "header": "Varika",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30421-09.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-09.html",
+   "quest": 412,
+   "text": "Varika: None are as weak as an opponent that has fear in his heart. I see you have the Seed of Horror. Did you collect all the other seeds?",
+   "header": "Varika",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30421-10.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-10.html",
+   "quest": 412,
+   "text": "Varika: I sense that someone is trembling in fear. It seems to be near the School of Dark Arts . Search thoroughly near the entrance of the School of Dark Arts. She seems like a very attractive young woman . Listen to her tale and erase her horror.",
+   "header": "Varika",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00412_PathOfTheDarkWizard/30421-11.html": {
+   "file": "Q00412_PathOfTheDarkWizard/30421-11.html",
+   "quest": 412,
+   "text": "Varika: You are quite an amusing person. If you already have the Seed of Lunacy, why have you come to find it again? Go gather the seeds that you do not have yet.",
+   "header": "Varika",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Dark Wizard]",
+     "bypass": "npc_%objectId%_Quest Q00412_PathOfTheDarkWizard",
+     "kind": "quest",
+     "quest": 412,
+     "to": "Q00412_PathOfTheDarkWizard/30421-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Dark Wizard (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00412_PathOfTheDarkWizard",
+     "kind": "quest",
+     "quest": 412,
+     "to": "Q00412_PathOfTheDarkWizard/30421-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

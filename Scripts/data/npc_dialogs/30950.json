@@ -1,0 +1,107 @@
+{
+ "npcId": 30950,
+ "name": "Euclie",
+ "title": "Researcher",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.114Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30950.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/30950.htm": {
+   "file": "default/30950.htm",
+   "quest": null,
+   "text": "Researcher Euclie: Huh?! Welcome! This place is full of the undead and demons, so it's nice to see someone normal! You aren't a servant of Hallant, are you? Nor a dog of angels? Right now I am researching this Dimensional Vortex ! I flew in from the 1st floor to here by activating this... Aren't yo…",
+   "header": "Researcher Euclie",
+   "links": [
+    {
+     "text": "\"Who is Hallant?\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30950-1.htm"
+    },
+    {
+     "text": "\"What is a Dimensional Vortex?\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30950-2.htm"
+    },
+    {
+     "text": "\"Do you have any Dimensional Stones on you?\"",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/30950-3.htm"
+    }
+   ]
+  },
+  "default/30950-1.htm": {
+   "file": "default/30950-1.htm",
+   "quest": null,
+   "text": "Researcher Euclie: He is a fearless demon who led a legion of this minions in an invasion of the Tower of Insolence. His followers include Longhorn General Golconda and the fearsome Kernon, but Death Lord Hallate himself is the most frightening of all. He is capable of killing six angels single-han…",
+   "header": "Researcher Euclie",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30950.htm"
+    }
+   ]
+  },
+  "default/30950-2.htm": {
+   "file": "default/30950-2.htm",
+   "quest": null,
+   "text": "Researcher Euclie: Earlier, the Gatekeepers from the Ivory Tower stopped by for an investigation, and they said the land near the tower was twisted and torn... that's why the teleport spell wouldn't work. It's probably a defense mechanism made by the tower's architects, something like a preventive …",
+   "header": "Researcher Euclie",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30950.htm"
+    }
+   ]
+  },
+  "default/30950-3.htm": {
+   "file": "default/30950-3.htm",
+   "quest": null,
+   "text": "Researcher Euclie: Dimensional Stones? Of course I have some. But I can't give them out for free. If you wish, I could sell some to you?",
+   "header": "Researcher Euclie",
+   "links": [
+    {
+     "text": "Buy a Green Dimensional Stone. (10,000 Adena)",
+     "bypass": "Quest ToIVortex GREEN",
+     "kind": "quest-event",
+     "script": "ToIVortex",
+     "event": "GREEN",
+     "to": null
+    },
+    {
+     "text": "Buy a Blue Dimensional Stone. (10,000 Adena)",
+     "bypass": "Quest ToIVortex BLUE",
+     "kind": "quest-event",
+     "script": "ToIVortex",
+     "event": "BLUE",
+     "to": null
+    },
+    {
+     "text": "Buy a Red Dimensional Stone. (10,000 Adena)",
+     "bypass": "Quest ToIVortex RED",
+     "kind": "quest-event",
+     "script": "ToIVortex",
+     "event": "RED",
+     "to": null
+    }
+   ]
+  }
+ }
+}

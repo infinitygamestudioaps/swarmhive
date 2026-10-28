@@ -1,0 +1,1214 @@
+{
+ "npcId": 30291,
+ "name": "Alex",
+ "title": "Captain",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.924Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30291.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "135": {
+   "name": "Temple Executor",
+   "listText": [
+    "[Temple Executor]",
+    "[Temple Executor (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00135_TempleExecutor/30291-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00135_TempleExecutor/30291-03.html",
+     "when": "state STARTED; cond 2; st.isSet(\"talk\")",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00135_TempleExecutor/30291-02.html",
+     "when": "state STARTED; cond 2; !st.isSet(\"talk\")",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00135_TempleExecutor/30291-08.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00135_TempleExecutor/30291-10.html",
+     "when": "state STARTED; cond 4; has items 10331",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00135_TempleExecutor/30291-09.html",
+     "when": "state STARTED; cond 4; lacks items 10331",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00135_TempleExecutor/30291-11.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "225": {
+   "name": "Test Of The Searcher",
+   "listText": [
+    "[Test of the Searcher]",
+    "[Test of the Searcher (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00225_TestOfTheSearcher/30291-01.html",
+     "when": "state STARTED; has items 2784",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30291-02.html",
+     "when": "state STARTED; has items 2785; lacks items 2784",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30291-03.html",
+     "when": "state STARTED; has items 2786,2788; lacks items 2784,2785",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30291-04.html",
+     "when": "state STARTED; has items 2790; lacks items 2784,2785,2786,2788",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30291-08.html",
+     "when": "state STARTED; has items 2794,2793; lacks items 2784,2785,2786,2788,2790",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30291-09.html",
+     "when": "state STARTED; has items 2794,2799,2800; lacks items 2784,2785,2786,2788,2790,2793",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30291-11.html",
+     "when": "state STARTED; has items 2794,2805; lacks items 2784,2785,2786,2788,2790,2793,2799,2800; item 2807 >= 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30291-10.html",
+     "when": "state STARTED; has items 2794,2805; lacks items 2784,2785,2786,2788,2790,2793,2799,2800; !getQuestItemsCount(player, GOLD_BAR) == 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00225_TestOfTheSearcher/30291-12.html",
+     "when": "state STARTED; has items 2808; lacks items 2784,2785,2786,2788,2790,2794",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "660": {
+   "name": "Aiding the Floran Village",
+   "listText": [
+    "[Aiding the Floran Village.]",
+    "[Aiding the Floran Village (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00660_AidingTheFloranVillage/30291-01.htm",
+     "when": "state CREATED; player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00660_AidingTheFloranVillage/30291-02.htm",
+     "when": "state CREATED; NOT player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00660_AidingTheFloranVillage/30291-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00660_AidingTheFloranVillage/30291-05.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30291.htm": {
+   "file": "trainer/30291.htm",
+   "quest": null,
+   "text": "Alex: Hello, young friend. I am Alex, the militia leader of Floran Village. This is a village of poor farmers, who sought escape from the Lord's tyranny and, subsequently, does not have organized protection with proper guards. I formed the militia as I could not see the farmers fighting adequately …",
+   "header": "Alex",
+   "links": [
+    {
+     "text": "Ask about Floran's Militia",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30291-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30291-1.htm": {
+   "file": "trainer/30291-1.htm",
+   "quest": null,
+   "text": "Alex: Dion's army is not defending the village, therefore the villagers must defend themselves. I am familiar with the plight of these farmers. Back in the days of the peasant revolt I made a vow to never stand by while innocent people are oppressed by a hypocritical aristocrat! I will fight alongs…",
+   "header": "Alex",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00135_TempleExecutor/30291-01.html": {
+   "file": "Q00135_TempleExecutor/30291-01.html",
+   "quest": 135,
+   "text": "Alex: I do not know why you have come, but I really have no time for idle chatter. Since this place is outside the protection of the lord, it has fallen on my shoulders as the captain to recruit sufficient volunteers to defend us from the monsters. We are always short-handed . . . Unless you have s…",
+   "header": "Alex",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00135_TempleExecutor/30291-03.html": {
+   "file": "Q00135_TempleExecutor/30291-03.html",
+   "quest": 135,
+   "text": "Alex: You are aware of Sonin and Pano's troubles? I also need help. If you assist me, I am willing to write a letter of reference for you. I am sure that Sonin and Pano will do likewise if you help them, too.",
+   "header": "Alex",
+   "when": [
+    "state STARTED; cond 2; st.isSet(\"talk\")"
+   ],
+   "links": [
+    {
+     "text": "Ask about Warehouse Keeper Sonin's problem.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-04.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-04.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-04.html"
+    },
+    {
+     "text": "Ask about Grocer Pano's problem.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-05.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-05.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-05.html"
+    },
+    {
+     "text": "Ask about Alex's problem.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-06.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-06.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-06.html"
+    },
+    {
+     "text": "Tell him that you are leaving now to resolve the problems.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-07.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-07.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00135_TempleExecutor/30291-02.html": {
+   "file": "Q00135_TempleExecutor/30291-02.html",
+   "quest": 135,
+   "text": "Alex: Ah, you must be the adventurer sent by the Temple. Welcome! Our little Floran Village was built years ago by survivors of the Peasants' Rebellion. Because of that, the lord chooses not to use his troops to protect us. Our only hope against the encroaching monsters lies with adventurers like y…",
+   "header": "Alex",
+   "when": [
+    "state STARTED; cond 2; !st.isSet(\"talk\")"
+   ],
+   "links": [
+    {
+     "text": "\"How can I help you?\"",
+     "bypass": "Quest Q00135_TempleExecutor 30291-02a.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-02a.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-02a.html"
+    }
+   ]
+  },
+  "Q00135_TempleExecutor/30291-08.html": {
+   "file": "Q00135_TempleExecutor/30291-08.html",
+   "quest": 135,
+   "text": "Alex: Please keep hunting the Delu Lizardman Suppliers, Special Agents, Commanders, Shaman, and Cursed Seers for the 10 Stolen Cargo items , 10 Hate Crystals , and the 10 Old Treasure Maps . Once you have collected all of the items, let Sonin and Pano know, then come speak with me. Please do not de…",
+   "header": "Alex",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00135_TempleExecutor/30291-10.html": {
+   "file": "Q00135_TempleExecutor/30291-10.html",
+   "quest": 135,
+   "text": "Alex: Excellent! I see that you have collected all 10 Old Treasure Maps. Here is the letter of reference I promised you. Wish me luck in finding the Delu Lizardmen's treasure! Without it, I do not know how I will be able to support the local militia while still making our \"donation\" to the Temple. …",
+   "header": "Alex",
+   "when": [
+    "state STARTED; cond 4; has items 10331"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00135_TempleExecutor/30291-09.html": {
+   "file": "Q00135_TempleExecutor/30291-09.html",
+   "quest": 135,
+   "text": "Alex: Excellent! I see that you have collected all 10 Old Treasure Maps. If you bring me the reference letters written by Sonin and Pano, I will add mine. You will need 3 letters of reference in order to be approved by the Temple.",
+   "header": "Alex",
+   "when": [
+    "state STARTED; cond 4; lacks items 10331"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00135_TempleExecutor/30291-11.html": {
+   "file": "Q00135_TempleExecutor/30291-11.html",
+   "quest": 135,
+   "text": "Alex: Submit this letter of reference to the Temple and prove your loyalty to the goddess. Many thanks for your help, friend!",
+   "header": "Alex",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30291-01.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-01.html",
+   "quest": 225,
+   "text": "Alex: Welcome, my friend. If Master Luther sent you here you must be ready to get to work. Floran Village needs more good workers like you. We don't have a guard or even a single skilled person! I have been waiting for you since I received the warrant of appointment. Take this and give it to my adj…",
+   "header": "Alex",
+   "when": [
+    "state STARTED; has items 2784"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Floran Militia",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30291-01t.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30291-01t.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30291-01t.html"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30291-02.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-02.html",
+   "quest": 225,
+   "text": "Alex: What are you still doing here? You must take the warrant I gave you to my adjutant Leirynn . Do whatever she says!",
+   "header": "Alex",
+   "when": [
+    "state STARTED; has items 2785; lacks items 2784"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Floran Militia",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30291-01t.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30291-01t.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30291-01t.html"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30291-03.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-03.html",
+   "quest": 225,
+   "text": "Alex: No one understands the situation here better than Leirynn. Follow her instructions explicitly. I know you won't disappoint me.",
+   "header": "Alex",
+   "when": [
+    "state STARTED; has items 2786,2788; lacks items 2784,2785"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30291-04.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-04.html",
+   "quest": 225,
+   "text": "Alex: Thank you for dealing with the delu Lizardman. I heard of your triumph from Leirynn. What's this, you found a Strange Map ? Let me see it... Hmm... Dion territory... I can barely make out this name in the lower corner... 'Lambert'... Where have I heard that...? Oh yes... One of the Lord's roy…",
+   "header": "Alex",
+   "when": [
+    "state STARTED; has items 2790; lacks items 2784,2785,2786,2788"
+   ],
+   "links": [
+    {
+     "text": "Inquire about the Gold Bar",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30291-05.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30291-05.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30291-05.html"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30291-08.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-08.html",
+   "quest": 225,
+   "text": "Alex: So you still have not met Borys? Go to the Town of Gludio, you will find him there. Tell him Alex sent you, he will be sure to help you. Don't forget to ask him about the prince's lost gold!",
+   "header": "Alex",
+   "when": [
+    "state STARTED; has items 2794,2793; lacks items 2784,2785,2786,2788,2790"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30291-09.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-09.html",
+   "quest": 225,
+   "text": "Alex: Hmmm, it seems the royal guards hid the gold before it reached the prince! Now we can be sure that the gold exists, our only problem remaining is how to find it. First, of course, we must find the other 3 parts of the Map ... I am afraid that the delu lizardmen are also on the search for the …",
+   "header": "Alex",
+   "when": [
+    "state STARTED; has items 2794,2799,2800; lacks items 2784,2785,2786,2788,2790,2793"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30291-11.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-11.html",
+   "quest": 225,
+   "text": "Alex: Excellent work, my friend! Isn't it ironic that this gold collected at the behest of such a selfish Lord should be used for the good of the ones he oppressed? We all have you to thank for this. Please take this letter of Recommendation to Master Luther . I am honored to call you my comrade-in…",
+   "header": "Alex",
+   "when": [
+    "state STARTED; has items 2794,2805; lacks items 2784,2785,2786,2788,2790,2793,2799,2800; item 2807 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30291-10.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-10.html",
+   "quest": 225,
+   "text": "Alex: You have found the Map! Good job! Ahhh, the World Map... Hurry to the place marked here and find the lost gold . I have heard from my adjutant Leirynn that the delu lizardmen have sent assassins to retrieve the Map, so be very careful.",
+   "header": "Alex",
+   "when": [
+    "state STARTED; has items 2794,2805; lacks items 2784,2785,2786,2788,2790,2793,2799,2800; !getQuestItemsCount(player, GOLD_BAR) == 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30291-12.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-12.html",
+   "quest": 225,
+   "text": "Alex: You are still here? You are welcome to stay here and fight for Floran's people, however, you must follow your own faith. I pray you find it. If you give the letter of Recommendation to Master Luther , he will bestow upon you the Mark of the Searcher.",
+   "header": "Alex",
+   "when": [
+    "state STARTED; has items 2808; lacks items 2784,2785,2786,2788,2790,2794"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30291-01.htm": {
+   "file": "Q00660_AidingTheFloranVillage/30291-01.htm",
+   "quest": 660,
+   "text": "Captain Alex: We've been having problems in Floran with monsters violating our perimeter. There have been a few skirmishes with our militia, but even worse than that, some monsters have gotten past our sentries and attacked citizens. I'm embarrassed to admit that - it's our job to keep this communi…",
+   "header": "Captain Alex",
+   "when": [
+    "state CREATED; player.getLevel() >= MIN_LEVEL"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help.\"",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-03.htm",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-03.htm",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-03.htm",
+     "toAll": [
+      "Q00660_AidingTheFloranVillage/30291-03.htm",
+      "Q00660_AidingTheFloranVillage/30291-02.htm"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30291-02.htm": {
+   "file": "Q00660_AidingTheFloranVillage/30291-02.htm",
+   "quest": 660,
+   "text": "Captain Alex: Hrm. Harrumph. That's awfully generous of you youngsters, and it absolutely shows the right spirit, but I just can't accept your help in good conscience. These monsters are far too much for our militia to handle, and honestly I can't see you succeeding where my men have failed. Maybe …",
+   "header": "Captain Alex",
+   "when": [
+    "state CREATED; NOT player.getLevel() >= MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30291-04.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-04.html",
+   "quest": 660,
+   "text": "Captain Alex: Maria sent you, you say? Hrmph. Unfortunate business, that. Is she doing better? In any event, I'm glad to see you. We're having a problem with monster incursions, and the militia's spread too thin to handle it. Most of the attacks have been on farmers trying to reclaim and cultivate …",
+   "header": "Captain Alex",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30291-05.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-05.html",
+   "quest": 660,
+   "text": "Captain Alex: Ha! You've done it. Fine work! I knew you had it in you. And here is the proof I asked for - a sight for sore eyes, if I do say so myself! Well, I spoke of a reward, and a reward you shall have!",
+   "header": "Captain Alex",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Thanks - we'll try not to spend it all in one place! Ha ha!\" \"Reward? Sir, there has been a mistake, surely. One doesn't do such things for a reward, but for the satisfaction of the deed itself.\"",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-06.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-06.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-06.html",
+     "toAll": [
+      "Q00660_AidingTheFloranVillage/30291-06.html",
+      "Q00660_AidingTheFloranVillage/30291-08.html"
+     ]
+    }
+   ]
+  },
+  "Q00135_TempleExecutor/30291-02a.html": {
+   "file": "Q00135_TempleExecutor/30291-02a.html",
+   "quest": 135,
+   "text": "Alex: Warehouse Keeper Sonin, Grocer Pano, and myself all need help. If you assist me, I am willing to write you a letter of reference. I am sure that Sonin and Pano will do likewise if you help them, too.",
+   "header": "Alex",
+   "links": [
+    {
+     "text": "Ask about Warehouse Keeper Sonin's problem.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-04.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-04.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-04.html"
+    },
+    {
+     "text": "Ask about Grocer Pano's problem.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-05.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-05.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-05.html"
+    },
+    {
+     "text": "Ask about Alex's problem.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-06.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-06.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-06.html"
+    },
+    {
+     "text": "Let Alex know you understand the problems of the townspeople and are ready to begin helping now.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-07.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-07.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00135_TempleExecutor/30291-04.html": {
+   "file": "Q00135_TempleExecutor/30291-04.html",
+   "quest": 135,
+   "text": "Alex: A number of goods -- about 10 items total -- have been stolen from Warehouse Keeper Sonin's warehouse. During my investigation, I narrowed the list of suspects down to 5 creatures: Delu Lizardman Suppliers, Special Agents, Commanders, Shaman and Cursed Seers . Find the thief, recover the 10 S…",
+   "header": "Alex",
+   "links": [
+    {
+     "text": "Go back and hear the other problems.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-02a.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-02a.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-02a.html"
+    },
+    {
+     "text": "Let Alex know you understand the problems of the townspeople and are ready to begin helping now.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-07.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-07.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00135_TempleExecutor/30291-05.html": {
+   "file": "Q00135_TempleExecutor/30291-05.html",
+   "quest": 135,
+   "text": "Alex: Recently, Grocer Pano has had financial difficulties and was forced to borrow a large sum of money. The person who lent him the money has agreed to forgive the debt entirely if Sonin brings him 10 Hate Crystals, which can be acquired from the monsters near Floran Village. As an adventurer, I …",
+   "header": "Alex",
+   "links": [
+    {
+     "text": "Go back and hear the other problems.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-02a.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-02a.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-02a.html"
+    },
+    {
+     "text": "Let Alex know you understand the problems of the townspeople and are ready to begin helping now.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-07.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-07.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00135_TempleExecutor/30291-06.html": {
+   "file": "Q00135_TempleExecutor/30291-06.html",
+   "quest": 135,
+   "text": "Alex: As you know, this village was built by poor peasants without any help from the nearby lord. People make their living by clearing land for farming, but without the military protection of the nobility, they are vulnerable to monster attacks. It has fallen to me to try to organize some sort of d…",
+   "header": "Alex",
+   "links": [
+    {
+     "text": "Go back and hear the other problems.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-02a.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-02a.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-02a.html"
+    },
+    {
+     "text": "Let Alex know you understand the problems of the townspeople and are ready to begin helping now.",
+     "bypass": "Quest Q00135_TempleExecutor 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00135_TempleExecutor",
+     "event": "30291-07.html",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-07.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00135_TempleExecutor/30291-07.html": {
+   "file": "Q00135_TempleExecutor/30291-07.html",
+   "quest": 135,
+   "text": "Alex: Hunt the Delu Lizardman Suppliers, Special Agents, Commanders, Shaman and Cursed Seers . After you have collected all of the items, you should let Warehouse Keeper Sonin and Grocer Pano know that you have recovered their items. Then take the 10 Stolen Cargo items to Sonin and take the 10 Hate…",
+   "header": "Alex",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30291-01t.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-01t.html",
+   "quest": 225,
+   "text": "Alex: Most of the villagers who are left are the ones lucky enough to have escaped the Lord's tyranny. The troops are not defending the village so the villagers must defend themselves! Strangers and thieves overwhelm us as a sick tyrant oppresses us! These dark days may get darker still...",
+   "header": "Alex",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00225_TestOfTheSearcher/30291-05.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-05.html",
+   "quest": 225,
+   "text": "Alex: It is said that the source of this gold was relics collected by Duke Ashton's men from ancient ruins. No one has seen this gold since it vanished en route from Gludio to Dion to support the war. It is rumored to be a vast amount, no one really knows. But now we have this Map!",
+   "header": "Alex",
+   "links": [
+    {
+     "text": "Ask about the Map",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30291-06.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30291-06.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30291-06.html"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30291-06.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-06.html",
+   "quest": 225,
+   "text": "Alex: I believe this Map will lead us to the prince's gold! I wonder how that delu Lizardman got this? If we can get to the gold before our opponents we will be able to hire soldiers and buy weapons with which to defend the village. Think of this as your last test. You must find the other parts of …",
+   "header": "Alex",
+   "links": [
+    {
+     "text": "Agree to search for the Gold Bar",
+     "bypass": "Quest Q00225_TestOfTheSearcher 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00225_TestOfTheSearcher",
+     "event": "30291-07.html",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30291-07.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00225_TestOfTheSearcher/30291-07.html": {
+   "file": "Q00225_TestOfTheSearcher/30291-07.html",
+   "quest": 225,
+   "text": "Alex: I have a friend named Borys who used to be one of the Lord's royal guards. He was an excellent soldier until the death of his wife sent him into an alcoholic haze and he lost his position. He is in the Town of Gludio now, take this letter and find him. He may be able to tell you more.",
+   "header": "Alex",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30291-03.htm": {
+   "file": "Q00660_AidingTheFloranVillage/30291-03.htm",
+   "quest": 660,
+   "text": "Captain Alex: Ha! I'll be honest - I was hoping for someone of your caliber to step forward. Here's the situation: we have a major problem with monster incursions in the Floran Agricultural Area . They've been killing innocent citizens, and we can't have that. I'll need proof of your kills, of cour…",
+   "header": "Captain Alex",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30291-06.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-06.html",
+   "quest": 660,
+   "text": "Captain Alex: Great rumbling thunder, you've done some work here that's for sure! You have this soldier's thanks. Now we can get those fields working, and that means more food for everyone. Well, I can't offer you much, but please take this Adena as compensation for the great good you've done us. I…",
+   "header": "Captain Alex",
+   "links": [
+    {
+     "text": "\"Always happy to help. What's the task?\"",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-07.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-07.html"
+    },
+    {
+     "text": "\"We appreciate your gratitude, but we can't tarry. Best wishes to you and your community.\"",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-08a.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-08a.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-08a.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30291-07.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-07.html",
+   "quest": 660,
+   "text": "Captain Alex: Hrmph. Well, I understand. I hope to see you again - y'never know, after all. In the meantime, best wishes and many thanks!",
+   "header": "Captain Alex",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30291-08.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-08.html",
+   "quest": 660,
+   "text": "Captain Alex: Eh? I fear you've made a mistake, folks; your work's not done. There's nothing to fight standing here, so you'd best head out to the Floran Agricultural Area. Go on, kill what needs killing, and don't forget - bring me the Watching Eyes, a Roughly Hewn Rock Golem Shard and a Delu Liza…",
+   "header": "Captain Alex",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30291-08a.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-08a.html",
+   "quest": 660,
+   "text": "Captain Alex: Well, if that's what you want, I won't stop you. Obviously there's no shortage of adventure out there. But don't forget us in Floran Village, should you find yourself at loose ends. We're not the plaything of some idle lord; we're an independent farmers' commune, and we welcome the he…",
+   "header": "Captain Alex",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30291-09.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-09.html",
+   "quest": 660,
+   "text": "Captain Alex: Hmmm. I can see that you are a practiced band of adventurers, and as one old soldier to others, I think we understand each other. There's always a bond between those who fight for order. Soldier to soldier, then... we're having troubles in Floran, and my militia can't keep up. Don't t…",
+   "header": "Captain Alex",
+   "links": [
+    {
+     "text": "Hear about Timothy, a farmer who lost a friend to a monster.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-10.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-10.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-10.html"
+    },
+    {
+     "text": "Hear about Maria, a lady who lost her husband to a monster.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-14.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-14.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-14.html"
+    },
+    {
+     "text": "Hear about the Floran village chief.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-18.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-18.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-18.html"
+    },
+    {
+     "text": "Conclude the conversation.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-07.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-07.html"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30291-10.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-10.html",
+   "quest": 660,
+   "text": "Captain Alex: Take Timothy there. He and his friend Jeremy were working a new field they had bought with their shared savings. They put everything into that effort. Not long ago, the two of them were hard at work, each taking turns at the plow, when something - we're not sure what - attacked them. …",
+   "header": "Captain Alex",
+   "links": [
+    {
+     "text": "Donate proof of 100 dead monsters.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-12.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-12.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-12.html",
+     "toAll": [
+      "Q00660_AidingTheFloranVillage/30291-12.html",
+      "Q00660_AidingTheFloranVillage/30291-11.html",
+      "Q00660_AidingTheFloranVillage/30291-13.html"
+     ]
+    },
+    {
+     "text": "Finish the conversation.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-07.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-07.html"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30291-11.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-11.html",
+   "quest": 660,
+   "text": "Captain Alex: Heh. I appreciate the thought, but I fear it won't do. Timothy's pretty insistent on this point, and if he says it'll take 100 monster corpses to placate Jeremy's ghost, he's not likely to settle for less.",
+   "header": "Captain Alex",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30291-12.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-12.html",
+   "quest": 660,
+   "text": "Captain Alex: Soldier, I can't thank you enough. You've helped our farming community enormously, and we all appreciate it. It's not much, but Timothy wanted me to give you something as an extra reward for your help. It's of no economic value, but it's a gift, and you'd oblige us both by taking it. …",
+   "header": "Captain Alex",
+   "links": [
+    {
+     "text": "I will continue to help the Floran farmers.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-07.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-07.html"
+    },
+    {
+     "text": "I will now embark on a new adventure.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-22.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-22.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-22.html",
+     "toAll": [
+      "Q00660_AidingTheFloranVillage/30291-22.html",
+      "Q00660_AidingTheFloranVillage/30291-23.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30291-13.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-13.html",
+   "quest": 660,
+   "text": "Captain Alex: You have the gratitude of the whole of Floran! I'm sorry we have no gold or other reward to offer you beyond our thanks. Of course, for soldiers like us, that's often times a greater reward than gold. Well, I suppose I can offer you a small gift. I wish it were more, but you'd oblige …",
+   "header": "Captain Alex",
+   "links": [
+    {
+     "text": "I'll keep helping the farmers of Floran Village.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-07.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-07.html"
+    },
+    {
+     "text": "I'd like to move on to another adventure.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-22.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-22.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-22.html",
+     "toAll": [
+      "Q00660_AidingTheFloranVillage/30291-22.html",
+      "Q00660_AidingTheFloranVillage/30291-23.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30291-14.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-14.html",
+   "quest": 660,
+   "text": "Captain Alex: Ah, Maria. Poor, poor girl. If ever a bride meant her vow \"for better or for worse,\" it was she. Maria married Jason at the height of our monster troubles, but you wouldn't have known anything was wrong to see the two of them so happy, so in love. It did us all good to see them. Jason…",
+   "header": "Captain Alex",
+   "links": [
+    {
+     "text": "Donate proof of 200 dead monsters.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-16.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-16.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-16.html",
+     "toAll": [
+      "Q00660_AidingTheFloranVillage/30291-16.html",
+      "Q00660_AidingTheFloranVillage/30291-15.html",
+      "Q00660_AidingTheFloranVillage/30291-17.html"
+     ]
+    },
+    {
+     "text": "Finish the conversation.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-07.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-07.html"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30291-15.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-15.html",
+   "quest": 660,
+   "text": "Captain Alex: That's a fine gesture, but it won't do for Maria. She wants 200 monsters to die for her man, and nothing less will give her peace.",
+   "header": "Captain Alex",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30291-16.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-16.html",
+   "quest": 660,
+   "text": "Captain Alex: Soldier, you've done us a great favor, and mere thanks aren't enough. I can't offer much, but Maria insisted that I give you something. It won't fetch you any gold, but it's valuable to her, and it's a gift from the heart. You'd be doing all of us a kindness by accepting it. And who k…",
+   "header": "Captain Alex",
+   "links": [
+    {
+     "text": "I will continue to help the Floran farmers.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-07.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-07.html"
+    },
+    {
+     "text": "I'd like to embark on a new adventure.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-22.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-22.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-22.html",
+     "toAll": [
+      "Q00660_AidingTheFloranVillage/30291-22.html",
+      "Q00660_AidingTheFloranVillage/30291-23.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30291-17.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-17.html",
+   "quest": 660,
+   "text": "Captain Alex: I can't thank you enough, soldier. You've helped our poor little farming community beyond measure. Maria thanks you, too. Here's all I have to offer you for your help � aside from our appreciation, which for soldiers like us is the highest reward. It's a small gift, but please accept …",
+   "header": "Captain Alex",
+   "links": [
+    {
+     "text": "I'll keep helping the Floran farmers.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-07.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-07.html"
+    },
+    {
+     "text": "I'd like to move on to another adventure.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-22.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-22.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-22.html",
+     "toAll": [
+      "Q00660_AidingTheFloranVillage/30291-22.html",
+      "Q00660_AidingTheFloranVillage/30291-23.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30291-18.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-18.html",
+   "quest": 660,
+   "text": "Captain Alex: Well, you've seen the area, and you well know we can't be protected by the lord's army. We've formed a citizen militia, but it's done us precious little good. Myself aside, most of our farmers barely know which end of a knife to hold, and not a sword among them. They're helpless again…",
+   "header": "Captain Alex",
+   "links": [
+    {
+     "text": "Donate proof of 500 dead monsters.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-20.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-20.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-20.html",
+     "toAll": [
+      "Q00660_AidingTheFloranVillage/30291-20.html",
+      "Q00660_AidingTheFloranVillage/30291-19.html",
+      "Q00660_AidingTheFloranVillage/30291-21.html"
+     ]
+    },
+    {
+     "text": "Finish the conversation.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-07.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-07.html"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30291-19.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-19.html",
+   "quest": 660,
+   "text": "Captain Alex: I appreciate the thought, but we've lost so many militiamen that it would take 500 monster sacrifices to put their souls to rest.",
+   "header": "Captain Alex",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30291-20.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-20.html",
+   "quest": 660,
+   "text": "Captain Alex: I thank you for that, I truly do. As the captain of the militia, it'll relieve me, as well as the chief, to put the souls of our dead militiamen to rest. No reward could match the great service you've done us, and I have precious little to give besides our thanks. But the chief entrus…",
+   "header": "Captain Alex",
+   "links": [
+    {
+     "text": "I will continue to help the Floran farmers.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-07.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-07.html"
+    },
+    {
+     "text": "I will now embark on a new adventure.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-22.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-22.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-22.html",
+     "toAll": [
+      "Q00660_AidingTheFloranVillage/30291-22.html",
+      "Q00660_AidingTheFloranVillage/30291-23.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30291-21.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-21.html",
+   "quest": 660,
+   "text": "Captain Alex: I can't thank you enough for this. With these sacrifices, we can put our brave dead to rest. The chief thanks you on behalf of the whole village. I haven't much to offer you in return, but here's a small token of our appreciation; please accept it. And let's hope for better days for F…",
+   "header": "Captain Alex",
+   "links": [
+    {
+     "text": "I'll keep helping the Floran farmers.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-07.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-07.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-07.html"
+    },
+    {
+     "text": "I'd like to move on to another adventure.",
+     "bypass": "Quest Q00660_AidingTheFloranVillage 30291-22.html",
+     "kind": "quest-event",
+     "script": "Q00660_AidingTheFloranVillage",
+     "event": "30291-22.html",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-22.html",
+     "toAll": [
+      "Q00660_AidingTheFloranVillage/30291-22.html",
+      "Q00660_AidingTheFloranVillage/30291-23.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00660_AidingTheFloranVillage/30291-22.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-22.html",
+   "quest": 660,
+   "text": "Captain Alex: So, you're off to other adventures? Very well, but... I see you have proof of completing the quest. I can offer you a reward for it, although I'm sure it won't be of any other use to you. Let's make that trade now, shall we? Thank you, and here's your reward. Good luck in your travels…",
+   "header": "Captain Alex",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00660_AidingTheFloranVillage/30291-23.html": {
+   "file": "Q00660_AidingTheFloranVillage/30291-23.html",
+   "quest": 660,
+   "text": "Captain Alex: So, you're on to other adventures, are you? Well, good luck to you, and don't forget us here in Floran. We farmers know how to welcome adventurers who have helped us. Farewell!",
+   "header": "Captain Alex",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Temple Executor (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00135_TempleExecutor",
+     "kind": "quest",
+     "quest": 135,
+     "to": "Q00135_TempleExecutor/30291-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Searcher (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00225_TestOfTheSearcher",
+     "kind": "quest",
+     "quest": 225,
+     "to": "Q00225_TestOfTheSearcher/30291-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Aiding the Floran Village.]",
+     "bypass": "npc_%objectId%_Quest Q00660_AidingTheFloranVillage",
+     "kind": "quest",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Aiding the Floran Village (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00660_AidingTheFloranVillage",
+     "kind": "quest",
+     "quest": 660,
+     "to": "Q00660_AidingTheFloranVillage/30291-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,88 @@
+{
+ "npcId": 32890,
+ "name": "Ruiman",
+ "title": "Warehouse Keeper of the Valley",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.421Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "warehouse/32890.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "warehouse/32890.htm": {
+   "file": "warehouse/32890.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Ruiman: Welcome! You've had a long journey, eh? How about storing some of your belongings here, eh?",
+   "header": "Warehouse Keeper Ruiman",
+   "links": [
+    {
+     "text": "Use private warehouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/32890-1.htm"
+    },
+    {
+     "text": "Use clan warehouse",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/32890-2.htm"
+    }
+   ]
+  },
+  "warehouse/32890-1.htm": {
+   "file": "warehouse/32890-1.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Ruiman: [ Private Warehouse ]",
+   "header": "Warehouse Keeper Ruiman",
+   "links": [
+    {
+     "text": "Store Item (Personal Warehouse)",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/32890.htm"
+    }
+   ]
+  },
+  "warehouse/32890-2.htm": {
+   "file": "warehouse/32890-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Ruiman: [ Clan Warehouse]",
+   "header": "Warehouse Keeper Ruiman",
+   "links": [
+    {
+     "text": "Store Item (Clan Warehouse)",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Get Item (Clan Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/32890.htm"
+    }
+   ]
+  }
+ }
+}

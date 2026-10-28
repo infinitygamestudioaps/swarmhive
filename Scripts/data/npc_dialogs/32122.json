@@ -1,0 +1,1742 @@
+{
+ "npcId": 32122,
+ "name": "Warrior's Grave",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.342Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32122.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "126": {
+   "name": "The Name of Evil - 2",
+   "listText": [
+    "[The Name of Evil 2]",
+    "[The Name of Evil 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00126_TheNameOfEvil2/32122-1.html",
+     "when": "state STARTED; cond 1|2|3|4|5|6|7|8|9|10",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32122-2.html",
+     "when": "state STARTED; cond 11",
+     "state": "STARTED",
+     "cond": [
+      11
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32122-2l.html",
+     "when": "state STARTED; cond 12",
+     "state": "STARTED",
+     "cond": [
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32122-3b.html",
+     "when": "state STARTED; cond 13",
+     "state": "STARTED",
+     "cond": [
+      13
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32122-4.html",
+     "when": "state STARTED; cond 14",
+     "state": "STARTED",
+     "cond": [
+      14
+     ],
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32122-5.html",
+     "when": "state STARTED; cond 15",
+     "state": "STARTED",
+     "cond": [
+      15
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32122-6.html",
+     "when": "state STARTED; cond 16",
+     "state": "STARTED",
+     "cond": [
+      16
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32122-7.html",
+     "when": "state STARTED; cond 17; st.hasQuestItems(BONE_POWDER)",
+     "state": "STARTED",
+     "cond": [
+      17
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32122-7b.html",
+     "when": "state STARTED; cond 17; NOT st.hasQuestItems(BONE_POWDER)",
+     "state": "STARTED",
+     "cond": [
+      17
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32122-8.html",
+     "when": "state STARTED; cond 18",
+     "state": "STARTED",
+     "cond": [
+      18
+     ],
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32122-9.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32122.htm": {
+   "file": "default/32122.htm",
+   "quest": null,
+   "text": "Warrior's Grave: Overgrown by jungle vines and other foliage, the gravesite is barely visible. Clearing away some of the brush, you discover an ancient battered gravestone.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-1.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-1.html",
+   "quest": 126,
+   "text": "Warrior's Grave: It appears to be a grave. But who would be buried in such a remote place? From its neglected appearance, it's clear that no one has visited here for a long time...but you have the sense the grave is the final resting place of a noble soul.",
+   "header": "Warrior's Grave",
+   "when": [
+    "state STARTED; cond 1|2|3|4|5|6|7|8|9|10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32122-2.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Judging from its location, this must be the warrior's grave that Chuta Kaimu told you about. There must certainly be a story about the unknown warrior whose remains are buried here.",
+   "header": "Warrior's Grave",
+   "when": [
+    "state STARTED; cond 11"
+   ],
+   "links": [
+    {
+     "text": "Pray for the warrior's soul.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-2a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-2a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-2a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-2l.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2l.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Ah, this is a fragment of the sacred ax Gazkh, given into my hand by my mother, Shilen!",
+   "header": "Warrior's Grave",
+   "when": [
+    "state STARTED; cond 12"
+   ],
+   "links": [
+    {
+     "text": "\"So this is a part of your old ax?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-2e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-2e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-2e.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-3b.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-3b.html",
+   "quest": 126,
+   "text": "Warrior's Grave: The Sirens possess more than simply physical powers; they also possess psychic abilities. In the past, they could impose their wills on others, forcing them to do their bidding. Without Shilen and her mighty Elrokian warriors, this island is doomed...unless you can prevent it. Hear…",
+   "header": "Warrior's Grave",
+   "when": [
+    "state STARTED; cond 13"
+   ],
+   "links": [
+    {
+     "text": "Listen.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-3a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-3a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-3a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4.html",
+   "quest": 126,
+   "text": "Warrior's Grave: There is no time to give you all the details now -- they can wait until the first step is finished. First, you must retrieve my ashes from this grave. A memorial ceremony will prepare my remains; sing the Warrior Song that inspired countless Elrokian warriors as they prepared for b…",
+   "header": "Warrior's Grave",
+   "when": [
+    "state STARTED; cond 14"
+   ],
+   "sets": {
+    "cond": "14"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"I don't know that song very well.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4a.html"
+    },
+    {
+     "text": "\"I think I'm ready to conduct the ceremony.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4b.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-5.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-5.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the first note of the second verse.",
+   "header": "Warrior's Grave",
+   "when": [
+    "state STARTED; cond 15"
+   ],
+   "links": [
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5a.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5a.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 FA_Two",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "FA_Two",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5a.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5a.html"
+    },
+    {
+     "text": "Ti",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-6.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-6.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the first note of the third verse.",
+   "header": "Warrior's Grave",
+   "when": [
+    "state STARTED; cond 16"
+   ],
+   "links": [
+    {
+     "text": "Do",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6a.html"
+    },
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6a.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6a.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6a.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 SOL_Three",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "SOL_Three",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-7.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-7.html",
+   "quest": 126,
+   "text": "Warrior's Grave: You have successfully completed the memorial service by singing the Warrior's Song correctly. Suddenly, you hear an answering echo of the song all around you. Almost delicately, a small cloud of dust rises from the grave. The cloud coalesces in mid-air, then moves toward you and ge…",
+   "header": "Warrior's Grave",
+   "when": [
+    "state STARTED; cond 17; st.hasQuestItems(BONE_POWDER)"
+   ],
+   "links": [
+    {
+     "text": "\"Are these your ashes?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-7a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-7a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-7a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-7b.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-7b.html",
+   "quest": 126,
+   "text": "Warrior's Grave: You obtained ashes from the Warrior's Grave after successfully completing the memorial service.",
+   "header": "Warrior's Grave",
+   "when": [
+    "state STARTED; cond 17; NOT st.hasQuestItems(BONE_POWDER)"
+   ],
+   "links": [
+    {
+     "text": "\"Are these the Elrokian warrior's ashes?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-7a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-7a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-7a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-8.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-8.html",
+   "quest": 126,
+   "text": "Warrior's Grave: The seal stone is the most powerful of its kind in the Lost Nest, keeping both man and dinosaur apart from each other. It will likely possess some sort of unique shape; I doubt you will have trouble recognizing it when you see it. Deposit my ashes on the stone and you will learn ho…",
+   "header": "Warrior's Grave",
+   "when": [
+    "state STARTED; cond 18"
+   ],
+   "sets": {
+    "cond": "18"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32122-9.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-9.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Why haven't you left? Take these ashes and travel southeast . The seal stone that imprisons Sailren should be in that area -- find it and deposit the ashes on it and you will discover how to wield Gazkh.",
+   "header": "Warrior's Grave",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32122-2a.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2a.html",
+   "quest": 126,
+   "text": "Warrior's Grave: You conclude your prayer for the unknown soul buried here. Suddenly, a hazy figure appears above the battered gravestone! Looking closely, you see the ghostly figure of an Elrokian warrior. Could it be the spirit of the person buried in this lost grave?",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Try speaking to it.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-2b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-2b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-2b.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-2b.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2b.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Stranger, why have you come to this forgotten place? Why do you raise up your voice in prayer? Your desire to see me was so strong that it called to me across the black chasm of death, summoning me back to the world of men. What do you seek here?",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "\"I have been told that I might gain the wisdom I seek by praying here.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-2c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-2c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-2c.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-2c.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2c.html",
+   "quest": 126,
+   "text": "Warrior's Grave: What manner of wisdom do you seek, that you should venture so far from the safety of home and hearth? I see it is no trivial whim that brings you here, but that you have been entrusted with a most important task...",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "\"I have heard that this item was once yours. Is that true?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-2d.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-2d.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-2d.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-2d.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2d.html",
+   "quest": 126,
+   "text": "Warrior's Grave: I perceive a metal fragment chipped from a blunt weapon... Wait... What is this symbol? Ah! This is a fragment of Gazkh!",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "\"I have heard that this is a piece of the ax you used to wield.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-2e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-2e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-2e.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-2e.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2e.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Yes, now that I see it clearly, I certainly recognize it. Ah, Gazkh! From the time Shilen bequeathed it to me it never left my side, not even in slumber. Even after death, I wandered for a time searching for it. And now I see that, like me, it is only a broken remnant of what it wa…",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "\"This may sound crazy, but the fragment itself told me to come here.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-2f.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-2f.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-2f.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-2f.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2f.html",
+   "quest": 126,
+   "text": "Warrior's Grave: I understand your amazement, but such things are possible. The objects upon which Shilen bestowed the power to seal often were also granted awareness and will. Gazkh was created to control unstable dinosaurs through a powerful mystic seal, and it became more than a weapon -- it was…",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "\"What if the Gazkh can't communicate?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-2g.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-2g.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-2g.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-2g.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2g.html",
+   "quest": 126,
+   "text": "Warrior's Grave: The power to seal would be dispersed and the weapon thrown into the sea. In that way, Gazkh's suffering would be ended and its legacy preserved. Were that not to happen, Gazkh might become a burden to the tribe...or worse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "\"That's exactly what I wanted to ask about. What kind of damage could be inflicted by a Gazkh fragment that was not released properly from the power of seal?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-2h.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-2h.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-2h.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-2h.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2h.html",
+   "quest": 126,
+   "text": "Warrior's Grave: What do you mean?! Are you saying that in the final battle against Sailren, Gazkh was shattered in the supreme effort to seal the creature?",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "\"I heard that at that time, the goddess Shilen used the power of the Gazkh to seal Sailren.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-2i.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-2i.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-2i.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-2i.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2i.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Ah, that it came to that! Glad I am that I did not live to see those dark days, or the dismal fate of my friend and weapon! How Gazkh must have suffered through the long years, broken, abandoned and forgotten by men! That pain likely became like poison to anyone who touched any of …",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "\"Could this poison change people's personalities, causing them to become violent?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-2j.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-2j.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-2j.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-2j.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2j.html",
+   "quest": 126,
+   "text": "Warrior's Grave: No. As far as I know, it is impossible for a Gazkh to use up all of its strength... But why do you ask such things?",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "\"I'm investigating a link between Gazkh and strange phenomena occurring in the Elrokian village.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-2k.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-2k.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-2k.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-2k.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-2k.html",
+   "quest": 126,
+   "text": "Warrior's Grave: The Elrokian village... You say that my descendants are growing more violent? Hmm... If I surmise correctly, then the phenomena are... Oh no! Stranger, we haven't much time! If what I fear has come to pass, then the Elrokians -- indeed the very island itself -- are in grave danger!",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "\"What kind of danger?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-3.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-3.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-3.html",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-3.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-3.html",
+   "quest": 126,
+   "text": "Warrior's Grave: What you have seen are signs of the Sirens awakening, throwing off the power of the seal! Sirens are filled with wickedness and death, and even have the ability to influence the thoughts and actions of others -- even possess their spirits! It was that ability that led many Elrokian…",
+   "header": "Warrior's Grave",
+   "sets": {
+    "cond": "13"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Listen.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-3a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-3a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-3a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-3a.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-3a.html",
+   "quest": 126,
+   "text": "Warrior's Grave: The only hope is for you to become an Elrokian warrior, the one destined to wield Gazkh! But wait! Gazkh is no toy to be picked up on a whim. It is as dangerous as a serpent, as powerful as fire itself! You must prove yourself worthy to be its owner. Stranger, I see that you are al…",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4.html",
+     "effect": "cond:14"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4a.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4a.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Have you not heard that ancient song, with its sweet but sorrowful melody? You know so much about the Elroki tribe -- I cannot believe no one has taught it to you. Search your memory! If you truly do not know it, you must search out someone who can teach it to you; sadly, I am proh…",
+   "header": "Warrior's Grave",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32122-4b.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4b.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Good! Remember, the warrior song contains 3 verses. The memorial ceremony can be completed only when you perfectly sing every single scale of each verse. Are you ready?",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Sing the warrior song.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4c.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4c.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4c.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the first note of the first verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Do",
+     "bypass": "Quest Q00126_TheNameOfEvil2 DO_One",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "DO_One",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4d.html"
+    },
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4d.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4d.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4d.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4d.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4d.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4d.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4d.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4d.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4d.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4d.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4d.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4d.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4d.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4d.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the first note of the first verse. Please enter the second note.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4e.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4e.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4e.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the second note of the first verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Do",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4f.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4f.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4f.html"
+    },
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4f.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4f.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4f.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 MI_One",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "MI_One",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4f.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4f.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4f.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4f.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4f.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4f.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4f.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4f.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4f.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the second note of the first verse. Please enter the third note.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4g.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4g.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4g.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4g.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4g.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the third note of the first verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Do",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4h.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4h.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4h.html"
+    },
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4h.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4h.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4h.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4h.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4h.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4h.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 FA_One",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "FA_One",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4h.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4h.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4h.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4h.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4h.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4h.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the third note of the first verse. Please enter the fourth note.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4i.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4i.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4i.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4i.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4i.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the fourth note of the first verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Do",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4j.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4j.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4j.html"
+    },
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4j.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4j.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4j.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4j.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4j.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4j.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4j.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4j.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4j.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 SOL_One",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "SOL_One",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4j.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4j.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4j.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the fourth note of the first verse. Please enter the fifth note.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4k.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4k.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4k.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4k.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4k.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the fifth note of the first verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Do",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4l.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4l.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4l.html"
+    },
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4l.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4l.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4l.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4l.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4l.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4l.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 FA2_One",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "FA2_One",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4n.html",
+     "toAll": [
+      "Q00126_TheNameOfEvil2/32122-4n.html",
+      "Q00126_TheNameOfEvil2/32122-4m.html"
+     ],
+     "effect": "cond:15"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4l.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4l.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4l.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4l.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4l.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Part of the first verse is incorrect. Please enter the notes again.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4m.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4m.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4m.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4m.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4m.html",
+   "quest": 126,
+   "text": "Warrior's Grave: It is not a complex melody, but perhaps an outsider such as yourself finds it more difficult to sing than a born Elrokian warrior who has heard it from birth. Concentrate! You must try again -- the fate of this island depends on it! Remember, you must perfectly sing every single sc…",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Sing the warrior song again.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-4c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-4c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-4c.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-4n.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-4n.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the first verse of the warrior song correctly. Please sing the second verse.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-5a.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-5a.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the first note of the second verse. Please enter the second note.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5b.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-5b.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-5b.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the second note of the second verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5c.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5c.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5c.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 SOL_Two",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "SOL_Two",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5c.html"
+    },
+    {
+     "text": "Ti",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5c.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-5c.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-5c.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the second note of the second verse. Please enter the third note.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5d.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5d.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5d.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-5d.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-5d.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the third note of the second verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5e.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5e.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5e.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5e.html"
+    },
+    {
+     "text": "Ti",
+     "bypass": "Quest Q00126_TheNameOfEvil2 TI_Two",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "TI_Two",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5e.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-5e.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-5e.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the third note of the second verse. Please enter the fourth note.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5f.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5f.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5f.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-5f.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-5f.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the fourth note of the second verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5g.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5g.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5g.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5g.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5g.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5g.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5g.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5g.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5g.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 SOL2_Two",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "SOL2_Two",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5g.html"
+    },
+    {
+     "text": "Ti",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5g.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5g.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5g.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-5g.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-5g.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the fourth note of the second verse. Please enter the fifth note.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5h.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5h.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5h.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-5h.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-5h.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the fifth note of the second verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5i.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5i.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5i.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5i.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5i.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5i.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 FA2_Two",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "FA2_Two",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5j.html",
+     "toAll": [
+      "Q00126_TheNameOfEvil2/32122-5j.html",
+      "Q00126_TheNameOfEvil2/32122-5i.html"
+     ],
+     "effect": "cond:16"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5i.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5i.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5i.html"
+    },
+    {
+     "text": "Ti",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5i.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5i.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5i.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-5i.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-5i.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Part of the second verse is incorrect. Please enter the notes again.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-5.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-5.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-5.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-5j.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-5j.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the second verse of the warrior song correctly. Please move on to the third verse.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-6a.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-6a.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the first note of the third verse. Please enter the second note.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6b.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-6b.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-6b.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the second note of the third verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Do",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6c.html"
+    },
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6c.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6c.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 FA_Three",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "FA_Three",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6c.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6c.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-6c.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-6c.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the second note of the third verse. Please enter the third note.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6d.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6d.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6d.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-6d.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-6d.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the third note of the third verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Do",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6e.html"
+    },
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6e.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 MI_Three",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "MI_Three",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6e.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6e.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6e.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-6e.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-6e.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the third note of the third verse. Please enter the fourth note.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6f.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6f.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6f.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-6f.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-6f.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the fourth note of the third verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Do",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6g.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6g.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6g.html"
+    },
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6g.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6g.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6g.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6g.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6g.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6g.html"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 FA2_Three",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "FA2_Three",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6g.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6g.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6g.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6g.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-6g.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-6g.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the fourth note of the third verse. Please enter the fifth note.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6h.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6h.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6h.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-6h.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-6h.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Please press the fifth note of the third verse.",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Do",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6i.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6i.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6i.html"
+    },
+    {
+     "text": "Re",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6i.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6i.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6i.html"
+    },
+    {
+     "text": "Mi",
+     "bypass": "Quest Q00126_TheNameOfEvil2 MI2_Three",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "MI2_Three",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6j.html",
+     "toAll": [
+      "Q00126_TheNameOfEvil2/32122-6j.html",
+      "Q00126_TheNameOfEvil2/32122-6i.html"
+     ],
+     "effect": "cond:17"
+    },
+    {
+     "text": "Fa",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6i.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6i.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6i.html"
+    },
+    {
+     "text": "Sol",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6i.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6i.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6i.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-6i.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-6i.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "Part of the third verse is incorrect. Please enter the notes again.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-6.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-6.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-6.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-6j.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-6j.html",
+   "quest": 126,
+   "text": "Warrior's Grave:",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "You have entered the third verse of the warrior song correctly.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-7.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-7.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-7.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32122-7a.html": {
+   "file": "Q00126_TheNameOfEvil2/32122-7a.html",
+   "quest": 126,
+   "text": "Warrior's Grave: Yes, these are all that remains of my mortal body, summoned forth from their resting place by the power of your Warrior's Song to perform one final duty. As you take these ashes, accept my spirit! We are now linked, you and I. Take these ashes and go to the end of the southeast are…",
+   "header": "Warrior's Grave",
+   "links": [
+    {
+     "text": "\"What seal stone are you talking about?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32122-8.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32122-8.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-8.html",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Name of Evil 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00126_TheNameOfEvil2",
+     "kind": "quest",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32122-1.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

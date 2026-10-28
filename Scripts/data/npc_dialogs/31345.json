@@ -1,0 +1,65 @@
+{
+ "npcId": 31345,
+ "name": "Ian",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.194Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/31345.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/31345.htm": {
+   "file": "guard/31345.htm",
+   "quest": null,
+   "text": "Guard Ian: Have you visited the dark forest east of the village? It's known as the Forest of the Dead . Once, it was a beautiful place, where deer grazed and stately oaks and wildflowers flourished! I remember picking wild strawberries with my older sister there when I was young. Then, one day, it …",
+   "header": "Guard Ian",
+   "links": [
+    {
+     "text": "\"Tell me more about the Forest of the Dead.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/31345-1.htm"
+    },
+    {
+     "text": "See the lord & tax rate info.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/31345-1.htm": {
+   "file": "guard/31345-1.htm",
+   "quest": null,
+   "text": "Guard Ian: It was the uprising against the von Hellmann family. In that forest the last of the rebel forces were captured by the king's men. They were cruelly tortured and publicly executed. The forest was never the same after that. A cursed fog continually hangs over the place. Its said that dead …",
+   "header": "Guard Ian",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31345.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

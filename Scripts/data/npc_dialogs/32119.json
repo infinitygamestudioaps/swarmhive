@@ -1,0 +1,1077 @@
+{
+ "npcId": 32119,
+ "name": "Ulu Kaimu",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.339Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32119.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "125": {
+   "name": "The Name of Evil - 1",
+   "listText": [
+    "[The Name of Evil 1]",
+    "[The Name of Evil 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00125_TheNameOfEvil1/32119-01.html",
+     "when": "state STARTED; cond 1|2|3|4",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32119-02.html",
+     "when": "state STARTED; cond 5; st.get(\"Memo\") == null",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32119-09.html",
+     "when": "state STARTED; cond 5; !st.get(\"Memo\") == null",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32119-18.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32119-19.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "126": {
+   "name": "The Name of Evil - 2",
+   "listText": [
+    "[The Name of Evil 2]",
+    "[The Name of Evil 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00126_TheNameOfEvil2/32119-1.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32119-2.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32119-3c.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32119-4c.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32119-5a.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32119.htm": {
+   "file": "default/32119.htm",
+   "quest": null,
+   "text": "Ulu Kaimu: The stone pillar looks like it was erected a long time ago. The top is worn and chipped in places, but the ancient letters on its face seem to be relatively bright and clear.",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-01.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-01.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: The Pillar of Wisdom looks like any other monument, but there is a feeling of some kind of hidden power. But no matter how much you stare and prod it, you cannot discover anything peculiar.",
+   "header": "Ulu Kaimu",
+   "when": [
+    "state STARTED; cond 1|2|3|4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32119-02.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-02.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: (Staring closely at the Pillar of Wisdom, the delicate letters on its face seem to move rhythmically. Given its location, this must be the stone monument Karakawei told you about...)",
+   "header": "Ulu Kaimu",
+   "when": [
+    "state STARTED; cond 5; st.get(\"Memo\") == null"
+   ],
+   "links": [
+    {
+     "text": "Touching the pillar seems to cause it to react. Try to communicate with it.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-03.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-03.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-03.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-09.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-09.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: Who...Who has awakened me from this silence?!? You? A small and strange-looking creature has done this? I have never seen such a strange-looking creature... by all that is Shilen...",
+   "header": "Ulu Kaimu",
+   "when": [
+    "state STARTED; cond 5; !st.get(\"Memo\") == null"
+   ],
+   "links": [
+    {
+     "text": "The speech trails off and is so fast that it's impossible to understand. Ask it to say it again slowly.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-10.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-10.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-10.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-18.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-18.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: My brother Balu Kaimu stands under a tree near the road if you travel south from here. Communicate with him in the same way you have with me. Awaken him with the word toon , which Shilen first said to him when she gave him life. He will share his wisdom with you.",
+   "header": "Ulu Kaimu",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32119-19.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-19.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: You are the outsider whom fate decreed would awake me with the words of my mother, Shilen. I cannot communicate with you now, so pass me by and return to your path.",
+   "header": "Ulu Kaimu",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32119-1.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-1.html",
+   "quest": 126,
+   "text": "Ulu Kaimu: This is the Pillar of Wisdom known as Ulu Kaimu! Communication is not possible at the moment -- something is lacking.",
+   "header": "Ulu Kaimu",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32119-2.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-2.html",
+   "quest": 126,
+   "text": "Ulu Kaimu: To communicate with Ulu Kaimu, place your hands on the pillar and think about the question you wish to ask. As you do so, the ancient letters moving rhythmically on the face of the pillar seem to gather around your hands. You feel a sensation of warmth.",
+   "header": "Ulu Kaimu",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "Ulu Kaimu has recognized you.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32119-3.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32119-3.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32119-3.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32119-3c.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-3c.html",
+   "quest": 126,
+   "text": "Ulu Kaimu: Ulu Kaimu awaits your reaction after it has finished searching for answers regarding Gazkh and abnormal phenomenon.",
+   "header": "Ulu Kaimu",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "It seems like its search has been completed. Try to communicate with it.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32119-3a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32119-3a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32119-3a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32119-4c.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-4c.html",
+   "quest": 126,
+   "text": "Ulu Kaimu: You hear a clear, plaintive melody. It sounds like a folk song, or perhaps even some sort of military tune. The melody is easy to remember.",
+   "header": "Ulu Kaimu",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "Listen to the melody.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32119-4a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32119-4a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32119-4a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32119-5a.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-5a.html",
+   "quest": 126,
+   "text": "Ulu Kaimu: For more wisdom, visit Balu Kaimu. Travel south along this road and you will find him.",
+   "header": "Ulu Kaimu",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "links": [
+    {
+     "text": "Listen to the first verse of the melody again to ensure you remember it.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32119-5b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32119-5b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32119-5b.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-03.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-03.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: Try to enter the first letter of the ancient word.",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "p",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-04.html"
+    },
+    {
+     "text": "w",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-04.html"
+    },
+    {
+     "text": "o",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-04.html"
+    },
+    {
+     "text": "n",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-04.html"
+    },
+    {
+     "text": "t",
+     "bypass": "Quest Q00125_TheNameOfEvil1 T_One",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "T_One",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-04.html"
+    },
+    {
+     "text": "a",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-04.html"
+    },
+    {
+     "text": "u",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-04.html"
+    },
+    {
+     "text": "e",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-04.html"
+    },
+    {
+     "text": "g",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-04.html"
+    },
+    {
+     "text": "h",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-04.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-04.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-04.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-04.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-04.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: Try to enter the second letter of the ancient word.",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "p",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-05.html"
+    },
+    {
+     "text": "w",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-05.html"
+    },
+    {
+     "text": "o",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-05.html"
+    },
+    {
+     "text": "n",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-05.html"
+    },
+    {
+     "text": "t",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-05.html"
+    },
+    {
+     "text": "a",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-05.html"
+    },
+    {
+     "text": "u",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-05.html"
+    },
+    {
+     "text": "e",
+     "bypass": "Quest Q00125_TheNameOfEvil1 E_One",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "E_One",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-05.html"
+    },
+    {
+     "text": "g",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-05.html"
+    },
+    {
+     "text": "h",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-05.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-05.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-05.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: Try to enter the third letter of the ancient word.",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "p",
+     "bypass": "Quest Q00125_TheNameOfEvil1 P_One",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "P_One",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-06.html"
+    },
+    {
+     "text": "w",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-06.html"
+    },
+    {
+     "text": "o",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-06.html"
+    },
+    {
+     "text": "n",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-06.html"
+    },
+    {
+     "text": "t",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-06.html"
+    },
+    {
+     "text": "a",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-06.html"
+    },
+    {
+     "text": "u",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-06.html"
+    },
+    {
+     "text": "e",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-06.html"
+    },
+    {
+     "text": "g",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-06.html"
+    },
+    {
+     "text": "h",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-06.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-06.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-06.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: Try to enter the fourth letter of the ancient word.",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "p",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-07.html"
+    },
+    {
+     "text": "w",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-07.html"
+    },
+    {
+     "text": "o",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-07.html"
+    },
+    {
+     "text": "n",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-07.html"
+    },
+    {
+     "text": "t",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-07.html"
+    },
+    {
+     "text": "a",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-07.html"
+    },
+    {
+     "text": "u",
+     "bypass": "Quest Q00125_TheNameOfEvil1 U_One",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "U_One",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-08.html",
+     "toAll": [
+      "Q00125_TheNameOfEvil1/32119-08.html",
+      "Q00125_TheNameOfEvil1/32119-07.html"
+     ]
+    },
+    {
+     "text": "e",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-07.html"
+    },
+    {
+     "text": "g",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-07.html"
+    },
+    {
+     "text": "h",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-07.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-07.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-07.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: You have failed to communicate with Ulu Kaimu.",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "Go back to the first screen.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-03.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-03.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-03.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-08.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-08.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: ( The delicate letters on the face of the pillar begin organizing themselves into what seem to be sentences. )",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "The pillar appears to be pulsing slowly, almost as if it was breathing. What would happen if you gently put your hand on it?",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-09.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-09.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-09.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-10.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-10.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: I am Ulu Kaimu, a Pillar of Wisdom whose name means \"eyes watching earth\" in the Elrokian tongue. You used Shilen's word to awaken me! Now you know how to communicate with me, so tell me: How is it that you came to know that word? If you have awakened me for some mundane thing, you will …",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "\"I'm an adventurer who came here to help the Elroki tribe. They call me the outsider of fate.\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-11.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-11.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-11.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-11.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-11.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: The outsider of fate! (The engraved letters on the face of the pillar scatter, then begin to reorganize in a new pattern. You suspect that it is searching for some information regarding the outsider of fate. After several moments, the letters stop moving.)",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "Ask what it is doing.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-12.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-12.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-12.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-12.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-12.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: I have already discovered why you are here by connecting the threads of events past. You need not prove yourself to me. That I am awake and communicate with you now is the will of Shilen. O fated outsider, what ancient wisdom do you seek?",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "\"To begin with, why did the dinosaurs and the Elroki tribe come here?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-13.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-13.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-13.html"
+    },
+    {
+     "text": "\"I heard that you know everything about what happened in the past. But why were you asleep?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-14.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-14.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-14.html"
+    },
+    {
+     "text": "\"I would like to receive wisdom about the item Mushika gave me.\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-16.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-16.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-16.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-13.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-13.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: The dinosaurs are primitive creatures born when the circle of the gods was broken in the ancient time. Possessed of the same power as the giants, they were a threat to the other 5 races -- to the gods themselves, in fact. The gods wished to protect the other races from these creatures, b…",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "Check for other wisdom.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-12.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-12.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-12.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-14.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-14.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: That is related to the reason why the order of the Lost Nest was threatened. Shilen ordered the Elroki tribe to move the dinosaurs to a more remote place. But during that journey, some of the dinosaurs disobeyed Shilen's commands and attempted to flee. The brave Elrokian warriors defeate…",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "\"Us? You mean there are other stone pillars like you?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-15.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-15.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-15.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-15.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-15.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: That's right. In her wisdom, Shilen fashioned several stone pillars in order to record the island's history in the hopes that order could again be restored. But when Shilen was transformed into the goddess of destruction and the Elroki tribe was driven out to the Primeval Plains by the d…",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "Check for other wisdom.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-12.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-12.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-12.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-16.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-16.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: (Show the item to Ulu Kaimu). Hmmm... This recalls memories of.... The blessing of water...my mother Shilen... I also remember Shilen's wisdom -- and her concern about the dinosaurs. But I don't think my memories are the wisdom you seek. Go to my other brother Kaimus and show them the it…",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "Check for other wisdom.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-12.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-12.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-12.html"
+    },
+    {
+     "text": "\"Brother Kaimus? Are there other Pillars of Wisdom?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-17.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-17.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-17.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32119-17.html": {
+   "file": "Q00125_TheNameOfEvil1/32119-17.html",
+   "quest": 125,
+   "text": "Ulu Kaimu: Shilen made several brothers like me in order that the history of the island might be recorded from many different angles. She created us in groups and granted us the power to communicate among ourselves, that we might share our wisdom with each other. But because Shilen was concerned th…",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "\"Please tell me where he is and how I can communicate with him.\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-18.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-18.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-18.html",
+     "effect": "cond:6"
+    },
+    {
+     "text": "Check for other wisdom.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32119-12.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32119-12.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-12.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32119-3.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-3.html",
+   "quest": 126,
+   "text": "Ulu Kaimu: Try to gain insight about the questions regarding: Gazkh and abnormal phenomenon. (The engraved letters on the Ulu Kaimu stone monument scatter, then realign into a new sequence. They seem to float inside the stone monument.)",
+   "header": "Ulu Kaimu",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Try to communicate, since it seems like the letters have been re-organized.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32119-3a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32119-3a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32119-3a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32119-3a.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-3a.html",
+   "quest": 126,
+   "text": "Ulu Kaimu: Welcome, o' outsider whose fated coming has been foretold! You, and only you, are granted the privilege of gaining wisdom directly from Balu Kaimu. What do you seek?",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "\"I wish to know how the relic Gazkh is connected to the strange happenings on this island.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32119-3b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32119-3b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32119-3b.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32119-3b.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-3b.html",
+   "quest": 126,
+   "text": "Ulu Kaimu: Instead of answering, the stone surface of the pillar seems to shimmer as words appear, forming a phrase that seems almost slightly raised, like a button. Push on it gently.",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "The master returns not.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32119-4.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32119-4.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32119-4.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32119-4.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-4.html",
+   "quest": 126,
+   "text": "Ulu Kaimu: You called me a gift of the gods, a blessing to the warrior's hand. You charged me to carry out the sacred task at your side. Aieee! My shattered and scattered body. Now the entire Lost Nest is my grave. My master! I still hear the song you sang to me as we rode into battle. Why am I imp…",
+   "header": "Ulu Kaimu",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "As the letters on the stone monument are reorganized, a clear but somewhat sad melody is heard. It is easy to remember.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32119-4a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32119-4a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32119-4a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32119-4a.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-4a.html",
+   "quest": 126,
+   "text": "Ulu Kaimu:",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "Do-Mi-Fa-Sol-Fa!",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32119-4b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32119-4b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32119-4b.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32119-4b.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-4b.html",
+   "quest": 126,
+   "text": "Ulu Kaimu: These are all the memories I can find about this question. It is now your decision whether to use this wisdom or not. O fated outsider, wisdom is a tool like any other, to be used or discarded at the whim of its handler. Please remember my wisdom...",
+   "header": "Ulu Kaimu",
+   "links": [
+    {
+     "text": "Listen to Ulu Kaimu's wisdom one more time.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32119-4a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32119-4a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32119-4a.html"
+    },
+    {
+     "text": "Pass.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32119-5.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32119-5.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32119-5.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32119-5.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-5.html",
+   "quest": 126,
+   "text": "Ulu Kaimu: If you still have questions, then visit my brother, Balu Kaimu. He may be able to communicate with other pillars and may possess more memories on this subject that I do. Travel south along this road and you will find him.",
+   "header": "Ulu Kaimu",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32119-5b.html": {
+   "file": "Q00126_TheNameOfEvil2/32119-5b.html",
+   "quest": 126,
+   "text": "Ulu Kaimu: Do-Mi-Fa-Sol-Fa!",
+   "header": "Ulu Kaimu",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Name of Evil 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00125_TheNameOfEvil1",
+     "kind": "quest",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32119-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Name of Evil 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00126_TheNameOfEvil2",
+     "kind": "quest",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32119-1.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

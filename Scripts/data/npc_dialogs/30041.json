@@ -1,0 +1,260 @@
+{
+ "npcId": 30041,
+ "name": "Arnold",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.792Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30041.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "104": {
+   "name": "Spirit of Mirrors",
+   "listText": [
+    "[Spirit of Mirrors]",
+    "[Spirit of Mirrors (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00104_SpiritOfMirrors/30041-01.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00104_SpiritOfMirrors/30043-01.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00104_SpiritOfMirrors/30045-01.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "153": {
+   "name": "Deliver Goods",
+   "listText": [
+    "[Deliver Goods]",
+    "[Deliver Goods (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00153_DeliverGoods/30041-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 2)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00153_DeliverGoods/30041-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 2)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00153_DeliverGoods/30041-03.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00153_DeliverGoods/30041-04.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30041.htm": {
+   "file": "guard/30041.htm",
+   "quest": null,
+   "text": "Guard Arnold: Do you see that grand structure across the bridge? That is the renowned Cedric's Training Hall, famous for producing many great fighters. It was erected by Sir Cedric , Aden's finest paladin and the right hand of King Raoul.",
+   "header": "Guard Arnold",
+   "links": [
+    {
+     "text": "Ask about Sir Cedric.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30041-1.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30041-1.htm": {
+   "file": "guard/30041-1.htm",
+   "quest": null,
+   "text": "Guard Arnold: During Aden's unification war, Sir Cedric served King Raoul and performed meritorious deeds on the battlefield. He lived his entire life true to the spirit of chivalry and the will of Einhasad. He is the model for all young fighters of the kingdom, and a living legend. When unificatio…",
+   "header": "Guard Arnold",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30041.htm"
+    }
+   ]
+  },
+  "Q00104_SpiritOfMirrors/30041-01.html": {
+   "file": "Q00104_SpiritOfMirrors/30041-01.html",
+   "quest": 104,
+   "text": "Guard Arnold: Yesterday afternoon, as I was guarding the students of the magic school while they gathered materials near the Obelisk of Victory , a great toad crawled by. I wasn't paying much attention to it, but all of a sudden, that great toad turned into an Orc Warrior! I was startled and about …",
+   "header": "Guard Arnold",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00104_SpiritOfMirrors/30043-01.html": {
+   "file": "Q00104_SpiritOfMirrors/30043-01.html",
+   "quest": 104,
+   "text": "Guard Johnstone: A few days ago, while patrolling the western parts of the School of Wizardry , I encountered a werewolf near a bridge . I drew my bow and chased after him, but all of a sudden, his body started to waver, and he turned into a great toad! Do you think there are some werewolves that k…",
+   "header": "Guard Johnstone",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00104_SpiritOfMirrors/30045-01.html": {
+   "file": "Q00104_SpiritOfMirrors/30045-01.html",
+   "quest": 104,
+   "text": "Guard Kenyos: Last night, while patrolling the west coast of the island , I saw an Orc transforming into a werewolf! I thought I may have been seeing things, because I was so tired, but I asked the other guards and they all say that they saw the same thing!",
+   "header": "Guard Kenyos",
+   "when": [
+    "always"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00153_DeliverGoods/30041-01.htm": {
+   "file": "Q00153_DeliverGoods/30041-01.htm",
+   "quest": 153,
+   "text": "Guard Arnold: Following the war with Gracia, our king issued a trade embargo, and trade with Gracia was stopped altogether. That's why Gracian trade ships cannot be seen nowadays. On those days that the grand, magnificent Gracian trade ships slowly sailed into the harbor, the village people would a…",
+   "header": "Guard Arnold",
+   "when": [
+    "state CREATED; (player.getLevel() >= 2)"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00153_DeliverGoods 30041-02.html",
+     "kind": "quest-event",
+     "script": "Q00153_DeliverGoods",
+     "event": "30041-02.html",
+     "quest": 153,
+     "to": "Q00153_DeliverGoods/30041-02.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00153_DeliverGoods/30041-00.htm": {
+   "file": "Q00153_DeliverGoods/30041-00.htm",
+   "quest": 153,
+   "text": "Guard Arnold: These days, no trade ships bearing the flag of Gracia sail into the dock. That's because all trade with Gracia has been halted since the war. It was quite a sight to see the great trade ships slowly sail into the harbor with their horns sounding, but I guess we won't be seeing any of …",
+   "header": "Guard Arnold",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 2)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00153_DeliverGoods/30041-03.html": {
+   "file": "Q00153_DeliverGoods/30041-03.html",
+   "quest": 153,
+   "text": "Sentry Arnold: You still haven't made the deliveries? Please do so immediately and bring me back the receipts! The Heavy Wooden Box goes to Merchant Jackson at the Weapons Shop, the Fabrics go to Merchant Silvia at the General Store, and the Clay Pot goes to Warehouse Keeper Rant.",
+   "header": "Sentry Arnold",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00153_DeliverGoods/30041-04.html": {
+   "file": "Q00153_DeliverGoods/30041-04.html",
+   "quest": 153,
+   "text": "Guard Arnold: Have you finished all your deliveries? Thank you. As promised, here is your pay. If you ever get the chance, let's have a drink sometime. It's not a bad experience to sit on the shore and tip back a drink, while watching the night sea.",
+   "header": "Guard Arnold",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00153_DeliverGoods/30041-02.html": {
+   "file": "Q00153_DeliverGoods/30041-02.html",
+   "quest": 153,
+   "text": "Sentry Arnold: Here is the list of all the townspeople you must deliver items to. It's that simple! I'll figure your wages based on how well you do. That Heavy Wooden Box goes to Merchant Jackson at the Weapons Shop, the Fabric goes to Merchant Silvia at the General Store, and that Clay Pot goes to…",
+   "header": "Sentry Arnold",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Spirit of Mirrors (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00104_SpiritOfMirrors",
+     "kind": "quest",
+     "quest": 104,
+     "to": "Q00104_SpiritOfMirrors/30041-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Deliver Goods]",
+     "bypass": "npc_%objectId%_Quest Q00153_DeliverGoods",
+     "kind": "quest",
+     "quest": 153,
+     "to": "Q00153_DeliverGoods/30041-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Deliver Goods (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00153_DeliverGoods",
+     "kind": "quest",
+     "quest": 153,
+     "to": "Q00153_DeliverGoods/30041-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

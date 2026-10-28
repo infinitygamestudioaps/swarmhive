@@ -1,0 +1,58 @@
+{
+ "npcId": 30044,
+ "name": "Chiperan",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.793Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30044.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30044.htm": {
+   "file": "guard/30044.htm",
+   "quest": null,
+   "text": "Guard Chiperan: I used to travel around the kingdom as a mercenary. The reason I came to Talking Island was because I was escorting a ship. But then I fell in love with the beauty of this island and put an end to my vagabond life. Sunrise on the beach, the thick forest, and the magnificent waterfal…",
+   "header": "Guard Chiperan",
+   "links": [
+    {
+     "text": "Ask the way to the waterfalls.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30044-1.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30044-1.htm": {
+   "file": "guard/30044-1.htm",
+   "quest": null,
+   "text": "Guard Chiperan: Keep the mountain to your left, and walk until you come to a small river. If you follow the river upstream, you will come to the waterfalls, the river's source. Orcs show up there frequently, so it is a bit dangerous, but the magnificent spectacle of the waterfall is worth the risk.",
+   "header": "Guard Chiperan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

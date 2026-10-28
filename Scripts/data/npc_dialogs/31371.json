@@ -1,0 +1,950 @@
+{
+ "npcId": 31371,
+ "name": "Wahkan",
+ "title": "Ketra's Messenger",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.197Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/KetraOrcSupport/31371-friend.html",
+   "when": "(AllianceLevel > 0)",
+   "src": "ai KetraOrcSupport"
+  },
+  {
+   "page": "ai/npc/KetraOrcSupport/31371-no.html",
+   "when": "NOT (AllianceLevel > 0)",
+   "src": "ai KetraOrcSupport"
+  }
+ ],
+ "quests": {
+  "11": {
+   "name": "Secret Meeting With Ketra Orcs",
+   "listText": [
+    "[Secret meeting with Ketra Orcs]",
+    "[Secret Meeting with Ketra Orcs (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00011_SecretMeetingWithKetraOrcs/31371-01.html",
+     "when": "state STARTED; memo 21; has items 7231",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "77": {
+   "name": "Saga of the Dominator",
+   "listText": [
+    "[Saga of the Dominator]",
+    "[Saga of the Dominator (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00077_SagaOfTheDominator/2-01.htm",
+     "when": "cond 1; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00077_SagaOfTheDominator/2-02.htm",
+     "when": "cond 2; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00077_SagaOfTheDominator/2-03.htm",
+     "when": "cond 4; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00077_SagaOfTheDominator/2-04.htm",
+     "when": "cond 5; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "605": {
+   "name": "Alliance with Ketra Orcs",
+   "listText": [
+    "[Alliance with Ketra Orcs]",
+    "[Alliance with Ketra Orcs (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-11.html",
+     "when": "state STARTED; cond 1; (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >= SOLDIER_BADGE_COUNT[0])",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-10.html",
+     "when": "state STARTED; cond 1; NOT (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >= SOLDIER_BADGE_COUNT[0])",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-14.html",
+     "when": "state STARTED; cond 2; (st.hasQuestItems(KETRA_MARKS[0]) && (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-13.html",
+     "when": "state STARTED; cond 2; NOT (st.hasQuestItems(KETRA_MARKS[0]) && (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-17.html",
+     "when": "state STARTED; cond 3; (st.hasQuestItems(KETRA_MARKS[1]) && (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-16.html",
+     "when": "state STARTED; cond 3; NOT (st.hasQuestItems(KETRA_MARKS[1]) && (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-20.html",
+     "when": "state STARTED; cond 4; (hasQuestItems(player, KETRA_MARKS[2], VALOR_TOTEM) && (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-19.html",
+     "when": "state STARTED; cond 4; NOT (hasQuestItems(player, KETRA_MARKS[2], VALOR_TOTEM) && (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-22.html",
+     "when": "state STARTED; cond 5; (!st.hasQuestItems(KETRA_MARKS[3]) || !st.hasQuestItems(WISDOM_TOTEM) || (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) < S",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-23.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00605_AllianceWithKetraOrcs/31371-24.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "609": {
+   "name": "Magical Power of Water - Part 1",
+   "listText": [
+    "[Magical Power of Water - Part 1]",
+    "[Magical Power of Water - Part 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00609_MagicalPowerOfWaterPart1/31371-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); (hasAtLeastOneQuestItem(player, KETRA_MARKS))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00609_MagicalPowerOfWaterPart1/31371-00a.html",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (hasAtLeastOneQuestItem(player, KETRA_MARKS))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00609_MagicalPowerOfWaterPart1/31371-00b.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00609_MagicalPowerOfWaterPart1/31371-03.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "ai/npc/KetraOrcSupport/31371-friend.html": {
+   "file": "ai/npc/KetraOrcSupport/31371-friend.html",
+   "quest": null,
+   "text": "Ketra's Messenger Wahkan: Welcome, brave comrade! You've brought many heads of Varka Silenos! We're very impressed! A few more friends like you and we can put those Varkas down for good! Tejakar Ketra!",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "(AllianceLevel > 0)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/KetraOrcSupport/31371-no.html": {
+   "file": "ai/npc/KetraOrcSupport/31371-no.html",
+   "quest": null,
+   "text": "Ketra's Messenger Wahkan: We Ketra are the bravest of all Orc tribes! We're here to reclaim the land of our ancestors! Prepare to die, all who stand in our way! Don't take us for fools! We're well aware of the fact that in order to defeat the enemy, we must ally with outside forces! Like you! Will …",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "NOT (AllianceLevel > 0)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00011_SecretMeetingWithKetraOrcs/31371-01.html": {
+   "file": "Q00011_SecretMeetingWithKetraOrcs/31371-01.html",
+   "quest": 11,
+   "text": "Ketra's Messenger Wahkan: What brings you to the land of the Ketra, stranger?",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; memo 21; has items 7231"
+   ],
+   "links": [
+    {
+     "text": "\"Here are some military supplies.\"",
+     "bypass": "Quest Q00011_SecretMeetingWithKetraOrcs 31371-02.html",
+     "kind": "quest-event",
+     "script": "Q00011_SecretMeetingWithKetraOrcs",
+     "event": "31371-02.html",
+     "quest": 11,
+     "to": "Q00011_SecretMeetingWithKetraOrcs/31371-02.html",
+     "toAll": [
+      "Q00011_SecretMeetingWithKetraOrcs/31371-02.html",
+      "Q00011_SecretMeetingWithKetraOrcs/31371-03.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00077_SagaOfTheDominator/2-01.htm": {
+   "file": "Q00077_SagaOfTheDominator/2-01.htm",
+   "quest": 77,
+   "text": "Ketra's Messenger Wahkan: Does your visit have anything to do with the Flame Successor who recently passed by?",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "cond 1; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Do you know him?\"",
+     "bypass": "Quest Q00077_SagaOfTheDominator 2-1",
+     "kind": "quest-event",
+     "script": "Q00077_SagaOfTheDominator",
+     "event": "2-1",
+     "quest": 77,
+     "to": "Q00077_SagaOfTheDominator/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00077_SagaOfTheDominator/2-02.htm": {
+   "file": "Q00077_SagaOfTheDominator/2-02.htm",
+   "quest": 77,
+   "text": "Ketra's Messenger Wahkan: Not done yet? Find Master Chef Donath.",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "cond 2; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00077_SagaOfTheDominator/2-03.htm": {
+   "file": "Q00077_SagaOfTheDominator/2-03.htm",
+   "quest": 77,
+   "text": "Ketra's Messenger Wahkan: Our chief shaman uses something similar to perform a ritual, but what you have clearly has more divine power! The Flame Successor is one of very few Orcs who has the qualities of a king!",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "cond 4; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What are the qualities?\"",
+     "bypass": "Quest Q00077_SagaOfTheDominator 2-2",
+     "kind": "quest-event",
+     "script": "Q00077_SagaOfTheDominator",
+     "event": "2-2",
+     "quest": 77,
+     "to": "Q00077_SagaOfTheDominator/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00077_SagaOfTheDominator/2-04.htm": {
+   "file": "Q00077_SagaOfTheDominator/2-04.htm",
+   "quest": 77,
+   "text": "Ketra's Messenger Wahkan: Take the stone to the south of the Tower of Insolence! That's all we know of the King's journeys.",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "cond 5; !((npcId == 31336) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-01.htm": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-01.htm",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Greetings, stranger! Are you a mercenary? Excellent! Will you fight for the Ketra Orcs?",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it!\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-04.htm",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-04.htm",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-04.htm",
+     "toAll": [
+      "Q00605_AllianceWithKetraOrcs/31371-04.htm",
+      "Q00605_AllianceWithKetraOrcs/31371-03.htm"
+     ],
+     "effect": "cond:[object Object]|reward"
+    }
+   ]
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-02.htm": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-02.htm",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Do you actually think a weakling like you can stand up to the mighty Ketra Orcs? Ha! I can't believe you've lasted this long! Scram, pencilneck! (Only a character of level 74 or above may undertake this quest.)",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-11.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-11.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Have you brought the badges of the goat beards? How many did you kill?",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; cond 1; (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >= SOLDIER_BADGE_COUNT[0])"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the badges.\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-12.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-12.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-12.html"
+    }
+   ]
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-10.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-10.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Yo, stranger! Will you join our struggle against the filthy Varka Silenos? I, for one, can't wait to taste their blood! Quickly, go to the battlefield and kill Varka Silenos! As proof, bring back 100 badges of grunts ! Then you shall surely become a friend of the Ketra Orc…",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; cond 1; NOT (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >= SOLDIER_BADGE_COUNT[0])"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-14.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-14.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Friend, how did you repay us for the trust we've shown you? Where's the proof?",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; cond 2; (st.hasQuestItems(KETRA_MARKS[0]) && (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the badges.\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-15.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-15.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-15.html"
+    }
+   ]
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-13.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-13.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Have you massacred the Varka Silenos yet? Remember, you promised to bring back 200 badges of grunts and 100 badges of officers as proof! We treat our friends very well, you're not thinking about changing your mind, are you?",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; cond 2; NOT (st.hasQuestItems(KETRA_MARKS[0]) && (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO"
+   ],
+   "links": [
+    {
+     "text": "\"I'll vanquish the enemy!\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-12a.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-12a.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-12a.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-25.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-25.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-25.html"
+    }
+   ]
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-17.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-17.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Friend, show those goat beards the power of Pa'agrio's fire! This fight isn't over until every single Varka Silenos is dead! How many have you killed?",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; cond 3; (st.hasQuestItems(KETRA_MARKS[1]) && (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the badges.\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-18.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-18.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-18.html"
+    }
+   ]
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-16.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-16.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Where are the 300 badges of grunts, 200 badges of officers and 100 badges of captains you promised to bring back from the Varka Silenos? Surely this isn't too hard for you?! Do you want to back out of our agreement?",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; cond 3; NOT (st.hasQuestItems(KETRA_MARKS[1]) && (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO"
+   ],
+   "links": [
+    {
+     "text": "\"I'll destroy the enemy!\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-12a.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-12a.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-12a.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-25.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-25.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-25.html"
+    }
+   ]
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-20.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-20.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Ha! That's wonderful! Those arrogant Varka Silenos have tasted Orcish Steel! Ha! Keep up the good work!",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; cond 4; (hasQuestItems(player, KETRA_MARKS[2], VALOR_TOTEM) && (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the badges.\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-21.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-21.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-21.html"
+    }
+   ]
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-19.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-19.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: What are you doing, dear comrade? Please, attack the Varka Silenos and bring us 300 badges of grunts, 300 badges of officers, 200 badges of captains and the Totem of Valor ! This totem can be obtained by fulfilling the Prove your Courage quest, a mission assigned by Hierar…",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; cond 4; NOT (hasQuestItems(player, KETRA_MARKS[2], VALOR_TOTEM) && (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) >"
+   ],
+   "links": [
+    {
+     "text": "\"I'll destroy the enemy!\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-12a.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-12a.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-12a.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-25.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-25.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-25.html"
+    }
+   ]
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-22.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-22.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: The Varka Silenos are doomed, just fight a little longer! You must try harder! Attack them and bring back 400 badges of grunts, 400 badges of officers and 200 badges of captains , as well as a Totem of Wisdom . The Totem of Wisdom can be obtained by fulfilling the Slay the…",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; cond 5; (!st.hasQuestItems(KETRA_MARKS[3]) || !st.hasQuestItems(WISDOM_TOTEM) || (st.getQuestItemsCount(VARKA_BADGE_SOLDIER) < S"
+   ],
+   "links": [
+    {
+     "text": "\"I'll destroy the enemy!\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-12a.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-12a.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-12a.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-25.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-25.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-25.html"
+    }
+   ]
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-23.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-23.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Excellent work! Please accept this Mark of Ketra's Alliance - Level 5 ! This is the highest honor of trust that we Ketra bestow! You are now allowed to purchase specialty items and teleport directly to the nearest battlefield with the assistance of Gatekeeper Kurfa. Congra…",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-24.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-24.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: You're the best friend the Ketra ever had! There is no higher honor we can bestow upon you! What are you thinking, my friend?",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"I'll keep my friendship with the Ketra!\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-12b.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-12b.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-12b.html"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-25.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-25.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-25.html"
+    }
+   ]
+  },
+  "Q00609_MagicalPowerOfWaterPart1/31371-01.htm": {
+   "file": "Q00609_MagicalPowerOfWaterPart1/31371-01.htm",
+   "quest": 609,
+   "text": "Ketra's Messenger Wahkan: Our tribe is in mortal danger, friend of the Ketra! Will you fight for us?",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); (hasAtLeastOneQuestItem(player, KETRA_MARKS))"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00609_MagicalPowerOfWaterPart1 31371-02.html",
+     "kind": "quest-event",
+     "script": "Q00609_MagicalPowerOfWaterPart1",
+     "event": "31371-02.html",
+     "quest": 609,
+     "to": "Q00609_MagicalPowerOfWaterPart1/31371-02.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00609_MagicalPowerOfWaterPart1/31371-00a.html": {
+   "file": "Q00609_MagicalPowerOfWaterPart1/31371-00a.html",
+   "quest": 609,
+   "text": "Ketra's Messenger Wahkan: Friend of Ketra, Soul Guide Asefa is keeping an eye on your merits. He may one day require your services. You must train. Harder. (This quest is for characters level 74 and above, and who have the 'Proof of Alliance with Ketra Orcs' - Level 1 or above.)",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (hasAtLeastOneQuestItem(player, KETRA_MARKS))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00609_MagicalPowerOfWaterPart1/31371-00b.html": {
+   "file": "Q00609_MagicalPowerOfWaterPart1/31371-00b.html",
+   "quest": 609,
+   "text": "Ketra's Messenger Wahkan: Friend of Ketra, Soul Guide Asefa closely tracks your progress. The day will come when he assigns you a mission. You must train for whatever that mission may be! (This quest is for characters level 74 and above, and who have the 'Proof of Alliance with Ketra Orcs' - Level …",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00609_MagicalPowerOfWaterPart1/31371-03.html": {
+   "file": "Q00609_MagicalPowerOfWaterPart1/31371-03.html",
+   "quest": 609,
+   "text": "Ketra's Messenger Wahkan: Did you get lost? Speak with Asefa, guide of dead souls to find out about your mission! Good luck!",
+   "header": "Ketra's Messenger Wahkan",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00011_SecretMeetingWithKetraOrcs/31371-02.html": {
+   "file": "Q00011_SecretMeetingWithKetraOrcs/31371-02.html",
+   "quest": 11,
+   "text": "Ketra's Messenger Wahkan: Good job, stranger. Well, are you a mercenary? Will you fight alongside the Ketra Orcs?",
+   "header": "Ketra's Messenger Wahkan",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00011_SecretMeetingWithKetraOrcs/31371-03.html": {
+   "file": "Q00011_SecretMeetingWithKetraOrcs/31371-03.html",
+   "quest": 11,
+   "text": "Not Used:",
+   "header": "Not Used",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00077_SagaOfTheDominator/2-05.htm": {
+   "file": "Q00077_SagaOfTheDominator/2-05.htm",
+   "quest": 77,
+   "text": "Ketra's Messenger Wahkan: Want to know more, huh? First do me a favor! Bring me the Bitter Cold Vodka that the 6 Noble Orcs stole to dedicate to the 99 souls. You must not be caught by the Lord of Flame! Meet Master Chef Donath in the northern hot springs area.",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00077_SagaOfTheDominator/2-06.htm": {
+   "file": "Q00077_SagaOfTheDominator/2-06.htm",
+   "quest": 77,
+   "text": "Ketra's Messenger Wahkan: An Overlord should know about the qualities of a King! It's not about the power. There are so many cultures lost because of the Humans. You must look beyond your roots to understand. Despite our long bloodlines, the Orc Kingdom is descended from you, the family of flame! T…",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-03.htm": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-03.htm",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: You're nothing but a filthy maggot! A dog of the Varka Silenos! Did you enjoy licking their vile boots?! Get out of my sight! You sicken me!",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-04.htm": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-04.htm",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Well, I suppose I'll give you a chance... If you can gain my trust, the Ketras will trust you as well. Your test is simple. Annihilate those filthy Varka Silenos! Kill as many as you can! As proof, bring back 100 badges of Varka Soldiers . Get the badges by slaying Varka S…",
+   "header": "Ketra's Messenger Wahkan",
+   "sets": {
+    "cond": "[object Object]",
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-05.htm": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-05.htm",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: There are several phases of friendship: Fight bravely for the Ketra, and the Ketra will take care of you. You must kill not only the henchmen but also the commander to win the war against the Varka Silenos Village. Kill every goatee you can find! Keep killing them! The war…",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-06.htm": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-06.htm",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: You're the best friend the Ketra ever had! The more you fight for the Ketra, the more we will trust you. Our war against the Varka Orcs continues. We must drive those revolting goat beards from the face of the earth! Kill Varka Silenos great mystics, captains, grand seers,…",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-07.htm": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-07.htm",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Ha ha ha! I'll bet those filthy goat beards peed all over themselves! Such is the pleasure of an overwhelming victory! Our job isn't finished yet, however. This war won't be over until every single Varka lies dead! Your excellent reputation is spreading like wildfire among…",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-08.htm": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-08.htm",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: This mission will earn you the Ketra's highest level of trust. This task will not be very difficult for the strong one like you. You must kill the Varka Silenos and bring us 400 badges of grunts, 400 badges of officers and 200 badges of captains as well as the Totem of Wis…",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-09.htm": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-09.htm",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Ha! Hello, friend! What can the Ketras do for you today? You are truly our dearest friend! But don't forget, Ketras live in the moment, and our memories are short... Once a friend leaves us, it is as if they were never here. What's past is past.",
+   "header": "Ketra's Messenger Wahkan",
+   "links": [
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-25.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-25.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-25.html"
+    }
+   ]
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-12.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-12.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: You've formed a friendship with the Ketra forged in blood and fire! Take this Mark of Ketra's Alliance - Level 1 . We only award them to those we consider our true friends. Congratulations!",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-12a.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-12a.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: We'll reward our true friends. Help us in battle!",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-12b.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-12b.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Fellow Ketra soldier, we value your friendship!",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-15.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-15.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Good job, friend! We thank you for your strong friendship. Please accept this Mark of Ketra's Alliance - Level 2 . Warehouse Keeper Jaff will let you use the warehouse now! Congratulations!",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-18.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-18.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: Excellent, brave comrade! I won't be satisfied until I've ground the bones of every one of those filthy goat beards into dust! Please accept this Mark of Ketra's Alliance - Level 3 . You're now permitted to obtain specialty items from Trader Jumara and to receive the bless…",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-21.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-21.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: You're a most noble Warrior, friend of the Ketra! A true hero to our people! Please accept this Mark of Ketra's Alliance - Level 4 ! Now Gatekeeper Kurfa will teleport you to nearby villages! There is but one level of trust left for you to attain!",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-25.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-25.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: How can you leave us like this?! Don't be a fool! You would sever our relationship, after all we've been through?! Are you a fool? Think carefully, my friend! Such decisions are irreversible!",
+   "header": "Ketra's Messenger Wahkan",
+   "links": [
+    {
+     "text": "\"I truly quit.\"",
+     "bypass": "Quest Q00605_AllianceWithKetraOrcs 31371-26.html",
+     "kind": "quest-event",
+     "script": "Q00605_AllianceWithKetraOrcs",
+     "event": "31371-26.html",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-26.html"
+    }
+   ]
+  },
+  "Q00605_AllianceWithKetraOrcs/31371-26.html": {
+   "file": "Q00605_AllianceWithKetraOrcs/31371-26.html",
+   "quest": 605,
+   "text": "Ketra's Messenger Wahkan: You are no longer our friend! Get out of my sight!",
+   "header": "Ketra's Messenger Wahkan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00609_MagicalPowerOfWaterPart1/31371-02.html": {
+   "file": "Q00609_MagicalPowerOfWaterPart1/31371-02.html",
+   "quest": 609,
+   "text": "Ketra's Messenger Wahkan: There is a secret power possessed by the Varka Silenos! Asefa, the guide of dead souls , can tell you more about it... Do as she says! May the flames of Pa'agrio light your path!",
+   "header": "Ketra's Messenger Wahkan",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Secret Meeting with Ketra Orcs (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00011_SecretMeetingWithKetraOrcs",
+     "kind": "quest",
+     "quest": 11,
+     "to": "Q00011_SecretMeetingWithKetraOrcs/31371-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Dominator (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00077_SagaOfTheDominator",
+     "kind": "quest",
+     "quest": 77,
+     "to": "Q00077_SagaOfTheDominator/2-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Alliance with Ketra Orcs]",
+     "bypass": "npc_%objectId%_Quest Q00605_AllianceWithKetraOrcs",
+     "kind": "quest",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Alliance with Ketra Orcs (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00605_AllianceWithKetraOrcs",
+     "kind": "quest",
+     "quest": 605,
+     "to": "Q00605_AllianceWithKetraOrcs/31371-11.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Magical Power of Water - Part 1]",
+     "bypass": "npc_%objectId%_Quest Q00609_MagicalPowerOfWaterPart1",
+     "kind": "quest",
+     "quest": 609,
+     "to": "Q00609_MagicalPowerOfWaterPart1/31371-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Magical Power of Water - Part 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00609_MagicalPowerOfWaterPart1",
+     "kind": "quest",
+     "quest": 609,
+     "to": "Q00609_MagicalPowerOfWaterPart1/31371-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

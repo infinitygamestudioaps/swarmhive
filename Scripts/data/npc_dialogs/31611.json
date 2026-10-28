@@ -1,0 +1,218 @@
+{
+ "npcId": 31611,
+ "name": "Scryde Heartseeker",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.243Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00096_SagaOfTheSpectralDancer/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 96"
+  },
+  {
+   "page": "Q00096_SagaOfTheSpectralDancer/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 96"
+  },
+  {
+   "page": "Q00096_SagaOfTheSpectralDancer/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 96"
+  },
+  {
+   "page": "Q00096_SagaOfTheSpectralDancer/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 96"
+  },
+  {
+   "page": "Q00096_SagaOfTheSpectralDancer/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 96"
+  },
+  {
+   "page": "Q00096_SagaOfTheSpectralDancer/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 96"
+  },
+  {
+   "page": "Q00096_SagaOfTheSpectralDancer/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 96"
+  },
+  {
+   "page": "Q00096_SagaOfTheSpectralDancer/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 96"
+  }
+ ],
+ "quests": {
+  "96": {
+   "name": "Saga of the Spectral Dancer",
+   "listText": [
+    "[Saga of the Spectral Dancer]",
+    "[Saga of the Spectral Dancer (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00096_SagaOfTheSpectralDancer/4-04.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/4-04.htm",
+   "quest": 96,
+   "text": "Scryde Heartseeker: You can do better than that. Show me what you've got!",
+   "header": "Scryde Heartseeker",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/4-06.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/4-06.htm",
+   "quest": 96,
+   "text": "Scryde Heartseeker: Thanks for your help. I don't think he'll be back for a while.",
+   "header": "Scryde Heartseeker",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Did you find anything?\"",
+     "bypass": "Quest Q00096_SagaOfTheSpectralDancer 4-1",
+     "kind": "quest-event",
+     "script": "Q00096_SagaOfTheSpectralDancer",
+     "event": "4-1",
+     "quest": 96,
+     "to": "Q00096_SagaOfTheSpectralDancer/4-010.htm"
+    }
+   ]
+  },
+  "Q00096_SagaOfTheSpectralDancer/4-01.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/4-01.htm",
+   "quest": 96,
+   "text": "Scryde Heartseeker: Time to show your skills, Bladedancer. Lord of Purgatory, Death Lord Hallate, where could you find a better opponent!?",
+   "header": "Scryde Heartseeker",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/4-03.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/4-03.htm",
+   "quest": 96,
+   "text": "Scryde Heartseeker: I never thought the great Lord of Purgatory would turn tail and run. My mission is not yet complete. Don't worry, you'll get another chance. Goodbye!",
+   "header": "Scryde Heartseeker",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/4-05.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/4-05.htm",
+   "quest": 96,
+   "text": "Scryde Heartseeker: This is a battle between him and me. Step aside. Death Lord Hallate, even if you are the Lord of Purgatory, I can't let you stop me!",
+   "header": "Scryde Heartseeker",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/4-07.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/4-07.htm",
+   "quest": 96,
+   "text": "Scryde Heartseeker: Are you looking for the Stone of Commune?",
+   "header": "Scryde Heartseeker",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00096_SagaOfTheSpectralDancer 4-2",
+     "kind": "quest-event",
+     "script": "Q00096_SagaOfTheSpectralDancer",
+     "event": "4-2",
+     "quest": 96,
+     "to": "Q00096_SagaOfTheSpectralDancer/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00096_SagaOfTheSpectralDancer/4-02.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/4-02.htm",
+   "quest": 96,
+   "text": "Scryde Heartseeker: This is between him and me, so step back. Death Lord Hallate, even if you are the Lord of Purgatory, I can't let you stop me!",
+   "header": "Scryde Heartseeker",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/4-08.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/4-08.htm",
+   "quest": 96,
+   "text": "Scryde Heartseeker: This is between him and me. Take this Stone of Commune and use it with the Tablet of Vision over there. Hurry!",
+   "header": "Scryde Heartseeker",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/4-010.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/4-010.htm",
+   "quest": 96,
+   "text": "Scryde Heartseeker: You mean this? I think this Stone of Commune should be yours. Take it. I won't forget you. Till we meet again!",
+   "header": "Scryde Heartseeker",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00096_SagaOfTheSpectralDancer 4-3",
+     "kind": "quest-event",
+     "script": "Q00096_SagaOfTheSpectralDancer",
+     "event": "4-3",
+     "quest": 96,
+     "to": null
+    }
+   ]
+  },
+  "Q00096_SagaOfTheSpectralDancer/4-011.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/4-011.htm",
+   "quest": 96,
+   "text": "Scryde Heartseeker: You mean this? I think this Stone of Commune should be yours. Take it. I won't forget you. Till we meet again!",
+   "header": "Scryde Heartseeker",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00096_SagaOfTheSpectralDancer/4-09.htm": {
+   "file": "Q00096_SagaOfTheSpectralDancer/4-09.htm",
+   "quest": 96,
+   "text": "Scryde Heartseeker: I can't believe the great Lord of Purgatory would turn his back and run. Use the Stone of Commune with the Tablet of Vision and you'll get the secret of the ancient knowledge!",
+   "header": "Scryde Heartseeker",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Spectral Dancer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00096_SagaOfTheSpectralDancer",
+     "kind": "quest",
+     "quest": 96,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

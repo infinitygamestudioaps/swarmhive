@@ -1,0 +1,573 @@
+{
+ "npcId": 30519,
+ "name": "Mion",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.990Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30519.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30519-01.html",
+     "when": "state STARTED; has items 3239,3246; lacks items 3259,3253,3248",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30519-02.html",
+     "when": "state STARTED; has items 3239,3246,3259,3253,3248; lacks items 3248,3259",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "296": {
+   "name": "Tarantula's Spider Silk",
+   "listText": [
+    "[Tarantula's Spider Silk]",
+    "[Tarantula's Spider Silk (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00296_TarantulasSpiderSilk/30519-02.htm",
+     "when": "state CREATED; talker.getLevel() >= MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00296_TarantulasSpiderSilk/30519-01.htm",
+     "when": "state CREATED; NOT talker.getLevel() >= MIN_LVL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00296_TarantulasSpiderSilk/30519-05.html",
+     "when": "state STARTED; !(qs.isCreated() && (npc.getId() == TRADER_MION)); silk >= 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00296_TarantulasSpiderSilk/30519-04.html",
+     "when": "state STARTED; !(qs.isCreated() && (npc.getId() == TRADER_MION)); !silk >= 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "417": {
+   "name": "Path Of The Scavenger",
+   "listText": [
+    "[Path of the Scavenger]",
+    "[Path of the Scavenger (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00417_PathOfTheScavenger/30519-01.html",
+     "when": "state STARTED; has items 1643; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30519-05.html",
+     "when": "state STARTED; lacks items 1643; !(qs.isCreated() || qs.isCompleted()); (getQuestItemsCount(player, SHARIS_AXE) + getQuestItemsCount(player, BRONKS_INGOT) + getQuestItemsCount(player, ZIMENFS_; (qs.getMemoStateEx(1) % 10) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30519-08.html",
+     "when": "state STARTED; lacks items 1643; !(qs.isCreated() || qs.isCompleted()); (getQuestItemsCount(player, SHARIS_AXE) + getQuestItemsCount(player, BRONKS_INGOT) + getQuestItemsCount(player, ZIMENFS_; !(qs.getMemoStateEx(1) % 10) == 0; (qs.getMemoStateEx(1) % 10) > 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30519-12.html",
+     "when": "state STARTED; lacks items 1643; !(qs.isCreated() || qs.isCompleted()); !(getQuestItemsCount(player, SHARIS_AXE) + getQuestItemsCount(player, BRONKS_INGOT) + getQuestItemsCount(player, ZIMENFS; (getQuestItemsCount(player, SHARIS_PAY) + getQuestItemsCount(player, BRONKS_PAY) + getQuestItemsCount(player, ZIMENFS_PA; qs.getMemoStateEx(1) < 50",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30519-15.html",
+     "when": "state STARTED; lacks items 1643; !(qs.isCreated() || qs.isCompleted()); !(getQuestItemsCount(player, SHARIS_AXE) + getQuestItemsCount(player, BRONKS_INGOT) + getQuestItemsCount(player, ZIMENFS; (getQuestItemsCount(player, SHARIS_PAY) + getQuestItemsCount(player, BRONKS_PAY) + getQuestItemsCount(player, ZIMENFS_PA; !qs.getMemoStateEx(1) < 50",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30519-13.html",
+     "when": "state STARTED; has items 1646; lacks items 1643; !(qs.isCreated() || qs.isCompleted()); !(getQuestItemsCount(player, SHARIS_AXE) + getQuestItemsCount(player, BRONKS_INGOT) + getQuestItemsCount(player, ZIMENFS; !(getQuestItemsCount(player, SHARIS_PAY) + getQuestItemsCount(player, BRONKS_PAY) + getQuestItemsCount(player, ZIMENFS_P",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00417_PathOfTheScavenger/30519-14.html",
+     "when": "state STARTED; has items 1653,1654,1657,1644,1645; lacks items 1643,1646; !(qs.isCreated() || qs.isCompleted()); !(getQuestItemsCount(player, SHARIS_AXE) + getQuestItemsCount(player, BRONKS_INGOT) + getQuestItemsCount(player, ZIMENFS; !(getQuestItemsCount(player, SHARIS_PAY) + getQuestItemsCount(player, BRONKS_PAY) + getQuestItemsCount(player, ZIMENFS_P",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30519.htm": {
+   "file": "merchant/30519.htm",
+   "quest": null,
+   "text": "Grocer Mion: Please, buy something! My children need food and shoes...",
+   "header": "Grocer Mion",
+   "links": [
+    {
+     "text": "Buy supplies and minerals.",
+     "bypass": "npc_%objectId%_Buy 3051900",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30519-pk.htm": {
+   "file": "merchant/30519-pk.htm",
+   "quest": null,
+   "text": "Grocer Mion: I dream sometimes. Of a world where everyone gets along ... Do you think that world will come someday? Isn't that more important than making money?",
+   "header": "Grocer Mion",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30519-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30519-01.html",
+   "quest": 221,
+   "text": "Trader Mion: That bloody old fool never forgets his donation money ! I have been too busy to bring it in. Here it is! Now take it to Elder Balanki. Who does he think he is? Won't even come to pick up the donation in person!",
+   "header": "Trader Mion",
+   "when": [
+    "state STARTED; has items 3239,3246; lacks items 3259,3253,3248"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30519-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30519-02.html",
+   "quest": 221,
+   "text": "Trader Mion: Urhh! Balanki, that bloody old man! He never forgets the donation money!",
+   "header": "Trader Mion",
+   "when": [
+    "state STARTED; has items 3239,3246,3259,3253,3248; lacks items 3248,3259"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00296_TarantulasSpiderSilk/30519-02.htm": {
+   "file": "Q00296_TarantulasSpiderSilk/30519-02.htm",
+   "quest": 296,
+   "text": "Trader Mion: I'm in trouble! I'm in big trouble! Van Holter of Elmore came to me, Mion, and ordered twenty dresses ... Formal outfits for the mission to Aden, I heard. Oh dear. What should I do? Not enough time ... not enough materials! The honor of the Silver Scale Guild depends on my two hands no…",
+   "header": "Trader Mion",
+   "when": [
+    "state CREATED; talker.getLevel() >= MIN_LVL"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00296_TarantulasSpiderSilk 30519-03.htm",
+     "kind": "quest-event",
+     "script": "Q00296_TarantulasSpiderSilk",
+     "event": "30519-03.htm",
+     "quest": 296,
+     "to": "Q00296_TarantulasSpiderSilk/30519-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00296_TarantulasSpiderSilk/30519-01.htm": {
+   "file": "Q00296_TarantulasSpiderSilk/30519-01.htm",
+   "quest": 296,
+   "text": "Trader Mion: I'm in trouble! I'm in big trouble! Van Holter of Elmore came to me, Mion, and ordered twenty dresses. Formal outfits for the mission to Aden, I heard. Oh dear. What should I do? Not enough time ... not enough materials! The honor of the Silver Scale Guild depends on my two hands now! …",
+   "header": "Trader Mion",
+   "when": [
+    "state CREATED; NOT talker.getLevel() >= MIN_LVL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00296_TarantulasSpiderSilk/30519-05.html": {
+   "file": "Q00296_TarantulasSpiderSilk/30519-05.html",
+   "quest": 296,
+   "text": "Trader Mion: Oh my ... I'm deeply touched! I've never been this touched before! You brought the Spider Silk! Thank you very, very much! This is the reward, as promised. Please take it ... I still need more Spider Silk, so please collect more! But making twenty dresses will take forever ... What sho…",
+   "header": "Trader Mion",
+   "when": [
+    "state STARTED; !(qs.isCreated() && (npc.getId() == TRADER_MION)); silk >= 1"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00296_TarantulasSpiderSilk 30519-06.html",
+     "kind": "quest-event",
+     "script": "Q00296_TarantulasSpiderSilk",
+     "event": "30519-06.html",
+     "quest": 296,
+     "to": "Q00296_TarantulasSpiderSilk/30519-06.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00296_TarantulasSpiderSilk 30519-07.html",
+     "kind": "quest-event",
+     "script": "Q00296_TarantulasSpiderSilk",
+     "event": "30519-07.html",
+     "quest": 296,
+     "to": "Q00296_TarantulasSpiderSilk/30519-07.html"
+    }
+   ]
+  },
+  "Q00296_TarantulasSpiderSilk/30519-04.html": {
+   "file": "Q00296_TarantulasSpiderSilk/30519-04.html",
+   "quest": 296,
+   "text": "Trader Mion: Aghhh! What are you doing here? Hey ... I don't have time ... Just spin the silk out of them. If I don't have twenty dresses by next week, I will be kicked out of the Silver Scale Guild! I am telling you once more. You may receive Spider Silks only by hunting hunter tarantulas or plund…",
+   "header": "Trader Mion",
+   "when": [
+    "state STARTED; !(qs.isCreated() && (npc.getId() == TRADER_MION)); !silk >= 1"
+   ],
+   "links": [
+    {
+     "text": "Say you will quit",
+     "bypass": "Quest Q00296_TarantulasSpiderSilk 30519-06.html",
+     "kind": "quest-event",
+     "script": "Q00296_TarantulasSpiderSilk",
+     "event": "30519-06.html",
+     "quest": 296,
+     "to": "Q00296_TarantulasSpiderSilk/30519-06.html",
+     "effect": "end"
+    },
+    {
+     "text": "Say you will continue",
+     "bypass": "Quest Q00296_TarantulasSpiderSilk 30519-07.html",
+     "kind": "quest-event",
+     "script": "Q00296_TarantulasSpiderSilk",
+     "event": "30519-07.html",
+     "quest": 296,
+     "to": "Q00296_TarantulasSpiderSilk/30519-07.html"
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30519-01.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-01.html",
+   "quest": 417,
+   "text": "Trader Mion: You're looking for my brother? But he wanders around here and there ... so it is very difficult to find him. More than that, he has made some kind of Teleport Device, so it is even harder to find him!! Well, how about this? If you help me with my work, I will see if I can find out wher…",
+   "header": "Trader Mion",
+   "when": [
+    "state STARTED; has items 1643; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you will help with the work",
+     "bypass": "Quest Q00417_PathOfTheScavenger reply_1",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "reply_1",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30519-02.html",
+     "toAll": [
+      "Q00417_PathOfTheScavenger/30519-02.html",
+      "Q00417_PathOfTheScavenger/30519-03.html",
+      "Q00417_PathOfTheScavenger/30519-04.html"
+     ]
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30519-05.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-05.html",
+   "quest": 417,
+   "text": "Trader Mion: Please go quickly! Our shop is famous for its quick deliveries! Don't worry about finding my brother, just hurry on!",
+   "header": "Trader Mion",
+   "when": [
+    "state STARTED; lacks items 1643; !(qs.isCreated() || qs.isCompleted()); (getQuestItemsCount(player, SHARIS_AXE) + getQuestItemsCount(player, BRONKS_INGOT) + getQuestItemsCount(player, ZIMENFS_; (qs.getMemoStateEx(1) % 10) == 0"
+   ],
+   "links": [
+    {
+     "text": "All right!",
+     "bypass": "Quest Q00417_PathOfTheScavenger 30519-06.html",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "30519-06.html",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30519-06.html"
+    },
+    {
+     "text": "No!",
+     "bypass": "Quest Q00417_PathOfTheScavenger 30519-07.html",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "30519-07.html",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30519-07.html"
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30519-08.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-08.html",
+   "quest": 417,
+   "text": "Trader Mion: Do you have a problem? Didn't I tell you? It. is. very. difficult. to. find. my. brother. Well, now that you know, off to your deliveries!",
+   "header": "Trader Mion",
+   "when": [
+    "state STARTED; lacks items 1643; !(qs.isCreated() || qs.isCompleted()); (getQuestItemsCount(player, SHARIS_AXE) + getQuestItemsCount(player, BRONKS_INGOT) + getQuestItemsCount(player, ZIMENFS_; !(qs.getMemoStateEx(1) % 10) == 0; (qs.getMemoStateEx(1) % 10) > 0"
+   ],
+   "links": [
+    {
+     "text": "All right!",
+     "bypass": "Quest Q00417_PathOfTheScavenger reply_2",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "reply_2",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30519-06.html",
+     "toAll": [
+      "Q00417_PathOfTheScavenger/30519-06.html",
+      "Q00417_PathOfTheScavenger/30519-11.html"
+     ]
+    },
+    {
+     "text": "No!",
+     "bypass": "Quest Q00417_PathOfTheScavenger reply_3",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "reply_3",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30519-07.html",
+     "toAll": [
+      "Q00417_PathOfTheScavenger/30519-07.html",
+      "Q00417_PathOfTheScavenger/30519-09.html",
+      "Q00417_PathOfTheScavenger/30519-10.html"
+     ],
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30519-12.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-12.html",
+   "quest": 417,
+   "text": "Trader Mion: Wow, thank you so much! But finding my brother ... is taking longer than I thought! Oh dear. Until then, please help me with my work! What? Will you help me?",
+   "header": "Trader Mion",
+   "when": [
+    "state STARTED; lacks items 1643; !(qs.isCreated() || qs.isCompleted()); !(getQuestItemsCount(player, SHARIS_AXE) + getQuestItemsCount(player, BRONKS_INGOT) + getQuestItemsCount(player, ZIMENFS; (getQuestItemsCount(player, SHARIS_PAY) + getQuestItemsCount(player, BRONKS_PAY) + getQuestItemsCount(player, ZIMENFS_PA; qs.getMemoStateEx(1) < 50"
+   ],
+   "links": [
+    {
+     "text": "All right!",
+     "bypass": "Quest Q00417_PathOfTheScavenger reply_4",
+     "kind": "quest-event",
+     "script": "Q00417_PathOfTheScavenger",
+     "event": "reply_4",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30519-02.html",
+     "toAll": [
+      "Q00417_PathOfTheScavenger/30519-02.html",
+      "Q00417_PathOfTheScavenger/30519-03.html",
+      "Q00417_PathOfTheScavenger/30519-04.html"
+     ]
+    }
+   ]
+  },
+  "Q00417_PathOfTheScavenger/30519-15.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-15.html",
+   "quest": 417,
+   "text": "Dwarf Goods Trader Mion: Say, I heard some news about my brother. It seems that he went to the northern coast to see the vast ocean for himself. Heh...you may find it a little difficult to track him down, though. Good luck, I guess.",
+   "header": "Dwarf Goods Trader Mion",
+   "when": [
+    "state STARTED; lacks items 1643; !(qs.isCreated() || qs.isCompleted()); !(getQuestItemsCount(player, SHARIS_AXE) + getQuestItemsCount(player, BRONKS_INGOT) + getQuestItemsCount(player, ZIMENFS; (getQuestItemsCount(player, SHARIS_PAY) + getQuestItemsCount(player, BRONKS_PAY) + getQuestItemsCount(player, ZIMENFS_PA; !qs.getMemoStateEx(1) < 50"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30519-13.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-13.html",
+   "quest": 417,
+   "text": "Dwarf Goods Trader Mion: You say that you forgot? How lazy and careless! My brother went to the northern coast to see the vast ocean. Don't forget this time!",
+   "header": "Dwarf Goods Trader Mion",
+   "when": [
+    "state STARTED; has items 1646; lacks items 1643; !(qs.isCreated() || qs.isCompleted()); !(getQuestItemsCount(player, SHARIS_AXE) + getQuestItemsCount(player, BRONKS_INGOT) + getQuestItemsCount(player, ZIMENFS; !(getQuestItemsCount(player, SHARIS_PAY) + getQuestItemsCount(player, BRONKS_PAY) + getQuestItemsCount(player, ZIMENFS_P"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30519-14.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-14.html",
+   "quest": 417,
+   "text": "Trader Mion: You must hurry and become a Scavenger! Good luck!",
+   "header": "Trader Mion",
+   "when": [
+    "state STARTED; has items 1653,1654,1657,1644,1645; lacks items 1643,1646; !(qs.isCreated() || qs.isCompleted()); !(getQuestItemsCount(player, SHARIS_AXE) + getQuestItemsCount(player, BRONKS_INGOT) + getQuestItemsCount(player, ZIMENFS; !(getQuestItemsCount(player, SHARIS_PAY) + getQuestItemsCount(player, BRONKS_PAY) + getQuestItemsCount(player, ZIMENFS_P"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00296_TarantulasSpiderSilk/30519-03.htm": {
+   "file": "Q00296_TarantulasSpiderSilk/30519-03.htm",
+   "quest": 296,
+   "text": "Trader Mion: Ohh! Goddess Maphr sent me a savior! Good Lord! What took you so long! You don't have much time! Now I shall tell you about collecting the Spider Silk. Generally, people think that tarantulas do not make webs, but that is false. They dig holes for their nests and make webs to line them…",
+   "header": "Trader Mion",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00296_TarantulasSpiderSilk/30519-06.html": {
+   "file": "Q00296_TarantulasSpiderSilk/30519-06.html",
+   "quest": 296,
+   "text": "Trader Mion: No way! I'm in a hurry and you want to quit? Do you want me to die? I have to make dresses by the day after tomorrow ...! Mion will hate you and curse you! Aghhhh!",
+   "header": "Trader Mion",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00296_TarantulasSpiderSilk/30519-07.html": {
+   "file": "Q00296_TarantulasSpiderSilk/30519-07.html",
+   "quest": 296,
+   "text": "Trader Mion: Please hurry ... hurry! Tarantula Spider Silk! A lot! Hurry, hurry! Spinnerets are to go to Defender Nathan! Do you understand? Aghhh! Hurry, hurry! I'm about to die! Drink some honey tea and cheer up, Mion!",
+   "header": "Trader Mion",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30519-02.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-02.html",
+   "quest": 417,
+   "text": "Trader Mion: Good! Then please take this potion to Priest of the Earth Zimenf and bring back the payment for it as well. Thank you in advance!",
+   "header": "Trader Mion",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30519-03.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-03.html",
+   "quest": 417,
+   "text": "Trader Mion: Good! Then please take this weapon to Trader Shari . And you must bring back the payment for it! Thank you in advance!",
+   "header": "Trader Mion",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30519-04.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-04.html",
+   "quest": 417,
+   "text": "Trader Mion: Good. Then please take this Lump of Iron to Head Blacksmith Bronk at the blacksmith's shop. And you must bring back the payment for it! Thank you in advance!",
+   "header": "Trader Mion",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30519-06.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-06.html",
+   "quest": 417,
+   "text": "Trader Mion: All right, now! Well, don't just stand there ... go on!",
+   "header": "Trader Mion",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30519-07.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-07.html",
+   "quest": 417,
+   "text": "Trader Mion: Excuse me! Do you know how hard it is to find my brother? Isn't it proper to do something in return to help? Humph ... you're too much ... Well, have it your way! Look for him all your life! See if you can find him, humph! Humph!",
+   "header": "Trader Mion",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30519-09.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-09.html",
+   "quest": 417,
+   "text": "Trader Mion: Look here, now I almost know where my brother is! You can't pretend not to know me now, right? If you'd have waited a bit longer, you could have found my brother!! Truly, I am so sorry!",
+   "header": "Trader Mion",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30519-10.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-10.html",
+   "quest": 417,
+   "text": "Dwarf Goods Trader Mion: Hmph! I thought I'd be able to boss you around for free thanks to my brother, but you're just as lazy as he is! It would be easier for me to just do it myself... My brother said that he was going to the northern coast to see the vast ocean. Heh...I imagine you'll find it a …",
+   "header": "Dwarf Goods Trader Mion",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00417_PathOfTheScavenger/30519-11.html": {
+   "file": "Q00417_PathOfTheScavenger/30519-11.html",
+   "quest": 417,
+   "text": "Trader Mion: Good! Now please deliver this item! Oh yes! Don't forget to bring back the payment! (It is quite hard to order someone around.) Ah ... Nothing, nothing! Go on!",
+   "header": "Trader Mion",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30519-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Tarantula's Spider Silk]",
+     "bypass": "npc_%objectId%_Quest Q00296_TarantulasSpiderSilk",
+     "kind": "quest",
+     "quest": 296,
+     "to": "Q00296_TarantulasSpiderSilk/30519-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Tarantula's Spider Silk (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00296_TarantulasSpiderSilk",
+     "kind": "quest",
+     "quest": 296,
+     "to": "Q00296_TarantulasSpiderSilk/30519-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Scavenger (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00417_PathOfTheScavenger",
+     "kind": "quest",
+     "quest": 417,
+     "to": "Q00417_PathOfTheScavenger/30519-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

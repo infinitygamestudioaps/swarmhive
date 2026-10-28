@@ -1,0 +1,326 @@
+{
+ "npcId": 30377,
+ "name": "Talbot",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.960Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "413": {
+   "name": "Path of the Shillien Oracle",
+   "listText": [
+    "[Path of the Shillien Oracle]",
+    "[Path of the Shillien Oracle (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30377-01.html",
+     "when": "state STARTED; has items 1262; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30377-03.html",
+     "when": "state STARTED; lacks items 1262,1264; item 1263 >= 5; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30377-04.html",
+     "when": "state STARTED; has items 1264; lacks items 1262; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLANK_SHEET) == 5)); getQuestItemsCount(player, BLOODY_RUNE) < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30377-05.html",
+     "when": "state STARTED; lacks items 1262; item 1264 >= 5; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLANK_SHEET) == 5)); !(hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLOODY_RUNE) < 5))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30377-06.html",
+     "when": "state STARTED; has items 1266,1267,1268; lacks items 1262; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLANK_SHEET) == 5)); !(hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLOODY_RUNE) < 5)); !getQuestItemsCount(player, BLOODY_RUNE) >= 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30377-07.html",
+     "when": "state STARTED; has items 1269,1265; lacks items 1262,1266,1267,1268; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLANK_SHEET) == 5)); !(hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLOODY_RUNE) < 5)); !getQuestItemsCount(player, BLOODY_RUNE) >= 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00413_PathOfTheShillienOracle/30377-01.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30377-01.html",
+   "quest": 413,
+   "text": "Magister Talbot: Welcome, my friend. You want to walk the path of the Shillien Oracle? The magic of a Dark Wizard that commands fire and wind is very spectacular, but the magic power of the Shillien Oracle, which commands the more fundamental power of the universe of light and darkness, is a valuab…",
+   "header": "Magister Talbot",
+   "when": [
+    "state STARTED; has items 1262; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Ask how to find Garmiel's Book",
+     "bypass": "Quest Q00413_PathOfTheShillienOracle 30377-02.html",
+     "kind": "quest-event",
+     "script": "Q00413_PathOfTheShillienOracle",
+     "event": "30377-02.html",
+     "quest": 413,
+     "to": "Q00413_PathOfTheShillienOracle/30377-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00413_PathOfTheShillienOracle/30377-03.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30377-03.html",
+   "quest": 413,
+   "text": "Magister Talbot: Why are you still here? Make haste to the Altar of Rites! You will find the Dark Succubi near the Spider Nest. Destroy them and bring back five Bloody Runes. May Gran Kain protect you!",
+   "header": "Magister Talbot",
+   "when": [
+    "state STARTED; lacks items 1262,1264; item 1263 >= 5; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30377-04.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30377-04.html",
+   "quest": 413,
+   "text": "Magister Talbot: This is not enough. You must have five Bloody Runes in order to complete Garmiel's book.",
+   "header": "Magister Talbot",
+   "when": [
+    "state STARTED; has items 1264; lacks items 1262; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLANK_SHEET) == 5)); getQuestItemsCount(player, BLOODY_RUNE) < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30377-05.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30377-05.html",
+   "quest": 413,
+   "text": "Magister Talbot: May Shilen's blessing be with all those who search for the truth of darkness... I see you have brought back all five Bloody Runes. I will combine these and write out Garmiel's Book for you. It is only a small section of the song of darkness that Gran Kain sang in the beginning, but…",
+   "header": "Magister Talbot",
+   "when": [
+    "state STARTED; lacks items 1262; item 1264 >= 5; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLANK_SHEET) == 5)); !(hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLOODY_RUNE) < 5))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30377-06.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30377-06.html",
+   "quest": 413,
+   "text": "Magister Talbot: Along with Garmiel's Book, which I wrote for you, you must find Andariel's Book, which contains the truth of light, if you wish to become a Shillien Oracle.",
+   "header": "Magister Talbot",
+   "when": [
+    "state STARTED; has items 1266,1267,1268; lacks items 1262; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLANK_SHEET) == 5)); !(hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLOODY_RUNE) < 5)); !getQuestItemsCount(player, BLOODY_RUNE) >= 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30377-07.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30377-07.html",
+   "quest": 413,
+   "text": "Magister Talbot: I see you have found Andariel's Book. Did the lofty priests of Einhasad fall for it when you spoke of the books they had written? They are hypocrites, who forget that the vanity and arrogance that they say are sins are within themselves. Now take Garmiel's Book and Andariel's Book …",
+   "header": "Magister Talbot",
+   "when": [
+    "state STARTED; has items 1269,1265; lacks items 1262,1266,1267,1268; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLANK_SHEET) == 5)); !(hasQuestItems(player, BLOODY_RUNE) && (getQuestItemsCount(player, BLOODY_RUNE) < 5)); !getQuestItemsCount(player, BLOODY_RUNE) >= 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30377-02.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30377-02.html",
+   "quest": 413,
+   "text": "Magister Talbot: Have you ever heard of the demon dark succubus? They were servants that lived in the ancient palace of darkness and waited on Gran Kain. They were made in the image of a Goddess and are like angels of beauty and wisdom. However, they were jealous of the power of the Gods and secret…",
+   "header": "Magister Talbot",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30377-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30377-noteach.html",
+   "quest": null,
+   "text": "Magister Talbot: I am a sorcerer of the proud Dark Elves who serve Shilen. You must find a teacher who is right for you. Every second is precious when you seek to become strong. Now be off.",
+   "header": "Magister Talbot",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30377.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30377.html",
+   "quest": null,
+   "text": "Magister Talbot: Good to see you, friend. May Shilen's shadow hide your blade and silence your steps... Yes, we must indeed become stronger. And we can only accomplish that through study. What would you learn from me?",
+   "header": "Magister Talbot",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Shillien Oracle (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00413_PathOfTheShillienOracle",
+     "kind": "quest",
+     "quest": 413,
+     "to": "Q00413_PathOfTheShillienOracle/30377-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30377-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30377-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

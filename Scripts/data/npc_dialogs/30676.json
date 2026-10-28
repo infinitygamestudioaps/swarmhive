@@ -1,0 +1,479 @@
+{
+ "npcId": 30676,
+ "name": "Croop",
+ "title": "Warehouse Chief",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:03.036Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30676.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "192": {
+   "name": "Seven Signs, Series of Doubt",
+   "listText": [
+    "[Seven Signs, Series of Doubt]",
+    "[Seven Signs, Series of Doubt (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00192_SevenSignsSeriesOfDoubt/30676-05.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00192_SevenSignsSeriesOfDoubt/30676-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00192_SevenSignsSeriesOfDoubt/30676-04.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00192_SevenSignsSeriesOfDoubt/30676-06.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00192_SevenSignsSeriesOfDoubt/30676-07.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00192_SevenSignsSeriesOfDoubt/30676-08.html",
+     "when": "state STARTED; cond 3|4|5",
+     "state": "STARTED",
+     "cond": [
+      3,
+      4,
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00192_SevenSignsSeriesOfDoubt/30676-09.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30676.htm": {
+   "file": "villagemaster/30676.htm",
+   "quest": null,
+   "text": "Warehouse Chief Croop: I am Warehouse Chief Croop of the Iron Gate Guild here in the Town of Oren. I suppose my main job these days is dealing with the Scavengers who come to see me. Are you here because you want to become a Bounty Hunter, too?",
+   "header": "Warehouse Chief Croop",
+   "live": {
+    "file": "Logs/npclive_Croop_4254ee06.html",
+    "at": "2026-10-27T14:39:53.589Z",
+    "score": 0.37
+   },
+   "dpText": "Warehouse Chief Croop: I'm Warehouse Chief Croop of the Iron Gate Guild. I deal with all the Scavengers who come into Oren, so naturally my skin's tougher than sheet metal these days!",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest DwarfWarehouseChange2",
+     "kind": "quest",
+     "script": "DwarfWarehouseChange2",
+     "live": true
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class",
+     "live": true
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan",
+     "live": true
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance",
+     "live": true
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm",
+     "live": true
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-05.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-05.html",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: Just received word that the memorial service for my poor cousin can now take place. What happened to him is tragc, but I'm grateful for all that you've done for us. Bless you for your kindness!",
+   "header": "Warehouse Chief Croop",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-01.htm": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-01.htm",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: You're the one I heard so much about? Funny, I thought you'd be taller. Ach, it doesn't matter - it's your reputation that brought you to me, not your height, eh? Now listen, my cousin Jacob had inked a new contract with a supplier and was due to bring it here. Thing is, I've…",
+   "header": "Warehouse Chief Croop",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Why's it not safe?\"",
+     "bypass": "Quest Q00192_SevenSignsSeriesOfDoubt 30676-02.htm",
+     "kind": "quest-event",
+     "script": "Q00192_SevenSignsSeriesOfDoubt",
+     "event": "30676-02.htm",
+     "quest": 192,
+     "to": "Q00192_SevenSignsSeriesOfDoubt/30676-02.htm"
+    }
+   ]
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-04.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-04.html",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: Ach, off with ye! I'll nae waste my time gassing off to you, not when you're too weak to do work for me! Off with ye! Go! (Only characters who are level 79 or higher may undertake on this quest.)",
+   "header": "Warehouse Chief Croop",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "live": {
+    "file": "Logs/npclive_Croop_643dc7a0.html",
+    "at": "2026-10-27T14:39:57.646Z",
+    "score": 0.9
+   },
+   "dpText": "Warehouse Chief Croop: Ach, off with ye! I'll nae waste my time gassing off to you, not when you're too weak to do the work for me! Off with ye! Go! (Only charaters who are level 79 or higher may undertake this quest.)",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-06.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-06.html",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: Thanks! You've agreed to help, so I'll tell you everything I know. But I don't want anyone else to hear this, okay? Something strange is going on--I hear rumors of some suspicious character killing off Dwarven contractors ...",
+   "header": "Warehouse Chief Croop",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Okay...\"",
+     "bypass": "Quest Q00192_SevenSignsSeriesOfDoubt video",
+     "kind": "quest-event",
+     "script": "Q00192_SevenSignsSeriesOfDoubt",
+     "event": "video",
+     "quest": 192,
+     "to": null,
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-07.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-07.html",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: Ach. Look, I'm not saying you'll find Jacob face down in a ditch. I just want the boy found. If he's poured my money down his throat again then... well... he'll see. I've found out some bits of information too. Seems Hector knows something about this killer, though if he's ab…",
+   "header": "Warehouse Chief Croop",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-08.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-08.html",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: Haven't found him yet? Don't waste any more time, okay? You've got to find wee Jacob! If you do, I promise you will be richly rewarded. Now hurry! There's nae a minute to waste!",
+   "header": "Warehouse Chief Croop",
+   "when": [
+    "state STARTED; cond 3|4|5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-09.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-09.html",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: Ach! There you are! I was about ready to send someone off after YOU! Well, you've news I assume, and by the looks of it, it's nae good. Well, out with it. Words are no good unless spoken.",
+   "header": "Warehouse Chief Croop",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"Jacob's dead, Croop. I'm sorry.\"",
+     "bypass": "Quest Q00192_SevenSignsSeriesOfDoubt 30676-10.html",
+     "kind": "quest-event",
+     "script": "Q00192_SevenSignsSeriesOfDoubt",
+     "event": "30676-10.html",
+     "quest": 192,
+     "to": "Q00192_SevenSignsSeriesOfDoubt/30676-10.html"
+    }
+   ]
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-02.htm": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-02.htm",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: Why? Ha! You should wax your ears from time to time! You've not heard the stories then? No? Fine, I'll tell ye. But first you'll promise me that you'll take the job, aye? I'll not wag this beard of mine for little more than etiquette and whatnot. We have a deal?",
+   "header": "Warehouse Chief Croop",
+   "links": [
+    {
+     "text": "\"Sure.\"",
+     "bypass": "Quest Q00192_SevenSignsSeriesOfDoubt 30676-03.html",
+     "kind": "quest-event",
+     "script": "Q00192_SevenSignsSeriesOfDoubt",
+     "event": "30676-03.html",
+     "quest": 192,
+     "to": "Q00192_SevenSignsSeriesOfDoubt/30676-03.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-03.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-03.html",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: Aye? Good stuff. The stories are circling about like crows over carcasses, friend. Dwarven Contractors being put to the blade . Someone is hunting them, and we have no idea who....",
+   "header": "Warehouse Chief Croop",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Go on.\"",
+     "bypass": "Quest Q00192_SevenSignsSeriesOfDoubt video",
+     "kind": "quest-event",
+     "script": "Q00192_SevenSignsSeriesOfDoubt",
+     "event": "video",
+     "quest": 192,
+     "to": null,
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-10.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-10.html",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: Aye... I thought that'd be the way of things. Poor boy... he wasn't ready to go. Ach. You see people slipping off the coil all the time, but still... harder to cope with when it's blood. Where's the body then?",
+   "header": "Warehouse Chief Croop",
+   "links": [
+    {
+     "text": "\"East of Oren Castle. It's in bad shape.\"",
+     "bypass": "Quest Q00192_SevenSignsSeriesOfDoubt 30676-11.html",
+     "kind": "quest-event",
+     "script": "Q00192_SevenSignsSeriesOfDoubt",
+     "event": "30676-11.html",
+     "quest": 192,
+     "to": "Q00192_SevenSignsSeriesOfDoubt/30676-11.html"
+    }
+   ]
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-11.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-11.html",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: Bad shape? What do ye mean? Mutilated? Hang on a wee moment now--I never even told you what Jacob looked like! How can you be sure it was him? And how can you be so sure that it was him when, as you put it, the body's in \"bad shape\"? Eh?",
+   "header": "Warehouse Chief Croop",
+   "links": [
+    {
+     "text": "\"Here. This is his right?\"",
+     "bypass": "Quest Q00192_SevenSignsSeriesOfDoubt 30676-12.html",
+     "kind": "quest-event",
+     "script": "Q00192_SevenSignsSeriesOfDoubt",
+     "event": "30676-12.html",
+     "quest": 192,
+     "to": "Q00192_SevenSignsSeriesOfDoubt/30676-12.html"
+    }
+   ]
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-12.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-12.html",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: Oh. Aye... aye it is. And this is his blood too, I suppose. I bought this for him when he started working for me, you know. Was my way of bringing him closer to the family, but look what happened.... Ach. I'm not one for softness. I have another job for you to do now, if ye'l…",
+   "header": "Warehouse Chief Croop",
+   "links": [
+    {
+     "text": "\"What's the job?\"",
+     "bypass": "Quest Q00192_SevenSignsSeriesOfDoubt 30676-13.html",
+     "kind": "quest-event",
+     "script": "Q00192_SevenSignsSeriesOfDoubt",
+     "event": "30676-13.html",
+     "quest": 192,
+     "to": "Q00192_SevenSignsSeriesOfDoubt/30676-13.html"
+    }
+   ]
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-13.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-13.html",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: I want you to prepare a memorial service for m'cousin. It's a simple enough thing, and High Priest Hollint will be there to help you out. Dwarves need to put into the ground fast, aye? Return their bodies to the soil, give our children's children nutrients for the farming and…",
+   "header": "Warehouse Chief Croop",
+   "links": [
+    {
+     "text": "\"I'd be glad to help.\"",
+     "bypass": "Quest Q00192_SevenSignsSeriesOfDoubt 30676-14.html",
+     "kind": "quest-event",
+     "script": "Q00192_SevenSignsSeriesOfDoubt",
+     "event": "30676-14.html",
+     "quest": 192,
+     "to": "Q00192_SevenSignsSeriesOfDoubt/30676-14.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00192_SevenSignsSeriesOfDoubt/30676-14.html": {
+   "file": "Q00192_SevenSignsSeriesOfDoubt/30676-14.html",
+   "quest": 192,
+   "text": "Warehouse Chief Croop: Thank you very much. You are indeed an adventurer with a warm heart. I do have good eyes to spot a good person. Now, you can give me Jacob's necklace. I will have someone take it to the Town of Oren's High Priest Hollint in the Temple of Einhasad beforehand. Also, I'll send y…",
+   "header": "Warehouse Chief Croop",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Series of Doubt]",
+     "bypass": "npc_%objectId%_Quest Q00192_SevenSignsSeriesOfDoubt",
+     "kind": "quest",
+     "quest": 192,
+     "to": "Q00192_SevenSignsSeriesOfDoubt/30676-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, Series of Doubt (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00192_SevenSignsSeriesOfDoubt",
+     "kind": "quest",
+     "quest": 192,
+     "to": "Q00192_SevenSignsSeriesOfDoubt/30676-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of villagemaster/30676.htm differs: live \"Warehouse Chief Croop: I am Warehouse Chief Croop of the Iron Gate Guild here in the Town…\" vs datapack \"Warehouse Chief Croop: I'm Warehouse Chief Croop of the Iron Gate Guild. I deal with all …\"",
+  "text of Q00192_SevenSignsSeriesOfDoubt/30676-04.html differs: live \"Warehouse Chief Croop: Ach, off with ye! I'll nae waste my time gassing off to you, not w…\" vs datapack \"Warehouse Chief Croop: Ach, off with ye! I'll nae waste my time gassing off to you, not w…\"",
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Listen to information about second class transfer.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Chief Croop:I am Warehouse Chief Croop of the Iron"
+   ],
+   "to": [
+    "I am known as the one who trains famous Dwarven Bounty Hunte"
+   ]
+  },
+  {
+   "text": "Clan.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Chief Croop:I am Warehouse Chief Croop of the Iron"
+   ],
+   "to": [
+    "What would you like to do?Create New Clan.Increase Clan Leve"
+   ]
+  },
+  {
+   "text": "Alliance.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Chief Croop:I am Warehouse Chief Croop of the Iron"
+   ],
+   "to": [
+    "What would you like to do? Create an Alliance"
+   ]
+  },
+  {
+   "text": "Use Shadow Weapon Exchange Coupon.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Chief Croop:I am Warehouse Chief Croop of the Iron"
+   ],
+   "to": [
+    "A Shadow Weapon is special weapon that is made in cooperatio"
+   ]
+  },
+  {
+   "text": "Quest.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Chief Croop:I am Warehouse Chief Croop of the Iron"
+   ],
+   "to": [
+    "Warehouse Chief Croop:Ach, off with ye!I'll nae waste my tim"
+   ]
+  }
+ ]
+}

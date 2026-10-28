@@ -1,0 +1,171 @@
+{
+ "npcId": 30765,
+ "name": "Imperial Coffer",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.074Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30765.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "503": {
+   "name": "Pursuit Of Clan Ambition",
+   "listText": [
+    "[Pursuit of Clan Ambition!]",
+    "[Pursuit of Clan Ambition! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30765-01.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; qs.getMemoState() >= 8500; qs.getMemoState() < 8700",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30765-03.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; qs.getMemoState() >= 8500; qs.getMemoState() < 8700",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00503_PursuitOfClanAmbition/30765-05.html",
+     "when": "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; !((qs.getMemoState() >= 8500) && (qs.getMemoState() < 8700)); qs.getMemoState() >= 8700",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30765.htm": {
+   "file": "default/30765.htm",
+   "quest": null,
+   "text": "Imperial Coffer: A large wooden box, carved with an exquisite decorative pattern.",
+   "header": "Imperial Coffer",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30765-1.htm": {
+   "file": "default/30765-1.htm",
+   "quest": null,
+   "text": "Imperial Coffer: There is nothing inside.",
+   "header": "Imperial Coffer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30765-01.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30765-01.html",
+   "quest": 503,
+   "text": "Imperial Coffer: The box is secured with six locks.",
+   "header": "Imperial Coffer",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; qs.getMemoState() >= 8500; qs.getMemoState() < 8700"
+   ],
+   "links": [
+    {
+     "text": "Open coffer",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30765-02.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30765-02.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30765-02.html"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30765-03.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30765-03.html",
+   "quest": 503,
+   "text": "Imperial Coffer: The box is secured with six locks.",
+   "header": "Imperial Coffer",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; qs.getMemoState() >= 8500; qs.getMemoState() < 8700"
+   ],
+   "links": [
+    {
+     "text": "Open coffer",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30765-04.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30765-04.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30765-04.html"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30765-05.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30765-05.html",
+   "quest": 503,
+   "text": "Imperial Coffer: The box is secured with six locks.",
+   "header": "Imperial Coffer",
+   "when": [
+    "state STARTED; !(qs.isCreated() || qs.isCompleted()); lqs != null; !((qs.getMemoState() >= 8500) && (qs.getMemoState() < 8700)); qs.getMemoState() >= 8700"
+   ],
+   "links": [
+    {
+     "text": "Open coffer",
+     "bypass": "Quest Q00503_PursuitOfClanAmbition 30765-05a.html",
+     "kind": "quest-event",
+     "script": "Q00503_PursuitOfClanAmbition",
+     "event": "30765-05a.html",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30765-05a.html"
+    }
+   ]
+  },
+  "Q00503_PursuitOfClanAmbition/30765-02.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30765-02.html",
+   "quest": 503,
+   "text": "Imperial Coffer: This box may only be opened by a clan leader.",
+   "header": "Imperial Coffer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30765-04.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30765-04.html",
+   "quest": 503,
+   "text": "Imperial Coffer: You have discovered the Scepter of Judgment.",
+   "header": "Imperial Coffer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00503_PursuitOfClanAmbition/30765-05a.html": {
+   "file": "Q00503_PursuitOfClanAmbition/30765-05a.html",
+   "quest": 503,
+   "text": "Imperial Coffer: It will not open.",
+   "header": "Imperial Coffer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Pursuit of Clan Ambition! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00503_PursuitOfClanAmbition",
+     "kind": "quest",
+     "quest": 503,
+     "to": "Q00503_PursuitOfClanAmbition/30765-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

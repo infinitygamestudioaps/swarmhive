@@ -1,0 +1,256 @@
+{
+ "npcId": 30640,
+ "name": "Brynthea",
+ "title": "Summoner",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.024Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30640.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "230": {
+   "name": "Test Of The Summoner",
+   "listText": [
+    "[Test of the Summoner]",
+    "[Test of the Summoner (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00230_TestOfTheSummoner/30640-01.html",
+     "when": "state STARTED; lacks items 3359,3385,3386,3387,3388,3389",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30640-05.html",
+     "when": "state STARTED; has items 3385,3386,3387,3388,3389; lacks items 3359,3385,3386,3387,3389",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30640-06.html",
+     "when": "state STARTED; has items 3385,3386,3387,3388,3389; lacks items 3359,3385,3386,3388,3389; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_VI",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30640-07.html",
+     "when": "state STARTED; has items 3385,3386,3387,3388,3389; lacks items 3359,3385,3386,3387,3388; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_DEFEAT_6TH, CRYSTAL_OF_",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30640-08.html",
+     "when": "state STARTED; has items 3385,3386,3387,3388,3389; lacks items 3359,3386,3387,3388,3389; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_DEFEAT_6TH, CRYSTAL_OF_; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_DE",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30640-09.html",
+     "when": "state STARTED; has items 3385,3386,3387,3388,3389; lacks items 3359,3385,3387,3388,3389; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_DEFEAT_6TH, CRYSTAL_OF_; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_DE; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_DEFEAT_6TH, CRYSTAL_OF_VICT",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30640-10.html",
+     "when": "state STARTED; has items 3359",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30640.htm": {
+   "file": "default/30640.htm",
+   "quest": null,
+   "text": "Summoner Brynthea: Greetings, traveler, my name is Brynthea. Summoner's magic is a highly organized magic which makes the spirits obedient through sort of a contract. It is a technique created by the Elves but since it works through govern-obedience rules, it applies well to us Dark Elves, and wome…",
+   "header": "Summoner Brynthea",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30640-01.html": {
+   "file": "Q00230_TestOfTheSummoner/30640-01.html",
+   "quest": 230,
+   "text": "Summoner Brynthea: Welcome, apprentice Summoner! My name is Brynthea. I am a Summoner like you. Let me introduce my lovely creature, Tilfo. You are here to challenge us, correct? Here is my Arcana Card... Hand-made by a Dwarven slave. Exquisite, isn't it? You shall have it if you defeat me, althoug…",
+   "header": "Summoner Brynthea",
+   "when": [
+    "state STARTED; lacks items 3359,3385,3386,3387,3388,3389"
+   ],
+   "links": [
+    {
+     "text": "\"I challenge you to a duel!\"",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30640-03.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30640-03.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30640-03.html",
+     "toAll": [
+      "Q00230_TestOfTheSummoner/30640-03.html",
+      "Q00230_TestOfTheSummoner/30640-02.html"
+     ]
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30640-05.html": {
+   "file": "Q00230_TestOfTheSummoner/30640-05.html",
+   "quest": 230,
+   "text": "Summoner Brynthea: Good job, Tilfo! You shall be rewarded later! Let me give you some advice... You must control your creature completely. He seemed to be on his own there for a while... Would you like to have another go?",
+   "header": "Summoner Brynthea",
+   "when": [
+    "state STARTED; has items 3385,3386,3387,3388,3389; lacks items 3359,3385,3386,3387,3389"
+   ],
+   "links": [
+    {
+     "text": "\"Let's battle again!\"",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30640-03.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30640-03.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30640-03.html",
+     "toAll": [
+      "Q00230_TestOfTheSummoner/30640-03.html",
+      "Q00230_TestOfTheSummoner/30640-02.html"
+     ]
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30640-06.html": {
+   "file": "Q00230_TestOfTheSummoner/30640-06.html",
+   "quest": 230,
+   "text": "Summoner Brynthea: Oh my, it seems that you have forgotten the rule about touching the opponent's creature! You lose. Now I shall have that ugly Arcana Card of yours.",
+   "header": "Summoner Brynthea",
+   "when": [
+    "state STARTED; has items 3385,3386,3387,3388,3389; lacks items 3359,3385,3386,3388,3389; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_VI"
+   ],
+   "links": [
+    {
+     "text": "Ask for another battle.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30640-03.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30640-03.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30640-03.html",
+     "toAll": [
+      "Q00230_TestOfTheSummoner/30640-03.html",
+      "Q00230_TestOfTheSummoner/30640-02.html"
+     ]
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30640-07.html": {
+   "file": "Q00230_TestOfTheSummoner/30640-07.html",
+   "quest": 230,
+   "text": "Summoner Brynthea: I am very disappointed in you, Tilfo! We must now start your training all over! You were a stronger opponent than I imagined! The overpowering ruthlessness... You have the stuff of a real summoner. Now take my Arcana card.",
+   "header": "Summoner Brynthea",
+   "when": [
+    "state STARTED; has items 3385,3386,3387,3388,3389; lacks items 3359,3385,3386,3387,3388; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_DEFEAT_6TH, CRYSTAL_OF_"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30640-08.html": {
+   "file": "Q00230_TestOfTheSummoner/30640-08.html",
+   "quest": 230,
+   "text": "Summoner Brynthea: Tilfo, let your opponent strike the first blow! Do not fear pain. It won't hurt so much once you get used to it! What are you looking at? Go and tell your creature to attack!",
+   "header": "Summoner Brynthea",
+   "when": [
+    "state STARTED; has items 3385,3386,3387,3388,3389; lacks items 3359,3386,3387,3388,3389; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_DEFEAT_6TH, CRYSTAL_OF_; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_DE"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30640-09.html": {
+   "file": "Q00230_TestOfTheSummoner/30640-09.html",
+   "quest": 230,
+   "text": "Summoner Brynthea: Good job, Tilfo, you are doing well! It doesn't hurt that bad, does it? That's my loyal servant... Good girl... How can you let your creature fight unsupervised?... You must be a bad master indeed! Look there, your creature is bleeding!",
+   "header": "Summoner Brynthea",
+   "when": [
+    "state STARTED; has items 3385,3386,3387,3388,3389; lacks items 3359,3385,3387,3388,3389; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_DEFEAT_6TH, CRYSTAL_OF_; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_6TH, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_DE; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_INPROGRESS_6TH, CRYSTAL_OF_FOUL_6TH, CRYSTAL_OF_DEFEAT_6TH, CRYSTAL_OF_VICT"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30640-10.html": {
+   "file": "Q00230_TestOfTheSummoner/30640-10.html",
+   "quest": 230,
+   "text": "summoner Brynthea: Are you still here? You seem to have great potential... You seek the Mark of the Summoner, correct? I look forward to meeting you on the field as a full-fledged Summoner someday... Ah, the blood, the screams... Just the thought of it sets my heart racing!",
+   "header": "summoner Brynthea",
+   "when": [
+    "state STARTED; has items 3359"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30640-02.html": {
+   "file": "Q00230_TestOfTheSummoner/30640-02.html",
+   "quest": 230,
+   "text": "Summoner Brynthea: What kind of a fool issues a challenge without a card? If you need a card you should go and see Trader Lara in the Town of Dion . She makes a card suitable for apprentice Summoners. You should go and buy a few!",
+   "header": "Summoner Brynthea",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30640-03.html": {
+   "file": "Q00230_TestOfTheSummoner/30640-03.html",
+   "quest": 230,
+   "text": "Summoner Brynthea: I suppose you know the rules? The first attack shall be made by summoned creature of the challenger! No intervention by the Summoners is allowed! Is that clear? Are you ready for battle?",
+   "header": "Summoner Brynthea",
+   "links": [
+    {
+     "text": "Begin the battle",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30640-04.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30640-04.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30640-04.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30640-04.html": {
+   "file": "Q00230_TestOfTheSummoner/30640-04.html",
+   "quest": 230,
+   "text": "Summoner Brynthea: Ah yes! First, I will take your apprentice Arcana Card! Now, fellow... Start off easy... All right, Tilfo, show them what you've got..!",
+   "header": "Summoner Brynthea",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Summoner (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00230_TestOfTheSummoner",
+     "kind": "quest",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30640-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

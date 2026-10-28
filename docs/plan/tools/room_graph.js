@@ -28,7 +28,9 @@ const rd = (f) => JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, ''));
 const argv = process.argv.slice(2), arg = (k) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : null; };
 const only = arg('--only') ? arg('--only').split(',') : null, dry = argv.includes('--dry'), images = !argv.includes('--no-images');
 const WX0 = -294912, WY0 = -262144, CELL = 16;
-const TP_COST = 1500;                                   // a teleporter click ~ 15 s of walking
+const STITCH_MS = Number(arg('--stitch-ms')) || 12000;   // STITCHMEMO 2026-10-27: time cap of one pocket-stitching walk
+const STITCH_ROOMS_ONLY = argv.includes('--stitch-rooms-only');
+const TP_COST = 1500;                                 // a teleporter click ~ 15 s of walking
 const CRUMB = 400;
 const LEG = 280, DEV = 40, KEEP = 4, SPINE_GAP = 900;                    // waypoint spacing (max straight leg), max distance off the centreline, edges kept per vertex                                      // corridor pieces under 400 cells (~320x320) are merged into their neighbour
 
@@ -326,13 +328,20 @@ function stitchFloor(d, F, fi) {
   const join = () => g.e.forEach(e => { const a = root(e[0]), b = root(e[1]); if (a !== b) par[a] = b; });
   join();
   let added = 0;
+  // STITCHMEMO (Forgotten Temple 2026-10-27): a pair walked once is not walked again in the next rounds (a part that cannot be joined was retried
+  // 12 rounds x 8 walks x up to STITCH_MS each: the Devil's Isle / Forgotten Temple builds ran for hours); --stitch-ms caps one walk (default 12000)
+  const memo = new Map(); let walks = 0;
   for (let round = 0; round < 12; round++) {
     const comps = new Map(); g.v.forEach((v, i) => { const r = root(i); (comps.get(r) || comps.set(r, []).get(r)).push(i); });
     if (comps.size < 2) break;
     const score = (L) => L.filter(i => g.v[i][5] === 'room').length * 1000 + L.length;
     const list = [...comps.values()].sort((a, b) => score(b) - score(a)), main = list[0];
     let did = false;
+    if (process.env.RG_PROGRESS && round === 0) console.log(`  stitch ${d.key} f${fi + 1}: ${comps.size} parts (${list.slice(1).filter(L => L.some(i => g.v[i][5] !== 'mid')).length} with a room / door / entry / safe spot)`);
     for (const C of list.slice(1)) {
+      // --stitch-rooms-only (Forgotten Temple 2026-10-27): a part holding only corridor spine points (an island of ground the band flood picked up:
+      // roof tops, the surface around a walk-in landing) is not joined; every part with a room / door / entry / link / safe spot still is
+      if (STITCH_ROOMS_ONLY && !C.some(i => g.v[i][5] !== 'mid')) continue;
       // the closest pair (straight) between this part and the main part
       // the 8 closest pairs (straight), each walked with geopath: the shortest real walk wins
       const pairs = []; C.forEach(i => main.forEach(j => { const a = g.v[i], b = g.v[j]; pairs.push({ i, j, dd: Math.hypot(a[1] - b[1], a[2] - b[2]) + Math.abs(a[3] - b[3]) }); }));
@@ -341,7 +350,8 @@ function stitchFloor(d, F, fi) {
       for (const p of pairs.slice(0, 8)) {
         if (p.dd > 9000) break;
         const A0 = g.v[p.i], B0 = g.v[p.j];
-        const q = geo.findPath({ x: A0[1], y: A0[2], z: A0[3] }, { x: B0[1], y: B0[2], z: B0[3] }, { pad: 3000, maxNodes: 1.5e6, maxMs: 12000, maxLeg: LEG });
+        const mk = p.i + ',' + p.j; let q = memo.get(mk);
+        if (!q) { q = geo.findPath({ x: A0[1], y: A0[2], z: A0[3] }, { x: B0[1], y: B0[2], z: B0[3] }, { pad: 3000, maxNodes: 1.5e6, maxMs: STITCH_MS, maxLeg: LEG }); memo.set(mk, q); walks++; }
         if (q.ok && q.points.length && q.lengthUnits <= Math.max(6000, p.dd * 6) && (!r || q.lengthUnits < r.lengthUnits)) { r = q; best = p; }
       }
       if (!best) continue;
@@ -351,8 +361,24 @@ function stitchFloor(d, F, fi) {
       par[root(best.i)] = root(best.j); added++; did = true;
     }
     if (!did) break;
+    if (process.env.RG_PROGRESS) console.log(`  stitch ${d.key} f${fi + 1} round ${round + 1}: ${comps.size} parts, ${added} joined, ${walks} walks`);
   }
   if (added) { g.stats = Object.assign(g.stats || {}, { stitched: added }); }
+  // --stitch-rooms-only: the islands left out are dropped from the graph (vertices, their edges, corridor nodes nobody uses any more)
+  if (STITCH_ROOMS_ONLY) {
+    const cnt = new Map(); g.v.forEach((v, i) => { const r = root(i); cnt.set(r, (cnt.get(r) || 0) + (v[5] !== 'mid' ? 1 : 0)); });
+    const keepV = g.v.map((v, i) => cnt.get(root(i)) > 0), vmap = []; let nv = 0; keepV.forEach((k, i) => { vmap[i] = k ? nv++ : -1; });
+    const dropped = g.v.length - nv;
+    if (dropped) {
+      const usedN = new Set(); g.v.forEach((v, i) => { if (keepV[i] && v[4] >= 0) usedN.add(v[4]); }); g.e.forEach(e => { if (keepV[e[0]] && keepV[e[1]] && e[5] >= 0) usedN.add(e[5]); });
+      const nmap = []; let nn = 0; g.nodes.forEach((n, i) => { nmap[i] = usedN.has(i) ? nn++ : -1; });
+      g.v = g.v.filter((v, i) => keepV[i]).map(v => { const w = v.slice(); w[4] = v[4] >= 0 ? nmap[v[4]] : -1; return w; });
+      g.e = g.e.filter(e => keepV[e[0]] && keepV[e[1]]).map(e => { const w = e.slice(); w[0] = vmap[e[0]]; w[1] = vmap[e[1]]; w[5] = e[5] >= 0 ? nmap[e[5]] : -1; return w; });
+      g.nodes = g.nodes.filter((n, i) => usedN.has(i));
+      g.stats = Object.assign(g.stats || {}, { islandsDropped: dropped, nodes: g.nodes.length, corridors: g.nodes.filter(n => n.kind === 'corridor').length, edges: g.e.length });
+      if (process.env.RG_PROGRESS) console.log(`  stitch ${d.key} f${fi + 1}: ${dropped} island vertices dropped, ${g.v.length} kept`);
+    }
+  }
   return added;
 }
 // ---------------------------------------------------------------------------------------------------------------- whole dungeon

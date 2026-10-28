@@ -1,0 +1,242 @@
+{
+ "npcId": 32595,
+ "name": "Lawrence",
+ "title": "Great Teacher",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.390Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32595.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "197": {
+   "name": "Seven Signs, the Sacred Book of Seal",
+   "listText": [
+    "[Seven Signs, the Sacred Book of Seal]",
+    "[Seven Signs, the Sacred Book of Seal (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00197_SevenSignsTheSacredBookOfSeal/32595-05.html",
+     "when": "state STARTED; cond 3; isBusy",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00197_SevenSignsTheSacredBookOfSeal/32595-01.html",
+     "when": "state STARTED; cond 3; !isBusy",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00197_SevenSignsTheSacredBookOfSeal/32595-06.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00197_SevenSignsTheSacredBookOfSeal/32595-10.html",
+     "when": "state STARTED; cond >=5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32595.htm": {
+   "file": "default/32595.htm",
+   "quest": null,
+   "text": "Great Master Lawrence: I've been looking at the codes in my study, surrounded by books, and planning a trip to see my favorite student, Leopard in Goddard Castle. The weather is so nice this time of year, and I haven't had this much free time for so long...",
+   "header": "Great Master Lawrence",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32595-05.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32595-05.html",
+   "quest": 197,
+   "text": "Great Master Lawrence: Give me a moment, please. I'm otherwise engaged.",
+   "header": "Great Master Lawrence",
+   "when": [
+    "state STARTED; cond 3; isBusy"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32595-01.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32595-01.html",
+   "quest": 197,
+   "text": "Great Master Lawrence: Hello stranger, do you know who I am? Almost no one around here does these days. Perhaps I should spend less time reading, and more time restoring the value to my name. Well? Who are you?",
+   "header": "Great Master Lawrence",
+   "when": [
+    "state STARTED; cond 3; !isBusy"
+   ],
+   "links": [
+    {
+     "text": "\"Your student, Leopard, recommended I speak with you.\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32595-02.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32595-02.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32595-02.html"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32595-06.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32595-06.html",
+   "quest": 197,
+   "text": "Great Master Lawrence: I've lived a very long time, and I've seen a great many things... but nothing like that. The myth... perhaps it's true after all. Let's take another look at that prayer, shall we?",
+   "header": "Great Master Lawrence",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32595-07.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32595-07.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32595-07.html"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32595-10.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32595-10.html",
+   "quest": 197,
+   "text": "Great Master Lawrence: Remember: 1-6-6-7. Give that number to Sophia at the Library of Sages in Rune . Waste no more time! That monster you slew was only the beginning, unless I'm mistaken.",
+   "header": "Great Master Lawrence",
+   "when": [
+    "state STARTED; cond >=5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32595-02.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32595-02.html",
+   "quest": 197,
+   "text": "Great Master Lawrence: Leopard, eh? Smart as a whip, that one. Well, what have you got for me? Let's have a look...",
+   "header": "Great Master Lawrence",
+   "links": [
+    {
+     "text": "\"You may recognize this...\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32595-03.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32595-03.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32595-03.html"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32595-03.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32595-03.html",
+   "quest": 197,
+   "text": "Great Master Lawrence: Isn't this the Emperor's Key Prayer? What's to decipher here? What are you looking for?",
+   "header": "Great Master Lawrence",
+   "links": [
+    {
+     "text": "\"The Book of Seals, actually...\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32595-04.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32595-04.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32595-04.html"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32595-04.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32595-04.html",
+   "quest": 197,
+   "text": "Great Master Lawrence: What?! The Book of Seals?! A myth! Why do you waste my time with... w-what in the world is that?! We're going to die! Kill it, quickly!",
+   "header": "Great Master Lawrence",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32595-07.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32595-07.html",
+   "quest": 197,
+   "text": "Great Master Lawrence: Let me read the prayer quietly.. The Emperor's Key!! Hmm... Back then the emperor of Elmore-Aden started the holy war. A winged messenger of Einhasad appeared, turning the tides of battle... The 6 catacombs became graves to followers of darkness.. The 7 Necropolis turned to b…",
+   "header": "Great Master Lawrence",
+   "links": [
+    {
+     "text": "Please tell me as well.",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32595-08.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32595-08.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32595-08.html"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32595-08.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32595-08.html",
+   "quest": 197,
+   "text": "Great Master Lawrence: Betimes the most obvious things escape our notice the longest. See here: a number is called out in each of the first four lines. One emperor, three pairs of wings, six catacombs, seven Necropolises... 1-6-6-7 ! That's the answer! Heh... how about that? Not bad for an old man!",
+   "header": "Great Master Lawrence",
+   "links": [
+    {
+     "text": "\"But... where is the book?\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32595-09.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32595-09.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32595-09.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32595-09.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32595-09.html",
+   "quest": 197,
+   "text": "Great Master Lawrence: Sigh... don't you see? \"These are the records...\" Now, where are records kept? The library! Start with the Library of Sages in Rune --they have the oldest records collection in the kingdom. I believe Sophia is still the director there, and she has one of the most gifted minds…",
+   "header": "Great Master Lawrence",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, the Sacred Book of Seal (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00197_SevenSignsTheSacredBookOfSeal",
+     "kind": "quest",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32595-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

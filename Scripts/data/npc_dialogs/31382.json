@@ -1,0 +1,117 @@
+{
+ "npcId": 31382,
+ "name": "Shikon",
+ "title": "Trader",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.199Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31382-01.html",
+   "when": "switch(AllianceLevel) case -1,-2",
+   "src": "ai VarkaSilenosSupport"
+  },
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31382-02.html",
+   "when": "switch(AllianceLevel) case -3,-4",
+   "src": "ai VarkaSilenosSupport"
+  },
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31382-03.html",
+   "when": "switch(AllianceLevel) case -5",
+   "src": "ai VarkaSilenosSupport"
+  },
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31382-no.html",
+   "when": "switch(AllianceLevel) case default",
+   "src": "ai VarkaSilenosSupport"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/VarkaSilenosSupport/31382-01.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31382-01.html",
+   "quest": null,
+   "text": "Trader Shikon: Greetings, friend of the Varka! Are you surprised to learn that traders such as myself exist within my warrior race? Don't you realize that rivers carry the treasures of many lands as they find their way to the sea? What I can supply to you now is this low-level booty pouch! Someday,…",
+   "header": "Trader Shikon",
+   "when": [
+    "switch(AllianceLevel) case -1,-2"
+   ],
+   "links": [
+    {
+     "text": "\"I want to buy one of the Varka's specialty products.\"",
+     "bypass": "npc_%objectId%_multisell 313820001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/VarkaSilenosSupport/31382-02.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31382-02.html",
+   "quest": null,
+   "text": "Trader Shikon: Your reputation as a valiant warrior grows everyday, along with the joy in my heart! I now hope that before long, we'll be able to settle in the promised land! I've been ordered to supply a higher-level pouch to you, but unfortunately, I can't give you the strongest armor yet! Come b…",
+   "header": "Trader Shikon",
+   "when": [
+    "switch(AllianceLevel) case -3,-4"
+   ],
+   "links": [
+    {
+     "text": "\"I want to buy one of the Varka's specialty products.\"",
+     "bypass": "npc_%objectId%_multisell 313820002",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/VarkaSilenosSupport/31382-03.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31382-03.html",
+   "quest": null,
+   "text": "Trader Shikon: Excellent! I've never seen a fighter as strong as you! You're finally qualified to obtain the most valuable looted goods from our tribe! Now, open the box to reveal your path to the strongest armor! Bring me a Nepenthes Seed and I'll give you whatever you want! Care to give it a try?",
+   "header": "Trader Shikon",
+   "when": [
+    "switch(AllianceLevel) case -5"
+   ],
+   "links": [
+    {
+     "text": "\"I want to buy one of the Varka's specialty products.\"",
+     "bypass": "npc_%objectId%_multisell 313820003",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/VarkaSilenosSupport/31382-no.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31382-no.html",
+   "quest": null,
+   "text": "Trader Shikon: Return to your home, dear traveler of the west wind! Or, perhaps you'd like to become a friend of the Varka?",
+   "header": "Trader Shikon",
+   "when": [
+    "switch(AllianceLevel) case default"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

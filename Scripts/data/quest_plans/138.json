@@ -2,7 +2,7 @@
  "id": 138,
  "name": "Temple Champion - 2",
  "version": 1,
- "generated": "2026-10-27T11:15:12.901Z",
+ "generated": "2026-10-27T18:18:48.629Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 42,
@@ -31,10 +31,10 @@
   {
    "code": "area-danger",
    "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
-   "step": 13
+   "step": 4
   }
  ],
- "expectedMin": 12,
+ "expectedMin": 16,
  "refLevel": 42,
  "steps": [
   {
@@ -161,9 +161,9 @@
    "key": "c1:talk:30070",
    "cond": 1,
    "kind": "talk",
-   "to": "end",
+   "to": 2,
    "links": [
-    "\"Is the investigation under way?\""
+    "\"But?\""
    ],
    "npc": {
     "id": 30070,
@@ -276,125 +276,17 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7
+    1
    ]
   },
   {
    "i": 2,
-   "key": "c1:talk:30666",
-   "cond": 1,
+   "key": "c2:talk:30118",
+   "cond": 2,
    "kind": "talk",
-   "to": 7,
+   "to": 3,
    "links": [
-    "\"I understand. I will deliver your message to my superiors.\""
-   ],
-   "npc": {
-    "id": 30666,
-    "name": "Sla",
-    "title": "Preacher",
-    "town": "Floran",
-    "at": [
-     -671,
-     179051,
-     -3708
-    ],
-    "alt": []
-   },
-   "text": "Talk to Sla",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30666@-671,179051",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 1303,
-    "sec": 56,
-    "via": ".dion > Dion -> Plains of Dion",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "gk",
-      "from": "Dion",
-      "desc": "Dion -> Plains of Dion",
-      "link": "plains of dion",
-      "price": 1500,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 1303,
-      "how": "geodata",
-      "danger": 26
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Plains of Dion"
-    },
-    "simple": true,
-    "pv": [
-     [
-      630,
-      179184,
-      -3720
-     ],
-     [
-      -360,
-      179048,
-      -3704
-     ],
-     [
-      -664,
-      179048,
-      -3704
-     ]
-    ],
-    "maxDanger": 26,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 26,
-     "dangerVsLevel": -16,
-     "aggro": []
-    }
-   },
-   "expectedSec": 81,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6
-   ]
-  },
-  {
-   "i": 3,
-   "key": "c1:talk:30118",
-   "cond": 1,
-   "kind": "talk",
-   "to": 6,
-   "links": [
-    "\"Every race has its own rituals and customs. As an adventurer all too familiar with death, Angus' sorrow touched me, as did his desire to lay the trainee's soul to rest. What I did in no way helped Shilen, but it did give a measure of peace to the dead man's friends. I would hope they would do the same for me.\""
+    "\"I believe that Einhasad prefers mercy to blind obedience. I will certainly help if I can.\""
    ],
    "npc": {
     "id": 30118,
@@ -547,19 +439,13 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7
+    2
    ]
   },
   {
-   "i": 4,
-   "key": "c1:talk:30474",
-   "cond": 1,
+   "i": 3,
+   "key": "c3:talk:30474",
+   "cond": 3,
    "kind": "talk",
    "to": 4,
    "links": [
@@ -781,17 +667,11 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7
+    3
    ]
   },
   {
-   "i": 5,
+   "i": 4,
    "key": "c4:hunt",
    "cond": 4,
    "kind": "hunt",
@@ -1212,6 +1092,615 @@
    },
    "conds": [
     4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c4:talk:30474",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30474,
+    "name": "Angus",
+    "title": "Grand Master",
+    "town": "Giran",
+    "at": [
+     79059,
+     149457,
+     -3596
+    ],
+    "alt": []
+   },
+   "text": "Talk to Angus",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30474@79059,149457",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6416,
+    "sec": 73,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6416,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82792,
+      148664,
+      -3464
+     ],
+     [
+      82616,
+      148840,
+      -3464
+     ],
+     [
+      82600,
+      148856,
+      -3464
+     ],
+     [
+      82408,
+      149048,
+      -3464
+     ],
+     [
+      82200,
+      149208,
+      -3464
+     ],
+     [
+      81928,
+      149208,
+      -3464
+     ],
+     [
+      81656,
+      149208,
+      -3464
+     ],
+     [
+      81384,
+      149160,
+      -3464
+     ],
+     [
+      81192,
+      148984,
+      -3464
+     ],
+     [
+      81176,
+      148968,
+      -3464
+     ],
+     [
+      81096,
+      148856,
+      -3464
+     ],
+     [
+      80920,
+      148664,
+      -3464
+     ],
+     [
+      80696,
+      148616,
+      -3464
+     ],
+     [
+      80424,
+      148616,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80616,
+      148376,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80200,
+      148616,
+      -3528
+     ],
+     [
+      79928,
+      148616,
+      -3528
+     ],
+     [
+      79656,
+      148616,
+      -3528
+     ],
+     [
+      79384,
+      148616,
+      -3528
+     ],
+     [
+      79192,
+      148568,
+      -3528
+     ],
+     [
+      79064,
+      148616,
+      -3584
+     ],
+     [
+      79016,
+      148872,
+      -3592
+     ],
+     [
+      79016,
+      149016,
+      -3592
+     ],
+     [
+      78984,
+      149288,
+      -3592
+     ],
+     [
+      79064,
+      149464,
+      -3592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c5:talk:30118",
+   "cond": 5,
+   "kind": "talk",
+   "to": 6,
+   "links": [
+    "\"Every race has its own rituals and customs. As an adventurer all too familiar with death, Angus' sorrow touched me, as did his desire to lay the trainee's soul to rest. What I did in no way helped Shilen, but it did give a measure of peace to the dead man's friends. I would hope they would do the same for me.\""
+   ],
+   "npc": {
+    "id": 30118,
+    "name": "Pupina",
+    "title": "Priestess",
+    "town": "Giran",
+    "at": [
+     86485,
+     148384,
+     -3392
+    ],
+    "alt": []
+   },
+   "text": "Talk to Pupina",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30118@86485,148384",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 3733,
+    "sec": 51,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 3733,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148392,
+      -3400
+     ],
+     [
+      83592,
+      148216,
+      -3400
+     ],
+     [
+      83864,
+      148184,
+      -3392
+     ],
+     [
+      84136,
+      148216,
+      -3400
+     ],
+     [
+      84120,
+      148424,
+      -3400
+     ],
+     [
+      84184,
+      148600,
+      -3400
+     ],
+     [
+      84456,
+      148616,
+      -3400
+     ],
+     [
+      84728,
+      148616,
+      -3400
+     ],
+     [
+      85000,
+      148616,
+      -3400
+     ],
+     [
+      85160,
+      148616,
+      -3400
+     ],
+     [
+      85304,
+      148616,
+      -3400
+     ],
+     [
+      85576,
+      148616,
+      -3400
+     ],
+     [
+      85848,
+      148616,
+      -3400
+     ],
+     [
+      86120,
+      148616,
+      -3400
+     ],
+     [
+      86392,
+      148568,
+      -3400
+     ],
+     [
+      86488,
+      148392,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c6:talk:30666",
+   "cond": 6,
+   "kind": "talk",
+   "to": 7,
+   "links": [
+    "\"I understand. I will deliver your message to my superiors.\""
+   ],
+   "npc": {
+    "id": 30666,
+    "name": "Sla",
+    "title": "Preacher",
+    "town": "Floran",
+    "at": [
+     -671,
+     179051,
+     -3708
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sla",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30666@-671,179051",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1303,
+    "sec": 56,
+    "via": ".dion > Dion -> Plains of Dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Plains of Dion",
+      "link": "plains of dion",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1303,
+      "how": "geodata",
+      "danger": 26
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      630,
+      179184,
+      -3720
+     ],
+     [
+      -360,
+      179048,
+      -3704
+     ],
+     [
+      -664,
+      179048,
+      -3704
+     ]
+    ],
+    "maxDanger": 26,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 26,
+     "dangerVsLevel": -16,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c7:talk:30070",
+   "cond": 7,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Is the investigation under way?\""
+   ],
+   "npc": {
+    "id": 30070,
+    "name": "Sylvain",
+    "title": "High Priest",
+    "town": "Dion",
+    "at": [
+     15795,
+     142347,
+     -2680
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sylvain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30070@15795,142347",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1484,
+    "sec": 32,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 1484,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      15896,
+      142344,
+      -2688
+     ],
+     [
+      15800,
+      142344,
+      -2680
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 57,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
    ]
   }
  ],

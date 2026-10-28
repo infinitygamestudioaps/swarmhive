@@ -1,0 +1,44 @@
+{
+ "npcId": 30921,
+ "name": "Timos",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.112Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30921.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30921.htm": {
+   "file": "guard/30921.htm",
+   "quest": null,
+   "text": "Guard Timos: Have you ever seen a ship approaching the dock? Isn't that a sight to behold? Just think of the distant ports it has visited! Wharf Manager Nedi could tell you more about ocean travel.",
+   "header": "Guard Timos",
+   "links": [
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

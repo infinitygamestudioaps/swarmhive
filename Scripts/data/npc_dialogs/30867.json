@@ -1,0 +1,361 @@
+{
+ "npcId": 30867,
+ "name": "Reva",
+ "title": "Seer",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.098Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30867.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "371": {
+   "name": "Shrieks of Ghosts",
+   "listText": [
+    "[Shrieks of Ghosts]",
+    "[Shrieks of Ghosts]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00371_ShrieksOfGhosts/30867-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00371_ShrieksOfGhosts/30867-04.html",
+     "when": "state STARTED; (hasQuestItems(player, ANCIENT_PORCELAIN))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00371_ShrieksOfGhosts/30867-10.html",
+     "when": "state STARTED; NOT (hasQuestItems(player, ANCIENT_PORCELAIN))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30867.htm": {
+   "file": "trainer/30867.htm",
+   "quest": null,
+   "text": "Seer Reva: I was sent here to Aden, the capital of Human kingdom, to make known the will of Pa'agrio. Our Elders have sensed the approach of an endless winter that will cover all the races of this land. Only through our combined strength can we defeat the forces of darkness. When that day comes, we…",
+   "header": "Seer Reva",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30867-noteach.htm": {
+   "file": "trainer/30867-noteach.htm",
+   "quest": null,
+   "text": "Seer Reva: Do you wish to fight bravely at the front against the approaching winter? You enthusiasm is commendable but I have nothing for you. Pa'agrio must have a plan for you elsewhere. Seek a place to make your last stand!",
+   "header": "Seer Reva",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00371_ShrieksOfGhosts/30867-01.htm": {
+   "file": "Q00371_ShrieksOfGhosts/30867-01.htm",
+   "quest": 371,
+   "text": "Seer Reva: Behold... countless ghosts encircle the Tower of Insolence! Just listen to their horrible screams! Do you feel their incredible rage? The sword of a devil shall pierce the heart of an angel, and the bright red blood of the last emperor will run through the streets! Dawn and dusk will bec…",
+   "header": "Seer Reva",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I will brave the tower.\"",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30867-02.htm",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30867-02.htm",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00371_ShrieksOfGhosts/30867-04.html": {
+   "file": "Q00371_ShrieksOfGhosts/30867-04.html",
+   "quest": 371,
+   "text": "Seer Reva: Congratulations on your safe return, young soldier! Word has come that the tower has become a chaotic entanglement of angels and demons. I trust that you have recovered many of the Ancient Ash Urns from Hallate's warriors, knights and commanders! The Ancient Porcelain you brought doesn't…",
+   "header": "Seer Reva",
+   "when": [
+    "state STARTED; (hasQuestItems(player, ANCIENT_PORCELAIN))"
+   ],
+   "links": [
+    {
+     "text": "Hand over the Ancient Ash Urns.",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30867-05.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30867-05.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-05.html",
+     "toAll": [
+      "Q00371_ShrieksOfGhosts/30867-05.html",
+      "Q00371_ShrieksOfGhosts/30867-06.html",
+      "Q00371_ShrieksOfGhosts/30867-07.html"
+     ]
+    },
+    {
+     "text": "Settle the account later.",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30867-08.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30867-08.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-08.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30867-09.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30867-09.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-09.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00371_ShrieksOfGhosts/30867-10.html": {
+   "file": "Q00371_ShrieksOfGhosts/30867-10.html",
+   "quest": 371,
+   "text": "Seer Reva: Congratulations on your safe return, young soldier! Word has come that the tower has become a chaotic entanglement of angels and demons. Have you vanquished Hallate's warriors, Hallate's knights and Hallate's commanders and recovered the Ancient Ash Urns ?",
+   "header": "Seer Reva",
+   "when": [
+    "state STARTED; NOT (hasQuestItems(player, ANCIENT_PORCELAIN))"
+   ],
+   "links": [
+    {
+     "text": "Hand over the Ancient Ash Urns.",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30867-05.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30867-05.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-05.html",
+     "toAll": [
+      "Q00371_ShrieksOfGhosts/30867-05.html",
+      "Q00371_ShrieksOfGhosts/30867-06.html",
+      "Q00371_ShrieksOfGhosts/30867-07.html"
+     ]
+    },
+    {
+     "text": "Settle the account later.",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30867-08.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30867-08.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-08.html"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30867-09.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30867-09.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-09.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00371_ShrieksOfGhosts/30867-02.htm": {
+   "file": "Q00371_ShrieksOfGhosts/30867-02.htm",
+   "quest": 371,
+   "text": "Seer Reva: Humans so easily ignore the fact that the Tower of Insolence is like a gigantic tomb, erected at the expense of countless lives! To conceal the secret of the tower, the despot Baium executed thousands of slaves and buried them there. Their vengeful spirits haunt the tower to this day. Hu…",
+   "header": "Seer Reva",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00371_ShrieksOfGhosts/30867-03.html": {
+   "file": "Q00371_ShrieksOfGhosts/30867-03.html",
+   "quest": 371,
+   "text": "Seer Reva: Behold... countless ghosts encircle the Tower of Insolence! Just listen to their horrible screams! Do you feel their incredible rage? The sword of a devil shall pierce the heart of an angel, and the bright red blood of the last emperor will run through the streets! Dawn and dusk will bec…",
+   "header": "Seer Reva",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00371_ShrieksOfGhosts/30867-05.html": {
+   "file": "Q00371_ShrieksOfGhosts/30867-05.html",
+   "quest": 371,
+   "text": "Seer Reva: How rude! You come here empty-handed and have the gall to demand a prize? Hurry to the Tower of Insolence and find the Ancient Ash Urns! The souls of the undead warriors cry out for rest! Don't waste any more time!",
+   "header": "Seer Reva",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00371_ShrieksOfGhosts/30867-06.html": {
+   "file": "Q00371_ShrieksOfGhosts/30867-06.html",
+   "quest": 371,
+   "text": "Seer Reva: These are remains of the dead, trampled by a despot... I can feel their bitterness, even after one thousand years! Listen to me, young soldier! I, Reva, will grant you a prize for your hard work! Take it!",
+   "header": "Seer Reva",
+   "links": [
+    {
+     "text": "Continue the mission.",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30867-08.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30867-08.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-08.html"
+    },
+    {
+     "text": "Quit the mission.",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30867-09.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30867-09.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-09.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00371_ShrieksOfGhosts/30867-07.html": {
+   "file": "Q00371_ShrieksOfGhosts/30867-07.html",
+   "quest": 371,
+   "text": "Seer Reva: These are remains of the dead, trampled by a despot... I can feel their bitterness, even after one thousand years! You have brought over 100 ash urns at once! What a magnificent accomplishment! As I promised, I will grant you a special prize ! Take it!",
+   "header": "Seer Reva",
+   "links": [
+    {
+     "text": "Continue the mission.",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30867-08.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30867-08.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-08.html"
+    },
+    {
+     "text": "Quit the mission.",
+     "bypass": "Quest Q00371_ShrieksOfGhosts 30867-09.html",
+     "kind": "quest-event",
+     "script": "Q00371_ShrieksOfGhosts",
+     "event": "30867-09.html",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-09.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00371_ShrieksOfGhosts/30867-08.html": {
+   "file": "Q00371_ShrieksOfGhosts/30867-08.html",
+   "quest": 371,
+   "text": "Seer Reva: Failure in this mission would prove catastrophic to us! Don't underestimate its importance! This is your duty! Do it!",
+   "header": "Seer Reva",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00371_ShrieksOfGhosts/30867-09.html": {
+   "file": "Q00371_ShrieksOfGhosts/30867-09.html",
+   "quest": 371,
+   "text": "Seer Reva: Would you ignore the desperate cries of the dead? If you are so callous, I won't stop you! You must be aware that the failure of this mission will bring a terrible and irreversible disaster upon us. But if you've made up your mind, so be it! Your help is appreciated. Tejakar Oroka!",
+   "header": "Seer Reva",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Shrieks of Ghosts]",
+     "bypass": "npc_%objectId%_Quest Q00371_ShrieksOfGhosts",
+     "kind": "quest",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Shrieks of Ghosts]",
+     "bypass": "npc_%objectId%_Quest Q00371_ShrieksOfGhosts",
+     "kind": "quest",
+     "quest": 371,
+     "to": "Q00371_ShrieksOfGhosts/30867-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

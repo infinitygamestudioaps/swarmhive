@@ -1,0 +1,218 @@
+{
+ "npcId": 31610,
+ "name": "Shiken Gloomdrake",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.243Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00097_SagaOfTheShillienTemplar/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 97"
+  },
+  {
+   "page": "Q00097_SagaOfTheShillienTemplar/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 97"
+  },
+  {
+   "page": "Q00097_SagaOfTheShillienTemplar/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 97"
+  },
+  {
+   "page": "Q00097_SagaOfTheShillienTemplar/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 97"
+  },
+  {
+   "page": "Q00097_SagaOfTheShillienTemplar/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 97"
+  },
+  {
+   "page": "Q00097_SagaOfTheShillienTemplar/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 97"
+  },
+  {
+   "page": "Q00097_SagaOfTheShillienTemplar/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 97"
+  },
+  {
+   "page": "Q00097_SagaOfTheShillienTemplar/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 97"
+  }
+ ],
+ "quests": {
+  "97": {
+   "name": "Saga of the Shillien Templar",
+   "listText": [
+    "[Saga of the Shillien Templar]",
+    "[Saga of the Shillien Templar (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00097_SagaOfTheShillienTemplar/4-04.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/4-04.htm",
+   "quest": 97,
+   "text": "Shiken Gloomdrake: Go dig your grave if you want a rest. Now it's time to fight!",
+   "header": "Shiken Gloomdrake",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/4-06.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/4-06.htm",
+   "quest": 97,
+   "text": "Shiken Gloomdrake: Who would bestow the title of Shillien Knight on someone so careless? Letting an assassin get so close! You couldn't beat a golem without my help. Galadrid would be upset.",
+   "header": "Shiken Gloomdrake",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Are you trying to pick a fight?\"",
+     "bypass": "Quest Q00097_SagaOfTheShillienTemplar 4-1",
+     "kind": "quest-event",
+     "script": "Q00097_SagaOfTheShillienTemplar",
+     "event": "4-1",
+     "quest": 97,
+     "to": "Q00097_SagaOfTheShillienTemplar/4-010.htm"
+    }
+   ]
+  },
+  "Q00097_SagaOfTheShillienTemplar/4-01.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/4-01.htm",
+   "quest": 97,
+   "text": "Shiken Gloomdrake: That wretch is aiming for you! Don't just stand there, fight!",
+   "header": "Shiken Gloomdrake",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/4-03.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/4-03.htm",
+   "quest": 97,
+   "text": "Shiken Gloomdrake: You're not strong enough to fight me, so stand back. Normally assassins don't run so easily. Don't worry, you'll get your turn.",
+   "header": "Shiken Gloomdrake",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/4-05.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/4-05.htm",
+   "quest": 97,
+   "text": "Shiken Gloomdrake: Scram! This is my fight, not yours.",
+   "header": "Shiken Gloomdrake",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/4-07.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/4-07.htm",
+   "quest": 97,
+   "text": "Shiken Gloomdrake: A blind girl falls in love with a silly wizard and flees, and what's more, there's a clumsy assassin and a Shillien Knight who doesn't know his mission! Who needs a comedy club!",
+   "header": "Shiken Gloomdrake",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"What's that you have there?\"",
+     "bypass": "Quest Q00097_SagaOfTheShillienTemplar 4-2",
+     "kind": "quest-event",
+     "script": "Q00097_SagaOfTheShillienTemplar",
+     "event": "4-2",
+     "quest": 97,
+     "to": "Q00097_SagaOfTheShillienTemplar/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00097_SagaOfTheShillienTemplar/4-02.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/4-02.htm",
+   "quest": 97,
+   "text": "Shiken Gloomdrake: This isn't your fight! Stand back!",
+   "header": "Shiken Gloomdrake",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/4-08.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/4-08.htm",
+   "quest": 97,
+   "text": "Shiken Gloomdrake: Shame, shame. They call you an assassin? Hey you, commune with the tablet already!",
+   "header": "Shiken Gloomdrake",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/4-010.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/4-010.htm",
+   "quest": 97,
+   "text": "Shiken Gloomdrake: This is the Stone of Commune you came all this way for. I'll give you a free tip. Don't rely on Galadrid too much, but don't fear him either. A Shillien Knight should know what to do. Maybe we'll meet again. Such a baby.",
+   "header": "Shiken Gloomdrake",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00097_SagaOfTheShillienTemplar 4-3",
+     "kind": "quest-event",
+     "script": "Q00097_SagaOfTheShillienTemplar",
+     "event": "4-3",
+     "quest": 97,
+     "to": null
+    }
+   ]
+  },
+  "Q00097_SagaOfTheShillienTemplar/4-011.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/4-011.htm",
+   "quest": 97,
+   "text": "Shikken Gloomdrake: Nothing is worse than forgetting your special purpose. Take the Stone of Commune, you've come this far for it.",
+   "header": "Shikken Gloomdrake",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/4-09.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/4-09.htm",
+   "quest": 97,
+   "text": "Shiken Gloomdrake: What do you think the Stone of Commune is for? The Tablet of Vision that's right under your nose! Get it?",
+   "header": "Shiken Gloomdrake",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Shillien Templar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00097_SagaOfTheShillienTemplar",
+     "kind": "quest",
+     "quest": 97,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

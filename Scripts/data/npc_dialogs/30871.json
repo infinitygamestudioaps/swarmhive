@@ -1,0 +1,64 @@
+{
+ "npcId": 30871,
+ "name": "Bret",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.099Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30871.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30871.htm": {
+   "file": "guard/30871.htm",
+   "quest": null,
+   "text": "Guard Bret: Having the border so close to the capital city makes me very nervous. Things have quited down now, but if Elmore were tp attack I fear that the border guards would not be able to resist at all. There was talk for a while of opening the border entirely, but now they seem to be on a highe…",
+   "header": "Guard Bret",
+   "links": [
+    {
+     "text": "\"What is on the other side of the border?\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30871-1.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30871-1.htm": {
+   "file": "guard/30871-1.htm",
+   "quest": null,
+   "text": "Guard Bret: Nothing more than the Goddard territory of Elmore. There's a settlement I know there called Goddard Village, extremely impoverished since the war. While his citizens starve Elmore still plans another attack upon Aden. He has raised huge offensive castles! I pity the people that live the…",
+   "header": "Guard Bret",
+   "links": [
+    {
+     "text": "Go back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30871.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

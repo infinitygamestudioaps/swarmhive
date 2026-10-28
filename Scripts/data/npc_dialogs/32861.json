@@ -1,0 +1,336 @@
+{
+ "npcId": 32861,
+ "name": "Sophia",
+ "title": "Library Director of Saints",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.417Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "10293": {
+   "name": "Seven Signs, Forbidden Book of the Elmore-Aden Kingdom",
+   "listText": [
+    "[Seven Signs, Forbidden Book of the Elmore-Aden Kingdom]",
+    "[Seven Signs, Forbidden Book of the Elmore-Aden Kingdom (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-01.html",
+     "when": "cond 1",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-05.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-06.html",
+     "when": "cond 3",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-09.html",
+     "when": "cond 4",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-10.html",
+     "when": "cond 5",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-12.html",
+     "when": "cond 6|7",
+     "state": null,
+     "cond": [
+      6,
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-14.html",
+     "when": "cond 8",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-01.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-01.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia, Sophia: What is it that you wanted to ask me?",
+   "header": "Library of Sages Director Sophia, Sophia",
+   "when": [
+    "cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"I have a question about the word \"Embryo\".\"",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32861-02.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32861-02.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-02.html"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-05.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-05.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia: Yes. I will think about it some more as well. I think it will help if there's a keyword hint for the book.",
+   "header": "Library of Sages Director Sophia",
+   "when": [
+    "cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-06.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-06.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia: Saintess Solina? Yes, my memories about Solina from the book must be correct. Elmore-Aden's Saintess Solina's Biography. It was forbidden, so it was a very rare book to find. But if this is the right book, there's a small problem.",
+   "header": "Library of Sages Director Sophia",
+   "when": [
+    "cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"What problem?\"",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32861-07.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32861-07.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-07.html"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-09.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-09.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia, Sophia: Unfortunately, outsiders cannot enter the underground library. I don't have a good feeling about this. I'm sorry, but you should go back.",
+   "header": "Library of Sages Director Sophia, Sophia",
+   "when": [
+    "cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-10.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-10.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia: You haven't returned yet? As I've told you, only people with permission may enter the underground library.",
+   "header": "Library of Sages Director Sophia",
+   "when": [
+    "cond 5"
+   ],
+   "links": [
+    {
+     "text": "Say the password.",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32861-11.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32861-11.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-11.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-12.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-12.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia, Sophia: Are you ready to enter the underground library? I will take you right there.",
+   "header": "Library of Sages Director Sophia, Sophia",
+   "when": [
+    "cond 6|7"
+   ],
+   "links": [
+    {
+     "text": "Enter.",
+     "bypass": "Quest LibraryOfSages TELEPORT2",
+     "kind": "quest-event",
+     "script": "LibraryOfSages",
+     "event": "TELEPORT2"
+    },
+    {
+     "text": "\"I'm not ready yet.\"",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32861-13.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32861-13.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-13.html"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-14.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-14.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia, Sophia: I think you're done here. I've done what I could to help you. I wish you best of luck.",
+   "header": "Library of Sages Director Sophia, Sophia",
+   "when": [
+    "cond 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-02.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-02.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia: Embryo? Hm.. I've heard of it, but I know little about it. Can I ask why you're looking for it?",
+   "header": "Library of Sages Director Sophia",
+   "links": [
+    {
+     "text": "\"I'm looking for a book about Embryo.\"",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32861-03.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32861-03.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-03.html"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-03.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-03.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia, Sophia: Hmm.. It's probably not in an obvious place.. I remember everything clearly... You seem to need that text, hmm? Wait..is that a book from the Elmore-Aden times? I remember seeing an old book about that. What else do you know about the book?",
+   "header": "Library of Sages Director Sophia, Sophia",
+   "links": [
+    {
+     "text": "\"Nothing yet. Let me look around.\"",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32861-04.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32861-04.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-04.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-04.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-04.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia: Yes. I will think about it some more. I think it will help if there's a keyword hint for the book.",
+   "header": "Library of Sages Director Sophia",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-07.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-07.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia, Sophia: There are some books marked forbidden in the past, but they're now free to view. Many of them are nothing more than archives. Same with this Solina's Biography. Books like this are not open to the public, so are stored in the underground library.",
+   "header": "Library of Sages Director Sophia, Sophia",
+   "links": [
+    {
+     "text": "\"I want to go there.\"",
+     "bypass": "Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom 32861-08.html",
+     "kind": "quest-event",
+     "script": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "event": "32861-08.html",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-08.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-08.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-08.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia, Sophia: Unfortunately, outsiders cannot enter the underground library. I don't have a good feeling about this. I'm sorry, but you should go back.",
+   "header": "Library of Sages Director Sophia, Sophia",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-11.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-11.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia, Sophia: Hmm...if you know the password already....okay. If it's his will, that's good enough reason for me to help you. Please just let me know when you're ready.",
+   "header": "Library of Sages Director Sophia, Sophia",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-13.html": {
+   "file": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-13.html",
+   "quest": 10293,
+   "text": "Library of Sages Director Sophia, Sophia: Let me know when you're ready.",
+   "header": "Library of Sages Director Sophia, Sophia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Forbidden Book of the Elmore-Aden Kingdom (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+     "kind": "quest",
+     "quest": 10293,
+     "to": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom/32861-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

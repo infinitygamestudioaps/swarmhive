@@ -1,0 +1,133 @@
+{
+ "npcId": 32327,
+ "name": "Adventurers' Guide",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.370Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Teleports/NewbieGuide/32327.htm",
+   "when": "qs != null",
+   "src": "ai NewbieGuide"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/Teleports/NewbieGuide/32327.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/32327.htm",
+   "quest": null,
+   "text": "Adventurers' Guide: Are you weary from your long journey? Perhaps I can help strengthen you in your never-ending battle against the forces of evil. Even now, the monster attacks on this village grow stronger each day; it is only due to your tireless efforts that we have remained safe this long.",
+   "header": "Adventurers' Guide",
+   "when": [
+    "qs != null"
+   ],
+   "links": [
+    {
+     "text": "Check the list of available supplemental magic.",
+     "bypass": "Quest NewbieGuide buffs-player.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "buffs-player.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/buffs-player.htm",
+     "live": true
+    },
+    {
+     "text": "Check the list of supplement magic available for servitors.",
+     "bypass": "Quest NewbieGuide buffs-pet.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "buffs-pet.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/buffs-pet.htm",
+     "live": true
+    },
+    {
+     "text": "Receive Blessing of Protection.",
+     "bypass": "Quest NewbieGuide pk-protection-001.htm",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "pk-protection-001.htm",
+     "to": "ai/npc/Teleports/NewbieGuide/pk-protection-001.htm"
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/buffs-player.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/buffs-player.htm",
+   "quest": null,
+   "text": "You are eligible to receive the following supplemental magic: Levels 6-75: Wind Walk Levels 6-75: Shield Levels 6-75: Magic Barrier Levels 6-75: Bless the Body (Fighter), Bless the Soul (Wizard) Levels 6-75: Vampiric Rage (Fighter), Acumen (Wizard) Levels 6-75: Regeneration (Fighter), Concentration…",
+   "header": "You are eligible to receive the following supplemental magic",
+   "live": {
+    "file": "Logs/dialog.log"
+   },
+   "links": [
+    {
+     "text": "Receive supplemental magic.",
+     "bypass": "Quest NewbieGuide -7;2",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "-7;2",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/buffs-pet.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/buffs-pet.htm",
+   "quest": null,
+   "text": "Your servitor is eligible to receive the supplemental magic listed below. These spells do not benefit pets. Eligibility is determined by the master's level. Levels 6-75: Wind Walk, Shield, Magic Barrier, Bless the Body, Bless the Soul, Vampiric Rage, Acumen, Regeneration, Concentration, Haste (incr…",
+   "live": {
+    "file": "Logs/dialog.log"
+   },
+   "links": [
+    {
+     "text": "Receive supplemental magic for servitor.",
+     "bypass": "Quest NewbieGuide -7;4",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "-7;4",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Teleports/NewbieGuide/pk-protection-001.htm": {
+   "file": "ai/npc/Teleports/NewbieGuide/pk-protection-001.htm",
+   "quest": null,
+   "text": "Newbie Guide: The Blessing of Protection is available to characters under level 39 who have not completed their second class transfer. Protected by its power, you cannot receive damage from (or inflict damage to) chaotic characters who are 10+ levels above you. It will not protect you on the battle…",
+   "header": "Newbie Guide",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest NewbieGuide -7;3",
+     "kind": "quest-event",
+     "script": "NewbieGuide",
+     "event": "-7;3",
+     "to": null
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Check the list of available supplemental magic.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Adventurers' Guide:Are you weary from your long journey?Perh"
+   ],
+   "to": [
+    "You are eligible to receive the following supplemental magic"
+   ]
+  },
+  {
+   "text": "Check the list of supplement magic available for servitors.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Adventurers' Guide:Are you weary from your long journey?Perh"
+   ],
+   "to": [
+    "Your servitor is eligible to receive the supplemental magic "
+   ]
+  }
+ ]
+}

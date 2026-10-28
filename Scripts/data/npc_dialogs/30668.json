@@ -1,0 +1,219 @@
+{
+ "npcId": 30668,
+ "name": "Katari",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.029Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30668.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "227": {
+   "name": "Test Of The Reformer",
+   "listText": [
+    "[Test of the Reformer]",
+    "[Test of the Reformer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00227_TestOfTheReformer/30668-01.html",
+     "when": "state STARTED; memo 5|6; ((memoState == 5) || (memoState == 6))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30668-02.html",
+     "when": "state STARTED; memo 7|8; !((memoState == 5) || (memoState == 6)); ((memoState == 7) || (memoState == 8))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30668-03.html",
+     "when": "state STARTED; memo 9; has items 2833; !((memoState == 5) || (memoState == 6)); !((memoState == 7) || (memoState == 8))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30668-04.html",
+     "when": "state STARTED; !((memoState == 5) || (memoState == 6)); !((memoState == 7) || (memoState == 8)); memoState >= 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "422": {
+   "name": "Repent Your Sins",
+   "listText": [
+    "[Repent Your Sins]",
+    "[Repent Your Sins (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00422_RepentYourSins/30668-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00422_RepentYourSins/30668-02.html",
+     "when": "state STARTED; memo 5; getQuestItemsCount(player, RATMAN_SCAVENGERS_SKULL) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00422_RepentYourSins/30668-03.html",
+     "when": "state STARTED; memo 5; !getQuestItemsCount(player, RATMAN_SCAVENGERS_SKULL) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00422_RepentYourSins/30668-04.html",
+     "when": "state STARTED; memo 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30668.htm": {
+   "file": "default/30668.htm",
+   "quest": null,
+   "text": "Katari: I am Katari, a person who aspires to deliver Einhasad's will to Ol Mahums. At first, I was nearly beaten to death... But now, there are some who are listening to my words... Ha ha, shall we say that hope is finally within sight... ?",
+   "header": "Katari",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00227_TestOfTheReformer/30668-01.html": {
+   "file": "Q00227_TestOfTheReformer/30668-01.html",
+   "quest": 227,
+   "text": "Katari: The master sent you? Your timing could not have been better, my friend. Look here... This was the secret meeting place of the converted Ol Mahums until they were discovered by mercenary scouts this evening. We need an unknown stranger such as yourself to chase them off!",
+   "header": "Katari",
+   "when": [
+    "state STARTED; memo 5|6; ((memoState == 5) || (memoState == 6))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30668-02.html": {
+   "file": "Q00227_TestOfTheReformer/30668-02.html",
+   "quest": 227,
+   "text": "Katari: Thank you! Now we can finally get some peace and quiet... I understand that there was a traitor among the Ol Mahums...who is it? I am concerned about the other Ol Mahums. I must see to their safety. Please capture that betrayer! Please!",
+   "header": "Katari",
+   "when": [
+    "state STARTED; memo 7|8; !((memoState == 5) || (memoState == 6)); ((memoState == 7) || (memoState == 8))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30668-03.html": {
+   "file": "Q00227_TestOfTheReformer/30668-03.html",
+   "quest": 227,
+   "text": "Katari: A traitor among us! How could I have been so blind? How do I know that our other meeting places weren't compromised? While I don't yet know the identity of the betrayer, I can guess what he is thinking... Please take this letter to my master. He will have a task for you. Goodbye...",
+   "header": "Katari",
+   "when": [
+    "state STARTED; memo 9; has items 2833; !((memoState == 5) || (memoState == 6)); !((memoState == 7) || (memoState == 8))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30668-04.html": {
+   "file": "Q00227_TestOfTheReformer/30668-04.html",
+   "quest": 227,
+   "text": "Katari: Take this letter to the master and await his orders. Goodbye for now...",
+   "header": "Katari",
+   "when": [
+    "state STARTED; !((memoState == 5) || (memoState == 6)); !((memoState == 7) || (memoState == 8)); memoState >= 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30668-01.html": {
+   "file": "Q00422_RepentYourSins/30668-01.html",
+   "quest": 422,
+   "text": "Katari: At last! You have come for me! Oh, pardon me... I had a very vivid dream last night, and I've been waiting for someone like you to come for me. Just in case you were the one in my dreams, I wanted you to know. Well... then, I may as well ask you. I and some religious Ol Mahums are being thr…",
+   "header": "Katari",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30668-02.html": {
+   "file": "Q00422_RepentYourSins/30668-02.html",
+   "quest": 422,
+   "text": "Katari: If I had my way, I would kill every last one of them. But even the most wicked have the chance of redemption. Perhaps one day they will come to the god of light... Anyway, now we must spill some blood. Go to the Neutral Zone and hunt scavenger wererats . Bring back 10 of their skulls.",
+   "header": "Katari",
+   "when": [
+    "state STARTED; memo 5; getQuestItemsCount(player, RATMAN_SCAVENGERS_SKULL) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30668-03.html": {
+   "file": "Q00422_RepentYourSins/30668-03.html",
+   "quest": 422,
+   "text": "Katari: That should teach them a lesson. I was dreading having to send the Ol Mahums to do the killing, I hate to get them started. And then, from the mist, you appeared. My savior! And you gave them what for, didn't you! Einhasad is truly watching over me. Thank you, my friend... I wish you all th…",
+   "header": "Katari",
+   "when": [
+    "state STARTED; memo 5; !getQuestItemsCount(player, RATMAN_SCAVENGERS_SKULL) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00422_RepentYourSins/30668-04.html": {
+   "file": "Q00422_RepentYourSins/30668-04.html",
+   "quest": 422,
+   "text": "Katari: Why are you still here? Would you like to become a missionary? You taught those filthy scavenger wererats some respect for the blade, didn't you? We don't need your help right now, but I do hope you will drop in from time to time. I would like for you to meet some of our Ol Mahum believers.",
+   "header": "Katari",
+   "when": [
+    "state STARTED; memo 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Reformer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00227_TestOfTheReformer",
+     "kind": "quest",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30668-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Repent Your Sins (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00422_RepentYourSins",
+     "kind": "quest",
+     "quest": 422,
+     "to": "Q00422_RepentYourSins/30668-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

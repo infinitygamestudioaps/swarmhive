@@ -1,0 +1,300 @@
+{
+ "npcId": 30368,
+ "name": "Lilith",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.957Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30368.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "156": {
+   "name": "Millennium Love",
+   "listText": [
+    "[Millennium Love]",
+    "[Millennium Love (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00156_MillenniumLove/30368-01.htm",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00156_MillenniumLove/30368-06.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00156_MillenniumLove/30368-07.html",
+     "when": "state STARTED; cond 2; !(st.isCond(1) && st.hasQuestItems(LILITHS_LETTER))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30368-01.html",
+     "when": "state STARTED; has items 3239,3428; lacks items 3244",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30368-04.html",
+     "when": "state STARTED; has items 3239; !(hasQuestItems(player, CRYSTAL_BROOCH) && !hasQuestItems(player, LILITHS_ELVEN_WAFER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30368-05.html",
+     "when": "state STARTED; has items 3240; lacks items 3239",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30368.htm": {
+   "file": "default/30368.htm",
+   "quest": null,
+   "text": "Lilith: By chance, do you have a lover? If you do, then send a letter filled with your love right now. It is no use regretting something when time has passed. When I search my memory, I can see him clearly... A long time -- so long that Humans cannot even imagine -- has passed. But still, I am happ…",
+   "header": "Lilith",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00156_MillenniumLove/30368-01.htm": {
+   "file": "Q00156_MillenniumLove/30368-01.htm",
+   "quest": 156,
+   "text": "Lilith: It has been over a hundred years since I came to this island. That is not a long time for us Elves, who live nearly eternal lives, but it is a long time for Humans. And it's been enough time for me to become fond of this island. This place is now home to me, but I sometimes think of the mem…",
+   "header": "Lilith",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "Ask about her lover",
+     "bypass": "Quest Q00156_MillenniumLove 30368-02.html",
+     "kind": "quest-event",
+     "script": "Q00156_MillenniumLove",
+     "event": "30368-02.html",
+     "quest": 156,
+     "to": "Q00156_MillenniumLove/30368-02.html"
+    }
+   ]
+  },
+  "Q00156_MillenniumLove/30368-06.html": {
+   "file": "Q00156_MillenniumLove/30368-06.html",
+   "quest": 156,
+   "text": "Lilith: I see that you have not left the island yet. But there is no need to hurry. For us Elves, \"waiting\" may mean tens, even hundreds of years. When you go to Gludio, please stop by the harbor village called Gludin and ask the whereabouts of an Elven warrior named Theon. Please!",
+   "header": "Lilith",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00156_MillenniumLove/30368-07.html": {
+   "file": "Q00156_MillenniumLove/30368-07.html",
+   "quest": 156,
+   "text": "Lilith: I see ... Theon ... has gone back already to the arms of Eva. It's not that I did not think of such a thing ... but it is all right. There is no need to comfort me. I had hoped to see his face just once ... I just wanted to go near him and quietly call out his name ... Fate is such a cruel …",
+   "header": "Lilith",
+   "when": [
+    "state STARTED; cond 2; !(st.isCond(1) && st.hasQuestItems(LILITHS_LETTER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30368-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30368-01.html",
+   "quest": 221,
+   "text": "Lilith: What is a Dwarf doing on this remote island? You have come to see me? The Mark of Health ? News has recently come of the death of my lover, for whom I have waited these thousand years...Do you feel my grief?... How could you bother me with something as trivial as a mark? Are all Dwarves lik…",
+   "header": "Lilith",
+   "when": [
+    "state STARTED; has items 3239,3428; lacks items 3244"
+   ],
+   "links": [
+    {
+     "text": "Give the brooch as a present",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30368-02.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30368-02.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30368-02.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30368-04.html": {
+   "file": "Q00221_TestimonyOfProsperity/30368-04.html",
+   "quest": 221,
+   "text": "Lilith: I already gave you an Elven Wafer , why are you here again? I have nothing further to discuss with you.",
+   "header": "Lilith",
+   "when": [
+    "state STARTED; has items 3239; !(hasQuestItems(player, CRYSTAL_BROOCH) && !hasQuestItems(player, LILITHS_ELVEN_WAFER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30368-05.html": {
+   "file": "Q00221_TestimonyOfProsperity/30368-05.html",
+   "quest": 221,
+   "text": "Lilith: I have nothing to discuss with you. Leave!",
+   "header": "Lilith",
+   "when": [
+    "state STARTED; has items 3240; lacks items 3239"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00156_MillenniumLove/30368-02.html": {
+   "file": "Q00156_MillenniumLove/30368-02.html",
+   "quest": 156,
+   "text": "Lilith: Long ago I was a high level Spellsinger, and my lover Theon was the best of the Temple Knights. One year in late fall, we began our love for each other, and while the buds on the trees grew and withered, then fell, and while this was repeated time and time again, our love grew even stronger…",
+   "header": "Lilith",
+   "links": [
+    {
+     "text": "Ask about the promise",
+     "bypass": "Quest Q00156_MillenniumLove 30368-03.html",
+     "kind": "quest-event",
+     "script": "Q00156_MillenniumLove",
+     "event": "30368-03.html",
+     "quest": 156,
+     "to": "Q00156_MillenniumLove/30368-03.html"
+    }
+   ]
+  },
+  "Q00156_MillenniumLove/30368-03.html": {
+   "file": "Q00156_MillenniumLove/30368-03.html",
+   "quest": 156,
+   "text": "Lilith: Before the beginning of the war against the devil Beleth, Theon and I made a promise to stay on Talking Island and teach the Humans the use of magic for harmony and preservation, so that there would never be another Beleth. If Theon is still alive, I am sure he will come to this island to h…",
+   "header": "Lilith",
+   "links": [
+    {
+     "text": "Say you will do the favor",
+     "bypass": "Quest Q00156_MillenniumLove 30368-05.htm",
+     "kind": "quest-event",
+     "script": "Q00156_MillenniumLove",
+     "event": "30368-05.htm",
+     "quest": 156,
+     "to": "Q00156_MillenniumLove/30368-05.htm",
+     "toAll": [
+      "Q00156_MillenniumLove/30368-05.htm",
+      "Q00156_MillenniumLove/30368-04.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00156_MillenniumLove/30368-04.htm": {
+   "file": "Q00156_MillenniumLove/30368-04.htm",
+   "quest": 156,
+   "text": "Lilith: Thank you. But I must tell you something in advance. Please don't feel insulted, I only say it out of concern for you. It may be a little dangerous for you to travel to the Gludio mainland. It is a land made barren during the war against the devil Beleth, and a dangerous place, where all ki…",
+   "header": "Lilith",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00156_MillenniumLove/30368-05.htm": {
+   "file": "Q00156_MillenniumLove/30368-05.htm",
+   "quest": 156,
+   "text": "Lilith: The Gludio mainland is a very dangerous place, and it worries me a little even as I am asking you this favor. It is a land made barren during the war against the devil Beleth, and a dangerous place, where all kinds of monsters threaten the lives of innocent people. Of course, the lord of Gl…",
+   "header": "Lilith",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30368-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30368-02.html",
+   "quest": 221,
+   "text": "Lilith: A present...? What is this...! Did you really think that I would be pleased with such a thing? Could you have possibly thought that I would forget my 1,000 years of pain for the gift of a simple ornament? That's the way of the Dwarf, isn't it? You people know of nothing but worldly goods. G…",
+   "header": "Lilith",
+   "links": [
+    {
+     "text": "Beg her to give the Mark of Health",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30368-03.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30368-03.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30368-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30368-03.html": {
+   "file": "Q00221_TestimonyOfProsperity/30368-03.html",
+   "quest": 221,
+   "text": "Lilith: What a nerve! You still want the Mark of Health ? OK. Whatever. Take it! Are you happy now? Now that you have what you wanted, leave me! And don't ever come back again, you horrid little Dwarf!",
+   "header": "Lilith",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Millennium Love]",
+     "bypass": "npc_%objectId%_Quest Q00156_MillenniumLove",
+     "kind": "quest",
+     "quest": 156,
+     "to": "Q00156_MillenniumLove/30368-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Millennium Love (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00156_MillenniumLove",
+     "kind": "quest",
+     "quest": 156,
+     "to": "Q00156_MillenniumLove/30368-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30368-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

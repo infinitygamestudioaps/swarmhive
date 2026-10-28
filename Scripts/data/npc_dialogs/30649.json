@@ -1,0 +1,367 @@
+{
+ "npcId": 30649,
+ "name": "Ancestor Martankus",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.027Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30649.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "215": {
+   "name": "Trial Of The Pilgrim",
+   "listText": [
+    "[Trial of the Pilgrim]",
+    "[Trial of the Pilgrim (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00215_TrialOfThePilgrim/30649-01.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00215_TrialOfThePilgrim/30649-02.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00215_TrialOfThePilgrim/30649-03.html",
+     "when": "state STARTED; memo 4; has items 2725",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "232": {
+   "name": "Test Of The Lord",
+   "listText": [
+    "[Test of the Lord]",
+    "[Test of the Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00232_TestOfTheLord/30649-01.html",
+     "when": "state STARTED; has items 3412",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30649-05.html",
+     "when": "state STARTED; has items 3413; lacks items 3412,3415,3414",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30649-06.html",
+     "when": "state STARTED; has items 3413,3415,3414; lacks items 3412; !(hasQuestItems(player, MARTANKUS_CHARM) && !hasAtLeastOneQuestItem(player, RAGNA_CHIEF_NOTICE, RAGNA_ORC_HEAD))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30649-08.html",
+     "when": "state STARTED; has items 3416; lacks items 3412,3413,3415,3414; !(hasQuestItems(player, MARTANKUS_CHARM) && !hasAtLeastOneQuestItem(player, RAGNA_CHIEF_NOTICE, RAGNA_ORC_HEAD))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "233": {
+   "name": "Test Of The War Spirit",
+   "listText": [
+    "[Test of the War Spirit]",
+    "[Test of the War Spirit (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30649-01.html",
+     "when": "state STARTED; has items 2882",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30649.htm": {
+   "file": "default/30649.htm",
+   "quest": null,
+   "text": "Ancestor Martankus: I am Martankus of the Hestui. Although I've been dead for a thousand years and my body has long turned to ash, my soul remains and watches over my future generations! This cave is the holy grave of the 7th tribe's heroes and also where young Orcs train their strength! I offer bl…",
+   "header": "Ancestor Martankus",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00215_TrialOfThePilgrim/30649-01.html": {
+   "file": "Q00215_TrialOfThePilgrim/30649-01.html",
+   "quest": 215,
+   "text": "Ancestor Martankus: I am Martankus of the Hestui tribe! Although my body perished in battle thousands of years ago, my spirit watches over my descendants. This place is a sacred tomb housing the remains of the greatest heroes of the seven tribes. Young Orcs still come here to test their courage, st…",
+   "header": "Ancestor Martankus",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00215_TrialOfThePilgrim/30649-02.html": {
+   "file": "Q00215_TrialOfThePilgrim/30649-02.html",
+   "quest": 215,
+   "text": "Ancestor Martankus: The true essence of Pa'agrio cannot be explained by words alone! To properly understand it, you must obtain the Flame of Essence ! If you dare, seek out the Lava Salamanders of the Forgotten Temple , located in lands far, far to the west.",
+   "header": "Ancestor Martankus",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00215_TrialOfThePilgrim/30649-03.html": {
+   "file": "Q00215_TrialOfThePilgrim/30649-03.html",
+   "quest": 215,
+   "text": "Ancestor Martankus: I see that you have brought the Essence of Flame! Now, to understand Pa'agrio's Flame you must swallow the Essence of Flame!",
+   "header": "Ancestor Martankus",
+   "when": [
+    "state STARTED; memo 4; has items 2725"
+   ],
+   "links": [
+    {
+     "text": "Swallow the Essence of Flame",
+     "bypass": "Quest Q00215_TrialOfThePilgrim 30649-04.html",
+     "kind": "quest-event",
+     "script": "Q00215_TrialOfThePilgrim",
+     "event": "30649-04.html",
+     "quest": 215,
+     "to": "Q00215_TrialOfThePilgrim/30649-04.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30649-01.html": {
+   "file": "Q00232_TestOfTheLord/30649-01.html",
+   "quest": 232,
+   "text": "Ancestor Martankus: I am Martankus from Hestui tribe! I have been dead for a thousand years and though my body has gone, my spirit remains to watch over my descendents. Tell me, Shaman of Flame, why do you seek me?",
+   "header": "Ancestor Martankus",
+   "when": [
+    "state STARTED; has items 3412"
+   ],
+   "links": [
+    {
+     "text": "\"I have come to take the Test of the Lord!\"",
+     "bypass": "Quest Q00232_TestOfTheLord 30649-02.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30649-02.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30649-02.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30649-05.html": {
+   "file": "Q00232_TestOfTheLord/30649-05.html",
+   "quest": 232,
+   "text": "Ancestor Martankus: Punish that dirty betrayer's tribe, the Ragna Orcs! Only that will quiet the first Orc's anger after all these long years! This is what you must do! At this very moment, they are invading our territory. This grievous, indignant matter cannot be left unpunished! Find and destroy …",
+   "header": "Ancestor Martankus",
+   "when": [
+    "state STARTED; has items 3413; lacks items 3412,3415,3414"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30649-06.html": {
+   "file": "Q00232_TestOfTheLord/30649-06.html",
+   "quest": 232,
+   "text": "Ancestor Martankus: What is this? It is a notice from the betrayer, the Ragna Chief! They say they will make a Chief of the one who kills the Flame Lord! This is an outrage! Betrayer's blood is even in their bones! You, brave Shaman, you have punished betrayer's tribe as I asked you. Proud of you! …",
+   "header": "Ancestor Martankus",
+   "when": [
+    "state STARTED; has items 3413,3415,3414; lacks items 3412; !(hasQuestItems(player, MARTANKUS_CHARM) && !hasAtLeastOneQuestItem(player, RAGNA_CHIEF_NOTICE, RAGNA_ORC_HEAD))"
+   ],
+   "links": [
+    {
+     "text": "I would like to meet the great first Orc!",
+     "bypass": "Quest Q00232_TestOfTheLord 30649-07.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30649-07.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30649-07.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30649-08.html": {
+   "file": "Q00232_TestOfTheLord/30649-08.html",
+   "quest": 232,
+   "text": "Ancestor Martankus: You have passed the test of the Lord. Now take this Immortal Flame to my descendant, your Lord, Kakai.",
+   "header": "Ancestor Martankus",
+   "when": [
+    "state STARTED; has items 3416; lacks items 3412,3413,3415,3414; !(hasQuestItems(player, MARTANKUS_CHARM) && !hasAtLeastOneQuestItem(player, RAGNA_CHIEF_NOTICE, RAGNA_ORC_HEAD))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30649-01.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30649-01.html",
+   "quest": 233,
+   "text": "Ancestor Martankus: Tejakar Oroka! I am Hestui Martankus, Lord of the Grizzly Tribe who died during the war between Men on the Immortal Plateau a thousand years ago! My descendent, heed your ancestor! I have experienced a thousand years of pain watching the collapse of the kingdom and the disintegr…",
+   "header": "Ancestor Martankus",
+   "when": [
+    "state STARTED; has items 2882"
+   ],
+   "links": [
+    {
+     "text": "Give the heads of Tamlin Orcs",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30649-02.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30649-02.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30649-02.html"
+    }
+   ]
+  },
+  "Q00215_TrialOfThePilgrim/30649-04.html": {
+   "file": "Q00215_TrialOfThePilgrim/30649-04.html",
+   "quest": 215,
+   "text": "Ancestor Martankus: So hot! So hot! My body feels as if it will burst into flame. Aieee! Wait... what's this? The Flame of Combative Spirit? Truly, this is the mind possessed by the warriors of old. .. What is that, there in the distance? What do my old eyes perceive? Oh! Oh! Stay away! The heat, t…",
+   "header": "Ancestor Martankus",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30649-02.html": {
+   "file": "Q00232_TestOfTheLord/30649-02.html",
+   "quest": 232,
+   "text": "Ancestor Martankus: I can tell by the grizzly tooth necklace that you wear that Kakai has sent you. So, you wish to take the Test of the Lord! You must learn of your ancestors' history first! Now, listen closely to what I say! A long time ago, Pa'agrio the Lord of Flame created the First Orc. The F…",
+   "header": "Ancestor Martankus",
+   "links": [
+    {
+     "text": "Ask about the First Orc",
+     "bypass": "Quest Q00232_TestOfTheLord 30649-03.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30649-03.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30649-03.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30649-03.html": {
+   "file": "Q00232_TestOfTheLord/30649-03.html",
+   "quest": 232,
+   "text": "Ancestor Martankus: The First Orc, born of Pa'agrio's flame, was a very powerful being. The gods of wind, earth and water were jealous of his power and sought to kill him. Eventually they were successful, but not before the mighty Orc created, with his last dying breath, the originators of the 7 tr…",
+   "header": "Ancestor Martankus",
+   "links": [
+    {
+     "text": "Ask about the Test of the Lord",
+     "bypass": "Quest Q00232_TestOfTheLord 30649-04.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30649-04.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30649-04.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30649-04.html": {
+   "file": "Q00232_TestOfTheLord/30649-04.html",
+   "quest": 232,
+   "text": "Ancestor Martankus: Becoming a Lord of Orcs requires a suitable test. Your test is to calm the soul of the first Orc, who died unfairly by killing the betrayer of the seven tribes! You should know, there were actually seven preceding tribes before our own. However, after the original seven went int…",
+   "header": "Ancestor Martankus",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30649-07.html": {
+   "file": "Q00232_TestOfTheLord/30649-07.html",
+   "quest": 232,
+   "text": "Ancestor Martankus: I shall use my powers to conjure the spirit of the First Orc. Behold his power and learn! I know you will make your ancestors proud!!",
+   "header": "Ancestor Martankus",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30649-02.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30649-02.html",
+   "quest": 233,
+   "text": "Ancestor Martankus: Death to the traitorous pigs that have deserted the great glory of the Orc kingdom! I am satisfied with your offering, now tell me what you want! I, Hestui Martankus, your ancestor, will grant your wish!",
+   "header": "Ancestor Martankus",
+   "links": [
+    {
+     "text": "\"Say you want to take the Ritual of War Spirit.\"",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30649-03.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30649-03.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30649-03.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30649-03.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30649-03.html",
+   "quest": 233,
+   "text": "Ancestor Martankus: Young Shaman of our race, I feel great strength in the bones you brought. They are bones of great heroes, no doubt! Take this strength of past Fighters and make it your own. This is the ritual of the war spirit! Pass those bones one by one to me. I, the great Martankus, give the…",
+   "header": "Ancestor Martankus",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Pilgrim (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00215_TrialOfThePilgrim",
+     "kind": "quest",
+     "quest": 215,
+     "to": "Q00215_TrialOfThePilgrim/30649-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00232_TestOfTheLord",
+     "kind": "quest",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30649-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the War Spirit (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00233_TestOfTheWarSpirit",
+     "kind": "quest",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30649-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,431 @@
+{
+ "npcId": 32643,
+ "name": "Athenia",
+ "title": "Priestess",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.393Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32643.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "237": {
+   "name": "Winds of Change",
+   "listText": [
+    "[Winds of Change]",
+    "[Winds of Change (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00237_WindsOfChange/32643-03.html",
+     "when": "state COMPLETED; (st.hasQuestItems(SUPPORT_CERTIFICATE) || st.getPlayer().hasQuestCompleted(Q00239_WontYouJoinUs.clas",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00237_WindsOfChange/32643-05.html",
+     "when": "state COMPLETED; NOT (st.hasQuestItems(SUPPORT_CERTIFICATE) || st.getPlayer().hasQuestCompleted(Q00239_WontYouJoinUs.clas",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00237_WindsOfChange/32643-04.html",
+     "when": "cond 5",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00237_WindsOfChange/32643-01.html",
+     "when": "cond 6",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "239": {
+   "name": "Won't You Join Us?",
+   "listText": [
+    "[Won't You Join Us?]",
+    "[Won't You Join Us? (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00239_WontYouJoinUs/32643-11.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00239_WontYouJoinUs/32643-12.html",
+     "when": "state CREATED; st.getPlayer().hasQuestCompleted(Q00238_SuccessFailureOfBusiness.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00239_WontYouJoinUs/32643-01.htm",
+     "when": "state CREATED; level >= 82; !st.getPlayer().hasQuestCompleted(Q00238_SuccessFailureOfBusiness.class.getSimpleName()); st.getPlayer().hasQuestCompleted(Q00237_WindsOfChange.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00239_WontYouJoinUs/32643-00.html",
+     "when": "state CREATED; !st.getPlayer().hasQuestCompleted(Q00238_SuccessFailureOfBusiness.class.getSimpleName()); !(st.getPlayer().hasQuestCompleted(Q00237_WindsOfChange.class.getSimpleName()) && (talker.getLevel() >= MIN_LEVEL) && st",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00239_WontYouJoinUs/32643-05.html",
+     "when": "state STARTED; cond 1; (st.hasQuestItems(DESTROYED_MACHINE_PIECE))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00239_WontYouJoinUs/32643-04.html",
+     "when": "state STARTED; cond 1; NOT (st.hasQuestItems(DESTROYED_MACHINE_PIECE))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00239_WontYouJoinUs/32643-06.html",
+     "when": "state STARTED; cond 2; item 14869 >= 10",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00239_WontYouJoinUs/32643-08.html",
+     "when": "state STARTED; cond 3; (st.hasQuestItems(ENCHANTED_GOLEM_FRAGMENT))",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00239_WontYouJoinUs/32643-09.html",
+     "when": "state STARTED; cond 3; NOT (st.hasQuestItems(ENCHANTED_GOLEM_FRAGMENT))",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00239_WontYouJoinUs/32643-10.html",
+     "when": "state STARTED; cond 4; item 14870 >= 20",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32643.htm": {
+   "file": "default/32643.htm",
+   "quest": null,
+   "text": "Priestess Athenia: Never will I turn my back on the atrocities being inflicted on this land .... our land. We cannot just overlook the machinations of Dr. Helvetica. The time to act is now!",
+   "header": "Priestess Athenia",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00237_WindsOfChange/32643-03.html": {
+   "file": "Q00237_WindsOfChange/32643-03.html",
+   "quest": 237,
+   "text": "Priestess Athenia: We've gained hope that we can win. I thank you once again.",
+   "header": "Priestess Athenia",
+   "when": [
+    "state COMPLETED; (st.hasQuestItems(SUPPORT_CERTIFICATE) || st.getPlayer().hasQuestCompleted(Q00239_WontYouJoinUs.clas"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00237_WindsOfChange/32643-05.html": {
+   "file": "Q00237_WindsOfChange/32643-05.html",
+   "quest": 237,
+   "text": "Priestess Athenia: When would Iason Heine send his reply...? Do you know anything about this?",
+   "header": "Priestess Athenia",
+   "when": [
+    "state COMPLETED; NOT (st.hasQuestItems(SUPPORT_CERTIFICATE) || st.getPlayer().hasQuestCompleted(Q00239_WontYouJoinUs.clas"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00237_WindsOfChange/32643-04.html": {
+   "file": "Q00237_WindsOfChange/32643-04.html",
+   "quest": 237,
+   "text": "Priestess Athenia: Are you a minister of Dr. Helvetica? Why are you showing Support Letter for Dr. Helvetica to me? Please leave now.",
+   "header": "Priestess Athenia",
+   "when": [
+    "cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00237_WindsOfChange/32643-01.html": {
+   "file": "Q00237_WindsOfChange/32643-01.html",
+   "quest": 237,
+   "text": "Priestess Athenia: I am waiting on Iason Heine's decision. Only with his support can we rejuvinate this zone to its original splendor. Do you perhaps know of him?",
+   "header": "Priestess Athenia",
+   "when": [
+    "cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"I do. I've brought you a letter from the man, actually.\"",
+     "bypass": "Quest Q00237_WindsOfChange 32643-02.html",
+     "kind": "quest-event",
+     "script": "Q00237_WindsOfChange",
+     "event": "32643-02.html",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/32643-02.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00239_WontYouJoinUs/32643-11.html": {
+   "file": "Q00239_WontYouJoinUs/32643-11.html",
+   "quest": 239,
+   "text": "Priestess Athenia: We can now trust you. We will be counting on you from now on. (This quest has been already completed.)",
+   "header": "Priestess Athenia",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00239_WontYouJoinUs/32643-12.html": {
+   "file": "Q00239_WontYouJoinUs/32643-12.html",
+   "quest": 239,
+   "text": "Priestess Athenia: You must have a Certificate of Support in order to take this quest. If you don't have the certificate, then you don't have the right to take this mission.",
+   "header": "Priestess Athenia",
+   "when": [
+    "state CREATED; st.getPlayer().hasQuestCompleted(Q00238_SuccessFailureOfBusiness.class.getSimpleName())"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00239_WontYouJoinUs/32643-01.htm": {
+   "file": "Q00239_WontYouJoinUs/32643-01.htm",
+   "quest": 239,
+   "text": "Priestess Athenia: If you think that by completing some menial task for Iason Heine makes us lifelong pals, then you are sadly mistaken. If you are to help us, then we must be assured of your dedication to our cause. If you are willing to prove your trustworthiness to us, then I shall give you a te…",
+   "header": "Priestess Athenia",
+   "when": [
+    "state CREATED; level >= 82; !st.getPlayer().hasQuestCompleted(Q00238_SuccessFailureOfBusiness.class.getSimpleName()); st.getPlayer().hasQuestCompleted(Q00237_WindsOfChange.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "\"What's the test?\"",
+     "bypass": "Quest Q00239_WontYouJoinUs 32643-02.htm",
+     "kind": "quest-event",
+     "script": "Q00239_WontYouJoinUs",
+     "event": "32643-02.htm",
+     "quest": 239,
+     "to": "Q00239_WontYouJoinUs/32643-02.htm"
+    }
+   ]
+  },
+  "Q00239_WontYouJoinUs/32643-00.html": {
+   "file": "Q00239_WontYouJoinUs/32643-00.html",
+   "quest": 239,
+   "text": "Priestess Athenia: I applaud you for your determination, but I fear you don't have all the necessary skills to undertake this task. Come back and see me once you have a bit more experience under your belt. (You must be level 82 or above and have completed the Winds of Change quest in order to take …",
+   "header": "Priestess Athenia",
+   "when": [
+    "state CREATED; !st.getPlayer().hasQuestCompleted(Q00238_SuccessFailureOfBusiness.class.getSimpleName()); !(st.getPlayer().hasQuestCompleted(Q00237_WindsOfChange.class.getSimpleName()) && (talker.getLevel() >= MIN_LEVEL) && st"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00239_WontYouJoinUs/32643-05.html": {
+   "file": "Q00239_WontYouJoinUs/32643-05.html",
+   "quest": 239,
+   "text": "Priestess Athenia: There aren't even 10 Landfill Machine Parts . It's a mistake for you to think that you can get the trust with this. In order to earn our trust, finish destroying Waste Landfill Machines near Reed Field Development Base.",
+   "header": "Priestess Athenia",
+   "when": [
+    "state STARTED; cond 1; (st.hasQuestItems(DESTROYED_MACHINE_PIECE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00239_WontYouJoinUs/32643-04.html": {
+   "file": "Q00239_WontYouJoinUs/32643-04.html",
+   "quest": 239,
+   "text": "Priestess Athenia: Have you already forgotten what it is I asked of you?! Seek out the Waste Landfill Machines in the north and bring back 10 pieces to prove your worth. Now hurry!",
+   "header": "Priestess Athenia",
+   "when": [
+    "state STARTED; cond 1; NOT (st.hasQuestItems(DESTROYED_MACHINE_PIECE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00239_WontYouJoinUs/32643-06.html": {
+   "file": "Q00239_WontYouJoinUs/32643-06.html",
+   "quest": 239,
+   "text": "Priestess Athenia: Well done. But I wonder if this task was too easy.",
+   "header": "Priestess Athenia",
+   "when": [
+    "state STARTED; cond 2; item 14869 >= 10"
+   ],
+   "links": [
+    {
+     "text": "\"So?\"",
+     "bypass": "Quest Q00239_WontYouJoinUs 32643-07.html",
+     "kind": "quest-event",
+     "script": "Q00239_WontYouJoinUs",
+     "event": "32643-07.html",
+     "quest": 239,
+     "to": "Q00239_WontYouJoinUs/32643-07.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00239_WontYouJoinUs/32643-08.html": {
+   "file": "Q00239_WontYouJoinUs/32643-08.html",
+   "quest": 239,
+   "text": "Priestess Athenia: Didn't we explain about the purpose of this test? If you really want our trust, destroy Charging Enchanted Golem and Destroying Enchanted Golem near Reed Field Development Base, and retrieve 20 Enchanted Golem Part .",
+   "header": "Priestess Athenia",
+   "when": [
+    "state STARTED; cond 3; (st.hasQuestItems(ENCHANTED_GOLEM_FRAGMENT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00239_WontYouJoinUs/32643-09.html": {
+   "file": "Q00239_WontYouJoinUs/32643-09.html",
+   "quest": 239,
+   "text": "Priestess Athenia: There aren't even 20 Enchanted Golem Part . We can't trust you with this amount. Please destroy Charging Enchanted Golem or Destroying Enchanted Golem near Reed Field Development Base, and retrieve 20 Enchanted Golem Part as evidence.",
+   "header": "Priestess Athenia",
+   "when": [
+    "state STARTED; cond 3; NOT (st.hasQuestItems(ENCHANTED_GOLEM_FRAGMENT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00239_WontYouJoinUs/32643-10.html": {
+   "file": "Q00239_WontYouJoinUs/32643-10.html",
+   "quest": 239,
+   "text": "Priestess Athenia: I am impressed. You have faithfully accomplished the tasks I set before you without complaint. You have convinced me of your dedication to this cause. We are now comrades. Let us fight side-by-side for the preservation of this land!",
+   "header": "Priestess Athenia",
+   "when": [
+    "state STARTED; cond 4; item 14870 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00237_WindsOfChange/32643-02.html": {
+   "file": "Q00237_WindsOfChange/32643-02.html",
+   "quest": 237,
+   "text": "Priestess Athenia: Ah! I'm glad that you came. I'll give you a little reward.",
+   "header": "Priestess Athenia",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00239_WontYouJoinUs/32643-02.htm": {
+   "file": "Q00239_WontYouJoinUs/32643-02.htm",
+   "quest": 239,
+   "text": "Priestess Athenia: Forgive me for being so harsh. Its just that I don't care for mercenaries who are out to make a quick buck. This cause requires your passion and desire to make a difference in the world around you.",
+   "header": "Priestess Athenia",
+   "links": [
+    {
+     "text": "Say that you understand.",
+     "bypass": "Quest Q00239_WontYouJoinUs 32643-03.html",
+     "kind": "quest-event",
+     "script": "Q00239_WontYouJoinUs",
+     "event": "32643-03.html",
+     "quest": 239,
+     "to": "Q00239_WontYouJoinUs/32643-03.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00239_WontYouJoinUs/32643-03.html": {
+   "file": "Q00239_WontYouJoinUs/32643-03.html",
+   "quest": 239,
+   "text": "Priestess Athenia: To the north of us lies the Helvetica Development Base. Surrounding this you'll find Waste Landfill Machines . Besides being detrimental to the environment, these machines also have something to do with the Mucrokians. However, at this point, we are unsure about the correlation b…",
+   "header": "Priestess Athenia",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00239_WontYouJoinUs/32643-07.html": {
+   "file": "Q00239_WontYouJoinUs/32643-07.html",
+   "quest": 239,
+   "text": "Priestess Athenia: Hmm.... you've done better than I thought you would. But I'm not sure if I trust you yet. Do one more thing for me, and my confidence in you will never be in question again. Return to the Fields of Silence and defeat the Suppressors and Exterminators that you encounter there. Bri…",
+   "header": "Priestess Athenia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Winds of Change (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00237_WindsOfChange",
+     "kind": "quest",
+     "quest": 237,
+     "to": "Q00237_WindsOfChange/32643-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Won't You Join Us?]",
+     "bypass": "npc_%objectId%_Quest Q00239_WontYouJoinUs",
+     "kind": "quest",
+     "quest": 239,
+     "to": "Q00239_WontYouJoinUs/32643-12.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Won't You Join Us? (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00239_WontYouJoinUs",
+     "kind": "quest",
+     "quest": 239,
+     "to": "Q00239_WontYouJoinUs/32643-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

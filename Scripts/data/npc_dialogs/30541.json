@@ -1,0 +1,58 @@
+{
+ "npcId": 30541,
+ "name": "Paion",
+ "title": "Protector",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.997Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30541.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30541.htm": {
+   "file": "guard/30541.htm",
+   "quest": null,
+   "text": "Protector Paion: Hmm, I'm Paion, the leader of the Defenders of this Dwarven Village. Mind your manners around here, OK? This area is known as the Mining Region of the Spine Mountains .",
+   "header": "Protector Paion",
+   "links": [
+    {
+     "text": "\"What do you mine here?\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30541-1.htm"
+    },
+    {
+     "text": "\"Who's the Lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30541-1.htm": {
+   "file": "guard/30541-1.htm",
+   "quest": null,
+   "text": "Protector Paion: What? Are you kidding me? You don't know the Spine Mine? It is where we live now -- the home of us Dwarves and also a working mine! We left our prosperous kingdom of the west when it was overrun by those merciless Orcs, and we settled down here! I think of it as a case of good comi…",
+   "header": "Protector Paion",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

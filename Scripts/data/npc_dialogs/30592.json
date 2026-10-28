@@ -1,0 +1,150 @@
+{
+ "npcId": 30592,
+ "name": "Hestui Totem Spirit",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.007Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30592.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "416": {
+   "name": "Path of the Orc Shaman",
+   "listText": [
+    "[Path of the Orc Shaman]",
+    "[Path of the Orc Shaman (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30592-01.html",
+     "when": "state STARTED; memo 1; has items 1620,1621",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30592-04.html",
+     "when": "state STARTED; memo 1; has items 1622; lacks items 1620,1621",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30592-05.html",
+     "when": "state STARTED; memo 1; has items 1625,1624,1626,1627,1628,1630,1623; lacks items 1620,1621,1622",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30592.htm": {
+   "file": "default/30592.htm",
+   "quest": null,
+   "text": "Hestui Totem Spirit: ...Growl... Who dares to speak to me? I am the great totem spirit of Kasha. The guardian deity that protects and leads the offspring of Hestui... If you don t have any business with me, go away, before I bite off your head and swallow your heart!",
+   "header": "Hestui Totem Spirit",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/30592-01.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30592-01.html",
+   "quest": 416,
+   "text": "Hestui Totem Spirit: ... growl ... Who dares to speak to me? I have poor eyesight so I cannot see you well, but I can smell ... You smell like a shaman! You are no doubt one who has come to steal the secrets of the spirits! Go away, before I bite off your head and swallow your heart!",
+   "header": "Hestui Totem Spirit",
+   "when": [
+    "state STARTED; memo 1; has items 1620,1621"
+   ],
+   "links": [
+    {
+     "text": "Wear Hestui Mask",
+     "bypass": "Quest Q00416_PathOfTheOrcShaman 30592-02.html",
+     "kind": "quest-event",
+     "script": "Q00416_PathOfTheOrcShaman",
+     "event": "30592-02.html",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30592-02.html"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/30592-04.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30592-04.html",
+   "quest": 416,
+   "text": "Hestui Totem Spirit: ... growl ... Young Orc ... Take the claw that I gave you to Tataru Zu Hestui and perform this ritual: if you prick your tongue with the claw and perform a ritual that draws blood, when you will be able to speak the language of flame ...",
+   "header": "Hestui Totem Spirit",
+   "when": [
+    "state STARTED; memo 1; has items 1622; lacks items 1620,1621"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30592-05.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30592-05.html",
+   "quest": 416,
+   "text": "Hestui Totem Spirit: ... growl ... To become a true Shaman, it is not enough to speak the language of flame ... Young Orc, if you truly wish to control the spirits you must learn the names of the ninety-nine different spirits ... Go and speak with one of my brothers, the Duda-Mara Totem Spirit , wh…",
+   "header": "Hestui Totem Spirit",
+   "when": [
+    "state STARTED; memo 1; has items 1625,1624,1626,1627,1628,1630,1623; lacks items 1620,1621,1622"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30592-02.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30592-02.html",
+   "quest": 416,
+   "text": "Hestui Totem Spirit: ... growl ... Hmm ... Come closer! Looking at your face ... No doubt you are a descendant of Hestui! Yes, yes ... The offspring of the kasha bear are always welcome! ... growl ... I'm sure you have come to learn the language of flame. It is one of the secrets you must learn to …",
+   "header": "Hestui Totem Spirit",
+   "links": [
+    {
+     "text": "Give fiery egg",
+     "bypass": "Quest Q00416_PathOfTheOrcShaman 30592-03.html",
+     "kind": "quest-event",
+     "script": "Q00416_PathOfTheOrcShaman",
+     "event": "30592-03.html",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30592-03.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/30592-03.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30592-03.html",
+   "quest": 416,
+   "text": "Hestui Totem Spirit: ... Why, isn't this the fiery egg! Where did you find such a valuable item? I, the guardian spirit of the Hestui, am greatly pleased with your gift ...! I will watch over the egg with delight, waiting for the birth of a new flame spirit ... Will it be a bird of flame? Or a brig…",
+   "header": "Hestui Totem Spirit",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Orc Shaman (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00416_PathOfTheOrcShaman",
+     "kind": "quest",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30592-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

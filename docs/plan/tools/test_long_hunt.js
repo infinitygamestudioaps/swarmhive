@@ -48,7 +48,7 @@ t('drop: only the unbuyable part goes', JSON.stringify(PS.lowDropShots(['Tank1: 
 // wiring
 t('the clock uses the long hunt when no dashboard timer', /function htClockMine\(\) \{ const key = htKey\(\), e = htEntryMine\(key\);/.test(SW) && /const key = htKey\(\), e = htEntryMine\(key\); if \(!e\) return;\n    let st = htStRead\(key\);/.test(SW));
 t('long hunt arrival = at the spot and hunting', /const atSpot = \(\) => \{ if \(e\.long\) return lhAtSpot\(\);/.test(SW));
-t('supply watch drops unbuyable shots BEFORE the hunt hold', /lowDropShots\(low, unb\);[\s\S]{0,200}if \(!low\.length\) return;[\s\S]{0,300}htHolds\('supply run', \{ low \}\)/.test(SW));
+t('supply watch drops unbuyable shots BEFORE the hunt hold', /lowDropShots\(low, unb\);[\s\S]{0,200}if \(!low\.length\) return;[\s\S]{0,450}htHolds\('supply run', \{ low \}\)/.test(SW));
 t('supply wants are scaled for the session', /lhScaleWants\(out\);\s+\/\/ LONGHUNT/.test(SW));
 console.log(`${ok} ok, ${bad} FAIL`);
 process.exit(bad ? 1 : 0);

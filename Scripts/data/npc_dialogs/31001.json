@@ -1,0 +1,439 @@
+{
+ "npcId": 31001,
+ "name": "Claudia Athebaldt",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.124Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31001.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "194": {
+   "name": "Seven Signs, Mammon's Contract",
+   "listText": [
+    "[Seven Signs, Mammon's Contract]",
+    "[Seven Signs, Mammon's Contract (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00194_SevenSignsMammonsContract/31001-01.html",
+     "when": "state STARTED; cond 12",
+     "state": "STARTED",
+     "cond": [
+      12
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "195": {
+   "name": "Seven Signs, Secret Ritual of the Priests",
+   "listText": [
+    "[Seven Signs, Secret Ritual of the Priests]",
+    "[Seven Signs, Secret Ritual of the Priests (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00195_SevenSignsSecretRitualOfThePriests/31001-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00194_SevenSignsMammonsContract.class",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00195_SevenSignsSecretRitualOfThePriests/31001-02.html",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00194_SevenSignsMammonsContract.class",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00195_SevenSignsSecretRitualOfThePriests/31001-07.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "348": {
+   "name": "An Arrogant Search",
+   "listText": [
+    "[An Arrogant Search]",
+    "[An Arrogant Search (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00348_AnArrogantSearch/31001-01.html",
+     "when": "state STARTED; has items 4289",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/31001-03.html",
+     "when": "state STARTED; lacks items 4289,4292; st.getMemoState() < 8; ((st.getMemoStateEx(1) % 1000) / 100) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/31001-04.html",
+     "when": "state STARTED; has items 4292; lacks items 4289; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 1000) / 100) == 1) && !hasQuestItems(player, SECOND_KEY_OF_ARK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/31001-05.html",
+     "when": "state STARTED; has items 4397; lacks items 4289,4292; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 1000) / 100) == 1) && !hasQuestItems(player, SECOND_KEY_OF_ARK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "372": {
+   "name": "Legacy Of Insolence",
+   "listText": [
+    "[Legacy of Insolence]",
+    "[Legacy of Insolence (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00372_LegacyOfInsolence/31001-02.html",
+     "when": "state STARTED; has items 5972,5973,5974,5975,5976,5977,5978",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00372_LegacyOfInsolence/31001-01.html",
+     "when": "state STARTED; lacks items 5972,5973,5974,5975,5976,5977,5978",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31001.htm": {
+   "file": "default/31001.htm",
+   "quest": null,
+   "text": "Claudia Athebaldt: I will tell you a story, one of ancient immorality. Once there lived a beautiful princess, in a far away land. Her beauty was so renowned that her mother, the Queen, grew jealous and plotted to have her killed. When the King discovered her evil plot he tried to stop it. This enra…",
+   "header": "Claudia Athebaldt",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/31001-01.html": {
+   "file": "Q00194_SevenSignsMammonsContract/31001-01.html",
+   "quest": 194,
+   "text": "Lady Claudia: There you are! I've heard plenty about you already; in fact I've not heard my husband mention someone quite so glowingly in quite some time. I've also heard your training sessions with Collin are over?",
+   "header": "Lady Claudia",
+   "when": [
+    "state STARTED; cond 12"
+   ],
+   "links": [
+    {
+     "text": "\"They are.\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 31001-02.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "31001-02.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/31001-02.html"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/31001-01.htm": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/31001-01.htm",
+   "quest": 195,
+   "text": "Lady Claudia: Good, let's get started.",
+   "header": "Lady Claudia",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00194_SevenSignsMammonsContract.class"
+   ],
+   "links": [
+    {
+     "text": "\"I assume your plan has me disguised?\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 31001-03.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "31001-03.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/31001-03.html"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/31001-02.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/31001-02.html",
+   "quest": 195,
+   "text": "Lady Claudia: (This quest may only be taken by a character who is level 79 or higher, who has already completed the Seven Signs, Contract of Mammon quests.)",
+   "header": "Lady Claudia",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00194_SevenSignsMammonsContract.class"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/31001-07.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/31001-07.html",
+   "quest": 195,
+   "text": "Lady Claudia: What are you still doing here!!! Hurry to the Gludio Village and find Master Guard of Dawn John . He has the Identity Card of the Guards of the Dawn that I need.",
+   "header": "Lady Claudia",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/31001-01.html": {
+   "file": "Q00348_AnArrogantSearch/31001-01.html",
+   "quest": 348,
+   "text": "Claudia Athebalt: Magister Hannellin told me that you would be coming. Do you have the letter? Very well. You will find the ark in the Cemetery of Kings . It is locked and can only be opened with the key. It is said that the key is in the possession of the guardian of the ark .",
+   "header": "Claudia Athebalt",
+   "when": [
+    "state STARTED; has items 4289"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more about the guardian of the ark.\"",
+     "bypass": "Quest Q00348_AnArrogantSearch 31001-02.html",
+     "kind": "quest-event",
+     "script": "Q00348_AnArrogantSearch",
+     "event": "31001-02.html",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/31001-02.html"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/31001-03.html": {
+   "file": "Q00348_AnArrogantSearch/31001-03.html",
+   "quest": 348,
+   "text": "Claudia Athebalt: Have you defeated the Guardian of the Ark yet? No? Many must think that I've squandered my life in service to god, and I am certainly not your average member of the aristocracy, but my rebellious streak comes naturally. I would hate myself if I denied it. Dignity is the most impor…",
+   "header": "Claudia Athebalt",
+   "when": [
+    "state STARTED; lacks items 4289,4292; st.getMemoState() < 8; ((st.getMemoStateEx(1) % 1000) / 100) == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/31001-04.html": {
+   "file": "Q00348_AnArrogantSearch/31001-04.html",
+   "quest": 348,
+   "text": "Claudia Athebalt: Ah! Could it be? Is it the key to the ark? You mustn't waste any time, go to the cemetery and open the bloody thing! I have no idea what is in it, you must simply take whatever it is, along with the other two sacred relics, to Magister Hanellin. She will know what to do. Farewell,…",
+   "header": "Claudia Athebalt",
+   "when": [
+    "state STARTED; has items 4292; lacks items 4289; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 1000) / 100) == 1) && !hasQuestItems(player, SECOND_KEY_OF_ARK))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/31001-05.html": {
+   "file": "Q00348_AnArrogantSearch/31001-05.html",
+   "quest": 348,
+   "text": "Claudia Athebalt: Ah, the book of the saint! So this is what was contained in the ark of Aden! You didn't need to bring it here, but I must admit it gives me satisfaction to finally see it in person. Magister Hanellin says that this book is complete garbage, a collection of totally worthless sacred…",
+   "header": "Claudia Athebalt",
+   "when": [
+    "state STARTED; has items 4397; lacks items 4289,4292; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 1000) / 100) == 1) && !hasQuestItems(player, SECOND_KEY_OF_ARK))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00372_LegacyOfInsolence/31001-02.html": {
+   "file": "Q00372_LegacyOfInsolence/31001-02.html",
+   "quest": 372,
+   "text": "Lady Claudia: This is \"The Revelation of the Seals\"! Many wish to possess this book, my husband foremost among them.... I appreciate your hard work and hope this reward shows you just how grateful I am to you.",
+   "header": "Lady Claudia",
+   "when": [
+    "state STARTED; has items 5972,5973,5974,5975,5976,5977,5978"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00372_LegacyOfInsolence/31001-01.html": {
+   "file": "Q00372_LegacyOfInsolence/31001-01.html",
+   "quest": 372,
+   "text": "Lady Claudia: Have you brought \"The Revelation of the Seals\"? Remember - once you've collect all seven books, bring them straight to me! The Lords of Dawn have very high expectations of you!",
+   "header": "Lady Claudia",
+   "when": [
+    "state STARTED; lacks items 5972,5973,5974,5975,5976,5977,5978"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00194_SevenSignsMammonsContract/31001-02.html": {
+   "file": "Q00194_SevenSignsMammonsContract/31001-02.html",
+   "quest": 194,
+   "text": "Lady Claudia: Excellent news. I am so very thankful to Priest Cain for getting you involved in the Order of the Dawn in the first place. Perhaps you will be the one who can finally tip the scales back in our favor. Now here's a little something for you.",
+   "header": "Lady Claudia",
+   "links": [
+    {
+     "text": "\"Oh, thank you!\"",
+     "bypass": "Quest Q00194_SevenSignsMammonsContract 31001-03.html",
+     "kind": "quest-event",
+     "script": "Q00194_SevenSignsMammonsContract",
+     "event": "31001-03.html",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/31001-03.html",
+     "toAll": [
+      "Q00194_SevenSignsMammonsContract/31001-03.html",
+      "Q00194_SevenSignsMammonsContract/level_check.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/31001-03.html": {
+   "file": "Q00194_SevenSignsMammonsContract/31001-03.html",
+   "quest": 194,
+   "text": "Lady Claudia: Not at all! It's the least we could do! Now, how about you take a small break, and come to me when you're good and ready to continue, hmm?",
+   "header": "Lady Claudia",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/31001-03.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/31001-03.html",
+   "quest": 195,
+   "text": "Lady Claudia: It does indeed! We wouldn't put you through all that training and then not make use of it, would we? Now, I need to tell you about a place called the Sanctum of Dawn . It's a place filled with a great many treasures, including halls lined with seal stones gathered from every corner of…",
+   "header": "Lady Claudia",
+   "links": [
+    {
+     "text": "\"So that's where the Priests of Dawn are guarding it?\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 31001-04.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "31001-04.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/31001-04.html"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/31001-04.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/31001-04.html",
+   "quest": 195,
+   "text": "Lady Claudia: Yes, for now at least. I need you to sneak into the Sanctum of Dawn , take the last page of the contract , and bring it back here to me. It won't be easy, but if Collin's notes are correct, then you should have all the skills you need to complete your mission.",
+   "header": "Lady Claudia",
+   "links": [
+    {
+     "text": "\"You expect me to just waltz in there?\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 31001-05.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "31001-05.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/31001-05.html"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/31001-05.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/31001-05.html",
+   "quest": 195,
+   "text": "Lady Claudia: Once you've been transformed , yes, exactly. They'll be so busy guarding their other entrances they won't think to check on one of their own walking through the front door, so to speak. There was one slight problem--all the guards carry unique ID cards , without which they can't gain …",
+   "header": "Lady Claudia",
+   "links": [
+    {
+     "text": "\"That's been resolved though?\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 31001-06.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "31001-06.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/31001-06.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/31001-06.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/31001-06.html",
+   "quest": 195,
+   "text": "Lady Claudia: Yes, the old fashioned way too--bribery! I've paid off one of the guards of the Sanctum, Captain John . He's fabricated a new card for you, and should be waiting for you right now in Gludio . If you hurry he'll still be there by the time you arrive. Go!",
+   "header": "Lady Claudia",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/31001-02.html": {
+   "file": "Q00348_AnArrogantSearch/31001-02.html",
+   "quest": 348,
+   "text": "Claudia Athebalt: He is huge! Oh, his body! Actually, I'd rather not describe him in detail... Simply put, he is an Angel ... He has killed many of my servants. I wish someone would deal with him!",
+   "header": "Claudia Athebalt",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Mammon's Contract (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00194_SevenSignsMammonsContract",
+     "kind": "quest",
+     "quest": 194,
+     "to": "Q00194_SevenSignsMammonsContract/31001-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, Secret Ritual of the Priests]",
+     "bypass": "npc_%objectId%_Quest Q00195_SevenSignsSecretRitualOfThePriests",
+     "kind": "quest",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/31001-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, Secret Ritual of the Priests (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00195_SevenSignsSecretRitualOfThePriests",
+     "kind": "quest",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/31001-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[An Arrogant Search (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00348_AnArrogantSearch",
+     "kind": "quest",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/31001-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Legacy of Insolence (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00372_LegacyOfInsolence",
+     "kind": "quest",
+     "quest": 372,
+     "to": "Q00372_LegacyOfInsolence/31001-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "Q00194_SevenSignsMammonsContract/level_check.html": {
+   "file": "Q00194_SevenSignsMammonsContract/level_check.html",
+   "quest": 194,
+   "text": "Characters who are level 79 or above may redeem the Reward for the Current Quest .",
+   "outcome": "refusal",
+   "links": []
+  }
+ }
+}

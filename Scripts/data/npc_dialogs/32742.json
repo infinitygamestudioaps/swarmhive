@@ -1,0 +1,338 @@
+{
+ "npcId": 32742,
+ "name": "Laki",
+ "title": "Investigator",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.402Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32742.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "287": {
+   "name": "Figuring It Out!",
+   "listText": [
+    "[Figuring It Out!]",
+    "[Figuring It Out! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00287_FiguringItOut/32742-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00250_WatchWhatYouEat.class.getSimple",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00287_FiguringItOut/32742-14.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00250_WatchWhatYouEat.class.getSimple",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00287_FiguringItOut/32742-04.html",
+     "when": "state STARTED; (st.getQuestItemsCount(VIAL_OF_TANTA_BLOOD) < 100)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00287_FiguringItOut/32742-05.html",
+     "when": "state STARTED; NOT (st.getQuestItemsCount(VIAL_OF_TANTA_BLOOD) < 100)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32742.htm": {
+   "file": "default/32742.htm",
+   "quest": null,
+   "text": "Investigator Laki: One of the greatest feelings in the world is to discover something entirely new. I always cling to that feeling when I come across a mystery like this. So I imagine an adventurer is like a researcher in that respect, right?",
+   "header": "Investigator Laki",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00287_FiguringItOut/32742-01.htm": {
+   "file": "Q00287_FiguringItOut/32742-01.htm",
+   "quest": 287,
+   "text": "Investigator Laki: If all you did was look from out here at the Plains of the Lizardmen, you'd describe it as a beautiful magical place. If only that were true. I was naive enough to believe that once, but the scars on my skin that I will leave here with will forever remind me of the truth. Look at…",
+   "header": "Investigator Laki",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00250_WatchWhatYouEat.class.getSimple"
+   ],
+   "links": [
+    {
+     "text": "Ask about the research.",
+     "bypass": "Quest Q00287_FiguringItOut 32742-02.htm",
+     "kind": "quest-event",
+     "script": "Q00287_FiguringItOut",
+     "event": "32742-02.htm",
+     "quest": 287,
+     "to": "Q00287_FiguringItOut/32742-02.htm"
+    }
+   ]
+  },
+  "Q00287_FiguringItOut/32742-14.htm": {
+   "file": "Q00287_FiguringItOut/32742-14.htm",
+   "quest": 287,
+   "text": "Investigator Laki: At first glance, the Plain of Lizardmen is a beautiful world torn from a fantasy book. It's hard to believe the dangers that lurk there, until you see for yourself. These scars are my lesson to that reality, and my investigations are stalled because of it. Don't go unless you are…",
+   "header": "Investigator Laki",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00250_WatchWhatYouEat.class.getSimple"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00287_FiguringItOut/32742-04.html": {
+   "file": "Q00287_FiguringItOut/32742-04.html",
+   "quest": 287,
+   "text": "Investigator Laki: We're on the right track, but we need much more blood. I calculate that a proper investigation prequires at least 100 vials of Tanta blood.",
+   "header": "Investigator Laki",
+   "when": [
+    "state STARTED; (st.getQuestItemsCount(VIAL_OF_TANTA_BLOOD) < 100)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00287_FiguringItOut/32742-05.html": {
+   "file": "Q00287_FiguringItOut/32742-05.html",
+   "quest": 287,
+   "text": "Investigator Laki: Well well! You've brought quite a bit of blood. Thanks to you, my research can continue! As soon as we get some results, I'll be sure to share them with you. Hard work deserves proper payment, however. Take your choice. (500 vials of blood) (100 vials of blood)",
+   "header": "Investigator Laki",
+   "when": [
+    "state STARTED; NOT (st.getQuestItemsCount(VIAL_OF_TANTA_BLOOD) < 100)"
+   ],
+   "links": [
+    {
+     "text": "Recipe and ingredients of Icarus Spitter",
+     "bypass": "Quest Q00287_FiguringItOut Icarus",
+     "kind": "quest-event",
+     "script": "Q00287_FiguringItOut",
+     "event": "Icarus",
+     "quest": 287,
+     "to": "Q00287_FiguringItOut/32742-06.html",
+     "toAll": [
+      "Q00287_FiguringItOut/32742-06.html",
+      "Q00287_FiguringItOut/32742-07.html"
+     ]
+    },
+    {
+     "text": "Recipe and ingredients of Sealed Moirai armor set",
+     "bypass": "Quest Q00287_FiguringItOut Moirai",
+     "kind": "quest-event",
+     "script": "Q00287_FiguringItOut",
+     "event": "Moirai",
+     "quest": 287,
+     "to": "Q00287_FiguringItOut/32742-08.html",
+     "toAll": [
+      "Q00287_FiguringItOut/32742-08.html",
+      "Q00287_FiguringItOut/32742-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00287_FiguringItOut/32742-02.htm": {
+   "file": "Q00287_FiguringItOut/32742-02.htm",
+   "quest": 287,
+   "text": "Investigator Laki: Primarily, I am investigating the intelligence of the Tanta Lizardmen, and whether or not they are cognitive enough to know how much they've changed to fit this new environment. The root of my research lies in the study of their blood... so much blood. But I've used it all and st…",
+   "header": "Investigator Laki",
+   "links": [
+    {
+     "text": "Agree to help.",
+     "bypass": "Quest Q00287_FiguringItOut 32742-03.htm",
+     "kind": "quest-event",
+     "script": "Q00287_FiguringItOut",
+     "event": "32742-03.htm",
+     "quest": 287,
+     "to": "Q00287_FiguringItOut/32742-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00287_FiguringItOut/32742-03.htm": {
+   "file": "Q00287_FiguringItOut/32742-03.htm",
+   "quest": 287,
+   "text": "Investigator Laki: For the investigation, I'll need at least 100 vials of Tanta Lizardmen blood . But, if you bring more, I can offer more and greater rewards. The more, the better.",
+   "header": "Investigator Laki",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00287_FiguringItOut/32742-06.html": {
+   "file": "Q00287_FiguringItOut/32742-06.html",
+   "quest": 287,
+   "text": "Investigator Laki: There you are. I'd like to give you even more if I could. At least take what I have for now. But in the meantime, I can always use more Tanta Lizardmen blood!",
+   "header": "Investigator Laki",
+   "links": [
+    {
+     "text": "Say you will keep helping.",
+     "bypass": "Quest Q00287_FiguringItOut 32742-10.html",
+     "kind": "quest-event",
+     "script": "Q00287_FiguringItOut",
+     "event": "32742-10.html",
+     "quest": 287,
+     "to": "Q00287_FiguringItOut/32742-10.html"
+    },
+    {
+     "text": "Say you quit.",
+     "bypass": "Quest Q00287_FiguringItOut 32742-11.html",
+     "kind": "quest-event",
+     "script": "Q00287_FiguringItOut",
+     "event": "32742-11.html",
+     "quest": 287,
+     "to": "Q00287_FiguringItOut/32742-11.html",
+     "toAll": [
+      "Q00287_FiguringItOut/32742-11.html",
+      "Q00287_FiguringItOut/32742-12.html"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00287_FiguringItOut/32742-07.html": {
+   "file": "Q00287_FiguringItOut/32742-07.html",
+   "quest": 287,
+   "text": "Investigator Laki: I'm sorry but the Recipe and Ingredients of Icarus Spitter is rewarded to the first adventurer to bring me more than 500 vials of Tanta blood.",
+   "header": "Investigator Laki",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00287_FiguringItOut/32742-08.html": {
+   "file": "Q00287_FiguringItOut/32742-08.html",
+   "quest": 287,
+   "text": "Investigator Laki: Here you are. I'd like to give you even more if I could. At least take what I have for now. But in the mean time, I can always use more Tanta Lizardmen blood!",
+   "header": "Investigator Laki",
+   "links": [
+    {
+     "text": "Say you will keep helping.",
+     "bypass": "Quest Q00287_FiguringItOut 32742-10.html",
+     "kind": "quest-event",
+     "script": "Q00287_FiguringItOut",
+     "event": "32742-10.html",
+     "quest": 287,
+     "to": "Q00287_FiguringItOut/32742-10.html"
+    },
+    {
+     "text": "Say you quit.",
+     "bypass": "Quest Q00287_FiguringItOut 32742-11.html",
+     "kind": "quest-event",
+     "script": "Q00287_FiguringItOut",
+     "event": "32742-11.html",
+     "quest": 287,
+     "to": "Q00287_FiguringItOut/32742-11.html",
+     "toAll": [
+      "Q00287_FiguringItOut/32742-11.html",
+      "Q00287_FiguringItOut/32742-12.html"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00287_FiguringItOut/32742-09.html": {
+   "file": "Q00287_FiguringItOut/32742-09.html",
+   "quest": 287,
+   "text": "Investigator Laki: I'm sorry but the recipe and Ingredients of Sealed Moirai Armor will be given to the first adventurer to bring me more than more than 100 vials of of Tanta blood .",
+   "header": "Investigator Laki",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00287_FiguringItOut/32742-10.html": {
+   "file": "Q00287_FiguringItOut/32742-10.html",
+   "quest": 287,
+   "text": "Investigator Laki: I knew you would help! You truly have the spirit of a keen researcher and adventurer. But my research must continue. If you could bring me more Tanta blood , I'd appreciate it.",
+   "header": "Investigator Laki",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00287_FiguringItOut/32742-11.html": {
+   "file": "Q00287_FiguringItOut/32742-11.html",
+   "quest": 287,
+   "text": "Investigator Laki: Hm... I can't reward you if there's not enough Tanta blood. Are you quitting?",
+   "header": "Investigator Laki",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": [
+    {
+     "text": "Say you will continue to help.",
+     "bypass": "Quest Q00287_FiguringItOut 32742-10.html",
+     "kind": "quest-event",
+     "script": "Q00287_FiguringItOut",
+     "event": "32742-10.html",
+     "quest": 287,
+     "to": "Q00287_FiguringItOut/32742-10.html"
+    },
+    {
+     "text": "Say you quit.",
+     "bypass": "Quest Q00287_FiguringItOut 32742-13.html",
+     "kind": "quest-event",
+     "script": "Q00287_FiguringItOut",
+     "event": "32742-13.html",
+     "quest": 287,
+     "to": "Q00287_FiguringItOut/32742-13.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00287_FiguringItOut/32742-12.html": {
+   "file": "Q00287_FiguringItOut/32742-12.html",
+   "quest": 287,
+   "text": "Investigator Laki: I see. That's it then. Perhaps you can help next time.",
+   "header": "Investigator Laki",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00287_FiguringItOut/32742-13.html": {
+   "file": "Q00287_FiguringItOut/32742-13.html",
+   "quest": 287,
+   "text": "Investigator Laki: It is so... And I'm at a loss. We just have to hope for next time.",
+   "header": "Investigator Laki",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Figuring It Out!]",
+     "bypass": "npc_%objectId%_Quest Q00287_FiguringItOut",
+     "kind": "quest",
+     "quest": 287,
+     "to": "Q00287_FiguringItOut/32742-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Figuring It Out! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00287_FiguringItOut",
+     "kind": "quest",
+     "quest": 287,
+     "to": "Q00287_FiguringItOut/32742-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

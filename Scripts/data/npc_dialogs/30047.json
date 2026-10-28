@@ -1,0 +1,49 @@
+{
+ "npcId": 30047,
+ "name": "Firon",
+ "title": "Wharf Manager",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.793Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30047.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30047.htm": {
+   "file": "merchant/30047.htm",
+   "quest": null,
+   "text": "Wharf Manager Firon: Are you here to board a ship? Nowadays there are only the regularly scheduled ships coming in and going out of Gludin Village, but before the troubles, when we used to trade with Gracia, there were many more ships in this port. That wretched war... I long to see this port as it…",
+   "header": "Wharf Manager Firon",
+   "links": [
+    {
+     "text": "Buy a ticket.",
+     "bypass": "npc_%objectId%_Buy 3004700",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,836 @@
+{
+ "npcId": 31378,
+ "name": "Naran Ashanuk",
+ "title": "Varka's Messenger",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.199Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31378-friend.html",
+   "when": "(AllianceLevel < 0)",
+   "src": "ai VarkaSilenosSupport"
+  },
+  {
+   "page": "ai/npc/VarkaSilenosSupport/31378-no.html",
+   "when": "NOT (AllianceLevel < 0)",
+   "src": "ai VarkaSilenosSupport"
+  }
+ ],
+ "quests": {
+  "12": {
+   "name": "Secret Meeting With Varka Silenos",
+   "listText": [
+    "[Secret meeting with Varka Silenos]",
+    "[Secret Meeting with Varka Silenos (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00012_SecretMeetingWithVarkaSilenos/31378-01.html",
+     "when": "state STARTED; memo 21; has items 7232",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "611": {
+   "name": "Alliance with Varka Silenos",
+   "listText": [
+    "[Alliance with Varka Silenos]",
+    "[Alliance with Varka Silenos (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-11.html",
+     "when": "state STARTED; cond 1; (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) >= SOLDIER_BADGE_COUNT[0])",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-10.html",
+     "when": "state STARTED; cond 1; NOT (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) >= SOLDIER_BADGE_COUNT[0])",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-14.html",
+     "when": "state STARTED; cond 2; (st.hasQuestItems(VARKA_MARKS[0]) && (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-13.html",
+     "when": "state STARTED; cond 2; NOT (st.hasQuestItems(VARKA_MARKS[0]) && (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-17.html",
+     "when": "state STARTED; cond 3; (st.hasQuestItems(VARKA_MARKS[1]) && (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-16.html",
+     "when": "state STARTED; cond 3; NOT (st.hasQuestItems(VARKA_MARKS[1]) && (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-20.html",
+     "when": "state STARTED; cond 4; (hasQuestItems(player, VARKA_MARKS[2], VALOR_FEATHER) && (st.getQuestItemsCount(KETRA_BADGE_SOLDIER)",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-19.html",
+     "when": "state STARTED; cond 4; NOT (hasQuestItems(player, VARKA_MARKS[2], VALOR_FEATHER) && (st.getQuestItemsCount(KETRA_BADGE_SOLDIER)",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-22.html",
+     "when": "state STARTED; cond 5; (!st.hasQuestItems(VARKA_MARKS[3]) || !st.hasQuestItems(WISDOM_FEATHER) || (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) <",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-23.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00611_AllianceWithVarkaSilenos/31378-24.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "615": {
+   "name": "Magical Power of Fire - Part 1",
+   "listText": [
+    "[Magical Power of Fire - Part 1]",
+    "[Magical Power of Fire - Part 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00615_MagicalPowerOfFirePart1/31378-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); (hasAtLeastOneQuestItem(player, VARKA_MARKS))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00615_MagicalPowerOfFirePart1/31378-00a.html",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (hasAtLeastOneQuestItem(player, VARKA_MARKS))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00615_MagicalPowerOfFirePart1/31378-00b.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00615_MagicalPowerOfFirePart1/31378-03.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "ai/npc/VarkaSilenosSupport/31378-friend.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31378-friend.html",
+   "quest": null,
+   "text": "Ketra's Messenger Naran Ashanuk: The Silenos were a wandering tribe that followed the wind. I suppose if you've made it this far you already know that. We Varka are warriors! We're the toughest, most tenacious fighters ever! You're extremely brave! You helped us to drive those arrogant Ketra Orcs f…",
+   "header": "Ketra's Messenger Naran Ashanuk",
+   "when": [
+    "(AllianceLevel < 0)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/VarkaSilenosSupport/31378-no.html": {
+   "file": "ai/npc/VarkaSilenosSupport/31378-no.html",
+   "quest": null,
+   "text": "Varka's Messenger Naran Ashanuk: Behold the promised land of the Varka! It was given to us as a reward for spilling our blood in defense of the kingdom of Elmore! Who do those pathetic Ketra Orcs think they are? Saying that this land has belonged to them for thousands of years! Rubbish! You, travel…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "NOT (AllianceLevel < 0)"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00012_SecretMeetingWithVarkaSilenos/31378-01.html": {
+   "file": "Q00012_SecretMeetingWithVarkaSilenos/31378-01.html",
+   "quest": 12,
+   "text": "Varka's Messenger Naran Ashanuk: What brings you to this land of the Varka, traveler of Zephyr Winds?",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; memo 21; has items 7232"
+   ],
+   "links": [
+    {
+     "text": "Hand over Helmut's chest of military supplies.",
+     "bypass": "Quest Q00012_SecretMeetingWithVarkaSilenos 31378-02.html",
+     "kind": "quest-event",
+     "script": "Q00012_SecretMeetingWithVarkaSilenos",
+     "event": "31378-02.html",
+     "quest": 12,
+     "to": "Q00012_SecretMeetingWithVarkaSilenos/31378-02.html",
+     "toAll": [
+      "Q00012_SecretMeetingWithVarkaSilenos/31378-02.html",
+      "Q00012_SecretMeetingWithVarkaSilenos/31378-03.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-01.htm": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-01.htm",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: We Varka have shown our strength and tenacity in countless battles and wars, but know that we can't survive alone. Everyone needs friends. We're looking for friends to help us fight! Will you fight alongside the mighty Varka Silenos?",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it!\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-04.htm",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-04.htm",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-04.htm",
+     "toAll": [
+      "Q00611_AllianceWithVarkaSilenos/31378-04.htm",
+      "Q00611_AllianceWithVarkaSilenos/31378-03.htm"
+     ],
+     "effect": "cond:[object Object]|cond:1"
+    }
+   ]
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-02.htm": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-02.htm",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: We're looking for an exceptionally strong fighter! Why don't you come back when you've developed your skills a bit more? (This quest may only be undertaken by a character of level 74 or above.)",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-11.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-11.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: I bet you left a bitter taste in the Ketra Orcs' mouths. What have you brought me?",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; cond 1; (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) >= SOLDIER_BADGE_COUNT[0])"
+   ],
+   "links": [
+    {
+     "text": "Hand over the Ketra badges.",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-12.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-12.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-12.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-10.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-10.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Are you still here? If you want to be a friend of the Varka Silenos, you must go to the advance base of the Ketra Orcs and kill them all! Kill their footmen, raiders, scouts, shamans and war hounds . Bring back 100 badges of Ketra grunts , then you will have proven …",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; cond 1; NOT (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) >= SOLDIER_BADGE_COUNT[0])"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-14.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-14.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Did those gutless Ketras cry when you beat them? How many did you kill? Where are the proofs?",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; cond 2; (st.hasQuestItems(VARKA_MARKS[0]) && (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the badges.\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-15.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-15.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-15.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-13.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-13.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: What are you still doing here? Get to the battlefield immediately! You've committed to bring 200 badges of Ketra grunts and 100 badges of Ketra officers . Get the officers' badges from Ketra Orc Warriors, lieutenants, mediums, elite soldiers, centurions, seers, legi…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; cond 2; NOT (st.hasQuestItems(VARKA_MARKS[0]) && (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO"
+   ],
+   "links": [
+    {
+     "text": "\"I'll destroy my enemy!\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-12a.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-12a.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-12a.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-25.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-25.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-25.html"
+    }
+   ]
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-17.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-17.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Ah, back from your visit with the Ketra Orcs, are you? What was your trophy?",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; cond 3; (st.hasQuestItems(VARKA_MARKS[1]) && (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO"
+   ],
+   "links": [
+    {
+     "text": "Hand over the Ketra badges.",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-18.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-18.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-18.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-16.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-16.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: What are you still doing here? Get to the battlefield immediately! Remember, you've agreed to bring 300 badges of Ketra grunts, 200 badges of Ketra officers and 100 badges of Ketra captains . You can get the General's Badge by slaying the Ketra Orc Generals, Battali…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; cond 3; NOT (st.hasQuestItems(VARKA_MARKS[1]) && (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) >= SOLDIER_BADGE_CO"
+   ],
+   "links": [
+    {
+     "text": "\"I'll destroy my enemy!\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-12a.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-12a.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-12a.html"
+    },
+    {
+     "text": "\"Fine, I quit!\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-25.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-25.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-25.html"
+    }
+   ]
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-20.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-20.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Well, look who's back. from meeting with the Ketra Orcs. What did you find?",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; cond 4; (hasQuestItems(player, VARKA_MARKS[2], VALOR_FEATHER) && (st.getQuestItemsCount(KETRA_BADGE_SOLDIER)"
+   ],
+   "links": [
+    {
+     "text": "Hand over the Ketra badges.",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-21.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-21.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-21.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-19.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-19.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: What are you still doing here? Get to the battlefield immediately! You've promised us you'd bring from the Ketra Orcs 300 badges of grunts, 300 badges of officers, 200 badges of captains and a Feather of Valor . This feather can be obtained by undertaking the Prove …",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; cond 4; NOT (hasQuestItems(player, VARKA_MARKS[2], VALOR_FEATHER) && (st.getQuestItemsCount(KETRA_BADGE_SOLDIER)"
+   ],
+   "links": [
+    {
+     "text": "\"I will go destroy my enemy!\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-12a.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-12a.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-12a.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-25.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-25.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-25.html"
+    }
+   ]
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-22.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-22.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: What are you still doing here? Get to the battlefield immediately! You've promised to bring 400 badges of Ketra grunts, 400 badges of Ketra officers, 200 badges of Ketra captains and a Feather of Wisdom . This feather can be obtained by undertaking the Slay the Enem…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; cond 5; (!st.hasQuestItems(VARKA_MARKS[3]) || !st.hasQuestItems(WISDOM_FEATHER) || (st.getQuestItemsCount(KETRA_BADGE_SOLDIER) <"
+   ],
+   "links": [
+    {
+     "text": "\"I'll destroy my enemy!\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-12a.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-12a.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-12a.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-25.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-25.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-25.html"
+    }
+   ]
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-23.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-23.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Congratulations, friend of Varka! Please accept this Mark of Varka's Alliance - Level 5. This entitles you to all the privileges the village can offer! From now on, you can purchase new specialty items and travel to distant hunting grounds through our gatekeeper. We…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-24.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-24.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: You're braver than anyone I've ever seen! All the Varka will do their best to help you. You must visit our village and allow us to demonstrate our gratitude! But don't feel like you need to stay if you're unhappy...",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"I'll keep the promise with the Varka!\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-12b.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-12b.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-12b.html"
+    },
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-25.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-25.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-25.html"
+    }
+   ]
+  },
+  "Q00615_MagicalPowerOfFirePart1/31378-01.htm": {
+   "file": "Q00615_MagicalPowerOfFirePart1/31378-01.htm",
+   "quest": 615,
+   "text": "Varka's Messenger Naran Ashanuk: You have been an inspiration to the Varka, my friend! Udan Mardui has recently expressed interest in assigning a mission to you. Are you up to it?",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); (hasAtLeastOneQuestItem(player, VARKA_MARKS))"
+   ],
+   "links": [
+    {
+     "text": "\"I accept the mission.\"",
+     "bypass": "Quest Q00615_MagicalPowerOfFirePart1 31378-02.html",
+     "kind": "quest-event",
+     "script": "Q00615_MagicalPowerOfFirePart1",
+     "event": "31378-02.html",
+     "quest": 615,
+     "to": "Q00615_MagicalPowerOfFirePart1/31378-02.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00615_MagicalPowerOfFirePart1/31378-00a.html": {
+   "file": "Q00615_MagicalPowerOfFirePart1/31378-00a.html",
+   "quest": 615,
+   "text": "Varka's Messenger Naran Ashanuk: Friend of Varka, Guide of Dead Souls Udan Mardui is keeping an eye on your progress. He may one day bless you with a new mission. But only if you train harder! (This quest is for characters level 74 and above, and who have the 'Proof of Alliance with Varka Silenos' …",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (hasAtLeastOneQuestItem(player, VARKA_MARKS))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00615_MagicalPowerOfFirePart1/31378-00b.html": {
+   "file": "Q00615_MagicalPowerOfFirePart1/31378-00b.html",
+   "quest": 615,
+   "text": "Varka's Messenger Naran Ashanuk: Friend of Varka, Guide of Dead Souls Udan Mardui is watching you. Should he call upon you, you must be ready. When that day comes... you WILL be. (This quest is for characters level 74 and above, and who have the 'Proof of Alliance with Varka Silenos' - Level 1 or a…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00615_MagicalPowerOfFirePart1/31378-03.html": {
+   "file": "Q00615_MagicalPowerOfFirePart1/31378-03.html",
+   "quest": 615,
+   "text": "Varka's Messenger Naran Ashanuk: Have you met the guide of dead souls yet? Of course, I'm speaking of Udan Mardui, located in the center of the village. He has all the details regarding your new mission!",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00012_SecretMeetingWithVarkaSilenos/31378-02.html": {
+   "file": "Q00012_SecretMeetingWithVarkaSilenos/31378-02.html",
+   "quest": 12,
+   "text": "Varka's Messenger Naran Ashanuk: Was this sent by Helmut of Goddard? I thank you for coming so far to deliver this precious item. We Varkas do not forget those who have been of service to us. In fact, you seem very capable. We Varkas have been locked in a protracted war against the Ketra Orcs. Will…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00012_SecretMeetingWithVarkaSilenos/31378-03.html": {
+   "file": "Q00012_SecretMeetingWithVarkaSilenos/31378-03.html",
+   "quest": 12,
+   "text": "Not Used:",
+   "header": "Not Used",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-03.htm": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-03.htm",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: You've got some nerve, coming around here after helping our enemy! Have you no shame?",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-04.htm": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-04.htm",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: You seem pretty sure of yourself, but we can't afford to take in just anybody... If you wish to fight alongside the Varka Silenos, you must drive the Ketra Orcs from their advance base! Destroy the Ketra Orc footmen, raiders, scouts, shamans and war hounds and bring…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "sets": {
+    "cond": "1"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-05.htm": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-05.htm",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Friend of Varka. You've done well, and the trust of Varka will be growing as much as you've showed us. But, if you truly want to take our trust to a higher level, bring us 200 badges of Ketra grunts and 100 badges of Ketra officers . Fighters like you have become es…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-06.htm": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-06.htm",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Friend of Varka. You've shown great loyalty to the Varka twice before, dear friend! However, the trust of Varka will be growing as much as you've showed us. If you want to strengthen our alliance even further by becoming a 3rd level ally, bring us 300 badges of Ketr…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-07.htm": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-07.htm",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Dear and faithful friend, your countless victories for the Varka have proven your loyalty to us. However, the trust of Varka will be growing as much as you've showed us. If you wish to strengthen our alliance and become our 4th level ally, bring from the Ketra 300 b…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-08.htm": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-08.htm",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Dear and faithful friend, your countless victories for the Varka have proven your loyalty to us. There is one more mission that remains... If you wish to be our level 5 ally -- our highest honor of trust, obtain 400 badges of Ketra grunts, 400 badges of Ketra office…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-09.htm": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-09.htm",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Respected friend of the Varka. I no longer have any duties to give you. There is no one among us who is as courageous and faithful as you. The Varka Silenos of the village will give you their greatest service and benefit. Come to the Varka's village without hesitati…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "links": [
+    {
+     "text": "Give up the alliance with the Varka Silenos.",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-25.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-25.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-25.html"
+    }
+   ]
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-12.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-12.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: We Varka appreciate your help and friendship. Henceforth, you shall be known as a friend of the Varka! Congratulations! Please accept this Mark of Varka's Alliance - 1st level. It will guarantee you proper treatment in the village shops.",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-12a.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-12a.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Friend of the Varka, go destroy our enemies!",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-12b.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-12b.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: We value your trust, friend.",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-15.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-15.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Good job! You've earned this Mark of Varka's Alliance - Level 2. It gives you even more benefits and privileges from the village. If you want to use the warehouse, speak with Warehouse Keeper Hagos.",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-18.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-18.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Were you successful? Congratulations! Take this Mark of Varka's Alliance - Level 3. This will give you even more benefits and privileges in the village. New specialty items are available to you, and you may now receive the blessing of Udan Mardui, guide of dead soul…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-21.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-21.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Congratulations! Please accept this Mark of Varka's Alliance - Level 4. It will give you even more benefits and privileges in the village. Now you can travel to other villages through Gate Keeper Teranu Mardui. Now all that remains is for you to become our closest f…",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-25.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-25.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Friend of Varka. I, Varka's Messenger Naran Ashanuk, must warn you, friend of Varka! Once you end our alliance, we will become as strangers... as if we never met! Earning our friendship again will mean starting over at the beginning. Are you sure you want to quit?",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "links": [
+    {
+     "text": "\"I want to quit.\"",
+     "bypass": "Quest Q00611_AllianceWithVarkaSilenos 31378-26.html",
+     "kind": "quest-event",
+     "script": "Q00611_AllianceWithVarkaSilenos",
+     "event": "31378-26.html",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-26.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00611_AllianceWithVarkaSilenos/31378-26.html": {
+   "file": "Q00611_AllianceWithVarkaSilenos/31378-26.html",
+   "quest": 611,
+   "text": "Varka's Messenger Naran Ashanuk: Oh well, I suppose I was wrong about you! Good-bye, stranger!",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00615_MagicalPowerOfFirePart1/31378-02.html": {
+   "file": "Q00615_MagicalPowerOfFirePart1/31378-02.html",
+   "quest": 615,
+   "text": "Varka's Messenger Naran Ashanuk: Very well! Udan Mardui can tell you all about it. You can find him in the center of the village. Get going!",
+   "header": "Varka's Messenger Naran Ashanuk",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Secret Meeting with Varka Silenos (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00012_SecretMeetingWithVarkaSilenos",
+     "kind": "quest",
+     "quest": 12,
+     "to": "Q00012_SecretMeetingWithVarkaSilenos/31378-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Alliance with Varka Silenos]",
+     "bypass": "npc_%objectId%_Quest Q00611_AllianceWithVarkaSilenos",
+     "kind": "quest",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Alliance with Varka Silenos (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00611_AllianceWithVarkaSilenos",
+     "kind": "quest",
+     "quest": 611,
+     "to": "Q00611_AllianceWithVarkaSilenos/31378-11.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Magical Power of Fire - Part 1]",
+     "bypass": "npc_%objectId%_Quest Q00615_MagicalPowerOfFirePart1",
+     "kind": "quest",
+     "quest": 615,
+     "to": "Q00615_MagicalPowerOfFirePart1/31378-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Magical Power of Fire - Part 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00615_MagicalPowerOfFirePart1",
+     "kind": "quest",
+     "quest": 615,
+     "to": "Q00615_MagicalPowerOfFirePart1/31378-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,117 @@
+{
+ "npcId": 32510,
+ "name": "Inspector Adler",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.377Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32510.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "128": {
+   "name": "Pailaka - Song of Ice and Fire",
+   "listText": [
+    "[Pailaka - Song of Ice and Fire]",
+    "[Pailaka - Song of Ice and Fire (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32510-00.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00128_PailakaSongOfIceAndFire/32510-01.htm",
+     "when": "cond 9",
+     "state": null,
+     "cond": [
+      9
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32510.htm": {
+   "file": "default/32510.htm",
+   "quest": null,
+   "text": "Inspector Adler: Ta da! Don't look so surprised! I used a secret method known to the Pathfinders of Kamaloka to fly here",
+   "header": "Inspector Adler",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32510-00.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32510-00.htm",
+   "quest": 128,
+   "text": "Inspector Adler: It is time for you to use the Scroll of Escape I gave you.",
+   "header": "Inspector Adler",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00128_PailakaSongOfIceAndFire/32510-01.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32510-01.htm",
+   "quest": 128,
+   "text": "Inspector Adler: The Spirite's power is flowing smoothly. You have certainly justfield my trust in you! Thanks to you, we are rapidy restoring stability. Of course, that means the dimensional portal that connects your world to ours is also quickly closing. Hurry and take my hand! That sword belongs…",
+   "header": "Inspector Adler",
+   "when": [
+    "cond 9"
+   ],
+   "links": [
+    {
+     "text": "Take his hand.",
+     "bypass": "Quest Q00128_PailakaSongOfIceAndFire 32510-02.htm",
+     "kind": "quest-event",
+     "script": "Q00128_PailakaSongOfIceAndFire",
+     "event": "32510-02.htm",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32510-02.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00128_PailakaSongOfIceAndFire/32510-02.htm": {
+   "file": "Q00128_PailakaSongOfIceAndFire/32510-02.htm",
+   "quest": 128,
+   "text": "Inspector Adler: Please accept this Scroll of Escape. Its power will allow you to safely return to your world.",
+   "header": "Inspector Adler",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Pailaka - Song of Ice and Fire (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00128_PailakaSongOfIceAndFire",
+     "kind": "quest",
+     "quest": 128,
+     "to": "Q00128_PailakaSongOfIceAndFire/32510-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,334 @@
+{
+ "npcId": 32227,
+ "name": "Digler",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.360Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/32227.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "67": {
+   "name": "Saga of the Doombringer",
+   "listText": [
+    "[Saga of the Doombringer]",
+    "[Saga of the Doombringer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00067_SagaOfTheDoombringer/3-01.htm",
+     "when": "cond 10; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00067_SagaOfTheDoombringer/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00067_SagaOfTheDoombringer/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00067_SagaOfTheDoombringer/3-06.htm",
+     "when": "cond 13; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00067_SagaOfTheDoombringer/11-01.htm",
+     "when": "cond 14; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00067_SagaOfTheDoombringer/11-02.htm",
+     "when": "cond 15; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/32227.htm": {
+   "file": "trainer/32227.htm",
+   "quest": null,
+   "text": "Master Digler: This village seems peaceful enough, but to me it stinks like a fetid pond. Something is rotten here, and I won't rest until I discover the cause... Ah, pay no heed to my ramblings! Just...don't let your guard down while you're here...",
+   "header": "Master Digler",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/32227-noteach.htm": {
+   "file": "trainer/32227-noteach.htm",
+   "quest": null,
+   "text": "Master Digler: You are obviously not a Kamael Trooper, nor are you a Berserker or a Soul Breaker, so I can not help you.",
+   "header": "Master Digler",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/3-01.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/3-01.htm",
+   "quest": 67,
+   "text": "Master Digler: Hail and well met! You are on a quest to find the Tablets, are you not? Have you encountered anything strange so far? What? The first stone turned unexpectedly hot? Hmm... I suspect that someone is attempting to sabotage your quest. A few days ago, someone put a mark on the stone whi…",
+   "header": "Master Digler",
+   "when": [
+    "cond 10; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Then what can be done?\"",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 3-5",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "3-5",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/3-07.htm"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/3-05.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/3-05.htm",
+   "quest": 67,
+   "text": "Master Digler: Ah, you have brought back the Divine Stone of Wisdom. Well done! Now we can restore the function of my amulet using the spiritual strength of the holy stone.",
+   "header": "Master Digler",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Watch.",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 3-8",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "3-8",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/3-04.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/3-04.htm",
+   "quest": 67,
+   "text": "Master Digler: Go get the Divine Stone of Wisdom either from the Ketra Orcs or the Varka Silenos. Only then will this Resonance Amulet work.",
+   "header": "Master Digler",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/3-06.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/3-06.htm",
+   "quest": 67,
+   "text": "Master Digler: Go to the Tablet of Vision north of the Varka Silenos.",
+   "header": "Master Digler",
+   "when": [
+    "cond 13; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/11-01.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/11-01.htm",
+   "quest": 67,
+   "text": "Master Digler: You have returned! How was your encounter with the Tablet of Vision? While you were gone, some of the other masters and I have been investigating the strange happenings. We suspect that there is definitely someone working against the power of Enuma Elish. We do not know his identity,…",
+   "header": "Master Digler",
+   "when": [
+    "cond 14; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Ask why not.",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 11-9",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "11-9",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/11-02.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/11-02.htm",
+   "quest": 67,
+   "text": "Master Digler: To get the Resonance Amulet, there are two ways. One way is to defeat the Demon Halisha, who is located within the Four Sepulchers. you must form a party to enter. If that proves too difficult, defeat the followers of Halisha at the Shrine of Loyalty. By doing so, you can earn \"ticke…",
+   "header": "Master Digler",
+   "when": [
+    "cond 15; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/11-03.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/11-03.htm",
+   "quest": 67,
+   "text": "Master Digler: We must have this amulet to attract the opponents who are interested in Enuma Elish. Fortunately, it can be obtained through other means... One way is to defeat the Demon Halisha, who is located within the Four Sepulchers. you must form a party to enter. If that proves too difficult,…",
+   "header": "Master Digler",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/3-02.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/3-02.htm",
+   "quest": 67,
+   "text": "Master Digler: Then go! Seek out Ketra's Messenger Wahkan and gain his tribe's trust.",
+   "header": "Master Digler",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/3-03.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/3-03.htm",
+   "quest": 67,
+   "text": "Master Digler: Then go! Seek out Varka's Messenger Naran Ashanuk and gain his tribe's trust.",
+   "header": "Master Digler",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00067_SagaOfTheDoombringer/3-07.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/3-07.htm",
+   "quest": 67,
+   "text": "Master Digler: In order to renew the power of the damaged amulet, we need the Divine Stone of Wisdom and its strong spiritual power. That stone is possessed by two great magicians: the Soul Guide Asefa of the Ketra Orcs and the Soul Guide Udan Mardui of the Varka Silenos. They will award the stone …",
+   "header": "Master Digler",
+   "links": [
+    {
+     "text": "Get the stone from the Ketra Orcs",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 3-6",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "3-6",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "Get the stone from the Varka Silenos",
+     "bypass": "Quest Q00067_SagaOfTheDoombringer 3-7",
+     "kind": "quest-event",
+     "script": "Q00067_SagaOfTheDoombringer",
+     "event": "3-7",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/3-03.htm",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00067_SagaOfTheDoombringer/3-08.htm": {
+   "file": "Q00067_SagaOfTheDoombringer/3-08.htm",
+   "quest": 67,
+   "text": "Master Digler: Excellent -- now the amulet will renew itself. Take it to the Tablet of Vision north of the Varka Silenos.",
+   "header": "Master Digler",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Doombringer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00067_SagaOfTheDoombringer",
+     "kind": "quest",
+     "quest": 67,
+     "to": "Q00067_SagaOfTheDoombringer/3-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

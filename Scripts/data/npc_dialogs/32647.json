@@ -1,0 +1,551 @@
+{
+ "npcId": 32647,
+ "name": "Atra",
+ "title": "Apprentice",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.395Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32647.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "309": {
+   "name": "For A Good Cause",
+   "listText": [
+    "[For a Good Cause]",
+    "[For a Good Cause (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00309_ForAGoodCause/32647-17.html",
+     "when": "state STARTED; q308 != null",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00309_ForAGoodCause/32647-08.html",
+     "when": "state STARTED; !((q308 != null) && q308.isStarted()); (st.hasQuestItems(MUCROKIAN_HIDE) || st.hasQuestItems(FALLEN_MUCROKIAN_HIDE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00309_ForAGoodCause/32647-06.html",
+     "when": "state STARTED; !((q308 != null) && q308.isStarted()); NOT (st.hasQuestItems(MUCROKIAN_HIDE) || st.hasQuestItems(FALLEN_MUCROKIAN_HIDE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00309_ForAGoodCause/32647-01.htm",
+     "when": "!((q308 != null) && q308.isStarted()); (talker.getLevel() >= MIN_LEVEL)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00309_ForAGoodCause/32647-00.html",
+     "when": "!((q308 != null) && q308.isStarted()); NOT (talker.getLevel() >= MIN_LEVEL)",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32647.htm": {
+   "file": "default/32647.htm",
+   "quest": null,
+   "text": "Apprentice Atra: They say that Eva truly loved the two reed fields in beautiful Innadril. They say that no one loved this beautiful land more than Eva. If she could see what is happening here now, she would be immensely saddened. We must return this land to its former glory, no matter what!",
+   "header": "Apprentice Atra",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00309_ForAGoodCause/32647-17.html": {
+   "file": "Q00309_ForAGoodCause/32647-17.html",
+   "quest": 309,
+   "text": "Apprentice Atra: I know that you've already been in charge of helping Dwarves at the Reed Field Development Base, Are you spying around? I suggest you to leave as soon as possible. (This quest cannot be performed at the same time with the movement participation quest.)",
+   "header": "Apprentice Atra",
+   "when": [
+    "state STARTED; q308 != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00309_ForAGoodCause/32647-08.html": {
+   "file": "Q00309_ForAGoodCause/32647-08.html",
+   "quest": 309,
+   "text": "Apprentice Atra: Ah, you've finally returned! What would you like to do next?",
+   "header": "Apprentice Atra",
+   "when": [
+    "state STARTED; !((q308 != null) && q308.isStarted()); (st.hasQuestItems(MUCROKIAN_HIDE) || st.hasQuestItems(FALLEN_MUCROKIAN_HIDE))"
+   ],
+   "links": [
+    {
+     "text": "Check reward list.",
+     "bypass": "Quest Q00309_ForAGoodCause claimreward",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "claimreward",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-11.html",
+     "toAll": [
+      "Q00309_ForAGoodCause/32647-11.html",
+      "Q00309_ForAGoodCause/32647-09.html"
+     ]
+    },
+    {
+     "text": "Continue with the task.",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-12.html",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-12.html",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-12.html"
+    },
+    {
+     "text": "Stop the quest.",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-13.html",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-13.html",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-13.html"
+    }
+   ]
+  },
+  "Q00309_ForAGoodCause/32647-06.html": {
+   "file": "Q00309_ForAGoodCause/32647-06.html",
+   "quest": 309,
+   "text": "Apprentice Atra: Why haven't you left yet? As I said before, seek out Mucrokian Fanatics, Mucrokian Ascetics, Mucrokian Saviors, Mucrokian Preachers, Awakened Mucrokians and Contaminated Mucrokians . Tear off the hide of each one you kill and bring them back to me. You can find these ghastly beasts…",
+   "header": "Apprentice Atra",
+   "when": [
+    "state STARTED; !((q308 != null) && q308.isStarted()); NOT (st.hasQuestItems(MUCROKIAN_HIDE) || st.hasQuestItems(FALLEN_MUCROKIAN_HIDE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00309_ForAGoodCause/32647-01.htm": {
+   "file": "Q00309_ForAGoodCause/32647-01.htm",
+   "quest": 309,
+   "text": "Apprentice Atra: Those Dwarves, they only have hammer and chisel in their brain. And sometimes I think that Dr. Helvetica is the worst one of the bunch! If he is allowed to be successful, he will bring calamity and devastation to this land. Athenia leads a group of people devoted to stopping the go…",
+   "header": "Apprentice Atra",
+   "when": [
+    "!((q308 != null) && q308.isStarted()); (talker.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Listen to what he has to say.\"",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-02.htm",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-02.htm",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-02.htm"
+    }
+   ]
+  },
+  "Q00309_ForAGoodCause/32647-00.html": {
+   "file": "Q00309_ForAGoodCause/32647-00.html",
+   "quest": 309,
+   "text": "Apprentice Atra: I mean no disrespect, but you look a little puny to me. Even if I were to explain to you what is happening here, I doubt that you could help us. (Quest only available for characters level 82 and above)",
+   "header": "Apprentice Atra",
+   "when": [
+    "!((q308 != null) && q308.isStarted()); NOT (talker.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00309_ForAGoodCause/32647-02.htm": {
+   "file": "Q00309_ForAGoodCause/32647-02.htm",
+   "quest": 309,
+   "text": "Apprentice Atra: This land belongs to Eva, and as followers of Eva, we each have an obligation to uphold her beliefs and tenets. Those idiotic dwarves from the Helvetica Development Base know nothing about the delicate balance of nature; that is why we are here. We are the crusaders of nature, if y…",
+   "header": "Apprentice Atra",
+   "links": [
+    {
+     "text": "\"What the hell are you talking about?\"",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-03.htm",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-03.htm",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-03.htm"
+    },
+    {
+     "text": "\"I agree with you completely!\"",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-04.htm",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-04.htm",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-04.htm"
+    }
+   ]
+  },
+  "Q00309_ForAGoodCause/32647-03.htm": {
+   "file": "Q00309_ForAGoodCause/32647-03.htm",
+   "quest": 309,
+   "text": "Apprentice Atra: Athenia must have been wrong about you. Perhaps you should go hang out with your buddies over at the Helvetica Research Base. You clearly do not understand our purpose here.",
+   "header": "Apprentice Atra",
+   "links": [
+    {
+     "text": "\"Wait, wait. It's all clear to me now. Tell me what needs to be done.\"",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-04.htm",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-04.htm",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-04.htm"
+    },
+    {
+     "text": "\"See you later. I have some dwarves to go hang out with.\"",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-07.html",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-07.html",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-07.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00309_ForAGoodCause/32647-04.htm": {
+   "file": "Q00309_ForAGoodCause/32647-04.htm",
+   "quest": 309,
+   "text": "Apprentice Atra: This movement's motto is \"Education, Preservation, Dedication\". If you have taken our pledge, then you must help us uphold these tenets. In order to return this place back to its former glory, we need to eradicate the Mucrokians. The lands between the Fields of Silence and the Fiel…",
+   "header": "Apprentice Atra",
+   "links": [
+    {
+     "text": "\"I'll be happy to help.\"",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-05.html",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-05.html",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-05.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00309_ForAGoodCause/32647-05.html": {
+   "file": "Q00309_ForAGoodCause/32647-05.html",
+   "quest": 309,
+   "text": "Apprentice Atra: The Mucrokians stimulate the contamination of this region. And for that reason, they must be exterminated. Hunt down Mucrokian Fanatics, Mucrokian Ascetics, Mucrokian Saviors, Mucrokian Preachers and Awakened Mucrokians . Tear off the hide of each one you kill. Amidst their ranks y…",
+   "header": "Apprentice Atra",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00309_ForAGoodCause/32647-07.html": {
+   "file": "Q00309_ForAGoodCause/32647-07.html",
+   "quest": 309,
+   "text": "Apprentice Atra: You'd best curb your tongue before I yank it out of your skull. Clearly, you are not the person Athenia thinks you are. Be gone before something terrible befalls you!",
+   "header": "Apprentice Atra",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00309_ForAGoodCause/32647-09.html": {
+   "file": "Q00309_ForAGoodCause/32647-09.html",
+   "quest": 309,
+   "text": "Apprentice Atra: You have not completed the Ceremony of Purification task. We cannot trust somebody who does not perform the mission. If you are like this, we have no choice to charge you a fee out of your reward. How about that? If you carry out the mission, you cannot get rewarded wholly, but do …",
+   "header": "Apprentice Atra",
+   "links": [
+    {
+     "text": "\"I'll settle for it now.\"",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-10.html",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-10.html",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-10.html"
+    },
+    {
+     "text": "\"I'll settle it later.\"",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-12.html",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-12.html",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-12.html"
+    }
+   ]
+  },
+  "Q00309_ForAGoodCause/32647-10.html": {
+   "file": "Q00309_ForAGoodCause/32647-10.html",
+   "quest": 309,
+   "text": "Apprentice Atra: You must be in a hurry. Anyway, the reward items are as follows: You can choose an item of your choice if you have enough Mucrokian Hide or Contaminated Mucrokian Hide. Contaminated Mucrokian Hide will be double the price of the other hides. Except, Contaminated Mucrokian Hide will…",
+   "header": "Apprentice Atra",
+   "links": [
+    {
+     "text": "Recipe - Sealed Dynasty Earring(70%)(Requires 230 Mucrokian Hides)",
+     "bypass": "Quest Q00309_ForAGoodCause 230",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "230",
+     "quest": 309,
+     "to": null
+    },
+    {
+     "text": "Recipe - Sealed Dynasty Necklace(70%)(Requires 308 Mucrokian Hides)",
+     "bypass": "Quest Q00309_ForAGoodCause 308",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "308",
+     "quest": 309,
+     "to": null
+    },
+    {
+     "text": "Recipe - Sealed Dynasty Ring(70%)(Requires 154 Mucrokian Hides)",
+     "bypass": "Quest Q00309_ForAGoodCause 154",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "154",
+     "quest": 309,
+     "to": null
+    },
+    {
+     "text": "Recipe - Sealed Dynasty Sigil(60%)(Requires 246 Mucrokian Hides)",
+     "bypass": "Quest Q00309_ForAGoodCause 246",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "246",
+     "quest": 309,
+     "to": null
+    },
+    {
+     "text": "Receive Moirai Robe Set or accessory recipe (Requires 216 Mucrokian Hides)",
+     "bypass": "Quest Q00309_ForAGoodCause 216",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "216",
+     "quest": 309,
+     "to": null
+    },
+    {
+     "text": "Receive Moirai Robe Set or accessory ingredient item (requires 120 Mucrokian skins).",
+     "bypass": "Quest Q00309_ForAGoodCause 120",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "120",
+     "quest": 309,
+     "to": null
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32647-08.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32647-08.html",
+     "quest": 308,
+     "to": null
+    }
+   ]
+  },
+  "Q00309_ForAGoodCause/32647-11.html": {
+   "file": "Q00309_ForAGoodCause/32647-11.html",
+   "quest": 309,
+   "text": "Apprentice Atra: You can choose an item of your choice if you have enough Mucrokian Hides or Contaminated Mucrokian Hides. Contaminated Mucrokian Hide are worth more and count as much as double of a normal Mucrokian Hide. In fact, we tend to favor those more and they will be deducted first those fi…",
+   "header": "Apprentice Atra",
+   "links": [
+    {
+     "text": "Recipe - Sealed Dynasty Earring(70%)(Requires 192 Mucrokian Hides)",
+     "bypass": "Quest Q00309_ForAGoodCause 192",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "192",
+     "quest": 309,
+     "to": null
+    },
+    {
+     "text": "Recipe - Sealed Dynasty Necklace(70%)(Requires 256 Mucrokian Hides)",
+     "bypass": "Quest Q00309_ForAGoodCause 256",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "256",
+     "quest": 309,
+     "to": null
+    },
+    {
+     "text": "Recipe - Sealed Dynasty Ring(70%)(Requires 128 Mucrokian Hides)",
+     "bypass": "Quest Q00309_ForAGoodCause 128",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "128",
+     "quest": 309,
+     "to": null
+    },
+    {
+     "text": "Recipe - Sealed Dynasty Sigil(60%)(Requires 206 Mucrokian Hides)",
+     "bypass": "Quest Q00309_ForAGoodCause 206",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "206",
+     "quest": 309,
+     "to": null
+    },
+    {
+     "text": "Receive Moirai Robe Set or accessory recipe (Requires 180 Mucrokian Hides)",
+     "bypass": "Quest Q00309_ForAGoodCause 180",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "180",
+     "quest": 309,
+     "to": null
+    },
+    {
+     "text": "Receive Moirai Robe Set ingredient item (requires 100 Mucrokian skins).",
+     "bypass": "Quest Q00309_ForAGoodCause 100",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "100",
+     "quest": 309,
+     "to": null
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32647-08.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32647-08.html",
+     "quest": 308,
+     "to": null
+    }
+   ]
+  },
+  "Q00309_ForAGoodCause/32647-12.html": {
+   "file": "Q00309_ForAGoodCause/32647-12.html",
+   "quest": 309,
+   "text": "Apprentice Atra: Alright! Hurry and hunt down Mucrokian Fanatic, Mucrokian Ascetic, Mucrokian Savior, Mucrokian Preacher, Awakened Mucrokian . Please do not forget that I have informed you about special reward for Awakened Mucrokian .",
+   "header": "Apprentice Atra",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00309_ForAGoodCause/32647-13.html": {
+   "file": "Q00309_ForAGoodCause/32647-13.html",
+   "quest": 309,
+   "text": "Apprentice Atra: How about receiving the reward before you quit? I'm just letting you know since there is an evidence of hunting.",
+   "header": "Apprentice Atra",
+   "links": [
+    {
+     "text": "Check reward list.",
+     "bypass": "Quest Q00309_ForAGoodCause claimreward",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "claimreward",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-11.html",
+     "toAll": [
+      "Q00309_ForAGoodCause/32647-11.html",
+      "Q00309_ForAGoodCause/32647-09.html"
+     ]
+    },
+    {
+     "text": "Just quit the task.",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-14.html",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-14.html",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-14.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00309_ForAGoodCause/32647-14.html": {
+   "file": "Q00309_ForAGoodCause/32647-14.html",
+   "quest": 309,
+   "text": "Apprentice Atra: Alright. I understand. It's regrettable but I will have to look for someone else. Then good bye.",
+   "header": "Apprentice Atra",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00309_ForAGoodCause/32647-15.html": {
+   "file": "Q00309_ForAGoodCause/32647-15.html",
+   "quest": 309,
+   "text": "Apprentice Atra: Thank you for making efforts for us, but we need more pelts. It would be difficult to give you that item. Please try harder.",
+   "header": "Apprentice Atra",
+   "links": [
+    {
+     "text": "\"Alright, I'll continue to hunt.\"",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-12.html",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-12.html",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-12.html"
+    },
+    {
+     "text": "\"I wish to stop the task\"",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-14.html",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-14.html",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-14.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00309_ForAGoodCause/32647-16.html": {
+   "file": "Q00309_ForAGoodCause/32647-16.html",
+   "quest": 309,
+   "text": "Apprentice Atra: I'll take those hides, and here is the item you requested. Are you ready for more work?",
+   "header": "Apprentice Atra",
+   "links": [
+    {
+     "text": "\"I'm ready for more work.\"",
+     "bypass": "Quest Q00309_ForAGoodCause 32647-12.html",
+     "kind": "quest-event",
+     "script": "Q00309_ForAGoodCause",
+     "event": "32647-12.html",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-12.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[For a Good Cause]",
+     "bypass": "npc_%objectId%_Quest Q00309_ForAGoodCause",
+     "kind": "quest",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-17.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[For a Good Cause (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00309_ForAGoodCause",
+     "kind": "quest",
+     "quest": 309,
+     "to": "Q00309_ForAGoodCause/32647-17.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

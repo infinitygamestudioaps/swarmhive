@@ -1,0 +1,345 @@
+{
+ "npcId": 31739,
+ "name": "Talien",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.273Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/31739.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "241": {
+   "name": "Possessor Of A Precious Soul 1",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 1]",
+    "[Path of the Noblesse, Precious Soul - 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31739-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= 50) && player.isSubClassActive())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31739-00.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= 50) && player.isSubClassActive())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31739-03.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31739-04.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31739-06.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31739-07.html",
+     "when": "state STARTED; cond 8",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31739-09.html",
+     "when": "state STARTED; cond 9",
+     "state": "STARTED",
+     "cond": [
+      9
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31739-10.html",
+     "when": "state STARTED; cond 10",
+     "state": "STARTED",
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31739-12.html",
+     "when": "state STARTED; cond 11",
+     "state": "STARTED",
+     "cond": [
+      11
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31739.htm": {
+   "file": "default/31739.htm",
+   "quest": null,
+   "text": "Talien: Well-traveled adventurers like you, although you may not be aware of it, have many wonderful and interesting stories to tell! Would you tell me a story? An adventure story?",
+   "header": "Talien",
+   "live": {
+    "file": "Logs/npclive_Talien_84eed1b3.html",
+    "at": "2026-10-27T14:35:17.856Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-01.htm": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-01.htm",
+   "quest": 241,
+   "text": "Talien: Do you know the story of the seventeen heroes who challenged the Land Dragon Antharas? It's fascinating! Such a heroic sacrifice! It could be an epic poem! In fact, it's one of my all-time favorite stories! It's what motivated me to become a bohemian poet! It's always been my dream to write…",
+   "header": "Talien",
+   "when": [
+    "state CREATED; ((player.getLevel() >= 50) && player.isSubClassActive())"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help you.\"",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 31739-02.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "31739-02.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31739-02.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-00.htm": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-00.htm",
+   "quest": 241,
+   "text": "Talien: Do you know the story of the seventeen heroes who challenged the Land Dragon Antharas? It's fascinating! Such a heroic sacrifice! It could be an epic poem! In fact, it's one of my all-time favorite stories! It's what motivated me to become a bohemian poet! It's always been my dream to write…",
+   "header": "Talien",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= 50) && player.isSubClassActive())"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-03.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-03.html",
+   "quest": 241,
+   "text": "Talien: Why haven't you left yet? Do I need to remind you how important this is? Visit Gabrielle in Giran Castle Town and ask her to tell you the story of the seventeen heroes.",
+   "header": "Talien",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-04.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-04.html",
+   "quest": 241,
+   "text": "Talien: Come in! Is this the record? Great job! The record of the seventeen heroes who confronted the Land Dragon! This is truly fascinating! Now I can write all about the story! What remarkable people! If only they could've survived their heroic encounter with Antharas! What dreams they must have …",
+   "header": "Talien",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 31739-05.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "31739-05.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31739-05.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-06.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-06.html",
+   "quest": 241,
+   "text": "Talien: Bring me the Echo Crystal that contains the song about King Raul and the 5 clan members. A Dwarven artisan in Heine known as the Melody Maestro has the crystal. Please do this for me.",
+   "header": "Talien",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-07.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-07.html",
+   "quest": 241,
+   "text": "Talien: Welcome back! I've been reading the records you gave me and I found something very interesting! The stories all have something in common. They all met the Lady of the Lake and came across the Star of Destiny. Is this the Echo Crystal that contains the Forgotten Song? Great job! We can only …",
+   "header": "Talien",
+   "when": [
+    "state STARTED; cond 8"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 31739-08.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "31739-08.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31739-08.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-09.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-09.html",
+   "quest": 241,
+   "text": "Talien: Like I told you last time, go meet Stedmiel in Hunters Village, and ask him about the records of the story about soldiers who fought against Devil Beleth.",
+   "header": "Talien",
+   "when": [
+    "state STARTED; cond 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-10.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-10.html",
+   "quest": 241,
+   "text": "Talien: Is this the book? Great job! I'm sorry I didn't recognize you! Why didn't you say something? I never imagined I was making someone of your stature run errands for me! I've heard all about you! Please forgive me if I offended you! Somebody wants to meet you. Will you meet him?",
+   "header": "Talien",
+   "when": [
+    "state STARTED; cond 10"
+   ],
+   "links": [
+    {
+     "text": "\"Ok.\"",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 31739-11.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "31739-11.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31739-11.html",
+     "effect": "cond:11"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-12.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-12.html",
+   "quest": 241,
+   "text": "Talien: Ah, you haven't left yet. My sponsor Virgil is in Rune Castle Town now. Go meet him there.",
+   "header": "Talien",
+   "when": [
+    "state STARTED; cond 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-02.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-02.html",
+   "quest": 241,
+   "text": "Talien: Awesome! Thank you! Now, where should we begin? I suppose we should speak to the ones who know the story best. A descendant of one of the seventeen heroes is living in Giran Castle Town. Her name is Gabrielle. I couldn't even think of visiting her, since I'd have to cross the Death Pass. Wo…",
+   "header": "Talien",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-05.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-05.html",
+   "quest": 241,
+   "text": "Talien: Have you heard the song about King Raul and the 5 clan members who helped him to unify the kingdom? Everyone in Aden knows that one! I'm afraid many of the details have been lost to history. It was a beautiful song, sung by the bards in the time of King Raul. Now it's been forgotten. I've h…",
+   "header": "Talien",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-08.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-08.html",
+   "quest": 241,
+   "text": "Talien: This last story is about the heroes who confronted the devil Beleth. A poet recorded those terrible events in shocking detail. The record is kept by an Elf named Stedmiel in Hunters Village. Go there and ask him for it.",
+   "header": "Talien",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31739-11.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31739-11.html",
+   "quest": 241,
+   "text": "Talien: Virgil in Rune Castle Town is a very important supporter of our cause. He wants to meet you.",
+   "header": "Talien",
+   "sets": {
+    "cond": "11"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 1]",
+     "bypass": "npc_%objectId%_Quest Q00241_PossessorOfAPreciousSoul1",
+     "kind": "quest",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31739-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00241_PossessorOfAPreciousSoul1",
+     "kind": "quest",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31739-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Talien:Well-traveled adventurers like you, although you may "
+   ],
+   "to": [
+    "Only for subclasses."
+   ]
+  }
+ ]
+}

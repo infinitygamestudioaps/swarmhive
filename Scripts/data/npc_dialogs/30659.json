@@ -1,0 +1,148 @@
+{
+ "npcId": 30659,
+ "name": "Orphan Girl",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.028Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30659.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "226": {
+   "name": "Test Of The Healer",
+   "listText": [
+    "[Test of the Healer]",
+    "[Test of the Healer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00226_TestOfTheHealer/30659-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30659-02.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30659-03.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30659-04.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30659-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30659.htm": {
+   "file": "default/30659.htm",
+   "quest": null,
+   "text": "Orphan Girl: Father told us that he hated the boys! He said that we were the most beautiful girls in the whole world!",
+   "header": "Orphan Girl",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00226_TestOfTheHealer/30659-01.html": {
+   "file": "Q00226_TestOfTheHealer/30659-01.html",
+   "quest": 226,
+   "text": "Orphan Girl: Kristina? What a wonderfully strange person she is! Just the other day I sprained my ankle while trying to catch a frog. It hurt so bad that I started to cry, and then Kristina came and touched my ankle and it stopped hurting! It was a miracle!",
+   "header": "Orphan Girl",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30659-02.html": {
+   "file": "Q00226_TestOfTheHealer/30659-02.html",
+   "quest": 226,
+   "text": "Orphan Girl: Father told us that he hated boys! He said that he had the most beautiful girls in the whole world!",
+   "header": "Orphan Girl",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30659-03.html": {
+   "file": "Q00226_TestOfTheHealer/30659-03.html",
+   "quest": 226,
+   "text": "Orphan Girl: The saint? The prophecy? I've never heard of them...I am so hungry.. ...and cold... I just want some nice hot potatoes. Sob...",
+   "header": "Orphan Girl",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30659-04.html": {
+   "file": "Q00226_TestOfTheHealer/30659-04.html",
+   "quest": 226,
+   "text": "Orphan Girl: Please help me, Warrior! Oh, Kristina... Poor Kristina... Strange people came and took her away... I was so frightened... I watched from behind a tree, trembling in fear. Sob... Poor Kristina...",
+   "header": "Orphan Girl",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30659-05.html": {
+   "file": "Q00226_TestOfTheHealer/30659-05.html",
+   "quest": 226,
+   "text": "Orphan Girl: Please help me, Warrior! Kristina was kidnapped by the lizardmen! They were being bossed around by some Dark Elves...!",
+   "header": "Orphan Girl",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Healer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00226_TestOfTheHealer",
+     "kind": "quest",
+     "quest": 226,
+     "to": "Q00226_TestOfTheHealer/30659-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

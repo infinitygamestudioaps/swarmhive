@@ -1,0 +1,431 @@
+{
+ "npcId": 31067,
+ "name": "Rood",
+ "title": "Pet Manager",
+ "type": "L2PetManager",
+ "generated": "2026-10-27T18:18:03.133Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "petmanager/31067.htm",
+   "when": "",
+   "src": "html/petmanager"
+  }
+ ],
+ "quests": {
+  "352": {
+   "name": "Help Rood Raise A New Pet!",
+   "listText": [
+    "[Help Rood Raise A New Pet!]",
+    "[Help Rood Raise A New Pet! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00352_HelpRoodRaiseANewPet/31067-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00352_HelpRoodRaiseANewPet/31067-05.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00352_HelpRoodRaiseANewPet/31067-06.html",
+     "when": "state STARTED; LienrikEgg1Count == 0; LienrikEgg2Count == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00352_HelpRoodRaiseANewPet/31067-10.html",
+     "when": "state STARTED; !((LienrikEgg1Count == 0) && (LienrikEgg2Count == 0)); LienrikEgg1Count >= 1; LienrikEgg2Count == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00352_HelpRoodRaiseANewPet/31067-11.html",
+     "when": "state STARTED; !((LienrikEgg1Count == 0) && (LienrikEgg2Count == 0)); !((LienrikEgg1Count >= 1) && (LienrikEgg2Count == 0)); LienrikEgg1Count >= 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "petmanager/31067.htm": {
+   "file": "petmanager/31067.htm",
+   "quest": null,
+   "text": "Pet Manager Lude: Welcome! What are you looking for? Our Heinness Pet Center has better quality pet food and equipment than anywhere else in the land. Our business is meeting your expectations.",
+   "header": "Pet Manager Lude",
+   "links": [
+    {
+     "text": "Listen to instructions for raising a pet.",
+     "bypass": "npc_%objectId%_Link petmanager/instructions.htm",
+     "kind": "page",
+     "to": "petmanager/instructions.htm"
+    },
+    {
+     "text": "Buy pet equipment.",
+     "bypass": "npc_%objectId%_Buy 3106700",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange pet equipment for higher grade equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 1000",
+     "kind": "multisell"
+    },
+    {
+     "text": "Exchange Hatchling equipment for Strider equipment.",
+     "bypass": "npc_%objectId%_multisell 999",
+     "kind": "multisell"
+    },
+    {
+     "text": "Evolve pet.",
+     "bypass": "npc_%objectId%_Link petmanager/evolve.htm",
+     "kind": "page",
+     "to": "petmanager/evolve.htm"
+    },
+    {
+     "text": "Exchange pet exchange ticket for a pet.",
+     "bypass": "npc_%objectId%_Link petmanager/exchange.htm",
+     "kind": "page",
+     "to": "petmanager/exchange.htm"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00352_HelpRoodRaiseANewPet/31067-01.htm": {
+   "file": "Q00352_HelpRoodRaiseANewPet/31067-01.htm",
+   "quest": 352,
+   "text": "Pet Manager Rood: Have you seen the Lienrik near Heine? Oh, they're so beautiful... I must have one! Just imagine it. They fly, so they don't get dirty...and those marvelous colors! And their skin feels cool and moist, like a delicious mug of ale on a hot summer day. Warm and furry pets are passé t…",
+   "header": "Pet Manager Rood",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-02.htm",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-02.htm",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-02.htm"
+    }
+   ]
+  },
+  "Q00352_HelpRoodRaiseANewPet/31067-05.html": {
+   "file": "Q00352_HelpRoodRaiseANewPet/31067-05.html",
+   "quest": 352,
+   "text": "Pet Manager Rood: Have you ever seen an animal called a Lienrik? Oh, they're so beautiful... I must have one! What, you don't know what I'm talking about? Hmpph! (Only characters who are level 39 or higher may undertake this quest.)",
+   "header": "Pet Manager Rood",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00352_HelpRoodRaiseANewPet/31067-06.html": {
+   "file": "Q00352_HelpRoodRaiseANewPet/31067-06.html",
+   "quest": 352,
+   "text": "Pet Manager Rood: Are you still here? Go to the Rest Area of the Animals and bring back a Lienrik Egg or a Lienrik Lad Egg . I'll make it worth your while, I promise you that. Or are you just going to give up?",
+   "header": "Pet Manager Rood",
+   "when": [
+    "state STARTED; LienrikEgg1Count == 0; LienrikEgg2Count == 0"
+   ],
+   "links": [
+    {
+     "text": "Say that you will get the egg.",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-07.html",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-07.html",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-07.html"
+    },
+    {
+     "text": "Say you want to quit.",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-08.html",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-08.html",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-08.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00352_HelpRoodRaiseANewPet/31067-10.html": {
+   "file": "Q00352_HelpRoodRaiseANewPet/31067-10.html",
+   "quest": 352,
+   "text": "Pet Manager Rood: Hmm, certainly not until I successfully raise it! This is no docile duck we're talking about here... Let me work on it. Just keep bringing me more eggs. I suspect it will take many tries to get it right.",
+   "header": "Pet Manager Rood",
+   "when": [
+    "state STARTED; !((LienrikEgg1Count == 0) && (LienrikEgg2Count == 0)); LienrikEgg1Count >= 1; LienrikEgg2Count == 0"
+   ],
+   "links": [
+    {
+     "text": "\"I will bring more eggs.\"",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-07.html",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-07.html",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-07.html"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-08.html",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-08.html",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-08.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00352_HelpRoodRaiseANewPet/31067-11.html": {
+   "file": "Q00352_HelpRoodRaiseANewPet/31067-11.html",
+   "quest": 352,
+   "text": "Pet Manager Rood: Oh my! These are Lienrik Eggs! And what's this? Is this a female Lienrik Egg? Such a rarity... You are incredible! I will hatch this and mate her with a male. What a great job! Thank you so very much! Now I must concentrate on raising a lienrik. Here is your reward!",
+   "header": "Pet Manager Rood",
+   "when": [
+    "state STARTED; !((LienrikEgg1Count == 0) && (LienrikEgg2Count == 0)); !((LienrikEgg1Count >= 1) && (LienrikEgg2Count == 0)); LienrikEgg1Count >= 1"
+   ],
+   "links": [
+    {
+     "text": "\"I will bring you more eggs.\"",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-07.html",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-07.html",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-07.html"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-08.html",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-08.html",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-08.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"When do I get my lienrik?\"",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-10.html",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-10.html",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-10.html"
+    }
+   ]
+  },
+  "Q00352_HelpRoodRaiseANewPet/31067-02.htm": {
+   "file": "Q00352_HelpRoodRaiseANewPet/31067-02.htm",
+   "quest": 352,
+   "text": "Pet Manager Rood: Its beauty is only the beginning! It's so light you can wrap it around your arm or let it sit on your shoulder! Its combat capability is quite extraordinary! It can fly high in the sky and launch a remote attack! This makes it the best possible pet for the upper class! Alas, there…",
+   "header": "Pet Manager Rood",
+   "links": [
+    {
+     "text": "\"What flaw?\"",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-03.htm",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-03.htm",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-03.htm"
+    }
+   ]
+  },
+  "Q00352_HelpRoodRaiseANewPet/31067-03.htm": {
+   "file": "Q00352_HelpRoodRaiseANewPet/31067-03.htm",
+   "quest": 352,
+   "text": "Pet Manager Rood: Lienriks are quite headstrong and hard to tame. The training must begin while it's still a baby. However, stealing one of its eggs is almost impossible. The mother of the species puts up a desperate fight, and even if you succeed in catching one, there's no guarantee that you can …",
+   "header": "Pet Manager Rood",
+   "links": [
+    {
+     "text": "\"I will get a Lienrik Egg for you.\"",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-04.htm",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-04.htm",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00352_HelpRoodRaiseANewPet/31067-04.htm": {
+   "file": "Q00352_HelpRoodRaiseANewPet/31067-04.htm",
+   "quest": 352,
+   "text": "Pet Manager Rood: You'll really do it? I knew today was a good day. I'll tell you about the Lienrik. The Lienrik dwells near the Rest Area of the Animals . There's the Lienrik and the Lienrik Lad. One has a range attack and one spews poison up close. Both have the Lienrik Egg . That's where the fun…",
+   "header": "Pet Manager Rood",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00352_HelpRoodRaiseANewPet/31067-07.html": {
+   "file": "Q00352_HelpRoodRaiseANewPet/31067-07.html",
+   "quest": 352,
+   "text": "Pet Manager Rood: Ready to do this? Today is a lucky day for both of us! Let me repeat what I told you earlier about Lienrik. Both Lienrik and Lienrik Lads can be found in the Rest Area of the Animals . Approach both carefully, as once can spew poison from a great distance. Both kinds lay eggs , bu…",
+   "header": "Pet Manager Rood",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00352_HelpRoodRaiseANewPet/31067-08.html": {
+   "file": "Q00352_HelpRoodRaiseANewPet/31067-08.html",
+   "quest": 352,
+   "text": "Pet Manager Rood: Hmm... a quitter, eh? Go ahead... I can't stop you. I'll do my best with what I have now... But if you change your mind, please stop by. I can always use more eggs.",
+   "header": "Pet Manager Rood",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00352_HelpRoodRaiseANewPet/31067-09.html": {
+   "file": "Q00352_HelpRoodRaiseANewPet/31067-09.html",
+   "quest": 352,
+   "text": "Pet Manager Rood: Oh my! These are Lienrik Eggs! I tried so hard to get one, and now you've done it so easily! It's wonderful to finally have them! Here is the reward I promised!",
+   "header": "Pet Manager Rood",
+   "links": [
+    {
+     "text": "\"I'll bring you some more eggs.\"",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-07.html",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-07.html",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-07.html"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-08.html",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-08.html",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-08.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"When do I get my lienrik?\"",
+     "bypass": "Quest Q00352_HelpRoodRaiseANewPet 31067-10.html",
+     "kind": "quest-event",
+     "script": "Q00352_HelpRoodRaiseANewPet",
+     "event": "31067-10.html",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-10.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Help Rood Raise A New Pet!]",
+     "bypass": "npc_%objectId%_Quest Q00352_HelpRoodRaiseANewPet",
+     "kind": "quest",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Help Rood Raise A New Pet! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00352_HelpRoodRaiseANewPet",
+     "kind": "quest",
+     "quest": 352,
+     "to": "Q00352_HelpRoodRaiseANewPet/31067-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "petmanager/instructions.htm": {
+   "file": "petmanager/instructions.htm",
+   "quest": null,
+   "text": "There are a few things you should know before deciding to raise a pet. Let me tell you what they are. First, you should know how to acquire a pet's experience. A pet gains a portion of the experience that its master obtains. The specific amount will vary depending on whether the master's own level …",
+   "outcome": "refusal",
+   "links": []
+  },
+  "petmanager/evolve.htm": {
+   "file": "petmanager/evolve.htm",
+   "quest": null,
+   "text": "Depending on its type, you may be able to evolve your pet. Evolution is only possible when the pet is summoned. Also, since the process transfers the experience value, evolving a high level pet might actually result in a decrease in the pet's level. Any items in the pet's inventory will be transfer…",
+   "links": [
+    {
+     "text": "Evolve a Wolf into a Great Wolf.",
+     "bypass": "npc_%objectId%_evolve 1",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Great Wolf into a Fenrir.",
+     "bypass": "npc_%objectId%_evolve 2",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Baby Buffalo into an Improved Baby Buffalo (for Warriors).",
+     "bypass": "npc_%objectId%_evolve 3",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Baby Kookaburra into an Improved Baby Kookaburra (for Mystics).",
+     "bypass": "npc_%objectId%_evolve 4",
+     "kind": "other"
+    },
+    {
+     "text": "Evolve a Baby Cougar into an Improved Baby Cougar (for mixed professions).",
+     "bypass": "npc_%objectId%_evolve 5",
+     "kind": "other"
+    }
+   ]
+  },
+  "petmanager/exchange.htm": {
+   "file": "petmanager/exchange.htm",
+   "quest": null,
+   "text": "Pet exchange tickets allow their bearer to purchase pets, such as Kookaburra, Buffaloes or Cougars. Sales of the tickets are strictly limited to members. What kind of ticket would you like?",
+   "links": [
+    {
+     "text": "Pet Exchange Ticket: Kookaburra",
+     "bypass": "npc_%objectId%_exchange 1",
+     "kind": "other"
+    },
+    {
+     "text": "Pet Exchange Ticket: Buffalo",
+     "bypass": "npc_%objectId%_exchange 2",
+     "kind": "other"
+    },
+    {
+     "text": "Pet Exchange Ticket: Cougar",
+     "bypass": "npc_%objectId%_exchange 3",
+     "kind": "other"
+    }
+   ]
+  }
+ }
+}

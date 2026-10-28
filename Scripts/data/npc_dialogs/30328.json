@@ -1,0 +1,260 @@
+{
+ "npcId": 30328,
+ "name": "Reisa",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.936Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30328.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "407": {
+   "name": "Path of the Elven Scout",
+   "listText": [
+    "[Path of the Elven Scout]",
+    "[Path of the Elven Scout (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00407_PathOfTheElvenScout/30328-01.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00407_PathOfTheElvenScout/30328-06.html",
+     "when": "state STARTED; has items 1207; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00407_PathOfTheElvenScout/30328-08.html",
+     "when": "state STARTED; lacks items 1207,1216; !(qs.isCreated() || qs.isCompleted()); qs.getInt(\"variable\") == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00407_PathOfTheElvenScout/30328-07.html",
+     "when": "state STARTED; has items 1216; lacks items 1207; !(qs.isCreated() || qs.isCompleted()); !((qs.getInt(\"variable\") == 1) && !hasAtLeastOneQuestItem(player, REISAS_LETTER, HONORARY_GUARD))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30328.htm": {
+   "file": "trainer/30328.htm",
+   "quest": null,
+   "text": "Master Reisa: When you fight, what emotions do you feel? A novice warrior trembles with fear and an experienced warrior feels the fierce delight of battle, but the best warriors are as calm as a pond on a windless winter's day. After all, how can you master others in combat unless you first learn t…",
+   "header": "Master Reisa",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30328-noteach.htm": {
+   "file": "trainer/30328-noteach.htm",
+   "quest": null,
+   "text": "Master Reisa: I cannot teach you. However, not all advancement is thought out and planned, it is released naturally through experience.",
+   "header": "Master Reisa",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30328-01.htm": {
+   "file": "Q00407_PathOfTheElvenScout/30328-01.htm",
+   "quest": 407,
+   "text": "Master Reisa: So you want to be an Elven Scout? Hmm ... it is not my place to recommend you as an Elven Scout without reason, so I would like to see your skills first. By chance, there is a task you may be perfect for. Prove your skills as an Elven Fighter through this task. What do you say, will y…",
+   "header": "Master Reisa",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you will accept the task",
+     "bypass": "Quest Q00407_PathOfTheElvenScout ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00407_PathOfTheElvenScout",
+     "event": "ACCEPT",
+     "quest": 407,
+     "to": "Q00407_PathOfTheElvenScout/30328-04.htm",
+     "toAll": [
+      "Q00407_PathOfTheElvenScout/30328-04.htm",
+      "Q00407_PathOfTheElvenScout/30328-05.htm",
+      "Q00407_PathOfTheElvenScout/30328-03.htm",
+      "Q00407_PathOfTheElvenScout/30328-02a.htm",
+      "Q00407_PathOfTheElvenScout/30328-02.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00407_PathOfTheElvenScout/30328-06.html": {
+   "file": "Q00407_PathOfTheElvenScout/30328-06.html",
+   "quest": 407,
+   "text": "Master Reisa: Haven't you met Guard Moretti yet? You can learn the details from him. Moretti stands guard at the east entrance of the village where you can see the bridge.",
+   "header": "Master Reisa",
+   "when": [
+    "state STARTED; has items 1207; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30328-08.html": {
+   "file": "Q00407_PathOfTheElvenScout/30328-08.html",
+   "quest": 407,
+   "text": "Master Reisa: I see you have not solved the matter yet. Go now and help Guard Moretti.",
+   "header": "Master Reisa",
+   "when": [
+    "state STARTED; lacks items 1207,1216; !(qs.isCreated() || qs.isCompleted()); qs.getInt(\"variable\") == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30328-07.html": {
+   "file": "Q00407_PathOfTheElvenScout/30328-07.html",
+   "quest": 407,
+   "text": "Master Reisa: I see you have received an Honorary Guard certificate. I have already heard of your achievements. Guard Moretti highly praised you. Now I can gladly recommend you as an Elven Scout. Who but a skilled Elf like you could become an Elven Scout? In the future, I hope you train still furth…",
+   "header": "Master Reisa",
+   "when": [
+    "state STARTED; has items 1216; lacks items 1207; !(qs.isCreated() || qs.isCompleted()); !((qs.getInt(\"variable\") == 1) && !hasAtLeastOneQuestItem(player, REISAS_LETTER, HONORARY_GUARD))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30328-02.htm": {
+   "file": "Q00407_PathOfTheElvenScout/30328-02.htm",
+   "quest": 407,
+   "text": "Master Reisa: I'm sorry, but you are not qualified to take the test to become an to Elven Scout. Try to find the path that is right for you.",
+   "header": "Master Reisa",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30328-02a.htm": {
+   "file": "Q00407_PathOfTheElvenScout/30328-02a.htm",
+   "quest": 407,
+   "text": "Master Reisa: You have already changed profession to Elven Scout, so there is no need for you to reaffirm your skills. You are not needed in villages like these, but in the vast plains. Travel wide and far and increase the dignity of our Elven race.",
+   "header": "Master Reisa",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30328-03.htm": {
+   "file": "Q00407_PathOfTheElvenScout/30328-03.htm",
+   "quest": 407,
+   "text": "Master Reisa: Class transfer to Elven Scout... I admire your ambition, but you are not yet ready. Ambition alone cannot make you an Elven Scout! Return here after you have received additional training and I will reconsider your request. (Only characters level 18 and above may undertake this quest.)",
+   "header": "Master Reisa",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30328-04.htm": {
+   "file": "Q00407_PathOfTheElvenScout/30328-04.htm",
+   "quest": 407,
+   "text": "Master Reisa: Now, go to Grand Master Rains to change your profession to Elven Scout. If you take my Recommendation, you will be permitted to change profession to Elven Scout. And friend, I hope you raise the dignity of our race ever higher with your steadfast manner.",
+   "header": "Master Reisa",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30328-05.htm": {
+   "file": "Q00407_PathOfTheElvenScout/30328-05.htm",
+   "quest": 407,
+   "text": "Master Reisa: If that is the case, I will explain the task to you now. Not long ago, Guard Moretti of our village came to me. He said that a colleague who on patrols with him was lost and they still don't know his whereabouts. So he wanted the help of the Elves who are skilled in the arts of invest…",
+   "header": "Master Reisa",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Elven Scout]",
+     "bypass": "npc_%objectId%_Quest Q00407_PathOfTheElvenScout",
+     "kind": "quest",
+     "quest": 407,
+     "to": "Q00407_PathOfTheElvenScout/30328-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Elven Scout (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00407_PathOfTheElvenScout",
+     "kind": "quest",
+     "quest": 407,
+     "to": "Q00407_PathOfTheElvenScout/30328-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

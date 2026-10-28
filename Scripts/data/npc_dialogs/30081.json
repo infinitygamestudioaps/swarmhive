@@ -1,0 +1,531 @@
+{
+ "npcId": 30081,
+ "name": "Helvetia",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.824Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30081.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "40": {
+   "name": "A Special Order",
+   "listText": [
+    "[A Special Order]",
+    "[A Special Order (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00040_ASpecialOrder/30081-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00040_ASpecialOrder/30081-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00040_ASpecialOrder/30081-05.html",
+     "when": "state STARTED; cond 2|3",
+     "state": "STARTED",
+     "cond": [
+      2,
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00040_ASpecialOrder/30081-06.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00040_ASpecialOrder/30081-08.html",
+     "when": "state STARTED; cond 5|6",
+     "state": "STARTED",
+     "cond": [
+      5,
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00040_ASpecialOrder/30081-09.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "60": {
+   "name": "Good Work's Reward",
+   "listText": [
+    "[Good Work's Reward]",
+    "[Good Work's Reward (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00060_GoodWorksReward/30081-01.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00060_GoodWorksReward/30081-04.html",
+     "when": "state STARTED; memo 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00060_GoodWorksReward/30081-08.html",
+     "when": "state STARTED; memo 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00060_GoodWorksReward/30081-09.html",
+     "when": "state STARTED; memo 7; lacks items 10868",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00060_GoodWorksReward/30081-10.html",
+     "when": "state STARTED; memo 7; has items 10868",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30081.htm": {
+   "file": "merchant/30081.htm",
+   "quest": null,
+   "text": "Grocer Helvetia: Come in, welcome to our shop, where we always provide you with affordable, quality goods. Take your time, and if there is anything you need, just let me know.",
+   "header": "Trader Helvetia",
+   "live": {
+    "file": "Logs/npc_Healer13.html",
+    "at": "2026-10-27T13:29:21.830Z",
+    "score": 0.34
+   },
+   "dpText": "Trader Helvetia: Welcome! Our shop carries a wide range of inexpensive but high-quality items. Come in, come in! Take some time and have a look around. If you need anything, just give me a shout.",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund General.",
+     "bypass": "npc_%objectId%_Buy 3008100",
+     "kind": "shop",
+     "live": true
+    },
+    {
+     "text": "Buy/Sell/Refund Dyes.",
+     "bypass": "npc_%objectId%_Buy 3008101",
+     "kind": "shop",
+     "live": true
+    },
+    {
+     "text": "Ask about the local lord and tax rate",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other",
+     "live": true,
+     "dpText": "View information about the local lord and tax rate."
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "merchant/30081-pk.htm": {
+   "file": "merchant/30081-pk.htm",
+   "quest": null,
+   "text": "Grocer Helvetia: My goodness. I can't believe people like you still walk the streets. What, do the guards of Giran just spend our taxes and sleep or what? I tell you, it's a disgrace.",
+   "header": "Grocer Helvetia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/30081-01.htm": {
+   "file": "Q00040_ASpecialOrder/30081-01.htm",
+   "quest": 40,
+   "text": "Helvetia: Adventurer, you are not too busy, are you? Please help me! I promise that I will give you a generous reward.",
+   "header": "Helvetia",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"How can I help you?\"",
+     "bypass": "Quest Q00040_ASpecialOrder accept",
+     "kind": "quest-event",
+     "script": "Q00040_ASpecialOrder",
+     "event": "accept",
+     "quest": 40,
+     "to": "Q00040_ASpecialOrder/30081-03.html",
+     "toAll": [
+      "Q00040_ASpecialOrder/30081-03.html",
+      "Q00040_ASpecialOrder/30081-04.html"
+     ],
+     "effect": "start|cond:2|cond:5"
+    }
+   ]
+  },
+  "Q00040_ASpecialOrder/30081-02.htm": {
+   "file": "Q00040_ASpecialOrder/30081-02.htm",
+   "quest": 40,
+   "text": "Helvetia: Adventurer... Oh, never mind. I'm sorry to have disturbed you. (Only characters level 40 and above may undertake this quest.)",
+   "header": "Helvetia",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/30081-05.html": {
+   "file": "Q00040_ASpecialOrder/30081-05.html",
+   "quest": 40,
+   "text": "Helvetia: There's not much time. Please go to O'Fulle and bring me the chest of fish I ordered.",
+   "header": "Helvetia",
+   "when": [
+    "state STARTED; cond 2|3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/30081-06.html": {
+   "file": "Q00040_ASpecialOrder/30081-06.html",
+   "quest": 40,
+   "text": "Helvetia: Did you have to catch the fish yourself?! Why did it take you so long? Please give me the chest of fish right away -- my customer will be here soon!",
+   "header": "Helvetia",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "Hand over the chest of fish.",
+     "bypass": "Quest Q00040_ASpecialOrder 30081-07.html",
+     "kind": "quest-event",
+     "script": "Q00040_ASpecialOrder",
+     "event": "30081-07.html",
+     "quest": 40,
+     "to": "Q00040_ASpecialOrder/30081-07.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00040_ASpecialOrder/30081-08.html": {
+   "file": "Q00040_ASpecialOrder/30081-08.html",
+   "quest": 40,
+   "text": "Helvetia: There's not much time! Please go to Gesto and get the jar of seeds for me.",
+   "header": "Helvetia",
+   "when": [
+    "state STARTED; cond 5|6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/30081-09.html": {
+   "file": "Q00040_ASpecialOrder/30081-09.html",
+   "quest": 40,
+   "text": "Helvetia: Did you have to gather the seeds yourself?! Why did it take so long? Please give me the jar of seeds right away -- my customer will be here any moment.",
+   "header": "Helvetia",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "links": [
+    {
+     "text": "Hand over the jar of seeds.",
+     "bypass": "Quest Q00040_ASpecialOrder 30081-10.html",
+     "kind": "quest-event",
+     "script": "Q00040_ASpecialOrder",
+     "event": "30081-10.html",
+     "quest": 40,
+     "to": "Q00040_ASpecialOrder/30081-10.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00060_GoodWorksReward/30081-01.html": {
+   "file": "Q00060_GoodWorksReward/30081-01.html",
+   "quest": 60,
+   "text": "Helvetia: What brought you here?",
+   "header": "Helvetia",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "links": [
+    {
+     "text": "\"I heard that you have a wide selection of antidotes.\"",
+     "bypass": "Quest Q00060_GoodWorksReward 30081-02.html",
+     "kind": "quest-event",
+     "script": "Q00060_GoodWorksReward",
+     "event": "30081-02.html",
+     "quest": 60,
+     "to": "Q00060_GoodWorksReward/30081-02.html"
+    }
+   ]
+  },
+  "Q00060_GoodWorksReward/30081-04.html": {
+   "file": "Q00060_GoodWorksReward/30081-04.html",
+   "quest": 60,
+   "text": "Helvetia: I analyzed the blood you gave me. I was able to identify the poison, but I'm afraid that I can't give you the antidote for free. It's very rare, so I have to charge you. You understand, don't you? I'm sure the person you save will be happy to reimburse you. The charge is approximately 3 m…",
+   "header": "Helvetia",
+   "when": [
+    "state STARTED; memo 5"
+   ],
+   "links": [
+    {
+     "text": "Hand over the money.",
+     "bypass": "Quest Q00060_GoodWorksReward 30081-05.html",
+     "kind": "quest-event",
+     "script": "Q00060_GoodWorksReward",
+     "event": "30081-05.html",
+     "quest": 60,
+     "to": "Q00060_GoodWorksReward/30081-05.html",
+     "toAll": [
+      "Q00060_GoodWorksReward/30081-05.html",
+      "Q00060_GoodWorksReward/30081-06.html"
+     ],
+     "effect": "cond:7|cond:6"
+    },
+    {
+     "text": "Ask for a credit.",
+     "bypass": "Quest Q00060_GoodWorksReward 30081-07.html",
+     "kind": "quest-event",
+     "script": "Q00060_GoodWorksReward",
+     "event": "30081-07.html",
+     "quest": 60,
+     "to": "Q00060_GoodWorksReward/30081-07.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00060_GoodWorksReward/30081-08.html": {
+   "file": "Q00060_GoodWorksReward/30081-08.html",
+   "quest": 60,
+   "text": "Helvetia: Did you come here looking for the antidote? If you pay me what it's worth, I'll give it to you.",
+   "header": "Helvetia",
+   "when": [
+    "state STARTED; memo 6"
+   ],
+   "links": [
+    {
+     "text": "Hand over the money.",
+     "bypass": "Quest Q00060_GoodWorksReward 30081-05.html",
+     "kind": "quest-event",
+     "script": "Q00060_GoodWorksReward",
+     "event": "30081-05.html",
+     "quest": 60,
+     "to": "Q00060_GoodWorksReward/30081-05.html",
+     "toAll": [
+      "Q00060_GoodWorksReward/30081-05.html",
+      "Q00060_GoodWorksReward/30081-06.html"
+     ],
+     "effect": "cond:7|cond:6"
+    }
+   ]
+  },
+  "Q00060_GoodWorksReward/30081-09.html": {
+   "file": "Q00060_GoodWorksReward/30081-09.html",
+   "quest": 60,
+   "text": "Helvetia: You are so careless! You lost the antidote?! Well, since you already paid me, I suppose I'll give it to you again -- just this once, you understand.",
+   "header": "Helvetia",
+   "when": [
+    "state STARTED; memo 7; lacks items 10868"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/30081-10.html": {
+   "file": "Q00060_GoodWorksReward/30081-10.html",
+   "quest": 60,
+   "text": "Helvetia: Why are you here again? If you're not willing to buy something, kindly step aside so that I can serve my paying customers?",
+   "header": "Helvetia",
+   "when": [
+    "state STARTED; memo 7; has items 10868"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/30081-03.html": {
+   "file": "Q00040_ASpecialOrder/30081-03.html",
+   "quest": 40,
+   "text": "Helvetia: The thing is, I asked O'Fulle to bring me a chest of fish for one of my most important customers, but it's not here yet. Will you find out what's happened?",
+   "header": "Helvetia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/30081-04.html": {
+   "file": "Q00040_ASpecialOrder/30081-04.html",
+   "quest": 40,
+   "text": "Helvetia: The thing is, I asked Warehouse Chief Gesto to bring me a jar of seeds for one of my most important customers, but it's not here yet. Will you find out what's happened?",
+   "header": "Helvetia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/30081-07.html": {
+   "file": "Q00040_ASpecialOrder/30081-07.html",
+   "quest": 40,
+   "text": "Helvetia: Fortunately, the items look good. Thank you! Please take this cube in exchange for your hard work. Use it well!",
+   "header": "Helvetia",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00040_ASpecialOrder/30081-10.html": {
+   "file": "Q00040_ASpecialOrder/30081-10.html",
+   "quest": 40,
+   "text": "Helvetia: Fortunately, the items look good. Thank you! Please take this cube in exchange for your hard work. Use it well!",
+   "header": "Helvetia",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/30081-02.html": {
+   "file": "Q00060_GoodWorksReward/30081-02.html",
+   "quest": 60,
+   "text": "Helvetia: Please describe the symptoms. There are many antidotes to choose from, and we must select the right one.",
+   "header": "Helvetia",
+   "links": [
+    {
+     "text": "Hand over the bloody cloth.",
+     "bypass": "Quest Q00060_GoodWorksReward 30081-03.html",
+     "kind": "quest-event",
+     "script": "Q00060_GoodWorksReward",
+     "event": "30081-03.html",
+     "quest": 60,
+     "to": "Q00060_GoodWorksReward/30081-03.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00060_GoodWorksReward/30081-03.html": {
+   "file": "Q00060_GoodWorksReward/30081-03.html",
+   "quest": 60,
+   "text": "Helvetia: Hmm... Fortunately, the blood hasn't completely dried, so I may be able to examine it. Can you come back in a while? It will take some time to identify the specific poison at work...",
+   "header": "Helvetia",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/30081-05.html": {
+   "file": "Q00060_GoodWorksReward/30081-05.html",
+   "quest": 60,
+   "text": "Helvetia: Very well. Take this potion and force the victim to drink it all. I hope we will meet again under better circumstances.",
+   "header": "Helvetia",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/30081-06.html": {
+   "file": "Q00060_GoodWorksReward/30081-06.html",
+   "quest": 60,
+   "text": "Helvetia: You don't have the money! Why did you tell me that you did? Get lost!",
+   "header": "Helvetia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00060_GoodWorksReward/30081-07.html": {
+   "file": "Q00060_GoodWorksReward/30081-07.html",
+   "quest": 60,
+   "text": "Helvetia: Look, I already told you! I can't give it to you for free. If you change your mind, come back and see me.",
+   "header": "Helvetia",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[A Special Order]",
+     "bypass": "npc_%objectId%_Quest Q00040_ASpecialOrder",
+     "kind": "quest",
+     "quest": 40,
+     "to": "Q00040_ASpecialOrder/30081-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[A Special Order (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00040_ASpecialOrder",
+     "kind": "quest",
+     "quest": 40,
+     "to": "Q00040_ASpecialOrder/30081-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Good Work's Reward (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00060_GoodWorksReward",
+     "kind": "quest",
+     "quest": 60,
+     "to": "Q00060_GoodWorksReward/30081-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of merchant/30081.htm differs: live \"Grocer Helvetia: Come in, welcome to our shop, where we always provide you with affordabl…\" vs datapack \"Trader Helvetia: Welcome! Our shop carries a wide range of inexpensive but high-quality i…\"",
+  "merchant/30081.htm: link \"View information about the local lord and tax rate.\" is \"Ask about the local lord and tax rate\" live"
+ ],
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund General.",
+   "n": 6468,
+   "inDatapack": true,
+   "from": [
+    "Grocer Helvetia:Come in, welcome to our shop, where we alway"
+   ],
+   "to": [
+    "Grocer Helvetia:Come in, welcome to our shop, where we alway"
+   ]
+  },
+  {
+   "text": "Buy/Sell/Refund Dyes.",
+   "n": 15,
+   "inDatapack": true,
+   "from": [
+    "Grocer Helvetia:Come in, welcome to our shop, where we alway"
+   ],
+   "to": [
+    "Grocer Helvetia:Come in, welcome to our shop, where we alway"
+   ]
+  }
+ ]
+}

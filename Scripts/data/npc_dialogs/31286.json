@@ -1,0 +1,239 @@
+{
+ "npcId": 31286,
+ "name": "Drakon",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.154Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/31286.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "81": {
+   "name": "Saga of the Ghost Hunter",
+   "listText": [
+    "[Saga of the Ghost Hunter]",
+    "[Saga of the Ghost Hunter (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00081_SagaOfTheGhostHunter/2-01.htm",
+     "when": "cond 1; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00081_SagaOfTheGhostHunter/2-02.htm",
+     "when": "cond 2; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00081_SagaOfTheGhostHunter/2-03.htm",
+     "when": "cond 4; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00081_SagaOfTheGhostHunter/2-04.htm",
+     "when": "cond 5; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/31286.htm": {
+   "file": "trainer/31286.htm",
+   "quest": null,
+   "text": "Master Drakon: This land teaches us a hard lesson, but one that is essential. The hungry hunter is also the most effective one! That is the lesson our ancestors knew, and what we have forgotten. Strike true or perish! Victory or death!",
+   "header": "Master Drakon",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/31286-noteach.htm": {
+   "file": "trainer/31286-noteach.htm",
+   "quest": null,
+   "text": "Master Drakon: An over-achiever, eh? Why else would you want to learn Dark Elven skills in addition to your own? It seems to me that you should follow your own path!",
+   "header": "Master Drakon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/2-01.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/2-01.htm",
+   "quest": 81,
+   "text": "Master Drakon: Secrets of my ancestors? What are you talking about? Why is this dish so tasteless? Rats! I've ruined dinner again! I wish I could cook as good as Chef Donath. Maybe you could get me his secret recipe book?",
+   "header": "Master Drakon",
+   "when": [
+    "cond 1; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll get it!\"",
+     "bypass": "Quest Q00081_SagaOfTheGhostHunter 2-1",
+     "kind": "quest-event",
+     "script": "Q00081_SagaOfTheGhostHunter",
+     "event": "2-1",
+     "quest": 81,
+     "to": "Q00081_SagaOfTheGhostHunter/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00081_SagaOfTheGhostHunter/2-02.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/2-02.htm",
+   "quest": 81,
+   "text": "Master Drakon: Where's Donath's secret recipe book? I'll tell you the secret of my ancestors if you get it for me.",
+   "header": "Master Drakon",
+   "when": [
+    "cond 2; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/2-03.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/2-03.htm",
+   "quest": 81,
+   "text": "Master Drakon: You've brought me Chef Donath's secret recipes! Give it to me.",
+   "header": "Master Drakon",
+   "when": [
+    "cond 4; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the book.\"",
+     "bypass": "Quest Q00081_SagaOfTheGhostHunter 2-2",
+     "kind": "quest-event",
+     "script": "Q00081_SagaOfTheGhostHunter",
+     "event": "2-2",
+     "quest": 81,
+     "to": "Q00081_SagaOfTheGhostHunter/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00081_SagaOfTheGhostHunter/2-04.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/2-04.htm",
+   "quest": 81,
+   "text": "Master Drakon: Didn't I tell you? The first Tablet of Vision is south of the Tower of Insolence.",
+   "header": "Master Drakon",
+   "when": [
+    "cond 5; !((npcId == 31603) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/2-05.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/2-05.htm",
+   "quest": 81,
+   "text": "Master Drakon: You can get it for me? It would break my family's code to tell you my ancestors' secrets. I'll do it if you get me Chef Donath's secret recipe book!",
+   "header": "Master Drakon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00081_SagaOfTheGhostHunter/2-06.htm": {
+   "file": "Q00081_SagaOfTheGhostHunter/2-06.htm",
+   "quest": 81,
+   "text": "Master Drakon: These recipes are fabulous! I'll only tell the story of my ancestors once, so listen well. The story says that the power was sealed by Einhasad, but unbeknownst to him, Gran Kain and Eva took a portion of it and sealed it into stone tablets that they then distributed throughout the w…",
+   "header": "Master Drakon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Ghost Hunter (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00081_SagaOfTheGhostHunter",
+     "kind": "quest",
+     "quest": 81,
+     "to": "Q00081_SagaOfTheGhostHunter/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

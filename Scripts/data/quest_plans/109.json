@@ -2,7 +2,7 @@
  "id": 109,
  "name": "In Search of the Nest",
  "version": 1,
- "generated": "2026-10-27T11:15:12.009Z",
+ "generated": "2026-10-27T18:18:47.150Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 81,
@@ -107,193 +107,6 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:31554",
-   "cond": 1,
-   "kind": "talk",
-   "to": "end",
-   "links": [
-    "\"Pierce sent me.\""
-   ],
-   "npc": {
-    "id": 31554,
-    "name": "Kahman",
-    "title": "Mercenary",
-    "town": "Rune",
-    "at": [
-     70000,
-     -50064,
-     -3264
-    ],
-    "alt": []
-   },
-   "text": "Talk to Kahman",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:31554@70000,-50064",
-    "status": "ok",
-    "flags": [],
-    "from": ".rune",
-    "length": 684,
-    "sec": 51,
-    "via": ".rune > Rune -> Swamp of Screams",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "gk",
-      "from": "Rune",
-      "desc": "Rune -> Swamp of Screams",
-      "link": "swamp of screams",
-      "price": 3000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 684,
-      "how": "geodata",
-      "danger": 69
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Rune",
-     "desc": "Rune -> Swamp of Screams"
-    },
-    "simple": true,
-    "pv": [
-     [
-      69340,
-      -50203,
-      -3288
-     ],
-     [
-      70008,
-      -50056,
-      -3256
-     ]
-    ],
-    "maxDanger": 69,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 69,
-     "dangerVsLevel": -12,
-     "aggro": []
-    }
-   },
-   "expectedSec": 76,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:31553",
-   "cond": 1,
-   "kind": "talk",
-   "to": 3,
-   "links": [
-    "\"Read this memo.\""
-   ],
-   "npc": {
-    "id": 31553,
-    "name": "Pierce",
-    "title": "Mercenary Captain",
-    "town": "Rune",
-    "at": [
-     69248,
-     -50160,
-     -3288
-    ],
-    "alt": []
-   },
-   "text": "Talk to Pierce",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:31553@69248,-50160",
-    "status": "ok",
-    "flags": [],
-    "from": ".rune",
-    "length": 102,
-    "sec": 46,
-    "via": ".rune > Rune -> Swamp of Screams",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Rune",
-      "cmd": ".rune"
-     },
-     {
-      "do": "gk",
-      "from": "Rune",
-      "desc": "Rune -> Swamp of Screams",
-      "link": "swamp of screams",
-      "price": 3000,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 102,
-      "how": "adjacent",
-      "danger": 69
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Rune",
-     "desc": "Rune -> Swamp of Screams"
-    },
-    "simple": true,
-    "pv": [
-     [
-      69340,
-      -50203,
-      -3288
-     ],
-     [
-      69248,
-      -50160,
-      -3288
-     ]
-    ],
-    "maxDanger": 69,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 69,
-     "dangerVsLevel": -12,
-     "aggro": []
-    }
-   },
-   "expectedSec": 71,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2
-   ]
-  },
-  {
-   "i": 3,
    "key": "c1:talk:32015",
    "cond": 1,
    "kind": "talk",
@@ -417,7 +230,190 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:31553",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"Read this memo.\""
+   ],
+   "npc": {
+    "id": 31553,
+    "name": "Pierce",
+    "title": "Mercenary Captain",
+    "town": "Rune",
+    "at": [
+     69248,
+     -50160,
+     -3288
+    ],
+    "alt": []
+   },
+   "text": "Talk to Pierce",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31553@69248,-50160",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 102,
+    "sec": 46,
+    "via": ".rune > Rune -> Swamp of Screams",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Swamp of Screams",
+      "link": "swamp of screams",
+      "price": 3000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 102,
+      "how": "adjacent",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Swamp of Screams"
+    },
+    "simple": true,
+    "pv": [
+     [
+      69340,
+      -50203,
+      -3288
+     ],
+     [
+      69248,
+      -50160,
+      -3288
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": -12,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:31554",
+   "cond": 3,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Pierce sent me.\""
+   ],
+   "npc": {
+    "id": 31554,
+    "name": "Kahman",
+    "title": "Mercenary",
+    "town": "Rune",
+    "at": [
+     70000,
+     -50064,
+     -3264
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kahman",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31554@70000,-50064",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 684,
+    "sec": 51,
+    "via": ".rune > Rune -> Swamp of Screams",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Swamp of Screams",
+      "link": "swamp of screams",
+      "price": 3000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 684,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Swamp of Screams"
+    },
+    "simple": true,
+    "pv": [
+     [
+      69340,
+      -50203,
+      -3288
+     ],
+     [
+      70008,
+      -50056,
+      -3256
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": -12,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
     3
    ]
   }
@@ -426,7 +422,7 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:12.021Z",
+  "at": "2026-10-27T18:18:47.167Z",
   "pass": true,
   "geo": true,
   "fails": [],

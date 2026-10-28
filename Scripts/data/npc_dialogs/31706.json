@@ -1,0 +1,182 @@
+{
+ "npcId": 31706,
+ "name": "Miki the Cat",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.271Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31706.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "32": {
+   "name": "An Obvious Lie",
+   "listText": [
+    "[An Obvious Lie]",
+    "[An Obvious Lie (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00032_AnObviousLie/31706-01.html",
+     "when": "cond 2; has items 7165",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00032_AnObviousLie/31706-03.html",
+     "when": "cond 3|4|5",
+     "state": null,
+     "cond": [
+      3,
+      4,
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00032_AnObviousLie/31706-04.html",
+     "when": "cond 6",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00032_AnObviousLie/31706-06.html",
+     "when": "cond 7",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31706.htm": {
+   "file": "default/31706.htm",
+   "quest": null,
+   "text": "Miki the Cat: Meow, traveler! What brings you to this remote place? Meow~! Do you happen to have a map of this area? Would you sell it to me? Meow! I don't have a map and I've become lost. Meow! If you are going any further, please be careful! Meow! You can get lost! Meow!",
+   "header": "Miki the Cat",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00032_AnObviousLie/31706-01.html": {
+   "file": "Q00032_AnObviousLie/31706-01.html",
+   "quest": 32,
+   "text": "Miki the Cat: Meow~! Did Gentler send anything with you? Oh, I'm late! Meow~!",
+   "header": "Miki the Cat",
+   "when": [
+    "cond 2; has items 7165"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the Map.\"",
+     "bypass": "Quest Q00032_AnObviousLie 31706-02.html",
+     "kind": "quest-event",
+     "script": "Q00032_AnObviousLie",
+     "event": "31706-02.html",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/31706-02.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00032_AnObviousLie/31706-03.html": {
+   "file": "Q00032_AnObviousLie/31706-03.html",
+   "quest": 32,
+   "text": "Miki the Cat: Meow~! You can find the herb in the stomachs of alligators on Alligator Island . Meow~! Gentler needs 20 of them. Meow~!",
+   "header": "Miki the Cat",
+   "when": [
+    "cond 3|4|5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00032_AnObviousLie/31706-04.html": {
+   "file": "Q00032_AnObviousLie/31706-04.html",
+   "quest": 32,
+   "text": "Miki the Cat: What now? Meow~!",
+   "header": "Miki the Cat",
+   "when": [
+    "cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"I'd like my payment now.\"",
+     "bypass": "Quest Q00032_AnObviousLie 31706-05.html",
+     "kind": "quest-event",
+     "script": "Q00032_AnObviousLie",
+     "event": "31706-05.html",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/31706-05.html",
+     "effect": "cond:7"
+    }
+   ]
+  },
+  "Q00032_AnObviousLie/31706-06.html": {
+   "file": "Q00032_AnObviousLie/31706-06.html",
+   "quest": 32,
+   "text": "Miki the Cat: See Gentler for your reward. Meow~! Quickly, before he leaves! Meow~!",
+   "header": "Miki the Cat",
+   "when": [
+    "cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00032_AnObviousLie/31706-02.html": {
+   "file": "Q00032_AnObviousLie/31706-02.html",
+   "quest": 32,
+   "text": "Miki the Cat: He did send me the Map! Meow~! Thank you for delivering it. I don't have any Moretti's Herb for him, I lost it while wandering around. I'll tell you where to get some, though. Will you get it for me? I'm sure Gentler will give you a proper reward. You can get them from alligators on A…",
+   "header": "Miki the Cat",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00032_AnObviousLie/31706-05.html": {
+   "file": "Q00032_AnObviousLie/31706-05.html",
+   "quest": 32,
+   "text": "Miki the Cat: What are you talking about? Are you saying Gentler told you to get the payment for the Spirit Ore from me? I never signed such a Contract! Our agreement was that I would bring the herbs on time and he would pay for them. He probably thought he wouldn't see me again because I wander ab…",
+   "header": "Miki the Cat",
+   "sets": {
+    "cond": "7"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[An Obvious Lie (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00032_AnObviousLie",
+     "kind": "quest",
+     "quest": 32,
+     "to": "Q00032_AnObviousLie/31706-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

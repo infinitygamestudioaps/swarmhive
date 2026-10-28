@@ -1,0 +1,580 @@
+{
+ "npcId": 30371,
+ "name": "Thalia",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.958Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30371.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "161": {
+   "name": "Fruit of the Mother Tree",
+   "listText": [
+    "[Fruit of the Mother Tree]",
+    "[Fruit of the Mother Tree (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00161_FruitOfTheMotherTree/30371-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00161_FruitOfTheMotherTree/30371-02.html",
+     "when": "state STARTED; cond 2; !(st.isCond(1) && st.hasQuestItems(ANDELLRIAS_LETTER))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "218": {
+   "name": "Testimony Of Life",
+   "listText": [
+    "[Testimony of Life]",
+    "[Testimony of Life (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00218_TestimonyOfLife/30371-01.html",
+     "when": "state STARTED; has items 3144,3143",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-04.html",
+     "when": "state STARTED; has items 3144,3145; lacks items 3143",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-05.html",
+     "when": "state STARTED; has items 3144,3149; lacks items 3143,3145",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-06.html",
+     "when": "state STARTED; has items 3144,3150; lacks items 3143,3145,3149",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-07.html",
+     "when": "state STARTED; has items 3144,3146; lacks items 3143,3145,3149,3150",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-08.html",
+     "when": "state STARTED; has items 3144,3151; lacks items 3143,3145,3149,3150,3146",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-09.html",
+     "when": "state STARTED; has items 3144,3155; lacks items 3143,3145,3149,3150,3146,3151",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-13.html",
+     "when": "state STARTED; level >= 38; has items 3144,3148; lacks items 3143,3145,3149,3150,3146,3151,3155",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-12.html",
+     "when": "state STARTED; NOT level >= 38; has items 3144,3148; lacks items 3143,3145,3149,3150,3146,3151,3155",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-14.html",
+     "when": "state STARTED; has items 3144,3147; lacks items 3143,3145,3149,3150,3146,3151,3155,3148",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-15.html",
+     "when": "state STARTED; has items 3144,3156; lacks items 3143,3145,3149,3150,3146,3151,3155,3148,3147",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-16.html",
+     "when": "state STARTED; has items 3144,3026,3157; lacks items 3143,3145,3149,3150,3146,3151,3155,3148,3147,3156",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-17.html",
+     "when": "state STARTED; has items 3144,3026,3158; lacks items 3143,3145,3149,3150,3146,3151,3155,3148,3147,3156,3026,3157",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-18.html",
+     "when": "state STARTED; has items 3144,3159; lacks items 3143,3145,3149,3150,3146,3151,3155,3148,3147,3156,3026,3157,3158",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30371-19.html",
+     "when": "state STARTED; has items 3144,3142,3160; lacks items 3143,3145,3149,3150,3146,3151,3155,3148,3147,3156,3026,3157,3158,3159",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "408": {
+   "name": "Path Of The Elven Wizard",
+   "listText": [
+    "[Path of the Elven Wizard]",
+    "[Path of the Elven Wizard (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30371-01.html",
+     "when": "state STARTED; has items 1222; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30371-03.html",
+     "when": "state STARTED; has items 1273; lacks items 1222; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, GOLD_LEAVES) < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00408_PathOfTheElvenWizard/30371-04.html",
+     "when": "state STARTED; has items 1273; lacks items 1222; !(qs.isCreated() || qs.isCompleted()); !getQuestItemsCount(player, GOLD_LEAVES) < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30371.htm": {
+   "file": "default/30371.htm",
+   "quest": null,
+   "text": "Thalia: Hello. I am Thalia, guardian of The Mother Tree Glade. I am in great distress because The Mother Tree is withering. Perhaps it is because of the force that drifts out of the Sea of Spores and crosses over those mountains. The saddest thing is that these things were caused because we used fo…",
+   "header": "Thalia",
+   "links": [
+    {
+     "text": "Ask about the forbidden magic.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30371-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30371-1.htm": {
+   "file": "default/30371-1.htm",
+   "quest": null,
+   "text": "Thalia: Actually, I myself do not know the details. According to what I've heard, we Elves used forbidden magic while fighting with the Humans, who had betrayed us, and as a result a large area of land became a wasteland. The polluted land is called the Sea of Spores , and it keeps growing even tod…",
+   "header": "Thalia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00161_FruitOfTheMotherTree/30371-01.html": {
+   "file": "Q00161_FruitOfTheMotherTree/30371-01.html",
+   "quest": 161,
+   "text": "Thalia: My sister Andellia has sent you, I see. This is the Mother Tree fruit I harvested this year. It is a very precious fruit, the only one that has been harvested this year. Please deliver it safely to my sister Andellia in the village.",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Ask about the geography around Lake Iris",
+     "bypass": "Quest Q00161_FruitOfTheMotherTree 30371-03.html",
+     "kind": "quest-event",
+     "script": "Q00161_FruitOfTheMotherTree",
+     "event": "30371-03.html",
+     "quest": 161,
+     "to": "Q00161_FruitOfTheMotherTree/30371-03.html"
+    }
+   ]
+  },
+  "Q00161_FruitOfTheMotherTree/30371-02.html": {
+   "file": "Q00161_FruitOfTheMotherTree/30371-02.html",
+   "quest": 161,
+   "text": "Thalia: Haven't you left yet? Please deliver this Mother Tree fruit to Andellia. You need to get there before the fruit spoils ...",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; cond 2; !(st.isCond(1) && st.hasQuestItems(ANDELLRIAS_LETTER))"
+   ],
+   "links": [
+    {
+     "text": "Ask about the geography around Lake Iris",
+     "bypass": "Quest Q00161_FruitOfTheMotherTree 30371-03.html",
+     "kind": "quest-event",
+     "script": "Q00161_FruitOfTheMotherTree",
+     "event": "30371-03.html",
+     "quest": 161,
+     "to": "Q00161_FruitOfTheMotherTree/30371-03.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30371-01.html": {
+   "file": "Q00218_TestimonyOfLife/30371-01.html",
+   "quest": 218,
+   "text": "Thalia: How is the Hierarch? I can only imagine his concern for the future of our race... We must do all we can to lighten his burden. My sisters and I have attempted to revive the dying Mother Tree, but all our efforts have failed. Still, there is hope. According to the legend, there is a Water of…",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3143"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Test of Life",
+     "bypass": "Quest Q00218_TestimonyOfLife 30371-02.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30371-02.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30371-02.html"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30371-04.html": {
+   "file": "Q00218_TestimonyOfLife/30371-04.html",
+   "quest": 218,
+   "text": "Thalia: Go to Blacksmith Pushkin of the Town of Giran . He is the only person who can make the Pure Mithril Cup. I shall be awaiting your return. May the blessings of starlight be with you.",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3145; lacks items 3143"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-05.html": {
+   "file": "Q00218_TestimonyOfLife/30371-05.html",
+   "quest": 218,
+   "text": "Thalia: She wanted something in return, didn't she? Just as I expected... It is so humiliating to be ordered about by a Dwarf! Oh well, we have no choice...",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3149; lacks items 3143,3145"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-06.html": {
+   "file": "Q00218_TestimonyOfLife/30371-06.html",
+   "quest": 218,
+   "text": "Thalia: Ah, the Pure Mithril Cup ... It is indeed a masterpiece. Occasionally the Dwarves show their true worth. In order to transform a Mithril Cup into a Grail of Purity we must have 'Stardust' . It is a silvery powder, said to be sprinkled by the spirits of starlight. Only Dark Elves have the sk…",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3150; lacks items 3143,3145,3149"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-07.html": {
+   "file": "Q00218_TestimonyOfLife/30371-07.html",
+   "quest": 218,
+   "text": "Thalia: You must go to the Dark Elves' Initiation Altar and meet Shaman Arkenia . She knows the secrets of Stardust.",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3146; lacks items 3143,3145,3149,3150"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-08.html": {
+   "file": "Q00218_TestimonyOfLife/30371-08.html",
+   "quest": 218,
+   "text": "Thalia: I doubt that the Dark Elves will easily tell their secrets... But what is the alternative? We must obtain the Stardust at all costs.",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3151; lacks items 3143,3145,3149,3150,3146"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-09.html": {
+   "file": "Q00218_TestimonyOfLife/30371-09.html",
+   "quest": 218,
+   "text": "Thalia: This is Stardust ... Now we will be able to perform the ceremony of starlight and create the Grail of Purity . Thank you for your hard work. Now we have one of the 2 materials needed for obtaining Water of Life. Now if we only had Talin's Spear ...",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3155; lacks items 3143,3145,3149,3150,3146,3151"
+   ],
+   "links": [
+    {
+     "text": "Ask about Talin's Spear",
+     "bypass": "Quest Q00218_TestimonyOfLife 30371-11.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30371-11.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30371-11.html",
+     "effect": "cond:14"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30371-13.html": {
+   "file": "Q00218_TestimonyOfLife/30371-13.html",
+   "quest": 218,
+   "text": "Thalia: I have terrible news! Talin's Spear has been stolen on its way here! It is said that the lake spirits who were bringing the sword from Innadril were attacked by the lizardmen who massacred them and absconded with the spear. You must hurry to Isael Silvershadow of the Hunter's Village . Help…",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; level >= 38; has items 3144,3148; lacks items 3143,3145,3149,3150,3146,3151,3155"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-12.html": {
+   "file": "Q00218_TestimonyOfLife/30371-12.html",
+   "quest": 218,
+   "text": "Thalia: The spear hasn't arrived yet. A bigger problem is that you lack the power to use the spear properly. Perhaps you should go for a journey of discipline while you have the time? When you feel that you are ready, then come back and see me. Perhaps Talin's Spear will have arrived by then, as we…",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; NOT level >= 38; has items 3144,3148; lacks items 3143,3145,3149,3150,3146,3151,3155"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-14.html": {
+   "file": "Q00218_TestimonyOfLife/30371-14.html",
+   "quest": 218,
+   "text": "Thalia: Hurry! You must go to Isael Silvershadow of the Hunter's Village . Help him find the stolen Talin's Spear . Our future lies within it!",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3147; lacks items 3143,3145,3149,3150,3146,3151,3155,3148"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-15.html": {
+   "file": "Q00218_TestimonyOfLife/30371-15.html",
+   "quest": 218,
+   "text": "Thalia: We must find Talin's Spear! Our future lies within it!",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3156; lacks items 3143,3145,3149,3150,3146,3151,3155,3148,3147"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-16.html": {
+   "file": "Q00218_TestimonyOfLife/30371-16.html",
+   "quest": 218,
+   "text": "Thalia: May the blessings of the starlight be upon you. You have recovered Talin's Spear! Thank you very much for your trouble. Now that we have both the Grail of Purity and Talin's Spear , we can set off in search of the Water of Life. This will bring the utmost sacrifice and the greatest sorrow..…",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3026,3157; lacks items 3143,3145,3149,3150,3146,3151,3155,3148,3147,3156"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-17.html": {
+   "file": "Q00218_TestimonyOfLife/30371-17.html",
+   "quest": 218,
+   "text": "Thalia: May the Goddess forgive us for our deed...",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3026,3158; lacks items 3143,3145,3149,3150,3146,3151,3155,3148,3147,3156,3026,3157"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-18.html": {
+   "file": "Q00218_TestimonyOfLife/30371-18.html",
+   "quest": 218,
+   "text": "Thalia: The tears of the unicorn in the Grail of Purity... That is the Water of Life itself. Such a huge sacrifice for so little water... Return to Hierarch Asterios with the Water of Life.",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3159; lacks items 3143,3145,3149,3150,3146,3151,3155,3148,3147,3156,3026,3157,3158"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-19.html": {
+   "file": "Q00218_TestimonyOfLife/30371-19.html",
+   "quest": 218,
+   "text": "Thalia: Return to Hierarch Asterios with the Water of Life. I must stay and grieve over the death of the unicorn...",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 3144,3142,3160; lacks items 3143,3145,3149,3150,3146,3151,3155,3148,3147,3156,3026,3157,3158,3159"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30371-01.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30371-01.html",
+   "quest": 408,
+   "text": "Thalia: What have you come here for? Oh... What a delicious looking apple! Is this for me? This reminds me of the legend of the Elven maiden who picked the apple of knowledge. Rosella sent you? Are you looking for the Pure Aquamarine ? Rosella asked me before... She told me to kindly tell the where…",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 1222; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you will perform the task",
+     "bypass": "Quest Q00408_PathOfTheElvenWizard 30371-02.html",
+     "kind": "quest-event",
+     "script": "Q00408_PathOfTheElvenWizard",
+     "event": "30371-02.html",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30371-02.html"
+    }
+   ]
+  },
+  "Q00408_PathOfTheElvenWizard/30371-03.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30371-03.html",
+   "quest": 408,
+   "text": "Thalia: You are lacking in effort. My sisters and I have worked for hundreds of years without a day of rest to look after the Mother Trees and gather their fruit. Precious items require much work. I cannot tell you about the Aquamarine until you have gathered 5 Gold Leaves . Elves serve Einhashad, …",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 1273; lacks items 1222; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, GOLD_LEAVES) < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30371-04.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30371-04.html",
+   "quest": 408,
+   "text": "Thalia: You have found all 5 Gold Leaves, I see. In return, I will tell you about the Pure Aquamarine. The Mother Tree normally does not have any dew, but when the roots absorb the nutrition of the golden leaves, large, beautiful drops of dew form. On rare occasions, one can find a Pure Aquamarine …",
+   "header": "Thalia",
+   "when": [
+    "state STARTED; has items 1273; lacks items 1222; !(qs.isCreated() || qs.isCompleted()); !getQuestItemsCount(player, GOLD_LEAVES) < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00161_FruitOfTheMotherTree/30371-03.html": {
+   "file": "Q00161_FruitOfTheMotherTree/30371-03.html",
+   "quest": 161,
+   "text": "Thalia: Lake Iris has an irregular shape. North of the lake is the Elven Village, while the falls are located to the northwest. To the west is the Underground Elven Fortress. Beyond the Misty Mountains north of the village, there is a place which was formerly a battlefield ... But now, everything t…",
+   "header": "Thalia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-02.html": {
+   "file": "Q00218_TestimonyOfLife/30371-02.html",
+   "quest": 218,
+   "text": "Thalia: We must prepare two things before acquiring the Water of Life. They are the Grail of Purity and Talin's Spear . Talin's Spear was at one time kept by the Elves living in Innadril Lake, but we decided to move it here. You must find the Grail of Purity that will be the container for the Water…",
+   "header": "Thalia",
+   "links": [
+    {
+     "text": "\"How do you create a Grail of Purity?\"",
+     "bypass": "Quest Q00218_TestimonyOfLife 30371-03.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30371-03.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30371-03.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30371-03.html": {
+   "file": "Q00218_TestimonyOfLife/30371-03.html",
+   "quest": 218,
+   "text": "Thalia: In the past, we Elves possessed the knowledge to create the holy grail. During the war with Humans the High Artisan Elves who kept the secrets of Mithril and platinum were killed, and the secrets of the grail were lost with them. Therefore we must have the help of other tribes in order to c…",
+   "header": "Thalia",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-10.html": {
+   "file": "Q00218_TestimonyOfLife/30371-10.html",
+   "quest": 218,
+   "text": "Thalia: At this moment, Talin's Spear is being transported here from Innadril. We must wait until it arrives. You seem to lack the adequate experience to use the power of the spear fully. How about going for a journey of discipline while we have the time? When you feel that you are ready, come back…",
+   "header": "Thalia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30371-11.html": {
+   "file": "Q00218_TestimonyOfLife/30371-11.html",
+   "quest": 218,
+   "text": "Thalia: There is terrible news! Talin's Spear has been stolen! The lake spirits who were bringing it from Innadril were attacked by lizardmen who massacred them and absconded with the spear. You must hurry and meet Isael Silvershadow of the Hunter's Village . He will need assistance finding the spe…",
+   "header": "Thalia",
+   "sets": {
+    "cond": "14"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00408_PathOfTheElvenWizard/30371-02.html": {
+   "file": "Q00408_PathOfTheElvenWizard/30371-02.html",
+   "quest": 408,
+   "text": "Thalia: My request is not a difficult one. A special fertilizer is needed to maintain the green health of the Mother Trees that we look after. This fertilizer is made from the leaves that fall from the trees in the Elven Forest. Have you ever seen any fallen leaves in the Elven Forest? Probably not…",
+   "header": "Thalia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Fruit of the Mother Tree (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00161_FruitOfTheMotherTree",
+     "kind": "quest",
+     "quest": 161,
+     "to": "Q00161_FruitOfTheMotherTree/30371-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Life (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00218_TestimonyOfLife",
+     "kind": "quest",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30371-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Elven Wizard (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00408_PathOfTheElvenWizard",
+     "kind": "quest",
+     "quest": 408,
+     "to": "Q00408_PathOfTheElvenWizard/30371-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -2,7 +2,7 @@
  "id": 66,
  "name": "Certified Arbalester",
  "version": 1,
- "generated": "2026-10-27T11:14:56.630Z",
+ "generated": "2026-10-27T18:18:34.645Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 39,
@@ -34,21 +34,27 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 1
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
    "step": 2
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 51
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 52
   }
  ],
- "expectedMin": 38,
+ "expectedMin": 68,
  "refLevel": 39,
  "steps": [
   {
@@ -352,7 +358,7 @@
     {
      "id": 9773,
      "name": "Enmity Crystal",
-     "n": 29,
+     "n": 30,
      "from": [
       {
        "id": 20781,
@@ -399,7 +405,7 @@
     {
      "id": 9775,
      "name": "Manuscript Page",
-     "n": 29,
+     "n": 30,
      "from": [
       {
        "id": 20083,
@@ -446,7 +452,7 @@
     {
      "id": 9778,
      "name": "Fragment of Attack Orders",
-     "n": 9,
+     "n": 10,
      "from": [
       {
        "id": 20554,
@@ -458,7 +464,7 @@
     {
      "id": 9780,
      "name": "Manashen's Talisman",
-     "n": 9,
+     "n": 10,
      "from": [
       {
        "id": 20554,
@@ -471,25 +477,13 @@
        "chance": 84
       }
      ]
-    },
-    {
-     "id": 9781,
-     "name": "Research on the Giants and the Ancient Race",
-     "n": 1,
-     "from": [
-      {
-       "id": 27336,
-       "name": "Crimson Lady",
-       "chance": 100
-      }
-     ]
     }
    ],
    "kills": null,
    "reasons": [
     "aggro-on-way"
    ],
-   "text": "Hunt Granite Golem, Hangman Tree, Ghoul for Enmity Crystal x29, Manuscript Page x29, Fragment of Attack Orders x9, Manashen's Talisman x9, Research on the Giants and the Ancient Race x1",
+   "text": "Hunt Granite Golem, Hangman Tree, Ghoul for Enmity Crystal x30, Manuscript Page x30, Fragment of Attack Orders x10, Manashen's Talisman x10",
    "places": [
     {
      "mobs": [
@@ -1400,7 +1394,7 @@
      "aggro": []
     }
    },
-   "expectedSec": 945,
+   "expectedSec": 970,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
@@ -1423,9 +1417,7 @@
     15,
     16,
     17,
-    18,
-    19,
-    20
+    18
    ]
   },
   {
@@ -1448,7 +1440,7 @@
     {
      "id": 9773,
      "name": "Enmity Crystal",
-     "n": 29,
+     "n": 30,
      "from": [
       {
        "id": 20781,
@@ -1495,7 +1487,7 @@
     {
      "id": 9775,
      "name": "Manuscript Page",
-     "n": 29,
+     "n": 30,
      "from": [
       {
        "id": 20083,
@@ -1542,7 +1534,7 @@
     {
      "id": 9778,
      "name": "Fragment of Attack Orders",
-     "n": 9,
+     "n": 10,
      "from": [
       {
        "id": 20554,
@@ -1554,7 +1546,7 @@
     {
      "id": 9780,
      "name": "Manashen's Talisman",
-     "n": 9,
+     "n": 10,
      "from": [
       {
        "id": 20554,
@@ -1567,23 +1559,11 @@
        "chance": 84
       }
      ]
-    },
-    {
-     "id": 9781,
-     "name": "Research on the Giants and the Ancient Race",
-     "n": 1,
-     "from": [
-      {
-       "id": 27336,
-       "name": "Crimson Lady",
-       "chance": 100
-      }
-     ]
     }
    ],
    "kills": 1,
    "reasons": [
-    "item-from-quest-mob"
+    "engine-manual"
    ],
    "engine": {
     "how": "kill",
@@ -1592,7 +1572,9 @@
      20563,
      20583,
      20584
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Crimson Lady appear and kill it",
    "area": {
@@ -1782,9 +1764,7 @@
     15,
     16,
     17,
-    18,
-    19,
-    20
+    18
    ],
    "override": {
     "route": [
@@ -2060,560 +2040,1153 @@
   },
   {
    "i": 3,
-   "key": "c1:deliver:32220",
+   "key": "c1:talk:32201",
    "cond": 1,
-   "kind": "deliver",
-   "to": "end",
-   "links": [],
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"How can I find the secret group?\""
+   ],
    "npc": {
-    "id": 32220,
-    "name": "Selsia",
+    "id": 32201,
+    "name": "Rindy",
     "title": "Master",
-    "town": "Hunters Village",
+    "town": "Dion",
     "at": [
-     115888,
-     79141,
-     -2417
+     16292,
+     146310,
+     -3096
     ],
     "alt": []
    },
-   "text": "Bring Research on the Giants and the Ancient Race to Selsia",
-   "needs": [
-    {
-     "id": 9781,
-     "name": "Research on the Giants and the Ancient Race",
-     "n": 1
-    }
-   ],
+   "text": "Talk to Rindy",
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:32220@115888,79141",
+    "key": "npc:32201@16292,146310",
     "status": "ok",
     "flags": [],
-    "from": ".hunters",
-    "length": 4514,
-    "sec": 58,
-    "via": ".hunters",
+    "from": ".dion",
+    "length": 3959,
+    "sec": 53,
+    "via": ".dion",
     "steps": [
      {
       "do": "town",
-      "town": "Hunters",
-      "cmd": ".hunters"
+      "town": "Dion",
+      "cmd": ".dion"
      },
      {
       "do": "walk",
-      "len": 4514,
+      "len": 3959,
       "how": "town-graph",
-      "danger": 0
+      "danger": 30
      }
     ],
     "start": {
      "kind": "town",
-     "town": "Hunters"
+     "town": "Dion"
     },
     "simple": true,
     "pv": [
      [
-      116589,
-      76268,
-      -3000
+      15619,
+      143132,
+      -2688
      ],
      [
-      116568,
-      76152,
-      -2728
+      15480,
+      142888,
+      -2696
      ],
      [
-      116696,
-      76280,
-      -2728
+      15464,
+      143160,
+      -2696
      ],
      [
-      116776,
-      76456,
-      -2728
+      15464,
+      143432,
+      -2712
      ],
      [
-      116792,
-      76728,
-      -2720
+      15432,
+      143560,
+      -2736
      ],
      [
-      116824,
-      77000,
-      -2704
+      15560,
+      143688,
+      -2800
      ],
      [
-      116616,
-      77160,
-      -2720
+      15752,
+      143880,
+      -2904
      ],
      [
-      116424,
-      77352,
-      -2704
+      15800,
+      144072,
+      -2968
      ],
      [
-      116360,
-      77416,
-      -2704
+      15848,
+      144344,
+      -3040
      ],
      [
-      116344,
-      77672,
-      -2680
+      16024,
+      144552,
+      -3048
      ],
      [
-      116392,
-      77944,
-      -2680
+      16104,
+      144792,
+      -3056
      ],
      [
-      116536,
-      78184,
-      -2648
+      16120,
+      145064,
+      -3064
      ],
      [
-      116616,
-      78312,
-      -2608
+      16184,
+      145240,
+      -3048
      ],
      [
-      116760,
-      78536,
-      -2496
+      16280,
+      145496,
+      -3056
      ],
      [
-      116824,
-      78648,
-      -2432
+      16296,
+      145768,
+      -3088
      ],
      [
-      116968,
-      78888,
-      -2256
+      16296,
+      146040,
+      -3112
      ],
      [
-      116968,
-      79016,
-      -2256
-     ],
-     [
-      116712,
-      79064,
-      -2304
-     ],
-     [
-      116440,
-      79064,
-      -2384
-     ],
-     [
-      116168,
-      79080,
-      -2384
-     ],
-     [
-      115896,
-      79144,
-      -2384
+      16296,
+      146312,
+      -3096
      ]
     ],
-    "maxDanger": 0,
+    "maxDanger": 30,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
      "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
+     "danger": 30,
+     "dangerVsLevel": -9,
      "aggro": []
     }
    },
-   "expectedSec": 83,
+   "expectedSec": 78,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
+    1
    ]
   },
   {
    "i": 4,
-   "key": "c1:talk:30720",
-   "cond": 1,
+   "key": "c2:talk:30464",
+   "cond": 2,
    "kind": "talk",
-   "to": 18,
+   "to": 3,
    "links": [
-    "\"If Gauen is guilty, we must report his misdeeds to the authorities of the Ivory Tower.\""
+    "What is your request?"
    ],
    "npc": {
-    "id": 30720,
-    "name": "Kaiena",
+    "id": 30464,
+    "name": "Clayton",
     "title": "Magister",
-    "town": "Oren",
+    "town": "Dion",
     "at": [
-     85332,
-     16592,
-     -1769
+     17280,
+     146944,
+     -3085
     ],
     "alt": []
    },
-   "text": "Talk to Kaiena",
+   "text": "Talk to Clayton",
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:30720@85332,16592",
+    "key": "npc:30464@17280,146944",
     "status": "ok",
     "flags": [],
-    "from": ".oren",
-    "length": 408,
-    "sec": 63,
-    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "from": ".dion",
+    "length": 5822,
+    "sec": 69,
+    "via": ".dion",
     "steps": [
      {
       "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "gk",
-      "from": "Oren",
-      "desc": "Oren -> Ivory Tower",
-      "link": "ivory tower",
-      "price": 3700,
-      "live": true
-     },
-     {
-      "do": "enter",
-      "how": "npc-teleport",
-      "npc": "Verona",
-      "link": "4th Floor Dark Wizard Guild"
+      "town": "Dion",
+      "cmd": ".dion"
      },
      {
       "do": "walk",
-      "len": 408,
-      "how": "geodata",
-      "danger": 0
+      "len": 5822,
+      "how": "town-graph",
+      "danger": 22
      }
     ],
     "start": {
-     "kind": "gk",
-     "from": "Oren",
-     "desc": "Oren -> Ivory Tower"
+     "kind": "town",
+     "town": "Dion"
     },
-    "simple": false,
+    "simple": true,
     "pv": [
      [
-      85399,
-      16197,
-      -1776
+      15619,
+      143132,
+      -2688
      ],
      [
-      85336,
-      16600,
-      -1776
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17528,
+      145480,
+      -3072
+     ],
+     [
+      17736,
+      145640,
+      -3088
+     ],
+     [
+      17784,
+      145672,
+      -3088
+     ],
+     [
+      17976,
+      145864,
+      -3104
+     ],
+     [
+      17992,
+      146136,
+      -3104
+     ],
+     [
+      17880,
+      146392,
+      -3104
+     ],
+     [
+      17752,
+      146536,
+      -3104
+     ],
+     [
+      17752,
+      146552,
+      -3112
+     ],
+     [
+      17608,
+      146792,
+      -3112
+     ],
+     [
+      17384,
+      146808,
+      -3080
+     ],
+     [
+      17240,
+      146872,
+      -3080
+     ],
+     [
+      17288,
+      146952,
+      -3080
      ]
     ],
-    "maxDanger": 0,
+    "maxDanger": 22,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
      "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
+     "danger": 22,
+     "dangerVsLevel": -17,
      "aggro": []
     }
    },
-   "expectedSec": 88,
+   "expectedSec": 94,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    19,
-    20
+    2
    ]
   },
   {
    "i": 5,
-   "key": "c1:talk:30717",
-   "cond": 1,
+   "key": "c3:talk:30464",
+   "cond": 3,
    "kind": "talk",
-   "to": 17,
+   "to": 5,
    "links": [
-    "What?! Then where are they?"
+    "Wait a moment."
    ],
    "npc": {
-    "id": 30717,
-    "name": "Gauen",
+    "id": 30464,
+    "name": "Clayton",
     "title": "Magister",
-    "town": "Oren",
+    "town": "Dion",
     "at": [
-     85332,
-     16592,
-     -2285
+     17280,
+     146944,
+     -3085
     ],
     "alt": []
    },
-   "text": "Talk to Gauen",
+   "text": "Talk to Clayton",
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:30717@85332,16592",
+    "key": "npc:30464@17280,146944",
     "status": "ok",
     "flags": [],
-    "from": ".oren",
-    "length": 408,
-    "sec": 63,
-    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "from": ".dion",
+    "length": 5822,
+    "sec": 69,
+    "via": ".dion",
     "steps": [
      {
       "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "gk",
-      "from": "Oren",
-      "desc": "Oren -> Ivory Tower",
-      "link": "ivory tower",
-      "price": 3700,
-      "live": true
-     },
-     {
-      "do": "enter",
-      "how": "npc-teleport",
-      "npc": "Verona",
-      "link": "3rd Floor Elven Wizard Guild"
+      "town": "Dion",
+      "cmd": ".dion"
      },
      {
       "do": "walk",
-      "len": 408,
-      "how": "geodata",
-      "danger": 0
+      "len": 5822,
+      "how": "town-graph",
+      "danger": 22
      }
     ],
     "start": {
-     "kind": "gk",
-     "from": "Oren",
-     "desc": "Oren -> Ivory Tower"
+     "kind": "town",
+     "town": "Dion"
     },
-    "simple": false,
+    "simple": true,
     "pv": [
      [
-      85399,
-      16197,
-      -2293
+      15619,
+      143132,
+      -2688
      ],
      [
-      85336,
-      16600,
-      -2288
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17528,
+      145480,
+      -3072
+     ],
+     [
+      17736,
+      145640,
+      -3088
+     ],
+     [
+      17784,
+      145672,
+      -3088
+     ],
+     [
+      17976,
+      145864,
+      -3104
+     ],
+     [
+      17992,
+      146136,
+      -3104
+     ],
+     [
+      17880,
+      146392,
+      -3104
+     ],
+     [
+      17752,
+      146536,
+      -3104
+     ],
+     [
+      17752,
+      146552,
+      -3112
+     ],
+     [
+      17608,
+      146792,
+      -3112
+     ],
+     [
+      17384,
+      146808,
+      -3080
+     ],
+     [
+      17240,
+      146872,
+      -3080
+     ],
+     [
+      17288,
+      146952,
+      -3080
      ]
     ],
-    "maxDanger": 0,
+    "maxDanger": 22,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
      "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
+     "danger": 22,
+     "dangerVsLevel": -17,
      "aggro": []
     }
    },
-   "expectedSec": 88,
+   "expectedSec": 94,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
     3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
+    4
    ]
   },
   {
    "i": 6,
-   "key": "c1:talk:30171",
-   "cond": 1,
+   "key": "c5:talk:30458",
+   "cond": 5,
    "kind": "talk",
-   "to": 14,
+   "to": 6,
    "links": [
-    "Were you able to recover the Giants' research document?"
+    "What is it?"
    ],
    "npc": {
-    "id": 30171,
-    "name": "Gaius",
-    "title": "Magister",
-    "town": "Oren",
+    "id": 30458,
+    "name": "Poitan",
+    "title": "Blacksmith",
+    "town": "Dion",
     "at": [
-     85332,
-     16592,
-     -2799
+     19737,
+     143122,
+     -3028
     ],
     "alt": []
    },
-   "text": "Talk to Gaius",
+   "text": "Talk to Poitan",
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:30171@85332,16592",
+    "key": "npc:30458@19737,143122",
     "status": "ok",
     "flags": [],
-    "from": ".oren",
-    "length": 408,
-    "sec": 63,
-    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "from": ".dion",
+    "length": 6371,
+    "sec": 73,
+    "via": ".dion",
     "steps": [
      {
       "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
-     },
-     {
-      "do": "gk",
-      "from": "Oren",
-      "desc": "Oren -> Ivory Tower",
-      "link": "ivory tower",
-      "price": 3700,
-      "live": true
-     },
-     {
-      "do": "enter",
-      "how": "npc-teleport",
-      "npc": "Verona",
-      "link": "2nd Floor Human Wizard Guild"
+      "town": "Dion",
+      "cmd": ".dion"
      },
      {
       "do": "walk",
-      "len": 408,
-      "how": "geodata",
-      "danger": 0
+      "len": 6371,
+      "how": "town-graph",
+      "danger": 20
      }
     ],
     "start": {
-     "kind": "gk",
-     "from": "Oren",
-     "desc": "Oren -> Ivory Tower"
+     "kind": "town",
+     "town": "Dion"
     },
-    "simple": false,
+    "simple": true,
     "pv": [
      [
-      85399,
-      16197,
-      -2809
+      15619,
+      143132,
+      -2688
      ],
      [
-      85336,
-      16600,
-      -2808
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16312,
+      143640,
+      -2864
+     ],
+     [
+      16520,
+      143800,
+      -2912
+     ],
+     [
+      16712,
+      143992,
+      -2968
+     ],
+     [
+      16936,
+      144040,
+      -3008
+     ],
+     [
+      16968,
+      144184,
+      -3008
+     ],
+     [
+      17176,
+      144184,
+      -3024
+     ],
+     [
+      17432,
+      144120,
+      -3032
+     ],
+     [
+      17480,
+      144088,
+      -3032
+     ],
+     [
+      17704,
+      143928,
+      -3032
+     ],
+     [
+      17976,
+      143928,
+      -3056
+     ],
+     [
+      18168,
+      143912,
+      -3064
+     ],
+     [
+      18280,
+      144152,
+      -3064
+     ],
+     [
+      18472,
+      144344,
+      -3064
+     ],
+     [
+      18696,
+      144504,
+      -3080
+     ],
+     [
+      18936,
+      144456,
+      -3096
+     ],
+     [
+      18968,
+      144424,
+      -3096
+     ],
+     [
+      19048,
+      144168,
+      -3080
+     ],
+     [
+      19176,
+      143976,
+      -3072
+     ],
+     [
+      19176,
+      143896,
+      -3064
+     ],
+     [
+      19224,
+      143624,
+      -3056
+     ],
+     [
+      19288,
+      143352,
+      -3048
+     ],
+     [
+      19512,
+      143192,
+      -3024
+     ],
+     [
+      19736,
+      143128,
+      -3024
      ]
     ],
-    "maxDanger": 0,
+    "maxDanger": 20,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
      "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
+     "danger": 20,
+     "dangerVsLevel": -19,
      "aggro": []
     }
    },
-   "expectedSec": 88,
+   "expectedSec": 98,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
+    5
    ]
   },
   {
    "i": 7,
-   "key": "c1:talk:32214",
-   "cond": 1,
+   "key": "c6:talk:30058",
+   "cond": 6,
+   "kind": "talk",
+   "to": 7,
+   "links": [
+    "Agree."
+   ],
+   "npc": {
+    "id": 30058,
+    "name": "Holvas",
+    "title": "Warehouse Keeper",
+    "town": "Dion",
+    "at": [
+     20750,
+     144432,
+     -3068
+    ],
+    "alt": []
+   },
+   "text": "Talk to Holvas",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30058@20750,144432",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 6113,
+    "sec": 71,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 6113,
+      "how": "geodata",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      16118,
+      143626,
+      -2828
+     ],
+     [
+      16616,
+      144120,
+      -2968
+     ],
+     [
+      17112,
+      144280,
+      -3004
+     ],
+     [
+      17608,
+      144440,
+      -3040
+     ],
+     [
+      17912,
+      144440,
+      -3048
+     ],
+     [
+      17928,
+      144424,
+      -3048
+     ],
+     [
+      17944,
+      144424,
+      -3048
+     ],
+     [
+      17944,
+      144392,
+      -3048
+     ],
+     [
+      18056,
+      144232,
+      -3048
+     ],
+     [
+      18088,
+      144200,
+      -3056
+     ],
+     [
+      18584,
+      144320,
+      -3076
+     ],
+     [
+      19080,
+      144440,
+      -3096
+     ],
+     [
+      19272,
+      144248,
+      -3088
+     ],
+     [
+      19800,
+      144248,
+      -3088
+     ],
+     [
+      20568,
+      144680,
+      -3072
+     ],
+     [
+      20632,
+      144680,
+      -3064
+     ],
+     [
+      20744,
+      144568,
+      -3064
+     ],
+     [
+      20744,
+      144440,
+      -3064
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -19,
+     "aggro": []
+    }
+   },
+   "expectedSec": 96,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c7:talk:30058",
+   "cond": 7,
+   "kind": "talk",
+   "to": 9,
+   "links": [
+    "What is it?"
+   ],
+   "npc": {
+    "id": 30058,
+    "name": "Holvas",
+    "title": "Warehouse Keeper",
+    "town": "Dion",
+    "at": [
+     20750,
+     144432,
+     -3068
+    ],
+    "alt": []
+   },
+   "text": "Talk to Holvas",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30058@20750,144432",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 6113,
+    "sec": 71,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 6113,
+      "how": "geodata",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      16118,
+      143626,
+      -2828
+     ],
+     [
+      16616,
+      144120,
+      -2968
+     ],
+     [
+      17112,
+      144280,
+      -3004
+     ],
+     [
+      17608,
+      144440,
+      -3040
+     ],
+     [
+      17912,
+      144440,
+      -3048
+     ],
+     [
+      17928,
+      144424,
+      -3048
+     ],
+     [
+      17944,
+      144424,
+      -3048
+     ],
+     [
+      17944,
+      144392,
+      -3048
+     ],
+     [
+      18056,
+      144232,
+      -3048
+     ],
+     [
+      18088,
+      144200,
+      -3056
+     ],
+     [
+      18584,
+      144320,
+      -3076
+     ],
+     [
+      19080,
+      144440,
+      -3096
+     ],
+     [
+      19272,
+      144248,
+      -3088
+     ],
+     [
+      19800,
+      144248,
+      -3088
+     ],
+     [
+      20568,
+      144680,
+      -3072
+     ],
+     [
+      20632,
+      144680,
+      -3064
+     ],
+     [
+      20744,
+      144568,
+      -3064
+     ],
+     [
+      20744,
+      144440,
+      -3064
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -19,
+     "aggro": []
+    }
+   },
+   "expectedSec": 96,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7,
+    8
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c9:talk:32214",
+   "cond": 9,
    "kind": "talk",
    "to": 10,
    "links": [
@@ -2865,488 +3438,1709 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
-   ]
-  },
-  {
-   "i": 8,
-   "key": "c1:talk:30058",
-   "cond": 1,
-   "kind": "talk",
-   "to": 9,
-   "links": [
-    "What is it?"
-   ],
-   "npc": {
-    "id": 30058,
-    "name": "Holvas",
-    "title": "Warehouse Keeper",
-    "town": "Dion",
-    "at": [
-     20750,
-     144432,
-     -3068
-    ],
-    "alt": []
-   },
-   "text": "Talk to Holvas",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30058@20750,144432",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 6113,
-    "sec": 71,
-    "via": ".dion",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "walk",
-      "len": 6113,
-      "how": "geodata",
-      "danger": 20
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Dion"
-    },
-    "simple": true,
-    "pv": [
-     [
-      15619,
-      143132,
-      -2688
-     ],
-     [
-      16118,
-      143626,
-      -2828
-     ],
-     [
-      16616,
-      144120,
-      -2968
-     ],
-     [
-      17112,
-      144280,
-      -3004
-     ],
-     [
-      17608,
-      144440,
-      -3040
-     ],
-     [
-      17912,
-      144440,
-      -3048
-     ],
-     [
-      17928,
-      144424,
-      -3048
-     ],
-     [
-      17944,
-      144424,
-      -3048
-     ],
-     [
-      17944,
-      144392,
-      -3048
-     ],
-     [
-      18056,
-      144232,
-      -3048
-     ],
-     [
-      18088,
-      144200,
-      -3056
-     ],
-     [
-      18584,
-      144320,
-      -3076
-     ],
-     [
-      19080,
-      144440,
-      -3096
-     ],
-     [
-      19272,
-      144248,
-      -3088
-     ],
-     [
-      19800,
-      144248,
-      -3088
-     ],
-     [
-      20568,
-      144680,
-      -3072
-     ],
-     [
-      20632,
-      144680,
-      -3064
-     ],
-     [
-      20744,
-      144568,
-      -3064
-     ],
-     [
-      20744,
-      144440,
-      -3064
-     ]
-    ],
-    "maxDanger": 20,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 20,
-     "dangerVsLevel": -19,
-     "aggro": []
-    }
-   },
-   "expectedSec": 96,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
-   ]
-  },
-  {
-   "i": 9,
-   "key": "c1:talk:30458",
-   "cond": 1,
-   "kind": "talk",
-   "to": 6,
-   "links": [
-    "What is it?"
-   ],
-   "npc": {
-    "id": 30458,
-    "name": "Poitan",
-    "title": "Blacksmith",
-    "town": "Dion",
-    "at": [
-     19737,
-     143122,
-     -3028
-    ],
-    "alt": []
-   },
-   "text": "Talk to Poitan",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30458@19737,143122",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 6371,
-    "sec": 73,
-    "via": ".dion",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "walk",
-      "len": 6371,
-      "how": "town-graph",
-      "danger": 20
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Dion"
-    },
-    "simple": true,
-    "pv": [
-     [
-      15619,
-      143132,
-      -2688
-     ],
-     [
-      15480,
-      142888,
-      -2696
-     ],
-     [
-      15624,
-      142888,
-      -2696
-     ],
-     [
-      15784,
-      143112,
-      -2712
-     ],
-     [
-      15976,
-      143304,
-      -2768
-     ],
-     [
-      16168,
-      143496,
-      -2824
-     ],
-     [
-      16216,
-      143544,
-      -2832
-     ],
-     [
-      16312,
-      143640,
-      -2864
-     ],
-     [
-      16520,
-      143800,
-      -2912
-     ],
-     [
-      16712,
-      143992,
-      -2968
-     ],
-     [
-      16936,
-      144040,
-      -3008
-     ],
-     [
-      16968,
-      144184,
-      -3008
-     ],
-     [
-      17176,
-      144184,
-      -3024
-     ],
-     [
-      17432,
-      144120,
-      -3032
-     ],
-     [
-      17480,
-      144088,
-      -3032
-     ],
-     [
-      17704,
-      143928,
-      -3032
-     ],
-     [
-      17976,
-      143928,
-      -3056
-     ],
-     [
-      18168,
-      143912,
-      -3064
-     ],
-     [
-      18280,
-      144152,
-      -3064
-     ],
-     [
-      18472,
-      144344,
-      -3064
-     ],
-     [
-      18696,
-      144504,
-      -3080
-     ],
-     [
-      18936,
-      144456,
-      -3096
-     ],
-     [
-      18968,
-      144424,
-      -3096
-     ],
-     [
-      19048,
-      144168,
-      -3080
-     ],
-     [
-      19176,
-      143976,
-      -3072
-     ],
-     [
-      19176,
-      143896,
-      -3064
-     ],
-     [
-      19224,
-      143624,
-      -3056
-     ],
-     [
-      19288,
-      143352,
-      -3048
-     ],
-     [
-      19512,
-      143192,
-      -3024
-     ],
-     [
-      19736,
-      143128,
-      -3024
-     ]
-    ],
-    "maxDanger": 20,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 20,
-     "dangerVsLevel": -19,
-     "aggro": []
-    }
-   },
-   "expectedSec": 98,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
+    9
    ]
   },
   {
    "i": 10,
-   "key": "c1:talk:30464",
-   "cond": 1,
+   "key": "c10:talk:32220",
+   "cond": 10,
    "kind": "talk",
-   "to": 5,
+   "to": 11,
    "links": [
-    "Wait a moment."
+    "\"I see.\""
    ],
    "npc": {
-    "id": 30464,
-    "name": "Clayton",
-    "title": "Magister",
-    "town": "Dion",
+    "id": 32220,
+    "name": "Selsia",
+    "title": "Master",
+    "town": "Hunters Village",
     "at": [
-     17280,
-     146944,
-     -3085
+     115888,
+     79141,
+     -2417
     ],
     "alt": []
    },
-   "text": "Talk to Clayton",
+   "text": "Talk to Selsia",
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:30464@17280,146944",
+    "key": "npc:32220@115888,79141",
     "status": "ok",
     "flags": [],
+    "from": ".hunters",
+    "length": 4514,
+    "sec": 58,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 4514,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76280,
+      -2728
+     ],
+     [
+      116776,
+      76456,
+      -2728
+     ],
+     [
+      116792,
+      76728,
+      -2720
+     ],
+     [
+      116824,
+      77000,
+      -2704
+     ],
+     [
+      116616,
+      77160,
+      -2720
+     ],
+     [
+      116424,
+      77352,
+      -2704
+     ],
+     [
+      116360,
+      77416,
+      -2704
+     ],
+     [
+      116344,
+      77672,
+      -2680
+     ],
+     [
+      116392,
+      77944,
+      -2680
+     ],
+     [
+      116536,
+      78184,
+      -2648
+     ],
+     [
+      116616,
+      78312,
+      -2608
+     ],
+     [
+      116760,
+      78536,
+      -2496
+     ],
+     [
+      116824,
+      78648,
+      -2432
+     ],
+     [
+      116968,
+      78888,
+      -2256
+     ],
+     [
+      116968,
+      79016,
+      -2256
+     ],
+     [
+      116712,
+      79064,
+      -2304
+     ],
+     [
+      116440,
+      79064,
+      -2384
+     ],
+     [
+      116168,
+      79080,
+      -2384
+     ],
+     [
+      115896,
+      79144,
+      -2384
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c13:talk:30171",
+   "cond": 13,
+   "kind": "talk",
+   "to": 14,
+   "links": [
+    "Were you able to recover the Giants' research document?"
+   ],
+   "npc": {
+    "id": 30171,
+    "name": "Gaius",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     85332,
+     16592,
+     -2799
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gaius",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30171@85332,16592",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 408,
+    "sec": 63,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "2nd Floor Human Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 408,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -2809
+     ],
+     [
+      85336,
+      16600,
+      -2808
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    13
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c16:talk:30717",
+   "cond": 16,
+   "kind": "talk",
+   "to": 17,
+   "links": [
+    "What?! Then where are they?"
+   ],
+   "npc": {
+    "id": 30717,
+    "name": "Gauen",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     85332,
+     16592,
+     -2285
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gauen",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30717@85332,16592",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 408,
+    "sec": 63,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "3rd Floor Elven Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 408,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -2293
+     ],
+     [
+      85336,
+      16600,
+      -2288
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    16
+   ]
+  },
+  {
+   "i": 13,
+   "key": "c17:talk:30720",
+   "cond": 17,
+   "kind": "talk",
+   "to": 18,
+   "links": [
+    "\"If Gauen is guilty, we must report his misdeeds to the authorities of the Ivory Tower.\""
+   ],
+   "npc": {
+    "id": 30720,
+    "name": "Kaiena",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     85332,
+     16592,
+     -1769
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kaiena",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30720@85332,16592",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 408,
+    "sec": 63,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "4th Floor Dark Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 408,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -1776
+     ],
+     [
+      85336,
+      16600,
+      -1776
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    17
+   ]
+  },
+  {
+   "i": 14,
+   "key": "c18:talk:32220",
+   "cond": 18,
+   "kind": "talk",
+   "to": 19,
+   "links": [
+    "Now then, I will give your final mission for this test."
+   ],
+   "npc": {
+    "id": 32220,
+    "name": "Selsia",
+    "title": "Master",
+    "town": "Hunters Village",
+    "at": [
+     115888,
+     79141,
+     -2417
+    ],
+    "alt": []
+   },
+   "text": "Talk to Selsia",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32220@115888,79141",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 4514,
+    "sec": 58,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 4514,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76280,
+      -2728
+     ],
+     [
+      116776,
+      76456,
+      -2728
+     ],
+     [
+      116792,
+      76728,
+      -2720
+     ],
+     [
+      116824,
+      77000,
+      -2704
+     ],
+     [
+      116616,
+      77160,
+      -2720
+     ],
+     [
+      116424,
+      77352,
+      -2704
+     ],
+     [
+      116360,
+      77416,
+      -2704
+     ],
+     [
+      116344,
+      77672,
+      -2680
+     ],
+     [
+      116392,
+      77944,
+      -2680
+     ],
+     [
+      116536,
+      78184,
+      -2648
+     ],
+     [
+      116616,
+      78312,
+      -2608
+     ],
+     [
+      116760,
+      78536,
+      -2496
+     ],
+     [
+      116824,
+      78648,
+      -2432
+     ],
+     [
+      116968,
+      78888,
+      -2256
+     ],
+     [
+      116968,
+      79016,
+      -2256
+     ],
+     [
+      116712,
+      79064,
+      -2304
+     ],
+     [
+      116440,
+      79064,
+      -2384
+     ],
+     [
+      116168,
+      79080,
+      -2384
+     ],
+     [
+      115896,
+      79144,
+      -2384
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    18
+   ]
+  },
+  {
+   "i": 15,
+   "key": "c19:hunt",
+   "cond": 19,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20083,
+     "name": "Granite Golem",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 84,
+     "questSpawned": false
+    },
+    {
+     "id": 20144,
+     "name": "Hangman Tree",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20201,
+     "name": "Ghoul",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 20202,
+     "name": "Dead Seeker",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 20199,
+     "name": "Amber Basilisk",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 30,
+     "questSpawned": false
+    },
+    {
+     "id": 20200,
+     "name": "Strain",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20554,
+     "name": "Grandis",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 44,
+     "questSpawned": false
+    },
+    {
+     "id": 20563,
+     "name": "Manashen Gargoyle",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 20781,
+     "name": "Delu Lizardman Shaman",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 21104,
+     "name": "Delu Lizardman Supplier",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    },
+    {
+     "id": 21105,
+     "name": "Delu Lizardman Special Agent",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 23,
+     "questSpawned": false
+    },
+    {
+     "id": 21106,
+     "name": "Cursed Seer",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 21107,
+     "name": "Delu Lizardman Commander",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 21102,
+     "name": "Watchman of the Plains",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21103,
+     "name": "Roughly Hewn Rock Golem",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9773,
+     "name": "Enmity Crystal",
+     "n": 30,
+     "from": [
+      {
+       "id": 20781,
+       "name": "Delu Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 21104,
+       "name": "Delu Lizardman Supplier",
+       "chance": 100
+      },
+      {
+       "id": 21105,
+       "name": "Delu Lizardman Special Agent",
+       "chance": 100
+      },
+      {
+       "id": 21106,
+       "name": "Cursed Seer",
+       "chance": 100
+      },
+      {
+       "id": 21107,
+       "name": "Delu Lizardman Commander",
+       "chance": 100
+      },
+      {
+       "id": 20781,
+       "name": "Delu Lizardman Shaman",
+       "chance": 8
+      },
+      {
+       "id": 21104,
+       "name": "Delu Lizardman Supplier",
+       "chance": 8
+      },
+      {
+       "id": 21102,
+       "name": "Watchman of the Plains",
+       "chance": 84
+      }
+     ]
+    },
+    {
+     "id": 9775,
+     "name": "Manuscript Page",
+     "n": 30,
+     "from": [
+      {
+       "id": 20083,
+       "name": "Granite Golem",
+       "chance": 100
+      },
+      {
+       "id": 20144,
+       "name": "Hangman Tree",
+       "chance": 100
+      },
+      {
+       "id": 20201,
+       "name": "Ghoul",
+       "chance": 100
+      },
+      {
+       "id": 20202,
+       "name": "Dead Seeker",
+       "chance": 100
+      },
+      {
+       "id": 20083,
+       "name": "Granite Golem",
+       "chance": 10
+      },
+      {
+       "id": 20144,
+       "name": "Hangman Tree",
+       "chance": 10
+      },
+      {
+       "id": 20199,
+       "name": "Amber Basilisk",
+       "chance": 98
+      },
+      {
+       "id": 20200,
+       "name": "Strain",
+       "chance": 86
+      }
+     ]
+    },
+    {
+     "id": 9778,
+     "name": "Fragment of Attack Orders",
+     "n": 10,
+     "from": [
+      {
+       "id": 20554,
+       "name": "Grandis",
+       "chance": 78
+      }
+     ]
+    },
+    {
+     "id": 9780,
+     "name": "Manashen's Talisman",
+     "n": 10,
+     "from": [
+      {
+       "id": 20554,
+       "name": "Grandis",
+       "chance": 84
+      },
+      {
+       "id": 20563,
+       "name": "Manashen Gargoyle",
+       "chance": 84
+      }
+     ]
+    },
+    {
+     "id": 9781,
+     "name": "Research on the Giants and the Ancient Race",
+     "n": 1,
+     "from": [
+      {
+       "id": 27336,
+       "name": "Crimson Lady",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Granite Golem, Hangman Tree, Ghoul for Enmity Crystal x30, Manuscript Page x30, Fragment of Attack Orders x10, Manashen's Talisman x10, Research on the Giants and the Ancient Race x1",
+   "places": [
+    {
+     "mobs": [
+      20781,
+      21104,
+      21105,
+      21106,
+      21107,
+      21102
+     ],
+     "items": [
+      9773
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-dion-29",
+      "name": "Plains of Dion 29: Delu Lizardman Supplier area (north-east)",
+      "at": [
+       8632,
+       163320,
+       -3624
+      ],
+      "radius": 5522,
+      "levels": [
+       31,
+       35
+      ],
+      "count": 16,
+      "region": "Plains of Dion",
+      "atlasKey": "area:plains-of-dion-29",
+      "status": "ok",
+      "sec": 220,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -92.33333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dion-outskirts-22",
+        "name": "Dion outskirts 22: Delu Lizardman Supplier area (south-west)",
+        "at": [
+         7288,
+         157544,
+         -3128
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-23",
+        "name": "Plains of Dion 23: Delu Lizardman Commander area (north-east)",
+        "at": [
+         13112,
+         171496,
+         -3544
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-31",
+        "name": "Plains of Dion 31: Delu Lizardman Shaman area (north-east)",
+        "at": [
+         13112,
+         163976,
+         -3632
+        ],
+        "count": 8,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-dion-29",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".dion",
+      "length": 18967,
+      "sec": 220,
+      "via": ".dion > Dion -> Plains of Dion",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Plains of Dion",
+        "link": "plains of dion",
+        "price": 1500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 18967,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Plains of Dion"
+      },
+      "simple": true,
+      "pv": [
+       [
+        632,
+        179192,
+        -3720
+       ],
+       [
+        632,
+        178200,
+        -3664
+       ],
+       [
+        632,
+        177208,
+        -3576
+       ],
+       [
+        632,
+        176216,
+        -3416
+       ],
+       [
+        632,
+        175224,
+        -3184
+       ],
+       [
+        632,
+        174232,
+        -2928
+       ],
+       [
+        632,
+        173240,
+        -2856
+       ],
+       [
+        632,
+        172248,
+        -2976
+       ],
+       [
+        1384,
+        171256,
+        -3304
+       ],
+       [
+        2376,
+        170264,
+        -3352
+       ],
+       [
+        3368,
+        169272,
+        -3440
+       ],
+       [
+        4104,
+        168536,
+        -3448
+       ],
+       [
+        4840,
+        167544,
+        -3456
+       ],
+       [
+        5096,
+        167288,
+        -3456
+       ],
+       [
+        5736,
+        166296,
+        -3560
+       ],
+       [
+        6728,
+        165304,
+        -3800
+       ],
+       [
+        7288,
+        164744,
+        -3680
+       ],
+       [
+        7304,
+        164728,
+        -3664
+       ],
+       [
+        8216,
+        163736,
+        -3584
+       ],
+       [
+        8632,
+        163320,
+        -3624
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 1423,
+        "maxSwim": 1423,
+        "overBreath": false
+       },
+       "danger": 35,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20083,
+      20144,
+      20201,
+      20202,
+      20199,
+      20200
+     ],
+     "items": [
+      9775
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "tanor-canyon-8",
+      "name": "Tanor Canyon 8: Dead Seeker area (north-west)",
+      "at": [
+       46776,
+       150968,
+       -2808
+      ],
+      "radius": 5224,
+      "levels": [
+       28,
+       35
+      ],
+      "count": 23,
+      "region": "Tanor Canyon",
+      "atlasKey": "area:tanor-canyon-8",
+      "status": "ok",
+      "sec": 236,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -134.06666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "wastelands-15",
+        "name": "Wastelands 15: Granite Golem area (north)",
+        "at": [
+         -20600,
+         194280,
+         -4176
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-5",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 5: Hangman Tree area (north-west)",
+        "at": [
+         48008,
+         144920,
+         -3608
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-5",
+        "name": "Brekas Stronghold 5: Amber Basilisk area (east)",
+        "at": [
+         94856,
+         130600,
+         -3440
+        ],
+        "count": 8,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:tanor-canyon-8",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 22934,
+      "sec": 236,
+      "via": ".dion > Dion -> Tanor Canyon",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Tanor Canyon",
+        "link": "tanor canyon",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 18144,
+        "how": "field-areas-gap",
+        "danger": 47
+       },
+       {
+        "do": "walk",
+        "len": 4790,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Tanor Canyon"
+      },
+      "simple": true,
+      "pv": [
+       [
+        60374,
+        164301,
+        -2856
+       ],
+       [
+        48504,
+        155128,
+        -2528
+       ],
+       [
+        48504,
+        154136,
+        -2720
+       ],
+       [
+        48504,
+        153144,
+        -2736
+       ],
+       [
+        47960,
+        152152,
+        -2760
+       ],
+       [
+        46968,
+        151160,
+        -2808
+       ],
+       [
+        46776,
+        150968,
+        -2808
+       ]
+      ],
+      "maxDanger": 47,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 47,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Nightmare Lord",
+         "lv": 47,
+         "n": 7
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20554
+     ],
+     "items": [
+      9778
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dragon-valley-16",
+      "name": "Dragon Valley 16: Grandis area (north)",
+      "at": [
+       70056,
+       101080,
+       -3720
+      ],
+      "radius": 4018,
+      "levels": [
+       37,
+       40
+      ],
+      "count": 8,
+      "region": "Dragon Valley",
+      "atlasKey": "area:dragon-valley-16",
+      "status": "ok",
+      "sec": 244,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -43.93333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-4",
+        "name": "Dragon Valley 4: Fettered Soul area (south)",
+        "at": [
+         71624,
+         125672,
+         -3624
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-29",
+        "name": "Plains of Lizardmen 29: Grandis area (south-east)",
+        "at": [
+         96600,
+         101352,
+         -3464
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-25",
+        "name": "Plains of Lizardmen 25: Fettered Soul area (south)",
+        "at": [
+         85896,
+         99592,
+         -3584
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dragon-valley-16",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 23888,
+      "sec": 244,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 23266,
+        "how": "field-areas-gap",
+        "danger": 40
+       },
+       {
+        "do": "walk",
+        "len": 622,
+        "how": "field-areas",
+        "danger": 40
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        70504,
+        100648,
+        -3680
+       ],
+       [
+        70056,
+        101080,
+        -3720
+       ]
+      ],
+      "maxDanger": 40,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 40,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20554,
+      20563
+     ],
+     "items": [
+      9780
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dragon-valley-16",
+      "name": "Dragon Valley 16: Grandis area (north)",
+      "at": [
+       70056,
+       101080,
+       -3720
+      ],
+      "radius": 4018,
+      "levels": [
+       37,
+       40
+      ],
+      "count": 8,
+      "region": "Dragon Valley",
+      "atlasKey": "area:dragon-valley-16",
+      "status": "ok",
+      "sec": 244,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -43.93333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-4",
+        "name": "Dragon Valley 4: Fettered Soul area (south)",
+        "at": [
+         71624,
+         125672,
+         -3624
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-29",
+        "name": "Plains of Lizardmen 29: Grandis area (south-east)",
+        "at": [
+         96600,
+         101352,
+         -3464
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-4",
+        "name": "Ivory Tower area 4: Manashen Gargoyle area (north-east)",
+        "at": [
+         85624,
+         11208,
+         -5288
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dragon-valley-16",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 23888,
+      "sec": 244,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 23266,
+        "how": "field-areas-gap",
+        "danger": 40
+       },
+       {
+        "do": "walk",
+        "len": 622,
+        "how": "field-areas",
+        "danger": 40
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        70504,
+        100648,
+        -3680
+       ],
+       [
+        70056,
+        101080,
+        -3720
+       ]
+      ],
+      "maxDanger": 40,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 40,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "plains-of-dion-29",
+    "name": "Plains of Dion 29: Delu Lizardman Supplier area (north-east)",
+    "at": [
+     8632,
+     163320,
+     -3624
+    ],
+    "radius": 5522,
+    "levels": [
+     31,
+     35
+    ],
+    "count": 16,
+    "region": "Plains of Dion",
+    "atlasKey": "area:plains-of-dion-29",
+    "status": "ok",
+    "sec": 220,
+    "danger": 35,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -92.33333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "dion-outskirts-22",
+      "name": "Dion outskirts 22: Delu Lizardman Supplier area (south-west)",
+      "at": [
+       7288,
+       157544,
+       -3128
+      ],
+      "count": 14,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "plains-of-dion-23",
+      "name": "Plains of Dion 23: Delu Lizardman Commander area (north-east)",
+      "at": [
+       13112,
+       171496,
+       -3544
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "plains-of-dion-31",
+      "name": "Plains of Dion 31: Delu Lizardman Shaman area (north-east)",
+      "at": [
+       13112,
+       163976,
+       -3632
+      ],
+      "count": 8,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:plains-of-dion-29",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
     "from": ".dion",
-    "length": 5822,
-    "sec": 69,
-    "via": ".dion",
+    "length": 18967,
+    "sec": 220,
+    "via": ".dion > Dion -> Plains of Dion",
     "steps": [
      {
       "do": "town",
@@ -3354,371 +5148,677 @@
       "cmd": ".dion"
      },
      {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Plains of Dion",
+      "link": "plains of dion",
+      "price": 1500,
+      "live": true
+     },
+     {
       "do": "walk",
-      "len": 5822,
-      "how": "town-graph",
-      "danger": 22
+      "len": 18967,
+      "how": "field-areas",
+      "danger": 35
      }
     ],
     "start": {
-     "kind": "town",
-     "town": "Dion"
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
     },
     "simple": true,
     "pv": [
      [
-      15619,
-      143132,
-      -2688
+      632,
+      179192,
+      -3720
      ],
      [
-      15480,
-      142888,
-      -2696
+      632,
+      178200,
+      -3664
      ],
      [
-      15624,
-      142888,
-      -2696
+      632,
+      177208,
+      -3576
      ],
      [
-      15784,
-      143112,
-      -2712
+      632,
+      176216,
+      -3416
      ],
      [
-      15976,
-      143304,
-      -2768
+      632,
+      175224,
+      -3184
      ],
      [
-      16168,
-      143496,
-      -2824
+      632,
+      174232,
+      -2928
      ],
      [
-      16216,
-      143544,
-      -2832
-     ],
-     [
-      16296,
-      143624,
+      632,
+      173240,
       -2856
      ],
      [
-      16488,
-      143816,
-      -2912
+      632,
+      172248,
+      -2976
      ],
      [
-      16616,
-      144056,
-      -2960
+      1384,
+      171256,
+      -3304
      ],
      [
-      16744,
-      144296,
-      -2992
+      2376,
+      170264,
+      -3352
      ],
      [
-      16792,
-      144392,
-      -2992
+      3368,
+      169272,
+      -3440
      ],
      [
-      16856,
-      144664,
-      -3000
+      4104,
+      168536,
+      -3448
      ],
      [
-      16952,
-      144920,
-      -3008
+      4840,
+      167544,
+      -3456
      ],
      [
-      17112,
-      145128,
-      -3032
+      5096,
+      167288,
+      -3456
      ],
      [
-      17288,
-      145336,
-      -3056
+      5736,
+      166296,
+      -3560
      ],
      [
-      17528,
-      145480,
-      -3072
+      6728,
+      165304,
+      -3800
      ],
      [
-      17736,
-      145640,
-      -3088
+      7288,
+      164744,
+      -3680
      ],
      [
-      17784,
-      145672,
-      -3088
+      7304,
+      164728,
+      -3664
      ],
      [
-      17976,
-      145864,
-      -3104
+      8216,
+      163736,
+      -3584
      ],
      [
-      17992,
-      146136,
-      -3104
-     ],
-     [
-      17880,
-      146392,
-      -3104
-     ],
-     [
-      17752,
-      146536,
-      -3104
-     ],
-     [
-      17752,
-      146552,
-      -3112
-     ],
-     [
-      17608,
-      146792,
-      -3112
-     ],
-     [
-      17384,
-      146808,
-      -3080
-     ],
-     [
-      17240,
-      146872,
-      -3080
-     ],
-     [
-      17288,
-      146952,
-      -3080
+      8632,
+      163320,
+      -3624
      ]
     ],
-    "maxDanger": 22,
+    "maxDanger": 35,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 22,
-     "dangerVsLevel": -17,
+     "water": {
+      "swimLen": 1423,
+      "maxSwim": 1423,
+      "overBreath": false
+     },
+     "danger": 35,
+     "dangerVsLevel": -4,
      "aggro": []
     }
    },
-   "expectedSec": 94,
+   "expectedSec": 970,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
     19,
     20
    ]
   },
   {
-   "i": 11,
-   "key": "c1:talk:32201",
-   "cond": 1,
-   "kind": "talk",
-   "to": 2,
-   "links": [
-    "\"How can I find the secret group?\""
+   "i": 16,
+   "key": "c19:spawn:27336",
+   "cond": 19,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27336,
+     "name": "Crimson Lady",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
    ],
-   "npc": {
-    "id": 32201,
-    "name": "Rindy",
-    "title": "Master",
-    "town": "Dion",
-    "at": [
-     16292,
-     146310,
-     -3096
+   "items": [
+    {
+     "id": 9773,
+     "name": "Enmity Crystal",
+     "n": 30,
+     "from": [
+      {
+       "id": 20781,
+       "name": "Delu Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 21104,
+       "name": "Delu Lizardman Supplier",
+       "chance": 100
+      },
+      {
+       "id": 21105,
+       "name": "Delu Lizardman Special Agent",
+       "chance": 100
+      },
+      {
+       "id": 21106,
+       "name": "Cursed Seer",
+       "chance": 100
+      },
+      {
+       "id": 21107,
+       "name": "Delu Lizardman Commander",
+       "chance": 100
+      },
+      {
+       "id": 20781,
+       "name": "Delu Lizardman Shaman",
+       "chance": 8
+      },
+      {
+       "id": 21104,
+       "name": "Delu Lizardman Supplier",
+       "chance": 8
+      },
+      {
+       "id": 21102,
+       "name": "Watchman of the Plains",
+       "chance": 84
+      }
+     ]
+    },
+    {
+     "id": 9775,
+     "name": "Manuscript Page",
+     "n": 30,
+     "from": [
+      {
+       "id": 20083,
+       "name": "Granite Golem",
+       "chance": 100
+      },
+      {
+       "id": 20144,
+       "name": "Hangman Tree",
+       "chance": 100
+      },
+      {
+       "id": 20201,
+       "name": "Ghoul",
+       "chance": 100
+      },
+      {
+       "id": 20202,
+       "name": "Dead Seeker",
+       "chance": 100
+      },
+      {
+       "id": 20083,
+       "name": "Granite Golem",
+       "chance": 10
+      },
+      {
+       "id": 20144,
+       "name": "Hangman Tree",
+       "chance": 10
+      },
+      {
+       "id": 20199,
+       "name": "Amber Basilisk",
+       "chance": 98
+      },
+      {
+       "id": 20200,
+       "name": "Strain",
+       "chance": 86
+      }
+     ]
+    },
+    {
+     "id": 9778,
+     "name": "Fragment of Attack Orders",
+     "n": 10,
+     "from": [
+      {
+       "id": 20554,
+       "name": "Grandis",
+       "chance": 78
+      }
+     ]
+    },
+    {
+     "id": 9780,
+     "name": "Manashen's Talisman",
+     "n": 10,
+     "from": [
+      {
+       "id": 20554,
+       "name": "Grandis",
+       "chance": 84
+      },
+      {
+       "id": 20563,
+       "name": "Manashen Gargoyle",
+       "chance": 84
+      }
+     ]
+    },
+    {
+     "id": 9781,
+     "name": "Research on the Giants and the Ancient Race",
+     "n": 1,
+     "from": [
+      {
+       "id": 27336,
+       "name": "Crimson Lady",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20554,
+     20563,
+     20583,
+     20584
     ],
-    "alt": []
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
-   "text": "Talk to Rindy",
-   "reasons": [],
+   "text": "Make Crimson Lady appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "sel-mahum-training-grounds-south-gate-7",
+    "name": "Sel Mahum Training Grounds (South Gate) 7: Timak Orc Soldier area (south-west)",
+    "at": [
+     71176,
+     79576,
+     -3632
+    ],
+    "radius": 4850,
+    "levels": [
+     40,
+     45
+    ],
+    "count": 10,
+    "region": "Sel Mahum Training Grounds (South Gate)",
+    "atlasKey": "area:sel-mahum-training-grounds-south-gate-7",
+    "status": "ok",
+    "sec": 141,
+    "danger": 45,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -57.65,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "sel-mahum-training-grounds-south-gate-8",
+      "name": "Sel Mahum Training Grounds (South Gate) 8: Timak Orc area (south-west)",
+      "at": [
+       71848,
+       82760,
+       -3472
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dragon-valley-16",
+      "name": "Dragon Valley 16: Grandis area (north)",
+      "at": [
+       70056,
+       101080,
+       -3720
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "sel-mahum-training-grounds-south-gate-1",
+      "name": "Sel Mahum Training Grounds (South Gate) 1: Timak Orc Soldier area (west)",
+      "at": [
+       73336,
+       71848,
+       -3560
+      ],
+      "count": 6,
+      "status": "ok"
+     }
+    ]
+   },
    "travel": {
     "src": "atlas",
-    "key": "npc:32201@16292,146310",
+    "key": "area:sel-mahum-training-grounds-south-gate-7",
     "status": "ok",
     "flags": [],
-    "from": ".dion",
-    "length": 3959,
-    "sec": 53,
-    "via": ".dion",
+    "from": ".oren",
+    "length": 11553,
+    "sec": 141,
+    "via": ".oren > Oren -> Sel Mahum Training Grounds (South Gate)",
     "steps": [
      {
       "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Sel Mahum Training Grounds (South Gate)",
+      "link": "sel mahum training grounds (south gate)",
+      "price": 3700,
+      "live": true
      },
      {
       "do": "walk",
-      "len": 3959,
-      "how": "town-graph",
-      "danger": 30
+      "len": 11553,
+      "how": "field-areas",
+      "danger": 45
      }
     ],
     "start": {
-     "kind": "town",
-     "town": "Dion"
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Sel Mahum Training Grounds (South Gate)"
     },
     "simple": true,
     "pv": [
      [
-      15619,
-      143132,
-      -2688
+      79416,
+      71496,
+      -3464
      ],
      [
-      15480,
-      142888,
-      -2696
+      78424,
+      72328,
+      -3608
      ],
      [
-      15464,
-      143160,
-      -2696
+      77432,
+      73320,
+      -3752
      ],
      [
-      15464,
-      143432,
-      -2712
+      76440,
+      74312,
+      -3688
      ],
      [
-      15432,
-      143560,
-      -2736
+      75448,
+      75304,
+      -3688
      ],
      [
-      15560,
-      143688,
-      -2800
+      74728,
+      76024,
+      -3512
      ],
      [
-      15752,
-      143880,
-      -2904
+      73736,
+      76872,
+      -3368
      ],
      [
-      15800,
-      144072,
-      -2968
+      72744,
+      77864,
+      -3272
      ],
      [
-      15848,
-      144344,
-      -3040
+      71896,
+      78856,
+      -3488
      ],
      [
-      16024,
-      144552,
-      -3048
-     ],
-     [
-      16104,
-      144792,
-      -3056
-     ],
-     [
-      16120,
-      145064,
-      -3064
-     ],
-     [
-      16184,
-      145240,
-      -3048
-     ],
-     [
-      16280,
-      145496,
-      -3056
-     ],
-     [
-      16296,
-      145768,
-      -3088
-     ],
-     [
-      16296,
-      146040,
-      -3112
-     ],
-     [
-      16296,
-      146312,
-      -3096
+      71176,
+      79576,
+      -3632
      ]
     ],
-    "maxDanger": 30,
+    "maxDanger": 45,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
      "water": false,
-     "danger": 30,
-     "dangerVsLevel": -9,
+     "danger": 45,
+     "dangerVsLevel": 6,
+     "aggro": [
+      {
+       "name": "Timak Orc Troop Leader",
+       "lv": 45,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "expectedSec": 441,
+   "conds": [
+    19,
+    20
+   ]
+  },
+  {
+   "i": 17,
+   "key": "c19:deliver:32220",
+   "cond": 19,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32220,
+    "name": "Selsia",
+    "title": "Master",
+    "town": "Hunters Village",
+    "at": [
+     115888,
+     79141,
+     -2417
+    ],
+    "alt": []
+   },
+   "text": "Bring Research on the Giants and the Ancient Race to Selsia",
+   "needs": [
+    {
+     "id": 9781,
+     "name": "Research on the Giants and the Ancient Race",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32220@115888,79141",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 4514,
+    "sec": 58,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 4514,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76280,
+      -2728
+     ],
+     [
+      116776,
+      76456,
+      -2728
+     ],
+     [
+      116792,
+      76728,
+      -2720
+     ],
+     [
+      116824,
+      77000,
+      -2704
+     ],
+     [
+      116616,
+      77160,
+      -2720
+     ],
+     [
+      116424,
+      77352,
+      -2704
+     ],
+     [
+      116360,
+      77416,
+      -2704
+     ],
+     [
+      116344,
+      77672,
+      -2680
+     ],
+     [
+      116392,
+      77944,
+      -2680
+     ],
+     [
+      116536,
+      78184,
+      -2648
+     ],
+     [
+      116616,
+      78312,
+      -2608
+     ],
+     [
+      116760,
+      78536,
+      -2496
+     ],
+     [
+      116824,
+      78648,
+      -2432
+     ],
+     [
+      116968,
+      78888,
+      -2256
+     ],
+     [
+      116968,
+      79016,
+      -2256
+     ],
+     [
+      116712,
+      79064,
+      -2304
+     ],
+     [
+      116440,
+      79064,
+      -2384
+     ],
+     [
+      116168,
+      79080,
+      -2384
+     ],
+     [
+      115896,
+      79144,
+      -2384
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
      "aggro": []
     }
    },
-   "expectedSec": 78,
+   "expectedSec": 83,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
     19,
     20
    ]

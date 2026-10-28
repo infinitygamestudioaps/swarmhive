@@ -1,0 +1,516 @@
+{
+ "npcId": 30565,
+ "name": "Kakai",
+ "title": "Flame Lord",
+ "type": "L2VillageMasterOrc",
+ "generated": "2026-10-27T18:18:03.001Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30565.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "217": {
+   "name": "Testimony Of Trust",
+   "listText": [
+    "[Testimony of Trust]",
+    "[Testimony of Trust (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00217_TestimonyOfTrust/30565-01.html",
+     "when": "state STARTED; memo 9; has items 2738",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30565-03.html",
+     "when": "state STARTED; memo 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30565-04.html",
+     "when": "state STARTED; memo 13",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00217_TestimonyOfTrust/30565-05.html",
+     "when": "state STARTED; memo 14",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "220": {
+   "name": "Testimony Of Glory",
+   "listText": [
+    "[Testimony of Glory]",
+    "[Testimony of Glory (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00220_TestimonyOfGlory/30565-01.html",
+     "when": "state STARTED; has items 3220,3235; lacks items 3237",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30565-02.html",
+     "when": "state STARTED; has items 3237; !(!hasQuestItems(player, RITUAL_BOX) && hasAtLeastOneQuestItem(player, SCEPTER_BOX, TANAPIS_ORDER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "232": {
+   "name": "Test Of The Lord",
+   "listText": [
+    "[Test of the Lord]",
+    "[Test of the Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00232_TestOfTheLord/30565-01.html",
+     "when": "state CREATED; player.getRace() != Race.ORC",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30565-02.html",
+     "when": "state CREATED; !player.getRace() != Race.ORC; player.getClassId() != ClassId.orcShaman",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30565-03.html",
+     "when": "state CREATED; level < 39; !player.getRace() != Race.ORC; !player.getClassId() != ClassId.orcShaman",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30565-04.htm",
+     "when": "state CREATED; NOT level < 39; !player.getRace() != Race.ORC; !player.getClassId() != ClassId.orcShaman",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30565-07.html",
+     "when": "state STARTED; has items 3391,3400,3404,3406,3411,3409",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30565-06.html",
+     "when": "state STARTED; has items 3391; lacks items 3400,3404,3406,3411,3409",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30565-09.html",
+     "when": "state STARTED; has items 3412; lacks items 3391",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30565-10.html",
+     "when": "state STARTED; has items 3413; lacks items 3391,3412",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30565-11.html",
+     "when": "state STARTED; has items 3416; lacks items 3391,3412,3413",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30565.htm": {
+   "file": "villagemaster/30565.htm",
+   "quest": null,
+   "text": "Flame Lord Kakai: Hear me! I am Flame Lord Kakai, invested with the authority of Pa'agrio, the father of eternal flame, to lead the great Orc race. Young warrior, you are to my eyes like a flame of hope, hope that our race may yet achieve its former glory. What do you wish from me?",
+   "header": "Flame Lord Kakai",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "npc_%objectId%_Quest FirstClassTransferTalk",
+     "kind": "quest",
+     "script": "FirstClassTransferTalk",
+     "to": null
+    },
+    {
+     "text": "Ask about the current situation",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "villagemaster/30565-1.htm"
+    },
+    {
+     "text": "Clan",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "villagemaster/30565-1.htm": {
+   "file": "villagemaster/30565-1.htm",
+   "quest": null,
+   "text": "Flame Lord Kakai: Originally, we Orcs consisted of seven powerful tribes and reigned over the entire world. But about 2,000 years ago, we engaged in a large scale war against those despicable Elves. Of course, the superiority of our race over any other was unquestionable -- which is undoubtedly why…",
+   "header": "Flame Lord Kakai",
+   "links": [
+    {
+     "text": "Go back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "villagemaster/30565.htm"
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30565-01.html": {
+   "file": "Q00217_TestimonyOfTrust/30565-01.html",
+   "quest": 217,
+   "text": "Flame Lord Kakai: I am Kakai, the Flame Lord and warrior of the heavens! I, with the authority of Pa'agrio, lead the great Orc tribe with the power of the holy flame. Weak Human, why do you appear before me?",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state STARTED; memo 9; has items 2738"
+   ],
+   "links": [
+    {
+     "text": "Show Seresin's Letter",
+     "bypass": "Quest Q00217_TestimonyOfTrust 30565-02.html",
+     "kind": "quest-event",
+     "script": "Q00217_TestimonyOfTrust",
+     "event": "30565-02.html",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30565-02.html",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00217_TestimonyOfTrust/30565-03.html": {
+   "file": "Q00217_TestimonyOfTrust/30565-03.html",
+   "quest": 217,
+   "text": "Flame Lord Kakai: Kakai has spoken! Go and find Seer Manakia ! Leave at once for the Town of Giran!",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state STARTED; memo 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30565-04.html": {
+   "file": "Q00217_TestimonyOfTrust/30565-04.html",
+   "quest": 217,
+   "text": "Flame Lord Kakai: My prediction has proven false, young Human. Take this charm and leave. This is a totem exchanged by Orc tribes to strengthen alliances and relationships! This is merely a symbolic gesture, a chance for you to prove your trustworthiness. Now you must try to earn the trust of those…",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state STARTED; memo 13"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30565-05.html": {
+   "file": "Q00217_TestimonyOfTrust/30565-05.html",
+   "quest": 217,
+   "text": "Flame Lord Kakai: Why are you still here? Did you not agree to meet those shifty Dwarves? Be careful! All they believe in are things that glitter and sparkle... The trust that Lockirin, head of the Dwarves speaks of may not be what you think.",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state STARTED; memo 14"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30565-01.html": {
+   "file": "Q00220_TestimonyOfGlory/30565-01.html",
+   "quest": 220,
+   "text": "Flame Lord Kakai: The seal of the glorious warrior tribe has been stolen from the heart of our kingdom! I have no need for the seals of lesser tribes from the outskirts. Now go away!",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state STARTED; has items 3220,3235; lacks items 3237"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30565-02.html": {
+   "file": "Q00220_TestimonyOfGlory/30565-02.html",
+   "quest": 220,
+   "text": "Flame Lord Kakai: You have found the Scepter of the Tantos tribe! I hope this appeases the angry souls of the Tantos ancestors, even if it does not entirely wash away all our sins. I have heard that the Ragna tribe was behind this whole thing. Is this true? First they betrayed us; now they challeng…",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state STARTED; has items 3237; !(!hasQuestItems(player, RITUAL_BOX) && hasAtLeastOneQuestItem(player, SCEPTER_BOX, TANAPIS_ORDER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30565-01.html": {
+   "file": "Q00232_TestOfTheLord/30565-01.html",
+   "quest": 232,
+   "text": "Flame Lord Kakai: I, Kakai, Lord of the Flame, have no business with foreigners! (This quest may only be performed by Orc Shamans of level 39 and higher)",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state CREATED; player.getRace() != Race.ORC"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30565-02.html": {
+   "file": "Q00232_TestOfTheLord/30565-02.html",
+   "quest": 232,
+   "text": "Flame Lord Kakai: You, warrior of our race... I shall tell you of the Overlord, the high level Shaman of our race, so listen carefully! They are those born with the fate of ruling over others! Should they become lords that lead a clan, the members of that clan shall all display remarkable power! Tr…",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state CREATED; !player.getRace() != Race.ORC; player.getClassId() != ClassId.orcShaman"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30565-03.html": {
+   "file": "Q00232_TestOfTheLord/30565-03.html",
+   "quest": 232,
+   "text": "Flame Lord Kakai: You, warrior of our race... I shall tell you of the Overlord, the high level Shaman of our race, so listen carefully! They are those born with the fate of ruling over others! Should they become lords that lead a clan, the members of that clan shall all display remarkable power! Tr…",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state CREATED; level < 39; !player.getRace() != Race.ORC; !player.getClassId() != ClassId.orcShaman"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30565-04.htm": {
+   "file": "Q00232_TestOfTheLord/30565-04.htm",
+   "quest": 232,
+   "text": "Flame Lord Kakai: You, warrior of our race... I shall tell you of the Overlord, the high level Shaman of our race, so listen carefully! They are those born with the fate of ruling over others! Should they become lords that lead a clan, the members of that clan shall all display remarkable power! Tr…",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state CREATED; NOT level < 39; !player.getRace() != Race.ORC; !player.getClassId() != ClassId.orcShaman"
+   ],
+   "links": [
+    {
+     "text": "Say you will attempt the Trial of the Lord.",
+     "bypass": "Quest Q00232_TestOfTheLord ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "ACCEPT",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30565-05b.htm",
+     "toAll": [
+      "Q00232_TestOfTheLord/30565-05b.htm",
+      "Q00232_TestOfTheLord/30565-05.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30565-07.html": {
+   "file": "Q00232_TestOfTheLord/30565-07.html",
+   "quest": 232,
+   "text": "Flame Lord Kakai: What have we here? A giant Orc fang! A sword embedded in an Orc's skull! The ritual axe! Engraved spider brooch! Monster eye carving! I see that you have received acknowledgement from the Chiefs of the 5 tribes! Good! You are now eligible to take the final test! I, Kakai, Chief of…",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state STARTED; has items 3391,3400,3404,3406,3411,3409"
+   ],
+   "links": [
+    {
+     "text": "Say you are ready",
+     "bypass": "Quest Q00232_TestOfTheLord 30565-08.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30565-08.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30565-08.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30565-06.html": {
+   "file": "Q00232_TestOfTheLord/30565-06.html",
+   "quest": 232,
+   "text": "Flame Lord Kakai: Visit the remaining five tribe chiefs, and receive their acknowledgement of your capacity to become a lord! As a mark of their acknowledgement, bring back the totems of each tribe! Bring back all five tribal totems and I, Hestui tribal Chief Kakai, will personally test you to see …",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state STARTED; has items 3391; lacks items 3400,3404,3406,3411,3409"
+   ],
+   "links": [
+    {
+     "text": "Ask about the five tribal chiefs.",
+     "bypass": "Quest Q00232_TestOfTheLord 30565-05a.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30565-05a.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30565-05a.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30565-09.html": {
+   "file": "Q00232_TestOfTheLord/30565-09.html",
+   "quest": 232,
+   "text": "Flame Lord Kakai: What, have you not left yet?! Visit Ancestor Martankus in the Cave of Trials! Hurry! The one who hesitates forfeits the right to become an Overlord!",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state STARTED; has items 3412; lacks items 3391"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30565-10.html": {
+   "file": "Q00232_TestOfTheLord/30565-10.html",
+   "quest": 232,
+   "text": "Flame Lord Kakai: Since the days of old, the ancestral spirits have tested all of the tribal Chiefs and Lords before bestowing authority upon them. The time for your test has come! Complete the task that the ancestral spirit Marutankus has for you in order to prove your potential of becoming a Lord!",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state STARTED; has items 3413; lacks items 3391,3412"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30565-11.html": {
+   "file": "Q00232_TestOfTheLord/30565-11.html",
+   "quest": 232,
+   "text": "Flame Lord Kakai: Immortal Flame! The fire bestowed upon us at the beginning of the world by Pa'agrio! The spark that lights our temple and town, day and night! Each year, the Shaman that attempts the Trial of the Lord receives this from the ancestral spirits and comes back to create a new blaze on…",
+   "header": "Flame Lord Kakai",
+   "when": [
+    "state STARTED; has items 3416; lacks items 3391,3412,3413"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00217_TestimonyOfTrust/30565-02.html": {
+   "file": "Q00217_TestimonyOfTrust/30565-02.html",
+   "quest": 217,
+   "text": "Flame Lord Kakai: Trust? Ha! You Humans always rely on the help of others. Could this be a residual effect of your dark past of slavery? Once a slave, always a slave, right? In that case, if you are begging for help, I will not refuse you. However, there is a price that must be paid. Don't be frigh…",
+   "header": "Flame Lord Kakai",
+   "sets": {
+    "cond": "13"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30565-05.htm": {
+   "file": "Q00232_TestOfTheLord/30565-05.htm",
+   "quest": 232,
+   "text": "Flame Lord Kakai: I, Hestui tribe Chief Kakai, will oversee your trial. First, take this necklace! And now, with the exception of the Hestui tribe, go to the other five tribal chiefs and receive their acknowledgement that you are worthy of becoming a lord! As a mark of their acknowledgement, bring …",
+   "header": "Flame Lord Kakai",
+   "links": [
+    {
+     "text": "Ask about the five tribal chiefs.",
+     "bypass": "Quest Q00232_TestOfTheLord 30565-05a.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30565-05a.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30565-05a.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30565-05a.html": {
+   "file": "Q00232_TestOfTheLord/30565-05a.html",
+   "quest": 232,
+   "text": "Flame Lord Kakai: Have you been around to visit the Orc chiefs of the six great tribes yet? Listen carefully! The greatest of the tribes is Hestui, the tribe that I, Kakai, lead! You must seek out the chiefs of the Atuba, Neruga, Urutu, Duda-Mara, and Gandi tribes! The chiefs of the Atuba, Neruga, …",
+   "header": "Flame Lord Kakai",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30565-05b.htm": {
+   "file": "Q00232_TestOfTheLord/30565-05b.htm",
+   "quest": 232,
+   "text": "Flame Lord Kakai: I, Hestui leader Kakai, will oversee your test. Take this necklace and visit the other 5 tribe leaders and be acknowledged as a lord . As a proof of their acknowledgement, bring back the totem of each tribe ! If you bring back all 5 tribes' totems, I will personally test you to se…",
+   "header": "Flame Lord Kakai",
+   "links": [
+    {
+     "text": "Ask about the leaders of the 5 tribes.",
+     "bypass": "Quest Q00232_TestOfTheLord 30565-05a.html",
+     "kind": "quest-event",
+     "script": "Q00232_TestOfTheLord",
+     "event": "30565-05a.html",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30565-05a.html"
+    }
+   ]
+  },
+  "Q00232_TestOfTheLord/30565-08.html": {
+   "file": "Q00232_TestOfTheLord/30565-08.html",
+   "quest": 232,
+   "text": "Flame Lord Kakai: Good! Now listen to what I say! Do you remember the Cave of Trials, where you went to further your training as an apprentice? Ancestor Martankus lives in that cave. He is a great ancestral spirit that has been watching over our race for thousands of years. I shall give you the Bea…",
+   "header": "Flame Lord Kakai",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Trust (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00217_TestimonyOfTrust",
+     "kind": "quest",
+     "quest": 217,
+     "to": "Q00217_TestimonyOfTrust/30565-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Glory (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00220_TestimonyOfGlory",
+     "kind": "quest",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30565-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Lord]",
+     "bypass": "npc_%objectId%_Quest Q00232_TestOfTheLord",
+     "kind": "quest",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30565-04.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Test of the Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00232_TestOfTheLord",
+     "kind": "quest",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30565-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

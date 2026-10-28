@@ -1,0 +1,572 @@
+{
+ "npcId": 30118,
+ "name": "Pupina",
+ "title": "Priestess",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.845Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "138": {
+   "name": "Temple Champion - 2",
+   "listText": [
+    "[Temple Champion - 2]",
+    "[Temple Champion - 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00138_TempleChampionPart2/30118-01.html",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00138_TempleChampionPart2/30118-07.html",
+     "when": "cond 3|4",
+     "state": null,
+     "cond": [
+      3,
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00138_TempleChampionPart2/30118-08.html",
+     "when": "cond 5",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00138_TempleChampionPart2/30118-10.html",
+     "when": "cond 6",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "227": {
+   "name": "Test Of The Reformer",
+   "listText": [
+    "[Test of the Reformer]",
+    "[Test of the Reformer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00227_TestOfTheReformer/30118-03.htm",
+     "when": "state CREATED; level >= 39; ((player.getClassId() == ClassId.cleric) || (player.getClassId() == ClassId.shillienOracle))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30118-01.html",
+     "when": "state CREATED; NOT level >= 39; ((player.getClassId() == ClassId.cleric) || (player.getClassId() == ClassId.shillienOracle))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30118-02.html",
+     "when": "state CREATED; !((player.getClassId() == ClassId.cleric) || (player.getClassId() == ClassId.shillienOracle))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30118-05.html",
+     "when": "state STARTED; memo 3; has items 2832",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30118-04a.html",
+     "when": "state STARTED; memoState >= 1; memoState < 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00227_TestOfTheReformer/30118-07.html",
+     "when": "state STARTED; !((memoState >= 1) && (memoState < 3)); memoState >= 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30118-01.html": {
+   "file": "Q00138_TempleChampionPart2/30118-01.html",
+   "quest": 138,
+   "text": "Priestess Pupina: Greetings, adventurer who carries out the mission of the Temple! Do you wish to meet Preacher Sla? As you know, the preachers' goals differ somewhat from the goals of the Temple priests. Preachers believe that the Temple's rigid rules and ceremonies often serve as a barrier to a t…",
+   "header": "Priestess Pupina",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"I see.\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30118-02.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30118-02.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30118-02.html"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30118-07.html": {
+   "file": "Q00138_TempleChampionPart2/30118-07.html",
+   "quest": 138,
+   "text": "Priestess Pupina: Go help Grand Master Angus in the Town of Giran . After you have obtained his letter of recommendation, return to me here.",
+   "header": "Priestess Pupina",
+   "when": [
+    "cond 3|4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00138_TempleChampionPart2/30118-08.html": {
+   "file": "Q00138_TempleChampionPart2/30118-08.html",
+   "quest": 138,
+   "text": "Priestess Pupina: Ah, I see you have brought me a letter from Angus... Let me see... Hmm...according to this, you assisted in a ritual to Shilen, whom Einhasad imprisoned long ago. There can be no doubt that you have violated the rules of the Temple in this matter -- and gravely.",
+   "header": "Priestess Pupina",
+   "when": [
+    "cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"Every race has its own rituals and customs. As an adventurer all too familiar with death, Angus' sorrow touched me, as did his desire to lay the trainee's soul to rest. What I did in no way helped Shilen, but it did give a measure of peace to the dead man's friends. I would hope they would do the same for me.\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30118-09.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30118-09.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30118-09.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30118-10.html": {
+   "file": "Q00138_TempleChampionPart2/30118-10.html",
+   "quest": 138,
+   "text": "Priestess Pupina: You will be able to speak with Preacher Sla if you show him my letter of recommendation .",
+   "header": "Priestess Pupina",
+   "when": [
+    "cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30118-03.htm": {
+   "file": "Q00227_TestOfTheReformer/30118-03.htm",
+   "quest": 227,
+   "text": "Priestess Pupina: Our faith teaches nonviolence, peace and sacrifice. I must confess that I question this when I see the current state of affairs. The world is overrun by evildoers and yet here we sit doing nothing but praying, training, giving remedies and alms... Sometimes I wish that I could mak…",
+   "header": "Priestess Pupina",
+   "when": [
+    "state CREATED; level >= 39; ((player.getClassId() == ClassId.cleric) || (player.getClassId() == ClassId.shillienOracle))"
+   ],
+   "links": [
+    {
+     "text": "\"At one time I had the same concerns.\"",
+     "bypass": "Quest Q00227_TestOfTheReformer ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00227_TestOfTheReformer",
+     "event": "ACCEPT",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30118-04b.htm",
+     "toAll": [
+      "Q00227_TestOfTheReformer/30118-04b.htm",
+      "Q00227_TestOfTheReformer/30118-04.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00227_TestOfTheReformer/30118-01.html": {
+   "file": "Q00227_TestOfTheReformer/30118-01.html",
+   "quest": 227,
+   "text": "Priestess Pupina: Why have you come here? I see that you follow the path of service to the Lord as do I... Are you all right? Could it be that you are concerned about a higher level of faith, by any chance? You seem too young to have such worries... You must continue to seek the truth elsewhere. Wh…",
+   "header": "Priestess Pupina",
+   "when": [
+    "state CREATED; NOT level >= 39; ((player.getClassId() == ClassId.cleric) || (player.getClassId() == ClassId.shillienOracle))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30118-02.html": {
+   "file": "Q00227_TestOfTheReformer/30118-02.html",
+   "quest": 227,
+   "text": "Priestess Pupina: I am a Priestess of the God of light. My calling is to give counsel to brothers and sisters who are struggling with their faith. Do you wish to convert to the path of Einhasad? If so, go and visit with those other priests over there. (Quest available only for Clerics or Shillien O…",
+   "header": "Priestess Pupina",
+   "when": [
+    "state CREATED; !((player.getClassId() == ClassId.cleric) || (player.getClassId() == ClassId.shillienOracle))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30118-05.html": {
+   "file": "Q00227_TestOfTheReformer/30118-05.html",
+   "quest": 227,
+   "text": "Priestess Pupina: A nail was driven into the head of the untamable Mandragora Aruraune to brainwash it. This is, basically, no different from what the Priests do every day, brainwashing ignorant people with their platitudes about light...Or perhaps we are the ones brainwashed... Now... I want you t…",
+   "header": "Priestess Pupina",
+   "when": [
+    "state STARTED; memo 3; has items 2832"
+   ],
+   "links": [
+    {
+     "text": "\"I shall remain true to my beliefs.\"",
+     "bypass": "Quest Q00227_TestOfTheReformer 30118-06.html",
+     "kind": "quest-event",
+     "script": "Q00227_TestOfTheReformer",
+     "event": "30118-06.html",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30118-06.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00227_TestOfTheReformer/30118-04a.html": {
+   "file": "Q00227_TestOfTheReformer/30118-04a.html",
+   "quest": 227,
+   "text": "Priestess Pupina: Have you changed your mind? If you are in search of the true faith, you must confront it rather than avoid it. Use your Disrupt Undead skill to destroy the Nameless Revenants that haunt the Execution Grounds. You will find that the temple has turned its back on them.",
+   "header": "Priestess Pupina",
+   "when": [
+    "state STARTED; memoState >= 1; memoState < 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30118-07.html": {
+   "file": "Q00227_TestOfTheReformer/30118-07.html",
+   "quest": 227,
+   "text": "Priestess Pupina: If only I had the courage that you have right now... No, nothing, never mind! Now you better go and meet Preacher Sla. She is in the Wasteland. Give her my best regards...",
+   "header": "Priestess Pupina",
+   "when": [
+    "state STARTED; !((memoState >= 1) && (memoState < 3)); memoState >= 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00138_TempleChampionPart2/30118-02.html": {
+   "file": "Q00138_TempleChampionPart2/30118-02.html",
+   "quest": 138,
+   "text": "Priestess Pupina: I believe that the Temple is a vital part of our religion, but that it also is in need of reform. As you can guess, such a view has cast me into some disfavor with my superiors. I also maintain friendly relations with many preachers, something else that is in practice frowned upon…",
+   "header": "Priestess Pupina",
+   "links": [
+    {
+     "text": "\"Then what should I do?\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30118-03.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30118-03.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30118-03.html"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30118-03.html": {
+   "file": "Q00138_TempleChampionPart2/30118-03.html",
+   "quest": 138,
+   "text": "Priestess Pupina: Those hypocrital Temple priests pray, study, heal and give money to charity, to be sure -- but they refuse to risk dirtying their robes by actual venturing out among the poor and downtrodden. If you can show that you do not share their aloofness, I will write you a letter of recom…",
+   "header": "Priestess Pupina",
+   "links": [
+    {
+     "text": "\"I will prove myself.\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30118-04.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30118-04.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30118-04.html"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30118-04.html": {
+   "file": "Q00138_TempleChampionPart2/30118-04.html",
+   "quest": 138,
+   "text": "Priestess Pupina: Grand Master Angus in the Town of Giran is charged with the raising of Dark Elves. We have heard word that one of the Dark Elven trainees was involved in a serious accident. I think Angus may need help to deal with it. I will ask him for more information, but I must warn you that …",
+   "header": "Priestess Pupina",
+   "links": [
+    {
+     "text": "\"I cannot. I must abide by the rules of the Temple in all things.\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30118-05.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30118-05.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30118-05.html"
+    },
+    {
+     "text": "\"I believe that Einhasad prefers mercy to blind obedience. I will certainly help if I can.\"",
+     "bypass": "Quest Q00138_TempleChampionPart2 30118-06.html",
+     "kind": "quest-event",
+     "script": "Q00138_TempleChampionPart2",
+     "event": "30118-06.html",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30118-06.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00138_TempleChampionPart2/30118-05.html": {
+   "file": "Q00138_TempleChampionPart2/30118-05.html",
+   "quest": 138,
+   "text": "Priestess Pupina: I understand. I do not question your decision, but I must tell you that with that attitude, even if you meet Preacher Sla, he will not converse with you. If you change your mind, please let me know...",
+   "header": "Priestess Pupina",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00138_TempleChampionPart2/30118-06.html": {
+   "file": "Q00138_TempleChampionPart2/30118-06.html",
+   "quest": 138,
+   "text": "Priestess Pupina: Good! Then go help Grand Master Angus in the Town of Giran . After you have obtained his letter of recommendation, return to me here.",
+   "header": "Priestess Pupina",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00138_TempleChampionPart2/30118-09.html": {
+   "file": "Q00138_TempleChampionPart2/30118-09.html",
+   "quest": 138,
+   "text": "Priestess Pupina: That is well and wisely said! Both your actions and your words prove that you are very different from those arrogant Temple priests, obessed with the letter of the law rather than its spirit. You have proved that you are indeed a reasonable person. I will write you the letter of r…",
+   "header": "Priestess Pupina",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30118-04.htm": {
+   "file": "Q00227_TestOfTheReformer/30118-04.htm",
+   "quest": 227,
+   "text": "Priestess Pupina: It is an honor to meet a fellow traveler... I suppose that such is the curse of the enlightened... You must keep these opinions close to your vest; they are quite taboo and can get you into trouble with the High Priests. Take this book, you should read it when you have the time. T…",
+   "header": "Priestess Pupina",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30118-04b.htm": {
+   "file": "Q00227_TestOfTheReformer/30118-04b.htm",
+   "quest": 227,
+   "text": "Priest Pupina: I have finally met someone who sees the world as I do! Oh, but speak softly and take great care not to be overheard. The order, after all, bans even talking about matters of this kind. Here, take this book. Read it in secret and perhaps it will help enlighten you. But first, travel t…",
+   "header": "Priest Pupina",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00227_TestOfTheReformer/30118-06.html": {
+   "file": "Q00227_TestOfTheReformer/30118-06.html",
+   "quest": 227,
+   "text": "Priestess Pupina: Excellent! It is good to see someone with integrity around here. You will find her teaching her beliefs to whoever will listen. In the Wastelands she is known as the 'wild plain shouter', her name is Preacher Sla. Take this letter to her in the Wastelands.",
+   "header": "Priestess Pupina",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30118-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30118-noteach.html",
+   "quest": null,
+   "text": "Priestess Pupina: You have come to receive training from me? I'm afraid that what little knowledge of magic I have is only useful for holy Mystics of Human birth. I cannot teach you anything worthwhile. I feel that I owe you an apology.",
+   "header": "Priestess Pupina",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30118.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30118.html",
+   "quest": null,
+   "text": "Priestess Pupina: Welcome, traveler! This is the most prosperous area of Giran. There is no better place to rest and recharge a weary body and mind. But be warned! A lavish lifestyle can easily lead to greed and self-indulgence. Remember the virtues of abstinence, self-discipline and moderation. No…",
+   "header": "Priestess Pupina",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Temple Champion - 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00138_TempleChampionPart2",
+     "kind": "quest",
+     "quest": 138,
+     "to": "Q00138_TempleChampionPart2/30118-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the Reformer]",
+     "bypass": "npc_%objectId%_Quest Q00227_TestOfTheReformer",
+     "kind": "quest",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30118-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Test of the Reformer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00227_TestOfTheReformer",
+     "kind": "quest",
+     "quest": 227,
+     "to": "Q00227_TestOfTheReformer/30118-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30118-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30118-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

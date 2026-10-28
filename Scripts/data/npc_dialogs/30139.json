@@ -1,0 +1,261 @@
+{
+ "npcId": 30139,
+ "name": "Dorankus",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.849Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30139.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "166": {
+   "name": "Mass of Darkness",
+   "listText": [
+    "[Mass of Darkness]",
+    "[Mass of Darkness (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00166_MassOfDarkness/30135-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30139-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30143-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30135-02.html",
+     "when": "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30139-02.html",
+     "when": "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00166_MassOfDarkness/30143-02.html",
+     "when": "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30139.htm": {
+   "file": "warehouse/30139.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Dorankus: We guard your property with our lives -- you have my word! Why not deposit your valuables with us and sleep easier tonight?",
+   "header": "Warehouse Keeper Dorankus",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/30139-1.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/30139-2.htm"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30139-1.htm": {
+   "file": "warehouse/30139-1.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Dorankus: What do you want to do?",
+   "header": "Warehouse Keeper Dorankus",
+   "links": [
+    {
+     "text": "Deposit item in a Private Warehouse.",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw item from a Private Warehouse.",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30139.htm"
+    }
+   ]
+  },
+  "warehouse/30139-2.htm": {
+   "file": "warehouse/30139-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Dorankus: What do you want to do?",
+   "header": "Warehouse Keeper Dorankus",
+   "links": [
+    {
+     "text": "Deposit item in a Clan Warehouse.",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw item from a Clan Warehouse.",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30139.htm"
+    }
+   ]
+  },
+  "Q00166_MassOfDarkness/30135-01.html": {
+   "file": "Q00166_MassOfDarkness/30135-01.html",
+   "quest": 166,
+   "text": "Trader Iria: Abyssal Celebrant Undrias has sent you, I see. Here is the special dagger crafted by Karrod for use in this year's Ceremony of Darkness. Beautiful, isn't it? Ah, be careful! It may be ceremonial, but its blade is still razor-sharp!",
+   "header": "Trader Iria",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30139-01.html": {
+   "file": "Q00166_MassOfDarkness/30139-01.html",
+   "quest": 166,
+   "text": "Warehouse Keeper Dorankus: Ah! You're here for the item Undrias entrusted to me last year? Here it is! Dreviant Wine, made from the poison of spiders. A rare vintage that even I have never tasted... Be sure to tell Undrias how faithfully I fulfilled my service to him!",
+   "header": "Warehouse Keeper Dorankus",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30143-01.html": {
+   "file": "Q00166_MassOfDarkness/30143-01.html",
+   "quest": 166,
+   "text": "Master Trudy: Undrias sent you? Very well; take this scripture to him. It was discovered in an abandoned mine in the Misty Mountains during a battle with those vile Orcs. Surprising, isn't it, to see something written by ancient Humans who also served Gran Kain? Undrias plans to recite a portion of…",
+   "header": "Master Trudy",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30135-02.html": {
+   "file": "Q00166_MassOfDarkness/30135-02.html",
+   "quest": 166,
+   "text": "Trader Iria: Take this Ceremonial Dagger to Abyssal Celebrant Undrias. It is needed for the Ceremony of Darkness, so guard it with your life. If something were to happen to it, I shudder to think of what Undrias would do to you...",
+   "header": "Trader Iria",
+   "when": [
+    "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30139-02.html": {
+   "file": "Q00166_MassOfDarkness/30139-02.html",
+   "quest": 166,
+   "text": "Warehouse Keeper Dorankus: You haven't left for the Temple of Shilen yet? Hurry and deliver the Dreviant Wine I gave you to Abyssal Celebrant Undrias! It is very precious, so take care not to break the bottle!",
+   "header": "Warehouse Keeper Dorankus",
+   "when": [
+    "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00166_MassOfDarkness/30143-02.html": {
+   "file": "Q00166_MassOfDarkness/30143-02.html",
+   "quest": 166,
+   "text": "Master Trudy: Why haven't you delivered Garmiel's Scripture to Abyssal Celebrant Undrias? Hurry, you fool! If the ceremony is delayed on your account, Undrias will flay the flesh from your bones!",
+   "header": "Master Trudy",
+   "when": [
+    "state STARTED; !(st.isCond(1) && !st.hasQuestItems(itemId))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Mass of Darkness (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00166_MassOfDarkness",
+     "kind": "quest",
+     "quest": 166,
+     "to": "Q00166_MassOfDarkness/30135-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

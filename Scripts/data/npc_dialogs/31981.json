@@ -1,0 +1,270 @@
+{
+ "npcId": 31981,
+ "name": "Vishotsky",
+ "title": "Captain",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.308Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "guard/31981.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "10280": {
+   "name": "Mutated Kaneus - Schuttgart",
+   "listText": [
+    "[Mutated Kaneus - Schuttgart]",
+    "[Mutated Kaneus - Schuttgart (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10280_MutatedKaneusSchuttgart/31981-01.htm",
+     "when": "state CREATED; (player.getLevel() > 57)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10280_MutatedKaneusSchuttgart/31981-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() > 57)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10280_MutatedKaneusSchuttgart/31981-05.htm",
+     "when": "state STARTED; (st.hasQuestItems(TISSUE_VS) && st.hasQuestItems(TISSUE_KB))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10280_MutatedKaneusSchuttgart/31981-04.htm",
+     "when": "state STARTED; NOT (st.hasQuestItems(TISSUE_VS) && st.hasQuestItems(TISSUE_KB))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10280_MutatedKaneusSchuttgart/31981-06.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/31981.htm": {
+   "file": "guard/31981.htm",
+   "quest": null,
+   "text": "Captain Vishotsky: If a village is peaceful, security must be tight, right? While we're on the subject, let me tell you that a neutral village like this one actually means more work for us guards. If we are vigilant, the inhabitants complain that we are being repressive. If we ease off, they compla…",
+   "header": "Captain Vishotsky",
+   "links": [
+    {
+     "text": "Ask about Kamaloka.",
+     "bypass": "guard/kamaloka_help.htm",
+     "kind": "page",
+     "to": "guard/kamaloka_help.htm"
+    },
+    {
+     "text": "Look at the list of Kamaloka.",
+     "bypass": "guard/kamaloka_level.htm",
+     "kind": "page",
+     "to": "guard/kamaloka_level.htm"
+    },
+    {
+     "text": "Enter Kamaloka.",
+     "bypass": "npc_%objectId%_Quest Kamaloka",
+     "kind": "quest",
+     "script": "Kamaloka",
+     "live": true
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10280_MutatedKaneusSchuttgart/31981-01.htm": {
+   "file": "Q10280_MutatedKaneusSchuttgart/31981-01.htm",
+   "quest": 10280,
+   "text": "Captain Vishotsky: I heard tales of your recent activities. You have already acquired a reputation as an accomplished adventurer. Perhaps you have already heard about the Mutated Kaneus of Kamaloka . I have been asked to help investigate these strange creatures, but my duties unfortunately keep me …",
+   "header": "Captain Vishotsky",
+   "when": [
+    "state CREATED; (player.getLevel() > 57)"
+   ],
+   "links": [
+    {
+     "text": "\"What kind of help do you need?\"",
+     "bypass": "Quest Q10280_MutatedKaneusSchuttgart 31981-02.htm",
+     "kind": "quest-event",
+     "script": "Q10280_MutatedKaneusSchuttgart",
+     "event": "31981-02.htm",
+     "quest": 10280,
+     "to": "Q10280_MutatedKaneusSchuttgart/31981-02.htm"
+    }
+   ]
+  },
+  "Q10280_MutatedKaneusSchuttgart/31981-00.htm": {
+   "file": "Q10280_MutatedKaneusSchuttgart/31981-00.htm",
+   "quest": 10280,
+   "text": "Captain Vishotsky: Based on my observations, I don't think you are yet ready to handle the Kaneus here. (Only characters level 58 and above are permitted to undertake this quest.)",
+   "header": "Captain Vishotsky",
+   "when": [
+    "state CREATED; NOT (player.getLevel() > 57)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10280_MutatedKaneusSchuttgart/31981-05.htm": {
+   "file": "Q10280_MutatedKaneusSchuttgart/31981-05.htm",
+   "quest": 10280,
+   "text": "Captain Vishotsky: Ah! Are these the cellular tissues of Venomous Storace and Kel Bilette ? From their pristine appearance, I can tell you were very careful. I couldn't have done better myself. Well done! Now take these samples to Magister Atraxia at the Temple of Einhasad. He will be very pleased.…",
+   "header": "Captain Vishotsky",
+   "when": [
+    "state STARTED; (st.hasQuestItems(TISSUE_VS) && st.hasQuestItems(TISSUE_KB))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10280_MutatedKaneusSchuttgart/31981-04.htm": {
+   "file": "Q10280_MutatedKaneusSchuttgart/31981-04.htm",
+   "quest": 10280,
+   "text": "Captain Vishotsky: The magisters become agitated if their research is delayed for any reason, so deliver the cellular tissue samples as quickly as possible. Those aren't people you want irritated with you, you know! Hurry to Kamaloka, and good hunting!",
+   "header": "Captain Vishotsky",
+   "when": [
+    "state STARTED; NOT (st.hasQuestItems(TISSUE_VS) && st.hasQuestItems(TISSUE_KB))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10280_MutatedKaneusSchuttgart/31981-06.htm": {
+   "file": "Q10280_MutatedKaneusSchuttgart/31981-06.htm",
+   "quest": 10280,
+   "text": "Captain Vishotsky: Ah, it's you! Magister Atraxia asked me to convey his gratitude to you. He said that the cellular tissues of the mutated Kaneus from the Kamaloka of Schuttgart that you delivered to the Sages of Magic were a great help. Well done!",
+   "header": "Captain Vishotsky",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10280_MutatedKaneusSchuttgart/31981-02.htm": {
+   "file": "Q10280_MutatedKaneusSchuttgart/31981-02.htm",
+   "quest": 10280,
+   "text": "Captain Vishotsky: The favor I ask is on behalf of Magister Atraxia of the Temple of Einhasad. The Sages of Magic, a group of magisters of which Magister Atraxia is a member, are researching the Kaneus: recently discovered monsters of Kamaloka. They know that Kamaloka exists between this world and …",
+   "header": "Captain Vishotsky",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q10280_MutatedKaneusSchuttgart 31981-03.htm",
+     "kind": "quest-event",
+     "script": "Q10280_MutatedKaneusSchuttgart",
+     "event": "31981-03.htm",
+     "quest": 10280,
+     "to": "Q10280_MutatedKaneusSchuttgart/31981-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10280_MutatedKaneusSchuttgart/31981-03.htm": {
+   "file": "Q10280_MutatedKaneusSchuttgart/31981-03.htm",
+   "quest": 10280,
+   "text": "Captain Vishotsky: Excellent! Visit either of the 2 Kamalokas we can enter from Schuttgart, kill the Kaneus there and extract their cellular tissues. You will face the Venomous Storace and Kel Bilette Kaneus. The Venomous Storace is much weaker, so I'd advise that you pursue it first. When you have…",
+   "header": "Captain Vishotsky",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Mutated Kaneus - Schuttgart]",
+     "bypass": "npc_%objectId%_Quest Q10280_MutatedKaneusSchuttgart",
+     "kind": "quest",
+     "quest": 10280,
+     "to": "Q10280_MutatedKaneusSchuttgart/31981-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Mutated Kaneus - Schuttgart (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10280_MutatedKaneusSchuttgart",
+     "kind": "quest",
+     "quest": 10280,
+     "to": "Q10280_MutatedKaneusSchuttgart/31981-05.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "guard/kamaloka_help.htm": {
+   "file": "guard/kamaloka_help.htm",
+   "quest": null,
+   "text": "Kamaloka is an invader from another world. We do not know precisely when it happened, but we discovered a sealed space, similar to a Dimensional Rift. We call it Kamaloka. To enter it, you must meet certain requirements. You cannot enter a basic Kamaloka alone. To fight alone, find the pathfinder t…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "guard/kamaloka_level.htm": {
+   "file": "guard/kamaloka_level.htm",
+   "quest": null,
+   "text": "According to research from the Ivory Tower, the established theory is that Kamaloka is from a dimensional overlapping in Aden's land. Kamaloka has stages of power based on the strength of a monster's soul. This is cutting edge science, and we don't fully understand it. So we introduce adventurers t…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Enter Kamaloka, Hall of the Abyss (level 63). | Enter Kamaloka, Hall of the Abyss (level 66)."
+ ],
+ "liveClicks": [
+  {
+   "text": "Enter Kamaloka, Hall of the Abyss (level 63).",
+   "n": 26,
+   "inDatapack": false,
+   "from": [
+    "Capitain Vishotsky:You want to enter Kamaloka? You'll be ris"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Enter Kamaloka.",
+   "n": 20,
+   "inDatapack": true,
+   "from": [
+    "Capitain Vishotsky:If a village is peaceful, security must b"
+   ],
+   "to": [
+    "Capitain Vishotsky:You want to enter Kamaloka? You'll be ris"
+   ]
+  },
+  {
+   "text": "Enter Kamaloka, Hall of the Abyss (level 66).",
+   "n": 11,
+   "inDatapack": false,
+   "from": [
+    "Capitain Vishotsky:You want to enter Kamaloka? You'll be ris"
+   ],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

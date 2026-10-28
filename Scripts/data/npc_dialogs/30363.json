@@ -1,0 +1,114 @@
+{
+ "npcId": 30363,
+ "name": "Aios",
+ "title": "Blacksmith",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.957Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30363.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/30363.htm": {
+   "file": "default/30363.htm",
+   "quest": null,
+   "text": "Blacksmith Aios: May the splendor of mithril forever shine on the forest and lake! I am a blacksmith and I look over the weapons and armor of my Elven brothers. I have just returned from the Dwarven Kingdom in the north where I learned how to process adamantium and oriharukon. I have finished setti…",
+   "header": "Blacksmith Aios",
+   "links": [
+    {
+     "text": "Create Double-blade",
+     "bypass": "npc_%objectId%_Link common/duals_01.htm",
+     "kind": "page",
+     "to": "common/duals_01.htm"
+    },
+    {
+     "text": "Create Item",
+     "bypass": "npc_%objectId%_Link common/crafting_01.htm",
+     "kind": "page",
+     "to": "common/crafting_01.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30363-1.htm": {
+   "file": "default/30363-1.htm",
+   "quest": null,
+   "text": "It is only natural that in order to create a duel sword, you'd need the two single swords which being combined. Of course, I charge a small fee since I'm not working for charity and all. And heating costs for stoking the fire are pretty steep... As you may know, it is not easy to handle the sword u…",
+   "links": [
+    {
+     "text": "See List",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30363-2.htm"
+    }
+   ]
+  },
+  "default/30363-2.htm": {
+   "file": "default/30363-2.htm",
+   "quest": null,
+   "text": "[Create] Our Blacksmith Guild creates items at a very reasonable price. You may entrust your precious materials to our Blacksmiths. They have a long-standing tradition of integrity. We will do our best to serve you. Creation lists to be done.",
+   "links": [
+    {
+     "text": "[Create Braided Hemp]",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/30363-3.htm"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30363.htm"
+    }
+   ]
+  },
+  "default/30363-3.htm": {
+   "file": "default/30363-3.htm",
+   "quest": null,
+   "text": "[Create Braided Hemp] Used in the manufacture of necklaces, bows, one-piece magic robes, armor and magical weapons. Also commonly used as a material for Frames and Compound Braids, which are used to create other items. Materials 5 Wood Stems Fee 1 Recipe - Create Braided Hemp, 100 adena Result 1 Br…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/duals_01.htm": {
+   "file": "common/duals_01.htm",
+   "quest": null,
+   "text": "Needless to say, in order to make a Dualsword, you first need two swords. They can be either Regular weapons, Standard weapons or Rare weapons. Regular weapons can only be combined with other Regular weapons, Standard weapons can only be combined with other Standard weapons, and Rare weapons can on…",
+   "links": [
+    {
+     "text": "View the list.",
+     "bypass": "npc_%objectId%_multisell 1001",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "common/crafting_01.htm": {
+   "file": "common/crafting_01.htm",
+   "quest": null,
+   "text": "[Create ingredient item] Our Blacksmith Guild creates items at a very reasonable price. You may entrust your precious materials to our Blacksmiths. They have a long-standing tradition of integrity. We will do our best to serve you. The creation of the ingredient for A-grade items is the pride of ou…",
+   "links": [
+    {
+     "text": "See the list.",
+     "bypass": "npc_%objectId%_multisell 1004",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

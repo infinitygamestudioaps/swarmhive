@@ -104,10 +104,7 @@
       switch: 'Quests page → Quest farm', where: { label: 'Quests page', hash: '#/quests' } },
     // ------------------------------------------------------------------------------------------------ supplies / money
     { key: 'supplyWatch', group: 'supply', title: 'Supply runs', gate: 'start', def: 'off', eval: 'pauto', pauto: ['supplyWatch'], kinds: ['supply run'],
-      what: 'When someone runs low on scrolls, shots or potions (or a bag is full) the leader goes to Giran, buys for everyone and hands it out.',
-      switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },
-    { key: 'shotsOutRun', group: 'supply', title: 'Shots-out supply run', gate: 'start', def: 'on', eval: 'pauto', pauto: ['shotsOutRun'], kinds: ['supply run'],
-      what: 'When shots really run out the leader makes a supply run even with Supply runs switched off (switch this off and it never goes to town for shots by itself).',
+      what: 'When someone runs low on scrolls, shots or potions (or a bag is full) the leader goes to Giran, buys for everyone and hands it out; off = nothing is bought by itself, also not when shots run out (they fight on without shots and you get a warning).',   // ONESWITCH-2026-10-27
       switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },
     { key: 'sell', group: 'supply', title: 'Sell marked items', gate: 'start', def: 'off', eval: 'pauto', pauto: ['sell'], kinds: ['town sell'],
       what: 'Sells only the items you marked "sell" on town visits and during supply runs (gear is never sold as junk; off unless you switch it on).',
@@ -126,6 +123,12 @@
       switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },
     { key: 'unload', group: 'supply', title: 'Spare loot to a teammate', gate: 'start', def: 'off', eval: 'pauto', pauto: ['unload'],   // UNLOADGATE-2026-10-16
       what: 'In a supply run, when the leader carries more than 150 kinds of items, he trades what he does not use to the teammate with the most free slots (never potions, shots, scrolls, arrows, letters or items marked for selling).',
+      switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },
+    { key: 'dpScrolls', group: 'supply', title: 'Death Penalty scrolls', gate: 'start', def: 'on', eval: 'pauto', pauto: ['dpScrolls'],   // RESUPOPT-2026-10-27
+      what: 'In Giran (regroup, rebuff trip) every character with a Death Penalty or few Recovery scrolls buys and reads them at Helvetia, and a team with a penalty and no scrolls makes that trip; off = none bought by itself.',
+      switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },
+    { key: 'missionSupplies', group: 'supply', title: 'Mission supplies', gate: 'start', def: 'on', eval: 'pauto', pauto: ['missionSupplies'],   // RESUPOPT-2026-10-27
+      what: 'Before an automatic raid (raid hunt) or the daily Kamaloka every character tops up its extra potions (and the tank Spirit Ore) at the grocer; off = they go without, your own mission orders still buy.',
       switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },
     { key: 'pshop', group: 'supply', title: 'Shots from player shops', gate: 'start', def: 'off', eval: 'pshop',
       what: 'During supply runs the leader buys B / A / S grade shots from player shops in Giran, within your price and budget.',

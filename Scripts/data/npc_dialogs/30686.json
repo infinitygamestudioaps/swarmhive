@@ -1,0 +1,407 @@
+{
+ "npcId": 30686,
+ "name": "Silva",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.041Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30686.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "357": {
+   "name": "Warehouse Keeper's Ambition",
+   "listText": [
+    "[Warehouse Keeper's Ambition]",
+    "[Warehouse Keeper's Ambition (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00357_WarehouseKeepersAmbition/30686-01.html",
+     "when": "state CREATED; (talker.getLevel() < MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00357_WarehouseKeepersAmbition/30686-02.htm",
+     "when": "state CREATED; NOT (talker.getLevel() < MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00357_WarehouseKeepersAmbition/30686-07.html",
+     "when": "state STARTED; (hasQuestItems(talker, JADE_CRYSTAL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00357_WarehouseKeepersAmbition/30686-06.html",
+     "when": "state STARTED; NOT (hasQuestItems(talker, JADE_CRYSTAL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30686.htm": {
+   "file": "warehouse/30686.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Silva: Hello! What can I do for you? For almost 1,000 years, the Iron Gate Guild has provided safekeeping of valuables. Whatever you deposit will be kept entirely secure, and you can withdraw it from any of branches... Hmm...I think I said it right this time... Hey, Mr. Sorint, I s…",
+   "header": "Warehouse Keeper Silva",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/privatewh.htm",
+     "kind": "page",
+     "to": "warehouse/privatewh.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/clanwh.htm",
+     "kind": "page",
+     "to": "warehouse/clanwh.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30686-noteach.htm": {
+   "file": "warehouse/30686-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Silva: You know, I only teach Dwarves. And among Dwarves... Fighters... and yes, Scavengers... and, Bounty Hunters... So sorry, but I cannot teach you.",
+   "header": "Warehouse Keeper Silva",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00357_WarehouseKeepersAmbition/30686-01.html": {
+   "file": "Q00357_WarehouseKeepersAmbition/30686-01.html",
+   "quest": 357,
+   "text": "Warehouse Keeper Silva: I'm sorry, customer. I am so busy with the work Sorint tasked me with that I don't have any time to talk about a contract right now. Will you come see me again? (Hmph! I don't have time for lowly 2nd class adventurers!) (Only characters who are level 47 or higher may underta…",
+   "header": "Warehouse Keeper Silva",
+   "when": [
+    "state CREATED; (talker.getLevel() < MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00357_WarehouseKeepersAmbition/30686-02.htm": {
+   "file": "Q00357_WarehouseKeepersAmbition/30686-02.htm",
+   "quest": 357,
+   "text": "Warehouse Keeper Silva: Hey, are you perhaps an adventurer? If so, would you come here for a minute? Let me tell you about a new credit loan service introduced by the Iron Gate Guild. It's a great opportunity for you to receive various benefits. Come this way and I'll tell you more...",
+   "header": "Warehouse Keeper Silva",
+   "when": [
+    "state CREATED; NOT (talker.getLevel() < MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Listen",
+     "bypass": "Quest Q00357_WarehouseKeepersAmbition 30686-03.htm",
+     "kind": "quest-event",
+     "script": "Q00357_WarehouseKeepersAmbition",
+     "event": "30686-03.htm",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-03.htm"
+    }
+   ]
+  },
+  "Q00357_WarehouseKeepersAmbition/30686-07.html": {
+   "file": "Q00357_WarehouseKeepersAmbition/30686-07.html",
+   "quest": 357,
+   "text": "Warehouse Keeper Silva: Customer, please wait a minute! Yes, Mr. Sorint? Would you like a cup of tea? No? Then, customer, please come this way... Oh, that stupid old man is always absorbed in his coin collection. That's why he's so slow... Did you bring some Jades? Of course, you remember there is …",
+   "header": "Warehouse Keeper Silva",
+   "when": [
+    "state STARTED; (hasQuestItems(talker, JADE_CRYSTAL))"
+   ],
+   "links": [
+    {
+     "text": "Receive reward.",
+     "bypass": "Quest Q00357_WarehouseKeepersAmbition 30686-09.html",
+     "kind": "quest-event",
+     "script": "Q00357_WarehouseKeepersAmbition",
+     "event": "30686-09.html",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-09.html",
+     "toAll": [
+      "Q00357_WarehouseKeepersAmbition/30686-09.html",
+      "Q00357_WarehouseKeepersAmbition/30686-08.html"
+     ]
+    },
+    {
+     "text": "Keep hunting.",
+     "bypass": "Quest Q00357_WarehouseKeepersAmbition 30686-10.html",
+     "kind": "quest-event",
+     "script": "Q00357_WarehouseKeepersAmbition",
+     "event": "30686-10.html",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-10.html"
+    },
+    {
+     "text": "Say you want to quit.",
+     "bypass": "Quest Q00357_WarehouseKeepersAmbition 30686-11.html",
+     "kind": "quest-event",
+     "script": "Q00357_WarehouseKeepersAmbition",
+     "event": "30686-11.html",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-11.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00357_WarehouseKeepersAmbition/30686-06.html": {
+   "file": "Q00357_WarehouseKeepersAmbition/30686-06.html",
+   "quest": 357,
+   "text": "Warehouse Keeper Silva: Customer, please wait a minute! Yes, Mr. Sorint? Would you like a cup of tea? No? Then, customer, please come this way... Oh, that stupid old man is always absorbed in his coin collection. That's why he's so slow... Okay, did you bring some Jades? Wha...why are you here empt…",
+   "header": "Warehouse Keeper Silva",
+   "when": [
+    "state STARTED; NOT (hasQuestItems(talker, JADE_CRYSTAL))"
+   ],
+   "links": [
+    {
+     "text": "Keep hunting.",
+     "bypass": "Quest Q00357_WarehouseKeepersAmbition 30686-10.html",
+     "kind": "quest-event",
+     "script": "Q00357_WarehouseKeepersAmbition",
+     "event": "30686-10.html",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-10.html"
+    },
+    {
+     "text": "Say you want to quit.",
+     "bypass": "Quest Q00357_WarehouseKeepersAmbition 30686-11.html",
+     "kind": "quest-event",
+     "script": "Q00357_WarehouseKeepersAmbition",
+     "event": "30686-11.html",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-11.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00357_WarehouseKeepersAmbition/30686-03.htm": {
+   "file": "Q00357_WarehouseKeepersAmbition/30686-03.htm",
+   "quest": 357,
+   "text": "Warehouse Keeper Silva: Shh! Keep your voice down! We don't want old man Sorint to hear this... OK, let's talk. Sorry, that talk about a loan service wasn't true -- I needed to get you alone without anyone getting suspicious. The truth is that I need to hire an adventurer like you... I need a partn…",
+   "header": "Warehouse Keeper Silva",
+   "links": [
+    {
+     "text": "\"What kind of business?\"",
+     "bypass": "Quest Q00357_WarehouseKeepersAmbition 30686-04.htm",
+     "kind": "quest-event",
+     "script": "Q00357_WarehouseKeepersAmbition",
+     "event": "30686-04.htm",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-04.htm"
+    }
+   ]
+  },
+  "Q00357_WarehouseKeepersAmbition/30686-04.htm": {
+   "file": "Q00357_WarehouseKeepersAmbition/30686-04.htm",
+   "quest": 357,
+   "text": "Warehouse Keeper Silva: What kind of business? Eh... Well, I suppose there's no reason why I shouldn't talk to you about this. The warehouse chief over there has announced that he plans to retire next year. Either old man Sorint or I will succeed him -- he will choose the one who makes the most pro…",
+   "header": "Warehouse Keeper Silva",
+   "links": [
+    {
+     "text": "\"Hey, be careful! Sorint might hear you...\"",
+     "bypass": "Quest Q00357_WarehouseKeepersAmbition 30686-05.htm",
+     "kind": "quest-event",
+     "script": "Q00357_WarehouseKeepersAmbition",
+     "event": "30686-05.htm",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00357_WarehouseKeepersAmbition/30686-05.htm": {
+   "file": "Q00357_WarehouseKeepersAmbition/30686-05.htm",
+   "quest": 357,
+   "text": "Warehouse Keeper Silva: Oh! Yes, I got a little too excited there! Ah... Mr. Sorint, I was just speaking with this customer. Nothing to worry about, sir! Oh! What a stupid old man... Anyway, what I need from you is very simple: Jade . It's become very popular for jewelry among Aden noblewomen these…",
+   "header": "Warehouse Keeper Silva",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00357_WarehouseKeepersAmbition/30686-08.html": {
+   "file": "Q00357_WarehouseKeepersAmbition/30686-08.html",
+   "quest": 357,
+   "text": "Warehouse Keeper Silva: Ah...! These are excellent quality. Well done! As I promised, I will reward you for the number of jades you've brought. That's fair, right?",
+   "header": "Warehouse Keeper Silva",
+   "links": [
+    {
+     "text": "Keep hunting.",
+     "bypass": "Quest Q00357_WarehouseKeepersAmbition 30686-10.html",
+     "kind": "quest-event",
+     "script": "Q00357_WarehouseKeepersAmbition",
+     "event": "30686-10.html",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-10.html"
+    },
+    {
+     "text": "Say you want to quit.",
+     "bypass": "Quest Q00357_WarehouseKeepersAmbition 30686-11.html",
+     "kind": "quest-event",
+     "script": "Q00357_WarehouseKeepersAmbition",
+     "event": "30686-11.html",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-11.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00357_WarehouseKeepersAmbition/30686-09.html": {
+   "file": "Q00357_WarehouseKeepersAmbition/30686-09.html",
+   "quest": 357,
+   "text": "Warehouse Keeper Silva: Oh..! You've brought so much! And the quality is excellent! Well done! Let me just calculate your payment based on the number of jades you brought -- since you brought more than 100, I will add the bonus I promised as well.",
+   "header": "Warehouse Keeper Silva",
+   "links": [
+    {
+     "text": "Keep hunting.",
+     "bypass": "Quest Q00357_WarehouseKeepersAmbition 30686-10.html",
+     "kind": "quest-event",
+     "script": "Q00357_WarehouseKeepersAmbition",
+     "event": "30686-10.html",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-10.html"
+    },
+    {
+     "text": "Say you want to quit.",
+     "bypass": "Quest Q00357_WarehouseKeepersAmbition 30686-11.html",
+     "kind": "quest-event",
+     "script": "Q00357_WarehouseKeepersAmbition",
+     "event": "30686-11.html",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-11.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00357_WarehouseKeepersAmbition/30686-10.html": {
+   "file": "Q00357_WarehouseKeepersAmbition/30686-10.html",
+   "quest": 357,
+   "text": "Warehouse Keeper Silva: Of course, you remember there is a bonus for bringing in over 100 at once, right? OK, keep up the good work! What? Mr. Sorint, what did you say? You want me to massage your shoulder? Of course, sir! I'll be right there...",
+   "header": "Warehouse Keeper Silva",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00357_WarehouseKeepersAmbition/30686-11.html": {
+   "file": "Q00357_WarehouseKeepersAmbition/30686-11.html",
+   "quest": 357,
+   "text": "Warehouse Keeper Silva: You want to quit? I can't believe it! You won't find a better opportunity than this, you know. Well, it doesn't matter. Adventurers like you are a dime a dozen. Oh! Sorint is calling me again. I can't take much more of this! Hey, listen, come back if you change your mind! OK…",
+   "header": "Warehouse Keeper Silva",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Warehouse Keeper's Ambition]",
+     "bypass": "npc_%objectId%_Quest Q00357_WarehouseKeepersAmbition",
+     "kind": "quest",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Warehouse Keeper's Ambition (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00357_WarehouseKeepersAmbition",
+     "kind": "quest",
+     "quest": 357,
+     "to": "Q00357_WarehouseKeepersAmbition/30686-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "warehouse/privatewh.htm": {
+   "file": "warehouse/privatewh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Private Warehouse",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item from the Private Warehouse",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "warehouse/clanwh.htm": {
+   "file": "warehouse/clanwh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item from the Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

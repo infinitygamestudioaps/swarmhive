@@ -1,0 +1,119 @@
+{
+ "npcId": 30072,
+ "name": "Metty",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.802Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30072.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "419": {
+   "name": "Get A Pet",
+   "listText": [
+    "[Get a Pet]",
+    "[Get a Pet (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00419_GetAPet/30072-01.html",
+     "when": "state STARTED; has items 3417",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30072.htm": {
+   "file": "guard/30072.htm",
+   "quest": null,
+   "text": "Guard Metty: Ahh... What is it?! Can't you see I'm on duty? This soldier has no time to chatter leisurely with the likes of you, country wanderer. Don't be a nuisance. Do me a favor and disappear from my sight. Hey, country bumpkin! There is a village that suits the likes of you. If you follow this…",
+   "header": "Guard Metty",
+   "links": [
+    {
+     "text": "Ask about Floran in detail.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30072-1.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30072-1.htm": {
+   "file": "guard/30072-1.htm",
+   "quest": null,
+   "text": "Guard Metty: You really are a bother. You want to know about that place in detail? Haven't you heard what I've said? Are you deaf? If you are that curious, go see it with your own two eyes! And don't annoy my exalted self any more!",
+   "header": "Guard Metty",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30072.htm"
+    }
+   ]
+  },
+  "Q00419_GetAPet/30072-01.html": {
+   "file": "Q00419_GetAPet/30072-01.html",
+   "quest": 419,
+   "text": "Guard Metty: Yes, I am a member of the animal lover's association. Why did you want to see me? I am very busy. Speak up!",
+   "header": "Guard Metty",
+   "when": [
+    "state STARTED; has items 3417"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the pets.\"",
+     "bypass": "Quest Q00419_GetAPet 30072-02.html",
+     "kind": "quest-event",
+     "script": "Q00419_GetAPet",
+     "event": "30072-02.html",
+     "quest": 419,
+     "to": "Q00419_GetAPet/30072-02.html"
+    }
+   ]
+  },
+  "Q00419_GetAPet/30072-02.html": {
+   "file": "Q00419_GetAPet/30072-02.html",
+   "quest": 419,
+   "text": "Guard Metty: So, you want to learn about pets? I'll tell you everything I know. First of all, the wolf. This is the first pet that you will breed. A wolf's sense of smell can detect an object as far as 2.4 km away. They hunt in packs of 7-14 with a male leader. Fully grown they are no larger than a…",
+   "header": "Guard Metty",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Get a Pet (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00419_GetAPet",
+     "kind": "quest",
+     "quest": 419,
+     "to": "Q00419_GetAPet/30072-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

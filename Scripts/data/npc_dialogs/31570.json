@@ -1,0 +1,453 @@
+{
+ "npcId": 31570,
+ "name": "Lanosco",
+ "title": "Fishing Guild Member",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.233Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Fisherman/31570.htm",
+   "when": "normal (no karma); NOT player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman"
+  },
+  {
+   "page": "ai/npc/Fisherman/31570-pk.htm",
+   "when": "player.getKarma() > 0; !character().karmaPlayerCanShop()",
+   "src": "ai Fisherman",
+   "variant": "karma"
+  }
+ ],
+ "quests": {
+  "27": {
+   "name": "Chest Caught With A Bait Of Wind",
+   "listText": [
+    "[Chest Caught with a Bait of Wind]",
+    "[Chest Caught with a Bait of Wind (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00027_ChestCaughtWithABaitOfWind/31570-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= 27) && player.hasQuestCompleted(Q00050_LanoscosSpecialBait.class.getSimpleNam",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00027_ChestCaughtWithABaitOfWind/31570-02.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= 27) && player.hasQuestCompleted(Q00050_LanoscosSpecialBait.class.getSimpleNam",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00027_ChestCaughtWithABaitOfWind/31570-04.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00027_ChestCaughtWithABaitOfWind/31570-05.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00027_ChestCaughtWithABaitOfWind/31570-07.htm",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "50": {
+   "name": "Lanosco's Special Bait",
+   "listText": [
+    "[Lanosco's Special Bait]",
+    "[Lanosco's Special Bait (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00050_LanoscosSpecialBait/31570-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 27)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00050_LanoscosSpecialBait/31570-02.html",
+     "when": "state CREATED; NOT (player.getLevel() >= 27)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00050_LanoscosSpecialBait/31570-05.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00050_LanoscosSpecialBait/31570-04.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "426": {
+   "name": "Quest for Fishing Shot",
+   "listText": [
+    "[Quest for Fishing shot]",
+    "[Quest for Fishing shot (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "ai/npc/Fisherman/31570.htm": {
+   "file": "ai/npc/Fisherman/31570.htm",
+   "quest": null,
+   "text": "Fishing Guild Member Lanosco: So did you hook a big one? Fishing isn't as easy as it looks. If you want to be successful, you need to use the right bait at the right spot at the right time. Come see me when you need the right equipment and I'll set you up.",
+   "header": "Fishing Guild Member Lanosco",
+   "links": [
+    {
+     "text": "Ask how to fish.",
+     "bypass": "player_help 7561.htm#7561",
+     "kind": "other"
+    },
+    {
+     "text": "Fishing Contest",
+     "bypass": "Quest Fisherman fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "fishing_championship.htm",
+     "to": "ai/npc/Fisherman/fishing_championship.htm"
+    },
+    {
+     "text": "Learn fishing skill.",
+     "bypass": "Quest Fisherman LearnFishSkill",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "LearnFishSkill",
+     "to": null
+    },
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "Quest Fisherman BuySellRefund",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "BuySellRefund",
+     "to": null
+    },
+    {
+     "text": "Sell fish.",
+     "bypass": "npc_%objectId%_multisell 009",
+     "kind": "multisell"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/31570-pk.htm": {
+   "file": "ai/npc/Fisherman/31570-pk.htm",
+   "quest": null,
+   "text": "Fishermen's Guild Member Lanosco: We don't cater to the likes of you!",
+   "header": "Fishermen's Guild Member Lanosco",
+   "when": [
+    "player.getKarma() > 0; !character().karmaPlayerCanShop()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00027_ChestCaughtWithABaitOfWind/31570-01.htm": {
+   "file": "Q00027_ChestCaughtWithABaitOfWind/31570-01.htm",
+   "quest": 27,
+   "text": "Fishermen's Guild Member Lanosco: Hello again! You got the bait of wind from me before. Did it work? Honestly, it's not intended to catch fish at all! But you look rather pleased with yourself! Did you catch anything? Besides fish, I mean!",
+   "header": "Fishermen's Guild Member Lanosco",
+   "when": [
+    "state CREATED; ((player.getLevel() >= 27) && player.hasQuestCompleted(Q00050_LanoscosSpecialBait.class.getSimpleNam"
+   ],
+   "links": [
+    {
+     "text": "\"What do you mean?\"",
+     "bypass": "Quest Q00027_ChestCaughtWithABaitOfWind 31570-03.htm",
+     "kind": "quest-event",
+     "script": "Q00027_ChestCaughtWithABaitOfWind",
+     "event": "31570-03.htm",
+     "quest": 27,
+     "to": "Q00027_ChestCaughtWithABaitOfWind/31570-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00027_ChestCaughtWithABaitOfWind/31570-02.htm": {
+   "file": "Q00027_ChestCaughtWithABaitOfWind/31570-02.htm",
+   "quest": 27,
+   "text": "Fishermen's Guild Member Lanosco: Well, it's obvious you're not here to buy fishing gear! Have you ever been fishing? Try it once, you'll be hooked! Heh heh! I'm the man to see when you need bait! (This quest may only be undertaken by characters of level 27 or above who have completed Lanosco's Spe…",
+   "header": "Fishermen's Guild Member Lanosco",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= 27) && player.hasQuestCompleted(Q00050_LanoscosSpecialBait.class.getSimpleNam"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00027_ChestCaughtWithABaitOfWind/31570-04.htm": {
+   "file": "Q00027_ChestCaughtWithABaitOfWind/31570-04.htm",
+   "quest": 27,
+   "text": "Fishermen's Guild Member Lanosco: You're back! Did you finish your assignment already? Maybe I should've made it harder for you! Let me check it out... Is that the large blue treasure box ?",
+   "header": "Fishermen's Guild Member Lanosco",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00027_ChestCaughtWithABaitOfWind 31570-05.htm",
+     "kind": "quest-event",
+     "script": "Q00027_ChestCaughtWithABaitOfWind",
+     "event": "31570-05.htm",
+     "quest": 27,
+     "to": "Q00027_ChestCaughtWithABaitOfWind/31570-05.htm",
+     "toAll": [
+      "Q00027_ChestCaughtWithABaitOfWind/31570-05.htm",
+      "Q00027_ChestCaughtWithABaitOfWind/31570-06.htm"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00027_ChestCaughtWithABaitOfWind/31570-05.htm": {
+   "file": "Q00027_ChestCaughtWithABaitOfWind/31570-05.htm",
+   "quest": 27,
+   "text": "Fishermen's Guild Member Lanosco: You're back! Did you finish your assignment already? No? Well then, by all means, go and find the large blue treasure box . It won't be easy to find, but I'm really counting on you!",
+   "header": "Fishermen's Guild Member Lanosco",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00027_ChestCaughtWithABaitOfWind/31570-07.htm": {
+   "file": "Q00027_ChestCaughtWithABaitOfWind/31570-07.htm",
+   "quest": 27,
+   "text": "Fishermen's Guild Member Lanosco: Why haven't you gone to see Shaling yet? Take the blueprint of golem to her in the Blacksmith Shop immediately!",
+   "header": "Fishermen's Guild Member Lanosco",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00050_LanoscosSpecialBait/31570-01.htm": {
+   "file": "Q00050_LanoscosSpecialBait/31570-01.htm",
+   "quest": 50,
+   "text": "Fishermen's Guild Member Lanosco: Some time ago, I caught a few strange boxes while fishing. I thought it was strange to catch so many things that weren't fish! I quickly learned that some people will pay very well for these boxes! I think they're intrigued by the mystery of what's inside... You mu…",
+   "header": "Fishermen's Guild Member Lanosco",
+   "when": [
+    "state CREATED; (player.getLevel() >= 27)"
+   ],
+   "links": [
+    {
+     "text": "\"What do you want me to do?\"",
+     "bypass": "Quest Q00050_LanoscosSpecialBait 31570-03.htm",
+     "kind": "quest-event",
+     "script": "Q00050_LanoscosSpecialBait",
+     "event": "31570-03.htm",
+     "quest": 50,
+     "to": "Q00050_LanoscosSpecialBait/31570-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00050_LanoscosSpecialBait/31570-02.html": {
+   "file": "Q00050_LanoscosSpecialBait/31570-02.html",
+   "quest": 50,
+   "text": "Fishermen's Guild Member Lanosco: Some time ago, I caught a few strange boxes while fishing. I thought it was strange to catch so many things that weren't fish! Most fishermen would've just thrown them back, but I know better! Some people will pay well for such things! They must be intrigued by not…",
+   "header": "Fishermen's Guild Member Lanosco",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 27)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00050_LanoscosSpecialBait/31570-05.html": {
+   "file": "Q00050_LanoscosSpecialBait/31570-05.html",
+   "quest": 50,
+   "text": "Fishermen's Guild Member Lanosco: You haven't brought the materials I need. You can get Essence of Wind from the singing winds on Windy Hill, far to the north of Gludin.",
+   "header": "Fishermen's Guild Member Lanosco",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00050_LanoscosSpecialBait/31570-04.html": {
+   "file": "Q00050_LanoscosSpecialBait/31570-04.html",
+   "quest": 50,
+   "text": "Fishermen's Guild Member Lanosco: Thanks for your help. I can't get around to get the materials I need like I used to... Now I'll make the bait of wind for you. I use the repulsive power between the elements of water and wind. Just as water and air don't mix, things that are underwater begin to flo…",
+   "header": "Fishermen's Guild Member Lanosco",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "\"Here they are.\"",
+     "bypass": "Quest Q00050_LanoscosSpecialBait 31570-07.html",
+     "kind": "quest-event",
+     "script": "Q00050_LanoscosSpecialBait",
+     "event": "31570-07.html",
+     "quest": 50,
+     "to": "Q00050_LanoscosSpecialBait/31570-07.html",
+     "toAll": [
+      "Q00050_LanoscosSpecialBait/31570-07.html",
+      "Q00050_LanoscosSpecialBait/31570-06.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00027_ChestCaughtWithABaitOfWind/31570-03.htm": {
+   "file": "Q00027_ChestCaughtWithABaitOfWind/31570-03.htm",
+   "quest": 27,
+   "text": "Fishermen's Guild Member Lanosco: A while back someone was here asking about a large blue treasure box . The bait I gave you earlier was designed to find it! Don't look so hurt! It only works if the person using it doesn't know about it. If you haven't found it yet, please continue to look for it. …",
+   "header": "Fishermen's Guild Member Lanosco",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00027_ChestCaughtWithABaitOfWind/31570-06.htm": {
+   "file": "Q00027_ChestCaughtWithABaitOfWind/31570-06.htm",
+   "quest": 27,
+   "text": "Fishermen's Guild Member Lanosco: I think this is the large blue treasure box that my client lost. It seems to contain a blueprint of golem. The only blacksmith in this whole area capable of making such a thing is Shaling in this village. She told me recently that she had dropped a box containing a…",
+   "header": "Fishermen's Guild Member Lanosco",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00050_LanoscosSpecialBait/31570-03.htm": {
+   "file": "Q00050_LanoscosSpecialBait/31570-03.htm",
+   "quest": 50,
+   "text": "Fishermen's Guild Member Lanosco: The power to attract items by switching their polarity is present in all four elements. Wind, ice, land and flame each have unique attractions to submerged items. Me and some of my buddies here at the guild have learned to make bait that uses these attractions to r…",
+   "header": "Fishermen's Guild Member Lanosco",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00050_LanoscosSpecialBait/31570-06.htm": {
+   "file": "Q00050_LanoscosSpecialBait/31570-06.htm",
+   "quest": 50,
+   "text": "Fishermen's Guild Member Lanosco: You've obtained all of the Essence of Wind I need to make the bait. Please accept this as a token of my appreciation. This will increase your chances of finding lost treasure, but how often you actually land your catch will depend on your skill. Your fishing skill …",
+   "header": "Fishermen's Guild Member Lanosco",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00050_LanoscosSpecialBait/31570-07.html": {
+   "file": "Q00050_LanoscosSpecialBait/31570-07.html",
+   "quest": 50,
+   "text": "Fishermen's Guild Member Lanosco: You didn't bring enough ingredients! This isn't enough to make bait! You must bring more Essence of Wind!",
+   "header": "Fishermen's Guild Member Lanosco",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Chest Caught with a Bait of Wind]",
+     "bypass": "npc_%objectId%_Quest Q00027_ChestCaughtWithABaitOfWind",
+     "kind": "quest",
+     "quest": 27,
+     "to": "Q00027_ChestCaughtWithABaitOfWind/31570-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Chest Caught with a Bait of Wind (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00027_ChestCaughtWithABaitOfWind",
+     "kind": "quest",
+     "quest": 27,
+     "to": "Q00027_ChestCaughtWithABaitOfWind/31570-04.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Lanosco's Special Bait]",
+     "bypass": "npc_%objectId%_Quest Q00050_LanoscosSpecialBait",
+     "kind": "quest",
+     "quest": 50,
+     "to": "Q00050_LanoscosSpecialBait/31570-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Lanosco's Special Bait (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00050_LanoscosSpecialBait",
+     "kind": "quest",
+     "quest": 50,
+     "to": "Q00050_LanoscosSpecialBait/31570-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Quest for Fishing shot]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest not started"
+    },
+    {
+     "text": "[Quest for Fishing shot (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00426_QuestForFishingShot",
+     "kind": "quest",
+     "quest": 426,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Fisherman/fishing_championship.htm": {
+   "file": "ai/npc/Fisherman/fishing_championship.htm",
+   "quest": null,
+   "text": "Fishing King Championship Tournament Fishing Guild Member: Ahoy! Here are the results of last week's Fishing King Championship Tournament! Do you see your name on the list? If you do, claim your prize money! Remember, you have only one week to claim your prize. Don't fret if your name isn't listed …",
+   "header": "Fishing Guild Member",
+   "links": [
+    {
+     "text": "Claim Prize",
+     "bypass": "Quest Fisherman fishing_championship.htm",
+     "kind": "quest-event",
+     "script": "Fisherman",
+     "event": "fishing_championship.htm",
+     "to": "ai/npc/Fisherman/fishing_championship.htm"
+    }
+   ]
+  }
+ }
+}

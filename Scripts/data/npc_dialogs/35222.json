@@ -1,0 +1,60 @@
+{
+ "npcId": 35222,
+ "name": "Outer Doorman",
+ "title": "Oren",
+ "type": "L2CastleDoormen",
+ "generated": "2026-10-27T18:18:03.424Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "doormen/35222.htm",
+   "when": "",
+   "src": "html/doormen"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "doormen/35222.htm": {
+   "file": "doormen/35222.htm",
+   "quest": null,
+   "text": "Nothing unusual to report, my Lord. What do you wish to do?",
+   "links": [
+    {
+     "text": "Open the Castle Gate.",
+     "bypass": "npc_%objectId%_open_doors 4, 22190001, 22190002",
+     "kind": "other"
+    },
+    {
+     "text": "Close the Castle Gate.",
+     "bypass": "npc_%objectId%_close_doors 4, 22190001, 22190002",
+     "kind": "other"
+    },
+    {
+     "text": "Teleport (Out of the Gate)",
+     "bypass": "npc_%objectId%_tele 2013",
+     "kind": "teleport"
+    },
+    {
+     "text": "Teleport (Into the Gate)",
+     "bypass": "npc_%objectId%_tele 2014",
+     "kind": "teleport"
+    }
+   ]
+  },
+  "doormen/35222-busy.htm": {
+   "file": "doormen/35222-busy.htm",
+   "quest": null,
+   "text": "Oh! Our castle is being attacked and I can't do anything for you right now.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "doormen/35222-no.htm": {
+   "file": "doormen/35222-no.htm",
+   "quest": null,
+   "text": "Who goes there?! Stay back!",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

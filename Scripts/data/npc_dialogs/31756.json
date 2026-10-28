@@ -1,0 +1,160 @@
+{
+ "npcId": 31756,
+ "name": "Mr. Cat",
+ "title": "Test Server Helper",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.275Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/ClassMaster/31756-1.htm": {
+   "file": "ai/npc/ClassMaster/31756-1.htm",
+   "quest": null,
+   "text": "Test Server Helper: What item do you need?",
+   "header": "Test Server Helper",
+   "links": [
+    {
+     "text": "Soulshot, shared item or other supplies.",
+     "bypass": "npc_%objectId%_Buy 3175601",
+     "kind": "shop"
+    },
+    {
+     "text": "No-grade recipe.",
+     "bypass": "npc_%objectId%_Buy 3175602",
+     "kind": "shop"
+    },
+    {
+     "text": "D-grade recipe.",
+     "bypass": "npc_%objectId%_Buy 3175603",
+     "kind": "shop"
+    },
+    {
+     "text": "C-grade recipe.",
+     "bypass": "npc_%objectId%_Buy 3175604",
+     "kind": "shop"
+    },
+    {
+     "text": "B-grade recipe.",
+     "bypass": "npc_%objectId%_Buy 3175605",
+     "kind": "shop"
+    },
+    {
+     "text": "A-grade recipe.",
+     "bypass": "npc_%objectId%_Buy 3175606",
+     "kind": "shop"
+    },
+    {
+     "text": "S-grade recipe.",
+     "bypass": "npc_%objectId%_Buy 3175607",
+     "kind": "shop"
+    },
+    {
+     "text": "Ordinary manufacturing recipe.",
+     "bypass": "npc_%objectId%_Buy 3175608",
+     "kind": "shop"
+    }
+   ]
+  },
+  "ai/npc/ClassMaster/31756.htm": {
+   "file": "ai/npc/ClassMaster/31756.htm",
+   "quest": null,
+   "text": "Test Server Helper: How may I assist you?",
+   "header": "Test Server Helper",
+   "links": [
+    {
+     "text": "Complete the first class transfer.",
+     "bypass": "Quest ClassMaster 1stClass",
+     "kind": "quest-event",
+     "script": "ClassMaster",
+     "event": "1stClass",
+     "to": null
+    },
+    {
+     "text": "Complete the second class transfer.",
+     "bypass": "Quest ClassMaster 2ndClass",
+     "kind": "quest-event",
+     "script": "ClassMaster",
+     "event": "2ndClass",
+     "to": null
+    },
+    {
+     "text": "Transfer from the second class to the third class.",
+     "bypass": "Quest ClassMaster 3rdClass",
+     "kind": "quest-event",
+     "script": "ClassMaster",
+     "event": "3rdClass",
+     "to": null
+    },
+    {
+     "text": "Become Noblesse",
+     "bypass": "Quest ClassMaster become_noble",
+     "kind": "quest-event",
+     "script": "ClassMaster",
+     "event": "become_noble",
+     "to": null
+    },
+    {
+     "text": "Purchase wearable items",
+     "bypass": "npc_%objectId%_multisell 201",
+     "kind": "multisell"
+    },
+    {
+     "text": "Raise the clan's level",
+     "bypass": "Quest ClassMaster increase_clan_level",
+     "kind": "quest-event",
+     "script": "ClassMaster",
+     "event": "increase_clan_level",
+     "to": null
+    },
+    {
+     "text": "Learn all skills",
+     "bypass": "Quest ClassMaster learn_skills",
+     "kind": "quest-event",
+     "script": "ClassMaster",
+     "event": "learn_skills",
+     "to": null
+    },
+    {
+     "text": "Purchase items",
+     "bypass": "Quest ClassMaster 31756-1.htm",
+     "kind": "quest-event",
+     "script": "ClassMaster",
+     "event": "31756-1.htm",
+     "to": "ai/npc/ClassMaster/31756-1.htm"
+    },
+    {
+     "text": "Purchase quest items and rare spellbooks",
+     "bypass": "npc_%objectId%_multisell 202",
+     "kind": "multisell"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

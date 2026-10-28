@@ -1,0 +1,436 @@
+{
+ "npcId": 31285,
+ "name": "Samael",
+ "title": "Grand Master",
+ "type": "L2VillageMasterDElf",
+ "generated": "2026-10-27T18:18:03.154Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/31285.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "97": {
+   "name": "Saga of the Shillien Templar",
+   "listText": [
+    "[Saga of the Shillien Templar]",
+    "[Saga of the Shillien Templar (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00097_SagaOfTheShillienTemplar/2-01.htm",
+     "when": "cond 1; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00097_SagaOfTheShillienTemplar/2-02.htm",
+     "when": "cond 2; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00097_SagaOfTheShillienTemplar/2-03.htm",
+     "when": "cond 4; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00097_SagaOfTheShillienTemplar/2-04.htm",
+     "when": "cond 5; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00097_SagaOfTheShillienTemplar/3-01.htm",
+     "when": "cond 10; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00097_SagaOfTheShillienTemplar/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00097_SagaOfTheShillienTemplar/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00097_SagaOfTheShillienTemplar/3-06.htm",
+     "when": "cond 13; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00097_SagaOfTheShillienTemplar/11-01.htm",
+     "when": "cond 14; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00097_SagaOfTheShillienTemplar/11-02.htm",
+     "when": "cond 15; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/31285.htm": {
+   "file": "villagemaster/31285.htm",
+   "quest": null,
+   "text": "Grand Master Samael: It is called Elmore, but it's not that different -- power rules here just as it does everywhere else. Heh, I understand why a man like Scraide might have settled here... Was it the battles against the Orcs that changed him, do you think, or was that always his nature?",
+   "header": "Grand Master Samael",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "npc_%objectId%_Quest DarkElfChange2",
+     "kind": "quest",
+     "script": "DarkElfChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00097_SagaOfTheShillienTemplar/2-01.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/2-01.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: Why are you here? Galadrid told you to come, didn't he? You're here for that thing, aren't you?! But, there's a problem. I can't decipher some of the passages because there are some odd characters in the middle.",
+   "header": "Grand Master Samael",
+   "when": [
+    "cond 1; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How can I help?\"",
+     "bypass": "Quest Q00097_SagaOfTheShillienTemplar 2-1",
+     "kind": "quest-event",
+     "script": "Q00097_SagaOfTheShillienTemplar",
+     "event": "2-1",
+     "quest": 97,
+     "to": "Q00097_SagaOfTheShillienTemplar/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00097_SagaOfTheShillienTemplar/2-02.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/2-02.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: You haven't meet Bavarin yet? I need the \"Ancient Language Dictionary\" to decipher the passages!",
+   "header": "Grand Master Samael",
+   "when": [
+    "cond 2; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/2-03.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/2-03.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: Did you get the dictionary? Wait a minute... Here! I've deciphered part of the text! I can't read everything yet, but there's something you can do. The text says that you can obtain the ancient knowledge if you take this Stone of Commune to the Tablet of Vision. Please, go ther…",
+   "header": "Grand Master Samael",
+   "when": [
+    "cond 4; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Is there anything else?\"",
+     "bypass": "Quest Q00097_SagaOfTheShillienTemplar 2-2",
+     "kind": "quest-event",
+     "script": "Q00097_SagaOfTheShillienTemplar",
+     "event": "2-2",
+     "quest": 97,
+     "to": "Q00097_SagaOfTheShillienTemplar/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00097_SagaOfTheShillienTemplar/2-04.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/2-04.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: You haven't forgotten your task, have you? Find the Tablet of Vision south of the Tower of Insolence .",
+   "header": "Grand Master Samael",
+   "when": [
+    "cond 5; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/3-01.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/3-01.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: Welcome back! Tell me, what have you learned? The forbidden knowledge is truly passed on to the one who holds the Stone of Commune. Good job! But, why did you come back? The Stone of Commune? You mean this? Actually, there were several fragments attached to the tablet. I gave y…",
+   "header": "Grand Master Samael",
+   "when": [
+    "cond 10; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What do I need to do?\"",
+     "bypass": "Quest Q00097_SagaOfTheShillienTemplar 3-5",
+     "kind": "quest-event",
+     "script": "Q00097_SagaOfTheShillienTemplar",
+     "event": "3-5",
+     "quest": 97,
+     "to": "Q00097_SagaOfTheShillienTemplar/3-07.htm"
+    }
+   ]
+  },
+  "Q00097_SagaOfTheShillienTemplar/3-05.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/3-05.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: Did you bring the Divine Stone of Wisdom? Even though it's quite difficult to gain the trust of their highest-ranking shaman, you made it look very easy! Can I have the stone?",
+   "header": "Grand Master Samael",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Here it is.\"",
+     "bypass": "Quest Q00097_SagaOfTheShillienTemplar 3-8",
+     "kind": "quest-event",
+     "script": "Q00097_SagaOfTheShillienTemplar",
+     "event": "3-8",
+     "quest": 97,
+     "to": "Q00097_SagaOfTheShillienTemplar/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00097_SagaOfTheShillienTemplar/3-04.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/3-04.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: You know what to do, don't you? Go to the Varka Silenos or Ketra Orcs and bring me a Divine Stone of Wisdom . Go to Ketra's Messenger Wahkan or Varka's Messenger Naran Ashanuk.",
+   "header": "Grand Master Samael",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/3-06.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/3-06.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: What are you doing? You must finish your job! Find the Tablet of Vision immediately! You can find it north of the Varka Silenos barracks .",
+   "header": "Grand Master Samael",
+   "when": [
+    "cond 13; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/11-01.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/11-01.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: Welcome! How is your work going? Hmm, a different reaction this time, eh? Something seemed to be inhibiting the reaction. Wait a moment. Ah yes, here is the method of getting the next Stone of Commune and the location of the next tablet.",
+   "header": "Grand Master Samael",
+   "when": [
+    "cond 14; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Quick, tell me!\"",
+     "bypass": "Quest Q00097_SagaOfTheShillienTemplar 11-9",
+     "kind": "quest-event",
+     "script": "Q00097_SagaOfTheShillienTemplar",
+     "event": "11-9",
+     "quest": 97,
+     "to": "Q00097_SagaOfTheShillienTemplar/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00097_SagaOfTheShillienTemplar/11-02.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/11-02.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: The Archon of Halisha has the next Stone of Commune. You can find the Archon inside the Four Sepulchers in the Imperial Tomb. You mustn't enter that dreadful place alone! If you're unable to form a party for some reason, massacre the Archon's minions in the Shrine of the Loyal.…",
+   "header": "Grand Master Samael",
+   "when": [
+    "cond 15; !((npcId == 31580) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/11-03.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/11-03.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: Don't be so hasty! If you look carefully at the inscriptions on the relics, you'll discover how to find the Stone of Commune. The Archon of Halisha has the next Stone of Commune. You can find the Archon inside the Four Sepulchers in the Imperial Tomb. You mustn't enter that dre…",
+   "header": "Grand Master Samael",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/2-05.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/2-05.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: First you must help me decipher the text on this ancient object. I must have the \"Ancient Language Dictionary\"! I've heard that Bavarin has it, and he's coming to the hot springs for a vacation! Will you go see him and borrow the dictionary for me?",
+   "header": "Grand Master Samael",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/2-06.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/2-06.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: Now you must go to the Tablet of Vision and attain the knowledge by using the Stone of Commune. This Stone of Commune is the only way to get the information, so you must be very careful with it! The Tablet of Vision is south of the Tower of Insolence . Hurry there!",
+   "header": "Grand Master Samael",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/3-02.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/3-02.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: You must gain the trust of the Ketra Orcs. Gain the trust of their messenger, Wahkan. He's their highest ranking chieftain, and will give you their Divine Stone of Wisdom . If you have a bad time with the Ketras, you can go to the Varka Silenos and get their stone instead.",
+   "header": "Grand Master Samael",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/3-03.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/3-03.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: First, you must gain the trust of Naran Ashanuk, the messenger of the Varka Silenos. Eventually, you can get their Divine Stone of Wisdom from Soul Guide Udan Mardui, their highest-ranking shaman. If you have a bad time with the Varkas, you can go to the Ketra Orcs and get thei…",
+   "header": "Grand Master Samael",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00097_SagaOfTheShillienTemplar/3-07.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/3-07.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: I need the Divine Stone of Wisdom that's held by Asefa, the highest-ranking shaman of the Ketra Orcs, or Soul Guide Udan Mardui, the highest-ranking shaman of the Varka Silenos. You must gain the trust of the highest-ranking shaman of either tribe in order to get the stone. Whi…",
+   "header": "Grand Master Samael",
+   "links": [
+    {
+     "text": "\"I'll approach the Ketra Orcs.\"",
+     "bypass": "Quest Q00097_SagaOfTheShillienTemplar 3-6",
+     "kind": "quest-event",
+     "script": "Q00097_SagaOfTheShillienTemplar",
+     "event": "3-6",
+     "quest": 97,
+     "to": "Q00097_SagaOfTheShillienTemplar/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'll approach the Varka Silenos.\"",
+     "bypass": "Quest Q00097_SagaOfTheShillienTemplar 3-7",
+     "kind": "quest-event",
+     "script": "Q00097_SagaOfTheShillienTemplar",
+     "event": "3-7",
+     "quest": 97,
+     "to": "Q00097_SagaOfTheShillienTemplar/3-03.htm"
+    }
+   ]
+  },
+  "Q00097_SagaOfTheShillienTemplar/3-08.htm": {
+   "file": "Q00097_SagaOfTheShillienTemplar/3-08.htm",
+   "quest": 97,
+   "text": "Grand Master Samael: Wait a minute. Here is the Stone of Commune that you need. Let me know if you have any problems with it. You know where the tablet is, right? It's north of the Varka Silenos barracks . I marked it on your Map. You must be very careful! You never know what kind of danger awaits …",
+   "header": "Grand Master Samael",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Shillien Templar (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00097_SagaOfTheShillienTemplar",
+     "kind": "quest",
+     "quest": 97,
+     "to": "Q00097_SagaOfTheShillienTemplar/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

@@ -1,0 +1,219 @@
+{
+ "npcId": 30359,
+ "name": "Kaitar",
+ "title": "Tetrarch",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.956Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30359.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "320": {
+   "name": "Bones Tell The Future",
+   "listText": [
+    "[Bones Tell the Future]",
+    "[Bones Tell the Future (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00320_BonesTellTheFuture/30359-03.htm",
+     "when": "state CREATED; (player.getRace() == Race.DARK_ELF); (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00320_BonesTellTheFuture/30359-02.htm",
+     "when": "state CREATED; (player.getRace() == Race.DARK_ELF); NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00320_BonesTellTheFuture/30359-00.htm",
+     "when": "state CREATED; NOT (player.getRace() == Race.DARK_ELF)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00320_BonesTellTheFuture/30359-06.html",
+     "when": "state STARTED; hasItemsAtLimit(st.getPlayer(), BONE_FRAGMENT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00320_BonesTellTheFuture/30359-05.html",
+     "when": "state STARTED; !hasItemsAtLimit(st.getPlayer(), BONE_FRAGMENT)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30359.htm": {
+   "file": "default/30359.htm",
+   "quest": null,
+   "text": "Tetrarch Kaitar: May the holy darkness of the abyss fill the land. I am Tetrarch Kaitar, prophet of the darkness chosen by Gran Kain , father of darkness. I follow Shilen , mother of the abyss, and am the black priest who interprets Shilen's will. Goddess of death and destiny, Shilen sometimes give…",
+   "header": "Tetrarch Kaitar",
+   "links": [
+    {
+     "text": "Ask about Gran Kain",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30359-1.htm"
+    },
+    {
+     "text": "Ask about Shilen",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30359-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30359-1.htm": {
+   "file": "default/30359-1.htm",
+   "quest": null,
+   "text": "Tetrarch Kaitar: Gran Kain -- Sovereign of Destruction, Father of Darkness! If the sunlight that pierces our eyes was made by Einhasad, then the darkness that swallows the light was made by the Dark Lord, Gran Kain. Other races call Gran Kain a devil, fear him and exclude his followers. However, as…",
+   "header": "Tetrarch Kaitar",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30359.htm"
+    }
+   ]
+  },
+  "default/30359-2.htm": {
+   "file": "default/30359-2.htm",
+   "quest": null,
+   "text": "Tetrarch Kaitar: Shilen, Mother of the Abyss, is the Goddess who controls fate and death. Shilen permits all life to be limited, and it is she who enables death, so that all living things can return to their original state of nothingness. Other races do not understand the eternal cycle of birth and…",
+   "header": "Tetrarch Kaitar",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30359.htm"
+    }
+   ]
+  },
+  "Q00320_BonesTellTheFuture/30359-03.htm": {
+   "file": "Q00320_BonesTellTheFuture/30359-03.htm",
+   "quest": 320,
+   "text": "Tetrarch Kaitar: I am a member of the Tetrarch council, but at the same time I am an Abyssal Celebrant. For the past 300 years, I have lived to fulfill the will of Gran Kain and Shilen. The goddess Shilen controls death and fate and sometimes lets us steal a glance at the future through death. The …",
+   "header": "Tetrarch Kaitar",
+   "when": [
+    "state CREATED; (player.getRace() == Race.DARK_ELF); (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will take the task",
+     "bypass": "Quest Q00320_BonesTellTheFuture 30359-04.htm",
+     "kind": "quest-event",
+     "script": "Q00320_BonesTellTheFuture",
+     "event": "30359-04.htm",
+     "quest": 320,
+     "to": "Q00320_BonesTellTheFuture/30359-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00320_BonesTellTheFuture/30359-02.htm": {
+   "file": "Q00320_BonesTellTheFuture/30359-02.htm",
+   "quest": 320,
+   "text": "Tetrarch Kaitar: For the past 300 years, I have lived to fulfill the will of Gran Kain and Shilen. As a reward for my devotion, goddess Shilen gave me the ability to see into the future. Once a month, I perform spells to foresee the dangers or disasters that will affect my race and forecast the dir…",
+   "header": "Tetrarch Kaitar",
+   "when": [
+    "state CREATED; (player.getRace() == Race.DARK_ELF); NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00320_BonesTellTheFuture/30359-00.htm": {
+   "file": "Q00320_BonesTellTheFuture/30359-00.htm",
+   "quest": 320,
+   "text": "Tetrarch Kaitar: Shilen is the holy mother who created us Dark Elves from water. However, to foreign races like yourself, Shilen is only a fearful being that brings death. There is not a chance that an outsider who does not understand the truth hidden within the darkness of the abyss will assist me…",
+   "header": "Tetrarch Kaitar",
+   "when": [
+    "state CREATED; NOT (player.getRace() == Race.DARK_ELF)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00320_BonesTellTheFuture/30359-06.html": {
+   "file": "Q00320_BonesTellTheFuture/30359-06.html",
+   "quest": 320,
+   "text": "Tetrarch Kaitar: You have collected all 10 bone pieces. Well done! Within these bone pieces that you have collected are the final breaths of the brothers that were sacrificed at the hands of the enemy 100 years ago. Can you feel it? The beautiful smell of death? Here is the compensation that I prom…",
+   "header": "Tetrarch Kaitar",
+   "when": [
+    "state STARTED; hasItemsAtLimit(st.getPlayer(), BONE_FRAGMENT)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00320_BonesTellTheFuture/30359-05.html": {
+   "file": "Q00320_BonesTellTheFuture/30359-05.html",
+   "quest": 320,
+   "text": "Tetrarch Kaitar: You agreed to get me ten bone pieces of the skeleton hunters from the School of Dark Arts , did you not? You know the way to the School of Dark Arts, do you not? Follow the coastline and go to the southwest and you will be able to find it.",
+   "header": "Tetrarch Kaitar",
+   "when": [
+    "state STARTED; !hasItemsAtLimit(st.getPlayer(), BONE_FRAGMENT)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00320_BonesTellTheFuture/30359-04.htm": {
+   "file": "Q00320_BonesTellTheFuture/30359-04.htm",
+   "quest": 320,
+   "text": "Tetrarch Kaitar: If you follow the road to the southwest section of the village, you will come to the abandoned School of Dark Arts . It was built a long time ago, for the greatest sorcerers of our race to study black magic. There, we developed a way to undo the curse on our race which made sunligh…",
+   "header": "Tetrarch Kaitar",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Bones Tell the Future]",
+     "bypass": "npc_%objectId%_Quest Q00320_BonesTellTheFuture",
+     "kind": "quest",
+     "quest": 320,
+     "to": "Q00320_BonesTellTheFuture/30359-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Bones Tell the Future (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00320_BonesTellTheFuture",
+     "kind": "quest",
+     "quest": 320,
+     "to": "Q00320_BonesTellTheFuture/30359-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

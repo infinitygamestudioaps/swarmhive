@@ -1,0 +1,60 @@
+{
+ "npcId": 35337,
+ "name": "Guard",
+ "title": "Goddard",
+ "type": "L2Defender",
+ "generated": "2026-10-27T18:18:03.428Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "doormen/35337.htm",
+   "when": "",
+   "src": "html/doormen"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "doormen/35337.htm": {
+   "file": "doormen/35337.htm",
+   "quest": null,
+   "text": "All is well, my Lord. What is your command?",
+   "links": [
+    {
+     "text": "Open the Terrace Gates",
+     "bypass": "npc_%objectId%_open_doors 5, 24180016",
+     "kind": "other"
+    },
+    {
+     "text": "Close the Terrace Gates",
+     "bypass": "npc_%objectId%_close_doors 5, 24180016",
+     "kind": "other"
+    },
+    {
+     "text": "Open All Castle Gates",
+     "bypass": "npc_%objectId%_open_doors 5, 24180001, 24180002, 24180004, 24180005, 24180012, 24180013, 24180014, 24180015, 24180016",
+     "kind": "other"
+    },
+    {
+     "text": "Close All Castle Gates",
+     "bypass": "npc_%objectId%_close_doors 5, 24180001, 24180002, 24180004, 24180005, 24180012, 24180013, 24180014, 24180015, 24180016",
+     "kind": "other"
+    }
+   ]
+  },
+  "doormen/35337-busy.htm": {
+   "file": "doormen/35337-busy.htm",
+   "quest": null,
+   "text": "Oh! Our castle is being attacked and I can't do anything for you right now.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "doormen/35337-no.htm": {
+   "file": "doormen/35337-no.htm",
+   "quest": null,
+   "text": "Who goes there?! Stay back!",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

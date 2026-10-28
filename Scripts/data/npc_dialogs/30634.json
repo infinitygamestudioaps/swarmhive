@@ -1,0 +1,669 @@
+{
+ "npcId": 30634,
+ "name": "Galatea",
+ "title": "High Summoner",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.023Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30634.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "230": {
+   "name": "Test Of The Summoner",
+   "listText": [
+    "[Test of the Summoner]",
+    "[Test of the Summoner (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00230_TestOfTheSummoner/30634-03.htm",
+     "when": "state CREATED; level >= 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.elvenWizard) || (player.getClassId() == Clas",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30634-02.html",
+     "when": "state CREATED; NOT level >= 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.elvenWizard) || (player.getClassId() == Clas",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30634-01.html",
+     "when": "state CREATED; !((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.elvenWizard) || (player.getClassId() == Cla",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30634-09.html",
+     "when": "state STARTED; has items 3352",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30634-10.html",
+     "when": "state STARTED; lacks items 3352,3354,3357,3355,3358,3356,3359,3353",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30634-11.html",
+     "when": "state STARTED; has items 3353; lacks items 3352,3354,3357,3355,3358,3356,3359; !(!hasQuestItems(player, ALMORS_ARCANA, BASILLIA_ARCANA, CAMONIELL_ARCANA, CELESTIEL_ARCANA, BELTHUS_ARCANA, BRYNTHEA_AR",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30634-12.html",
+     "when": "state STARTED; has items 3354,3357,3355,3358,3356,3359; lacks items 3352; !(!hasQuestItems(player, ALMORS_ARCANA, BASILLIA_ARCANA, CAMONIELL_ARCANA, CELESTIEL_ARCANA, BELTHUS_ARCANA, BRYNTHEA_AR; !(!hasQuestItems(player, ALMORS_ARCANA, BASILLIA_ARCANA, CAMONIELL_ARCANA, CELESTIEL_ARCANA, BELTHUS_ARCANA, BRYNTHEA_AR",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "659": {
+   "name": "I'd Rather Be Collecting Fairy Breath",
+   "listText": [
+    "[I'd Rather Be Collecting Fairy Breath]",
+    "[I'd Rather Be Collecting Fairy Breath (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00659_IdRatherBeCollectingFairyBreath/30634-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00659_IdRatherBeCollectingFairyBreath/30634-03.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00659_IdRatherBeCollectingFairyBreath/30634-04.html",
+     "when": "state STARTED; hasQuestItems(player, FAIRY_BREATH)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00659_IdRatherBeCollectingFairyBreath/30634-09.html",
+     "when": "state STARTED; NOT hasQuestItems(player, FAIRY_BREATH)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30634.htm": {
+   "file": "default/30634.htm",
+   "quest": null,
+   "text": "High Summoner Galatea: It is a pleasure to meet you, traveler. I am Galatea, the chief Summoner of the Ivory Tower. I have recently received reports that high level elementals have appeared in Gludio, and have come to investigate.",
+   "header": "High Summoner Galatea",
+   "links": [
+    {
+     "text": "Ask about the elementals.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30634-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30634-1.htm": {
+   "file": "default/30634-1.htm",
+   "quest": null,
+   "text": "High Summoner Galatea: High level elementals have the ability to converse intelligently with Humans, as they are the ruling class of their race. The Magicians of the Ivory Tower have defined the hierarchy of elementals into Turen, Tilpo, and Liebe. The elementals that have appeared in Gludio are; t…",
+   "header": "High Summoner Galatea",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30634-03.htm": {
+   "file": "Q00230_TestOfTheSummoner/30634-03.htm",
+   "quest": 230,
+   "text": "High Summoner Galatea: From the very beginning, while the world was still young, from when the Elves made pacts with the original elementals of the woods, summoning magic has evolved into a high level mystical art form. Along with the ability to control the elements with spells that command fire an…",
+   "header": "High Summoner Galatea",
+   "when": [
+    "state CREATED; level >= 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.elvenWizard) || (player.getClassId() == Clas"
+   ],
+   "links": [
+    {
+     "text": "Say you will attempt the trial.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-04.htm",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-04.htm",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-04.htm"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30634-02.html": {
+   "file": "Q00230_TestOfTheSummoner/30634-02.html",
+   "quest": 230,
+   "text": "High Summoner Galatea: From the very beginning, while the world was still young, from when the Elves made pacts with the original elementals of the woods, summoning magic has evolved into a high level mystical art form. Along with the ability to control the elements with spells that command fire an…",
+   "header": "High Summoner Galatea",
+   "when": [
+    "state CREATED; NOT level >= 39; ((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.elvenWizard) || (player.getClassId() == Clas"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30634-01.html": {
+   "file": "Q00230_TestOfTheSummoner/30634-01.html",
+   "quest": 230,
+   "text": "High Summoner Galatea: From the very beginning, while the world was still young, from when the Elves made pacts with the original elementals of the woods, summoning magic has evolved into a high level mystical art form. Along with the ability to control the elements with spells that command fire an…",
+   "header": "High Summoner Galatea",
+   "when": [
+    "state CREATED; !((player.getClassId() == ClassId.wizard) || (player.getClassId() == ClassId.elvenWizard) || (player.getClassId() == Cla"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30634-09.html": {
+   "file": "Q00230_TestOfTheSummoner/30634-09.html",
+   "quest": 230,
+   "text": "High Summoner Galatea: First, go to Trader Lara in the Town of Dion and have your Arcana Cards made. You cannot enter into a battle with another Summoner without one of these cards. You must battle and defeat 6 Summoners in order to pass the Trials of the Summoner. Do you have any other questions?",
+   "header": "High Summoner Galatea",
+   "when": [
+    "state STARTED; has items 3352"
+   ],
+   "links": [
+    {
+     "text": "Ask about battle methods.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11a.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11a.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11a.html"
+    },
+    {
+     "text": "Ask about Arcana Cards.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11b.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11b.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11b.html"
+    },
+    {
+     "text": "Ask how to create an Arcana Card.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11c.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11c.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11c.html"
+    },
+    {
+     "text": "Ask about potential opponents.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11d.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11d.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11d.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30634-10.html": {
+   "file": "Q00230_TestOfTheSummoner/30634-10.html",
+   "quest": 230,
+   "text": "High Summoner Galatea: As I previously stated, in order to pass the Trials of the Summoner, you must battle and defeat six summoners . Before you challenge an opponent, you must have your own unique Arcana Cards created. Go and ask Lara of the town of Dion about making cards. Do you have any other …",
+   "header": "High Summoner Galatea",
+   "when": [
+    "state STARTED; lacks items 3352,3354,3357,3355,3358,3356,3359,3353"
+   ],
+   "links": [
+    {
+     "text": "Ask about battle methods.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11a.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11a.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11a.html"
+    },
+    {
+     "text": "Ask about Arcana Cards.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11b.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11b.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11b.html"
+    },
+    {
+     "text": "Ask how to create an Arcana Card.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11c.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11c.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11c.html"
+    },
+    {
+     "text": "Ask about potential opponents.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11d.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11d.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11d.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30634-11.html": {
+   "file": "Q00230_TestOfTheSummoner/30634-11.html",
+   "quest": 230,
+   "text": "High Summoner Galatea: As I previously stated, in order to pass the Trials of the Summoner, you must battle and achieve victory over 6 Summoners . The Mark of Victory is the opponent's Arcana Card . Do you have any other questions?",
+   "header": "High Summoner Galatea",
+   "when": [
+    "state STARTED; has items 3353; lacks items 3352,3354,3357,3355,3358,3356,3359; !(!hasQuestItems(player, ALMORS_ARCANA, BASILLIA_ARCANA, CAMONIELL_ARCANA, CELESTIEL_ARCANA, BELTHUS_ARCANA, BRYNTHEA_AR"
+   ],
+   "links": [
+    {
+     "text": "Ask about battle methods.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11a.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11a.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11a.html"
+    },
+    {
+     "text": "Ask about Arcana Cards.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11b.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11b.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11b.html"
+    },
+    {
+     "text": "Ask about the methods of creating an Arcana Card.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11c.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11c.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11c.html"
+    },
+    {
+     "text": "Ask about potential opponents.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11d.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11d.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11d.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30634-12.html": {
+   "file": "Q00230_TestOfTheSummoner/30634-12.html",
+   "quest": 230,
+   "text": "High Summoner Galatea: Fantastic! You have won 6 Arcana Cards! This is a remarkable feat and worthy of inclusion to the Summoner Archives! You are the first apprentice Summoner to bring back all 6 cards so quickly! Quite frankly, I doubted whether you would succeed... My worries were without merit!…",
+   "header": "High Summoner Galatea",
+   "when": [
+    "state STARTED; has items 3354,3357,3355,3358,3356,3359; lacks items 3352; !(!hasQuestItems(player, ALMORS_ARCANA, BASILLIA_ARCANA, CAMONIELL_ARCANA, CELESTIEL_ARCANA, BELTHUS_ARCANA, BRYNTHEA_AR; !(!hasQuestItems(player, ALMORS_ARCANA, BASILLIA_ARCANA, CAMONIELL_ARCANA, CELESTIEL_ARCANA, BELTHUS_ARCANA, BRYNTHEA_AR"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00659_IdRatherBeCollectingFairyBreath/30634-01.htm": {
+   "file": "Q00659_IdRatherBeCollectingFairyBreath/30634-01.htm",
+   "quest": 659,
+   "text": "High Summoner Galatea: Long ago, Gludio was consumed in the Burning War when the forces of the Ivory Tower confronted the bastard demon Beleth. Beleth's evil permanently scarred the land, leaving nothing but desolation and waste. I've been researching ways to restore Gludio to its former beauty. Wi…",
+   "header": "High Summoner Galatea",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00659_IdRatherBeCollectingFairyBreath 30634-02.htm",
+     "kind": "quest-event",
+     "script": "Q00659_IdRatherBeCollectingFairyBreath",
+     "event": "30634-02.htm",
+     "quest": 659,
+     "to": "Q00659_IdRatherBeCollectingFairyBreath/30634-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00659_IdRatherBeCollectingFairyBreath/30634-03.html": {
+   "file": "Q00659_IdRatherBeCollectingFairyBreath/30634-03.html",
+   "quest": 659,
+   "text": "High Summoner Galatea: Long ago, Gludio was consumed in the Burning War when the forces of the Ivory Tower confronted the bastard demon Beleth. Beleth's evil permanently scarred the land, leaving nothing but desolation and waste. I've been researching ways to restore Gludio to its former beauty. Wi…",
+   "header": "High Summoner Galatea",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00659_IdRatherBeCollectingFairyBreath/30634-04.html": {
+   "file": "Q00659_IdRatherBeCollectingFairyBreath/30634-04.html",
+   "quest": 659,
+   "text": "High Summoner Galatea: Wonderful! You've brought me some Fairy Breath! The more I have, the better!",
+   "header": "High Summoner Galatea",
+   "when": [
+    "state STARTED; hasQuestItems(player, FAIRY_BREATH)"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the bottle.\"",
+     "bypass": "Quest Q00659_IdRatherBeCollectingFairyBreath REWARD",
+     "kind": "quest-event",
+     "script": "Q00659_IdRatherBeCollectingFairyBreath",
+     "event": "REWARD",
+     "quest": 659,
+     "to": "Q00659_IdRatherBeCollectingFairyBreath/30634-05.html",
+     "toAll": [
+      "Q00659_IdRatherBeCollectingFairyBreath/30634-05.html",
+      "Q00659_IdRatherBeCollectingFairyBreath/30634-06.html"
+     ]
+    }
+   ]
+  },
+  "Q00659_IdRatherBeCollectingFairyBreath/30634-09.html": {
+   "file": "Q00659_IdRatherBeCollectingFairyBreath/30634-09.html",
+   "quest": 659,
+   "text": "High Summoner Galatea: Please go to Windy Hill and collect Fairy Breath. It's essential to my research!",
+   "header": "High Summoner Galatea",
+   "when": [
+    "state STARTED; NOT hasQuestItems(player, FAIRY_BREATH)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30634-04.htm": {
+   "file": "Q00230_TestOfTheSummoner/30634-04.htm",
+   "quest": 230,
+   "text": "High Summoner Galatea: This trial tests to see if you have the will and determination to become a Summoner. What must be done is quite simple. You must seek out and engage other Summoners in battle . Achieve victory against six opponents and you will prove yourself worthy and pass the test. This ma…",
+   "header": "High Summoner Galatea",
+   "links": [
+    {
+     "text": "Ask about battle methods.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-05.htm",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-05.htm",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-05.htm"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30634-05.htm": {
+   "file": "Q00230_TestOfTheSummoner/30634-05.htm",
+   "quest": 230,
+   "text": "High Summoner Galatea: A battle amongst Summoners is fought by the summoned creatures. The lower ranked Summoner is given the advantage of the first attack. As an apprentice Summoner, you will automatically become the lowest ranked Summoner. During a battle, the Summoner may assist his or her creat…",
+   "header": "High Summoner Galatea",
+   "links": [
+    {
+     "text": "Ask about Arcana Cards.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-06.htm",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-06.htm",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-06.htm"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30634-06.htm": {
+   "file": "Q00230_TestOfTheSummoner/30634-06.htm",
+   "quest": 230,
+   "text": "High Summoner Galatea: This card is engraved with the Summoner's name and includes a unique mark. The tradition of the Arcana Card derives from the need for early Summoner's to exult in their victories. As an apprentice Summoner may not begin a battle until a higher level Summoner has given you a c…",
+   "header": "High Summoner Galatea",
+   "links": [
+    {
+     "text": "Ask how to create an Arcana Card.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-07.htm",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-07.htm",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-07.htm"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30634-07.htm": {
+   "file": "Q00230_TestOfTheSummoner/30634-07.htm",
+   "quest": 230,
+   "text": "High Summoner Galatea: In the old days Summoners created their own cards, but the cards have become so sophisticated that they must be created by a special craftsmen. Note that you are not yet an official Summoner and may only receive Apprentice Arcana Cards . Perhaps the day will come when you may…",
+   "header": "High Summoner Galatea",
+   "links": [
+    {
+     "text": "Ask about my possible opponents.",
+     "bypass": "Quest Q00230_TestOfTheSummoner ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "ACCEPT",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-08a.htm",
+     "toAll": [
+      "Q00230_TestOfTheSummoner/30634-08a.htm",
+      "Q00230_TestOfTheSummoner/30634-08.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30634-08.htm": {
+   "file": "Q00230_TestOfTheSummoner/30634-08.htm",
+   "quest": 230,
+   "text": "High Summoner Galatea: I have several suggestions regarding opponents - there are quite a few folks who may accept your challenge if asked. First, you should try and contact Summoner Almors . He has been sick lately and is recovering on Talking Island . You should also try Summoner Basillia . I hav…",
+   "header": "High Summoner Galatea",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30634-08a.htm": {
+   "file": "Q00230_TestOfTheSummoner/30634-08a.htm",
+   "quest": 230,
+   "text": "Head Summoner Galatea: If you are serious about challenging a more advanced summoner, here are some likely candidates here in Aden. Summoner Almors is recuperating on Talking Island at the moment. Summoner Basillia , rumor has it, is preoccupied with studying new summoning magic at his seaside home…",
+   "header": "Head Summoner Galatea",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30634-11a.html": {
+   "file": "Q00230_TestOfTheSummoner/30634-11a.html",
+   "quest": 230,
+   "text": "High Summoner Galatea: The battles are waged between the summoned creatures alone. As an apprentice, you are automatically classified as the lower ranked Summoner and receive the advantage of the first attack. During battle, the Summoner may assist his or her creature with magic, but cannot physica…",
+   "header": "High Summoner Galatea",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30634-11b.html": {
+   "file": "Q00230_TestOfTheSummoner/30634-11b.html",
+   "quest": 230,
+   "text": "High Summoner Galatea: The Arcana Card is engraved with the Summoner's name and a unique mark. Most Summoners are highly competitive and wish to show off their victories. Thus, the tradition of Arcana Cards began. As an apprentice, you may begin a battle only after a higher level Summoner has given…",
+   "header": "High Summoner Galatea",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30634-11c.html": {
+   "file": "Q00230_TestOfTheSummoner/30634-11c.html",
+   "quest": 230,
+   "text": "High Summoner Galatea: In the past, Summoners created their own cards, but they have become much more sophisticated and now must be created by specialized craftsmen. You are not yet an official Summoner and can only receive apprentice Arcana Cards. Perhaps one day you will possess one of the major …",
+   "header": "High Summoner Galatea",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30634-11d.html": {
+   "file": "Q00230_TestOfTheSummoner/30634-11d.html",
+   "quest": 230,
+   "text": "High Summoner Galatea: I have several ideas regarding potential opponents for you. First, you should try and find Summoner Almors . He has been sick lately and is recovering on Talking Island . You should also try Summoner Basillia . I have heard that she is busy researching a new form of Summoning…",
+   "header": "High Summoner Galatea",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30634-11.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30634-11.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-11.html"
+    }
+   ]
+  },
+  "Q00659_IdRatherBeCollectingFairyBreath/30634-02.htm": {
+   "file": "Q00659_IdRatherBeCollectingFairyBreath/30634-02.htm",
+   "quest": 659,
+   "text": "High Summoner Galatea: Oh, thank you! My investigation is finally going somewhere! It seems to me that there's a connection between the devastation in southern Gludio and the Sylphs... you know, those insane Wind Spirits in Windy Hill ... Unfortunately, that's as far as I've gotten with my research…",
+   "header": "High Summoner Galatea",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00659_IdRatherBeCollectingFairyBreath/30634-05.html": {
+   "file": "Q00659_IdRatherBeCollectingFairyBreath/30634-05.html",
+   "quest": 659,
+   "text": "High Summoner Galatea: Your help has been invaluable to my research! Unfortunately, the job isn't finished yet. Would you consider staying on and continuing to help me for a while?",
+   "header": "High Summoner Galatea",
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00659_IdRatherBeCollectingFairyBreath 30634-07.html",
+     "kind": "quest-event",
+     "script": "Q00659_IdRatherBeCollectingFairyBreath",
+     "event": "30634-07.html",
+     "quest": 659,
+     "to": "Q00659_IdRatherBeCollectingFairyBreath/30634-07.html"
+    },
+    {
+     "text": "Quit",
+     "bypass": "Quest Q00659_IdRatherBeCollectingFairyBreath 30634-08.html",
+     "kind": "quest-event",
+     "script": "Q00659_IdRatherBeCollectingFairyBreath",
+     "event": "30634-08.html",
+     "quest": 659,
+     "to": "Q00659_IdRatherBeCollectingFairyBreath/30634-08.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00659_IdRatherBeCollectingFairyBreath/30634-06.html": {
+   "file": "Q00659_IdRatherBeCollectingFairyBreath/30634-06.html",
+   "quest": 659,
+   "text": "High Summoner Galatea: Please go to Windy Hill and find Fairy Breath Containers . They're essential to my research as well!",
+   "header": "High Summoner Galatea",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00659_IdRatherBeCollectingFairyBreath/30634-07.html": {
+   "file": "Q00659_IdRatherBeCollectingFairyBreath/30634-07.html",
+   "quest": 659,
+   "text": "High Summoner Galatea: Marvelous! Please continue to bring me more Fairy Breath .",
+   "header": "High Summoner Galatea",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00659_IdRatherBeCollectingFairyBreath/30634-08.html": {
+   "file": "Q00659_IdRatherBeCollectingFairyBreath/30634-08.html",
+   "quest": 659,
+   "text": "High Summoner Galatea: Well, I suppose you're ready to move on to another adventure. Good luck, my child.",
+   "header": "High Summoner Galatea",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Summoner]",
+     "bypass": "npc_%objectId%_Quest Q00230_TestOfTheSummoner",
+     "kind": "quest",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Test of the Summoner (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00230_TestOfTheSummoner",
+     "kind": "quest",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30634-09.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[I'd Rather Be Collecting Fairy Breath]",
+     "bypass": "npc_%objectId%_Quest Q00659_IdRatherBeCollectingFairyBreath",
+     "kind": "quest",
+     "quest": 659,
+     "to": "Q00659_IdRatherBeCollectingFairyBreath/30634-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[I'd Rather Be Collecting Fairy Breath (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00659_IdRatherBeCollectingFairyBreath",
+     "kind": "quest",
+     "quest": 659,
+     "to": "Q00659_IdRatherBeCollectingFairyBreath/30634-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

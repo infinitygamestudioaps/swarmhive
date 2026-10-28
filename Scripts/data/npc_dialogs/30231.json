@@ -1,0 +1,62 @@
+{
+ "npcId": 30231,
+ "name": "Garette",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.914Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30231.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30231.htm": {
+   "file": "merchant/30231.htm",
+   "quest": null,
+   "text": "Trader Garette: Hey, youngster! You look like you were born under a lucky star! Did something good already happen to you? Or are you out here looking for something good? If you're celebrating something, shouldn't we have a drink? Oh, you came to the right place if you're looking for good luck. I ju…",
+   "header": "Trader Garette",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Buy 3023100",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy/Sell/Refund Common Items.",
+     "bypass": "npc_%objectId%_Buy 3023101",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30231-pk.htm": {
+   "file": "merchant/30231-pk.htm",
+   "quest": null,
+   "text": "Trader Garette: Get out of here! You don't know who you are waving your puny knife at, you greenhorn!",
+   "header": "Trader Garette",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,731 @@
+{
+ "npcId": 32593,
+ "name": "Wood",
+ "title": "Priest",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.390Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32593.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "196": {
+   "name": "Seven Signs, Seal of the Emperor",
+   "listText": [
+    "[Seven Signs, Seal of the Emperor]",
+    "[Seven Signs, Seal of the Emperor (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00196_SevenSignsSealOfTheEmperor/32593-01.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "197": {
+   "name": "Seven Signs, the Sacred Book of Seal",
+   "listText": [
+    "[Seven Signs, the Sacred Book of Seal]",
+    "[Seven Signs, the Sacred Book of Seal (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00197_SevenSignsTheSacredBookOfSeal/32593-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00196_SevenSignsSealOfTheEmperor.clas",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00197_SevenSignsTheSacredBookOfSeal/32593-05.html",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00196_SevenSignsSealOfTheEmperor.clas",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00197_SevenSignsTheSacredBookOfSeal/32593-06.html",
+     "when": "state STARTED; cond >0 <6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00197_SevenSignsTheSacredBookOfSeal/32593-07.html",
+     "when": "state STARTED; cond 6; has items 14354; !((st.getCond() > 0) && (st.getCond() < 6))",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "198": {
+   "name": "Seven Signs, Embryo",
+   "listText": [
+    "[Seven Signs, Embryo]",
+    "[Seven Signs, Embryo (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00198_SevenSignsEmbryo/32593-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00197_SevenSignsTheSacredBookOfSeal.c",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00198_SevenSignsEmbryo/32593-03.html",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00197_SevenSignsTheSacredBookOfSeal.c",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00198_SevenSignsEmbryo/32593-04.html",
+     "when": "state STARTED; cond >0 <3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00198_SevenSignsEmbryo/32593-05.html",
+     "when": "state STARTED; cond 3; level >= 79; !((st.getCond() > 0) && (st.getCond() < 3))",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00198_SevenSignsEmbryo/level_check.html",
+     "when": "state STARTED; cond 3; NOT level >= 79; !((st.getCond() > 0) && (st.getCond() < 3))",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "10292": {
+   "name": "Seven Signs, Girl of Doubt",
+   "listText": [
+    "[Seven Signs, Girl of Doubt]",
+    "[Seven Signs, Girl of Doubt (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32593-05.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32593-01.htm",
+     "when": "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00198_SevenSignsEmbryo.class.getSimpl",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32593-06.htm",
+     "when": "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00198_SevenSignsEmbryo.class.getSimpl",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10292_SevenSignsGirlOfDoubt/32593-07.html",
+     "when": "state STARTED; st.getMemoState() > 0; st.getMemoState() < 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "10296": {
+   "name": "Seven Signs, One Who Seeks the Power of the Seal",
+   "listText": [
+    "[Seven Signs, One Who Seeks the Power of the Seal]",
+    "[Seven Signs, One Who Seeks the Power of the Seal (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-01.html",
+     "when": "state STARTED; memoState < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-02.html",
+     "when": "state STARTED; memo 5; !memoState < 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-04.html",
+     "when": "state STARTED; !memoState < 5; memoState > 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32593.htm": {
+   "file": "default/32593.htm",
+   "quest": null,
+   "text": "Priest Wood: May Einhasad's blessing forever be with you...",
+   "header": "Priest Wood",
+   "links": [
+    {
+     "text": "Exchange the Certificate of Dawn for a Forgotten Scroll.",
+     "bypass": "npc_%objectId%_multisell 326600001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/32593-01.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/32593-01.html",
+   "quest": 196,
+   "text": "Priest Wood: Yes, traveller? Is there something I can do for you?",
+   "header": "Priest Wood",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"I understand you can introduce me to Franz. Iason Heine sent me.\"",
+     "bypass": "Quest Q00196_SevenSignsSealOfTheEmperor finish",
+     "kind": "quest-event",
+     "script": "Q00196_SevenSignsSealOfTheEmperor",
+     "event": "finish",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/32593-02.html",
+     "toAll": [
+      "Q00196_SevenSignsSealOfTheEmperor/32593-02.html",
+      "Q00196_SevenSignsSealOfTheEmperor/level_check.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32593-01.htm": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32593-01.htm",
+   "quest": 197,
+   "text": "Priest Wood: You've come to see Franz, yes? I'm afraid you just missed him. He left for a meeting with the High Priests. If you're unable to await his return, then perhaps I can help. I'm his secretary. I assure you, I'm very trustworthy.",
+   "header": "Priest Wood",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00196_SevenSignsSealOfTheEmperor.clas"
+   ],
+   "links": [
+    {
+     "text": "\"Well, there's this sacred book...\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32593-02.htm",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32593-02.htm",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32593-02.htm"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32593-05.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32593-05.html",
+   "quest": 197,
+   "text": "Priest Wood: (Only characters who are level 79 or higher and who have completed the Seven Signs and Emperor's Seal quests may undertake this quest.)",
+   "header": "Priest Wood",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00196_SevenSignsSealOfTheEmperor.clas"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32593-06.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32593-06.html",
+   "quest": 197,
+   "text": "Priest Wood: I believe it is of paramount importance that we find the Sacred Book of Seals immediately. Hurry to High Priest Orven in the Temple of Einhasad in the Town of Aden . I will send a messenger ahead of you. Now, go!",
+   "header": "Priest Wood",
+   "when": [
+    "state STARTED; cond >0 <6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32593-07.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32593-07.html",
+   "quest": 197,
+   "text": "Priest Wood: I'm sorry, Franz has not yet returned. Have you learned anything new about the Book of Seals? Did you decipher the Emperor's Key? I'm dying of suspense!",
+   "header": "Priest Wood",
+   "when": [
+    "state STARTED; cond 6; has items 14354; !((st.getCond() > 0) && (st.getCond() < 6))"
+   ],
+   "links": [
+    {
+     "text": "\"I have an imperfect copy of the book.\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32593-08.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32593-08.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32593-08.html"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32593-01.htm": {
+   "file": "Q00198_SevenSignsEmbryo/32593-01.htm",
+   "quest": 198,
+   "text": "Priest Wood: Ah, I've just received word from Franz. Apparently he cancelled all his appointments and has just arrived back so he can meet you. Clearly you are someone of great importance, my friend. I've got this manuscript for you to give him, so... are you ready?",
+   "header": "Priest Wood",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00197_SevenSignsTheSacredBookOfSeal.c"
+   ],
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00198_SevenSignsEmbryo 32593-02.html",
+     "kind": "quest-event",
+     "script": "Q00198_SevenSignsEmbryo",
+     "event": "32593-02.html",
+     "quest": 198,
+     "to": "Q00198_SevenSignsEmbryo/32593-02.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32593-03.html": {
+   "file": "Q00198_SevenSignsEmbryo/32593-03.html",
+   "quest": 198,
+   "text": "Priest Wood: (Only characters who are level 79 or above and who have completed the Seven Signs and Sacred Book of Seals quests may undertake this quest.)",
+   "header": "Priest Wood",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00197_SevenSignsTheSacredBookOfSeal.c"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00198_SevenSignsEmbryo/32593-04.html": {
+   "file": "Q00198_SevenSignsEmbryo/32593-04.html",
+   "quest": 198,
+   "text": "Priest Wood: Good! Now... it's time for you to meet the great man yourself.",
+   "header": "Priest Wood",
+   "when": [
+    "state STARTED; cond >0 <3"
+   ],
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest HideoutOfTheDawn 32593-01.html",
+     "kind": "quest-event",
+     "script": "HideoutOfTheDawn",
+     "event": "32593-01.html"
+    }
+   ]
+  },
+  "Q00198_SevenSignsEmbryo/32593-05.html": {
+   "file": "Q00198_SevenSignsEmbryo/32593-05.html",
+   "quest": 198,
+   "text": "Priest Wood: You're back! I must ask you to keep your conversation with Franz between just the two of you. You have been made aware of some of our order's greatest secrets; should they become public knowledge our society would be ruined. Now, I understand I am to give you this, and bid you farewell…",
+   "header": "Priest Wood",
+   "when": [
+    "state STARTED; cond 3; level >= 79; !((st.getCond() > 0) && (st.getCond() < 3))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00198_SevenSignsEmbryo/level_check.html": {
+   "file": "Q00198_SevenSignsEmbryo/level_check.html",
+   "quest": 198,
+   "text": "Characters who are level 79 or above may redeem the Reward for the Current Quest .",
+   "when": [
+    "state STARTED; cond 3; NOT level >= 79; !((st.getCond() > 0) && (st.getCond() < 3))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32593-05.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32593-05.html",
+   "quest": 10292,
+   "text": "Priest Wood: Thanks to you, we've moved another step forward. (You have already completed this quest.)",
+   "header": "Priest Wood",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32593-01.htm": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32593-01.htm",
+   "quest": 10292,
+   "text": "Priest Wood: You are a difficult person to find. Lord Franz wishes something of you. Can you go and speak with Lord Franz?",
+   "header": "Priest Wood",
+   "when": [
+    "state CREATED; ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00198_SevenSignsEmbryo.class.getSimpl"
+   ],
+   "links": [
+    {
+     "text": "\"Leave it to me.\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32593-02.htm",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32593-02.htm",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32593-02.htm"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32593-06.htm": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32593-06.htm",
+   "quest": 10292,
+   "text": "Priest Wood: There is more you must do first. Return when you can help me. (Only characters with level 81 or above can take on this quest.)",
+   "header": "Priest Wood",
+   "when": [
+    "state CREATED; NOT ((player.getLevel() >= MIN_LEVEL) && player.hasQuestCompleted(Q00198_SevenSignsEmbryo.class.getSimpl"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32593-07.html": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32593-07.html",
+   "quest": 10292,
+   "text": "Priest Wood: Alright. Go ahead, you may meet Lord Franz.",
+   "header": "Priest Wood",
+   "when": [
+    "state STARTED; st.getMemoState() > 0; st.getMemoState() < 9"
+   ],
+   "links": [
+    {
+     "text": "\"I can't wait to see him.\"",
+     "bypass": "Quest HideoutOfTheDawn 32593-01.html",
+     "kind": "quest-event",
+     "script": "HideoutOfTheDawn",
+     "event": "32593-01.html"
+    }
+   ]
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-01.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-01.html",
+   "quest": 10296,
+   "text": "Priest Wood: How goes your task? Report back once it is complete.",
+   "header": "Priest Wood",
+   "when": [
+    "state STARTED; memoState < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-02.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-02.html",
+   "quest": 10296,
+   "text": "Priest Wood: I see that you have completed the work. All that's left now is to report to Lord Franz. Can you report to Lord Franz?",
+   "header": "Priest Wood",
+   "when": [
+    "state STARTED; memo 5; !memoState < 5"
+   ],
+   "links": [
+    {
+     "text": "\"Of course.\"",
+     "bypass": "Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal 32593-03.html",
+     "kind": "quest-event",
+     "script": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "event": "32593-03.html",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-03.html"
+    }
+   ]
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-04.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-04.html",
+   "quest": 10296,
+   "text": "Priest Wood: Thank you again, for everything.",
+   "header": "Priest Wood",
+   "when": [
+    "state STARTED; !memoState < 5; memoState > 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/32593-02.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/32593-02.html",
+   "quest": 196,
+   "text": "Priest Wood: Ah yes, he sent word someone was coming. I am to give you this small reward. I understand the work you have done for the Order has helped us greatly. Now, as for Franz....",
+   "header": "Priest Wood",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32593-02.htm": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32593-02.htm",
+   "quest": 197,
+   "text": "Priest Wood: The Sacred Book of Seals? I thought that was a myth. How fascinating.... What have you learned about it?",
+   "header": "Priest Wood",
+   "links": [
+    {
+     "text": "\"First tell me. What do you know about the 'Emperor's Key'?\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32593-03.htm",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32593-03.htm",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32593-03.htm"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32593-03.htm": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32593-03.htm",
+   "quest": 197,
+   "text": "Priest Wood: The Emperor's Key...the Emperor's Key... It does sound familiar... Hmm.... No, I don't think I can quite place it. Franz will certainly know more than I, but I don't think you can afford to wait. You really ought to search for that book.",
+   "header": "Priest Wood",
+   "links": [
+    {
+     "text": "\"Agreed.\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32593-04.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32593-04.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32593-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32593-04.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32593-04.html",
+   "quest": 197,
+   "text": "Priest Wood: Oh, I know! High Priest Orven reads every scroll he can get his hands on. Perhaps he knows something about the Emperor's Key. He's at the Temple of Einhasad in the Town of Aden . Tell him I sent you. I'll send a messenger ahead of you. But hurry!",
+   "header": "Priest Wood",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32593-08.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32593-08.html",
+   "quest": 197,
+   "text": "Priest Wood: A copy? This morning I believed the book itself to be a myth, and now you have a copy! Unbelievable! How on earth did you find it? Well done, well done! Say, what's that in your other hand?",
+   "header": "Priest Wood",
+   "links": [
+    {
+     "text": "\"This? It came from a monster that attacked me earlier.\"",
+     "bypass": "Quest Q00197_SevenSignsTheSacredBookOfSeal 32593-09.html",
+     "kind": "quest-event",
+     "script": "Q00197_SevenSignsTheSacredBookOfSeal",
+     "event": "32593-09.html",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32593-09.html",
+     "toAll": [
+      "Q00197_SevenSignsTheSacredBookOfSeal/32593-09.html",
+      "Q00197_SevenSignsTheSacredBookOfSeal/level_check.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/32593-09.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/32593-09.html",
+   "quest": 197,
+   "text": "Priest Wood: Oh my... I wonder if it was after you...or the sacred text? Well, that settles it. Give me that manuscript and the object you found and I'll keep them safe. You must be exhausted! Rest for a while. When you've refreshed yourself, then come back and see me. By then, perhaps Franz will b…",
+   "header": "Priest Wood",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00198_SevenSignsEmbryo/32593-02.html": {
+   "file": "Q00198_SevenSignsEmbryo/32593-02.html",
+   "quest": 198,
+   "text": "Priest Wood: You know Franz doesn't just meet anyone. In fact I believe you'll be the first new acquaintance of his for quite some time.",
+   "header": "Priest Wood",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"I feel privileged.\"",
+     "bypass": "Quest HideoutOfTheDawn 32593-01.html",
+     "kind": "quest-event",
+     "script": "HideoutOfTheDawn",
+     "event": "32593-01.html"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32593-02.htm": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32593-02.htm",
+   "quest": 10292,
+   "text": "Priest Wood: Lord Franz requests you, I'm afraid this is an urgent matter. Can you see Lord Franz right away?",
+   "header": "Priest Wood",
+   "links": [
+    {
+     "text": "\"Yes, right now.\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32593-03.htm",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32593-03.htm",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32593-03.htm",
+     "effect": "start"
+    },
+    {
+     "text": "\"Maybe later.\"",
+     "bypass": "Quest Q10292_SevenSignsGirlOfDoubt 32593-04.htm",
+     "kind": "quest-event",
+     "script": "Q10292_SevenSignsGirlOfDoubt",
+     "event": "32593-04.htm",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32593-04.htm"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32593-03.htm": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32593-03.htm",
+   "quest": 10292,
+   "text": "Priest Wood: Very well. If you must, go ahead and meet Lord Franz.",
+   "header": "Priest Wood",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"I can't wait to see him.\"",
+     "bypass": "Quest HideoutOfTheDawn 32593-01.html",
+     "kind": "quest-event",
+     "script": "HideoutOfTheDawn",
+     "event": "32593-01.html"
+    }
+   ]
+  },
+  "Q10292_SevenSignsGirlOfDoubt/32593-04.htm": {
+   "file": "Q10292_SevenSignsGirlOfDoubt/32593-04.htm",
+   "quest": 10292,
+   "text": "Priest Wood: Are you busy right now? Alright, but tell me as soon as you are ready.",
+   "header": "Priest Wood",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-03.html": {
+   "file": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-03.html",
+   "quest": 10296,
+   "text": "Priest Wood: OK, then go and greet Lord Franz. And remember your courtesies.",
+   "header": "Priest Wood",
+   "links": [
+    {
+     "text": "Enter.",
+     "bypass": "Quest HideoutOfTheDawn 32593-01.html",
+     "kind": "quest-event",
+     "script": "HideoutOfTheDawn",
+     "event": "32593-01.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Seal of the Emperor (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00196_SevenSignsSealOfTheEmperor",
+     "kind": "quest",
+     "quest": 196,
+     "to": "Q00196_SevenSignsSealOfTheEmperor/32593-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, the Sacred Book of Seal]",
+     "bypass": "npc_%objectId%_Quest Q00197_SevenSignsTheSacredBookOfSeal",
+     "kind": "quest",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32593-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, the Sacred Book of Seal (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00197_SevenSignsTheSacredBookOfSeal",
+     "kind": "quest",
+     "quest": 197,
+     "to": "Q00197_SevenSignsTheSacredBookOfSeal/32593-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, Embryo]",
+     "bypass": "npc_%objectId%_Quest Q00198_SevenSignsEmbryo",
+     "kind": "quest",
+     "quest": 198,
+     "to": "Q00198_SevenSignsEmbryo/32593-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, Embryo (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00198_SevenSignsEmbryo",
+     "kind": "quest",
+     "quest": 198,
+     "to": "Q00198_SevenSignsEmbryo/32593-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, Girl of Doubt]",
+     "bypass": "npc_%objectId%_Quest Q10292_SevenSignsGirlOfDoubt",
+     "kind": "quest",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32593-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Seven Signs, Girl of Doubt (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10292_SevenSignsGirlOfDoubt",
+     "kind": "quest",
+     "quest": 10292,
+     "to": "Q10292_SevenSignsGirlOfDoubt/32593-07.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seven Signs, One Who Seeks the Power of the Seal (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal",
+     "kind": "quest",
+     "quest": 10296,
+     "to": "Q10296_SevenSignsOneWhoSeeksThePowerOfTheSeal/32593-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "Q00196_SevenSignsSealOfTheEmperor/level_check.html": {
+   "file": "Q00196_SevenSignsSealOfTheEmperor/level_check.html",
+   "quest": 196,
+   "text": "Characters who are level 79 or above may redeem the Reward for the Current Quest .",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00197_SevenSignsTheSacredBookOfSeal/level_check.html": {
+   "file": "Q00197_SevenSignsTheSacredBookOfSeal/level_check.html",
+   "quest": 197,
+   "text": "Characters who are level 79 or above may redeem the Reward for the Current Quest .",
+   "outcome": "refusal",
+   "links": []
+  }
+ }
+}

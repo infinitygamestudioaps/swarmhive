@@ -2,7 +2,7 @@
  "id": 64,
  "name": "Certified Berserker",
  "version": 1,
- "generated": "2026-10-27T11:14:56.486Z",
+ "generated": "2026-10-27T18:18:34.542Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 39,
@@ -34,26 +34,22 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
    "code": "area-danger",
    "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
-   "step": 1
+   "step": 9
   },
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 1
+   "step": 17
   },
   {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 4
+   "step": 24
   }
  ],
- "expectedMin": 26,
+ "expectedMin": 57,
  "refLevel": 39,
  "steps": [
   {
@@ -274,7 +270,1414 @@
     {
      "id": 9754,
      "name": "Breka Orc Head",
-     "n": 19,
+     "n": 20,
+     "from": [
+      {
+       "id": 20267,
+       "name": "Breka Orc",
+       "chance": 100
+      },
+      {
+       "id": 20268,
+       "name": "Breka Orc Archer",
+       "chance": 100
+      },
+      {
+       "id": 20269,
+       "name": "Breka Orc Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20270,
+       "name": "Breka Orc Overlord",
+       "chance": 100
+      },
+      {
+       "id": 20271,
+       "name": "Breka Orc Warrior",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Dead Seeker, Marsh Stakato Drone, Breka Orc for Breka Orc Head x20",
+   "places": [
+    {
+     "mobs": [
+      20267,
+      20268,
+      20269,
+      20270,
+      20271
+     ],
+     "items": [
+      9754
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "brekas-stronghold-3",
+      "name": "Brekas Stronghold 3: Breka Orc area (north-west)",
+      "at": [
+       78936,
+       128456,
+       -3456
+      ],
+      "radius": 4582,
+      "levels": [
+       30,
+       32
+      ],
+      "count": 14,
+      "region": "Brekas Stronghold",
+      "atlasKey": "area:brekas-stronghold-3",
+      "status": "ok",
+      "sec": 218,
+      "danger": 32,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -80.36666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-5",
+        "name": "Brekas Stronghold 5: Amber Basilisk area (east)",
+        "at": [
+         94856,
+         130600,
+         -3440
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-2",
+        "name": "Brekas Stronghold 2: Breka Orc area (east)",
+        "at": [
+         89848,
+         129992,
+         -3672
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-9",
+        "name": "Brekas Stronghold 9: Breka Orc area (west)",
+        "at": [
+         73768,
+         132440,
+         -3440
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:brekas-stronghold-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 20787,
+      "sec": 218,
+      "via": ".hunters > Hunters -> Dragon Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Dragon Valley",
+        "link": "dragon valley",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 20787,
+        "how": "field-areas",
+        "danger": 40
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Dragon Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        73032,
+        118488,
+        -3696
+       ],
+       [
+        72728,
+        118856,
+        -3664
+       ],
+       [
+        72232,
+        119672,
+        -3648
+       ],
+       [
+        72216,
+        119752,
+        -3648
+       ],
+       [
+        72216,
+        120744,
+        -3608
+       ],
+       [
+        72184,
+        121528,
+        -3576
+       ],
+       [
+        72056,
+        122408,
+        -3624
+       ],
+       [
+        71928,
+        122888,
+        -3632
+       ],
+       [
+        71928,
+        123880,
+        -3624
+       ],
+       [
+        71928,
+        124872,
+        -3648
+       ],
+       [
+        71928,
+        125864,
+        -3640
+       ],
+       [
+        71928,
+        126856,
+        -3696
+       ],
+       [
+        71928,
+        127848,
+        -3656
+       ],
+       [
+        71592,
+        128840,
+        -3640
+       ],
+       [
+        71544,
+        128888,
+        -3648
+       ],
+       [
+        71544,
+        129880,
+        -3520
+       ],
+       [
+        72200,
+        130856,
+        -3464
+       ],
+       [
+        72296,
+        130952,
+        -3424
+       ],
+       [
+        72440,
+        131064,
+        -3312
+       ],
+       [
+        72456,
+        131080,
+        -3328
+       ],
+       [
+        73448,
+        131080,
+        -2904
+       ],
+       [
+        74440,
+        131080,
+        -3048
+       ],
+       [
+        75432,
+        131080,
+        -3280
+       ],
+       [
+        76424,
+        130968,
+        -3528
+       ],
+       [
+        77416,
+        129976,
+        -3576
+       ],
+       [
+        78408,
+        128984,
+        -3480
+       ],
+       [
+        78936,
+        128456,
+        -3456
+       ]
+      ],
+      "maxDanger": 40,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 40,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "brekas-stronghold-3",
+    "name": "Brekas Stronghold 3: Breka Orc area (north-west)",
+    "at": [
+     78936,
+     128456,
+     -3456
+    ],
+    "radius": 4582,
+    "levels": [
+     30,
+     32
+    ],
+    "count": 14,
+    "region": "Brekas Stronghold",
+    "atlasKey": "area:brekas-stronghold-3",
+    "status": "ok",
+    "sec": 218,
+    "danger": 32,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -80.36666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "brekas-stronghold-5",
+      "name": "Brekas Stronghold 5: Amber Basilisk area (east)",
+      "at": [
+       94856,
+       130600,
+       -3440
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "brekas-stronghold-2",
+      "name": "Brekas Stronghold 2: Breka Orc area (east)",
+      "at": [
+       89848,
+       129992,
+       -3672
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "brekas-stronghold-9",
+      "name": "Brekas Stronghold 9: Breka Orc area (west)",
+      "at": [
+       73768,
+       132440,
+       -3440
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:brekas-stronghold-3",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 20787,
+    "sec": 218,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 20787,
+      "how": "field-areas",
+      "danger": 40
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      72728,
+      118856,
+      -3664
+     ],
+     [
+      72232,
+      119672,
+      -3648
+     ],
+     [
+      72216,
+      119752,
+      -3648
+     ],
+     [
+      72216,
+      120744,
+      -3608
+     ],
+     [
+      72184,
+      121528,
+      -3576
+     ],
+     [
+      72056,
+      122408,
+      -3624
+     ],
+     [
+      71928,
+      122888,
+      -3632
+     ],
+     [
+      71928,
+      123880,
+      -3624
+     ],
+     [
+      71928,
+      124872,
+      -3648
+     ],
+     [
+      71928,
+      125864,
+      -3640
+     ],
+     [
+      71928,
+      126856,
+      -3696
+     ],
+     [
+      71928,
+      127848,
+      -3656
+     ],
+     [
+      71592,
+      128840,
+      -3640
+     ],
+     [
+      71544,
+      128888,
+      -3648
+     ],
+     [
+      71544,
+      129880,
+      -3520
+     ],
+     [
+      72200,
+      130856,
+      -3464
+     ],
+     [
+      72296,
+      130952,
+      -3424
+     ],
+     [
+      72440,
+      131064,
+      -3312
+     ],
+     [
+      72456,
+      131080,
+      -3328
+     ],
+     [
+      73448,
+      131080,
+      -2904
+     ],
+     [
+      74440,
+      131080,
+      -3048
+     ],
+     [
+      75432,
+      131080,
+      -3280
+     ],
+     [
+      76424,
+      130968,
+      -3528
+     ],
+     [
+      77416,
+      129976,
+      -3576
+     ],
+     [
+      78408,
+      128984,
+      -3480
+     ],
+     [
+      78936,
+      128456,
+      -3456
+     ]
+    ],
+    "maxDanger": 40,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 40,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 718,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    7,
+    8,
+    11,
+    12,
+    13,
+    14
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32215",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Agree to help with the mission."
+   ],
+   "npc": {
+    "id": 32215,
+    "name": "Tenain",
+    "title": "Master",
+    "town": "Giran",
+    "at": [
+     81061,
+     150669,
+     -3512
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tenain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32215@81061,150669",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 7676,
+    "sec": 84,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 7676,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82792,
+      148664,
+      -3464
+     ],
+     [
+      82616,
+      148840,
+      -3464
+     ],
+     [
+      82600,
+      148856,
+      -3464
+     ],
+     [
+      82408,
+      149048,
+      -3464
+     ],
+     [
+      82200,
+      149208,
+      -3464
+     ],
+     [
+      81928,
+      149208,
+      -3464
+     ],
+     [
+      81656,
+      149208,
+      -3464
+     ],
+     [
+      81384,
+      149160,
+      -3464
+     ],
+     [
+      81192,
+      148984,
+      -3464
+     ],
+     [
+      81176,
+      148968,
+      -3464
+     ],
+     [
+      81096,
+      148856,
+      -3464
+     ],
+     [
+      80920,
+      148664,
+      -3464
+     ],
+     [
+      80696,
+      148616,
+      -3464
+     ],
+     [
+      80424,
+      148616,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80616,
+      148376,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80200,
+      148616,
+      -3528
+     ],
+     [
+      80104,
+      148616,
+      -3528
+     ],
+     [
+      79848,
+      148664,
+      -3528
+     ],
+     [
+      79800,
+      148936,
+      -3528
+     ],
+     [
+      79752,
+      149176,
+      -3528
+     ],
+     [
+      79608,
+      149320,
+      -3528
+     ],
+     [
+      79640,
+      149352,
+      -3528
+     ],
+     [
+      79672,
+      149624,
+      -3528
+     ],
+     [
+      79848,
+      149832,
+      -3528
+     ],
+     [
+      80056,
+      150008,
+      -3528
+     ],
+     [
+      80312,
+      150104,
+      -3528
+     ],
+     [
+      80504,
+      150280,
+      -3528
+     ],
+     [
+      80776,
+      150280,
+      -3528
+     ],
+     [
+      80840,
+      150296,
+      -3528
+     ],
+     [
+      81048,
+      150472,
+      -3528
+     ],
+     [
+      81064,
+      150664,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 109,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:talk:32215",
+   "cond": 2,
+   "kind": "talk",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 32215,
+    "name": "Tenain",
+    "title": "Master",
+    "town": "Giran",
+    "at": [
+     81061,
+     150669,
+     -3512
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tenain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32215@81061,150669",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 7676,
+    "sec": 84,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 7676,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82792,
+      148664,
+      -3464
+     ],
+     [
+      82616,
+      148840,
+      -3464
+     ],
+     [
+      82600,
+      148856,
+      -3464
+     ],
+     [
+      82408,
+      149048,
+      -3464
+     ],
+     [
+      82200,
+      149208,
+      -3464
+     ],
+     [
+      81928,
+      149208,
+      -3464
+     ],
+     [
+      81656,
+      149208,
+      -3464
+     ],
+     [
+      81384,
+      149160,
+      -3464
+     ],
+     [
+      81192,
+      148984,
+      -3464
+     ],
+     [
+      81176,
+      148968,
+      -3464
+     ],
+     [
+      81096,
+      148856,
+      -3464
+     ],
+     [
+      80920,
+      148664,
+      -3464
+     ],
+     [
+      80696,
+      148616,
+      -3464
+     ],
+     [
+      80424,
+      148616,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80616,
+      148376,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80200,
+      148616,
+      -3528
+     ],
+     [
+      80104,
+      148616,
+      -3528
+     ],
+     [
+      79848,
+      148664,
+      -3528
+     ],
+     [
+      79800,
+      148936,
+      -3528
+     ],
+     [
+      79752,
+      149176,
+      -3528
+     ],
+     [
+      79608,
+      149320,
+      -3528
+     ],
+     [
+      79640,
+      149352,
+      -3528
+     ],
+     [
+      79672,
+      149624,
+      -3528
+     ],
+     [
+      79848,
+      149832,
+      -3528
+     ],
+     [
+      80056,
+      150008,
+      -3528
+     ],
+     [
+      80312,
+      150104,
+      -3528
+     ],
+     [
+      80504,
+      150280,
+      -3528
+     ],
+     [
+      80776,
+      150280,
+      -3528
+     ],
+     [
+      80840,
+      150296,
+      -3528
+     ],
+     [
+      81048,
+      150472,
+      -3528
+     ],
+     [
+      81064,
+      150664,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 109,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2,
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:32252",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"Message?\""
+   ],
+   "npc": {
+    "id": 32252,
+    "name": "Caravaner Gort",
+    "title": "",
+    "town": "Giran",
+    "at": [
+     73339,
+     133935,
+     -3528
+    ],
+    "alt": []
+   },
+   "text": "Talk to Caravaner Gort",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32252@73339,133935",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 19519,
+    "sec": 183,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 19519,
+      "how": "geodata",
+      "danger": 32
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83144,
+      148200,
+      -3440
+     ],
+     [
+      82648,
+      147880,
+      -3452
+     ],
+     [
+      82152,
+      147560,
+      -3464
+     ],
+     [
+      81608,
+      147512,
+      -3464
+     ],
+     [
+      81424,
+      147016,
+      -3496
+     ],
+     [
+      81240,
+      146520,
+      -3528
+     ],
+     [
+      81256,
+      146296,
+      -3528
+     ],
+     [
+      81272,
+      145400,
+      -3528
+     ],
+     [
+      81256,
+      144744,
+      -3528
+     ],
+     [
+      81368,
+      144248,
+      -3528
+     ],
+     [
+      81480,
+      143752,
+      -3528
+     ],
+     [
+      81496,
+      143528,
+      -3528
+     ],
+     [
+      81336,
+      143400,
+      -3528
+     ],
+     [
+      80840,
+      142904,
+      -3532
+     ],
+     [
+      80344,
+      142408,
+      -3536
+     ],
+     [
+      79848,
+      141912,
+      -3540
+     ],
+     [
+      79352,
+      141416,
+      -3544
+     ],
+     [
+      78960,
+      141072,
+      -3576
+     ],
+     [
+      78568,
+      140728,
+      -3608
+     ],
+     [
+      78080,
+      140232,
+      -3588
+     ],
+     [
+      77592,
+      139736,
+      -3568
+     ],
+     [
+      77544,
+      139656,
+      -3576
+     ],
+     [
+      77048,
+      139160,
+      -3600
+     ],
+     [
+      76552,
+      138664,
+      -3624
+     ],
+     [
+      76088,
+      138392,
+      -3632
+     ],
+     [
+      75624,
+      138120,
+      -3640
+     ],
+     [
+      74840,
+      137720,
+      -3568
+     ],
+     [
+      74344,
+      137224,
+      -3576
+     ],
+     [
+      73848,
+      136728,
+      -3584
+     ],
+     [
+      73864,
+      136200,
+      -3536
+     ],
+     [
+      73864,
+      135672,
+      -3568
+     ],
+     [
+      73600,
+      135176,
+      -3608
+     ],
+     [
+      73336,
+      134680,
+      -3648
+     ],
+     [
+      73336,
+      133928,
+      -3528
+     ]
+    ],
+    "maxDanger": 32,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 32,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 208,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:hunt",
+   "cond": 5,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20202,
+     "name": "Dead Seeker",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20267,
+     "name": "Breka Orc",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20268,
+     "name": "Breka Orc Archer",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20269,
+     "name": "Breka Orc Shaman",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20270,
+     "name": "Breka Orc Overlord",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20271,
+     "name": "Breka Orc Warrior",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 20551,
+     "name": "Road Scavenger",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9754,
+     "name": "Breka Orc Head",
+     "n": 20,
      "from": [
       {
        "id": 20267,
@@ -314,38 +1717,13 @@
        "chance": 20
       }
      ]
-    },
-    {
-     "id": 9756,
-     "name": "Report - East",
-     "n": 1,
-     "from": [
-      {
-       "id": 20202,
-       "name": "Dead Seeker",
-       "chance": 20
-      }
-     ]
-    },
-    {
-     "id": 9757,
-     "name": "Report - North",
-     "n": 1,
-     "from": [
-      {
-       "id": 20234,
-       "name": "Marsh Stakato Drone",
-       "chance": 20
-      }
-     ]
     }
    ],
    "kills": null,
    "reasons": [
-    "area-danger",
-    "aggro-on-way"
+    "area-danger"
    ],
-   "text": "Hunt Dead Seeker, Marsh Stakato Drone, Breka Orc for Breka Orc Head x19, Message Plate x1, Report - East x1, Report - North x1",
+   "text": "Hunt Dead Seeker, Marsh Stakato Drone, Breka Orc for Breka Orc Head x20, Message Plate x1",
    "places": [
     {
      "mobs": [
@@ -786,6 +2164,1336 @@
        "lv": 54
       }
      ]
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "brekas-stronghold-3",
+    "name": "Brekas Stronghold 3: Breka Orc area (north-west)",
+    "at": [
+     78936,
+     128456,
+     -3456
+    ],
+    "radius": 4582,
+    "levels": [
+     30,
+     32
+    ],
+    "count": 14,
+    "region": "Brekas Stronghold",
+    "atlasKey": "area:brekas-stronghold-3",
+    "status": "ok",
+    "sec": 218,
+    "danger": 32,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -80.36666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "brekas-stronghold-5",
+      "name": "Brekas Stronghold 5: Amber Basilisk area (east)",
+      "at": [
+       94856,
+       130600,
+       -3440
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "brekas-stronghold-2",
+      "name": "Brekas Stronghold 2: Breka Orc area (east)",
+      "at": [
+       89848,
+       129992,
+       -3672
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "brekas-stronghold-9",
+      "name": "Brekas Stronghold 9: Breka Orc area (west)",
+      "at": [
+       73768,
+       132440,
+       -3440
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:brekas-stronghold-3",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 20787,
+    "sec": 218,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 20787,
+      "how": "field-areas",
+      "danger": 40
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      72728,
+      118856,
+      -3664
+     ],
+     [
+      72232,
+      119672,
+      -3648
+     ],
+     [
+      72216,
+      119752,
+      -3648
+     ],
+     [
+      72216,
+      120744,
+      -3608
+     ],
+     [
+      72184,
+      121528,
+      -3576
+     ],
+     [
+      72056,
+      122408,
+      -3624
+     ],
+     [
+      71928,
+      122888,
+      -3632
+     ],
+     [
+      71928,
+      123880,
+      -3624
+     ],
+     [
+      71928,
+      124872,
+      -3648
+     ],
+     [
+      71928,
+      125864,
+      -3640
+     ],
+     [
+      71928,
+      126856,
+      -3696
+     ],
+     [
+      71928,
+      127848,
+      -3656
+     ],
+     [
+      71592,
+      128840,
+      -3640
+     ],
+     [
+      71544,
+      128888,
+      -3648
+     ],
+     [
+      71544,
+      129880,
+      -3520
+     ],
+     [
+      72200,
+      130856,
+      -3464
+     ],
+     [
+      72296,
+      130952,
+      -3424
+     ],
+     [
+      72440,
+      131064,
+      -3312
+     ],
+     [
+      72456,
+      131080,
+      -3328
+     ],
+     [
+      73448,
+      131080,
+      -2904
+     ],
+     [
+      74440,
+      131080,
+      -3048
+     ],
+     [
+      75432,
+      131080,
+      -3280
+     ],
+     [
+      76424,
+      130968,
+      -3528
+     ],
+     [
+      77416,
+      129976,
+      -3576
+     ],
+     [
+      78408,
+      128984,
+      -3480
+     ],
+     [
+      78936,
+      128456,
+      -3456
+     ]
+    ],
+    "maxDanger": 40,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 40,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 718,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5,
+    6
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c5:deliver:32252",
+   "cond": 5,
+   "kind": "deliver",
+   "to": 7,
+   "links": [],
+   "npc": {
+    "id": 32252,
+    "name": "Caravaner Gort",
+    "title": "",
+    "town": "Giran",
+    "at": [
+     73339,
+     133935,
+     -3528
+    ],
+    "alt": []
+   },
+   "text": "Bring Message Plate to Caravaner Gort",
+   "needs": [
+    {
+     "id": 9755,
+     "name": "Message Plate",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32252@73339,133935",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 19519,
+    "sec": 183,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 19519,
+      "how": "geodata",
+      "danger": 32
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83144,
+      148200,
+      -3440
+     ],
+     [
+      82648,
+      147880,
+      -3452
+     ],
+     [
+      82152,
+      147560,
+      -3464
+     ],
+     [
+      81608,
+      147512,
+      -3464
+     ],
+     [
+      81424,
+      147016,
+      -3496
+     ],
+     [
+      81240,
+      146520,
+      -3528
+     ],
+     [
+      81256,
+      146296,
+      -3528
+     ],
+     [
+      81272,
+      145400,
+      -3528
+     ],
+     [
+      81256,
+      144744,
+      -3528
+     ],
+     [
+      81368,
+      144248,
+      -3528
+     ],
+     [
+      81480,
+      143752,
+      -3528
+     ],
+     [
+      81496,
+      143528,
+      -3528
+     ],
+     [
+      81336,
+      143400,
+      -3528
+     ],
+     [
+      80840,
+      142904,
+      -3532
+     ],
+     [
+      80344,
+      142408,
+      -3536
+     ],
+     [
+      79848,
+      141912,
+      -3540
+     ],
+     [
+      79352,
+      141416,
+      -3544
+     ],
+     [
+      78960,
+      141072,
+      -3576
+     ],
+     [
+      78568,
+      140728,
+      -3608
+     ],
+     [
+      78080,
+      140232,
+      -3588
+     ],
+     [
+      77592,
+      139736,
+      -3568
+     ],
+     [
+      77544,
+      139656,
+      -3576
+     ],
+     [
+      77048,
+      139160,
+      -3600
+     ],
+     [
+      76552,
+      138664,
+      -3624
+     ],
+     [
+      76088,
+      138392,
+      -3632
+     ],
+     [
+      75624,
+      138120,
+      -3640
+     ],
+     [
+      74840,
+      137720,
+      -3568
+     ],
+     [
+      74344,
+      137224,
+      -3576
+     ],
+     [
+      73848,
+      136728,
+      -3584
+     ],
+     [
+      73864,
+      136200,
+      -3536
+     ],
+     [
+      73864,
+      135672,
+      -3568
+     ],
+     [
+      73600,
+      135176,
+      -3608
+     ],
+     [
+      73336,
+      134680,
+      -3648
+     ],
+     [
+      73336,
+      133928,
+      -3528
+     ]
+    ],
+    "maxDanger": 32,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 32,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 208,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5,
+    6
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c7:talk:32215",
+   "cond": 7,
+   "kind": "talk",
+   "to": 8,
+   "links": [
+    "Ask what should be done now."
+   ],
+   "npc": {
+    "id": 32215,
+    "name": "Tenain",
+    "title": "Master",
+    "town": "Giran",
+    "at": [
+     81061,
+     150669,
+     -3512
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tenain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32215@81061,150669",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 7676,
+    "sec": 84,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 7676,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82792,
+      148664,
+      -3464
+     ],
+     [
+      82616,
+      148840,
+      -3464
+     ],
+     [
+      82600,
+      148856,
+      -3464
+     ],
+     [
+      82408,
+      149048,
+      -3464
+     ],
+     [
+      82200,
+      149208,
+      -3464
+     ],
+     [
+      81928,
+      149208,
+      -3464
+     ],
+     [
+      81656,
+      149208,
+      -3464
+     ],
+     [
+      81384,
+      149160,
+      -3464
+     ],
+     [
+      81192,
+      148984,
+      -3464
+     ],
+     [
+      81176,
+      148968,
+      -3464
+     ],
+     [
+      81096,
+      148856,
+      -3464
+     ],
+     [
+      80920,
+      148664,
+      -3464
+     ],
+     [
+      80696,
+      148616,
+      -3464
+     ],
+     [
+      80424,
+      148616,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80616,
+      148376,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80200,
+      148616,
+      -3528
+     ],
+     [
+      80104,
+      148616,
+      -3528
+     ],
+     [
+      79848,
+      148664,
+      -3528
+     ],
+     [
+      79800,
+      148936,
+      -3528
+     ],
+     [
+      79752,
+      149176,
+      -3528
+     ],
+     [
+      79608,
+      149320,
+      -3528
+     ],
+     [
+      79640,
+      149352,
+      -3528
+     ],
+     [
+      79672,
+      149624,
+      -3528
+     ],
+     [
+      79848,
+      149832,
+      -3528
+     ],
+     [
+      80056,
+      150008,
+      -3528
+     ],
+     [
+      80312,
+      150104,
+      -3528
+     ],
+     [
+      80504,
+      150280,
+      -3528
+     ],
+     [
+      80776,
+      150280,
+      -3528
+     ],
+     [
+      80840,
+      150296,
+      -3528
+     ],
+     [
+      81048,
+      150472,
+      -3528
+     ],
+     [
+      81064,
+      150664,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 109,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c8:talk:32200",
+   "cond": 8,
+   "kind": "talk",
+   "to": 9,
+   "links": [],
+   "npc": {
+    "id": 32200,
+    "name": "Entien",
+    "title": "Master",
+    "town": "Dion",
+    "at": [
+     16279,
+     146242,
+     -3096
+    ],
+    "alt": []
+   },
+   "text": "Talk to Entien",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32200@16279,146242",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 3893,
+    "sec": 52,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 3893,
+      "how": "town-graph",
+      "danger": 30
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15464,
+      143160,
+      -2696
+     ],
+     [
+      15464,
+      143432,
+      -2712
+     ],
+     [
+      15432,
+      143560,
+      -2736
+     ],
+     [
+      15560,
+      143688,
+      -2800
+     ],
+     [
+      15752,
+      143880,
+      -2904
+     ],
+     [
+      15800,
+      144072,
+      -2968
+     ],
+     [
+      15848,
+      144344,
+      -3040
+     ],
+     [
+      16024,
+      144552,
+      -3048
+     ],
+     [
+      16104,
+      144792,
+      -3056
+     ],
+     [
+      16120,
+      145064,
+      -3064
+     ],
+     [
+      16168,
+      145176,
+      -3048
+     ],
+     [
+      16248,
+      145432,
+      -3048
+     ],
+     [
+      16296,
+      145704,
+      -3080
+     ],
+     [
+      16296,
+      145976,
+      -3104
+     ],
+     [
+      16280,
+      146248,
+      -3096
+     ]
+    ],
+    "maxDanger": 30,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 30,
+     "dangerVsLevel": -9,
+     "aggro": []
+    }
+   },
+   "expectedSec": 77,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c9:hunt",
+   "cond": 9,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20202,
+     "name": "Dead Seeker",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20267,
+     "name": "Breka Orc",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20268,
+     "name": "Breka Orc Archer",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20269,
+     "name": "Breka Orc Shaman",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20270,
+     "name": "Breka Orc Overlord",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20271,
+     "name": "Breka Orc Warrior",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 20551,
+     "name": "Road Scavenger",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9754,
+     "name": "Breka Orc Head",
+     "n": 20,
+     "from": [
+      {
+       "id": 20267,
+       "name": "Breka Orc",
+       "chance": 100
+      },
+      {
+       "id": 20268,
+       "name": "Breka Orc Archer",
+       "chance": 100
+      },
+      {
+       "id": 20269,
+       "name": "Breka Orc Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20270,
+       "name": "Breka Orc Overlord",
+       "chance": 100
+      },
+      {
+       "id": 20271,
+       "name": "Breka Orc Warrior",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 9756,
+     "name": "Report - East",
+     "n": 1,
+     "from": [
+      {
+       "id": 20202,
+       "name": "Dead Seeker",
+       "chance": 20
+      }
+     ]
+    },
+    {
+     "id": 9757,
+     "name": "Report - North",
+     "n": 1,
+     "from": [
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 20
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Dead Seeker, Marsh Stakato Drone, Breka Orc for Breka Orc Head x20, Report - East x1, Report - North x1",
+   "places": [
+    {
+     "mobs": [
+      20267,
+      20268,
+      20269,
+      20270,
+      20271
+     ],
+     "items": [
+      9754
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "brekas-stronghold-3",
+      "name": "Brekas Stronghold 3: Breka Orc area (north-west)",
+      "at": [
+       78936,
+       128456,
+       -3456
+      ],
+      "radius": 4582,
+      "levels": [
+       30,
+       32
+      ],
+      "count": 14,
+      "region": "Brekas Stronghold",
+      "atlasKey": "area:brekas-stronghold-3",
+      "status": "ok",
+      "sec": 218,
+      "danger": 32,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -80.36666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-5",
+        "name": "Brekas Stronghold 5: Amber Basilisk area (east)",
+        "at": [
+         94856,
+         130600,
+         -3440
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-2",
+        "name": "Brekas Stronghold 2: Breka Orc area (east)",
+        "at": [
+         89848,
+         129992,
+         -3672
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-9",
+        "name": "Brekas Stronghold 9: Breka Orc area (west)",
+        "at": [
+         73768,
+         132440,
+         -3440
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:brekas-stronghold-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 20787,
+      "sec": 218,
+      "via": ".hunters > Hunters -> Dragon Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Dragon Valley",
+        "link": "dragon valley",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 20787,
+        "how": "field-areas",
+        "danger": 40
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Dragon Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        73032,
+        118488,
+        -3696
+       ],
+       [
+        72728,
+        118856,
+        -3664
+       ],
+       [
+        72232,
+        119672,
+        -3648
+       ],
+       [
+        72216,
+        119752,
+        -3648
+       ],
+       [
+        72216,
+        120744,
+        -3608
+       ],
+       [
+        72184,
+        121528,
+        -3576
+       ],
+       [
+        72056,
+        122408,
+        -3624
+       ],
+       [
+        71928,
+        122888,
+        -3632
+       ],
+       [
+        71928,
+        123880,
+        -3624
+       ],
+       [
+        71928,
+        124872,
+        -3648
+       ],
+       [
+        71928,
+        125864,
+        -3640
+       ],
+       [
+        71928,
+        126856,
+        -3696
+       ],
+       [
+        71928,
+        127848,
+        -3656
+       ],
+       [
+        71592,
+        128840,
+        -3640
+       ],
+       [
+        71544,
+        128888,
+        -3648
+       ],
+       [
+        71544,
+        129880,
+        -3520
+       ],
+       [
+        72200,
+        130856,
+        -3464
+       ],
+       [
+        72296,
+        130952,
+        -3424
+       ],
+       [
+        72440,
+        131064,
+        -3312
+       ],
+       [
+        72456,
+        131080,
+        -3328
+       ],
+       [
+        73448,
+        131080,
+        -2904
+       ],
+       [
+        74440,
+        131080,
+        -3048
+       ],
+       [
+        75432,
+        131080,
+        -3280
+       ],
+       [
+        76424,
+        130968,
+        -3528
+       ],
+       [
+        77416,
+        129976,
+        -3576
+       ],
+       [
+        78408,
+        128984,
+        -3480
+       ],
+       [
+        78936,
+        128456,
+        -3456
+       ]
+      ],
+      "maxDanger": 40,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 40,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
     },
     {
      "mobs": [
@@ -1385,143 +4093,418 @@
      "aggro": []
     }
    },
-   "expectedSec": 693,
+   "expectedSec": 718,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
     9,
-    10,
-    11,
-    12,
-    13,
-    14
+    10
    ]
   },
   {
-   "i": 2,
-   "key": "c1:talk:32207",
-   "cond": 1,
-   "kind": "talk",
-   "to": "end",
-   "links": [
-    "Ask why a messenger of the gods desires to seize Enuma Elish."
-   ],
+   "i": 10,
+   "key": "c9:deliver:32200",
+   "cond": 9,
+   "kind": "deliver",
+   "to": 11,
+   "links": [],
    "npc": {
-    "id": 32207,
-    "name": "Orkurus",
+    "id": 32200,
+    "name": "Entien",
     "title": "Master",
-    "town": "Oren",
+    "town": "Dion",
     "at": [
-     83658,
-     54421,
-     -1512
+     16279,
+     146242,
+     -3096
     ],
     "alt": []
    },
-   "text": "Talk to Orkurus",
+   "text": "Bring Report - East, Report - North to Entien",
+   "needs": [
+    {
+     "id": 9756,
+     "name": "Report - East",
+     "n": 1
+    },
+    {
+     "id": 9757,
+     "name": "Report - North",
+     "n": 1
+    }
+   ],
    "reasons": [],
    "travel": {
     "src": "atlas",
-    "key": "npc:32207@83658,54421",
+    "key": "npc:32200@16279,146242",
     "status": "ok",
     "flags": [],
-    "from": ".oren",
-    "length": 2708,
-    "sec": 43,
-    "via": ".oren",
+    "from": ".dion",
+    "length": 3893,
+    "sec": 52,
+    "via": ".dion",
     "steps": [
      {
       "do": "town",
-      "town": "Oren",
-      "cmd": ".oren"
+      "town": "Dion",
+      "cmd": ".dion"
      },
      {
       "do": "walk",
-      "len": 2708,
+      "len": 3893,
+      "how": "town-graph",
+      "danger": 30
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15464,
+      143160,
+      -2696
+     ],
+     [
+      15464,
+      143432,
+      -2712
+     ],
+     [
+      15432,
+      143560,
+      -2736
+     ],
+     [
+      15560,
+      143688,
+      -2800
+     ],
+     [
+      15752,
+      143880,
+      -2904
+     ],
+     [
+      15800,
+      144072,
+      -2968
+     ],
+     [
+      15848,
+      144344,
+      -3040
+     ],
+     [
+      16024,
+      144552,
+      -3048
+     ],
+     [
+      16104,
+      144792,
+      -3056
+     ],
+     [
+      16120,
+      145064,
+      -3064
+     ],
+     [
+      16168,
+      145176,
+      -3048
+     ],
+     [
+      16248,
+      145432,
+      -3048
+     ],
+     [
+      16296,
+      145704,
+      -3080
+     ],
+     [
+      16296,
+      145976,
+      -3104
+     ],
+     [
+      16280,
+      146248,
+      -3096
+     ]
+    ],
+    "maxDanger": 30,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 30,
+     "dangerVsLevel": -9,
+     "aggro": []
+    }
+   },
+   "expectedSec": 77,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9,
+    10
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c11:talk:32215",
+   "cond": 11,
+   "kind": "talk",
+   "to": 12,
+   "links": [],
+   "npc": {
+    "id": 32215,
+    "name": "Tenain",
+    "title": "Master",
+    "town": "Giran",
+    "at": [
+     81061,
+     150669,
+     -3512
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tenain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32215@81061,150669",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 7676,
+    "sec": 84,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 7676,
       "how": "town-graph",
       "danger": 0
      }
     ],
     "start": {
      "kind": "town",
-     "town": "Oren"
+     "town": "Giran"
     },
     "simple": true,
     "pv": [
      [
-      82760,
-      53578,
-      -1470
+      83473,
+      148554,
+      -3400
      ],
      [
-      82424,
-      53736,
-      -1488
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82792,
+      148664,
+      -3464
+     ],
+     [
+      82616,
+      148840,
+      -3464
+     ],
+     [
+      82600,
+      148856,
+      -3464
      ],
      [
       82408,
-      53752,
-      -1488
+      149048,
+      -3464
      ],
      [
-      82360,
-      53928,
-      -1488
+      82200,
+      149208,
+      -3464
      ],
      [
-      82360,
-      54200,
-      -1488
+      81928,
+      149208,
+      -3464
      ],
      [
-      82360,
-      54472,
-      -1520
+      81656,
+      149208,
+      -3464
      ],
      [
-      82488,
-      54632,
-      -1520
+      81384,
+      149160,
+      -3464
      ],
      [
-      82744,
-      54552,
-      -1520
+      81192,
+      148984,
+      -3464
      ],
      [
-      83000,
-      54472,
-      -1520
+      81176,
+      148968,
+      -3464
      ],
      [
-      83272,
-      54440,
-      -1520
+      81096,
+      148856,
+      -3464
      ],
      [
-      83416,
-      54552,
-      -1520
+      80920,
+      148664,
+      -3464
      ],
      [
-      83592,
-      54616,
-      -1520
+      80696,
+      148616,
+      -3464
      ],
      [
-      83656,
-      54424,
-      -1512
+      80424,
+      148616,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80616,
+      148376,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80200,
+      148616,
+      -3528
+     ],
+     [
+      80104,
+      148616,
+      -3528
+     ],
+     [
+      79848,
+      148664,
+      -3528
+     ],
+     [
+      79800,
+      148936,
+      -3528
+     ],
+     [
+      79752,
+      149176,
+      -3528
+     ],
+     [
+      79608,
+      149320,
+      -3528
+     ],
+     [
+      79640,
+      149352,
+      -3528
+     ],
+     [
+      79672,
+      149624,
+      -3528
+     ],
+     [
+      79848,
+      149832,
+      -3528
+     ],
+     [
+      80056,
+      150008,
+      -3528
+     ],
+     [
+      80312,
+      150104,
+      -3528
+     ],
+     [
+      80504,
+      150280,
+      -3528
+     ],
+     [
+      80776,
+      150280,
+      -3528
+     ],
+     [
+      80840,
+      150296,
+      -3528
+     ],
+     [
+      81048,
+      150472,
+      -3528
+     ],
+     [
+      81064,
+      150664,
+      -3512
      ]
     ],
     "maxDanger": 0,
@@ -1536,32 +4519,211 @@
      "aggro": []
     }
    },
-   "expectedSec": 68,
+   "expectedSec": 109,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14
+    11
    ]
   },
   {
-   "i": 3,
-   "key": "c1:talk:32215",
-   "cond": 1,
+   "i": 12,
+   "key": "c12:talk:32253",
+   "cond": 12,
+   "kind": "talk",
+   "to": 13,
+   "links": [
+    "\"Wait! What is Enuma Elish?\""
+   ],
+   "npc": {
+    "id": 32253,
+    "name": "Harkilgamed",
+    "title": "",
+    "town": "",
+    "at": [
+     96199,
+     76801,
+     -3574
+    ],
+    "alt": [],
+    "why": "npc-quest-spawned"
+   },
+   "text": "Talk to Harkilgamed",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    12
+   ],
+   "overrideFrom": "c1:talk:32253",
+   "override": {
+    "npcAt": [
+     96199,
+     76801,
+     -3574
+    ],
+    "note": "Harkilgamed 32253 is spawned by the quest: Q00064_CertifiedBerserker onKill DIVINE_EMISSARY 27323 at memo 9 (cond 12): 20 % chance addSpawn(HARKILGAMED, npc, true, 60000) at the killed monster (Divine Emissary spawns: spawnlist.sql, 5 at 96199,76801,-3574, Plains of Lizardmen); he stays 60 s. ENGINE: kill 27323 until he appears, then talk (32253-02.html -> cond 13).",
+    "editedAt": "2026-10-27T11:05:18.265Z",
+    "by": "quest fixer batch 3"
+   },
+   "travel": {
+    "src": "computed",
+    "key": "area:plains-of-lizardmen-23",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 12541,
+    "sec": 150,
+    "via": ".oren > Oren -> Plains of Lizardmen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Plains of Lizardmen",
+      "link": "plains of the lizardmen",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11880,
+      "how": "field-areas-gap",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 661,
+      "how": "field-areas",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Plains of Lizardmen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87252,
+      85514,
+      -3056
+     ],
+     [
+      95896,
+      77624,
+      -3552
+     ],
+     [
+      96088,
+      77352,
+      -3568
+     ],
+     [
+      96328,
+      77128,
+      -3592
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 45,
+     "aggro": [
+      {
+       "name": "Energy Plant",
+       "lv": 85,
+       "n": 1
+      },
+      {
+       "name": "Rainbow Frog",
+       "lv": 85,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Soldier",
+       "lv": 84,
+       "n": 2
+      },
+      {
+       "name": "Tanta Lizardman Summoner",
+       "lv": 84,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83,
+       "n": 3
+      },
+      {
+       "name": "Tanta Lizardman Magician",
+       "lv": 83,
+       "n": 3
+      },
+      {
+       "name": "Tanta Lizardman Warrior",
+       "lv": 83,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Scout",
+       "lv": 82,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:plains-of-lizardmen-23",
+     "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)"
+    },
+    "points": [
+     [
+      87252,
+      85514,
+      -3056
+     ],
+     [
+      95896,
+      77624,
+      -3552
+     ],
+     [
+      96088,
+      77352,
+      -3568
+     ],
+     [
+      96328,
+      77128,
+      -3592
+     ]
+    ]
+   },
+   "fixedByOverride": [
+    "npc-quest-spawned"
+   ]
+  },
+  {
+   "i": 13,
+   "key": "c13:talk:32215",
+   "cond": 13,
    "kind": "talk",
    "to": 14,
    "links": [
@@ -1813,87 +4975,41 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14
+    13
    ]
   },
   {
-   "i": 4,
-   "key": "c1:talk:32253",
-   "cond": 1,
+   "i": 14,
+   "key": "c14:talk:32207",
+   "cond": 14,
    "kind": "talk",
-   "to": 13,
+   "to": "end",
    "links": [
-    "\"Wait! What is Enuma Elish?\""
+    "Ask why a messenger of the gods desires to seize Enuma Elish."
    ],
    "npc": {
-    "id": 32253,
-    "name": "Harkilgamed",
-    "title": "",
-    "town": "",
+    "id": 32207,
+    "name": "Orkurus",
+    "title": "Master",
+    "town": "Oren",
     "at": [
-     96199,
-     76801,
-     -3574
+     83658,
+     54421,
+     -1512
     ],
-    "alt": [],
-    "why": "npc-quest-spawned"
+    "alt": []
    },
-   "text": "Talk to Harkilgamed",
-   "reasons": [
-    "aggro-on-way"
-   ],
-   "expectedSec": 25,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    14
-   ],
-   "override": {
-    "npcAt": [
-     96199,
-     76801,
-     -3574
-    ],
-    "note": "Harkilgamed 32253 is spawned by the quest: Q00064_CertifiedBerserker onKill DIVINE_EMISSARY 27323 at memo 9 (cond 12): 20 % chance addSpawn(HARKILGAMED, npc, true, 60000) at the killed monster (Divine Emissary spawns: spawnlist.sql, 5 at 96199,76801,-3574, Plains of Lizardmen); he stays 60 s. ENGINE: kill 27323 until he appears, then talk (32253-02.html -> cond 13).",
-    "editedAt": "2026-10-27T11:05:18.265Z",
-    "by": "quest fixer batch 3"
-   },
+   "text": "Talk to Orkurus",
+   "reasons": [],
    "travel": {
-    "src": "computed",
-    "key": "area:plains-of-lizardmen-23",
+    "src": "atlas",
+    "key": "npc:32207@83658,54421",
     "status": "ok",
     "flags": [],
     "from": ".oren",
-    "length": 12541,
-    "sec": 150,
-    "via": ".oren > Oren -> Plains of Lizardmen",
+    "length": 2708,
+    "sec": 43,
+    "via": ".oren",
     "steps": [
      {
       "do": "town",
@@ -1901,984 +5017,103 @@
       "cmd": ".oren"
      },
      {
-      "do": "gk",
-      "from": "Oren",
-      "desc": "Oren -> Plains of Lizardmen",
-      "link": "plains of the lizardmen",
-      "price": 3900,
-      "live": true
-     },
-     {
       "do": "walk",
-      "len": 11880,
-      "how": "field-areas-gap",
-      "danger": 84
-     },
-     {
-      "do": "walk",
-      "len": 661,
-      "how": "field-areas",
-      "danger": 84
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Oren",
-     "desc": "Oren -> Plains of Lizardmen"
-    },
-    "simple": true,
-    "pv": [
-     [
-      87252,
-      85514,
-      -3056
-     ],
-     [
-      95896,
-      77624,
-      -3552
-     ],
-     [
-      96088,
-      77352,
-      -3568
-     ],
-     [
-      96328,
-      77128,
-      -3592
-     ]
-    ],
-    "maxDanger": 84,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 84,
-     "dangerVsLevel": 45,
-     "aggro": [
-      {
-       "name": "Energy Plant",
-       "lv": 85,
-       "n": 1
-      },
-      {
-       "name": "Rainbow Frog",
-       "lv": 85,
-       "n": 1
-      },
-      {
-       "name": "Tanta Lizardman Soldier",
-       "lv": 84,
-       "n": 2
-      },
-      {
-       "name": "Tanta Lizardman Summoner",
-       "lv": 84,
-       "n": 1
-      },
-      {
-       "name": "Tanta Lizardman Archer",
-       "lv": 83,
-       "n": 3
-      },
-      {
-       "name": "Tanta Lizardman Magician",
-       "lv": 83,
-       "n": 3
-      },
-      {
-       "name": "Tanta Lizardman Warrior",
-       "lv": 83,
-       "n": 1
-      },
-      {
-       "name": "Tanta Lizardman Scout",
-       "lv": 82,
-       "n": 2
-      }
-     ]
-    },
-    "anchor": {
-     "key": "area:plains-of-lizardmen-23",
-     "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)"
-    },
-    "points": [
-     [
-      87252,
-      85514,
-      -3056
-     ],
-     [
-      95896,
-      77624,
-      -3552
-     ],
-     [
-      96088,
-      77352,
-      -3568
-     ],
-     [
-      96328,
-      77128,
-      -3592
-     ]
-    ]
-   },
-   "fixedByOverride": [
-    "npc-quest-spawned"
-   ]
-  },
-  {
-   "i": 5,
-   "key": "c1:deliver:32200",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 11,
-   "links": [],
-   "npc": {
-    "id": 32200,
-    "name": "Entien",
-    "title": "Master",
-    "town": "Dion",
-    "at": [
-     16279,
-     146242,
-     -3096
-    ],
-    "alt": []
-   },
-   "text": "Bring Report - East, Report - North to Entien",
-   "needs": [
-    {
-     "id": 9756,
-     "name": "Report - East",
-     "n": 1
-    },
-    {
-     "id": 9757,
-     "name": "Report - North",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:32200@16279,146242",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 3893,
-    "sec": 52,
-    "via": ".dion",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "walk",
-      "len": 3893,
+      "len": 2708,
       "how": "town-graph",
-      "danger": 30
+      "danger": 0
      }
     ],
     "start": {
      "kind": "town",
-     "town": "Dion"
+     "town": "Oren"
     },
     "simple": true,
     "pv": [
      [
-      15619,
-      143132,
-      -2688
+      82760,
+      53578,
+      -1470
      ],
      [
-      15480,
-      142888,
-      -2696
+      82424,
+      53736,
+      -1488
      ],
      [
-      15464,
-      143160,
-      -2696
+      82408,
+      53752,
+      -1488
      ],
      [
-      15464,
-      143432,
-      -2712
+      82360,
+      53928,
+      -1488
      ],
      [
-      15432,
-      143560,
-      -2736
+      82360,
+      54200,
+      -1488
      ],
      [
-      15560,
-      143688,
-      -2800
+      82360,
+      54472,
+      -1520
      ],
      [
-      15752,
-      143880,
-      -2904
+      82488,
+      54632,
+      -1520
      ],
      [
-      15800,
-      144072,
-      -2968
+      82744,
+      54552,
+      -1520
      ],
      [
-      15848,
-      144344,
-      -3040
+      83000,
+      54472,
+      -1520
      ],
      [
-      16024,
-      144552,
-      -3048
+      83272,
+      54440,
+      -1520
      ],
      [
-      16104,
-      144792,
-      -3056
+      83416,
+      54552,
+      -1520
      ],
      [
-      16120,
-      145064,
-      -3064
+      83592,
+      54616,
+      -1520
      ],
      [
-      16168,
-      145176,
-      -3048
-     ],
-     [
-      16248,
-      145432,
-      -3048
-     ],
-     [
-      16296,
-      145704,
-      -3080
-     ],
-     [
-      16296,
-      145976,
-      -3104
-     ],
-     [
-      16280,
-      146248,
-      -3096
+      83656,
+      54424,
+      -1512
      ]
     ],
-    "maxDanger": 30,
+    "maxDanger": 0,
     "needs": [],
     "why": [],
     "checks": {
      "reachable": true,
      "walls": "geodata / saved / graph walks (walls block)",
      "water": false,
-     "danger": 30,
-     "dangerVsLevel": -9,
+     "danger": 0,
+     "dangerVsLevel": 0,
      "aggro": []
     }
    },
-   "expectedSec": 77,
+   "expectedSec": 68,
    "engine": {
     "act": "hunt",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    12,
-    13,
     14
-   ]
-  },
-  {
-   "i": 6,
-   "key": "c1:deliver:32252",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 7,
-   "links": [],
-   "npc": {
-    "id": 32252,
-    "name": "Caravaner Gort",
-    "title": "",
-    "town": "Giran",
-    "at": [
-     73339,
-     133935,
-     -3528
-    ],
-    "alt": []
-   },
-   "text": "Bring Message Plate to Caravaner Gort",
-   "needs": [
-    {
-     "id": 9755,
-     "name": "Message Plate",
-     "n": 1
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:32252@73339,133935",
-    "status": "ok",
-    "flags": [],
-    "from": ".giran",
-    "length": 19519,
-    "sec": 183,
-    "via": ".giran",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
-     },
-     {
-      "do": "walk",
-      "len": 19519,
-      "how": "geodata",
-      "danger": 32
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Giran"
-    },
-    "simple": true,
-    "pv": [
-     [
-      83473,
-      148554,
-      -3400
-     ],
-     [
-      83144,
-      148200,
-      -3440
-     ],
-     [
-      82648,
-      147880,
-      -3452
-     ],
-     [
-      82152,
-      147560,
-      -3464
-     ],
-     [
-      81608,
-      147512,
-      -3464
-     ],
-     [
-      81424,
-      147016,
-      -3496
-     ],
-     [
-      81240,
-      146520,
-      -3528
-     ],
-     [
-      81256,
-      146296,
-      -3528
-     ],
-     [
-      81272,
-      145400,
-      -3528
-     ],
-     [
-      81256,
-      144744,
-      -3528
-     ],
-     [
-      81368,
-      144248,
-      -3528
-     ],
-     [
-      81480,
-      143752,
-      -3528
-     ],
-     [
-      81496,
-      143528,
-      -3528
-     ],
-     [
-      81336,
-      143400,
-      -3528
-     ],
-     [
-      80840,
-      142904,
-      -3532
-     ],
-     [
-      80344,
-      142408,
-      -3536
-     ],
-     [
-      79848,
-      141912,
-      -3540
-     ],
-     [
-      79352,
-      141416,
-      -3544
-     ],
-     [
-      78960,
-      141072,
-      -3576
-     ],
-     [
-      78568,
-      140728,
-      -3608
-     ],
-     [
-      78080,
-      140232,
-      -3588
-     ],
-     [
-      77592,
-      139736,
-      -3568
-     ],
-     [
-      77544,
-      139656,
-      -3576
-     ],
-     [
-      77048,
-      139160,
-      -3600
-     ],
-     [
-      76552,
-      138664,
-      -3624
-     ],
-     [
-      76088,
-      138392,
-      -3632
-     ],
-     [
-      75624,
-      138120,
-      -3640
-     ],
-     [
-      74840,
-      137720,
-      -3568
-     ],
-     [
-      74344,
-      137224,
-      -3576
-     ],
-     [
-      73848,
-      136728,
-      -3584
-     ],
-     [
-      73864,
-      136200,
-      -3536
-     ],
-     [
-      73864,
-      135672,
-      -3568
-     ],
-     [
-      73600,
-      135176,
-      -3608
-     ],
-     [
-      73336,
-      134680,
-      -3648
-     ],
-     [
-      73336,
-      133928,
-      -3528
-     ]
-    ],
-    "maxDanger": 32,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 32,
-     "dangerVsLevel": -7,
-     "aggro": []
-    }
-   },
-   "expectedSec": 208,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14
-   ]
-  },
-  {
-   "i": 7,
-   "key": "c7:talk:32252",
-   "cond": 7,
-   "kind": "talk",
-   "to": 5,
-   "links": [
-    "\"Message?\""
-   ],
-   "npc": {
-    "id": 32252,
-    "name": "Caravaner Gort",
-    "title": "",
-    "town": "Giran",
-    "at": [
-     73339,
-     133935,
-     -3528
-    ],
-    "alt": []
-   },
-   "text": "Talk to Caravaner Gort",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:32252@73339,133935",
-    "status": "ok",
-    "flags": [],
-    "from": ".giran",
-    "length": 19519,
-    "sec": 183,
-    "via": ".giran",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Giran",
-      "cmd": ".giran"
-     },
-     {
-      "do": "walk",
-      "len": 19519,
-      "how": "geodata",
-      "danger": 32
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Giran"
-    },
-    "simple": true,
-    "pv": [
-     [
-      83473,
-      148554,
-      -3400
-     ],
-     [
-      83144,
-      148200,
-      -3440
-     ],
-     [
-      82648,
-      147880,
-      -3452
-     ],
-     [
-      82152,
-      147560,
-      -3464
-     ],
-     [
-      81608,
-      147512,
-      -3464
-     ],
-     [
-      81424,
-      147016,
-      -3496
-     ],
-     [
-      81240,
-      146520,
-      -3528
-     ],
-     [
-      81256,
-      146296,
-      -3528
-     ],
-     [
-      81272,
-      145400,
-      -3528
-     ],
-     [
-      81256,
-      144744,
-      -3528
-     ],
-     [
-      81368,
-      144248,
-      -3528
-     ],
-     [
-      81480,
-      143752,
-      -3528
-     ],
-     [
-      81496,
-      143528,
-      -3528
-     ],
-     [
-      81336,
-      143400,
-      -3528
-     ],
-     [
-      80840,
-      142904,
-      -3532
-     ],
-     [
-      80344,
-      142408,
-      -3536
-     ],
-     [
-      79848,
-      141912,
-      -3540
-     ],
-     [
-      79352,
-      141416,
-      -3544
-     ],
-     [
-      78960,
-      141072,
-      -3576
-     ],
-     [
-      78568,
-      140728,
-      -3608
-     ],
-     [
-      78080,
-      140232,
-      -3588
-     ],
-     [
-      77592,
-      139736,
-      -3568
-     ],
-     [
-      77544,
-      139656,
-      -3576
-     ],
-     [
-      77048,
-      139160,
-      -3600
-     ],
-     [
-      76552,
-      138664,
-      -3624
-     ],
-     [
-      76088,
-      138392,
-      -3632
-     ],
-     [
-      75624,
-      138120,
-      -3640
-     ],
-     [
-      74840,
-      137720,
-      -3568
-     ],
-     [
-      74344,
-      137224,
-      -3576
-     ],
-     [
-      73848,
-      136728,
-      -3584
-     ],
-     [
-      73864,
-      136200,
-      -3536
-     ],
-     [
-      73864,
-      135672,
-      -3568
-     ],
-     [
-      73600,
-      135176,
-      -3608
-     ],
-     [
-      73336,
-      134680,
-      -3648
-     ],
-     [
-      73336,
-      133928,
-      -3528
-     ]
-    ],
-    "maxDanger": 32,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 32,
-     "dangerVsLevel": -7,
-     "aggro": []
-    }
-   },
-   "expectedSec": 208,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    7
-   ]
-  },
-  {
-   "i": 8,
-   "key": "c11:talk:32200",
-   "cond": 11,
-   "kind": "talk",
-   "to": 9,
-   "links": [],
-   "npc": {
-    "id": 32200,
-    "name": "Entien",
-    "title": "Master",
-    "town": "Dion",
-    "at": [
-     16279,
-     146242,
-     -3096
-    ],
-    "alt": []
-   },
-   "text": "Talk to Entien",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:32200@16279,146242",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 3893,
-    "sec": 52,
-    "via": ".dion",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "walk",
-      "len": 3893,
-      "how": "town-graph",
-      "danger": 30
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Dion"
-    },
-    "simple": true,
-    "pv": [
-     [
-      15619,
-      143132,
-      -2688
-     ],
-     [
-      15480,
-      142888,
-      -2696
-     ],
-     [
-      15464,
-      143160,
-      -2696
-     ],
-     [
-      15464,
-      143432,
-      -2712
-     ],
-     [
-      15432,
-      143560,
-      -2736
-     ],
-     [
-      15560,
-      143688,
-      -2800
-     ],
-     [
-      15752,
-      143880,
-      -2904
-     ],
-     [
-      15800,
-      144072,
-      -2968
-     ],
-     [
-      15848,
-      144344,
-      -3040
-     ],
-     [
-      16024,
-      144552,
-      -3048
-     ],
-     [
-      16104,
-      144792,
-      -3056
-     ],
-     [
-      16120,
-      145064,
-      -3064
-     ],
-     [
-      16168,
-      145176,
-      -3048
-     ],
-     [
-      16248,
-      145432,
-      -3048
-     ],
-     [
-      16296,
-      145704,
-      -3080
-     ],
-     [
-      16296,
-      145976,
-      -3104
-     ],
-     [
-      16280,
-      146248,
-      -3096
-     ]
-    ],
-    "maxDanger": 30,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 30,
-     "dangerVsLevel": -9,
-     "aggro": []
-    }
-   },
-   "expectedSec": 77,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    11
    ]
   }
  ],

@@ -1,0 +1,58 @@
+{
+ "npcId": 32188,
+ "name": "Morelin",
+ "title": "Marksman",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.353Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/32188.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/32188.htm": {
+   "file": "guard/32188.htm",
+   "quest": null,
+   "text": "Marksman Morelin: Finally you have come! If you continue south from here, you will see the Nornil's Cave. There you will find 3 statues of destiny. If you have questions about life or fate, you may ask them -- if they will it, you may receive the answer you seek.",
+   "header": "Marksman Morelin",
+   "links": [
+    {
+     "text": "Ask about the Nornil's Cave.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/32188-1.htm"
+    },
+    {
+     "text": "View information on the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/32188-1.htm": {
+   "file": "guard/32188-1.htm",
+   "quest": null,
+   "text": "Marksman Morelin: The Nornil's Cave houses the 3 goddesses of destiny as well as Nornil, caretaker of the Kamael. It is also the origin of most of the monsters who inhabit the Isle of Souls. Once in our lives, we Kamael must venture into the Cave to meet the 3 goddesses. Until that day comes, train…",
+   "header": "Marksman Morelin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

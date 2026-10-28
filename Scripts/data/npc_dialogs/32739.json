@@ -1,0 +1,62 @@
+{
+ "npcId": 32739,
+ "name": "Bomona",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.401Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32739.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32739.htm": {
+   "file": "default/32739.htm",
+   "quest": null,
+   "text": "Bomona: I suppose you're wondering how I manage to stay alive in this habitat. Well, I just smear their dead flesh all over my body, from head to toe. Especially those hard to reach spots. The smell is the worst part. But you get used to it after a while. Do you see Torumba over there? He's the chi…",
+   "header": "Bomona",
+   "links": [
+    {
+     "text": "\"Please transform me to a Treykan.\"",
+     "bypass": "Quest SeedOfAnnihilation transform",
+     "kind": "quest-event",
+     "script": "SeedOfAnnihilation",
+     "event": "transform"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/32739-1.htm": {
+   "file": "default/32739-1.htm",
+   "quest": null,
+   "text": "Bomona: How do you feel? You should give yourself a minute to adjust. You now have 2 special skills. If you use Treykan Claw, Torumba won't care if you are man or beast. The jig will be up and you'll have to fight for your life. If things get out of control, use your Treykan Dash skill to increase …",
+   "header": "Bomona",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "default/32739-2.htm": {
+   "file": "default/32739-2.htm",
+   "quest": null,
+   "text": "Bomona: [Under construction] Are you out of your mind? If you transform again when your energy is low , you will die. I can't let that happen. So beat it!",
+   "header": "Bomona",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

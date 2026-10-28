@@ -1,0 +1,292 @@
+{
+ "npcId": 30553,
+ "name": "Maryse Redbonnet",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.998Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/30553.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30553-01.html",
+     "when": "state STARTED; has items 3239,3246; lacks items 3259,3254,3248,3255",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30553-02.html",
+     "when": "state STARTED; has items 3239,3246,3259,3254,3248,3255; lacks items 3259,3254,3248; getQuestItemsCount(player, ANIMAL_SKIN) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30553-03.html",
+     "when": "state STARTED; has items 3239,3246,3259,3254,3248,3255; lacks items 3259,3254,3248; !getQuestItemsCount(player, ANIMAL_SKIN) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30553-04.html",
+     "when": "state STARTED; has items 3239,3246,3259,3254,3248,3255; lacks items 3259,3248,3255; !(hasQuestItems(player, MARYSES_REQUEST) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_2ND, CONTRIBUTION_OF",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "291": {
+   "name": "Revenge of the Redbonnet",
+   "listText": [
+    "[Revenge of the Redbonnet]",
+    "[Revenge of the Redbonnet (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00291_RevengeOfTheRedbonnet/30553-02.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00291_RevengeOfTheRedbonnet/30553-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00291_RevengeOfTheRedbonnet/30553-05.html",
+     "when": "state STARTED; cond 2; hasItemsAtLimit(player, BLACK_WOLF_PELT)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00291_RevengeOfTheRedbonnet/30553-04.html",
+     "when": "state STARTED; !(qs.isCond(2) && hasItemsAtLimit(player, BLACK_WOLF_PELT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30553.htm": {
+   "file": "default/30553.htm",
+   "quest": null,
+   "text": "Maryse Redbonnet: I must kill them! I must kill them all! Huge mouth! Gigantic eyes! The rough sound of breathing! I still remember everything... Right in front of me, it opened its mouth and swallowed my parents and grandma... Finally, it was about to lunge out to eat me! Then a Master Raider appe…",
+   "header": "Maryse Redbonnet",
+   "live": {
+    "file": "Logs/questpage_Spoiler10_0.html",
+    "at": "2026-10-27T17:47:05.704Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30553-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30553-01.html",
+   "quest": 221,
+   "text": "Maryse Redbonnet: Contribution ? All I can think about is that wolf! Everything else is secondary right now. I suppose if you help me get my revenge, I'll contribute as much as you want. Bring me 10 animal skins ! (Animal skins are used to produce other items.)",
+   "header": "Maryse Redbonnet",
+   "when": [
+    "state STARTED; has items 3239,3246; lacks items 3259,3254,3248,3255"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30553-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30553-02.html",
+   "quest": 221,
+   "text": "Maryse Redbonnet: Bring me 10 Animal Skins and I'll contribute as much as you want! (An Animal Skin can be used to produce other items.)",
+   "header": "Maryse Redbonnet",
+   "when": [
+    "state STARTED; has items 3239,3246,3259,3254,3248,3255; lacks items 3259,3254,3248; getQuestItemsCount(player, ANIMAL_SKIN) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30553-03.html": {
+   "file": "Q00221_TestimonyOfProsperity/30553-03.html",
+   "quest": 221,
+   "text": "Maryse Redbonnet: Excellent! 10 animal skins! Now we're getting somewhere... As promised, here's my contribution ! You know, that old fellow is really persistent. Sending someone to get the money! He'll get his someday too, mark my words.",
+   "header": "Maryse Redbonnet",
+   "when": [
+    "state STARTED; has items 3239,3246,3259,3254,3248,3255; lacks items 3259,3254,3248; !getQuestItemsCount(player, ANIMAL_SKIN) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30553-04.html": {
+   "file": "Q00221_TestimonyOfProsperity/30553-04.html",
+   "quest": 221,
+   "text": "Maryse Redbonnet: That doddering old man really has his nerve! How dare he send a representative to collect money!",
+   "header": "Maryse Redbonnet",
+   "when": [
+    "state STARTED; has items 3239,3246,3259,3254,3248,3255; lacks items 3259,3248,3255; !(hasQuestItems(player, MARYSES_REQUEST) && !hasAtLeastOneQuestItem(player, RECEIPT_OF_CONTRIBUTION_2ND, CONTRIBUTION_OF"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00291_RevengeOfTheRedbonnet/30553-02.htm": {
+   "file": "Q00291_RevengeOfTheRedbonnet/30553-02.htm",
+   "quest": 291,
+   "text": "Maryse Redbonnet: When I was 10, I decided to kill all the wolves in the world, because they killed my loving family. I didn't want this to happen to others, you see. That's why I became a wolf hunter... I still vividly remember my first kill... It was a wolf cub that was only a few days old. I kil…",
+   "header": "Maryse Redbonnet",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will grant the wish",
+     "bypass": "Quest Q00291_RevengeOfTheRedbonnet 30553-03.htm",
+     "kind": "quest-event",
+     "script": "Q00291_RevengeOfTheRedbonnet",
+     "event": "30553-03.htm",
+     "quest": 291,
+     "to": "Q00291_RevengeOfTheRedbonnet/30553-03.htm",
+     "effect": "start",
+     "live": true
+    }
+   ]
+  },
+  "Q00291_RevengeOfTheRedbonnet/30553-01.htm": {
+   "file": "Q00291_RevengeOfTheRedbonnet/30553-01.htm",
+   "quest": 291,
+   "text": "Maryse Redbonnet: When I was 10, I decided to kill all the wolves in the world, because they killed my loving family. I didn't want this to happen to others, you see. That's why I became a wolf hunter... I still vividly remember my first kill... It was a wolf cub that was only a few days old... I k…",
+   "header": "Maryse Redbonnet",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00291_RevengeOfTheRedbonnet/30553-05.html": {
+   "file": "Q00291_RevengeOfTheRedbonnet/30553-05.html",
+   "quest": 291,
+   "text": "Maryse Redbonnet: Heh, heh, heh ... Yes, this is it ... Forty dead wolves ... Look, grandma! I killed this many wolves today as well! Aren't you happy, grandma? Aren't you? Aren't you? The horrible redbonnet is still strong! I told you! My grandma is very happy, too! My grandma wants me to give thi…",
+   "header": "Maryse Redbonnet",
+   "when": [
+    "state STARTED; cond 2; hasItemsAtLimit(player, BLACK_WOLF_PELT)"
+   ],
+   "live": {
+    "file": "Logs/questpage_Spoiler10_1.html",
+    "at": "2026-10-27T17:47:05.869Z",
+    "score": 1
+   },
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00291_RevengeOfTheRedbonnet/30553-04.html": {
+   "file": "Q00291_RevengeOfTheRedbonnet/30553-04.html",
+   "quest": 291,
+   "text": "Maryse Redbonnet: ... Forty Wolf Pelts! Is that too difficult a task? How come you didn't keep your promise? Somewhere right now, a young girl is being eaten by a wolf! I can see that! Run out of the village now and kill all the black wolves! I want to smell the blood of wolves! The bloody stench o…",
+   "header": "Maryse Redbonnet",
+   "when": [
+    "state STARTED; !(qs.isCond(2) && hasItemsAtLimit(player, BLACK_WOLF_PELT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00291_RevengeOfTheRedbonnet/30553-03.htm": {
+   "file": "Q00291_RevengeOfTheRedbonnet/30553-03.htm",
+   "quest": 291,
+   "text": "Maryse Redbonnet: If you kill wolves for me, I will give you an article left by my grandmother as a reward! Kill the black wolves stalking everywhere outside the village right now! And strip their pelts and bring them to me! One or two is not enough! Of course not ... No way! I need many! Forty Wol…",
+   "header": "Maryse Redbonnet",
+   "live": {
+    "file": "Logs/questpage_Spoiler10_2.html",
+    "at": "2026-10-27T12:37:54.325Z",
+    "score": 1
+   },
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30553-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Revenge of the Redbonnet]",
+     "bypass": "npc_%objectId%_Quest Q00291_RevengeOfTheRedbonnet",
+     "kind": "quest",
+     "quest": 291,
+     "to": "Q00291_RevengeOfTheRedbonnet/30553-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Revenge of the Redbonnet (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00291_RevengeOfTheRedbonnet",
+     "kind": "quest",
+     "quest": 291,
+     "to": "Q00291_RevengeOfTheRedbonnet/30553-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "Maryse Redbonnet:I must kill them! I must kill them all! Hug"
+   ],
+   "to": [
+    "Maryse Redbonnet:When I was 10, I decided to kill all the wo",
+    "Maryse Redbonnet:Heh, heh, heh ... Yes, this is it ... Forty"
+   ]
+  },
+  {
+   "text": "Say you will grant the wish",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Maryse Redbonnet:When I was 10, I decided to kill all the wo"
+   ],
+   "to": [
+    "Maryse Redbonnet:If you kill wolves for me, I will give you "
+   ]
+  }
+ ]
+}

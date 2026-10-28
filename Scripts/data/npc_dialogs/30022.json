@@ -1,0 +1,362 @@
+{
+ "npcId": 30022,
+ "name": "Zigaunt",
+ "title": "Priest",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.788Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "405": {
+   "name": "Path Of The Cleric",
+   "listText": [
+    "[Path of the Cleric]",
+    "[Path of the Cleric (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00405_PathOfTheCleric/30022-01.htm",
+     "when": "lacks items 1201; (qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00405_PathOfTheCleric/30022-04.htm",
+     "when": "has items 1201; (qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00405_PathOfTheCleric/30022-07.html",
+     "when": "state STARTED; has items 1192; lacks items 1200; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00405_PathOfTheCleric/30022-09.html",
+     "when": "state STARTED; has items 1192,1200; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, LEMONIELLS_COVENANT) && hasQuestItems(player, LETTER_OF_ORDER_2ND))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00405_PathOfTheCleric/30022-08.html",
+     "when": "state STARTED; has items 1191,1194,1195,1196; lacks items 1192,1200; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, LEMONIELLS_COVENANT) && hasQuestItems(player, LETTER_OF_ORDER_2ND))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00405_PathOfTheCleric/30022-06.html",
+     "when": "state STARTED; has items 1191; lacks items 1192,1200,1194,1195,1196; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, LEMONIELLS_COVENANT) && hasQuestItems(player, LETTER_OF_ORDER_2ND))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00405_PathOfTheCleric/30022-01.htm": {
+   "file": "Q00405_PathOfTheCleric/30022-01.htm",
+   "quest": 405,
+   "text": "Priest Zigaunt: You will need the Mark of Faith to change profession to a Cleric. It is given to people with true faith. By chance there is a task suitable to prove your faith if you would agree to give it a try?",
+   "header": "Priest Zigaunt",
+   "when": [
+    "lacks items 1201; (qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you will take the task",
+     "bypass": "Quest Q00405_PathOfTheCleric ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00405_PathOfTheCleric",
+     "event": "ACCEPT",
+     "quest": 405,
+     "to": "Q00405_PathOfTheCleric/30022-04.htm",
+     "toAll": [
+      "Q00405_PathOfTheCleric/30022-04.htm",
+      "Q00405_PathOfTheCleric/30022-05.htm",
+      "Q00405_PathOfTheCleric/30022-03.htm",
+      "Q00405_PathOfTheCleric/30022-02a.htm",
+      "Q00405_PathOfTheCleric/30022-02.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00405_PathOfTheCleric/30022-04.htm": {
+   "file": "Q00405_PathOfTheCleric/30022-04.htm",
+   "quest": 405,
+   "text": "Priest Zigaunt: I see you already have the Mark of Faith. If you meet High Priestess Levian , you can change profession.",
+   "header": "Priest Zigaunt",
+   "when": [
+    "has items 1201; (qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30022-07.html": {
+   "file": "Q00405_PathOfTheCleric/30022-07.html",
+   "quest": 405,
+   "text": "Priest Zigaunt: You must bring a signed covenant from Lionel. Please hurry, the church wants to take care of this very quickly.",
+   "header": "Priest Zigaunt",
+   "when": [
+    "state STARTED; has items 1192; lacks items 1200; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30022-09.html": {
+   "file": "Q00405_PathOfTheCleric/30022-09.html",
+   "quest": 405,
+   "text": "Priest Zigaunt: This is definitely Lionel's signature. Thank you. With this, your faith has been fully proven. Here, take this token of faith . If you show that to the High Priestess Levian , she will help you to change your profession to Cleric, one who promulgates the teachings of Einhasad. I mus…",
+   "header": "Priest Zigaunt",
+   "when": [
+    "state STARTED; has items 1192,1200; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, LEMONIELLS_COVENANT) && hasQuestItems(player, LETTER_OF_ORDER_2ND))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30022-08.html": {
+   "file": "Q00405_PathOfTheCleric/30022-08.html",
+   "quest": 405,
+   "text": "Priest Zigaunt: Thank you for your trouble. The church will be very happy. However, we must take care of the fundamental cause of the problem ... It is the will of the church that the writer of the book must sign a covenant saying that he will not write any more subversive content and that he will …",
+   "header": "Priest Zigaunt",
+   "when": [
+    "state STARTED; has items 1191,1194,1195,1196; lacks items 1192,1200; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, LEMONIELLS_COVENANT) && hasQuestItems(player, LETTER_OF_ORDER_2ND))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30022-06.html": {
+   "file": "Q00405_PathOfTheCleric/30022-06.html",
+   "quest": 405,
+   "text": "Priest Zigaunt: Please retrieve all those improper books. The future of our religion depends on your success.",
+   "header": "Priest Zigaunt",
+   "when": [
+    "state STARTED; has items 1191; lacks items 1192,1200,1194,1195,1196; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, LEMONIELLS_COVENANT) && hasQuestItems(player, LETTER_OF_ORDER_2ND))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30022-02.htm": {
+   "file": "Q00405_PathOfTheCleric/30022-02.htm",
+   "quest": 405,
+   "text": "Priest Zigaunt: Oh. You are not a Mystic. I cannot give this errand to those who are not Mystics.",
+   "header": "Priest Zigaunt",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30022-02a.htm": {
+   "file": "Q00405_PathOfTheCleric/30022-02a.htm",
+   "quest": 405,
+   "text": "Priest Zigaunt: You are already a Cleric that has proven your worthiness! You do not have to show your faith again. Please spread the teachings of the gods all over the world.",
+   "header": "Priest Zigaunt",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30022-03.htm": {
+   "file": "Q00405_PathOfTheCleric/30022-03.htm",
+   "quest": 405,
+   "text": "Priest Zigaunt: Thank you for your offer, but this job is too difficult for you right now. You need more experience. Let's talk again when you seen a little more of the world. (Only characters level 18 and above may embark on this quest.)",
+   "header": "Priest Zigaunt",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30022-05.htm": {
+   "file": "Q00405_PathOfTheCleric/30022-05.htm",
+   "quest": 405,
+   "text": "Priest Zigaunt: By any chance, have you heard the rumors that there is a heretical book that criticizes our religion? The book is called \"Understanding of Miracles,\" and it was actually written by a person who used to be a priest. That is why the church wants to take care of this problem quietly. C…",
+   "header": "Priest Zigaunt",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30022-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30022-noteach.html",
+   "quest": null,
+   "text": "Priest Zigaunt: You have come to the wrong person. There is nothing I can teach you, unless you seek counseling regarding spiritual problems. May you be happy in the blessing of Einhasad.",
+   "header": "Priest Zigaunt",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30022.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30022.html",
+   "quest": null,
+   "text": "Priest Zigaunt: Welcome in the name of Einhasad. This is a sacred place where we do all we can to save the poor souls of this region. We refuse aid to no one in real need. Now how can I help you?",
+   "header": "Priest Zigaunt",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Cleric]",
+     "bypass": "npc_%objectId%_Quest Q00405_PathOfTheCleric",
+     "kind": "quest",
+     "quest": 405,
+     "to": "Q00405_PathOfTheCleric/30022-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Cleric (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00405_PathOfTheCleric",
+     "kind": "quest",
+     "quest": 405,
+     "to": "Q00405_PathOfTheCleric/30022-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30022-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30022-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,345 @@
+{
+ "npcId": 32139,
+ "name": "Casca",
+ "title": "Vice Hierarch",
+ "type": "L2VillageMasterKamael",
+ "generated": "2026-10-27T18:18:03.345Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "villagemaster/32139.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "65": {
+   "name": "Certified Soul Breaker",
+   "listText": [
+    "[Certified Soul Breaker]",
+    "[Certified Soul Breaker (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32139-01.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32139-03.html",
+     "when": "state STARTED; memo 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32139-05.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32139-06.html",
+     "when": "state STARTED; memo 14",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00065_CertifiedSoulBreaker/32139-09.html",
+     "when": "state STARTED; memo 21",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/32139.htm": {
+   "file": "villagemaster/32139.htm",
+   "quest": null,
+   "text": "Vice Hierarch Casca: A wind is beginning to blow, one that may strengthen into a storm that will shake the foundations of this world. A Kamael wind... You, Kamael warrior, what do you wish to become? The Kamael have 3 types of skills that have been handed down from ancient times. I will tell you ab…",
+   "header": "Vice Hierarch Casca",
+   "links": [
+    {
+     "text": "Listen to information about 1st transfer.",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "villagemaster/32139-3.htm"
+    },
+    {
+     "text": "Ask about the 3 skills of the Kamael.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "villagemaster/32139-1.htm"
+    },
+    {
+     "text": "Ask about the Berserker.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "villagemaster/32139-2.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "villagemaster/32139-1.htm": {
+   "file": "villagemaster/32139-1.htm",
+   "quest": null,
+   "text": "Vice Hierarch Casca: Kamael have 3 skills, which are selected in the second class transfer. The first is a combat skill with a Short Sword, and allows you to wield the Sword in one hand while controlling your innate magic with the other. Those who master this skill are called Soul Breakers . The se…",
+   "header": "Vice Hierarch Casca",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "villagemaster/32139.htm"
+    }
+   ]
+  },
+  "villagemaster/32139-2.htm": {
+   "file": "villagemaster/32139-2.htm",
+   "quest": null,
+   "text": "Vice Hierarch Casca: Only male Kamael who have been Troopers may acquire the skills necessary to become a Berserker, which allow them to defeat their enemies and absorb their spirit to increase their own speed and power. The heritage of the Berserker stretches far back to the misty origins of our r…",
+   "header": "Vice Hierarch Casca",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "villagemaster/32139.htm"
+    }
+   ]
+  },
+  "villagemaster/32139-3.htm": {
+   "file": "villagemaster/32139-3.htm",
+   "quest": null,
+   "text": "Vice Hierarch Casca: Since our race is distinguished by gender, which denotes both physical and spiritual differences, Kamael men are meant to learn their skills from Troopers while women learn them from Warders. You, my friend, must now walk the path of the Trooper. Would you like to hear more?",
+   "header": "Vice Hierarch Casca",
+   "links": [
+    {
+     "text": "Listen to explanation about Troopers.",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "villagemaster/32139-4.htm"
+    }
+   ]
+  },
+  "villagemaster/32139-4.htm": {
+   "file": "villagemaster/32139-4.htm",
+   "quest": null,
+   "text": "Vice Hierarch Casca: A Trooper is an ancient traditional occupation for Kamael men skilled in combat. This class exhibits the best of our race's natural abilities.",
+   "header": "Vice Hierarch Casca",
+   "links": [
+    {
+     "text": "Listen to details.",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "villagemaster/32139-5.htm"
+    },
+    {
+     "text": "Back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "villagemaster/32139.htm"
+    }
+   ]
+  },
+  "villagemaster/32139-5.htm": {
+   "file": "villagemaster/32139-5.htm",
+   "quest": null,
+   "text": "Vice Hierarch Casca: Trooper is a profession reserved for Kamael men only. At this level, you must choose whether to develop strength of spirit or body. You will learn how to control and manipulate the dark power hidden within ourselves. Our weapons are Ancient Swords and Rapiers -- necessities for…",
+   "header": "Vice Hierarch Casca",
+   "links": [
+    {
+     "text": "Ask about how to become a Trooper.",
+     "bypass": "npc_%objectId%_Chat 6",
+     "kind": "page",
+     "to": "villagemaster/32139-6.htm"
+    },
+    {
+     "text": "Back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "villagemaster/32139.htm"
+    }
+   ]
+  },
+  "villagemaster/32139-6.htm": {
+   "file": "villagemaster/32139-6.htm",
+   "quest": null,
+   "text": "Vice Hierarch Casca: To become a Trooper, you must gain the approval of someone with authority. I believe Master Gwain currently has that role. You may be able to find him in the Town of Gludio. Return here with a recommendation letter from him and the requisite skills, and you will become a Troope…",
+   "header": "Vice Hierarch Casca",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back.",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "villagemaster/32139.htm"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32139-01.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32139-01.html",
+   "quest": 65,
+   "text": "Vice Hierarch Casca: Welcome. What brings you here?",
+   "header": "Vice Hierarch Casca",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"I have come to test my abilities.\"",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 32139-02.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "32139-02.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32139-02.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32139-03.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32139-03.html",
+   "quest": 65,
+   "text": "Vice Hierarch Casca: It is good to see you. I have a task for you which may not seem dangerous, but will requires prudent judgment. If you resolve this task properly, I will vouch for your character. Will you do it?",
+   "header": "Vice Hierarch Casca",
+   "when": [
+    "state STARTED; memo 3"
+   ],
+   "links": [
+    {
+     "text": "\"What kind of task is it?\"",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 32139-04.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "32139-04.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32139-04.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32139-05.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32139-05.html",
+   "quest": 65,
+   "text": "Vice Hierarch Casca: An unidentified man has been asking for information about the cargo from Gludin. He has caused no problems -- yet -- but his behavior is very strange. Track him down and find out who he is, then bring the cargo here securely and safely. I have heard that an unidentified man rec…",
+   "header": "Vice Hierarch Casca",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32139-06.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32139-06.html",
+   "quest": 65,
+   "text": "Vice Hierarch Casca: It has been such a long time since we last met. How is your mission progressing?",
+   "header": "Vice Hierarch Casca",
+   "when": [
+    "state STARTED; memo 14"
+   ],
+   "links": [
+    {
+     "text": "Hand over the documents.",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 32139-07.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "32139-07.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32139-07.html"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32139-09.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32139-09.html",
+   "quest": 65,
+   "text": "Vice Hierarch Casca: Your will and strength are impressive. You are indeed well qualified. Return to the Hierarch.",
+   "header": "Vice Hierarch Casca",
+   "when": [
+    "state STARTED; memo 21"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32139-02.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32139-02.html",
+   "quest": 65,
+   "text": "Vice Hierarch Casca: Ah, you wish to be tested. Do you wish to follow the path of the Soul Breaker? Hmm... What task should I assign you... Well, I have nothing for you right now. I must ponder a proper task for you. Why don't you return here later? I will find a challenge appropriate for you.",
+   "header": "Vice Hierarch Casca",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32139-04.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32139-04.html",
+   "quest": 65,
+   "text": "Vice Hierarch Casca: Someone that our Guild cannot identify is wandering around asking for information about the cargo from Gludin. He has caused no problems -- yet -- but his behavior is very strange. Track him down and find out who he is, then bring the cargo here securely and safely. I have hear…",
+   "header": "Vice Hierarch Casca",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00065_CertifiedSoulBreaker/32139-07.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32139-07.html",
+   "quest": 65,
+   "text": "Vice Hierarch Casca: What's this? What a find! Hmm... Can you tell me where you found this?",
+   "header": "Vice Hierarch Casca",
+   "links": [
+    {
+     "text": "Tell him what happened.",
+     "bypass": "Quest Q00065_CertifiedSoulBreaker 32139-08.html",
+     "kind": "quest-event",
+     "script": "Q00065_CertifiedSoulBreaker",
+     "event": "32139-08.html",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32139-08.html",
+     "effect": "cond:14"
+    }
+   ]
+  },
+  "Q00065_CertifiedSoulBreaker/32139-08.html": {
+   "file": "Q00065_CertifiedSoulBreaker/32139-08.html",
+   "quest": 65,
+   "text": "Vice Hierarch Casca: Ah, I see that you met him. This has become more dangerous than I originally anticipated. He was a bit late, but thankfully, the mission was safely completed. Thank you for a job well done. The last person that you met... I am sure you will meet again someday. You have proven y…",
+   "header": "Vice Hierarch Casca",
+   "sets": {
+    "cond": "14"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Soul Breaker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00065_CertifiedSoulBreaker",
+     "kind": "quest",
+     "quest": 65,
+     "to": "Q00065_CertifiedSoulBreaker/32139-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

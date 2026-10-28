@@ -1,0 +1,218 @@
+{
+ "npcId": 31590,
+ "name": "Truth Scholar Devianne",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.239Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00088_SagaOfTheArchmage/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 88"
+  },
+  {
+   "page": "Q00088_SagaOfTheArchmage/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 88"
+  },
+  {
+   "page": "Q00088_SagaOfTheArchmage/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 88"
+  },
+  {
+   "page": "Q00088_SagaOfTheArchmage/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 88"
+  },
+  {
+   "page": "Q00088_SagaOfTheArchmage/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 88"
+  },
+  {
+   "page": "Q00088_SagaOfTheArchmage/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 88"
+  },
+  {
+   "page": "Q00088_SagaOfTheArchmage/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 88"
+  },
+  {
+   "page": "Q00088_SagaOfTheArchmage/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 88"
+  }
+ ],
+ "quests": {
+  "88": {
+   "name": "Saga of the Archmage",
+   "listText": [
+    "[Saga of the Archmage]",
+    "[Saga of the Archmage (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00088_SagaOfTheArchmage/4-04.htm": {
+   "file": "Q00088_SagaOfTheArchmage/4-04.htm",
+   "quest": 88,
+   "text": "Truth Scholar Devianne: Help or I'll lose him! He's the source of your troubles!",
+   "header": "Truth Scholar Devianne",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/4-06.htm": {
+   "file": "Q00088_SagaOfTheArchmage/4-06.htm",
+   "quest": 88,
+   "text": "Truth Scholar Devianne: Let me properly introduce myself. I'm Devianne. Someone is getting in the way of you becoming an Archmage, so I was investigating disguised as Magister Justin of Goddard Castle Town. The real Justin may be back by now. I was right! Grand Magister Valleria was behind it! You …",
+   "header": "Truth Scholar Devianne",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Go on.\"",
+     "bypass": "Quest Q00088_SagaOfTheArchmage 4-1",
+     "kind": "quest-event",
+     "script": "Q00088_SagaOfTheArchmage",
+     "event": "4-1",
+     "quest": 88,
+     "to": "Q00088_SagaOfTheArchmage/4-010.htm"
+    }
+   ]
+  },
+  "Q00088_SagaOfTheArchmage/4-01.htm": {
+   "file": "Q00088_SagaOfTheArchmage/4-01.htm",
+   "quest": 88,
+   "text": "Truth Scholar Devianne: Help or I'll lose him! He's the source of your troubles!",
+   "header": "Truth Scholar Devianne",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/4-03.htm": {
+   "file": "Q00088_SagaOfTheArchmage/4-03.htm",
+   "quest": 88,
+   "text": "Truth Scholar Devianne: Rats, missed again. I must keep after him!",
+   "header": "Truth Scholar Devianne",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/4-05.htm": {
+   "file": "Q00088_SagaOfTheArchmage/4-05.htm",
+   "quest": 88,
+   "text": "Truth Scholar Devianne: I'm about to lose him!",
+   "header": "Truth Scholar Devianne",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/4-07.htm": {
+   "file": "Q00088_SagaOfTheArchmage/4-07.htm",
+   "quest": 88,
+   "text": "Truth Scholar Devianne: Let me properly introduce myself. I'm Devianne. Something is getting in the way of you becoming an Archmage, so I was investigating disguised as Magister Justin of Goddard Castle Town. The real Justin may be back by now. I was right! Grand Magister Valleria was behind it! Yo…",
+   "header": "Truth Scholar Devianne",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Go on.\"",
+     "bypass": "Quest Q00088_SagaOfTheArchmage 4-2",
+     "kind": "quest-event",
+     "script": "Q00088_SagaOfTheArchmage",
+     "event": "4-2",
+     "quest": 88,
+     "to": "Q00088_SagaOfTheArchmage/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00088_SagaOfTheArchmage/4-02.htm": {
+   "file": "Q00088_SagaOfTheArchmage/4-02.htm",
+   "quest": 88,
+   "text": "Truth Scholar Devianne: Help, I'm about to lose him!",
+   "header": "Truth Scholar Devianne",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/4-08.htm": {
+   "file": "Q00088_SagaOfTheArchmage/4-08.htm",
+   "quest": 88,
+   "text": "Truth Scholar Devianne: This won't be easy. Commune with the Tablet of Vision using the stone I gave you!",
+   "header": "Truth Scholar Devianne",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/4-010.htm": {
+   "file": "Q00088_SagaOfTheArchmage/4-010.htm",
+   "quest": 88,
+   "text": "Truth Scholar Devianne: I missed getting the whole truth, but at least I got the Stone of Commune! I don't know if she was trying to prevent your communing, hide the stone or what. She didn't put up much of a fight though. At least you have finished! Now I must go find Valleria.",
+   "header": "Truth Scholar Devianne",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00088_SagaOfTheArchmage 4-3",
+     "kind": "quest-event",
+     "script": "Q00088_SagaOfTheArchmage",
+     "event": "4-3",
+     "quest": 88,
+     "to": null
+    }
+   ]
+  },
+  "Q00088_SagaOfTheArchmage/4-011.htm": {
+   "file": "Q00088_SagaOfTheArchmage/4-011.htm",
+   "quest": 88,
+   "text": "Truth Scholar Devianne: I missed getting the whole truth, but at least I got the Stone of Commune! I don't know if she was trying to prevent your communing, hide the stone or what. She didn't put up much of a fight though. At least you have finished! Now I must go find Valleria.",
+   "header": "Truth Scholar Devianne",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/4-09.htm": {
+   "file": "Q00088_SagaOfTheArchmage/4-09.htm",
+   "quest": 88,
+   "text": "Truth Scholar Devianne: I'll chase Valleria to find the truth. Commune with the Tablet of Vision using the stone I gave you!",
+   "header": "Truth Scholar Devianne",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Archmage (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00088_SagaOfTheArchmage",
+     "kind": "quest",
+     "quest": 88,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,386 @@
+{
+ "npcId": 30376,
+ "name": "Nell",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.959Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30376.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "369": {
+   "name": "Collector of Jewels",
+   "listText": [
+    "[Collector of Jewels]",
+    "[Collector of Jewels (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00369_CollectorOfJewels/30376-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00369_CollectorOfJewels/30376-03.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00369_CollectorOfJewels/30376-04.html",
+     "when": "state STARTED; memo 1; item 5882 >= 50; item 5883 >= 50",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00369_CollectorOfJewels/30376-08.html",
+     "when": "state STARTED; memo 1; !getQuestItemsCount(player, FLARE_SHARD, FREEZING_SHARD) >= FIRST_STEP_LIMIT * 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00369_CollectorOfJewels/30376-09.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00369_CollectorOfJewels/30376-10.html",
+     "when": "state STARTED; memo 3; item 5882 >= 200; item 5883 >= 200",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00369_CollectorOfJewels/30376-11.html",
+     "when": "state STARTED; memo 3; !getQuestItemsCount(player, FLARE_SHARD, FREEZING_SHARD) >= SECOND_STEP_LIMIT * 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30376.htm": {
+   "file": "trainer/30376.htm",
+   "quest": null,
+   "text": "Magister Nell: Greetings! Gludio is the most beautiful land I've visited outside the Elven Forest. I especially love the sea. Whenever my spirit is troubled, I find I can calm it just by watching the waves upon the sand. Now then, how can I help you? Speak up!",
+   "header": "Magister Nell",
+   "links": [
+    {
+     "text": "Lean skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30376-noteach.htm": {
+   "file": "trainer/30376-noteach.htm",
+   "quest": null,
+   "text": "Magister Nell: I don't know how you've come here, but there is nothing I can do to help you. Among Eva's children, I only help Elves. I hope you will find the right Master for you.",
+   "header": "Magister Nell",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00369_CollectorOfJewels/30376-01.htm": {
+   "file": "Q00369_CollectorOfJewels/30376-01.htm",
+   "quest": 369,
+   "text": "Magister Nell: Do you wish to hear my story? Sometime ago, I met a Elder. He told me that the Forgotten Temple is related to the Ruins on Talking Island. More than anything else, this glittering Flare Shard and Freezing Shard are the proof! They are fragments of elemental stone found in the Ruins o…",
+   "header": "Magister Nell",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it!\"",
+     "bypass": "Quest Q00369_CollectorOfJewels 30376-02.htm",
+     "kind": "quest-event",
+     "script": "Q00369_CollectorOfJewels",
+     "event": "30376-02.htm",
+     "quest": 369,
+     "to": "Q00369_CollectorOfJewels/30376-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00369_CollectorOfJewels/30376-03.html": {
+   "file": "Q00369_CollectorOfJewels/30376-03.html",
+   "quest": 369,
+   "text": "Magister Nell: Do you wish to hear my story? Once I met a Elder. He convinced me that the Forgotten Temple is related to the Ruins on Talking Island. This glittering Flare Shard and Freezing Shard are proof! They are fragments from the Ruins of Talking Island and the Forgotten Temple! Before they w…",
+   "header": "Magister Nell",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00369_CollectorOfJewels/30376-04.html": {
+   "file": "Q00369_CollectorOfJewels/30376-04.html",
+   "quest": 369,
+   "text": "Magister Nell: Ah, you have done as I asked. I feel the strong pull of their magic power. Here is your reward. Would you be interested in working with me some more? I still need many more of them... I'll pay you generously for your work...",
+   "header": "Magister Nell",
+   "when": [
+    "state STARTED; memo 1; item 5882 >= 50; item 5883 >= 50"
+   ],
+   "links": [
+    {
+     "text": "\"Why do you need so many of them?\"",
+     "bypass": "Quest Q00369_CollectorOfJewels 30376-05.html",
+     "kind": "quest-event",
+     "script": "Q00369_CollectorOfJewels",
+     "event": "30376-05.html",
+     "quest": 369,
+     "to": "Q00369_CollectorOfJewels/30376-05.html"
+    },
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00369_CollectorOfJewels 30376-06.html",
+     "kind": "quest-event",
+     "script": "Q00369_CollectorOfJewels",
+     "event": "30376-06.html",
+     "quest": 369,
+     "to": "Q00369_CollectorOfJewels/30376-06.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00369_CollectorOfJewels 30376-07.html",
+     "kind": "quest-event",
+     "script": "Q00369_CollectorOfJewels",
+     "event": "30376-07.html",
+     "quest": 369,
+     "to": "Q00369_CollectorOfJewels/30376-07.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00369_CollectorOfJewels/30376-08.html": {
+   "file": "Q00369_CollectorOfJewels/30376-08.html",
+   "quest": 369,
+   "text": "Magister Nell: Ah, the shiny black hair... eyes that sparkle like gemstones... If I could only hear the voice once more... Why are you still here? Please hurry and collect 50 Flare Shards and 50 Freezing Shards for my research . You can find them by slaying salamanders, undines, death fires and rox…",
+   "header": "Magister Nell",
+   "when": [
+    "state STARTED; memo 1; !getQuestItemsCount(player, FLARE_SHARD, FREEZING_SHARD) >= FIRST_STEP_LIMIT * 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00369_CollectorOfJewels/30376-09.html": {
+   "file": "Q00369_CollectorOfJewels/30376-09.html",
+   "quest": 369,
+   "text": "Magister Nell: Thank you for your help. Would you be interested in working some more? I still need many more of these... I'll give you a very generous reward!",
+   "header": "Magister Nell",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"Do you really need so many of them?\"",
+     "bypass": "Quest Q00369_CollectorOfJewels 30376-05.html",
+     "kind": "quest-event",
+     "script": "Q00369_CollectorOfJewels",
+     "event": "30376-05.html",
+     "quest": 369,
+     "to": "Q00369_CollectorOfJewels/30376-05.html"
+    },
+    {
+     "text": "\"I will try my best.\"",
+     "bypass": "Quest Q00369_CollectorOfJewels 30376-06.html",
+     "kind": "quest-event",
+     "script": "Q00369_CollectorOfJewels",
+     "event": "30376-06.html",
+     "quest": 369,
+     "to": "Q00369_CollectorOfJewels/30376-06.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00369_CollectorOfJewels 30376-07.html",
+     "kind": "quest-event",
+     "script": "Q00369_CollectorOfJewels",
+     "event": "30376-07.html",
+     "quest": 369,
+     "to": "Q00369_CollectorOfJewels/30376-07.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00369_CollectorOfJewels/30376-10.html": {
+   "file": "Q00369_CollectorOfJewels/30376-10.html",
+   "quest": 369,
+   "text": "Magister Nell: Amazing! You've brought them! They must have been very heavy! Please put them down here. Be very, very careful! Thank you for your hard work. Here is your reward. These fragments are kind of small. Now, I can meet Les with confidence. He contacted me some time ago... Anyway, thank yo…",
+   "header": "Magister Nell",
+   "when": [
+    "state STARTED; memo 3; item 5882 >= 200; item 5883 >= 200"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00369_CollectorOfJewels/30376-11.html": {
+   "file": "Q00369_CollectorOfJewels/30376-11.html",
+   "quest": 369,
+   "text": "Magister Nell: Ah, what a profile! Like a classic statue... And that voice! Like an arrow piercing my heart...Where is he now? I wonder what he's doing? I must give him some Spirit Ore! Please, bring me 200 Flare Shards and 200 Freezing Shards ! You can get them from salamanders, undines, death fir…",
+   "header": "Magister Nell",
+   "when": [
+    "state STARTED; memo 3; !getQuestItemsCount(player, FLARE_SHARD, FREEZING_SHARD) >= SECOND_STEP_LIMIT * 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00369_CollectorOfJewels/30376-02.htm": {
+   "file": "Q00369_CollectorOfJewels/30376-02.htm",
+   "quest": 369,
+   "text": "Magister Nell: This won't be easy. The spirits that live in the Forgotten Temple are very strong. You will need help. You can get Flare Shards from lakin salamanders, salamander rowins and death fires . Freezing Shards can be obtained from the lakin undine, the rowin undine and the roxide . Please …",
+   "header": "Magister Nell",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00369_CollectorOfJewels/30376-05.html": {
+   "file": "Q00369_CollectorOfJewels/30376-05.html",
+   "quest": 369,
+   "text": "Magister Nell: Well, if I only needed them for my research, these would be enough. But a Elder taught me all about these gemstones. He said that he needed them, and asked me to collect the fragments for him. At that time the trader Katerina of Talking Island was there. She is also collecting gemsto…",
+   "header": "Magister Nell",
+   "links": [
+    {
+     "text": "\"I will continue to do the work.\"",
+     "bypass": "Quest Q00369_CollectorOfJewels 30376-06.html",
+     "kind": "quest-event",
+     "script": "Q00369_CollectorOfJewels",
+     "event": "30376-06.html",
+     "quest": 369,
+     "to": "Q00369_CollectorOfJewels/30376-06.html",
+     "effect": "cond:3"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00369_CollectorOfJewels 30376-07.html",
+     "kind": "quest-event",
+     "script": "Q00369_CollectorOfJewels",
+     "event": "30376-07.html",
+     "quest": 369,
+     "to": "Q00369_CollectorOfJewels/30376-07.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00369_CollectorOfJewels/30376-06.html": {
+   "file": "Q00369_CollectorOfJewels/30376-06.html",
+   "quest": 369,
+   "text": "Magister Nell: Thank you! Go to the Forgotten Temple with your colleagues. Slay the roxide , the lakin undine , and the rowin undine to obtain Freezing Shards . Slay the death fire , the lakin salamander , and the salamander rowin to obtain Flare Shards . I'd like to give you at least 5 restored Sp…",
+   "header": "Magister Nell",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00369_CollectorOfJewels/30376-07.html": {
+   "file": "Q00369_CollectorOfJewels/30376-07.html",
+   "quest": 369,
+   "text": "Magister Nell: Oh, too bad. Very well. I'll get someone else to help me. I appreciate your help up to now. I will take care of the remaining shards. Leave them here. If you change your mind, please come back and see me. Okay?",
+   "header": "Magister Nell",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Collector of Jewels]",
+     "bypass": "npc_%objectId%_Quest Q00369_CollectorOfJewels",
+     "kind": "quest",
+     "quest": 369,
+     "to": "Q00369_CollectorOfJewels/30376-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Collector of Jewels (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00369_CollectorOfJewels",
+     "kind": "quest",
+     "quest": 369,
+     "to": "Q00369_CollectorOfJewels/30376-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

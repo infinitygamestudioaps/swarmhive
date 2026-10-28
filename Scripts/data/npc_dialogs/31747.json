@@ -1,0 +1,98 @@
+{
+ "npcId": 31747,
+ "name": "Pure White Unicorn",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.274Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31747.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "242": {
+   "name": "Possessor Of A Precious Soul 2",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 2]",
+    "[Path of the Noblesse, Precious Soul - 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/31747-01.html",
+     "when": "cond 10",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00242_PossessorOfAPreciousSoul2/31747-02.html",
+     "when": "cond 11",
+     "state": null,
+     "cond": [
+      11
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31747.htm": {
+   "file": "default/31747.htm",
+   "quest": null,
+   "text": "Pure White Unicorn: The unicorn seems to be feeling better, although it still looks a bit weak and faltering. For some reason, when I caress it, the familiar face of a blonde woman comes to mind...",
+   "header": "Pure White Unicorn",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00242_PossessorOfAPreciousSoul2/31747-01.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/31747-01.html",
+   "quest": 242,
+   "text": "Pure White Unicorn: [A familiar female voice] Thank you for your help... I'm too weak now to return to my original state, but don't worry. It's too dangerous for you to stay any longer. You must go back to Kassandra and her grandfather.",
+   "header": "Pure White Unicorn",
+   "when": [
+    "cond 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00242_PossessorOfAPreciousSoul2/31747-02.html": {
+   "file": "Q00242_PossessorOfAPreciousSoul2/31747-02.html",
+   "quest": 242,
+   "text": "Pure White Unicorn: [A familiar female voice] Hurry and return to the Dwarven girl, Kassandra.",
+   "header": "Pure White Unicorn",
+   "when": [
+    "cond 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00242_PossessorOfAPreciousSoul2",
+     "kind": "quest",
+     "quest": 242,
+     "to": "Q00242_PossessorOfAPreciousSoul2/31747-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

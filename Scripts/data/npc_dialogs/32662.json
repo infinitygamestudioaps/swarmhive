@@ -1,0 +1,59 @@
+{
+ "npcId": 32662,
+ "name": "Guardian of Great Seal",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.397Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32662.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "default/32662.htm": {
+   "file": "default/32662.htm",
+   "quest": null,
+   "text": "Guardian of the Great Seal: I am a guardian in charge of the Great Seal in the Chamber of Delusion. What brings you here?",
+   "header": "Guardian of the Great Seal",
+   "links": [
+    {
+     "text": "Enter the Great Seal.",
+     "bypass": "npc_%objectId%_Quest ChamberOfDelusionSquare",
+     "kind": "quest",
+     "script": "ChamberOfDelusionSquare"
+    },
+    {
+     "text": "Ask about the Chamber of Delusion.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32662-1.htm"
+    },
+    {
+     "text": "Use Guiding Tea Leaves.",
+     "bypass": "npc_%objectId%_multisell 326580001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Wake up from the Chamber of Delusion.",
+     "bypass": "npc_%objectId%_Quest DelusionTeleport",
+     "kind": "quest",
+     "script": "DelusionTeleport",
+     "to": null
+    }
+   ]
+  },
+  "default/32662-1.htm": {
+   "file": "default/32662-1.htm",
+   "quest": null,
+   "text": "Guardian of the Great Seal: This is the Great Seal in the Chamber of Delusion. Here are the remains of the challenges, desires and blood of countless heroes. Unlike the other seals, you will not be able to see Einkinel for a limited time (1 day) after a defeat.",
+   "header": "Guardian of the Great Seal",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

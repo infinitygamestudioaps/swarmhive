@@ -1,0 +1,690 @@
+{
+ "npcId": 32220,
+ "name": "Selsia",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.359Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/32220.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "66": {
+   "name": "Certified Arbalester",
+   "listText": [
+    "[Certified Arbalester]",
+    "[Certified Arbalester (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00066_CertifiedArbalester/32220-01.html",
+     "when": "state STARTED; memoState < 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32220-02.html",
+     "when": "state STARTED; memo 11; !memoState < 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32220-04.html",
+     "when": "state STARTED; memo 12; !memoState < 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32220-07.html",
+     "when": "state STARTED; memo 13; !memoState < 11; qs.getMemoStateEx(1) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32220-08.html",
+     "when": "state STARTED; memo 13; !memoState < 11; !qs.getMemoStateEx(1) == 0; qs.getMemoStateEx(1) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32220-14.html",
+     "when": "state STARTED; memo 20; !memoState < 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32220-15.html",
+     "when": "state STARTED; memo 21; !memoState < 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32220-16.html",
+     "when": "state STARTED; memo 22; !memoState < 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32220-17.html",
+     "when": "state STARTED; !memoState < 11; memoState >= 23; memoState < 30",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32220-18.html",
+     "when": "state STARTED; memo 30; !memoState < 11; !((memoState >= 23) && (memoState < 30))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32220-20.html",
+     "when": "state STARTED; memo 31; !memoState < 11; !((memoState >= 23) && (memoState < 30))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32220-27.html",
+     "when": "state STARTED; memo 32; lacks items 9781; !memoState < 11; !((memoState >= 23) && (memoState < 30))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00066_CertifiedArbalester/32220-28.html",
+     "when": "state STARTED; memo 32; has items 9781; !memoState < 11; !((memoState >= 23) && (memoState < 30))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/32220.htm": {
+   "file": "trainer/32220.htm",
+   "quest": null,
+   "text": "Master Selsia: Welcome to the Kamael Guild! I am interested in other races and foreign lands, but when I first came here, I must admit that I was somewhat disappointed... I had hoped to be stationed in a larger city, with more to see and do. But I'm young, and I have plenty of time...",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/32220-noteach.htm": {
+   "file": "trainer/32220-noteach.htm",
+   "quest": null,
+   "text": "Master Fabnor: Did you not know I teach only Kamael Troopers, Berserkers or Soul Breakers? I am afraid that you must seek another mentor, my fried.",
+   "header": "Master Fabnor",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32220-01.html": {
+   "file": "Q00066_CertifiedArbalester/32220-01.html",
+   "quest": 66,
+   "text": "Master Selsia: What do you want, cadet? I am very busy now, so unless it is something urgent, come back later...",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; memoState < 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32220-02.html": {
+   "file": "Q00066_CertifiedArbalester/32220-02.html",
+   "quest": 66,
+   "text": "Master Selsia: What do you want, cadet?",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; memo 11; !memoState < 11"
+   ],
+   "links": [
+    {
+     "text": "Show her your badge.",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-03.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-03.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-03.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-04.html": {
+   "file": "Q00066_CertifiedArbalester/32220-04.html",
+   "quest": 66,
+   "text": "Master Selsia: Welcome to Hunters Village. I received the message from Grand Master Meldina... As you know, we manage and protect information. This place may seem simple and unassuming, but spies from many different races exchange information, concoct plots and hatch conspiracies here... I think th…",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; memo 12; !memoState < 11"
+   ],
+   "links": [
+    {
+     "text": "Shall we discuss your problem?",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-05.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-05.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-05.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-07.html": {
+   "file": "Q00066_CertifiedArbalester/32220-07.html",
+   "quest": 66,
+   "text": "Master Selsia: Very well. What we do is very detailed and requires careful attention, so take great care to complete each mission assigned to you as thoroughly as possible. If you fail, we may take steps to protect ourselves. The best case scenario would be to magically erase your memory. The worst…",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; memo 13; !memoState < 11; qs.getMemoStateEx(1) == 0"
+   ],
+   "links": [
+    {
+     "text": "Let me explain the mission to you.",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-09.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-09.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-09.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-08.html": {
+   "file": "Q00066_CertifiedArbalester/32220-08.html",
+   "quest": 66,
+   "text": "Master Selsia: Ah, I don't think I understood correctly. Please explain again...",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; memo 13; !memoState < 11; !qs.getMemoStateEx(1) == 0; qs.getMemoStateEx(1) == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Very well...\"",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-09.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-09.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-09.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-14.html": {
+   "file": "Q00066_CertifiedArbalester/32220-14.html",
+   "quest": 66,
+   "text": "Master Selsia: Our information says that the secret is related to our race... Your mission is to discover what the secret was, to whom it was to be delivered, who instigated the assault, and anything else of value to us. Find out what you can and report back to me... According to our information, t…",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; memo 20; !memoState < 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32220-15.html": {
+   "file": "Q00066_CertifiedArbalester/32220-15.html",
+   "quest": 66,
+   "text": "Master Selsia: Defeat Grandis in Death Pass to discover the information we need... Prove yourself!",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; memo 21; !memoState < 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32220-16.html": {
+   "file": "Q00066_CertifiedArbalester/32220-16.html",
+   "quest": 66,
+   "text": "Master Selsia: Did you find a piece of the Raid Commission Paper? If we find all the pieces, it may be possible to get some kind of lead. Keep working...",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; memo 22; !memoState < 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32220-17.html": {
+   "file": "Q00066_CertifiedArbalester/32220-17.html",
+   "quest": 66,
+   "text": "Master Selsia: So the Ivory Tower is connected to this... Tread carefully so as not to cause any undue incidents. Keep up the good work!",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; !memoState < 11; memoState >= 23; memoState < 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32220-18.html": {
+   "file": "Q00066_CertifiedArbalester/32220-18.html",
+   "quest": 66,
+   "text": "Master Selsia: Did you discover anything about the case?",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; memo 30; !memoState < 11; !((memoState >= 23) && (memoState < 30))"
+   ],
+   "links": [
+    {
+     "text": "(Report what has happened up to now.)",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-19.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-19.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-19.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-20.html": {
+   "file": "Q00066_CertifiedArbalester/32220-20.html",
+   "quest": 66,
+   "text": "Master Selsia: My, what a complicated situation... What is your opinion",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; memo 31; !memoState < 11; !((memoState >= 23) && (memoState < 30))"
+   ],
+   "links": [
+    {
+     "text": "\"There are 4 possible situations. The first is...\"",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-21.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-21.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-21.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-27.html": {
+   "file": "Q00066_CertifiedArbalester/32220-27.html",
+   "quest": 66,
+   "text": "Master Selsia: Eliminate the Crimson Lady and retrieve the Giants' Research Documents. We must not allow secrets concerning our race to fall into other hands. The Crimson Lady is being guarded by Timak Orcs and Timak Orc Archers at the Timak Outpost . Slay the Timak Orcs and Timak Orc Archers and y…",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; memo 32; lacks items 9781; !memoState < 11; !((memoState >= 23) && (memoState < 30))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32220-28.html": {
+   "file": "Q00066_CertifiedArbalester/32220-28.html",
+   "quest": 66,
+   "text": "Master Selsia: You have done very well! Let me see that... (Hand over Giants' Research Documents.) These can now be safeguarded from any other threats. You have done magnificent work and have passed all our tests... Here, take this Badge of Inquisitor , which certifies that you have passed our test…",
+   "header": "Master Selsia",
+   "when": [
+    "state STARTED; memo 32; has items 9781; !memoState < 11; !((memoState >= 23) && (memoState < 30))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32220-03.html": {
+   "file": "Q00066_CertifiedArbalester/32220-03.html",
+   "quest": 66,
+   "text": "Master Selsia: Welcome to Hunters Village. I received the message from Grand Master Meldina... As you know, we manage and protect information. This place may seem simple and unassuming, but spies from many different races exchange information, concoct plots and hatch conspiracies here... I think th…",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "Shall we discuss your problem?",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-05.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-05.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-05.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-05.html": {
+   "file": "Q00066_CertifiedArbalester/32220-05.html",
+   "quest": 66,
+   "text": "Master Selsia: There is no particular test... You simply must complete several missions we determine will prove your ability. After that, we will evaluate your performance and make our decision. If you fail the test, we may abandon you. How is it? Do you still want to take the class transfer test?",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "\"Yes, I do.\"",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-06.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-06.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-06.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-06.html": {
+   "file": "Q00066_CertifiedArbalester/32220-06.html",
+   "quest": 66,
+   "text": "Master Selsia: Very well. What we do is very detailed and requires careful attention, so take great care to complete each mission assigned to you as thoroughly as possible. If you fail, we may take steps to protect ourselves. The best case scenario would be to magically erase your memory. The worst…",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "Let me explain the mission to you.",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-09.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-09.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-09.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-09.html": {
+   "file": "Q00066_CertifiedArbalester/32220-09.html",
+   "quest": 66,
+   "text": "Master Selsia: Recently, several high-ranking Human officials and Priests were killed by monsters while traveling through Death Pass to Oren Castle. There have also been cases of monsters nearby engaging in pillage and bandits attacking traders between Oren and Kiran... That is the official story, …",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "\"Really? Do you think there is anything strange going on?\"",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-10.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-10.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-10.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-10.html": {
+   "file": "Q00066_CertifiedArbalester/32220-10.html",
+   "quest": 66,
+   "text": "Master Selsia:",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "I believe it is a raid by ordinary monsters, just as was publicly announced.",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-11.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-11.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-11.html"
+    },
+    {
+     "text": "The travelers probably simply were in the wrong place at the wrong time.",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-12.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-12.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-12.html"
+    },
+    {
+     "text": "But it seems less likely that the high-ranking officials would be so careless as to be ambushed.",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-13a.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-13a.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-13a.html"
+    },
+    {
+     "text": "Perhaps the flashy uniforms attracted the monsters' attention...",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-13.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-13.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-13.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-11.html": {
+   "file": "Q00066_CertifiedArbalester/32220-11.html",
+   "quest": 66,
+   "text": "Master Selsia: Hmm... That is a very simple way to look at things... I don't think you're fit to take our test after all...",
+   "header": "Master Selsia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32220-12.html": {
+   "file": "Q00066_CertifiedArbalester/32220-12.html",
+   "quest": 66,
+   "text": "Master Selsia: Hmm... That is a very simple way to look at things... I don't think you're fit to take our test after all...",
+   "header": "Master Selsia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32220-13.html": {
+   "file": "Q00066_CertifiedArbalester/32220-13.html",
+   "quest": 66,
+   "text": "Master Selsia: Hmm ... That is a very simple way to look at things... I don't think you're fit to take our test after all...",
+   "header": "Master Selsia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32220-13a.html": {
+   "file": "Q00066_CertifiedArbalester/32220-13a.html",
+   "quest": 66,
+   "text": "Master Selsia: Ah, you seem to have some common sense. Perhaps I was right about you. Our investigation has revealed that the Human official and the Priest were delivering some secret documents or a report concerning our race to someone in Oren Castle. Apparently someone else who did not want that …",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "\"I see.\"",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-13b.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-13b.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-13b.html",
+     "effect": "cond:11"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-13b.html": {
+   "file": "Q00066_CertifiedArbalester/32220-13b.html",
+   "quest": 66,
+   "text": "Master Selsia: Your mission is to discover what the secret was, to whom it was to be delivered, who instigated the assault, and anything else of value to us. Find out what you can and report back to me... According to our information, the Human official and Priest who were killed in Death Pass were…",
+   "header": "Master Selsia",
+   "sets": {
+    "cond": "11"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00066_CertifiedArbalester/32220-19.html": {
+   "file": "Q00066_CertifiedArbalester/32220-19.html",
+   "quest": 66,
+   "text": "Master Selsia: My, what a complicated situation... What is your opinion",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "\"There are 4 possible situations. The first is...\"",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-21.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-21.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-21.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-21.html": {
+   "file": "Q00066_CertifiedArbalester/32220-21.html",
+   "quest": 66,
+   "text": "Master Selsia: Scenario 1: Beleth's agent in Giran discovered part of the Giants' biotechnology that related to our race. He tried then deliver the information to Beleth through someone in Oren. The Ivory Tower Wizards commissioned the raid to stop that information from falling into Beleth's hands,…",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "\"The second scenario is...\"",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-22.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-22.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-22.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-22.html": {
+   "file": "Q00066_CertifiedArbalester/32220-22.html",
+   "quest": 66,
+   "text": "Master Selsia: This story about Beleth may have been made up by greedy Ivory Tower Wizard who wanted the Giants' Research Documents for themselves. The sticking point is whoever instructed the monsters to attack. In this case, Gauen may be telling the truth, Kaiena may be telling the truth, or both…",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "\"The third scenario is...\"",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-23.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-23.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-23.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-23.html": {
+   "file": "Q00066_CertifiedArbalester/32220-23.html",
+   "quest": 66,
+   "text": "Master Selsia: Then Ivory Tower may have planned this entire situation in order to keep Giran and Oren from acquiring this power. In that case, either Gauen or Kaiena may be telling the truth, or... some other group may have decided to snatch the information for itself.",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "\"The final scenario is...\"",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-24.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-24.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-24.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-24.html": {
+   "file": "Q00066_CertifiedArbalester/32220-24.html",
+   "quest": 66,
+   "text": "Master Selsia: The Giran official who was attacked was not a follower of Beleth, and... Beleth intentionally slipped the information on the Giants' Research Documents to the Ivory Tower Wizards. Knowing that they would be thrown into conflict with each other, he could then take advantage of the sit…",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "\"Those are all the possibilities I can see...\"",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-25.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-25.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-25.html"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-25.html": {
+   "file": "Q00066_CertifiedArbalester/32220-25.html",
+   "quest": 66,
+   "text": "Master Selsia: Splendid! You seem to have more talent than I thought. I had not even considered the possibility of Beleth's plan... Intriguing... It is a very important virtue of a Kamael commander not to come to an overly-hasty conclusion, but to remain open to all possiblities while gathering inf…",
+   "header": "Master Selsia",
+   "links": [
+    {
+     "text": "Now then, I will give your final mission for this test.",
+     "bypass": "Quest Q00066_CertifiedArbalester 32220-26.html",
+     "kind": "quest-event",
+     "script": "Q00066_CertifiedArbalester",
+     "event": "32220-26.html",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-26.html",
+     "effect": "cond:19"
+    }
+   ]
+  },
+  "Q00066_CertifiedArbalester/32220-26.html": {
+   "file": "Q00066_CertifiedArbalester/32220-26.html",
+   "quest": 66,
+   "text": "Master Selsia: Eliminate the Crimson Lady and retrieve the Giants' Research Documents. We must not allow secrets concerning our race to fall into other hands. The Crimson Lady is being guarded by Timak Orcs and Timak Orc Archers at the Timak Outpost . Slay the Timak Orcs and Timak Orc Archers and y…",
+   "header": "Master Selsia",
+   "sets": {
+    "cond": "19"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Arbalester (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00066_CertifiedArbalester",
+     "kind": "quest",
+     "quest": 66,
+     "to": "Q00066_CertifiedArbalester/32220-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

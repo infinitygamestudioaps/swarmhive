@@ -1,0 +1,178 @@
+{
+ "npcId": 30138,
+ "name": "Minaless",
+ "title": "Accessory Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.849Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30138.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "319": {
+   "name": "Scent of Death",
+   "listText": [
+    "[Scent of Death]",
+    "[Scent of Death (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00319_ScentOfDeath/30138-03.htm",
+     "when": "state CREATED; player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00319_ScentOfDeath/30138-02.htm",
+     "when": "state CREATED; NOT player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00319_ScentOfDeath/30138-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00319_ScentOfDeath/30138-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30138.htm": {
+   "file": "merchant/30138.htm",
+   "quest": null,
+   "text": "Trader Minaless: May the goddess of darkness hide you and keep you safe! I carry everything any disciple Shilen could want. All these items, prepared especially for our dark brotherhood...",
+   "header": "Trader Minaless",
+   "links": [
+    {
+     "text": "Trade accessories.",
+     "bypass": "npc_%objectId%_Buy 3013800",
+     "kind": "shop"
+    },
+    {
+     "text": "Exchange equipment.",
+     "bypass": "npc_%objectId%_exc_multisell 003",
+     "kind": "multisell"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00319_ScentOfDeath/30138-03.htm": {
+   "file": "Q00319_ScentOfDeath/30138-03.htm",
+   "quest": 319,
+   "text": "Trader Minaless: Do you know about the flower called nightshade ? It is a very beautiful plant with a sweet scent that only blossoms at night. The juice is very poisonous, but if it is processed properly it can be used in making reagents that have many uses. Recently, I have begun raising nightshad…",
+   "header": "Trader Minaless",
+   "when": [
+    "state CREATED; player.getLevel() >= MIN_LEVEL"
+   ],
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00319_ScentOfDeath 30138-04.htm",
+     "kind": "quest-event",
+     "script": "Q00319_ScentOfDeath",
+     "event": "30138-04.htm",
+     "quest": 319,
+     "to": "Q00319_ScentOfDeath/30138-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00319_ScentOfDeath/30138-02.htm": {
+   "file": "Q00319_ScentOfDeath/30138-02.htm",
+   "quest": 319,
+   "text": "Trader Minaless: I grow many Medicinal Herbs as a side job. Of course, my efforts don't compare at all to Tetrarch Vellior's herb garden, but I am raising a few priceless herbs like nightshade and Belladonna. However, as precious as they are, they must be given a special fertilizer. To make the fer…",
+   "header": "Trader Minaless",
+   "when": [
+    "state CREATED; NOT player.getLevel() >= MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00319_ScentOfDeath/30138-05.html": {
+   "file": "Q00319_ScentOfDeath/30138-05.html",
+   "quest": 319,
+   "text": "Trader Minaless: I must have at least five zombie skins to make zombie dust. If you go to the Marshlands southwest of the village, there are many marsh zombies that aimlessly wander around.",
+   "header": "Trader Minaless",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00319_ScentOfDeath/30138-06.html": {
+   "file": "Q00319_ScentOfDeath/30138-06.html",
+   "quest": 319,
+   "text": "Trader Minaless: Thank you! This is enough to make fertilizer for a month. I will compensate you as I promised! I will also give you a reagent made from the juice of nightshade I harvested just recently. My skills are yet poor, so the effect is weak, but I think you will still find it quite useful.",
+   "header": "Trader Minaless",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00319_ScentOfDeath/30138-04.htm": {
+   "file": "Q00319_ScentOfDeath/30138-04.htm",
+   "quest": 319,
+   "text": "Trader Minaless: The Nightshade needs Zombie Dust as fertilizer. Zombie Dust is made by drying the skins of corpses and grinding them into powder. It will have a stronger effect if it's made with an old corpse. Tetrarch Vellior told me he uses the skins of the undead for best effect. I need a favor…",
+   "header": "Trader Minaless",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Scent of Death]",
+     "bypass": "npc_%objectId%_Quest Q00319_ScentOfDeath",
+     "kind": "quest",
+     "quest": 319,
+     "to": "Q00319_ScentOfDeath/30138-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Scent of Death (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00319_ScentOfDeath",
+     "kind": "quest",
+     "quest": 319,
+     "to": "Q00319_ScentOfDeath/30138-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,76 @@
+{
+ "npcId": 30672,
+ "name": "Dubabah",
+ "title": "Jailer",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.030Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30672.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "231": {
+   "name": "Test Of The Maestro",
+   "listText": [
+    "[Test of the Maestro]",
+    "[Test of the Maestro (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00231_TestOfTheMaestro/30672-01.html",
+     "when": "state STARTED; has items 2869",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30672.htm": {
+   "file": "default/30672.htm",
+   "quest": null,
+   "text": "Jailer Dubabah: I am Jailer Dubabah! I twist and poke and burn and scratch... And everyone bellows such lovely screams...",
+   "header": "Jailer Dubabah",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00231_TestOfTheMaestro/30672-01.html": {
+   "file": "Q00231_TestOfTheMaestro/30672-01.html",
+   "quest": 231,
+   "text": "Jailer Dubabah: Ah, those trespassers I caught in this cave? He he he, you should have heard their screams as their limbs were torn off one by one... They didn't stop until I lopped off their heads! The one that cursed the loudest escaped somehow... But he is as good as dead. He has surely become a…",
+   "header": "Jailer Dubabah",
+   "when": [
+    "state STARTED; has items 2869"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Maestro (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00231_TestOfTheMaestro",
+     "kind": "quest",
+     "quest": 231,
+     "to": "Q00231_TestOfTheMaestro/30672-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

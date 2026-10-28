@@ -2,7 +2,7 @@
  "id": 6,
  "name": "Step Into the Future",
  "version": 1,
- "generated": "2026-10-27T11:14:35.514Z",
+ "generated": "2026-10-27T18:18:15.681Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 3,
@@ -121,208 +121,6 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:30006",
-   "cond": 1,
-   "kind": "talk",
-   "to": "end",
-   "links": [
-    "\"Magister Baulro persuaded Sir Colin Windawood pay for my journey!\""
-   ],
-   "npc": {
-    "id": 30006,
-    "name": "Roxxy",
-    "title": "Gatekeeper",
-    "town": "Talking Island",
-    "at": [
-     -84108,
-     244604,
-     -3728
-    ],
-    "alt": []
-   },
-   "text": "Get Baulro's Letter",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30006@-84108,244604",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 384,
-    "sec": 48,
-    "via": ".gludin > Gludin -> TI Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> TI Village",
-      "link": "talking island village",
-      "price": 9400,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 384,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> TI Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -84141,
-      244623,
-      -3728
-     ],
-     [
-      -84312,
-      244584,
-      -3728
-     ],
-     [
-      -84104,
-      244600,
-      -3728
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 73,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    3
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:30311",
-   "cond": 1,
-   "kind": "talk",
-   "to": 3,
-   "links": [
-    "\"Baulro told me to pay you a visit and give you this.\""
-   ],
-   "npc": {
-    "id": 30311,
-    "name": "Sir Collin Windawood",
-    "title": "",
-    "town": "Talking Island",
-    "at": [
-     -100332,
-     238019,
-     -3568
-    ],
-    "alt": []
-   },
-   "text": "Get Baulro's Letter",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30311@-100332,238019",
-    "status": "ok",
-    "flags": [
-     "link-unverified"
-    ],
-    "from": ".gludin",
-    "length": 837,
-    "sec": 77,
-    "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> TI Village",
-      "link": "talking island village",
-      "price": 9400,
-      "live": true
-     },
-     {
-      "do": "gk",
-      "from": "TI",
-      "desc": "TI -> Obelisk of Victory",
-      "link": "Obelisk of Victory",
-      "price": 470,
-      "live": false
-     },
-     {
-      "do": "walk",
-      "len": 837,
-      "how": "geodata",
-      "danger": 9
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> TI Village"
-    },
-    "simple": false,
-    "pv": [
-     [
-      -99586,
-      237637,
-      -3568
-     ],
-     [
-      -100328,
-      238024,
-      -3568
-     ]
-    ],
-    "maxDanger": 9,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 9,
-     "dangerVsLevel": 6,
-     "aggro": []
-    }
-   },
-   "expectedSec": 102,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2
-   ]
-  },
-  {
-   "i": 3,
    "key": "c1:talk:30033",
    "cond": 1,
    "kind": "talk",
@@ -455,7 +253,205 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30311",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"Baulro told me to pay you a visit and give you this.\""
+   ],
+   "npc": {
+    "id": 30311,
+    "name": "Sir Collin Windawood",
+    "title": "",
+    "town": "Talking Island",
+    "at": [
+     -100332,
+     238019,
+     -3568
+    ],
+    "alt": []
+   },
+   "text": "Deliver Letter to Sir Colin Windawood",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30311@-100332,238019",
+    "status": "ok",
+    "flags": [
+     "link-unverified"
+    ],
+    "from": ".gludin",
+    "length": 837,
+    "sec": 77,
+    "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "TI",
+      "desc": "TI -> Obelisk of Victory",
+      "link": "Obelisk of Victory",
+      "price": 470,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 837,
+      "how": "geodata",
+      "danger": 9
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -99586,
+      237637,
+      -3568
+     ],
+     [
+      -100328,
+      238024,
+      -3568
+     ]
+    ],
+    "maxDanger": 9,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 9,
+     "dangerVsLevel": 6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:30006",
+   "cond": 3,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Magister Baulro persuaded Sir Colin Windawood pay for my journey!\""
+   ],
+   "npc": {
+    "id": 30006,
+    "name": "Roxxy",
+    "title": "Gatekeeper",
+    "town": "Talking Island",
+    "at": [
+     -84108,
+     244604,
+     -3728
+    ],
+    "alt": []
+   },
+   "text": "Return to Roxxy – Complete the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30006@-84108,244604",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 384,
+    "sec": 48,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 384,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84104,
+      244600,
+      -3728
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 73,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
     3
    ]
   }
@@ -464,7 +460,7 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:14:35.532Z",
+  "at": "2026-10-27T18:18:15.710Z",
   "pass": true,
   "geo": true,
   "fails": [],

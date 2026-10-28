@@ -87,6 +87,8 @@ The header has **▶ Start all** / **■ Stop all** and shows how many parties r
 stopped on its own: it then stands still (no follow, no assist, no team walks) and its party goes on without it; **▶ Start** brings
 it back. A party Start / Stop resets these per-character switches. The line says *the bots have not picked it up yet* for a few
 seconds after a change, and *the bots run an older swarm.js* when the script with the switch is not deployed yet.
+A member switched to [Hands off](character.md#hands-off) is shown on the line as *· ✋ hands off: <name>* (Hive leaves it alone; its
+own L2Swarm profile keeps running).
 
 The switches are kept in `Scripts/data/run_state.json` (read by the bots every 2 seconds).
 

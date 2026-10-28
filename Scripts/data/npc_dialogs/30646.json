@@ -1,0 +1,194 @@
+{
+ "npcId": 30646,
+ "name": "Raldo",
+ "title": "Champion",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.026Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30646.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "211": {
+   "name": "Trial of the Challenger",
+   "listText": [
+    "[Trial of the Challenger]",
+    "[Trial of the Challenger (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00211_TrialOfTheChallenger/30646-01.html",
+     "when": "cond 7; has items 2630",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30646-06.html",
+     "when": "cond 8",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00211_TrialOfTheChallenger/30646-07.html",
+     "when": "cond 10",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30646.htm": {
+   "file": "default/30646.htm",
+   "quest": null,
+   "text": "Raldo: I am the guardian of the magic field! My name is Raldo! Those who dare to break down the magic field shall not live to tell about it!",
+   "header": "Raldo",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00211_TrialOfTheChallenger/30646-01.html": {
+   "file": "Q00211_TrialOfTheChallenger/30646-01.html",
+   "quest": 211,
+   "text": "Raldo: You rascal! Why would you harm the guardians?",
+   "header": "Raldo",
+   "when": [
+    "cond 7; has items 2630"
+   ],
+   "links": [
+    {
+     "text": "\"I have come to kill the monsters threatening the villagers.\"",
+     "bypass": "Quest Q00211_TrialOfTheChallenger 30646-02.html",
+     "kind": "quest-event",
+     "script": "Q00211_TrialOfTheChallenger",
+     "event": "30646-02.html",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30646-02.html"
+    }
+   ]
+  },
+  "Q00211_TrialOfTheChallenger/30646-06.html": {
+   "file": "Q00211_TrialOfTheChallenger/30646-06.html",
+   "quest": 211,
+   "text": "Raldo: Why are you still here? You must leave for the Dwarven Village right away! Find the location of the magic field with the help of Elder Philar and then kill all the succubus so that they cannot destroy it!",
+   "header": "Raldo",
+   "when": [
+    "cond 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30646-07.html": {
+   "file": "Q00211_TrialOfTheChallenger/30646-07.html",
+   "quest": 211,
+   "text": "Champion Raldo: That chick is the leader, I think. Don't bother with the small fry, that's my motto! Oh, don't worry about my friends. They're off guarding other places, and honestly they'd dust the floor with you, anyway. But hey, no hard feelings, right? You were a big help in protecting this pla…",
+   "header": "Champion Raldo",
+   "when": [
+    "cond 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30646-02.html": {
+   "file": "Q00211_TrialOfTheChallenger/30646-02.html",
+   "quest": 211,
+   "text": "Raldo: What the hell do you mean? I know everything that goes on in the town of Floran! Now confess! Who sent you here?",
+   "header": "Raldo",
+   "links": [
+    {
+     "text": "Tell him about the Mark of the Challenger and Martien",
+     "bypass": "Quest Q00211_TrialOfTheChallenger 30646-03.html",
+     "kind": "quest-event",
+     "script": "Q00211_TrialOfTheChallenger",
+     "event": "30646-03.html",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30646-03.html"
+    }
+   ]
+  },
+  "Q00211_TrialOfTheChallenger/30646-03.html": {
+   "file": "Q00211_TrialOfTheChallenger/30646-03.html",
+   "quest": 211,
+   "text": "Raldo: You fool! You were completely bamboozled by those two devils! They have no right to the Mark of Challenger! I, Raldo, alone possess that right! You bear the responsibility for weakening the magic field.",
+   "header": "Raldo",
+   "links": [
+    {
+     "text": "\"I will help.\"",
+     "bypass": "Quest Q00211_TrialOfTheChallenger 30646-04.html",
+     "kind": "quest-event",
+     "script": "Q00211_TrialOfTheChallenger",
+     "event": "30646-04.html",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30646-04.html",
+     "effect": "cond:8"
+    },
+    {
+     "text": "\"It is none of my business.\"",
+     "bypass": "Quest Q00211_TrialOfTheChallenger 30646-05.html",
+     "kind": "quest-event",
+     "script": "Q00211_TrialOfTheChallenger",
+     "event": "30646-05.html",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30646-05.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00211_TrialOfTheChallenger/30646-04.html": {
+   "file": "Q00211_TrialOfTheChallenger/30646-04.html",
+   "quest": 211,
+   "text": "Raldo: Good! I must examine the other magic fields, meanwhile you should to the Dwarven Village . That is where the two devils most likely have gone. Ask Filaur of the Gray Pillar of the Dwarven Village for the location of the magic field. They have probably sent a flock of succubus to drain it. Gu…",
+   "header": "Raldo",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00211_TrialOfTheChallenger/30646-05.html": {
+   "file": "Q00211_TrialOfTheChallenger/30646-05.html",
+   "quest": 211,
+   "text": "Raldo: So you would abandon the Mark of the Challenger... Damn you! Your true nature emerges! Naturally you have no intention of going to the Dwarven Village to meet Filaur of the Gray Pillar, or to protect the last seal?",
+   "header": "Raldo",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Trial of the Challenger (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00211_TrialOfTheChallenger",
+     "kind": "quest",
+     "quest": 211,
+     "to": "Q00211_TrialOfTheChallenger/30646-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,86 @@
+{
+ "npcId": 30726,
+ "name": "Tebose",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.062Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30726.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30726.htm": {
+   "file": "guard/30726.htm",
+   "quest": null,
+   "text": "Guard Tebose: If you leave through this door and head south you'll arrive at Oren Castle and the town of Oren. Have you come from the south? If so, I've told you useless information. Would you like to know about the Ivory Tower? I know a secret about the tower... A close Mystic friend of mine told …",
+   "header": "Guard Tebose",
+   "links": [
+    {
+     "text": "Ask about the Ivory Tower.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30726-1.htm"
+    },
+    {
+     "text": "Ask how he is still alive.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30726-2.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30726-1.htm": {
+   "file": "guard/30726-1.htm",
+   "quest": null,
+   "text": "Guard Tebose: The thing is, these craters around the Ivory Tower were made by shooting stars a long time ago. The Ivory Tower was created by Mages who knew the mysterious power of extinguihed stars. The Elmoraden Empire was governed by Mages who harnessed the power of these stars, but as time passe…",
+   "header": "Guard Tebose",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30726.htm"
+    }
+   ]
+  },
+  "guard/30726-2.htm": {
+   "file": "guard/30726-2.htm",
+   "quest": null,
+   "text": "Guard Tebose: Shhh! Who knows... Many have heard this story besides you. I know, it sounds crazy... But if I vanish like my friend, will anyone notice? Maybe that is why I'm still alive? Or, perhaps everything I said was nonsense and my friend got drunk and went to the Tower of Oman to look at the …",
+   "header": "Guard Tebose",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30726.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

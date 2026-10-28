@@ -1,0 +1,287 @@
+{
+ "npcId": 30391,
+ "name": "Parina",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.971Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30391.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "228": {
+   "name": "Test Of Magus",
+   "listText": [
+    "[Test of Magus]",
+    "[Test of Magus (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00228_TestOfMagus/30391-01.html",
+     "when": "state STARTED; has items 2841",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00228_TestOfMagus/30391-03.html",
+     "when": "state STARTED; has items 2842; lacks items 2841",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30391-04.html",
+     "when": "state STARTED; has items 2843; lacks items 2841,2842",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00228_TestOfMagus/30391-05.html",
+     "when": "state STARTED; has items 2847; lacks items 2841,2842,2843",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "404": {
+   "name": "Path Of The Human Wizard",
+   "listText": [
+    "[Path of the Human Wizard]",
+    "[Path of the Human Wizard (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00404_PathOfTheHumanWizard/30391-04.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00404_PathOfTheHumanWizard/30391-05.html",
+     "when": "state STARTED; lacks items 1282,1285,1288,1291; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00404_PathOfTheHumanWizard/30391-06.html",
+     "when": "state STARTED; has items 1282,1285,1288,1291; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30391.htm": {
+   "file": "default/30391.htm",
+   "quest": null,
+   "text": "Parina: Are you learned? The world is made of light and darkness and four elements. Those four are no other than water, fire, wind and earth. All magic in this world is based on the powers of these six principles. That is why it is important, above anything else, for Mystics to understand the power…",
+   "header": "Parina",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00228_TestOfMagus/30391-01.html": {
+   "file": "Q00228_TestOfMagus/30391-01.html",
+   "quest": 228,
+   "text": "Parina: So you heard that song as well. Yes, I've been hearing that melody every night recently. I've heard many types of music, and am quite sure this is not a Human voice. It seemed to emanate from all directions. Near and far away at the same time... Perhaps it was the voice of the 'singing flow…",
+   "header": "Parina",
+   "when": [
+    "state STARTED; has items 2841"
+   ],
+   "links": [
+    {
+     "text": "Ask about the singing flower",
+     "bypass": "Quest Q00228_TestOfMagus 30391-02.html",
+     "kind": "quest-event",
+     "script": "Q00228_TestOfMagus",
+     "event": "30391-02.html",
+     "quest": 228,
+     "to": "Q00228_TestOfMagus/30391-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00228_TestOfMagus/30391-03.html": {
+   "file": "Q00228_TestOfMagus/30391-03.html",
+   "quest": 228,
+   "text": "Parina: You are still here? You must go and meet Elder Casian immediately. He knows more than anyone else about the singing flower.",
+   "header": "Parina",
+   "when": [
+    "state STARTED; has items 2842; lacks items 2841"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30391-04.html": {
+   "file": "Q00228_TestOfMagus/30391-04.html",
+   "quest": 228,
+   "text": "Parina: You must not be swayed by the voice of the singing flower. They are vile creatures that should be exterminated from the earth. Find them and kill them all. Then you must locate the Golden Seed which bears the blood of the innocent. When you find 3 of them take them to Bard Rukal.",
+   "header": "Parina",
+   "when": [
+    "state STARTED; has items 2843; lacks items 2841,2842"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30391-05.html": {
+   "file": "Q00228_TestOfMagus/30391-05.html",
+   "quest": 228,
+   "text": "Parina: So, I understand that you seek the notes of the 4 elements for Rukal? I wish you luck in gathering all the notes and completing the absolute tone.",
+   "header": "Parina",
+   "when": [
+    "state STARTED; has items 2847; lacks items 2841,2842,2843"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30391-04.htm": {
+   "file": "Q00404_PathOfTheHumanWizard/30391-04.htm",
+   "quest": 404,
+   "text": "Parina: To become a Human Wizard, you must have the four tokens of water, fire, wind and earth. If you are not acknowledged by nature, which controls these four elements, you do not have the right to be called a Wizard. Go out into the world and collect the four tokens. The collection of the tokens…",
+   "header": "Parina",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Perform quest of changing profession to a Human Wizard",
+     "bypass": "Quest Q00404_PathOfTheHumanWizard ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00404_PathOfTheHumanWizard",
+     "event": "ACCEPT",
+     "quest": 404,
+     "to": "Q00404_PathOfTheHumanWizard/30391-03.htm",
+     "toAll": [
+      "Q00404_PathOfTheHumanWizard/30391-03.htm",
+      "Q00404_PathOfTheHumanWizard/30391-07.htm",
+      "Q00404_PathOfTheHumanWizard/30391-02.htm",
+      "Q00404_PathOfTheHumanWizard/30391-02a.htm",
+      "Q00404_PathOfTheHumanWizard/30391-01.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00404_PathOfTheHumanWizard/30391-05.html": {
+   "file": "Q00404_PathOfTheHumanWizard/30391-05.html",
+   "quest": 404,
+   "text": "Parina: How goes your journey of searching for the tokens? Please find and bring the tokens of water, fire, wind and earth.",
+   "header": "Parina",
+   "when": [
+    "state STARTED; lacks items 1282,1285,1288,1291; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30391-06.html": {
+   "file": "Q00404_PathOfTheHumanWizard/30391-06.html",
+   "quest": 404,
+   "text": "Parina: I see you have collected all four tokens of water, fire, wind and earth. Through the journey to collect tokens, you have proven your passion for learning, curiosity about the world, powers of deep investigation and contemplation, and strong will. You have created your future with your own h…",
+   "header": "Parina",
+   "when": [
+    "state STARTED; has items 1282,1285,1288,1291; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00228_TestOfMagus/30391-02.html": {
+   "file": "Q00228_TestOfMagus/30391-02.html",
+   "quest": 228,
+   "text": "Parina: The singing flower is an infamous evil spirit which sings when in bloom. It looks like a beautiful woman but is actually quite a dreadful creature. They sprout from a pod called 'the Golden Seed'. The singing flower is said to seduce people with its beautiful voice, only to later feed on th…",
+   "header": "Parina",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30391-01.htm": {
+   "file": "Q00404_PathOfTheHumanWizard/30391-01.htm",
+   "quest": 404,
+   "text": "Parina: Looking closely, I see you are not the one I have been waiting for. I'm sorry, but I do not have anything to tell you. I am tired, so please go back to where you came from. However ... please be happy.",
+   "header": "Parina",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30391-02.htm": {
+   "file": "Q00404_PathOfTheHumanWizard/30391-02.htm",
+   "quest": 404,
+   "text": "Parina: Hidden in nature are surprising powers: Water, Fire, Wind and Earth. With time, you too will understand. Until then you must be patient. (Only characters level 18 and above may undertake this quest.)",
+   "header": "Parina",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30391-02a.htm": {
+   "file": "Q00404_PathOfTheHumanWizard/30391-02a.htm",
+   "quest": 404,
+   "text": "Parina: You are a Human Wizard that has already perceived the secrets of water, fire, wind, and earth. There is no need for you to re-embark upon the journey of becoming a Wizard.",
+   "header": "Parina",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30391-03.htm": {
+   "file": "Q00404_PathOfTheHumanWizard/30391-03.htm",
+   "quest": 404,
+   "text": "Parina: Is there something you have not found yet? Don't you already have the four tokens of water, fire, wind and earth? Take the bead of four seasons and go to the high priest. He will be able to open your new future for you. I feel the power of a new beginning. He will not like me that much, but…",
+   "header": "Parina",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00404_PathOfTheHumanWizard/30391-07.htm": {
+   "file": "Q00404_PathOfTheHumanWizard/30391-07.htm",
+   "quest": 404,
+   "text": "Parina: The journey of becoming a Wizard begins with the will of a magician to learn new things. Strong will to obtain knowledge is often compared to a flame. You must first find the token of flame . In order to do that, you must meet the Flame Spirit . It is in the form of a lizard wrapped up in f…",
+   "header": "Parina",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Magus (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00228_TestOfMagus",
+     "kind": "quest",
+     "quest": 228,
+     "to": "Q00228_TestOfMagus/30391-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Human Wizard]",
+     "bypass": "npc_%objectId%_Quest Q00404_PathOfTheHumanWizard",
+     "kind": "quest",
+     "quest": 404,
+     "to": "Q00404_PathOfTheHumanWizard/30391-04.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Human Wizard (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00404_PathOfTheHumanWizard",
+     "kind": "quest",
+     "quest": 404,
+     "to": "Q00404_PathOfTheHumanWizard/30391-04.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

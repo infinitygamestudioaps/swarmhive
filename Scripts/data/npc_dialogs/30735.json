@@ -1,0 +1,872 @@
+{
+ "npcId": 30735,
+ "name": "Sophya",
+ "title": "Mercenary Captain",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.064Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30735.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "42": {
+   "name": "Help The Uncle!",
+   "listText": [
+    "[Help the Uncle!]",
+    "[Help the Uncle! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00042_HelpTheUncle/30735-01.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00042_HelpTheUncle/30735-03.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "333": {
+   "name": "Hunt Of The Black Lion",
+   "listText": [
+    "[Hunt of the Black Lion]",
+    "[Hunt of the Black Lion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30735-01.htm",
+     "when": "state CREATED; level < 25",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30735-02.htm",
+     "when": "state CREATED; NOT level < 25; lacks items 1369",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30735-03.htm",
+     "when": "state CREATED; NOT level < 25; has items 1369",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30735-14.html",
+     "when": "state STARTED; (getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(play",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30735-15.html",
+     "when": "state STARTED; !(getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(pla; (getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(play; (getQuestItemsCount(player, UNDEAD_ASH) + getQuestItemsCount(player, BLOODY_AXE_INSIGNIA) + getQuestItemsCount(player, D; (getQuestItemsCount(player, CARGO_BOX_1ST) + getQuestItemsCount(player, CARGO_BOX_2ND) + getQuestItemsCount(player, CARG",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30735-15a.html",
+     "when": "state STARTED; !(getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(pla; !(((getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(p; (getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(play; (getQuestItemsCount(player, UNDEAD_ASH) + getQuestItemsCount(player, BLOODY_AXE_INSIGNIA) + getQuestItemsCount(player, D",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30735-22.html",
+     "when": "state STARTED; !(getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(pla; !(((getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(p; !(((getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(p; (getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(play",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00333_HuntOfTheBlackLion/30735-23.html",
+     "when": "state STARTED; !(getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(pla; !(((getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(p; !(((getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(p; !(((getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(p",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30735.htm": {
+   "file": "default/30735.htm",
+   "quest": null,
+   "text": "Mercenary Captain Sophya: Ah, it is always such a pleasure to see a fresh-faced traveler! My name is Sophya. I command the 4th platoon of the Black Lion Mercenary Troop We have been hired by the mayor of the Town of Dion to drive away evil spirits. I fear I underestimated the number of evil spirits…",
+   "header": "Mercenary Captain Sophya",
+   "links": [
+    {
+     "text": "\"Tell me about the Black Lion Mercenary Troop.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30735-1.htm"
+    },
+    {
+     "text": "\"Tell me about evil spirits in this area.\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30735-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30735-1.htm": {
+   "file": "default/30735-1.htm",
+   "quest": null,
+   "text": "Mercenary Captain Sophya: Currently our 3rd platoon, the main force of our mercenary troop is fighting a important battle in Gludio against the Ol Mahum Stragglers. The 2nd platoon has been dispatched to drive out the evil spirits of the Wasteland. Captain Leopold who is stationed in Gludin, is bet…",
+   "header": "Mercenary Captain Sophya",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30735.htm"
+    }
+   ]
+  },
+  "default/30735-2.htm": {
+   "file": "default/30735-2.htm",
+   "quest": null,
+   "text": "Mercenary Captain Sophya: In the northwest part of the Cruma Marshlands, the marsh stakatos are building their power base. In the northeast part, the exiled ol mahum partisans are encampred. On top of that Enku orcs, tumran bugbears, and delu lizerdmen are waiting for an easy opportunity to plunder…",
+   "header": "Mercenary Captain Sophya",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30735.htm"
+    }
+   ]
+  },
+  "Q00042_HelpTheUncle/30735-01.html": {
+   "file": "Q00042_HelpTheUncle/30735-01.html",
+   "quest": 42,
+   "text": "Chief Mercenary Sophya: The Map! This is good information. Where did you get it?",
+   "header": "Chief Mercenary Sophya",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"From Pet Manager Waters.\"",
+     "bypass": "Quest Q00042_HelpTheUncle 30735-02.html",
+     "kind": "quest-event",
+     "script": "Q00042_HelpTheUncle",
+     "event": "30735-02.html",
+     "quest": 42,
+     "to": "Q00042_HelpTheUncle/30735-02.html",
+     "toAll": [
+      "Q00042_HelpTheUncle/30735-02.html",
+      "Q00042_HelpTheUncle/30735-02a.html"
+     ],
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00042_HelpTheUncle/30735-03.html": {
+   "file": "Q00042_HelpTheUncle/30735-03.html",
+   "quest": 42,
+   "text": "Chief Mercenary Sophya: Did you give my thanks to Waters?",
+   "header": "Chief Mercenary Sophya",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30735-01.htm": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-01.htm",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: As I said, our mission is to drive out the evil spirits in this area. However, since the bulk of our military has been dispatched to Gludio our defensive forces are suffering a shortage. We are only just managing to keep the evil spirits at bay. I will hire as many tough-s…",
+   "header": "Mercenary Captain Sophya",
+   "when": [
+    "state CREATED; level < 25"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30735-02.htm": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-02.htm",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: As I said, our mission is to drive the evil spirits from this area. Unfortunately, the bulk of our military has been dispatched to Gludio. At present we are only succeeding in keeping the demons at bay. I will hire every tough-skinned warrior I can get my hands on! Say, yo…",
+   "header": "Mercenary Captain Sophya",
+   "when": [
+    "state CREATED; NOT level < 25; lacks items 1369"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30735-03.htm": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-03.htm",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: Dear brother of the Black Lion, we must drive the evil spirits from this area. Most of our troops have been dispatched to Gludio and we are only managing to hold the demons at bay. Fortunately, Captain Leopold of Gludin has sent many reinforcements, and we can finally laun…",
+   "header": "Mercenary Captain Sophya",
+   "when": [
+    "state CREATED; NOT level < 25; has items 1369"
+   ],
+   "links": [
+    {
+     "text": "\"I will join in the fight!\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-04.htm",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-04.htm",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-14.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-14.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: Dear Black Lion brother, the war with the evil spirits has begun! Will you join our struggle?",
+   "header": "Mercenary Captain Sophya",
+   "when": [
+    "state STARTED; (getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(play"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me about the mission.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-05.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-05.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-05.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-15.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-15.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: Dear brother of the Black Lion, shouldn't you be on the battlefield?",
+   "header": "Mercenary Captain Sophya",
+   "when": [
+    "state STARTED; !(getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(pla; (getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(play; (getQuestItemsCount(player, UNDEAD_ASH) + getQuestItemsCount(player, BLOODY_AXE_INSIGNIA) + getQuestItemsCount(player, D; (getQuestItemsCount(player, CARGO_BOX_1ST) + getQuestItemsCount(player, CARGO_BOX_2ND) + getQuestItemsCount(player, CARG"
+   ],
+   "links": [
+    {
+     "text": "Continue with the mission",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-16.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-16.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-16.html",
+     "toAll": [
+      "Q00333_HuntOfTheBlackLion/30735-16.html",
+      "Q00333_HuntOfTheBlackLion/30735-17a.html",
+      "Q00333_HuntOfTheBlackLion/30735-18b.html",
+      "Q00333_HuntOfTheBlackLion/30735-19b.html"
+     ]
+    },
+    {
+     "text": "Discontinue the current mission",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-20.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-20.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-20.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-15a.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-15a.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: Dear brother of the Black Lion, shouldn't you be on the battlefield? Ah, that box looks familiar... It's a traders union Cargo Box. Since we have no agreement regarding the return of a Cargo Box, we aren't obliged to return the cargo to the traders. But if we return it per…",
+   "header": "Mercenary Captain Sophya",
+   "when": [
+    "state STARTED; !(getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(pla; !(((getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(p; (getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(play; (getQuestItemsCount(player, UNDEAD_ASH) + getQuestItemsCount(player, BLOODY_AXE_INSIGNIA) + getQuestItemsCount(player, D"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more about Redfoot.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-24a.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-24a.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-24a.html"
+    },
+    {
+     "text": "\"Tell me about the traders union.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-25b.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-25b.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-25b.html"
+    },
+    {
+     "text": "Continue with the mission",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-16.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-16.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-16.html",
+     "toAll": [
+      "Q00333_HuntOfTheBlackLion/30735-16.html",
+      "Q00333_HuntOfTheBlackLion/30735-17a.html",
+      "Q00333_HuntOfTheBlackLion/30735-18b.html",
+      "Q00333_HuntOfTheBlackLion/30735-19b.html"
+     ]
+    },
+    {
+     "text": "Stop the current mission",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-20.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-20.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-20.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-22.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-22.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: Good job! You will be amply rewarded.",
+   "header": "Mercenary Captain Sophya",
+   "when": [
+    "state STARTED; !(getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(pla; !(((getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(p; !(((getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(p; (getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(play"
+   ],
+   "links": [
+    {
+     "text": "Continue with the mission",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-16.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-16.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-16.html",
+     "toAll": [
+      "Q00333_HuntOfTheBlackLion/30735-16.html",
+      "Q00333_HuntOfTheBlackLion/30735-17a.html",
+      "Q00333_HuntOfTheBlackLion/30735-18b.html",
+      "Q00333_HuntOfTheBlackLion/30735-19b.html"
+     ]
+    },
+    {
+     "text": "Discontinue the mission",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-20.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-20.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-20.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-23.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-23.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: Good job! You will be amply rewarded. Ah, that box looks familiar... It's a traders union Cargo Box. Since we have no agreement regarding the return of a Cargo Box, we aren't obliged to return the cargo to the traders. But if we return it perhaps they will give us a reward…",
+   "header": "Mercenary Captain Sophya",
+   "when": [
+    "state STARTED; !(getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(pla; !(((getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(p; !(((getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(p; !(((getQuestItemsCount(player, SOPHYAS_1ST_ORDER) + getQuestItemsCount(player, SOPHYAS_2ND_ORDER) + getQuestItemsCount(p"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more about Redfoot.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-24a.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-24a.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-24a.html"
+    },
+    {
+     "text": "\"Tell me about the traders union.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-25b.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-25b.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-25b.html"
+    },
+    {
+     "text": "Continue with the mission",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-16.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-16.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-16.html",
+     "toAll": [
+      "Q00333_HuntOfTheBlackLion/30735-16.html",
+      "Q00333_HuntOfTheBlackLion/30735-17a.html",
+      "Q00333_HuntOfTheBlackLion/30735-18b.html",
+      "Q00333_HuntOfTheBlackLion/30735-19b.html"
+     ]
+    },
+    {
+     "text": "Stop the current mission",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-20.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-20.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-20.html"
+    }
+   ]
+  },
+  "Q00042_HelpTheUncle/30735-02.html": {
+   "file": "Q00042_HelpTheUncle/30735-02.html",
+   "quest": 42,
+   "text": "Chief Mercenary Sophya: Give her my thanks and tell her I'll look after this well!",
+   "header": "Chief Mercenary Sophya",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00042_HelpTheUncle/30735-02a.html": {
+   "file": "Q00042_HelpTheUncle/30735-02a.html",
+   "quest": 42,
+   "text": "Chief Mercenary Sophya: Did you give my thanks to Waters?",
+   "header": "Chief Mercenary Sophya",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30735-04.htm": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-04.htm",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: The time has come for the black lion to pounce! Now, listen carefully. We have four targets to attack: The Execution Grounds, the Fortress of Resistance, the southern shoreline area and the Cruma Marshlands. Since we lack the resources to sustain a prolonged war, we will d…",
+   "header": "Mercenary Captain Sophya",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Tell me about the targets.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-05.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-05.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-05.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-05.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-05.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: Which mission do you wish to learn more about?",
+   "header": "Mercenary Captain Sophya",
+   "links": [
+    {
+     "text": "Drive the undead from the Execution Grounds",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-06.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-06.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-06.html"
+    },
+    {
+     "text": "Drive the Ol Mahum from the Fortress of Resistance",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-07.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-07.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-07.html"
+    },
+    {
+     "text": "Drive the delu Lizardman from the southern shore area",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-08.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-08.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-08.html"
+    },
+    {
+     "text": "Kill the marsh stakato in the Cruma Marshlands",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-09.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-09.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-09.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-06.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-06.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: The Execution Grounds is located in the east part of the village. It is a haunted place where the never-ending cries of dead souls can be heard. Your mission is to purge that place of the undead that infest it. It is said that those doomed souls are being punished for thei…",
+   "header": "Mercenary Captain Sophya",
+   "links": [
+    {
+     "text": "\"I will take on this mission.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-10.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-10.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-10.html"
+    },
+    {
+     "text": "\"Tell me about another mission.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-05.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-05.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-05.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-07.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-07.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: This mission is to drive the remnants of the Grecian military force from the northwest part of Horseshoe Valley. You must not underestimate these opponents. They are the Ol Mahums of the Bloody Axe army, led by Blood Lord Nurka!",
+   "header": "Mercenary Captain Sophya",
+   "links": [
+    {
+     "text": "\"I will take on the mission.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-11.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-11.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-11.html"
+    },
+    {
+     "text": "\"Tell me about another mission.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-05.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-05.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-05.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-08.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-08.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: The delu lizardmen were originally stationed by the shore area in the south of Giran. However, lately they have been infiltrating Dion territory. We don't know what they are up to yet, whether it is to find food or to prepare for a large-scale invasion. What is clear is th…",
+   "header": "Mercenary Captain Sophya",
+   "links": [
+    {
+     "text": "\"I will take on this mission.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-12.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-12.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-12.html"
+    },
+    {
+     "text": "\"Tell me about another mission.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-05.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-05.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-05.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-09.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-09.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: We must rid the Cruma Marshlands of the evil stakato. The insect-like stakato is covered with tight scales and is equipped with two sharp forward claws. They are surprisingly quick. You must never underestimate them. To make matters worse, the marshlands are inhabited by g…",
+   "header": "Mercenary Captain Sophya",
+   "links": [
+    {
+     "text": "\"I will take on this mission.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-13.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-13.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-13.html"
+    },
+    {
+     "text": "\"Tell me about another mission.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-05.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-05.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-05.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-10.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-10.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: We must drive out the undead specters, sorrow maidens, neer crawlers, neer ghoul berserkers, strains and ghouls . When an undead is destroyed, it leaves behind a handful of ashes. Bring me back those ashes as proof of your victory. The more ashes of undead that you bring, …",
+   "header": "Mercenary Captain Sophya",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30735-11.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-11.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: You must defeat the Ol Mahum guerrillas, raiders, marksmen, sergeants and captains . As proof that you have defeated them you must bring back the Bloody Axe Insignia , the symbol of the Partisan army. The more insignias you bring, the greater shall be your reward. Since yo…",
+   "header": "Mercenary Captain Sophya",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30735-12.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-12.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: You must kill the delu lizardmen, including their scouts and warriors . Take care, for although they are similar to the felim and langk lizardmen, they are much more dangerous. As proof of their death you must bring me their teeth . The more of their teeth you bring, the g…",
+   "header": "Mercenary Captain Sophya",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30735-13.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-13.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: You must go and destroy the marsh stakatos, including their workers, soldiers and drones . As proof of your victory, bring me their claws. The more claws you bring, the greater shall be your reward. Now, prepare for combat and set off for the Cruma Marshlands immediately. …",
+   "header": "Mercenary Captain Sophya",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30735-16.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-16.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: You must hurry to the battlefield and triumph over your enemies!",
+   "header": "Mercenary Captain Sophya",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30735-17a.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-17a.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: Here is the mark of the Lion's Eye . It acknowledges your distinguished service on the battlefield. I am sure your victories will continue!",
+   "header": "Mercenary Captain Sophya",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30735-18b.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-18b.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: Here is the mark of the Lion's Eye . It acknowledges your distinguished service on the battlefield. New supplies have been issued to you. These are expendable goods that are essential in combat, you must store and guard them well! I am sure your victories will continue!",
+   "header": "Mercenary Captain Sophya",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30735-19b.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-19b.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: New supplies have been issued for you. Since they are expendable goods that are essential in combat, store and guard them well! I am confident your victories will continue.",
+   "header": "Mercenary Captain Sophya",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00333_HuntOfTheBlackLion/30735-20.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-20.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: Even the mightiest lion sleeps. Go to the village and rest. Mercenaries must save their energies for battle.",
+   "header": "Mercenary Captain Sophya",
+   "links": [
+    {
+     "text": "\"I want a new mission.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-05.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-05.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-05.html"
+    },
+    {
+     "text": "\"I wish to leave the mercenary troop.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-21.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-21.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-21.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-21.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-21.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: Why do you wish to leave the Black Lion troop? Oh well, no need to explain yourself to me, but heed my words... There is no path for you but the one of the warrior. No matter what you do or where you go you are destined for the battlefield. Anyways, if you really want to w…",
+   "header": "Mercenary Captain Sophya",
+   "links": [
+    {
+     "text": "\"I wish to continue working for the mercenary troop.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-05.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-05.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-05.html"
+    },
+    {
+     "text": "\"I wish to leave the mercenary troop.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-26.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-26.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-26.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-24a.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-24a.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: Ah yes, Redfoot. He is hard to be around but harder to do without. His primary job is the delivery of military supplies, he does business on the side brokering stolen loot and war trophies. He is also a valuable source of information. You should consult with him often.",
+   "header": "Mercenary Captain Sophya",
+   "links": [
+    {
+     "text": "\"Tell me about the traders union.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-25b.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-25b.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-25b.html"
+    },
+    {
+     "text": "Continue with the mission",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-16.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-16.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-16.html",
+     "toAll": [
+      "Q00333_HuntOfTheBlackLion/30735-16.html",
+      "Q00333_HuntOfTheBlackLion/30735-17a.html",
+      "Q00333_HuntOfTheBlackLion/30735-18b.html",
+      "Q00333_HuntOfTheBlackLion/30735-19b.html"
+     ]
+    },
+    {
+     "text": "Discontinue the mission",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-20.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-20.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-20.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-25b.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-25b.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: This Cargo Box bears the seal of the Aden Traders Guild. If you wish to return it to them, take it to Morgan at the magic grocery store. He works for that guild.",
+   "header": "Mercenary Captain Sophya",
+   "links": [
+    {
+     "text": "Tell me about Redfoot.\"",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-24a.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-24a.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-24a.html"
+    },
+    {
+     "text": "Continue with the mission",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-16.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-16.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-16.html",
+     "toAll": [
+      "Q00333_HuntOfTheBlackLion/30735-16.html",
+      "Q00333_HuntOfTheBlackLion/30735-17a.html",
+      "Q00333_HuntOfTheBlackLion/30735-18b.html",
+      "Q00333_HuntOfTheBlackLion/30735-19b.html"
+     ]
+    },
+    {
+     "text": "Discontinue the mission",
+     "bypass": "Quest Q00333_HuntOfTheBlackLion 30735-20.html",
+     "kind": "quest-event",
+     "script": "Q00333_HuntOfTheBlackLion",
+     "event": "30735-20.html",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-20.html"
+    }
+   ]
+  },
+  "Q00333_HuntOfTheBlackLion/30735-26.html": {
+   "file": "Q00333_HuntOfTheBlackLion/30735-26.html",
+   "quest": 333,
+   "text": "Mercenary Captain Sophya: If you have your mind made up, I won't try to change it. Please return the Black Lion Mark. We are no longer comrades. Here is your pay. Take it and go. Perhaps one day we will draw our swords together again. Good luck!",
+   "header": "Mercenary Captain Sophya",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Help the Uncle! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00042_HelpTheUncle",
+     "kind": "quest",
+     "quest": 42,
+     "to": "Q00042_HelpTheUncle/30735-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Hunt of the Black Lion]",
+     "bypass": "npc_%objectId%_Quest Q00333_HuntOfTheBlackLion",
+     "kind": "quest",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Hunt of the Black Lion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00333_HuntOfTheBlackLion",
+     "kind": "quest",
+     "quest": 333,
+     "to": "Q00333_HuntOfTheBlackLion/30735-14.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

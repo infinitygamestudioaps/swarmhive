@@ -1,0 +1,404 @@
+{
+ "npcId": 30379,
+ "name": "Bezique",
+ "title": "Captain",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.960Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30379.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "402": {
+   "name": "Path Of The Human Knight",
+   "listText": [
+    "[Path of the Human Knight]",
+    "[Path of the Human Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30379-01.html",
+     "when": "state STARTED; has items 1271; lacks items 1172,1164; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30379-03.html",
+     "when": "state STARTED; has items 1172; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_2ND_BADGE, COIN_OF_LORDS3)); getQuestItemsCount(player, VENOMOUS_SPIDERS_LEG) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30379-04.html",
+     "when": "state STARTED; has items 1172; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_2ND_BADGE, COIN_OF_LORDS3)); !getQuestItemsCount(player, VENOMOUS_SPIDERS_LEG) < 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30379-05.html",
+     "when": "state STARTED; has items 1164; lacks items 1172; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_2ND_BADGE, COIN_OF_LORDS3))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "403": {
+   "name": "Path Of The Rogue",
+   "listText": [
+    "[Path of the Rogue]",
+    "[Path of the Rogue (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00403_PathOfTheRogue/30379-01.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00403_PathOfTheRogue/30379-09.html",
+     "when": "state STARTED; has items 1186,1187,1188,1189; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00403_PathOfTheRogue/30379-07.html",
+     "when": "state STARTED; has items 1180; lacks items 1186,1187,1188,1189,1184; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00403_PathOfTheRogue/30379-08.html",
+     "when": "state STARTED; has items 1184; lacks items 1186,1187,1188,1189; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, HORSESHOE_OF_LIGHT) && hasQuestItems(player, BEZIQUES_LETTER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00403_PathOfTheRogue/30379-10.html",
+     "when": "state STARTED; has items 1181,1182; lacks items 1186,1187,1188,1189,1184,1185; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, HORSESHOE_OF_LIGHT) && hasQuestItems(player, BEZIQUES_LETTER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00403_PathOfTheRogue/30379-11.html",
+     "when": "state STARTED; has items 1185; lacks items 1186,1187,1188,1189,1184; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, HORSESHOE_OF_LIGHT) && hasQuestItems(player, BEZIQUES_LETTER)); !(hasQuestItems(player, NETIS_BOW, NETIS_DAGGER) && !hasQuestItems(player, MOST_WANTED_LIST))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30379.htm": {
+   "file": "guard/30379.htm",
+   "quest": null,
+   "text": "Captain Bezique: Welcome to the village of Gludin, traveler. I am Captain Bezique of these parts. These days, our village is in a frenzy of construction, restoring the damage from the war with Gracia .",
+   "header": "Captain Bezique",
+   "links": [
+    {
+     "text": "Ask about Gracia",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30379-1.htm"
+    },
+    {
+     "text": "Ask about the war",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30379-2.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30379-1.htm": {
+   "file": "guard/30379-1.htm",
+   "quest": null,
+   "text": "Captain Bezique: Gracia is a kingdom across the west sea. All trade with Gracia has been interrupted since the war, but there was a time when scores of Gracian trading ships would frequent this harbor every day. The Gracians were our friends, and no one imagined they could become such bloodthirsty …",
+   "header": "Captain Bezique",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30379.htm"
+    }
+   ]
+  },
+  "guard/30379-2.htm": {
+   "file": "guard/30379-2.htm",
+   "quest": null,
+   "text": "Captain Bezique: The Gracian invasion force crossed the sea and attacked our kingdom not long after his majesty had ascended the throne. Many innocents lost their lives in the savage attack. Fortunately, our wise king negotiated an alliance with Elmore, and we were able to drive back those Gracian …",
+   "header": "Captain Bezique",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30379.htm"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30379-01.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30379-01.html",
+   "quest": 402,
+   "text": "Captain Bezique: I have seen many young people like you who seek to become Human Knights. They foolishly try to act the part of the hero, and put not only themselves, but others in danger with their foolishness. This age no longer needs noble heroes. No one expects a courageous knight to appear and…",
+   "header": "Captain Bezique",
+   "when": [
+    "state STARTED; has items 1271; lacks items 1172,1164; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Ask if there is anything you can do to help",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30379-02.html",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30379-02.html",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30379-02.html"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30379-03.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30379-03.html",
+   "quest": 402,
+   "text": "Captain Bezique: ... No doubt it was too difficult for you! As I told you, bring back twenty legs of the giant poison spiders or arachnid tracker and I will give you the coin of the lords. To reach the place where they are often sighted, follow the southern coastline road.",
+   "header": "Captain Bezique",
+   "when": [
+    "state STARTED; has items 1172; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_2ND_BADGE, COIN_OF_LORDS3)); getQuestItemsCount(player, VENOMOUS_SPIDERS_LEG) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30379-04.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30379-04.html",
+   "quest": 402,
+   "text": "Captain Bezique: Ho ho, so you've really killed twenty poison spiders! Perhaps I've been too harsh on you. I was just about to organize a team of soldiers to battle the poison spiders, because I thought you weren't coming back. I apologize for being rude. Here, I give you one of the few coins of th…",
+   "header": "Captain Bezique",
+   "when": [
+    "state STARTED; has items 1172; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_2ND_BADGE, COIN_OF_LORDS3)); !getQuestItemsCount(player, VENOMOUS_SPIDERS_LEG) < 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30379-05.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30379-05.html",
+   "quest": 402,
+   "text": "Captain Bezique: So we meet again. Are you still on your quest? Ho ho, it must not be that easy to become a Human Knight. Have you been to Talking Island? As you know, the island is also a part of the Gludio province. The captain of guards and the high priest there also have coins of the lords. As …",
+   "header": "Captain Bezique",
+   "when": [
+    "state STARTED; has items 1164; lacks items 1172; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, SQUIRES_MARK) && !hasAtLeastOneQuestItem(player, GLUDIO_GUARDS_2ND_BADGE, COIN_OF_LORDS3))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00403_PathOfTheRogue/30379-01.htm": {
+   "file": "Q00403_PathOfTheRogue/30379-01.htm",
+   "quest": 403,
+   "text": "Captain Bezique: You want to be a Rogue? Oh, bother! Must I see to this as well, when I am so busy these days ... Ah! But it happens that there is a bothersome task at the moment. If you solve it for me, I will recommend you as a Rogue. What do you think? Do you want to take the job?",
+   "header": "Captain Bezique",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you will take the task",
+     "bypass": "Quest Q00403_PathOfTheRogue ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00403_PathOfTheRogue",
+     "event": "ACCEPT",
+     "quest": 403,
+     "to": "Q00403_PathOfTheRogue/30379-05.htm",
+     "toAll": [
+      "Q00403_PathOfTheRogue/30379-04.htm",
+      "Q00403_PathOfTheRogue/30379-05.htm",
+      "Q00403_PathOfTheRogue/30379-03.htm",
+      "Q00403_PathOfTheRogue/30379-02a.htm",
+      "Q00403_PathOfTheRogue/30379-02.htm"
+     ]
+    }
+   ]
+  },
+  "Q00403_PathOfTheRogue/30379-09.html": {
+   "file": "Q00403_PathOfTheRogue/30379-09.html",
+   "quest": 403,
+   "text": "Captain Bezique: Oh! You've recovered all the stolen items. Thank you for your trouble. Your skills are better than I thought. I think you really have the qualities to become a good Rogue. Red-eyed Bandits... Have you ever heard of them? They are the largest group of bandits on the continent with t…",
+   "header": "Captain Bezique",
+   "when": [
+    "state STARTED; has items 1186,1187,1188,1189; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00403_PathOfTheRogue/30379-07.html": {
+   "file": "Q00403_PathOfTheRogue/30379-07.html",
+   "quest": 403,
+   "text": "Captain Bezique: You have not sought out Neti yet? She will give you much aid in catching the thieves. She lives in this village, so hurry and find her.",
+   "header": "Captain Bezique",
+   "when": [
+    "state STARTED; has items 1180; lacks items 1186,1187,1188,1189,1184; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00403_PathOfTheRogue/30379-08.html": {
+   "file": "Q00403_PathOfTheRogue/30379-08.html",
+   "quest": 403,
+   "text": "Captain Bezique: I understand that you have received a \"Horseshoe of Light\" from Neti. You must be more talented than you look, but if Neti gave you this, she has faith in your abilities. So let's start going after those thieves in earnest. This is the Most Wanted List. I'm sure you can tell from r…",
+   "header": "Captain Bezique",
+   "when": [
+    "state STARTED; has items 1184; lacks items 1186,1187,1188,1189; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, HORSESHOE_OF_LIGHT) && hasQuestItems(player, BEZIQUES_LETTER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00403_PathOfTheRogue/30379-10.html": {
+   "file": "Q00403_PathOfTheRogue/30379-10.html",
+   "quest": 403,
+   "text": "Captain Bezique: By the look of that bow and dagger, I see Neti has given you a task to test your skills. In the past, Neti's skills with The Bow and dagger were the finest in all Gludio. People's mouths would hang open whenever she shot an apple off a young child's head. If you want to be a Rogue,…",
+   "header": "Captain Bezique",
+   "when": [
+    "state STARTED; has items 1181,1182; lacks items 1186,1187,1188,1189,1184,1185; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, HORSESHOE_OF_LIGHT) && hasQuestItems(player, BEZIQUES_LETTER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00403_PathOfTheRogue/30379-11.html": {
+   "file": "Q00403_PathOfTheRogue/30379-11.html",
+   "quest": 403,
+   "text": "Captain Bezique: Why are you still here? Hurry along -- kill the Cat's Eye Bandits and recover the four stolen items. Remember that you must use The Bow and dagger that Neti gave you to kill those scoundrels. According to my men, the thieves are near the abandoned campgrounds. If you don't know how…",
+   "header": "Captain Bezique",
+   "when": [
+    "state STARTED; has items 1185; lacks items 1186,1187,1188,1189,1184; !(qs.isCreated() || qs.isCompleted()); !(!hasQuestItems(player, HORSESHOE_OF_LIGHT) && hasQuestItems(player, BEZIQUES_LETTER)); !(hasQuestItems(player, NETIS_BOW, NETIS_DAGGER) && !hasQuestItems(player, MOST_WANTED_LIST))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30379-02.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30379-02.html",
+   "quest": 402,
+   "text": "Captain Bezique: My my ... you are quite stubborn. Fine. If you must play the part of the hero ... why don't you go and hunt the spiders that have been wreaking havoc lately? Giant spiders have recently been reported upturning farmers' carts, raiding sheep and cattle, and even attacking Humans. The…",
+   "header": "Captain Bezique",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00403_PathOfTheRogue/30379-02.htm": {
+   "file": "Q00403_PathOfTheRogue/30379-02.htm",
+   "quest": 403,
+   "text": "Captain Bezique: You are an ambitious youth. But on second thought ... I don't think this job is right for you. What I'm sayin' is, you're not the type to become a Rogue ... I'm not looking down on you so please don't be offended. It is just that magicians and certain races do not qualify to become…",
+   "header": "Captain Bezique",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00403_PathOfTheRogue/30379-02a.htm": {
+   "file": "Q00403_PathOfTheRogue/30379-02a.htm",
+   "quest": 403,
+   "text": "Captain Bezique: You are full of ambition. But this task may be too simple for a seasoned Rogue like you. How about giving your juniors a chance?",
+   "header": "Captain Bezique",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00403_PathOfTheRogue/30379-03.htm": {
+   "file": "Q00403_PathOfTheRogue/30379-03.htm",
+   "quest": 403,
+   "text": "Captain Bezique: I can see that you are a youngster filled with enthusiasm. Unfortunately, you also seem too inexperienced for this mission. I'm a good judge of ability, so don't quarrel. In any event, I'm only concerned for your safety. The bottom line is that this job is simply too dangerous for …",
+   "header": "Captain Bezique",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00403_PathOfTheRogue/30379-04.htm": {
+   "file": "Q00403_PathOfTheRogue/30379-04.htm",
+   "quest": 403,
+   "text": "Captain Bezique: Don't you already have the Recommendation that I wrote you?? Take it to the Grand Master of the fighters guild. Then you can change profession to a Rogue.",
+   "header": "Captain Bezique",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00403_PathOfTheRogue/30379-05.htm": {
+   "file": "Q00403_PathOfTheRogue/30379-05.htm",
+   "quest": 403,
+   "text": "Captain Bezique: Aren't you an ambitious young one. Very well! I will explain what you must do. Recently, a pack of thieves has been running wild near Gludin Village and causing us problems. They know that our village is in disorder because of the restoration project, and they have been exploiting …",
+   "header": "Captain Bezique",
+   "links": [
+    {
+     "text": "Ask about the thieves.",
+     "bypass": "Quest Q00403_PathOfTheRogue 30379-06.htm",
+     "kind": "quest-event",
+     "script": "Q00403_PathOfTheRogue",
+     "event": "30379-06.htm",
+     "quest": 403,
+     "to": "Q00403_PathOfTheRogue/30379-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00403_PathOfTheRogue/30379-06.htm": {
+   "file": "Q00403_PathOfTheRogue/30379-06.htm",
+   "quest": 403,
+   "text": "Captain Bezique: Those thieves are surely part of the Ol Mahum straggler troops. The Ol Mahum foreign troops that Gracia hired years ago during the Gracian War, are still pitching runaway troop campsites beyond the mountain north of the village. One more thing. There is someone who can help you cat…",
+   "header": "Captain Bezique",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Human Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00402_PathOfTheHumanKnight",
+     "kind": "quest",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30379-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Rogue]",
+     "bypass": "npc_%objectId%_Quest Q00403_PathOfTheRogue",
+     "kind": "quest",
+     "quest": 403,
+     "to": "Q00403_PathOfTheRogue/30379-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Rogue (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00403_PathOfTheRogue",
+     "kind": "quest",
+     "quest": 403,
+     "to": "Q00403_PathOfTheRogue/30379-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

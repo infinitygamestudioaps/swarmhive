@@ -1,0 +1,110 @@
+{
+ "npcId": 32242,
+ "name": "Katenar",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.363Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Katenar/32242-01.html",
+   "when": "memo 12",
+   "src": "ai Katenar"
+  },
+  {
+   "page": "ai/npc/Katenar/32242-02.html",
+   "when": "memo 13; player == talker",
+   "src": "ai Katenar"
+  },
+  {
+   "page": "ai/npc/Katenar/32242-03.html",
+   "when": "memo 13; !player == talker",
+   "src": "ai Katenar"
+  },
+  {
+   "page": "ai/npc/Katenar/32242-04.html",
+   "when": "memo 14",
+   "src": "ai Katenar"
+  }
+ ],
+ "quests": {
+  "65": {
+   "name": "Certified Soul Breaker",
+   "listText": [
+    "[Certified Soul Breaker]",
+    "[Certified Soul Breaker (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "ai/npc/Katenar/32242-01.html": {
+   "file": "ai/npc/Katenar/32242-01.html",
+   "quest": null,
+   "text": "Katenar: Do not speak to me.",
+   "header": "Katenar",
+   "when": [
+    "memo 12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Katenar/32242-02.html": {
+   "file": "ai/npc/Katenar/32242-02.html",
+   "quest": null,
+   "text": "Katenar: Well done! The truth is, my letter was mixed in with the other items in the box. Wehn I saw someone pursuing these goods, I decided to follow, but I was a little late getting here. Thankfully, you drove them away and I was able to protect the secret. Thank you for your assistance -- you ha…",
+   "header": "Katenar",
+   "when": [
+    "memo 13; player == talker"
+   ],
+   "links": [
+    {
+     "text": "Wait...",
+     "bypass": "Quest Katenar GOOD_LUCK",
+     "kind": "quest-event",
+     "script": "Katenar",
+     "event": "GOOD_LUCK",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Katenar/32242-03.html": {
+   "file": "ai/npc/Katenar/32242-03.html",
+   "quest": null,
+   "text": "Katenar: Well done! The truth is, my letter was mixed in with the other items in the box. Wehn I saw someone pursuing these goods, I decided to follow, but I was a little late getting here. Thankfully, you drove them away and I was able to protect the secret. Thank you for your assistance -- you ha…",
+   "header": "Katenar",
+   "when": [
+    "memo 13; !player == talker"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Katenar/32242-04.html": {
+   "file": "ai/npc/Katenar/32242-04.html",
+   "quest": null,
+   "text": "Katenar: Deliver these documents to the Elder.",
+   "header": "Katenar",
+   "when": [
+    "memo 14"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Certified Soul Breaker (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00065_CertifiedSoulBreaker",
+     "kind": "quest",
+     "quest": 65,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

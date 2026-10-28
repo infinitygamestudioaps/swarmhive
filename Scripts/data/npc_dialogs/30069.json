@@ -1,0 +1,523 @@
+{
+ "npcId": 30069,
+ "name": "Rollant",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.800Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30069.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "330": {
+   "name": "Adept Of Taste",
+   "listText": [
+    "[Adept of Taste]",
+    "[Adept of Taste (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00330_AdeptOfTaste/30069-01.html",
+     "when": "state STARTED; has items 1420; lacks items 1439,1441; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00330_AdeptOfTaste/30069-02.html",
+     "when": "state STARTED; has items 1420,1439; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; getQuestItemsCount(player, BODY_OF_MONSTER_EYE) < 30",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00330_AdeptOfTaste/30069-03.html",
+     "when": "state STARTED; has items 1420,1439; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; !getQuestItemsCount(player, BODY_OF_MONSTER_EYE) < 30",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00330_AdeptOfTaste/30069-04.html",
+     "when": "state STARTED; has items 1420,1441; lacks items 1439; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; !(hasQuestItems(player, INGREDIENT_LIST, ROLLANTS_CREATURE_BOOK) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + g; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "380": {
+   "name": "Bring Out the Flavor of Ingredients!",
+   "listText": [
+    "[Bring Out the Flavor of Ingredients!]",
+    "[Bring Out the Flavor of Ingredients! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00380_BringOutTheFlavorOfIngredients/30069-02.htm",
+     "when": "state CREATED; (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00380_BringOutTheFlavorOfIngredients/30069-01.htm",
+     "when": "state CREATED; NOT (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00380_BringOutTheFlavorOfIngredients/30069-08.html",
+     "when": "state STARTED; cond 1|2|3|4; item 1831 >= 2; hasItemsAtLimit(talker, RITRON_FRUIT, MOON_FLOWER, LEECH_FLUIDS)",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00380_BringOutTheFlavorOfIngredients/30069-07.html",
+     "when": "state STARTED; cond 1|2|3|4; !((getQuestItemsCount(talker, ANTIDOTE) >= 2) && hasItemsAtLimit(talker, RITRON_FRUIT, MOON_FLOWER, LEECH_FLUIDS))",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00380_BringOutTheFlavorOfIngredients/30069-09.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00380_BringOutTheFlavorOfIngredients/30069-10.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00380_BringOutTheFlavorOfIngredients/30069-11.html",
+     "when": "state STARTED; cond 7",
+     "state": "STARTED",
+     "cond": [
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00380_BringOutTheFlavorOfIngredients/30069-15.html",
+     "when": "state STARTED; cond 8; chance 56%",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00380_BringOutTheFlavorOfIngredients/30069-12.html",
+     "when": "state STARTED; cond 8; chance 44%",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00380_BringOutTheFlavorOfIngredients/30069-12.html",
+     "when": "state STARTED; cond 9",
+     "state": "STARTED",
+     "cond": [
+      9
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30069.htm": {
+   "file": "trainer/30069.htm",
+   "quest": null,
+   "text": "Magister Rollant: Becoming a Wizard is no easy feat. The most important thing is to surrender your heart to the bountiful energy of nature and draw it in. Until you do, you won't be able to learn anything. Dion is a particularly good place to learn these lessons...",
+   "header": "Magister Rollant",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30069-noteach.htm": {
+   "file": "trainer/30069-noteach.htm",
+   "quest": null,
+   "text": "Magister Rollant: Magic is not slight of hand. It is a profound philosophy, a deep art. Since you have already taken another path, it would be too much for you to understand the meaning of magic. Go to your own Master.",
+   "header": "Magister Rollant",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30069-01.html": {
+   "file": "Q00330_AdeptOfTaste/30069-01.html",
+   "quest": 330,
+   "text": "Magister Rollant: That you want to use monster eye meat, one of the eight ingredients of magical studies, in cooking ... What a unique idea. I am becoming curious myself as to what the result will be. Very well. I will assist you in finding monster eye meat. If you hunt the monster eye and bring ba…",
+   "header": "Magister Rollant",
+   "when": [
+    "state STARTED; has items 1420; lacks items 1439,1441; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount("
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30069-02.html": {
+   "file": "Q00330_AdeptOfTaste/30069-02.html",
+   "quest": 330,
+   "text": "Magister Rollant: Ah! You are the one that needed monster eye meat, right? Did you say you were going to use it in cooking? If you hunt monster eye searchers and monster eye gazers and bring their carcasses, I will prepare them for you. To obtain monster eye meat for one person, you must bring back…",
+   "header": "Magister Rollant",
+   "when": [
+    "state STARTED; has items 1420,1439; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; getQuestItemsCount(player, BODY_OF_MONSTER_EYE) < 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30069-03.html": {
+   "file": "Q00330_AdeptOfTaste/30069-03.html",
+   "quest": 330,
+   "text": "Magister Rollant: You have found all thirty Monster Eye Carcasses! Thank you for your efforts. Now I will begin to prepare the meat. The monster eye has many pores that emit poisons on its body. Therefore it is very dangerous if you do not trim the meat properly. If you cut off all the dangerous se…",
+   "header": "Magister Rollant",
+   "when": [
+    "state STARTED; has items 1420,1439; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount(; !getQuestItemsCount(player, BODY_OF_MONSTER_EYE) < 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00330_AdeptOfTaste/30069-04.html": {
+   "file": "Q00330_AdeptOfTaste/30069-04.html",
+   "quest": 330,
+   "text": "Magister Rollant: Do you still have the monster eye meat that I prepared for you? Didn't you say you were going to cook with that? If you leave it too long, the meat may spoil, so hurry and take it to your chef friend.",
+   "header": "Magister Rollant",
+   "when": [
+    "state STARTED; has items 1420,1441; lacks items 1439; !(hasQuestItems(player, INGREDIENT_LIST) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player; !(hasQuestItems(player, INGREDIENT_LIST, ROLLANTS_CREATURE_BOOK) && ((getQuestItemsCount(player, RED_MANDRAGORA_SAP) + g; (getQuestItemsCount(player, RED_MANDRAGORA_SAP) + getQuestItemsCount(player, WHITE_MANDRAGORA_SAP) + getQuestItemsCount("
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-02.htm": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-02.htm",
+   "quest": 380,
+   "text": "Magister Rollant: Are you interested in the culinary arts? There are many excellent food ingredients here at Dion Castle. The local people have a passion for cooking and hold a culinary competition every month. Many people think of this place as a chef's paradise, but I'm not completely satisfied. …",
+   "header": "Magister Rollant",
+   "when": [
+    "state CREATED; (talker.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"Are you different from other chefs?\"",
+     "bypass": "Quest Q00380_BringOutTheFlavorOfIngredients 30069-03.htm",
+     "kind": "quest-event",
+     "script": "Q00380_BringOutTheFlavorOfIngredients",
+     "event": "30069-03.htm",
+     "quest": 380,
+     "to": "Q00380_BringOutTheFlavorOfIngredients/30069-03.htm"
+    }
+   ]
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-01.htm": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-01.htm",
+   "quest": 380,
+   "text": "Magister Rollant: Are you interested in the culinary arts? There are many excellent food ingredients here at Dion Castle. The local people have a passion for cooking and hold a culinary competition every month. Many people think of this place as a chef's paradise, but I'm not completely satisfied. …",
+   "header": "Magister Rollant",
+   "when": [
+    "state CREATED; NOT (talker.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-08.html": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-08.html",
+   "quest": 380,
+   "text": "Magister Rollant: Good! You've brought all the ingredients. I'll get started with my cooking. Ritron fruit cannot be consumed raw. To soften it, you must use this leech fluid. First we must beat the leech fluid together and neutralize it with Antidote. Then, grind the moon flower... This will take …",
+   "header": "Magister Rollant",
+   "when": [
+    "state STARTED; cond 1|2|3|4; item 1831 >= 2; hasItemsAtLimit(talker, RITRON_FRUIT, MOON_FLOWER, LEECH_FLUIDS)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-07.html": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-07.html",
+   "quest": 380,
+   "text": "Magister Rollant: You haven't brought all the ingredients. Please bring me ritron fruit from dire wolves , moon flowers from Kadif werewolves , giant mist Leech Fluids and Antidote . Bring them to me and I'll make you the best dessert ever made... Even Magister Mirien, known as the magician of flav…",
+   "header": "Magister Rollant",
+   "when": [
+    "state STARTED; cond 1|2|3|4; !((getQuestItemsCount(talker, ANTIDOTE) >= 2) && hasItemsAtLimit(talker, RITRON_FRUIT, MOON_FLOWER, LEECH_FLUIDS))"
+   ],
+   "links": [
+    {
+     "text": "\"Where do I find the ingredients?\"",
+     "bypass": "Quest Q00380_BringOutTheFlavorOfIngredients 30069-06.html",
+     "kind": "quest-event",
+     "script": "Q00380_BringOutTheFlavorOfIngredients",
+     "event": "30069-06.html",
+     "quest": 380,
+     "to": "Q00380_BringOutTheFlavorOfIngredients/30069-06.html"
+    }
+   ]
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-09.html": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-09.html",
+   "quest": 380,
+   "text": "Magister Rollant: Now I must distill the leech fluid and mix it with gelatin. Hmm, I forgot, I need to make gelatin, too. Please light the fire. Now I will crush one ritron fruit and add it to the ground moon flower... Please come back later.",
+   "header": "Magister Rollant",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-10.html": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-10.html",
+   "quest": 380,
+   "text": "Magister Rollant: Timing is essential! I will add the sterilized Leech Fluids to the ritron fruit just before it melts, so it will develop the maximum smoothness while retaining the pulp that uniquely tickles the throat... I must concentrate. Please don't interrupt me! Come back later!",
+   "header": "Magister Rollant",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-11.html": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-11.html",
+   "quest": 380,
+   "text": "Magister Rollant: Quiet! This is a very crucial moment! Come back later. Why are you in such a hurry?",
+   "header": "Magister Rollant",
+   "when": [
+    "state STARTED; cond 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-15.html": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-15.html",
+   "quest": 380,
+   "text": "Magister Rollant: It's done! Now, it must marinate in the ritron sauce. When it's hardened you can eat it. I call it \"Rollant's Special Ritron Jelly\". Can you taste the hint of moon flower? I added the ritron fruit to the ritron sauce which really intensifies the flavor. It melts in your mouth but …",
+   "header": "Magister Rollant",
+   "when": [
+    "state STARTED; cond 8; chance 56%"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-12.html": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-12.html",
+   "quest": 380,
+   "text": "Magister Rollant: It's done! Now it must marinate in the sauce. When it's hardened you can eat it. I call it \"Rollant's Special Ritron Jelly\". Can you taste the hint of moon flower? I added the ritron fruit to the ritron sauce to really intensify the flavor. It melts in your mouth but still has a l…",
+   "header": "Magister Rollant",
+   "when": [
+    "state STARTED; cond 8; chance 44%",
+    "state STARTED; cond 9"
+   ],
+   "links": [
+    {
+     "text": "\"It's the best tasting dessert I've ever had!\"",
+     "bypass": "Quest Q00380_BringOutTheFlavorOfIngredients 30069-13.html",
+     "kind": "quest-event",
+     "script": "Q00380_BringOutTheFlavorOfIngredients",
+     "event": "30069-13.html",
+     "quest": 380,
+     "to": "Q00380_BringOutTheFlavorOfIngredients/30069-13.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-03.htm": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-03.htm",
+   "quest": 380,
+   "text": "Magister Rollant: The most important skill a chef possesses is the ability to evaluate fine ingredients. A thorough knowledge of ingredients and the ability to find them are essential. Only then does preparation come into play. Remember, an apple requires no preparation whatsoever. Cooking shouldn'…",
+   "header": "Magister Rollant",
+   "links": [
+    {
+     "text": "\"What kind of hazards?\"",
+     "bypass": "Quest Q00380_BringOutTheFlavorOfIngredients 30069-04.htm",
+     "kind": "quest-event",
+     "script": "Q00380_BringOutTheFlavorOfIngredients",
+     "event": "30069-04.htm",
+     "quest": 380,
+     "to": "Q00380_BringOutTheFlavorOfIngredients/30069-04.htm"
+    }
+   ]
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-04.htm": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-04.htm",
+   "quest": 380,
+   "text": "Magister Rollant: Raw foods can have a very strong flavor. Some foods, if not prepared properly, can even cause illness. By far, the greatest use of ingredients is dessert. Would you care to sample some?",
+   "header": "Magister Rollant",
+   "links": [
+    {
+     "text": "\"Would I ever!\"",
+     "bypass": "Quest Q00380_BringOutTheFlavorOfIngredients 30069-05.htm",
+     "kind": "quest-event",
+     "script": "Q00380_BringOutTheFlavorOfIngredients",
+     "event": "30069-05.htm",
+     "quest": 380,
+     "to": "Q00380_BringOutTheFlavorOfIngredients/30069-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-05.htm": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-05.htm",
+   "quest": 380,
+   "text": "Magister Rollant: Excellent! We must gather the ingredients! Actually, that will be the hardest part. They aren't easy to find... The fruit of the ritron trees quite often fails to sprout, and ripens underground. Dire wolves have an excellent sense of smell and often dig up the ritron fruits . I wi…",
+   "header": "Magister Rollant",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Where can I find these ingredients?\"",
+     "bypass": "Quest Q00380_BringOutTheFlavorOfIngredients 30069-06.html",
+     "kind": "quest-event",
+     "script": "Q00380_BringOutTheFlavorOfIngredients",
+     "event": "30069-06.html",
+     "quest": 380,
+     "to": "Q00380_BringOutTheFlavorOfIngredients/30069-06.html"
+    }
+   ]
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-06.html": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-06.html",
+   "quest": 380,
+   "text": "Magister Rollant: Dire wolves can be found in the northern Dion Hills, or in the south across the river west of Dion Castle and also on the Plains of Dion. Since Kadif werewolves can only be found on the Plains of Dion, you'll have to cross the river anyway. Giant mist leeches can be found in the C…",
+   "header": "Magister Rollant",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-13.html": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-13.html",
+   "quest": 380,
+   "text": "Magister Rollant: I'm glad you enjoyed it. In case you ever want to have it again, take this recipe . I hope other chefs learn that such ingredients exist and start creating dishes made from them. Please share it with as many people as possible.",
+   "header": "Magister Rollant",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00380_BringOutTheFlavorOfIngredients/30069-14.html": {
+   "file": "Q00380_BringOutTheFlavorOfIngredients/30069-14.html",
+   "quest": 380,
+   "text": "Magister Rollant: Did you enjoy it? In case you ever want to make it, take this recipe . I hope other chefs learn that such ingredients exist and start creating dishes using them. Please share it with as many people as possible.",
+   "header": "Magister Rollant",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Adept of Taste (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00330_AdeptOfTaste",
+     "kind": "quest",
+     "quest": 330,
+     "to": "Q00330_AdeptOfTaste/30069-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Bring Out the Flavor of Ingredients!]",
+     "bypass": "npc_%objectId%_Quest Q00380_BringOutTheFlavorOfIngredients",
+     "kind": "quest",
+     "quest": 380,
+     "to": "Q00380_BringOutTheFlavorOfIngredients/30069-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Bring Out the Flavor of Ingredients! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00380_BringOutTheFlavorOfIngredients",
+     "kind": "quest",
+     "quest": 380,
+     "to": "Q00380_BringOutTheFlavorOfIngredients/30069-08.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

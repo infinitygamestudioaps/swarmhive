@@ -1,0 +1,388 @@
+{
+ "npcId": 30890,
+ "name": "Espen",
+ "title": "Armor Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.103Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30890.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "383": {
+   "name": "Treasure Hunt",
+   "listText": [
+    "[Treasure Hunt]",
+    "[Treasure Hunt (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00383_TreasureHunt/30890-01.html",
+     "when": "state CREATED; level < 42",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00383_TreasureHunt/30890-02.html",
+     "when": "state CREATED; NOT level < 42; lacks items 5915",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00383_TreasureHunt/30890-03.htm",
+     "when": "state CREATED; NOT level < 42; has items 5915",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00383_TreasureHunt/30890-13.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00383_TreasureHunt/30890-14.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30890.htm": {
+   "file": "merchant/30890.htm",
+   "quest": null,
+   "text": "Trader Espen: Welcome, traveler! Please take your time and peruse our items. But don't you sometimes feel our lives are meant to be more than sharp swords and cold metal? My advice is to take some time in this beautiful city to to rest your mind and body...",
+   "header": "Trader Espen",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/30890-1.htm"
+    },
+    {
+     "text": "Try on Fighter equipment.",
+     "bypass": "npc_%objectId%_Wear 3089000",
+     "kind": "shop"
+    },
+    {
+     "text": "Try on Wizard equipment.",
+     "bypass": "npc_%objectId%_Wear 3089001",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30890-1.htm": {
+   "file": "merchant/30890-1.htm",
+   "quest": null,
+   "text": "Trader Espen: Well, what kind of item are you looking for?",
+   "header": "Trader Espen",
+   "links": [
+    {
+     "text": "Buy equipment for Fighters.",
+     "bypass": "npc_%objectId%_Buy 3089000",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy equipment for Wizards.",
+     "bypass": "npc_%objectId%_Buy 3089001",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Fighter Common Items.",
+     "bypass": "npc_%objectId%_Buy 3089002",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy Wizard Common Items.",
+     "bypass": "npc_%objectId%_Buy 3089003",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy a Shadow item",
+     "bypass": "npc_%objectId%_BuyShadowItem",
+     "kind": "shop"
+    }
+   ]
+  },
+  "merchant/30890-pk.htm": {
+   "file": "merchant/30890-pk.htm",
+   "quest": null,
+   "text": "Trader Espen: I've sent for the guards, you should leave before they get here. I would not like to see blood spilled over this.",
+   "header": "Trader Espen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00383_TreasureHunt/30890-01.html": {
+   "file": "Q00383_TreasureHunt/30890-01.html",
+   "quest": 383,
+   "text": "Trader Espen: As a way of escaping my boring daily life, I have a hobby of collecting pirate memorabilia. I'm especially interested in anything to do with Zaken, the legendary scourge of the high seas. Currently, I'm conducting research about Muska, Zaken's subordinate who stole his treasure and ra…",
+   "header": "Trader Espen",
+   "when": [
+    "state CREATED; level < 42"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00383_TreasureHunt/30890-02.html": {
+   "file": "Q00383_TreasureHunt/30890-02.html",
+   "quest": 383,
+   "text": "Trader Espen: As a way of escaping my boring daily life, I have a hobby of collecting pirate memorabilia. I'm especially interested in anything to do with Zaken, the legendary scourge of the high seas. It is said that he was once Zaken's boatswain, and when Zaken's ship was anchored at Innadril Har…",
+   "header": "Trader Espen",
+   "when": [
+    "state CREATED; NOT level < 42; lacks items 5915"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00383_TreasureHunt/30890-03.htm": {
+   "file": "Q00383_TreasureHunt/30890-03.htm",
+   "quest": 383,
+   "text": "Trader Espen: As a way of escaping my boring daily life, I have a hobby of collecting pirate memorabilia. I'm especially interested in anything to do with Zaken, the legendary scourge of the high seas. It is said that he was once Zaken's boatswain, and when Zaken's ship was anchored at Innadril Har…",
+   "header": "Trader Espen",
+   "when": [
+    "state CREATED; NOT level < 42; has items 5915"
+   ],
+   "links": [
+    {
+     "text": "Show him the Pirate's Treasure Map.",
+     "bypass": "Quest Q00383_TreasureHunt 30890-04.htm",
+     "kind": "quest-event",
+     "script": "Q00383_TreasureHunt",
+     "event": "30890-04.htm",
+     "quest": 383,
+     "to": "Q00383_TreasureHunt/30890-04.htm"
+    }
+   ]
+  },
+  "Q00383_TreasureHunt/30890-13.html": {
+   "file": "Q00383_TreasureHunt/30890-13.html",
+   "quest": 383,
+   "text": "Trader Espen: This Map that you discovered on Alligator Island... Doesn't it make your heart pound just looking at it? Ah, you want me to decipher it? Very well... But before I decipher the Map... first I must tell you the story of boatswain Muska, who betrayed Zaken, the great pirate. If you're go…",
+   "header": "Trader Espen",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Listen to the story.",
+     "bypass": "Quest Q00383_TreasureHunt 30890-08.html",
+     "kind": "quest-event",
+     "script": "Q00383_TreasureHunt",
+     "event": "30890-08.html",
+     "quest": 383,
+     "to": "Q00383_TreasureHunt/30890-08.html"
+    }
+   ]
+  },
+  "Q00383_TreasureHunt/30890-14.html": {
+   "file": "Q00383_TreasureHunt/30890-14.html",
+   "quest": 383,
+   "text": "Trader Espen: Welcome back, brave hunter! What?! You haven't found the treasure yet? Didn't I mark the coordinates on the Map for you? Take a closer look at your Map! If you go to the coordinates I marked, you will definitely find the treasure...!",
+   "header": "Trader Espen",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00383_TreasureHunt/30890-04.htm": {
+   "file": "Q00383_TreasureHunt/30890-04.htm",
+   "quest": 383,
+   "text": "Trader Espen: Oh Oh?! Could it be...? Is that really Muska's Map? Where did you find it? Let me buy the Map from you! It won't do you any good anyway. Why should you keep it? I'll pay you 1000 Adena for it!",
+   "header": "Trader Espen",
+   "links": [
+    {
+     "text": "Sell the Map.",
+     "bypass": "Quest Q00383_TreasureHunt 30890-05.htm",
+     "kind": "quest-event",
+     "script": "Q00383_TreasureHunt",
+     "event": "30890-05.htm",
+     "quest": 383,
+     "to": "Q00383_TreasureHunt/30890-05.htm"
+    },
+    {
+     "text": "\"I don't want to sell it.\"",
+     "bypass": "Quest Q00383_TreasureHunt 30890-06.htm",
+     "kind": "quest-event",
+     "script": "Q00383_TreasureHunt",
+     "event": "30890-06.htm",
+     "quest": 383,
+     "to": "Q00383_TreasureHunt/30890-06.htm",
+     "toAll": [
+      "Q00383_TreasureHunt/30890-06.htm",
+      "Q00383_TreasureHunt/30890-12.html"
+     ]
+    }
+   ]
+  },
+  "Q00383_TreasureHunt/30890-05.htm": {
+   "file": "Q00383_TreasureHunt/30890-05.htm",
+   "quest": 383,
+   "text": "Trader Espen: Do you mean it? Are you sure you won't regret your decision? Here... Here is 1000 Adena. Ha! Finally, I have Muska's treasure Map! This is truly the chance of a lifetime. At last, Lady Luck smiled on me. I can give up my job as a trader and just enjoy being filthy rich! Let me see... …",
+   "header": "Trader Espen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00383_TreasureHunt/30890-06.htm": {
+   "file": "Q00383_TreasureHunt/30890-06.htm",
+   "quest": 383,
+   "text": "Trader Espen: Humph! I guess you're not as stupid as you look... Well, although it's only a part of it, it will lead you to the treasure of the great Pirate Captain Zaken... I know that you don't want to give up the Map so easily. Hey, listen! Wouldn't you like to know what kind of treasure is hidd…",
+   "header": "Trader Espen",
+   "links": [
+    {
+     "text": "\"I accept your offer.\"",
+     "bypass": "Quest Q00383_TreasureHunt 30890-07.htm",
+     "kind": "quest-event",
+     "script": "Q00383_TreasureHunt",
+     "event": "30890-07.htm",
+     "quest": 383,
+     "to": "Q00383_TreasureHunt/30890-07.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00383_TreasureHunt/30890-07.htm": {
+   "file": "Q00383_TreasureHunt/30890-07.htm",
+   "quest": 383,
+   "text": "Trader Espen: Heh Heh Heh... Ah, yes, good decision. You won't regret your decision... Before I begin, let me tell you a story about the Pirate Captain Zaken and his traitorous boatswain, Muska. Listen carefully, as this information will be quite helpful to you in the future.",
+   "header": "Trader Espen",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"I'm listening.\"",
+     "bypass": "Quest Q00383_TreasureHunt 30890-08.html",
+     "kind": "quest-event",
+     "script": "Q00383_TreasureHunt",
+     "event": "30890-08.html",
+     "quest": 383,
+     "to": "Q00383_TreasureHunt/30890-08.html"
+    }
+   ]
+  },
+  "Q00383_TreasureHunt/30890-08.html": {
+   "file": "Q00383_TreasureHunt/30890-08.html",
+   "quest": 383,
+   "text": "Trader Espen: At one time Muska was a faithful underling of Zaken. But, when Zaken's ship was anchored here in Heine, he fell in love with Fatima, a woman from Abella. Fatima seduced Muska and convinced him to betray his captain and steal the treasure. Blinded by love, Muska violated the cardinal r…",
+   "header": "Trader Espen",
+   "links": [
+    {
+     "text": "Continue to listen to the story.",
+     "bypass": "Quest Q00383_TreasureHunt 30890-09.html",
+     "kind": "quest-event",
+     "script": "Q00383_TreasureHunt",
+     "event": "30890-09.html",
+     "quest": 383,
+     "to": "Q00383_TreasureHunt/30890-09.html"
+    }
+   ]
+  },
+  "Q00383_TreasureHunt/30890-09.html": {
+   "file": "Q00383_TreasureHunt/30890-09.html",
+   "quest": 383,
+   "text": "Trader Espen: Unfortunately, Muska made a bad choice when he fell in love with Fatima. Her heart concealed dark tendencies... While her lover was risking his life stealing treasure, she had already found herself a lover in Heine, and was plotting to betray Muska... When Muska returned to her after …",
+   "header": "Trader Espen",
+   "links": [
+    {
+     "text": "Continue to listen to the story.",
+     "bypass": "Quest Q00383_TreasureHunt 30890-10.html",
+     "kind": "quest-event",
+     "script": "Q00383_TreasureHunt",
+     "event": "30890-10.html",
+     "quest": 383,
+     "to": "Q00383_TreasureHunt/30890-10.html"
+    }
+   ]
+  },
+  "Q00383_TreasureHunt/30890-10.html": {
+   "file": "Q00383_TreasureHunt/30890-10.html",
+   "quest": 383,
+   "text": "Trader Espen: Muska was a hardened pirate as well, who greatly distrusted people... and Fatima was no exception. The treasure Map found on Muska's corpse was written in code, and no one could decipher it. When Zaken's ship ran aground on Devil's Isle and its captain and all of his crew were all kil…",
+   "header": "Trader Espen",
+   "links": [
+    {
+     "text": "Continue to listen to the story.",
+     "bypass": "Quest Q00383_TreasureHunt 30890-11.html",
+     "kind": "quest-event",
+     "script": "Q00383_TreasureHunt",
+     "event": "30890-11.html",
+     "quest": 383,
+     "to": "Q00383_TreasureHunt/30890-11.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00383_TreasureHunt/30890-11.html": {
+   "file": "Q00383_TreasureHunt/30890-11.html",
+   "quest": 383,
+   "text": "Trader Espen: You should thank your lucky stars for running into me. Why? Because I'm the only person in the world who can decipher this Map. I recently purchased Zaken's journal from some adventurers who had been exploring on Devil's Isle. It contained a detailed description of the method of decod…",
+   "header": "Trader Espen",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00383_TreasureHunt/30890-12.html": {
+   "file": "Q00383_TreasureHunt/30890-12.html",
+   "quest": 383,
+   "text": "Trader Espen: Hey you... Do you or don't you have the treasure Map? You must have heard the rumor that I'm a great pirate aficionado. So, are you trying to rip me off? Get lost!",
+   "header": "Trader Espen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Treasure Hunt]",
+     "bypass": "npc_%objectId%_Quest Q00383_TreasureHunt",
+     "kind": "quest",
+     "quest": 383,
+     "to": "Q00383_TreasureHunt/30890-02.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Treasure Hunt (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00383_TreasureHunt",
+     "kind": "quest",
+     "quest": 383,
+     "to": "Q00383_TreasureHunt/30890-13.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

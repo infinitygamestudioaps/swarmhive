@@ -1,0 +1,87 @@
+{
+ "npcId": 4315,
+ "name": "Warehouse Keeper",
+ "title": "Fantasy Isle Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.773Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "warehouse/4315.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "warehouse/4315.htm": {
+   "file": "warehouse/4315.htm",
+   "quest": null,
+   "text": "Fantasy Isle Warehouse Keeper: For the last century, Fantasy Isle's warehouse has never had any lost accidents. Not even one! How about that? The Iron Guild's management resulted in this great pride. So please leave your items here without any worry.",
+   "header": "Fantasy Isle Warehouse Keeper",
+   "links": [
+    {
+     "text": "Use private Warehouse.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/4315-1.htm"
+    },
+    {
+     "text": "Use clan Warehouse.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/4315-2.htm"
+    }
+   ]
+  },
+  "warehouse/4315-1.htm": {
+   "file": "warehouse/4315-1.htm",
+   "quest": null,
+   "text": "Fantasy Isle Warehouse Keeper: [ Private Warehouse ]",
+   "header": "Fantasy Isle Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item - Private Warehouse",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw up an item - Private Warehouse",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/4315.htm"
+    }
+   ]
+  },
+  "warehouse/4315-2.htm": {
+   "file": "warehouse/4315-2.htm",
+   "quest": null,
+   "text": "Fantasy Isle Warehouse Keeper: [ Clan Warehouse ]",
+   "header": "Fantasy Isle Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item - Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw up an item - Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/4315.htm"
+    }
+   ]
+  }
+ }
+}

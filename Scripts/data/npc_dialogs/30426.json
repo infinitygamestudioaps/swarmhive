@@ -1,0 +1,112 @@
+{
+ "npcId": 30426,
+ "name": "Prias",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.976Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30426.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "407": {
+   "name": "Path of the Elven Scout",
+   "listText": [
+    "[Path of the Elven Scout]",
+    "[Path of the Elven Scout (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00407_PathOfTheElvenScout/30426-01.html",
+     "when": "state STARTED; has items 1214,1212; lacks items 1293; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00407_PathOfTheElvenScout/30426-02.html",
+     "when": "state STARTED; has items 1214,1212,1293; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00407_PathOfTheElvenScout/30426-04.html",
+     "when": "state STARTED; has items 1215; lacks items 1214,1212; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30426.htm": {
+   "file": "default/30426.htm",
+   "quest": null,
+   "text": "Prias: Please, don't even start.",
+   "header": "Prias",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00407_PathOfTheElvenScout/30426-01.html": {
+   "file": "Q00407_PathOfTheElvenScout/30426-01.html",
+   "quest": 407,
+   "text": "Prias: Has Moretti sent you? I cannot move because my feet are in shackles. Please free me! Do you see those Ol Mahum sentries over there? One of them has the key to the shackles on my feet! It seems they haven't noticed you yet. Lure them now and get rid of them. There is no time to hesitate. Hurr…",
+   "header": "Prias",
+   "when": [
+    "state STARTED; has items 1214,1212; lacks items 1293; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30426-02.html": {
+   "file": "Q00407_PathOfTheElvenScout/30426-02.html",
+   "quest": 407,
+   "text": "Prias: You are very lucky. You came just when the others had left and only the sentries remained ... Anyway, I am free, thanks to you. Thank you very much. Ah, Moretti sent me a letter? And an herb as well ... he is a wonderful friend. I begin to feel faint just by thinking about my captivity, and …",
+   "header": "Prias",
+   "when": [
+    "state STARTED; has items 1214,1212,1293; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00407_PathOfTheElvenScout/30426-04.html": {
+   "file": "Q00407_PathOfTheElvenScout/30426-04.html",
+   "quest": 407,
+   "text": "Prias: Elven friend, do not worry about me but please take my letter to Moretti . I will have to scout some more.",
+   "header": "Prias",
+   "when": [
+    "state STARTED; has items 1215; lacks items 1214,1212; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Elven Scout (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00407_PathOfTheElvenScout",
+     "kind": "quest",
+     "quest": 407,
+     "to": "Q00407_PathOfTheElvenScout/30426-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

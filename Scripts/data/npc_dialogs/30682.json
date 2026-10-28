@@ -1,0 +1,212 @@
+{
+ "npcId": 30682,
+ "name": "Pekiron",
+ "title": "Seer",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.038Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30682.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "233": {
+   "name": "Test Of The War Spirit",
+   "listText": [
+    "[Test of the War Spirit]",
+    "[Test of the War Spirit (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30682-01.html",
+     "when": "state STARTED; lacks items 2888,2894,2912,2880",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30682-04.html",
+     "when": "state STARTED; has items 2888,2894,2912,2880,2889,2890,2891,2892,2893",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30682-03.html",
+     "when": "state STARTED; has items 2888,2894,2912,2880; lacks items 2889,2890,2891,2892,2893",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30682-05.html",
+     "when": "state STARTED; has items 2888,2894,2912,2880; lacks items 2888",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30682.htm": {
+   "file": "trainer/30682.htm",
+   "quest": null,
+   "text": "Seer Pekiron: Welcome to this sanctum of flame. Pay your respects to Pa'agrio and listen to the voice of his will!",
+   "header": "Seer Pekiron",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30682-noteach.htm": {
+   "file": "trainer/30682-noteach.htm",
+   "quest": null,
+   "text": "Seer Pekiron: By the name of Pa'agrio, I have nothing to teach you. One who is walking the path of the Fighter will soon enough find his true Master.",
+   "header": "Seer Pekiron",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30682-01.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30682-01.html",
+   "quest": 233,
+   "text": "Seer Pekiron: I heard the story from Seer Somak! So, you are looking for the bones of Tonar? Then, first I must tell you about superman Tonar, our great hero! As you may know, Tonar lead the crack contingent of Hetsui and drove out all the Leto Lizardmen from Oren. But as a last resort, the lizardm…",
+   "header": "Seer Pekiron",
+   "when": [
+    "state STARTED; lacks items 2888,2894,2912,2880"
+   ],
+   "links": [
+    {
+     "text": "Ask where the remains are.",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30682-02.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30682-02.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30682-02.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30682-04.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30682-04.html",
+   "quest": 233,
+   "text": "Seer Pekiron: How could they have desecrated the body of our hero so? I shall adjust the pieces into a recognizable shape! Young sorcerer, you must be contemplative while carrying back the bones. You are bearing the symbol of our heroes and forefathers!",
+   "header": "Seer Pekiron",
+   "when": [
+    "state STARTED; has items 2888,2894,2912,2880,2889,2890,2891,2892,2893"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30682-03.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30682-03.html",
+   "quest": 233,
+   "text": "Seer Pekiron: The bones of Tonar are in the hands of Leto Lizardmen. They say that the Leto tribe chiefs or shamans have an amulet made of Tonar's bones, so beat them and recover our hero's remains, which were divided into skull, rib bones, backbone, arm bones, and shin bones!",
+   "header": "Seer Pekiron",
+   "when": [
+    "state STARTED; has items 2888,2894,2912,2880; lacks items 2889,2890,2891,2892,2893"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30682-05.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30682-05.html",
+   "quest": 233,
+   "text": "Seer Pekiron: Go, young shaman, and finish the Test of the War Spirit. I believe that you shall become a proud Warcryer! Until that day when we march onto the battlefield singing the hymns of victory! Tejakar Pa'agrio!",
+   "header": "Seer Pekiron",
+   "when": [
+    "state STARTED; has items 2888,2894,2912,2880; lacks items 2888"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30682-02.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30682-02.html",
+   "quest": 233,
+   "text": "Seer Pekiron: The Lizardman shamans understood the power hidden in Tornar's body. So they ran off with the remains. Then afterwards, with the bones, they made several fetishes. Those fetishes are still handed down among the Leto Lizardmen until this day! The Leto Lizardmen formed a strong force in …",
+   "header": "Seer Pekiron",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the War Spirit (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00233_TestOfTheWarSpirit",
+     "kind": "quest",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30682-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

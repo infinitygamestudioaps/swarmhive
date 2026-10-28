@@ -1,0 +1,310 @@
+{
+ "npcId": 32054,
+ "name": "Ghost of a Railroad Engineer",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.321Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32054.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "117": {
+   "name": "The Ocean of Distant Stars",
+   "listText": [
+    "[The Ocean of Distant Stars]",
+    "[The Ocean of Distant Stars (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00117_TheOceanOfDistantStars/32054-01.html",
+     "when": "state STARTED; memo 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "650": {
+   "name": "A Broken Dream",
+   "listText": [
+    "[A Broken Dream]",
+    "[A Broken Dream (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00650_ABrokenDream/32054-02.htm",
+     "when": "state CREATED; level < 39",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00650_ABrokenDream/32054-01.htm",
+     "when": "state CREATED; NOT level < 39; player.hasQuestCompleted(Q00117_TheOceanOfDistantStars.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00650_ABrokenDream/32054-04.htm",
+     "when": "state CREATED; NOT level < 39; NOT player.hasQuestCompleted(Q00117_TheOceanOfDistantStars.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00650_ABrokenDream/32054-05.html",
+     "when": "state STARTED; st.hasQuestItems(REMNANTS_OF_OLD_DWARVES_DREAMS)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00650_ABrokenDream/32054-06.html",
+     "when": "state STARTED; NOT st.hasQuestItems(REMNANTS_OF_OLD_DWARVES_DREAMS)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32054.htm": {
+   "file": "default/32054.htm",
+   "quest": null,
+   "text": "Ghost of a railroad Engineer: I am going mad! Will no one help me?",
+   "header": "Ghost of a railroad Engineer",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00117_TheOceanOfDistantStars/32054-01.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32054-01.html",
+   "quest": 117,
+   "text": "Ghost of the Railroad Engineer: What brought you to me, you of the living?",
+   "header": "Ghost of the Railroad Engineer",
+   "when": [
+    "state STARTED; memo 9"
+   ],
+   "links": [
+    {
+     "text": "Talk about the hammer and the ghost.",
+     "bypass": "Quest Q00117_TheOceanOfDistantStars 32054-02.html",
+     "kind": "quest-event",
+     "script": "Q00117_TheOceanOfDistantStars",
+     "event": "32054-02.html",
+     "quest": 117,
+     "to": "Q00117_TheOceanOfDistantStars/32054-02.html"
+    }
+   ]
+  },
+  "Q00650_ABrokenDream/32054-02.htm": {
+   "file": "Q00650_ABrokenDream/32054-02.htm",
+   "quest": 650,
+   "text": "Ghost of the Railroad Engineer: If you were more experienced, I would ask a favor of you... (Only characters above level 39 who have cleared the Beyond the Sea of Stars quest can perform this quest.)",
+   "header": "Ghost of the Railroad Engineer",
+   "when": [
+    "state CREATED; level < 39"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00650_ABrokenDream/32054-01.htm": {
+   "file": "Q00650_ABrokenDream/32054-01.htm",
+   "quest": 650,
+   "text": "Ghost of the Railroad Engineer: I am sure you've heard, but... we, the ghosts of this station, are all unhappy souls who have gone mad because we are unable to hold a hammer or do any work. We were members of the Grey Pillar Guild, and as such, we wanted to reach the stars. If you don't mind, I ask…",
+   "header": "Ghost of the Railroad Engineer",
+   "when": [
+    "state CREATED; NOT level < 39; player.hasQuestCompleted(Q00117_TheOceanOfDistantStars.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "Agree to put them out of their misery.",
+     "bypass": "Quest Q00650_ABrokenDream 32054-03.htm",
+     "kind": "quest-event",
+     "script": "Q00650_ABrokenDream",
+     "event": "32054-03.htm",
+     "quest": 650,
+     "to": "Q00650_ABrokenDream/32054-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00650_ABrokenDream/32054-04.htm": {
+   "file": "Q00650_ABrokenDream/32054-04.htm",
+   "quest": 650,
+   "text": "Ghost of the Railroad Engineer: How did you come to be here? I have nothing to tell you. (You must be above level 39 and have cleared the Beyond the Sea of Stars quest in order to perform this quest.)",
+   "header": "Ghost of the Railroad Engineer",
+   "when": [
+    "state CREATED; NOT level < 39; NOT player.hasQuestCompleted(Q00117_TheOceanOfDistantStars.class.getSimpleName())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00650_ABrokenDream/32054-05.html": {
+   "file": "Q00650_ABrokenDream/32054-05.html",
+   "quest": 650,
+   "text": "Ghost of the Railroad Engineer: Ah, you return... So, how did you fare with my fellow ghosts? Were any of them sane? No, never mind, I know it's no use asking. I suppose you helped some of my fellow ghosts achieve some peace... you did, didn't you?",
+   "header": "Ghost of the Railroad Engineer",
+   "when": [
+    "state STARTED; st.hasQuestItems(REMNANTS_OF_OLD_DWARVES_DREAMS)"
+   ],
+   "links": [
+    {
+     "text": "Yes.",
+     "bypass": "Quest Q00650_ABrokenDream 32054-07.html",
+     "kind": "quest-event",
+     "script": "Q00650_ABrokenDream",
+     "event": "32054-07.html",
+     "quest": 650,
+     "to": "Q00650_ABrokenDream/32054-07.html"
+    }
+   ]
+  },
+  "Q00650_ABrokenDream/32054-06.html": {
+   "file": "Q00650_ABrokenDream/32054-06.html",
+   "quest": 650,
+   "text": "Ghost of the Railroad Engineer: Thank you. Please help my poor fellow ghosts to rest in peace, even if only for a while... Some might share their dream fragments with you as they expire, and they may be informative. If you give them peace, I will find some things among the keepsakes my friends left…",
+   "header": "Ghost of the Railroad Engineer",
+   "when": [
+    "state STARTED; NOT st.hasQuestItems(REMNANTS_OF_OLD_DWARVES_DREAMS)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00117_TheOceanOfDistantStars/32054-02.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32054-02.html",
+   "quest": 117,
+   "text": "Ghost of the Railroad Engineer: As you can see, there are many ghosts here who once were Dwarves. We worked to a common purpose: the dream of building an air trolley. We wanted to visit the Sea of Stars and the Palace of the Gods... But the Giants left, and we died one by one here. We refused Shile…",
+   "header": "Ghost of the Railroad Engineer",
+   "links": [
+    {
+     "text": "Ask why.",
+     "bypass": "Quest Q00117_TheOceanOfDistantStars 32054-03.html",
+     "kind": "quest-event",
+     "script": "Q00117_TheOceanOfDistantStars",
+     "event": "32054-03.html",
+     "quest": 117,
+     "to": "Q00117_TheOceanOfDistantStars/32054-03.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00117_TheOceanOfDistantStars/32054-03.html": {
+   "file": "Q00117_TheOceanOfDistantStars/32054-03.html",
+   "quest": 117,
+   "text": "Ghost of the Railroad Engineer: It is as you see... we are all dead and cannot hold a hammer. When we realized we could no longer work, we started to go insane, and this is the result. The ghost you spoke with was a good man once, and strong, so he may outlast many of us. Still, it's just a matter …",
+   "header": "Ghost of the Railroad Engineer",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00650_ABrokenDream/32054-03.htm": {
+   "file": "Q00650_ABrokenDream/32054-03.htm",
+   "quest": 650,
+   "text": "Ghost of the Railroad Engineer: Thank you. Please help my poor fellow ghosts to rest in peace, even if only for a while... Some might share their dream fragments with you as they expire, which may be informative. If you give them peace, I will find some things among the keepsakes my friends left me…",
+   "header": "Ghost of the Railroad Engineer",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00650_ABrokenDream/32054-07.html": {
+   "file": "Q00650_ABrokenDream/32054-07.html",
+   "quest": 650,
+   "text": "Ghost of the Railroad Engineer: Ah, that doesn't surprise me. Did any of the ghosts show you a dream fragment? What they showed you was our forgotten dream, the dream we tried to realize even after our death and failed, our hopeless dream... Well, that's how the world is. If you fail at achieving s…",
+   "header": "Ghost of the Railroad Engineer",
+   "links": [
+    {
+     "text": "Exchange the dream fragment for the keepsake.",
+     "bypass": "npc_%objectId%_multisell 320540001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Say that you want to return with even more dream fragments.",
+     "bypass": "Quest Q00650_ABrokenDream 32054-08.html",
+     "kind": "quest-event",
+     "script": "Q00650_ABrokenDream",
+     "event": "32054-08.html",
+     "quest": 650,
+     "to": "Q00650_ABrokenDream/32054-08.html"
+    },
+    {
+     "text": "Say you want to give up.",
+     "bypass": "Quest Q00650_ABrokenDream 32054-09.html",
+     "kind": "quest-event",
+     "script": "Q00650_ABrokenDream",
+     "event": "32054-09.html",
+     "quest": 650,
+     "to": "Q00650_ABrokenDream/32054-09.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00650_ABrokenDream/32054-08.html": {
+   "file": "Q00650_ABrokenDream/32054-08.html",
+   "quest": 650,
+   "text": "Ghost of the Railroad Engineer: Really, you'll do this? It's going to be challenging, so good luck. Many of my friends are so looking forward to finally resting in peace...",
+   "header": "Ghost of the Railroad Engineer",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00650_ABrokenDream/32054-09.html": {
+   "file": "Q00650_ABrokenDream/32054-09.html",
+   "quest": 650,
+   "text": "Ghost of the Railroad Engineer: Yes, I see. You have done enough. We should have realized that our dreams were foolish and unattainable. Sometimes we need an outsider to tell us when we've lost our perspective, when it's time to rest. Thank you. I wish you great blessings in your life of adventure.",
+   "header": "Ghost of the Railroad Engineer",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Ocean of Distant Stars (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00117_TheOceanOfDistantStars",
+     "kind": "quest",
+     "quest": 117,
+     "to": "Q00117_TheOceanOfDistantStars/32054-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[A Broken Dream]",
+     "bypass": "npc_%objectId%_Quest Q00650_ABrokenDream",
+     "kind": "quest",
+     "quest": 650,
+     "to": "Q00650_ABrokenDream/32054-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[A Broken Dream (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00650_ABrokenDream",
+     "kind": "quest",
+     "quest": 650,
+     "to": "Q00650_ABrokenDream/32054-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

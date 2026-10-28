@@ -1,0 +1,77 @@
+{
+ "npcId": 32378,
+ "name": "Fantasy Isle Paddies",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.374Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "teleporter/32378.htm",
+   "when": "",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "teleporter/32378.htm": {
+   "file": "teleporter/32378.htm",
+   "quest": null,
+   "text": "Fantasy Isle Paddies: Welcome to Fantasy Isle. Click, click. I am the keeper of this island. All movement here is made possible through me. Enjoy all that we have to offer! You can earn Fantasy Isle Coins by undertaking different activities in the isle; bring them back to me and I'll exchange them …",
+   "header": "Fantasy Isle Paddies",
+   "links": [
+    {
+     "text": "Return to previous town.",
+     "bypass": "npc_%objectId%_Quest TeleportToFantasy",
+     "kind": "quest",
+     "confirm": "2282",
+     "script": "TeleportToFantasy",
+     "to": null,
+     "live": true
+    },
+    {
+     "text": "Move to the Underground Coliseum.",
+     "bypass": "npc_%objectId%_Quest TeleportToUndergroundColiseum",
+     "kind": "quest",
+     "script": "TeleportToUndergroundColiseum",
+     "to": null,
+     "live": true
+    },
+    {
+     "text": "Move to Kratei's Cube.",
+     "bypass": "npc_%objectId%_goto 12108",
+     "kind": "teleport",
+     "live": true
+    },
+    {
+     "text": "Move to Handy's Block Checker Arena.",
+     "bypass": "npc_%objectId%_goto 12121",
+     "kind": "teleport",
+     "live": true
+    },
+    {
+     "text": "Exchange Fantasy Isle Coins.",
+     "bypass": "npc_%objectId%_multisell 323780001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "gatekeeper live menu (Scripts/data/gk_live/Fantasy_Isle_Paddies.json) has links the datapack does not: Exchange Fantasy Isle Coin for other items"
+ ]
+}

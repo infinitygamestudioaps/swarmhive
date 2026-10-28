@@ -1,0 +1,253 @@
+{
+ "npcId": 30636,
+ "name": "Camoniell",
+ "title": "Summoner",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.024Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30636.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "230": {
+   "name": "Test Of The Summoner",
+   "listText": [
+    "[Test of the Summoner]",
+    "[Test of the Summoner (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00230_TestOfTheSummoner/30636-01.html",
+     "when": "state STARTED; lacks items 3355,3370,3371,3372,3373,3374",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30636-05.html",
+     "when": "state STARTED; has items 3370,3371,3372,3373,3374; lacks items 3355,3370,3371,3372,3374",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30636-06.html",
+     "when": "state STARTED; has items 3370,3371,3372,3373,3374; lacks items 3355,3370,3371,3373,3374; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_VI",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30636-07.html",
+     "when": "state STARTED; has items 3370,3371,3372,3373,3374; lacks items 3355,3370,3371,3372,3373; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_DEFEAT_3RD, CRYSTAL_OF_",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30636-08.html",
+     "when": "state STARTED; has items 3370,3371,3372,3373,3374; lacks items 3355,3371,3372,3373,3374; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_DEFEAT_3RD, CRYSTAL_OF_; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_DE",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30636-09.html",
+     "when": "state STARTED; has items 3370,3371,3372,3373,3374; lacks items 3355,3370,3372,3373,3374; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_DEFEAT_3RD, CRYSTAL_OF_; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_DE; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_DEFEAT_3RD, CRYSTAL_OF_VICT",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00230_TestOfTheSummoner/30636-10.html",
+     "when": "state STARTED; has items 3355",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30636.htm": {
+   "file": "default/30636.htm",
+   "quest": null,
+   "text": "Summoner Carmoniell Who are you? I am Carmoniell of the Elves. What have you come here for? This is my private building and it is not polite to wander around my property. Please, leave now. If you ignore my polite request, I shall ask my unicorn to make you leave.",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30636-01.html": {
+   "file": "Q00230_TestOfTheSummoner/30636-01.html",
+   "quest": 230,
+   "text": "Summoner Camoniell: Hello, young apprentice Summoner. Have you come to challenge me? I am not going to fight you right now, in fact, I will concede defeat. Here is my Arcana Card.",
+   "header": "Summoner Camoniell",
+   "when": [
+    "state STARTED; lacks items 3355,3370,3371,3372,3373,3374"
+   ],
+   "links": [
+    {
+     "text": "\"That's absurd! I will not accept such a victory!\"",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30636-03.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30636-03.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30636-03.html",
+     "toAll": [
+      "Q00230_TestOfTheSummoner/30636-03.html",
+      "Q00230_TestOfTheSummoner/30636-02.html"
+     ]
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30636-05.html": {
+   "file": "Q00230_TestOfTheSummoner/30636-05.html",
+   "quest": 230,
+   "text": "Summoner Camoniell: That certainly took a lot longer than I expected... Let's stop fighting.",
+   "header": "Summoner Camoniell",
+   "when": [
+    "state STARTED; has items 3370,3371,3372,3373,3374; lacks items 3355,3370,3371,3372,3374"
+   ],
+   "links": [
+    {
+     "text": "Ask for another battle.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30636-03.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30636-03.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30636-03.html",
+     "toAll": [
+      "Q00230_TestOfTheSummoner/30636-03.html",
+      "Q00230_TestOfTheSummoner/30636-02.html"
+     ]
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30636-06.html": {
+   "file": "Q00230_TestOfTheSummoner/30636-06.html",
+   "quest": 230,
+   "text": "Summoner Camoniell: Hey, what do you think you're doing? How rude! How dare you touch my creature... Well, according the rules, I win!",
+   "header": "Summoner Camoniell",
+   "when": [
+    "state STARTED; has items 3370,3371,3372,3373,3374; lacks items 3355,3370,3371,3373,3374; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_VI"
+   ],
+   "links": [
+    {
+     "text": "Ask for another battle.",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30636-03.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30636-03.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30636-03.html",
+     "toAll": [
+      "Q00230_TestOfTheSummoner/30636-03.html",
+      "Q00230_TestOfTheSummoner/30636-02.html"
+     ]
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30636-07.html": {
+   "file": "Q00230_TestOfTheSummoner/30636-07.html",
+   "quest": 230,
+   "text": "Summoner Camoniell: How could I have lost to an apprentice Summoner? Is this really happening? God has forsaken me... I am done for! It is over! Here, take my Arcana Card . Go on! Take it and leave me alone!",
+   "header": "Summoner Camoniell",
+   "when": [
+    "state STARTED; has items 3370,3371,3372,3373,3374; lacks items 3355,3370,3371,3372,3373; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_DEFEAT_3RD, CRYSTAL_OF_"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30636-08.html": {
+   "file": "Q00230_TestOfTheSummoner/30636-08.html",
+   "quest": 230,
+   "text": "Summoner Camoniell: You talk too much. I didn't want to fight you, what makes you think I would want to talk to you? Let's end this now.",
+   "header": "Summoner Camoniell",
+   "when": [
+    "state STARTED; has items 3370,3371,3372,3373,3374; lacks items 3355,3371,3372,3373,3374; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_DEFEAT_3RD, CRYSTAL_OF_; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_DE"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30636-09.html": {
+   "file": "Q00230_TestOfTheSummoner/30636-09.html",
+   "quest": 230,
+   "text": "Summoner Camoniell: ...Unicorn Racer! Give no quarter! Finish him!",
+   "header": "Summoner Camoniell",
+   "when": [
+    "state STARTED; has items 3370,3371,3372,3373,3374; lacks items 3355,3370,3372,3373,3374; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_VI; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_DEFEAT_3RD, CRYSTAL_OF_; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_STARTING_3RD, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_DE; !(!hasAtLeastOneQuestItem(player, CRYSTAL_OF_INPROGRESS_3RD, CRYSTAL_OF_FOUL_3RD, CRYSTAL_OF_DEFEAT_3RD, CRYSTAL_OF_VICT"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30636-10.html": {
+   "file": "Q00230_TestOfTheSummoner/30636-10.html",
+   "quest": 230,
+   "text": "Summoner Camoniell What do you want now? Stop harassing this poor old Elf, deprived of her lover and defeated by a mere apprentice... Oh, Eva! How can you be so cruel to me?...",
+   "when": [
+    "state STARTED; has items 3355"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30636-02.html": {
+   "file": "Q00230_TestOfTheSummoner/30636-02.html",
+   "quest": 230,
+   "text": "Summoner Camoniell You don't even have an Arcana Card! How do you expect to fight? You can get a card from Trader Lara of the Town of Dion ...",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00230_TestOfTheSummoner/30636-03.html": {
+   "file": "Q00230_TestOfTheSummoner/30636-03.html",
+   "quest": 230,
+   "text": "Summoner Camoniell: Whew... You are tenacious, aren't you? Ready for a fight even as the world crumbles around you? All right, I accept your challenge to a duel. This will not be easy, but at least it should be over quickly. In fact, it shouldn't take more than a minute... Let me introduce my frien…",
+   "header": "Summoner Camoniell",
+   "links": [
+    {
+     "text": "Begin the battle",
+     "bypass": "Quest Q00230_TestOfTheSummoner 30636-04.html",
+     "kind": "quest-event",
+     "script": "Q00230_TestOfTheSummoner",
+     "event": "30636-04.html",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30636-04.html"
+    }
+   ]
+  },
+  "Q00230_TestOfTheSummoner/30636-04.html": {
+   "file": "Q00230_TestOfTheSummoner/30636-04.html",
+   "quest": 230,
+   "text": "Summoner Camoniell: I'll hold your Arcana Card... You may order your creature to attack when ready...",
+   "header": "Summoner Camoniell",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Summoner (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00230_TestOfTheSummoner",
+     "kind": "quest",
+     "quest": 230,
+     "to": "Q00230_TestOfTheSummoner/30636-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

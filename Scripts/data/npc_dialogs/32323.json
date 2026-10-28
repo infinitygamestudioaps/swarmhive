@@ -1,0 +1,313 @@
+{
+ "npcId": 32323,
+ "name": "Avant-Garde",
+ "title": "Transformation Wizard",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.369Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/AvantGarde/32323-01.html",
+   "when": "",
+   "src": "ai AvantGarde"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/AvantGarde/32323-01.html": {
+   "file": "ai/npc/AvantGarde/32323-01.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: I am Avant-Garde, the Transformation Wizard. I have long wandered through the land and only recently settled here. In fact, my young friend, I am not a wizard of the Ivory Tower. You look surprised! Heh. Think of me as a wanderer who acquired a special power quite…",
+   "header": "Transformation Wizard Avant-Garde",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Ask about transformation.",
+     "bypass": "Quest AvantGarde 32323-02.html",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "32323-02.html",
+     "to": "ai/npc/AvantGarde/32323-02.html"
+    },
+    {
+     "text": "Learn transformation.",
+     "bypass": "Quest AvantGarde LearnTransformationSkill",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "LearnTransformationSkill",
+     "to": "ai/npc/AvantGarde/32323-03.html"
+    },
+    {
+     "text": "Purchase items related to transformation.",
+     "bypass": "Quest AvantGarde BuyTransformationItems",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "BuyTransformationItems",
+     "to": "ai/npc/AvantGarde/32323-04.html"
+    },
+    {
+     "text": "Learn about subclass certification.",
+     "bypass": "Quest AvantGarde 32323-05a.html",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "32323-05a.html",
+     "to": "ai/npc/AvantGarde/32323-05a.html"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/AvantGarde/32323-02.html": {
+   "file": "ai/npc/AvantGarde/32323-02.html",
+   "quest": null,
+   "text": "Wizard of Trasformation Avant-Garde: What do you wish to know about transformation?",
+   "header": "Wizard of Trasformation Avant-Garde",
+   "links": [
+    {
+     "text": "\"What do I need to know about transformation?\"",
+     "bypass": "Quest AvantGarde 32323-02a.html",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "32323-02a.html",
+     "to": "ai/npc/AvantGarde/32323-02a.html"
+    },
+    {
+     "text": "\"What do I need to do to transform into another shape?\"",
+     "bypass": "Quest AvantGarde 32323-02b.html",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "32323-02b.html",
+     "to": "ai/npc/AvantGarde/32323-02b.html"
+    },
+    {
+     "text": "\"What do I need to know before transformation?\"",
+     "bypass": "Quest AvantGarde 32323-02c.html",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "32323-02c.html",
+     "to": "ai/npc/AvantGarde/32323-02c.html"
+    }
+   ]
+  },
+  "ai/npc/AvantGarde/32323-02a.html": {
+   "file": "ai/npc/AvantGarde/32323-02a.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: To learn the magic of transformation, you will need to receive special training. Find the Wizard of Darkness, who lives at Hardin's Academy. He will open the path to transformation. You must have reached at least level 50 to embark on this path. You will also need…",
+   "header": "Transformation Wizard Avant-Garde",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back.",
+     "bypass": "Quest AvantGarde 32323-02.html",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "32323-02.html",
+     "to": "ai/npc/AvantGarde/32323-02.html"
+    }
+   ]
+  },
+  "ai/npc/AvantGarde/32323-02b.html": {
+   "file": "ai/npc/AvantGarde/32323-02b.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: After you have been guided through the process of transformation by a wizard, you may transform yourself into another shape by bringing a transform sealbook to me. Know that it is no easy task to earn one. I have heard, however, that you may find one through the M…",
+   "header": "Transformation Wizard Avant-Garde",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back.",
+     "bypass": "Quest AvantGarde 32323-02.html",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "32323-02.html",
+     "to": "ai/npc/AvantGarde/32323-02.html"
+    }
+   ]
+  },
+  "ai/npc/AvantGarde/32323-02c.html": {
+   "file": "ai/npc/AvantGarde/32323-02c.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: You must remember that once you have been transformed, you must not go into deep water . Once you have reverted to your original form, your soul will need time to recover -- you will not be able to transform again for some time. Understand? Other than that... Each…",
+   "header": "Transformation Wizard Avant-Garde",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back.",
+     "bypass": "Quest AvantGarde 32323-02.html",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "32323-02.html",
+     "to": "ai/npc/AvantGarde/32323-02.html"
+    }
+   ]
+  },
+  "ai/npc/AvantGarde/32323-03.html": {
+   "file": "ai/npc/AvantGarde/32323-03.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: This is not a path for every one. It is meaningless for me to even teach you Transformation until you have proven your ability. Meet the great wizard who uses black magic, open the road of Transformation, and then return to me.",
+   "header": "Transformation Wizard Avant-Garde",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/AvantGarde/32323-04.html": {
+   "file": "ai/npc/AvantGarde/32323-04.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: You must be able to transform in order to buy transformation-related goods. Find a great wizard who wields black magic and can open the path to transformation for you. Then you may return here.",
+   "header": "Transformation Wizard Avant-Garde",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/AvantGarde/32323-05.html": {
+   "file": "ai/npc/AvantGarde/32323-05.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: If your subclass skill is above a certain level, you can transfer that power to your main class. Because this is a very dangerous mission, however, you must be certified in order to carry it out. If you were certified by your subclass master and have brought the c…",
+   "header": "Transformation Wizard Avant-Garde",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "Quest AvantGarde LearnSubClassSkill",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "LearnSubClassSkill",
+     "to": "ai/npc/AvantGarde/32323-04.html",
+     "toAll": [
+      "ai/npc/AvantGarde/32323-04.html",
+      "ai/npc/AvantGarde/32323-08.html"
+     ]
+    },
+    {
+     "text": "Return.",
+     "bypass": "Quest AvantGarde 32323-06.html",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "32323-06.html",
+     "to": "ai/npc/AvantGarde/32323-06.html"
+    }
+   ]
+  },
+  "ai/npc/AvantGarde/32323-05a.html": {
+   "file": "ai/npc/AvantGarde/32323-05a.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: What do you wish to know about subclass certification?",
+   "header": "Transformation Wizard Avant-Garde",
+   "links": [
+    {
+     "text": "Learn skills of the certified subclass.",
+     "bypass": "Quest AvantGarde 32323-05.html",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "32323-05.html",
+     "to": "ai/npc/AvantGarde/32323-05.html"
+    },
+    {
+     "text": "Certification removal.",
+     "bypass": "Quest AvantGarde 32323-05no.html",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "32323-05no.html",
+     "to": "ai/npc/AvantGarde/32323-05no.html"
+    }
+   ]
+  },
+  "ai/npc/AvantGarde/32323-05no.html": {
+   "file": "ai/npc/AvantGarde/32323-05no.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: It is a tremendous endeavor to obtain subclass certification and learn the appropriate skills. Beyond the purely physical effort, the burden on your soul is beyond your imagination... It is almost a suicidal venture. However, the process can be undone. There is a …",
+   "header": "Transformation Wizard Avant-Garde",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Cancel certification.",
+     "bypass": "Quest AvantGarde CancelCertification",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "CancelCertification",
+     "to": "ai/npc/AvantGarde/32323-07.html",
+     "toAll": [
+      "ai/npc/AvantGarde/32323-07.html",
+      "ai/npc/AvantGarde/32323-08.html",
+      "ai/npc/AvantGarde/32323-08no.html",
+      "ai/npc/AvantGarde/32323-10no.html",
+      "ai/npc/AvantGarde/32323-09no.html"
+     ]
+    },
+    {
+     "text": "Return.",
+     "bypass": "Quest AvantGarde 32323-06no.html",
+     "kind": "quest-event",
+     "script": "AvantGarde",
+     "event": "32323-06no.html",
+     "to": "ai/npc/AvantGarde/32323-06no.html"
+    }
+   ]
+  },
+  "ai/npc/AvantGarde/32323-06.html": {
+   "file": "ai/npc/AvantGarde/32323-06.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: If you want to give up, I cannot help you. To use the subclass power in the main class requires a great deal of power, after all.",
+   "header": "Transformation Wizard Avant-Garde",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/AvantGarde/32323-06no.html": {
+   "file": "ai/npc/AvantGarde/32323-06no.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: An excellent decision, I think. In fact, it is very difficult to even get the herb. Since there's no one except that vicious Dark Wizard who lives in Dragon Valley who knows the technique, I didn't feel like it either... But isn't it a pity to throw away all of th…",
+   "header": "Transformation Wizard Avant-Garde",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/AvantGarde/32323-07.html": {
+   "file": "ai/npc/AvantGarde/32323-07.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-garde: A great deal of soul energy is needed to transfer subclass powers to the main class. Although you vanquished the Bridle of Soul by Mimir's Elixir, it is not so easy to practice it. To utilize the subclass power, you must be ritually cleansed by both the Dark Wizar…",
+   "header": "Transformation Wizard Avant-garde",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/AvantGarde/32323-08.html": {
+   "file": "ai/npc/AvantGarde/32323-08.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: To transfer the sub-class power, make your current class your main class and bring me either a certificate or a Scroll of Transformation .",
+   "header": "Transformation Wizard Avant-Garde",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/AvantGarde/32323-08no.html": {
+   "file": "ai/npc/AvantGarde/32323-08no.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: As I just told you, you need 10 million Adena. I don't see that much money on you...",
+   "header": "Transformation Wizard Avant-Garde",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/AvantGarde/32323-09no.html": {
+   "file": "ai/npc/AvantGarde/32323-09no.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: Then I have no choice... Your certifications are all canceled in exchange for 10 million Adena . However, that does not change the fact that you are very skilled. Why don't you find another master and obtain the certification you want?",
+   "header": "Transformation Wizard Avant-Garde",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/AvantGarde/32323-10no.html": {
+   "file": "ai/npc/AvantGarde/32323-10no.html",
+   "quest": null,
+   "text": "Transformation Wizard Avant-Garde: What are you going to cancel? You have neither certification nor the related skills. This herb is very rare -- unless you really need it, I would rather not use it.",
+   "header": "Transformation Wizard Avant-Garde",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

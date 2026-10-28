@@ -1,0 +1,288 @@
+{
+ "npcId": 30166,
+ "name": "Wesley",
+ "title": "Magic Trader",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.862Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30166.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "373": {
+   "name": "Supplier of Reagents",
+   "listText": [
+    "[Supplier of Reagents]",
+    "[Supplier of Reagents (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00373_SupplierOfReagents/30166-01.html",
+     "when": "state CREATED; level < 57",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00373_SupplierOfReagents/30166-02.htm",
+     "when": "state CREATED; NOT level < 57",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00373_SupplierOfReagents/30166-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30166.htm": {
+   "file": "merchant/30166.htm",
+   "quest": null,
+   "text": "Magic Trader Wesley: Hey, are you here to browse or to buy? If you're not a serious customer, I'll have to ask you to move along!",
+   "header": "Magic Trader Wesley",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund Dyes.",
+     "bypass": "npc_%objectId%_Buy 3016601",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30166-pk.htm": {
+   "file": "merchant/30166-pk.htm",
+   "quest": null,
+   "text": "Magic Trader Wesley: You have a lot of nerve coming here! Be gone immediately! I would rather destroy my merchandise than to sell it to the likes of you!",
+   "header": "Magic Trader Wesley",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00373_SupplierOfReagents/30166-01.html": {
+   "file": "Q00373_SupplierOfReagents/30166-01.html",
+   "quest": 373,
+   "text": "Magic Trader Wesley: I buy ingredients from adventurers like you, create various reagents from them and then sell them to the Mystics of the Ivory Tower. Although a mere merchant, I am proud of my association with the Mystics. Many common ingredients such as jade and Dragon's Tooth are readily avai…",
+   "header": "Magic Trader Wesley",
+   "when": [
+    "state CREATED; level < 57"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00373_SupplierOfReagents/30166-02.htm": {
+   "file": "Q00373_SupplierOfReagents/30166-02.htm",
+   "quest": 373,
+   "text": "Magic Trader Wesley: I buy ingredients from adventurers like you, create various reagents from them and then sell them to the Mystics of the Ivory Tower. Although a mere merchant, I am proud of my association with the Mystics. Many common ingredients such as Jade and Dragon's Tooth are readily avai…",
+   "header": "Magic Trader Wesley",
+   "when": [
+    "state CREATED; NOT level < 57"
+   ],
+   "links": [
+    {
+     "text": "\"I'll take the job.\"",
+     "bypass": "Quest Q00373_SupplierOfReagents 30166-03.htm",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "30166-03.htm",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/30166-03.htm"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/30166-05.html": {
+   "file": "Q00373_SupplierOfReagents/30166-05.html",
+   "quest": 373,
+   "text": "Magic Trader Wesley: Welcome back! Come in! You're just in time. Grand Magister Arkenias has been asking for his order... I was able to put him off for a few days. Have you found the reagents I need? Bring them and I'll give you some ingredients, recipes or other items that you'll find useful.",
+   "header": "Magic Trader Wesley",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the reagents you requested.\"",
+     "bypass": "npc_%objectId%_multisell 301660373",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"Tell me about the memo.\"",
+     "bypass": "Quest Q00373_SupplierOfReagents 30166-06.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "30166-06.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/30166-06.html"
+    },
+    {
+     "text": "\"I quit.\"",
+     "bypass": "Quest Q00373_SupplierOfReagents 30166-07.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "30166-07.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/30166-07.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/30166-03.htm": {
+   "file": "Q00373_SupplierOfReagents/30166-03.htm",
+   "quest": 373,
+   "text": "Magic Trader Wesley: Seriously? That would be great! My previous suppliers recently quit after complaining about the low pay and hazardous working conditions! To add insult to injury, Grand Magister Valleria has threatened to take his business elsewhere! This is such a relief. Let me tell you what …",
+   "header": "Magic Trader Wesley",
+   "links": [
+    {
+     "text": "Listen to the job description.",
+     "bypass": "Quest Q00373_SupplierOfReagents 30166-04.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "30166-04.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/30166-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/30166-04.html": {
+   "file": "Q00373_SupplierOfReagents/30166-04.html",
+   "quest": 373,
+   "text": "Magic Trader Wesley: Sir... or, should I call you partner? You must bring me the ingredients I need to make reagents using the Alchemical Mixing Urn . Take this Mixing Manual . This is used to activate the mixing urn.",
+   "header": "Magic Trader Wesley",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Where can I find the ingredients?\"",
+     "bypass": "Quest Q00373_SupplierOfReagents 30166-04a.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "30166-04a.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/30166-04a.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/30166-04a.html": {
+   "file": "Q00373_SupplierOfReagents/30166-04a.html",
+   "quest": 373,
+   "text": "Magic Trader Wesley: You can obtain the ingredients from Crendion, Hallate's Maid, Hallate's Guardian, the Platinum Tribe Shaman and the Platinum Guardian Shaman in the Tower of Insolence . You can also obtain some important ingredients from Lava Wyrms and the Hames Orc Shaman in the Blazing Swamp …",
+   "header": "Magic Trader Wesley",
+   "links": [
+    {
+     "text": "\"Tell me how to use the urn.\"",
+     "bypass": "Quest Q00373_SupplierOfReagents 30166-04b.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "30166-04b.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/30166-04b.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/30166-04b.html": {
+   "file": "Q00373_SupplierOfReagents/30166-04b.html",
+   "quest": 373,
+   "text": "Magic Trader Wesley: First you must activate the jar. Do this by inserting a mixing stone into the niche on the side of the jar. Once activated, you can start using the jar immediately. You must gather the correct quantity and types of ingredients and catalysts and put them into it. Remember, once …",
+   "header": "Magic Trader Wesley",
+   "links": [
+    {
+     "text": "Listen to the instructions.",
+     "bypass": "Quest Q00373_SupplierOfReagents 30166-04c.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "30166-04c.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/30166-04c.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/30166-04c.html": {
+   "file": "Q00373_SupplierOfReagents/30166-04c.html",
+   "quest": 373,
+   "text": "Magic Trader Wesley: The lowest temperature you can set is 1 degree, also called \"Salamander.\" This is the safest choice. Although the success rate for mixing is 100%, the amount of reagent produced will be the smallest. The medium temperature setting is 2 degrees, also called \"Ifrit.\" You run a ri…",
+   "header": "Magic Trader Wesley",
+   "links": [
+    {
+     "text": "\"Tell me about mixing reagents.\"",
+     "bypass": "Quest Q00373_SupplierOfReagents 30166-04d.html",
+     "kind": "quest-event",
+     "script": "Q00373_SupplierOfReagents",
+     "event": "30166-04d.html",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/30166-04d.html"
+    }
+   ]
+  },
+  "Q00373_SupplierOfReagents/30166-04d.html": {
+   "file": "Q00373_SupplierOfReagents/30166-04d.html",
+   "quest": 373,
+   "text": "Magic Trader Wesley: Formulas explain which ingredients and the amounts you will need in order to create a particular reagent. All formulas explain how many ingredients and how many catalysts should be added. For example, in order to create Dracoplasm, ten units of Wyrm's Blood and one Blood Root s…",
+   "header": "Magic Trader Wesley",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00373_SupplierOfReagents/30166-06.html": {
+   "file": "Q00373_SupplierOfReagents/30166-06.html",
+   "quest": 373,
+   "text": "Magic Trader Wesley: I wrote down detailed instructions for using the urn, setting temperatures, a list of reagents and their formulas on the memo and attached it to the side of the urn. Please refer to it often.",
+   "header": "Magic Trader Wesley",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00373_SupplierOfReagents/30166-07.html": {
+   "file": "Q00373_SupplierOfReagents/30166-07.html",
+   "quest": 373,
+   "text": "Magic Trader Wesley: My partner! How can you quit so abruptly? What shall I do? You can't do this to me! Oh, well, there's nothing I can do to stop you... I suppose I'll have to find another partner...",
+   "header": "Magic Trader Wesley",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Supplier of Reagents]",
+     "bypass": "npc_%objectId%_Quest Q00373_SupplierOfReagents",
+     "kind": "quest",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/30166-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Supplier of Reagents (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00373_SupplierOfReagents",
+     "kind": "quest",
+     "quest": 373,
+     "to": "Q00373_SupplierOfReagents/30166-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

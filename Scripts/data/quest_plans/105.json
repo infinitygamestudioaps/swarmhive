@@ -2,7 +2,7 @@
  "id": 105,
  "name": "Skirmish with Orcs",
  "version": 1,
- "generated": "2026-10-27T11:14:57.793Z",
+ "generated": "2026-10-27T18:18:35.632Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 10,
@@ -24,16 +24,12 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
    "code": "owner-manual",
    "text": "marked \"manual\" on the dashboard (plan override)",
    "step": 3
   }
  ],
- "expectedMin": 5,
+ "expectedMin": 6,
  "refLevel": 10,
  "steps": [
   {
@@ -628,8 +624,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    2,
-    4
+    2
    ]
   },
   {
@@ -1925,6 +1920,122 @@
    },
    "fixedByOverride": [
     "no-route"
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:30218",
+   "cond": 4,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30218,
+    "name": "Kendell",
+    "title": "Sentinel",
+    "town": "Elven Village",
+    "at": [
+     47595,
+     51569,
+     -2992
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kendell",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30146@46926,51511",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 51,
+    "sec": 45,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 51,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      46920,
+      51512,
+      -2976
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30146@46926,51511",
+     "name": "Mirabel"
+    },
+    "points": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      46920,
+      51512,
+      -2976
+     ]
+    ]
+   },
+   "expectedSec": 70,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
    ]
   }
  ],

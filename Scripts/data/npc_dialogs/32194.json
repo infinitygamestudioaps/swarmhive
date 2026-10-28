@@ -1,0 +1,264 @@
+{
+ "npcId": 32194,
+ "name": "Shubain",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.354Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/32194.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "62": {
+   "name": "Path Of The Trooper",
+   "listText": [
+    "[Path of the Trooper]",
+    "[Path of the Trooper (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00062_PathOfTheTrooper/32194-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00062_PathOfTheTrooper/32194-03.html",
+     "when": "state STARTED; cond 2; getQuestItemsCount(player, FELIM_LIZARDMAN_HEAD) < 5",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00062_PathOfTheTrooper/32194-04.html",
+     "when": "state STARTED; cond 2; !getQuestItemsCount(player, FELIM_LIZARDMAN_HEAD) < 5",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00062_PathOfTheTrooper/32194-05.html",
+     "when": "state STARTED; cond 3; getQuestItemsCount(player, VENOMOUS_SPIDERS_LEG) < 10",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00062_PathOfTheTrooper/32194-06.html",
+     "when": "state STARTED; cond 3; !getQuestItemsCount(player, VENOMOUS_SPIDERS_LEG) < 10",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00062_PathOfTheTrooper/32194-07.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/32194.htm": {
+   "file": "trainer/32194.htm",
+   "quest": null,
+   "text": "Master Shubain: I am Master Shubain of the Kamael Guild. You wish to know what we do here? Much of that information is classified, I'm afraid. But I can tell you that one of our duties is to help train our brethren. Now then, how can I help you?",
+   "header": "Master Shubain",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/32194-noteach.htm": {
+   "file": "trainer/32194-noteach.htm",
+   "quest": null,
+   "text": "Master Shubain: I am afraid that I cannot help you. I only train male Kamael Soldiers or Trooperss. Please excuse me.",
+   "header": "Master Shubain",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00062_PathOfTheTrooper/32194-01.html": {
+   "file": "Q00062_PathOfTheTrooper/32194-01.html",
+   "quest": 62,
+   "text": "Master Shubain: You say that Master Gwain sent you? You must be taking the test to become a Trooper. The test measures your bravery and strength, both of which are vital for a great Trooper. But no matter how brave or strong a young warrior may be, he often fails the test because he is nervous or a…",
+   "header": "Master Shubain",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"So...?\"",
+     "bypass": "Quest Q00062_PathOfTheTrooper 32194-02.html",
+     "kind": "quest-event",
+     "script": "Q00062_PathOfTheTrooper",
+     "event": "32194-02.html",
+     "quest": 62,
+     "to": "Q00062_PathOfTheTrooper/32194-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00062_PathOfTheTrooper/32194-03.html": {
+   "file": "Q00062_PathOfTheTrooper/32194-03.html",
+   "quest": 62,
+   "text": "Master Shubain: As I told you earlier, experience is the best teacher. Go to the Fellmere Harvesting Grounds, defeat the Felim Lizardman Warriors, and bring back 5 of their heads.",
+   "header": "Master Shubain",
+   "when": [
+    "state STARTED; cond 2; getQuestItemsCount(player, FELIM_LIZARDMAN_HEAD) < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00062_PathOfTheTrooper/32194-04.html": {
+   "file": "Q00062_PathOfTheTrooper/32194-04.html",
+   "quest": 62,
+   "text": "Master Shubain: Good! Now let us move on to something a little more challenging. Go to Windmill Hill south of here, defeat the huge Venomous Spiders and bring back 10 legs. Oh, you had best take an antidote with you...",
+   "header": "Master Shubain",
+   "when": [
+    "state STARTED; cond 2; !getQuestItemsCount(player, FELIM_LIZARDMAN_HEAD) < 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00062_PathOfTheTrooper/32194-05.html": {
+   "file": "Q00062_PathOfTheTrooper/32194-05.html",
+   "quest": 62,
+   "text": "Master Shubain: Go to Windmill Hill south of here, defeat the huge poison spiders and bring back 10 legs. Oh, you had best take an antidote with you...",
+   "header": "Master Shubain",
+   "when": [
+    "state STARTED; cond 3; getQuestItemsCount(player, VENOMOUS_SPIDERS_LEG) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00062_PathOfTheTrooper/32194-06.html": {
+   "file": "Q00062_PathOfTheTrooper/32194-06.html",
+   "quest": 62,
+   "text": "Master Shubain: Ah, you've returned! How did you fare? You have done well; I think you are ready to take the test. Take this recommendation to Master Gwain in the Town of Gludio.",
+   "header": "Master Shubain",
+   "when": [
+    "state STARTED; cond 3; !getQuestItemsCount(player, VENOMOUS_SPIDERS_LEG) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00062_PathOfTheTrooper/32194-07.html": {
+   "file": "Q00062_PathOfTheTrooper/32194-07.html",
+   "quest": 62,
+   "text": "Master Shubain: Well done! Take this letter of recommendation to Master Gwain in the Town of Gludio.",
+   "header": "Master Shubain",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00062_PathOfTheTrooper/32194-02.html": {
+   "file": "Q00062_PathOfTheTrooper/32194-02.html",
+   "quest": 62,
+   "text": "Master Shubain: Only those with extensive experience are able to pass the test. Ah, you are worried that you do not have enough experience, eh? No need to fear. If you train from now on as I instruct you, you will pass the test safely. Go to the Fellmere Harvesting Grounds, defeat the Felim Lizardm…",
+   "header": "Master Shubain",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Trooper (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00062_PathOfTheTrooper",
+     "kind": "quest",
+     "quest": 62,
+     "to": "Q00062_PathOfTheTrooper/32194-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

@@ -2,7 +2,7 @@
  "id": 336,
  "name": "Coins of Magic",
  "version": 1,
- "generated": "2026-10-27T11:15:27.735Z",
+ "generated": "2026-10-27T18:19:02.064Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 40,
@@ -23,9 +23,19 @@
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 1
+  },
+  {
+   "code": "item-from-elsewhere",
+   "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
+   "step": 16
+  },
+  {
+   "code": "item-from-elsewhere",
+   "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
+   "step": 20
   }
  ],
- "expectedMin": 12,
+ "expectedMin": 20,
  "refLevel": 40,
  "steps": [
   {
@@ -1682,6 +1692,278 @@
    "key": "c1:talk:30232",
    "cond": 1,
    "kind": "talk",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 30232,
+    "name": "Sorint",
+    "title": "Warehouse Keeper",
+    "town": "Hunters Village",
+    "at": [
+     115271,
+     76705,
+     -2650
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sorint",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30232@115271,76705",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2110,
+    "sec": 38,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2110,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116008,
+      76856,
+      -2664
+     ],
+     [
+      115816,
+      76680,
+      -2664
+     ],
+     [
+      115688,
+      76712,
+      -2648
+     ],
+     [
+      115512,
+      76792,
+      -2648
+     ],
+     [
+      115336,
+      76680,
+      -2648
+     ],
+     [
+      115272,
+      76712,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30702",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30702,
+    "name": "Bernard",
+    "title": "Guild President",
+    "town": "Hunters Village",
+    "at": [
+     117598,
+     77264,
+     -2585
+    ],
+    "alt": []
+   },
+   "text": "Talk to Bernard",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30702@117598,77264",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2427,
+    "sec": 40,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2427,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116584,
+      76168,
+      -2728
+     ],
+     [
+      116776,
+      76360,
+      -2728
+     ],
+     [
+      116984,
+      76408,
+      -2728
+     ],
+     [
+      117256,
+      76408,
+      -2704
+     ],
+     [
+      117528,
+      76424,
+      -2688
+     ],
+     [
+      117752,
+      76584,
+      -2624
+     ],
+     [
+      117976,
+      76712,
+      -2592
+     ],
+     [
+      117832,
+      76792,
+      -2584
+     ],
+     [
+      117816,
+      76792,
+      -2584
+     ],
+     [
+      117656,
+      77000,
+      -2584
+     ],
+     [
+      117592,
+      77224,
+      -2584
+     ],
+     [
+      117592,
+      77272,
+      -2584
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 65,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c3:talk:30232",
+   "cond": 3,
+   "kind": "talk",
    "to": "end",
    "links": [],
    "npc": {
@@ -1805,23 +2087,276 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
     3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
     11
    ]
   },
   {
-   "i": 3,
-   "key": "c1:talk:30702",
-   "cond": 1,
+   "i": 5,
+   "key": "c4:talk:30232",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30232,
+    "name": "Sorint",
+    "title": "Warehouse Keeper",
+    "town": "Hunters Village",
+    "at": [
+     115271,
+     76705,
+     -2650
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sorint",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30232@115271,76705",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2110,
+    "sec": 38,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2110,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116008,
+      76856,
+      -2664
+     ],
+     [
+      115816,
+      76680,
+      -2664
+     ],
+     [
+      115688,
+      76712,
+      -2648
+     ],
+     [
+      115512,
+      76792,
+      -2648
+     ],
+     [
+      115336,
+      76680,
+      -2648
+     ],
+     [
+      115272,
+      76712,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c5:talk:30232",
+   "cond": 5,
+   "kind": "talk",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30232,
+    "name": "Sorint",
+    "title": "Warehouse Keeper",
+    "town": "Hunters Village",
+    "at": [
+     115271,
+     76705,
+     -2650
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sorint",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30232@115271,76705",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2110,
+    "sec": 38,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2110,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116008,
+      76856,
+      -2664
+     ],
+     [
+      115816,
+      76680,
+      -2664
+     ],
+     [
+      115688,
+      76712,
+      -2648
+     ],
+     [
+      115512,
+      76792,
+      -2648
+     ],
+     [
+      115336,
+      76680,
+      -2648
+     ],
+     [
+      115272,
+      76712,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c6:talk:30702",
+   "cond": 6,
    "kind": "talk",
    "to": 7,
    "links": [],
@@ -1956,17 +2491,589 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11
+    6
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c7:talk:30232",
+   "cond": 7,
+   "kind": "talk",
+   "to": 8,
+   "links": [],
+   "npc": {
+    "id": 30232,
+    "name": "Sorint",
+    "title": "Warehouse Keeper",
+    "town": "Hunters Village",
+    "at": [
+     115271,
+     76705,
+     -2650
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sorint",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30232@115271,76705",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2110,
+    "sec": 38,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2110,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116008,
+      76856,
+      -2664
+     ],
+     [
+      115816,
+      76680,
+      -2664
+     ],
+     [
+      115688,
+      76712,
+      -2648
+     ],
+     [
+      115512,
+      76792,
+      -2648
+     ],
+     [
+      115336,
+      76680,
+      -2648
+     ],
+     [
+      115272,
+      76712,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c8:deliver:30232",
+   "cond": 8,
+   "kind": "deliver",
+   "to": 9,
+   "links": [],
+   "npc": {
+    "id": 30232,
+    "name": "Sorint",
+    "title": "Warehouse Keeper",
+    "town": "Hunters Village",
+    "at": [
+     115271,
+     76705,
+     -2650
+    ],
+    "alt": []
+   },
+   "text": "Bring Blood Werewolf, Gold Knight, Gold Drake, Silver Fairy, Silver Golem to Sorint",
+   "needs": [
+    {
+     "id": 3473,
+     "name": "Blood Werewolf",
+     "n": 1
+    },
+    {
+     "id": 3483,
+     "name": "Gold Knight",
+     "n": 1
+    },
+    {
+     "id": 3485,
+     "name": "Gold Drake",
+     "n": 1
+    },
+    {
+     "id": 3491,
+     "name": "Silver Fairy",
+     "n": 1
+    },
+    {
+     "id": 3494,
+     "name": "Silver Golem",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "item-from-elsewhere"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30232@115271,76705",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2110,
+    "sec": 38,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2110,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116008,
+      76856,
+      -2664
+     ],
+     [
+      115816,
+      76680,
+      -2664
+     ],
+     [
+      115688,
+      76712,
+      -2648
+     ],
+     [
+      115512,
+      76792,
+      -2648
+     ],
+     [
+      115336,
+      76680,
+      -2648
+     ],
+     [
+      115272,
+      76712,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c9:talk:30232",
+   "cond": 9,
+   "kind": "talk",
+   "to": 10,
+   "links": [],
+   "npc": {
+    "id": 30232,
+    "name": "Sorint",
+    "title": "Warehouse Keeper",
+    "town": "Hunters Village",
+    "at": [
+     115271,
+     76705,
+     -2650
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sorint",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30232@115271,76705",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2110,
+    "sec": 38,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2110,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116008,
+      76856,
+      -2664
+     ],
+     [
+      115816,
+      76680,
+      -2664
+     ],
+     [
+      115688,
+      76712,
+      -2648
+     ],
+     [
+      115512,
+      76792,
+      -2648
+     ],
+     [
+      115336,
+      76680,
+      -2648
+     ],
+     [
+      115272,
+      76712,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c10:deliver:30232",
+   "cond": 10,
+   "kind": "deliver",
+   "to": 11,
+   "links": [],
+   "npc": {
+    "id": 30232,
+    "name": "Sorint",
+    "title": "Warehouse Keeper",
+    "town": "Hunters Village",
+    "at": [
+     115271,
+     76705,
+     -2650
+    ],
+    "alt": []
+   },
+   "text": "Bring Blood Succubus, Gold Giant, Gold Wyrm, Silver Undine, Silver Dryad to Sorint",
+   "needs": [
+    {
+     "id": 3476,
+     "name": "Blood Succubus",
+     "n": 1
+    },
+    {
+     "id": 3484,
+     "name": "Gold Giant",
+     "n": 1
+    },
+    {
+     "id": 3486,
+     "name": "Gold Wyrm",
+     "n": 1
+    },
+    {
+     "id": 3495,
+     "name": "Silver Undine",
+     "n": 1
+    },
+    {
+     "id": 3492,
+     "name": "Silver Dryad",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "item-from-elsewhere"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30232@115271,76705",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2110,
+    "sec": 38,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2110,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116008,
+      76856,
+      -2664
+     ],
+     [
+      115816,
+      76680,
+      -2664
+     ],
+     [
+      115688,
+      76712,
+      -2648
+     ],
+     [
+      115512,
+      76792,
+      -2648
+     ],
+     [
+      115336,
+      76680,
+      -2648
+     ],
+     [
+      115272,
+      76712,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10
    ]
   }
  ],

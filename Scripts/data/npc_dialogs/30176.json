@@ -1,0 +1,295 @@
+{
+ "npcId": 30176,
+ "name": "Valleria",
+ "title": "Grand Magister",
+ "type": "L2VillageMasterMystic",
+ "generated": "2026-10-27T18:18:02.864Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30176.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "88": {
+   "name": "Saga of the Archmage",
+   "listText": [
+    "[Saga of the Archmage]",
+    "[Saga of the Archmage (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00088_SagaOfTheArchmage/0-01.htm",
+     "when": "cond 0; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00088_SagaOfTheArchmage/0-04.htm",
+     "when": "cond 1; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00088_SagaOfTheArchmage/0-06.htm",
+     "when": "cond 19; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00088_SagaOfTheArchmage/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00088_SagaOfTheArchmage/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30176.htm": {
+   "file": "villagemaster/30176.htm",
+   "quest": null,
+   "text": "Grand Magister Valleria: Nice to meet you. I am Grand Magister Valleria, responsible for transforming Wizards into high-level Sorcerers here in this Ivory Tower. Hey, Did you come here to learn how to freely manipulates the power of the elements themselves?",
+   "header": "Grand Magister Valleria",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest ElfHumanWizardChange2",
+     "kind": "quest",
+     "script": "ElfHumanWizardChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00088_SagaOfTheArchmage/0-01.htm": {
+   "file": "Q00088_SagaOfTheArchmage/0-01.htm",
+   "quest": 88,
+   "text": "Grand Magister Valleria: To become an Archmage you have to transcend your life as a Human and live as a god. You must unlock the power of the gods , sealed long ago to prevent Humans from accessing it.",
+   "header": "Grand Magister Valleria",
+   "when": [
+    "cond 0; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How do I get it?\"",
+     "bypass": "Quest Q00088_SagaOfTheArchmage 0-1",
+     "kind": "quest-event",
+     "script": "Q00088_SagaOfTheArchmage",
+     "event": "0-1",
+     "quest": 88,
+     "to": "Q00088_SagaOfTheArchmage/0-05.htm",
+     "toAll": [
+      "Q00088_SagaOfTheArchmage/0-02.htm",
+      "Q00088_SagaOfTheArchmage/0-05.htm"
+     ]
+    }
+   ]
+  },
+  "Q00088_SagaOfTheArchmage/0-04.htm": {
+   "file": "Q00088_SagaOfTheArchmage/0-04.htm",
+   "quest": 88,
+   "text": "Grand Magister Valleria: To become an Archmage, you must receive the contents of six Tablets of Vision . They are scattered about the world. Meet Magister Justin of Goddard Castle Town , he'll tell you what to do next.",
+   "header": "Grand Magister Valleria",
+   "when": [
+    "cond 1; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/0-06.htm": {
+   "file": "Q00088_SagaOfTheArchmage/0-06.htm",
+   "quest": 88,
+   "text": "Grand Magister Valleria: You communed with them all? You seek the truth. I'll tell you... I have had many disciples, all of which have died pursuing this great power. Until now. I didn't want you to have the same fate, so I sent the fallen angel to stop you. I tried myself at the last tablet, but D…",
+   "header": "Grand Magister Valleria",
+   "when": [
+    "cond 19; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Why didn't you?\"",
+     "bypass": "Quest Q00088_SagaOfTheArchmage 0-2",
+     "kind": "quest-event",
+     "script": "Q00088_SagaOfTheArchmage",
+     "event": "0-2",
+     "quest": 88,
+     "to": "Q00088_SagaOfTheArchmage/0-07.htm",
+     "toAll": [
+      "Q00088_SagaOfTheArchmage/0-08.htm",
+      "Q00088_SagaOfTheArchmage/0-07.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00088_SagaOfTheArchmage/0-09.htm": {
+   "file": "Q00088_SagaOfTheArchmage/0-09.htm",
+   "quest": 88,
+   "text": "Grand Magister Valleria: You've done well. I bestow upon you the title of Archmage!",
+   "header": "Grand Magister Valleria",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/0-010.htm": {
+   "file": "Q00088_SagaOfTheArchmage/0-010.htm",
+   "quest": 88,
+   "text": "Grand Magister Valleria: I can't allow you to become an Archmage yet! (Class transfer is allowed only for characters of level 76 or above. Do not abandon quest before transfer is complete!)",
+   "header": "Grand Magister Valleria",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 30176) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/0-02.htm": {
+   "file": "Q00088_SagaOfTheArchmage/0-02.htm",
+   "quest": 88,
+   "text": "Grand Magister Valleria: I still think Archmage is beyond your reach. (This quest may only be undertaken by a character level 76 or above.)",
+   "header": "Grand Magister Valleria",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/0-03.htm": {
+   "file": "Q00088_SagaOfTheArchmage/0-03.htm",
+   "quest": 88,
+   "text": "Grand Magister Valleria: To put it simply, you can't just read the text on the Tablet of Vision, you must have a Stone of Commune . It gives you a direct transmission of the knowledge if you commune with the tablet . This stone is quite rare, but has been sighted recently. Ask Magister Justin of Go…",
+   "header": "Grand Magister Valleria",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/0-05.htm": {
+   "file": "Q00088_SagaOfTheArchmage/0-05.htm",
+   "quest": 88,
+   "text": "Grand Magister Valleria: The gods sealed the Tablets of Vision and scattered them all over the world. If you commune with all six, you shall obtain great power! Once you do that, I'll grant you Archmage status. It won't be easy.",
+   "header": "Grand Magister Valleria",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "Quest Q00088_SagaOfTheArchmage accept",
+     "kind": "quest-event",
+     "script": "Q00088_SagaOfTheArchmage",
+     "event": "accept",
+     "quest": 88,
+     "to": "Q00088_SagaOfTheArchmage/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00088_SagaOfTheArchmage/0-07.htm": {
+   "file": "Q00088_SagaOfTheArchmage/0-07.htm",
+   "quest": 88,
+   "text": "Grand Magister Valleria: When we battled, I realized you had become better than all my previous disciples. You can handle yourself now, I see that. That's why I withdrew. It's time to release you from my care. Forgive me, but I had good intentions. I now bestow upon you the title of Archmage!",
+   "header": "Grand Magister Valleria",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00088_SagaOfTheArchmage/0-08.htm": {
+   "file": "Q00088_SagaOfTheArchmage/0-08.htm",
+   "quest": 88,
+   "text": "Grand Magister Valleria: When we battled, I realized you had become better than all my previous disciples. You can handle yourself now, I see that. That's why I withdrew. You still need to grow a little before you can become an Archmage. (Class transfer is allowed only for characters of level 76 or…",
+   "header": "Grand Magister Valleria",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Archmage]",
+     "bypass": "npc_%objectId%_Quest Q00088_SagaOfTheArchmage",
+     "kind": "quest",
+     "quest": 88,
+     "to": "Q00088_SagaOfTheArchmage/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Archmage (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00088_SagaOfTheArchmage",
+     "kind": "quest",
+     "quest": 88,
+     "to": "Q00088_SagaOfTheArchmage/0-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

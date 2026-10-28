@@ -1,0 +1,277 @@
+{
+ "npcId": 30333,
+ "name": "Praga",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.937Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30333.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "298": {
+   "name": "Lizardmen's Conspiracy",
+   "listText": [
+    "[Lizardmen's Conspiracy]",
+    "[Lizardmen's Conspiracy (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00298_LizardmensConspiracy/30333-01.htm",
+     "when": "state CREATED; (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00298_LizardmensConspiracy/30333-02.htm",
+     "when": "state CREATED; NOT (talker.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00298_LizardmensConspiracy/30333-04.html",
+     "when": "state STARTED; has items 7182; !(qs.isCreated() && (npc.getId() == GUARD_PRAGA))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "405": {
+   "name": "Path Of The Cleric",
+   "listText": [
+    "[Path of the Cleric]",
+    "[Path of the Cleric (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00405_PathOfTheCleric/30333-01.html",
+     "when": "state STARTED; has items 1191; lacks items 1196,1199; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00405_PathOfTheCleric/30333-02.html",
+     "when": "state STARTED; has items 1191,1196,1199; lacks items 1196,1198; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00405_PathOfTheCleric/30333-03.html",
+     "when": "state STARTED; has items 1191,1196,1199,1198; lacks items 1196; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, BOOK_OF_PRAGA, PENDANT_OF_MOTHER) && hasQuestItems(player, NECKLACE_OF_MOTHER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00405_PathOfTheCleric/30333-04.html",
+     "when": "state STARTED; has items 1191,1196,1199; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, BOOK_OF_PRAGA, PENDANT_OF_MOTHER) && hasQuestItems(player, NECKLACE_OF_MOTHER)); !(!hasQuestItems(player, BOOK_OF_PRAGA) && hasQuestItems(player, NECKLACE_OF_MOTHER, PENDANT_OF_MOTHER))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30333.htm": {
+   "file": "guard/30333.htm",
+   "quest": null,
+   "text": "Guard Praga: Welcome, traveler. Have you come to rest in our beautiful village? Or are you on the brink of beginning a new journey? If you follow the road in front of me to the west, you can pass the Abandoned Camp and go all the way to Gludin.",
+   "header": "Guard Praga",
+   "links": [
+    {
+     "text": "Ask about the 'Abandoned Camp'.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30333-1.htm"
+    },
+    {
+     "text": "Ask about 'Gludin'.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30333-2.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30333-1.htm": {
+   "file": "guard/30333-1.htm",
+   "quest": null,
+   "text": "Guard Praga: If you follow this road west, you will come to a fork in the road. If you turn to the southwest, you will pass the Abandoned Camp. Once, it was a camp for the Gracian armies, but it has been abandoned for some time and is now the camp for the ol mahums. Those nasty ol mahums were hired…",
+   "header": "Guard Praga",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30333.htm"
+    }
+   ]
+  },
+  "guard/30333-2.htm": {
+   "file": "guard/30333-2.htm",
+   "quest": null,
+   "text": "Guard Praga: Gludin is a large port village on the southwest coast. Ships to Talking Island depart from there regularly. If you want to go to the village of Gludin, take this road west until you come to a fork in the road, then take the road that goes southwest. You have to pass the Abandoned Camp,…",
+   "header": "Guard Praga",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30333.htm"
+    }
+   ]
+  },
+  "Q00298_LizardmensConspiracy/30333-01.htm": {
+   "file": "Q00298_LizardmensConspiracy/30333-01.htm",
+   "quest": 298,
+   "text": "Guard Praga: As you may know, the Maille Lizardman stronghold is in the west part of the Town of Gludio. During the war with Gracia, they infiltrated our land through a gap in our security, and our guards have been unable to drive them out since. An interesting report about them has recently surfac…",
+   "header": "Guard Praga",
+   "when": [
+    "state CREATED; (talker.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, I'll help.\"",
+     "bypass": "Quest Q00298_LizardmensConspiracy 30333-03.htm",
+     "kind": "quest-event",
+     "script": "Q00298_LizardmensConspiracy",
+     "event": "30333-03.htm",
+     "quest": 298,
+     "to": "Q00298_LizardmensConspiracy/30333-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00298_LizardmensConspiracy/30333-02.htm": {
+   "file": "Q00298_LizardmensConspiracy/30333-02.htm",
+   "quest": 298,
+   "text": "Guard Praga: As you may know, the Maille Lizardman stronghold is in the west part of the Town of Gludio. During the war with Gracia, they infiltrated our land through a gap in our security, and our guards have been unable to drive them out since. An interesting report about them has recently surfac…",
+   "header": "Guard Praga",
+   "when": [
+    "state CREATED; NOT (talker.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00298_LizardmensConspiracy/30333-04.html": {
+   "file": "Q00298_LizardmensConspiracy/30333-04.html",
+   "quest": 298,
+   "text": "Guard Praga: Go to the Einhasad Temple near the northern entrance of the village and meet Magister Rohmer . Take the report to him. He'll give you a new assignment. His speech is somewhat peculiar, but he's the top expert in the village, so treat him with respect and don't upset him!",
+   "header": "Guard Praga",
+   "when": [
+    "state STARTED; has items 7182; !(qs.isCreated() && (npc.getId() == GUARD_PRAGA))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30333-01.html": {
+   "file": "Q00405_PathOfTheCleric/30333-01.html",
+   "quest": 405,
+   "text": "Guard Praga: Ah... that book. But that book was quite interesting. And I bought it for money. I can't give it to you for free. Well, how about this? Recently, I was making rounds in the Ruins of Agony when I happened into a fight with the ruin zombies . At that time, I lost a pendant that my mother…",
+   "header": "Guard Praga",
+   "when": [
+    "state STARTED; has items 1191; lacks items 1196,1199; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30333-02.html": {
+   "file": "Q00405_PathOfTheCleric/30333-02.html",
+   "quest": 405,
+   "text": "Guard Praga: You still haven't found my mother's pendant? I'm sorry, but until then I cannot give you the book. I'm busy, so please excuse me.",
+   "header": "Guard Praga",
+   "when": [
+    "state STARTED; has items 1191,1196,1199; lacks items 1196,1198; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30333-03.html": {
+   "file": "Q00405_PathOfTheCleric/30333-03.html",
+   "quest": 405,
+   "text": "Guard Praga: Yes! Yes, this is the pendant. I thought I had lost it forever ... thank you so much! My mother, who is with the gods, will also be pleased ... Oh yes! Here is the book you were looking for. I didn't notice it was blasphemy. Strange ... Did the church say that it was heresy? How strang…",
+   "header": "Guard Praga",
+   "when": [
+    "state STARTED; has items 1191,1196,1199,1198; lacks items 1196; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, BOOK_OF_PRAGA, PENDANT_OF_MOTHER) && hasQuestItems(player, NECKLACE_OF_MOTHER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00405_PathOfTheCleric/30333-04.html": {
+   "file": "Q00405_PathOfTheCleric/30333-04.html",
+   "quest": 405,
+   "text": "Guard Praga: Thank you for finding my mother's pendant. And by the way, what did you do with that forbidden book that you took last time? Did you burn it or something?",
+   "header": "Guard Praga",
+   "when": [
+    "state STARTED; has items 1191,1196,1199; !(qs.isCreated() || qs.isCompleted()); !(!hasAtLeastOneQuestItem(player, BOOK_OF_PRAGA, PENDANT_OF_MOTHER) && hasQuestItems(player, NECKLACE_OF_MOTHER)); !(!hasQuestItems(player, BOOK_OF_PRAGA) && hasQuestItems(player, NECKLACE_OF_MOTHER, PENDANT_OF_MOTHER))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00298_LizardmensConspiracy/30333-03.htm": {
+   "file": "Q00298_LizardmensConspiracy/30333-03.htm",
+   "quest": 298,
+   "text": "Guard Praga: Very well! Take this report to Magister Rohmer in the Einhasad Temple in the village. You may find him slightly eccentric, but he'll be very happy to get the report.",
+   "header": "Guard Praga",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Lizardmen's Conspiracy]",
+     "bypass": "npc_%objectId%_Quest Q00298_LizardmensConspiracy",
+     "kind": "quest",
+     "quest": 298,
+     "to": "Q00298_LizardmensConspiracy/30333-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Lizardmen's Conspiracy (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00298_LizardmensConspiracy",
+     "kind": "quest",
+     "quest": 298,
+     "to": "Q00298_LizardmensConspiracy/30333-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Cleric (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00405_PathOfTheCleric",
+     "kind": "quest",
+     "quest": 405,
+     "to": "Q00405_PathOfTheCleric/30333-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

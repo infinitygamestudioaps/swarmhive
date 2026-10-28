@@ -2,7 +2,7 @@
  "id": 409,
  "name": "Path of the Elven Oracle",
  "version": 1,
- "generated": "2026-10-27T11:15:39.201Z",
+ "generated": "2026-10-27T18:19:13.986Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 18,
@@ -27,16 +27,19 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "code": "dryrun-fail",
+   "text": "dry run: class-missing, flow-no-progress"
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 1
+   "code": "dryrun:class-missing",
+   "text": "script checks ClassId.elvenMage, ClassId.oracle, plan has no class rule"
+  },
+  {
+   "code": "dryrun:flow-no-progress",
+   "text": "cond 2: talk:step@30293 changes nothing (the engine stops after 4 tries)"
   }
  ],
- "expectedMin": 17,
+ "expectedMin": 15,
  "refLevel": 18,
  "steps": [
   {
@@ -263,14 +266,14 @@
     }
    ],
    "kills": 1,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "talk",
     "trigger": [
      30424
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Lizardman Warrior, Lizardman Scout, Lizardman Soldier, Tamil appear and kill it",
    "npc": {
@@ -1041,186 +1044,30 @@
     3,
     4,
     5,
+    6,
     7,
     8,
     9
-   ]
-  },
-  {
-   "i": 5,
-   "key": "c6:talk:30428",
-   "cond": 6,
-   "kind": "talk",
-   "to": null,
-   "links": [
-    "Go ahead and hit me as much as you want!"
-   ],
-   "npc": {
-    "id": 30428,
-    "name": "Perrin",
-    "title": "",
-    "town": "Gludin",
-    "at": [
-     -93275,
-     147654,
-     -2674
-    ],
-    "alt": []
-   },
-   "text": "Talk to Perrin",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30428@-93275,147654",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 13415,
-    "sec": 132,
-    "via": ".gludin",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "walk",
-      "len": 13415,
-      "how": "geodata",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Gludin"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -80786,
-      150251,
-      -3040
-     ],
-     [
-      -81285,
-      150218,
-      -3080
-     ],
-     [
-      -81784,
-      150184,
-      -3120
-     ],
-     [
-      -82536,
-      150184,
-      -3120
-     ],
-     [
-      -83320,
-      149576,
-      -3120
-     ],
-     [
-      -83496,
-      149288,
-      -3120
-     ],
-     [
-      -83496,
-      149256,
-      -3120
-     ],
-     [
-      -83992,
-      148760,
-      -3164
-     ],
-     [
-      -84488,
-      148264,
-      -3208
-     ],
-     [
-      -84984,
-      148024,
-      -3236
-     ],
-     [
-      -85480,
-      147784,
-      -3264
-     ],
-     [
-      -86456,
-      147784,
-      -3072
-     ],
-     [
-      -87448,
-      147720,
-      -3064
-     ],
-     [
-      -88440,
-      147720,
-      -3064
-     ],
-     [
-      -89432,
-      147720,
-      -3088
-     ],
-     [
-      -90424,
-      147720,
-      -3296
-     ],
-     [
-      -90760,
-      147720,
-      -3152
-     ],
-     [
-      -91752,
-      147656,
-      -2968
-     ],
-     [
-      -92744,
-      147656,
-      -2760
-     ],
-     [
-      -93272,
-      147656,
-      -2672
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 157,
-   "engine": {
-    "act": "spawn",
-    "hasItems": "talk"
-   },
-   "conds": [
-    6
    ]
   }
  ],
  "override": {
   "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T18:19:14.003Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "class-missing",
+    "t": "script checks ClassId.elvenMage, ClassId.oracle, plan has no class rule"
+   },
+   {
+    "code": "flow-no-progress",
+    "t": "cond 2: talk:step@30293 changes nothing (the engine stops after 4 tries)"
+   }
+  ],
+  "warns": []
  }
 }

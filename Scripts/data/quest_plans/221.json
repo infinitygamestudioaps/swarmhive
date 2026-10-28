@@ -2,7 +2,7 @@
  "id": 221,
  "name": "Testimony Of Prosperity",
  "version": 1,
- "generated": "2026-10-27T11:15:15.908Z",
+ "generated": "2026-10-27T18:18:51.367Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 37,
@@ -44,22 +44,22 @@
  "status": "fixable",
  "reasons": [
   {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 18
+  },
+  {
    "code": "item-from-elsewhere",
    "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
-   "step": 3
+   "step": 30
   },
   {
    "code": "route-conditional",
    "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
-   "step": 3
-  },
-  {
-   "code": "route-conditional",
-   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
-   "step": 56
+   "step": 30
   }
  ],
- "expectedMin": 31,
+ "expectedMin": 29,
  "refLevel": 37,
  "steps": [
   {
@@ -1689,198 +1689,6 @@
   },
   {
    "i": 3,
-   "key": "c1:deliver:30622",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 9,
-   "links": [
-    "Use the Key of Titan"
-   ],
-   "npc": {
-    "id": 30622,
-    "name": "Box Of Titan",
-    "title": "",
-    "town": "Dion",
-    "at": [
-     15443,
-     119719,
-     -12086
-    ],
-    "alt": []
-   },
-   "text": "Bring Key of Titan to Box Of Titan",
-   "needs": [
-    {
-     "id": 3030,
-     "name": "Key of Titan",
-     "n": 1
-    }
-   ],
-   "reasons": [
-    "item-from-elsewhere",
-    "route-conditional"
-   ],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30622@15443,119719",
-    "status": "conditional",
-    "flags": [
-     "conditions"
-    ],
-    "from": ".dion",
-    "length": 9729,
-    "sec": 141,
-    "via": ".dion > Dion -> Cruma Tower > floor 1st floor",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "gk",
-      "from": "Dion",
-      "desc": "Dion -> Cruma Tower",
-      "link": "cruma tower",
-      "price": 2300,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 71,
-      "how": "adjacent",
-      "danger": 34
-     },
-     {
-      "do": "floor",
-      "npc": "Mozella",
-      "link": "Teleport into the Tower.",
-      "floor": "1st floor"
-     },
-     {
-      "do": "walk",
-      "len": 9658,
-      "how": "geodata",
-      "danger": 42
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Cruma Tower"
-    },
-    "simple": false,
-    "pv": [
-     [
-      17225,
-      114173,
-      -3440
-     ],
-     [
-      17296,
-      114176,
-      -3439
-     ],
-     [
-      17608,
-      114936,
-      -11720
-     ],
-     [
-      17576,
-      115928,
-      -11848
-     ],
-     [
-      17560,
-      116920,
-      -12032
-     ],
-     [
-      17560,
-      117160,
-      -12072
-     ],
-     [
-      16568,
-      117160,
-      -12160
-     ],
-     [
-      16264,
-      117096,
-      -12160
-     ],
-     [
-      15448,
-      117080,
-      -12080
-     ],
-     [
-      14952,
-      117576,
-      -12080
-     ],
-     [
-      14456,
-      118072,
-      -12080
-     ],
-     [
-      14184,
-      118232,
-      -12080
-     ],
-     [
-      14248,
-      119224,
-      -12080
-     ],
-     [
-      14248,
-      119672,
-      -12080
-     ],
-     [
-      15240,
-      119720,
-      -12080
-     ],
-     [
-      15448,
-      119720,
-      -12080
-     ]
-    ],
-    "maxDanger": 42,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 42,
-     "dangerVsLevel": 5,
-     "aggro": []
-    }
-   },
-   "expectedSec": 166,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    2,
-    4,
-    5,
-    6,
-    7,
-    8
-   ]
-  },
-  {
-   "i": 4,
    "key": "c1:deliver:30621",
    "cond": 1,
    "kind": "deliver",
@@ -2053,12 +1861,13 @@
     4,
     5,
     6,
+    7,
     8,
     9
    ]
   },
   {
-   "i": 5,
+   "i": 4,
    "key": "c1:deliver:30368",
    "cond": 1,
    "kind": "deliver",
@@ -2208,17 +2017,11 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9
+    1
    ]
   },
   {
-   "i": 6,
+   "i": 5,
    "key": "c1:deliver:30597",
    "cond": 1,
    "kind": "deliver",
@@ -2358,17 +2161,11 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9
+    1
    ]
   },
   {
-   "i": 7,
+   "i": 6,
    "key": "c1:deliver:30620",
    "cond": 1,
    "kind": "deliver",
@@ -2529,17 +2326,11 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9
+    1
    ]
   },
   {
-   "i": 8,
+   "i": 7,
    "key": "c1:deliver:30531",
    "cond": 1,
    "kind": "deliver",
@@ -2732,156 +2523,9 @@
    ]
   },
   {
-   "i": 9,
-   "key": "c7:talk:30621",
-   "cond": 7,
-   "kind": "talk",
-   "to": 5,
-   "links": [
-    "Ask about the key manufacturing"
-   ],
-   "npc": {
-    "id": 30621,
-    "name": "Nikola",
-    "title": "Maestro",
-    "town": "Gludio",
-    "at": [
-     10580,
-     118027,
-     -3672
-    ],
-    "alt": []
-   },
-   "text": "Talk to Nikola",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30621@10580,118027",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 8062,
-    "sec": 112,
-    "via": ".dion > Dion -> Cruma Tower",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "gk",
-      "from": "Dion",
-      "desc": "Dion -> Cruma Tower",
-      "link": "cruma tower",
-      "price": 2300,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 8062,
-      "how": "geodata",
-      "danger": 34
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Cruma Tower"
-    },
-    "simple": true,
-    "pv": [
-     [
-      17225,
-      114173,
-      -3440
-     ],
-     [
-      16360,
-      114328,
-      -3528
-     ],
-     [
-      15912,
-      114488,
-      -3576
-     ],
-     [
-      15416,
-      114984,
-      -3596
-     ],
-     [
-      14920,
-      115480,
-      -3616
-     ],
-     [
-      14424,
-      115976,
-      -3664
-     ],
-     [
-      13928,
-      116472,
-      -3712
-     ],
-     [
-      13432,
-      116968,
-      -3708
-     ],
-     [
-      12936,
-      117464,
-      -3704
-     ],
-     [
-      12440,
-      117744,
-      -3720
-     ],
-     [
-      11944,
-      118024,
-      -3736
-     ],
-     [
-      10952,
-      118024,
-      -3688
-     ],
-     [
-      10584,
-      118024,
-      -3672
-     ]
-    ],
-    "maxDanger": 34,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 34,
-     "dangerVsLevel": -3,
-     "aggro": []
-    }
-   },
-   "expectedSec": 137,
-   "engine": {
-    "act": "hunt",
-    "hasItems": "talk"
-   },
-   "conds": [
-    7
-   ]
-  },
-  {
-   "i": 10,
-   "key": "c9:deliver:30622",
-   "cond": 9,
+   "i": 8,
+   "key": "c5:deliver:30622",
+   "cond": 5,
    "kind": "deliver",
    "to": 6,
    "links": [
@@ -3060,7 +2704,193 @@
     "hasItems": "talk"
    },
    "conds": [
-    9
+    5
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c8:deliver:30622",
+   "cond": 8,
+   "kind": "deliver",
+   "to": 9,
+   "links": [
+    "Use the Key of Titan"
+   ],
+   "npc": {
+    "id": 30622,
+    "name": "Box Of Titan",
+    "title": "",
+    "town": "Dion",
+    "at": [
+     15443,
+     119719,
+     -12086
+    ],
+    "alt": []
+   },
+   "text": "Bring Key of Titan to Box Of Titan",
+   "needs": [
+    {
+     "id": 3030,
+     "name": "Key of Titan",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "item-from-elsewhere",
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30622@15443,119719",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".dion",
+    "length": 9729,
+    "sec": 141,
+    "via": ".dion > Dion -> Cruma Tower > floor 1st floor",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 71,
+      "how": "adjacent",
+      "danger": 34
+     },
+     {
+      "do": "floor",
+      "npc": "Mozella",
+      "link": "Teleport into the Tower.",
+      "floor": "1st floor"
+     },
+     {
+      "do": "walk",
+      "len": 9658,
+      "how": "geodata",
+      "danger": 42
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      17296,
+      114176,
+      -3439
+     ],
+     [
+      17608,
+      114936,
+      -11720
+     ],
+     [
+      17576,
+      115928,
+      -11848
+     ],
+     [
+      17560,
+      116920,
+      -12032
+     ],
+     [
+      17560,
+      117160,
+      -12072
+     ],
+     [
+      16568,
+      117160,
+      -12160
+     ],
+     [
+      16264,
+      117096,
+      -12160
+     ],
+     [
+      15448,
+      117080,
+      -12080
+     ],
+     [
+      14952,
+      117576,
+      -12080
+     ],
+     [
+      14456,
+      118072,
+      -12080
+     ],
+     [
+      14184,
+      118232,
+      -12080
+     ],
+     [
+      14248,
+      119224,
+      -12080
+     ],
+     [
+      14248,
+      119672,
+      -12080
+     ],
+     [
+      15240,
+      119720,
+      -12080
+     ],
+     [
+      15448,
+      119720,
+      -12080
+     ]
+    ],
+    "maxDanger": 42,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 42,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 166,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
    ]
   }
  ],

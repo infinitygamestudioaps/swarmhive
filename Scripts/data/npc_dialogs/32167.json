@@ -1,0 +1,143 @@
+{
+ "npcId": 32167,
+ "name": "Nika",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.350Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/32167.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "174": {
+   "name": "Supply Check",
+   "listText": [
+    "[Supply Check]",
+    "[Supply Check (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00174_SupplyCheck/32167-01.html",
+     "when": "state STARTED; cond 1|2",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00174_SupplyCheck/32167-02.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00174_SupplyCheck/32167-03.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/32167.htm": {
+   "file": "merchant/32167.htm",
+   "quest": null,
+   "text": "Trade Nika: Welcome! Are you looking for something special? I have more exquisite goods now than ever before, thanks to all these new people coming to the village. Just ask if there's something you need.",
+   "header": "Trade Nika",
+   "links": [
+    {
+     "text": "Buy supplies and minerals.",
+     "bypass": "npc_%objectId%_Buy 3216700",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00174_SupplyCheck/32167-01.html": {
+   "file": "Q00174_SupplyCheck/32167-01.html",
+   "quest": 174,
+   "text": "Trader Nika: What is it? Do you have business here other than procuring supplies? If there's nothing in particular, please step aside. The next customer is waiting...",
+   "header": "Trader Nika",
+   "when": [
+    "state STARTED; cond 1|2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00174_SupplyCheck/32167-02.html": {
+   "file": "Q00174_SupplyCheck/32167-02.html",
+   "quest": 174,
+   "text": "Trader Nika: Ah, Marcela sent you. Demand for goods has increased lately because of the opening of the island, and we have been sent scrambling to find enough supplies. In fact, we have even had to trade with the other races -- the capacity of the Dwarves to mobilize capital and material is particu…",
+   "header": "Trader Nika",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00174_SupplyCheck/32167-03.html": {
+   "file": "Q00174_SupplyCheck/32167-03.html",
+   "quest": 174,
+   "text": "Trader Nika: Please hurry to Marcela and give her my list. I hope she hears about my efforts to secure inventory...",
+   "header": "Trader Nika",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Supply Check (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00174_SupplyCheck",
+     "kind": "quest",
+     "quest": 174,
+     "to": "Q00174_SupplyCheck/32167-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 2,
+   "inDatapack": true,
+   "from": [
+    "Trader Nika:Welcome! Are you looking for something in partic"
+   ],
+   "to": [
+    "Trader Nika:Ah, Marcela sent you. Demand for goods has incre"
+   ]
+  }
+ ]
+}

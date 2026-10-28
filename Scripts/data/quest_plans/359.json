@@ -2,7 +2,7 @@
  "id": 359,
  "name": "For a Sleepless Deadman",
  "version": 1,
- "generated": "2026-10-27T11:15:38.239Z",
+ "generated": "2026-10-27T18:19:12.943Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 60,
@@ -12,14 +12,9 @@
  "region": "Aden",
  "requirements": {},
  "restrictions": [],
- "status": "fixable",
- "reasons": [
-  {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  }
- ],
- "expectedMin": 73,
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 75,
  "refLevel": 60,
  "steps": [
   {
@@ -614,10 +609,8 @@
    "key": "c1:talk:30857",
    "cond": 1,
    "kind": "talk",
-   "to": "end",
-   "links": [
-    "Wait until he finishes praying."
-   ],
+   "to": 3,
+   "links": [],
    "npc": {
     "id": 30857,
     "name": "Orven",
@@ -769,7 +762,169 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:talk:30857",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Wait until he finishes praying."
+   ],
+   "npc": {
+    "id": 30857,
+    "name": "Orven",
+    "title": "High Priest",
+    "town": "Aden",
+    "at": [
+     147456,
+     22576,
+     -1989
+    ],
+    "alt": []
+   },
+   "text": "Talk to Orven",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30857@147456,22576",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 3996,
+    "sec": 53,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 3996,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147624,
+      25752,
+      -2008
+     ],
+     [
+      147464,
+      25592,
+      -2008
+     ],
+     [
+      147480,
+      25320,
+      -1992
+     ],
+     [
+      147672,
+      25272,
+      -1992
+     ],
+     [
+      147496,
+      25224,
+      -1992
+     ],
+     [
+      147448,
+      24952,
+      -1984
+     ],
+     [
+      147448,
+      24680,
+      -1984
+     ],
+     [
+      147448,
+      24408,
+      -1984
+     ],
+     [
+      147448,
+      24296,
+      -1984
+     ],
+     [
+      147448,
+      24024,
+      -1984
+     ],
+     [
+      147464,
+      23752,
+      -1984
+     ],
+     [
+      147448,
+      23672,
+      -1984
+     ],
+     [
+      147448,
+      23400,
+      -1984
+     ],
+     [
+      147464,
+      23128,
+      -1984
+     ],
+     [
+      147464,
+      22856,
+      -1984
+     ],
+     [
+      147464,
+      22584,
+      -1984
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 78,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
     2,
     3
    ]
@@ -777,5 +932,14 @@
  ],
  "override": {
   "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T18:19:12.959Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "hunt-long"
+  ]
  }
 }

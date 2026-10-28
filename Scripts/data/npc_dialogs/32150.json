@@ -1,0 +1,58 @@
+{
+ "npcId": 32150,
+ "name": "Took",
+ "title": "High Prefect",
+ "type": "L2VillageMasterOrc",
+ "generated": "2026-10-27T18:18:03.346Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "villagemaster/32150.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "villagemaster/32150.htm": {
+   "file": "villagemaster/32150.htm",
+   "quest": null,
+   "text": "High Prefect Took: Tejakar Oroka! Oh, young adventurer, may the zeal of the sacred flame be with you on your journey. I am Took of the Dudamara clan. I have come here as High Prefect in order to represent the Orc clan. This is the starting point for many adventurers. They must prove themselves thro…",
+   "header": "High Prefect Took",
+   "links": [
+    {
+     "text": "Hear information about the class transfer.",
+     "bypass": "npc_%objectId%_Quest FirstClassTransferTalk",
+     "kind": "quest",
+     "script": "FirstClassTransferTalk",
+     "to": null
+    },
+    {
+     "text": "Blood pledge.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

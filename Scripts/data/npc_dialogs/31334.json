@@ -1,0 +1,474 @@
+{
+ "npcId": 31334,
+ "name": "Tifaren",
+ "title": "Grand Magister",
+ "type": "L2VillageMasterDElf",
+ "generated": "2026-10-27T18:18:03.192Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/31334.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "22": {
+   "name": "Tragedy in Von Hellmann Forest",
+   "listText": [
+    "[Tragedy in Von Hellmann Forest]",
+    "[Tragedy in Von Hellmann Forest (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31334-01.htm",
+     "when": "state CREATED; cond 0",
+     "state": "CREATED",
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31334-05.html",
+     "when": "cond 1|3",
+     "state": null,
+     "cond": [
+      1,
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31334-09.html",
+     "when": "cond 4|5; has items 7141; lacks items 7142",
+     "state": null,
+     "cond": [
+      4,
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31334-10.html",
+     "when": "cond 4|5; has items 7141,7142; _tifarenOwner == 0",
+     "state": null,
+     "cond": [
+      4,
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31334-11.html",
+     "when": "cond 4|5; has items 7141,7142; !_tifarenOwner == 0",
+     "state": null,
+     "cond": [
+      4,
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31334-17.html",
+     "when": "cond 6|7; has items 7141; _tifarenOwner == 0",
+     "state": null,
+     "cond": [
+      6,
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31334-15.html",
+     "when": "cond 6|7; has items 7141; !_tifarenOwner == 0; _tifarenOwner == talker.getObjectId()",
+     "state": null,
+     "cond": [
+      6,
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31334-16.html",
+     "when": "cond 6|7; has items 7141; !_tifarenOwner == 0; !_tifarenOwner == talker.getObjectId()",
+     "state": null,
+     "cond": [
+      6,
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00022_TragedyInVonHellmannForest/31334-18.html",
+     "when": "cond 8; has items 7141",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/31334.htm": {
+   "file": "villagemaster/31334.htm",
+   "quest": null,
+   "text": "Grand Magister Tifaren: Life, death, nihilism, conception, destruction, rebirth, reproduction... Hmm? Who are you? Well... I see. Forgive my ranting. I was just speaking to myself, trying to organize my thoughts. Too many concepts floating around in here... I am Grand Magister Tifaren, and I teach …",
+   "header": "Grand Magister Tifaren",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "npc_%objectId%_Quest DarkElfChange2",
+     "kind": "quest",
+     "script": "DarkElfChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-01.htm": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-01.htm",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: What's your business here?",
+   "header": "Grand Magister Tifaren",
+   "when": [
+    "state CREATED; cond 0"
+   ],
+   "links": [
+    {
+     "text": "\"I need the necromantic rite of communion performed.\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31334-02.htm",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31334-02.htm",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31334-02.htm",
+     "toAll": [
+      "Q00022_TragedyInVonHellmannForest/31334-02.htm",
+      "Q00022_TragedyInVonHellmannForest/31334-03.html"
+     ]
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-05.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-05.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: Unbelievable! Whose soul could the high priest want me to summon with dark magic? Doesn't he serve the god of light?",
+   "header": "Grand Magister Tifaren",
+   "when": [
+    "cond 1|3"
+   ],
+   "links": [
+    {
+     "text": "Show her Einhasad's Crucifix",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31334-06.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31334-06.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31334-06.html",
+     "toAll": [
+      "Q00022_TragedyInVonHellmannForest/31334-06.html",
+      "Q00022_TragedyInVonHellmannForest/31334-07.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-09.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-09.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: I believe High Priest Innocentin sent you. Hunt zombies or ghosts in the Forest of the Dead to find me a clean skull, preferably an Elven one. It will increase my chances of summoning a priest of Einhasad to use a child of Shilen.",
+   "header": "Grand Magister Tifaren",
+   "when": [
+    "cond 4|5; has items 7141; lacks items 7142"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-10.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-10.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: An Elven skull! Now I can proceed.",
+   "header": "Grand Magister Tifaren",
+   "when": [
+    "cond 4|5; has items 7141,7142; _tifarenOwner == 0"
+   ],
+   "links": [
+    {
+     "text": "Wait for incantation",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31334-12.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31334-12.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31334-12.html"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-11.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-11.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: Is that an Elven skull? Good. However, I'm busy helping someone else, you'll have to come back later.",
+   "header": "Grand Magister Tifaren",
+   "when": [
+    "cond 4|5; has items 7141,7142; !_tifarenOwner == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-17.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-17.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: Two minutes wasn't enough? I'll try bringing him out once more. This time, finish your talk!",
+   "header": "Grand Magister Tifaren",
+   "when": [
+    "cond 6|7; has items 7141; _tifarenOwner == 0"
+   ],
+   "links": [
+    {
+     "text": "Try again",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31334-13.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31334-13.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31334-13.html",
+     "toAll": [
+      "Q00022_TragedyInVonHellmannForest/31334-13.html",
+      "Q00022_TragedyInVonHellmannForest/31334-14.html"
+     ],
+     "effect": "cond:7|cond:6"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-15.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-15.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: I don't want to get involved with a priest of Einhasad. He's right here, finish your business quickly!",
+   "header": "Grand Magister Tifaren",
+   "when": [
+    "cond 6|7; has items 7141; !_tifarenOwner == 0; _tifarenOwner == talker.getObjectId()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-16.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-16.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: This ghost isn't the one you requested. Someone else must be conducting the seance as well! Come back when it's quieter and I'll try again.",
+   "header": "Grand Magister Tifaren",
+   "when": [
+    "cond 6|7; has items 7141; !_tifarenOwner == 0; !_tifarenOwner == talker.getObjectId()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-18.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-18.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: Finished? Don't tell me. Probably something related to Innocentin. Take it to him, I don't want to get involved!",
+   "header": "Grand Magister Tifaren",
+   "when": [
+    "cond 8; has items 7141"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-02.htm": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-02.htm",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: The necromantic rite of communion is a secret rite performed only by the children of Shilen. It is our secret heritage. Not everyone may receive it. Who sent you?",
+   "header": "Grand Magister Tifaren",
+   "links": [
+    {
+     "text": "\"High Priest Innocentin sent me.\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31334-04.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31334-04.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31334-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-03.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-03.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: You want me to hold a seance? The necromantic rite of communion is the secret magic of Dark Elves. It's not for novices! (This quest is for characters level 63 or above who have also completed the Hidden Truth quest.)",
+   "header": "Grand Magister Tifaren",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-04.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-04.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: High priest of Einhasad? Ha! You amuse me, now go!",
+   "header": "Grand Magister Tifaren",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-06.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-06.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: Einhasad's Crucifix! You would have me summon the soul of a priest? I believe you that High Priest Innocentin sent you. Since he requests it, I'll do my best. I need you to bring me something.",
+   "header": "Grand Magister Tifaren",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31334-08.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31334-08.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31334-08.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-07.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-07.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: You say High Priest Innocentin asks me to hold a seance? You're kidding, right? Show me proof or be on your way!",
+   "header": "Grand Magister Tifaren",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-08.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-08.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: Hunt zombies or ghosts in the Forest of the Dead for a clean skull, preferably an Elven one. It will increase my chances of summoning a priest of Einhasad to use a child of Shilen.",
+   "header": "Grand Magister Tifaren",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-12.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-12.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: In the name of the Mother, come to me! I, who have mastered the laws of nature, demand that you obey my order! Your spirit shall reside within this vessel. Come!",
+   "header": "Grand Magister Tifaren",
+   "links": [
+    {
+     "text": "Wait",
+     "bypass": "Quest Q00022_TragedyInVonHellmannForest 31334-13.html",
+     "kind": "quest-event",
+     "script": "Q00022_TragedyInVonHellmannForest",
+     "event": "31334-13.html",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31334-13.html",
+     "toAll": [
+      "Q00022_TragedyInVonHellmannForest/31334-13.html",
+      "Q00022_TragedyInVonHellmannForest/31334-14.html"
+     ],
+     "effect": "cond:7|cond:6"
+    }
+   ]
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-13.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-13.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: Success! My work is done. The soul is not stable in this vessel. It won't last long! Find out the rest directly from him before he leaves this realm!",
+   "header": "Grand Magister Tifaren",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00022_TragedyInVonHellmannForest/31334-14.html": {
+   "file": "Q00022_TragedyInVonHellmannForest/31334-14.html",
+   "quest": 22,
+   "text": "Grand Magister Tifaren: My concentration has been broken! Come back later when it's quieter. I can't focus with so many people around.",
+   "header": "Grand Magister Tifaren",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Tragedy in Von Hellmann Forest]",
+     "bypass": "npc_%objectId%_Quest Q00022_TragedyInVonHellmannForest",
+     "kind": "quest",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31334-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Tragedy in Von Hellmann Forest (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00022_TragedyInVonHellmannForest",
+     "kind": "quest",
+     "quest": 22,
+     "to": "Q00022_TragedyInVonHellmannForest/31334-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

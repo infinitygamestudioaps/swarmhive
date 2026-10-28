@@ -1,0 +1,70 @@
+{
+ "npcId": 35548,
+ "name": "Outer Doorman",
+ "title": "Schuttgart",
+ "type": "L2CastleDoormen",
+ "generated": "2026-10-27T18:18:03.435Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "doormen/35548.htm",
+   "when": "",
+   "src": "html/doormen"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "doormen/35548.htm": {
+   "file": "doormen/35548.htm",
+   "quest": null,
+   "text": "Nothing unusual to report, my Lord. What do you wish to do?",
+   "links": [
+    {
+     "text": "Open the Castle Gate.",
+     "bypass": "npc_%objectId%_open_doors 9, 22130001, 22130002",
+     "kind": "other"
+    },
+    {
+     "text": "Close the Castle Gate.",
+     "bypass": "npc_%objectId%_close_doors 9, 22130001, 22130002",
+     "kind": "other"
+    },
+    {
+     "text": "Open the Throne Room Gate.",
+     "bypass": "npc_%objectId%_open_doors 9, 22130003",
+     "kind": "other"
+    },
+    {
+     "text": "Close the Throne Room Gate.",
+     "bypass": "npc_%objectId%_close_doors 9, 22130003",
+     "kind": "other"
+    },
+    {
+     "text": "Teleport (Out of the Gate)",
+     "bypass": "npc_%objectId%_tele 2047",
+     "kind": "teleport"
+    },
+    {
+     "text": "Teleport (Into the Gate)",
+     "bypass": "npc_%objectId%_tele 2048",
+     "kind": "teleport"
+    }
+   ]
+  },
+  "doormen/35548-busy.htm": {
+   "file": "doormen/35548-busy.htm",
+   "quest": null,
+   "text": "Oh! Our castle is being attacked and I can't do anything for you right now.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "doormen/35548-no.htm": {
+   "file": "doormen/35548-no.htm",
+   "quest": null,
+   "text": "Who goes there?! Stay back!",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

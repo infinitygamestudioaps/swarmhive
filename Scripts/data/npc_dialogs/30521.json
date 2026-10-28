@@ -1,0 +1,209 @@
+{
+ "npcId": 30521,
+ "name": "Murdoc",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.990Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30521.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "108": {
+   "name": "Jumble, Tumble, Diamond Fuss",
+   "listText": [
+    "[Jumble, Tumble, Diamond Fuss]",
+    "[Jumble, Tumble, Diamond Fuss (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30521-01.html",
+     "when": "cond 9",
+     "state": null,
+     "cond": [
+      9
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30521-02.html",
+     "when": "cond 10",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30521-03.html",
+     "when": "cond 11|12",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30521.htm": {
+   "file": "warehouse/30521.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Murdoc: Welcome to this branch of the Iron Gate Guild ! We are the oldest and largest of the 6 major Dwarven guilds, with warehouses in every city! What can I do for you, friend?",
+   "header": "Warehouse Keeper Murdoc",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/privatewh.htm",
+     "kind": "page",
+     "to": "warehouse/privatewh.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/clanwh.htm",
+     "kind": "page",
+     "to": "warehouse/clanwh.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30521-noteach.htm": {
+   "file": "warehouse/30521-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Murdoc: Heh, heh, heh. You are a funny person. I am Murdoc of the great Iron Gate! If you have a headache, take some medicine! Normal Dwarves like myself can never understand how it is that you do not even know your own profession!",
+   "header": "Warehouse Keeper Murdoc",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30521-01.html": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30521-01.html",
+   "quest": 108,
+   "text": "Warehouse Keeper Murdoc: Has Brunon sent you? Ah ha! You came to the right place! I was going to visit him regarding the same matter! I opened the Treasure Chest I got from Brunon, and was very surprised to find a jewel in it! I then realized that the Treasure Chests must have been switched. But th…",
+   "header": "Warehouse Keeper Murdoc",
+   "when": [
+    "cond 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30521-02.html": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30521-02.html",
+   "quest": 108,
+   "text": "Warehouse Keeper Murdoc: Hey, you! Don't be shy, and give those pastries to Warehouse Keeper Airy ! Also, tell her that I'm very sorry...",
+   "header": "Warehouse Keeper Murdoc",
+   "when": [
+    "cond 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30521-03.html": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30521-03.html",
+   "quest": 108,
+   "text": "Warehouse Keeper Murdoc: My colleague Airy is very upset... Whew... Well, it's all my fault... What should I do...",
+   "header": "Warehouse Keeper Murdoc",
+   "when": [
+    "cond 11|12"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Jumble, Tumble, Diamond Fuss (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00108_JumbleTumbleDiamondFuss",
+     "kind": "quest",
+     "quest": 108,
+     "to": "Q00108_JumbleTumbleDiamondFuss/30521-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "warehouse/privatewh.htm": {
+   "file": "warehouse/privatewh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Private Warehouse",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item from the Private Warehouse",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "warehouse/clanwh.htm": {
+   "file": "warehouse/clanwh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item from the Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

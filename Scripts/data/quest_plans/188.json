@@ -2,7 +2,7 @@
  "id": 188,
  "name": "Seal Removal",
  "version": 1,
- "generated": "2026-10-27T11:15:14.357Z",
+ "generated": "2026-10-27T18:18:49.631Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 41,
@@ -40,13 +40,8 @@
    "text": "Loraine's Certificate"
   }
  ],
- "status": "fixable",
- "reasons": [
-  {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  }
- ],
+ "status": "ready",
+ "reasons": [],
  "expectedMin": 6,
  "refLevel": 41,
  "steps": [
@@ -155,8 +150,155 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:30970",
+   "key": "c1:talk:30621",
    "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"Who is it? Tell me.\""
+   ],
+   "npc": {
+    "id": 30621,
+    "name": "Nikola",
+    "title": "Maestro",
+    "town": "Gludio",
+    "at": [
+     10580,
+     118027,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Talk to Nikola",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30621@10580,118027",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 8062,
+    "sec": 112,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8062,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114328,
+      -3528
+     ],
+     [
+      15912,
+      114488,
+      -3576
+     ],
+     [
+      15416,
+      114984,
+      -3596
+     ],
+     [
+      14920,
+      115480,
+      -3616
+     ],
+     [
+      14424,
+      115976,
+      -3664
+     ],
+     [
+      13928,
+      116472,
+      -3712
+     ],
+     [
+      13432,
+      116968,
+      -3708
+     ],
+     [
+      12936,
+      117464,
+      -3704
+     ],
+     [
+      12440,
+      117744,
+      -3720
+     ],
+     [
+      11944,
+      118024,
+      -3736
+     ],
+     [
+      10952,
+      118024,
+      -3688
+     ],
+     [
+      10584,
+      118024,
+      -3672
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 137,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30970",
+   "cond": 2,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -679,159 +821,21 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2
-   ]
-  },
-  {
-   "i": 2,
-   "key": "c1:talk:30621",
-   "cond": 1,
-   "kind": "talk",
-   "to": 2,
-   "links": [
-    "\"Who is it? Tell me.\""
-   ],
-   "npc": {
-    "id": 30621,
-    "name": "Nikola",
-    "title": "Maestro",
-    "town": "Gludio",
-    "at": [
-     10580,
-     118027,
-     -3672
-    ],
-    "alt": []
-   },
-   "text": "Talk to Nikola",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30621@10580,118027",
-    "status": "ok",
-    "flags": [],
-    "from": ".dion",
-    "length": 8062,
-    "sec": 112,
-    "via": ".dion > Dion -> Cruma Tower",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Dion",
-      "cmd": ".dion"
-     },
-     {
-      "do": "gk",
-      "from": "Dion",
-      "desc": "Dion -> Cruma Tower",
-      "link": "cruma tower",
-      "price": 2300,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 8062,
-      "how": "geodata",
-      "danger": 34
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Dion",
-     "desc": "Dion -> Cruma Tower"
-    },
-    "simple": true,
-    "pv": [
-     [
-      17225,
-      114173,
-      -3440
-     ],
-     [
-      16360,
-      114328,
-      -3528
-     ],
-     [
-      15912,
-      114488,
-      -3576
-     ],
-     [
-      15416,
-      114984,
-      -3596
-     ],
-     [
-      14920,
-      115480,
-      -3616
-     ],
-     [
-      14424,
-      115976,
-      -3664
-     ],
-     [
-      13928,
-      116472,
-      -3712
-     ],
-     [
-      13432,
-      116968,
-      -3708
-     ],
-     [
-      12936,
-      117464,
-      -3704
-     ],
-     [
-      12440,
-      117744,
-      -3720
-     ],
-     [
-      11944,
-      118024,
-      -3736
-     ],
-     [
-      10952,
-      118024,
-      -3688
-     ],
-     [
-      10584,
-      118024,
-      -3672
-     ]
-    ],
-    "maxDanger": 34,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 34,
-     "dangerVsLevel": -7,
-     "aggro": []
-    }
-   },
-   "expectedSec": 137,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1
    ]
   }
  ],
  "override": {
   "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T18:18:49.713Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "prereq-missing",
+   "route-detour"
+  ]
  }
 }

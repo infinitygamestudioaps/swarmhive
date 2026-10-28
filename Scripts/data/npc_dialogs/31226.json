@@ -1,0 +1,221 @@
+{
+ "npcId": 31226,
+ "name": "Arena Director",
+ "title": "",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.144Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "73": {
+   "name": "Saga of the Duelist",
+   "listText": [
+    "[Saga of the Duelist]",
+    "[Saga of the Duelist (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00073_SagaOfTheDuelist/2-01.htm",
+     "when": "cond 1; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00073_SagaOfTheDuelist/2-02.htm",
+     "when": "cond 2; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00073_SagaOfTheDuelist/2-03.htm",
+     "when": "cond 4; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00073_SagaOfTheDuelist/2-04.htm",
+     "when": "cond 5; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00073_SagaOfTheDuelist/2-01.htm": {
+   "file": "Q00073_SagaOfTheDuelist/2-01.htm",
+   "quest": 73,
+   "text": "Arena Director: Does the horizon beckon you to explore what lies beyond it? You could, you know... The title of Duelist is only awarded to those who venture beyond the horizon. They all paid homage to the tablet and obtained power after achieving true enlightenment. Their wins and losses in battle,…",
+   "header": "Arena Director",
+   "when": [
+    "cond 1; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Please do!\"",
+     "bypass": "Quest Q00073_SagaOfTheDuelist 2-1",
+     "kind": "quest-event",
+     "script": "Q00073_SagaOfTheDuelist",
+     "event": "2-1",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00073_SagaOfTheDuelist/2-02.htm": {
+   "file": "Q00073_SagaOfTheDuelist/2-02.htm",
+   "quest": 73,
+   "text": "Arena Director: There's a dish that legend says Duelists ate before every battle.. Bring it to me and I'll tell you everything I know! A master chef called Donath or something can probably make it. You know, I wouldn't be telling you this if I didn't think that you showed real potential!",
+   "header": "Arena Director",
+   "when": [
+    "cond 2; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/2-03.htm": {
+   "file": "Q00073_SagaOfTheDuelist/2-03.htm",
+   "quest": 73,
+   "text": "Arena Director: Ah, the legendary gourmet delight! This is the first time I've eaten it! Good. But I suppose I should finish my story first... Would you care to join me for dinner? Now, what is a Duelist? Nothing but the most legendary of all warriors! Duelists refine their skills to the utmost, an…",
+   "header": "Arena Director",
+   "when": [
+    "cond 4; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What can you tell me about Sword Master Iron?\"",
+     "bypass": "Quest Q00073_SagaOfTheDuelist 2-2",
+     "kind": "quest-event",
+     "script": "Q00073_SagaOfTheDuelist",
+     "event": "2-2",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00073_SagaOfTheDuelist/2-04.htm": {
+   "file": "Q00073_SagaOfTheDuelist/2-04.htm",
+   "quest": 73,
+   "text": "Arena Director: Now do you better understand what it means to be a Duelist? The Tablet of Vision can be found south of the Tower of Insolence. Your journey starts there.",
+   "header": "Arena Director",
+   "when": [
+    "cond 5; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/2-05.htm": {
+   "file": "Q00073_SagaOfTheDuelist/2-05.htm",
+   "quest": 73,
+   "text": "Arena Director: Okay. First you must go to Goddard and get the gourmet meal that was eaten by the Duelists before competitions and bring it to me. There's a great chef there who can make it for you. I think his name was Donath or something. Bring it to me, I'll tell you everything I know about Duel…",
+   "header": "Arena Director",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/2-06.htm": {
+   "file": "Q00073_SagaOfTheDuelist/2-06.htm",
+   "quest": 73,
+   "text": "Arena Director: Iron... He was truly a master swordsman, but he never managed to become a Duelist. While on his pilgrimage, he obtained a mysterious power. He was able to defeat all opponents without even breaking a sweat. And then suddenly, he disappeared! From that day on, there were no more Duel…",
+   "header": "Arena Director",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/ArenaManager/31226.html": {
+   "file": "ai/npc/ArenaManager/31226.html",
+   "quest": null,
+   "text": "Arena Director: Play the game according to the rules! The loser should be silent! What? Unfair? Then, why don't you hold your tongue and give it another try!",
+   "header": "Arena Director",
+   "links": [
+    {
+     "text": "CP Recovery : 1,000 Adena",
+     "bypass": "Quest ArenaManager CPrecovery",
+     "kind": "quest-event",
+     "script": "ArenaManager",
+     "event": "CPrecovery",
+     "to": null
+    },
+    {
+     "text": "HP Recovery : 1,000 Adena",
+     "bypass": "Quest ArenaManager HPrecovery",
+     "kind": "quest-event",
+     "script": "ArenaManager",
+     "event": "HPrecovery",
+     "to": null
+    },
+    {
+     "text": "Buff for Battle Ground : 2,000 Adena",
+     "bypass": "Quest ArenaManager Buff",
+     "kind": "quest-event",
+     "script": "ArenaManager",
+     "event": "Buff",
+     "to": null
+    },
+    {
+     "text": "Private Warehouse: Deposit an item.",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Private Warehouse: Withdraw an item.",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Duelist (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00073_SagaOfTheDuelist",
+     "kind": "quest",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,292 @@
+{
+ "npcId": 32603,
+ "name": "Tepios",
+ "title": "Officer",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.391Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32603.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "695": {
+   "name": "Defend the Hall of Suffering",
+   "listText": [
+    "[Defend the Hall of Suffering]",
+    "[Defend the Hall of Suffering (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00695_DefendTheHallOfSuffering/32603-01.htm",
+     "when": "state CREATED; playerLevel >= MIN_LEVEL; playerLevel <= MAX_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00695_DefendTheHallOfSuffering/32603-04.htm",
+     "when": "state CREATED; !((playerLevel >= MIN_LEVEL) && (playerLevel <= MAX_LEVEL)); playerLevel < MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00695_DefendTheHallOfSuffering/32603-05.html",
+     "when": "state CREATED; !((playerLevel >= MIN_LEVEL) && (playerLevel <= MAX_LEVEL)); !playerLevel < MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00695_DefendTheHallOfSuffering/32603-06.htm",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10268": {
+   "name": "To the Seed of Infinity",
+   "listText": [
+    "[To the Seed of Infinity]",
+    "[To the Seed of Infinity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10268_ToTheSeedOfInfinity/32530-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10268_ToTheSeedOfInfinity/32530-02.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32603.htm": {
+   "file": "default/32603.htm",
+   "quest": null,
+   "text": "Officer Tepios: Welcome to the Seed of Infinity. My name is Officer Tepios. My role is to build temporary shelters and guide newcomers around here. This is the place we call the Death Gate . Many soldiers and unnamed adventurers have gone to their deaths through this entrance. However, we must cont…",
+   "header": "Officer Tepios",
+   "links": [
+    {
+     "text": "Ask about the Seed of Infinity.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/32603-1.htm"
+    },
+    {
+     "text": "Ask about a cycle of the Seed Immortality.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/32603-2.htm"
+    },
+    {
+     "text": "Ask about Tumors and Soul Coffins.",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "default/32603-3.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/32603-1.htm": {
+   "file": "default/32603-1.htm",
+   "quest": null,
+   "text": "Officer Tepios: The Seed of Infinity is an infernal region ruled by Shilen's disciple, the undead fiend Ekimus . We know little about him, unfortunately. But I can you something about this region itself. Here space itself is organically linked together like some vast living organism . Just as your …",
+   "header": "Officer Tepios",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/32603.htm"
+    }
+   ]
+  },
+  "default/32603-2.htm": {
+   "file": "default/32603-2.htm",
+   "quest": null,
+   "text": "Officer Tepios: Status of the Seed of Infinity constantly changes by success or failure of an attacking party's attack, caught monsters, and etc... Therefore, this becomes a one cycle, which can be divided into a total of 6 steps. So, sometimes we have to block their power by attacking because the …",
+   "header": "Officer Tepios",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/32603.htm"
+    }
+   ]
+  },
+  "default/32603-3.htm": {
+   "file": "default/32603-3.htm",
+   "quest": null,
+   "text": "Officer Tepios: This entire area acts almost like a living organism. Just as blood supplies nutrients to a human body, so apparently do the souls who have perished here supply energy for the Tumors of Death and the Soul Coffins . They in turn use that energy to strengthen nearby monsters or disadva…",
+   "header": "Officer Tepios",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/32603.htm"
+    }
+   ]
+  },
+  "Q00695_DefendTheHallOfSuffering/32603-01.htm": {
+   "file": "Q00695_DefendTheHallOfSuffering/32603-01.htm",
+   "quest": 695,
+   "text": "Office Tepios: After several attempts, each area was finally stabilized once we occupied the Seed of Infinity . But now the power of Ekimus is again growing, and the undead have again begun to awaken. Our scouts think they will soon attack the Hall of Suffering . If this area falls, the whole Seed …",
+   "header": "Office Tepios",
+   "when": [
+    "state CREATED; playerLevel >= MIN_LEVEL; playerLevel <= MAX_LEVEL"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00695_DefendTheHallOfSuffering 32603-02.html",
+     "kind": "quest-event",
+     "script": "Q00695_DefendTheHallOfSuffering",
+     "event": "32603-02.html",
+     "quest": 695,
+     "to": "Q00695_DefendTheHallOfSuffering/32603-02.html"
+    }
+   ]
+  },
+  "Q00695_DefendTheHallOfSuffering/32603-04.htm": {
+   "file": "Q00695_DefendTheHallOfSuffering/32603-04.htm",
+   "quest": 695,
+   "text": "Office Tepios: I don't know how you got here, but I can't let you enter. You would have no chance of making it back alive! I only say this for your own good... (Only characters between levels 75 and 82 may undertake this quest.)",
+   "header": "Office Tepios",
+   "when": [
+    "state CREATED; !((playerLevel >= MIN_LEVEL) && (playerLevel <= MAX_LEVEL)); playerLevel < MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00695_DefendTheHallOfSuffering/32603-05.html": {
+   "file": "Q00695_DefendTheHallOfSuffering/32603-05.html",
+   "quest": 695,
+   "text": "Office Tepios: Yes, you're certainly skilled enough to undertake this mission. But, it will be a waste of time for you to do so, given the time constraints. I would rather that you focus on another important task. (Only characters between levels 75 and 82 are permitted to undertake this quest.)",
+   "header": "Office Tepios",
+   "when": [
+    "state CREATED; !((playerLevel >= MIN_LEVEL) && (playerLevel <= MAX_LEVEL)); !playerLevel < MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00695_DefendTheHallOfSuffering/32603-06.htm": {
+   "file": "Q00695_DefendTheHallOfSuffering/32603-06.htm",
+   "quest": 695,
+   "text": "Office Tepios: I will tell you again. If you wish to enter the Hall of Suffering, you can use the Mouth of Ekimus that you see before you.",
+   "header": "Office Tepios",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10268_ToTheSeedOfInfinity/32530-01.html": {
+   "file": "Q10268_ToTheSeedOfInfinity/32530-01.html",
+   "quest": 10268,
+   "text": "Officer Tepios: This letter of recommendation must be from Admiral Keucereus. We've been waiting for some capable adventurers! We will, of course, reward you for your efforts. It may not be as much as we would like, but know that when we have regained our land, you will always be welcomed here with…",
+   "header": "Officer Tepios",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10268_ToTheSeedOfInfinity/32530-02.html": {
+   "file": "Q10268_ToTheSeedOfInfinity/32530-02.html",
+   "quest": 10268,
+   "text": "Officer Tepios: I have already given you the reward for this mission. Instead of worrying about that, you should start thinking about your next mission. It involves entering the Death Gate. Begin preparing for that! (You have already completed this quest.)",
+   "header": "Officer Tepios",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00695_DefendTheHallOfSuffering/32603-02.html": {
+   "file": "Q00695_DefendTheHallOfSuffering/32603-02.html",
+   "quest": 695,
+   "text": "Office Tepios: I will tell you about the area you will enter and what you must do there. You will enter Hall of Suffering, which contains a Destroyed Tumor in each room. The nearby Souls of Coffin will gradually mutate into a Tumor of Death . If that happens, it will supply nutrients to the Seed --…",
+   "header": "Office Tepios",
+   "links": [
+    {
+     "text": "\"Understood.\"",
+     "bypass": "Quest Q00695_DefendTheHallOfSuffering 32603-03.htm",
+     "kind": "quest-event",
+     "script": "Q00695_DefendTheHallOfSuffering",
+     "event": "32603-03.htm",
+     "quest": 695,
+     "to": "Q00695_DefendTheHallOfSuffering/32603-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00695_DefendTheHallOfSuffering/32603-03.htm": {
+   "file": "Q00695_DefendTheHallOfSuffering/32603-03.htm",
+   "quest": 695,
+   "text": "Office Tepios: If you want to enter the Hall of Suffering, use the Mouth of Ekimus that you see before you. Good luck! (The Hall of Suffering is an instant zone exclusively for party use; you can only enter through the party leader.)",
+   "header": "Office Tepios",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Defend the Hall of Suffering]",
+     "bypass": "npc_%objectId%_Quest Q00695_DefendTheHallOfSuffering",
+     "kind": "quest",
+     "quest": 695,
+     "to": "Q00695_DefendTheHallOfSuffering/32603-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Defend the Hall of Suffering (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00695_DefendTheHallOfSuffering",
+     "kind": "quest",
+     "quest": 695,
+     "to": "Q00695_DefendTheHallOfSuffering/32603-06.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[To the Seed of Infinity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10268_ToTheSeedOfInfinity",
+     "kind": "quest",
+     "quest": 10268,
+     "to": "Q10268_ToTheSeedOfInfinity/32530-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

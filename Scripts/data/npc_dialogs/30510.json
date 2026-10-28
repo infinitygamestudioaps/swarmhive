@@ -1,0 +1,618 @@
+{
+ "npcId": 30510,
+ "name": "Somak",
+ "title": "Seer",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.986Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30510.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "232": {
+   "name": "Test Of The Lord",
+   "listText": [
+    "[Test of the Lord]",
+    "[Test of the Lord (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00232_TestOfTheLord/30510-01.html",
+     "when": "state STARTED; has items 3391,3394,3401; lacks items 3404,3402",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30510-02.html",
+     "when": "state STARTED; has items 3391,3394,3402; lacks items 3404,3401; !(hasQuestItems(player, ORDEAL_NECKLACE, HATOS_CHARM, SUMARIS_LETTER) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKUL",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00232_TestOfTheLord/30510-03.html",
+     "when": "state STARTED; has items 3391,3404; lacks items 3394,3402,3401; !(hasQuestItems(player, ORDEAL_NECKLACE, HATOS_CHARM, SUMARIS_LETTER) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKUL; !(hasQuestItems(player, ORDEAL_NECKLACE, HATOS_CHARM, URUTU_BLADE) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKULL, ",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "233": {
+   "name": "Test Of The War Spirit",
+   "listText": [
+    "[Test of the War Spirit]",
+    "[Test of the War Spirit (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30510-03.html",
+     "when": "state CREATED; level < 39; player.getRace() == Race.ORC; player.getClassId() == ClassId.orcShaman",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30510-04.htm",
+     "when": "state CREATED; NOT level < 39; player.getRace() == Race.ORC; player.getClassId() == ClassId.orcShaman",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30510-02.html",
+     "when": "state CREATED; player.getRace() == Race.ORC; !player.getClassId() == ClassId.orcShaman",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30510-01.html",
+     "when": "state CREATED; !player.getRace() == Race.ORC",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30510-07.html",
+     "when": "state STARTED; has items 2887,2901,2910,2894; lacks items 2880,2882",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30510-06.html",
+     "when": "state STARTED; lacks items 2880,2882,2887,2901,2910,2894",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30510-08.html",
+     "when": "state STARTED; has items 2880,2882; !hasItemsAtLimit(player, TAMLIN_ORC_HEAD)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30510-09.html",
+     "when": "state STARTED; has items 2880,2882; hasItemsAtLimit(player, TAMLIN_ORC_HEAD)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00233_TestOfTheWarSpirit/30510-10.html",
+     "when": "state STARTED; has items 2880,2882; lacks items 2880",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30510.htm": {
+   "file": "trainer/30510.htm",
+   "quest": null,
+   "text": "Seer Somak: Stop! Be silent! Be still! Do not search for enlightenment in books or silver-tongued charlatans. Instead, look within yourself! Listen to the voices of our ancestors that reside in your heart!",
+   "header": "Seer Somak",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30510-noteach.htm": {
+   "file": "trainer/30510-noteach.htm",
+   "quest": null,
+   "text": "Seer Somak: You are someone unable to hear spiritual sound. There is nothing to teach you.",
+   "header": "Seer Somak",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30510-01.html": {
+   "file": "Q00232_TestOfTheLord/30510-01.html",
+   "quest": 232,
+   "text": "Seer Somak: What did you come here for? Sumari's Letter? Did you come to get the Urutu Blade?! We finished the ceremony of the blessings of our ancestors two days ago. Here! Take this back with you. Chief Hatos will be most pleased!",
+   "header": "Seer Somak",
+   "when": [
+    "state STARTED; has items 3391,3394,3401; lacks items 3404,3402"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30510-02.html": {
+   "file": "Q00232_TestOfTheLord/30510-02.html",
+   "quest": 232,
+   "text": "Seer Somak: I hope that you are taking good care of the Urutu Blade which contains the power of flames. Give the holy treasure to the Urutu Chief, Hatos!",
+   "header": "Seer Somak",
+   "when": [
+    "state STARTED; has items 3391,3394,3402; lacks items 3404,3401; !(hasQuestItems(player, ORDEAL_NECKLACE, HATOS_CHARM, SUMARIS_LETTER) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKUL"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00232_TestOfTheLord/30510-03.html": {
+   "file": "Q00232_TestOfTheLord/30510-03.html",
+   "quest": 232,
+   "text": "Seer Somak: Did you get the totem from the Urutu tribal leader? That dreaded symbol which makes betrayers shiver and enemies' blood run cold! To receive that symbol is a sign of great respect by the tribal leader! You must show the utmost dignity while carrying the Urutu totem!",
+   "header": "Seer Somak",
+   "when": [
+    "state STARTED; has items 3391,3404; lacks items 3394,3402,3401; !(hasQuestItems(player, ORDEAL_NECKLACE, HATOS_CHARM, SUMARIS_LETTER) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKUL; !(hasQuestItems(player, ORDEAL_NECKLACE, HATOS_CHARM, URUTU_BLADE) && !hasAtLeastOneQuestItem(player, SWORD_INTO_SKULL, "
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30510-03.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-03.html",
+   "quest": 233,
+   "text": "Seer Somak: A Warcryer is a supreme level Mystic who deals with the war spirits! Their fierce roar makes our soldiers burn with combativeness and dooms the enemies! Their hymn inspires our troop's morale and freezes the heart of our enemies! Thou, Shaman of Orc! If you truly wish to be Warcryer, yo…",
+   "header": "Seer Somak",
+   "when": [
+    "state CREATED; level < 39; player.getRace() == Race.ORC; player.getClassId() == ClassId.orcShaman"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30510-04.htm": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-04.htm",
+   "quest": 233,
+   "text": "Seer Somak: A Warcryer is a supreme level Mystic who deals with the war spirits! Their fierce roar makes our soldiers burn with combativeness and dooms the enemies! Their hymn inspires our troop's morale and freezes the heart of our enemies! Thou, Shaman of Orc! If you truly wish to be Warcryer, yo…",
+   "header": "Seer Somak",
+   "when": [
+    "state CREATED; NOT level < 39; player.getRace() == Race.ORC; player.getClassId() == ClassId.orcShaman"
+   ],
+   "links": [
+    {
+     "text": "Say that you will challenge the trial",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "ACCEPT",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05e.htm",
+     "toAll": [
+      "Q00233_TestOfTheWarSpirit/30510-05e.htm",
+      "Q00233_TestOfTheWarSpirit/30510-05.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30510-02.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-02.html",
+   "quest": 233,
+   "text": "Seer Somak: A Warcryer is a supreme level Mystic who deals with the war spirits! Their fierce roar makes our soldiers burn with combativeness and dooms the enemies! Their hymn inspires our troop's morale and freezes the heart of our enemies! Thou, great Warrior of the Orcs! Do not forget that the M…",
+   "header": "Seer Somak",
+   "when": [
+    "state CREATED; player.getRace() == Race.ORC; !player.getClassId() == ClassId.orcShaman"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30510-01.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-01.html",
+   "quest": 233,
+   "text": "Seer Somak: You have no allegiance to the Lord of Flame! Why are you here! Have you come to steal the secrets of Orc magic? Go now, before I summon the war spirits and tear off your head! (Quest for Orc Shaman characters of level 39 and above.)",
+   "header": "Seer Somak",
+   "when": [
+    "state CREATED; !player.getRace() == Race.ORC"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30510-07.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-07.html",
+   "quest": 233,
+   "text": "Seer Somak: Tejakar Oroka! You have found the remains of all 4 heroes! I shall place these bones in the blessed pot. Meanwhile, you prepare for the next stage of the trial. To win over the power hidden in the remains of heroes, you must go through the War Spirit's Trial. To carry out this holy and …",
+   "header": "Seer Somak",
+   "when": [
+    "state STARTED; has items 2887,2901,2910,2894; lacks items 2880,2882"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30510-06.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-06.html",
+   "quest": 233,
+   "text": "Seer Somak: To pass the test, you must first find the bones of the ancestors who died in battle! Then through a trial you can win over the power of the spirits to your side! The ancient heroes that I told you are 4 altogether! Braki the clever, Kiruna the brave, Tonar the super, and Hermodt the ind…",
+   "header": "Seer Somak",
+   "when": [
+    "state STARTED; lacks items 2880,2882,2887,2901,2910,2894"
+   ],
+   "links": [
+    {
+     "text": "Ask about Braki the clever.",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05a.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05a.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05a.html"
+    },
+    {
+     "text": "Ask about Kiruna the brave.",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05b.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05b.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05b.html"
+    },
+    {
+     "text": "Ask about Tonar the super.",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05c.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05c.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05c.html"
+    },
+    {
+     "text": "Ask about Hermodt the indomitable.",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05d.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05d.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05d.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30510-08.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-08.html",
+   "quest": 233,
+   "text": "Seer Somak: Death to the filthy betrayers! That is what they asked for! Their decapitated heads will be the best gift for our ancestor spirits. Set off now to the north of Aden! Kill the Tamlin Orcs camping in the area and bring back their heads! You must bring at least 13 heads!",
+   "header": "Seer Somak",
+   "when": [
+    "state STARTED; has items 2880,2882; !hasItemsAtLimit(player, TAMLIN_ORC_HEAD)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30510-09.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-09.html",
+   "quest": 233,
+   "text": "Seer Somak: Well done! Death to the filthy betrayers! That is what they asked for! Their decapitated heads will be the best gift for our ancestor spirits. Now take the hero's remains to the eternal Holy Land for Orcs, the Immortal Plateau. And meet the forefather spirit Martankus which dwells in th…",
+   "header": "Seer Somak",
+   "when": [
+    "state STARTED; has items 2880,2882; hasItemsAtLimit(player, TAMLIN_ORC_HEAD)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30510-10.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-10.html",
+   "quest": 233,
+   "text": "Seer Somak: To carry out the ceremony of the war spirits, you need to see the forefather spirit of Martankus. Now take the heroes' remains to the eternal Holy Land for Orcs, the Immortal Plateau. And meet the forefather spirit Martankus which dwells in the Cave of Trials. Remember to show your utmo…",
+   "header": "Seer Somak",
+   "when": [
+    "state STARTED; has items 2880,2882; lacks items 2880"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00233_TestOfTheWarSpirit/30510-05.htm": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-05.htm",
+   "quest": 233,
+   "text": "Seer Somak: To pass the test, you must first find the bones of the ancestors who passed away while fighting in a war! Then through a trial thou can win over the power of the spirits to your side! The kingdom of Aden is a place where numerous Orc Warriors fought and bled! However, now it is a territ…",
+   "header": "Seer Somak",
+   "links": [
+    {
+     "text": "Ask about Braki the clever",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05a.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05a.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05a.html"
+    },
+    {
+     "text": "Ask about Kiruna the brave",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05b.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05b.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05b.html"
+    },
+    {
+     "text": "Ask about Tonar the super",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05c.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05c.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05c.html"
+    },
+    {
+     "text": "Ask about Hermodt the indomitable",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05d.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05d.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05d.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30510-05.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-05.html",
+   "quest": 233,
+   "text": "Seer Somak: To pass the test, you must first find the bones of the ancestors who passed away while fighting in a war! Then through a trial thou can win over the power of the spirits to your side! The kingdom of Aden is a place where numerous Orc Warriors fought and bled! However, now it is a territ…",
+   "header": "Seer Somak",
+   "links": [
+    {
+     "text": "Ask about Braki the clever",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05a.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05a.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05a.html"
+    },
+    {
+     "text": "Ask about Kiruna the brave",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05b.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05b.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05b.html"
+    },
+    {
+     "text": "Ask about Tonar the super",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05c.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05c.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05c.html"
+    },
+    {
+     "text": "Ask about Hermodt the indomitable",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05d.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05d.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05d.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30510-05a.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-05a.html",
+   "quest": 233,
+   "text": "Seer Somak: Braki of the Duda-Mara tribe, fought against the 3000 army troops of Elmore with only 200 soldiers, some 500 years ago. He didn't yield the camp site of Horsehoof Valley and resisted for 100 days! Braki took advantage of the steep landscape and overcame the inferiority in numbers! Moreo…",
+   "header": "Seer Somak",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30510-05b.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-05b.html",
+   "quest": 233,
+   "text": "Seer Somak: Kiruna, the amazon of Urutu! I shall tell you about she who knew no fear even in front of the hundreds and thousands of monsters. When the war between devil beleth and the Elmoreden empire broke, we Orcs sent out a crack contingent at the request of the Human emperor! While the weak Hum…",
+   "header": "Seer Somak",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30510-05c.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-05c.html",
+   "quest": 233,
+   "text": "Seer Somak: Tonar of Hetsui tribe! He was a superman who had the strength to knock down a giant wild boar with his bare hands! Long time ago, in the land which is now called Oren, there was a fierce battle between the Orcs and the lizardmen. The Hetsui warriors lead by Tonar won an overwhelming vic…",
+   "header": "Seer Somak",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30510-05d.html": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-05d.html",
+   "quest": 233,
+   "text": "Seer Somak: Hermodt of the Neruga tribe! He is the one who killed more medusas than anyone else, during our bloody battle with the serpents! At that time, the Human tribe who were under our protection asked us for aid, so we sent troops to help the Human beings. Hermodt who lead that troop was call…",
+   "header": "Seer Somak",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05.html"
+    }
+   ]
+  },
+  "Q00233_TestOfTheWarSpirit/30510-05e.htm": {
+   "file": "Q00233_TestOfTheWarSpirit/30510-05e.htm",
+   "quest": 233,
+   "text": "Seer Somak: To pass the test, you should first find the ashes of the ancestors who lost their lives warring for this land! With their ashes, you can use a ritual to harness the power of their spirits. Perhaps even more important, we can finally lay their remains to rest in the Immortal Plateau. Wha…",
+   "header": "Seer Somak",
+   "links": [
+    {
+     "text": "Ask about the Braki the Clever.",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05a.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05a.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05a.html"
+    },
+    {
+     "text": "Ask about Kiruna the Brave.",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05b.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05b.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05b.html"
+    },
+    {
+     "text": "Ask about Tonar the Super.",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05c.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05c.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05c.html"
+    },
+    {
+     "text": "Ask about Hermodt the Indomitable.",
+     "bypass": "Quest Q00233_TestOfTheWarSpirit 30510-05d.html",
+     "kind": "quest-event",
+     "script": "Q00233_TestOfTheWarSpirit",
+     "event": "30510-05d.html",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-05d.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Lord (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00232_TestOfTheLord",
+     "kind": "quest",
+     "quest": 232,
+     "to": "Q00232_TestOfTheLord/30510-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Test of the War Spirit]",
+     "bypass": "npc_%objectId%_Quest Q00233_TestOfTheWarSpirit",
+     "kind": "quest",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-04.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Test of the War Spirit (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00233_TestOfTheWarSpirit",
+     "kind": "quest",
+     "quest": 233,
+     "to": "Q00233_TestOfTheWarSpirit/30510-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

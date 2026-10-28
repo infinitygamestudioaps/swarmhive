@@ -1,0 +1,354 @@
+{
+ "npcId": 30405,
+ "name": "Marius",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.972Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30405.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "259": {
+   "name": "Request from the Farm Owner",
+   "listText": [
+    "[Request from the Farm Owner]",
+    "[Request from the Farm Owner (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00259_RequestFromTheFarmOwner/30405-02.html",
+     "when": "(st.getQuestItemsCount(SPIDER_SKIN) >= SKIN_COUNT)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00259_RequestFromTheFarmOwner/30405-01.html",
+     "when": "NOT (st.getQuestItemsCount(SPIDER_SKIN) >= SKIN_COUNT)",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30405.htm": {
+   "file": "default/30405.htm",
+   "quest": null,
+   "text": "Marius: May the blessings of the starlight shine upon you. What brings you to such a secluded place, traveler?",
+   "header": "Marius",
+   "links": [
+    {
+     "text": "Who are you?",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30405-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30405-1.htm": {
+   "file": "default/30405-1.htm",
+   "quest": null,
+   "text": "Marius: I am Marius Graymist. Originally, I am from the Elven Forest, but I have served as a knight under Baron Waldner of Gludio for the past 30 years. I fought with the Baron's royal guards in the war against Elmore and the assault of Gracia. However, I have retired and am living quietly in this …",
+   "header": "Marius",
+   "links": [
+    {
+     "text": "Ask about Baron Waldner",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30405-2.htm"
+    }
+   ]
+  },
+  "default/30405-2.htm": {
+   "file": "default/30405-2.htm",
+   "quest": null,
+   "text": "Marius: He is one of the lords of the Kingdom of Aden, across the ocean in the land of Gludio. He pledged loyalty to King Amadeo and was awarded the title and rank of baron. He is one of very few who I have met who is worthy of being called a true Knight.",
+   "header": "Marius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00259_RequestFromTheFarmOwner/30405-02.html": {
+   "file": "Q00259_RequestFromTheFarmOwner/30405-02.html",
+   "quest": 259,
+   "text": "Marius: May the blessings of the starlight fall upon you. So you are the mercenary hired by my colleague Edmond. I was once a Knight with a sword... But... something happened and I pledged not to touch a sword again. I am retired now. I felt terrible that I haven't been able to help Edmond. Thankfu…",
+   "header": "Marius",
+   "when": [
+    "(st.getQuestItemsCount(SPIDER_SKIN) >= SKIN_COUNT)"
+   ],
+   "links": [
+    {
+     "text": "Say you will not make an exchange.",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-03.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-03.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-03.html"
+    },
+    {
+     "text": "Say you will make an exchange for two high-quality Healing Potions.",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-04.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-04.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-04.html"
+    },
+    {
+     "text": "Say you will make an exchange for fifty Wooden Arrows.",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-05.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-05.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-05.html"
+    },
+    {
+     "text": "Say you will make an exchange for 60 no grade soulshots.",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-05a.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-05a.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-05a.html"
+    },
+    {
+     "text": "Say you will make an exchange for 30 no grade spiritshots.",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-05c.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-05c.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-05c.html"
+    }
+   ]
+  },
+  "Q00259_RequestFromTheFarmOwner/30405-01.html": {
+   "file": "Q00259_RequestFromTheFarmOwner/30405-01.html",
+   "quest": 259,
+   "text": "Marius: May the blessings of the starlight fall upon you. So you are the mercenary hired by my colleague Edmond. I was once a Knight with a sword ... But ... something happened. And I pledged not to touch a sword again. I have retired now. I felt terrible that I haven't been able to help Edmond ...…",
+   "header": "Marius",
+   "when": [
+    "NOT (st.getQuestItemsCount(SPIDER_SKIN) >= SKIN_COUNT)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00259_RequestFromTheFarmOwner/30405-03.html": {
+   "file": "Q00259_RequestFromTheFarmOwner/30405-03.html",
+   "quest": 259,
+   "text": "Marius: Please be careful when hunting the spiders. They have very sensitive hearing, so they will attack anything that moves around them. Be on guard from a distance, and be watchful for any unexpected attacks.",
+   "header": "Marius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00259_RequestFromTheFarmOwner/30405-04.html": {
+   "file": "Q00259_RequestFromTheFarmOwner/30405-04.html",
+   "quest": 259,
+   "text": "Marius: I got this Healing Potion from Silvia in the village a few days ago. This is a very effective item for treating injuries received in battle.",
+   "header": "Marius",
+   "links": [
+    {
+     "text": "Go Back",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-06.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-06.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-06.html",
+     "toAll": [
+      "Q00259_RequestFromTheFarmOwner/30405-06.html",
+      "Q00259_RequestFromTheFarmOwner/30405-07.html"
+     ]
+    }
+   ]
+  },
+  "Q00259_RequestFromTheFarmOwner/30405-05.html": {
+   "file": "Q00259_RequestFromTheFarmOwner/30405-05.html",
+   "quest": 259,
+   "text": "Marius: I bought these arrows from the weapon shop when I went to the village few days ago. Trader Lector took care in selecting these, so you can use them without any worries. Personally, I would shoot arrows from a far distance to wound the spider, then approach it to deliver the final blow ... b…",
+   "header": "Marius",
+   "links": [
+    {
+     "text": "Go Back",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-06.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-06.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-06.html",
+     "toAll": [
+      "Q00259_RequestFromTheFarmOwner/30405-06.html",
+      "Q00259_RequestFromTheFarmOwner/30405-07.html"
+     ]
+    }
+   ]
+  },
+  "Q00259_RequestFromTheFarmOwner/30405-05a.html": {
+   "file": "Q00259_RequestFromTheFarmOwner/30405-05a.html",
+   "quest": 259,
+   "text": "Marius: It's a soulshot created personally by Blacksmith Altran. He is highly regarded among Dwarves as an excellent artisan! I'm sure that this item is up to his high standards.",
+   "header": "Marius",
+   "links": [
+    {
+     "text": "\"Tell me more about soulshots.\"",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-05b.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-05b.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-05b.html"
+    },
+    {
+     "text": "Return",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-06.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-06.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-06.html",
+     "toAll": [
+      "Q00259_RequestFromTheFarmOwner/30405-06.html",
+      "Q00259_RequestFromTheFarmOwner/30405-07.html"
+     ]
+    }
+   ]
+  },
+  "Q00259_RequestFromTheFarmOwner/30405-05b.html": {
+   "file": "Q00259_RequestFromTheFarmOwner/30405-05b.html",
+   "quest": 259,
+   "text": "Marius: Ah, you're new to soulshots, are you? Well by all means, let me explain! A soulshot enhances a weapon by encircling it with a blue spirit. This greatly improves the attack power of the weapon. The enhancement is consumed with use. Continuous attack will require multiple soulshots. Mercenari…",
+   "header": "Marius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00259_RequestFromTheFarmOwner/30405-05c.html": {
+   "file": "Q00259_RequestFromTheFarmOwner/30405-05c.html",
+   "quest": 259,
+   "text": "Marius: This spiritshot was made by Blacksmith Altran. He is well-known among Dwarves as a superb craftsman. This item is of top quality. Put it to good use.",
+   "header": "Marius",
+   "links": [
+    {
+     "text": "\"Tell me about the spiritshot.\"",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-05d.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-05d.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-05d.html"
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-06.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-06.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-06.html",
+     "toAll": [
+      "Q00259_RequestFromTheFarmOwner/30405-06.html",
+      "Q00259_RequestFromTheFarmOwner/30405-07.html"
+     ]
+    }
+   ]
+  },
+  "Q00259_RequestFromTheFarmOwner/30405-05d.html": {
+   "file": "Q00259_RequestFromTheFarmOwner/30405-05d.html",
+   "quest": 259,
+   "text": "Marius: You don't know how to use a spiritshot? OK, here's a brief explanation: A spiritshot enhances a weapon with the explosive energy of a powerful spirit. Blessed spiritshots are even more powerful. Each spiritshot only works once, so you will need multiple spiritshots if you intend to use them…",
+   "header": "Marius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00259_RequestFromTheFarmOwner/30405-06.html": {
+   "file": "Q00259_RequestFromTheFarmOwner/30405-06.html",
+   "quest": 259,
+   "text": "Marius: Do you need anything else? I will exchange two Healing Potions, fifty Wooden Arrows, 60 no grade soulshots or 30 no grade spiritshots for ten Giant Spider Skins .",
+   "header": "Marius",
+   "links": [
+    {
+     "text": "Say you will not make an exchange.",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-03.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-03.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-03.html"
+    },
+    {
+     "text": "Say you will make an exchange for two high-quality Healing Potions.",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-04.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-04.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-04.html"
+    },
+    {
+     "text": "Say you will make an exchange for fifty Wooden Arrows.",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-05.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-05.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-05.html"
+    },
+    {
+     "text": "Say you will make an exchange for 60 no grade soulshots.",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-05a.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-05a.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-05a.html"
+    },
+    {
+     "text": "Say you will make an exchange for 30 no grade spiritshots.",
+     "bypass": "Quest Q00259_RequestFromTheFarmOwner 30405-05c.html",
+     "kind": "quest-event",
+     "script": "Q00259_RequestFromTheFarmOwner",
+     "event": "30405-05c.html",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-05c.html"
+    }
+   ]
+  },
+  "Q00259_RequestFromTheFarmOwner/30405-07.html": {
+   "file": "Q00259_RequestFromTheFarmOwner/30405-07.html",
+   "quest": 259,
+   "text": "Marius: If you need anything later, gather Giant Spider Skins and come back to me. Please be careful when you are hunting the spiders. They have very sensitive hearing, so they will attack anything that moves around them. Be on guard from a distance, and be watchful of any unexpected attacks.",
+   "header": "Marius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Request from the Farm Owner (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00259_RequestFromTheFarmOwner",
+     "kind": "quest",
+     "quest": 259,
+     "to": "Q00259_RequestFromTheFarmOwner/30405-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

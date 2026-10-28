@@ -1,0 +1,227 @@
+{
+ "npcId": 32050,
+ "name": "Parts Box",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.320Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32050.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "114": {
+   "name": "Resurrection of an Old Manager",
+   "listText": [
+    "[Resurrection of an Old Manager]",
+    "[Resurrection of an Old Manager (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32050-02.html",
+     "when": "state STARTED; cond 13; (talk == 1)",
+     "state": "STARTED",
+     "cond": [
+      13
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32050-01.html",
+     "when": "state STARTED; cond 13; NOT (talk == 1)",
+     "state": "STARTED",
+     "cond": [
+      13
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32050-04.html",
+     "when": "state STARTED; cond 14",
+     "state": "STARTED",
+     "cond": [
+      14
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32050-04b.html",
+     "when": "state STARTED; cond 23",
+     "state": "STARTED",
+     "cond": [
+      23
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00114_ResurrectionOfAnOldManager/32050-05z.html",
+     "when": "state STARTED; cond 24",
+     "state": "STARTED",
+     "cond": [
+      24
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32050.htm": {
+   "file": "default/32050.htm",
+   "quest": null,
+   "text": "Parts Box: The box seems to contain something",
+   "header": "Parts Box",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32050-02.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32050-02.html",
+   "quest": 114,
+   "text": "The Parts Box: The Starstone emerges from the broken box.",
+   "header": "The Parts Box",
+   "when": [
+    "state STARTED; cond 13; (talk == 1)"
+   ],
+   "links": [
+    {
+     "text": "Pick up the Starstone",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32050-03.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32050-03.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32050-03.html",
+     "effect": "cond:14"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32050-01.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32050-01.html",
+   "quest": 114,
+   "text": "Parts Box: This must be the box Wendy was talking about! It's sealed tight! If you give it a good whack with a weapon, it may open.",
+   "header": "Parts Box",
+   "when": [
+    "state STARTED; cond 13; NOT (talk == 1)"
+   ],
+   "links": [
+    {
+     "text": "Strike the box.",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32050-01r.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32050-01r.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32050-01r.html"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32050-04.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32050-04.html",
+   "quest": 114,
+   "text": "Parts Box: The box is slightly damaged.",
+   "header": "Parts Box",
+   "when": [
+    "state STARTED; cond 14"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32050-04b.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32050-04b.html",
+   "quest": 114,
+   "text": "Parts Box: This is the box Wendy was talking about.",
+   "header": "Parts Box",
+   "when": [
+    "state STARTED; cond 23"
+   ],
+   "links": [
+    {
+     "text": "Look for the Starstone",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32050-05.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32050-05.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32050-05.html",
+     "effect": "cond:24"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32050-05z.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32050-05z.html",
+   "quest": 114,
+   "text": "Parts Box: A wooden box.",
+   "header": "Parts Box",
+   "when": [
+    "state STARTED; cond 24"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32050-01r.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32050-01r.html",
+   "quest": 114,
+   "text": "Parts Box: The box cracks open and the Starstone emerges.",
+   "header": "Parts Box",
+   "links": [
+    {
+     "text": "Pick up the Starstone",
+     "bypass": "Quest Q00114_ResurrectionOfAnOldManager 32050-03.html",
+     "kind": "quest-event",
+     "script": "Q00114_ResurrectionOfAnOldManager",
+     "event": "32050-03.html",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32050-03.html",
+     "effect": "cond:14"
+    }
+   ]
+  },
+  "Q00114_ResurrectionOfAnOldManager/32050-03.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32050-03.html",
+   "quest": 114,
+   "text": "Parts Box: You have the Starstone.",
+   "header": "Parts Box",
+   "sets": {
+    "cond": "14"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00114_ResurrectionOfAnOldManager/32050-05.html": {
+   "file": "Q00114_ResurrectionOfAnOldManager/32050-05.html",
+   "quest": 114,
+   "text": "Parts Box: Now you have the Starstone.",
+   "header": "Parts Box",
+   "sets": {
+    "cond": "24"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Resurrection of an Old Manager (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00114_ResurrectionOfAnOldManager",
+     "kind": "quest",
+     "quest": 114,
+     "to": "Q00114_ResurrectionOfAnOldManager/32050-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,111 @@
+{
+ "npcId": 31434,
+ "name": "Shaling",
+ "title": "Blueprint Seller",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.202Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31434.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "27": {
+   "name": "Chest Caught With A Bait Of Wind",
+   "listText": [
+    "[Chest Caught with a Bait of Wind]",
+    "[Chest Caught with a Bait of Wind (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00027_ChestCaughtWithABaitOfWind/31434-00.htm",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/31434.htm": {
+   "file": "merchant/31434.htm",
+   "quest": null,
+   "text": "Blueprint Seller Shaling: Welcome! I'm Shaling. I used to sell blueprints, but my real dream is to become an adventurer someday! First, I'll explore Cruma Tower! What? You're an adventurer? Oh! I used to sell blueprints, but since those technologies became public there's no need for them anymore. O…",
+   "header": "Blueprint Seller Shaling",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00027_ChestCaughtWithABaitOfWind/31434-00.htm": {
+   "file": "Q00027_ChestCaughtWithABaitOfWind/31434-00.htm",
+   "quest": 27,
+   "text": "Blueprint Seller Shaling: Hello! what ca I do for you? Do you need the blueprint for an extraordinary golem? Sorry, but I have only ordinary ones left now. Recently, I completed a really great golem bluprint, but I accidently dropped it off of the bridge and lost it! What a terrible loss!",
+   "header": "Blueprint Seller Shaling",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"I found it!\"",
+     "bypass": "Quest Q00027_ChestCaughtWithABaitOfWind 31434-02.htm",
+     "kind": "quest-event",
+     "script": "Q00027_ChestCaughtWithABaitOfWind",
+     "event": "31434-02.htm",
+     "quest": 27,
+     "to": "Q00027_ChestCaughtWithABaitOfWind/31434-02.htm",
+     "toAll": [
+      "Q00027_ChestCaughtWithABaitOfWind/31434-02.htm",
+      "Q00027_ChestCaughtWithABaitOfWind/31434-01.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00027_ChestCaughtWithABaitOfWind/31434-01.htm": {
+   "file": "Q00027_ChestCaughtWithABaitOfWind/31434-01.htm",
+   "quest": 27,
+   "text": "Blueprint Seller Shaling: This is amazing! How did you find it? You must be a great adventurer! Thank you so much! Please accept this token of my appreciation!",
+   "header": "Blueprint Seller Shaling",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00027_ChestCaughtWithABaitOfWind/31434-02.htm": {
+   "file": "Q00027_ChestCaughtWithABaitOfWind/31434-02.htm",
+   "quest": 27,
+   "text": "Blueprint Seller Shaling: You said you'd found the blueprint, but you have neither the blueprint nor the box! Are you teasing me?",
+   "header": "Blueprint Seller Shaling",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Chest Caught with a Bait of Wind (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00027_ChestCaughtWithABaitOfWind",
+     "kind": "quest",
+     "quest": 27,
+     "to": "Q00027_ChestCaughtWithABaitOfWind/31434-00.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

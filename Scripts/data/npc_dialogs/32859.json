@@ -1,0 +1,101 @@
+{
+ "npcId": 32859,
+ "name": "Altar of Hallows",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.416Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32859.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "10295": {
+   "name": "Seven Signs, Solina's Tomb",
+   "listText": [
+    "[Seven Signs, Solina's Tomb]",
+    "[Seven Signs, Solina's Tomb (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10295_SevenSignsSolinasTomb/32859-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32859.htm": {
+   "file": "default/32859.htm",
+   "quest": null,
+   "text": "There's a large book-looking relic floating in the air above the altar.",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q10295_SevenSignsSolinasTomb/32859-01.html": {
+   "file": "Q10295_SevenSignsSolinasTomb/32859-01.html",
+   "quest": 10295,
+   "text": "There's a large book-shaped relic floating in the air. It looks valuable.",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "links": [
+    {
+     "text": "\"I'll have that.\"",
+     "bypass": "Quest Q10295_SevenSignsSolinasTomb 32859-02.html",
+     "kind": "quest-event",
+     "script": "Q10295_SevenSignsSolinasTomb",
+     "event": "32859-02.html",
+     "quest": 10295,
+     "to": "Q10295_SevenSignsSolinasTomb/32859-02.html",
+     "toAll": [
+      "Q10295_SevenSignsSolinasTomb/32859-02.html",
+      "Q10295_SevenSignsSolinasTomb/32859-03.html"
+     ]
+    }
+   ]
+  },
+  "Q10295_SevenSignsSolinasTomb/32859-02.html": {
+   "file": "Q10295_SevenSignsSolinasTomb/32859-02.html",
+   "quest": 10295,
+   "text": "You already have the relic - check your inventory.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10295_SevenSignsSolinasTomb/32859-03.html": {
+   "file": "Q10295_SevenSignsSolinasTomb/32859-03.html",
+   "quest": 10295,
+   "text": "There's a large relic that looks like a book off the altar. A blinding light comes from the relic, and only after your eyes adjust are you able to look at the thing... Looking at it closely, it seems to match the shape of the hole you saw in the Barrier Device!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Solina's Tomb (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10295_SevenSignsSolinasTomb",
+     "kind": "quest",
+     "quest": 10295,
+     "to": "Q10295_SevenSignsSolinasTomb/32859-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

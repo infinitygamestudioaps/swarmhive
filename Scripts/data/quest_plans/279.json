@@ -2,7 +2,7 @@
  "id": 279,
  "name": "Target of Opportunity",
  "version": 1,
- "generated": "2026-10-27T11:15:18.178Z",
+ "generated": "2026-10-27T18:18:53.542Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 82,
@@ -41,12 +41,12 @@
   {
    "code": "no-route",
    "text": "no route to a step place (atlas unreachable / no geodata walk)",
-   "step": 2
+   "step": 3
   },
   {
    "code": "owner-manual",
    "text": "marked \"manual\" on the dashboard (plan override)",
-   "step": 2
+   "step": 3
   }
  ],
  "expectedMin": 3,
@@ -542,7 +542,7 @@
    "expectedSec": 100,
    "engine": {
     "act": "hunt",
-    "hasItems": "talk"
+    "hasItems": "hunt"
    },
    "conds": [
     1,
@@ -558,8 +558,8 @@
   },
   {
    "i": 2,
-   "key": "c1:talk:32302",
-   "cond": 1,
+   "key": "c2:talk:32302",
+   "cond": 2,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -599,9 +599,9 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2
    ],
+   "overrideFrom": "c1:talk:32302",
    "override": {
     "manual": true,
     "note": "HELLBOUND (see the start step): Tower of Infinitum monsters 22373-22376 (z -13376 / -7551 floors).",

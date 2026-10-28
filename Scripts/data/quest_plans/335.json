@@ -2,7 +2,7 @@
  "id": 335,
  "name": "The Song of the Hunter",
  "version": 1,
- "generated": "2026-10-27T11:15:27.708Z",
+ "generated": "2026-10-27T18:19:02.034Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 35,
@@ -20,7 +20,7 @@
   },
   {
    "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
+   "text": "memo-state machine (no setCond): the engine cannot read the step: event 30745 \"LIST_1\": changes neither the cond nor the memo in the data; event 30745 \"LIST_2\": changes neither the cond nor the memo in the data"
   },
   {
    "code": "area-danger",
@@ -31,14 +31,9 @@
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
    "step": 1
-  },
-  {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 2
   }
  ],
- "expectedMin": 29,
+ "expectedMin": 31,
  "refLevel": 35,
  "steps": [
   {
@@ -2309,14 +2304,14 @@
     }
    ],
    "kills": 1,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "kill",
     "trigger": [
      20271
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Breka Overlord Haka, Breka Overlord Jaka, Breka Overlord Marka, Windsus Aleph, Tarlk Raider Athu, Tarlk Raider Lanka, Tarlk Raider Triska, Tarlk Raider Motura, Tarlk Raider Kalath, Gremlin Filcher, Leto Shaman Ketz, Leto Chief Narak, Timak Raider Kaikee, Timak Overlord Okun, Gok Magok, Taik Overlord Kakran, Hatar Chieftain Kubel, Vanor Elder Kerunos, Karul Chief Orooto appear and kill it",
    "area": {
@@ -2482,8 +2477,341 @@
   },
   {
    "i": 3,
-   "key": "c1:talk:30744",
+   "key": "c1:deliver:30744",
    "cond": 1,
+   "kind": "deliver",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 30744,
+    "name": "Grey",
+    "title": "Guild Member",
+    "town": "Hunters Village",
+    "at": [
+     117980,
+     76704,
+     -2597
+    ],
+    "alt": []
+   },
+   "text": "Bring 2nd Test Instructions to Grey",
+   "needs": [
+    {
+     "id": 3696,
+     "name": "2nd Test Instructions",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30610@117866,76483",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2110,
+    "sec": 37,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 1602,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116760,
+      76328,
+      -2728
+     ],
+     [
+      117032,
+      76328,
+      -2720
+     ],
+     [
+      117304,
+      76312,
+      -2712
+     ],
+     [
+      117448,
+      76280,
+      -2696
+     ],
+     [
+      117704,
+      76264,
+      -2688
+     ],
+     [
+      117864,
+      76488,
+      -2688
+     ],
+     [
+      117576,
+      76408,
+      -2688
+     ],
+     [
+      117688,
+      76536,
+      -2656
+     ],
+     [
+      117976,
+      76712,
+      -2592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30610@117866,76483",
+     "name": "Cronos"
+    },
+    "points": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116760,
+      76328,
+      -2728
+     ],
+     [
+      117032,
+      76328,
+      -2720
+     ],
+     [
+      117304,
+      76312,
+      -2712
+     ],
+     [
+      117448,
+      76280,
+      -2696
+     ],
+     [
+      117704,
+      76264,
+      -2688
+     ],
+     [
+      117864,
+      76488,
+      -2688
+     ],
+     [
+      117576,
+      76408,
+      -2688
+     ],
+     [
+      117688,
+      76536,
+      -2656
+     ],
+     [
+      117976,
+      76712,
+      -2592
+     ]
+    ]
+   },
+   "expectedSec": 62,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:30745",
+   "cond": 1,
+   "kind": "talk",
+   "to": null,
+   "links": [
+    "Examine the request list"
+   ],
+   "npc": {
+    "id": 30745,
+    "name": "Tor",
+    "title": "Guild Member",
+    "town": "Hunters Village",
+    "at": [
+     115952,
+     76000,
+     -2721
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tor",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30655@115791,75867",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 965,
+    "sec": 28,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 965,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116456,
+      76152,
+      -2728
+     ],
+     [
+      116280,
+      76088,
+      -2728
+     ],
+     [
+      116024,
+      76008,
+      -2728
+     ],
+     [
+      115784,
+      75864,
+      -2712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30655@115791,75867",
+     "name": "Isael Silvershadow"
+    },
+    "points": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116456,
+      76152,
+      -2728
+     ],
+     [
+      116280,
+      76088,
+      -2728
+     ],
+     [
+      116024,
+      76008,
+      -2728
+     ],
+     [
+      115784,
+      75864,
+      -2712
+     ]
+    ]
+   },
+   "expectedSec": 53,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c2:talk:30744",
+   "cond": 2,
    "kind": "talk",
    "to": "end",
    "links": [
@@ -2666,20 +2994,17 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2,
     3
    ]
   },
   {
-   "i": 4,
-   "key": "c1:talk:30745",
-   "cond": 1,
-   "kind": "talk",
+   "i": 6,
+   "key": "c2:deliver:30745",
+   "cond": 2,
+   "kind": "deliver",
    "to": null,
-   "links": [
-    "Examine the request list"
-   ],
+   "links": [],
    "npc": {
     "id": 30745,
     "name": "Tor",
@@ -2692,7 +3017,14 @@
     ],
     "alt": []
    },
-   "text": "Talk to Tor",
+   "text": "Bring 1st Circle Hunter License to Tor",
+   "needs": [
+    {
+     "id": 3692,
+     "name": "1st Circle Hunter License",
+     "n": 1
+    }
+   ],
    "reasons": [],
    "travel": {
     "src": "computed",
@@ -2807,13 +3139,12 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
     2,
     3
    ]
   },
   {
-   "i": 5,
+   "i": 7,
    "key": "c1:turnin:30746",
    "cond": 1,
    "kind": "deliver",

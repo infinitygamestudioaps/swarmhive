@@ -1,0 +1,195 @@
+{
+ "npcId": 30705,
+ "name": "Chakiris",
+ "title": "Prefect",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.057Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30705.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "337": {
+   "name": "Audience With The Land Dragon",
+   "listText": [
+    "[Audience with the Land Dragon]",
+    "[Audience with the Land Dragon  (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30705-02.html",
+     "when": "state STARTED; memo 21101|21000|21100|21001|20101|20100|20001|20000; has items 3855,3856",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30705-01.html",
+     "when": "state STARTED; memo 21101|21000|21100|21001|20101|20100|20001|20000; lacks items 3855,3856",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30705-03.html",
+     "when": "state STARTED; memo 21110|21011|21010|20111|20110|20011|20010",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00337_AudienceWithTheLandDragon/30705-04.html",
+     "when": "state STARTED; memoState >= 30000",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30705.htm": {
+   "file": "trainer/30705.htm",
+   "quest": null,
+   "text": "Prefect Chakiris: Hey you! I am in charge of the guild here in Hunters Village. Open your ears and listen to what I say. There are 3 things you must remember here in Hunters Village: 1), whether people or prey, judge no one based on their appearance; 2) go to the hunting grounds only with trusted c…",
+   "header": "Prefect Chakiris",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30705-noteach.htm": {
+   "file": "trainer/30705-noteach.htm",
+   "quest": null,
+   "text": "Prefect Chakiris: Umkarbas... You fool! Atten---tion! About face! Find another Prefect! March!",
+   "header": "Prefect Chakiris",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30705-02.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30705-02.html",
+   "quest": 337,
+   "text": "Prefect Chakiris: Good job! You killed the kranrot and hamrut! With such strength you may stand a chance against Antharas! Even if you are defeated you are sure to get in a few good blows before you die!",
+   "header": "Prefect Chakiris",
+   "when": [
+    "state STARTED; memo 21101|21000|21100|21001|20101|20100|20001|20000; has items 3855,3856"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30705-01.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30705-01.html",
+   "quest": 337,
+   "text": "Prefect Chakiris: An Angel feather?! That means Gabrielle sent you! Then you want to challenge the Land Dragon, right? Hai Orkrun! Your courage is a credit to our race. We'll see, though, if your skills match your guts! Go to the Forsaken Plains and kill some Kranrot and Hamrut , then bring me a pr…",
+   "header": "Prefect Chakiris",
+   "when": [
+    "state STARTED; memo 21101|21000|21100|21001|20101|20100|20001|20000; lacks items 3855,3856"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30705-03.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30705-03.html",
+   "quest": 337,
+   "text": "Prefect Chakiris: If you wish to confront Antharas you must meet the other guardians of the seal! Once you collect the Mark of Watchman from each of them Gabrielle will bestow upon you the Herald of Slayer. Stop mucking about and solve the tasks of the other guardians! Antharas awaits!",
+   "header": "Prefect Chakiris",
+   "when": [
+    "state STARTED; memo 21110|21011|21010|20111|20110|20011|20010"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00337_AudienceWithTheLandDragon/30705-04.html": {
+   "file": "Q00337_AudienceWithTheLandDragon/30705-04.html",
+   "quest": 337,
+   "text": "Prefect Chakiris: Well, your team looks impressive if a bit disorganized! Gabrielle is looking for you. You must go to her! She will give you more details!",
+   "header": "Prefect Chakiris",
+   "when": [
+    "state STARTED; memoState >= 30000"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Audience with the Land Dragon  (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00337_AudienceWithTheLandDragon",
+     "kind": "quest",
+     "quest": 337,
+     "to": "Q00337_AudienceWithTheLandDragon/30705-02.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

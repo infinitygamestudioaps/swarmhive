@@ -1,0 +1,76 @@
+{
+ "npcId": 30631,
+ "name": "Roderik",
+ "title": "Warden",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.022Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30631.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "229": {
+   "name": "Test Of Witchcraft",
+   "listText": [
+    "[Test of Witchcraft]",
+    "[Test of Witchcraft (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00229_TestOfWitchcraft/30631-01.htm",
+     "when": "state STARTED; has items 3309,3314,3319",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30631.htm": {
+   "file": "default/30631.htm",
+   "quest": null,
+   "text": "Warden Roderik: Hello. There are so many people who died innocent here, that is why this place is haunted by so many ghosts and undead. To keep an eye on the dead, that is my job.",
+   "header": "Warden Roderik",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30631-01.htm": {
+   "file": "Q00229_TestOfWitchcraft/30631-01.htm",
+   "quest": 229,
+   "text": "Warden Roderik: Ismell? He passed here a few days ago. He seemed quite pale. He was determined to go to the execution place, even though I explained to him that the undead have been exceptionally active. He refused to listen to me, saying that he can't afford to lose such a precious thing. Afterwar…",
+   "header": "Warden Roderik",
+   "when": [
+    "state STARTED; has items 3309,3314,3319"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Witchcraft (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00229_TestOfWitchcraft",
+     "kind": "quest",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30631-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

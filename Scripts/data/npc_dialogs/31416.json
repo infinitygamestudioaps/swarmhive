@@ -1,0 +1,44 @@
+{
+ "npcId": 31416,
+ "name": "Aren",
+ "title": "Spellbook Seller",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.201Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31416.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31416.htm": {
+   "file": "merchant/31416.htm",
+   "quest": null,
+   "text": "Spellbook Seller Aren: Welcome to historic Gludin Temple! We sell spellbooks that have been carefully reviewed by our magisters and priests! Feel free to look around.",
+   "header": "Spellbook Seller Aren",
+   "links": [
+    {
+     "text": "\"Who is the lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

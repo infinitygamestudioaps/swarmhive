@@ -1,0 +1,130 @@
+{
+ "npcId": 30591,
+ "name": "Toruku",
+ "title": "Khavatari",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.007Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30591.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "415": {
+   "name": "Path Of The Orc Monk",
+   "listText": [
+    "[Path of the Orc Monk]",
+    "[Path of the Orc Monk (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30591-01.html",
+     "when": "state STARTED; has items 1606; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30591-02.html",
+     "when": "state STARTED; has items 1607; lacks items 1606,1608; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30591-03.html",
+     "when": "state STARTED; has items 1608; lacks items 1606,1607; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_4TF) && !hasQuestItems(player, LEATHER_POUCH_4TF_FULL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00415_PathOfTheOrcMonk/30591-04.html",
+     "when": "state STARTED; has items 1613,1614; lacks items 1606; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_4TF) && !hasQuestItems(player, LEATHER_POUCH_4TF_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_4TF) && hasQuestItems(player, LEATHER_POUCH_4TF_FULL))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30591.htm": {
+   "file": "default/30591.htm",
+   "quest": null,
+   "text": "Khavatari Toruku: Tejakar Oroka! I am Toruku. I teach Kabart, the Orcs' martial art. Kabart is a martial art that trains your body to become a deadly weapon. Orcs that train in this do not depend on common weapons such as swords or spears, but learn combat skills that involve only swift movements a…",
+   "header": "Khavatari Toruku",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00415_PathOfTheOrcMonk/30591-01.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30591-01.html",
+   "quest": 415,
+   "text": "Khavatari Toruku: Come here, young Orc. What is this fig? Is it for me? I have not been able to drink one drop of water for more than a fortnight, so this will come in handy. Thank you! I see you are a Fighter that wishes to become a Monk. So, you have come to take the Trial of Steel from me! Steel…",
+   "header": "Khavatari Toruku",
+   "when": [
+    "state STARTED; has items 1606; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30591-02.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30591-02.html",
+   "quest": 415,
+   "text": "Khavatari Toruku: To complete the Trial of Steel, you must fight against fighters of various races. The opponents you must knock down are the Vuku Orc Fighter, ratman warrior, Langk Lizardman Warrior, and Felim warrior . Come back after you have collected three tokens from each race, for a total of…",
+   "header": "Khavatari Toruku",
+   "when": [
+    "state STARTED; has items 1607; lacks items 1606,1608; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30591-03.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30591-03.html",
+   "quest": 415,
+   "text": "Khavatari Toruku: Congratulations, young one, for passing the Trial of Steel! As iron becomes harder in the flame, continuous training will make us stronger. Etch this morale deep on your heart. I will give you the second scroll, the scroll of Steel will, that is needed to become a Monk. Take it an…",
+   "header": "Khavatari Toruku",
+   "when": [
+    "state STARTED; has items 1608; lacks items 1606,1607; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_4TF) && !hasQuestItems(player, LEATHER_POUCH_4TF_FULL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00415_PathOfTheOrcMonk/30591-04.html": {
+   "file": "Q00415_PathOfTheOrcMonk/30591-04.html",
+   "quest": 415,
+   "text": "Khavatari Toruku: You haven't left yet? Take the Iron Will Scroll and go to Prefect Kasman of the village of Gludin . Then, you will receive the token needed to change profession.",
+   "header": "Khavatari Toruku",
+   "when": [
+    "state STARTED; has items 1613,1614; lacks items 1606; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LEATHER_POUCH_4TF) && !hasQuestItems(player, LEATHER_POUCH_4TF_FULL)); !(!hasQuestItems(player, LEATHER_POUCH_4TF) && hasQuestItems(player, LEATHER_POUCH_4TF_FULL))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Orc Monk (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00415_PathOfTheOrcMonk",
+     "kind": "quest",
+     "quest": 415,
+     "to": "Q00415_PathOfTheOrcMonk/30591-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

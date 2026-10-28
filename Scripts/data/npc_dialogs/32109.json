@@ -1,0 +1,750 @@
+{
+ "npcId": 32109,
+ "name": "Shilen's Stone Statue",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.326Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "126": {
+   "name": "The Name of Evil - 2",
+   "listText": [
+    "[The Name of Evil 2]",
+    "[The Name of Evil 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00126_TheNameOfEvil2/32109-1a.html",
+     "when": "state STARTED; cond 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17",
+     "state": "STARTED",
+     "cond": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32109-1.html",
+     "when": "state STARTED; cond 18",
+     "state": "STARTED",
+     "cond": [
+      18
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32109-2l.html",
+     "when": "state STARTED; cond 19",
+     "state": "STARTED",
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32109-5.html",
+     "when": "state STARTED; cond 20",
+     "state": "STARTED",
+     "cond": [
+      20
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32109-4.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "641": {
+   "name": "Attack Sailren!",
+   "listText": [
+    "[Sailren's Charge!]",
+    "[Sailren's Charge! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00641_AttackSailren/32109-0.htm",
+     "when": "state CREATED; level < 77",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00641_AttackSailren/32109-0a.htm",
+     "when": "state CREATED; NOT level < 77; (player.hasQuestCompleted(Q00126_TheNameOfEvil2.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00641_AttackSailren/32109-0b.htm",
+     "when": "state CREATED; NOT level < 77; NOT (player.hasQuestCompleted(Q00126_TheNameOfEvil2.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00641_AttackSailren/32109-1a.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00641_AttackSailren/32109-2.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-1a.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-1a.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: The purpose of this stone statue is not fully known, but it appears to be some sort of seal stone that has a powerful control power. Without further information, you must pass it by for now.",
+   "header": "Shilen's Stone Statue",
+   "when": [
+    "state STARTED; cond 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32109-1.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-1.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: I am the seal stone, the gatekeeper set to watch over Sailren. I am also an avatar of Shilen, who was the mother of this island and the first daughter of Einhasad and Gran Kain. I ask you, you who are imbued with the spirit of an Elrokian warrior, who you are and why you are …",
+   "header": "Shilen's Stone Statue",
+   "when": [
+    "state STARTED; cond 18"
+   ],
+   "links": [
+    {
+     "text": "Tell it about your experience at the warrior's grave and your purpose for coming here.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2.html",
+     "effect": "cond:19"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2l.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2l.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: (You tell him about your experience at the warrior's grave.) Oh, is that right? I have sensed the energy emmitted by Sailren had become stronger these later days and wondered if this ancient evil was simply waiting for its chance to strike. Sadly, the seal stones can no longe…",
+   "header": "Shilen's Stone Statue",
+   "when": [
+    "state STARTED; cond 19"
+   ],
+   "links": [
+    {
+     "text": "\"Is it true that I can defeat Sailren if I can wield Gazkh?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-5.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-5.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: There is already a brave Elrokian warrior's spirit within you! In Shilen's stead, I now command you, faithful warrior, to search for Gazkh with all your might. Returh to the Elrokian village; someone there will aid you in your search.",
+   "header": "Shilen's Stone Statue",
+   "when": [
+    "state STARTED; cond 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32109-4.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-4.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: Haven't you already taken the Warrior's Oath and become a true Elrokian warrior? If you are here with Gazkh to fight against Sailren, then go back. Though you may have learned to wield Gazkh, you are still unprepared to defeat Sailren in combat.",
+   "header": "Shilen's Stone Statue",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00641_AttackSailren/32109-0.htm": {
+   "file": "Q00641_AttackSailren/32109-0.htm",
+   "quest": 641,
+   "text": "Shilen's Stone Statue: I am Shilen's avatar. Shilen commanded me to watch over this island and protect it from evil beings. The duty is growing increasingly difficult. But I have prayed to Shilen and she has decreed that she would send a warrior who can defeat the threat we face. Are you the one? N…",
+   "header": "Shilen's Stone Statue",
+   "when": [
+    "state CREATED; level < 77"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00641_AttackSailren/32109-0a.htm": {
+   "file": "Q00641_AttackSailren/32109-0a.htm",
+   "quest": 641,
+   "text": "Shilen's Stone Statue: You are the one with the Elrokian warrior's spirit! Did you discover the whereabouts of Gazkh's fragments?",
+   "header": "Shilen's Stone Statue",
+   "when": [
+    "state CREATED; NOT level < 77; (player.hasQuestCompleted(Q00126_TheNameOfEvil2.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "Tell the statue about decrypting the password that Asamah talked about.",
+     "bypass": "Quest Q00641_AttackSailren 32109-0c.htm",
+     "kind": "quest-event",
+     "script": "Q00641_AttackSailren",
+     "event": "32109-0c.htm",
+     "quest": 641,
+     "to": "Q00641_AttackSailren/32109-0c.htm"
+    }
+   ]
+  },
+  "Q00641_AttackSailren/32109-0b.htm": {
+   "file": "Q00641_AttackSailren/32109-0b.htm",
+   "quest": 641,
+   "text": "Shilen's Stone Statue: Infidel! To even touch sacred Shilen's statue, much less seek to awaken Shilen's avatar! For this insult, you deserve eternal punishment! But I see that you are an ignorant fool, so I will forgive your error. Now begone!",
+   "header": "Shilen's Stone Statue",
+   "when": [
+    "state CREATED; NOT level < 77; NOT (player.hasQuestCompleted(Q00126_TheNameOfEvil2.class.getSimpleName()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00641_AttackSailren/32109-1a.html": {
+   "file": "Q00641_AttackSailren/32109-1a.html",
+   "quest": 641,
+   "text": "Shilen's Stone Statue: As I told you before, I need more than 30 Gazkh fragments in order to restore this powerful weapon back to its original form... Hunt Velociraptor and Pterosaur in this area and bring back more than 30 fragments.",
+   "header": "Shilen's Stone Statue",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00641_AttackSailren/32109-2.html": {
+   "file": "Q00641_AttackSailren/32109-2.html",
+   "quest": 641,
+   "text": "Shilen's Stone Statue: You have brought all the Gazkh fragments! Shilen be praised! The power of the seal stones to guard that dangerous Sailren will be increased now that an Elrokian warrior again wields Gazkh. You are indeed the chosen of Shilen! The task is now yours. Are you ready to face the m…",
+   "header": "Shilen's Stone Statue",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00641_AttackSailren 32109-2a.html",
+     "kind": "quest-event",
+     "script": "Q00641_AttackSailren",
+     "event": "32109-2a.html",
+     "quest": 641,
+     "to": "Q00641_AttackSailren/32109-2a.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: Oh, is that right? I have sensed the energy emmitted by Sailren had become stronger these later days and wondered if this ancient evil was simply waiting for its chance to strike. Sadly, the seal stones can no longer completely hold him. I have prayed to Shilen to show me a s…",
+   "header": "Shilen's Stone Statue",
+   "sets": {
+    "cond": "19"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Is it true that I can defeat Sailren if I can wield Gazkh?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2a.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2a.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2a.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: Yes, it is true. There will be great danger, but if you face Sailren while wielding Gazkh, you will weaken the creature's power. Then we stone statues may gather all our power and seal him again in his prison. But to wield Gazkh, you must take the Warrior's Oath, which can be…",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2b.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2b.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2b.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: The eldest daughter of Einhasad and Gran Kain is inquiring about you. You stem from the Lizardman race, but you are now a part of the Elroki tribe that was born from the energy of water and prospered under the protection of the water goddess Shilen. Is this true?",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Say yes",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2c.html"
+    },
+    {
+     "text": "Say honestly that you are not a native Elrokian.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2d.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2d.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2d.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2c.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2c.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: Elrokian warrior! You have proven your courage and loyalty by passing all the trials I gave you. Receive, therefore, the ax created from the sacred water, Gazkh. And know that from this time on you are sworn to follow my commands, the chief of which is to fight until your las…",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Next.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2e.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2d.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2d.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: Fool! In the past, Shilen required her Elrokian warriors to take a sacred oath. Only then did she grant them the ability to wield Gazkh. In Shilen's stead, you must swear the oath to me. If you refuse, you will never be able to wield Gazkh. Consider carefully! Do you wish to …",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "\"I would like to continue.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2e.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2e.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2e.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: Disobey and you will have dishonored yourself, your family and your people before the gods themselves, who will punish you in their anger. Chosen Elrokian warrior! Swear this oath before my mother Einhasad and my father Gran Kain, an oath you will keep while there is breath i…",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Swear the oath.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2f.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2f.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2f.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2f.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2f.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: Now the spirit of this Elrokian warrior and your body have become one. I bestow upon you the right to wield Gazkh on Shilen's behalf. Swear your loyalty to Shilen!",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Swear loyalty.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2g.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2g.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2g.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2g.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2g.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: Righteous Elrokian warrior! I accept your oath on behalf of Shilen. You are reborn as a true Elrokian warrior, protected by Shilen and given power over the dinosaurs.",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "\"The oath mentioned that I would wield Gazkh. Where is Gazkh?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2h.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2h.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2h.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2h.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2h.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: Ah... Actually, I am simply binding you to the oath on Shilen's behalf... She and she alone can give you Gazkh. You undoubtedly know that Shilen suffered unspeakable tragedy after the seal of Sailren. The poor goddess was abandoned by her parents and brothers and sisters, shu…",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "\"I would like to know more about the background.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2i.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2i.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2i.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2i.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2i.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: Do I speak recklessly? Shilen cannot bestow Gazkh on you now, and it is impossible to find an intact ax. But if you are truly so willing to wield Gazkh and go into Sailren's nest, there should be a way.",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Ask what kind of way that is.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2j.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2j.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2j.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2j.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2j.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: I cannot give you Gazkh, but if you gather up the fragments of Gazkh and bring them to me, I can reform the axhead and restore the weapon to its former power. You must find the fragments; return to the person who gave you this task and ask him for some clue.",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "\"Then would I be qualified to handle Gazkh?\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-2k.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-2k.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-2k.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-2k.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-2k.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: There is one more ritual. Give me the ashes and you will be reborn as a true Elrokian warrior under Shilen's protection.",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Hand over the ashes.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32109-3.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32109-3.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-3.html",
+     "effect": "cond:20"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32109-3.html": {
+   "file": "Q00126_TheNameOfEvil2/32109-3.html",
+   "quest": 126,
+   "text": "Shilen's Stone Statue: I have allowed the ancient Elrokian warrior's spirit to enter your body. Now you are a master of Gazkh! As long as the Elrokian spirit is within you, the Gazkh will serve you. Remember, your loyalty is now to Shilen and Shilen alone! In her stead, I command you, faithful warr…",
+   "header": "Shilen's Stone Statue",
+   "sets": {
+    "cond": "20"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00641_AttackSailren/32109-0c.htm": {
+   "file": "Q00641_AttackSailren/32109-0c.htm",
+   "quest": 641,
+   "text": "Shilen's Stone Statue: Ah? So, the dinosaurs themselves contain some fragments of Gazkh? I suppose that it is possible...if the ax was broken and the fragments were scattered by the force Shilen used to seal Sailren. The predator dinosaurs here have skin harder than iron -- I doubt they would ever …",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00641_AttackSailren 32109-1.html",
+     "kind": "quest-event",
+     "script": "Q00641_AttackSailren",
+     "event": "32109-1.html",
+     "quest": 641,
+     "to": "Q00641_AttackSailren/32109-1.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00641_AttackSailren/32109-1.html": {
+   "file": "Q00641_AttackSailren/32109-1.html",
+   "quest": 641,
+   "text": "Shilen's Stone Statue: Very well. Yes, you are truly the one sent by mother Shilen... Listen carefully as I tell you about the dinosaurs that may contain Gazkh fragments. You will encounter predatory dinosaurs such as Velociraptor and Pterosaur . They are not as strong as Sailren, but vicious never…",
+   "header": "Shilen's Stone Statue",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00641_AttackSailren/32109-2a.html": {
+   "file": "Q00641_AttackSailren/32109-2a.html",
+   "quest": 641,
+   "text": "Shilen's Stone Statue: Very well. By the power of Shilen, Gazkh has been restored. It possesses the powers that can defeat Sailren. You are now the true master of Gazkh. Shilen has decreed that the one who can wield Gazkh can defeat Sailren. Go now and defeat that evil dinosaur! Save this island an…",
+   "header": "Shilen's Stone Statue",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "ai/individual/Sailren/32109-01.html": {
+   "file": "ai/individual/Sailren/32109-01.html",
+   "quest": null,
+   "text": "Shilen's Stone Statue: Wait.. It doesn't seem as though you are the one destined for the front lines in this battle. I was supposed to open a passage to Sailren's lair only to the leader of one party. If you wish to teleport, bring your party leader to me or return here as a party leader.",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Prep for battle.",
+     "bypass": "npc_%objectId%_Quest Sailren 32109-01a.html",
+     "kind": "quest-event",
+     "script": "Sailren",
+     "event": "32109-01a.html",
+     "to": "ai/individual/Sailren/32109-01a.html"
+    }
+   ]
+  },
+  "ai/individual/Sailren/32109-01a.html": {
+   "file": "ai/individual/Sailren/32109-01a.html",
+   "quest": null,
+   "text": "Shilen's Stone Statue: You know that in the past, Mother Shilen paid a great sacrifice to lock Sailren here. Afterward, she created a stone likeness of herself and bestowed upon it the power to seal, making it a guardian of this place to ensure that Sailren remained imprisoned. I am that stone stat…",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Listen to the conditions to enter in detail.",
+     "bypass": "npc_%objectId%_Quest Sailren 32109-02a.html",
+     "kind": "quest-event",
+     "script": "Sailren",
+     "event": "32109-02a.html",
+     "to": "ai/individual/Sailren/32109-02a.html"
+    }
+   ]
+  },
+  "ai/individual/Sailren/32109-02.html": {
+   "file": "ai/individual/Sailren/32109-02.html",
+   "quest": null,
+   "text": "Shilen's Stone Statue: You have the heart to fight Sailren, of that there can be no doubt. But if you do not have Gazkh given to you by Shilen, Sailren will certainly kill you. If you want to teleport within, complete my quest and obtain Gazkh.",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Prep for battle.",
+     "bypass": "npc_%objectId%_Quest Sailren 32109-01a.html",
+     "kind": "quest-event",
+     "script": "Sailren",
+     "event": "32109-01a.html",
+     "to": "ai/individual/Sailren/32109-01a.html"
+    }
+   ]
+  },
+  "ai/individual/Sailren/32109-02a.html": {
+   "file": "ai/individual/Sailren/32109-02a.html",
+   "quest": null,
+   "text": "Shilen's Stone Statue: Only a party whose leader weilds Gazkh can enter Sailren's Stronghold and battle the creature. Be aware that any party member who is far away at the time of entry cannot enter the Stronghold. Nor can another party enter until the first party has exited.",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Learn more about Sailren's power and how to fight it.",
+     "bypass": "npc_%objectId%_Quest Sailren 32109-03a.html",
+     "kind": "quest-event",
+     "script": "Sailren",
+     "event": "32109-03a.html",
+     "to": "ai/individual/Sailren/32109-03a.html"
+    }
+   ]
+  },
+  "ai/individual/Sailren/32109-03.html": {
+   "file": "ai/individual/Sailren/32109-03.html",
+   "quest": null,
+   "text": "Shilen's Stone Statue: Shilen's protection is not with you -- go away! You are not qualified to fight against Sailren... If you want to enter Sailren's nest, then you should find a party leader who can fight against Sailren and join his party. Or you can complete my quest to become a party leader, …",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Listen to the entry requirements and battle method.",
+     "bypass": "npc_%objectId%_Quest Sailren 32109-01a.html",
+     "kind": "quest-event",
+     "script": "Sailren",
+     "event": "32109-01a.html",
+     "to": "ai/individual/Sailren/32109-01a.html"
+    }
+   ]
+  },
+  "ai/individual/Sailren/32109-03a.html": {
+   "file": "ai/individual/Sailren/32109-03a.html",
+   "quest": null,
+   "text": "Shilen's Stone Statue: There are not many of them, but Sailren is protected by its dinosaur followers. Combined with my enchantment and the power of the other statues, we are restraining Sailren and its followers from escaping. But as they begin to break free of our control, their power and magic a…",
+   "header": "Shilen's Stone Statue",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/individual/Sailren/32109-04.html": {
+   "file": "ai/individual/Sailren/32109-04.html",
+   "quest": null,
+   "text": "Shilen's Stone Statue: Currently the magic power of Sailren and its followers is very strong. I do not think you can win solely with your own power, especially given how weak the seal stones have become. My counsel is that you first recover the power to seal and wait 'til Sailren's strength lessens…",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Prep for battle.",
+     "bypass": "npc_%objectId%_Quest Sailren 32109-01a.html",
+     "kind": "quest-event",
+     "script": "Sailren",
+     "event": "32109-01a.html",
+     "to": "ai/individual/Sailren/32109-01a.html"
+    }
+   ]
+  },
+  "ai/individual/Sailren/32109-05.html": {
+   "file": "ai/individual/Sailren/32109-05.html",
+   "quest": null,
+   "text": "Shilen's Stone Statue: There is another brave party fighting against Sailren right now, so I cannot teleport you into the nest. When they return, I will teleport you.",
+   "header": "Shilen's Stone Statue",
+   "links": [
+    {
+     "text": "Prep for battle.",
+     "bypass": "npc_%objectId%_Quest Sailren 32109-01a.html",
+     "kind": "quest-event",
+     "script": "Sailren",
+     "event": "32109-01a.html",
+     "to": "ai/individual/Sailren/32109-01a.html"
+    }
+   ]
+  },
+  "ai/individual/Sailren/32109.html": {
+   "file": "ai/individual/Sailren/32109.html",
+   "quest": null,
+   "text": "Stone Statue of Shilen: (The statue is worn in places by wind and rain -- proof that it has stood guard here a long, long time. Despite its weatherbeaten appearance, it feels somehow dignified and majestic. Standing before it, you sense a presence.) You, outsider... Why have you come here to this s…",
+   "header": "Stone Statue of Shilen",
+   "links": [
+    {
+     "text": "Prep for battle.",
+     "bypass": "npc_%objectId%_Quest Sailren 32109-01.html",
+     "kind": "quest-event",
+     "script": "Sailren",
+     "event": "32109-01.html",
+     "to": "ai/individual/Sailren/32109-01.html"
+    },
+    {
+     "text": "\"I wish to participate in clearing out Sailren and its followers.\"",
+     "bypass": "npc_%objectId%_Quest Sailren enter",
+     "kind": "quest-event",
+     "script": "Sailren",
+     "event": "enter",
+     "to": "ai/individual/Sailren/32109-01.html",
+     "toAll": [
+      "ai/individual/Sailren/32109-01.html",
+      "ai/individual/Sailren/32109-04.html",
+      "ai/individual/Sailren/32109-05.html",
+      "ai/individual/Sailren/32109-03.html",
+      "ai/individual/Sailren/32109-02.html"
+     ]
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[The Name of Evil 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00126_TheNameOfEvil2",
+     "kind": "quest",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32109-1a.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Sailren's Charge!]",
+     "bypass": "npc_%objectId%_Quest Q00641_AttackSailren",
+     "kind": "quest",
+     "quest": 641,
+     "to": "Q00641_AttackSailren/32109-0a.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Sailren's Charge! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00641_AttackSailren",
+     "kind": "quest",
+     "quest": 641,
+     "to": "Q00641_AttackSailren/32109-1a.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

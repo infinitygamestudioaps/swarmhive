@@ -2,7 +2,7 @@
  "id": 143,
  "name": "Fallen Angel - Request of Dusk",
  "version": 1,
- "generated": "2026-10-27T11:15:12.994Z",
+ "generated": "2026-10-27T18:18:48.692Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": null,
@@ -24,17 +24,17 @@
    "text": "no start NPC registered"
   },
   {
-   "code": "npc-quest-spawned",
-   "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
-   "step": 1
-  },
-  {
    "code": "aggro-on-way",
    "text": "aggressive monsters 6+ levels above the quest level touch the route",
-   "step": 2
+   "step": 3
+  },
+  {
+   "code": "npc-quest-spawned",
+   "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
+   "step": 4
   }
  ],
- "expectedMin": 7,
+ "expectedMin": 8,
  "refLevel": 1,
  "steps": [
   {
@@ -166,42 +166,274 @@
   },
   {
    "i": 1,
-   "key": "c1:talk:32369",
+   "key": "c1:talk:30894",
    "cond": 1,
    "kind": "talk",
-   "to": 5,
+   "to": 2,
    "links": [
-    "\"What you say is amazing... You mean that Gran Kain is the god who created Humans, and Shilen is only a victim?\""
+    "How do I find the location of the angel? What do I do to obtain its message?\""
    ],
    "npc": {
-    "id": 32369,
-    "name": "Fallen Angel",
-    "title": "",
-    "town": "",
-    "at": null,
-    "alt": [],
-    "why": "npc-quest-spawned"
+    "id": 30894,
+    "name": "Natools",
+    "title": "Warehouse Chief",
+    "town": "Heine",
+    "at": [
+     109627,
+     220168,
+     -3520
+    ],
+    "alt": []
    },
-   "text": "Talk to Fallen Angel",
-   "reasons": [
-    "npc-quest-spawned"
-   ],
-   "expectedSec": 25,
+   "text": "Talk to Natools",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30894@109627,220168",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2463,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2463,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109912,
+      219576,
+      -3472
+     ],
+     [
+      109864,
+      219800,
+      -3472
+     ],
+     [
+      109848,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220168,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 66,
    "engine": {
     "act": "talk",
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4
+    1
    ]
   },
   {
    "i": 2,
-   "key": "c1:talk:30612",
-   "cond": 1,
+   "key": "c2:talk:30297",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "Receive the Prophecy."
+   ],
+   "npc": {
+    "id": 30297,
+    "name": "Tobias",
+    "title": "Grand Master",
+    "town": "Gludio",
+    "at": [
+     -12892,
+     123143,
+     -3102
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tobias",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30297@-12892,123143",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2004,
+    "sec": 37,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 2004,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12728,
+      122728,
+      -3112
+     ],
+     [
+      -12456,
+      122744,
+      -3104
+     ],
+     [
+      -12248,
+      122920,
+      -3096
+     ],
+     [
+      -12248,
+      123192,
+      -3096
+     ],
+     [
+      -12312,
+      123416,
+      -3096
+     ],
+     [
+      -12472,
+      123416,
+      -3104
+     ],
+     [
+      -12648,
+      123464,
+      -3112
+     ],
+     [
+      -12712,
+      123288,
+      -3096
+     ],
+     [
+      -12728,
+      123192,
+      -3096
+     ],
+     [
+      -12888,
+      123144,
+      -3096
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 62,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:30612",
+   "cond": 3,
    "kind": "talk",
    "to": 4,
    "links": [
@@ -425,21 +657,47 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    5
+    3
    ]
   },
   {
-   "i": 3,
-   "key": "c1:talk:30297",
-   "cond": 1,
+   "i": 4,
+   "key": "c4:talk:32369",
+   "cond": 4,
    "kind": "talk",
-   "to": 3,
+   "to": 5,
    "links": [
-    "Receive the Prophecy."
+    "\"What you say is amazing... You mean that Gran Kain is the god who created Humans, and Shilen is only a victim?\""
    ],
+   "npc": {
+    "id": 32369,
+    "name": "Fallen Angel",
+    "title": "",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-quest-spawned"
+   },
+   "text": "Talk to Fallen Angel",
+   "reasons": [
+    "npc-quest-spawned"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:30297",
+   "cond": 5,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
    "npc": {
     "id": 30297,
     "name": "Tobias",
@@ -561,145 +819,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    4,
-    5
-   ]
-  },
-  {
-   "i": 4,
-   "key": "c1:talk:30894",
-   "cond": 1,
-   "kind": "talk",
-   "to": 2,
-   "links": [
-    "How do I find the location of the angel? What do I do to obtain its message?\""
-   ],
-   "npc": {
-    "id": 30894,
-    "name": "Natools",
-    "title": "Warehouse Chief",
-    "town": "Heine",
-    "at": [
-     109627,
-     220168,
-     -3520
-    ],
-    "alt": []
-   },
-   "text": "Talk to Natools",
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30894@109627,220168",
-    "status": "ok",
-    "flags": [],
-    "from": ".heine",
-    "length": 2463,
-    "sec": 41,
-    "via": ".heine",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Heine",
-      "cmd": ".heine"
-     },
-     {
-      "do": "walk",
-      "len": 2463,
-      "how": "town-graph",
-      "danger": 0
-     }
-    ],
-    "start": {
-     "kind": "town",
-     "town": "Heine"
-    },
-    "simple": true,
-    "pv": [
-     [
-      111381,
-      218981,
-      -3544
-     ],
-     [
-      111384,
-      218968,
-      -3536
-     ],
-     [
-      111112,
-      219032,
-      -3536
-     ],
-     [
-      110856,
-      219096,
-      -3536
-     ],
-     [
-      110584,
-      219096,
-      -3536
-     ],
-     [
-      110312,
-      219096,
-      -3496
-     ],
-     [
-      110088,
-      219240,
-      -3472
-     ],
-     [
-      110040,
-      219448,
-      -3472
-     ],
-     [
-      109912,
-      219576,
-      -3472
-     ],
-     [
-      109864,
-      219800,
-      -3472
-     ],
-     [
-      109848,
-      220072,
-      -3512
-     ],
-     [
-      109672,
-      220168,
-      -3512
-     ]
-    ],
-    "maxDanger": 0,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 0,
-     "dangerVsLevel": 0,
-     "aggro": []
-    }
-   },
-   "expectedSec": 66,
-   "engine": {
-    "act": "talk",
-    "hasItems": "talk"
-   },
-   "conds": [
-    1,
-    3,
-    4,
     5
    ]
   }

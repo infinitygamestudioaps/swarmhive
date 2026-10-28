@@ -1,0 +1,837 @@
+{
+ "npcId": 32864,
+ "name": "Separated Soul",
+ "title": "",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.417Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00456_DontKnowDontCare/32864-02.html",
+   "when": "((qs == null) || !qs.isCond(1) || (allowedPlayers == null) || !allowedPlayers.contains(player.getObjectId()))",
+   "src": "quest 456"
+  },
+  {
+   "page": "Q00456_DontKnowDontCare/32864-03.html",
+   "when": "",
+   "src": "quest 456"
+  }
+ ],
+ "quests": {
+  "455": {
+   "name": "Wings of Sand",
+   "listText": [
+    "[Wings of Sand]",
+    "[Wings of Sand (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00455_WingsOfSand/32864-01.htm",
+     "when": "state CREATED; level >= 80",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00455_WingsOfSand/32864-06.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00455_WingsOfSand/32864-07.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00455_WingsOfSand/32864-07.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00455_WingsOfSand/32864-08.html",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00455_WingsOfSand/32864-01.htm",
+     "when": "state COMPLETED; level >= 80; st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "456": {
+   "name": "Don't Know, Don't Care",
+   "listText": [
+    "[Don't Know, Don't Care]",
+    "[Don't Know, Don't Care (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00456_DontKnowDontCare/32864-02.html",
+     "when": "state COMPLETED; !qs.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00456_DontKnowDontCare/32864-01.htm",
+     "when": "state COMPLETED|CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00456_DontKnowDontCare/32864-03.html",
+     "when": "state COMPLETED|CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "COMPLETED|CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00456_DontKnowDontCare/32864-09.html",
+     "when": "state STARTED; cond 1; hasAtLeastOneQuestItem(player, getRegisteredItemIds())",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00456_DontKnowDontCare/32864-08.html",
+     "when": "state STARTED; cond 1; NOT hasAtLeastOneQuestItem(player, getRegisteredItemIds())",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00456_DontKnowDontCare/32864-10.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "905": {
+   "name": "Refined Dragon Blood",
+   "listText": [
+    "[Refined Dragon Blood]",
+    "[Refined Dragon Blood (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00905_RefinedDragonBlood/32864-02.html",
+     "when": "state CREATED; (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00905_RefinedDragonBlood/32864-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00905_RefinedDragonBlood/32864-06.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00905_RefinedDragonBlood/32864-07.html",
+     "when": "state STARTED; cond 2; !st.isSet(\"wait\")",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00905_RefinedDragonBlood/32864-08.html",
+     "when": "state STARTED; cond 2; st.isSet(\"wait\")",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00905_RefinedDragonBlood/32864-03.html",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00905_RefinedDragonBlood/32864-02.html",
+     "when": "state COMPLETED; st.isNowAvailable(); (player.getLevel() < MIN_LEVEL)",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00905_RefinedDragonBlood/32864-01.htm",
+     "when": "state COMPLETED; st.isNowAvailable(); NOT (player.getLevel() < MIN_LEVEL)",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "Q00456_DontKnowDontCare/32864-02.html": {
+   "file": "Q00456_DontKnowDontCare/32864-02.html",
+   "quest": 456,
+   "text": "Separated Soul: Thanks. (This quest can be completed once a day. This quest resets everyday at 6:30 am.)",
+   "header": "Separated Soul",
+   "when": [
+    "state COMPLETED; !qs.isNowAvailable()",
+    "((qs == null) || !qs.isCond(1) || (allowedPlayers == null) || !allowedPlayers.contains(player.getObjectId()))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00456_DontKnowDontCare/32864-03.html": {
+   "file": "Q00456_DontKnowDontCare/32864-03.html",
+   "quest": 456,
+   "text": "Separated Soul: I suppose you wish to be a ripped soul like me, hmm? (Must be above level 80 to do this quest)",
+   "header": "Separated Soul",
+   "when": [
+    "state COMPLETED|CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+    "always"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00455_WingsOfSand/32864-01.htm": {
+   "file": "Q00455_WingsOfSand/32864-01.htm",
+   "quest": 455,
+   "text": "Separated Soul: Aren't you the one that's always in the Dragon Valley? ... Or is this is the first time I've seen you? Ever since my soul has been ripped apart, my memories have become so vague. Anyhow, I have something to ask you, so could you lend me your ears?",
+   "header": "Separated Soul",
+   "when": [
+    "state CREATED; level >= 80",
+    "state COMPLETED; level >= 80; st.isNowAvailable()"
+   ],
+   "links": [
+    {
+     "text": "Listen to its tale.",
+     "bypass": "Quest Q00455_WingsOfSand 32864-02.htm",
+     "kind": "quest-event",
+     "script": "Q00455_WingsOfSand",
+     "event": "32864-02.htm",
+     "quest": 455,
+     "to": "Q00455_WingsOfSand/32864-02.htm"
+    }
+   ]
+  },
+  "Q00455_WingsOfSand/32864-06.html": {
+   "file": "Q00455_WingsOfSand/32864-06.html",
+   "quest": 455,
+   "text": "Separated Soul: Go on then. Kill Emerald Horns, Dust Riders, Bleeding Flies, Black Dagger Wings, Shadow Summoners, Spike Slashers, and Muscle Bombers . You can bring back the Large Dragon Tooth . One is good, two is better.",
+   "header": "Separated Soul",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00455_WingsOfSand/32864-07.html": {
+   "file": "Q00455_WingsOfSand/32864-07.html",
+   "quest": 455,
+   "text": "Separated Soul: Yes take this. Thank you. I hope this weakens the army of Antharas and the day would come to avenge me someday...",
+   "header": "Separated Soul",
+   "when": [
+    "state STARTED; cond 2",
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00455_WingsOfSand/32864-08.html": {
+   "file": "Q00455_WingsOfSand/32864-08.html",
+   "quest": 455,
+   "text": "Separated Soul: I barely remember anything, but I DO remember that you're the one who did me a favor. Thank you! (You can only do this quest once a day. This quest resets everyday at 6:30 am.)",
+   "header": "Separated Soul",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00456_DontKnowDontCare/32864-01.htm": {
+   "file": "Q00456_DontKnowDontCare/32864-01.htm",
+   "quest": 456,
+   "text": "Separated Soul: Anyhow, do you know me? Do you know my name? No... you probably dont... That's what everyone says... You're no different.",
+   "header": "Separated Soul",
+   "when": [
+    "state COMPLETED|CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00456_DontKnowDontCare 32864-04.htm",
+     "kind": "quest-event",
+     "script": "Q00456_DontKnowDontCare",
+     "event": "32864-04.htm",
+     "quest": 456,
+     "to": "Q00456_DontKnowDontCare/32864-04.htm"
+    }
+   ]
+  },
+  "Q00456_DontKnowDontCare/32864-09.html": {
+   "file": "Q00456_DontKnowDontCare/32864-09.html",
+   "quest": 456,
+   "text": "Separated Soul: Have you gathered all three essences... No... No... Remember, I need the Essence of Drake Lord ... the Behemoth Leader's Essence ... and... the Dragon Beast's Essence ...",
+   "header": "Separated Soul",
+   "when": [
+    "state STARTED; cond 1; hasAtLeastOneQuestItem(player, getRegisteredItemIds())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00456_DontKnowDontCare/32864-08.html": {
+   "file": "Q00456_DontKnowDontCare/32864-08.html",
+   "quest": 456,
+   "text": "Separated Soul: As a soul, all I have is time. I'll tell you everything. Kill them and take the Essense of Drake Lord from its corpse... the Behemoth Leader's Essence ... And... the Dragon Beast's Essence ... collect them. I will gather my last bit of hatred to cheer you on! Except you will need ma…",
+   "header": "Separated Soul",
+   "when": [
+    "state STARTED; cond 1; NOT hasAtLeastOneQuestItem(player, getRegisteredItemIds())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00456_DontKnowDontCare/32864-10.html": {
+   "file": "Q00456_DontKnowDontCare/32864-10.html",
+   "quest": 456,
+   "text": "Separated Soul: Have you gathered all three essences? Okay, the Essence of Drake Lord ... the Behemoth Leader's Essence ... And the... Dragon Beast's Essence !!! You did it!",
+   "header": "Separated Soul",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00905_RefinedDragonBlood/32864-02.html": {
+   "file": "Q00905_RefinedDragonBlood/32864-02.html",
+   "quest": 905,
+   "text": "Separated Soul: I suppose you wish to be ripped off soul like me. If not, forget what I said. (Must be above level 83 to do this quest)",
+   "header": "Separated Soul",
+   "when": [
+    "state CREATED; (player.getLevel() < MIN_LEVEL)",
+    "state COMPLETED; st.isNowAvailable(); (player.getLevel() < MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00905_RefinedDragonBlood/32864-01.htm": {
+   "file": "Q00905_RefinedDragonBlood/32864-01.htm",
+   "quest": 905,
+   "text": "Separated Soul: Well now. Do you know about the dragons that appear in Antharas's Lair ?",
+   "header": "Separated Soul",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < MIN_LEVEL)",
+    "state COMPLETED; st.isNowAvailable(); NOT (player.getLevel() < MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"Well... Not really.\"",
+     "bypass": "Quest Q00905_RefinedDragonBlood 32864-04.htm",
+     "kind": "quest-event",
+     "script": "Q00905_RefinedDragonBlood",
+     "event": "32864-04.htm",
+     "quest": 905,
+     "to": "Q00905_RefinedDragonBlood/32864-04.htm"
+    }
+   ]
+  },
+  "Q00905_RefinedDragonBlood/32864-06.html": {
+   "file": "Q00905_RefinedDragonBlood/32864-06.html",
+   "quest": 905,
+   "text": "Separated Soul: In order to conduct the refining, you must bring back 10 Red Liquids and 10 Blue Liquids.",
+   "header": "Separated Soul",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00905_RefinedDragonBlood/32864-07.html": {
+   "file": "Q00905_RefinedDragonBlood/32864-07.html",
+   "quest": 905,
+   "text": "Separated Soul: You have collected the required refining amount. It takes a little time for the refining, so come back later.",
+   "header": "Separated Soul",
+   "when": [
+    "state STARTED; cond 2; !st.isSet(\"wait\")"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00905_RefinedDragonBlood/32864-08.html": {
+   "file": "Q00905_RefinedDragonBlood/32864-08.html",
+   "quest": 905,
+   "text": "Separated Soul: Two types of refined dragon bloods were made because of the different refining rates. Which will you take?",
+   "header": "Separated Soul",
+   "when": [
+    "state STARTED; cond 2; st.isSet(\"wait\")"
+   ],
+   "links": [
+    {
+     "text": "Refined Red Dragon Blood",
+     "bypass": "Quest Q00905_RefinedDragonBlood 32864-09.html",
+     "kind": "quest-event",
+     "script": "Q00905_RefinedDragonBlood",
+     "event": "32864-09.html",
+     "quest": 905,
+     "to": "Q00905_RefinedDragonBlood/32864-09.html"
+    },
+    {
+     "text": "Refined Blue Dragon Blood",
+     "bypass": "Quest Q00905_RefinedDragonBlood 32864-10.html",
+     "kind": "quest-event",
+     "script": "Q00905_RefinedDragonBlood",
+     "event": "32864-10.html",
+     "quest": 905,
+     "to": "Q00905_RefinedDragonBlood/32864-10.html"
+    }
+   ]
+  },
+  "Q00905_RefinedDragonBlood/32864-03.html": {
+   "file": "Q00905_RefinedDragonBlood/32864-03.html",
+   "quest": 905,
+   "text": "Separated Soul: Bring me more of the red and blue liquids. (This quest can be done once a day. This quest gets initialized everyday at 6:30 am.)",
+   "header": "Separated Soul",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00455_WingsOfSand/32864-02.htm": {
+   "file": "Q00455_WingsOfSand/32864-02.htm",
+   "quest": 455,
+   "text": "Separated Soul: Looking at you all running around here! You must be confident, but don't you want to help me get my revenge? I'm asking if you can kill the Land Dragon Antharas.",
+   "header": "Separated Soul",
+   "links": [
+    {
+     "text": "\"Land Dragon Antharas?\"",
+     "bypass": "Quest Q00455_WingsOfSand 32864-03.htm",
+     "kind": "quest-event",
+     "script": "Q00455_WingsOfSand",
+     "event": "32864-03.htm",
+     "quest": 455,
+     "to": "Q00455_WingsOfSand/32864-03.htm"
+    }
+   ]
+  },
+  "Q00455_WingsOfSand/32864-03.htm": {
+   "file": "Q00455_WingsOfSand/32864-03.htm",
+   "quest": 455,
+   "text": "Separated Soul: Scared? Come now, I'd be embarassed if I was that easily shocked. You really can't kill that Land Dragon?",
+   "header": "Separated Soul",
+   "links": [
+    {
+     "text": "\"Not alone!\"",
+     "bypass": "Quest Q00455_WingsOfSand 32864-04.htm",
+     "kind": "quest-event",
+     "script": "Q00455_WingsOfSand",
+     "event": "32864-04.htm",
+     "quest": 455,
+     "to": "Q00455_WingsOfSand/32864-04.htm"
+    }
+   ]
+  },
+  "Q00455_WingsOfSand/32864-04.htm": {
+   "file": "Q00455_WingsOfSand/32864-04.htm",
+   "quest": 455,
+   "text": "Separated Soul: True, you have a point. How about this kind of favor? Gather up companions and as a revenge, kill his servants for me. Kill the cursed creatures called the Wings of Sand . Wouldn't Antharas be weakened if he loses servants? Maybe I can get my revenge some day...",
+   "header": "Separated Soul",
+   "links": [
+    {
+     "text": "\"Sure. Worth a go.\"",
+     "bypass": "Quest Q00455_WingsOfSand 32864-05.htm",
+     "kind": "quest-event",
+     "script": "Q00455_WingsOfSand",
+     "event": "32864-05.htm",
+     "quest": 455,
+     "to": "Q00455_WingsOfSand/32864-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00455_WingsOfSand/32864-05.htm": {
+   "file": "Q00455_WingsOfSand/32864-05.htm",
+   "quest": 455,
+   "text": "Separated Soul: Go on then. Kill Emerald Horns, Dust Riders, Bleeding Flies, Black Dagger Wings, Shadow Summoners, Spike Slashers, and Muscle Bombers . You can bring back the Large Dragon Tooth . One is good, two is better. I will reward you, now go show me your skills.",
+   "header": "Separated Soul",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00456_DontKnowDontCare/32864-04.htm": {
+   "file": "Q00456_DontKnowDontCare/32864-04.htm",
+   "quest": 456,
+   "text": "Separated Soul: After taking a blow from Antharas, I ended up here like this. But, even more painful than death was my name... I cannot remember my name. That's when I started asking people that came through... if they knew... my name .",
+   "header": "Separated Soul",
+   "links": [
+    {
+     "text": "\"Did you find out?\"",
+     "bypass": "Quest Q00456_DontKnowDontCare 32864-05.htm",
+     "kind": "quest-event",
+     "script": "Q00456_DontKnowDontCare",
+     "event": "32864-05.htm",
+     "quest": 456,
+     "to": "Q00456_DontKnowDontCare/32864-05.htm"
+    }
+   ]
+  },
+  "Q00456_DontKnowDontCare/32864-05.htm": {
+   "file": "Q00456_DontKnowDontCare/32864-05.htm",
+   "quest": 456,
+   "text": "Separated Soul: No, it's the opposite. Many adventurers told me names coming from Antharas' Lair . Names like Drake Lord, Behemoth Leader, Dragon Beast . I just wanted to know my name, but I ended up learning about names of other monsters.",
+   "header": "Separated Soul",
+   "links": [
+    {
+     "text": "\"...I see.\"",
+     "bypass": "Quest Q00456_DontKnowDontCare 32864-06.htm",
+     "kind": "quest-event",
+     "script": "Q00456_DontKnowDontCare",
+     "event": "32864-06.htm",
+     "quest": 456,
+     "to": "Q00456_DontKnowDontCare/32864-06.htm"
+    }
+   ]
+  },
+  "Q00456_DontKnowDontCare/32864-06.htm": {
+   "file": "Q00456_DontKnowDontCare/32864-06.htm",
+   "quest": 456,
+   "text": "Separated Soul: Now that I think about it, I have feelings of great hate towards those monsters... as if they had taken my name, do you understand? I have supported adventurers who hunt those monsters. I know I can't get my name back that way, but it puts me at ease. Ah yes, you meet the requiremen…",
+   "header": "Separated Soul",
+   "links": [
+    {
+     "text": "\"I'll help.\"",
+     "bypass": "Quest Q00456_DontKnowDontCare 32864-07.htm",
+     "kind": "quest-event",
+     "script": "Q00456_DontKnowDontCare",
+     "event": "32864-07.htm",
+     "quest": 456,
+     "to": "Q00456_DontKnowDontCare/32864-07.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00456_DontKnowDontCare/32864-07.htm": {
+   "file": "Q00456_DontKnowDontCare/32864-07.htm",
+   "quest": 456,
+   "text": "Separated Soul: Go on then! Kill them and take the Essense of Drake Lord ... the Behemoth Leader's Essence ... And the... Dragon Beast's Essence ... collect them. I will gather my last bit of hatred to cheer you on! Except you will need many skilled people for this fight - take trustworthy people w…",
+   "header": "Separated Soul",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00905_RefinedDragonBlood/32864-04.htm": {
+   "file": "Q00905_RefinedDragonBlood/32864-04.htm",
+   "quest": 905,
+   "text": "Separated Soul: When the dragons inside Antharas's Lair are injured, they bleed two types of liquid. I remember the stories that the adventurers told me about those dragons. That liquid is actually the dragons' blood. If you refine their blood, it can be used by humans. If you collect those liquids…",
+   "header": "Separated Soul",
+   "links": [
+    {
+     "text": "\"I will collect them.\"",
+     "bypass": "Quest Q00905_RefinedDragonBlood 32864-05.htm",
+     "kind": "quest-event",
+     "script": "Q00905_RefinedDragonBlood",
+     "event": "32864-05.htm",
+     "quest": 905,
+     "to": "Q00905_RefinedDragonBlood/32864-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00905_RefinedDragonBlood/32864-05.htm": {
+   "file": "Q00905_RefinedDragonBlood/32864-05.htm",
+   "quest": 905,
+   "text": "Separated Soul: The liquids that you must bring back can be obtained inside Antharas's Lair. The blue liquid can be obtained from the Dragon Guard, Dragon Mage, Dragon Knight, Dragon Knight Warrior, and Elite Dragon Knight. The red liquid can be obtained from the Drake Leader, Drake Warrior, Drake …",
+   "header": "Separated Soul",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00905_RefinedDragonBlood/32864-09.html": {
+   "file": "Q00905_RefinedDragonBlood/32864-09.html",
+   "quest": 905,
+   "text": "Separated Soul: You will learn the effect of the Refined Red Dragon Blood once you have sprinkled it upon yourself and your comrades. It will fill your HP. It will be immediate after you sprinkle it on. Now, about the Refined Blue Dragon Blood ...",
+   "header": "Separated Soul",
+   "links": [
+    {
+     "text": "Listen to explanation about Refined Blue Dragon Blood.",
+     "bypass": "Quest Q00905_RefinedDragonBlood 32864-10.html",
+     "kind": "quest-event",
+     "script": "Q00905_RefinedDragonBlood",
+     "event": "32864-10.html",
+     "quest": 905,
+     "to": "Q00905_RefinedDragonBlood/32864-10.html"
+    },
+    {
+     "text": "\"Just give me the Refined Red Dragon Blood.\"",
+     "bypass": "Quest Q00905_RefinedDragonBlood 32864-11.html",
+     "kind": "quest-event",
+     "script": "Q00905_RefinedDragonBlood",
+     "event": "32864-11.html",
+     "quest": 905,
+     "to": "Q00905_RefinedDragonBlood/32864-11.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00905_RefinedDragonBlood/32864-10.html": {
+   "file": "Q00905_RefinedDragonBlood/32864-10.html",
+   "quest": 905,
+   "text": "Separated Soul: You will learn the effect of the Refined Blue Dragon Blood once you have sprinkled it upon yourself and your comrades. It will fill your mana. It will be immediate after you sprinkle it on. Now, about the Refined Red Dragon Blood ...",
+   "header": "Separated Soul",
+   "links": [
+    {
+     "text": "Listen to explanation about Refined Red Dragon Blood.",
+     "bypass": "Quest Q00905_RefinedDragonBlood 32864-09.html",
+     "kind": "quest-event",
+     "script": "Q00905_RefinedDragonBlood",
+     "event": "32864-09.html",
+     "quest": 905,
+     "to": "Q00905_RefinedDragonBlood/32864-09.html"
+    },
+    {
+     "text": "\"Just give me the Refined Blue Dragon Blood.\"",
+     "bypass": "Quest Q00905_RefinedDragonBlood 32864-12.html",
+     "kind": "quest-event",
+     "script": "Q00905_RefinedDragonBlood",
+     "event": "32864-12.html",
+     "quest": 905,
+     "to": "Q00905_RefinedDragonBlood/32864-12.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00905_RefinedDragonBlood/32864-11.html": {
+   "file": "Q00905_RefinedDragonBlood/32864-11.html",
+   "quest": 905,
+   "text": "Separated Soul: I will give you the Refined Red Dragon Blood. I hope it can aid you and your comrades.",
+   "header": "Separated Soul",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00905_RefinedDragonBlood/32864-12.html": {
+   "file": "Q00905_RefinedDragonBlood/32864-12.html",
+   "quest": 905,
+   "text": "Separated Soul: I will give you the Refined Blue Dragon Blood. I hope it can aid you and your comrades.",
+   "header": "Separated Soul",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "ai/npc/Teleports/SeparatedSoul/32864.htm": {
+   "file": "ai/npc/Teleports/SeparatedSoul/32864.htm",
+   "quest": null,
+   "text": "Separated Soul: The Claw of Antharas barely touched my face, but it gripped my soul, and ripped it from me! I can sense the other souls around here. If you want, I can send you to where these souls are located. Also, using the Will of Antharas that you have, I can break the seal on the Blood Crysta…",
+   "header": "Separated Soul",
+   "links": [
+    {
+     "text": "Entrance of Dragon Valley",
+     "bypass": "Quest SeparatedSoul 7",
+     "kind": "quest-event",
+     "script": "SeparatedSoul",
+     "event": "7",
+     "to": "ai/npc/Teleports/SeparatedSoul/no-level.htm"
+    },
+    {
+     "text": "The Center of Dragon Valley",
+     "bypass": "Quest SeparatedSoul 2",
+     "kind": "quest-event",
+     "script": "SeparatedSoul",
+     "event": "2",
+     "to": "ai/npc/Teleports/SeparatedSoul/no-level.htm"
+    },
+    {
+     "text": "Deep inside Dragon Valley(North)",
+     "bypass": "Quest SeparatedSoul 3",
+     "kind": "quest-event",
+     "script": "SeparatedSoul",
+     "event": "3",
+     "to": "ai/npc/Teleports/SeparatedSoul/no-level.htm"
+    },
+    {
+     "text": "Deep inside Dragon Valley(South)",
+     "bypass": "Quest SeparatedSoul 4",
+     "kind": "quest-event",
+     "script": "SeparatedSoul",
+     "event": "4",
+     "to": "ai/npc/Teleports/SeparatedSoul/no-level.htm"
+    },
+    {
+     "text": "Entrance of Antharas' Lair",
+     "bypass": "Quest SeparatedSoul 8",
+     "kind": "quest-event",
+     "script": "SeparatedSoul",
+     "event": "8",
+     "to": "ai/npc/Teleports/SeparatedSoul/no-level.htm"
+    },
+    {
+     "text": "Antharas' Lair - Magic Force Field Bridge",
+     "bypass": "Quest SeparatedSoul 5",
+     "kind": "quest-event",
+     "script": "SeparatedSoul",
+     "event": "5",
+     "to": "ai/npc/Teleports/SeparatedSoul/no-level.htm"
+    },
+    {
+     "text": "Deep inside Antharas' Lair",
+     "bypass": "Quest SeparatedSoul 6",
+     "kind": "quest-event",
+     "script": "SeparatedSoul",
+     "event": "6",
+     "to": "ai/npc/Teleports/SeparatedSoul/no-level.htm"
+    },
+    {
+     "text": "Hear about Blood Crystal of Antharas",
+     "bypass": "Quest SeparatedSoul 23242",
+     "kind": "quest-event",
+     "script": "SeparatedSoul",
+     "event": "23242",
+     "to": "ai/npc/Teleports/SeparatedSoul/separatedsoul.htm"
+    },
+    {
+     "text": "Request item synthesis",
+     "bypass": "Quest SeparatedSoul 23241",
+     "kind": "quest-event",
+     "script": "SeparatedSoul",
+     "event": "23241",
+     "to": "ai/npc/Teleports/SeparatedSoul/no-items.htm",
+     "toAll": [
+      "ai/npc/Teleports/SeparatedSoul/no-items.htm",
+      "ai/npc/Teleports/SeparatedSoul/separatedsoul.htm"
+     ]
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Wings of Sand]",
+     "bypass": "npc_%objectId%_Quest Q00455_WingsOfSand",
+     "kind": "quest",
+     "quest": 455,
+     "to": "Q00455_WingsOfSand/32864-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Wings of Sand (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00455_WingsOfSand",
+     "kind": "quest",
+     "quest": 455,
+     "to": "Q00455_WingsOfSand/32864-06.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Don't Know, Don't Care]",
+     "bypass": "npc_%objectId%_Quest Q00456_DontKnowDontCare",
+     "kind": "quest",
+     "quest": 456,
+     "to": "Q00456_DontKnowDontCare/32864-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Don't Know, Don't Care (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00456_DontKnowDontCare",
+     "kind": "quest",
+     "quest": 456,
+     "to": "Q00456_DontKnowDontCare/32864-09.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Refined Dragon Blood]",
+     "bypass": "npc_%objectId%_Quest Q00905_RefinedDragonBlood",
+     "kind": "quest",
+     "quest": 905,
+     "to": "Q00905_RefinedDragonBlood/32864-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Refined Dragon Blood (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00905_RefinedDragonBlood",
+     "kind": "quest",
+     "quest": 905,
+     "to": "Q00905_RefinedDragonBlood/32864-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Teleports/SeparatedSoul/no-level.htm": {
+   "file": "ai/npc/Teleports/SeparatedSoul/no-level.htm",
+   "quest": null,
+   "text": "Separated Soul: The Claw of Antharas barely touched my face, but my soul was still ripped apart like this. I can't gather the scattered souls in the area, but I can sense them. I could send you to the location of the souls, but you don't look capable yet of combining my ripped soul. (Moving to the …",
+   "header": "Separated Soul",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Teleports/SeparatedSoul/separatedsoul.htm": {
+   "file": "ai/npc/Teleports/SeparatedSoul/separatedsoul.htm",
+   "quest": null,
+   "text": "Separaed Soul: The Will of Antharas is a command stone that Antharas embedded into his high commanding minions. With this stone Antharas has the ability to control these creatures to do his bidding. It is a required ingredient for creating an Antharas Blood Crystal. A long time ago when Antharas's …",
+   "header": "Separaed Soul",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/SeparatedSoul/no-items.htm": {
+   "file": "ai/npc/Teleports/SeparatedSoul/no-items.htm",
+   "quest": null,
+   "text": "Separated Soul: In order for me to create a Blood Crystal of Antharas you will need to bring me the Will of Antharas and a Sealed Blood Crystal . You can acquire these items from his commanders in either Antharas's Lair or Dragon Valley.",
+   "header": "Separated Soul",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

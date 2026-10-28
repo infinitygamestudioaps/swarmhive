@@ -1,0 +1,168 @@
+{
+ "npcId": 30593,
+ "name": "Duda-Mara Totem Spirit",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.007Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30593.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "416": {
+   "name": "Path of the Orc Shaman",
+   "listText": [
+    "[Path of the Orc Shaman]",
+    "[Path of the Orc Shaman (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30593-01.html",
+     "when": "state STARTED; memo 1; has items 1626",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30593-04.html",
+     "when": "state STARTED; memo 1; has items 1627; lacks items 1626,1628",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30593-05.html",
+     "when": "state STARTED; memo 1; has items 1628; lacks items 1626,1627; !(hasQuestItems(player, SPIRIT_NET) && !hasQuestItems(player, BOUND_DURKA_SPIRIT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00416_PathOfTheOrcShaman/30593-06.html",
+     "when": "state STARTED; memo 1; has items 1630; lacks items 1626; !(hasQuestItems(player, SPIRIT_NET) && !hasQuestItems(player, BOUND_DURKA_SPIRIT)); !(!hasQuestItems(player, SPIRIT_NET) && hasQuestItems(player, BOUND_DURKA_SPIRIT))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30593.htm": {
+   "file": "default/30593.htm",
+   "quest": null,
+   "text": "Duda-Mara Totem Spirit: Although my eyes have dimmed, I am more aware than you can possibly imagine... The webs of the Duda-Mara span all dimensions of time and space! All events, even those that occur far away, are within my grasp.",
+   "header": "Duda-Mara Totem Spirit",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/30593-01.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30593-01.html",
+   "quest": 416,
+   "text": "Duda-Mara Totem Spirit: Oh-ho! To meet the offspring of Pa'agrio in such a remote land! What do I call you? Wait, are you a Shaman that can speak the language of spirits? You must have come to steal the secret of spirits away from me? Go away! If you do not want to be tied up tight in my web and hu…",
+   "header": "Duda-Mara Totem Spirit",
+   "when": [
+    "state STARTED; memo 1; has items 1626"
+   ],
+   "links": [
+    {
+     "text": "Show the Blood Cauldron",
+     "bypass": "Quest Q00416_PathOfTheOrcShaman 30593-02.html",
+     "kind": "quest-event",
+     "script": "Q00416_PathOfTheOrcShaman",
+     "event": "30593-02.html",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30593-02.html"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/30593-04.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30593-04.html",
+   "quest": 416,
+   "text": "Duda-Mara Totem Spirit: ... If you capture the Durka Spirit that escaped from my web, I will teach you the names of the spirits ... However, the scoundrel is hiding in the bodies of my precious children, the poison spiders and arachnid trackers !",
+   "header": "Duda-Mara Totem Spirit",
+   "when": [
+    "state STARTED; memo 1; has items 1627; lacks items 1626,1628"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30593-05.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30593-05.html",
+   "quest": 416,
+   "text": "Duda-Mara Totem Spirit: Well done indeed, young shaman. I will firmly seal it away so it does not escape a second time from my web to spread evil forces in the world ... Did you know, all the spirits that move the world with unseen powers were caught in my web at one time or another. As the price f…",
+   "header": "Duda-Mara Totem Spirit",
+   "when": [
+    "state STARTED; memo 1; has items 1628; lacks items 1626,1627; !(hasQuestItems(player, SPIRIT_NET) && !hasQuestItems(player, BOUND_DURKA_SPIRIT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30593-06.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30593-06.html",
+   "quest": 416,
+   "text": "Duda-Mara Totem Spirit: ... Take the drop of blood I have given you to Seer Umos. By performing a ritual of drinking that blood which contains the secret of spirits, you will be able to obtain the powers of a true incantator.",
+   "header": "Duda-Mara Totem Spirit",
+   "when": [
+    "state STARTED; memo 1; has items 1630; lacks items 1626; !(hasQuestItems(player, SPIRIT_NET) && !hasQuestItems(player, BOUND_DURKA_SPIRIT)); !(!hasQuestItems(player, SPIRIT_NET) && hasQuestItems(player, BOUND_DURKA_SPIRIT))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00416_PathOfTheOrcShaman/30593-02.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30593-02.html",
+   "quest": 416,
+   "text": "Duda-Mara Totem Spirit: ... Didn't I tell you to go away ...! Hmm ... Wait ...! What is that sweet smell? Such a sweet smell comes from that cauldron! The sweet smell of blood ... You are giving this to me? Thank you ...! Mmmm ... mmm ... . So, young shaman of Pa'agrio, have you come to me to learn…",
+   "header": "Duda-Mara Totem Spirit",
+   "links": [
+    {
+     "text": "Say you want to learn the names of the spirits",
+     "bypass": "Quest Q00416_PathOfTheOrcShaman 30593-03.html",
+     "kind": "quest-event",
+     "script": "Q00416_PathOfTheOrcShaman",
+     "event": "30593-03.html",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30593-03.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00416_PathOfTheOrcShaman/30593-03.html": {
+   "file": "Q00416_PathOfTheOrcShaman/30593-03.html",
+   "quest": 416,
+   "text": "Duda-Mara Totem Spirit: ... If you want, I will teach you ... But I must ask a favor in return ... ... One of the evil spirits I sealed in my web of space and time has escaped ... I have come all the way here to Gludio to catch that scoundrel ... Impertinently, it is hiding in the body of my offspr…",
+   "header": "Duda-Mara Totem Spirit",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Orc Shaman (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00416_PathOfTheOrcShaman",
+     "kind": "quest",
+     "quest": 416,
+     "to": "Q00416_PathOfTheOrcShaman/30593-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,185 @@
+{
+ "npcId": 30336,
+ "name": "Curtis",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.938Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30336.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "325": {
+   "name": "Grim Collector",
+   "listText": [
+    "[Grim Collector]",
+    "[Grim Collector (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00325_GrimCollector/30336-02.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00325_GrimCollector/30336-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00325_GrimCollector/30336-05.html",
+     "when": "state STARTED; st.hasQuestItems(ANATOMY_DIAGRAM)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00325_GrimCollector/30336-04.html",
+     "when": "state STARTED; NOT st.hasQuestItems(ANATOMY_DIAGRAM)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30336.htm": {
+   "file": "guard/30336.htm",
+   "quest": null,
+   "text": "Guard Curtis: If you are thinking of leaving the village, I give you one warning. Beyond that mountain in the south is a place called the Ruins of Despair . It is an extremely dangerous place so try to stay far away from it. Of course, if you insist on going, I am not going to stop you ...",
+   "header": "Guard Curtis",
+   "links": [
+    {
+     "text": "Ask about the 'Ruins of Despair.'",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30336-1.htm"
+    },
+    {
+     "text": "See the Lord and get the tax rate information.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30336-1.htm": {
+   "file": "guard/30336-1.htm",
+   "quest": null,
+   "text": "Guard Curtis: The Ruins of Despair were originally the village of Lostern. Before the war, it was a prosperous farm village, but the Gracian army reduced it to ashes. The ghosts of the soldiers that were cruelly slaughtered while trying to protect the village still roam there, with their swords and…",
+   "header": "Guard Curtis",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30336.htm"
+    }
+   ]
+  },
+  "Q00325_GrimCollector/30336-02.htm": {
+   "file": "Q00325_GrimCollector/30336-02.htm",
+   "quest": 325,
+   "text": "Guard Curtis: If you are thinking of going to the ruins, I can give you an errand that you will find rewarding. Just recently, I spoke with Samed , who lives near the edge of the village... He asked me to refer a few skilled friends to him, when guards or mercenary soldier troops were dispatched ne…",
+   "header": "Guard Curtis",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will take the job",
+     "bypass": "Quest Q00325_GrimCollector 30336-03.htm",
+     "kind": "quest-event",
+     "script": "Q00325_GrimCollector",
+     "event": "30336-03.htm",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30336-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00325_GrimCollector/30336-01.htm": {
+   "file": "Q00325_GrimCollector/30336-01.htm",
+   "quest": 325,
+   "text": "Guard Curtis: If you are thinking of going to the ruins, I can give you an errand that you will find rewarding. I can't tell you about it right now, but if you stop by later on I'll tell you in private. (Quest for characters level 15 and above.)",
+   "header": "Guard Curtis",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00325_GrimCollector/30336-05.html": {
+   "file": "Q00325_GrimCollector/30336-05.html",
+   "quest": 325,
+   "text": "Guard Curtis: I see you've talked with Samed. It is a bit unpleasant, but... selling the bones and organs of those who are already dead should not cause any sort of real problem. And it doesn't hurt anyone, right?",
+   "header": "Guard Curtis",
+   "when": [
+    "state STARTED; st.hasQuestItems(ANATOMY_DIAGRAM)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00325_GrimCollector/30336-04.html": {
+   "file": "Q00325_GrimCollector/30336-04.html",
+   "quest": 325,
+   "text": "Guard Curtis: You haven't met Samed yet? Look now, I personally guarantee that this is a job that pays very well! Someone with your skills could earn big money. Of course, you'll have to work so that no one notices you... So hurry up and find Samed. If you meet him, tell him that Curtis sent you.",
+   "header": "Guard Curtis",
+   "when": [
+    "state STARTED; NOT st.hasQuestItems(ANATOMY_DIAGRAM)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00325_GrimCollector/30336-03.htm": {
+   "file": "Q00325_GrimCollector/30336-03.htm",
+   "quest": 325,
+   "text": "Guard Curtis: Go to Samed to get all the details. If you meet him, tell him that Curtis sent you. Then he'll know I sent you and will give you the job. I wouldn't tell anyone you are working for Samed. So I hope you won't tell anyone that you received the job from me. Do you understand what I'm say…",
+   "header": "Guard Curtis",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Grim Collector]",
+     "bypass": "npc_%objectId%_Quest Q00325_GrimCollector",
+     "kind": "quest",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30336-02.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Grim Collector (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00325_GrimCollector",
+     "kind": "quest",
+     "quest": 325,
+     "to": "Q00325_GrimCollector/30336-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

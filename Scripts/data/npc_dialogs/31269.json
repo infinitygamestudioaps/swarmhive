@@ -1,0 +1,226 @@
+{
+ "npcId": 31269,
+ "name": "Mona",
+ "title": "Warehouse Chief",
+ "type": "L2VillageMasterDwarf",
+ "generated": "2026-10-27T18:18:03.146Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/31269.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "68": {
+   "name": "Saga of the Soul Hound",
+   "listText": [
+    "[Saga of the Soul Hound]",
+    "[Saga of the Soul Hound (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00068_SagaOfTheSoulHound/2-01.htm",
+     "when": "cond 1; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00068_SagaOfTheSoulHound/2-02.htm",
+     "when": "cond 2; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00068_SagaOfTheSoulHound/2-03.htm",
+     "when": "cond 4; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00068_SagaOfTheSoulHound/2-04.htm",
+     "when": "cond 5; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/31269.htm": {
+   "file": "villagemaster/31269.htm",
+   "quest": null,
+   "text": "Warehouse Chief Mona: What motto should we use this month...? We need something that will attract customers like sugar attracts ants... Hmm? Your face just gave me a great idea! \"Would you entrust your hard-earned Adena, liberated from the cave of the Fire Dragon, to just anyone? The Iron Gate Guil…",
+   "header": "Warehouse Chief Mona",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest DwarfWarehouseChange2",
+     "kind": "quest",
+     "script": "DwarfWarehouseChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/2-01.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/2-01.htm",
+   "quest": 68,
+   "text": "Warehouse Chief Mona: What brings you here? You say Kekropus sent you? Ah.. You must be walking the path of the Soul Hound, too. Then I guess I should give you the item that I've been protecting. You did well in coming here. It's locked up tight in the safe, so there's nothing to worry about. Now w…",
+   "header": "Warehouse Chief Mona",
+   "when": [
+    "cond 1; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Is something wrong?\"",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 2-1",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "2-1",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/2-02.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/2-02.htm",
+   "quest": 68,
+   "text": "Warehouse Chief Mona: You don't have the Safe Key ? See Head Blacksmith Noel in Goddard Village!",
+   "header": "Warehouse Chief Mona",
+   "when": [
+    "cond 2; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/2-03.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/2-03.htm",
+   "quest": 68,
+   "text": "Warehouse Chief Mona: What took you so long? Did he make the key from scratch? Really? That must have been difficult; I bet Noel complained enough to raise the roof! Well, give me the key and I'll take out the item.",
+   "header": "Warehouse Chief Mona",
+   "when": [
+    "cond 4; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "Hand over the key.",
+     "bypass": "Quest Q00068_SagaOfTheSoulHound 2-2",
+     "kind": "quest-event",
+     "script": "Q00068_SagaOfTheSoulHound",
+     "event": "2-2",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00068_SagaOfTheSoulHound/2-04.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/2-04.htm",
+   "quest": 68,
+   "text": "Warehouse Chief Mona: Did you communicate with the Tablet of Vision located south of the Tower of Insolence ?",
+   "header": "Warehouse Chief Mona",
+   "when": [
+    "cond 5; !((npcId == 32138) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/2-05.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/2-05.htm",
+   "quest": 68,
+   "text": "Warehouse Chief Mona: I think I lost the key... We can't break into the safe, either. We have no choice -- you must go to Head Blacksmith Noel in the Town of Goddard and tell him that I need an extra key, and he will be able to give it to you. Simple, right? You'd best get going then!",
+   "header": "Warehouse Chief Mona",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00068_SagaOfTheSoulHound/2-06.htm": {
+   "file": "Q00068_SagaOfTheSoulHound/2-06.htm",
+   "quest": 68,
+   "text": "Warehouse Chief Mona: Here is the item that was deposited. It's called a Resonance Amulet. I heard that it activates a spell on the Tablet of Vision. I'm sure that you'll learn the rest once you find the Tablet and experience it for yourself. The first Tablet you'll need to find is in the area sout…",
+   "header": "Warehouse Chief Mona",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Soul Hound (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00068_SagaOfTheSoulHound",
+     "kind": "quest",
+     "quest": 68,
+     "to": "Q00068_SagaOfTheSoulHound/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

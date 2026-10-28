@@ -1,0 +1,84 @@
+{
+ "npcId": 32714,
+ "name": "Asher",
+ "title": "Gatekeeper",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:03.400Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Teleports/Asher/32714-01.html": {
+   "file": "ai/npc/Teleports/Asher/32714-01.html",
+   "quest": null,
+   "text": "Gatekeeper Asher: Since the the seal was broken, various trees on the island have begun to \"leak\" large amounts of Mana, drawing it out from reserves far underground. It is now possible to regenerate MP simply by standing near some of these large trees!",
+   "header": "Gatekeeper Asher",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Teleports/Asher/32714-02.html": {
+   "file": "ai/npc/Teleports/Asher/32714-02.html",
+   "quest": null,
+   "text": "Gatekeeper Asher: You don't have enough money. Teleporting to Rune Township requires 50,000 Adena.",
+   "header": "Gatekeeper Asher",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Teleports/Asher/32714.html": {
+   "file": "ai/npc/Teleports/Asher/32714.html",
+   "quest": null,
+   "text": "Gatekeeper Asher: For thousands of years, Primeval Isle had been sealed to prevent its inhabitants from leaving through this Gate. Now, however, adventurers' activities seem to have finally weakened the seal enough to permit departures. You may now teleport to the mainland, but only to Rune Townshi…",
+   "header": "Gatekeeper Asher",
+   "links": [
+    {
+     "text": "Teleport to Rune Township (50,000 Adena).",
+     "bypass": "Quest Asher teleport",
+     "kind": "quest-event",
+     "script": "Asher",
+     "event": "teleport",
+     "to": "ai/npc/Teleports/Asher/32714-02.html"
+    },
+    {
+     "text": "Ask about the effects of the weakened seal.",
+     "bypass": "Quest Asher 32714-01.html",
+     "kind": "quest-event",
+     "script": "Asher",
+     "event": "32714-01.html",
+     "to": "ai/npc/Teleports/Asher/32714-01.html"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

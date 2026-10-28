@@ -1,0 +1,337 @@
+{
+ "npcId": 30329,
+ "name": "Virgil",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.936Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30329.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "410": {
+   "name": "Path Of The Palus Knight",
+   "listText": [
+    "[Path of the Palus Knight]",
+    "[Path of the Palus Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00410_PathOfThePalusKnight/30329-01.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00410_PathOfThePalusKnight/30329-07.html",
+     "when": "state STARTED; has items 1237; lacks items 1238; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00410_PathOfThePalusKnight/30329-08.html",
+     "when": "state STARTED; has items 1237,1238; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, LYCANTHROPE_SKULL) < 13",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00410_PathOfThePalusKnight/30329-09.html",
+     "when": "state STARTED; has items 1237,1238; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LYCANTHROPE_SKULL) && (getQuestItemsCount(player, LYCANTHROPE_SKULL) < 13))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00410_PathOfThePalusKnight/30329-11.html",
+     "when": "state STARTED; has items 1243; lacks items 1237; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00410_PathOfThePalusKnight/30329-12.html",
+     "when": "state STARTED; has items 1239,1240; lacks items 1237,1243; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30329.htm": {
+   "file": "trainer/30329.htm",
+   "quest": null,
+   "text": "Master Virgil: Welcome, fellow child of Shilen! We have so many things to learn and so little time in which to learn them. Now, where would you like to begin?",
+   "header": "Master Virgil",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30329-noteach.htm": {
+   "file": "trainer/30329-noteach.htm",
+   "quest": null,
+   "text": "Master Virgil: I am a Master of the proud Dark Elven Fighters and cannot teach you. I tell you politely: go find the appropriate Master for you.",
+   "header": "Master Virgil",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30329-01.htm": {
+   "file": "Q00410_PathOfThePalusKnight/30329-01.htm",
+   "quest": 410,
+   "text": "Master Virgil: The Palus Knights are the most skilled knights of the Dark Elves and conquer the battlefield with their fearless spirit and great talent. Only Dark Fighters who pass the trial that I give and secure the Gaze of Abyss will earn the qualifications to be selected as Palus Knights.",
+   "header": "Master Virgil",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you want to become a Palus Knight",
+     "bypass": "Quest Q00410_PathOfThePalusKnight ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00410_PathOfThePalusKnight",
+     "event": "ACCEPT",
+     "quest": 410,
+     "to": "Q00410_PathOfThePalusKnight/30329-05.htm",
+     "toAll": [
+      "Q00410_PathOfThePalusKnight/30329-04.htm",
+      "Q00410_PathOfThePalusKnight/30329-05.htm",
+      "Q00410_PathOfThePalusKnight/30329-02.htm",
+      "Q00410_PathOfThePalusKnight/30329-02a.htm",
+      "Q00410_PathOfThePalusKnight/30329-03.htm"
+     ]
+    }
+   ]
+  },
+  "Q00410_PathOfThePalusKnight/30329-07.html": {
+   "file": "Q00410_PathOfThePalusKnight/30329-07.html",
+   "quest": 410,
+   "text": "Master Virgil: How does it happen that you have not departed yet? Is fear or hesitation keeping you here? If that is so, I will have to reconsider your qualifications for becoming a Palus Knight. Hurry on to the Neutral Zone and kill the lycanthropes and bring thirteen of their skulls . Only then c…",
+   "header": "Master Virgil",
+   "when": [
+    "state STARTED; has items 1237; lacks items 1238; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30329-08.html": {
+   "file": "Q00410_PathOfThePalusKnight/30329-08.html",
+   "quest": 410,
+   "text": "Master Virgil: You must have exactly 13 skulls to complete the ritual. Thirteen is a holy number to we Dark Elves that follow Shilen, for it symbolizes death and rebirth. Go back to the Neutral Zone and strike down the lycanthropes ... Come back when you have 13 skulls. Only then can the ritual be …",
+   "header": "Master Virgil",
+   "when": [
+    "state STARTED; has items 1237,1238; !(qs.isCreated() || qs.isCompleted()); getQuestItemsCount(player, LYCANTHROPE_SKULL) < 13"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30329-09.html": {
+   "file": "Q00410_PathOfThePalusKnight/30329-09.html",
+   "quest": 410,
+   "text": "Master Virgil: Thank you. Thirteen skulls brought from dealing with the enemy of our race ... They are the result of death brought about from your own hands. Knights of other races embellish their actions and duties by saying that they are \"guarding justice\" or \"protecting the common people.\" Howev…",
+   "header": "Master Virgil",
+   "when": [
+    "state STARTED; has items 1237,1238; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, LYCANTHROPE_SKULL) && (getQuestItemsCount(player, LYCANTHROPE_SKULL) < 13))"
+   ],
+   "links": [
+    {
+     "text": "Ask about the second trial",
+     "bypass": "Quest Q00410_PathOfThePalusKnight 30329-10.html",
+     "kind": "quest-event",
+     "script": "Q00410_PathOfThePalusKnight",
+     "event": "30329-10.html",
+     "quest": 410,
+     "to": "Q00410_PathOfThePalusKnight/30329-10.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00410_PathOfThePalusKnight/30329-11.html": {
+   "file": "Q00410_PathOfThePalusKnight/30329-11.html",
+   "quest": 410,
+   "text": "Master Virgil: You have brought the Coffin of Eternal Rest with your name inscribed within it. I will send this to the Priests of the Shilen Temple. This completes your trial. A Knight's destiny is always to face death on the battlefield! We do not know when it will come, but it is an end we cannot…",
+   "header": "Master Virgil",
+   "when": [
+    "state STARTED; has items 1243; lacks items 1237; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30329-12.html": {
+   "file": "Q00410_PathOfThePalusKnight/30329-12.html",
+   "quest": 410,
+   "text": "Master Virgil: Go to Abyssal Celebrant Kalinta and ask about the Ritual of the Red Coffin. You can meet her if you go to the Dark Elf Guild of Gludin. Make sure you take the letter I gave you.",
+   "header": "Master Virgil",
+   "when": [
+    "state STARTED; has items 1239,1240; lacks items 1237,1243; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30329-02.htm": {
+   "file": "Q00410_PathOfThePalusKnight/30329-02.htm",
+   "quest": 410,
+   "text": "Master Virgil: I still see fear and hesitation in your eyes. You must learn to control your emotions through more experience on the battlefield -- once you have done so, come and see me again. (Only characters level 18 or above may undertake this quest.)",
+   "header": "Master Virgil",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30329-02a.htm": {
+   "file": "Q00410_PathOfThePalusKnight/30329-02a.htm",
+   "quest": 410,
+   "text": "Master Virgil: You have already overcome fear and hesitation and acquired the title of Palus Knight. Now go on to the battlefield and teach the world to fear of our race.",
+   "header": "Master Virgil",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30329-03.htm": {
+   "file": "Q00410_PathOfThePalusKnight/30329-03.htm",
+   "quest": 410,
+   "text": "Master Virgil: Palus Knights are selected from the ranks of Dark Fighters. You are not qualified.",
+   "header": "Master Virgil",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30329-04.htm": {
+   "file": "Q00410_PathOfThePalusKnight/30329-04.htm",
+   "quest": 410,
+   "text": "Master Virgil: You already have the Gaze of Abyss. This means you have earned the right to become a Palus Knight. Take that token to Grand Master Tobias of our guild. Then you can change profession to a Palus Knight. He is the one right over there.",
+   "header": "Master Virgil",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30329-05.htm": {
+   "file": "Q00410_PathOfThePalusKnight/30329-05.htm",
+   "quest": 410,
+   "text": "Master Virgil: Good. To become a Palus Knight, you must pass two trials in order. These trials test your skills and are also a rite of passage to become a true \"Abyssal Knight.\"",
+   "header": "Master Virgil",
+   "links": [
+    {
+     "text": "Ask about the first trial",
+     "bypass": "Quest Q00410_PathOfThePalusKnight 30329-06.htm",
+     "kind": "quest-event",
+     "script": "Q00410_PathOfThePalusKnight",
+     "event": "30329-06.htm",
+     "quest": 410,
+     "to": "Q00410_PathOfThePalusKnight/30329-06.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00410_PathOfThePalusKnight/30329-06.htm": {
+   "file": "Q00410_PathOfThePalusKnight/30329-06.htm",
+   "quest": 410,
+   "text": "Master Virgil: Before you receive the trial, take this talisman. Those who follow Shilen will see it and know that you are a fighter performing a task. The first trial is the ritual of 13 skulls. Its object is to collect 13 enemy skulls killed by your own hand. It is a ritual to meditate upon the d…",
+   "header": "Master Virgil",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00410_PathOfThePalusKnight/30329-10.html": {
+   "file": "Q00410_PathOfThePalusKnight/30329-10.html",
+   "quest": 410,
+   "text": "Master Virgil: You need your own coffin to perform the second trial, the Ritual of the Red Coffin . Yes, I'm speaking of the coffin you use to bury an elf when he dies. According to the funeral customs of the Dark Elves, we need a traditional coffin made from the carapace of a beast. You must make …",
+   "header": "Master Virgil",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Palus Knight]",
+     "bypass": "npc_%objectId%_Quest Q00410_PathOfThePalusKnight",
+     "kind": "quest",
+     "quest": 410,
+     "to": "Q00410_PathOfThePalusKnight/30329-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Palus Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00410_PathOfThePalusKnight",
+     "kind": "quest",
+     "quest": 410,
+     "to": "Q00410_PathOfThePalusKnight/30329-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

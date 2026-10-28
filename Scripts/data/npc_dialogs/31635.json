@@ -1,0 +1,218 @@
+{
+ "npcId": 31635,
+ "name": "Winter Hunter Kadyth",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.249Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00084_SagaOfTheGhostSentinel/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 84"
+  },
+  {
+   "page": "Q00084_SagaOfTheGhostSentinel/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 84"
+  },
+  {
+   "page": "Q00084_SagaOfTheGhostSentinel/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 84"
+  },
+  {
+   "page": "Q00084_SagaOfTheGhostSentinel/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 84"
+  },
+  {
+   "page": "Q00084_SagaOfTheGhostSentinel/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 84"
+  },
+  {
+   "page": "Q00084_SagaOfTheGhostSentinel/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 84"
+  },
+  {
+   "page": "Q00084_SagaOfTheGhostSentinel/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 84"
+  },
+  {
+   "page": "Q00084_SagaOfTheGhostSentinel/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 84"
+  }
+ ],
+ "quests": {
+  "84": {
+   "name": "Saga of the Ghost Sentinel",
+   "listText": [
+    "[Saga of the Ghost Sentinel]",
+    "[Saga of the Ghost Sentinel (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00084_SagaOfTheGhostSentinel/4-04.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/4-04.htm",
+   "quest": 84,
+   "text": "Winter Hunter Kadyth: Shoot it before it gets away!",
+   "header": "Winter Hunter Kadyth",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/4-06.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/4-06.htm",
+   "quest": 84,
+   "text": "Winter Hunter Kadyth: Not too shabby! Gran Kain has a good eye. You owe me for the help though.",
+   "header": "Winter Hunter Kadyth",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"I could have done it alone.\"",
+     "bypass": "Quest Q00084_SagaOfTheGhostSentinel 4-1",
+     "kind": "quest-event",
+     "script": "Q00084_SagaOfTheGhostSentinel",
+     "event": "4-1",
+     "quest": 84,
+     "to": "Q00084_SagaOfTheGhostSentinel/4-010.htm"
+    }
+   ]
+  },
+  "Q00084_SagaOfTheGhostSentinel/4-01.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/4-01.htm",
+   "quest": 84,
+   "text": "Winter Hunter Kadyth: This is big game. Come on, I'll help you, it'll be a great hunt!",
+   "header": "Winter Hunter Kadyth",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/4-03.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/4-03.htm",
+   "quest": 84,
+   "text": "Winter Hunter Kadyth: I missed! You must be on your toes to catch big game like that. Better luck next time.",
+   "header": "Winter Hunter Kadyth",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/4-05.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/4-05.htm",
+   "quest": 84,
+   "text": "Winter Hunter Kadyth: We're gonna miss it. Thanks for your offer, but I'm waiting for a friend. Wait your turn.",
+   "header": "Winter Hunter Kadyth",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/4-07.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/4-07.htm",
+   "quest": 84,
+   "text": "Winter Hunter Kadyth: I never took Sagittarius's bow, I hid it in the secret compartment right under the guild exhibit! Take this Stone of Commune to the Tablet of Vision. I know you're up to it.",
+   "header": "Winter Hunter Kadyth",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Thanks for the stone.\"",
+     "bypass": "Quest Q00084_SagaOfTheGhostSentinel 4-2",
+     "kind": "quest-event",
+     "script": "Q00084_SagaOfTheGhostSentinel",
+     "event": "4-2",
+     "quest": 84,
+     "to": "Q00084_SagaOfTheGhostSentinel/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00084_SagaOfTheGhostSentinel/4-02.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/4-02.htm",
+   "quest": 84,
+   "text": "Winter Hunter Kadyth: This is my hunt. Find your own game!",
+   "header": "Winter Hunter Kadyth",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/4-08.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/4-08.htm",
+   "quest": 84,
+   "text": "Winter Hunter Kadyth: We'll miss it! Go commune with the Tablet of Vision, quickly!",
+   "header": "Winter Hunter Kadyth",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/4-010.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/4-010.htm",
+   "quest": 84,
+   "text": "Winter Hunter Kadyth: If you want the forbidden power, you need the skills. This bow? It's not stolen. I keep it in the secret compartment under the Hunter Guild exhibit, right under the guild president's nose. Use this Stone of Commune with the tablet. I must go now. I look forward to a friendly c…",
+   "header": "Winter Hunter Kadyth",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00084_SagaOfTheGhostSentinel 4-3",
+     "kind": "quest-event",
+     "script": "Q00084_SagaOfTheGhostSentinel",
+     "event": "4-3",
+     "quest": 84,
+     "to": null
+    }
+   ]
+  },
+  "Q00084_SagaOfTheGhostSentinel/4-011.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/4-011.htm",
+   "quest": 84,
+   "text": "Winter Hunter Kadyth: Here's the Stone of Commune. Maybe we'll meet again. I have to go help a newbie, my favorite thing.",
+   "header": "Winter Hunter Kadyth",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00084_SagaOfTheGhostSentinel/4-09.htm": {
+   "file": "Q00084_SagaOfTheGhostSentinel/4-09.htm",
+   "quest": 84,
+   "text": "Winter Hunter Kadyth: Take the Stone of Commune to the Tablet of Vision over there. I must hunt for more game. See you later.",
+   "header": "Winter Hunter Kadyth",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Ghost Sentinel (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00084_SagaOfTheGhostSentinel",
+     "kind": "quest",
+     "quest": 84,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

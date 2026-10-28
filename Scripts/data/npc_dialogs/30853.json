@@ -1,0 +1,309 @@
+{
+ "npcId": 30853,
+ "name": "Raien",
+ "title": "Master",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.094Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30853.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "72": {
+   "name": "Saga of the Sword Muse",
+   "listText": [
+    "[Saga of the Sword Muse]",
+    "[Saga of the Sword Muse (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00072_SagaOfTheSwordMuse/0-01.htm",
+     "when": "cond 0; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00072_SagaOfTheSwordMuse/0-04.htm",
+     "when": "cond 1; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00072_SagaOfTheSwordMuse/0-06.htm",
+     "when": "cond 19; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00072_SagaOfTheSwordMuse/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00072_SagaOfTheSwordMuse/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30853.htm": {
+   "file": "trainer/30853.htm",
+   "quest": null,
+   "text": "Master Raien: This Human King, though young, is said to be an excellent diplomat and strategist. If that is true, then he will no doubt quickly try to establish strong ties to the other races. Elmore is not the only enemy we face... Ah, but that is a story for another day!",
+   "header": "Master Raien",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30853-noteach.htm": {
+   "file": "trainer/30853-noteach.htm",
+   "quest": null,
+   "text": "Master Raien: What is your hurry? You have your choice of many suitable masters. If you wish to become a Mystic, you should visit the Mystics guild or the Temple of Einhasad... You also have the option of joining the guild of other races.",
+   "header": "Master Raien",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/0-01.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/0-01.htm",
+   "quest": 72,
+   "text": "Master Raien: So you're the Great Swordsinger I've heard about. You've comforted many a soldier with your songs of the glory of Eva. Some say they embody the wisdom of Eva, as the songs of a Swordsinger are taught by the goddess. Would you like to hear the story?",
+   "header": "Master Raien",
+   "when": [
+    "cond 0; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes!\"",
+     "bypass": "Quest Q00072_SagaOfTheSwordMuse 0-1",
+     "kind": "quest-event",
+     "script": "Q00072_SagaOfTheSwordMuse",
+     "event": "0-1",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/0-05.htm",
+     "toAll": [
+      "Q00072_SagaOfTheSwordMuse/0-02.htm",
+      "Q00072_SagaOfTheSwordMuse/0-05.htm"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00072_SagaOfTheSwordMuse/0-04.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/0-04.htm",
+   "quest": 72,
+   "text": "Master Raien: Blacksmith Feynn of Goddard Castle Town knows of the source of Eva's songs. Find him.",
+   "header": "Master Raien",
+   "when": [
+    "cond 1; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/0-06.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/0-06.htm",
+   "quest": 72,
+   "text": "Master Raien: I dreamed of your return. Do you understand Eva's will? The one who sings her true song is called Eva's Sword Muse.",
+   "header": "Master Raien",
+   "when": [
+    "cond 19; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What should I do now?\"",
+     "bypass": "Quest Q00072_SagaOfTheSwordMuse 0-2",
+     "kind": "quest-event",
+     "script": "Q00072_SagaOfTheSwordMuse",
+     "event": "0-2",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/0-07.htm",
+     "toAll": [
+      "Q00072_SagaOfTheSwordMuse/0-08.htm",
+      "Q00072_SagaOfTheSwordMuse/0-07.htm"
+     ],
+     "effect": "cond:20|reward"
+    }
+   ]
+  },
+  "Q00072_SagaOfTheSwordMuse/0-09.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/0-09.htm",
+   "quest": 72,
+   "text": "Master Raien: Henceforth, you shall be known as a Sword Muse!",
+   "header": "Master Raien",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/0-010.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/0-010.htm",
+   "quest": 72,
+   "text": "Master Raien: You must continue your training. (Class transfer is allowed only for characters of level 76 or above. Do not abandon quest before class transfer is complete!)",
+   "header": "Master Raien",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 30853) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/0-02.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/0-02.htm",
+   "quest": 72,
+   "text": "Master Raien: You must be well qualified to understand the way. I don't think you should do this. I don't think you can talk to him. I don't even want to think about him anymore. (This quest may only be undertaken by characters of level 76 or above.)",
+   "header": "Master Raien",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/0-03.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/0-03.htm",
+   "quest": 72,
+   "text": "Master Raien: Don't mind his grotesque beard and ugly smile, Blacksmith Feynn of Goddard Castle Town knows of the source of Eva's songs. Take this book, it tells of the fall of a Swordsinger.",
+   "header": "Master Raien",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/0-05.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/0-05.htm",
+   "quest": 72,
+   "text": "Master Raien: Goddess Eva's songs and poems gave us intelligence, knowledge and magical power. It belonged only to the Elves. The traditional swordsong may be a far cry from its origins after mingling with the Humans, but it is still our tradition. The story tells of a tablet that contains the powe…",
+   "header": "Master Raien",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "Quest Q00072_SagaOfTheSwordMuse accept",
+     "kind": "quest-event",
+     "script": "Q00072_SagaOfTheSwordMuse",
+     "event": "accept",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00072_SagaOfTheSwordMuse/0-07.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/0-07.htm",
+   "quest": 72,
+   "text": "Master Raien: You should know better than I. I only need to give you the title you are due, one who sings Eva's swordsong...",
+   "header": "Master Raien",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00072_SagaOfTheSwordMuse/0-08.htm": {
+   "file": "Q00072_SagaOfTheSwordMuse/0-08.htm",
+   "quest": 72,
+   "text": "Master Raien: You should know better than I. Your soul may be ready, but your body is lacking. (Class transfer is allowed only for characters of level 76 or above. Do not abandon quest before class transfer is complete!)",
+   "header": "Master Raien",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Sword Muse]",
+     "bypass": "npc_%objectId%_Quest Q00072_SagaOfTheSwordMuse",
+     "kind": "quest",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Sword Muse (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00072_SagaOfTheSwordMuse",
+     "kind": "quest",
+     "quest": 72,
+     "to": "Q00072_SagaOfTheSwordMuse/0-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

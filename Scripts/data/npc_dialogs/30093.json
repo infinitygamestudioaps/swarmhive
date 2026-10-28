@@ -1,0 +1,199 @@
+{
+ "npcId": 30093,
+ "name": "Groot",
+ "title": "Dye Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.835Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30093.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "223": {
+   "name": "Test Of The Champion",
+   "listText": [
+    "[Test of the Champion]",
+    "[Test of the Champion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00223_TestOfTheChampion/30093-01.html",
+     "when": "state STARTED; has items 3280",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30093-04.html",
+     "when": "state STARTED; has items 3281; lacks items 3280; item 3287 >= 30; item 3288 >= 30; item 3289 >= 30",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30093-03.html",
+     "when": "state STARTED; has items 3281; lacks items 3280; !((getQuestItemsCount(player, HARPYS_EGG) >= 30) && (getQuestItemsCount(player, MEDUSA_VENOM) >= 30) && (getQuestItemsCo",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30093-05.html",
+     "when": "state STARTED; has items 3282; lacks items 3280,3281",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30093-06.html",
+     "when": "state STARTED; has items 3283,3284,3285,3286; lacks items 3280,3281,3282",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30093.htm": {
+   "file": "merchant/30093.htm",
+   "quest": null,
+   "text": "Trader Groot: Hello! Thank you very much for coming to our shop. What brought you here? If you can't find something in our establishment, I promise you won't find it anywhere else in the Kingdom of Aden. Now, what do you need?",
+   "header": "Trader Groot",
+   "links": [
+    {
+     "text": "Buy/Sell/Refund Dyes.",
+     "bypass": "npc_%objectId%_Buy 3009300",
+     "kind": "shop",
+     "live": true
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30093-pk.htm": {
+   "file": "merchant/30093-pk.htm",
+   "quest": null,
+   "text": "Magic Trader Groot: I am sorry. Our shop does not accept customers like you. I can't forbid you to look around, but please leave as soon as possible.",
+   "header": "Magic Trader Groot",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30093-01.html": {
+   "file": "Q00223_TestOfTheChampion/30093-01.html",
+   "quest": 223,
+   "text": "Trader Groot: I see that you are a follower of Ascalon. Seeing a strong warrior like you brings back memories. Like Ascalon, I was once a member of the Steel Rose Mercenaries. When I was young, I studied herbology and first aid in the temple and used these skills to become a medic for the troop. Of…",
+   "header": "Trader Groot",
+   "when": [
+    "state STARTED; has items 3280"
+   ],
+   "links": [
+    {
+     "text": "\"I have come to assist you in making Antidotes\"",
+     "bypass": "Quest Q00223_TestOfTheChampion 30093-02.html",
+     "kind": "quest-event",
+     "script": "Q00223_TestOfTheChampion",
+     "event": "30093-02.html",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30093-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30093-04.html": {
+   "file": "Q00223_TestOfTheChampion/30093-04.html",
+   "quest": 223,
+   "text": "Trader Groot: Thank you so much for gathering these ingredients for me.. Now I will create the Antidote and deliver it to the temple and the guards. I felt as if I was growing too old to be of any use, but thanks to you I am able to contribute to the defense of my beloved Giran! I am indebted to yo…",
+   "header": "Trader Groot",
+   "when": [
+    "state STARTED; has items 3281; lacks items 3280; item 3287 >= 30; item 3288 >= 30; item 3289 >= 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30093-03.html": {
+   "file": "Q00223_TestOfTheChampion/30093-03.html",
+   "quest": 223,
+   "text": "Trader Groot: As I said, you will need 3 ingredients to treat Medusa's Venom poisoning. You will need 30 each of the Harpy's Eggs, Medusa Venom, and Windsus' bile . I know it is a lot to ask, but I desperately need your help. Please gather all the ingredients for me.",
+   "header": "Trader Groot",
+   "when": [
+    "state STARTED; has items 3281; lacks items 3280; !((getQuestItemsCount(player, HARPYS_EGG) >= 30) && (getQuestItemsCount(player, MEDUSA_VENOM) >= 30) && (getQuestItemsCo"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30093-05.html": {
+   "file": "Q00223_TestOfTheChampion/30093-05.html",
+   "quest": 223,
+   "text": "Trader Groot: Although I am too old for battle I am satisfied in knowing that my talents may be of help in protecting Giran. This is all thanks to you. Please give Ascalon my regards when you see him.",
+   "header": "Trader Groot",
+   "when": [
+    "state STARTED; has items 3282; lacks items 3280,3281"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30093-06.html": {
+   "file": "Q00223_TestOfTheChampion/30093-06.html",
+   "quest": 223,
+   "text": "Trader Groot: There is dark news from Ascalon. The entire kingdom is in peril! Warriors like yourself must now join the battle to save our land! I shall do everything I can to help.",
+   "header": "Trader Groot",
+   "when": [
+    "state STARTED; has items 3283,3284,3285,3286; lacks items 3280,3281,3282"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30093-02.html": {
+   "file": "Q00223_TestOfTheChampion/30093-02.html",
+   "quest": 223,
+   "text": "Trader Groot: Ah! Thank you so very much. This is such a blessing, as I was badly needing help. Could you do me one more favor? I must gather Antidote ingredients . I am concerned about the increase in the number of soldiers poisoned by Medusa's Venom, but near destruction? That's a serious exagger…",
+   "header": "Trader Groot",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Champion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00223_TestOfTheChampion",
+     "kind": "quest",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30093-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund Dyes.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Magic Trader Groot:How do you do? I sincerely thank you for "
+   ],
+   "to": []
+  }
+ ]
+}

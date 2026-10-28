@@ -24,6 +24,41 @@
     const panel = document.createElement('div'); panel.id = 'aaPanel'; panel.className = 'box aa'; panel.hidden = true;
     (head || btn).insertAdjacentElement('afterend', panel);
     btn.onclick = () => toggle(!A.open);
+    const vb = document.createElement('div'); vb.id = 'aaVerify'; vb.className = 'box aa aa-verify';   // ADDACCT-2026-10-27
+    panel.insertAdjacentElement('afterend', vb);
+    loadVerify();
+  }
+
+  // ------------------------------------------------------------------------------------------------ brain connection (ADDACCT-2026-10-27)
+  // Every added account is watched until its character is connected to the brain host; the exact reason + what was fixed shows here.
+  // Check = the same for every roster character that is not in the brain now (e.g. accounts added before this update).
+  const VSTATE = { joined: ['ok', 'in the Hive'], waiting: ['warn', 'checking'], problem: ['bad', 'problem'], failed: ['bad', 'not in the Hive'], off: ['warn', 'old engine'] };
+  let vTimer = null;
+  async function loadVerify(post) {
+    const el = id('aaVerify'); if (!el) return;
+    const d = post ? await call('/api/addaccount/verify', { method: 'POST', body: JSON.stringify(post) }) : await call('/api/addaccount/verify');
+    renderVerify(d);
+    clearTimeout(vTimer);
+    if (d && Array.isArray(d.entries) && d.entries.some(e => e.state === 'waiting' || e.state === 'problem')) vTimer = setTimeout(() => { const t = id('tab-accounts'); if (t && !t.hidden) loadVerify(); else vTimer = setTimeout(() => loadVerify(), 15000); }, 15000);
+  }
+  function renderVerify(d) {
+    const el = id('aaVerify'); if (!el) return;
+    if (!d || d.error) { el.innerHTML = `<h3>Brain connection</h3><div class="aa-err">${h((d && d.error) || 'failed')}</div>`; return; }
+    const now = Date.now();
+    const list = (d.entries || []).filter(e => e.state !== 'joined' || now - Date.parse(e.joinedAt || 0) < 2 * 3600000);
+    const rows = list.map(e => { const [cls, txt] = VSTATE[e.state] || ['bad', e.state];
+      const items = (e.items || []).filter(i => i.code !== 'joined').map(i => `<li>${h(i.text)}${i.manual ? ` <span class="aa-how">→ ${h(i.manual)}</span>` : ''}</li>`).join('');
+      const fixed = (e.fixed || []).map(f => `<li class="${/_open$|_failed$/.test(f.code || '') ? 'aa-note' : 'aa-fixed'}">${h(f.text)}</li>`).join('');
+      return `<li class="aa-r"><span class="aa-b aa-${cls}">${h(txt)}</span> <b>${h(e.character || '?')}</b> <span class="muted">${h(e.login)}</span>
+        ${e.state === 'joined' ? `<div class="muted">connected to the brain host${e.joinedAt ? ' at ' + h(new Date(e.joinedAt).toLocaleTimeString()) : ''}</div>` : ''}
+        ${items || fixed ? `<ul class="aa-why">${fixed}${e.state === 'joined' ? '' : items}</ul>` : ''}
+        ${e.state === 'joined' ? '' : `<div class="aa-act"><button type="button" data-aavchk="${h(e.login)}">Check again</button></div>`}</li>`; }).join('');
+    el.innerHTML = `<h3>Brain connection</h3>
+      <div class="muted">New accounts are checked until their character is in the Hive (connected to the brain host). Anything that can be fixed on disk is fixed by itself (backups in Settings\\backup).</div>
+      ${rows ? `<ul class="aa-list">${rows}</ul>` : ''}
+      <div class="aa-act"><button type="button" id="aaVAll">Check every account that is not in the Hive</button></div>`;
+    el.querySelectorAll('[data-aavchk]').forEach(b => { b.onclick = () => { b.disabled = true; loadVerify({ logins: [b.dataset.aavchk] }); }; });
+    const all = id('aaVAll'); if (all) all.onclick = () => { all.disabled = true; all.textContent = 'Checking…'; loadVerify({}); };
   }
   async function toggle(on) {
     A.open = on; const p = id('aaPanel'); if (!p) return;
@@ -198,7 +233,7 @@
     catch (e) { d = { error: e.message }; }
     finally { body.password = null; if (body.accounts) body.accounts.forEach(a => { a.password = null; }); A.busy = false; if (b) b.disabled = false; }
     showResult(d);
-    if (d && d.created) { try { const i2 = await call('/api/addaccount'); if (!i2.error) { A.info = i2; refreshLists(); } } catch (e) { } }
+    if (d && d.created) { try { const i2 = await call('/api/addaccount'); if (!i2.error) { A.info = i2; refreshLists(); } } catch (e) { } loadVerify(); }
     return d;
   }
   function refreshLists() {
@@ -210,7 +245,7 @@
     if (!d || d.error) { el.innerHTML = `<div class="aa-err">${h((d && d.error) || 'failed')}</div>`; return; }
     const rows = (d.results || []).map(r => { const [cls, txt] = BADGE[r.status] || ['bad', r.status];
       return `<li class="aa-r"><span class="aa-b aa-${cls}">${h(txt)}</span> <b>${h(r.login || '?')}</b>${r.character ? ' · ' + h(r.character) : ''}${r.line ? ` <span class="muted">(line ${r.line})</span>` : ''}
-        <div class="muted">${h(r.reason || '')}${r.loginState ? ' — ' + h(r.loginState) : ''}</div></li>`; }).join('');
+        <div class="muted">${h(r.reason || '')}${r.loginState ? ' — ' + h(r.loginState) : ''}${r.verify ? ' — ' + h(r.verify) : ''}</div></li>`; }).join('');
     el.innerHTML = `<h3>${d.dryRun ? 'Check (nothing was changed)' : 'Result'}</h3><ul class="aa-list">${rows || '<li class="muted">nothing</li>'}</ul>${d.note ? `<div class="muted">${h(d.note)}</div>` : ''}`;
   }
 

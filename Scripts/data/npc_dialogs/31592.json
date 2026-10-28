@@ -1,0 +1,244 @@
+{
+ "npcId": 31592,
+ "name": "Telson",
+ "title": "Chief Golem Crafter",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.240Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31592.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "100": {
+   "name": "Saga of the Maestro",
+   "listText": [
+    "[Saga of the Maestro]",
+    "[Saga of the Maestro (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00100_SagaOfTheMaestro/0-01.htm",
+     "when": "cond 0; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/0-04.htm",
+     "when": "cond 1; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/0-06.htm",
+     "when": "cond 19; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31592.htm": {
+   "file": "default/31592.htm",
+   "quest": null,
+   "text": "Chief Golem Crafter Telson: Hi, youngster! I'm Telson, a member of the Black Anvil guild! Have you ever been in a siege war? Well, you must've seen one, right? The power of a siege golem is awesome to behold! A castle gate that can withstand dozens of ordinary fighters crumbles before them! Ah, wha…",
+   "header": "Chief Golem Crafter Telson",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/0-01.htm": {
+   "file": "Q00100_SagaOfTheMaestro/0-01.htm",
+   "quest": 100,
+   "text": "Chief Golem Craftsman Telson: Our Black Anvil guild has watched you closely for a long time. We paid particular attention when you passed the cruel test of the three blacksmiths and were proclaimed an Artisan, and when you made seven Journeyman Rings and passed the guild's trial. Not long ago, we d…",
+   "header": "Chief Golem Craftsman Telson",
+   "when": [
+    "cond 0; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00100_SagaOfTheMaestro 0-1",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "0-1",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/0-05.htm",
+     "toAll": [
+      "Q00100_SagaOfTheMaestro/0-02.htm",
+      "Q00100_SagaOfTheMaestro/0-05.htm"
+     ],
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/0-04.htm": {
+   "file": "Q00100_SagaOfTheMaestro/0-04.htm",
+   "quest": 100,
+   "text": "Chief Golem Craftsman Telson: You should meet Master Tobald first and ask him about the pilgrimage of tablets. He's probably in Goddard Castle Town by now. He, like his brother, tends to show up unexpectedly and then vanish just as suddenly... So, I'm not quite sure. You must read the report I gave…",
+   "header": "Chief Golem Craftsman Telson",
+   "when": [
+    "cond 1; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/0-06.htm": {
+   "file": "Q00100_SagaOfTheMaestro/0-06.htm",
+   "quest": 100,
+   "text": "Chief Golem Craftsman Telson: Welcome back! Well, Master Tobald came by a few days ago and was talking about you! He said that you'd be coming by today, and here you are! How strange! Did you really finish the pilgrimage of tablets? You finished before Tobald! That's incredible!",
+   "header": "Chief Golem Craftsman Telson",
+   "when": [
+    "cond 19; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Now what?\"",
+     "bypass": "Quest Q00100_SagaOfTheMaestro 0-2",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "0-2",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/0-07.htm",
+     "toAll": [
+      "Q00100_SagaOfTheMaestro/0-08.htm",
+      "Q00100_SagaOfTheMaestro/0-07.htm"
+     ],
+     "effect": "cond:20|reward"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/0-09.htm": {
+   "file": "Q00100_SagaOfTheMaestro/0-09.htm",
+   "quest": 100,
+   "text": "Chief Golem Craftsman Telson: You've learned the ultimate sacred truths of absolute geometry! My only role is to confer an appropriate title upon the person with the knowledge. On behalf of the Black Anvil guild, I hereby grant you the title of Maestro! Congratulations! The birth of a new Maestro i…",
+   "header": "Chief Golem Craftsman Telson",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/0-010.htm": {
+   "file": "Q00100_SagaOfTheMaestro/0-010.htm",
+   "quest": 100,
+   "text": "Chief Golem Craftsman Telson: You've learned the truths of absolute geometry, but you still haven't learned the most sacred truths! Your pilgrimage isn't done yet! Like food, knowledge must be digested to become truth. Have more experiences and then come back! (Only a character of level 76 or above…",
+   "header": "Chief Golem Craftsman Telson",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/0-02.htm": {
+   "file": "Q00100_SagaOfTheMaestro/0-02.htm",
+   "quest": 100,
+   "text": "Chief Golem Craftsman Telson: The Black Anvil Guild has watched you closely for a long time. We paid particular attention when you passed the cruel test of the three blacksmiths and were proclaimed an Artisan, and when you made seven Journeyman Rings and passed the guild's trial. We've determined t…",
+   "header": "Chief Golem Craftsman Telson",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/0-03.htm": {
+   "file": "Q00100_SagaOfTheMaestro/0-03.htm",
+   "quest": 100,
+   "text": "Chief Golem Craftsman Telson: He's probably in Goddard Castle Town by now. He, like his brother, tends to show up and disappear suddenly! So, I'm not quite sure. Yesterday he came running up to me and dropped this off. He asked me to give it to you. I skimmed through it, and it seems to be a report…",
+   "header": "Chief Golem Craftsman Telson",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/0-05.htm": {
+   "file": "Q00100_SagaOfTheMaestro/0-05.htm",
+   "quest": 100,
+   "text": "Chief Golem Craftsman Telson: To reach the level of Maestro, you must learn the basic truths of absolute geometry. No books or scrolls exist on the subject, so your path will not be an easy one. The knowledge is far from the domain of Dwarves, in the territory of the gods. The secret is supposedly …",
+   "header": "Chief Golem Craftsman Telson",
+   "links": [
+    {
+     "text": "\"Where is he?\"",
+     "bypass": "Quest Q00100_SagaOfTheMaestro accept",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "accept",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/0-07.htm": {
+   "file": "Q00100_SagaOfTheMaestro/0-07.htm",
+   "quest": 100,
+   "text": "Chief Golem Craftsman Telson: You've learned the ultimate sacred truths of absolute geometry! My only role is to confer an appropriate title upon the person with the knowledge. On behalf of the Black Anvil Guild, I hereby grant you the title of Maestro! Congratulations! The birth of a new Maestro i…",
+   "header": "Chief Golem Craftsman Telson",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/0-08.htm": {
+   "file": "Q00100_SagaOfTheMaestro/0-08.htm",
+   "quest": 100,
+   "text": "Chief Golem Craftsman Telson: You've learned the truths of absolute geometry, but you still haven't learned the most sacred truths! Your pilgrimage isn't done yet! Like food, knowledge must be digested to become truth. Have more experiences and then come back! (Only a character of level 76 or above…",
+   "header": "Chief Golem Craftsman Telson",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Maestro]",
+     "bypass": "npc_%objectId%_Quest Q00100_SagaOfTheMaestro",
+     "kind": "quest",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Maestro (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00100_SagaOfTheMaestro",
+     "kind": "quest",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/0-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,218 @@
+{
+ "npcId": 31598,
+ "name": "Medina Blackheart",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.241Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00090_SagaOfTheStormScreamer/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 90"
+  },
+  {
+   "page": "Q00090_SagaOfTheStormScreamer/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 90"
+  },
+  {
+   "page": "Q00090_SagaOfTheStormScreamer/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 90"
+  },
+  {
+   "page": "Q00090_SagaOfTheStormScreamer/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 90"
+  },
+  {
+   "page": "Q00090_SagaOfTheStormScreamer/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 90"
+  },
+  {
+   "page": "Q00090_SagaOfTheStormScreamer/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 90"
+  },
+  {
+   "page": "Q00090_SagaOfTheStormScreamer/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 90"
+  },
+  {
+   "page": "Q00090_SagaOfTheStormScreamer/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 90"
+  }
+ ],
+ "quests": {
+  "90": {
+   "name": "Saga of the Storm Screamer",
+   "listText": [
+    "[Saga of the Storm Screamer]",
+    "[Saga of the Storm Screamer (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00090_SagaOfTheStormScreamer/4-04.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/4-04.htm",
+   "quest": 90,
+   "text": "Medina Blackheart: He's getting away! Help me, he's the one trying to stop you!",
+   "header": "Medina Blackheart",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/4-06.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/4-06.htm",
+   "quest": 90,
+   "text": "Medina Blackheart: Sorry for the confusion, but I'm really Medina Blackheart. I disguised myself as Magister Kamilen of Goddard Castle Town to investigate who was trying to stop the Storm Screamers. It was Grand Magister Fairen! You saw her in disguise at the stone tablet.",
+   "header": "Medina Blackheart",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "Listen",
+     "bypass": "Quest Q00090_SagaOfTheStormScreamer 4-1",
+     "kind": "quest-event",
+     "script": "Q00090_SagaOfTheStormScreamer",
+     "event": "4-1",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/4-010.htm"
+    }
+   ]
+  },
+  "Q00090_SagaOfTheStormScreamer/4-01.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/4-01.htm",
+   "quest": 90,
+   "text": "Medina Blackheart: He's getting away! Help me, he's the one trying to stop you!",
+   "header": "Medina Blackheart",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/4-03.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/4-03.htm",
+   "quest": 90,
+   "text": "Medina Blackheart: I missed him again! I'm going to track him down!",
+   "header": "Medina Blackheart",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/4-05.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/4-05.htm",
+   "quest": 90,
+   "text": "Medina Blackheart: Don't let him get away!",
+   "header": "Medina Blackheart",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/4-07.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/4-07.htm",
+   "quest": 90,
+   "text": "Medina Blackheart: Sorry for the confusion, but I'm really Medina Blackheart. I disguised myself as Magister Kamilen of Goddard Castle Town to investigate who was trying to stop the Storm Screamers. It was Grand Magister Fairen! You saw her in disguise at the stone tablet.",
+   "header": "Medina Blackheart",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "\"Yes?\"",
+     "bypass": "Quest Q00090_SagaOfTheStormScreamer 4-2",
+     "kind": "quest-event",
+     "script": "Q00090_SagaOfTheStormScreamer",
+     "event": "4-2",
+     "quest": 90,
+     "to": "Q00090_SagaOfTheStormScreamer/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00090_SagaOfTheStormScreamer/4-02.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/4-02.htm",
+   "quest": 90,
+   "text": "Medina Blackheart: He's getting away!",
+   "header": "Medina Blackheart",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/4-08.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/4-08.htm",
+   "quest": 90,
+   "text": "Medina Blackheart: Go to the tablet with the stone I gave you!",
+   "header": "Medina Blackheart",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/4-010.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/4-010.htm",
+   "quest": 90,
+   "text": "Medina Blackheart: Fairen got away, but I got the Stone of Commune! I'm not sure if she was trying to stop you or to guard the tablet. Either way, she changed her mind and didn't put up a fight when she could have easily dealt with both of us. I'll have to find out from her. At least you've succeed…",
+   "header": "Medina Blackheart",
+   "links": [
+    {
+     "text": "\"Wait!\"",
+     "bypass": "Quest Q00090_SagaOfTheStormScreamer 4-3",
+     "kind": "quest-event",
+     "script": "Q00090_SagaOfTheStormScreamer",
+     "event": "4-3",
+     "quest": 90,
+     "to": null
+    }
+   ]
+  },
+  "Q00090_SagaOfTheStormScreamer/4-011.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/4-011.htm",
+   "quest": 90,
+   "text": "Medina Blackheart: Fairen got away, but I got the Stone of Commune! I'm not sure if she was trying to stop you or to guard the tablet. Either way, she changed her mind and didn't put up a fight when she could have easily dealt with both of us. I'll have to find out from her. At least you've succeed…",
+   "header": "Medina Blackheart",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00090_SagaOfTheStormScreamer/4-09.htm": {
+   "file": "Q00090_SagaOfTheStormScreamer/4-09.htm",
+   "quest": 90,
+   "text": "Medina Blackheart: I have to find Fairen to get to the bottom of this. Take the stone I gave you and commune with the Tablet of Vision!",
+   "header": "Medina Blackheart",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Storm Screamer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00090_SagaOfTheStormScreamer",
+     "kind": "quest",
+     "quest": 90,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

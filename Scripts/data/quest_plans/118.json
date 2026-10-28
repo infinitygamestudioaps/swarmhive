@@ -2,7 +2,7 @@
  "id": 118,
  "name": "To Lead And Be Led",
  "version": 1,
- "generated": "2026-10-27T11:15:12.270Z",
+ "generated": "2026-10-27T18:18:47.466Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 19,
@@ -19,10 +19,6 @@
  "status": "fixable",
  "reasons": [
   {
-   "code": "memo-state",
-   "text": "memo-state machine (no setCond): the engine cannot read the step"
-  },
-  {
    "code": "area-danger",
    "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
    "step": 1
@@ -33,7 +29,7 @@
    "step": 1
   }
  ],
- "expectedMin": 66,
+ "expectedMin": 70,
  "refLevel": 19,
  "steps": [
   {
@@ -992,6 +988,623 @@
    "key": "c1:talk:30298",
    "cond": 1,
    "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"I want Robe Armor.\""
+   ],
+   "npc": {
+    "id": 30298,
+    "name": "Pinter",
+    "title": "Blacksmith",
+    "town": "Gludio",
+    "at": [
+     -15349,
+     124763,
+     -3113
+    ],
+    "alt": []
+   },
+   "text": "Talk to Pinter",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30298@-15349,124763",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5154,
+    "sec": 63,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 5154,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14360,
+      122904,
+      -3112
+     ],
+     [
+      -14408,
+      123160,
+      -3112
+     ],
+     [
+      -14408,
+      123432,
+      -3112
+     ],
+     [
+      -14504,
+      123608,
+      -3112
+     ],
+     [
+      -14696,
+      123800,
+      -3112
+     ],
+     [
+      -14952,
+      123896,
+      -3112
+     ],
+     [
+      -15176,
+      123976,
+      -3112
+     ],
+     [
+      -15272,
+      124152,
+      -3112
+     ],
+     [
+      -15160,
+      124296,
+      -3112
+     ],
+     [
+      -15288,
+      124312,
+      -3112
+     ],
+     [
+      -15304,
+      124568,
+      -3112
+     ],
+     [
+      -15352,
+      124760,
+      -3112
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:deliver:30298",
+   "cond": 3,
+   "kind": "deliver",
+   "to": 6,
+   "links": [
+    "\"Here are the D-Grade Crystals.\""
+   ],
+   "npc": {
+    "id": 30298,
+    "name": "Pinter",
+    "title": "Blacksmith",
+    "town": "Gludio",
+    "at": [
+     -15349,
+     124763,
+     -3113
+    ],
+    "alt": []
+   },
+   "text": "Bring Crystal (D-Grade) x922 to Pinter",
+   "needs": [
+    {
+     "id": 1458,
+     "name": "Crystal (D-Grade)",
+     "n": 922
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30298@-15349,124763",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5154,
+    "sec": 63,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 5154,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14360,
+      122904,
+      -3112
+     ],
+     [
+      -14408,
+      123160,
+      -3112
+     ],
+     [
+      -14408,
+      123432,
+      -3112
+     ],
+     [
+      -14504,
+      123608,
+      -3112
+     ],
+     [
+      -14696,
+      123800,
+      -3112
+     ],
+     [
+      -14952,
+      123896,
+      -3112
+     ],
+     [
+      -15176,
+      123976,
+      -3112
+     ],
+     [
+      -15272,
+      124152,
+      -3112
+     ],
+     [
+      -15160,
+      124296,
+      -3112
+     ],
+     [
+      -15288,
+      124312,
+      -3112
+     ],
+     [
+      -15304,
+      124568,
+      -3112
+     ],
+     [
+      -15352,
+      124760,
+      -3112
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c6:talk:30298",
+   "cond": 6,
+   "kind": "talk",
+   "to": 7,
+   "links": [],
+   "npc": {
+    "id": 30298,
+    "name": "Pinter",
+    "title": "Blacksmith",
+    "town": "Gludio",
+    "at": [
+     -15349,
+     124763,
+     -3113
+    ],
+    "alt": []
+   },
+   "text": "Talk to Pinter",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30298@-15349,124763",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5154,
+    "sec": 63,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 5154,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14360,
+      122904,
+      -3112
+     ],
+     [
+      -14408,
+      123160,
+      -3112
+     ],
+     [
+      -14408,
+      123432,
+      -3112
+     ],
+     [
+      -14504,
+      123608,
+      -3112
+     ],
+     [
+      -14696,
+      123800,
+      -3112
+     ],
+     [
+      -14952,
+      123896,
+      -3112
+     ],
+     [
+      -15176,
+      123976,
+      -3112
+     ],
+     [
+      -15272,
+      124152,
+      -3112
+     ],
+     [
+      -15160,
+      124296,
+      -3112
+     ],
+     [
+      -15288,
+      124312,
+      -3112
+     ],
+     [
+      -15304,
+      124568,
+      -3112
+     ],
+     [
+      -15352,
+      124760,
+      -3112
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c7:talk:30298",
+   "cond": 7,
+   "kind": "talk",
    "to": "end",
    "links": [],
    "npc": {
@@ -1185,12 +1798,6 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
     7,
     8
    ]

@@ -1,0 +1,175 @@
+{
+ "npcId": 31338,
+ "name": "Anton",
+ "title": "Spellbook Seller",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.193Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31338.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "110": {
+   "name": "To the Primeval Isle",
+   "listText": [
+    "[To the Primeval Isle]",
+    "[To the Primeval Isle (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00110_ToThePrimevalIsle/31338-0a.htm",
+     "when": "state CREATED; (player.getLevel() < 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00110_ToThePrimevalIsle/31338-0b.htm",
+     "when": "state CREATED; NOT (player.getLevel() < 75)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00110_ToThePrimevalIsle/31338-1a.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31338.htm": {
+   "file": "default/31338.htm",
+   "quest": null,
+   "text": "Spellbook Seller Anton: Welcome! This is Elmore's famous landmark, the Library of Sages. It contains more books than anywhere else in the entire kingdom.",
+   "header": "Spellbook Seller Anton",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00110_ToThePrimevalIsle/31338-0a.htm": {
+   "file": "Q00110_ToThePrimevalIsle/31338-0a.htm",
+   "quest": 110,
+   "text": "Spellbook Seller Anton: While clearing out the library's underground warehouse one day, I discovered a very old, very worn-out book filled with snatches of some unkown ancient language. I have tried to translate it without success, but I recently learned that this book is very valuable. I am lookin…",
+   "header": "Spellbook Seller Anton",
+   "when": [
+    "state CREATED; (player.getLevel() < 75)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00110_ToThePrimevalIsle/31338-0b.htm": {
+   "file": "Q00110_ToThePrimevalIsle/31338-0b.htm",
+   "quest": 110,
+   "text": "Spellbook Seller Anton: Have you heard of the book entitled \"Traces of Living Beings in Ancient Times?\" While clearing out the library's underground warehouse one day, I discovered a very old, very worn-out book filled with snatches of some ancient language. Believe me when I tell you that my years…",
+   "header": "Spellbook Seller Anton",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < 75)"
+   ],
+   "links": [
+    {
+     "text": "Ask why it is valuable.",
+     "bypass": "Quest Q00110_ToThePrimevalIsle 31338-0c.htm",
+     "kind": "quest-event",
+     "script": "Q00110_ToThePrimevalIsle",
+     "event": "31338-0c.htm",
+     "quest": 110,
+     "to": "Q00110_ToThePrimevalIsle/31338-0c.htm"
+    }
+   ]
+  },
+  "Q00110_ToThePrimevalIsle/31338-1a.html": {
+   "file": "Q00110_ToThePrimevalIsle/31338-1a.html",
+   "quest": 110,
+   "text": "Spellbook Seller Anton: Please take that book to Marquez at the wharf on Primeval Isle. I know that you'll enjoy meeting him. An old adventurer himself, he always has time to talk to a young up-and-comer such as yourself.",
+   "header": "Spellbook Seller Anton",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00110_ToThePrimevalIsle/31338-0c.htm": {
+   "file": "Q00110_ToThePrimevalIsle/31338-0c.htm",
+   "quest": 110,
+   "text": "Spellbook Seller Anton: A few days ago, Clark -- the most avid reader in all Rune Town -- stopped by and asked to see all the books I had cleared out from the underground warehouse. He seemed to be knowledgeable about the subject, so I showed this ancient book to him. You should have seen Clark's f…",
+   "header": "Spellbook Seller Anton",
+   "links": [
+    {
+     "text": "\"What an amazing coincidence!\"",
+     "bypass": "Quest Q00110_ToThePrimevalIsle 31338-0d.htm",
+     "kind": "quest-event",
+     "script": "Q00110_ToThePrimevalIsle",
+     "event": "31338-0d.htm",
+     "quest": 110,
+     "to": "Q00110_ToThePrimevalIsle/31338-0d.htm"
+    }
+   ]
+  },
+  "Q00110_ToThePrimevalIsle/31338-0d.htm": {
+   "file": "Q00110_ToThePrimevalIsle/31338-0d.htm",
+   "quest": 110,
+   "text": "Spellbook Seller Anton: You're right. It is amazing, isn't it? Clark told Marquez about my discovery, and Marquez wrote to me asking that he be allowed to obtain the book to assist the writing of his own history of the island. In its wisdom, the fathers of our library decided that the interests of …",
+   "header": "Spellbook Seller Anton",
+   "links": [
+    {
+     "text": "Say that you will.",
+     "bypass": "Quest Q00110_ToThePrimevalIsle 31338-1.html",
+     "kind": "quest-event",
+     "script": "Q00110_ToThePrimevalIsle",
+     "event": "31338-1.html",
+     "quest": 110,
+     "to": "Q00110_ToThePrimevalIsle/31338-1.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00110_ToThePrimevalIsle/31338-1.html": {
+   "file": "Q00110_ToThePrimevalIsle/31338-1.html",
+   "quest": 110,
+   "text": "Spellbook Seller Anton: Excellent! Excellent! Marquez will be so pleased! Let me fetch the book for you so you can take it to Marquez. You will find him in the front area of the wharf on Primeval Isle . Obviously, you'll need to take a ship from Rune Port to reach the island. May your journey be un…",
+   "header": "Spellbook Seller Anton",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[To the Primeval Isle]",
+     "bypass": "npc_%objectId%_Quest Q00110_ToThePrimevalIsle",
+     "kind": "quest",
+     "quest": 110,
+     "to": "Q00110_ToThePrimevalIsle/31338-0b.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[To the Primeval Isle (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00110_ToThePrimevalIsle",
+     "kind": "quest",
+     "quest": 110,
+     "to": "Q00110_ToThePrimevalIsle/31338-1a.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,854 @@
+{
+ "npcId": 31331,
+ "name": "Valdis",
+ "title": "Grand Magister",
+ "type": "L2VillageMasterMystic",
+ "generated": "2026-10-27T18:18:03.191Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/31331.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "73": {
+   "name": "Saga of the Duelist",
+   "listText": [
+    "[Saga of the Duelist]",
+    "[Saga of the Duelist (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00073_SagaOfTheDuelist/3-01.htm",
+     "when": "cond 10; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00073_SagaOfTheDuelist/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00073_SagaOfTheDuelist/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00073_SagaOfTheDuelist/3-06.htm",
+     "when": "cond 13; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "509": {
+   "name": "A Clan's Fame",
+   "listText": [
+    "[A Clan's Fame]",
+    "[A Clan's Fame (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00509_AClansFame/31331-0a.htm",
+     "when": "state CREATED; ((clan == null) || !player.isClanLeader() || (clan.getLevel() < 6))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00509_AClansFame/31331-0b.htm",
+     "when": "state CREATED; NOT ((clan == null) || !player.isClanLeader() || (clan.getLevel() < 6))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00509_AClansFame/31331-6.html",
+     "when": "state STARTED; ((clan == null) || !player.isClanLeader())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00509_AClansFame/31331-0.html",
+     "when": "state STARTED; !REWARD_POINTS.containsKey(raid)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "start"
+    }
+   ]
+  },
+  "510": {
+   "name": "A Clan's Prestige",
+   "listText": [
+    "[A Clan's Reputation]",
+    "[A Clan's Reputation (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00510_AClansPrestige/31331-0.htm",
+     "when": "state CREATED; ((clan == null) || !player.isClanLeader() || (clan.getLevel() < 5))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00510_AClansPrestige/31331-1.htm",
+     "when": "state CREATED; NOT ((clan == null) || !player.isClanLeader() || (clan.getLevel() < 5))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00510_AClansPrestige/31331-8.html",
+     "when": "state STARTED; ((clan == null) || !player.isClanLeader())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00510_AClansPrestige/31331-4.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00510_AClansPrestige/31331-7.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/31331.htm": {
+   "file": "villagemaster/31331.htm",
+   "quest": null,
+   "text": "Grand Magister Valdis: Welcome to the continent's largest and most extensive library! The massive amount of material archived here includes everything from the authentic chronicles of the previous empire to the research notes of current magisters. Not even Oren's Ivory Tower has as many tomes as we…",
+   "header": "Grand Magister Valdis",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest ElfHumanWizardChange2",
+     "kind": "quest",
+     "script": "ElfHumanWizardChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00073_SagaOfTheDuelist/3-01.htm": {
+   "file": "Q00073_SagaOfTheDuelist/3-01.htm",
+   "quest": 73,
+   "text": "Grand Magister Valdis: Hmm... The Stone of Commune, eh? Well, I'll give it to you if you're qualified to have it! But I need it to write my book, \"Trial of Heroes - Rewards of the Legendary Pilgrimage\". Do you have anything of equal value you want to trade? Will you help me? Let's see... If the leg…",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "cond 10; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I'm on the pilgrimage.\"",
+     "bypass": "Quest Q00073_SagaOfTheDuelist 3-5",
+     "kind": "quest-event",
+     "script": "Q00073_SagaOfTheDuelist",
+     "event": "3-5",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/3-07.htm"
+    }
+   ]
+  },
+  "Q00073_SagaOfTheDuelist/3-05.htm": {
+   "file": "Q00073_SagaOfTheDuelist/3-05.htm",
+   "quest": 73,
+   "text": "Grand Magister Valdis: Have you brought the Divine Stone of Wisdom? Let me see it! If it's real, it will resonate with this fragment of the Stone of Commune and give me information. If not, it's a fake. I certainly don't mean to imply that you're trying to trick me, I simply must follow procedures!…",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Go ahead.\"",
+     "bypass": "Quest Q00073_SagaOfTheDuelist 3-8",
+     "kind": "quest-event",
+     "script": "Q00073_SagaOfTheDuelist",
+     "event": "3-8",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00073_SagaOfTheDuelist/3-04.htm": {
+   "file": "Q00073_SagaOfTheDuelist/3-04.htm",
+   "quest": 73,
+   "text": "Grand Magister Valdis: Have you forgotten what you need to do? You shouldn't doubt your abilities! Or did you really forget where to go? To help the Ketra Orcs, go to their advance base in the northern part of Goddard Castle Town and meet their messenger Wahkan. To help the Varka Silenos, go to the…",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/3-06.htm": {
+   "file": "Q00073_SagaOfTheDuelist/3-06.htm",
+   "quest": 73,
+   "text": "Grand Magister Valdis: The stone tablet linked to that Stone of Commune is north of the Varka Silenos stronghold. Go there!",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "cond 13; !((npcId == 30849) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00509_AClansFame/31331-0a.htm": {
+   "file": "Q00509_AClansFame/31331-0a.htm",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Our townsfolk live in mortal fear of the Raid Bosses in this area. It would be disastrous if they were to actually intrude into the village... Our only hope is to obtain the assistance of a very powerful Clan Leader! Do you know one? (This quest is only available to the Leade…",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "state CREATED; ((clan == null) || !player.isClanLeader() || (clan.getLevel() < 6))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00509_AClansFame/31331-0b.htm": {
+   "file": "Q00509_AClansFame/31331-0b.htm",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Your Clan's sterling reputation precedes you! How would you and your compatriots like to enhance your Clan's prestige ? I'm afraid we've fallen into a bad situation here...",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "state CREATED; NOT ((clan == null) || !player.isClanLeader() || (clan.getLevel() < 6))"
+   ],
+   "links": [
+    {
+     "text": "\"What's the problem?\"",
+     "bypass": "Quest Q00509_AClansFame 31331-0c.htm",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-0c.htm",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-0c.htm"
+    }
+   ]
+  },
+  "Q00509_AClansFame/31331-6.html": {
+   "file": "Q00509_AClansFame/31331-6.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: You are no longer a clan lord -- I have nothing to ask of you. Go in peace.",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "state STARTED; ((clan == null) || !player.isClanLeader())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00509_AClansFame/31331-0.html": {
+   "file": "Q00509_AClansFame/31331-0.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Thank you! As a matter of fact, there are several Raid bosses around here. Which one can you defeat? Ah! Of course you don't have to do so personally. There is no rule that says a clan leader must take up the sword directly. You can order your clan members to defeat a Raid Bo…",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "state STARTED; !REWARD_POINTS.containsKey(raid)"
+   ],
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Daimon the White-Eyed",
+     "bypass": "Quest Q00509_AClansFame 31331-1.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-1.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-1.html"
+    },
+    {
+     "text": "Hestia, Guardian Deity of the Hot Springs",
+     "bypass": "Quest Q00509_AClansFame 31331-2.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-2.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-2.html"
+    },
+    {
+     "text": "Plague Golem",
+     "bypass": "Quest Q00509_AClansFame 31331-3.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-3.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-3.html"
+    },
+    {
+     "text": "Demon's Agent Falston",
+     "bypass": "Quest Q00509_AClansFame 31331-4.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-4.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-4.html"
+    }
+   ]
+  },
+  "Q00510_AClansPrestige/31331-0.htm": {
+   "file": "Q00510_AClansPrestige/31331-0.htm",
+   "quest": 510,
+   "text": "Grand Magister Valdis: The townspeople live in constant fear because of the Raid Bosses in this area. We must manufacture better arms and equipment for our guards to defeat this menace, but the materials are difficult to obtain... If there were a strong clan nearby, I would ask its clan leader. Do …",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "state CREATED; ((clan == null) || !player.isClanLeader() || (clan.getLevel() < 5))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00510_AClansPrestige/31331-1.htm": {
+   "file": "Q00510_AClansPrestige/31331-1.htm",
+   "quest": 510,
+   "text": "Grand Magister Valdis: I have heard of your clan's exploits. Would you and your members desire to come together and enhance your clan's prestige ? Any assistance you can provide us, be it large or small, would be greatly appreciated.",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "state CREATED; NOT ((clan == null) || !player.isClanLeader() || (clan.getLevel() < 5))"
+   ],
+   "links": [
+    {
+     "text": "\"What kind of assistance do you need?\"",
+     "bypass": "Quest Q00510_AClansPrestige 31331-2.htm",
+     "kind": "quest-event",
+     "script": "Q00510_AClansPrestige",
+     "event": "31331-2.htm",
+     "quest": 510,
+     "to": "Q00510_AClansPrestige/31331-2.htm"
+    }
+   ]
+  },
+  "Q00510_AClansPrestige/31331-8.html": {
+   "file": "Q00510_AClansPrestige/31331-8.html",
+   "quest": 510,
+   "text": "Grand Magister Valdis: You are no longer a clan lord -- I have nothing to ask of you. Go in peace.",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "state STARTED; ((clan == null) || !player.isClanLeader())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00510_AClansPrestige/31331-4.html": {
+   "file": "Q00510_AClansPrestige/31331-4.html",
+   "quest": 510,
+   "text": "Grand Magister Valdis: Are you still here? Hurry to the Primeval Isle and bring back the Tyrannosaurus Claw that I requested. Do you have any other business with me?",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"No, nothing. I'll go get the material.\"",
+     "bypass": "Quest Q00510_AClansPrestige 31331-5.html",
+     "kind": "quest-event",
+     "script": "Q00510_AClansPrestige",
+     "event": "31331-5.html",
+     "quest": 510,
+     "to": "Q00510_AClansPrestige/31331-5.html"
+    },
+    {
+     "text": "\"I wish to stop now.\"",
+     "bypass": "Quest Q00510_AClansPrestige 31331-6.html",
+     "kind": "quest-event",
+     "script": "Q00510_AClansPrestige",
+     "event": "31331-6.html",
+     "quest": 510,
+     "to": "Q00510_AClansPrestige/31331-6.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00510_AClansPrestige/31331-7.html": {
+   "file": "Q00510_AClansPrestige/31331-7.html",
+   "quest": 510,
+   "text": "Grand Magister Valdis: Well done! We will make great use of the material that you and your clan brought back. What a tremendous feat, to capture and bring back that ferocious creature! As promised, I will spread word everywhere that the clan you lead brought down a Tyrannosaurus. Could we possibly …",
+   "header": "Grand Magister Valdis",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "\"I will continue to go and get the material.\"",
+     "bypass": "Quest Q00510_AClansPrestige 31331-5.html",
+     "kind": "quest-event",
+     "script": "Q00510_AClansPrestige",
+     "event": "31331-5.html",
+     "quest": 510,
+     "to": "Q00510_AClansPrestige/31331-5.html"
+    },
+    {
+     "text": "\"I wish to stop now.\"",
+     "bypass": "Quest Q00510_AClansPrestige 31331-6.html",
+     "kind": "quest-event",
+     "script": "Q00510_AClansPrestige",
+     "event": "31331-6.html",
+     "quest": 510,
+     "to": "Q00510_AClansPrestige/31331-6.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00073_SagaOfTheDuelist/3-02.htm": {
+   "file": "Q00073_SagaOfTheDuelist/3-02.htm",
+   "quest": 73,
+   "text": "Grand Magister Valdis: Killing alone won't win you a stone. First, go to the Ketra Orcs advance base and meet with Wahkan, Messenger of Ketra. He'll help you form an alliance. Fight hard alongside them to win their trust. Or you could change your mind and fight for the Varka Silenos, I don't care!",
+   "header": "Grand Magister Valdis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/3-03.htm": {
+   "file": "Q00073_SagaOfTheDuelist/3-03.htm",
+   "quest": 73,
+   "text": "Grand Magister Valdis: Just killing won't win you a stone. First, you must go to the Varka Silenos stronghold and meet with Naran Ashanuk, their messenger. He'll help you to form an alliance with them. You must win their trust by proving yourself in battle. Or, if you want, you can approach the Ket…",
+   "header": "Grand Magister Valdis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00073_SagaOfTheDuelist/3-07.htm": {
+   "file": "Q00073_SagaOfTheDuelist/3-07.htm",
+   "quest": 73,
+   "text": "Grand Magister Valdis: What a surprise! Maybe you are guided by the goddess! You wouldn't know of that, would you? So, you're a Duelist? Maybe you can meet King Van Halter someday. Alas, he is away so much he may lose his throne soon! If you're a pilgrim, get the Divine Stone of Wisdom and bring it…",
+   "header": "Grand Magister Valdis",
+   "links": [
+    {
+     "text": "The Ketra Orcs",
+     "bypass": "Quest Q00073_SagaOfTheDuelist 3-6",
+     "kind": "quest-event",
+     "script": "Q00073_SagaOfTheDuelist",
+     "event": "3-6",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "The Varka Silenos",
+     "bypass": "Quest Q00073_SagaOfTheDuelist 3-7",
+     "kind": "quest-event",
+     "script": "Q00073_SagaOfTheDuelist",
+     "event": "3-7",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/3-03.htm",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00073_SagaOfTheDuelist/3-08.htm": {
+   "file": "Q00073_SagaOfTheDuelist/3-08.htm",
+   "quest": 73,
+   "text": "Grand Magister Valdis: Hmm.. There aren't many records of this. Just a few visions... I must find out more! To find out everything I can, I must communicate with the tablet... I'm not a pilgrim, so this won't work for me. This is a genuine Stone of Commune! Take this to the Tablet of Vision north o…",
+   "header": "Grand Magister Valdis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00509_AClansFame/31331-0c.htm": {
+   "file": "Q00509_AClansFame/31331-0c.htm",
+   "quest": 509,
+   "text": "Grand Magister Valdis: The local townsfolk live in mortal fear of the Raid Bosses in this area! It would be disastrous if they were to actually intrude into the village... Would you and your friends please use your power to set the minds of our townsfolk at ease? Success would give an enormous boos…",
+   "header": "Grand Magister Valdis",
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00509_AClansFame 31331-0.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-0.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00509_AClansFame/31331-1.html": {
+   "file": "Q00509_AClansFame/31331-1.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Very good! Slay Daimon the White-Eyed and bring me his eyeballs. And remember, you don't need to do the killing yourself! Just step aside and let your Clan members do the messy work!",
+   "header": "Grand Magister Valdis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00509_AClansFame/31331-1a.html": {
+   "file": "Q00509_AClansFame/31331-1a.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Slay Daimon the White-Eyed and bring me his eyeball. Remember, you don't need to do the killing yourself! Just stand back and let your Clan do the work for you!",
+   "header": "Grand Magister Valdis",
+   "links": [
+    {
+     "text": "\"I want to try killing another Raid Boss.\"",
+     "bypass": "Quest Q00509_AClansFame 31331-0.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-0.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00509_AClansFame/31331-1b.html": {
+   "file": "Q00509_AClansFame/31331-1b.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Excellent! I'll spread the word of your mighty Clan's defeat of Daimon the White-Eyed.",
+   "header": "Grand Magister Valdis",
+   "links": [
+    {
+     "text": "\"I want to kill some more Raid Bosses!\"",
+     "bypass": "Quest Q00509_AClansFame 31331-0.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-0.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-0.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"I want to quit this mission.\"",
+     "bypass": "Quest Q00509_AClansFame 31331-5.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-5.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-5.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00509_AClansFame/31331-2.html": {
+   "file": "Q00509_AClansFame/31331-2.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Very good! Slay the Guardian Deity of Hot Springs Hestia and bring me her Fairy Stone. Of course, you won't need to get your hands bloody... Have your Clan members do the killing for you! All you need to do is collect and bring back the proof!",
+   "header": "Grand Magister Valdis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00509_AClansFame/31331-2a.html": {
+   "file": "Q00509_AClansFame/31331-2a.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Slay Guardian Deity of Hot Springs Hestia and bring me her Fairy Stone. Remember, you need not kill the Guardian Deity of Hot Springs Hestia with your own hands. Just stand back and let your Clan do the work for you!",
+   "header": "Grand Magister Valdis",
+   "links": [
+    {
+     "text": "\"I want to try killing another Raid Boss.\"",
+     "bypass": "Quest Q00509_AClansFame 31331-5.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-5.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-5.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00509_AClansFame/31331-2b.html": {
+   "file": "Q00509_AClansFame/31331-2b.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Excellent! I'll spread the word of your mighty Clan's defeat of the Hestia, Guardian Deity of the Hot Springs.",
+   "header": "Grand Magister Valdis",
+   "links": [
+    {
+     "text": "\"I want to kill some more Raid Bosses!\"",
+     "bypass": "Quest Q00509_AClansFame 31331-0.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-0.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-0.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"I want to quit this mission.\"",
+     "bypass": "Quest Q00509_AClansFame 31331-5.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-5.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-5.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00509_AClansFame/31331-3.html": {
+   "file": "Q00509_AClansFame/31331-3.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Very good! Destroy the Plague Golem and bring me the Nucleus from the Golem. Remember, you don't need to do the killing yourself! Just stand back and let your Clan do the work for you!",
+   "header": "Grand Magister Valdis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00509_AClansFame/31331-3a.html": {
+   "file": "Q00509_AClansFame/31331-3a.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Defeat the Plague Golem and bring me the Nucleus of Lesser Golem. Remember, you need not kill the Plague Golem with your own hands. Just stand back and let your Clan do the work for you!",
+   "header": "Grand Magister Valdis",
+   "links": [
+    {
+     "text": "\"I want to try killing another Raid Boss.\"",
+     "bypass": "Quest Q00509_AClansFame 31331-0.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-0.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00509_AClansFame/31331-3b.html": {
+   "file": "Q00509_AClansFame/31331-3b.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Excellent! I'll spread the word of your mighty Clan's defeat of the Plague Golem.",
+   "header": "Grand Magister Valdis",
+   "links": [
+    {
+     "text": "\"I want to kill some more Raid Bosses!\"",
+     "bypass": "Quest Q00509_AClansFame 31331-0.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-0.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-0.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"I want to quit this mission.\"",
+     "bypass": "Quest Q00509_AClansFame 31331-5.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-5.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-5.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00509_AClansFame/31331-4.html": {
+   "file": "Q00509_AClansFame/31331-4.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Very good! Destroy Demon's Agent Falston and bring me Falston's Fang. Remember, you don't need to do the killing yourself! Just stand back and let your Clan do the work for you!",
+   "header": "Grand Magister Valdis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00509_AClansFame/31331-4a.html": {
+   "file": "Q00509_AClansFame/31331-4a.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Excellent! Destroy Demon's Agent Falston and bring me his Fang. Remember, you need not kill Demon's Agent Falston with your own hands. Just stand back and let your Clan do the work for you!",
+   "header": "Grand Magister Valdis",
+   "links": [
+    {
+     "text": "\"I want to try killing another Raid Boss.\"",
+     "bypass": "Quest Q00509_AClansFame 31331-0.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-0.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00509_AClansFame/31331-4b.html": {
+   "file": "Q00509_AClansFame/31331-4b.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: Excellent! Destroy Demon's Agent Falston and bring me his Fang. Remember, you need not kill Demon's Agent Falston with your own hands. Just stand back and let your Clan do the work for you!",
+   "header": "Grand Magister Valdis",
+   "links": [
+    {
+     "text": "\"I want to try killing another Raid Boss.\"",
+     "bypass": "Quest Q00509_AClansFame 31331-0.html",
+     "kind": "quest-event",
+     "script": "Q00509_AClansFame",
+     "event": "31331-0.html",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-0.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00509_AClansFame/31331-5.html": {
+   "file": "Q00509_AClansFame/31331-5.html",
+   "quest": 509,
+   "text": "Grand Magister Valdis: What? You want to quit? Oh well, I guess you and your Clan have better things to do...",
+   "header": "Grand Magister Valdis",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00510_AClansPrestige/31331-2.htm": {
+   "file": "Q00510_AClansPrestige/31331-2.htm",
+   "quest": 510,
+   "text": "Grand Magister Valdis: We lack sufficient weapons and armor to properly equip the guards who safeguard us here. The local blacksmiths have agreed to manufacture what we need, but lack the necessary raw materials to do so. We have been searching for those materials, but without much success. I recen…",
+   "header": "Grand Magister Valdis",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00510_AClansPrestige 31331-3.html",
+     "kind": "quest-event",
+     "script": "Q00510_AClansPrestige",
+     "event": "31331-3.html",
+     "quest": 510,
+     "to": "Q00510_AClansPrestige/31331-3.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00510_AClansPrestige/31331-3.html": {
+   "file": "Q00510_AClansPrestige/31331-3.html",
+   "quest": 510,
+   "text": "Grand Magister Valdis: Thank you, thank you! Legend has it that these creatures are extremely vicious... Oh, but I'm sure they will pose no more trouble to such a powerful clan than a kitten with her claws! So, will you go to the Primeval Isle and slay a Tyrannosaurus ? Naturally, we don't expect y…",
+   "header": "Grand Magister Valdis",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00510_AClansPrestige/31331-5.html": {
+   "file": "Q00510_AClansPrestige/31331-5.html",
+   "quest": 510,
+   "text": "Grand Magister Valdis: Then I'll leave it to you. The Tyrannosaurus of the Primeval Isle is ferocious, but I will trust in you and your clan and wait. Be sure to capture it and bring back a usable claw. Well, you know the way out. Thank you!",
+   "header": "Grand Magister Valdis",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00510_AClansPrestige/31331-6.html": {
+   "file": "Q00510_AClansPrestige/31331-6.html",
+   "quest": 510,
+   "text": "Grand Magister Valdis: You wish to quit? That's too bad, but I suppose it cannot be helped. Your clan must have concerns of its own...",
+   "header": "Grand Magister Valdis",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Duelist (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00073_SagaOfTheDuelist",
+     "kind": "quest",
+     "quest": 73,
+     "to": "Q00073_SagaOfTheDuelist/3-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[A Clan's Fame]",
+     "bypass": "npc_%objectId%_Quest Q00509_AClansFame",
+     "kind": "quest",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-0b.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[A Clan's Fame (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00509_AClansFame",
+     "kind": "quest",
+     "quest": 509,
+     "to": "Q00509_AClansFame/31331-6.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[A Clan's Reputation]",
+     "bypass": "npc_%objectId%_Quest Q00510_AClansPrestige",
+     "kind": "quest",
+     "quest": 510,
+     "to": "Q00510_AClansPrestige/31331-1.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[A Clan's Reputation (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00510_AClansPrestige",
+     "kind": "quest",
+     "quest": 510,
+     "to": "Q00510_AClansPrestige/31331-8.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

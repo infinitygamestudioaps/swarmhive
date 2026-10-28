@@ -1,0 +1,86 @@
+{
+ "npcId": 30198,
+ "name": "Jerin",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.894Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30198.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30198.htm": {
+   "file": "guard/30198.htm",
+   "quest": null,
+   "text": "Guard Jerin: Eh, nice weather, eh stranger? I've been a guard for a long time but, honestly, I've never even gotten a scratch in the line of duty. I am lucky. Really, even though you're a skilled adventurer, you'll never be able to beat someone who's lucky. One of my friends... He was so drunk one …",
+   "header": "Guard Jerin",
+   "links": [
+    {
+     "text": "Ask about the protection tower.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30198-1.htm"
+    },
+    {
+     "text": "Ask about the Sea of Spores.",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30198-2.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30198-1.htm": {
+   "file": "guard/30198-1.htm",
+   "quest": null,
+   "text": "Guard Jerin: the mages of the Ivory Tower joined with the Elves to build the Protection Tower at the center of the Sea of Spores. It was supposedly erected to halt the spread of the Sea of Spores but there is no evidence it is working... I think it more likely they are up to something...",
+   "header": "Guard Jerin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30198.htm"
+    }
+   ]
+  },
+  "guard/30198-2.htm": {
+   "file": "guard/30198-2.htm",
+   "quest": null,
+   "text": "Guard Jerin: You will see strange towers northwest of the town. Past the towers you will find the Sea of Spores. Fungus, mushrooms and other unusual plants grow there... You wouldn't catch me dead there. It is said that humans and elves fought there long ago, and the elves made a huge mistake. Befo…",
+   "header": "Guard Jerin",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30198.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

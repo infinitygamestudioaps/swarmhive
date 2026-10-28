@@ -1,0 +1,493 @@
+{
+ "npcId": 30417,
+ "name": "Sir Klaus Vasper",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.974Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30417.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "229": {
+   "name": "Test Of Witchcraft",
+   "listText": [
+    "[Test of Witchcraft]",
+    "[Test of Witchcraft (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00229_TestOfWitchcraft/30417-01.htm",
+     "when": "state STARTED; has items 3324,3325",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30417-04.htm",
+     "when": "state STARTED; has items 3324,3327; lacks items 3325",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30417-05.htm",
+     "when": "state STARTED; has items 3324,3330; lacks items 3325,3327",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00229_TestOfWitchcraft/30417-06.htm",
+     "when": "state STARTED; has items 3324,3029; lacks items 3325,3327,3330",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "402": {
+   "name": "Path Of The Human Knight",
+   "listText": [
+    "[Path of the Human Knight]",
+    "[Path of the Human Knight (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30417-01.htm",
+     "when": "(qs.isCreated() || qs.isCompleted())",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30417-09.html",
+     "when": "state STARTED; has items 1271; !(qs.isCreated() || qs.isCompleted()); (CoinCount) < 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30417-10.html",
+     "when": "state STARTED; has items 1271; !(qs.isCreated() || qs.isCompleted()); !(CoinCount) < 3; (CoinCount) == 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30417-11.html",
+     "when": "state STARTED; has items 1271; !(qs.isCreated() || qs.isCompleted()); !(CoinCount) < 3; !(CoinCount) == 3; (CoinCount) > 3",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00402_PathOfTheHumanKnight/30417-12.html",
+     "when": "state STARTED; has items 1271; !(qs.isCreated() || qs.isCompleted()); !(CoinCount) < 3; !(CoinCount) == 3; !(((CoinCount) > 3) && ((CoinCount) < 6))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30417.htm": {
+   "file": "default/30417.htm",
+   "quest": null,
+   "text": "Sir Klaus Vasper: Greetings. I am Klaus Vasper, first son of the Vasper family that has protected the province of Gludio for five generations, and member of the glorious Continental Knights League, knighted by King Cadmus as the Guardian Knight of the west. The romance of chivalry sung by wandering…",
+   "header": "Sir Klaus Vasper",
+   "links": [
+    {
+     "text": "Ask about the Knights of Gludio.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "default/30417-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "default/30417-1.htm": {
+   "file": "default/30417-1.htm",
+   "quest": null,
+   "text": "Sir Klaus Vasper: In Castle Aden, the capitol of the kingdom, hundreds of knights serve the king, but there are only three members of the Knight Guild in Gludio including myself. Sir Collin Windawood, keeper of the sword of ritual, has been dispatched to serve as the governor of Talking Island, and…",
+   "header": "Sir Klaus Vasper",
+   "links": [
+    {
+     "text": "Ask about the Sword of Ritual",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "default/30417-2.htm"
+    }
+   ]
+  },
+  "default/30417-2.htm": {
+   "file": "default/30417-2.htm",
+   "quest": null,
+   "text": "Sir Klaus Vasper: The Sword of Ritual is a token used in the ritual of changing profession to a Human Knight. It was originally held by the knights of the Windawood family, but currently, I am in charge of it instead of Sir Collin.",
+   "header": "Sir Klaus Vasper",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "default/30417.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30417-01.htm": {
+   "file": "Q00229_TestOfWitchcraft/30417-01.htm",
+   "quest": 229,
+   "text": "Sir Klaus Vasper: Hello! I am Klaus Vasper, a member of the glorious continental Knight league, knighted by King Cadmus as the Guardian Knight of the west. Also known as 'guardian of the 3 swords'.",
+   "header": "Sir Klaus Vasper",
+   "when": [
+    "state STARTED; has items 3324,3325"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Sword of Binding",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30417-02.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30417-02.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30417-02.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30417-04.htm": {
+   "file": "Q00229_TestOfWitchcraft/30417-04.htm",
+   "quest": 229,
+   "text": "Sir Klaus Vasper: If you wish to use the Sword of Binding you must have the permission of the shrine . Go to Priest Vadin in Town of Oren and get his permission.",
+   "header": "Sir Klaus Vasper",
+   "when": [
+    "state STARTED; has items 3324,3327; lacks items 3325"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30417-05.htm": {
+   "file": "Q00229_TestOfWitchcraft/30417-05.htm",
+   "quest": 229,
+   "text": "Sir Klaus Vasper: A sanction from the shrine! I shall lend you the Sword of Binding . I pray that you find and punish the creature that you seek.",
+   "header": "Sir Klaus Vasper",
+   "when": [
+    "state STARTED; has items 3324,3330; lacks items 3325,3327"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30417-06.htm": {
+   "file": "Q00229_TestOfWitchcraft/30417-06.htm",
+   "quest": 229,
+   "text": "Sir Klaus Vasper: I see that you are still hunting the creature. I pray for your success in the name of the Goddess of Light!",
+   "header": "Sir Klaus Vasper",
+   "when": [
+    "state STARTED; has items 3324,3029; lacks items 3325,3327,3330"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30417-01.htm": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-01.htm",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: Even in this age, there are still young fighters now and then who wish to become a Human Knight. However, most are novices wrapped up in fantasies that they will become hero knights like those from legends. There are not many that have the qualities of a true Knight -- in other wo…",
+   "header": "Sir Klaus Vasper",
+   "when": [
+    "(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you want to become a Human Knight",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "ACCEPT",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30417-05.htm",
+     "toAll": [
+      "Q00402_PathOfTheHumanKnight/30417-04.htm",
+      "Q00402_PathOfTheHumanKnight/30417-05.htm",
+      "Q00402_PathOfTheHumanKnight/30417-02.htm",
+      "Q00402_PathOfTheHumanKnight/30417-02a.htm",
+      "Q00402_PathOfTheHumanKnight/30417-03.htm"
+     ]
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30417-09.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-09.html",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: Your pilgrimage is not over until you receive at least three coins of lords . Travel around the various villages in Gludio and meet the Guard Captains and High Priests. You can receive coins if you perform their tasks.",
+   "header": "Sir Klaus Vasper",
+   "when": [
+    "state STARTED; has items 1271; !(qs.isCreated() || qs.isCompleted()); (CoinCount) < 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30417-10.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-10.html",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: Come, comrade of the sword. You have done well. By bringing these three coins of lords, you have proven you have the abilities and qualities to become a Knight. Now, do you want to complete the trial of the esquire? If so, I will give you the Sword of Ritual, with which you may ch…",
+   "header": "Sir Klaus Vasper",
+   "when": [
+    "state STARTED; has items 1271; !(qs.isCreated() || qs.isCompleted()); !(CoinCount) < 3; (CoinCount) == 3"
+   ],
+   "links": [
+    {
+     "text": "Say you will continue the trial of the esquire",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30417-15.html",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30417-15.html",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30417-15.html"
+    },
+    {
+     "text": "Say you will finish the trial",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30417-13.html",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30417-13.html",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30417-13.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30417-11.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-11.html",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: Welcome, comrade of the sword. I see you have had great success on your pilgrimage. You have brought many coins of lords when you only had to bring three ... This proves that you have sufficient ability and disposition to become a Human Knight. Now, do you want to complete the tri…",
+   "header": "Sir Klaus Vasper",
+   "when": [
+    "state STARTED; has items 1271; !(qs.isCreated() || qs.isCompleted()); !(CoinCount) < 3; !(CoinCount) == 3; (CoinCount) > 3"
+   ],
+   "links": [
+    {
+     "text": "Say you will continue the trial of the esquire",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30417-15.html",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30417-15.html",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30417-15.html"
+    },
+    {
+     "text": "Say you will finish the trial",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30417-14.html",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30417-14.html",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30417-14.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30417-12.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-12.html",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: Welcome, comrade of the sword. I cannot be anything but surprised - it has been long indeed since any esquires that have brought back six coins of lords. This is more than enough to prove that you have the abilities and qualities to become a Human Knight. Now it is time to complet…",
+   "header": "Sir Klaus Vasper",
+   "when": [
+    "state STARTED; has items 1271; !(qs.isCreated() || qs.isCompleted()); !(CoinCount) < 3; !(CoinCount) == 3; !(((CoinCount) > 3) && ((CoinCount) < 6))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00229_TestOfWitchcraft/30417-02.htm": {
+   "file": "Q00229_TestOfWitchcraft/30417-02.htm",
+   "quest": 229,
+   "text": "Sir Klaus Vasper: I am entrusted with 3 swords. The first is the 'Sword of Ritual' which is used in every knighting ceremony. The second is the 'Sword of Chastity' which our ancestors received from Ordana, the lady of the forest. The last is the Sword of Binding which Artreus, the hero of Elmoreden…",
+   "header": "Sir Klaus Vasper",
+   "links": [
+    {
+     "text": "May I please borrow the Sword of Binding?",
+     "bypass": "Quest Q00229_TestOfWitchcraft 30417-03.htm",
+     "kind": "quest-event",
+     "script": "Q00229_TestOfWitchcraft",
+     "event": "30417-03.htm",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30417-03.htm"
+    }
+   ]
+  },
+  "Q00229_TestOfWitchcraft/30417-03.htm": {
+   "file": "Q00229_TestOfWitchcraft/30417-03.htm",
+   "quest": 229,
+   "text": "Sir Klaus Vasper: No need to explain, I can see that you are in desperate need of the Sword of Binding. Unfortunately I cannot lend you the Sword of Binding without the permission of the Einhasad shrine . We must take every precaution to guarantee that the sword does not fall into the hands of the …",
+   "header": "Sir Klaus Vasper",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30417-02.htm": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-02.htm",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: y comrade of the sword, you are still not experienced enough to become a Knight. I can see the true passion and belief you hold in your heart, but those are not enough -- only through the forge of battle will you also gain the power to hold fast to those beliefs in the midst of un…",
+   "header": "Sir Klaus Vasper",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30417-02a.htm": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-02a.htm",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: Haven't you already earned the title of Knight? Brother, you need not receive the trial of the esquire again. Your duty is to fight for your noble faith and the glory of the lord.",
+   "header": "Sir Klaus Vasper",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30417-03.htm": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-03.htm",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: It seems that you have already selected your path. You do not need to perform the trials of the esquire.",
+   "header": "Sir Klaus Vasper",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30417-04.htm": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-04.htm",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: Haven't you already received the Sword of Ritual ? That sword is proof that you have the qualifications to become a Knight. If you take it to the grand master of the fighters guild, he will change your profession to a Human Knight.",
+   "header": "Sir Klaus Vasper",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30417-05.htm": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-05.htm",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: You want to become a Human Knight? Then you must go through the trial of the esquire to prove that you are not merely a rash, hot-blooded fighter, but one with true knightly spirit. This is a form of ritual and a process of training that all who desire to become a Human Knight mus…",
+   "header": "Sir Klaus Vasper",
+   "links": [
+    {
+     "text": "Ask about the trial of the esquire",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30417-06.html",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30417-06.html",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30417-06.html"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30417-06.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-06.html",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: Knights were initially chosen to fight injustice and to protect the weak. The right to wear a sword and shield goes along with the responsibility to protect citizens from danger. The attire of knights has changed many times along with the changes of eras, but the fact that we are …",
+   "header": "Sir Klaus Vasper",
+   "links": [
+    {
+     "text": "Ask about the Coin of Lord.",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30417-07.htm",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30417-07.htm",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30417-07.htm"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30417-07.htm": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-07.htm",
+   "quest": 402,
+   "text": "Sir Karrel Vasper: Traditionally, the lord of the citizens who received the apprentice knight's help would show gratitude by inviting the apprentice to his castle and throwing a feast. But these days, the tradition is to give a Coin of Lords. A Coin of Lords is a gold coin engraved with a wise sayi…",
+   "header": "Sir Karrel Vasper",
+   "links": [
+    {
+     "text": "Receive the trial of the apprentice knight.",
+     "bypass": "Quest Q00402_PathOfTheHumanKnight 30417-08.htm",
+     "kind": "quest-event",
+     "script": "Q00402_PathOfTheHumanKnight",
+     "event": "30417-08.htm",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30417-08.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00402_PathOfTheHumanKnight/30417-08.htm": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-08.htm",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: Very well. I, Sir Klaus Vasper, the guardian knight of the west, bestow this Trial of the Apprentice Knight upon you. Always carry this mark with you while embarking on the trial. This is how people along your pilgrimage will recognize you as an apprentice knight. As you go around…",
+   "header": "Sir Klaus Vasper",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30417-13.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-13.html",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: You have successfully endured a most demanding trial. Congratulations! Now you are qualified to become a Human Knight. I will give you the Sword of Ritual. This sword was used in the knighting ceremony of the legendary Sir Sedrick -- bear it with care. If you take this to the Gran…",
+   "header": "Sir Klaus Vasper",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30417-14.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-14.html",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: You have successfully endured a most demanding trial. Congratulations! Now you are qualified to become a Human Knight. I will give you the Sword of Ritual. This sword was used in the knighting ceremony of the legendary Sir Sedrick -- bear it with care. If you take this to the Gran…",
+   "header": "Sir Klaus Vasper",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00402_PathOfTheHumanKnight/30417-15.html": {
+   "file": "Q00402_PathOfTheHumanKnight/30417-15.html",
+   "quest": 402,
+   "text": "Sir Klaus Vasper: Three coins of lords are the minimum condition in order to become a Human Knight. If you think that you are not ready, continue your pilgrimage. If there are villages in Gludio that you have not gone to yet, go to them and meet the Guard Captains or High Priests. I heard one enthu…",
+   "header": "Sir Klaus Vasper",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of Witchcraft (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00229_TestOfWitchcraft",
+     "kind": "quest",
+     "quest": 229,
+     "to": "Q00229_TestOfWitchcraft/30417-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Human Knight]",
+     "bypass": "npc_%objectId%_Quest Q00402_PathOfTheHumanKnight",
+     "kind": "quest",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30417-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Path of the Human Knight (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00402_PathOfTheHumanKnight",
+     "kind": "quest",
+     "quest": 402,
+     "to": "Q00402_PathOfTheHumanKnight/30417-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

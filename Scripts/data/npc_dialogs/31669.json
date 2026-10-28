@@ -1,0 +1,49 @@
+{
+ "npcId": 31669,
+ "name": "Onyx",
+ "title": "Mineral Trader",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.267Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31669.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31669.htm": {
+   "file": "merchant/31669.htm",
+   "quest": null,
+   "text": "Mineral Trader Onyx: Welcome! What do you think of Hunter's Village? We Dwarves live mostly in the northern end, but not because we dislike the beauty of nature. No, it's just that the rare minerals we seek are located here. Still, it's a lovely spot!",
+   "header": "Mineral Trader Onyx",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "npc_%objectId%_Buy 3166900",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

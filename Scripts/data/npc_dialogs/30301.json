@@ -1,0 +1,76 @@
+{
+ "npcId": 30301,
+ "name": "Hally",
+ "title": "Grocer",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.929Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30301.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30301.htm": {
+   "file": "merchant/30301.htm",
+   "quest": null,
+   "text": "Trader Hally: Welcome! Tired? Then rest for a while over there. What brought you here? Oh, you don't have to tell me, I know. Of course... There's no other reason why you are here, rght? You're here to hunt...am I right? Eh? After all, all kinds of hunters come to our village. Well, come here and t…",
+   "header": "Trader Hally",
+   "links": [
+    {
+     "text": "Buy supplies and minerals.",
+     "bypass": "npc_%objectId%_Buy 3030100",
+     "kind": "shop"
+    },
+    {
+     "text": "Buy dyes.",
+     "bypass": "npc_%objectId%_Buy 3030101",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30301-pk.htm": {
+   "file": "merchant/30301-pk.htm",
+   "quest": null,
+   "text": "Trader Hally: Such a pity that one as young as you would be a criminal... You must leave, and don't get caught! Everyone is on alert...",
+   "header": "Trader Hally",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Buy/Sell/Refund General."
+ ],
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund General.",
+   "n": 4,
+   "inDatapack": false,
+   "from": [
+    "Trader Hally:Welcome! Are you tired? You can rest here. What"
+   ],
+   "to": []
+  }
+ ]
+}

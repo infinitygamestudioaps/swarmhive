@@ -1,0 +1,57 @@
+{
+ "npcId": 30209,
+ "name": "Colleen",
+ "title": "Dye Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.911Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/30209.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/30209.htm": {
+   "file": "merchant/30209.htm",
+   "quest": null,
+   "text": "Dye Merchant Colleen: Welcome! Our shop specializes in weapons. Isn't the power of pigments amazing? Even an outstanding adventurer may need something we carry in our shop. Have a look!",
+   "header": "Dye Merchant Colleen",
+   "links": [
+    {
+     "text": "Buy dyes.",
+     "bypass": "npc_%objectId%_Buy 3020900",
+     "kind": "shop"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/30209-pk.htm": {
+   "file": "merchant/30209-pk.htm",
+   "quest": null,
+   "text": "Dye Merchant Colleen: I do not wish to bestow the power of magic to one like yourself. Leave this place at once.",
+   "header": "Dye Merchant Colleen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

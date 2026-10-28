@@ -1,0 +1,725 @@
+{
+ "npcId": 32114,
+ "name": "Mushika",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.331Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32114.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "111": {
+   "name": "Elrokian Hunter's Proof",
+   "listText": [
+    "[Elrokian Hunters]",
+    "[Elrokian Hunter's Proof (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00111_ElrokianHuntersProof/32114-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32114-02.html",
+     "when": "state STARTED; qs.getMemoState() > 1; qs.getMemoState() < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00111_ElrokianHuntersProof/32114-03.html",
+     "when": "state STARTED; !((qs.getMemoState() > 1) && (qs.getMemoState() < 10))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "124": {
+   "name": "Meeting the Elroki",
+   "listText": [
+    "[Meeting the Elroki]",
+    "[Meeting the Elroki (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00124_MeetingTheElroki/32114-01.html",
+     "when": "state STARTED; switch(st.getInt(\"cond\")) case 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32114-02.html",
+     "when": "state STARTED; switch(st.getInt(\"cond\")) case 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00124_MeetingTheElroki/32114-03.html",
+     "when": "state STARTED; switch(st.getInt(\"cond\")) case default",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "125": {
+   "name": "The Name of Evil - 1",
+   "listText": [
+    "[The Name of Evil 1]",
+    "[The Name of Evil 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00125_TheNameOfEvil1/32114-01a.htm",
+     "when": "state CREATED; level < 76",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32114-01.htm",
+     "when": "state CREATED; NOT level < 76; (player.hasQuestCompleted(Q00124_MeetingTheElroki.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32114-01b.htm",
+     "when": "state CREATED; NOT level < 76; NOT (player.hasQuestCompleted(Q00124_MeetingTheElroki.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32114-09.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32114-10.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32114-11.html",
+     "when": "state STARTED; cond 3|4|5|6|7",
+     "state": "STARTED",
+     "cond": [
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00125_TheNameOfEvil1/32114-12.html",
+     "when": "state STARTED; cond 8",
+     "state": "STARTED",
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "126": {
+   "name": "The Name of Evil - 2",
+   "listText": [
+    "[The Name of Evil 2]",
+    "[The Name of Evil 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00126_TheNameOfEvil2/32114-4.html",
+     "when": "state STARTED; cond <22",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32114-1.html",
+     "when": "state STARTED; cond 22",
+     "state": "STARTED",
+     "cond": [
+      22
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00126_TheNameOfEvil2/32114-2.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "cond"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32114.htm": {
+   "file": "default/32114.htm",
+   "quest": null,
+   "text": "Mushika: (The stern-looking Elrokhian doesn't seem very approachable. He has a wise face and the look of an dignified warrior. You suspect that he is a leader of his people.)",
+   "header": "Mushika",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00111_ElrokianHuntersProof/32114-01.html": {
+   "file": "Q00111_ElrokianHuntersProof/32114-01.html",
+   "quest": 111,
+   "text": "Mushika: Uhh, Ma...(coughing)...Marquez sent you? Um...um... (coughing)... Forgive me, I am so very weak... Please speak with my son Asamah...",
+   "header": "Mushika",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32114-02.html": {
+   "file": "Q00111_ElrokianHuntersProof/32114-02.html",
+   "quest": 111,
+   "text": "Mushika: Uhhh...(coughing)... Please, speak with my son Asamah...",
+   "header": "Mushika",
+   "when": [
+    "state STARTED; qs.getMemoState() > 1; qs.getMemoState() < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00111_ElrokianHuntersProof/32114-03.html": {
+   "file": "Q00111_ElrokianHuntersProof/32114-03.html",
+   "quest": 111,
+   "text": "Mushika: Ah, you understand us very well, almost as if you were one of us...(coughing)... What...(coughing)...do you...need...(coughing)...I'm sorry, I fear I am too weak to speak more... Please talk to my son, Asamah...",
+   "header": "Mushika",
+   "when": [
+    "state STARTED; !((qs.getMemoState() > 1) && (qs.getMemoState() < 10))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32114-01.html": {
+   "file": "Q00124_MeetingTheElroki/32114-01.html",
+   "quest": 124,
+   "text": "Mushika: Invader...(coughing)...invader!",
+   "header": "Mushika",
+   "when": [
+    "state STARTED; switch(st.getInt(\"cond\")) case 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00124_MeetingTheElroki/32114-02.html": {
+   "file": "Q00124_MeetingTheElroki/32114-02.html",
+   "quest": 124,
+   "text": "Mushika: Uh... Shilen, our mother... Do not abandon your chosen people, the Elroki tribe... Elroki! Bestow on us your mighty power...",
+   "header": "Mushika",
+   "when": [
+    "state STARTED; switch(st.getInt(\"cond\")) case 2"
+   ],
+   "links": [
+    {
+     "text": "He seems to be delirious because of fever. Tell him that you are here at Marquez' request.",
+     "bypass": "Quest Q00124_MeetingTheElroki 32114-04.html",
+     "kind": "quest-event",
+     "script": "Q00124_MeetingTheElroki",
+     "event": "32114-04.html",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32114-04.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32114-03.html": {
+   "file": "Q00124_MeetingTheElroki/32114-03.html",
+   "quest": 124,
+   "text": "Mushika: My son...Asamah...(coughing)... Do you not...see...him...there?",
+   "header": "Mushika",
+   "when": [
+    "state STARTED; switch(st.getInt(\"cond\")) case default"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32114-01a.htm": {
+   "file": "Q00125_TheNameOfEvil1/32114-01a.htm",
+   "quest": 125,
+   "text": "Mushika: Ugh, you... Do you look down your nose upon our Elrokian warriors, or are you simply ignorant of the facts? Inexperienced youngsters like you come to a bad end quickly in this place... (Only characters level 76 and above are permitted to take on this quest.)",
+   "header": "Mushika",
+   "when": [
+    "state CREATED; level < 76"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32114-01.htm": {
+   "file": "Q00125_TheNameOfEvil1/32114-01.htm",
+   "quest": 125,
+   "text": "Mushika: Uh... We've never met before...have we? You seem somehow familiar...",
+   "header": "Mushika",
+   "when": [
+    "state CREATED; NOT level < 76; (player.hasQuestCompleted(Q00124_MeetingTheElroki.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "\"We spoke briefly while you were very sick.\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32114-02.htm",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32114-02.htm",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32114-02.htm"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32114-01b.htm": {
+   "file": "Q00125_TheNameOfEvil1/32114-01b.htm",
+   "quest": 125,
+   "text": "Mushika: Chief Mushika looks in your eyes intently. (Only characters above level 76 who have formed a bond with the Elroki tribe are permitted to take on this quest.)",
+   "header": "Mushika",
+   "when": [
+    "state CREATED; NOT level < 76; NOT (player.hasQuestCompleted(Q00124_MeetingTheElroki.class.getSimpleName()))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32114-09.html": {
+   "file": "Q00125_TheNameOfEvil1/32114-09.html",
+   "quest": 125,
+   "text": "Mushika: Thank you for saying that. Asamah and I suspect that my illness is somehow connected to our ancient home, the Lost Nest. Nor do we think that our troubles have ended simply because I have been restored to health. But in you, I see the fated link that will reconnect my people with our past …",
+   "header": "Mushika",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"I don't understand. What are you talking about?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32114-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32114-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32114-06.html"
+    },
+    {
+     "text": "\"How I can help?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32114-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32114-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32114-07.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32114-10.html": {
+   "file": "Q00125_TheNameOfEvil1/32114-10.html",
+   "quest": 125,
+   "text": "Mushika: Very well. Then go to Karakawei and tell him that I sent you. He will tell you in detail what you must do in the Lost Nest. (Mushika looks around carefully, then takes out an object from his chest.) When the time comes, make good use of it. Complete the task as Karakawei directs you and th…",
+   "header": "Mushika",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32114-11.html": {
+   "file": "Q00125_TheNameOfEvil1/32114-11.html",
+   "quest": 125,
+   "text": "Mushika: Why haven't you left? If you've already spoken with Karakawei, you should know what you have to do. I can do nothing else for you now, so go.",
+   "header": "Mushika",
+   "when": [
+    "state STARTED; cond 3|4|5|6|7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32114-12.html": {
+   "file": "Q00125_TheNameOfEvil1/32114-12.html",
+   "quest": 125,
+   "text": "Mushika: Shilen, you have answered our heartfelt prayers! Blessed are you! Oh, outsider of fate, our tribe already owes you our thanks. You have risked your life to bring us this epitaph, and Asamah and I will not rest until we have deciphered it. Thanks to you, I know we will finally prove to our …",
+   "header": "Mushika",
+   "when": [
+    "state STARTED; cond 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32114-4.html": {
+   "file": "Q00126_TheNameOfEvil2/32114-4.html",
+   "quest": 126,
+   "text": "Mushika: Ho, you are hot-tempered, I see! Patience, my young friend! Everything has its own time and place. I do not know what you were doing before coming to see me, but it is not difficult to tell that you abandoned whatever you were supposed to be doing to come here. Am I wrong?",
+   "header": "Mushika",
+   "when": [
+    "state STARTED; cond <22"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32114-1.html": {
+   "file": "Q00126_TheNameOfEvil2/32114-1.html",
+   "quest": 126,
+   "text": "Mushika: Welcome... Are you here because you wish to hear about the fragment of Gazkh? You are! Then listen to a tale that makes my heart sing for joy! The only weapon capable of defeating Sailren has been discovered!",
+   "header": "Mushika",
+   "when": [
+    "state STARTED; cond 22"
+   ],
+   "links": [
+    {
+     "text": "Listen further.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32114-2.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32114-2.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32114-2.html",
+     "effect": "cond:23"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32114-2.html": {
+   "file": "Q00126_TheNameOfEvil2/32114-2.html",
+   "quest": 126,
+   "text": "Mushika: My heart leaps for joy at this unexpected clue! I never expected news of the ancient weapon, Gazkh, from an old document like this. Not even a scholarly tome, at that! But in this ordinary book, \"Traces of Living Beings of the Ancient Times,\" lay hidden the ancient Elrokian password... Thi…",
+   "header": "Mushika",
+   "when": [
+    "state STARTED"
+   ],
+   "sets": {
+    "cond": "23"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Tell him that you will try to find the fragments.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32114-2b.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32114-2b.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32114-2b.html"
+    },
+    {
+     "text": "Ask to learn about the contents of \"Traces of Living Beings of the Ancient Times\" and learn the password.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32114-2a.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32114-2a.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32114-2a.html"
+    }
+   ]
+  },
+  "Q00124_MeetingTheElroki/32114-04.html": {
+   "file": "Q00124_MeetingTheElroki/32114-04.html",
+   "quest": 124,
+   "text": "Mushika: Ma...Marquez! My friend...(coughing)...I'm sorry. Before... your book...is...finished...I, Mushika...must...go to...Shilen's side. Please, call my...son...Asamah...(coughing)...",
+   "header": "Mushika",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00125_TheNameOfEvil1/32114-02.htm": {
+   "file": "Q00125_TheNameOfEvil1/32114-02.htm",
+   "quest": 125,
+   "text": "Mushika: Then you are the outsider of fate, the one Marquez sent! Oh yes, I remember now, through the haze of my fever... Asamah tells me that you have brought the Mantarasa egg, despite the danger? I am not completely recovered, but I am mending, thanks to you. Like my friend Marquez, you have rar…",
+   "header": "Mushika",
+   "links": [
+    {
+     "text": "Tell him that you did what you had to do.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32114-03.htm",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32114-03.htm",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32114-03.htm"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32114-03.htm": {
+   "file": "Q00125_TheNameOfEvil1/32114-03.htm",
+   "quest": 125,
+   "text": "Mushika: You are not only brave, but also humble. Outsider -- no, now my friend -- I am in your debt. But I must ask you for help in a still more serious matter. We Elrokians have a saying:\"A brave warrior wears a bell necklace that calls danger.\" It seems to apply to you as well.",
+   "header": "Mushika",
+   "links": [
+    {
+     "text": "\"What do you mean?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32114-04.htm",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32114-04.htm",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32114-04.htm"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32114-04.htm": {
+   "file": "Q00125_TheNameOfEvil1/32114-04.htm",
+   "quest": 125,
+   "text": "Mushika: No, no. Forgive the ramblings of an old man. It's unfair to ask you to aid our Elroki tribe, given all that you've already done for me, but... Somehow I think you may be able to succeed where we have failed.",
+   "header": "Mushika",
+   "links": [
+    {
+     "text": "Tell him that you are interested and ask to hear more.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32114-05.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32114-05.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32114-05.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32114-05.html": {
+   "file": "Q00125_TheNameOfEvil1/32114-05.html",
+   "quest": 125,
+   "text": "Mushika: Thank you for saying that. Asamah and I do not think that everything has been set right simply because I have been cured. My illness was no coincidence, my foreign friend. I suspect that it is connected to something in our people's distant past. And in you I see the fated link that will re…",
+   "header": "Mushika",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"I don't understand. What are you talking about?\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32114-06.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32114-06.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32114-06.html"
+    },
+    {
+     "text": "\"Tell me how I can help.\"",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32114-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32114-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32114-07.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32114-06.html": {
+   "file": "Q00125_TheNameOfEvil1/32114-06.html",
+   "quest": 125,
+   "text": "Mushika: I find it difficult to speak of our troubles in detail using your language. Simply put, the Elrokian race is only a shadow of its former self. Now an ancient evil has been reawakened, and unless it is stopped we Elrokians will be exterminated entirely. This entire island will revert to the…",
+   "header": "Mushika",
+   "links": [
+    {
+     "text": "Listen to him further.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32114-07.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32114-07.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32114-07.html"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32114-07.html": {
+   "file": "Q00125_TheNameOfEvil1/32114-07.html",
+   "quest": 125,
+   "text": "Mushika: I have spent my life trying to win back the Lost Nest for my people. Many believe it is a fool's errand, and that I have neglected the present for the sake of the past. But in my heart I know that this is my sacred duty. The relative comfort of our life on these Primeval Plains is a sweet …",
+   "header": "Mushika",
+   "links": [
+    {
+     "text": "Tell him you did.",
+     "bypass": "Quest Q00125_TheNameOfEvil1 32114-08.html",
+     "kind": "quest-event",
+     "script": "Q00125_TheNameOfEvil1",
+     "event": "32114-08.html",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32114-08.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00125_TheNameOfEvil1/32114-08.html": {
+   "file": "Q00125_TheNameOfEvil1/32114-08.html",
+   "quest": 125,
+   "text": "Mushika: Very well. Then go to Karakawei and tell him that I sent you. He will tell you in detail what you must do in the Lost Nest. Complete the task as Karakawei directs you and then return to me. This is all I can tell you -- it is not entirely safe to speak openly of these important matters her…",
+   "header": "Mushika",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00126_TheNameOfEvil2/32114-2a.html": {
+   "file": "Q00126_TheNameOfEvil2/32114-2a.html",
+   "quest": 126,
+   "text": "Mushika: You are indeed filled with curiosity! Very well, then. Listen carefully and I will read to you the part in which the password is hidden. The contents of \"Traces of Living Beings from Ancient Times\" is fairly well known to any scholar of mythology or history. \"... In the days of old, when t…",
+   "header": "Mushika",
+   "links": [
+    {
+     "text": "Next.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32114-2c.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32114-2c.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32114-2c.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32114-2b.html": {
+   "file": "Q00126_TheNameOfEvil2/32114-2b.html",
+   "quest": 126,
+   "text": "Mushika: Time is now urgent; we do not know when Sailren's violence will begin to spread further. If I interpret this correctly, the fragments of Gazkh are embedded in the bodies of several of the predatory dinosaurs. To find out more, you must communicate with Shilen's stone statue, the gatekeeper…",
+   "header": "Mushika",
+   "links": [
+    {
+     "text": "\"I know the way very well.\"",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32114-3.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32114-3.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32114-3.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32114-2c.html": {
+   "file": "Q00126_TheNameOfEvil2/32114-2c.html",
+   "quest": 126,
+   "text": "Mushika: Although they had subjugated all the races of the world, the Giants seemed uneasy in their rule. Legend has it that they then created a mighty army of Orcs. But no one knows their purpose... There must still have been something or some creatures they considered a threat. But what kind of c…",
+   "header": "Mushika",
+   "links": [
+    {
+     "text": "The last part.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32114-2d.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32114-2d.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32114-2d.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32114-2d.html": {
+   "file": "Q00126_TheNameOfEvil2/32114-2d.html",
+   "quest": 126,
+   "text": "Mushika: I read this document over and over again, but I never thought the password was hidden inside. I didn't know that this book was really a secret document written in ancient secret passwords -- like others, I read it only with scholarly interest. But although this seems to be like any other d…",
+   "header": "Mushika",
+   "links": [
+    {
+     "text": "Ask to learn the contents of the hidden password.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32114-2e.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32114-2e.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32114-2e.html"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32114-2e.html": {
+   "file": "Q00126_TheNameOfEvil2/32114-2e.html",
+   "quest": 126,
+   "text": "Mushika: The.fragments.of.Gazkh.are.breathing.in.the.iron.monsters'.body. Go.where.the.brightest.light.shines.upon.and.the.darkest.night.falls.in.search.of.the.fragment.and.the.gate.keeper.who.looks.like.our.god.will.open.the.door. That is it. This book is a kind of secret map that indicates where …",
+   "header": "Mushika",
+   "links": [
+    {
+     "text": "To the beginning.",
+     "bypass": "Quest Q00126_TheNameOfEvil2 32114-2.html",
+     "kind": "quest-event",
+     "script": "Q00126_TheNameOfEvil2",
+     "event": "32114-2.html",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32114-2.html",
+     "effect": "cond:23"
+    }
+   ]
+  },
+  "Q00126_TheNameOfEvil2/32114-3.html": {
+   "file": "Q00126_TheNameOfEvil2/32114-3.html",
+   "quest": 126,
+   "text": "Mushika: Ah, my spirit rejoices to hear you say that you will help us! In truth, this will not be an easy task. The fate of the Elroki tribe is in your hands, my friend. But fear not! You are the warrior chosen by Shilen for this purpose. Not only will Shilen lead you to Gazkh, she will fight by yo…",
+   "header": "Mushika",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Elrokian Hunter's Proof (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00111_ElrokianHuntersProof",
+     "kind": "quest",
+     "quest": 111,
+     "to": "Q00111_ElrokianHuntersProof/32114-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Meeting the Elroki (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00124_MeetingTheElroki",
+     "kind": "quest",
+     "quest": 124,
+     "to": "Q00124_MeetingTheElroki/32114-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Name of Evil 1]",
+     "bypass": "npc_%objectId%_Quest Q00125_TheNameOfEvil1",
+     "kind": "quest",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32114-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Name of Evil 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00125_TheNameOfEvil1",
+     "kind": "quest",
+     "quest": 125,
+     "to": "Q00125_TheNameOfEvil1/32114-09.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Name of Evil 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00126_TheNameOfEvil2",
+     "kind": "quest",
+     "quest": 126,
+     "to": "Q00126_TheNameOfEvil2/32114-4.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

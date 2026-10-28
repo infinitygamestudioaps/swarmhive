@@ -1,0 +1,598 @@
+{
+ "npcId": 30375,
+ "name": "Adonius",
+ "title": "Priest",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.959Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "218": {
+   "name": "Testimony Of Life",
+   "listText": [
+    "[Testimony of Life]",
+    "[Testimony of Life (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00218_TestimonyOfLife/30375-01.html",
+     "when": "state STARTED; has items 3144,3152",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30375-04.html",
+     "when": "state STARTED; has items 3144,3153; lacks items 3152; item 3164 >= 20; item 3165 >= 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30375-03.html",
+     "when": "state STARTED; has items 3144,3153; lacks items 3152; !((getQuestItemsCount(player, SPIDER_ICHOR) >= 20) && (getQuestItemsCount(player, HARPYS_DOWN) >= 20))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30375-05.html",
+     "when": "state STARTED; has items 3144,3154; lacks items 3152,3153",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00218_TestimonyOfLife/30375-06.html",
+     "when": "state STARTED; has items 3144; lacks items 3152,3153,3154",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "340": {
+   "name": "Subjugation Of Lizardmen",
+   "listText": [
+    "[Subjugation of Lizardmen]",
+    "[Subjugation of Lizardmen (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30375-01.html",
+     "when": "state STARTED; memo 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30375-04.html",
+     "when": "state STARTED; memo 3; has items 4256,4257",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30375-03.html",
+     "when": "state STARTED; memo 3; lacks items 4256,4257",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30375-05.html",
+     "when": "state STARTED; memo 4",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00340_SubjugationOfLizardmen/30375-06.html",
+     "when": "state STARTED; memoState >= 5",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "413": {
+   "name": "Path of the Shillien Oracle",
+   "listText": [
+    "[Path of the Shillien Oracle]",
+    "[Path of the Shillien Oracle (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30375-01.html",
+     "when": "state STARTED; has items 1266; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30375-05.html",
+     "when": "state STARTED; has items 1267; lacks items 1266,1268,1269; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30375-06.html",
+     "when": "state STARTED; has items 1267,1268; lacks items 1266; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PENITENTS_MARK) && !hasAtLeastOneQuestItem(player, ASHEN_BONES, ANDARIEL_BOOK)); getQuestItemsCount(player, ASHEN_BONES) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30375-07.html",
+     "when": "state STARTED; has items 1267; lacks items 1266; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PENITENTS_MARK) && !hasAtLeastOneQuestItem(player, ASHEN_BONES, ANDARIEL_BOOK)); !(hasQuestItems(player, ASHEN_BONES) && (getQuestItemsCount(player, ASHEN_BONES) < 10))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00413_PathOfTheShillienOracle/30375-08.html",
+     "when": "state STARTED; has items 1269; lacks items 1266,1267; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PENITENTS_MARK) && !hasAtLeastOneQuestItem(player, ASHEN_BONES, ANDARIEL_BOOK))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30375-01.html": {
+   "file": "Q00218_TestimonyOfLife/30375-01.html",
+   "quest": 218,
+   "text": "Priest Adonius: Brother, have you come to learn the secrets of Andariel's Book ? Have you come to contemplate the goodness of Einhasad related in the sacred texts? May the Goddess accompany you on your journey to the truth... Dark forces are gathering, wanting to destroy this precious book, the kee…",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; has items 3144,3152"
+   ],
+   "links": [
+    {
+     "text": "I will help.",
+     "bypass": "Quest Q00218_TestimonyOfLife 30375-02.html",
+     "kind": "quest-event",
+     "script": "Q00218_TestimonyOfLife",
+     "event": "30375-02.html",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30375-02.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00218_TestimonyOfLife/30375-04.html": {
+   "file": "Q00218_TestimonyOfLife/30375-04.html",
+   "quest": 218,
+   "text": "Priest Adonius: Thank you for your help, brother of forest. Here is your copy of Andariel's Book . Although you haven't mentioned it, I know that you seek to save the Mother Tree... This book should be of great help to you... Your faith in the Goddess of harmony and light will guide your path. List…",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; has items 3144,3153; lacks items 3152; item 3164 >= 20; item 3165 >= 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30375-03.html": {
+   "file": "Q00218_TestimonyOfLife/30375-03.html",
+   "quest": 218,
+   "text": "Priest Adonius: Thank you, brother. Your assistance with our copying project was a great help.",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; has items 3144,3153; lacks items 3152; !((getQuestItemsCount(player, SPIDER_ICHOR) >= 20) && (getQuestItemsCount(player, HARPYS_DOWN) >= 20))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30375-05.html": {
+   "file": "Q00218_TestimonyOfLife/30375-05.html",
+   "quest": 218,
+   "text": "Priest Adonius: This book is vital to the survival of our sacred Mother Tree. You must save her from the grasp of our enemies... You must not tarry in your mission. May the light of the Goddess shine upon you always...",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; has items 3144,3154; lacks items 3152,3153"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30375-06.html": {
+   "file": "Q00218_TestimonyOfLife/30375-06.html",
+   "quest": 218,
+   "text": "Priest Adonius: May the beneficent light of Einhasad guide your way...",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; has items 3144; lacks items 3152,3153,3154"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30375-01.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30375-01.html",
+   "quest": 340,
+   "text": "Priest Adonius: Were you sent by the guards? Oh, thank heaven you've arrived! We are desperately in need of your help! First, I suppose I should tell you of the horrible event of three days ago. Priestess Agnes was leading a group of the faithful of our congregation back home from a pilgrimage to t…",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; memo 2"
+   ],
+   "links": [
+    {
+     "text": "\"I will recover the relics.\"",
+     "bypass": "Quest Q00340_SubjugationOfLizardmen 30375-02.html",
+     "kind": "quest-event",
+     "script": "Q00340_SubjugationOfLizardmen",
+     "event": "30375-02.html",
+     "quest": 340,
+     "to": "Q00340_SubjugationOfLizardmen/30375-02.html",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00340_SubjugationOfLizardmen/30375-04.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30375-04.html",
+   "quest": 340,
+   "text": "Priest Adonius: You have performed a noble deed for our temple. Now Agnes can have a funeral befitting a person of her stature. It is all so very tragic! I know that all that happens is the will of Einhasad, still, when something so senseless happens it makes a person wonder... Well, we must medita…",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; memo 3; has items 4256,4257"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30375-03.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30375-03.html",
+   "quest": 340,
+   "text": "Priest Adonius: Please recover the crucifix and rosary that belonged to Priestess Agnes. This is essential if we are to give her a proper funeral. You will find her remains on the south shore of Gludio. You should leave for there immediately! May the light of Einhasad guide your path...",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; memo 3; lacks items 4256,4257"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30375-05.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30375-05.html",
+   "quest": 340,
+   "text": "Priest Adonius: High Priestess Levian is expecting you. She will tell you what you need to do.",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; memo 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30375-06.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30375-06.html",
+   "quest": 340,
+   "text": "Priest Adonius: Oh Divine One, please give this fine warrior the strength and courage to conquer the evil ones...",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; memoState >= 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30375-01.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30375-01.html",
+   "quest": 413,
+   "text": "Priest Adonius: This place is the holy hall where we serve Einhasad, god of light. Why have you, a member of the race of darkness, set foot in this place?",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; has items 1266; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "Say you have decided to walk the path of light",
+     "bypass": "Quest Q00413_PathOfTheShillienOracle 30375-02.html",
+     "kind": "quest-event",
+     "script": "Q00413_PathOfTheShillienOracle",
+     "event": "30375-02.html",
+     "quest": 413,
+     "to": "Q00413_PathOfTheShillienOracle/30375-02.html"
+    }
+   ]
+  },
+  "Q00413_PathOfTheShillienOracle/30375-05.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30375-05.html",
+   "quest": 413,
+   "text": "Priest Adonius: It is not easy for you to abandon the path of evil, since you have followed it for so long. If you are ready, go to the Ruins of Despair and kill the departed souls that are trapped in the form of skeletons, and bring back ten of their bone pieces. This is the atonement ritual given…",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; has items 1267; lacks items 1266,1268,1269; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30375-06.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30375-06.html",
+   "quest": 413,
+   "text": "Priest Adonius: Your atonement ritual is not complete until you gather ten Ashen Bones. Although it is difficult, you must endure. As it is a ritual in which you repent the dark activities of the past and accept the light of Einhasad into your soul, you must face it with a solemn heart.",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; has items 1267,1268; lacks items 1266; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PENITENTS_MARK) && !hasAtLeastOneQuestItem(player, ASHEN_BONES, ANDARIEL_BOOK)); getQuestItemsCount(player, ASHEN_BONES) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30375-07.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30375-07.html",
+   "quest": 413,
+   "text": "Priest Adonius: Welcome, child of the light. The bone pieces of the departed souls that you have brought back will be given a proper funeral. This completes your atonement. Now you are ready to follow the path of light. Take this. It is Andariel's book , the book you were looking for. It is a very …",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; has items 1267; lacks items 1266; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PENITENTS_MARK) && !hasAtLeastOneQuestItem(player, ASHEN_BONES, ANDARIEL_BOOK)); !(hasQuestItems(player, ASHEN_BONES) && (getQuestItemsCount(player, ASHEN_BONES) < 10))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30375-08.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30375-08.html",
+   "quest": 413,
+   "text": "Priest Adonius: Welcome, child of the light. Are you meditating upon the truth of Einhasad within Andariel's Book?",
+   "header": "Priest Adonius",
+   "when": [
+    "state STARTED; has items 1269; lacks items 1266,1267; !(qs.isCreated() || qs.isCompleted()); !(hasQuestItems(player, PENITENTS_MARK) && !hasAtLeastOneQuestItem(player, ASHEN_BONES, ANDARIEL_BOOK))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00218_TestimonyOfLife/30375-02.html": {
+   "file": "Q00218_TestimonyOfLife/30375-02.html",
+   "quest": 218,
+   "text": "Priest Adonius: Thank you so much, brother of the forest. We have run short of the ink and pens which are used for copying the sacred texts. To make the ink, we need Spider Ichor . You can extract it from the spiders of the Cruma Marshlands . As for the pens, we create them with Harpy's Down . It w…",
+   "header": "Priest Adonius",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00340_SubjugationOfLizardmen/30375-02.html": {
+   "file": "Q00340_SubjugationOfLizardmen/30375-02.html",
+   "quest": 340,
+   "text": "Priest Adonius: Oh, thank you! The site of the massacre is on the south shore of Gludio. Please find and return the remains of Priestess Agnes so that we can give her a proper burial. Please, bring us her crucifix and rosary . Now please be off, time is of the essence...",
+   "header": "Priest Adonius",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00413_PathOfTheShillienOracle/30375-02.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30375-02.html",
+   "quest": 413,
+   "text": "Priest Adonius: There have been Dark Elves that have said the same thing before. We priests showed them compassion and taught them the path of light, but we found out that they were false seekers of truth with their eye on the power of white magic. I can no longer trust the words of your kind.",
+   "header": "Priest Adonius",
+   "links": [
+    {
+     "text": "Show him the Prayer of Adonius",
+     "bypass": "Quest Q00413_PathOfTheShillienOracle 30375-03.html",
+     "kind": "quest-event",
+     "script": "Q00413_PathOfTheShillienOracle",
+     "event": "30375-03.html",
+     "quest": 413,
+     "to": "Q00413_PathOfTheShillienOracle/30375-03.html"
+    }
+   ]
+  },
+  "Q00413_PathOfTheShillienOracle/30375-03.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30375-03.html",
+   "quest": 413,
+   "text": "Priest Adonius: Why this is the prayer book that I wrote ... You have this too? This was published in the form of a book of poems with prayers I made to Einhasad when I was young. It became known among the younger generation through rumors, and now it is a book beloved by many people. It is embarra…",
+   "header": "Priest Adonius",
+   "links": [
+    {
+     "text": "Ask about Andariel's Book",
+     "bypass": "Quest Q00413_PathOfTheShillienOracle 30375-04.html",
+     "kind": "quest-event",
+     "script": "Q00413_PathOfTheShillienOracle",
+     "event": "30375-04.html",
+     "quest": 413,
+     "to": "Q00413_PathOfTheShillienOracle/30375-04.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00413_PathOfTheShillienOracle/30375-04.html": {
+   "file": "Q00413_PathOfTheShillienOracle/30375-04.html",
+   "quest": 413,
+   "text": "Priest Adonius: Unlike your gods, who hide truth within darkness, Einhasad is a benevolent god. We priests have been permitted a portion of the songs of light, written in Andariel's Book. If you have decided to repent your wicked past and follow the creed of the light, I will give you a copy of the…",
+   "header": "Priest Adonius",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30375-noteach.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30375-noteach.html",
+   "quest": null,
+   "text": "Priest Adonius: Following the will of Eva, I only teach Elves who wish to walk the path of magic. I have nothing to teach to others.",
+   "header": "Priest Adonius",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/30375.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/30375.html",
+   "quest": null,
+   "text": "Prefect Adonius: Be welcome to this temple! This sacred place is always open to those who serve Einhasad. When you seek peace and comfort, do not forget it. How may I help you today?",
+   "header": "Prefect Adonius",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Transfer.",
+     "bypass": "Quest HealerTrainer SkillTransfer",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransfer",
+     "to": "ai/npc/Trainers/HealerTrainer/main.html"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Life (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00218_TestimonyOfLife",
+     "kind": "quest",
+     "quest": 218,
+     "to": "Q00218_TestimonyOfLife/30375-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Subjugation of Lizardmen (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00340_SubjugationOfLizardmen",
+     "kind": "quest",
+     "quest": 340,
+     "to": "Q00340_SubjugationOfLizardmen/30375-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Path of the Shillien Oracle (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00413_PathOfTheShillienOracle",
+     "kind": "quest",
+     "quest": 413,
+     "to": "Q00413_PathOfTheShillienOracle/30375-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/main.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/main.html",
+   "quest": null,
+   "text": "Skill Transfer is a system that allows you to learn some of the skills possessed by other classes in your field. In order to use this system, you must have completed your 3rd class transfer, which means you must be level 76 or above. In addition, 1 Holy Pomander is required to learn each skill. If …",
+   "links": [
+    {
+     "text": "Learn a Transfer Skill.",
+     "bypass": "Quest HealerTrainer SkillTransferLearn",
+     "kind": "quest-event",
+     "script": "HealerTrainer",
+     "event": "SkillTransferLearn",
+     "to": "ai/npc/Trainers/HealerTrainer/30375-noteach.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/30375-noteach.html",
+      "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html"
+     ]
+    },
+    {
+     "text": "Cleanse the pomander to reset your skills.",
+     "bypass": "Quest HealerTrainer SkillTransferCleanse",
+     "kind": "quest-event",
+     "confirm": "3071;",
+     "script": "HealerTrainer",
+     "event": "SkillTransferCleanse",
+     "to": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+     "toAll": [
+      "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+      "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html"
+     ]
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/learn-lowlevel.html",
+   "quest": null,
+   "text": "In order to use the Skill Transfer system, you must be level 76 or higher and have completed your 3rd class transfer.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no_skills.html",
+   "quest": null,
+   "text": "Do you really want to reset your transfer skills? You must use all your Holy Pomanders in order to use this service. After all, 10 million adena is a huge sum of money. Use the rest of your pomanders, then try your request again. Do not fret. I will make sure that all of the Holy Pomanders you used…",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Trainers/HealerTrainer/cleanse-no.html": {
+   "file": "ai/npc/Trainers/HealerTrainer/cleanse-no.html",
+   "quest": null,
+   "text": "To reset the skill link requires 10 million Adena. In addition, your class must corresponding to the skill.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

@@ -1,0 +1,102 @@
+{
+ "npcId": 32349,
+ "name": "Rignos",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.372Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Rignos/32349.html",
+   "when": "(npc.isScriptValue(0) && (player.getLevel() >= MIN_LV))",
+   "src": "ai Rignos"
+  },
+  {
+   "page": "ai/npc/Rignos/32349-02.html",
+   "when": "NOT (npc.isScriptValue(0) && (player.getLevel() >= MIN_LV))",
+   "src": "ai Rignos"
+  },
+  {
+   "page": "ai/npc/Rignos/32349-01.html",
+   "when": "item 10013 >= 4",
+   "src": "ai Rignos"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/Rignos/32349.html": {
+   "file": "ai/npc/Rignos/32349.html",
+   "quest": null,
+   "text": "Rignos: Welcome, welcome! I am Rignos. Parme and I are old friends, so I've come here to help. It's been a long time since I've traveled this far, but the beautiful Isle of Prayer always makes me feel like I'm on vacation. Now then, how can I help? A race! You know what I always say, \"Joy and energ…",
+   "header": "Rignos",
+   "when": [
+    "(npc.isScriptValue(0) && (player.getLevel() >= MIN_LV))"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Grand Isle of Prayer Race.",
+     "bypass": "Quest Rignos 32349-03.html",
+     "kind": "quest-event",
+     "script": "Rignos",
+     "event": "32349-03.html",
+     "to": "ai/npc/Rignos/32349-03.html"
+    },
+    {
+     "text": "Start the Race.",
+     "bypass": "Quest Rignos startRace",
+     "kind": "quest-event",
+     "script": "Rignos",
+     "event": "startRace",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Rignos/32349-02.html": {
+   "file": "ai/npc/Rignos/32349-02.html",
+   "quest": null,
+   "text": "Rignos: Welcome, welcome! I am Rignos. Parme and I are old friends, so I've come here to help. It's been a long time since I've traveled this far, but beautiful Isle of Prayer always makes me feel like I'm on vacation. Now then, how can I help? A race! You know what I always say, \"Joy and energy, a…",
+   "header": "Rignos",
+   "when": [
+    "NOT (npc.isScriptValue(0) && (player.getLevel() >= MIN_LV))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Rignos/32349-01.html": {
+   "file": "ai/npc/Rignos/32349-01.html",
+   "quest": null,
+   "text": "Rignos: Marvellous! So, have you collected all 4 Race Stamps? You haven't taken any shortcuts or copied any of them, have you? Excellent! Then take this key -- it will prove useful when rescuing Parme!",
+   "header": "Rignos",
+   "when": [
+    "item 10013 >= 4"
+   ],
+   "links": [
+    {
+     "text": "Exchange Race Stamps for the Secret Garden Key.",
+     "bypass": "Quest Rignos exchange",
+     "kind": "quest-event",
+     "script": "Rignos",
+     "event": "exchange",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/Rignos/32349-03.html": {
+   "file": "ai/npc/Rignos/32349-03.html",
+   "quest": null,
+   "text": "Rignos: You have 30 minutes to find three other structures just like the one behind me. They are scattered around the island. Once you find them, go inside and battle the opponents you find there. One of these combatants will drop a Race Stamp. Bring 4 Race Stamps to me within the allotted time, an…",
+   "header": "Rignos",
+   "links": [
+    {
+     "text": "I'm ready! Let's start the race.",
+     "bypass": "Quest Rignos startRace",
+     "kind": "quest-event",
+     "script": "Rignos",
+     "event": "startRace",
+     "to": null
+    }
+   ]
+  }
+ }
+}

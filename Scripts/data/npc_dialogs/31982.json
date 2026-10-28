@@ -1,0 +1,65 @@
+{
+ "npcId": 31982,
+ "name": "Glen",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.308Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/31982.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/31982.htm": {
+   "file": "guard/31982.htm",
+   "quest": null,
+   "text": "Guard Glen: You may not enter the village if you possess contraband or your identification is not in order. I'll need to check your papers and belongings. Thanks for your cooperation. Is this your first time here? This is a dangerous place for adventurers, my friend! Captain Vishotsky keeps the pea…",
+   "header": "Guard Glen",
+   "links": [
+    {
+     "text": "\"Please describe the structure of the upper and lower levels.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/31982-1.htm"
+    },
+    {
+     "text": "\"Who is the lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/31982-1.htm": {
+   "file": "guard/31982-1.htm",
+   "quest": null,
+   "text": "Guard Glen: If you must blame someone for the situation, you should look beyond the monsters. I won't name names, but the wandering merchants are certainly part of the problem. They have no loyalty whatsoever for this village! They only think about adena! The Dwarven and Orcish merchants are the wo…",
+   "header": "Guard Glen",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/31982.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

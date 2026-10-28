@@ -1,0 +1,262 @@
+{
+ "npcId": 30711,
+ "name": "Byron",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.058Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30711.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "420": {
+   "name": "Little Wing",
+   "listText": [
+    "[Little Wing]",
+    "[Little Wing (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00420_LittleWing/30711-10.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30711-01.html",
+     "when": "state STARTED; cond 3; qs.getInt(\"old_stone\") == 0",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00420_LittleWing/30711-05.html",
+     "when": "state STARTED; cond 3; !qs.getInt(\"old_stone\") == 0; qs.getInt(\"old_stone\") == 1",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30711-06.html",
+     "when": "state STARTED; cond 3; !qs.getInt(\"old_stone\") == 0; !qs.getInt(\"old_stone\") == 1",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30711-09.html",
+     "when": "state STARTED; cond 4; item 3816 >= 0; item 3817 >= 0",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30711-08.html",
+     "when": "state STARTED; cond 4; item 3816 >= 0; !((getQuestItemsCount(talker, FAIRY_STONE) == 0) && (getQuestItemsCount(talker, DELUXE_FAIRY_STONE) == 0))",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00420_LittleWing/30711-07.html",
+     "when": "state STARTED; cond 4; !((getQuestItemsCount(talker, FAIRY_STONE) == 0) && (getQuestItemsCount(talker, DELUXE_FAIRY_STONE) == 0)); !getQuestItemsCount(talker, FAIRY_STONE) == 0",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30711.htm": {
+   "file": "guard/30711.htm",
+   "quest": null,
+   "text": "Guard Byron: The famous Enchanted Valley is located inside that high hill that blocks the road to north. This village would never have come to be if that valley wasn't here... Unfortuately, the valley is only used as a great hunting ground.",
+   "header": "Guard Byron",
+   "links": [
+    {
+     "text": "Ask about the Enchanted Valley",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30711-1.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30711-1.htm": {
+   "file": "guard/30711-1.htm",
+   "quest": null,
+   "text": "Guard Byron: Have you ever seen a unicorn? It is a very dignified and exquisite creature. Unicorns and many other beautiful creatures live in the Enchanted Valley. The scenery of the valley is quite bewitching and mysterious. There are certain plants that only grow there. Mage legends say that fair…",
+   "header": "Guard Byron",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30711-10.html": {
+   "file": "Q00420_LittleWing/30711-10.html",
+   "quest": 420,
+   "text": "Guard Byron: Have you met Elder Cronos? I suppose these are the ingredients for a Fairy Stone...! Hmm... I wouldn't know from just looking. A quick glance tells me that there are a lot of very expensive items here... Ha, someone going to meet a Fairy shouldn't look so glum! Just try again and do yo…",
+   "header": "Guard Byron",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30711-01.html": {
+   "file": "Q00420_LittleWing/30711-01.html",
+   "quest": 420,
+   "text": "Guard Byron: You wish to know how to meet a Fairy? Ha, ha... There is surely more than one way, my friend! If you find out one of them, let me know... The Fairies do not think like Humans do. One moment they seem terrified and the next they are open and friendly. But watch yourself, for just as qui…",
+   "header": "Guard Byron",
+   "when": [
+    "state STARTED; cond 3; qs.getInt(\"old_stone\") == 0"
+   ],
+   "links": [
+    {
+     "text": "Show Fairy Stone",
+     "bypass": "Quest Q00420_LittleWing 30711-02.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30711-02.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30711-02.html"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30711-05.html": {
+   "file": "Q00420_LittleWing/30711-05.html",
+   "quest": 420,
+   "text": "Guard Byron: Ah, another Fairy Stone! I see that this is an ordinary Fairy Stone and not a pure white Fairy Stone. You won't have to worry about it breaking, even if it gets blood on it. It will be safe as you travel to the deepest part of the northern valley .",
+   "header": "Guard Byron",
+   "when": [
+    "state STARTED; cond 3; !qs.getInt(\"old_stone\") == 0; qs.getInt(\"old_stone\") == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30711-06.html": {
+   "file": "Q00420_LittleWing/30711-06.html",
+   "quest": 420,
+   "text": "Guard Byron: Even though you failed, here you are again with that pure white Fairy Stone! With such dedication the fairy will surely open the village to you. But the creatures living there won't care about that sincerity of yours... Ha, ha. Remember, if the blood of any creature that lives in Encha…",
+   "header": "Guard Byron",
+   "when": [
+    "state STARTED; cond 3; !qs.getInt(\"old_stone\") == 0; !qs.getInt(\"old_stone\") == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30711-09.html": {
+   "file": "Q00420_LittleWing/30711-09.html",
+   "quest": 420,
+   "text": "Guard Byron: Weren't you off to meet a Fairy? What happened?! Looks like you had some trouble in the valley. Did you lose the pure white Fairy Stone? Oh, what a shame... If you still wish to meet a Fairy, then you must make another Fairy Stone. Did Elder Cronos help you with the last one? You must …",
+   "header": "Guard Byron",
+   "when": [
+    "state STARTED; cond 4; item 3816 >= 0; item 3817 >= 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30711-08.html": {
+   "file": "Q00420_LittleWing/30711-08.html",
+   "quest": 420,
+   "text": "Guard Byron: You haven't left for Enchanted Valley yet? If you wish to meet a Fairy, you must take the pure white Fairy Stone and go to the very deepest part of the northern valley . If you're lucky, you will meet a Fairy there. But you must be careful. If the blood of any creature living in Enchan…",
+   "header": "Guard Byron",
+   "when": [
+    "state STARTED; cond 4; item 3816 >= 0; !((getQuestItemsCount(talker, FAIRY_STONE) == 0) && (getQuestItemsCount(talker, DELUXE_FAIRY_STONE) == 0))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30711-07.html": {
+   "file": "Q00420_LittleWing/30711-07.html",
+   "quest": 420,
+   "text": "Guard Byron: You haven't left for Enchanted Valley yet? If you wish to meet a Fairy, you must take the Fairy Stone and go to the very deepest part of the northern valley . If you're lucky, you will meet a fairy there.",
+   "header": "Guard Byron",
+   "when": [
+    "state STARTED; cond 4; !((getQuestItemsCount(talker, FAIRY_STONE) == 0) && (getQuestItemsCount(talker, DELUXE_FAIRY_STONE) == 0)); !getQuestItemsCount(talker, FAIRY_STONE) == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00420_LittleWing/30711-02.html": {
+   "file": "Q00420_LittleWing/30711-02.html",
+   "quest": 420,
+   "text": "Guard Byron: Hmm, what is this? Such a beautiful stone! It looks very expensive... Wait! Could it be? Oh, my... Is this a Fairy Stone? If you've got one of these, you should be able to attract a Fairy. A Fairy is barely perceptible to the human eye and will run away immediately when spoken to. But …",
+   "header": "Guard Byron",
+   "links": [
+    {
+     "text": "\"Please tell me more.\"",
+     "bypass": "Quest Q00420_LittleWing 30711-03.html",
+     "kind": "quest-event",
+     "script": "Q00420_LittleWing",
+     "event": "30711-03.html",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30711-03.html",
+     "toAll": [
+      "Q00420_LittleWing/30711-03.html",
+      "Q00420_LittleWing/30711-04.html"
+     ],
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00420_LittleWing/30711-03.html": {
+   "file": "Q00420_LittleWing/30711-03.html",
+   "quest": 420,
+   "text": "Guard Byron: Something happened to me when I was quite young. I don't remember it well, but... If there are still Fairies living in Enchanted Valley, they would most likely be found in the deepest part of the Northern Valley . If you have that Fairy Stone I am certain a Fairy will talk to you there.",
+   "header": "Guard Byron",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00420_LittleWing/30711-04.html": {
+   "file": "Q00420_LittleWing/30711-04.html",
+   "quest": 420,
+   "text": "Guard Byron: Something happened to me when I was quite young. I don't remember it well, but... If there are still Fairies living in Enchanted Valley, they would most likely be found in the deepest part of the northern valley . Take that Fairy Stone and... Wait! Let me see that stone again. ...This …",
+   "header": "Guard Byron",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Little Wing (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00420_LittleWing",
+     "kind": "quest",
+     "quest": 420,
+     "to": "Q00420_LittleWing/30711-10.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

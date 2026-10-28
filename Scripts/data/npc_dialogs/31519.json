@@ -1,0 +1,119 @@
+{
+ "npcId": 31519,
+ "name": "Enfeux",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.210Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31519.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "627": {
+   "name": "Heart in Search of Power",
+   "listText": [
+    "[Heart in Search of Power]",
+    "[Heart in Search of Power (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00627_HeartInSearchOfPower/31519-01.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00627_HeartInSearchOfPower/31519-03.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31519.htm": {
+   "file": "default/31519.htm",
+   "quest": null,
+   "text": "Enfeux: This statue seems to be part of the building that used to be called Enfeux! It was used to store beads of sarira from the remains of saints.",
+   "header": "Enfeux",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00627_HeartInSearchOfPower/31519-01.html": {
+   "file": "Q00627_HeartInSearchOfPower/31519-01.html",
+   "quest": 627,
+   "text": "Enfeux: Upon close examination, on the lower right side, you see where to insert the seal.",
+   "header": "Enfeux",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "links": [
+    {
+     "text": "Insert the seal.",
+     "bypass": "Quest Q00627_HeartInSearchOfPower 31519-02.html",
+     "kind": "quest-event",
+     "script": "Q00627_HeartInSearchOfPower",
+     "event": "31519-02.html",
+     "quest": 627,
+     "to": "Q00627_HeartInSearchOfPower/31519-02.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00627_HeartInSearchOfPower/31519-03.html": {
+   "file": "Q00627_HeartInSearchOfPower/31519-03.html",
+   "quest": 627,
+   "text": "Enfeux: You've already obtained the remains of saints. You can't get any more of them until you have a Seal of Light.",
+   "header": "Enfeux",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00627_HeartInSearchOfPower/31519-02.html": {
+   "file": "Q00627_HeartInSearchOfPower/31519-02.html",
+   "quest": 627,
+   "text": "Enfeux: The Seal of Light has disappeared. In its place, you find an orb that looks like remains of saints.",
+   "header": "Enfeux",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Heart in Search of Power (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00627_HeartInSearchOfPower",
+     "kind": "quest",
+     "quest": 627,
+     "to": "Q00627_HeartInSearchOfPower/31519-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

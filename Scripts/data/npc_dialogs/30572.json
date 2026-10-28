@@ -1,0 +1,367 @@
+{
+ "npcId": 30572,
+ "name": "Livina",
+ "title": "Seer",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.003Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30572.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "112": {
+   "name": "Walk of Fate",
+   "listText": [
+    "[Walk of Fate]",
+    "[Walk of Fate (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00112_WalkOfFate/30572-03.html",
+     "when": "state CREATED; (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00112_WalkOfFate/30572-01.htm",
+     "when": "state CREATED; NOT (player.getLevel() < MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00112_WalkOfFate/30572-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "272": {
+   "name": "Wrath of Ancestors",
+   "listText": [
+    "[Wrath of Ancestors]",
+    "[Wrath of Ancestors (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00272_WrathOfAncestors/30572-03.htm",
+     "when": "state CREATED; (player.getRace() == Race.ORC); (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00272_WrathOfAncestors/30572-02.htm",
+     "when": "state CREATED; (player.getRace() == Race.ORC); NOT (player.getLevel() >= MIN_LVL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00272_WrathOfAncestors/30572-01.htm",
+     "when": "state CREATED; NOT (player.getRace() == Race.ORC)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00272_WrathOfAncestors/30572-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00272_WrathOfAncestors/30572-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30572.htm": {
+   "file": "trainer/30572.htm",
+   "quest": null,
+   "text": "Seer Livina: Welcome, friend. Have you come here to learn how to control the souls that wander through this world? Only the strength of Pa'agrio can rule all souls. Let go of everything you have known. The world is ruled by the will of Pa'agrio! And we are his servants!",
+   "header": "Seer Livina",
+   "links": [
+    {
+     "text": "Ask about Pa'agrio.",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "trainer/30572-1.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30572-1.htm": {
+   "file": "trainer/30572-1.htm",
+   "quest": null,
+   "text": "Seer Livina: Pa'agrio was the flame at the beginning of the world, the one who gave life and strength to the Orcs. For his sake we test ourselves to our limits, endure every hardship, and face every foe with honor and bravery!",
+   "header": "Seer Livina",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "trainer/30572.htm"
+    }
+   ]
+  },
+  "trainer/30572-noteach.htm": {
+   "file": "trainer/30572-noteach.htm",
+   "quest": null,
+   "text": "Seer Livina: I, Seer Livina, immerse myself in the will of Pa'agrio and teach Orc Mystics. You don't have anything to learn from me, so look for others!",
+   "header": "Seer Livina",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00112_WalkOfFate/30572-03.html": {
+   "file": "Q00112_WalkOfFate/30572-03.html",
+   "quest": 112,
+   "text": "Seer Livina: You're not who I've been waiting for. You aren't ready to follow the Path of Fate. (Characters must have achieved at least level 20 to undertake this quest.)",
+   "header": "Seer Livina",
+   "when": [
+    "state CREATED; (player.getLevel() < MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00112_WalkOfFate/30572-01.htm": {
+   "file": "Q00112_WalkOfFate/30572-01.htm",
+   "quest": 112,
+   "text": "Seer Livina: Come in! I've been waiting for you. I knew you were coming! It's the will of Pa'agrio. You won't feel it, but I can feel a very positive energy from far beyond the eastern horizon! Could you check out what's going on over there? I know I'm being vague like most psychics are, but please…",
+   "header": "Seer Livina",
+   "when": [
+    "state CREATED; NOT (player.getLevel() < MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll do it.\"",
+     "bypass": "Quest Q00112_WalkOfFate 30572-04.htm",
+     "kind": "quest-event",
+     "script": "Q00112_WalkOfFate",
+     "event": "30572-04.htm",
+     "quest": 112,
+     "to": "Q00112_WalkOfFate/30572-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00112_WalkOfFate/30572-05.html": {
+   "file": "Q00112_WalkOfFate/30572-05.html",
+   "quest": 112,
+   "text": "Seer Livina: You haven't left yet? You will soon go there as dictated by your fate. Go to the Crypts of Disgrace and meet Karuda .",
+   "header": "Seer Livina",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00272_WrathOfAncestors/30572-03.htm": {
+   "file": "Q00272_WrathOfAncestors/30572-03.htm",
+   "quest": 272,
+   "text": "Seer Livina: Tejakar Oroka! Young Orc, you have been guided to me by the spirits of our ancestors. As you already know, since they have moved in here while we were at war against the Elves, the goblins have been damaging the legacy of our ancestors and have been staining our sacred grounds for hund…",
+   "header": "Seer Livina",
+   "when": [
+    "state CREATED; (player.getRace() == Race.ORC); (player.getLevel() >= MIN_LVL)"
+   ],
+   "links": [
+    {
+     "text": "Say you will take revenge",
+     "bypass": "Quest Q00272_WrathOfAncestors 30572-04.htm",
+     "kind": "quest-event",
+     "script": "Q00272_WrathOfAncestors",
+     "event": "30572-04.htm",
+     "quest": 272,
+     "to": "Q00272_WrathOfAncestors/30572-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00272_WrathOfAncestors/30572-02.htm": {
+   "file": "Q00272_WrathOfAncestors/30572-02.htm",
+   "quest": 272,
+   "text": "Seer Livina: Tejakar Oroka! Since the goblins moved here while we were at war against the Elves, they have been damaging the legacy of our ancestors and have been staining our sacred grounds for hundreds of years. Just a few days ago, reckless goblin grave robbers dug up our great Urutu graves and …",
+   "header": "Seer Livina",
+   "when": [
+    "state CREATED; (player.getRace() == Race.ORC); NOT (player.getLevel() >= MIN_LVL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00272_WrathOfAncestors/30572-01.htm": {
+   "file": "Q00272_WrathOfAncestors/30572-01.htm",
+   "quest": 272,
+   "text": "Seer Livina: Tejakar Oroka! Now that the goblins have moved here to the Immortal Plateau, that dirty race has damaged the legacy of our ancestors and stained our holy ground for hundreds of years. However, now we Orcs will commence an unmerciful punishment on the goblins! It is not something for on…",
+   "header": "Seer Livina",
+   "when": [
+    "state CREATED; NOT (player.getRace() == Race.ORC)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00272_WrathOfAncestors/30572-05.html": {
+   "file": "Q00272_WrathOfAncestors/30572-05.html",
+   "quest": 272,
+   "text": "Seer Livina: That is not enough to soothe our ancestors' anger! Only when the blood of fifty goblin grave robbers wets the ground and their heads are offered on the altar, will the angry spirits of our ancestors go back to sleep in peace. Young Orc, who fights for our pride, teach them the conseque…",
+   "header": "Seer Livina",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00272_WrathOfAncestors/30572-06.html": {
+   "file": "Q00272_WrathOfAncestors/30572-06.html",
+   "quest": 272,
+   "text": "Seer Livina: Tejakar Oroka! May glory be upon the Orcs! With this, the blood of fifty goblin grave diggers has wet the ground and their heads have been sacrificed to our ancestors to pacify their wrath. Young Orc, you have done very well! You fought for our pride and you deserve a reward! Take this…",
+   "header": "Seer Livina",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00112_WalkOfFate/30572-04.htm": {
+   "file": "Q00112_WalkOfFate/30572-04.htm",
+   "quest": 112,
+   "text": "Seer Livina: Alas, fate isn't to be trifled with! To the east of here, there's a passage from the Cave of Trials to the Valley of the Lords. Take that passage towards the Crypts of Disgrace where the Orcs are buried. You'll meet someone named Karuda . Tell him to come to me and give me a status rep…",
+   "header": "Seer Livina",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00272_WrathOfAncestors/30572-04.htm": {
+   "file": "Q00272_WrathOfAncestors/30572-04.htm",
+   "quest": 272,
+   "text": "Seer Livina: Tejakar Oroka! Young Orc who fights for the dignity of your race, you must pacify the fury of the ancestors and renew the honor of the Orcs by killing each and every goblin that lives in this land. But first, we must make a sacrifice for our ancestors to soothe their spirits! To do tha…",
+   "header": "Seer Livina",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Walk of Fate]",
+     "bypass": "npc_%objectId%_Quest Q00112_WalkOfFate",
+     "kind": "quest",
+     "quest": 112,
+     "to": "Q00112_WalkOfFate/30572-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Walk of Fate (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00112_WalkOfFate",
+     "kind": "quest",
+     "quest": 112,
+     "to": "Q00112_WalkOfFate/30572-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Wrath of Ancestors]",
+     "bypass": "npc_%objectId%_Quest Q00272_WrathOfAncestors",
+     "kind": "quest",
+     "quest": 272,
+     "to": "Q00272_WrathOfAncestors/30572-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Wrath of Ancestors (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00272_WrathOfAncestors",
+     "kind": "quest",
+     "quest": 272,
+     "to": "Q00272_WrathOfAncestors/30572-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

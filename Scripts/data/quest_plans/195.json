@@ -2,7 +2,7 @@
  "id": 195,
  "name": "Seven Signs, Secret Ritual of the Priests",
  "version": 1,
- "generated": "2026-10-27T11:15:14.957Z",
+ "generated": "2026-10-27T18:18:50.243Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 79,
@@ -27,7 +27,7 @@
  ],
  "status": "ready",
  "reasons": [],
- "expectedMin": 6,
+ "expectedMin": 7,
  "refLevel": 79,
  "steps": [
   {
@@ -809,12 +809,139 @@
     "hasItems": "talk"
    },
    "conds": [
-    2,
-    3
+    2
    ]
   },
   {
    "i": 3,
+   "key": "c3:talk:30289",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "\"Who?\""
+   ],
+   "npc": {
+    "id": 30289,
+    "name": "Raymond",
+    "title": "High Priest",
+    "town": "Gludio",
+    "at": [
+     -12784,
+     121709,
+     -2952
+    ],
+    "alt": []
+   },
+   "text": "Talk to Raymond",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30289@-12784,121709",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2048,
+    "sec": 37,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 2048,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13160,
+      122280,
+      -2984
+     ],
+     [
+      -13048,
+      122280,
+      -2984
+     ],
+     [
+      -13096,
+      122024,
+      -2952
+     ],
+     [
+      -13048,
+      121752,
+      -2968
+     ],
+     [
+      -12776,
+      121704,
+      -2952
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 62,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
    "key": "c4:talk:30969",
    "cond": 4,
    "kind": "talk",
@@ -1017,7 +1144,7 @@
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T11:15:14.974Z",
+  "at": "2026-10-27T18:18:50.255Z",
   "pass": true,
   "geo": true,
   "fails": [],

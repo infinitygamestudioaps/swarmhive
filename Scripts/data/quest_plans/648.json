@@ -2,7 +2,7 @@
  "id": 648,
  "name": "An Ice Merchants Dream",
  "version": 1,
- "generated": "2026-10-27T11:16:15.124Z",
+ "generated": "2026-10-27T18:19:44.156Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 53,
@@ -27,7 +27,7 @@
  ],
  "status": "ready",
  "reasons": [],
- "expectedMin": 35,
+ "expectedMin": 36,
  "refLevel": 53,
  "steps": [
   {
@@ -828,6 +828,109 @@
    "key": "c1:talk:32020",
    "cond": 1,
    "kind": "talk",
+   "to": 2,
+   "links": [
+    "I'll help you."
+   ],
+   "npc": {
+    "id": 32020,
+    "name": "Rafforty",
+    "title": "",
+    "town": "Schuttgart",
+    "at": [
+     113808,
+     -109344,
+     -846
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rafforty",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32020@113808,-109344",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 590,
+    "sec": 50,
+    "via": ".schuttgart > Schuttgart -> Iceman's Hut",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Iceman's Hut",
+      "link": "iceman hut",
+      "price": 3500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 590,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Iceman's Hut"
+    },
+    "simple": true,
+    "pv": [
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113816,
+      -109336,
+      -840
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:talk:32020",
+   "cond": 2,
+   "kind": "talk",
    "to": "end",
    "links": [
     "I just need a rest."
@@ -923,7 +1026,6 @@
     "hasItems": "turnin"
    },
    "conds": [
-    1,
     2
    ]
   }
@@ -941,7 +1043,7 @@
   "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
  },
  "dryrun": {
-  "at": "2026-10-27T11:16:15.143Z",
+  "at": "2026-10-27T18:19:44.194Z",
   "pass": true,
   "geo": true,
   "fails": [],

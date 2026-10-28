@@ -1,0 +1,512 @@
+{
+ "npcId": 32646,
+ "name": "Katensa",
+ "title": "Workman",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.394Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32646.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "308": {
+   "name": "Reed Field Maintenance",
+   "listText": [
+    "[Reed Field Maintenance]",
+    "[Reed Field Maintenance (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00308_ReedFieldMaintenance/32646-15.html",
+     "when": "state STARTED; q309 != null",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00308_ReedFieldMaintenance/32646-06.html",
+     "when": "state STARTED; !((q309 != null) && q309.isStarted()); (st.hasQuestItems(MUCROKIAN_HIDE) || st.hasQuestItems(AWAKENED_MUCROKIAN_HIDE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00308_ReedFieldMaintenance/32646-05.html",
+     "when": "state STARTED; !((q309 != null) && q309.isStarted()); NOT (st.hasQuestItems(MUCROKIAN_HIDE) || st.hasQuestItems(AWAKENED_MUCROKIAN_HIDE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00308_ReedFieldMaintenance/32646-01.htm",
+     "when": "!((q309 != null) && q309.isStarted()); (talker.getLevel() >= MIN_LEVEL)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00308_ReedFieldMaintenance/32646-00.html",
+     "when": "!((q309 != null) && q309.isStarted()); NOT (talker.getLevel() >= MIN_LEVEL)",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32646.htm": {
+   "file": "default/32646.htm",
+   "quest": null,
+   "text": "Worker Katensa: We're planning to develop land for a modern industry complex by cleaning up here. ...What will happen to the Reed Field? We can worry about that problem later, so we don't have to think about it.",
+   "header": "Worker Katensa",
+   "links": [
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00308_ReedFieldMaintenance/32646-15.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-15.html",
+   "quest": 308,
+   "text": "Katensa: Are looking down on our intelligence? Did you think I wouldn't know that you're already carrying on a mission in the purified ceremony hall? Don't you even dream about taking on this mission. (This quest cannot be taken on in conjunction with the Group Exercise quest.)",
+   "header": "Katensa",
+   "when": [
+    "state STARTED; q309 != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00308_ReedFieldMaintenance/32646-06.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-06.html",
+   "quest": 308,
+   "text": "Katensa: Done yet? I'm curious about how much cooperation there was in the Reed Field. Show me proof your Mucrokians kills!",
+   "header": "Katensa",
+   "when": [
+    "state STARTED; !((q309 != null) && q309.isStarted()); (st.hasQuestItems(MUCROKIAN_HIDE) || st.hasQuestItems(AWAKENED_MUCROKIAN_HIDE))"
+   ],
+   "links": [
+    {
+     "text": "Show proof of the defeated Mucrokians.",
+     "bypass": "Quest Q00308_ReedFieldMaintenance claimreward",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "claimreward",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-09.html",
+     "toAll": [
+      "Q00308_ReedFieldMaintenance/32646-09.html",
+      "Q00308_ReedFieldMaintenance/32646-12.html"
+     ]
+    },
+    {
+     "text": "Continue the mission.",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-07.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-07.html",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-07.html"
+    },
+    {
+     "text": "Stop the mission.",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-10.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-10.html",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-10.html"
+    }
+   ]
+  },
+  "Q00308_ReedFieldMaintenance/32646-05.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-05.html",
+   "quest": 308,
+   "text": "Katensa: Haven't you left yet? The monsters that you need to capture are the Mucrokian Fanatics, Mucrokian Ascetics, Mucrokian Saviors, Mucrokian Preachers, and Contaminated Mucrokians . And remember that additional rewards will be given for the Contaminated Mucrokians !",
+   "header": "Katensa",
+   "when": [
+    "state STARTED; !((q309 != null) && q309.isStarted()); NOT (st.hasQuestItems(MUCROKIAN_HIDE) || st.hasQuestItems(AWAKENED_MUCROKIAN_HIDE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00308_ReedFieldMaintenance/32646-01.htm": {
+   "file": "Q00308_ReedFieldMaintenance/32646-01.htm",
+   "quest": 308,
+   "text": "Katensa: Say, you wouldn't happen to be in need of some work would ya? Have you thought about a rewarding career contributing to the Helvetica Research Facility? We've got a project going, and offer several beneficial packages to our contractors.",
+   "header": "Katensa",
+   "when": [
+    "!((q309 != null) && q309.isStarted()); (talker.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'm listening. Tell me more about the project.\"",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-02.htm",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-02.htm",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-02.htm"
+    }
+   ]
+  },
+  "Q00308_ReedFieldMaintenance/32646-00.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-00.html",
+   "quest": 308,
+   "text": "Katensa: Hold up there, friend. It is plain to see that you do not possess the level of skill required to take on this mission. (Only characters level 82 and above can take on this quest.)",
+   "header": "Katensa",
+   "when": [
+    "!((q309 != null) && q309.isStarted()); NOT (talker.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00308_ReedFieldMaintenance/32646-02.htm": {
+   "file": "Q00308_ReedFieldMaintenance/32646-02.htm",
+   "quest": 308,
+   "text": "Katensa: You look like quite the seasoned veteran, know that? Bet you're bored of those old fields... maybe looking for more of a challenge, hmm? The Helvetica Research Project has had its eye on those grounds for quite some time now, only those monsters are stopping us from sending staff there to …",
+   "header": "Katensa",
+   "links": [
+    {
+     "text": "\"Sounds interesting...\"",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-03.htm",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-03.htm",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-03.htm"
+    }
+   ]
+  },
+  "Q00308_ReedFieldMaintenance/32646-03.htm": {
+   "file": "Q00308_ReedFieldMaintenance/32646-03.htm",
+   "quest": 308,
+   "text": "Katensa: I thought you would see it that way! So, what do you say? Do you want some work? If you want, you can start right away.",
+   "header": "Katensa",
+   "links": [
+    {
+     "text": "\"Sure. What needs doing?\"",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-04.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-04.html",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-04.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00308_ReedFieldMaintenance/32646-04.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-04.html",
+   "quest": 308,
+   "text": "Katensa: Well, Phase 1 of the project is to rid the Fields of Silence and Whispering of the creatures there... they are pretty much halting development. You'll most likely face Mucrokian Fanatics, Mucrokian Ascetics, Mucrokian Saviors, Mucrokian Preachers and Contaminated Mucrokians . Oh, and be on…",
+   "header": "Katensa",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00308_ReedFieldMaintenance/32646-07.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-07.html",
+   "quest": 308,
+   "text": "Katensa: I like the way that you work. Dedicated. Get back to the fields and get rid of the Mucrokian threat. Remember to collect hides from the Mucrokian Fanatic, Mucrokian Ascetic, Mucrokian Savior, Mucrokian Preacher, and Contaminated Mucrokian ... Oh, and if you get an Awakened Mucrokian Hide ,…",
+   "header": "Katensa",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00308_ReedFieldMaintenance/32646-08.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-08.html",
+   "quest": 308,
+   "text": "Katensa: I like how you are impatient to settle even with a loss on your books. Do you have the required number of Mucrokian Skins or Awakened Mucrokian Skins ready? As I told you, I will pay you twice for the Awakened Mucrokian Skins obtained from the Awakened Mucrokians. Also, when calculating fo…",
+   "header": "Katensa",
+   "links": [
+    {
+     "text": "Recipe - Sealed Dynasty Earring (70%)(require 230 Mucrokian Skins)",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 230",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "230",
+     "quest": 308,
+     "to": null
+    },
+    {
+     "text": "Recipe - Sealed Dynasty Necklace (70%)(require 308 Mucrokian Skins)",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 308",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "308",
+     "quest": 308,
+     "to": null
+    },
+    {
+     "text": "Recipe - Sealed Dynasty Ring (70%)(require 154 Mucrokian Skins)",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 154",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "154",
+     "quest": 308,
+     "to": null
+    },
+    {
+     "text": "Recipe - Sealed Dynasty Sigil (60%)(require 246 Mucrokian Skins)",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 246",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "246",
+     "quest": 308,
+     "to": null
+    },
+    {
+     "text": "Receive Moirai Robe Set or accessory recipe (Requires 216 Mucrokian Hides)",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 216",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "216",
+     "quest": 308,
+     "to": null
+    },
+    {
+     "text": "Receive Moirai robe set or accessory ingredient item. (requires 120 Mucrokian skins)",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 120",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "120",
+     "quest": 308,
+     "to": null
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-06.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-06.html",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-06.html"
+    }
+   ]
+  },
+  "Q00308_ReedFieldMaintenance/32646-09.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-09.html",
+   "quest": 308,
+   "text": "Katensa: Oh... You have completed Dr. Hell Doscozer's request! I'll give you a very fair price for the Mucrokian Skins. You only need to bring the right number of Mucrokian Skins or Awakened Mucrokian Skins. As I told you, I will pay you twice for the Mutated Mucrokian Skins, but also, when calcula…",
+   "header": "Katensa",
+   "links": [
+    {
+     "text": "Recipe - Sealed Dynasty Earring (70%)(require 192 Mucrokian Skins)",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 192",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "192",
+     "quest": 308,
+     "to": null
+    },
+    {
+     "text": "Recipe - Sealed Dynasty Necklace (70%)(require 256 Mucrokian Skins)",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 256",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "256",
+     "quest": 308,
+     "to": null
+    },
+    {
+     "text": "Recipe - Sealed Dynasty Ring (70%)(require 128 Mucrokian Skins)",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 128",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "128",
+     "quest": 308,
+     "to": null
+    },
+    {
+     "text": "Recipe - Sealed Dynasty Sigil (60%)(require 206 Mucrokian Skins)",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 206",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "206",
+     "quest": 308,
+     "to": null
+    },
+    {
+     "text": "Receive Moirai Robe Set or accessory recipe (Requires 180 Mucrokian Hides)",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 180",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "180",
+     "quest": 308,
+     "to": null
+    },
+    {
+     "text": "Receive Moirai robe set or accessory ingredient item (requires 100 Mucrokian Skins)",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 100",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "100",
+     "quest": 308,
+     "to": null
+    },
+    {
+     "text": "Go back",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-06.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-06.html",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-06.html"
+    }
+   ]
+  },
+  "Q00308_ReedFieldMaintenance/32646-10.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-10.html",
+   "quest": 308,
+   "text": "Katensa: You can quit any time you you want, I can't stop ya. But before ya go, do you have any hides you want to turn in for the rewards?",
+   "header": "Katensa",
+   "links": [
+    {
+     "text": "\"Let me claim a reward.\"",
+     "bypass": "Quest Q00308_ReedFieldMaintenance claimreward",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "claimreward",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-09.html",
+     "toAll": [
+      "Q00308_ReedFieldMaintenance/32646-09.html",
+      "Q00308_ReedFieldMaintenance/32646-12.html"
+     ]
+    },
+    {
+     "text": "\"No thanks, I'm done now.\"",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-11.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-11.html",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-11.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00308_ReedFieldMaintenance/32646-11.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-11.html",
+   "quest": 308,
+   "text": "Katensa: Well, alright. Then good bye!",
+   "header": "Katensa",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00308_ReedFieldMaintenance/32646-12.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-12.html",
+   "quest": 308,
+   "text": "Katensa: Hmm... You haven't completed Dr. Hell Doscozer's request. We can't fully trust you yet. If you decide you've finished your mission now, I'll have to deduct a fee from the reward. How about it? Do you want the full reward later, or do you want to receive the reward now even if you'll have a…",
+   "header": "Katensa",
+   "links": [
+    {
+     "text": "\"I want to receive the reward now.\"",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-08.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-08.html",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-08.html"
+    },
+    {
+     "text": "\"I will receive it later.\"",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-07.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-07.html",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-07.html"
+    }
+   ]
+  },
+  "Q00308_ReedFieldMaintenance/32646-13.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-13.html",
+   "quest": 308,
+   "text": "Katensa: Um... unless my math is wrong, which it ain't, you don't have enough hides for that particular reward. Come see me again after you get more Mucrokian Hides. Anything else?",
+   "header": "Katensa",
+   "links": [
+    {
+     "text": "\"Give me a few minutes and I'll be back.\"",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-07.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-07.html",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-07.html"
+    },
+    {
+     "text": "\"I think I'm gon'na take a break.\"",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-10.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-10.html",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-10.html"
+    }
+   ]
+  },
+  "Q00308_ReedFieldMaintenance/32646-14.html": {
+   "file": "Q00308_ReedFieldMaintenance/32646-14.html",
+   "quest": 308,
+   "text": "Katensa: I'll take those Mucrokian Hides, and here is the item you requested. Some of the finest work I have seen. Are you ready for more work or do you need a breather?",
+   "header": "Katensa",
+   "links": [
+    {
+     "text": "\"I'm ready for more work.\"",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-07.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-07.html",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-07.html"
+    },
+    {
+     "text": "\"I think I need to take a break.\"",
+     "bypass": "Quest Q00308_ReedFieldMaintenance 32646-10.html",
+     "kind": "quest-event",
+     "script": "Q00308_ReedFieldMaintenance",
+     "event": "32646-10.html",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-10.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Reed Field Maintenance]",
+     "bypass": "npc_%objectId%_Quest Q00308_ReedFieldMaintenance",
+     "kind": "quest",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-15.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Reed Field Maintenance (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00308_ReedFieldMaintenance",
+     "kind": "quest",
+     "quest": 308,
+     "to": "Q00308_ReedFieldMaintenance/32646-15.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

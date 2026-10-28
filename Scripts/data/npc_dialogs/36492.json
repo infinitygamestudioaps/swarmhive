@@ -1,0 +1,107 @@
+{
+ "npcId": 36492,
+ "name": "Territory Manager",
+ "title": "Giran",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.461Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/TerritoryManagers/36492.html": {
+   "file": "ai/npc/TerritoryManagers/36492.html",
+   "quest": null,
+   "text": "Territory Manager: I'm a merchant dispatched by the lord in order to announce his intentions and distribute special products to his subjects. I'm also in charge of assigning tasks for certain positions.",
+   "header": "Territory Manager",
+   "links": [
+    {
+     "text": "Buy special products.",
+     "bypass": "Quest TerritoryManagers BuyProducts",
+     "kind": "quest-event",
+     "script": "TerritoryManagers",
+     "event": "BuyProducts",
+     "to": null
+    },
+    {
+     "text": "Make me a Noblesse.",
+     "bypass": "Quest TerritoryManagers 36490-04.html",
+     "kind": "quest-event",
+     "script": "TerritoryManagers",
+     "event": "36490-04.html",
+     "to": "ai/npc/TerritoryManagers/36490-04.html"
+    },
+    {
+     "text": "Tell me about badges.",
+     "bypass": "Quest TerritoryManagers 36490-03.html",
+     "kind": "quest-event",
+     "script": "TerritoryManagers",
+     "event": "36490-03.html",
+     "to": "ai/npc/TerritoryManagers/36490-03.html"
+    },
+    {
+     "text": "Ask about the territory's current status.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "Quest TerritoryManagers CalcRewards",
+     "kind": "quest-event",
+     "script": "TerritoryManagers",
+     "event": "CalcRewards",
+     "to": null
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  },
+  "ai/npc/TerritoryManagers/36490-04.html": {
+   "file": "ai/npc/TerritoryManagers/36490-04.html",
+   "quest": null,
+   "text": "Territory Manager: If you can prove you're qualified, I can personally appoint you as a Noblesse on the lord's behalf. Bring me %badge% territory badges to prove your worth. (Please note: doing this will cancel all Noblesse-related quests in your quest log.)",
+   "header": "Territory Manager",
+   "links": [
+    {
+     "text": "\"I have all that you require. Please make me a Noblesse!\"",
+     "bypass": "Quest TerritoryManagers MakeMeNoble",
+     "kind": "quest-event",
+     "confirm": "2964",
+     "script": "TerritoryManagers",
+     "event": "MakeMeNoble",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/TerritoryManagers/36490-03.html": {
+   "file": "ai/npc/TerritoryManagers/36490-03.html",
+   "quest": null,
+   "text": "You can obtain the badge by carrying out various missions assigned by the lord during a Territory War. You may access his orders through the Territory Managers or by participating in the Territory War.",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

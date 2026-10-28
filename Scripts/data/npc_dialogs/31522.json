@@ -1,0 +1,1758 @@
+{
+ "npcId": 31522,
+ "name": "Mysterious Wizard",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.213Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31522.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "21": {
+   "name": "Hidden Truth",
+   "listText": [
+    "[Hidden Truth]",
+    "[Hidden Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00021_HiddenTruth/31522-01.htm",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00021_HiddenTruth/31522-05.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "24": {
+   "name": "Inhabitants of the Forest of the Dead",
+   "listText": [
+    "[Inhabitants of the Forest of the Dead]",
+    "[Inhabitants of the Forest of the Dead (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31522-01.html",
+     "when": "state STARTED; cond 10; (st.getInt(\"var\") == 0)",
+     "state": "STARTED",
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31522-04.html",
+     "when": "state STARTED; cond 10; NOT (st.getInt(\"var\") == 0)",
+     "state": "STARTED",
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31522-09.html",
+     "when": "state STARTED; cond 11; (st.getInt(\"var\") == 0)",
+     "state": "STARTED",
+     "cond": [
+      11
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31522-18.html",
+     "when": "state STARTED; cond 11; NOT (st.getInt(\"var\") == 0)",
+     "state": "STARTED",
+     "cond": [
+      11
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00024_InhabitantsOfTheForestOfTheDead/31522-22.html",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "25": {
+   "name": "Hiding Behind the Truth",
+   "listText": [
+    "[Hiding Behind the Truth]",
+    "[Hiding Behind the Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00025_HidingBehindTheTruth/31522-01.html",
+     "when": "state STARTED; memo 1; lacks items 7156",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31522-02.html",
+     "when": "state STARTED; memo 1; has items 7156",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31522-03.html",
+     "when": "state STARTED; memo 6; has items 7157",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31522-06.html",
+     "when": "state STARTED; memo 9; has items 7066",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31522-06a.html",
+     "when": "state STARTED; memo 16",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31522-12.html",
+     "when": "state STARTED; memo 19",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31522-14.html",
+     "when": "state STARTED; memo 20",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31522-15.html",
+     "when": "state STARTED; memo 24",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31522-15a.html",
+     "when": "state STARTED; memo 23",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00025_HidingBehindTheTruth/31522-05.html",
+     "when": "state STARTED; (qs.getMemoState() % 100) == 7",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "74": {
+   "name": "Saga of the Dreadnought",
+   "listText": [
+    "[Saga of the Dreadnought]",
+    "[Saga of the Dreadnought (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00074_SagaOfTheDreadnought/11-01.htm",
+     "when": "cond 14; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00074_SagaOfTheDreadnought/11-02.htm",
+     "when": "cond 15; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "236": {
+   "name": "Seeds Of Chaos",
+   "listText": [
+    "[Seeds of Chaos]",
+    "[Seeds of Chaos (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00236_SeedsOfChaos/31522-01.html",
+     "when": "state STARTED; memo 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/31522-06a.html",
+     "when": "state STARTED; memo 2; lacks items 9745",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/31522-07a.html",
+     "when": "state STARTED; memo 2; has items 9745",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/31522-10a.html",
+     "when": "state STARTED; memo 6",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/31522-15a.html",
+     "when": "state STARTED; memo 20; qs.getMemoStateEx(1) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/31522-06b.html",
+     "when": "state STARTED; memo 3; qs.getMemoStateEx(1) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/31522-07b.html",
+     "when": "state STARTED; memo 3; !qs.getMemoStateEx(1) == 0; qs.getMemoStateEx(1) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/31522-08b.html",
+     "when": "state STARTED; memo 3; !qs.getMemoStateEx(1) == 0; !qs.getMemoStateEx(1) == 1; qs.getMemoStateEx(1) == 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/31522-12b.html",
+     "when": "state STARTED; memo 7; lacks items 9744",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/31522-13b.html",
+     "when": "state STARTED; memo 7; has items 9744",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/31522-16b.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "632": {
+   "name": "Necromancer's Request",
+   "listText": [
+    "[Necromancer's Request]",
+    "[Necromancer's Request (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00632_NecromancersRequest/31522-101.htm",
+     "when": "state CREATED; player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00632_NecromancersRequest/31522-103.htm",
+     "when": "state CREATED; NOT player.getLevel() >= MIN_LEVEL",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00632_NecromancersRequest/31522-106.html",
+     "when": "state STARTED; memo 11",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00632_NecromancersRequest/31522-105.html",
+     "when": "state STARTED; memo 12; item 7542 >= 200",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31522.htm": {
+   "file": "default/31522.htm",
+   "quest": null,
+   "text": "Mysterious Wizard: Welcome to the Forest of the Dead.",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31522-01.htm": {
+   "file": "Q00021_HiddenTruth/31522-01.htm",
+   "quest": 21,
+   "text": "Mysterious Wizard: There's a ghost hanging around that tombstone that's been bothering me lately. Could you help me get rid of it?",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state CREATED"
+   ],
+   "links": [
+    {
+     "text": "\"I'll handle it.\"",
+     "bypass": "Quest Q00021_HiddenTruth 31522-02.htm",
+     "kind": "quest-event",
+     "script": "Q00021_HiddenTruth",
+     "event": "31522-02.htm",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31522-02.htm",
+     "toAll": [
+      "Q00021_HiddenTruth/31522-02.htm",
+      "Q00021_HiddenTruth/31522-03.htm"
+     ],
+     "effect": "start"
+    },
+    {
+     "text": "\"Why is it bothering you?\"",
+     "bypass": "Quest Q00021_HiddenTruth 31522-04.html",
+     "kind": "quest-event",
+     "script": "Q00021_HiddenTruth",
+     "event": "31522-04.html",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31522-04.html"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31522-05.html": {
+   "file": "Q00021_HiddenTruth/31522-05.html",
+   "quest": 21,
+   "text": "Mysterious Wizard: What's this? Weren't you supposed to check the tombstone for that noisy ghost?",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-01.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-01.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: Long time no see. Things sure are quiet these days!",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; cond 10; (st.getInt(\"var\") == 0)"
+   ],
+   "links": [
+    {
+     "text": "\"What do you know about an odd doll?\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-02.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-02.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-02.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-04.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-04.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: It may look a little odd, but it's just an amulet.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; cond 10; NOT (st.getInt(\"var\") == 0)"
+   ],
+   "links": [
+    {
+     "text": "\"That's not what I heard.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-05.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-05.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-05.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-09.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-09.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: You trust me now? Tell me about Nidrah!",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; cond 11; (st.getInt(\"var\") == 0)"
+   ],
+   "links": [
+    {
+     "text": "\"Allright, I'll tell you.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-10.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-10.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-10.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-18.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-18.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: Let's say for arguments sake that I'm Nidrah. What difference would that make?",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; cond 11; NOT (st.getInt(\"var\") == 0)"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the missing page from the diary.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-19.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-19.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-19.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-22.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-22.html",
+   "quest": 24,
+   "text": "Mysterious Mage: Visit the temple of the Rune Township if you want to learn more about them. Ask about the one who hides the truth...",
+   "header": "Mysterious Mage",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31522-01.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-01.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: Without this, it will be hard to talk with them. Guard it well.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 1; lacks items 7156"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31522-02.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-02.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: Do you still have the totem I gave you? You'll need it to talk with the priests at the temple in the Rune Township.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 1; has items 7156"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31522-03.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-03.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: Did you get the key? Then you're ready to know the truth of what happened in the Forest of the Dead. It's hidden inside the forest. Find the lock for the key.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 6; has items 7157"
+   ],
+   "links": [
+    {
+     "text": "Listen",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31522-04.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31522-04.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31522-04.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31522-06.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-06.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: Did you read the contract? You must have many questions. We'll talk of it when you know more. Ask the girl who's heard the name Nidrah, she knows of the contracts.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 9; has items 7066"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31522-06a.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-06a.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: You met the real Lidia? Was she normal? My hypothesis has been proved! You also took part in my experiment, so I'll tell you what you want to know.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 16"
+   ],
+   "links": [
+    {
+     "text": "\"Are you Hardin?\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31522-07.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31522-07.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31522-07.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31522-12.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-12.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: I separated her personality into two bodies, and figured the stronger would prey on the weaker. Well, it turned out a little different. The Lord still controls the forest with magic. At least my friend Loricom still has hope. He brought the Key of Seal from the place where the su…",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 19"
+   ],
+   "links": [
+    {
+     "text": "\"The place where the sun sets?\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31522-13.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31522-13.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31522-13.html",
+     "effect": "cond:16"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31522-14.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-14.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: Show the relic of Triol to the bogus priests in the temple of the Rune Township. They're the ringleaders behind every tragedy. I'm guessing one of them killed Rose.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 20"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31522-15.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-15.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: Things didn't go as you planned? Justice alone doesn't solve everything. More important is the will to live. Whether you fight for or against them, your experience will influence your choice. Maybe you'll have to make that choice someday.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 24"
+   ],
+   "links": [
+    {
+     "text": "Listen",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31522-16.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31522-16.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31522-16.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31522-15a.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-15a.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: Things didn't go as you planned? Lidia...I mean the handmaiden, is looking for you. Wait for nightfall and find her.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 23"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31522-05.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-05.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: Find where the truth behind the history of this forest is hidden. Your Map will guide you. Look for the staff filled with gems. The one who recorded everything can tell you what is inside.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; (qs.getMemoState() % 100) == 7"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/11-01.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/11-01.htm",
+   "quest": 74,
+   "text": "Mysterious Wizard: The Stone of Commune? I never thought about that! I used it to watch over the bride of a fire dragon, but it led people to me. I can't give you this one because I'm still using it, but I'll tell you where you can get one.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "cond 14; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Where?\"",
+     "bypass": "Quest Q00074_SagaOfTheDreadnought 11-9",
+     "kind": "quest-event",
+     "script": "Q00074_SagaOfTheDreadnought",
+     "event": "11-9",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00074_SagaOfTheDreadnought/11-02.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/11-02.htm",
+   "quest": 74,
+   "text": "Mysterious Wizard : This stone, you can get it if you defeat the Inferior of Halisha in the four Sepulchers or Shrine of the Loyal. Why don't you go there? After you get the stone, go to find the Tablet in the southwest of the Wall of Argos.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "cond 15; !((npcId == 30850) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-01.html": {
+   "file": "Q00236_SeedsOfChaos/31522-01.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: What brings you into this forest? You do not appear to be someone who seeks the one who sings and follows the flow of Mana... Show him the Star of Destiny.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-06a.html": {
+   "file": "Q00236_SeedsOfChaos/31522-06a.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Go east from this place to the Swamp of Screams where the Needle Stakato Drones live. One of them will have my Black Echo Crystal . Bring it to me.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 2; lacks items 9745"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-07a.html": {
+   "file": "Q00236_SeedsOfChaos/31522-07a.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Have you brought the Black Echo Crystal?",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 2; has items 9745"
+   ],
+   "links": [
+    {
+     "text": "Show him the Black Echo Crystal.",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-08a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-08a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-08a.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/31522-10a.html": {
+   "file": "Q00236_SeedsOfChaos/31522-10a.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Thank you. Since I obtained this thanks to you, allow me to help you in turn. This crystal contains the ancient Melody of the Dark Choir. Recently, I asked a warrior to purify this crystal in the body of a Stakato. I think you might like to meet that warrior.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 6"
+   ],
+   "links": [
+    {
+     "text": "Agree.",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-11a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-11a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-11a.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/31522-15a.html": {
+   "file": "Q00236_SeedsOfChaos/31522-15a.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Did you finish your conversation? Well, since I received this crystal in exchange for helping you, this has been a good day. Ah, no worries, friend -- I am on your side, after all! I have no intention of turning you over to your enemies... And now, I believe you must be going. Yo…",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 20; qs.getMemoStateEx(1) == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-06b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-06b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Hmm? You ask if he has arrived? Oh no, my friend! It will take him quite a bit longer to get here. Bored? Why don't you do something else to pass the time?",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 3; qs.getMemoStateEx(1) == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-07b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-07b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Hmm... Well, he should be almost here by now. He is probably nearby. Wait just a little longer.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 3; !qs.getMemoStateEx(1) == 0; qs.getMemoStateEx(1) == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-08b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-08b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: It seems that he has arrived. Would you like to meet with him?",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 3; !qs.getMemoStateEx(1) == 0; !qs.getMemoStateEx(1) == 1; qs.getMemoStateEx(1) == 2"
+   ],
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-09b.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-09b.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-09b.html",
+     "toAll": [
+      "Q00236_SeedsOfChaos/31522-09b.html",
+      "Q00236_SeedsOfChaos/31522-10b.html",
+      "Q00236_SeedsOfChaos/31522-11b.html"
+     ]
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/31522-12b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-12b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: As I see it, you must capture a Vampire Wizard and bring back a Gem of Red Light. Correct? You will find what you are looking for if you search around here at night .",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 7; lacks items 9744"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-13b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-13b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Hmm... Is that the Blood Jewel you mentioned before? Ah well, none of my business. Are you quite ready to meet that person?",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 7; has items 9744"
+   ],
+   "links": [
+    {
+     "text": "\"I am ready.\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-14b.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-14b.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-14b.html",
+     "toAll": [
+      "Q00236_SeedsOfChaos/31522-14b.html",
+      "Q00236_SeedsOfChaos/31522-15b.html",
+      "Q00236_SeedsOfChaos/31522-15bz.html"
+     ]
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/31522-16b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-16b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: A lost town, you say... That is what they call the small village in the center of this forest. But if you wish to meet the residents of that town, you'd best visit it during the daytime . Otherwise you may be disappointed...",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00632_NecromancersRequest/31522-101.htm": {
+   "file": "Q00632_NecromancersRequest/31522-101.htm",
+   "quest": 632,
+   "text": "Mysterious Wizard: This land is fertile ground for the materials I need in my dark arts. The problem is, my servants all have rotten heads ! I need someone to give me a hand cultivating the forest.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state CREATED; player.getLevel() >= MIN_LEVEL"
+   ],
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "Quest Q00632_NecromancersRequest 31522-104.htm",
+     "kind": "quest-event",
+     "script": "Q00632_NecromancersRequest",
+     "event": "31522-104.htm",
+     "quest": 632,
+     "to": "Q00632_NecromancersRequest/31522-104.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00632_NecromancersRequest/31522-103.htm": {
+   "file": "Q00632_NecromancersRequest/31522-103.htm",
+   "quest": 632,
+   "text": "Mysterious Wizard: I'm looking for someone whose power is equal to the Lord of the Forest of the Dead! I have many servants, even if their heads are rotten. (Quest may only be undertaken by a character level 63 or above.)",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state CREATED; NOT player.getLevel() >= MIN_LEVEL"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00632_NecromancersRequest/31522-106.html": {
+   "file": "Q00632_NecromancersRequest/31522-106.html",
+   "quest": 632,
+   "text": "Mysterious Wizard: You don't have 200 vampire hearts yet. I'll trade you something for the dead's brains though.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 11"
+   ],
+   "links": [
+    {
+     "text": "Trade the dead's brains.",
+     "bypass": "npc_%objectId%_multisell 31522",
+     "kind": "multisell"
+    },
+    {
+     "text": "Continue hunting.",
+     "bypass": "Quest Q00632_NecromancersRequest 31522-201.html",
+     "kind": "quest-event",
+     "script": "Q00632_NecromancersRequest",
+     "event": "31522-201.html",
+     "quest": 632,
+     "to": "Q00632_NecromancersRequest/31522-201.html"
+    },
+    {
+     "text": "Stop hunting.",
+     "bypass": "Quest Q00632_NecromancersRequest 31522-204.html",
+     "kind": "quest-event",
+     "script": "Q00632_NecromancersRequest",
+     "event": "31522-204.html",
+     "quest": 632,
+     "to": "Q00632_NecromancersRequest/31522-204.html"
+    }
+   ]
+  },
+  "Q00632_NecromancersRequest/31522-105.html": {
+   "file": "Q00632_NecromancersRequest/31522-105.html",
+   "quest": 632,
+   "text": "Mysterious Wizard: Good, you brought 200 vampire hearts. I'll buy them with Adena, but the undead brains aren't worth much. I'll trade you something else for them.",
+   "header": "Mysterious Wizard",
+   "when": [
+    "state STARTED; memo 12; item 7542 >= 200"
+   ],
+   "links": [
+    {
+     "text": "\"I'll sell you the vampire hearts.\"",
+     "bypass": "Quest Q00632_NecromancersRequest 31522-202.html",
+     "kind": "quest-event",
+     "script": "Q00632_NecromancersRequest",
+     "event": "31522-202.html",
+     "quest": 632,
+     "to": "Q00632_NecromancersRequest/31522-202.html",
+     "toAll": [
+      "Q00632_NecromancersRequest/31522-202.html",
+      "Q00632_NecromancersRequest/31522-203.html"
+     ]
+    },
+    {
+     "text": "\"I'll trade the brains.\"",
+     "bypass": "npc_%objectId%_multisell 31522",
+     "kind": "multisell"
+    },
+    {
+     "text": "\"I want to quit hunting.\"",
+     "bypass": "Quest Q00632_NecromancersRequest 31522-204.html",
+     "kind": "quest-event",
+     "script": "Q00632_NecromancersRequest",
+     "event": "31522-204.html",
+     "quest": 632,
+     "to": "Q00632_NecromancersRequest/31522-204.html"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31522-02.htm": {
+   "file": "Q00021_HiddenTruth/31522-02.htm",
+   "quest": 21,
+   "text": "Mysterious Wizard: You think you're up to it? Look for the ghost in the tombstone.",
+   "header": "Mysterious Wizard",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00021_HiddenTruth/31522-03.htm": {
+   "file": "Q00021_HiddenTruth/31522-03.htm",
+   "quest": 21,
+   "text": "Mysterious Wizard: Come back when the Forest of the Dead won't eat you alive! (Only characters of level 63 or above may undertake this quest.)",
+   "header": "Mysterious Wizard",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00021_HiddenTruth/31522-04.html": {
+   "file": "Q00021_HiddenTruth/31522-04.html",
+   "quest": 21,
+   "text": "Mysterious Wizard: It may sound funny coming from a Dark Mage, but I don't like dealing with the dead. It's only trouble.",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00021_HiddenTruth 31522-01.htm",
+     "kind": "quest-event",
+     "script": "Q00021_HiddenTruth",
+     "event": "31522-01.htm",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31522-01.htm"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-02.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-02.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: What are you talking about?",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"Look at this!\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-03.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-03.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-03.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-03.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-03.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: Oh, that. It's an amulet to help my puppets collect bone pieces in the forest without getting hurt.",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"That's not what I heard.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-05.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-05.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-05.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-05.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-05.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: What did you hear?",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"That it's related to Wizard Nidrah.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-06.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-06.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-06.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-06.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-06.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: Where did you hear the name Nidrah?",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"From the person who told me to see you about the doll.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-07.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-07.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-07.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-07.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-07.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: So, you're under the protection of Lady Lidia. We've signed a mutual contract not to harm each other. This doll was made by Nidrah, and tells the Lord of the Forest of the Dead not to attack its bearer.",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"How did you get it?\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-08.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-08.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-08.html",
+     "effect": "cond:11"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-08.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-08.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: This much I can tell you. I'm a Dark Mage, that's how I got it! You just can't tell the future, can you? Come back when you have more confidence in me.",
+   "header": "Mysterious Wizard",
+   "sets": {
+    "cond": "11"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-10.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-10.html",
+   "quest": 24,
+   "text": "Mysterous Wizard: So tell me!",
+   "header": "Mysterous Wizard",
+   "links": [
+    {
+     "text": "\"You're gathering materials for the dark arts.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-11.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-11.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-11.html"
+    },
+    {
+     "text": "\"You signed a contract.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-13.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-13.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-13.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-11.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-11.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: Where is your proof?",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"Lady Lidia controls all the dead of this earth, a power nearly equal to a god's! One must be granted authority by her to have power over the dead in any capacity.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-12.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-12.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-12.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-12.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-12.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: So?",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"Nobody is allowed here without permission. That you're here means you have power at least equal to the Lord of the Forest of the Dead.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-16.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-16.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-16.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-13.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-13.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: So I made a mistake. What's wrong with that?",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"It's impossible to have a real nonaggression contract in this situation!\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-14.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-14.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-14.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-14.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-14.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: History is filled with such contracts. Do you know why?",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"Nonaggression contracts are signed between two equal powers. It stays in effect only as long as it benefits them. If one party becomes weaker, the contract is nullified.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-15.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-15.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-15.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-15.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-15.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: Go on.",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"The Lord of the Dead has absolute power here, why would she sign a contract with you? You must have power equal to hers, or else she reaps some benefit from not fighting you.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-16.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-16.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-16.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-16.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-16.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: You think I have something to do with Nidrah?",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"Yes.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-17.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-17.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-17.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-17.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-17.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: Let's say for arguments sake that I'm Nidrah. What difference would that make?",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"Here's the missing page from the diary.\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-19.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-19.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-19.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-19.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-19.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: You found the diary! You're tracking Nidrah. Going further may be difficult, you're following a dangerous man. If you insist, you'll need the key.",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"Key?\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-20.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-20.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-20.html"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-20.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-20.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: The Priest of the Rune Township has the key. I'll give you the doll, it represents the person who carried the real authority in the Hellmann Forest and Rune Territory, even over Lidia.",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"Who is it?\"",
+     "bypass": "Quest Q00024_InhabitantsOfTheForestOfTheDead 31522-21.html",
+     "kind": "quest-event",
+     "script": "Q00024_InhabitantsOfTheForestOfTheDead",
+     "event": "31522-21.html",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-21.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00024_InhabitantsOfTheForestOfTheDead/31522-21.html": {
+   "file": "Q00024_InhabitantsOfTheForestOfTheDead/31522-21.html",
+   "quest": 24,
+   "text": "Mysterious Wizard: I can't tell you, but you may find out soon. Come on, show the doll to the priest at the temple of the Rune Township. Ask him about the one who hides behind the truth .",
+   "header": "Mysterious Wizard",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31522-04.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-04.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: Find where the truth behind the history of this forest is hidden. Your Map will guide you. Look for the staff filled with gems. The one who recorded everything can tell you what is inside.",
+   "header": "Mysterious Wizard",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31522-07.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-07.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: If I were Nidrah and Nidrah is... I don't want to say that name. We're both Mages of the dark arts, that's enough. Did I tell you about the red dress? Anyway, it doesn't matter whether or not I'm him.",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"What about the double contract?\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31522-08.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31522-08.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31522-08.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31522-08.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-08.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: She remembered too? Then Lidia's power will become weaker and her territory may be robbed by adventurers. Well, since she's immortal, maybe she won't challenge again. About the double contract...",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "Listen",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31522-09.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31522-09.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31522-09.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31522-09.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-09.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: I'm a victim too. Triol wanted to help the Hellmann family. If Hellmann had become king, it would start a war between Aden and Elmore, and we both would have profited. Our plan failed when the royal army invaded the forest and slaughtered the Hellmann family.",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"What did you do then?\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31522-10.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31522-10.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31522-10.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31522-10.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-10.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: I was preparing my magic. It's not easy to conjure an army without corpses, so I opened the door to the netherworld to steal the army of Shillen. While I was preparing, Lidia took Rose's corpse. You know the story from there. I conjured Triol, and Triol made Lidia the Lord of the…",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"What experiments?\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31522-11.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31522-11.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31522-11.html"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31522-11.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-11.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: I separated her personality into two bodies, and figured the stronger would prey on the weaker. Well, it turned out a little different. The Lord still controls the forest with magic. At least my friend Loricom still has hope. He brought the Key of Seal from the place where the su…",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"The place where the sun sets?\"",
+     "bypass": "Quest Q00025_HidingBehindTheTruth 31522-13.html",
+     "kind": "quest-event",
+     "script": "Q00025_HidingBehindTheTruth",
+     "event": "31522-13.html",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31522-13.html",
+     "effect": "cond:16"
+    }
+   ]
+  },
+  "Q00025_HidingBehindTheTruth/31522-13.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-13.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: Some say it's the revolutionary army of dusk, but I don't care about such things. I'm interested in knowledge, not power and exploitation. If you're still angry, go to the temple of the Rune Township. Perhaps the holy relic...I mean the doll will help shed light on things.",
+   "header": "Mysterious Wizard",
+   "sets": {
+    "cond": "16"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00025_HidingBehindTheTruth/31522-16.html": {
+   "file": "Q00025_HidingBehindTheTruth/31522-16.html",
+   "quest": 25,
+   "text": "Mysterious Wizard: A group is only as strong as the individuals in it. Anyone can talk with the leader of a group, just like you're talking to me. Don't forget that. Lidia asked me to give you this as a token of thanks, and since you helped with my experiment, I have something for you as well. Use …",
+   "header": "Mysterious Wizard",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00074_SagaOfTheDreadnought/11-03.htm": {
+   "file": "Q00074_SagaOfTheDreadnought/11-03.htm",
+   "quest": 74,
+   "text": "Mysterious Wizard : This stone contains the power of Gran Kain, the God of Destruction. I'm not sure about it's composition, but I do know that the Stone of Commune was made from a material that Gran Kain cherished dearly. At the present... One of the Rulers of Hell is said to use this very same ma…",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-02.html": {
+   "file": "Q00236_SeedsOfChaos/31522-02.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: The Star of Destiny? Why is the mark of the goddess here...? Ha! So then, is your race also part of the goddess' plan? Interesting! Very interesting! That someone like you exists in this world, and that you should even walk the path of the hero... I must confess that I did not an…",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"Can you stop chattering?\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-03.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-03.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-03.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/31522-03.html": {
+   "file": "Q00236_SeedsOfChaos/31522-03.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: My apologies. As one grows old, one has a tendency to babble like a brook at times... But I am surprised! In any case, I will contact him now that you are here. It will take some time for him to arrive, however. May I ask you a small favor in the meantime? As I see it, you have l…",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"What is it?\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-04a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-04a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-04a.html"
+    },
+    {
+     "text": "Say no.",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-04b.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-04b.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-04b.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/31522-04a.html": {
+   "file": "Q00236_SeedsOfChaos/31522-04a.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: You seem to know how things work. Allow me then to tell you my dilemma. If you go east from here, you will find the Swamp of Screams . In that place, there are Needle Stakatos roaming around, some of whom are called Needle Stakato Drones .",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "Ask what he wants with them.",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-05a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-05a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-05a.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/31522-04b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-04b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Heh. You aspire to walk the path of heroes -- shouldn't you show a little more concern for those in need? Very well, then -- you may wait here until he arrives. Unless you have changed your mind?",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "Say you will perform the task.",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-04a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-04a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-04a.html"
+    },
+    {
+     "text": "Say you have no desire to do so.",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-05b.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-05b.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-05b.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/31522-05a.html": {
+   "file": "Q00236_SeedsOfChaos/31522-05a.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Ha! More interested in what must be done rather than what has happened. You are truly a Kamael! Very well, then. One of them will has my Black Echo Crystal . Never mind why they have it, just retrieve it for me. Good luck!",
+   "header": "Mysterious Wizard",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-05b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-05b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Well then, stay here and wait for him. I will alert you when he draws close, so ask me from time to time.",
+   "header": "Mysterious Wizard",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-08a.html": {
+   "file": "Q00236_SeedsOfChaos/31522-08a.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Then give it to me... What? You don't want to? Oh, I see. Yes. Don't worry. He is resting now in my tent. That was it, right? Please, give me the crystal.",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "Give him the crystal.",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-09a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-09a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-09a.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/31522-09a.html": {
+   "file": "Q00236_SeedsOfChaos/31522-09a.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Thank you. Since I obtained this thanks to you, allow me to help you in turn. This crystal contains the ancient Melody of the Dark Choir. Recently, I asked a warrior to purify this crystal in the body of a Stakato. I think you might like to meet that warrior.",
+   "header": "Mysterious Wizard",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Agree.",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-11a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-11a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-11a.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/31522-09b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-09b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Here, I have summoned him. Speak with him.",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-10b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-10b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: He is already waiting for you. Well, were you not also waiting to meet him...",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-11a.html": {
+   "file": "Q00236_SeedsOfChaos/31522-11a.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: I will call him now. Are you ready?",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "\"I am ready.\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 31522-12a.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "31522-12a.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-12a.html",
+     "toAll": [
+      "Q00236_SeedsOfChaos/31522-12a.html",
+      "Q00236_SeedsOfChaos/31522-13a.html",
+      "Q00236_SeedsOfChaos/31522-14a.html"
+     ]
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/31522-11b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-11b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: I am afraid that he is speaking with someone else right now...",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-12a.html": {
+   "file": "Q00236_SeedsOfChaos/31522-12a.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Here is the one you were waiting for. Speak with him now.",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-13a.html": {
+   "file": "Q00236_SeedsOfChaos/31522-13a.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: I see that he is already waiting for you. Speak with him.",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-14a.html": {
+   "file": "Q00236_SeedsOfChaos/31522-14a.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Hmm... It seems that he is busy with someone else at the moment. Perhaps you could come back later?",
+   "header": "Mysterious Wizard",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-14b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-14b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Well, then...speak with Katenar.",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-15b.html": {
+   "file": "Q00236_SeedsOfChaos/31522-15b.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: Well, then... speak with Katenar.",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/31522-15bz.html": {
+   "file": "Q00236_SeedsOfChaos/31522-15bz.html",
+   "quest": 236,
+   "text": "Mysterious Wizard: I am afraid that he is busy speaking with someone else at the moment...",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00632_NecromancersRequest/31522-104.htm": {
+   "file": "Q00632_NecromancersRequest/31522-104.htm",
+   "quest": 632,
+   "text": "Mysterious Wizard: The most important of the materials I need are undead hearts with their Human memory intact. Especially the grey heart of undead vampires. They're just as good as red cloth from Aden. I need 200 of them. Also, I'll trade you something for undead brains. You can hunt them at night…",
+   "header": "Mysterious Wizard",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00632_NecromancersRequest/31522-201.html": {
+   "file": "Q00632_NecromancersRequest/31522-201.html",
+   "quest": 632,
+   "text": "Mysterious Wizard: One more favor. Collect 200 vampire hearts. Also, I'll trade you something for any undead brains you can scoop up.",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00632_NecromancersRequest/31522-202.html": {
+   "file": "Q00632_NecromancersRequest/31522-202.html",
+   "quest": 632,
+   "text": "Mysterious Wizard: Come on, that's not enough! Can you imagine how many hearts I need to die a yard of cloth red with blood? Excellent material, equivalent to the red cloth of Aden, but infused with magical power. Please bring me more hearts. I'll trade you for the dead's brains anytime.",
+   "header": "Mysterious Wizard",
+   "links": [
+    {
+     "text": "Trade the dead's brains.",
+     "bypass": "npc_%objectId%_multisell 31522",
+     "kind": "multisell"
+    },
+    {
+     "text": "Say you'll go and bring more vampire hearts.",
+     "bypass": "Quest Q00632_NecromancersRequest 31522-201.html",
+     "kind": "quest-event",
+     "script": "Q00632_NecromancersRequest",
+     "event": "31522-201.html",
+     "quest": 632,
+     "to": "Q00632_NecromancersRequest/31522-201.html"
+    },
+    {
+     "text": "Say you want to quit.",
+     "bypass": "Quest Q00632_NecromancersRequest 31522-204.html",
+     "kind": "quest-event",
+     "script": "Q00632_NecromancersRequest",
+     "event": "31522-204.html",
+     "quest": 632,
+     "to": "Q00632_NecromancersRequest/31522-204.html"
+    }
+   ]
+  },
+  "Q00632_NecromancersRequest/31522-203.html": {
+   "file": "Q00632_NecromancersRequest/31522-203.html",
+   "quest": 632,
+   "text": "Mysterious Wizard: Are you sure you have 200 vampire hearts? Maybe you dropped some.",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00632_NecromancersRequest/31522-204.html": {
+   "file": "Q00632_NecromancersRequest/31522-204.html",
+   "quest": 632,
+   "text": "Mysterious Wizard: That'll do. I have enough hearts now.",
+   "header": "Mysterious Wizard",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Hidden Truth]",
+     "bypass": "npc_%objectId%_Quest Q00021_HiddenTruth",
+     "kind": "quest",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31522-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Hidden Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00021_HiddenTruth",
+     "kind": "quest",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31522-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Inhabitants of the Forest of the Dead (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00024_InhabitantsOfTheForestOfTheDead",
+     "kind": "quest",
+     "quest": 24,
+     "to": "Q00024_InhabitantsOfTheForestOfTheDead/31522-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Hiding Behind the Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00025_HidingBehindTheTruth",
+     "kind": "quest",
+     "quest": 25,
+     "to": "Q00025_HidingBehindTheTruth/31522-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Dreadnought (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00074_SagaOfTheDreadnought",
+     "kind": "quest",
+     "quest": 74,
+     "to": "Q00074_SagaOfTheDreadnought/11-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Seeds of Chaos (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00236_SeedsOfChaos",
+     "kind": "quest",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/31522-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Necromancer's Request]",
+     "bypass": "npc_%objectId%_Quest Q00632_NecromancersRequest",
+     "kind": "quest",
+     "quest": 632,
+     "to": "Q00632_NecromancersRequest/31522-101.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Necromancer's Request (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00632_NecromancersRequest",
+     "kind": "quest",
+     "quest": 632,
+     "to": "Q00632_NecromancersRequest/31522-106.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

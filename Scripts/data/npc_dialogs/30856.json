@@ -1,0 +1,520 @@
+{
+ "npcId": 30856,
+ "name": "Winonin",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.095Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30856.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "350": {
+   "name": "Enhance Your Weapon",
+   "listText": [
+    "[Enhance Your Weapon]",
+    "[Enhance Your Weapon (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00350_EnhanceYourWeapon/30856-01.htm",
+     "when": "st.getInt(\"cond\") == 0",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00350_EnhanceYourWeapon/30856-03.htm",
+     "when": "!st.getInt(\"cond\") == 0; check(st)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00350_EnhanceYourWeapon/30856-21.htm",
+     "when": "!st.getInt(\"cond\") == 0; !check(st)",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30856.htm": {
+   "file": "trainer/30856.htm",
+   "quest": null,
+   "text": "Magister Winonin: Desmond frightens me, and I'm not afraid to admit it. He becomes stranger with each passing day. Why are Human Wizards like Drikiyan and Desmond so bizarre? Woe is me, to be caught in the uneasy truce between Human and Elf! I must be the most unfortunate Elf Wizard in the world...",
+   "header": "Magister Winonin",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30856-noteach.htm": {
+   "file": "trainer/30856-noteach.htm",
+   "quest": null,
+   "text": "Magister Winonim: Are you kidding? I only teach Elven Mystics. Why should I waste my time on the likes of you! Behold the mutterings of a foolish old Mystic, pontificating forward with his delusions of grandeur.. Sob! How I miss my hometown... If I could only stand once more at the foot of the beau…",
+   "header": "Magister Winonim",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30856-01.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-01.htm",
+   "quest": 350,
+   "text": "Magister Winonin: Hello there, have you come to learn how to enhance the abilities of your weapon?",
+   "header": "Magister Winonin",
+   "when": [
+    "st.getInt(\"cond\") == 0"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, I wish to learn more.\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-02.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-02.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-02.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30856-03.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-03.htm",
+   "quest": 350,
+   "text": "Magister Winonin: You must hurry and collect the souls of evil creatures in the soul crystal. You will find the evil ones in the northern part of Oren, the Forest of Mirrors, the Cave of Giants, the Devastated Castle, the higher reaches of the Tower of Insolence, deep within the Lair of Antharas, E…",
+   "header": "Magister Winonin",
+   "when": [
+    "!st.getInt(\"cond\") == 0; check(st)"
+   ],
+   "links": [
+    {
+     "text": "Ask about the evil creatures from which you will collect souls.",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-12.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-12.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-12.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30856-21.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-21.htm",
+   "quest": 350,
+   "text": "Magister Winonin: How is your mission going? Oh, I see that you need a new crystal!",
+   "header": "Magister Winonin",
+   "when": [
+    "!st.getInt(\"cond\") == 0; !check(st)"
+   ],
+   "links": [
+    {
+     "text": "\"Yes, please, may I have another?\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-08.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-08.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-08.htm"
+    },
+    {
+     "text": "\"Quit\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon exit.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "exit.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/exit.htm",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30856-02.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-02.htm",
+   "quest": 350,
+   "text": "Magister Winonin: I have a growing sense of dread of late. Something terrible is coming. Can you hear it? The trees in the forest, the birds in the sky and the fish in the ocean...They know of what I speak... I fear for the survival of the whole Human race, but I don't know what threatens it! This …",
+   "header": "Magister Winonin",
+   "links": [
+    {
+     "text": "\"I will join your cause!\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-04.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-04.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-04.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30856-04.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-04.htm",
+   "quest": 350,
+   "text": "Magister Winonin: Oh, marvelous! If we all develop our strengths and work together, we will triumph over the coming cataclysm. My colleagues and I have recently developed a method of enhancing weaponry that should prove quite useful to all of us. This weapons enhancement boosts strength noticeably …",
+   "header": "Magister Winonin",
+   "links": [
+    {
+     "text": "Explanation of weapons enhancement",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-05.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-05.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-05.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30856-05.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-05.htm",
+   "quest": 350,
+   "text": "Magister Winonin: To enhance a weapon you will need some magical souls. You must collect the souls of evil creatures and trap them in the soul crystal I will give you. You will then take the crystal to a blacksmith and he will extract the magic from the crystal and apply it to a weapon for you. All…",
+   "header": "Magister Winonin",
+   "links": [
+    {
+     "text": "\"How do I collect the souls of the evil ones?\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-06.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-06.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-06.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30856-06.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-06.htm",
+   "quest": 350,
+   "text": "Magister Winonin: After you have sapped the evil one's strength in battle, apply the crystal to his skin. His soul will be absorbed into the crystal. His mortal body is easily dispatched. Each soul crystal can contain up to 10 souls. A more precise explanation would be that it can contain up to 10 …",
+   "header": "Magister Winonin",
+   "links": [
+    {
+     "text": "What are the precautions to take when collecting souls?\"",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-07.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-07.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-07.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30856-07.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-07.htm",
+   "quest": 350,
+   "text": "Magister Winonin: The collection of a soul doesn't always go as planned. Some evil souls will simply not be absorbed, and, if you happen to collect the wrong soul, the crystal will shatter... Soul crystals develop refined tastes, and will reject weaker souls after a while. When this happens you mus…",
+   "header": "Magister Winonin",
+   "links": [
+    {
+     "text": "Receive a soul crystal.",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-08.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-08.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-08.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30856-08.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-08.htm",
+   "quest": 350,
+   "text": "Magister Winonin: Please choose one of the following three types of crystals: Each crystal bestows a different power upon the weapon it enhances, and the powers may vary from weapon to weapon.",
+   "header": "Magister Winonin",
+   "links": [
+    {
+     "text": "Red Soul Crystal",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-09.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-09.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-09.htm"
+    },
+    {
+     "text": "Green Soul Crystal",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-10.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-10.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-10.htm"
+    },
+    {
+     "text": "Blue Soul Crystal",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-11.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-11.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-11.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30856-09.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-09.htm",
+   "quest": 350,
+   "text": "Magister Winonin: Here is a red soul crystal. Collect souls into it and take it to a blacksmith along with the weapon you wish to enhance. The stronger the weapon, the more souls needed to enhance it. Next time we meet I hope you have gained more strength.",
+   "header": "Magister Winonin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30856-10.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-10.htm",
+   "quest": 350,
+   "text": "Magister Winonin: Here is a green soul crystal. Collect souls into it and take it to a blacksmith along with the weapon you wish to enhance. The stronger the weapon, the more souls needed to enhance it. Next time we meet I hope you have gained more strength.",
+   "header": "Magister Winonin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30856-11.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-11.htm",
+   "quest": 350,
+   "text": "Magister Winonin: Here is a blue soul crystal. Collect souls into it and take it to a blacksmith along with the weapon you wish to enhance. The stronger the weapon, the more souls needed to enhance it. Next time we meet I hope you have gained more strength.",
+   "header": "Magister Winonin",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30856-12.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-12.htm",
+   "quest": 350,
+   "text": "Magister Winonin: From the following areas, which area's evil creatures would you like to obtain more information about?",
+   "header": "Magister Winonin",
+   "links": [
+    {
+     "text": "Northern Oren",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-13.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-13.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-13.htm"
+    },
+    {
+     "text": "Forest of Mirrors",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-14.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-14.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-14.htm"
+    },
+    {
+     "text": "Cave of Giants",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-15.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-15.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-15.htm"
+    },
+    {
+     "text": "Devastated Castle",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-16.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-16.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-16.htm"
+    },
+    {
+     "text": "Tower of Insolence",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-17.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-17.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-17.htm"
+    },
+    {
+     "text": "Lair of Antharas",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-18.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-18.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-18.htm"
+    },
+    {
+     "text": "Eva's Underwater Garden",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-19.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-19.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-19.htm"
+    },
+    {
+     "text": "Devil's Isle",
+     "bypass": "Quest Q00350_EnhanceYourWeapon 30856-20.htm",
+     "kind": "quest-event",
+     "script": "Q00350_EnhanceYourWeapon",
+     "event": "30856-20.htm",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-20.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/30856-13.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-13.htm",
+   "quest": 350,
+   "text": "Magister Winonin: It seems that the most evil creatures in northern Oren are the Timak Orcs. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If you notice that your crystal has stopped absorbing s…",
+   "header": "Magister Winonin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30856-14.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-14.htm",
+   "quest": 350,
+   "text": "Magister Winonin: It seems that the most evil creatures in the Forest of Mirrors are the Forest of Mirror ghosts, mirrors and Harit Lizardmen. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If yo…",
+   "header": "Magister Winonin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30856-15.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-15.htm",
+   "quest": 350,
+   "text": "Magister Winonin: It seems that the most evil creatures in the Cave of Giants are the Halingkas, Yintzus, Paliotes, Hamruts, and Kranrots. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If you no…",
+   "header": "Magister Winonin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30856-16.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-16.htm",
+   "quest": 350,
+   "text": "Magister Winonin: It seems that the most evil creatures in the Devastated Castle are the Doom Servants, Doom Guards, Doom Archers, Doom Troopers, Doom Warriors, and Doom Knights. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and …",
+   "header": "Magister Winonin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30856-17.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-17.htm",
+   "quest": 350,
+   "text": "Magister Winonin: It seems that the most evil creatures in the Tower of Insolence are the Erin Ediunce, members of the Platinum Tribe and their Angels. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater ev…",
+   "header": "Magister Winonin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30856-18.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-18.htm",
+   "quest": 350,
+   "text": "Magister Winonin: It seems that the most evil creatures in the Lair of Antharas are the Malruk Knights, Malruk Berserkers, Malruk Lords, Limal Karinness, Kariks, Pytans, and Pytan Knights. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined …",
+   "header": "Magister Winonin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30856-19.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-19.htm",
+   "quest": 350,
+   "text": "Magister Winonin: It seems that all of the evil creatures inhabiting Eva's Underwater Garden are appropriate soul donors. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If you notice that your cr…",
+   "header": "Magister Winonin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00350_EnhanceYourWeapon/30856-20.htm": {
+   "file": "Q00350_EnhanceYourWeapon/30856-20.htm",
+   "quest": 350,
+   "text": "Magister Winonin: It seems that all of the evil creatures inhabiting Devil's Isle are appropriate soul donors. Remember that you cannot fill your crystal with the souls of weaker creatures. The crystal develops a refined taste and demands souls of greater evil. If you notice that your crystal has s…",
+   "header": "Magister Winonin",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Enhance Your Weapon]",
+     "bypass": "npc_%objectId%_Quest Q00350_EnhanceYourWeapon",
+     "kind": "quest",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Enhance Your Weapon (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00350_EnhanceYourWeapon",
+     "kind": "quest",
+     "quest": 350,
+     "to": "Q00350_EnhanceYourWeapon/30856-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "Q00350_EnhanceYourWeapon/exit.htm": {
+   "file": "Q00350_EnhanceYourWeapon/exit.htm",
+   "quest": 350,
+   "text": "Goodbye",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

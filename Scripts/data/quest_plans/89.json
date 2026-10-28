@@ -2,7 +2,7 @@
  "id": 89,
  "name": "Saga of the Mystic Muse",
  "version": 1,
- "generated": "2026-10-27T11:14:57.208Z",
+ "generated": "2026-10-27T18:18:35.233Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 76,
@@ -36,11 +36,6 @@
    "step": 5
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 8
-  },
-  {
    "code": "item-from-elsewhere",
    "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
    "step": 11
@@ -61,11 +56,6 @@
    "step": 15
   },
   {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 16
-  },
-  {
    "code": "npc-quest-spawned",
    "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
    "step": 18
@@ -76,7 +66,7 @@
    "step": 21
   }
  ],
- "expectedMin": 364,
+ "expectedMin": 367,
  "refLevel": 76,
  "steps": [
   {
@@ -369,9 +359,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    10,
-    14
+    1
    ]
   },
   {
@@ -1672,14 +1660,14 @@
     }
    ],
    "kills": 1,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "talk",
     "trigger": [
      31651
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Examine the area at Tablet of Vision (spawns Fallen Angel Allector 27251 at 119518,-28658,-3811, 5 min), kill it ALONE (no party)",
    "npc": {
@@ -2356,6 +2344,205 @@
   },
   {
    "i": 10,
+   "key": "c10:talk:31283",
+   "cond": 10,
+   "kind": "talk",
+   "to": 11,
+   "links": [
+    "\"What do you need?\"",
+    "\"I'll approach the Ketra Orcs!\""
+   ],
+   "npc": {
+    "id": 31283,
+    "name": "Alminas",
+    "title": "Magister",
+    "town": "Goddard",
+    "at": [
+     146416,
+     -52564,
+     -2736
+    ],
+    "alt": []
+   },
+   "text": "Talk to Alminas and choose Ketra or Varka",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31283@146416,-52564",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 5320,
+    "sec": 64,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 5320,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56200,
+      -2776
+     ],
+     [
+      147704,
+      -55928,
+      -2760
+     ],
+     [
+      147704,
+      -55656,
+      -2736
+     ],
+     [
+      147704,
+      -55384,
+      -2728
+     ],
+     [
+      147704,
+      -55112,
+      -2728
+     ],
+     [
+      147704,
+      -54840,
+      -2728
+     ],
+     [
+      147704,
+      -54568,
+      -2728
+     ],
+     [
+      147576,
+      -54472,
+      -2728
+     ],
+     [
+      147704,
+      -54408,
+      -2728
+     ],
+     [
+      147704,
+      -54136,
+      -2728
+     ],
+     [
+      147704,
+      -53864,
+      -2728
+     ],
+     [
+      147704,
+      -53592,
+      -2728
+     ],
+     [
+      147704,
+      -53320,
+      -2728
+     ],
+     [
+      147656,
+      -53096,
+      -2728
+     ],
+     [
+      147592,
+      -53032,
+      -2728
+     ],
+     [
+      147560,
+      -53064,
+      -2728
+     ],
+     [
+      147368,
+      -53112,
+      -2728
+     ],
+     [
+      147096,
+      -53112,
+      -2728
+     ],
+     [
+      146824,
+      -53112,
+      -2728
+     ],
+     [
+      146552,
+      -53112,
+      -2728
+     ],
+     [
+      146536,
+      -53096,
+      -2728
+     ],
+     [
+      146472,
+      -52840,
+      -2728
+     ],
+     [
+      146424,
+      -52568,
+      -2728
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10
+   ]
+  },
+  {
+   "i": 11,
    "key": "c11:deliver:31283",
    "cond": 11,
    "kind": "deliver",
@@ -2563,7 +2750,7 @@
    ]
   },
   {
-   "i": 11,
+   "i": 12,
    "key": "c13:deliver:31654",
    "cond": 13,
    "kind": "deliver",
@@ -2691,7 +2878,205 @@
    ]
   },
   {
-   "i": 12,
+   "i": 13,
+   "key": "c14:talk:31283",
+   "cond": 14,
+   "kind": "talk",
+   "to": 15,
+   "links": [
+    "\"What did he say?\""
+   ],
+   "npc": {
+    "id": 31283,
+    "name": "Alminas",
+    "title": "Magister",
+    "town": "Goddard",
+    "at": [
+     146416,
+     -52564,
+     -2736
+    ],
+    "alt": []
+   },
+   "text": "Talk to Alminas",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31283@146416,-52564",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 5320,
+    "sec": 64,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 5320,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56200,
+      -2776
+     ],
+     [
+      147704,
+      -55928,
+      -2760
+     ],
+     [
+      147704,
+      -55656,
+      -2736
+     ],
+     [
+      147704,
+      -55384,
+      -2728
+     ],
+     [
+      147704,
+      -55112,
+      -2728
+     ],
+     [
+      147704,
+      -54840,
+      -2728
+     ],
+     [
+      147704,
+      -54568,
+      -2728
+     ],
+     [
+      147576,
+      -54472,
+      -2728
+     ],
+     [
+      147704,
+      -54408,
+      -2728
+     ],
+     [
+      147704,
+      -54136,
+      -2728
+     ],
+     [
+      147704,
+      -53864,
+      -2728
+     ],
+     [
+      147704,
+      -53592,
+      -2728
+     ],
+     [
+      147704,
+      -53320,
+      -2728
+     ],
+     [
+      147656,
+      -53096,
+      -2728
+     ],
+     [
+      147592,
+      -53032,
+      -2728
+     ],
+     [
+      147560,
+      -53064,
+      -2728
+     ],
+     [
+      147368,
+      -53112,
+      -2728
+     ],
+     [
+      147096,
+      -53112,
+      -2728
+     ],
+     [
+      146824,
+      -53112,
+      -2728
+     ],
+     [
+      146552,
+      -53112,
+      -2728
+     ],
+     [
+      146536,
+      -53096,
+      -2728
+     ],
+     [
+      146472,
+      -52840,
+      -2728
+     ],
+     [
+      146424,
+      -52568,
+      -2728
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    14
+   ]
+  },
+  {
+   "i": 14,
    "key": "c15:hunt",
    "cond": 15,
    "kind": "hunt",
@@ -3286,7 +3671,7 @@
    ]
   },
   {
-   "i": 13,
+   "i": 15,
    "key": "c15:spawn:27238",
    "cond": 15,
    "kind": "spawn",
@@ -3378,9 +3763,7 @@
     }
    ],
    "kills": 234,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "kill",
     "trigger": [
@@ -3390,7 +3773,9 @@
      21649,
      21650,
      21651
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Kill Archon Minions 21646-21651 for Halisha's Marks 7504 (700), then the Archon of Halisha 27238 spawns at you (10 min): kill it ALONE",
    "area": {
@@ -3766,7 +4151,7 @@
    ]
   },
   {
-   "i": 14,
+   "i": 16,
    "key": "c16:deliver:31655",
    "cond": 16,
    "kind": "deliver",
@@ -4055,7 +4440,7 @@
    ]
   },
   {
-   "i": 15,
+   "i": 17,
    "key": "c17:talk:31643",
    "cond": 17,
    "kind": "talk",
@@ -4087,7 +4472,7 @@
    ]
   },
   {
-   "i": 16,
+   "i": 18,
    "key": "c18:deliver:31658",
    "cond": 18,
    "kind": "deliver",
@@ -4311,7 +4696,7 @@
    ]
   },
   {
-   "i": 17,
+   "i": 19,
    "key": "c19:talk:30174",
    "cond": 19,
    "kind": "talk",
@@ -4409,7 +4794,7 @@
    ]
   },
   {
-   "i": 18,
+   "i": 20,
    "key": "c20:manual",
    "cond": 20,
    "kind": "special",

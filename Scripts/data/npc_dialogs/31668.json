@@ -1,0 +1,49 @@
+{
+ "npcId": 31668,
+ "name": "Tangen",
+ "title": "Blueprint Seller",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.266Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31668.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/31668.htm": {
+   "file": "merchant/31668.htm",
+   "quest": null,
+   "text": "Blueprint Seller Tangen: I haven't a traveler in these parts in quite a while! Business has been terrible lately! You've made my day, stranger! How can I help you?",
+   "header": "Blueprint Seller Tangen",
+   "links": [
+    {
+     "text": "Buy",
+     "bypass": "npc_%objectId%_Buy 3166800",
+     "kind": "shop"
+    },
+    {
+     "text": "\"Who is the lord of the manor and what is the tax rate?\"",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

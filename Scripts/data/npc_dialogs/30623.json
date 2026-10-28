@@ -1,0 +1,496 @@
+{
+ "npcId": 30623,
+ "name": "Kaien",
+ "title": "Duelist",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.021Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30623.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "222": {
+   "name": "Test Of The Duelist",
+   "listText": [
+    "[Test of the Duelist]",
+    "[Test of the Duelist (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00222_TestOfTheDuelist/30623-03.htm",
+     "when": "state CREATED; level >= 39; ((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.elvenKnight) || (player.getClassId() == Cla",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00222_TestOfTheDuelist/30623-01.html",
+     "when": "state CREATED; NOT level >= 39; ((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.elvenKnight) || (player.getClassId() == Cla",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00222_TestOfTheDuelist/30623-02.html",
+     "when": "state CREATED; !((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.elvenKnight) || (player.getClassId() == Cl",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00222_TestOfTheDuelist/30623-13.html",
+     "when": "state STARTED; has items 2763,2764,2765,2766,2767; hasAllDrops(player)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00222_TestOfTheDuelist/30623-14.html",
+     "when": "state STARTED; has items 2763,2764,2765,2766,2767; !hasAllDrops(player)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00222_TestOfTheDuelist/30623-18.html",
+     "when": "state STARTED; has items 2778; lacks items 2763,2764,2765,2766,2767; hasAllFinalOrderDrops(player)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00222_TestOfTheDuelist/30623-17.html",
+     "when": "state STARTED; has items 2778; lacks items 2763,2764,2765,2766,2767; !hasAllFinalOrderDrops(player)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "344": {
+   "name": "1000 years, the End of Lamentation",
+   "listText": [
+    "[1000 Years, the End of Lamentation]",
+    "[1000 Years, the End of Lamentation (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00344_1000YearsTheEndOfLamentation/30623-01.html",
+     "when": "memo 1; has items 4271",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00344_1000YearsTheEndOfLamentation/30623-02.html",
+     "when": "memo 1; lacks items 4271",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30623.htm": {
+   "file": "default/30623.htm",
+   "quest": null,
+   "text": "Duelist Kaien: The way of the sword is long and difficult. It is not an easy path. If you relentlessly practice, your skills shall one day reach the zenith of swordsmanship!",
+   "header": "Duelist Kaien",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-03.htm": {
+   "file": "Q00222_TestOfTheDuelist/30623-03.htm",
+   "quest": 222,
+   "text": "Duelist Kaien: Greetings, young warrior. My name is Kaien and I am a 'Duelist' belonging from the arena at Schuttgart. My quest is to travel the continent to discover talented swordsmen and train them as duelists. Though the kingdoms of Elmore and Aden are hostile to one another, that does not infl…",
+   "header": "Duelist Kaien",
+   "when": [
+    "state CREATED; level >= 39; ((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.elvenKnight) || (player.getClassId() == Cla"
+   ],
+   "links": [
+    {
+     "text": "Ask about the Mark of the Duelist.",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-04.htm",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-04.htm",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-04.htm",
+     "toAll": [
+      "Q00222_TestOfTheDuelist/30623-04.htm",
+      "Q00222_TestOfTheDuelist/30623-05.htm"
+     ]
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-01.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-01.html",
+   "quest": 222,
+   "text": "Duelist Kaien: Greetings, young traveler. I am Duelist Kaien. The original meaning of the word 'Duelist' was 'Challenger.' It was used to describe those who exhibited their dazzling talents in the arena at Schuttgart. They bathed in the blood of their rivals and regarded that as an honor. Now this …",
+   "header": "Duelist Kaien",
+   "when": [
+    "state CREATED; NOT level >= 39; ((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.elvenKnight) || (player.getClassId() == Cla"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00222_TestOfTheDuelist/30623-02.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-02.html",
+   "quest": 222,
+   "text": "Duelist Kaien: Greetings, young traveler. I am Duelist Kaien. The original meaning of the word 'Duelist' was 'Challenger.' It was used to describe those who exhibited their dazzling talents in the arena at Schuttgart. They bathed in the blood of their rivals and regarded that as an honor. Now this …",
+   "header": "Duelist Kaien",
+   "when": [
+    "state CREATED; !((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.elvenKnight) || (player.getClassId() == Cl"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00222_TestOfTheDuelist/30623-13.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-13.html",
+   "quest": 222,
+   "text": "Duelist Kaien: I am too tired to count. I will trust that you completed the assignment so far. You did well, but I would have been able to complete this task in a single day. The Duelist's Trial is not yet over, so do not get ahead of yourself. The hard part begins now. Are you ready to attempt the…",
+   "header": "Duelist Kaien",
+   "when": [
+    "state STARTED; has items 2763,2764,2765,2766,2767; hasAllDrops(player)"
+   ],
+   "links": [
+    {
+     "text": "Attempt the final trial",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-15.html",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-15.html",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-15.html"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-14.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-14.html",
+   "quest": 222,
+   "text": "Duelist Kaien: You are quicker than I thought you were! Good, now let's see... Hmmm...You're still short. Tired already? If you're worn out, you can quit the trial at any time. Even if you do not become a Duelist, you may still be able to carve your own path... Defeats are forgotten with the passag…",
+   "header": "Duelist Kaien",
+   "when": [
+    "state STARTED; has items 2763,2764,2765,2766,2767; !hasAllDrops(player)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00222_TestOfTheDuelist/30623-18.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-18.html",
+   "quest": 222,
+   "text": "Duelist Kaien: You have defeated all of the opponents of the final trial...! Excellent! Now not only have you conquered all of the territories of Aden, but also Aden itself! Magnificent! I, Duelist Kaien, hereby acknowledge your skills and talents and bestow upon you the Mark of the Duelist . Congr…",
+   "header": "Duelist Kaien",
+   "when": [
+    "state STARTED; has items 2778; lacks items 2763,2764,2765,2766,2767; hasAllFinalOrderDrops(player)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00222_TestOfTheDuelist/30623-17.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-17.html",
+   "quest": 222,
+   "text": "Duelist Kaien: Certainly you are not finished with the trial yet! Why do you seek me? Do not come to me again until you have defeated all of the opponents on the list at least 3 times.",
+   "header": "Duelist Kaien",
+   "when": [
+    "state STARTED; has items 2778; lacks items 2763,2764,2765,2766,2767; !hasAllFinalOrderDrops(player)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30623-01.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30623-01.html",
+   "quest": 344,
+   "text": "Duelist Kaien: This is the first I've heard of that! I'm so sorry, obviously you've gone to a great deal of trouble for nothing... Wait a moment~ Could I take a closer look at that? This design is remarkably similar to the one engraved on a scabbard that I received from my father... I am beginning …",
+   "header": "Duelist Kaien",
+   "when": [
+    "memo 1; has items 4271"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30623-02.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30623-02.html",
+   "quest": 344,
+   "text": "Duelist Kaien: Your hilt has been taken to a Dwarven craftsman who will fashion a suitable blade for it... Aren't you excited?!",
+   "header": "Duelist Kaien",
+   "when": [
+    "memo 1; lacks items 4271"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00222_TestOfTheDuelist/30623-04.htm": {
+   "file": "Q00222_TestOfTheDuelist/30623-04.htm",
+   "quest": 222,
+   "text": "Duelist Kaien: Originally the term Duelist meant 'challenger.' It was a term used to refer to those who displayed their dazzling talents in the arena at Schuttgart, who bathed themselves in the blood of their rivals and regarded this as their honor. Now it is a title given to those whose skills wit…",
+   "header": "Duelist Kaien",
+   "links": [
+    {
+     "text": "Ask about the Trial of the Duelist.",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-06.htm",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-06.htm",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-06.htm"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-05.htm": {
+   "file": "Q00222_TestOfTheDuelist/30623-05.htm",
+   "quest": 222,
+   "text": "Duelist Kaien: Greetings, young traveler. I am Duelist Kaien. The original meaning of the word 'Duelist' was 'Challenger.' It was used to describe those who exhibited their dazzling talents in the arena at Schuttgart. They bathed in the blood of their rivals and regarded that as an honor. Now this …",
+   "header": "Duelist Kaien",
+   "links": [
+    {
+     "text": "Ask about the Duelist Trial.",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-06.htm",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-06.htm",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-06.htm"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-06.htm": {
+   "file": "Q00222_TestOfTheDuelist/30623-06.htm",
+   "quest": 222,
+   "text": "Duelist Kaien: I have already explained to you the meaning of the word 'Duelist.' The Duelist's Trial consists primarily of defeating in battle the strongest opponents from across the continent. You must burn with desire rather than tremble and crouch in fear when meeting a strong opponent... Stren…",
+   "header": "Duelist Kaien",
+   "links": [
+    {
+     "text": "Accept the challenge",
+     "bypass": "Quest Q00222_TestOfTheDuelist ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "ACCEPT",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-07a.htm",
+     "toAll": [
+      "Q00222_TestOfTheDuelist/30623-07a.htm",
+      "Q00222_TestOfTheDuelist/30623-07.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-07.htm": {
+   "file": "Q00222_TestOfTheDuelist/30623-07.htm",
+   "quest": 222,
+   "text": "Duelist Kaien: ...I see. Now listen carefully. You must travel to the various territories of the Aden kingdom and repeatedly challenge the strongest opponents . Your must defeat each enemy at least 10 or more times . In the past, swordsmen of various territories engaged in bloody combat with each o…",
+   "header": "Duelist Kaien",
+   "links": [
+    {
+     "text": "Listen further to the explanation",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-08.html",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-08.html",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-08.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-07.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-07.html",
+   "quest": 222,
+   "text": "Duelist Kaien: ...I see. Now listen carefully. You must travel to the various territories of the Aden kingdom and repeatedly challenge the strongest opponents . Your must defeat each enemy at least 10 or more times . In the past, swordsmen of various territories engaged in bloody combat with each o…",
+   "header": "Duelist Kaien",
+   "links": [
+    {
+     "text": "Listen further to the explanation",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-08.html",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-08.html",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-08.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-07a.htm": {
+   "file": "Q00222_TestOfTheDuelist/30623-07a.htm",
+   "quest": 222,
+   "text": "Duelist Kaien: I see. First, take this Dimension Diamond . You can trade it to the village gatekeeper for something special that may help you on your journey. Now listen to me carefully. You must visit each territory of Aden and prove your skill against the best opponents you find . Your task is to…",
+   "header": "Duelist Kaien",
+   "links": [
+    {
+     "text": "Continue to listen to the explanation.",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-08.html",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-08.html",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-08.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-08.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-08.html",
+   "quest": 222,
+   "text": "Duelist Kaien: In Gludio you must face the puncher and noble ant leader. Punchers can be found in the Wastelands of southern Gludio. To find noble ants, you must go inside the Ant Nest of the Wastelands. I'm sure that with your skills you can adequately protect yourself... Bring back 10 puncher sha…",
+   "header": "Duelist Kaien",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Tell me more.",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-09.html",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-09.html",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-09.html"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-09.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-09.html",
+   "quest": 222,
+   "text": "Duelist Kaien: The masters of the Warrior guild and I have determined that your first opponent shall be the marsh stakato drone and the dead seeker in the territory of Dion . Marsh stakato drones are the nobles of the stakato race that live in the Cruma marshlands. You will find the dead seekers at…",
+   "header": "Duelist Kaien",
+   "links": [
+    {
+     "text": "Listen further to the explanation",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-10.html",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-10.html",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-10.html"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-10.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-10.html",
+   "quest": 222,
+   "text": "Duelist Kaien: In Giran you must seek the Breka Orc overlords and fettered souls . The Breka Orc tribe wields considerable power in northern Giran, and they are led by the Breka Orc overlords. Fettered souls are undead that appear in the 'Death Pass,' the path connecting Giran and Oren. You must br…",
+   "header": "Duelist Kaien",
+   "links": [
+    {
+     "text": "Listen further to the explanation",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-11.html",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-11.html",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-11.html"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-11.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-11.html",
+   "quest": 222,
+   "text": "Duelist Kaien: I personally selected your opponents for the trial in Oren . First you shall fight the Leto Lizardman overlord that lives in the southern regions of Oren, and your second opponent will be the enchanted monster eye that wanders the area surrounding the Ivory Tower of Oren. Stay alert,…",
+   "header": "Duelist Kaien",
+   "links": [
+    {
+     "text": "Listen further to the explanation",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-12.html",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-12.html",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-12.html"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-12.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-12.html",
+   "quest": 222,
+   "text": "Duelist Kaien: Last of all you must visit the territory of Aden ... This territory is under martial law and many areas are off limits... In the southern region of Aden, you will find the Tamlin Orcs . Defeat them and the Tamlin Orc Archers . Bring back 10 Tamlin Orc rings and 10 Tamlin Orc arrows. …",
+   "header": "Duelist Kaien",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-07.html",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-07.html",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-07.html"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-15.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-15.html",
+   "quest": 222,
+   "text": "Duelist Kaien: So you do not know the meaning of defeat... Good... then you are halfway there! Already you have conquered each territory. Now you must become the champion of each kingdom, that is to say, 'Conquer the Kingdom' ... The previous trial may have been difficult, but this time it will be …",
+   "header": "Duelist Kaien",
+   "links": [
+    {
+     "text": "Ask about your opponent",
+     "bypass": "Quest Q00222_TestOfTheDuelist 30623-16.html",
+     "kind": "quest-event",
+     "script": "Q00222_TestOfTheDuelist",
+     "event": "30623-16.html",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-16.html",
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00222_TestOfTheDuelist/30623-16.html": {
+   "file": "Q00222_TestOfTheDuelist/30623-16.html",
+   "quest": 222,
+   "text": "Duelist Kaien: First you must slay the Excuro and the Krator from the Cruma Tower . As a proof of your victory, bring back 3 Excuro Skins and 3 Krator Fragments. I trust that I don't need to explain about the dangers of the Cruma Tower? After this you must go to the Death Pass in Giran and fight th…",
+   "header": "Duelist Kaien",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Duelist]",
+     "bypass": "npc_%objectId%_Quest Q00222_TestOfTheDuelist",
+     "kind": "quest",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Test of the Duelist (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00222_TestOfTheDuelist",
+     "kind": "quest",
+     "quest": 222,
+     "to": "Q00222_TestOfTheDuelist/30623-13.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[1000 Years, the End of Lamentation (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00344_1000YearsTheEndOfLamentation",
+     "kind": "quest",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30623-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

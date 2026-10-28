@@ -1,0 +1,606 @@
+{
+ "npcId": 30896,
+ "name": "Mia",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.105Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30896.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "139": {
+   "name": "Shadow Fox - 1",
+   "listText": [
+    "[Shadow Fox - 1]",
+    "[Shadow Fox - 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00139_ShadowFoxPart1/30896-01.htm",
+     "when": "state CREATED; (player.hasQuestCompleted(Q00138_TempleChampionPart2.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00139_ShadowFoxPart1/30896-00.html",
+     "when": "state CREATED; NOT (player.hasQuestCompleted(Q00138_TempleChampionPart2.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00139_ShadowFoxPart1/30896-11.html",
+     "when": "state STARTED; cond 1; (st.isSet(\"talk\"))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "cond"
+    },
+    {
+     "page": "Q00139_ShadowFoxPart1/30896-05.html",
+     "when": "state STARTED; cond 1; NOT (st.isSet(\"talk\"))",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00139_ShadowFoxPart1/30896-18.html",
+     "when": "state STARTED; cond 2; (st.isSet(\"talk\"))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "reward"
+    },
+    {
+     "page": "Q00139_ShadowFoxPart1/30896-15.html",
+     "when": "state STARTED; cond 2; NOT (st.isSet(\"talk\")); ((st.getQuestItemsCount(FRAGMENT) >= 10) && (st.getQuestItemsCount(CHEST) >= 1))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00139_ShadowFoxPart1/30896-14.html",
+     "when": "state STARTED; cond 2; NOT (st.isSet(\"talk\")); NOT ((st.getQuestItemsCount(FRAGMENT) >= 10) && (st.getQuestItemsCount(CHEST) >= 1))",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30896.htm": {
+   "file": "warehouse/30896.htm",
+   "quest": null,
+   "text": "Warehouse Mia: Welcome, traveler! This is my warehouse, the only warehouse in Innadril and a branch of the Iron Gate Guild of Heine! We keep our customers' items very safely for a low, low price.",
+   "header": "Warehouse Mia",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/30896-1.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/30896-2.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30896-1.htm": {
+   "file": "warehouse/30896-1.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Mia:",
+   "header": "Warehouse Keeper Mia",
+   "links": [
+    {
+     "text": "Deposit an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item. (Private Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30896.htm"
+    }
+   ]
+  },
+  "warehouse/30896-2.htm": {
+   "file": "warehouse/30896-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Mia:",
+   "header": "Warehouse Keeper Mia",
+   "links": [
+    {
+     "text": "Deposit an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item. (Clan Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/30896.htm"
+    }
+   ]
+  },
+  "warehouse/30896-noteach.htm": {
+   "file": "warehouse/30896-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Mia: I only train Dwarven Fighters, Scavengers and Bounty Hunters. Your teacher awaits elsewhere.",
+   "header": "Warehouse Keeper Mia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00139_ShadowFoxPart1/30896-01.htm": {
+   "file": "Q00139_ShadowFoxPart1/30896-01.htm",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: You want to meet Shadow Fox, eh? Shh! Keep your voice down... How did you know that I have a connection with Shadow Fox?",
+   "header": "Warehouse Keeper Mia",
+   "when": [
+    "state CREATED; (player.hasQuestCompleted(Q00138_TempleChampionPart2.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "Tell her that you heard it from High Priest Sylvain.",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-02.htm",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-02.htm",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-02.htm",
+     "toAll": [
+      "Q00139_ShadowFoxPart1/30896-02.htm",
+      "Q00139_ShadowFoxPart1/30896-03.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-00.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-00.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Shadow Fox? What a strange name! Is that a person or some sort of creature? I'm afraid you're talking to the wrong woman, friend! (Only characters who have completed the Limbs of the Temple -- Second Half Quest are permitted to undertake this quest.)",
+   "header": "Warehouse Keeper Mia",
+   "when": [
+    "state CREATED; NOT (player.hasQuestCompleted(Q00138_TempleChampionPart2.class.getSimpleName()))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00139_ShadowFoxPart1/30896-11.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-11.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Do you know Iason Heine, the president of Heine Merchant Association? He has been responsible for paying a large portion of the taxes owed to the lord, and for financially supporting the repair of Innadril Castle. But some people say that he is simply waiting for an opportunit…",
+   "header": "Warehouse Keeper Mia",
+   "when": [
+    "state STARTED; cond 1; (st.isSet(\"talk\"))"
+   ],
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"How?\"",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-12.html",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-12.html",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-12.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-05.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-05.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Very well! Then listen to what you must do to prove yourself to me...",
+   "header": "Warehouse Keeper Mia",
+   "when": [
+    "state STARTED; cond 1; NOT (st.isSet(\"talk\"))"
+   ],
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-06.html",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-06.html",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-06.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-18.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-18.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Oh, you have done your part... I'm sure our client will still want this evidence, even if it's not quite the coffin nail they hoped for. In any case, we fulfilled our part of the contract and will still be paid. ...",
+   "header": "Warehouse Keeper Mia",
+   "when": [
+    "state STARTED; cond 2; (st.isSet(\"talk\"))"
+   ],
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "\"Did I pass the test?\"",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-19.html",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-19.html",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-19.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-15.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-15.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Ah, well done! Now I can reforge the key and open the Records Chest.",
+   "header": "Warehouse Keeper Mia",
+   "when": [
+    "state STARTED; cond 2; NOT (st.isSet(\"talk\")); ((st.getQuestItemsCount(FRAGMENT) >= 10) && (st.getQuestItemsCount(CHEST) >= 1))"
+   ],
+   "links": [
+    {
+     "text": "Wait until she has finished.",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-17.html",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-17.html",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-17.html",
+     "toAll": [
+      "Q00139_ShadowFoxPart1/30896-17.html",
+      "Q00139_ShadowFoxPart1/30896-16.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-14.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-14.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: To find evidence you need at least 10 key fragments and 1 document box. Head to Crocodile Beach and defeat Tasaba Lizardman, Tasaba Lizardman Shaman and then gather Key Fragments and the Document Box and bring them to me...whew! Don't make me repeat that!",
+   "header": "Warehouse Keeper Mia",
+   "when": [
+    "state STARTED; cond 2; NOT (st.isSet(\"talk\")); NOT ((st.getQuestItemsCount(FRAGMENT) >= 10) && (st.getQuestItemsCount(CHEST) >= 1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00139_ShadowFoxPart1/30896-02.htm": {
+   "file": "Q00139_ShadowFoxPart1/30896-02.htm",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Oh, I see... Well, if you wish to meet Shadow Fox, you will first have to prove your reliability and ability to me. I warn you, I won't go easy on you... So do you still want to contact Shadow Fox?",
+   "header": "Warehouse Keeper Mia",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "\"Yes! I need to talk to him about something very important.\"",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-04.htm",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-04.htm",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-03.htm": {
+   "file": "Q00139_ShadowFoxPart1/30896-03.htm",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Oh, I see... Well, if you wish to meet Shadow Fox, you will first have to prove your reliability and ability to me. I warn you, I won't go easy on you... In fact, just by the look of you I can tell you're not ready for my test. (Only characters level 37 and above are permitted…",
+   "header": "Warehouse Keeper Mia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00139_ShadowFoxPart1/30896-04.htm": {
+   "file": "Q00139_ShadowFoxPart1/30896-04.htm",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Very well! Then listen to what you must do to prove yourself to me...",
+   "header": "Warehouse Keeper Mia",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-06.html",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-06.html",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-06.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-06.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-06.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: I may seem a humble warehouse keeper, but I have another occupation as well -- a secret occupation...",
+   "header": "Warehouse Keeper Mia",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Secret?\"",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-07.html",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-07.html",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-07.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-07.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-07.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Yes, I belong to a secret organization that buys and sells information. We are called information dealers... Shadow Fox is our chief, the senior information dealer. But he takes great care to hide his identity -- given what he knows, he would certainly be captured or killed if…",
+   "header": "Warehouse Keeper Mia",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-08.html",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-08.html",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-08.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-08.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-08.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: However, since you have been recommended by High Priest Sylvain... You came to assist us in the search for the angel, eh? To do so, you must join our organization as an agent. You must undertake the missions we assign you and serve our interests. We are a neutral party in poli…",
+   "header": "Warehouse Keeper Mia",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-09.html",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-09.html",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-09.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-09.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-09.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Only trusted high-level agents are permitted to assist with such an important and sensitive mission as the search for the angel. If that is your desire, then you must prove yourself at each level -- low, mid and high -- before you can be assigned to this particular mission.",
+   "header": "Warehouse Keeper Mia",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-10.html",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-10.html",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-10.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-10.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-10.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: I am a low-level information dealer. I will make you a low-level agent if you prove your value to me on one of my current assignments.",
+   "header": "Warehouse Keeper Mia",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Ask how you can help.",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-11.html",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-11.html",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-11.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-12.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-12.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: When he was knighted, Iason took a new family name, \"Heine.\" He said that he had discovered that the legendary hero Heine, who drove out the Lizardmen from the land of Innadril, was actually his ancestor. But if he is in collusion with Lizardmen, his claim will lose its validi…",
+   "header": "Warehouse Keeper Mia",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "\"Tell me about the mission.\"",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-13.html",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-13.html",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-13.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-13.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-13.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Our client wants us to find the secret contract between the Tasaba Lizardmen and Iason. ... Listen carefully now... Go to the Field of Silence and get rid of the Tasaba Lizardmen and Tasaba Lizardman Shaman there. Once you have done so, you will be able to obtain both the piec…",
+   "header": "Warehouse Keeper Mia",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00139_ShadowFoxPart1/30896-16.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-16.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Hmm...this key doesn't fit. Do you have any more pieces of the key or another Records Chest? If you don't, please go to the Field of Silence and get rid of the Tasaba Lizardmen and Tasaba Lizardman Shaman there. Once you have done so, you will be able to obtain both the pieces…",
+   "header": "Warehouse Keeper Mia",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00139_ShadowFoxPart1/30896-17.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-17.html",
+   "quest": 139,
+   "text": "Warehouse Keeper Mia: Yes, here's what we are looking for... Oh! The part of this contract that lists the name of the parties involved is written in code. I doubt this will help our client as much as they hoped...",
+   "header": "Warehouse Keeper Mia",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "\"What should I do?\"",
+     "bypass": "Quest Q00139_ShadowFoxPart1 30896-18.html",
+     "kind": "quest-event",
+     "script": "Q00139_ShadowFoxPart1",
+     "event": "30896-18.html",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-18.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00139_ShadowFoxPart1/30896-19.html": {
+   "file": "Q00139_ShadowFoxPart1/30896-19.html",
+   "quest": 139,
+   "text": "Warehouse Mia: Well done, adventurer. You have successfully proved your reliability and skill. I will give you the title of low-level agent using my authority. Congratulations! ... If you want to become a mid-level agent, please speak with Warehouse Keeper Kluck ...",
+   "header": "Warehouse Mia",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Shadow Fox - 1]",
+     "bypass": "npc_%objectId%_Quest Q00139_ShadowFoxPart1",
+     "kind": "quest",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Shadow Fox - 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00139_ShadowFoxPart1",
+     "kind": "quest",
+     "quest": 139,
+     "to": "Q00139_ShadowFoxPart1/30896-11.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

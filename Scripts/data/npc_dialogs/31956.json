@@ -1,0 +1,233 @@
+{
+ "npcId": 31956,
+ "name": "Rydel",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.299Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/31956.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "418": {
+   "name": "Path Of The Artisan",
+   "listText": [
+    "[Path of the Artisan]",
+    "[Path of the Artisan (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00418_PathOfTheArtisan/31956-01.html",
+     "when": "state STARTED; memo 201; !(qs.isCreated() || qs.isCompleted())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/31956.htm": {
+   "file": "warehouse/31956.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Rydel: Ah, these young Dwarves these days are so quick to abandon the old ways and old beliefs. What a pity! Their gullibility and fickleness disturbs me. They are so eager to embrace something without knowing whether it is really good or bad.",
+   "header": "Warehouse Keeper Rydel",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "warehouse/31956-1.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/31956-2.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/31956-1.htm": {
+   "file": "warehouse/31956-1.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Rydel: [ Private Warehouse ]",
+   "header": "Warehouse Keeper Rydel",
+   "links": [
+    {
+     "text": "Deposit Item (Private Warehouse)",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw Item (Private Warehouse)",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/31956.htm"
+    }
+   ]
+  },
+  "warehouse/31956-2.htm": {
+   "file": "warehouse/31956-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Rydel: [ Clan Warehouse ]",
+   "header": "Warehouse Keeper Rydel",
+   "links": [
+    {
+     "text": "Check Freight-Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Claim Freight-Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "warehouse/31956.htm"
+    }
+   ]
+  },
+  "warehouse/31956-noteach.htm": {
+   "file": "warehouse/31956-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Rydel: What do you want to learn from me? Sorry, I can't help you! I only check things in. Stop bothering me!",
+   "header": "Warehouse Keeper Rydel",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00418_PathOfTheArtisan/31956-01.html": {
+   "file": "Q00418_PathOfTheArtisan/31956-01.html",
+   "quest": 418,
+   "text": "Warehouse Keeper Rydel: What brings you here? You aren't here to apply to be a Warehouse Keeper, are you?",
+   "header": "Warehouse Keeper Rydel",
+   "when": [
+    "state STARTED; memo 201; !(qs.isCreated() || qs.isCompleted())"
+   ],
+   "links": [
+    {
+     "text": "\"I've got good news you've been waiting for. I'll take the reward now.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 31956-02.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "31956-02.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31956-02.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/31956-02.html": {
+   "file": "Q00418_PathOfTheArtisan/31956-02.html",
+   "quest": 418,
+   "text": "Warehouse Keeper Rydie: Oh, you're the one who is taking the Path to an Artisan! What a surprise! I haven't seen anyone taking the Path to an Artisan in a long time! Let me see, the good news... Means you're qualified to be an Artisan!",
+   "header": "Warehouse Keeper Rydie",
+   "links": [
+    {
+     "text": "\"Can you tell me more?\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 31956-03.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "31956-03.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31956-03.html"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/31956-03.html": {
+   "file": "Q00418_PathOfTheArtisan/31956-03.html",
+   "quest": 418,
+   "text": "Warehouse Keeper Rydie: Well, the stories? They are all kinds of passwords for the test. Some are stories about a hard mission, considering the question and coming up with an answer. Don't worry, it probably won't fail this test. Keep this in mind! You and I, we're both Dwarves.",
+   "header": "Warehouse Keeper Rydie",
+   "links": [
+    {
+     "text": "\"I've got it.\"",
+     "bypass": "Quest Q00418_PathOfTheArtisan 31956-04.html",
+     "kind": "quest-event",
+     "script": "Q00418_PathOfTheArtisan",
+     "event": "31956-04.html",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31956-04.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00418_PathOfTheArtisan/31956-04.html": {
+   "file": "Q00418_PathOfTheArtisan/31956-04.html",
+   "quest": 418,
+   "text": "Warehouse Keeper Rydel: Good, then take this certificate. You've passed the Path to an Artisan! Go see Head Blacksmith Tapoy in Gludin Village and he'll make you an Artisan. Good luck!",
+   "header": "Warehouse Keeper Rydel",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Artisan (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00418_PathOfTheArtisan",
+     "kind": "quest",
+     "quest": 418,
+     "to": "Q00418_PathOfTheArtisan/31956-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

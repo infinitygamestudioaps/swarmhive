@@ -1,0 +1,331 @@
+{
+ "npcId": 30756,
+ "name": "Sir Kristof Rodemai",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.072Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "default/30756.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "344": {
+   "name": "1000 years, the End of Lamentation",
+   "listText": [
+    "[1000 Years, the End of Lamentation]",
+    "[1000 Years, the End of Lamentation (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00344_1000YearsTheEndOfLamentation/30756-01.html",
+     "when": "memo 2; has items 4270",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00344_1000YearsTheEndOfLamentation/30756-02.html",
+     "when": "memo 2; lacks items 4270",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "501": {
+   "name": "Proof of Clan Alliance",
+   "listText": [
+    "[Proof of Clan Alliance]",
+    "[Proof of Clan Alliance (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00501_ProofOfClanAlliance/30756-01.html",
+     "when": "state CREATED; level < 3; player.isClanLeader()",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30756-03.html",
+     "when": "state CREATED; NOT level < 3; level == 3; has items 3874; player.isClanLeader()",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30756-04.html",
+     "when": "state CREATED; NOT level < 3; level == 3; lacks items 3874; player.isClanLeader()",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30756-02.html",
+     "when": "state CREATED; NOT level < 3; NOT level == 3; player.isClanLeader()",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30756-05.html",
+     "when": "state CREATED; !player.isClanLeader()",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30756-09.html",
+     "when": "state STARTED; memo 6; has items 3873",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00501_ProofOfClanAlliance/30756-10.html",
+     "when": "state STARTED; !(qs.isMemoState(6) && hasQuestItems(player, VOUCHER_OF_FAITH))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30756.htm": {
+   "file": "default/30756.htm",
+   "quest": null,
+   "text": "Sir Kristof Rodemai: Dear young traveler. Did the wind of fate guide you to this place? Giran is called the land of prosperity. Giran will soon be the center of tribulation, affliction and conflict. You d better get ready for it.",
+   "header": "Sir Kristof Rodemai",
+   "live": {
+    "file": "Logs/clanquest_501_0_0.html",
+    "at": "2026-10-20T05:24:03.000Z",
+    "score": 0.3
+   },
+   "dpText": "Sir Kristof Rodemai: What evil wind of fate has brought you to Giran? This place, known for its prosperity, will soon descend into unfathomable chaos. You would do well to prepare yourself.",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true
+    }
+   ]
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30756-01.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30756-01.html",
+   "quest": 344,
+   "text": "Sir Kristof Rodemai: Really! So the ancestors of the Rodemai family participated in the expedition to fight Antharas during the Elmoreden Empire? Yes, that does sound familiar. My family has always been a self-sacrificing lot... This key proves it. So, how about that? I appreciate your bringing me …",
+   "header": "Sir Kristof Rodemai",
+   "when": [
+    "memo 2; has items 4270"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00344_1000YearsTheEndOfLamentation/30756-02.html": {
+   "file": "Q00344_1000YearsTheEndOfLamentation/30756-02.html",
+   "quest": 344,
+   "text": "Sir Kristof Rodemai: The recovery of this key has restored the honor of the Rodemai family. It actually traces our ancestry back to the time of the ancient empire! I hope that you will continue working for us...",
+   "header": "Sir Kristof Rodemai",
+   "when": [
+    "memo 2; lacks items 4270"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30756-01.html": {
+   "file": "Q00501_ProofOfClanAlliance/30756-01.html",
+   "quest": 501,
+   "text": "Sir Kristof Rodemai: What is your opinion on the current state of affairs? The disintegration of royal authority has been disastrous for the kingdom, with chaos and dissent running rampant throughout the land. Now even the evil spirits are acting with impunity. When your clan becomes stronger, you …",
+   "header": "Sir Kristof Rodemai",
+   "when": [
+    "state CREATED; level < 3; player.isClanLeader()"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30756-03.html": {
+   "file": "Q00501_ProofOfClanAlliance/30756-03.html",
+   "quest": 501,
+   "text": "Sir Kristof Rodemai: Ah, the Alliance Manifesto! Good work! However you mustn't forget that this is only your first step towards changing the world. We still have many daunting tasks ahead of us.",
+   "header": "Sir Kristof Rodemai",
+   "when": [
+    "state CREATED; NOT level < 3; level == 3; has items 3874; player.isClanLeader()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30756-04.html": {
+   "file": "Q00501_ProofOfClanAlliance/30756-04.html",
+   "quest": 501,
+   "text": "Sir Kristof Rodemai: Will you join me in creating a new world order?",
+   "header": "Sir Kristof Rodemai",
+   "when": [
+    "state CREATED; NOT level < 3; level == 3; lacks items 3874; player.isClanLeader()"
+   ],
+   "links": [
+    {
+     "text": "\"I will join you.\"",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30756-06.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30756-06.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30756-06.html"
+    }
+   ]
+  },
+  "Q00501_ProofOfClanAlliance/30756-02.html": {
+   "file": "Q00501_ProofOfClanAlliance/30756-02.html",
+   "quest": 501,
+   "text": "Sir Kristof Rodemai: In these difficult times we must call upon a new generation to restore order! All right-thinking young people such as you and your clan must join in this effort if we are to survive. (This quest may only be undertaken by a level 3 clan.)",
+   "header": "Sir Kristof Rodemai",
+   "when": [
+    "state CREATED; NOT level < 3; NOT level == 3; player.isClanLeader()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30756-05.html": {
+   "file": "Q00501_ProofOfClanAlliance/30756-05.html",
+   "quest": 501,
+   "text": "Sir Kristof Rodemai: What is your opinion on the current state of affairs? The disintegration of royal authority has been disastrous for the kingdom, with chaos and dissent running rampant throughout the land. Now even the evil spirits are acting with impunity. Why am am wasting time talking to you…",
+   "header": "Sir Kristof Rodemai",
+   "when": [
+    "state CREATED; !player.isClanLeader()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30756-09.html": {
+   "file": "Q00501_ProofOfClanAlliance/30756-09.html",
+   "quest": 501,
+   "text": "Sir Kristof Rodemai: I judged wisely when I selected you. We are of equal caliber, and I'm sure we will become fast friends. Of course this is not to say it will always be so. For now, let's enjoy each other's company. Here, as promised, is the Alliance Manifesto.",
+   "header": "Sir Kristof Rodemai",
+   "when": [
+    "state STARTED; memo 6; has items 3873"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30756-10.html": {
+   "file": "Q00501_ProofOfClanAlliance/30756-10.html",
+   "quest": 501,
+   "text": "Sir Kristof Rodemai: I heard from my close associates that nowadays some vagabonds get together and claim to be a true clan. You are not one of those vagabonds I hope? I cannot wait for you forever to be ready. If you cannot prove your capability, I'll have to go look elsewhere for another clan.",
+   "header": "Sir Kristof Rodemai",
+   "when": [
+    "state STARTED; !(qs.isMemoState(6) && hasQuestItems(player, VOUCHER_OF_FAITH))"
+   ],
+   "live": {
+    "file": "Logs/clanquest_501_0_1.html",
+    "at": "2026-10-20T05:24:04.000Z",
+    "score": 0.36
+   },
+   "dpText": "Sir Kristof Rodemai: There is talk of vagabonds banding together and calling themselves a clan... I hope that is not what you are. Time is short! If you will not prove your abilities, I shall look elsewhere for assistance.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30756-06.html": {
+   "file": "Q00501_ProofOfClanAlliance/30756-06.html",
+   "quest": 501,
+   "text": "Sir Kristof Rodemai: I can see that you have what it takes to be a great leader, but to earn the respect of your peers your clan must demonstrate its ability. How about this? There is a witch named Kalis who lives near the Ivory Tower. She administers a test that determines one's heroism. Those who…",
+   "header": "Sir Kristof Rodemai",
+   "links": [
+    {
+     "text": "\"We shall take the test!\"",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30756-07.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30756-07.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30756-07.html",
+     "effect": "start"
+    },
+    {
+     "text": "\"We will not take the test.\"",
+     "bypass": "Quest Q00501_ProofOfClanAlliance 30756-08.html",
+     "kind": "quest-event",
+     "script": "Q00501_ProofOfClanAlliance",
+     "event": "30756-08.html",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30756-08.html"
+    }
+   ]
+  },
+  "Q00501_ProofOfClanAlliance/30756-07.html": {
+   "file": "Q00501_ProofOfClanAlliance/30756-07.html",
+   "quest": 501,
+   "text": "Sir Kristof Rodemai: Your courage is impressive. Good luck on the test.",
+   "header": "Sir Kristof Rodemai",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00501_ProofOfClanAlliance/30756-08.html": {
+   "file": "Q00501_ProofOfClanAlliance/30756-08.html",
+   "quest": 501,
+   "text": "Sir Kristof Rodemai: Oh well, I understand your reluctance. May you live a long life...",
+   "header": "Sir Kristof Rodemai",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[1000 Years, the End of Lamentation (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00344_1000YearsTheEndOfLamentation",
+     "kind": "quest",
+     "quest": 344,
+     "to": "Q00344_1000YearsTheEndOfLamentation/30756-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Proof of Clan Alliance]",
+     "bypass": "npc_%objectId%_Quest Q00501_ProofOfClanAlliance",
+     "kind": "quest",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30756-03.html",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Proof of Clan Alliance (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00501_ProofOfClanAlliance",
+     "kind": "quest",
+     "quest": 501,
+     "to": "Q00501_ProofOfClanAlliance/30756-09.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of default/30756.htm differs: live \"Sir Kristof Rodemai: Dear young traveler. Did the wind of fate guide you to this place? G…\" vs datapack \"Sir Kristof Rodemai: What evil wind of fate has brought you to Giran? This place, known f…\"",
+  "text of Q00501_ProofOfClanAlliance/30756-10.html differs: live \"Sir Kristof Rodemai: I heard from my close associates that nowadays some vagabonds get to…\" vs datapack \"Sir Kristof Rodemai: There is talk of vagabonds banding together and calling themselves a…\""
+ ],
+ "liveClicks": [
+  {
+   "text": "Quest",
+   "n": 53,
+   "inDatapack": true,
+   "from": [
+    "Sir Kristof Rodemai:Dear young traveler. Did the wind of fat"
+   ],
+   "to": [
+    "Sir Kristof Rodemai:What do you say? Would you like to join ",
+    "Sir Kristof Rodemai:I heard from my close associates that no"
+   ]
+  }
+ ]
+}

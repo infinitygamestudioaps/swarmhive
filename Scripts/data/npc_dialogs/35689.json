@@ -1,0 +1,184 @@
+{
+ "npcId": 35689,
+ "name": "Foreman",
+ "title": "Southern Fortress",
+ "type": "L2FortManager",
+ "generated": "2026-10-27T18:18:03.440Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "fortress/35689-d.htm": {
+   "file": "fortress/35689-d.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Open the gate",
+     "bypass": "npc_%objectId%_operate_door 1 19240005 19240010 19240006 19240007 19240008 19240009 19240001 19240002 19240003 19240004 19240011 19240012",
+     "kind": "other"
+    },
+    {
+     "text": "Close the gate",
+     "bypass": "npc_%objectId%_operate_door 0 19240005 19240010 19240006 19240007 19240008 19240009 19240001 19240002 19240003 19240004 19240011 19240012",
+     "kind": "other"
+    },
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Link fortress/foreman.htm",
+     "kind": "page",
+     "to": "fortress/foreman.htm"
+    }
+   ]
+  },
+  "fortress/35689-t1.htm": {
+   "file": "fortress/35689-t1.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Fortress West Gate",
+     "bypass": "npc_%objectId%_goto 20008",
+     "kind": "teleport",
+     "confirm": "811;Fortress West Gate"
+    },
+    {
+     "text": "Fortress East Gate",
+     "bypass": "npc_%objectId%_goto 20009",
+     "kind": "teleport",
+     "confirm": "811;Fortress East Gate"
+    },
+    {
+     "text": "Gludio Town Square",
+     "bypass": "npc_%objectId%_goto 20010",
+     "kind": "teleport",
+     "confirm": "811;Gludio Town Square"
+    },
+    {
+     "text": "Front of the Gludio Castle Gate",
+     "bypass": "npc_%objectId%_goto 20011",
+     "kind": "teleport",
+     "confirm": "811;Front of the Gludio Castle Gate"
+    }
+   ]
+  },
+  "fortress/35689-t2.htm": {
+   "file": "fortress/35689-t2.htm",
+   "quest": null,
+   "text": "&$556;",
+   "links": [
+    {
+     "text": "Fortress West Gate",
+     "bypass": "npc_%objectId%_goto 20008",
+     "kind": "teleport",
+     "confirm": "811;Fortress West Gate"
+    },
+    {
+     "text": "Fortress East Gate",
+     "bypass": "npc_%objectId%_goto 20009",
+     "kind": "teleport",
+     "confirm": "811;Fortress East Gate"
+    },
+    {
+     "text": "Gludio Town Square",
+     "bypass": "npc_%objectId%_goto 20010",
+     "kind": "teleport",
+     "confirm": "811;Gludio Town Square"
+    },
+    {
+     "text": "Front of the Gludio Castle Gate",
+     "bypass": "npc_%objectId%_goto 20011",
+     "kind": "teleport",
+     "confirm": "811;Front of the Gludio Castle Gate"
+    },
+    {
+     "text": "Ruins of Agony - 500",
+     "bypass": "npc_%objectId%_goto 20012",
+     "kind": "teleport",
+     "confirm": "811;Ruins of Agony"
+    },
+    {
+     "text": "Ruins of Despair - 500",
+     "bypass": "npc_%objectId%_goto 20013",
+     "kind": "teleport",
+     "confirm": "811;Ruins of Despair"
+    },
+    {
+     "text": "The Ant Nest - 500",
+     "bypass": "npc_%objectId%_goto 20014",
+     "kind": "teleport",
+     "confirm": "811;The Ant Nest"
+    },
+    {
+     "text": "Windawood Manor - 500",
+     "bypass": "npc_%objectId%_goto 20015",
+     "kind": "teleport",
+     "confirm": "811;Windawood Manor"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  },
+  "fortress/foreman.htm": {
+   "file": "fortress/foreman.htm",
+   "quest": null,
+   "text": "Whoever owns this fortress must safeguard the territory from monsters or enemy clans. It is a task that requires constant vigilance -- conflict may arise at any time from any quarter!",
+   "links": [
+    {
+     "text": "Receive Report.",
+     "bypass": "npc_%objectId%_receive_report",
+     "kind": "other"
+    },
+    {
+     "text": "Open/Close Door.",
+     "bypass": "npc_%objectId%_operate_door",
+     "kind": "other"
+    },
+    {
+     "text": "Expel Outsiders.",
+     "bypass": "npc_%objectId%_expel",
+     "kind": "other"
+    },
+    {
+     "text": "Fortress Functions.",
+     "bypass": "npc_%objectId%_functions",
+     "kind": "other"
+    },
+    {
+     "text": "Clan Warehouse.",
+     "bypass": "npc_%objectId%_manage_vault",
+     "kind": "other"
+    },
+    {
+     "text": "Fortress Management.",
+     "bypass": "npc_%objectId%_manage",
+     "kind": "other"
+    }
+   ]
+  }
+ }
+}

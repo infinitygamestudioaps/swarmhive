@@ -1,0 +1,63 @@
+{
+ "npcId": 30596,
+ "name": "Harkel",
+ "title": "Partisan Doorman",
+ "type": "L2CastleDoormen",
+ "generated": "2026-10-27T18:18:03.008Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "doormen/30596.htm",
+   "when": "",
+   "src": "html/doormen"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "doormen/30596.htm": {
+   "file": "doormen/30596.htm",
+   "quest": null,
+   "text": "Partisan Doorman: Although the war is over, the dispute over the border has yet to be resolved. Keep your head down for now.",
+   "header": "Partisan Doorman",
+   "links": [
+    {
+     "text": "Open the gate",
+     "bypass": "npc_%objectId%_open_doors 1, 21210001, 21210002",
+     "kind": "other"
+    },
+    {
+     "text": "Close the gate",
+     "bypass": "npc_%objectId%_close_doors 1, 21210001, 21210002",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "doormen/30596-busy.htm": {
+   "file": "doormen/30596-busy.htm",
+   "quest": null,
+   "text": "Oh! Our castle is being attacked and I can't do anything for you right now.",
+   "outcome": "refusal",
+   "links": []
+  },
+  "doormen/30596-no.htm": {
+   "file": "doormen/30596-no.htm",
+   "quest": null,
+   "text": "Hey! Who's there? Don't even think about bothering Harkel! Now be gone before I get angry!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

@@ -2,7 +2,7 @@
  "id": 453,
  "name": "Not Strong Enought Alone",
  "version": 1,
- "generated": "2026-10-27T11:15:41.046Z",
+ "generated": "2026-10-27T18:19:15.407Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 84,
@@ -58,7 +58,7 @@
    "step": 9
   }
  ],
- "expectedMin": 38,
+ "expectedMin": 70,
  "refLevel": 84,
  "steps": [
   {
@@ -326,9 +326,9 @@
    "key": "c1:talk:32734",
    "cond": 1,
    "kind": "talk",
-   "to": 4,
+   "to": 2,
    "links": [
-    "Cokrakon Region"
+    "Bistakon Region"
    ],
    "npc": {
     "id": 32734,
@@ -571,11 +571,7 @@
     "hasItems": "talk"
    },
    "conds": [
-    1,
-    2,
-    3,
-    4,
-    5
+    1
    ],
    "override": {
     "fixed": [
@@ -863,6 +859,271 @@
   },
   {
    "i": 4,
+   "key": "c2:talk:32734",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "Reptilikon Region"
+   ],
+   "npc": {
+    "id": 32734,
+    "name": "Klemis",
+    "title": "Officer",
+    "town": "Gludin",
+    "at": [
+     -178467,
+     153371,
+     2472
+    ],
+    "alt": []
+   },
+   "text": "Talk to Klemis",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32734@-178467,153371",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 13949,
+    "sec": 616,
+    "via": ".gludio > enter Bella > enter Flight Control > enter Lionel",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 8261,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Lionel",
+      "link": "Seed of Annihilation Dock"
+     },
+     {
+      "do": "walk",
+      "len": 3376,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186568,
+      242600,
+      2544
+     ],
+     [
+      -186600,
+      242408,
+      2552
+     ],
+     [
+      -186840,
+      242216,
+      2560
+     ],
+     [
+      -186680,
+      241256,
+      2328
+     ],
+     [
+      -186664,
+      241240,
+      2320
+     ],
+     [
+      -186296,
+      240376,
+      2144
+     ],
+     [
+      -186200,
+      240392,
+      2144
+     ],
+     [
+      -186264,
+      241064,
+      2000
+     ],
+     [
+      -186280,
+      241080,
+      2000
+     ],
+     [
+      -186328,
+      241224,
+      1984
+     ],
+     [
+      -186480,
+      241704,
+      1868
+     ],
+     [
+      -186632,
+      242184,
+      1752
+     ],
+     [
+      -186648,
+      242264,
+      1744
+     ],
+     [
+      -186632,
+      242296,
+      1736
+     ],
+     [
+      -186136,
+      242512,
+      1708
+     ],
+     [
+      -185640,
+      242728,
+      1680
+     ],
+     [
+      -185080,
+      242616,
+      1672
+     ],
+     [
+      -184088,
+      242728,
+      1576
+     ],
+     [
+      -183976,
+      242728,
+      1576
+     ],
+     [
+      -176012,
+      154009,
+      2704
+     ],
+     [
+      -176504,
+      153512,
+      2696
+     ],
+     [
+      -177000,
+      153440,
+      2672
+     ],
+     [
+      -177496,
+      153368,
+      2648
+     ],
+     [
+      -178472,
+      153368,
+      2472
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship",
+     "keucereus-docks"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -14,
+     "aggro": []
+    }
+   },
+   "expectedSec": 641,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ],
+   "overrideFrom": "c1:talk:32734",
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java; then Lionel 32782 teleport (150,000 adena, nav atlas condition keucereus-docks, dp html/teleporter/32782-1.htm)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 5,
    "key": "c3:hunt",
    "cond": 3,
    "kind": "hunt",
@@ -1067,7 +1328,7 @@
    ]
   },
   {
-   "i": 5,
+   "i": 6,
    "key": "c3:spawn:22754",
    "cond": 3,
    "kind": "spawn",
@@ -1115,7 +1376,272 @@
    ]
   },
   {
-   "i": 6,
+   "i": 7,
+   "key": "c3:talk:32734",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "Cokrakon Region"
+   ],
+   "npc": {
+    "id": 32734,
+    "name": "Klemis",
+    "title": "Officer",
+    "town": "Gludin",
+    "at": [
+     -178467,
+     153371,
+     2472
+    ],
+    "alt": []
+   },
+   "text": "Talk to Klemis",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32734@-178467,153371",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 13949,
+    "sec": 616,
+    "via": ".gludio > enter Bella > enter Flight Control > enter Lionel",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 8261,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Lionel",
+      "link": "Seed of Annihilation Dock"
+     },
+     {
+      "do": "walk",
+      "len": 3376,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186568,
+      242600,
+      2544
+     ],
+     [
+      -186600,
+      242408,
+      2552
+     ],
+     [
+      -186840,
+      242216,
+      2560
+     ],
+     [
+      -186680,
+      241256,
+      2328
+     ],
+     [
+      -186664,
+      241240,
+      2320
+     ],
+     [
+      -186296,
+      240376,
+      2144
+     ],
+     [
+      -186200,
+      240392,
+      2144
+     ],
+     [
+      -186264,
+      241064,
+      2000
+     ],
+     [
+      -186280,
+      241080,
+      2000
+     ],
+     [
+      -186328,
+      241224,
+      1984
+     ],
+     [
+      -186480,
+      241704,
+      1868
+     ],
+     [
+      -186632,
+      242184,
+      1752
+     ],
+     [
+      -186648,
+      242264,
+      1744
+     ],
+     [
+      -186632,
+      242296,
+      1736
+     ],
+     [
+      -186136,
+      242512,
+      1708
+     ],
+     [
+      -185640,
+      242728,
+      1680
+     ],
+     [
+      -185080,
+      242616,
+      1672
+     ],
+     [
+      -184088,
+      242728,
+      1576
+     ],
+     [
+      -183976,
+      242728,
+      1576
+     ],
+     [
+      -176012,
+      154009,
+      2704
+     ],
+     [
+      -176504,
+      153512,
+      2696
+     ],
+     [
+      -177000,
+      153440,
+      2672
+     ],
+     [
+      -177496,
+      153368,
+      2648
+     ],
+     [
+      -178472,
+      153368,
+      2472
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship",
+     "keucereus-docks"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -14,
+     "aggro": []
+    }
+   },
+   "expectedSec": 641,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ],
+   "overrideFrom": "c1:talk:32734",
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java; then Lionel 32782 teleport (150,000 adena, nav atlas condition keucereus-docks, dp html/teleporter/32782-1.htm)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 8,
    "key": "c4:hunt",
    "cond": 4,
    "kind": "hunt",
@@ -1312,15 +1838,15 @@
    },
    "expectedSec": 25,
    "engine": {
-    "act": "talk",
-    "hasItems": "talk"
+    "act": "hunt",
+    "hasItems": "hunt"
    },
    "conds": [
     4
    ]
   },
   {
-   "i": 7,
+   "i": 9,
    "key": "c4:spawn:22760",
    "cond": 4,
    "kind": "spawn",
@@ -1365,6 +1891,269 @@
    "expectedSec": 300,
    "conds": [
     4
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c5:talk:32734",
+   "cond": 5,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32734,
+    "name": "Klemis",
+    "title": "Officer",
+    "town": "Gludin",
+    "at": [
+     -178467,
+     153371,
+     2472
+    ],
+    "alt": []
+   },
+   "text": "Talk to Klemis",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32734@-178467,153371",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 13949,
+    "sec": 616,
+    "via": ".gludio > enter Bella > enter Flight Control > enter Lionel",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 8261,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Lionel",
+      "link": "Seed of Annihilation Dock"
+     },
+     {
+      "do": "walk",
+      "len": 3376,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186568,
+      242600,
+      2544
+     ],
+     [
+      -186600,
+      242408,
+      2552
+     ],
+     [
+      -186840,
+      242216,
+      2560
+     ],
+     [
+      -186680,
+      241256,
+      2328
+     ],
+     [
+      -186664,
+      241240,
+      2320
+     ],
+     [
+      -186296,
+      240376,
+      2144
+     ],
+     [
+      -186200,
+      240392,
+      2144
+     ],
+     [
+      -186264,
+      241064,
+      2000
+     ],
+     [
+      -186280,
+      241080,
+      2000
+     ],
+     [
+      -186328,
+      241224,
+      1984
+     ],
+     [
+      -186480,
+      241704,
+      1868
+     ],
+     [
+      -186632,
+      242184,
+      1752
+     ],
+     [
+      -186648,
+      242264,
+      1744
+     ],
+     [
+      -186632,
+      242296,
+      1736
+     ],
+     [
+      -186136,
+      242512,
+      1708
+     ],
+     [
+      -185640,
+      242728,
+      1680
+     ],
+     [
+      -185080,
+      242616,
+      1672
+     ],
+     [
+      -184088,
+      242728,
+      1576
+     ],
+     [
+      -183976,
+      242728,
+      1576
+     ],
+     [
+      -176012,
+      154009,
+      2704
+     ],
+     [
+      -176504,
+      153512,
+      2696
+     ],
+     [
+      -177000,
+      153440,
+      2672
+     ],
+     [
+      -177496,
+      153368,
+      2648
+     ],
+     [
+      -178472,
+      153368,
+      2472
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship",
+     "keucereus-docks"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -14,
+     "aggro": []
+    }
+   },
+   "expectedSec": 641,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ],
+   "overrideFrom": "c1:talk:32734",
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java; then Lionel 32782 teleport (150,000 adena, nav atlas condition keucereus-docks, dp html/teleporter/32782-1.htm)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
    ]
   }
  ],

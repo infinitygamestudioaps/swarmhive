@@ -1,0 +1,1882 @@
+{
+ "npcId": 30097,
+ "name": "Galladucci",
+ "title": "Weapon Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:02.839Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/30097.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "43": {
+   "name": "Help The Sister!",
+   "listText": [
+    "[Help the Sister!]",
+    "[Help the Sister! (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00043_HelpTheSister/30097-01.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00043_HelpTheSister/30097-03.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "45": {
+   "name": "To Talking Island",
+   "listText": [
+    "[To Talking Island]",
+    "[To Talking Island (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00045_ToTalkingIsland/30097-03.html",
+     "when": "state CREATED; level < 3",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30097-01.htm",
+     "when": "state CREATED; NOT level < 3; talker.hasQuestCompleted(Q00006_StepIntoTheFuture.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30097-02.html",
+     "when": "state CREATED; NOT level < 3; !(talker.hasQuestCompleted(Q00006_StepIntoTheFuture.class.getSimpleName()) && st.hasQuestItems(MARK_OF_TRAVELER))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30097-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30097-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30097-09.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30097-10.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30097-13.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00045_ToTalkingIsland/30097-14.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "46": {
+   "name": "Once More In the Arms of the Mother Tree",
+   "listText": [
+    "[Once More In the Arms of the Mother Tree]",
+    "[Once More In the Arms of the Mother Tree (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-03.html",
+     "when": "state CREATED; level < 3",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-01.htm",
+     "when": "state CREATED; NOT level < 3; talker.hasQuestCompleted(Q00007_ATripBegins.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-02.html",
+     "when": "state CREATED; NOT level < 3; !(talker.hasQuestCompleted(Q00007_ATripBegins.class.getSimpleName()) && st.hasQuestItems(MARK_OF_TRAVELER))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-09.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-10.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-13.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-14.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "47": {
+   "name": "Into the Dark Elven Forest",
+   "listText": [
+    "[Into the Dark Elven Forest]",
+    "[Into the Dark Elven Forest (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30097-03.html",
+     "when": "state CREATED; level < 3",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30097-01.htm",
+     "when": "state CREATED; NOT level < 3; talker.hasQuestCompleted(Q00008_AnAdventureBegins.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30097-02.html",
+     "when": "state CREATED; NOT level < 3; !(talker.hasQuestCompleted(Q00008_AnAdventureBegins.class.getSimpleName()) && st.hasQuestItems(MARK_OF_TRAVELER))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30097-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30097-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30097-09.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30097-10.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30097-13.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00047_IntoTheDarkElvenForest/30097-14.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "48": {
+   "name": "To The Immortal Plateau",
+   "listText": [
+    "[To the Immortal Plateau]",
+    "[To the Immortal Plateau (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30097-03.html",
+     "when": "state CREATED; level < 3",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30097-01.htm",
+     "when": "state CREATED; NOT level < 3; talker.hasQuestCompleted(Q00009_IntoTheCityOfHumans.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30097-02.html",
+     "when": "state CREATED; NOT level < 3; !(talker.hasQuestCompleted(Q00009_IntoTheCityOfHumans.class.getSimpleName()) && st.hasQuestItems(MARK_OF_TRAVELER))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30097-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30097-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30097-09.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30097-10.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30097-13.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00048_ToTheImmortalPlateau/30097-14.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "49": {
+   "name": "The Road Home",
+   "listText": [
+    "[The Road Home]",
+    "[The Road Home (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00049_TheRoadHome/30097-03.html",
+     "when": "state CREATED; level < 3",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00049_TheRoadHome/30097-01.htm",
+     "when": "state CREATED; NOT level < 3; talker.hasQuestCompleted(Q00010_IntoTheWorld.class.getSimpleName())",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00049_TheRoadHome/30097-02.html",
+     "when": "state CREATED; NOT level < 3; !(talker.hasQuestCompleted(Q00010_IntoTheWorld.class.getSimpleName()) && st.hasQuestItems(MARK_OF_TRAVELER))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00049_TheRoadHome/30097-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00049_TheRoadHome/30097-06.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00049_TheRoadHome/30097-09.html",
+     "when": "state STARTED; cond 3",
+     "state": "STARTED",
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00049_TheRoadHome/30097-10.html",
+     "when": "state STARTED; cond 4",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00049_TheRoadHome/30097-13.html",
+     "when": "state STARTED; cond 5",
+     "state": "STARTED",
+     "cond": [
+      5
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00049_TheRoadHome/30097-14.html",
+     "when": "state STARTED; cond 6",
+     "state": "STARTED",
+     "cond": [
+      6
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "173": {
+   "name": "To the Isle of Souls",
+   "listText": [
+    "[To the Isle of Souls]",
+    "[To the Isle of Souls (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00173_ToTheIsleOfSouls/30097-01.htm",
+     "when": "state CREATED; (player.hasQuestCompleted(Q00172_NewHorizons.class.getSimpleName()) && (player.getRace() == Race.KAM",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00173_ToTheIsleOfSouls/30097-02.htm",
+     "when": "state CREATED; NOT (player.hasQuestCompleted(Q00172_NewHorizons.class.getSimpleName()) && (player.getRace() == Race.KAM",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00173_ToTheIsleOfSouls/30097-04.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00173_ToTheIsleOfSouls/30097-05.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/30097.htm": {
+   "file": "merchant/30097.htm",
+   "quest": null,
+   "text": "Merchant Galladuchi: Luxury goods stores are open again. We have many precious weapons, so please buy a lot. You can now purchase weapons with Adena . If you need any armor or rare miscellaneous goods, ask my wife who is beside me.",
+   "header": "Merchant Galladuchi",
+   "links": [
+    {
+     "text": "Purchase weapon.",
+     "bypass": "npc_%objectId%_multisell 300974001",
+     "kind": "multisell",
+     "live": true
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00043_HelpTheSister/30097-01.html": {
+   "file": "Q00043_HelpTheSister/30097-01.html",
+   "quest": 43,
+   "text": "Trader Galladucci: The map traces some very important merchandise! To think it would end up there! Thank you! Did you find it? What? Pet Manager Cooper? Well, OK... Can you take him a message for me?",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"Sure, no problem!\"",
+     "bypass": "Quest Q00043_HelpTheSister 30097-02.html",
+     "kind": "quest-event",
+     "script": "Q00043_HelpTheSister",
+     "event": "30097-02.html",
+     "quest": 43,
+     "to": "Q00043_HelpTheSister/30097-02.html",
+     "toAll": [
+      "Q00043_HelpTheSister/30097-02.html",
+      "Q00043_HelpTheSister/30097-02a.html"
+     ],
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00043_HelpTheSister/30097-03.html": {
+   "file": "Q00043_HelpTheSister/30097-03.html",
+   "quest": 43,
+   "text": "Trader Galladucci: Did you deliver my message to Cooper? It is the cycle of Tera!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-03.html": {
+   "file": "Q00045_ToTalkingIsland/30097-03.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Welcome. We only carry specialty items. I'm sorry, but I can't help you. (Only a character level 3 or above may undertake this quest.)",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; level < 3"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-01.htm": {
+   "file": "Q00045_ToTalkingIsland/30097-01.htm",
+   "quest": 45,
+   "text": "Trader Galladucci: You have the Traveler's Mark. What can I do for you? I don't work for free, I need something in return. Will you help me?",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; NOT level < 3; talker.hasQuestCompleted(Q00006_StepIntoTheFuture.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help if I can.\"",
+     "bypass": "Quest Q00045_ToTalkingIsland 30097-04.htm",
+     "kind": "quest-event",
+     "script": "Q00045_ToTalkingIsland",
+     "event": "30097-04.htm",
+     "quest": 45,
+     "to": "Q00045_ToTalkingIsland/30097-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00045_ToTalkingIsland/30097-02.html": {
+   "file": "Q00045_ToTalkingIsland/30097-02.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Welcome. We only carry specialty items. I'm sorry, but I can't help you. (Only a character who possesses the Traveler's Mark and who has completed the Step Into the Future quest can undertake this quest.)",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; NOT level < 3; !(talker.hasQuestCompleted(Q00006_StepIntoTheFuture.class.getSimpleName()) && st.hasQuestItems(MARK_OF_TRAVELER))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-05.html": {
+   "file": "Q00045_ToTalkingIsland/30097-05.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Take my order document to Magic Trader Gentler at the magic store. Hurry!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-06.html": {
+   "file": "Q00045_ToTalkingIsland/30097-06.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Did you check the Magic Sword Hilt ? If it has a single scratch, my reputation will be ruined!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the sword hilt.\"",
+     "bypass": "Quest Q00045_ToTalkingIsland 30097-07.html",
+     "kind": "quest-event",
+     "script": "Q00045_ToTalkingIsland",
+     "event": "30097-07.html",
+     "quest": 45,
+     "to": "Q00045_ToTalkingIsland/30097-07.html",
+     "toAll": [
+      "Q00045_ToTalkingIsland/30097-07.html",
+      "Q00045_ToTalkingIsland/30097-08.html"
+     ],
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00045_ToTalkingIsland/30097-09.html": {
+   "file": "Q00045_ToTalkingIsland/30097-09.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Take this order document to Jeweler Sandra at her store. Be careful coming back!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-10.html": {
+   "file": "Q00045_ToTalkingIsland/30097-10.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Keep up the good work! Please give it to me.",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the Gemstone Powder.\"",
+     "bypass": "Quest Q00045_ToTalkingIsland 30097-11.html",
+     "kind": "quest-event",
+     "script": "Q00045_ToTalkingIsland",
+     "event": "30097-11.html",
+     "quest": 45,
+     "to": "Q00045_ToTalkingIsland/30097-11.html",
+     "toAll": [
+      "Q00045_ToTalkingIsland/30097-11.html",
+      "Q00045_ToTalkingIsland/30097-12.html"
+     ],
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00045_ToTalkingIsland/30097-13.html": {
+   "file": "Q00045_ToTalkingIsland/30097-13.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Priest Dustin holds a high position in the Einhasad Temple of the Town of Giran. Be respectful and courteous. Take him the order document I gave you. Hurry!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-14.html": {
+   "file": "Q00045_ToTalkingIsland/30097-14.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Thanks, I'm indebted to you. Giran is a big town with a booming trade. You'll meet all types of people, so mind your manners! Now that you've seen it, what do you think?",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"It's great, but I miss my hometown.\"",
+     "bypass": "Quest Q00045_ToTalkingIsland 30097-15.html",
+     "kind": "quest-event",
+     "script": "Q00045_ToTalkingIsland",
+     "event": "30097-15.html",
+     "quest": 45,
+     "to": "Q00045_ToTalkingIsland/30097-15.html",
+     "toAll": [
+      "Q00045_ToTalkingIsland/30097-15.html",
+      "Q00045_ToTalkingIsland/30097-16.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-03.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-03.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Welcome. We only carry specialty items. I'm sorry, but I can't help you. (Only a character level 3 or above may undertake this quest.)",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; level < 3"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-01.htm": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-01.htm",
+   "quest": 46,
+   "text": "Trader Galladucci: You have the Traveler's Mark. What can I do for you? I don't work for free, I need something in return. Will you help me?",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; NOT level < 3; talker.hasQuestCompleted(Q00007_ATripBegins.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help if I can.\"",
+     "bypass": "Quest Q00046_OnceMoreInTheArmsOfTheMotherTree 30097-04.htm",
+     "kind": "quest-event",
+     "script": "Q00046_OnceMoreInTheArmsOfTheMotherTree",
+     "event": "30097-04.htm",
+     "quest": 46,
+     "to": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-02.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-02.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Welcome. We only carry specialty items. I'm sorry, but I can't help you. (Only a character who possesses the Traveler's Mark and has completed A Trip Begins may undertake this quest.)",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; NOT level < 3; !(talker.hasQuestCompleted(Q00007_ATripBegins.class.getSimpleName()) && st.hasQuestItems(MARK_OF_TRAVELER))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-05.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-05.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Take my order document to Magic Trader Gentler at the magic store. Hurry!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-06.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-06.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Did you check the Magic Sword Hilt ? If it has a single scratch, my reputation will be ruined!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the sword hilt.\"",
+     "bypass": "Quest Q00046_OnceMoreInTheArmsOfTheMotherTree 30097-07.html",
+     "kind": "quest-event",
+     "script": "Q00046_OnceMoreInTheArmsOfTheMotherTree",
+     "event": "30097-07.html",
+     "quest": 46,
+     "to": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-07.html",
+     "toAll": [
+      "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-07.html",
+      "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-08.html"
+     ],
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-09.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-09.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Take this order document to Jeweler Sandra at her store. Be careful coming back!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-10.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-10.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Keep up the good work! Please give it to me.",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the Gemstone Powder.\"",
+     "bypass": "Quest Q00046_OnceMoreInTheArmsOfTheMotherTree 30097-11.html",
+     "kind": "quest-event",
+     "script": "Q00046_OnceMoreInTheArmsOfTheMotherTree",
+     "event": "30097-11.html",
+     "quest": 46,
+     "to": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-11.html",
+     "toAll": [
+      "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-11.html",
+      "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-12.html"
+     ],
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-13.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-13.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Priest Dustin holds a high position in the Einhasad Temple of the Town of Giran. Be respectful and courteous. Take him the order document I gave you. Hurry!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-14.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-14.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Thanks, I'm indebted to you. Giran is a big town with a booming trade. You'll meet all types of people, so mind your manners! Now that you've seen it, what do you think?",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"It's great, but I miss my home in the forest.\"",
+     "bypass": "Quest Q00046_OnceMoreInTheArmsOfTheMotherTree 30097-15.html",
+     "kind": "quest-event",
+     "script": "Q00046_OnceMoreInTheArmsOfTheMotherTree",
+     "event": "30097-15.html",
+     "quest": 46,
+     "to": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-15.html",
+     "toAll": [
+      "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-15.html",
+      "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-16.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-03.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-03.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Welcome. We only carry specialty items. I'm sorry, but I can't help you. (Only a character level 3 or above may undertake this quest.)",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; level < 3"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-01.htm": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-01.htm",
+   "quest": 47,
+   "text": "Trader Galladucci: You have the Traveler's Mark. What can I do for you? I don't work for free, I need something in return. Will you help me?",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; NOT level < 3; talker.hasQuestCompleted(Q00008_AnAdventureBegins.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help if I can.\"",
+     "bypass": "Quest Q00047_IntoTheDarkElvenForest 30097-04.htm",
+     "kind": "quest-event",
+     "script": "Q00047_IntoTheDarkElvenForest",
+     "event": "30097-04.htm",
+     "quest": 47,
+     "to": "Q00047_IntoTheDarkElvenForest/30097-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-02.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-02.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Welcome. We only carry specialty items. I'm sorry, but I can't help you. (Only a character who possesses the Traveler's Mark and who has completed Beginning of Adventure may undertake this quest.)",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; NOT level < 3; !(talker.hasQuestCompleted(Q00008_AnAdventureBegins.class.getSimpleName()) && st.hasQuestItems(MARK_OF_TRAVELER))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-05.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-05.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Take my order document to Magic Trader Gentler at the magic store. Hurry!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-06.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-06.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Did you check the Magic Sword Hilt ? If it has a single scratch, my reputation will be ruined!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the sword hilt.\"",
+     "bypass": "Quest Q00047_IntoTheDarkElvenForest 30097-07.html",
+     "kind": "quest-event",
+     "script": "Q00047_IntoTheDarkElvenForest",
+     "event": "30097-07.html",
+     "quest": 47,
+     "to": "Q00047_IntoTheDarkElvenForest/30097-07.html",
+     "toAll": [
+      "Q00047_IntoTheDarkElvenForest/30097-07.html",
+      "Q00047_IntoTheDarkElvenForest/30097-08.html"
+     ],
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-09.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-09.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Take this order document to Jeweler Sandra at her store. Be careful coming back!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-10.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-10.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Keep up the good work! Please give it to me.",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the Gemstone Powder.\"",
+     "bypass": "Quest Q00047_IntoTheDarkElvenForest 30097-11.html",
+     "kind": "quest-event",
+     "script": "Q00047_IntoTheDarkElvenForest",
+     "event": "30097-11.html",
+     "quest": 47,
+     "to": "Q00047_IntoTheDarkElvenForest/30097-11.html",
+     "toAll": [
+      "Q00047_IntoTheDarkElvenForest/30097-11.html",
+      "Q00047_IntoTheDarkElvenForest/30097-12.html"
+     ],
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-13.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-13.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Priest Dustin holds a high position in the Einhasad Temple of the Town of Giran. Be respectful and courteous. Take him the order document I gave you. Hurry!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-14.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-14.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Thanks, I'm indebted to you. Giran is a big town with a booming trade. You'll meet all types of people, so mind your manners! Now that you've seen it, what do you think?",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"It's great, but I miss my hometown.\"",
+     "bypass": "Quest Q00047_IntoTheDarkElvenForest 30097-15.html",
+     "kind": "quest-event",
+     "script": "Q00047_IntoTheDarkElvenForest",
+     "event": "30097-15.html",
+     "quest": 47,
+     "to": "Q00047_IntoTheDarkElvenForest/30097-15.html",
+     "toAll": [
+      "Q00047_IntoTheDarkElvenForest/30097-15.html",
+      "Q00047_IntoTheDarkElvenForest/30097-16.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00048_ToTheImmortalPlateau/30097-03.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-03.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Welcome. We only carry specialty items. I'm sorry, but I can't help you. (Only a character level 3 or above may undertake this quest.)",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; level < 3"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30097-01.htm": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-01.htm",
+   "quest": 48,
+   "text": "Trader Galladucci: You have the Traveler's Mark. What can I do for you? I don't work for free, I need something in return. Will you help me?",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; NOT level < 3; talker.hasQuestCompleted(Q00009_IntoTheCityOfHumans.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help if I can.\"",
+     "bypass": "Quest Q00048_ToTheImmortalPlateau 30097-04.htm",
+     "kind": "quest-event",
+     "script": "Q00048_ToTheImmortalPlateau",
+     "event": "30097-04.htm",
+     "quest": 48,
+     "to": "Q00048_ToTheImmortalPlateau/30097-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00048_ToTheImmortalPlateau/30097-02.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-02.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Welcome. We only carry specialty items. I'm sorry, but I can't help you. (Only a character who possesses the Traveler's Mark and who has completed Into the City of Humans may undertake this quest.)",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; NOT level < 3; !(talker.hasQuestCompleted(Q00009_IntoTheCityOfHumans.class.getSimpleName()) && st.hasQuestItems(MARK_OF_TRAVELER))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30097-05.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-05.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Take my order document to Magic Trader Gentler at the magic store. Hurry!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30097-06.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-06.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Did you check the Magic Sword Hilt ? If it has a single scratch, my reputation will be ruined!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the sword hilt.\"",
+     "bypass": "Quest Q00048_ToTheImmortalPlateau 30097-07.html",
+     "kind": "quest-event",
+     "script": "Q00048_ToTheImmortalPlateau",
+     "event": "30097-07.html",
+     "quest": 48,
+     "to": "Q00048_ToTheImmortalPlateau/30097-07.html",
+     "toAll": [
+      "Q00048_ToTheImmortalPlateau/30097-07.html",
+      "Q00048_ToTheImmortalPlateau/30097-08.html"
+     ],
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00048_ToTheImmortalPlateau/30097-09.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-09.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Take this order document to Jeweler Sandra at her store. Be careful coming back!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30097-10.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-10.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Keep up the good work! Please give it to me.",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the Gemstone Powder.\"",
+     "bypass": "Quest Q00048_ToTheImmortalPlateau 30097-11.html",
+     "kind": "quest-event",
+     "script": "Q00048_ToTheImmortalPlateau",
+     "event": "30097-11.html",
+     "quest": 48,
+     "to": "Q00048_ToTheImmortalPlateau/30097-11.html",
+     "toAll": [
+      "Q00048_ToTheImmortalPlateau/30097-11.html",
+      "Q00048_ToTheImmortalPlateau/30097-12.html"
+     ],
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00048_ToTheImmortalPlateau/30097-13.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-13.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Priest Dustin holds a high position in the Einhasad Temple of the Town of Giran. Be respectful and courteous. Take him the order document I gave you. Hurry!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30097-14.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-14.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Thanks, I'm indebted to you. Giran is a big town with a booming trade. You'll meet all types of people, so mind your manners! Now that you've seen it, what do you think?",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"It's great, but I miss my hometown.\"",
+     "bypass": "Quest Q00048_ToTheImmortalPlateau 30097-15.html",
+     "kind": "quest-event",
+     "script": "Q00048_ToTheImmortalPlateau",
+     "event": "30097-15.html",
+     "quest": 48,
+     "to": "Q00048_ToTheImmortalPlateau/30097-15.html",
+     "toAll": [
+      "Q00048_ToTheImmortalPlateau/30097-15.html",
+      "Q00048_ToTheImmortalPlateau/30097-16.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00049_TheRoadHome/30097-03.html": {
+   "file": "Q00049_TheRoadHome/30097-03.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Welcome. We only carry specialty items. I'm sorry, but I can't help you. (Only a character level 3 or above may undertake this quest.)",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; level < 3"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30097-01.htm": {
+   "file": "Q00049_TheRoadHome/30097-01.htm",
+   "quest": 49,
+   "text": "Trader Galladucci: You have the Traveler's Mark. What can I do for you? I don't work for free, I need something in return. Will you help me?",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; NOT level < 3; talker.hasQuestCompleted(Q00010_IntoTheWorld.class.getSimpleName())"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help if I can.\"",
+     "bypass": "Quest Q00049_TheRoadHome 30097-04.htm",
+     "kind": "quest-event",
+     "script": "Q00049_TheRoadHome",
+     "event": "30097-04.htm",
+     "quest": 49,
+     "to": "Q00049_TheRoadHome/30097-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00049_TheRoadHome/30097-02.html": {
+   "file": "Q00049_TheRoadHome/30097-02.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Welcome. We only carry specialty items. I'm sorry, but I can't help you. (Only a character who possesses the Traveler's Mark and who has completed Into the World may undertake this quest.)",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; NOT level < 3; !(talker.hasQuestCompleted(Q00010_IntoTheWorld.class.getSimpleName()) && st.hasQuestItems(MARK_OF_TRAVELER))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30097-05.html": {
+   "file": "Q00049_TheRoadHome/30097-05.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Take my order document to Magic Trader Gentler at the magic store. Hurry!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30097-06.html": {
+   "file": "Q00049_TheRoadHome/30097-06.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Did you check the Magic Sword Hilt ? If it has a single scratch, my reputation will be ruined!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the sword hilt.\"",
+     "bypass": "Quest Q00049_TheRoadHome 30097-07.html",
+     "kind": "quest-event",
+     "script": "Q00049_TheRoadHome",
+     "event": "30097-07.html",
+     "quest": 49,
+     "to": "Q00049_TheRoadHome/30097-07.html",
+     "toAll": [
+      "Q00049_TheRoadHome/30097-07.html",
+      "Q00049_TheRoadHome/30097-08.html"
+     ],
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00049_TheRoadHome/30097-09.html": {
+   "file": "Q00049_TheRoadHome/30097-09.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Take this order document to Jeweler Sandra at her store. Be careful coming back!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30097-10.html": {
+   "file": "Q00049_TheRoadHome/30097-10.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Keep up the good work! Please give it to me.",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 4"
+   ],
+   "links": [
+    {
+     "text": "\"Here's the Gemstone Powder.\"",
+     "bypass": "Quest Q00049_TheRoadHome 30097-11.html",
+     "kind": "quest-event",
+     "script": "Q00049_TheRoadHome",
+     "event": "30097-11.html",
+     "quest": 49,
+     "to": "Q00049_TheRoadHome/30097-11.html",
+     "toAll": [
+      "Q00049_TheRoadHome/30097-11.html",
+      "Q00049_TheRoadHome/30097-12.html"
+     ],
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00049_TheRoadHome/30097-13.html": {
+   "file": "Q00049_TheRoadHome/30097-13.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Priest Dustin holds a high position in the Einhasad Temple of the Town of Giran. Be respectful and courteous. Take him the order document I gave you. Hurry!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30097-14.html": {
+   "file": "Q00049_TheRoadHome/30097-14.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Thanks, I'm indebted to you. Giran is a big town with a booming trade. You'll meet all types of people, so mind your manners! Now that you've seen it, what do you think?",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; cond 6"
+   ],
+   "links": [
+    {
+     "text": "\"It's great, but I miss my hometown.\"",
+     "bypass": "Quest Q00049_TheRoadHome 30097-15.html",
+     "kind": "quest-event",
+     "script": "Q00049_TheRoadHome",
+     "event": "30097-15.html",
+     "quest": 49,
+     "to": "Q00049_TheRoadHome/30097-15.html",
+     "toAll": [
+      "Q00049_TheRoadHome/30097-15.html",
+      "Q00049_TheRoadHome/30097-16.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00173_ToTheIsleOfSouls/30097-01.htm": {
+   "file": "Q00173_ToTheIsleOfSouls/30097-01.htm",
+   "quest": 173,
+   "text": "Trader Galladucci: You have the Traveler's Mark, I see. Are you asking me for help? I'll tell you that nothing in this world is free, even if you have connections. You have to work for whatever you want, so forget it if you aren't willing to sweat a little. Still want my help?",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; (player.hasQuestCompleted(Q00172_NewHorizons.class.getSimpleName()) && (player.getRace() == Race.KAM"
+   ],
+   "links": [
+    {
+     "text": "Say that you'll perform the work, whatever it is.",
+     "bypass": "Quest Q00173_ToTheIsleOfSouls 30097-03.htm",
+     "kind": "quest-event",
+     "script": "Q00173_ToTheIsleOfSouls",
+     "event": "30097-03.htm",
+     "quest": 173,
+     "to": "Q00173_ToTheIsleOfSouls/30097-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00173_ToTheIsleOfSouls/30097-02.htm": {
+   "file": "Q00173_ToTheIsleOfSouls/30097-02.htm",
+   "quest": 173,
+   "text": "Trader Galladucci: We only carry very special goods in this shop. I'm afraid that we don't have what you're looking for. (Only Kamael characters who have completed the \"New Horizons\" quest may undertake this quest.)",
+   "header": "Trader Galladucci",
+   "when": [
+    "state CREATED; NOT (player.hasQuestCompleted(Q00172_NewHorizons.class.getSimpleName()) && (player.getRace() == Race.KAM"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00173_ToTheIsleOfSouls/30097-04.html": {
+   "file": "Q00173_ToTheIsleOfSouls/30097-04.html",
+   "quest": 173,
+   "text": "Trader Galladucci: Now hurry up and take this order to Magic Trader Gentler at the Magic Shop. Daylight's burning!",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00173_ToTheIsleOfSouls/30097-05.html": {
+   "file": "Q00173_ToTheIsleOfSouls/30097-05.html",
+   "quest": 173,
+   "text": "Trader Galladucci: Did you check the Magic Sword Hilt carefully? Well, well, thank you. You performed impressively! Giran is a big town, you know, filled with all sorts of activities. You'll also meet all types of people, so mind your manners! Now that you've seen a bit of it, what do you think so …",
+   "header": "Trader Galladucci",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "\"It's great, but I miss my village.\"",
+     "bypass": "Quest Q00173_ToTheIsleOfSouls 30097-06.html",
+     "kind": "quest-event",
+     "script": "Q00173_ToTheIsleOfSouls",
+     "event": "30097-06.html",
+     "quest": 173,
+     "to": "Q00173_ToTheIsleOfSouls/30097-06.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00043_HelpTheSister/30097-02.html": {
+   "file": "Q00043_HelpTheSister/30097-02.html",
+   "quest": 43,
+   "text": "Trader Galladucci: Ask him to come back when I have more money. I'll treat him! Let's see... Next Tera's period would be good for me! I think I'll have some time around then!",
+   "header": "Trader Galladucci",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00043_HelpTheSister/30097-02a.html": {
+   "file": "Q00043_HelpTheSister/30097-02a.html",
+   "quest": 43,
+   "text": "Trader Galladucci: Aren't you going to deliver my message to Cooper? Didn't you see the fragment of a Map here? Now I have no reason to call out Cooper, do I? If you find the Map around here, please bring it to me. Hmm, my memory isn't fading, is it?",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-04.htm": {
+   "file": "Q00045_ToTalkingIsland/30097-04.htm",
+   "quest": 45,
+   "text": "Trader Galladucci: I like the sense of adventure in Humans. My errand is easy. Bring this order document to Magic Trader Gentler at the magic store and bring the item to me.",
+   "header": "Trader Galladucci",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-07.html": {
+   "file": "Q00045_ToTalkingIsland/30097-07.html",
+   "quest": 45,
+   "text": "Trader Galladucci: It's in good shape. Now take this order document to Jeweler Sandra at her store. It's very valuable, so be careful!",
+   "header": "Trader Galladucci",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-08.html": {
+   "file": "Q00045_ToTalkingIsland/30097-08.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Lazy Humans! Go back to Magic Trader Gentler for the Magic Sword Hilt . Hurry!",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-11.html": {
+   "file": "Q00045_ToTalkingIsland/30097-11.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Gemstone Powder is very valuable. The Ivory Tower of Oren orders a lot. One last task. Deliver this order document to Priest Dustin at the Einhasad Temple . Be courteous and respectful, he holds a high position. My reputation and business are at stake!",
+   "header": "Trader Galladucci",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-12.html": {
+   "file": "Q00045_ToTalkingIsland/30097-12.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Where is the Gemstone Powder? Quit being lazy and get it!",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-15.html": {
+   "file": "Q00045_ToTalkingIsland/30097-15.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Homesick, huh? The roads around Giran are dangerous, be careful on your way home. You can use the Scroll of Escape to return if you choose. Just know that since it's a specialty item, you can use it only once !",
+   "header": "Trader Galladucci",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00045_ToTalkingIsland/30097-16.html": {
+   "file": "Q00045_ToTalkingIsland/30097-16.html",
+   "quest": 45,
+   "text": "Trader Galladucci: Hurry to Priest Dustin of Einhasad Temple and bring back the necklace! He should be finished by now.",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-04.htm": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-04.htm",
+   "quest": 46,
+   "text": "Trader Galladucci: I like the sense of adventure in Humans. My errand is easy. Bring this order document to Magic Trader Gentler at the magic store and bring the item to me.",
+   "header": "Trader Galladucci",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-07.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-07.html",
+   "quest": 46,
+   "text": "Trader Galladucci: It's in good shape. Now take this order document to Jeweler Sandra at her store. It's very valuable, so be careful!",
+   "header": "Trader Galladucci",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-08.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-08.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Lazy Humans! Go back to Magic Trader Gentler for the Magic Sword Hilt . Hurry!",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-11.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-11.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Gemstone Powder is very valuable. The Ivory Tower of Oren orders a lot. One last task. Deliver this order document to Priest Dustin at the Einhasad Temple . Be courteous and respectful, he holds a high position. My reputation and business are at stake!",
+   "header": "Trader Galladucci",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-12.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-12.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Where is the Gemstone Powder? Quit being lazy and get it!",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-15.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-15.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Homesick, huh? The roads around Giran are dangerous, be careful on your way home. You can use the Scroll of Escape to return if you choose. Just know that since it's a specialty item, you can use it only once !",
+   "header": "Trader Galladucci",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-16.html": {
+   "file": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-16.html",
+   "quest": 46,
+   "text": "Trader Galladucci: Go and get the necklace from Priest Dustin of Einhasad Temple at once! He should be finished by now.",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-04.htm": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-04.htm",
+   "quest": 47,
+   "text": "Trader Galladucci: I like the sense of adventure in Humans. My errand is easy. Bring this order document to Magic Trader Gentler at the magic store and bring the item to me.",
+   "header": "Trader Galladucci",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-07.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-07.html",
+   "quest": 47,
+   "text": "Trader Galladucci: It's in good shape. Now take this order document to Jeweler Sandra at her store. It's very valuable, so be careful!",
+   "header": "Trader Galladucci",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-08.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-08.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Lazy Humans! Go back to Magic Trader Gentler for the Magic Sword Hilt . Hurry!",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-11.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-11.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Gemstone Powder is very valuable. The Ivory Tower of Oren orders a lot. One last task. Deliver this order document to Priest Dustin at the Einhasad Temple . Be courteous and respectful, he holds a high position. My reputation and business are at stake!",
+   "header": "Trader Galladucci",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-12.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-12.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Where is the Gemstone Powder? Quit being lazy and get it!",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-15.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-15.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Homesick, huh? The roads around Giran are dangerous, be careful on your way home. You can use the Scroll of Escape to return if you choose. Just know that since it's a specialty item, you can use it only once !",
+   "header": "Trader Galladucci",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00047_IntoTheDarkElvenForest/30097-16.html": {
+   "file": "Q00047_IntoTheDarkElvenForest/30097-16.html",
+   "quest": 47,
+   "text": "Trader Galladucci: Go and get the necklace from Priest Dustin of Einhasad Temple at once! He should be finished by now.",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30097-04.htm": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-04.htm",
+   "quest": 48,
+   "text": "Trader Galladucci: I like the sense of adventure in Humans. My errand is easy. Bring this order document to Magic Trader Gentler at the magic store and bring the item to me.",
+   "header": "Trader Galladucci",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30097-07.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-07.html",
+   "quest": 48,
+   "text": "Trader Galladucci: It's in good shape. Now take this order document to Jeweler Sandra at her store. It's very valuable, so be careful!",
+   "header": "Trader Galladucci",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30097-08.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-08.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Lazy Humans! Go back to Magic Trader Gentler for the Magic Sword Hilt . Hurry!",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30097-11.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-11.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Gemstone Powder is very valuable. The Ivory Tower of Oren orders a lot. One last task. Deliver this order document to Priest Dustin at the Einhasad Temple . Be courteous and respectful, he holds a high position. My reputation and business are at stake!",
+   "header": "Trader Galladucci",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30097-12.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-12.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Where is the Gemstone Powder? Quit being lazy and get it!",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30097-15.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-15.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Homesick, huh? The roads around Giran are dangerous, be careful on your way home. You can use the Scroll of Escape to return if you choose. Just know that since it's a specialty item, you can use it only once !",
+   "header": "Trader Galladucci",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00048_ToTheImmortalPlateau/30097-16.html": {
+   "file": "Q00048_ToTheImmortalPlateau/30097-16.html",
+   "quest": 48,
+   "text": "Trader Galladucci: Go and get the necklace from Priest Dustin of Einhasad Temple at once! He should be finished by now.",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30097-04.htm": {
+   "file": "Q00049_TheRoadHome/30097-04.htm",
+   "quest": 49,
+   "text": "Trader Galladucci: I like the sense of adventure in Humans. My errand is easy. Bring this order document to Magic Trader Gentler at the magic store and bring the item to me.",
+   "header": "Trader Galladucci",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30097-07.html": {
+   "file": "Q00049_TheRoadHome/30097-07.html",
+   "quest": 49,
+   "text": "Trader Galladucci: It's in good shape. Now take this order document to Jeweler Sandra at her store. It's very valuable, so be careful!",
+   "header": "Trader Galladucci",
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30097-08.html": {
+   "file": "Q00049_TheRoadHome/30097-08.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Lazy Humans! Go back to Magic Trader Gentler for the Magic Sword Hilt . Hurry!",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30097-11.html": {
+   "file": "Q00049_TheRoadHome/30097-11.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Gemstone Powder is very valuable. The Ivory Tower of Oren orders a lot. One last task. Deliver this order document to Priest Dustin at the Einhasad Temple . Be courteous and respectful, he holds a high position. My reputation and business are at stake!",
+   "header": "Trader Galladucci",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30097-12.html": {
+   "file": "Q00049_TheRoadHome/30097-12.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Where is the Gemstone Powder? Quit being lazy and get it!",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30097-15.html": {
+   "file": "Q00049_TheRoadHome/30097-15.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Homesick, huh? The roads around Giran are dangerous, be careful on your way home. You can use the Scroll of Escape to return if you choose. Just know that since it's a specialty item, you can use it only once !",
+   "header": "Trader Galladucci",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00049_TheRoadHome/30097-16.html": {
+   "file": "Q00049_TheRoadHome/30097-16.html",
+   "quest": 49,
+   "text": "Trader Galladucci: Go and get the necklace from Priest Dustin of Einhasad Temple at once! He should be finished by now.",
+   "header": "Trader Galladucci",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00173_ToTheIsleOfSouls/30097-03.htm": {
+   "file": "Q00173_ToTheIsleOfSouls/30097-03.htm",
+   "quest": 173,
+   "text": "Trader Galladucci: You are very ambitious for your age, I see. Well, this should pose no difficulty for you. Simply take this order to Magic Trader Gentler at the Magic Shop and bring back the item ordered.",
+   "header": "Trader Galladucci",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00173_ToTheIsleOfSouls/30097-06.html": {
+   "file": "Q00173_ToTheIsleOfSouls/30097-06.html",
+   "quest": 173,
+   "text": "Trader Galladucci: Homesick, eh? Well, the roads around Giran are dangerous, so be careful on your journey home. If you have the opportunity to come back to Giran, be sure to stop by my shop. If you need it, use this Scroll of Escape to return to your hometown, just as you came to Giran. But be ver…",
+   "header": "Trader Galladucci",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Help the Sister! (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00043_HelpTheSister",
+     "kind": "quest",
+     "quest": 43,
+     "to": "Q00043_HelpTheSister/30097-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[To Talking Island]",
+     "bypass": "npc_%objectId%_Quest Q00045_ToTalkingIsland",
+     "kind": "quest",
+     "quest": 45,
+     "to": "Q00045_ToTalkingIsland/30097-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[To Talking Island (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00045_ToTalkingIsland",
+     "kind": "quest",
+     "quest": 45,
+     "to": "Q00045_ToTalkingIsland/30097-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Once More In the Arms of the Mother Tree]",
+     "bypass": "npc_%objectId%_Quest Q00046_OnceMoreInTheArmsOfTheMotherTree",
+     "kind": "quest",
+     "quest": 46,
+     "to": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Once More In the Arms of the Mother Tree (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00046_OnceMoreInTheArmsOfTheMotherTree",
+     "kind": "quest",
+     "quest": 46,
+     "to": "Q00046_OnceMoreInTheArmsOfTheMotherTree/30097-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Into the Dark Elven Forest]",
+     "bypass": "npc_%objectId%_Quest Q00047_IntoTheDarkElvenForest",
+     "kind": "quest",
+     "quest": 47,
+     "to": "Q00047_IntoTheDarkElvenForest/30097-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Into the Dark Elven Forest (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00047_IntoTheDarkElvenForest",
+     "kind": "quest",
+     "quest": 47,
+     "to": "Q00047_IntoTheDarkElvenForest/30097-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[To the Immortal Plateau]",
+     "bypass": "npc_%objectId%_Quest Q00048_ToTheImmortalPlateau",
+     "kind": "quest",
+     "quest": 48,
+     "to": "Q00048_ToTheImmortalPlateau/30097-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[To the Immortal Plateau (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00048_ToTheImmortalPlateau",
+     "kind": "quest",
+     "quest": 48,
+     "to": "Q00048_ToTheImmortalPlateau/30097-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[The Road Home]",
+     "bypass": "npc_%objectId%_Quest Q00049_TheRoadHome",
+     "kind": "quest",
+     "quest": 49,
+     "to": "Q00049_TheRoadHome/30097-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[The Road Home (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00049_TheRoadHome",
+     "kind": "quest",
+     "quest": 49,
+     "to": "Q00049_TheRoadHome/30097-05.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[To the Isle of Souls]",
+     "bypass": "npc_%objectId%_Quest Q00173_ToTheIsleOfSouls",
+     "kind": "quest",
+     "quest": 173,
+     "to": "Q00173_ToTheIsleOfSouls/30097-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[To the Isle of Souls (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00173_ToTheIsleOfSouls",
+     "kind": "quest",
+     "quest": 173,
+     "to": "Q00173_ToTheIsleOfSouls/30097-04.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Purchase weapon.",
+   "n": 4,
+   "inDatapack": true,
+   "from": [
+    "Trader Galladucci:Luxury goods stores are open again. We hav"
+   ],
+   "to": []
+  }
+ ]
+}

@@ -1,0 +1,354 @@
+{
+ "npcId": 30617,
+ "name": "Burai",
+ "title": "Turek Chief",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.019Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30617.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "171": {
+   "name": "Acts Of Evil",
+   "listText": [
+    "[Acts of Evil]",
+    "[Acts of Evil (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00171_ActsOfEvil/30617-01.html",
+     "when": "state STARTED; memoState < 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30617-02.html",
+     "when": "state STARTED; memo 9; !memoState < 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30617-06.html",
+     "when": "state STARTED; memo 10; !memoState < 9; getQuestItemsCount(player, OL_MAHUM_CAPTAINS_HEAD) < 30",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30617-07.html",
+     "when": "state STARTED; memo 10; !memoState < 9; !getQuestItemsCount(player, OL_MAHUM_CAPTAINS_HEAD) < 30",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00171_ActsOfEvil/30617-08.html",
+     "when": "state STARTED; memo 11; !memoState < 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "220": {
+   "name": "Testimony Of Glory",
+   "listText": [
+    "[Testimony of Glory]",
+    "[Testimony of Glory (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00220_TestimonyOfGlory/30617-01.html",
+     "when": "state STARTED; has items 3209,3210; lacks items 3214,3231,3227,3226",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30617-02.html",
+     "when": "state STARTED; has items 3209,3210,3214,3231,3227,3226",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30617-04.html",
+     "when": "state STARTED; has items 3209,3210,3214,3231,3227,3226; lacks items 3231",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30617-05.html",
+     "when": "state STARTED; has items 3209,3210,3214,3231,3227,3226; lacks items 3231,3227; item 3226 >= 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30617-06.html",
+     "when": "state STARTED; has items 3209,3210,3214,3231,3227,3226; lacks items 3231,3227; !getQuestItemsCount(player, MAKUM_BUGBEAR_HEAD) >= 2",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00220_TestimonyOfGlory/30617-07.html",
+     "when": "state STARTED; has items 3209,3216,3217,3220; lacks items 3209,3210",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30617.htm": {
+   "file": "default/30617.htm",
+   "quest": null,
+   "text": "Turek Chief Burai: Dejakar Turek! I am Burai, the brave. I lead the warriors of Turek, the greatest tribe of all Orcs! The surrounding area is the domain of our Turek Orc kingdom! You who dared to step into our land, be off!",
+   "header": "Turek Chief Burai",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00171_ActsOfEvil/30617-01.html": {
+   "file": "Q00171_ActsOfEvil/30617-01.html",
+   "quest": 171,
+   "text": "Turek Chief Burai: Tejakar Turek! May glory be heaped upon the soldiers of our tribe! The Humans will soon feel our wrath!",
+   "header": "Turek Chief Burai",
+   "when": [
+    "state STARTED; memoState < 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30617-02.html": {
+   "file": "Q00171_ActsOfEvil/30617-02.html",
+   "quest": 171,
+   "text": "Turek Chief Burai: Who let you in here? Did you see my soldiers out there? You're very brave, stranger! What's that about weapons? Ah, yes, the shipment from the Ol Mahums! But you don't look like a trader?! You look more like a mercenary!",
+   "header": "Turek Chief Burai",
+   "when": [
+    "state STARTED; memo 9; !memoState < 9"
+   ],
+   "links": [
+    {
+     "text": "Show him the mark from the Silver Scale Guild.",
+     "bypass": "Quest Q00171_ActsOfEvil 30617-03.html",
+     "kind": "quest-event",
+     "script": "Q00171_ActsOfEvil",
+     "event": "30617-03.html",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30617-03.html"
+    }
+   ]
+  },
+  "Q00171_ActsOfEvil/30617-06.html": {
+   "file": "Q00171_ActsOfEvil/30617-06.html",
+   "quest": 171,
+   "text": "Turek Chief Burai: Go and cut off the heads of the Ol Mahum captains ! Bring back at least 30 of them and I will give you a prize!",
+   "header": "Turek Chief Burai",
+   "when": [
+    "state STARTED; memo 10; !memoState < 9; getQuestItemsCount(player, OL_MAHUM_CAPTAINS_HEAD) < 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30617-07.html": {
+   "file": "Q00171_ActsOfEvil/30617-07.html",
+   "quest": 171,
+   "text": "Turek Chief Burai: Good job! 30 good Ol Mahums! This is just the beginning of the carnage! They shall rue the day they deceived us! We will attack their barracks at dawn and give no quarter! Go to Gludin and tell them that they are off the hook... For now. One day the mighty Turek tribe will sweep …",
+   "header": "Turek Chief Burai",
+   "when": [
+    "state STARTED; memo 10; !memoState < 9; !getQuestItemsCount(player, OL_MAHUM_CAPTAINS_HEAD) < 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30617-08.html": {
+   "file": "Q00171_ActsOfEvil/30617-08.html",
+   "quest": 171,
+   "text": "Turek Chief Burai: This is just the beginning of the carnage! The Ol Mahums will rue the day they deceived us! We will attack their barracks at dawn and give no quarter! Go to Gludin and tell them that they are off the hook... For now. One day the mighty Turek tribe will sweep down like a black clo…",
+   "header": "Turek Chief Burai",
+   "when": [
+    "state STARTED; memo 11; !memoState < 9"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30617-01.html": {
+   "file": "Q00220_TestimonyOfGlory/30617-01.html",
+   "quest": 220,
+   "text": "Turek Chief Burai: Flame Lord? The great kingdom of Orc? Nonsense! They are just playing a game, hiding in the forest...Those who call themsleves the aristocrats of Orc! I hate the very sight of them! Leave me now!",
+   "header": "Turek Chief Burai",
+   "when": [
+    "state STARTED; has items 3209,3210; lacks items 3214,3231,3227,3226"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30617-02.html": {
+   "file": "Q00220_TestimonyOfGlory/30617-02.html",
+   "quest": 220,
+   "text": "Turek Chief Burai: The Lord of Flames? The great kingdom of Orc? Nonsense! They are just playing a game hiding in the forests...Those who call themsleves the aristocrates of Orc! I hate the very sight of you! Away from my presence!",
+   "header": "Turek Chief Burai",
+   "when": [
+    "state STARTED; has items 3209,3210,3214,3231,3227,3226"
+   ],
+   "links": [
+    {
+     "text": "I have come to get the Oath of Loyalty and the Seal of Flames from you!",
+     "bypass": "Quest Q00220_TestimonyOfGlory 30617-03.html",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "30617-03.html",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30617-03.html"
+    }
+   ]
+  },
+  "Q00220_TestimonyOfGlory/30617-04.html": {
+   "file": "Q00220_TestimonyOfGlory/30617-04.html",
+   "quest": 220,
+   "text": "Turek Chief Burai: Soldiers! Attack! Beat this arrogant dog until he lies dead beneath my feet!",
+   "header": "Turek Chief Burai",
+   "when": [
+    "state STARTED; has items 3209,3210,3214,3231,3227,3226; lacks items 3231"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30617-05.html": {
+   "file": "Q00220_TestimonyOfGlory/30617-05.html",
+   "quest": 220,
+   "text": "Turek Chief Burai: How can this be! Those soldiers cost me a fortune! Please, spare my life! I shall give you the Scepter !",
+   "header": "Turek Chief Burai",
+   "when": [
+    "state STARTED; has items 3209,3210,3214,3231,3227,3226; lacks items 3231,3227; item 3226 >= 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30617-06.html": {
+   "file": "Q00220_TestimonyOfGlory/30617-06.html",
+   "quest": 220,
+   "text": "Turek Chief Burai: All right, you have the Scepter! I have no more business with you! Please leave now!",
+   "header": "Turek Chief Burai",
+   "when": [
+    "state STARTED; has items 3209,3210,3214,3231,3227,3226; lacks items 3231,3227; !getQuestItemsCount(player, MAKUM_BUGBEAR_HEAD) >= 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30617-07.html": {
+   "file": "Q00220_TestimonyOfGlory/30617-07.html",
+   "quest": 220,
+   "text": "Turek Chief Burai: Agent of the noble Orc! Please leave in peace!",
+   "header": "Turek Chief Burai",
+   "when": [
+    "state STARTED; has items 3209,3216,3217,3220; lacks items 3209,3210"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00171_ActsOfEvil/30617-03.html": {
+   "file": "Q00171_ActsOfEvil/30617-03.html",
+   "quest": 171,
+   "text": "Turek Chief Burai: That is just so Dwarf! They are such cowards! These weapons will mean that brave Turek Warriors no longer need fear the Humans! We shall crush them mercilessly! Tejakar Turek!",
+   "header": "Turek Chief Burai",
+   "links": [
+    {
+     "text": "Show him the Ol Mahums' operation order.",
+     "bypass": "Quest Q00171_ActsOfEvil 30617-04.html",
+     "kind": "quest-event",
+     "script": "Q00171_ActsOfEvil",
+     "event": "30617-04.html",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30617-04.html"
+    }
+   ]
+  },
+  "Q00171_ActsOfEvil/30617-04.html": {
+   "file": "Q00171_ActsOfEvil/30617-04.html",
+   "quest": 171,
+   "text": "Turek Chief Burai: ...? This is unbelievable! How dare they deceive us! Those filthy traitors!",
+   "header": "Turek Chief Burai",
+   "links": [
+    {
+     "text": "\"You've been played!\"",
+     "bypass": "Quest Q00171_ActsOfEvil 30617-05.html",
+     "kind": "quest-event",
+     "script": "Q00171_ActsOfEvil",
+     "event": "30617-05.html",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30617-05.html",
+     "effect": "cond:10"
+    }
+   ]
+  },
+  "Q00171_ActsOfEvil/30617-05.html": {
+   "file": "Q00171_ActsOfEvil/30617-05.html",
+   "quest": 171,
+   "text": "Turek Chief Burai: Kaaah aak!!! Listen to me, brave Turek Warriors! Gludin is no longer our target! We must annihilate our true enemy! Tomorrow morning we shall attack the barracks of the Ol Mahums! You're a mercenary, right? Then I want to hire you to go and cut off the heads of the Ol Mahum capta…",
+   "header": "Turek Chief Burai",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00220_TestimonyOfGlory/30617-03.html": {
+   "file": "Q00220_TestimonyOfGlory/30617-03.html",
+   "quest": 220,
+   "text": "Turek Chief Burai: I expected that there would be an agent coming from the noble Orcs. I have reinforced my troops for just such an occasion. Anyone who stands in the way of my creation of the great Turek Orc kingdom must die!",
+   "header": "Turek Chief Burai",
+   "links": [
+    {
+     "text": "How dare you defy the power of the Flame Lord!",
+     "bypass": "Quest Q00220_TestimonyOfGlory RETURN",
+     "kind": "quest-event",
+     "script": "Q00220_TestimonyOfGlory",
+     "event": "RETURN",
+     "quest": 220,
+     "to": null
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Acts of Evil (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00171_ActsOfEvil",
+     "kind": "quest",
+     "quest": 171,
+     "to": "Q00171_ActsOfEvil/30617-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Testimony of Glory (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00220_TestimonyOfGlory",
+     "kind": "quest",
+     "quest": 220,
+     "to": "Q00220_TestimonyOfGlory/30617-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

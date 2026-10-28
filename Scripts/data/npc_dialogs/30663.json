@@ -1,0 +1,112 @@
+{
+ "npcId": 30663,
+ "name": "Slein Shining Blade",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.029Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30663.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "226": {
+   "name": "Test Of The Healer",
+   "listText": [
+    "[Test of the Healer]",
+    "[Test of the Healer (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00226_TestOfTheHealer/30663-01.html",
+     "when": "state STARTED; memo 8; has items 2816; lacks items 2817",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30663-02.html",
+     "when": "state STARTED; memo 8; has items 2817; lacks items 2818,2819; !(hasQuestItems(player, SECRET_LETTER1) && !hasQuestItems(player, SECRET_LETTER2))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00226_TestOfTheHealer/30663-03.html",
+     "when": "state STARTED; memo 8; has items 2817,2818,2819; !(hasQuestItems(player, SECRET_LETTER1) && !hasQuestItems(player, SECRET_LETTER2)); !(hasQuestItems(player, SECRET_LETTER2) && !hasQuestItems(player, SECRET_LETTER3, SECRET_LETTER4))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30663.htm": {
+   "file": "default/30663.htm",
+   "quest": null,
+   "text": "Slein Shining Blade: Shhh....don't make any noise! Are you trying to call up all the magic creatures in the area? Walk quietly, will you?!",
+   "header": "Slein Shining Blade",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00226_TestOfTheHealer/30663-01.html": {
+   "file": "Q00226_TestOfTheHealer/30663-01.html",
+   "quest": 226,
+   "text": "Slein Shining Blade: I am Slein, envoy of Daurin! I have been following a Dark Elf stranger around here. Come and help me catch him!",
+   "header": "Slein Shining Blade",
+   "when": [
+    "state STARTED; memo 8; has items 2816; lacks items 2817"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30663-02.html": {
+   "file": "Q00226_TestOfTheHealer/30663-02.html",
+   "quest": 226,
+   "text": "Slein Shining Blade: Damn, those Dark Elves are slippery! He is returning to his comrades! We must prepare for an onslaught!",
+   "header": "Slein Shining Blade",
+   "when": [
+    "state STARTED; memo 8; has items 2817; lacks items 2818,2819; !(hasQuestItems(player, SECRET_LETTER1) && !hasQuestItems(player, SECRET_LETTER2))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00226_TestOfTheHealer/30663-03.html": {
+   "file": "Q00226_TestOfTheHealer/30663-03.html",
+   "quest": 226,
+   "text": "Slein Shining Blade: My colleagues have located the Saintess that you were looking for! She is currently in a tent near the Initiation Altar of the Dark Elves ! She will surely have an explanation for all of this...",
+   "header": "Slein Shining Blade",
+   "when": [
+    "state STARTED; memo 8; has items 2817,2818,2819; !(hasQuestItems(player, SECRET_LETTER1) && !hasQuestItems(player, SECRET_LETTER2)); !(hasQuestItems(player, SECRET_LETTER2) && !hasQuestItems(player, SECRET_LETTER3, SECRET_LETTER4))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Healer (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00226_TestOfTheHealer",
+     "kind": "quest",
+     "quest": 226,
+     "to": "Q00226_TestOfTheHealer/30663-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

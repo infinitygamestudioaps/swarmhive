@@ -1,0 +1,112 @@
+{
+ "npcId": 30979,
+ "name": "Holy Ark of Secrecy 3",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.122Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30979.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "348": {
+   "name": "An Arrogant Search",
+   "listText": [
+    "[An Arrogant Search]",
+    "[An Arrogant Search (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00348_AnArrogantSearch/30979-01.html",
+     "when": "state STARTED; has items 4293",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30979-02.html",
+     "when": "state STARTED; lacks items 4293; st.getMemoState() < 8; ((st.getMemoStateEx(1) % 10000) / 1000) == 1",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00348_AnArrogantSearch/30979-03.html",
+     "when": "state STARTED; has items 4399; lacks items 4293; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 10000) / 1000) == 1)); st.getMemoState() <= 8; ((st.getMemoStateEx(1) % 10000) / 1000) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30979.htm": {
+   "file": "default/30979.htm",
+   "quest": null,
+   "text": "Holy Ark: A decrepit old chest. As you approach you feel the magic emanating from within it and also a sense of impending doom.",
+   "header": "Holy Ark",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00348_AnArrogantSearch/30979-01.html": {
+   "file": "Q00348_AnArrogantSearch/30979-01.html",
+   "quest": 348,
+   "text": "Holy Ark: The key fits the lock on the chest perfectly. When the chest is opened, the key begins to glow red-hot and then melts away, burning your hand. An old, plain staff is in the chest.",
+   "header": "Holy Ark",
+   "when": [
+    "state STARTED; has items 4293"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30979-02.html": {
+   "file": "Q00348_AnArrogantSearch/30979-02.html",
+   "quest": 348,
+   "text": "Holy Ark: The chest is tightly locked, as Martien said. Someone else is here!",
+   "header": "Holy Ark",
+   "when": [
+    "state STARTED; lacks items 4293; st.getMemoState() < 8; ((st.getMemoStateEx(1) % 10000) / 1000) == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00348_AnArrogantSearch/30979-03.html": {
+   "file": "Q00348_AnArrogantSearch/30979-03.html",
+   "quest": 348,
+   "text": "Holy Ark: The chest does not contain anything else.",
+   "header": "Holy Ark",
+   "when": [
+    "state STARTED; has items 4399; lacks items 4293; !((st.getMemoState() < 8) && (((st.getMemoStateEx(1) % 10000) / 1000) == 1)); st.getMemoState() <= 8; ((st.getMemoStateEx(1) % 10000) / 1000) == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[An Arrogant Search (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00348_AnArrogantSearch",
+     "kind": "quest",
+     "quest": 348,
+     "to": "Q00348_AnArrogantSearch/30979-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

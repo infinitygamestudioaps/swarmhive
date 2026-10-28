@@ -1,0 +1,759 @@
+{
+ "npcId": 32044,
+ "name": "Weathermaster",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.318Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32044.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "120": {
+   "name": "Pavel's Last Research",
+   "listText": [
+    "[Pavel's Last Research]",
+    "[Pavel's Last Research (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00120_PavelsLastResearch/32044-01.html",
+     "when": "memo 20",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32044-08.html",
+     "when": "memo 21",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00120_PavelsLastResearch/32044-22.html",
+     "when": "memo 22",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32044.htm": {
+   "file": "default/32044.htm",
+   "quest": null,
+   "text": "Weathermaster: There are some buttons below the huge machine.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-01.html": {
+   "file": "Q00120_PavelsLastResearch/32044-01.html",
+   "quest": 120,
+   "text": "Weathermaster: What am I going to do?",
+   "header": "Weathermaster",
+   "when": [
+    "memo 20"
+   ],
+   "links": [
+    {
+     "text": "Enter the password",
+     "bypass": "Quest Q00120_PavelsLastResearch 32044-02.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32044-02.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-02.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-08.html": {
+   "file": "Q00120_PavelsLastResearch/32044-08.html",
+   "quest": 120,
+   "text": "Weathermaster: Eternal Spring A magic Force Field device that covers other weather with spring-like weather by spreading a stabilized Fire of Pa'agrio into the air inside a magic Force Field created by Shilen's Water. The expected result is the creation of a force higher than C-class.",
+   "header": "Weathermaster",
+   "when": [
+    "memo 21"
+   ],
+   "links": [
+    {
+     "text": "Observe",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_observe",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_observe",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-10.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32044-10.html",
+      "Q00120_PavelsLastResearch/32044-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-22.html": {
+   "file": "Q00120_PavelsLastResearch/32044-22.html",
+   "quest": 120,
+   "text": "Thinking: Project N_45 has been halted. Return to Atlanta to discuss the situation.",
+   "when": [
+    "memo 22"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00120_PavelsLastResearch/32044-02.html": {
+   "file": "Q00120_PavelsLastResearch/32044-02.html",
+   "quest": 120,
+   "text": "Weathermaster: Please enter the first letter of the password.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "A",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_1_a",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_1_a",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-03.html"
+    },
+    {
+     "text": "B",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_1_b",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_1_b",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-03.html"
+    },
+    {
+     "text": "C",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_1_c",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_1_c",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-03.html"
+    },
+    {
+     "text": "D",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_1_d",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_1_d",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-03.html"
+    },
+    {
+     "text": "L",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_1_l",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_1_l",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-03.html"
+    },
+    {
+     "text": "M",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_1_m",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_1_m",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-03.html"
+    },
+    {
+     "text": "N",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_1_n",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_1_n",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-03.html"
+    },
+    {
+     "text": "V",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_1_v",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_1_v",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-03.html"
+    },
+    {
+     "text": "W",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_1_w",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_1_w",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-03.html"
+    },
+    {
+     "text": "X",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_1_x",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_1_x",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-03.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-03.html": {
+   "file": "Q00120_PavelsLastResearch/32044-03.html",
+   "quest": 120,
+   "text": "Weathermaster: Please enter the second digit of the password.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_2_1",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_2_1",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-04.html"
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_2_2",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_2_2",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-04.html"
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_2_3",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_2_3",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-04.html"
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_2_4",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_2_4",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-04.html"
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_2_5",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_2_5",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-04.html"
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_2_6",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_2_6",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-04.html"
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_2_7",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_2_7",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-04.html"
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_2_8",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_2_8",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-04.html"
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_2_9",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_2_9",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-04.html"
+    },
+    {
+     "text": "10",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_2_10",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_2_10",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-04.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-04.html": {
+   "file": "Q00120_PavelsLastResearch/32044-04.html",
+   "quest": 120,
+   "text": "Weathermaster: Enter the third digit of the password.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_3_1",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_3_1",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-05.html"
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_3_2",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_3_2",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-05.html"
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_3_3",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_3_3",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-05.html"
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_3_4",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_3_4",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-05.html"
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_3_5",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_3_5",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-06.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32044-06.html",
+      "Q00120_PavelsLastResearch/32044-05.html"
+     ],
+     "effect": "cond:21"
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_3_6",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_3_6",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-05.html"
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_3_7",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_3_7",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-05.html"
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_3_8",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_3_8",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-05.html"
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_3_9",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_3_9",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-05.html"
+    },
+    {
+     "text": "10",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_3_10",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_3_10",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-05.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-05.html": {
+   "file": "Q00120_PavelsLastResearch/32044-05.html",
+   "quest": 120,
+   "text": "Weathermaster: This password doesn't exist.",
+   "header": "Weathermaster",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00120_PavelsLastResearch 32044-02.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32044-02.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-02.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-06.html": {
+   "file": "Q00120_PavelsLastResearch/32044-06.html",
+   "quest": 120,
+   "text": "Weathermaster: Please choose a project.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "N.45.Eternal Spring",
+     "bypass": "Quest Q00120_PavelsLastResearch 32044-07.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32044-07.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-07.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-07.html": {
+   "file": "Q00120_PavelsLastResearch/32044-07.html",
+   "quest": 120,
+   "text": "Weathermaster: Eternal Spring A Force Field Device that covers other weather with spring-like weather by spreading a stabilized Fire of Pa'agrio into the air inside a magic Force Field created by Shilen's Water. The expected result is the creation of a force higher than C-class.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "Observe",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_observe",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_observe",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-10.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32044-10.html",
+      "Q00120_PavelsLastResearch/32044-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-09.html": {
+   "file": "Q00120_PavelsLastResearch/32044-09.html",
+   "quest": 120,
+   "text": "Weathermaster: Progress",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "Shilen's Water",
+     "bypass": "Quest Q00120_PavelsLastResearch 32044-11.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32044-11.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-11.html"
+    },
+    {
+     "text": "The Fire of Pa'agrio",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_fire_of_paagrio",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_fire_of_paagrio",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-13.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32044-13.html",
+      "Q00120_PavelsLastResearch/32044-12.html"
+     ]
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-10.html": {
+   "file": "Q00120_PavelsLastResearch/32044-10.html",
+   "quest": 120,
+   "text": "Weathermaster: Progress",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "Shilen's Water",
+     "bypass": "Quest Q00120_PavelsLastResearch 32044-11.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32044-11.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-11.html"
+    },
+    {
+     "text": "The Fire of Pa'agrio",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_fire_of_paagrio",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_fire_of_paagrio",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-13.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32044-13.html",
+      "Q00120_PavelsLastResearch/32044-12.html"
+     ]
+    },
+    {
+     "text": "Go to the Control Device",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_control",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_control",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-15.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32044-15.html",
+      "Q00120_PavelsLastResearch/32044-14.html"
+     ]
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-11.html": {
+   "file": "Q00120_PavelsLastResearch/32044-11.html",
+   "quest": 120,
+   "text": "Weathermaster: Shilen's Water: Insufficient supply. Impossible to create a Force Field. The results may affect the entire territory. Desertification is possible when the Fire of Pa'agrio is implemented without the Force Field.",
+   "header": "Weathermaster",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_observe",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_observe",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-10.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32044-10.html",
+      "Q00120_PavelsLastResearch/32044-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-12.html": {
+   "file": "Q00120_PavelsLastResearch/32044-12.html",
+   "quest": 120,
+   "text": "Weathermaster: The Fire of Pa'agrio: Energy output 100% Stability 50% Recharged 95% User must control output when stability is lower than 70. When \"Recharged\" level reaches 100, the project will run.",
+   "header": "Weathermaster",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_observe",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_observe",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-10.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32044-10.html",
+      "Q00120_PavelsLastResearch/32044-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-13.html": {
+   "file": "Q00120_PavelsLastResearch/32044-13.html",
+   "quest": 120,
+   "text": "Weathermaster: Fire of Pa'agrio: Energy output 60% Stability 70% Recharged 96% When the \"Recharged\" level reaches 100%, the project will run.",
+   "header": "Weathermaster",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00120_PavelsLastResearch wm3_observe",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "wm3_observe",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-10.html",
+     "toAll": [
+      "Q00120_PavelsLastResearch/32044-10.html",
+      "Q00120_PavelsLastResearch/32044-09.html"
+     ]
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-14.html": {
+   "file": "Q00120_PavelsLastResearch/32044-14.html",
+   "quest": 120,
+   "text": "Weathermaster: Control Device You can control the energy output. Recharge is in progress.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "Control the output",
+     "bypass": "Quest Q00120_PavelsLastResearch 32044-16.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32044-16.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-16.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-15.html": {
+   "file": "Q00120_PavelsLastResearch/32044-15.html",
+   "quest": 120,
+   "text": "Weathermaster: Control Device The energy output has been controlled. Recharge in progress.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "Terminate recharge",
+     "bypass": "Quest Q00120_PavelsLastResearch 32044-19.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32044-19.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-19.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-16.html": {
+   "file": "Q00120_PavelsLastResearch/32044-16.html",
+   "quest": 120,
+   "text": "Weathermaster: Controls the output . . . Recharge control is finished.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "Check the output progress",
+     "bypass": "Quest Q00120_PavelsLastResearch 32044-17.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32044-17.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-17.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-17.html": {
+   "file": "Q00120_PavelsLastResearch/32044-17.html",
+   "quest": 120,
+   "text": "Weathermaster: Fire of Pa'agrio: Energy output 60% Stability 70% Recharged 96% When the \"Recharged\" level reaches 100%, the project will run.",
+   "header": "Weathermaster",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00120_PavelsLastResearch 32044-18.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32044-18.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-18.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-18.html": {
+   "file": "Q00120_PavelsLastResearch/32044-18.html",
+   "quest": 120,
+   "text": "Weathermaster: Control Device The energy output has been controlled. Recharge is in progress.",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "Terminate recharge",
+     "bypass": "Quest Q00120_PavelsLastResearch 32044-19.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32044-19.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-19.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-19.html": {
+   "file": "Q00120_PavelsLastResearch/32044-19.html",
+   "quest": 120,
+   "text": "Weathermaster: Warning! Terminating the recharge now can cause the energy to attack the Researcher! Do you wish to terminate the recharge?",
+   "header": "Weathermaster",
+   "links": [
+    {
+     "text": "Terminate recharge",
+     "bypass": "Quest Q00120_PavelsLastResearch 32044-20.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32044-20.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-20.html",
+     "effect": "cond:22"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-20.html": {
+   "file": "Q00120_PavelsLastResearch/32044-20.html",
+   "quest": 120,
+   "text": "Weathermaster: The recharge has been terminated. Project, N_45 Eternal Spring will be terminated. The Fire of Pa'agrio is terminated.",
+   "header": "Weathermaster",
+   "sets": {
+    "cond": "22"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Think about what else you can do.",
+     "bypass": "Quest Q00120_PavelsLastResearch 32044-21.html",
+     "kind": "quest-event",
+     "script": "Q00120_PavelsLastResearch",
+     "event": "32044-21.html",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-21.html"
+    }
+   ]
+  },
+  "Q00120_PavelsLastResearch/32044-21.html": {
+   "file": "Q00120_PavelsLastResearch/32044-21.html",
+   "quest": 120,
+   "text": "Thinking: Project N_45 has been halted. Return to Atlanta to discuss the situation.",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Pavel's Last Research (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00120_PavelsLastResearch",
+     "kind": "quest",
+     "quest": 120,
+     "to": "Q00120_PavelsLastResearch/32044-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

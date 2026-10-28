@@ -1,0 +1,3675 @@
+{
+ "npcId": 7077,
+ "name": "Gatekeeper",
+ "title": "World Teleporter",
+ "type": "L2Teleporter",
+ "generated": "2026-10-27T18:18:02.776Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/WorldGatekeeper/7077.htm",
+   "when": "NOT level < 40; !ZONE.isInsideZone(npc)",
+   "src": "ai WorldGatekeeper"
+  },
+  {
+   "page": "ai/npc/WorldGatekeeper/7077-b.htm",
+   "when": "state COMPLETED; NOT level < 40; ZONE.isInsideZone(npc); quest1 != null; quest2 != null",
+   "src": "ai WorldGatekeeper"
+  },
+  {
+   "page": "teleporter/7077.htm",
+   "when": "when no script answers the first talk",
+   "src": "html/teleporter"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/WorldGatekeeper/7077.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "when": [
+    "NOT level < 40; !ZONE.isInsideZone(npc)"
+   ],
+   "links": [
+    {
+     "text": "Start Zones",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    },
+    {
+     "text": "Kingdowns",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    },
+    {
+     "text": "Townships",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Townships",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Townships",
+     "to": "ai/npc/WorldGatekeeper/7077-3.htm"
+    },
+    {
+     "text": "Catacomb",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Catacomb",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Catacomb",
+     "to": "ai/npc/WorldGatekeeper/7077-4.htm"
+    },
+    {
+     "text": "Necropolis",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Necropolis",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Necropolis",
+     "to": "ai/npc/WorldGatekeeper/7077-5.htm"
+    },
+    {
+     "text": "Special Areas",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper SpecialAreas",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "SpecialAreas",
+     "to": "ai/npc/WorldGatekeeper/7077-23.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-b.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-b.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "when": [
+    "state COMPLETED; NOT level < 40; ZONE.isInsideZone(npc); quest1 != null; quest2 != null"
+   ],
+   "links": [
+    {
+     "text": "Town of Gludio",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 138",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "138",
+     "to": null
+    }
+   ]
+  },
+  "teleporter/7077.htm": {
+   "file": "teleporter/7077.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Start Zones",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    },
+    {
+     "text": "Kingdowns",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    },
+    {
+     "text": "Townships",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Townships",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Townships",
+     "to": "ai/npc/WorldGatekeeper/7077-3.htm"
+    },
+    {
+     "text": "Catacomb",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Catacomb",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Catacomb",
+     "to": "ai/npc/WorldGatekeeper/7077-4.htm"
+    },
+    {
+     "text": "Necropolis",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Necropolis",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Necropolis",
+     "to": "ai/npc/WorldGatekeeper/7077-5.htm"
+    },
+    {
+     "text": "Special Areas",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper SpecialAreas",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "SpecialAreas",
+     "to": "ai/npc/WorldGatekeeper/7077-23.htm"
+    }
+   ]
+  },
+  "teleporter/7077-1.htm": {
+   "file": "teleporter/7077-1.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Dark Elven",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper DarkElven",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "DarkElven",
+     "to": "ai/npc/WorldGatekeeper/7077-6.htm"
+    },
+    {
+     "text": "Elven",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Elven",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Elven",
+     "to": "ai/npc/WorldGatekeeper/7077-7.htm"
+    },
+    {
+     "text": "Human",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Human",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Human",
+     "to": "ai/npc/WorldGatekeeper/7077-8.htm"
+    },
+    {
+     "text": "Orc",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Orc",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Orc",
+     "to": "ai/npc/WorldGatekeeper/7077-9.htm"
+    },
+    {
+     "text": "Dwarf",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Dwarf",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Dwarf",
+     "to": "ai/npc/WorldGatekeeper/7077-10.htm"
+    },
+    {
+     "text": "Kamael",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kamael",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kamael",
+     "to": "ai/npc/WorldGatekeeper/7077-11.htm"
+    },
+    {
+     "text": "Go Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    }
+   ]
+  },
+  "teleporter/7077-10.htm": {
+   "file": "teleporter/7077-10.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Dwarf Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 42",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "42",
+     "to": null
+    },
+    {
+     "text": "Abandoned Coal Mines",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 43",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "43",
+     "to": null
+    },
+    {
+     "text": "Eastem Mining Zone",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 44",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "44",
+     "to": null
+    },
+    {
+     "text": "Westem Mining Zone",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 45",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "45",
+     "to": null
+    },
+    {
+     "text": "Mithril Mines",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 46",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "46",
+     "to": null
+    },
+    {
+     "text": "North Mithril Mines",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 47",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "47",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    }
+   ]
+  },
+  "teleporter/7077-11.htm": {
+   "file": "teleporter/7077-11.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Kamael Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 48",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "48",
+     "to": null
+    },
+    {
+     "text": "Soul Harbor",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 49",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "49",
+     "to": null
+    },
+    {
+     "text": "Stronghold I",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 50",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "50",
+     "to": null
+    },
+    {
+     "text": "Stronghold II",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 51",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "51",
+     "to": null
+    },
+    {
+     "text": "Stronghold III",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 52",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "52",
+     "to": null
+    },
+    {
+     "text": "Nornil's Cave",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 53",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "53",
+     "to": null
+    },
+    {
+     "text": "Hills of Gold",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 54",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "54",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    }
+   ]
+  },
+  "teleporter/7077-12.htm": {
+   "file": "teleporter/7077-12.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Giran",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 55",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "55",
+     "to": null
+    },
+    {
+     "text": "Giran Harbor",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 56",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "56",
+     "to": null
+    },
+    {
+     "text": "Hardin's Academy",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 57",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "57",
+     "to": null
+    },
+    {
+     "text": "Devil's Isle",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 58",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "58",
+     "to": null
+    },
+    {
+     "text": "Breka's Stronghold",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 59",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "59",
+     "to": null
+    },
+    {
+     "text": "Gorgon Flower Garden",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 60",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "60",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "teleporter/7077-13.htm": {
+   "file": "teleporter/7077-13.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Goddard",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 61",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "61",
+     "to": null
+    },
+    {
+     "text": "Varka Silenos Outpost",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 62",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "62",
+     "to": null
+    },
+    {
+     "text": "Ketra Orc Outpost",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 63",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "63",
+     "to": null
+    },
+    {
+     "text": "Hot Springs",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 64",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "64",
+     "to": null
+    },
+    {
+     "text": "Wall of Argos",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 65",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "65",
+     "to": null
+    },
+    {
+     "text": "Monastery of Silence",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 66",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "66",
+     "to": null
+    },
+    {
+     "text": "Forge of the Gods",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 67",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "67",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "teleporter/7077-14.htm": {
+   "file": "teleporter/7077-14.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Aden",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 68",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "68",
+     "to": null
+    },
+    {
+     "text": "Forsaken Plains",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 69",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "69",
+     "to": null
+    },
+    {
+     "text": "The Forbidden Gateway",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 70",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "70",
+     "to": null
+    },
+    {
+     "text": "Blazing Swamp",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 71",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "71",
+     "to": null
+    },
+    {
+     "text": "Fields of Massacre",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 72",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "72",
+     "to": null
+    },
+    {
+     "text": "Silent Valley",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 73",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "73",
+     "to": null
+    },
+    {
+     "text": "Tower of Insolence",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 74",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "74",
+     "to": null
+    },
+    {
+     "text": "The Giant's Cave",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 75",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "75",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "teleporter/7077-15.htm": {
+   "file": "teleporter/7077-15.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Dion",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 76",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "76",
+     "to": null
+    },
+    {
+     "text": "Cruma Marshlands",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 77",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "77",
+     "to": null
+    },
+    {
+     "text": "Cruma Tower",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 78",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "78",
+     "to": null
+    },
+    {
+     "text": "Fortress of Resistance",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 79",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "79",
+     "to": null
+    },
+    {
+     "text": "Plains of Dion",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 80",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "80",
+     "to": null
+    },
+    {
+     "text": "BeeHive",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 81",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "81",
+     "to": null
+    },
+    {
+     "text": "Tanor Canyon",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 82",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "82",
+     "to": null
+    },
+    {
+     "text": "Execution Grounds",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 83",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "83",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "teleporter/7077-16.htm": {
+   "file": "teleporter/7077-16.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Gludio",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 84",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "84",
+     "to": null
+    },
+    {
+     "text": "West Region",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 85",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "85",
+     "to": null
+    },
+    {
+     "text": "Ruins of Agony",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 86",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "86",
+     "to": null
+    },
+    {
+     "text": "Ruins of Despair",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 87",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "87",
+     "to": null
+    },
+    {
+     "text": "The Ant Nest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 88",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "88",
+     "to": null
+    },
+    {
+     "text": "Windawood Manor",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 89",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "89",
+     "to": null
+    },
+    {
+     "text": "Evil Hunting Grounds",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 90",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "90",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "teleporter/7077-17.htm": {
+   "file": "teleporter/7077-17.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Hunters Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 91",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "91",
+     "to": null
+    },
+    {
+     "text": "Hardin's Academy",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 92",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "92",
+     "to": null
+    },
+    {
+     "text": "Enchanted Valley South",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 93",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "93",
+     "to": null
+    },
+    {
+     "text": "Enchanted Valley North",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 94",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "94",
+     "to": null
+    },
+    {
+     "text": "The Forest of Mirrors",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 95",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "95",
+     "to": null
+    },
+    {
+     "text": "Dragon Valley",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 96",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "96",
+     "to": null
+    },
+    {
+     "text": "Antharas's Lair",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 97",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "97",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "teleporter/7077-18.htm": {
+   "file": "teleporter/7077-18.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Oren",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 98",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "98",
+     "to": null
+    },
+    {
+     "text": "Hardin's Academy",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 99",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "99",
+     "to": null
+    },
+    {
+     "text": "Sel Mahum West",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 100",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "100",
+     "to": null
+    },
+    {
+     "text": "Sel Mahum South",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 101",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "101",
+     "to": null
+    },
+    {
+     "text": "Sel Mahum Center",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 102",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "102",
+     "to": null
+    },
+    {
+     "text": "Plains of Lizardmen",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 103",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "103",
+     "to": null
+    },
+    {
+     "text": "Outlaw Forest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 104",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "104",
+     "to": null
+    },
+    {
+     "text": "Sea of Spores",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 105",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "105",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "teleporter/7077-19.htm": {
+   "file": "teleporter/7077-19.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Schuttgart",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 106",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "106",
+     "to": null
+    },
+    {
+     "text": "Den of Evil",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 107",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "107",
+     "to": null
+    },
+    {
+     "text": "Plunderous Plains",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 108",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "108",
+     "to": null
+    },
+    {
+     "text": "Frozen Labyrinth",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 109",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "109",
+     "to": null
+    },
+    {
+     "text": "Crypts of Disgrace",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 110",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "110",
+     "to": null
+    },
+    {
+     "text": "Pavel Ruins",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 111",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "111",
+     "to": null
+    },
+    {
+     "text": "Mithril Mines",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 112",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "112",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "teleporter/7077-2.htm": {
+   "file": "teleporter/7077-2.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Giran",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Giran",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Giran",
+     "to": "ai/npc/WorldGatekeeper/7077-12.htm"
+    },
+    {
+     "text": "Goddard",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Goddard",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Goddard",
+     "to": "ai/npc/WorldGatekeeper/7077-13.htm"
+    },
+    {
+     "text": "Aden",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Aden",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Aden",
+     "to": "ai/npc/WorldGatekeeper/7077-14.htm"
+    },
+    {
+     "text": "Dion",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Dion",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Dion",
+     "to": "ai/npc/WorldGatekeeper/7077-15.htm"
+    },
+    {
+     "text": "Gludio",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Gludio",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Gludio",
+     "to": "ai/npc/WorldGatekeeper/7077-16.htm"
+    },
+    {
+     "text": "Hunters",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Hunters",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Hunters",
+     "to": "ai/npc/WorldGatekeeper/7077-17.htm"
+    },
+    {
+     "text": "Oren",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Oren",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Oren",
+     "to": "ai/npc/WorldGatekeeper/7077-18.htm"
+    },
+    {
+     "text": "Schuttgart",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Schuttgart",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Schuttgart",
+     "to": "ai/npc/WorldGatekeeper/7077-19.htm"
+    },
+    {
+     "text": "Go Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    }
+   ]
+  },
+  "teleporter/7077-20.htm": {
+   "file": "teleporter/7077-20.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Gludin Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 113",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "113",
+     "to": null
+    },
+    {
+     "text": "Gludin Harbor",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 114",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "114",
+     "to": null
+    },
+    {
+     "text": "Langk Lizardmen",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 115",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "115",
+     "to": null
+    },
+    {
+     "text": "Windmill Hill",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 116",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "116",
+     "to": null
+    },
+    {
+     "text": "Fellmere Harvesting",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 117",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "117",
+     "to": null
+    },
+    {
+     "text": "Forgotten Temple",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 118",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "118",
+     "to": null
+    },
+    {
+     "text": "Windy Hill",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 119",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "119",
+     "to": null
+    },
+    {
+     "text": "Abandoned Camp",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 120",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "120",
+     "to": null
+    },
+    {
+     "text": "Wasteland",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 121",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "121",
+     "to": null
+    },
+    {
+     "text": "Red Rock Ridge",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 122",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "122",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Townships",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Townships",
+     "to": "ai/npc/WorldGatekeeper/7077-3.htm"
+    }
+   ]
+  },
+  "teleporter/7077-21.htm": {
+   "file": "teleporter/7077-21.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Rune Township",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 123",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "123",
+     "to": null
+    },
+    {
+     "text": "Rune Harbor",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 124",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "124",
+     "to": null
+    },
+    {
+     "text": "Valley of Saints",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 125",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "125",
+     "to": null
+    },
+    {
+     "text": "Forest of the Dead",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 126",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "126",
+     "to": null
+    },
+    {
+     "text": "Swamp of Screams",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 127",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "127",
+     "to": null
+    },
+    {
+     "text": "Monastery of Silence",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 128",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "128",
+     "to": null
+    },
+    {
+     "text": "Stakato Nest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 129",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "129",
+     "to": null
+    },
+    {
+     "text": "Primeval Isle",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 130",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "130",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Townships",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Townships",
+     "to": "ai/npc/WorldGatekeeper/7077-3.htm"
+    }
+   ]
+  },
+  "teleporter/7077-22.htm": {
+   "file": "teleporter/7077-22.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Heine",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 131",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "131",
+     "to": null
+    },
+    {
+     "text": "Field of Silence",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 132",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "132",
+     "to": null
+    },
+    {
+     "text": "Field of Whispers",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 133",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "133",
+     "to": null
+    },
+    {
+     "text": "Alligator Island",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 134",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "134",
+     "to": null
+    },
+    {
+     "text": "Garden of Eva",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 135",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "135",
+     "to": null
+    },
+    {
+     "text": "Isle of Prayer",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 136",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "136",
+     "to": null
+    },
+    {
+     "text": "Parmassus",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 137",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "137",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Townships",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Townships",
+     "to": "ai/npc/WorldGatekeeper/7077-3.htm"
+    }
+   ]
+  },
+  "teleporter/7077-23.htm": {
+   "file": "teleporter/7077-23.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Keucereus Alliance Base",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper KeucereusAllianceBase",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "KeucereusAllianceBase",
+     "to": "ai/npc/WorldGatekeeper/no-quest.htm"
+    },
+    {
+     "text": "Hellbound Entrance",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper HellboundEntrance",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "HellboundEntrance",
+     "to": "ai/npc/WorldGatekeeper/no-quest.htm"
+    },
+    {
+     "text": "Tower Of Infinitum",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper TowerOfInfinitum",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "TowerOfInfinitum",
+     "to": "ai/npc/WorldGatekeeper/no-quest.htm"
+    },
+    {
+     "text": "Tully Workshop",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper TullyWorkshop",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "TullyWorkshop",
+     "to": "ai/npc/WorldGatekeeper/no-quest.htm"
+    },
+    {
+     "text": "Go Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    }
+   ]
+  },
+  "teleporter/7077-3.htm": {
+   "file": "teleporter/7077-3.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Gludin",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Gludin",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Gludin",
+     "to": "ai/npc/WorldGatekeeper/7077-20.htm"
+    },
+    {
+     "text": "Rune",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Rune",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Rune",
+     "to": "ai/npc/WorldGatekeeper/7077-21.htm"
+    },
+    {
+     "text": "Heine",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Heine",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Heine",
+     "to": "ai/npc/WorldGatekeeper/7077-22.htm"
+    },
+    {
+     "text": "Go Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    }
+   ]
+  },
+  "teleporter/7077-4.htm": {
+   "file": "teleporter/7077-4.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Heretic",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 1",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "1",
+     "to": null
+    },
+    {
+     "text": "Branded",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 2",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "2",
+     "to": null
+    },
+    {
+     "text": "Apostate",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 3",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "3",
+     "to": null
+    },
+    {
+     "text": "Witch",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 4",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "4",
+     "to": null
+    },
+    {
+     "text": "Dark Omens",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 5",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "5",
+     "to": null
+    },
+    {
+     "text": "Forbidden Path",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 6",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "6",
+     "to": null
+    },
+    {
+     "text": "Go Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    }
+   ]
+  },
+  "teleporter/7077-5.htm": {
+   "file": "teleporter/7077-5.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Sacrifice",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 7",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "7",
+     "to": null
+    },
+    {
+     "text": "Pilgrim's",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 8",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "8",
+     "to": null
+    },
+    {
+     "text": "Worship",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 9",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "9",
+     "to": null
+    },
+    {
+     "text": "Patriot's",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 10",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "10",
+     "to": null
+    },
+    {
+     "text": "Devotion",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 11",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "11",
+     "to": null
+    },
+    {
+     "text": "Martyrdom",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 12",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "12",
+     "to": null
+    },
+    {
+     "text": "Saint's",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 13",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "13",
+     "to": null
+    },
+    {
+     "text": "Disciple's",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 14",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "14",
+     "to": null
+    },
+    {
+     "text": "Go Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    }
+   ]
+  },
+  "teleporter/7077-6.htm": {
+   "file": "teleporter/7077-6.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Dark Elven Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 15",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "15",
+     "to": null
+    },
+    {
+     "text": "Altar of Rites",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 16",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "16",
+     "to": null
+    },
+    {
+     "text": "Dark Forest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 17",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "17",
+     "to": null
+    },
+    {
+     "text": "Swampland",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 18",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "18",
+     "to": null
+    },
+    {
+     "text": "Spider Nest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 19",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "19",
+     "to": null
+    },
+    {
+     "text": "Neutral Zone",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 20",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "20",
+     "to": null
+    },
+    {
+     "text": "The Shilen Temple",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 21",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "21",
+     "to": null
+    },
+    {
+     "text": "School of Dark Arts",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 22",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "22",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    }
+   ]
+  },
+  "teleporter/7077-7.htm": {
+   "file": "teleporter/7077-7.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Elven Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 23",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "23",
+     "to": null
+    },
+    {
+     "text": "Elven Forest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 24",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "24",
+     "to": null
+    },
+    {
+     "text": "Elven Fortress",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 25",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "25",
+     "to": null
+    },
+    {
+     "text": "Neutral Zone",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 26",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "26",
+     "to": null
+    },
+    {
+     "text": "Iris Lake",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 27",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "27",
+     "to": null
+    },
+    {
+     "text": "South Elven Forest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 28",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "28",
+     "to": null
+    },
+    {
+     "text": "Swampland",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 29",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "29",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    }
+   ]
+  },
+  "teleporter/7077-8.htm": {
+   "file": "teleporter/7077-8.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Talking Island Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 30",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "30",
+     "to": null
+    },
+    {
+     "text": "Talking Island Harbor",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 31",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "31",
+     "to": null
+    },
+    {
+     "text": "Elven Ruins",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 32",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "32",
+     "to": null
+    },
+    {
+     "text": "Singing Waterfall",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 33",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "33",
+     "to": null
+    },
+    {
+     "text": "Northem Territory",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 34",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "34",
+     "to": null
+    },
+    {
+     "text": "Obelisk of Victory",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 35",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "35",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    }
+   ]
+  },
+  "teleporter/7077-9.htm": {
+   "file": "teleporter/7077-9.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Orc Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 36",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "36",
+     "to": null
+    },
+    {
+     "text": "Immortal Plateau",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 37",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "37",
+     "to": null
+    },
+    {
+     "text": "Immortal Plateau South",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 38",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "38",
+     "to": null
+    },
+    {
+     "text": "Immortal Plateau North",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 39",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "39",
+     "to": null
+    },
+    {
+     "text": "Cave of Trials",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 40",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "40",
+     "to": null
+    },
+    {
+     "text": "Frozen Waterfall",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 41",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "41",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    }
+   ]
+  },
+  "teleporter/7077-b.htm": {
+   "file": "teleporter/7077-b.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Gludio",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 138",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "138",
+     "to": null
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-1.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-1.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Dark Elven",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper DarkElven",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "DarkElven",
+     "to": "ai/npc/WorldGatekeeper/7077-6.htm"
+    },
+    {
+     "text": "Elven",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Elven",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Elven",
+     "to": "ai/npc/WorldGatekeeper/7077-7.htm"
+    },
+    {
+     "text": "Human",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Human",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Human",
+     "to": "ai/npc/WorldGatekeeper/7077-8.htm"
+    },
+    {
+     "text": "Orc",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Orc",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Orc",
+     "to": "ai/npc/WorldGatekeeper/7077-9.htm"
+    },
+    {
+     "text": "Dwarf",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Dwarf",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Dwarf",
+     "to": "ai/npc/WorldGatekeeper/7077-10.htm"
+    },
+    {
+     "text": "Kamael",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kamael",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kamael",
+     "to": "ai/npc/WorldGatekeeper/7077-11.htm"
+    },
+    {
+     "text": "Go Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-10.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-10.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Dwarf Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 42",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "42",
+     "to": null
+    },
+    {
+     "text": "Abandoned Coal Mines",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 43",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "43",
+     "to": null
+    },
+    {
+     "text": "Eastem Mining Zone",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 44",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "44",
+     "to": null
+    },
+    {
+     "text": "Westem Mining Zone",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 45",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "45",
+     "to": null
+    },
+    {
+     "text": "Mithril Mines",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 46",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "46",
+     "to": null
+    },
+    {
+     "text": "North Mithril Mines",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 47",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "47",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-11.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-11.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Kamael Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 48",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "48",
+     "to": null
+    },
+    {
+     "text": "Soul Harbor",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 49",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "49",
+     "to": null
+    },
+    {
+     "text": "Stronghold I",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 50",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "50",
+     "to": null
+    },
+    {
+     "text": "Stronghold II",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 51",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "51",
+     "to": null
+    },
+    {
+     "text": "Stronghold III",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 52",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "52",
+     "to": null
+    },
+    {
+     "text": "Nornil's Cave",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 53",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "53",
+     "to": null
+    },
+    {
+     "text": "Hills of Gold",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 54",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "54",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-12.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-12.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Giran",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 55",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "55",
+     "to": null
+    },
+    {
+     "text": "Giran Harbor",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 56",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "56",
+     "to": null
+    },
+    {
+     "text": "Hardin's Academy",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 57",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "57",
+     "to": null
+    },
+    {
+     "text": "Devil's Isle",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 58",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "58",
+     "to": null
+    },
+    {
+     "text": "Breka's Stronghold",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 59",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "59",
+     "to": null
+    },
+    {
+     "text": "Gorgon Flower Garden",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 60",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "60",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-13.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-13.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Goddard",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 61",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "61",
+     "to": null
+    },
+    {
+     "text": "Varka Silenos Outpost",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 62",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "62",
+     "to": null
+    },
+    {
+     "text": "Ketra Orc Outpost",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 63",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "63",
+     "to": null
+    },
+    {
+     "text": "Hot Springs",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 64",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "64",
+     "to": null
+    },
+    {
+     "text": "Wall of Argos",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 65",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "65",
+     "to": null
+    },
+    {
+     "text": "Monastery of Silence",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 66",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "66",
+     "to": null
+    },
+    {
+     "text": "Forge of the Gods",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 67",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "67",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-14.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-14.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Aden",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 68",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "68",
+     "to": null
+    },
+    {
+     "text": "Forsaken Plains",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 69",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "69",
+     "to": null
+    },
+    {
+     "text": "The Forbidden Gateway",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 70",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "70",
+     "to": null
+    },
+    {
+     "text": "Blazing Swamp",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 71",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "71",
+     "to": null
+    },
+    {
+     "text": "Fields of Massacre",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 72",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "72",
+     "to": null
+    },
+    {
+     "text": "Silent Valley",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 73",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "73",
+     "to": null
+    },
+    {
+     "text": "Tower of Insolence",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 74",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "74",
+     "to": null
+    },
+    {
+     "text": "The Giant's Cave",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 75",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "75",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-15.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-15.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Dion",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 76",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "76",
+     "to": null
+    },
+    {
+     "text": "Cruma Marshlands",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 77",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "77",
+     "to": null
+    },
+    {
+     "text": "Cruma Tower",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 78",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "78",
+     "to": null
+    },
+    {
+     "text": "Fortress of Resistance",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 79",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "79",
+     "to": null
+    },
+    {
+     "text": "Plains of Dion",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 80",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "80",
+     "to": null
+    },
+    {
+     "text": "BeeHive",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 81",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "81",
+     "to": null
+    },
+    {
+     "text": "Tanor Canyon",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 82",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "82",
+     "to": null
+    },
+    {
+     "text": "Execution Grounds",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 83",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "83",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-16.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-16.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Gludio",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 84",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "84",
+     "to": null
+    },
+    {
+     "text": "West Region",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 85",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "85",
+     "to": null
+    },
+    {
+     "text": "Ruins of Agony",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 86",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "86",
+     "to": null
+    },
+    {
+     "text": "Ruins of Despair",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 87",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "87",
+     "to": null
+    },
+    {
+     "text": "The Ant Nest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 88",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "88",
+     "to": null
+    },
+    {
+     "text": "Windawood Manor",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 89",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "89",
+     "to": null
+    },
+    {
+     "text": "Evil Hunting Grounds",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 90",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "90",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-17.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-17.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Hunters Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 91",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "91",
+     "to": null
+    },
+    {
+     "text": "Hardin's Academy",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 92",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "92",
+     "to": null
+    },
+    {
+     "text": "Enchanted Valley South",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 93",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "93",
+     "to": null
+    },
+    {
+     "text": "Enchanted Valley North",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 94",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "94",
+     "to": null
+    },
+    {
+     "text": "The Forest of Mirrors",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 95",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "95",
+     "to": null
+    },
+    {
+     "text": "Dragon Valley",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 96",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "96",
+     "to": null
+    },
+    {
+     "text": "Antharas's Lair",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 97",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "97",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-18.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-18.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Oren",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 98",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "98",
+     "to": null
+    },
+    {
+     "text": "Hardin's Academy",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 99",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "99",
+     "to": null
+    },
+    {
+     "text": "Sel Mahum West",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 100",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "100",
+     "to": null
+    },
+    {
+     "text": "Sel Mahum South",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 101",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "101",
+     "to": null
+    },
+    {
+     "text": "Sel Mahum Center",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 102",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "102",
+     "to": null
+    },
+    {
+     "text": "Plains of Lizardmen",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 103",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "103",
+     "to": null
+    },
+    {
+     "text": "Outlaw Forest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 104",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "104",
+     "to": null
+    },
+    {
+     "text": "Sea of Spores",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 105",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "105",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-19.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-19.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Town of Schuttgart",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 106",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "106",
+     "to": null
+    },
+    {
+     "text": "Den of Evil",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 107",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "107",
+     "to": null
+    },
+    {
+     "text": "Plunderous Plains",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 108",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "108",
+     "to": null
+    },
+    {
+     "text": "Frozen Labyrinth",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 109",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "109",
+     "to": null
+    },
+    {
+     "text": "Crypts of Disgrace",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 110",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "110",
+     "to": null
+    },
+    {
+     "text": "Pavel Ruins",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 111",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "111",
+     "to": null
+    },
+    {
+     "text": "Mithril Mines",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 112",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "112",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Kingdowns",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Kingdowns",
+     "to": "ai/npc/WorldGatekeeper/7077-2.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-2.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-2.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Giran",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Giran",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Giran",
+     "to": "ai/npc/WorldGatekeeper/7077-12.htm"
+    },
+    {
+     "text": "Goddard",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Goddard",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Goddard",
+     "to": "ai/npc/WorldGatekeeper/7077-13.htm"
+    },
+    {
+     "text": "Aden",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Aden",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Aden",
+     "to": "ai/npc/WorldGatekeeper/7077-14.htm"
+    },
+    {
+     "text": "Dion",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Dion",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Dion",
+     "to": "ai/npc/WorldGatekeeper/7077-15.htm"
+    },
+    {
+     "text": "Gludio",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Gludio",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Gludio",
+     "to": "ai/npc/WorldGatekeeper/7077-16.htm"
+    },
+    {
+     "text": "Hunters",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Hunters",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Hunters",
+     "to": "ai/npc/WorldGatekeeper/7077-17.htm"
+    },
+    {
+     "text": "Oren",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Oren",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Oren",
+     "to": "ai/npc/WorldGatekeeper/7077-18.htm"
+    },
+    {
+     "text": "Schuttgart",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Schuttgart",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Schuttgart",
+     "to": "ai/npc/WorldGatekeeper/7077-19.htm"
+    },
+    {
+     "text": "Go Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-20.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-20.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Gludin Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 113",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "113",
+     "to": null
+    },
+    {
+     "text": "Gludin Harbor",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 114",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "114",
+     "to": null
+    },
+    {
+     "text": "Langk Lizardmen",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 115",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "115",
+     "to": null
+    },
+    {
+     "text": "Windmill Hill",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 116",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "116",
+     "to": null
+    },
+    {
+     "text": "Fellmere Harvesting",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 117",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "117",
+     "to": null
+    },
+    {
+     "text": "Forgotten Temple",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 118",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "118",
+     "to": null
+    },
+    {
+     "text": "Windy Hill",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 119",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "119",
+     "to": null
+    },
+    {
+     "text": "Abandoned Camp",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 120",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "120",
+     "to": null
+    },
+    {
+     "text": "Wasteland",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 121",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "121",
+     "to": null
+    },
+    {
+     "text": "Red Rock Ridge",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 122",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "122",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Townships",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Townships",
+     "to": "ai/npc/WorldGatekeeper/7077-3.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-21.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-21.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Rune Township",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 123",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "123",
+     "to": null
+    },
+    {
+     "text": "Rune Harbor",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 124",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "124",
+     "to": null
+    },
+    {
+     "text": "Valley of Saints",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 125",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "125",
+     "to": null
+    },
+    {
+     "text": "Forest of the Dead",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 126",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "126",
+     "to": null
+    },
+    {
+     "text": "Swamp of Screams",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 127",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "127",
+     "to": null
+    },
+    {
+     "text": "Monastery of Silence",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 128",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "128",
+     "to": null
+    },
+    {
+     "text": "Stakato Nest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 129",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "129",
+     "to": null
+    },
+    {
+     "text": "Primeval Isle",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 130",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "130",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Townships",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Townships",
+     "to": "ai/npc/WorldGatekeeper/7077-3.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-22.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-22.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Heine",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 131",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "131",
+     "to": null
+    },
+    {
+     "text": "Field of Silence",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 132",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "132",
+     "to": null
+    },
+    {
+     "text": "Field of Whispers",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 133",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "133",
+     "to": null
+    },
+    {
+     "text": "Alligator Island",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 134",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "134",
+     "to": null
+    },
+    {
+     "text": "Garden of Eva",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 135",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "135",
+     "to": null
+    },
+    {
+     "text": "Isle of Prayer",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 136",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "136",
+     "to": null
+    },
+    {
+     "text": "Parmassus",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 137",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "137",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Townships",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Townships",
+     "to": "ai/npc/WorldGatekeeper/7077-3.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-23.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-23.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Keucereus Alliance Base",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper KeucereusAllianceBase",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "KeucereusAllianceBase",
+     "to": "ai/npc/WorldGatekeeper/no-quest.htm"
+    },
+    {
+     "text": "Hellbound Entrance",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper HellboundEntrance",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "HellboundEntrance",
+     "to": "ai/npc/WorldGatekeeper/no-quest.htm"
+    },
+    {
+     "text": "Tower Of Infinitum",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper TowerOfInfinitum",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "TowerOfInfinitum",
+     "to": "ai/npc/WorldGatekeeper/no-quest.htm"
+    },
+    {
+     "text": "Tully Workshop",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper TullyWorkshop",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "TullyWorkshop",
+     "to": "ai/npc/WorldGatekeeper/no-quest.htm"
+    },
+    {
+     "text": "Go Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-3.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-3.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Gludin",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Gludin",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Gludin",
+     "to": "ai/npc/WorldGatekeeper/7077-20.htm"
+    },
+    {
+     "text": "Rune",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Rune",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Rune",
+     "to": "ai/npc/WorldGatekeeper/7077-21.htm"
+    },
+    {
+     "text": "Heine",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Heine",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Heine",
+     "to": "ai/npc/WorldGatekeeper/7077-22.htm"
+    },
+    {
+     "text": "Go Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-4.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-4.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Heretic",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 1",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "1",
+     "to": null
+    },
+    {
+     "text": "Branded",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 2",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "2",
+     "to": null
+    },
+    {
+     "text": "Apostate",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 3",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "3",
+     "to": null
+    },
+    {
+     "text": "Witch",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 4",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "4",
+     "to": null
+    },
+    {
+     "text": "Dark Omens",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 5",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "5",
+     "to": null
+    },
+    {
+     "text": "Forbidden Path",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 6",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "6",
+     "to": null
+    },
+    {
+     "text": "Go Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-5.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-5.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Sacrifice",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 7",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "7",
+     "to": null
+    },
+    {
+     "text": "Pilgrim's",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 8",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "8",
+     "to": null
+    },
+    {
+     "text": "Worship",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 9",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "9",
+     "to": null
+    },
+    {
+     "text": "Patriot's",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 10",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "10",
+     "to": null
+    },
+    {
+     "text": "Devotion",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 11",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "11",
+     "to": null
+    },
+    {
+     "text": "Martyrdom",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 12",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "12",
+     "to": null
+    },
+    {
+     "text": "Saint's",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 13",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "13",
+     "to": null
+    },
+    {
+     "text": "Disciple's",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 14",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "14",
+     "to": null
+    },
+    {
+     "text": "Go Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-6.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-6.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Dark Elven Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 15",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "15",
+     "to": null
+    },
+    {
+     "text": "Altar of Rites",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 16",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "16",
+     "to": null
+    },
+    {
+     "text": "Dark Forest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 17",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "17",
+     "to": null
+    },
+    {
+     "text": "Swampland",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 18",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "18",
+     "to": null
+    },
+    {
+     "text": "Spider Nest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 19",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "19",
+     "to": null
+    },
+    {
+     "text": "Neutral Zone",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 20",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "20",
+     "to": null
+    },
+    {
+     "text": "The Shilen Temple",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 21",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "21",
+     "to": null
+    },
+    {
+     "text": "School of Dark Arts",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 22",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "22",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-7.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-7.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Elven Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 23",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "23",
+     "to": null
+    },
+    {
+     "text": "Elven Forest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 24",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "24",
+     "to": null
+    },
+    {
+     "text": "Elven Fortress",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 25",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "25",
+     "to": null
+    },
+    {
+     "text": "Neutral Zone",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 26",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "26",
+     "to": null
+    },
+    {
+     "text": "Iris Lake",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 27",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "27",
+     "to": null
+    },
+    {
+     "text": "South Elven Forest",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 28",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "28",
+     "to": null
+    },
+    {
+     "text": "Swampland",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 29",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "29",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-8.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-8.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Talking Island Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 30",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "30",
+     "to": null
+    },
+    {
+     "text": "Talking Island Harbor",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 31",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "31",
+     "to": null
+    },
+    {
+     "text": "Elven Ruins",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 32",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "32",
+     "to": null
+    },
+    {
+     "text": "Singing Waterfall",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 33",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "33",
+     "to": null
+    },
+    {
+     "text": "Northem Territory",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 34",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "34",
+     "to": null
+    },
+    {
+     "text": "Obelisk of Victory",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 35",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "35",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/7077-9.htm": {
+   "file": "ai/npc/WorldGatekeeper/7077-9.htm",
+   "quest": null,
+   "text": "Gatekeeper",
+   "links": [
+    {
+     "text": "Orc Village",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 36",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "36",
+     "to": null
+    },
+    {
+     "text": "Immortal Plateau",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 37",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "37",
+     "to": null
+    },
+    {
+     "text": "Immortal Plateau South",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 38",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "38",
+     "to": null
+    },
+    {
+     "text": "Immortal Plateau North",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 39",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "39",
+     "to": null
+    },
+    {
+     "text": "Cave of Trials",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 40",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "40",
+     "to": null
+    },
+    {
+     "text": "Frozen Waterfall",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper 41",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "41",
+     "to": null
+    },
+    {
+     "text": "Main",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper Window",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "Window",
+     "to": "ai/npc/WorldGatekeeper/7077.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Quest WorldGatekeeper StartZones",
+     "kind": "quest-event",
+     "script": "WorldGatekeeper",
+     "event": "StartZones",
+     "to": "ai/npc/WorldGatekeeper/7077-1.htm"
+    }
+   ]
+  },
+  "ai/npc/WorldGatekeeper/no-quest.htm": {
+   "file": "ai/npc/WorldGatekeeper/no-quest.htm",
+   "quest": null,
+   "text": "Gatekeeper You don't meet this minimum requirements: Keucereus Alliance Base Quest: To The Seed Of Infinity Quest: To The Seed Of Destruction Hellbound Entrance Quest: Path To Hellbound Tower Of Infinitum Quest: Path To Hellbound Item: Caravan Premium Certificate Condition: Party or Command Channel…",
+   "when": [
+    "NOT level < 40; ZONE.isInsideZone(npc); !((quest1 != null) && (quest1.getState() == State.COMPLETED) && (quest2 != null) && (quest2.getState() == State.COMPLETE"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

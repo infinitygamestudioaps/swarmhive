@@ -1,0 +1,556 @@
+{
+ "npcId": 32550,
+ "name": "Kirklan",
+ "title": "Special Product Broker",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.383Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32550.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "692": {
+   "name": "How to Oppose Evil",
+   "listText": [
+    "[How to Oppose Evil]",
+    "[How to Oppose Evil (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00692_HowtoOpposeEvil/32550-01.htm",
+     "when": "cond 2",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00692_HowtoOpposeEvil/32550-05.htm",
+     "when": "cond 3",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00692_HowtoOpposeEvil/32550-04.htm",
+     "when": "cond 3",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "cond"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32550.htm": {
+   "file": "default/32550.htm",
+   "quest": null,
+   "text": "Kutran: Yes, the scenery here is always fantastic. I collect special items that are only found within the different seeds. If you have a special item, bring it to me and I'll exchange it for something suitable.",
+   "header": "Kutran",
+   "links": [
+    {
+     "text": "Special Product Exchange",
+     "bypass": "npc_%objectId%_multisell 325500001",
+     "kind": "multisell"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-01.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-01.htm",
+   "quest": 692,
+   "text": "Kutran: Would you like to know about the Special Seed Products ? They are a type of crystal that contains each Seed's power and characteristics: the source of the evil power that has reduced Gracia to this pitiful state. Despite the danger, however, there is no doubt that this same energy could gre…",
+   "header": "Kutran",
+   "when": [
+    "cond 2"
+   ],
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-02.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-02.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-02.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-05.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-05.htm",
+   "quest": 692,
+   "text": "Kirklan: Well...what brings you here?",
+   "header": "Kirklan",
+   "when": [
+    "cond 3"
+   ],
+   "links": [
+    {
+     "text": "Exchange Special Seed Product of Seed of Infinity or Collection reward.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-06.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-06.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-06.htm"
+    },
+    {
+     "text": "Exchange Special Seed Product of Seed of Destruction or Collection reward.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-11.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-11.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-11.htm"
+    },
+    {
+     "text": "Exchange Special Seed Product of Seed of Extermination or Collection reward.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-16.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-16.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-16.htm"
+    },
+    {
+     "text": "Say you will continue your mission.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-21.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-21.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-21.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-04.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-04.htm",
+   "quest": 692,
+   "text": "Kutran: These exchanges can benefit both of us. Let me recap: 5 Nuclei of an Incomplete Soul from the Seed of Immortality can be exchanged for 1 Nucleus of a Freed Soul , 5 Mounted Troop Totems from the Seed of Destruction can be exchanged for 1 Mounted Troop Charm , 5 Spirit Stone Dust from the Se…",
+   "header": "Kutran",
+   "when": [
+    "cond 3"
+   ],
+   "sets": {
+    "cond": "3"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00692_HowtoOpposeEvil/32550-02.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-02.htm",
+   "quest": 692,
+   "text": "Kutran: These Special Seed Products may give us the edge we need to defeat our enemies. If you acquire the materials we need from the monsters of each Seed, I can process them. Then I'll exchange them for Special Seed Products. You passed Dilis' test, so I suppose I can tell you exchange list: 5 Nu…",
+   "header": "Kutran",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-03.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-03.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-03.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-03.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-03.htm",
+   "quest": 692,
+   "text": "Kutran: You also need to know about the Seed Collection . There are specific periods available for collection depending upon each Seed's cycle. Since what you collect can usually be used as ingredients in my work, I'll give you Adena when you gather and bring any of the following: Fragment of Soul …",
+   "header": "Kutran",
+   "links": [
+    {
+     "text": "Listen to his explanation again.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-01.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-01.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-01.htm"
+    },
+    {
+     "text": "Say you understand.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-04.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-04.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-04.htm",
+     "effect": "cond:3"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-06.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-06.htm",
+   "quest": 692,
+   "text": "Kirklan: What do you want to exchange, Seed of Extermination's Special Seed Product or Seed Collection?",
+   "header": "Kirklan",
+   "links": [
+    {
+     "text": "Exchange 5 Nuclei of an Incomplete Soul with Nucleus of a Freed Soul.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-07.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-07.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-07.htm",
+     "toAll": [
+      "Q00692_HowtoOpposeEvil/32550-07.htm",
+      "Q00692_HowtoOpposeEvil/32550-08.htm"
+     ]
+    },
+    {
+     "text": "Receive reward for Fragment of Soul.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-09.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-09.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-09.htm",
+     "toAll": [
+      "Q00692_HowtoOpposeEvil/32550-09.htm",
+      "Q00692_HowtoOpposeEvil/32550-10.htm"
+     ]
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-05.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-05.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-05.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-07.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-07.htm",
+   "quest": 692,
+   "text": "Kirklan: You did great! Here's the reward for Nuclei of an Incomplete Soul! Is there anything else?",
+   "header": "Kirklan",
+   "links": [
+    {
+     "text": "Keep calculating.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-05.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-05.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-05.htm"
+    },
+    {
+     "text": "Continue mission.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-21.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-21.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-21.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-08.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-08.htm",
+   "quest": 692,
+   "text": "Kirklan: My impressive counting abilities reveal that you don't have enough. We can't make an exchange like this. In order to exchange Nucleus of a Freed Soul , you need 5 Nuclei of an Incomplete Soul .",
+   "header": "Kirklan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00692_HowtoOpposeEvil/32550-09.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-09.htm",
+   "quest": 692,
+   "text": "Kirklan: You did great! Here's the reward for Fragment of Soul! Is there anything else?",
+   "header": "Kirklan",
+   "links": [
+    {
+     "text": "Keep calculating.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-05.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-05.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-05.htm"
+    },
+    {
+     "text": "Continue mission.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-21.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-21.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-21.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-10.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-10.htm",
+   "quest": 692,
+   "text": "Kirklan: Hmm, let's take a look... There's no Fragment of Soul ? We can't make an exchange like this. We have standards.",
+   "header": "Kirklan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00692_HowtoOpposeEvil/32550-11.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-11.htm",
+   "quest": 692,
+   "text": "Kirklan: What do you want to exchange, Seed of Extermination's Special Seed Product or Seed Collection?",
+   "header": "Kirklan",
+   "links": [
+    {
+     "text": "Exchange 5 Mounted Troop Totems with Mounted Troop Charm.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-12.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-12.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-12.htm",
+     "toAll": [
+      "Q00692_HowtoOpposeEvil/32550-12.htm",
+      "Q00692_HowtoOpposeEvil/32550-13.htm"
+     ]
+    },
+    {
+     "text": "Receive reward for Breath of Tiat.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-14.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-14.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-14.htm",
+     "toAll": [
+      "Q00692_HowtoOpposeEvil/32550-14.htm",
+      "Q00692_HowtoOpposeEvil/32550-15.htm"
+     ]
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-05.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-05.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-05.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-12.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-12.htm",
+   "quest": 692,
+   "text": "Kirklan: You did great! Here's the reward for Mounted Troop Totems! Is there anything else?",
+   "header": "Kirklan",
+   "links": [
+    {
+     "text": "Keep calculating.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-05.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-05.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-05.htm"
+    },
+    {
+     "text": "Continue mission.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-21.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-21.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-21.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-13.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-13.htm",
+   "quest": 692,
+   "text": "Kirklan: My impressive counting abilities reveal that you don't have enough. We can't make an exchange like this. In order to exchange Mounted Troop Charm , you need 5 Mounted Troop Totems .",
+   "header": "Kirklan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00692_HowtoOpposeEvil/32550-14.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-14.htm",
+   "quest": 692,
+   "text": "Kirklan: You did great! Here's the reward for Breath of Tiat! Is there anything else?",
+   "header": "Kirklan",
+   "links": [
+    {
+     "text": "Keep calculating.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-05.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-05.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-05.htm"
+    },
+    {
+     "text": "Continue mission.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-21.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-21.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-21.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-15.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-15.htm",
+   "quest": 692,
+   "text": "Kirklan: Hmm, let's take a look... There's no Breath of Tiat ? We can't make an exchange like this. We have standards.",
+   "header": "Kirklan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00692_HowtoOpposeEvil/32550-16.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-16.htm",
+   "quest": 692,
+   "text": "Kirklan: What do you want to exchange, Seed of Extermination's Special Seed Product or Seed Collection?",
+   "header": "Kirklan",
+   "links": [
+    {
+     "text": "Exchange 5 powders of Fragment of Soul Stone with Fragment of Soul Stone.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-17.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-17.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-17.htm",
+     "toAll": [
+      "Q00692_HowtoOpposeEvil/32550-17.htm",
+      "Q00692_HowtoOpposeEvil/32550-18.htm"
+     ]
+    },
+    {
+     "text": "Receive reward for Condensed Energy of Life.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-19.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-19.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-19.htm",
+     "toAll": [
+      "Q00692_HowtoOpposeEvil/32550-19.htm",
+      "Q00692_HowtoOpposeEvil/32550-20.htm"
+     ]
+    },
+    {
+     "text": "Back",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-05.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-05.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-05.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-17.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-17.htm",
+   "quest": 692,
+   "text": "Kirklan: You did great! Here's the reward for Powders of Fragment of Soul Stone! Is there anything else?",
+   "header": "Kirklan",
+   "links": [
+    {
+     "text": "Keep calculating.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-05.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-05.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-05.htm"
+    },
+    {
+     "text": "Continue mission.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-21.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-21.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-21.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-18.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-18.htm",
+   "quest": 692,
+   "text": "Kirklan: My impressive counting abilities reveal that you don't have enough. We can't make an exchange like this. In order to exchange Fragment of Soul Stone , you need 5 Powders of Fragment of Soul Stone .",
+   "header": "Kirklan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00692_HowtoOpposeEvil/32550-19.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-19.htm",
+   "quest": 692,
+   "text": "Kirklan: You did great! Here's the reward for Condensed Energy of Life! Is there anything else?",
+   "header": "Kirklan",
+   "links": [
+    {
+     "text": "Keep calculating.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-05.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-05.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-05.htm"
+    },
+    {
+     "text": "Continue mission.",
+     "bypass": "Quest Q00692_HowtoOpposeEvil 32550-21.htm",
+     "kind": "quest-event",
+     "script": "Q00692_HowtoOpposeEvil",
+     "event": "32550-21.htm",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-21.htm"
+    }
+   ]
+  },
+  "Q00692_HowtoOpposeEvil/32550-20.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-20.htm",
+   "quest": 692,
+   "text": "Kirklan: Hmm, let's take a look... There's no Condensed Energy of Life ? We can't make an exchange like this. We have standards.",
+   "header": "Kirklan",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00692_HowtoOpposeEvil/32550-21.htm": {
+   "file": "Q00692_HowtoOpposeEvil/32550-21.htm",
+   "quest": 692,
+   "text": "Kirklan: Remember, getting these items is good for both of us. You want to see me happy? Bring me a pocket full of what I told you to get, and I'll show you happy.",
+   "header": "Kirklan",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[How to Oppose Evil (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00692_HowtoOpposeEvil",
+     "kind": "quest",
+     "quest": 692,
+     "to": "Q00692_HowtoOpposeEvil/32550-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

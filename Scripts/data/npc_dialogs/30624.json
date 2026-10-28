@@ -1,0 +1,398 @@
+{
+ "npcId": 30624,
+ "name": "Ascalon",
+ "title": "Veteran",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.021Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30624.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "223": {
+   "name": "Test Of The Champion",
+   "listText": [
+    "[Test of the Champion]",
+    "[Test of the Champion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00223_TestOfTheChampion/30624-03.htm",
+     "when": "state CREATED; level >= 39; ((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.orcRaider)); player.getClassId() == ClassId.warrior",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30624-04.html",
+     "when": "state CREATED; level >= 39; ((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.orcRaider)); !player.getClassId() == ClassId.warrior",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30624-01.html",
+     "when": "state CREATED; NOT level >= 39; ((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.orcRaider))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30624-02.html",
+     "when": "state CREATED; !((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.orcRaider))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30624-07.html",
+     "when": "state STARTED; has items 3277",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30624-08.html",
+     "when": "state STARTED; has items 3279; lacks items 3277",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30624-09.html",
+     "when": "state STARTED; has items 3278; lacks items 3277,3279",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30624-11.html",
+     "when": "state STARTED; has items 3280; lacks items 3277,3279,3278",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30624-12.html",
+     "when": "state STARTED; has items 3281; lacks items 3277,3279,3278,3280",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30624-13.html",
+     "when": "state STARTED; has items 3282; lacks items 3277,3279,3278,3280,3281",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30624-15.html",
+     "when": "state STARTED; has items 3283; lacks items 3277,3279,3278,3280,3281,3282",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30624-16.html",
+     "when": "state STARTED; has items 3284,3285; lacks items 3277,3279,3278,3280,3281,3282,3283",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30624-17.html",
+     "when": "state STARTED; has items 3286; lacks items 3277,3279,3278,3280,3281,3282,3283,3284,3285",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30624.htm": {
+   "file": "default/30624.htm",
+   "quest": null,
+   "text": "Veteran Ascalon: Would you like to hear stories of my splendid past? In my youth I was a soldier of fortune, wandering freely, fighting aliens and making love to women with foreign names. There were some hard times, but my blazing Warrior spirit kept me going. The deep brotherhood among comrades, s…",
+   "header": "Veteran Ascalon",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30624-03.htm": {
+   "file": "Q00223_TestOfTheChampion/30624-03.htm",
+   "quest": 223,
+   "text": "Veteran Ascalon: Would you like to hear stories of my splendid past? In my youth I was a soldier of fortune, wandering freely, fighting aliens and making love to women with foreign names. There were some hard times, but my blazing Warrior spirit kept me going. The deep brotherhood among comrades, s…",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state CREATED; level >= 39; ((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.orcRaider)); player.getClassId() == ClassId.warrior"
+   ],
+   "links": [
+    {
+     "text": "\"I will take the Test of the Champion.\"",
+     "bypass": "Quest Q00223_TestOfTheChampion 30624-05.htm",
+     "kind": "quest-event",
+     "script": "Q00223_TestOfTheChampion",
+     "event": "30624-05.htm",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30624-05.htm"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30624-04.html": {
+   "file": "Q00223_TestOfTheChampion/30624-04.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: Oops! Aren't you an Orc? You look strong, for sure. Are you a Warrior by any chance? Or perhaps a hired soldier? You remind me of my younger days when I used to work as a hired soldier... Would you like to hear stories of my splendid past? In my youth I was a soldier of fortune, wa…",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state CREATED; level >= 39; ((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.orcRaider)); !player.getClassId() == ClassId.warrior"
+   ],
+   "links": [
+    {
+     "text": "\"I will take the Test of the Champion.\"",
+     "bypass": "Quest Q00223_TestOfTheChampion 30624-05.htm",
+     "kind": "quest-event",
+     "script": "Q00223_TestOfTheChampion",
+     "event": "30624-05.htm",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30624-05.htm"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30624-01.html": {
+   "file": "Q00223_TestOfTheChampion/30624-01.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: Would you like to hear stories of my splendid past? In my youth I was a soldier of fortune, wandering freely, fighting aliens and making love to women with foreign names. There were some hard times, but my blazing warrior spirit kept me going. The deep brotherhood among comrades, s…",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state CREATED; NOT level >= 39; ((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.orcRaider))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30624-02.html": {
+   "file": "Q00223_TestOfTheChampion/30624-02.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: Would you like to hear stories of my splendid past? In my youth I was a soldier of fortune, wandering freely, fighting aliens and making love to women with foreign names. There were some hard times, but my blazing warrior spirit kept me going. The deep brotherhood among comrades, s…",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state CREATED; !((player.getClassId() == ClassId.warrior) || (player.getClassId() == ClassId.orcRaider))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30624-07.html": {
+   "file": "Q00223_TestOfTheChampion/30624-07.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: Go and meet my old comrade, Mason . He is the master of spears and a good and faithful friend. I heard that he settled down somewhere in southern Dion , I wonder how he is doing?",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state STARTED; has items 3277"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30624-08.html": {
+   "file": "Q00223_TestOfTheChampion/30624-08.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: So you have met Mason and have agreed to seek revenge for him? But... What do you mean revenge..., Revenge on whom?",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state STARTED; has items 3279; lacks items 3277"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30624-09.html": {
+   "file": "Q00223_TestOfTheChampion/30624-09.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: You have returned! How is Mason? Please tell me everything... ...You say with your mouth that he is living happily, but the expression on your face says something else. You must tell me the truth! ...What! Never could I have imagined that he would be living a lonely, wretched life …",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state STARTED; has items 3278; lacks items 3277,3279"
+   ],
+   "links": [
+    {
+     "text": "\"What is the next battle?\"",
+     "bypass": "Quest Q00223_TestOfTheChampion 30624-10.html",
+     "kind": "quest-event",
+     "script": "Q00223_TestOfTheChampion",
+     "event": "30624-10.html",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30624-10.html",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30624-11.html": {
+   "file": "Q00223_TestOfTheChampion/30624-11.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: You must hurry and meet Magic Trader Groot . He was once a medic of the Iron Rose, but now he is making a living from a magic shop in the Town of Giran . Go and help him make the Antidote to neutralize the medusa's poison. At this very moment, many guards and soldiers are dying fro…",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state STARTED; has items 3280; lacks items 3277,3279,3278"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30624-12.html": {
+   "file": "Q00223_TestOfTheChampion/30624-12.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: Groot, my comrade, brother of fate... You must go and help him make the Antidote to neutralize the medusa's poison. At this very moment many guards and soldiers are dying because of the poison.",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state STARTED; has items 3281; lacks items 3277,3279,3278,3280"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30624-13.html": {
+   "file": "Q00223_TestOfTheChampion/30624-13.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: Well done! The soldiers of Giran will soon recover. Thank God for that. However, now we have a new problem. A big problem which only we can solve...",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state STARTED; has items 3282; lacks items 3277,3279,3278,3280,3281"
+   ],
+   "links": [
+    {
+     "text": "\"What is the next battle?\"",
+     "bypass": "Quest Q00223_TestOfTheChampion 30624-14.html",
+     "kind": "quest-event",
+     "script": "Q00223_TestOfTheChampion",
+     "event": "30624-14.html",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30624-14.html",
+     "effect": "cond:9"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30624-15.html": {
+   "file": "Q00223_TestOfTheChampion/30624-15.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: You must hurry and meet Captain Mouen of the Town of Oren . He will tell you of the road scavengers , a powerful force which is threatening the entire kingdom.",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state STARTED; has items 3283; lacks items 3277,3279,3278,3280,3281,3282"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30624-16.html": {
+   "file": "Q00223_TestOfTheChampion/30624-16.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: I taught Mouen swordmanship when he was but a child, and now he has grown into a fine Captain of the town. Go and help him protect the peace of this kingdom!",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state STARTED; has items 3284,3285; lacks items 3277,3279,3278,3280,3281,3282,3283"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30624-17.html": {
+   "file": "Q00223_TestOfTheChampion/30624-17.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: I have been hearing of your exploits! You are indeed a true Warrior! My successor! I shall give you the Mark of the Champion in recognition of your military skill and bravery! The mark is reserved for the few people who have proven to be the best among the continent's Warriors. I, …",
+   "header": "Veteran Ascalon",
+   "when": [
+    "state STARTED; has items 3286; lacks items 3277,3279,3278,3280,3281,3282,3283,3284,3285"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30624-05.htm": {
+   "file": "Q00223_TestOfTheChampion/30624-05.htm",
+   "quest": 223,
+   "text": "Veteran Ascalon: Things are not so different from the time when I was an active soldier. Perhaps a bit more chaotic and violent. The Blue Shark, the Black Lion, the Storm Blade and the Iron Rose which I belonged to... Many soldiers are battling alien armies in many different locations at the moment…",
+   "header": "Veteran Ascalon",
+   "links": [
+    {
+     "text": "I shall obey your orders!",
+     "bypass": "Quest Q00223_TestOfTheChampion ACCEPT",
+     "kind": "quest-event",
+     "script": "Q00223_TestOfTheChampion",
+     "event": "ACCEPT",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30624-06a.htm",
+     "toAll": [
+      "Q00223_TestOfTheChampion/30624-06a.htm",
+      "Q00223_TestOfTheChampion/30624-06.htm"
+     ],
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30624-06.htm": {
+   "file": "Q00223_TestOfTheChampion/30624-06.htm",
+   "quest": 223,
+   "text": "Veteran Ascalon: Good! First you must go and visit my friend Mason . He is an old comrade of mine. We fought together on the battlefields as part of the Iron Rose. Although he has retired, I am sure he knows more than anyone else about the invaders who are threatening the villagers of Dion. Who kno…",
+   "header": "Veteran Ascalon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30624-06a.htm": {
+   "file": "Q00223_TestOfTheChampion/30624-06a.htm",
+   "quest": 223,
+   "text": "Veteran Ascalon: Before doing anything else, go meet my friend Mason . He is from Iron Rose, just like me, and has fought beside me in many battles. That was long ago, of course, and the most action he probably sees now is chopping wood for his cooking fire. But even if his spear-arm is weaker and …",
+   "header": "Veteran Ascalon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30624-10.html": {
+   "file": "Q00223_TestOfTheChampion/30624-10.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: Have you heard that recently the guards and soldiers fought against the medusas in order to protect Giran? They fought with all their might and drove them away, but during the battle many soldiers were infected by the deadly poison of the medusas. If this goes untreated they will a…",
+   "header": "Veteran Ascalon",
+   "sets": {
+    "cond": "5"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30624-14.html": {
+   "file": "Q00223_TestOfTheChampion/30624-14.html",
+   "quest": 223,
+   "text": "Veteran Ascalon: Word comes from the Town of Oren that it is about to be pillaged by the great army of road scavengers . We must gather as many volunteers as possible to help protect the town! Go and meet Captain Mouen of the Town of Oren and follow his instructions. You must not forget that the fu…",
+   "header": "Veteran Ascalon",
+   "sets": {
+    "cond": "9"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Champion]",
+     "bypass": "npc_%objectId%_Quest Q00223_TestOfTheChampion",
+     "kind": "quest",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30624-03.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Test of the Champion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00223_TestOfTheChampion",
+     "kind": "quest",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30624-07.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

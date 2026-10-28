@@ -1,0 +1,219 @@
+{
+ "npcId": 32263,
+ "name": "Rodenpicula",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.366Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "Q00069_SagaOfTheTrickster/4-04.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 69"
+  },
+  {
+   "page": "Q00069_SagaOfTheTrickster/4-06.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; tab == 1",
+   "src": "quest 69"
+  },
+  {
+   "page": "Q00069_SagaOfTheTrickster/4-01.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 69"
+  },
+  {
+   "page": "Q00069_SagaOfTheTrickster/4-03.htm",
+   "when": "cond 17; st != null; st2 != null; st == st2; !tab == 1",
+   "src": "quest 69"
+  },
+  {
+   "page": "Q00069_SagaOfTheTrickster/4-05.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 69"
+  },
+  {
+   "page": "Q00069_SagaOfTheTrickster/4-07.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; tab == 1",
+   "src": "quest 69"
+  },
+  {
+   "page": "Q00069_SagaOfTheTrickster/4-02.htm",
+   "when": "cond 17; st != null; st2 != null; !st == st2; !tab == 1",
+   "src": "quest 69"
+  },
+  {
+   "page": "Q00069_SagaOfTheTrickster/4-08.htm",
+   "when": "cond 18; st != null",
+   "src": "quest 69"
+  }
+ ],
+ "quests": {
+  "69": {
+   "name": "Saga of the Trickster",
+   "listText": [
+    "[Saga of the Trickster]",
+    "[Saga of the Trickster (In Progress)]"
+   ],
+   "onTalk": []
+  }
+ },
+ "pages": {
+  "Q00069_SagaOfTheTrickster/4-04.htm": {
+   "file": "Q00069_SagaOfTheTrickster/4-04.htm",
+   "quest": 69,
+   "text": "Rodenpicula: Don't hesitate to kill!",
+   "header": "Rodenpicula",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/4-06.htm": {
+   "file": "Q00069_SagaOfTheTrickster/4-06.htm",
+   "quest": 69,
+   "text": "Rodenpicula: My young heir, I am the bane of the goddess of light. Together, we have defeated her messenger. Thanks to your help, I may now watch over you a little longer. We were created by the Giants as weapons to oppose the gods... But though you are my descendant, you are free to choose a diffe…",
+   "header": "Rodenpicula",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "Receive the Resonance Amulet.",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 4-1",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "4-1",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/4-010.htm"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/4-01.htm": {
+   "file": "Q00069_SagaOfTheTrickster/4-01.htm",
+   "quest": 69,
+   "text": "Rodenpicula: Finally, someone shows up! I knew it would happen sooner or later!",
+   "header": "Rodenpicula",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/4-03.htm": {
+   "file": "Q00069_SagaOfTheTrickster/4-03.htm",
+   "quest": 69,
+   "text": "Rodenpicula: ............ Damn the bad luck.....! He got away again! I think I'm in over my head...! .... If only some capable person would offer to help me....",
+   "header": "Rodenpicula",
+   "when": [
+    "cond 17; st != null; st2 != null; st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/4-05.htm": {
+   "file": "Q00069_SagaOfTheTrickster/4-05.htm",
+   "quest": 69,
+   "text": "Rodenpicula: You're brave, but this isn't the time for you to fight! Stay away for now!",
+   "header": "Rodenpicula",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/4-07.htm": {
+   "file": "Q00069_SagaOfTheTrickster/4-07.htm",
+   "quest": 69,
+   "text": "Rodenpicula: My young heir, I am the bane of the goddess of light. Together, we have defeated her messenger. Thanks to your help, I may now watch over you a little longer. We were created by the Giants as weapons to oppose the gods... But though you are my descendant, you are free to choose a diffe…",
+   "header": "Rodenpicula",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; tab == 1"
+   ],
+   "links": [
+    {
+     "text": "Receive the Resonance Amulet.",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 4-2",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "4-2",
+     "quest": 69,
+     "to": "Q00069_SagaOfTheTrickster/4-011.htm",
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/4-02.htm": {
+   "file": "Q00069_SagaOfTheTrickster/4-02.htm",
+   "quest": 69,
+   "text": "Rodenpicula: Don't talk to me now! It's too dangerous! Stay away!",
+   "header": "Rodenpicula",
+   "when": [
+    "cond 17; st != null; st2 != null; !st == st2; !tab == 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/4-08.htm": {
+   "file": "Q00069_SagaOfTheTrickster/4-08.htm",
+   "quest": 69,
+   "text": "Rodenpicula: I've already given you everything I have to give! Don't listen to me! Get your answer from that stone tablet over there!",
+   "header": "Rodenpicula",
+   "when": [
+    "cond 18; st != null"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/4-010.htm": {
+   "file": "Q00069_SagaOfTheTrickster/4-010.htm",
+   "quest": 69,
+   "text": "Rodenpicula: I have avoided pursuing my vendetta against the goddess of light because I hoped that the time would come when I could bequeath this magical stone to one of my heirs capable of attaining true power and insight. Now use that Resonance Amulet wisely. I do not know how you will deal with …",
+   "header": "Rodenpicula",
+   "links": [
+    {
+     "text": "\"Wait...\"",
+     "bypass": "Quest Q00069_SagaOfTheTrickster 4-3",
+     "kind": "quest-event",
+     "script": "Q00069_SagaOfTheTrickster",
+     "event": "4-3",
+     "quest": 69,
+     "to": null,
+     "effect": "cond:18"
+    }
+   ]
+  },
+  "Q00069_SagaOfTheTrickster/4-011.htm": {
+   "file": "Q00069_SagaOfTheTrickster/4-011.htm",
+   "quest": 69,
+   "text": "Rodenpicula: I have avoided pursuing my vendetta against the goddess of light because I hoped that the time would come when I could bequeath this magical stone to one of my heirs capable of attaining true power and insight. Now use that Resonance Amulet wisely. I do not know how you will deal with …",
+   "header": "Rodenpicula",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00069_SagaOfTheTrickster/4-09.htm": {
+   "file": "Q00069_SagaOfTheTrickster/4-09.htm",
+   "quest": 69,
+   "text": "Rodenpicula: I've already given you everything I have to give! Don't listen to me! Get your answer from that stone tablet over there!",
+   "header": "Rodenpicula",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Trickster (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00069_SagaOfTheTrickster",
+     "kind": "quest",
+     "quest": 69,
+     "to": null,
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

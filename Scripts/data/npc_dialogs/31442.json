@@ -1,0 +1,135 @@
+{
+ "npcId": 31442,
+ "name": "Kiki",
+ "title": "Mineral Trader",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.204Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/31442.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "28": {
+   "name": "Chest Caught With A Bait Of Icy Air",
+   "listText": [
+    "[Chest Caught with a Bait of Icy Air]",
+    "[Chest Caught with a Bait of Icy Air (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00028_ChestCaughtWithABaitOfIcyAir/31442-01.htm",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/31442.htm": {
+   "file": "merchant/31442.htm",
+   "quest": null,
+   "text": "Mineral Trader Kiki: Hot, hot, hot! Work the bellows, fan the flame, strike the hammer hard and true! The power of our Guild lies in fire and craftsmanship.",
+   "header": "Mineral Trader Kiki",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "npc_%objectId%_Buy 3144200",
+     "kind": "shop"
+    },
+    {
+     "text": "View information about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00028_ChestCaughtWithABaitOfIcyAir/31442-01.htm": {
+   "file": "Q00028_ChestCaughtWithABaitOfIcyAir/31442-01.htm",
+   "quest": 28,
+   "text": "Mineral Trader Kiki: If you're not here to buy minerals, why have you come? You must be either a soldier or a traveler.",
+   "header": "Mineral Trader Kiki",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "links": [
+    {
+     "text": "\"I have a letter for you.\"",
+     "bypass": "Quest Q00028_ChestCaughtWithABaitOfIcyAir 31442-03.htm",
+     "kind": "quest-event",
+     "script": "Q00028_ChestCaughtWithABaitOfIcyAir",
+     "event": "31442-03.htm",
+     "quest": 28,
+     "to": "Q00028_ChestCaughtWithABaitOfIcyAir/31442-03.htm",
+     "toAll": [
+      "Q00028_ChestCaughtWithABaitOfIcyAir/31442-03.htm",
+      "Q00028_ChestCaughtWithABaitOfIcyAir/31442-02.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00028_ChestCaughtWithABaitOfIcyAir/31442-02.htm": {
+   "file": "Q00028_ChestCaughtWithABaitOfIcyAir/31442-02.htm",
+   "quest": 28,
+   "text": "Mineral Trader Kiki: The letter! I had given up on it. The guild sent it a while back, but the ship ran aground and all was feared lost. Thank you. Don't let anyone else know about this! If word got out that Dwarves had lost it, it could damage our reputation as the most reliable race! Here is a gi…",
+   "header": "Mineral Trader Kiki",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00028_ChestCaughtWithABaitOfIcyAir/31442-03.htm": {
+   "file": "Q00028_ChestCaughtWithABaitOfIcyAir/31442-03.htm",
+   "quest": 28,
+   "text": "Mineral Trader Kiki: A letter for me? You must be mistaken. Dwarves never lose anything! You must have misunderstood. Now, if you're not going to buy anything, get lost!",
+   "header": "Mineral Trader Kiki",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Chest Caught with a Bait of Icy Air (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00028_ChestCaughtWithABaitOfIcyAir",
+     "kind": "quest",
+     "quest": 28,
+     "to": "Q00028_ChestCaughtWithABaitOfIcyAir/31442-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Buy/Sell/Refund."
+ ],
+ "liveClicks": [
+  {
+   "text": "Buy/Sell/Refund.",
+   "n": 1,
+   "inDatapack": false,
+   "from": [
+    "Mineral Trader Kiki:Oh boy, it's so damn hot! This work is g"
+   ],
+   "to": []
+  }
+ ]
+}

@@ -1,0 +1,627 @@
+{
+ "npcId": 32049,
+ "name": "Rooney",
+ "title": "Blacksmith of Wind",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.320Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32049.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "617": {
+   "name": "Gather the Flames",
+   "listText": [
+    "[Gather the Flames]",
+    "[Gather the Flames (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00617_GatherTheFlames/32049-02.html",
+     "when": "state STARTED; (st.getQuestItemsCount(TORCH) >= 1200)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00617_GatherTheFlames/32049-01.html",
+     "when": "state STARTED; NOT (st.getQuestItemsCount(TORCH) >= 1200)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "901": {
+   "name": "How Lavasauruses Are Made",
+   "listText": [
+    "[How a Lavasaurus is Made]",
+    "[How a Lavasaurus is Made (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00901_HowLavasaurusesAreMade/32049-01.htm",
+     "when": "state CREATED; (st.getPlayer().getLevel() >= 76)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00901_HowLavasaurusesAreMade/32049-02.htm",
+     "when": "state CREATED; NOT (st.getPlayer().getLevel() >= 76)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00901_HowLavasaurusesAreMade/32049-05.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00901_HowLavasaurusesAreMade/32049-06.html",
+     "when": "state STARTED; cond 2; gotAllQuestItems(st)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00901_HowLavasaurusesAreMade/32049-07.html",
+     "when": "state STARTED; cond 2; !gotAllQuestItems(st)",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00901_HowLavasaurusesAreMade/32049-01.htm",
+     "when": "state COMPLETED; st.isNowAvailable(); (st.getPlayer().getLevel() >= 76)",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00901_HowLavasaurusesAreMade/32049-16.html",
+     "when": "state COMPLETED; !st.isNowAvailable()",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32049.htm": {
+   "file": "default/32049.htm",
+   "quest": null,
+   "text": "Blacksmith of Wind Rooney: I'm Rooney. I came here with my older brother, Vulcan, looking for the ultimate flames in this Forge of the Gods! But I just can't stand in one place like a stone, you know, like Vulcan does! So I'm just stretching my legs a little... Ha!",
+   "header": "Blacksmith of Wind Rooney",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00617_GatherTheFlames/32049-02.html": {
+   "file": "Q00617_GatherTheFlames/32049-02.html",
+   "quest": 617,
+   "text": "Blacksmith of Wind Rooney: Um, look here. You have a lot of Flames here! If you give me 1200 Flames, I will exchange them for the S-Grade weapon recipe. I am taking more than Vulcan? Well, this recipe contains my effort, sweat and blood, so I can't take any less...",
+   "header": "Blacksmith of Wind Rooney",
+   "when": [
+    "state STARTED; (st.getQuestItemsCount(TORCH) >= 1200)"
+   ],
+   "links": [
+    {
+     "text": "Recipe: Forgotten Blade (60%)",
+     "bypass": "Quest Q00617_GatherTheFlames 6881",
+     "kind": "quest-event",
+     "script": "Q00617_GatherTheFlames",
+     "event": "6881",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/32049-03.html"
+    },
+    {
+     "text": "Recipe: Basalt Battlehammer (60%)",
+     "bypass": "Quest Q00617_GatherTheFlames 6883",
+     "kind": "quest-event",
+     "script": "Q00617_GatherTheFlames",
+     "event": "6883",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/32049-04.html"
+    },
+    {
+     "text": "Recipe: Imperial Staff (60%)",
+     "bypass": "Quest Q00617_GatherTheFlames 6885",
+     "kind": "quest-event",
+     "script": "Q00617_GatherTheFlames",
+     "event": "6885",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/32049-04.html"
+    },
+    {
+     "text": "Recipe: Angel Slayer (60%)",
+     "bypass": "Quest Q00617_GatherTheFlames 6887",
+     "kind": "quest-event",
+     "script": "Q00617_GatherTheFlames",
+     "event": "6887",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/32049-03.html"
+    },
+    {
+     "text": "Recipe: Draconic Bow (60%)",
+     "bypass": "Quest Q00617_GatherTheFlames 7580",
+     "kind": "quest-event",
+     "script": "Q00617_GatherTheFlames",
+     "event": "7580",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/32049-04.html"
+    },
+    {
+     "text": "Recipe: Dragon Hunter Axe (60%)",
+     "bypass": "Quest Q00617_GatherTheFlames 6891",
+     "kind": "quest-event",
+     "script": "Q00617_GatherTheFlames",
+     "event": "6891",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/32049-04.html"
+    },
+    {
+     "text": "Recipe: Saint Spear (60%)",
+     "bypass": "Quest Q00617_GatherTheFlames 6893",
+     "kind": "quest-event",
+     "script": "Q00617_GatherTheFlames",
+     "event": "6893",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/32049-04.html"
+    },
+    {
+     "text": "Recipe: Demon Splinter (60%)",
+     "bypass": "Quest Q00617_GatherTheFlames 6895",
+     "kind": "quest-event",
+     "script": "Q00617_GatherTheFlames",
+     "event": "6895",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/32049-04.html"
+    },
+    {
+     "text": "Recipe: Heaven's Divider (60%)",
+     "bypass": "Quest Q00617_GatherTheFlames 6897",
+     "kind": "quest-event",
+     "script": "Q00617_GatherTheFlames",
+     "event": "6897",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/32049-04.html"
+    },
+    {
+     "text": "Recipe: Arcana Mace (60%)",
+     "bypass": "Quest Q00617_GatherTheFlames 6899",
+     "kind": "quest-event",
+     "script": "Q00617_GatherTheFlames",
+     "event": "6899",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/32049-04.html"
+    }
+   ]
+  },
+  "Q00617_GatherTheFlames/32049-01.html": {
+   "file": "Q00617_GatherTheFlames/32049-01.html",
+   "quest": 617,
+   "text": "Blacksmith of Wind Rooney: I'm collecting Flames like my brother Vulcan does. Unlike Vulcan, I wander around occasionally, so I was able to get various S-grade Weapon Recipes. If you collect and bring me 1200 Flames, I'll give you a recipe.",
+   "header": "Blacksmith of Wind Rooney",
+   "when": [
+    "state STARTED; NOT (st.getQuestItemsCount(TORCH) >= 1200)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-01.htm": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-01.htm",
+   "quest": 901,
+   "text": "Blacksmith of the Wind Rooney: Do you know about the Lavasauruses? We don't know who made them, but they are believed to contain the power of dragons. If i research the Lavasauruses, I think I would be able to discover the dragon's power...",
+   "header": "Blacksmith of the Wind Rooney",
+   "when": [
+    "state CREATED; (st.getPlayer().getLevel() >= 76)",
+    "state COMPLETED; st.isNowAvailable(); (st.getPlayer().getLevel() >= 76)"
+   ],
+   "links": [
+    {
+     "text": "\"Can I do anything to help?\"",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-03.htm",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-03.htm",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-03.htm"
+    }
+   ]
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-02.htm": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-02.htm",
+   "quest": 901,
+   "text": "Blacksmith of the Wind Rooney: (Only characters above level 76 can perform this quest.)",
+   "header": "Blacksmith of the Wind Rooney",
+   "when": [
+    "state CREATED; NOT (st.getPlayer().getLevel() >= 76)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-05.html": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-05.html",
+   "quest": 901,
+   "text": "Blacksmith of the Wind Rooney: Looks like you haven't collected all the Lavasaurus fragments yet. You need to bring 10 each of the Lavasaurus head fragments, body fragments, horn fragments and powerstone fragments.",
+   "header": "Blacksmith of the Wind Rooney",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-06.html": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-06.html",
+   "quest": 901,
+   "text": "Blacksmith of Wind Rooney: Incredible! You managed to get them all! Now lets see if we can discover the secret of the dragons through the Lavasaurus fragments... Hmmm.... If I put this here, and it goes like... no, that doesn't fit. Maybe if I... no... Huh... This might take more time than I though…",
+   "header": "Blacksmith of Wind Rooney",
+   "when": [
+    "state STARTED; cond 2; gotAllQuestItems(st)"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-07.html": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-07.html",
+   "quest": 901,
+   "text": "Blacksmith of Wind Rooney: What interesting research! I tried various things with the fragments, and was able to make a totem containing the power of the dragons. The effect differs, depending on how the fragments are combined. There is also a problem with range of output, so it can only be used wh…",
+   "header": "Blacksmith of Wind Rooney",
+   "when": [
+    "state STARTED; cond 2; !gotAllQuestItems(st)"
+   ],
+   "links": [
+    {
+     "text": "Totem of Body",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-08.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-08.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-08.html"
+    },
+    {
+     "text": "Totem of Spirit",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-09.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-09.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-09.html"
+    },
+    {
+     "text": "Totem of Fortitude",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-10.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-10.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-10.html"
+    },
+    {
+     "text": "Totem of Courage",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-11.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-11.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-11.html"
+    }
+   ]
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-16.html": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-16.html",
+   "quest": 901,
+   "text": "Blacksmith of the Wind Rooney: Thanks for obtaining the Lavasaurus fragments. If you obtain more fragments, please bring them to me. (This can can be completed once a day. This quest gets initialized everyday at 6:30 am.)",
+   "header": "Blacksmith of the Wind Rooney",
+   "when": [
+    "state COMPLETED; !st.isNowAvailable()"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00617_GatherTheFlames/32049-03.html": {
+   "file": "Q00617_GatherTheFlames/32049-03.html",
+   "quest": 617,
+   "text": "Blacksmith of Wind Rooney: Here it is. I'll exchange with you again if you bring back some more.",
+   "header": "Blacksmith of Wind Rooney",
+   "links": [
+    {
+     "text": "Receive reward again.",
+     "bypass": "Quest Q00617_GatherTheFlames 32049-02.html",
+     "kind": "quest-event",
+     "script": "Q00617_GatherTheFlames",
+     "event": "32049-02.html",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/32049-02.html"
+    }
+   ]
+  },
+  "Q00617_GatherTheFlames/32049-04.html": {
+   "file": "Q00617_GatherTheFlames/32049-04.html",
+   "quest": 617,
+   "text": "Blacksmith of Wind Rooney: Here it is. Bring me more Flames and I'll trade for them.",
+   "header": "Blacksmith of Wind Rooney",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-03.htm": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-03.htm",
+   "quest": 901,
+   "text": "Blacksmith of the Wind Rooney: Oh! You'll be more then adequate. Can you bring me some Lavasaurus head, body, horn, and powerstone fragments? They can be found here in the Forge of the Gods.",
+   "header": "Blacksmith of the Wind Rooney",
+   "links": [
+    {
+     "text": "Say that you will get them for him",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-04.htm",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-04.htm",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-04.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-04.htm": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-04.htm",
+   "quest": 901,
+   "text": "Blacksmith of the Wind Rooney: I'm truly thankful for your help. Once you have collected 10 each of the \"Lavasaurus head fragments, body fragments, horn fragments and powerstone fragments,\" bring them to me.",
+   "header": "Blacksmith of the Wind Rooney",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-08.html": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-08.html",
+   "quest": 901,
+   "text": "Blacksmith of Wind Rooney: The Totem of Body represents the dragon's physical regeneration. If you are within range of the totem's effect, your physical regeneration will increase. Are you curious about the other totems",
+   "header": "Blacksmith of Wind Rooney",
+   "links": [
+    {
+     "text": "Totem of Spirit",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-09.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-09.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-09.html"
+    },
+    {
+     "text": "Totem of Fortitude Totem of Courage",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-10.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-10.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-10.html"
+    },
+    {
+     "text": "Totem of Body, please.",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-12.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-12.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-12.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-09.html": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-09.html",
+   "quest": 901,
+   "text": "Blacksmith of Wind Rooney: The Totem of Spirit represents the dragon's spirit regeneration. If you are within range of the totem's effect, your mana regeneration will increase. Are you curious about the other totems",
+   "header": "Blacksmith of Wind Rooney",
+   "links": [
+    {
+     "text": "Totem of Body",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-08.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-08.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-08.html"
+    },
+    {
+     "text": "Totem of Fortitude Totem of Courage",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-10.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-10.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-10.html"
+    },
+    {
+     "text": "Totem of Spirit, please.",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-13.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-13.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-13.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-10.html": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-10.html",
+   "quest": 901,
+   "text": "Blacksmith of Wind Rooney: The Totem of Fortitude is a physical representation of the dragon's body. If you are within range of the totem's effect, your P. Def. will increase. Are you curious about the other totems",
+   "header": "Blacksmith of Wind Rooney",
+   "links": [
+    {
+     "text": "Totem of Body",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-08.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-08.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-08.html"
+    },
+    {
+     "text": "Totem of Spirit Totem of Courage",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-09.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-09.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-09.html"
+    },
+    {
+     "text": "Totem of Fortitude, please.",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-14.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-14.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-14.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-11.html": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-11.html",
+   "quest": 901,
+   "text": "Blacksmith of Wind Rooney: The Totem of Courage is a physical representation of the dragon's spirit. If you are within range of the totem's effect, your magic resistance will increase.",
+   "header": "Blacksmith of Wind Rooney",
+   "links": [
+    {
+     "text": "Totem of Body",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-08.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-08.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-08.html"
+    },
+    {
+     "text": "Totem of Spirit",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-09.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-09.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-09.html"
+    },
+    {
+     "text": "Totem of Fortitude",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-10.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-10.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-10.html"
+    },
+    {
+     "text": "Totem of Courage, please.",
+     "bypass": "Quest Q00901_HowLavasaurusesAreMade 32049-15.html",
+     "kind": "quest-event",
+     "script": "Q00901_HowLavasaurusesAreMade",
+     "event": "32049-15.html",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-15.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-12.html": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-12.html",
+   "quest": 901,
+   "text": "Blacksmith of Wind Rooney: Good! I'll give you a totem of body. It'll help you a lot.",
+   "header": "Blacksmith of Wind Rooney",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-13.html": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-13.html",
+   "quest": 901,
+   "text": "Blacksmith of Wind Rooney: Good! I'll give you a totem of spirit. It'll help you a lot.",
+   "header": "Blacksmith of Wind Rooney",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-14.html": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-14.html",
+   "quest": 901,
+   "text": "Blacksmith of Wind Rooney: Good! I'll give you a totem of fortitude. It'll help you a lot.",
+   "header": "Blacksmith of Wind Rooney",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00901_HowLavasaurusesAreMade/32049-15.html": {
+   "file": "Q00901_HowLavasaurusesAreMade/32049-15.html",
+   "quest": 901,
+   "text": "Blacksmith of Wind Rooney: Good! I'll give you a totem of bravery. It'll help you a lot.",
+   "header": "Blacksmith of Wind Rooney",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Gather the Flames (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00617_GatherTheFlames",
+     "kind": "quest",
+     "quest": 617,
+     "to": "Q00617_GatherTheFlames/32049-02.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[How a Lavasaurus is Made]",
+     "bypass": "npc_%objectId%_Quest Q00901_HowLavasaurusesAreMade",
+     "kind": "quest",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[How a Lavasaurus is Made (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00901_HowLavasaurusesAreMade",
+     "kind": "quest",
+     "quest": 901,
+     "to": "Q00901_HowLavasaurusesAreMade/32049-05.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

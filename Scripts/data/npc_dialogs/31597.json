@@ -1,0 +1,385 @@
+{
+ "npcId": 31597,
+ "name": "Tobald",
+ "title": "Master",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.240Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31597.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "100": {
+   "name": "Saga of the Maestro",
+   "listText": [
+    "[Saga of the Maestro]",
+    "[Saga of the Maestro (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00100_SagaOfTheMaestro/2-01.htm",
+     "when": "cond 1; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/2-02.htm",
+     "when": "cond 2; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      2
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/2-03.htm",
+     "when": "cond 4; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/2-04.htm",
+     "when": "cond 5; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/3-01.htm",
+     "when": "cond 10; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      10
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/3-05.htm",
+     "when": "cond 11|12; has items 7081; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/3-04.htm",
+     "when": "cond 11|12; lacks items 7081; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      11,
+      12
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/3-06.htm",
+     "when": "cond 13; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      13
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/11-01.htm",
+     "when": "cond 14; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      14
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00100_SagaOfTheMaestro/11-02.htm",
+     "when": "cond 15; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      15
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31597.htm": {
+   "file": "default/31597.htm",
+   "quest": null,
+   "text": "Master Tobald: What do you think really shapes history? Heroism? Wealth? Power? No! None of those! Two things: intelligence and innovation! The Mightiest army is helpless against them!",
+   "header": "Master Tobald",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/2-01.htm": {
+   "file": "Q00100_SagaOfTheMaestro/2-01.htm",
+   "quest": 100,
+   "text": "Master Tobald: Long time no see! I knew you'd come. Thank you. I would have been killed by the assassin if it weren't for you. Do you remember my project? I succeeded in developing the time machine! It's called Wilma #3. Unfortunately, I can't show it to you now, it's broken. The pilgrimage of tabl…",
+   "header": "Master Tobald",
+   "when": [
+    "cond 1; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Have we met before?\"",
+     "bypass": "Quest Q00100_SagaOfTheMaestro 2-1",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "2-1",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/2-05.htm",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/2-02.htm": {
+   "file": "Q00100_SagaOfTheMaestro/2-02.htm",
+   "quest": 100,
+   "text": "Master Tobald: Huh? You're still here. Did you meet Blueprint Seller Borodin ? He was supposed to repair the cooling system of my time machine, Wilma #3, but something went wrong. Go ask him what the problem is and help him. Thank you!",
+   "header": "Master Tobald",
+   "when": [
+    "cond 2; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/2-03.htm": {
+   "file": "Q00100_SagaOfTheMaestro/2-03.htm",
+   "quest": 100,
+   "text": "Master Tobald: Ah, It's fixed! Thank you very much! You're always there for me! Have you started the pilgrimage of the stone tablets yet? I'm a little confused, this is my first experience with time travel! I'll tell you about the Tablet of Vision. It concerns the ancient times, when the giants bec…",
+   "header": "Master Tobald",
+   "when": [
+    "cond 4; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How?\"",
+     "bypass": "Quest Q00100_SagaOfTheMaestro 2-2",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "2-2",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/2-06.htm",
+     "effect": "cond:5"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/2-04.htm": {
+   "file": "Q00100_SagaOfTheMaestro/2-04.htm",
+   "quest": 100,
+   "text": "Master Tobald: You're still here? Find the first Tablet of Vision with the Stone of Commune I gave you. Use the Map if you need to. Follow your feeling. I know you can do it!",
+   "header": "Master Tobald",
+   "when": [
+    "cond 5; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/3-01.htm": {
+   "file": "Q00100_SagaOfTheMaestro/3-01.htm",
+   "quest": 100,
+   "text": "Master Tobald: What are you doing here? You're on the pilgrimage of the tablets, huh? Oh, that's right! You're still taking the test of the Maestro. Because of the time paradox, I shouldn't do this, but I have a favor to ask of you. During the pilgrimage, we'll meet again. That is, you'll meet me w…",
+   "header": "Master Tobald",
+   "when": [
+    "cond 10; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Do you have the fourth Stone of Commune?\"",
+     "bypass": "Quest Q00100_SagaOfTheMaestro 3-5",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "3-5",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/3-07.htm"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/3-05.htm": {
+   "file": "Q00100_SagaOfTheMaestro/3-05.htm",
+   "quest": 100,
+   "text": "Master Tobald: You've got the Divine Stone of Wisdom! This is the other half of the fourth Stone of Commune. Now we can join them.",
+   "header": "Master Tobald",
+   "when": [
+    "cond 11|12; has items 7081; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"Join the fragments.\"",
+     "bypass": "Quest Q00100_SagaOfTheMaestro 3-8",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "3-8",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/3-08.htm",
+     "effect": "cond:13"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/3-04.htm": {
+   "file": "Q00100_SagaOfTheMaestro/3-04.htm",
+   "quest": 100,
+   "text": "Master Tobald: To use the fourth Stone of Commune, you must get the Divine Stone of Wisdom that the Ketra Orcs or theVarka Sillenos have. You must first gain their trust, but it won't be easy as they are tough and belligerent. Cheer up!",
+   "header": "Master Tobald",
+   "when": [
+    "cond 11|12; lacks items 7081; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/3-06.htm": {
+   "file": "Q00100_SagaOfTheMaestro/3-06.htm",
+   "quest": 100,
+   "text": "Master Tobald: Take the Stone of Commune I gave you to the fourth Tablet of Vision. You'll intuitively know the location by holding the Stone of Commune. Good luck!",
+   "header": "Master Tobald",
+   "when": [
+    "cond 13; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/11-01.htm": {
+   "file": "Q00100_SagaOfTheMaestro/11-01.htm",
+   "quest": 100,
+   "text": "Master Tobald: Who are you? What? You're on the pilgrimage of tablets as well, huh? Hmm! Did you feel this Stone of Commune that I found? I can't give it to you! You have no idea what I had to go through to get it! Don't look so pathetic, I'll tell you where to get another one. Go to the Imperial T…",
+   "header": "Master Tobald",
+   "when": [
+    "cond 14; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"What?\"",
+     "bypass": "Quest Q00100_SagaOfTheMaestro 11-9",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "11-9",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/11-03.htm",
+     "effect": "cond:15"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/11-02.htm": {
+   "file": "Q00100_SagaOfTheMaestro/11-02.htm",
+   "quest": 100,
+   "text": "Master Tobald: How narrow-minded! To get your hands on the fifth Stone of Commune, you must slay the Archon of Halisha ! Find him in the cemetery or at the Shrine of the Loyal inside the Wall of Argos. At the cemetery, you must enter the Four Sepulchers, which is farthest inside. At the shrine, you…",
+   "header": "Master Tobald",
+   "when": [
+    "cond 15; !((npcId == 31592) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/11-03.htm": {
+   "file": "Q00100_SagaOfTheMaestro/11-03.htm",
+   "quest": 100,
+   "text": "Master Tobald: There are two ways to confront the Archon of Halisha . The devil has the fifth Stone of Commune. If you go to the Imperial Tomb, you'll find him in the Four Sepulchers. If you go to the Shrine of the Loyal, you must slay many of his minions for the Archon to appear. This is all I can…",
+   "header": "Master Tobald",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/2-05.htm": {
+   "file": "Q00100_SagaOfTheMaestro/2-05.htm",
+   "quest": 100,
+   "text": "Master Tobald: I don't know! I need to bring a few things to help you with the pilgrimage. We'll need to fix my Wilma #3. Can you help me out? Then you'll find the first Tablet of Vision! Cheer up! You'll do great work in the future. Please be careful! I asked my student, Blueprint Seller Borodin ,…",
+   "header": "Master Tobald",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/2-06.htm": {
+   "file": "Q00100_SagaOfTheMaestro/2-06.htm",
+   "quest": 100,
+   "text": "Master Tobald: Take this Stone of Commune. I don't need it anymore. With its power you can read the god's characters on the Tablet of Vision. You can also intuitively see where the next tablet is hidden just by holding the stone in your hand. Isn't it great? I wonder who made it. Don't you think so…",
+   "header": "Master Tobald",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/3-02.htm": {
+   "file": "Q00100_SagaOfTheMaestro/3-02.htm",
+   "quest": 100,
+   "text": "Master Tobald: Meet Ketra Messenger Wahkan . They'll be hiring soldiers. This is a great opportunity to gain their trust! Soul Guide Asefa is their chief shaman. He has the Divine Stone of Wisdom that we're looking for. If things don't go your way, you can switch sides and approach the Varka Sileno…",
+   "header": "Master Tobald",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/3-03.htm": {
+   "file": "Q00100_SagaOfTheMaestro/3-03.htm",
+   "quest": 100,
+   "text": "Master Tobald: Meet Messenger Naran Ashanuk of the Varka Silenos. They'll be hiring soldiers. This is a great opportunity to gain their trust! Soul Guide Udan Mardui is their chief shaman. He has the Divine Stone of Wisdom that we're looking for. If things don't go your way, you can switch sides an…",
+   "header": "Master Tobald",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00100_SagaOfTheMaestro/3-07.htm": {
+   "file": "Q00100_SagaOfTheMaestro/3-07.htm",
+   "quest": 100,
+   "text": "Master Tobald: Ah, you must feel this small fragment of the fourth Stone of Commune. I brought it from the future, but it broke into pieces when my time machine malfunctioned and part of it flew into the past. We must find one of the other pieces and reunite them. The pieces that flew through the t…",
+   "header": "Master Tobald",
+   "links": [
+    {
+     "text": "\"I'll go to the Ketra Orcs.\"",
+     "bypass": "Quest Q00100_SagaOfTheMaestro 3-6",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "3-6",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/3-02.htm",
+     "effect": "cond:11"
+    },
+    {
+     "text": "\"I'll go to the Varka Silenos.\"",
+     "bypass": "Quest Q00100_SagaOfTheMaestro 3-7",
+     "kind": "quest-event",
+     "script": "Q00100_SagaOfTheMaestro",
+     "event": "3-7",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/3-03.htm",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00100_SagaOfTheMaestro/3-08.htm": {
+   "file": "Q00100_SagaOfTheMaestro/3-08.htm",
+   "quest": 100,
+   "text": "Master Tobald: These two pieces fit perfectly, don't they? Take this Stone of Commune and find the fourth Tablet of Vision. Follow your feeling! Good luck!",
+   "header": "Master Tobald",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Maestro (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00100_SagaOfTheMaestro",
+     "kind": "quest",
+     "quest": 100,
+     "to": "Q00100_SagaOfTheMaestro/2-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

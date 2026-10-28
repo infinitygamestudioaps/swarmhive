@@ -1,0 +1,61 @@
+{
+ "npcId": 32877,
+ "name": "Plani",
+ "title": "Recipe Merchant",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.420Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "merchant/32877.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "merchant/32877.htm": {
+   "file": "merchant/32877.htm",
+   "quest": null,
+   "text": "Recipe Merchant Plani: I traveled all over before settling here. There are so many wondrous things in this world! Everyone tells me to stay where it's safe, but that's too boring. You know, I'd like to know how to make anything and everything in this world. That would be something, wouldn't it?",
+   "header": "Recipe Merchant Plani",
+   "links": [
+    {
+     "text": "Trade",
+     "bypass": "npc_%objectId%_Buy 3287700",
+     "kind": "shop",
+     "live": true
+    },
+    {
+     "text": "View the lord and tax rate information",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ },
+ "liveClicks": [
+  {
+   "text": "Trade",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Recipe Merchant Plani:I traveled all over before setting her"
+   ],
+   "to": []
+  }
+ ]
+}

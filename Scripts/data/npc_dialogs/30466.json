@@ -1,0 +1,325 @@
+{
+ "npcId": 30466,
+ "name": "Bright",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.980Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30466.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "221": {
+   "name": "Testimony Of Prosperity",
+   "listText": [
+    "[Testimony of Prosperity]",
+    "[Testimony of Prosperity (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00221_TestimonyOfProsperity/30466-01.html",
+     "when": "state STARTED; has items 3239; lacks items 3243,3264,3267",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30466-04.html",
+     "when": "state STARTED; has items 3239,3243,3264,3267; lacks items 3243; ((getQuestItemsCount(player, MANDRAGORA_PETAL) < 20) || (getQuestItemsCount(player, CRIMSON_MOSS) < 10))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30466-05.html",
+     "when": "state STARTED; has items 3239,3243,3264,3267; lacks items 3243; !((getQuestItemsCount(player, MANDRAGORA_PETAL) < 20) || (getQuestItemsCount(player, CRIMSON_MOSS) < 10))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30466-06.html",
+     "when": "state STARTED; has items 3239,3243,3264,3267; lacks items 3243,3264; !(hasQuestItems(player, BRIGHTS_LIST) && !hasQuestItems(player, EMILYS_RECIPE))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30466-07.html",
+     "when": "state STARTED; has items 3239,3243,3264,3267; !(hasQuestItems(player, BRIGHTS_LIST) && !hasQuestItems(player, EMILYS_RECIPE)); !(hasQuestItems(player, MANDRAGORA_BOUGUET) && !hasAtLeastOneQuestItem(player, EMILYS_RECIPE, BRIGHTS_LIST))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00221_TestimonyOfProsperity/30466-08.html",
+     "when": "state STARTED; has items 3240; lacks items 3239",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "299": {
+   "name": "Gather Ingredients for Pie",
+   "listText": [
+    "[Gather Ingredients for Pie]",
+    "[Gather Ingredients for Pie (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00299_GatherIngredientsForPie/30466-01.html",
+     "when": "cond 5",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00299_GatherIngredientsForPie/30466-03.html",
+     "when": "cond 6",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30466.htm": {
+   "file": "guard/30466.htm",
+   "quest": null,
+   "text": "Guard Bright: Look here, are you going to the Mandragora Farms by any chance? If I were you, I'd think again about visiting there. It's a very unsettling place. The owner is Aaron Nightshade . No one knows where he comes from or what he used to do. There are more than a few things about him that ar…",
+   "header": "Guard Bright",
+   "links": [
+    {
+     "text": "Ask about the Mandragora Farm",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30466-1.htm"
+    },
+    {
+     "text": "Ask about 'Aaron Nightshade.'",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "guard/30466-2.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30466-1.htm": {
+   "file": "guard/30466-1.htm",
+   "quest": null,
+   "text": "Guard Bright: The place seems to smell of blood all day long. It is right next to the execution ground, where the undead lurch around. If you ask me, that Aaron Nightshade fellow must truly be out of his mind to grow mandragoras in a place like that.",
+   "header": "Guard Bright",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30466.htm"
+    }
+   ]
+  },
+  "guard/30466-2.htm": {
+   "file": "guard/30466-2.htm",
+   "quest": null,
+   "text": "Guard Bright: He makes me shiver. He looks weird and gives you goose bumps when you get close. Now that I think about it, I really don't know anything about him. In fairness, I should say that Herven here says he's a good fellow ...",
+   "header": "Guard Bright",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30466.htm"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30466-01.html": {
+   "file": "Q00221_TestimonyOfProsperity/30466-01.html",
+   "quest": 221,
+   "text": "Guard Bright: Ah, The Great Mother...? Yes, that is how my mother is known. She greatly deserves the title. She raised 12 children on her own. My father died before I was born. I was the last born child, and a posthumous one at that. My mother had no time to grieve my father's death and worked hard…",
+   "header": "Guard Bright",
+   "when": [
+    "state STARTED; has items 3239; lacks items 3243,3264,3267"
+   ],
+   "links": [
+    {
+     "text": "\"How about giving your mother a present?\"",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30466-02.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30466-02.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30466-02.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30466-04.html": {
+   "file": "Q00221_TestimonyOfProsperity/30466-04.html",
+   "quest": 221,
+   "text": "Guard Bright: Do you remember all the materials needed for the bouquet? 20 mandragora flower petals and 10 bunches of Crimson Moss . You may acquire the petals from the mandragoras that grow on the west parts of the execution grounds, and the moss is found near the giant crimson ants of the Cruma m…",
+   "header": "Guard Bright",
+   "when": [
+    "state STARTED; has items 3239,3243,3264,3267; lacks items 3243; ((getQuestItemsCount(player, MANDRAGORA_PETAL) < 20) || (getQuestItemsCount(player, CRIMSON_MOSS) < 10))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30466-05.html": {
+   "file": "Q00221_TestimonyOfProsperity/30466-05.html",
+   "quest": 221,
+   "text": "Guard Bright: I see you have brought all the necessary materials. Good job! Now I will create a Mandragora Bouquet. Let's see, some Crimson Moss here, some petals there...hmm... There, all done! Take this bouquet of mandragora flowers to my mother. Her name is Emily . I know this will cheer her up.…",
+   "header": "Guard Bright",
+   "when": [
+    "state STARTED; has items 3239,3243,3264,3267; lacks items 3243; !((getQuestItemsCount(player, MANDRAGORA_PETAL) < 20) || (getQuestItemsCount(player, CRIMSON_MOSS) < 10))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30466-06.html": {
+   "file": "Q00221_TestimonyOfProsperity/30466-06.html",
+   "quest": 221,
+   "text": "Guard Bright: Take this bouquet of mandragora flowers to my mother. Her name is Emily . I am on duty and cannot leave my post. I hope these flowers will cheer her up...",
+   "header": "Guard Bright",
+   "when": [
+    "state STARTED; has items 3239,3243,3264,3267; lacks items 3243,3264; !(hasQuestItems(player, BRIGHTS_LIST) && !hasQuestItems(player, EMILYS_RECIPE))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30466-07.html": {
+   "file": "Q00221_TestimonyOfProsperity/30466-07.html",
+   "quest": 221,
+   "text": "Guard Bright: Have you found the Mark of Fertility that you sought? Mother's recipe ...? Well, I'm not sure if there are any side-effects... I hope that this recipe may be of help to you.",
+   "header": "Guard Bright",
+   "when": [
+    "state STARTED; has items 3239,3243,3264,3267; !(hasQuestItems(player, BRIGHTS_LIST) && !hasQuestItems(player, EMILYS_RECIPE)); !(hasQuestItems(player, MANDRAGORA_BOUGUET) && !hasAtLeastOneQuestItem(player, EMILYS_RECIPE, BRIGHTS_LIST))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30466-08.html": {
+   "file": "Q00221_TestimonyOfProsperity/30466-08.html",
+   "quest": 221,
+   "text": "Guard Bright: So we meet again, Dwarf traveler! How have you been? Mother has been feeling better since she received the bouquet. I really appreciate your help with that. Thank you!",
+   "header": "Guard Bright",
+   "when": [
+    "state STARTED; has items 3240; lacks items 3239"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00299_GatherIngredientsForPie/30466-01.html": {
+   "file": "Q00299_GatherIngredientsForPie/30466-01.html",
+   "quest": 299,
+   "text": "Guard Bright: You again? I'm on duty! What do you need?",
+   "header": "Guard Bright",
+   "when": [
+    "cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"Your mother sent me.\"",
+     "bypass": "Quest Q00299_GatherIngredientsForPie 30466-02.html",
+     "kind": "quest-event",
+     "script": "Q00299_GatherIngredientsForPie",
+     "event": "30466-02.html",
+     "quest": 299,
+     "to": "Q00299_GatherIngredientsForPie/30466-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00299_GatherIngredientsForPie/30466-03.html": {
+   "file": "Q00299_GatherIngredientsForPie/30466-03.html",
+   "quest": 299,
+   "text": "Guard Bright: Keep it down! I'm on duty here. Are you done? Find someone else to bother.",
+   "header": "Guard Bright",
+   "when": [
+    "cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00221_TestimonyOfProsperity/30466-02.html": {
+   "file": "Q00221_TestimonyOfProsperity/30466-02.html",
+   "quest": 221,
+   "text": "Guard Bright: A gift...? We are simple folk and rarely have the luxury of giving or receiving gifts...",
+   "header": "Guard Bright",
+   "links": [
+    {
+     "text": "\"It is not the gift, but the thought that counts!\"",
+     "bypass": "Quest Q00221_TestimonyOfProsperity 30466-03.html",
+     "kind": "quest-event",
+     "script": "Q00221_TestimonyOfProsperity",
+     "event": "30466-03.html",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30466-03.html"
+    }
+   ]
+  },
+  "Q00221_TestimonyOfProsperity/30466-03.html": {
+   "file": "Q00221_TestimonyOfProsperity/30466-03.html",
+   "quest": 221,
+   "text": "Guard Bright: Yes, it is only the thought that counts. There is one thing that my mother loves, now that I think about it. It is a bouquet made from Mandragora Petals . I don't know the story behind it, but she always seems quietly happy whenever I give her that bouquet. I will create one for you t…",
+   "header": "Guard Bright",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00299_GatherIngredientsForPie/30466-02.html": {
+   "file": "Q00299_GatherIngredientsForPie/30466-02.html",
+   "quest": 299,
+   "text": "Guard Bright: My mother? Oh yeah, she asked for some fruit. Her bad knee keeps her in the house. Can you take her this basket? I can't leave my post. Thank you!",
+   "header": "Guard Bright",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Testimony of Prosperity (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00221_TestimonyOfProsperity",
+     "kind": "quest",
+     "quest": 221,
+     "to": "Q00221_TestimonyOfProsperity/30466-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Gather Ingredients for Pie (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00299_GatherIngredientsForPie",
+     "kind": "quest",
+     "quest": 299,
+     "to": "Q00299_GatherIngredientsForPie/30466-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

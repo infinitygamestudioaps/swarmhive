@@ -1,0 +1,795 @@
+{
+ "npcId": 30895,
+ "name": "Kluck",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:03.105Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30895.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "140": {
+   "name": "Shadow Fox - 2",
+   "listText": [
+    "[Shadow Fox - 2]",
+    "[Shadow Fox - 2 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00140_ShadowFoxPart2/30895-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); (player.hasQuestCompleted(Q00139_ShadowFoxPart1.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00140_ShadowFoxPart2/30895-00.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (player.hasQuestCompleted(Q00139_ShadowFoxPart1.class.getSimpleName()))",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00140_ShadowFoxPart2/30895-02.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00140_ShadowFoxPart2/30895-04.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00140_ShadowFoxPart2/30895-08.html",
+     "when": "state STARTED; cond 2|3",
+     "state": "STARTED",
+     "cond": [
+      2,
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00140_ShadowFoxPart2/30895-10.html",
+     "when": "state STARTED; cond 4; st.isSet(\"talk\")",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": "reward"
+    },
+    {
+     "page": "Q00140_ShadowFoxPart2/30895-09.html",
+     "when": "state STARTED; cond 4; !st.isSet(\"talk\")",
+     "state": "STARTED",
+     "cond": [
+      4
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "354": {
+   "name": "Conquest of Alligator Island",
+   "listText": [
+    "[Conquest of Alligator Island]",
+    "[Conquest of Alligator Island (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00354_ConquestOfAlligatorIsland/30895-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00354_ConquestOfAlligatorIsland/30895-03.html",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00354_ConquestOfAlligatorIsland/30895-11.html",
+     "when": "state STARTED; st.hasQuestItems(MYSTERIOUS_MAP_PIECE.getId())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00354_ConquestOfAlligatorIsland/30895-04.html",
+     "when": "state STARTED; NOT st.hasQuestItems(MYSTERIOUS_MAP_PIECE.getId())",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30895.htm": {
+   "file": "warehouse/30895.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Kluck: Hello, adventurer! Welcome to the Iron Gate Guild of Heine. Are you here to make a deposit? A withdrawal? Perhaps you wish to learn skills? I feel like I have gotten so busy lately... No! Not just a feeling -- I am busy! Too busy to eat or sleep! That's the price of business…",
+   "header": "Warehouse Keeper Kluck",
+   "links": [
+    {
+     "text": "Private Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/privatewh.htm",
+     "kind": "page",
+     "to": "warehouse/privatewh.htm"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/clanwh.htm",
+     "kind": "page",
+     "to": "warehouse/clanwh.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "warehouse/30895-2.htm": {
+   "file": "warehouse/30895-2.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Kluck: Oh no? Then you must be a Scavenger!",
+   "header": "Warehouse Keeper Kluck",
+   "links": [
+    {
+     "text": "\"I am not a Scavenger.\"",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "warehouse/30895-3.htm"
+    }
+   ]
+  },
+  "warehouse/30895-3.htm": {
+   "file": "warehouse/30895-3.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Kluck: What? Not a Scavenger? Then you must be a Bounty Hunter!",
+   "header": "Warehouse Keeper Kluck",
+   "links": [
+    {
+     "text": "\"I am no Bounty Hunter.\"",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "warehouse/30895-4.htm"
+    }
+   ]
+  },
+  "warehouse/30895-4.htm": {
+   "file": "warehouse/30895-4.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Kluck: OK, let me get this straight. You're not a Dwarven Fighter, a Scavenger, or a Bounty Hunter. Why are we having this conversation? Did you hear me say how busy I am? The nerve of some people! Go away! Your education is not my concern!",
+   "header": "Warehouse Keeper Kluck",
+   "outcome": "refusal",
+   "links": []
+  },
+  "warehouse/30895-noteach.htm": {
+   "file": "warehouse/30895-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Kluck: I've got much more important things to attend to than your education, got it? Let's get this over with. What's your profession? Dwarven Fighter?",
+   "header": "Warehouse Keeper Kluck",
+   "links": [
+    {
+     "text": "\"I am not a Dwarven fighter.\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "warehouse/30895-2.htm"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30895-01.htm": {
+   "file": "Q00140_ShadowFoxPart2/30895-01.htm",
+   "quest": 140,
+   "text": "Warehouse Keeper Kluck: You want to be a middle-level agent? Shh! Keep your voice down... Hmm, you must be the one that Mia told me about... So are you really ready to become a middle-level agent?",
+   "header": "Warehouse Keeper Kluck",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); (player.hasQuestCompleted(Q00139_ShadowFoxPart1.class.getSimpleName()))"
+   ],
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30895-03.htm",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30895-03.htm",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30895-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30895-00.htm": {
+   "file": "Q00140_ShadowFoxPart2/30895-00.htm",
+   "quest": 140,
+   "text": "Warehouse Keeper Kluck: You want to be a middle-level agent? Huh? What's that? I think you have the wrong person, friend! (Only characters who have completed the Shadow Fox - 1 Quest may undertake this quest.)",
+   "header": "Warehouse Keeper Kluck",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL); NOT (player.hasQuestCompleted(Q00139_ShadowFoxPart1.class.getSimpleName()))"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00140_ShadowFoxPart2/30895-02.htm": {
+   "file": "Q00140_ShadowFoxPart2/30895-02.htm",
+   "quest": 140,
+   "text": "Warehouse Keeper Kluck: You want to be a middle-level agent? Shh! Keep your voice down... Hmm, you must be the one that Mia told me about... Well, well... You're still a little too wet behind the ears. Come back when you've acquired a little more experience... (Only characters who are level 37 or h…",
+   "header": "Warehouse Keeper Kluck",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00140_ShadowFoxPart2/30895-04.html": {
+   "file": "Q00140_ShadowFoxPart2/30895-04.html",
+   "quest": 140,
+   "text": "Warehouse Keeper Kluck: Are you ready to show me that you've got what it takes? Hmm... Then listen carefully...",
+   "header": "Warehouse Keeper Kluck",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "Listen",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30895-05.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30895-05.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30895-05.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30895-08.html": {
+   "file": "Q00140_ShadowFoxPart2/30895-08.html",
+   "quest": 140,
+   "text": "Warehouse Keeper Kluck: Dark Elf Magister Xenovia in Heine has it. Please convince her to give you leave to bring us the Cryptogram of the Sword of the Goddess ...",
+   "header": "Warehouse Keeper Kluck",
+   "when": [
+    "state STARTED; cond 2|3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00140_ShadowFoxPart2/30895-10.html": {
+   "file": "Q00140_ShadowFoxPart2/30895-10.html",
+   "quest": 140,
+   "text": "Warehouse Keeper Kluck: Yes, you are... You are now a mid-level agent... That is a quick promotion...congratulations!",
+   "header": "Warehouse Keeper Kluck",
+   "when": [
+    "state STARTED; cond 4; st.isSet(\"talk\")"
+   ],
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "\"Now how can I become a high-level agent?\"",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30895-11.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30895-11.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30895-11.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30895-09.html": {
+   "file": "Q00140_ShadowFoxPart2/30895-09.html",
+   "quest": 140,
+   "text": "Warehouse Keeper Kluck: You got it? Well done! This clue will help us find the Sword of Othelotte, although we need more... Still, our client will be happy to hear of this development...",
+   "header": "Warehouse Keeper Kluck",
+   "when": [
+    "state STARTED; cond 4; !st.isSet(\"talk\")"
+   ],
+   "links": [
+    {
+     "text": "\"Am I now a mid-level agent?\"",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30895-10.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30895-10.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30895-10.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-01.htm": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-01.htm",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: Whew! There's no way I can keep up this pace! Hello, friend! Am I glad to see you! For as long as anyone can remember, Dwarves have been traders, am I right? And now come the Humans, with their friends in high places, taking over the trade routes in Innadril, Abella, and…",
+   "header": "Warehouse Freightman Kluck",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I will help you.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland 30895-02.html",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "30895-02.html",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-02.html",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-03.html": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-03.html",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: I'm going crazy here! So many things to do... And nothing seems to be going right... What is the guild thinking, giving me such an assignment? What could they possibly expect me to do? Sometimes I wonder why I stay in this stupid guild! How long have you been standing th…",
+   "header": "Warehouse Freightman Kluck",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-11.html": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-11.html",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: Ah, you again... Have you brought me teeth? Or is it another question? What's that, a piece of paper?",
+   "header": "Warehouse Freightman Kluck",
+   "when": [
+    "state STARTED; st.hasQuestItems(MYSTERIOUS_MAP_PIECE.getId())"
+   ],
+   "links": [
+    {
+     "text": "\"I have a question about the Contract.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland 30895-05.html",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "30895-05.html",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-05.html"
+    },
+    {
+     "text": "\"I've brought you teeth.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland ADENA",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "ADENA",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-06.html",
+     "toAll": [
+      "Q00354_ConquestOfAlligatorIsland/30895-06.html",
+      "Q00354_ConquestOfAlligatorIsland/30895-07.html",
+      "Q00354_ConquestOfAlligatorIsland/30895-08.html"
+     ]
+    },
+    {
+     "text": "\"I've got work to do.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland 30895-09.html",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "30895-09.html",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-09.html"
+    },
+    {
+     "text": "\"I want out of the Contract.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland 30895-10.html",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "30895-10.html",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-10.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"Yes, it seems to be a piece of a Map...\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland REWARD",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "REWARD",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-13.html",
+     "toAll": [
+      "Q00354_ConquestOfAlligatorIsland/30895-13.html",
+      "Q00354_ConquestOfAlligatorIsland/30895-12.html"
+     ]
+    }
+   ]
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-04.html": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-04.html",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: Good to see you again, my friend... Have you brought teeth? Or perhaps you have a question...?",
+   "header": "Warehouse Freightman Kluck",
+   "when": [
+    "state STARTED; NOT st.hasQuestItems(MYSTERIOUS_MAP_PIECE.getId())"
+   ],
+   "links": [
+    {
+     "text": "\"Tell me more about the Contract I signed.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland 30895-05.html",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "30895-05.html",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-05.html"
+    },
+    {
+     "text": "\"Here are the teeth.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland ADENA",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "ADENA",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-06.html",
+     "toAll": [
+      "Q00354_ConquestOfAlligatorIsland/30895-06.html",
+      "Q00354_ConquestOfAlligatorIsland/30895-07.html",
+      "Q00354_ConquestOfAlligatorIsland/30895-08.html"
+     ]
+    },
+    {
+     "text": "\"I have work to do.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland 30895-09.html",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "30895-09.html",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-09.html"
+    },
+    {
+     "text": "\"I want out of the Contract.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland 30895-10.html",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "30895-10.html",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-10.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30895-03.htm": {
+   "file": "Q00140_ShadowFoxPart2/30895-03.htm",
+   "quest": 140,
+   "text": "Warehouse Keeper Kluck: Are you ready to show me that you've got what it takes? Hmm... Then listen carefully...",
+   "header": "Warehouse Keeper Kluck",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": [
+    {
+     "text": "Listen",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30895-05.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30895-05.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30895-05.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30895-05.html": {
+   "file": "Q00140_ShadowFoxPart2/30895-05.html",
+   "quest": 140,
+   "text": "Warehouse Keeper Kluck: Have you hear of Lionel Hunter, one of the lords of Innadril? He was an amazing warrior. As a young man, he even defeated Water Dragon Fafurion single-handed! Ah, but that's not what's important...",
+   "header": "Warehouse Keeper Kluck",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30895-06.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30895-06.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30895-06.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30895-06.html": {
+   "file": "Q00140_ShadowFoxPart2/30895-06.html",
+   "quest": 140,
+   "text": "Warehouse Keeper Kluck: It seems that the Sword of Othelotte actually exists. Its whereabouts are vague, but its scabbard was recently discovered. Magicians even saw the power of water -- the realm of Eva -- that flowed from the scabbard. Now we are trying to find out all we can about this blade...",
+   "header": "Warehouse Keeper Kluck",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00140_ShadowFoxPart2 30895-07.html",
+     "kind": "quest-event",
+     "script": "Q00140_ShadowFoxPart2",
+     "event": "30895-07.html",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30895-07.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00140_ShadowFoxPart2/30895-07.html": {
+   "file": "Q00140_ShadowFoxPart2/30895-07.html",
+   "quest": 140,
+   "text": "Warehouse Keeper Kluck: Thanks to investigation, we believe that the sword and a secret document that accompanies it are in the possession of Dark Elf Magister Xenovia in Heine. Please convince her to give you leave to bring us the Cryptogram of the Goddess Sword ...",
+   "header": "Warehouse Keeper Kluck",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00140_ShadowFoxPart2/30895-11.html": {
+   "file": "Q00140_ShadowFoxPart2/30895-11.html",
+   "quest": 140,
+   "text": "Warehouse Keeper Kluck: Ask Warehouse Chief Natools about how you can become a high-level agent. I was curious about the Sword of Othelotte... You did well! Thank you for your help.",
+   "header": "Warehouse Keeper Kluck",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-02.html": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-02.html",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: Well, then, here you go! Sign on the dotted line... Now, I'll read the Contract to you. Adventurer agrees to go to Alligator Island and kill the Crokian lads, dailaon lads, Crokian lad warriors, farhite lads, nos lads, and the Swamp Tribe and bring back their teeth as pr…",
+   "header": "Warehouse Freightman Kluck",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-05.html": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-05.html",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: OK, one more time... Adventurer agrees to go to Alligator Island and kill the Crokian lads, dailaon lads, Crokian lad warriors, farhite lads, nos lads, and the Swamp Tribe and bring back their teeth as proof. And Kluck, that's me, will count the number of teeth brought b…",
+   "header": "Warehouse Freightman Kluck",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland 30895-04.html",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "30895-04.html",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-04.html"
+    }
+   ]
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-06.html": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-06.html",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: Hey, impressive! You've brought over 100! Here is your reward! And, per the Contract, your bonus as well! I appreciate your hard work! Hopefully soon our dream of a free trade zone without tax will be realized. Keep up the good work!",
+   "header": "Warehouse Freightman Kluck",
+   "links": [
+    {
+     "text": "\"I'll be getting back to work now.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland 30895-09.html",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "30895-09.html",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-09.html"
+    },
+    {
+     "text": "\"I want out of the Contract.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland 30895-10.html",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "30895-10.html",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-10.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-07.html": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-07.html",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: Let's see, teeth are worth... Here you go! Thank you for your hard work! Hopefully soon the island will be completely free of monsters and our dream of a free trade zone without tax can be realized! Keep up the good work!",
+   "header": "Warehouse Freightman Kluck",
+   "links": [
+    {
+     "text": "\"I'll get back to work now.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland 30895-09.html",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "30895-09.html",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-09.html"
+    },
+    {
+     "text": "\"I want out of the Contract.\"",
+     "bypass": "Quest Q00354_ConquestOfAlligatorIsland 30895-10.html",
+     "kind": "quest-event",
+     "script": "Q00354_ConquestOfAlligatorIsland",
+     "event": "30895-10.html",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-10.html",
+     "effect": "end"
+    }
+   ]
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-08.html": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-08.html",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: Are you kidding? You expect something for nothing? Not around here, my friend! Go to Alligator Island immediately and bring me back some teeth! Do I need to read the Contract to you again?",
+   "header": "Warehouse Freightman Kluck",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-09.html": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-09.html",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: That's a good adventurer... Heh heh... This free trade zone will benefit us all!",
+   "header": "Warehouse Freightman Kluck",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-10.html": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-10.html",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: What a pity... You won't be easy to replace... I appreciate your contribution to our cause... When the free trade zone on Alligator Island becomes a reality and I have opened my own shop, you must visit me there. May the prosperity of Maphr be with you always...",
+   "header": "Warehouse Freightman Kluck",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-12.html": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-12.html",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: Hmm... A piece of Map, eh? I bet if we collected about 10 pieces just like it, we'd have a complete Map! Come to think of it, there is a rumor that part of the legendary treasure of Zaken the pirate is buried on Alligator Island. Zaken's boatswain's lover stole it and hi…",
+   "header": "Warehouse Freightman Kluck",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00354_ConquestOfAlligatorIsland/30895-13.html": {
+   "file": "Q00354_ConquestOfAlligatorIsland/30895-13.html",
+   "quest": 354,
+   "text": "Warehouse Freightman Kluck: Ah, yes, these pieces definitely go together... Just like doing a puzzle! What have we here? This mark must show where the treasure is hidden! This must surely be the Map to the legendary treasure of Zaken the pirate! Hmm, I suppose, according to the terms of the Contrac…",
+   "header": "Warehouse Freightman Kluck",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Shadow Fox - 2]",
+     "bypass": "npc_%objectId%_Quest Q00140_ShadowFoxPart2",
+     "kind": "quest",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30895-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Shadow Fox - 2 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00140_ShadowFoxPart2",
+     "kind": "quest",
+     "quest": 140,
+     "to": "Q00140_ShadowFoxPart2/30895-04.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Conquest of Alligator Island]",
+     "bypass": "npc_%objectId%_Quest Q00354_ConquestOfAlligatorIsland",
+     "kind": "quest",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Conquest of Alligator Island (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00354_ConquestOfAlligatorIsland",
+     "kind": "quest",
+     "quest": 354,
+     "to": "Q00354_ConquestOfAlligatorIsland/30895-11.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "warehouse/privatewh.htm": {
+   "file": "warehouse/privatewh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Private Warehouse",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item from the Private Warehouse",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "warehouse/clanwh.htm": {
+   "file": "warehouse/clanwh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item from the Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live"
+ ]
+}

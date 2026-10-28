@@ -1,0 +1,2728 @@
+{
+ "npcId": 30182,
+ "name": "Cliff",
+ "title": "Warehouse Keeper",
+ "type": "L2Warehouse",
+ "generated": "2026-10-27T18:18:02.868Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "warehouse/30182.htm",
+   "when": "",
+   "src": "html/warehouse"
+  }
+ ],
+ "quests": {
+  "234": {
+   "name": "Fate's Whisper",
+   "listText": [
+    "[Fate's Whisper]",
+    "[Fate's Whisper (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00234_FatesWhisper/30182-01.html",
+     "when": "memo 4",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/30182-05.html",
+     "when": "memo 4",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/30182-06.html",
+     "when": "qs.getMemoState() >= 5",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-01.html",
+     "when": "memo 7",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-03.html",
+     "when": "memo 8; whiteBloodyFabricCount <= 0",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-04.html",
+     "when": "memo 8; whiteBloodyFabricCount <= 0",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-03c.html",
+     "when": "memo 8; bloodyFabricCount < 30; whiteBloodyFabricCount >= 30",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-03d.html",
+     "when": "memo 8; bloodyFabricCount >= 30; whiteBloodyFabricCount >= 30",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-03e.html",
+     "when": "memo 8; whiteBloodyFabricCount < 30; whiteBloodyFabricCount > 0",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00234_FatesWhisper/30833-05.html",
+     "when": "qs.getMemoState() >= 9",
+     "state": null,
+     "cond": null,
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "384": {
+   "name": "Warehouse Keeper's Pastime",
+   "listText": [
+    "[Warehouse Keeper's Pastime]",
+    "[Warehouse Keeper's Pastime (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00384_WarehouseKeepersPastime/30182-01.htm",
+     "when": "state CREATED; level >= 40",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00384_WarehouseKeepersPastime/30182-04.html",
+     "when": "state CREATED",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00384_WarehouseKeepersPastime/30182-06.html",
+     "when": "qs.getQuestItemsCount(Q_IRONGATE_MEDAL) < 10",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00384_WarehouseKeepersPastime/30182-07.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "warehouse/30182.htm": {
+   "file": "warehouse/30182.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Cliff: Welcome, welcome! Isn't that equipment heavy? Put it down and give your back a rest, friend! In fact, why not leave what you don't need here with us? You won't find a safer, more secure place to store your valuables than a Dwarven warehouse. Empires may rise and fall, but ou…",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "Private Warehouse.",
+     "bypass": "npc_%objectId%_Link warehouse/privatewh.htm",
+     "kind": "page",
+     "to": "warehouse/privatewh.htm",
+     "live": true,
+     "dpText": "Private Warehouse"
+    },
+    {
+     "text": "Clan Warehouse",
+     "bypass": "npc_%objectId%_Link warehouse/clanwh.htm",
+     "kind": "page",
+     "to": "warehouse/clanwh.htm"
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "npc_%objectId%_Link common/g_cube_warehouse001.htm",
+     "kind": "page",
+     "to": "common/g_cube_warehouse001.htm",
+     "live": true
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true,
+     "dpText": "Quest"
+    }
+   ]
+  },
+  "warehouse/30182-noteach.htm": {
+   "file": "warehouse/30182-noteach.htm",
+   "quest": null,
+   "text": "Warehouse Keeper Cliff: Who are you? Just look at yourself. Where's your beard, then? You're no Dwarf!",
+   "header": "Warehouse Keeper Cliff",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30182-01.html": {
+   "file": "Q00234_FatesWhisper/30182-01.html",
+   "quest": 234,
+   "text": "Warehouse Freightman Cliff: Ah, so you were sent by Maestro Reorin? What wonderful news! How is the Maestro? I am so glad to hear he is active again. I feel bad because I've been too busy to go and see him. What happened was so sad... To tell you the truth, I couldn't bear to look him in the eye.",
+   "header": "Warehouse Freightman Cliff",
+   "when": [
+    "memo 4"
+   ],
+   "links": [
+    {
+     "text": "\"I am looking for Infernium Varnish.\"",
+     "bypass": "Quest Q00234_FatesWhisper 1",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "1",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/30182-02.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/30182-05.html": {
+   "file": "Q00234_FatesWhisper/30182-05.html",
+   "quest": 234,
+   "text": "Warehouse Freightman Cliff: Why haven't you left? Take the Infernium Varnish to the Maestro immediately! We mustn't delay his work!",
+   "header": "Warehouse Freightman Cliff",
+   "when": [
+    "memo 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30182-06.html": {
+   "file": "Q00234_FatesWhisper/30182-06.html",
+   "quest": 234,
+   "text": "Warehouse Freightman Cliff: Good news! The guild elders have issued Maestro Reorin a pardon! Hopefully now he can put all the unpleasantness behind him and get back to work at the blacksmith guild. What a shame that I am now a warehouse keeper and will not get the pleasure of working with him... Oh…",
+   "header": "Warehouse Freightman Cliff",
+   "when": [
+    "qs.getMemoState() >= 5"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-01.html": {
+   "file": "Q00234_FatesWhisper/30833-01.html",
+   "quest": 234,
+   "text": "Magister Kaspar: Ah, you must have come for Maestro Reorin's Mold. How is Reorin? I should check you out. Uh oh, did I say that out loud? Sorry... I was just talking to myself. If you knew what I went throught to get this mold, you would understand why I can't just give it to you for nothing... If …",
+   "header": "Magister Kaspar",
+   "when": [
+    "memo 7"
+   ],
+   "links": [
+    {
+     "text": "\"What do you want me to do?\"",
+     "bypass": "Quest Q00234_FatesWhisper 1",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "1",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/30182-02.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/30833-03.html": {
+   "file": "Q00234_FatesWhisper/30833-03.html",
+   "quest": 234,
+   "text": "Magister Kaspar: Have you met Magister Hanellin of the Town of Aden ? Baium will tell you how to access the sealed room on the top floor of the Tower of Insolence. Please don't forget that you promised to cut Baium with the pipet knife I gave you, and absorb at least a few drops of his blood. This …",
+   "header": "Magister Kaspar",
+   "when": [
+    "memo 8; whiteBloodyFabricCount <= 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-04.html": {
+   "file": "Q00234_FatesWhisper/30833-04.html",
+   "quest": 234,
+   "text": "Magister Kaspar: You exceeded my expectations! Excellent job! Obviously, there is more to you than meets the eye. I now see that the attention you've been getting is well-deserved. Well, as promised, here is Maestro Reorin's Mold . As it is said, a person's belongings have a way of finding their wa…",
+   "header": "Magister Kaspar",
+   "when": [
+    "memo 8; whiteBloodyFabricCount <= 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-03c.html": {
+   "file": "Q00234_FatesWhisper/30833-03c.html",
+   "quest": 234,
+   "text": "Magister Kaspar: Did you acquire the Blood of the Angel? Staining the white cloth I gave to you with it will be easier than going to Baium, don't you think? But is this all you've done? Time to prove your worth, my young friend.",
+   "header": "Magister Kaspar",
+   "when": [
+    "memo 8; bloodyFabricCount < 30; whiteBloodyFabricCount >= 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-03d.html": {
+   "file": "Q00234_FatesWhisper/30833-03d.html",
+   "quest": 234,
+   "text": "Magister Kaspar: You're as good as advertised. Well done! To be honest, I had my doubts you would succeed. But you exceeded my expectations. Now I now why so many speak so highly of you. Now, as promised, I'll return Maestro Reorin's mold to you. It's only right that an item like this should go bac…",
+   "header": "Magister Kaspar",
+   "when": [
+    "memo 8; bloodyFabricCount >= 30; whiteBloodyFabricCount >= 30"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-03e.html": {
+   "file": "Q00234_FatesWhisper/30833-03e.html",
+   "quest": 234,
+   "text": "Magister Kaspar: Did you forget your promise? I don't know why your reputation is as high as it is. But I suppose everyone can fall flat now and again. I'll give you another chance: take these 30 pieces of white cloth and dye all of them with the Blood of the Angel.",
+   "header": "Magister Kaspar",
+   "when": [
+    "memo 8; whiteBloodyFabricCount < 30; whiteBloodyFabricCount > 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00234_FatesWhisper/30833-05.html": {
+   "file": "Q00234_FatesWhisper/30833-05.html",
+   "quest": 234,
+   "text": "Magister Kaspar: Maestro Reorin's \"Dasparion's Staff\" is world-renowned, even among the Magi. It is rumored that he is working on a new weapon! I can't wait to see what he comes up with!",
+   "header": "Magister Kaspar",
+   "when": [
+    "qs.getMemoState() >= 9"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00384_WarehouseKeepersPastime/30182-01.htm": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-01.htm",
+   "quest": 384,
+   "text": "Warehouse Freightman Cliff: Being a warehouse keeper can be very boring, just sitting around waiting for people to bring items in. Warehouse keepers think of different ways to amuse themselves. I usually pass the time playing bingo with other warehouse keepers. On my day off, I visit the warehouse …",
+   "header": "Warehouse Keeper Cliff",
+   "when": [
+    "state CREATED; level >= 40"
+   ],
+   "live": {
+    "file": "Logs/npclive_Cliff_bcec0229.html",
+    "at": "2026-10-27T14:43:05.970Z",
+    "score": "manual"
+   },
+   "dpText": "Warehouse Keeper Cliff: Don't tell my boss, but this job can get kinda slow. That's why we warehouse keepers created our own fun. I often play bingo with the other warehouse keepers. Sometime I even go over to another town's warehouse to play bingo on my days off. But to be honest, regular bingo ha…",
+   "links": [
+    {
+     "text": "\"How do you make the game more interesting?\"",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 4",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "4",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-02.htm",
+     "live": true,
+     "dpText": "\"So?\""
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-04.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-04.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: Don't tell my boss, but this job can get kinda slow. That's why we warehouse keepers created our own fun. I often play bingo with the other warehouse keepers. Sometime I even go over to another town's warehouse to play bingo on my days off. Unfortunately, something recently …",
+   "header": "Warehouse Keeper Cliff",
+   "when": [
+    "state CREATED"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00384_WarehouseKeepersPastime/30182-06.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-06.html",
+   "quest": 384,
+   "text": "Warehouse Freightman Cliff: As I mentioned before, defeat Rotting Golem, Giant Monstereye, Conjurer Bat, Conjurer Bat Lord, Tulben, Hunter Gargoyle, Dustwind Gargoyle, Thunder Wyrm, Karicain, Weird Drake, Grave Guard, Nightmare Guide, Nightmare Keeper, Nightmare Lord , etc. and collect the Warehous…",
+   "header": "Warehouse Freightman Cliff",
+   "when": [
+    "qs.getQuestItemsCount(Q_IRONGATE_MEDAL) < 10"
+   ],
+   "links": [
+    {
+     "text": "Listen to the Rules of Bingo",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 3",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "3",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-09a.htm"
+    },
+    {
+     "text": "Say that you quit.",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 6",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "6",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-08.html"
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-07.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-07.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: Did you recover my medals? Then let's play bingo! According to rules of the game, you can bet either 10 or 100 medals. Of course, betting 100 gives you a better chance of winning. Before we start, make sure you have enough space in your inventory -- if you win, you want to b…",
+   "header": "Warehouse Keeper Cliff",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Bet 10 Medals of the Warehouse Keeper.",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 7",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "7",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-10.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-10.html",
+      "Q00384_WarehouseKeepersPastime/30182-11.html"
+     ]
+    },
+    {
+     "text": "Bet 100 Medals of the Warehouse Keeper.",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 8",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "8",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-12.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-12.html",
+      "Q00384_WarehouseKeepersPastime/30182-11.html"
+     ]
+    },
+    {
+     "text": "Ask about the bingo rules.",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 9",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "9",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-09.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/30182-02.html": {
+   "file": "Q00234_FatesWhisper/30182-02.html",
+   "quest": 234,
+   "text": "Warehouse Freightman Cliff: Why do you seek Infernium Varnish? Don't tell me that Maestro Reorin is fooling around with demons again! He should know better than that, after what happened with the demon Hallate... He was tricked into making scepters for them! Oh, that's not it this time, eh?",
+   "header": "Warehouse Freightman Cliff",
+   "links": [
+    {
+     "text": "\"All the scepters have been recovered from the demons.\"",
+     "bypass": "Quest Q00234_FatesWhisper 2",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "2",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/30182-03.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/30182-03.html": {
+   "file": "Q00234_FatesWhisper/30182-03.html",
+   "quest": 234,
+   "text": "Warehouse Freightman Cliff: Very impressive! All the scepters! How wonderful! I must report this to the superiors at the guild! Perhaps they will reconsider his banishment for \"dealings with demons\". What does he intend to do with the scepters?",
+   "header": "Warehouse Freightman Cliff",
+   "links": [
+    {
+     "text": "\"He will melt them down in order to create something else.\"",
+     "bypass": "Quest Q00234_FatesWhisper 3",
+     "kind": "quest-event",
+     "script": "Q00234_FatesWhisper",
+     "event": "3",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/30182-04.html"
+    }
+   ]
+  },
+  "Q00234_FatesWhisper/30182-04.html": {
+   "file": "Q00234_FatesWhisper/30182-04.html",
+   "quest": 234,
+   "text": "Warehouse Freightman Cliff: Splendid! What is he going to make? I can't wait to see it! Here you go, take this Infernium Varnish to the maestro immediately! I knew this stuff would come in handy someday... Now I am off to see the guild elders and tell them of the recovery of the scepters. Perhaps h…",
+   "header": "Warehouse Freightman Cliff",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00384_WarehouseKeepersPastime/30182-02.htm": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-02.htm",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: We've made the bingo games a little more interesting by adding some gambling. One of the perks of being a warehouse keeper is that there are all sorts of items left by owners who never come back to pick them up. That gives us a good stake for our games. Actually, though, I m…",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "Ask what happened.",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 5",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "5",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-03.htm"
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-03.htm": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-03.htm",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: Recently, a cargo wagon from Hunter's Village was attacked by monsters , and all its freight was stolen. Most of the items weren't very valuable, but a large quantity of Medals of the Warehouse Keeper was also being transported. Every one was taken! Why were all those medals…",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "Say that you will help.",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime QUEST_ACCEPTED",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "QUEST_ACCEPTED",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-05.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-05.htm": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-05.htm",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: Good! Bring back my Medals of the Warehouse Keeper and I'll give you a chance to play bingo with the big boys. If you do well, you can get an abandoned item from my warehouse as a reward. Who knows? You might get a nice weapon or a new set of armor. Ha ha! According to rules…",
+   "header": "Warehouse Keeper Cliff",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00384_WarehouseKeepersPastime/30182-08.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-08.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: Well, not all the medals have been recovered, but I understand. I'm sure you have other obligations... Come back whenever you want to play bingo again.",
+   "header": "Warehouse Keeper Cliff",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00384_WarehouseKeepersPastime/30182-09.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-09.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: I'll place numbers 1-9 on a 3x3 numberpad. Then you pick 6 numbers out of 1-9. When you finished your choices, we count how many lines can be made from your numbers: horizontally, vertically or diagonally. Got it? Maybe the easiest way to learn is to play it once. I'll give …",
+   "header": "Warehouse Keeper Cliff",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back to the game.",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 30182-07.html",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "30182-07.html",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-07.html"
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-09a.htm": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-09a.htm",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: I'll place numbers 1-9 on a 3x3 numberpad. Then you pick 6 numbers out of 1-9. When you finished your choices, we count how many lines can be made from your numbers: horizontally, vertically or diagonally. Got it? Maybe the easiest way to learn is to play it once. I'll give …",
+   "header": "Warehouse Keeper Cliff",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00384_WarehouseKeepersPastime/30182-10.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-10.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: I placed hidden numbers from 1-9 on a numberpad. Now I take your 10 medals as a deposit -- that way no one is tempted to welch on a bet! If you stop before we're finished, your medals will be forfeit. Now it's time to pick 6 numbers from 1-9. Choose your first number.",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 10",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "10",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 11",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "11",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 12",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "12",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 13",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "13",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 14",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "14",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 15",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "15",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 16",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "16",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 17",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "17",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 18",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "18",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-11.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-11.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: Hey! You don't have enough medals to play. What happened? Come back after gathering more medals.",
+   "header": "Warehouse Keeper Cliff",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00384_WarehouseKeepersPastime/30182-12.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-12.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: I placed hidden numbers from 1-9 on a numberpad. Now I take your 100 medals as a deposit -- that way no one is tempted to welch on a bet! If you stop before we're finished, your medals will be forfeit. Now it's time to pick 6 numbers from 1-9. Choose your first number.",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 10",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "10",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 11",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "11",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 12",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "12",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 13",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "13",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 14",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "14",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 15",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "15",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 16",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "16",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 17",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "17",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 18",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "18",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-13.html"
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-13.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-13.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff:",
+   "header": "Warehouse Keeper Cliff",
+   "live": {
+    "file": "Logs/npclive_Cliff_49ddf649.html",
+    "at": "2026-10-27T14:43:04.110Z",
+    "score": 0.3
+   },
+   "dpText": "Warehouse Keeper Cliff: Now, pick your second number. Current status",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 19",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "19",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 20",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "20",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 21",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "21",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 22",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "22",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 23",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "23",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 24",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "24",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 25",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "25",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 26",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "26",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 27",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "27",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "Deposit an item. (Private Warehouse)",
+     "bypass": "live 00",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Withdraw an item. (Private Warehouse) (List all)",
+     "bypass": "live 01",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Withdraw an item. (Private Warehouse) (Select)",
+     "bypass": "live 02",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Return",
+     "bypass": "live 03",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-14.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-14.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: Now, pick the third number. Current status",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 19",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "19",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 20",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "20",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 21",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "21",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 22",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "22",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 23",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "23",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 24",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "24",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 25",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "25",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 26",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "26",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 27",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "27",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-15.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-15.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: That number has already been picked. Pick the second number again. Current status",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 19",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "19",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 20",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "20",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 21",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "21",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 22",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "22",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 23",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "23",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 24",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "24",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 25",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "25",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 26",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "26",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 27",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "27",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-16.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-16.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: Time to pick the fourth number! Current status",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 19",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "19",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 20",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "20",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 21",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "21",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 22",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "22",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 23",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "23",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 24",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "24",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 25",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "25",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 26",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "26",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 27",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "27",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-17.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-17.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: That number has already been picked. Pick the third number again. Current status",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 19",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "19",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 20",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "20",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 21",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "21",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 22",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "22",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 23",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "23",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 24",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "24",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 25",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "25",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 26",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "26",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 27",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "27",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-18.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-18.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: You're almost finished. Choose your fifth number carefully. Current status",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 19",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "19",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 20",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "20",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 21",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "21",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 22",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "22",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 23",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "23",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 24",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "24",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 25",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "25",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 26",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "26",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 27",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "27",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-19.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-19.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: That number has already been chosen. Pick the fourth number again. Current status",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 19",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "19",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 20",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "20",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 21",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "21",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 22",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "22",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 23",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "23",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 24",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "24",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 25",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "25",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 26",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "26",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 27",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "27",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-20.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-20.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: OK, now it's time for the sixth number. It's your last choice, so choose well. Current status",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 55",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "55",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 56",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "56",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 57",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "57",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 58",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "58",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 59",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "59",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 60",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "60",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 61",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "61",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 62",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "62",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 63",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "63",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-21.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-21.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: Getting confused? You chose a number that was already chosen. Pick the fifth number again. Current status",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 19",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "19",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 20",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "20",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 21",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "21",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 22",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "22",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 23",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "23",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 24",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "24",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 25",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "25",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 26",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "26",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 27",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "27",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-14.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-14.html",
+      "Q00384_WarehouseKeepersPastime/30182-16.html",
+      "Q00384_WarehouseKeepersPastime/30182-18.html",
+      "Q00384_WarehouseKeepersPastime/30182-20.html",
+      "Q00384_WarehouseKeepersPastime/30182-15.html",
+      "Q00384_WarehouseKeepersPastime/30182-17.html",
+      "Q00384_WarehouseKeepersPastime/30182-19.html",
+      "Q00384_WarehouseKeepersPastime/30182-21.html"
+     ]
+    }
+   ]
+  },
+  "Q00384_WarehouseKeepersPastime/30182-22.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-22.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: Ah! On the bingo pad below, you can see the numbers you chose in red. You've completed 3 lines! Congratulations! As I promised, I'll give you one of the abandoned items from my warehouse. Wait here... . . . Phew! So dusty! Here it is. See anything you like? \"> \"> \"> \"> \"> \">…",
+   "header": "Warehouse Keeper Cliff",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00384_WarehouseKeepersPastime/30182-23.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-23.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: Hmm. You can see your picks in red on the numberpad below/ Unfortunately, your numbers didn't create at least 3 lines. Better luck next time! \"> \"> \"> \"> \"> \"> \"> \"> \">",
+   "header": "Warehouse Keeper Cliff",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00384_WarehouseKeepersPastime/30182-24.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-24.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: You are a seriously unlucky person! You can see your picks in red on the bingo pad below. As you can see, you didn't even get 1 line! You know, that's harder to do than to get 3! I feel for you, friend. Let me give you something as a bit of encouragement. Wait here for a min…",
+   "header": "Warehouse Keeper Cliff",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00384_WarehouseKeepersPastime/30182-25.html": {
+   "file": "Q00384_WarehouseKeepersPastime/30182-25.html",
+   "quest": 384,
+   "text": "Warehouse Keeper Cliff: That number has already been chosen. Pick the sixth number again. Current status",
+   "header": "Warehouse Keeper Cliff",
+   "links": [
+    {
+     "text": "1",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 55",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "55",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "2",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 56",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "56",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "3",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 57",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "57",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "4",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 58",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "58",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "5",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 59",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "59",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "6",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 60",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "60",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "7",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 61",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "61",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "8",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 62",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "62",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    },
+    {
+     "text": "9",
+     "bypass": "Quest Q00384_WarehouseKeepersPastime 63",
+     "kind": "quest-event",
+     "script": "Q00384_WarehouseKeepersPastime",
+     "event": "63",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-22.html",
+     "toAll": [
+      "Q00384_WarehouseKeepersPastime/30182-22.html",
+      "Q00384_WarehouseKeepersPastime/30182-24.html",
+      "Q00384_WarehouseKeepersPastime/30182-23.html",
+      "Q00384_WarehouseKeepersPastime/30182-25.html"
+     ]
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Fate's Whisper (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00234_FatesWhisper",
+     "kind": "quest",
+     "quest": 234,
+     "to": "Q00234_FatesWhisper/30182-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Warehouse Keeper's Pastime]",
+     "bypass": "npc_%objectId%_Quest Q00384_WarehouseKeepersPastime",
+     "kind": "quest",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Warehouse Keeper's Pastime (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00384_WarehouseKeepersPastime",
+     "kind": "quest",
+     "quest": 384,
+     "to": "Q00384_WarehouseKeepersPastime/30182-06.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "warehouse/privatewh.htm": {
+   "file": "warehouse/privatewh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Private Warehouse",
+     "bypass": "npc_%objectId%_DepositP",
+     "kind": "warehouse"
+    },
+    {
+     "text": "Withdraw an item from the Private Warehouse",
+     "bypass": "npc_%objectId%_WithdrawP",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "warehouse/clanwh.htm": {
+   "file": "warehouse/clanwh.htm",
+   "quest": null,
+   "text": "Warehouse Keeper:",
+   "header": "Warehouse Keeper",
+   "links": [
+    {
+     "text": "Deposit an item in the Clan Warehouse",
+     "bypass": "npc_%objectId%_DepositC",
+     "kind": "warehouse",
+     "confirm": "1039"
+    },
+    {
+     "text": "Withdraw an item from the Clan Warehouse",
+     "bypass": "npc_%objectId%_WithdrawC",
+     "kind": "warehouse"
+    }
+   ]
+  },
+  "common/g_cube_warehouse001.htm": {
+   "file": "common/g_cube_warehouse001.htm",
+   "quest": null,
+   "text": "Our \"Iron Gate\" guild has came up with an amazing stuff after months of research. It's called \"Wondrous Cubic\". This item can make various types of \"Cube Fragments\". However, this item can only be used once a day, which has made it somewhat difficult to collect the fragments. How about it? If you b…",
+   "live": {
+    "file": "Logs/npclive_Walderal_70048d37.html",
+    "at": "2026-10-27T14:34:34.156Z",
+    "score": 1
+   },
+   "links": [
+    {
+     "text": "Buy an item using Cube Fragments.",
+     "bypass": "npc_%objectId%_multisell 631",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Purchase items with Cube Fragments"
+    }
+   ]
+  },
+  "live:npclive_Cliff_500a4db4.html": {
+   "file": "Logs/npclive_Cliff_500a4db4.html",
+   "quest": null,
+   "header": "Warehouse Keeper Cliff",
+   "text": "Warehouse Keeper Cliff: Come in, come in! My, that looks heavy! Just put it down here... This secure warehouse is managed by the Dwarf Bank Union. Once you deposit your item here, only you or the person you designate can withdraw it. Trust and security are our motto. Have you ever heard of an item …",
+   "live": {
+    "file": "Logs/npclive_Cliff_500a4db4.html",
+    "at": "2026-10-27T14:43:03.932Z"
+   },
+   "outcome": "info",
+   "serverCustom": true,
+   "links": [
+    {
+     "text": "Private Warehouse.",
+     "bypass": "live 00",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Clan Warehouse.",
+     "bypass": "live 01",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Party Distribution [All]",
+     "bypass": "live 02",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Party Distribute and Equip [All]",
+     "bypass": "live 03",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Party Distribute [Select]",
+     "bypass": "live 04",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Party Distribute and Equip [Select]",
+     "bypass": "live 05",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Wondrous Cubic",
+     "bypass": "live 06",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Learn skills.",
+     "bypass": "live 07",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    },
+    {
+     "text": "Quest.",
+     "bypass": "live 08",
+     "kind": "live-only",
+     "live": true,
+     "to": null
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of Q00384_WarehouseKeepersPastime/30182-01.htm differs: live \"Warehouse Freightman Cliff: Being a warehouse keeper can be very boring, just sitting aro…\" vs datapack \"Warehouse Keeper Cliff: Don't tell my boss, but this job can get kinda slow. That's why w…\"",
+  "Q00384_WarehouseKeepersPastime/30182-01.htm: link \"\"So?\"\" is \"\"How do you make the game more interesting?\"\" live",
+  "text of Q00384_WarehouseKeepersPastime/30182-13.html differs: live \"Warehouse Keeper Cliff:\" vs datapack \"Warehouse Keeper Cliff: Now, pick your second number. Current status\"",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: datapack link \"1\" not in the live page (Logs/npclive_Cliff_49ddf649.html)",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: datapack link \"2\" not in the live page (Logs/npclive_Cliff_49ddf649.html)",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: datapack link \"3\" not in the live page (Logs/npclive_Cliff_49ddf649.html)",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: datapack link \"4\" not in the live page (Logs/npclive_Cliff_49ddf649.html)",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: datapack link \"5\" not in the live page (Logs/npclive_Cliff_49ddf649.html)",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: datapack link \"6\" not in the live page (Logs/npclive_Cliff_49ddf649.html)",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: datapack link \"7\" not in the live page (Logs/npclive_Cliff_49ddf649.html)",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: datapack link \"8\" not in the live page (Logs/npclive_Cliff_49ddf649.html)",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: datapack link \"9\" not in the live page (Logs/npclive_Cliff_49ddf649.html)",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: live-only link \"Deposit an item. (Private Warehouse)\" (server custom)",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: live-only link \"Withdraw an item. (Private Warehouse) (List all)\" (server custom)",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: live-only link \"Withdraw an item. (Private Warehouse) (Select)\" (server custom)",
+  "Q00384_WarehouseKeepersPastime/30182-13.html: live-only link \"Return\" (server custom)",
+  "common/g_cube_warehouse001.htm: link \"Purchase items with Cube Fragments\" is \"Buy an item using Cube Fragments.\" live",
+  "server-custom page Logs/npclive_Cliff_500a4db4.html: \"Warehouse Keeper Cliff: Come in, come in! My, that looks heavy! Just put it dow…\" links: Private Warehouse. | Clan Warehouse. | Party Distribution [All] | Party Distribute and Equip [All] | Party Distribute [Select] | Party Distribute and Equip [Select] | Wondrous Cubic | Learn skills."
+ ],
+ "liveClicks": [
+  {
+   "text": "Private Warehouse.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Keeper Cliff:Come in, come in! My, that looks heav"
+   ],
+   "to": [
+    "Warehouse Keeper Cliff:Deposit an item. (Private Warehouse)W"
+   ]
+  },
+  {
+   "text": "Wondrous Cubic",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Keeper Cliff:Come in, come in! My, that looks heav"
+   ],
+   "to": [
+    "Our \"Iron Gate\" guild has came up with an amazing stuff afte"
+   ]
+  },
+  {
+   "text": "Quest.",
+   "n": 1,
+   "inDatapack": true,
+   "from": [
+    "Warehouse Keeper Cliff:Come in, come in! My, that looks heav"
+   ],
+   "to": [
+    "Warehouse Freightman Cliff:Being a warehouse keeper can be v"
+   ]
+  }
+ ]
+}

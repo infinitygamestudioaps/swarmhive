@@ -1,0 +1,119 @@
+{
+ "npcId": 32576,
+ "name": "John",
+ "title": "Captain of the Dawn",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.388Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/32576.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "195": {
+   "name": "Seven Signs, Secret Ritual of the Priests",
+   "listText": [
+    "[Seven Signs, Secret Ritual of the Priests]",
+    "[Seven Signs, Secret Ritual of the Priests (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00195_SevenSignsSecretRitualOfThePriests/32576-01.html",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00195_SevenSignsSecretRitualOfThePriests/32576-03.html",
+     "when": "state STARTED; cond 2",
+     "state": "STARTED",
+     "cond": [
+      2
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/32576.htm": {
+   "file": "default/32576.htm",
+   "quest": null,
+   "text": "Oracle Captain John: Captain sounds like a fancy old title, doesn't it? But you know what? I'd drop it like a hot potato if I had the chance. Barely a pay-rise to be had, an' you get all the complainin' to put up with.",
+   "header": "Oracle Captain John",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/32576-01.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/32576-01.html",
+   "quest": 195,
+   "text": "Oracle Captain John: What do you want eh, shelter from the wind? How about you toddle off 'fore I end up with bruised fists?",
+   "header": "Oracle Captain John",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "links": [
+    {
+     "text": "\"Lady Claudia sent me, I'm...\"",
+     "bypass": "Quest Q00195_SevenSignsSecretRitualOfThePriests 32576-02.html",
+     "kind": "quest-event",
+     "script": "Q00195_SevenSignsSecretRitualOfThePriests",
+     "event": "32576-02.html",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/32576-02.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/32576-03.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/32576-03.html",
+   "quest": 195,
+   "text": "Oracle Captain John: Eh? Weren't nothin' else for me to give you was there? No... no. You best be off!",
+   "header": "Oracle Captain John",
+   "when": [
+    "state STARTED; cond 2"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00195_SevenSignsSecretRitualOfThePriests/32576-02.html": {
+   "file": "Q00195_SevenSignsSecretRitualOfThePriests/32576-02.html",
+   "quest": 195,
+   "text": "Oracle Captain John: Oh! Begs your pardon, just we get lots of vagrants and the like round here, see? Terribly sorry if I caused offense--wasn't my intention, 'specially not after Lady Claudia was so generous with that... donation... of hers. Here you are--that card'll get you into the Sanctum fast…",
+   "header": "Oracle Captain John",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seven Signs, Secret Ritual of the Priests (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00195_SevenSignsSecretRitualOfThePriests",
+     "kind": "quest",
+     "quest": 195,
+     "to": "Q00195_SevenSignsSecretRitualOfThePriests/32576-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

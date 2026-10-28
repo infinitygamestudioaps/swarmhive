@@ -1,0 +1,439 @@
+{
+ "npcId": 31045,
+ "name": "Kitzka",
+ "title": "Valley Trader",
+ "type": "L2Merchant",
+ "generated": "2026-10-27T18:18:03.130Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "merchant/31045.htm",
+   "when": "",
+   "src": "html/merchant"
+  }
+ ],
+ "quests": {
+  "26": {
+   "name": "Tired of Waiting",
+   "listText": [
+    "[Tired of Waiting]",
+    "[Tired of Waiting (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00026_TiredOfWaiting/31045-01.html",
+     "when": "state STARTED; st.hasQuestItems(DELIVERY_BOX)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00026_TiredOfWaiting/31045-09.html",
+     "when": "state STARTED; NOT st.hasQuestItems(DELIVERY_BOX)",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "merchant/31045.htm": {
+   "file": "merchant/31045.htm",
+   "quest": null,
+   "text": "Kitzka: Well, OK! Now, you don't have to make a long trip to Giran just for supplies! Brave merchants aren't picky about trading places. Welcome to Dragon Valley, where only the brave dare to enter!",
+   "header": "Kitzka",
+   "links": [
+    {
+     "text": "Trade supplies and minerals",
+     "bypass": "npc_%objectId%_Buy 3104500",
+     "kind": "shop"
+    },
+    {
+     "text": "\"I want to ask about the special items of this place.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/31045-1.htm"
+    },
+    {
+     "text": "\"I want to ask about the geography of the Valley.\"",
+     "bypass": "npc_%objectId%_Chat 2",
+     "kind": "page",
+     "to": "merchant/31045-2.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "merchant/31045-1.htm": {
+   "file": "merchant/31045-1.htm",
+   "quest": null,
+   "text": "Kitzka: According to my report, the following three items can only be obtained in Antharas' Cave in Dragon Valley.",
+   "header": "Kitzka",
+   "links": [
+    {
+     "text": "Large Dragon Bone",
+     "bypass": "npc_%objectId%_Chat 3",
+     "kind": "page",
+     "to": "merchant/31045-3.htm"
+    },
+    {
+     "text": "Sealed Blood Crystal",
+     "bypass": "npc_%objectId%_Chat 4",
+     "kind": "page",
+     "to": "merchant/31045-4.htm"
+    },
+    {
+     "text": "Will of Antharas",
+     "bypass": "npc_%objectId%_Chat 5",
+     "kind": "page",
+     "to": "merchant/31045-5.htm"
+    },
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "merchant/31045.htm"
+    }
+   ]
+  },
+  "merchant/31045-2.htm": {
+   "file": "merchant/31045-2.htm",
+   "quest": null,
+   "text": "Kitzka: Dragon Valley is an enormous canyon ruled by the dragons and drakes. The souls of those who resisted Antharas and fought against him turned into the undead there - they are bound there and left to await their end. The monsters become stronger as you get deeper into the valley, so you MUST p…",
+   "header": "Kitzka",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "merchant/31045.htm"
+    }
+   ]
+  },
+  "merchant/31045-3.htm": {
+   "file": "merchant/31045-3.htm",
+   "quest": null,
+   "text": "Kitzka: The Large Dragon Bone is an item for calling forth a powerful dragon. In Dragon Valley, there are 4 Dragon Vortexes. If you use the item there, you can summon one of the following raid monsters: Emerald Horn, Dust Rider, Bloody Fly, Black Dagger Wing, Shadow Summoner, Spike Slasher, Muscle …",
+   "header": "Kitzka",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/31045-1.htm"
+    }
+   ]
+  },
+  "merchant/31045-4.htm": {
+   "file": "merchant/31045-4.htm",
+   "quest": null,
+   "text": "Kitzka: The Sealed Blood Crystal is Antharas' crystallized spilled blood. It has lost the original magic power of Antharas' blood, but if you combine it with Will of Antharas , you can obtain an item with tremendous magic power. If you use it, you can resurrect numerous people simultaneously . This…",
+   "header": "Kitzka",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/31045-1.htm"
+    }
+   ]
+  },
+  "merchant/31045-5.htm": {
+   "file": "merchant/31045-5.htm",
+   "quest": null,
+   "text": "Kitzka: Will of Antharas is a command stone that Antharas has implanted into its subordinates in order to command their actions. It is a tool that maximizes the magic power of Antharas' subordinates. If you combine it with the Sealed Blood Crystal , you can obtain an item with incredible magic powe…",
+   "header": "Kitzka",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "merchant/31045-1.htm"
+    }
+   ]
+  },
+  "Q00026_TiredOfWaiting/31045-01.html": {
+   "file": "Q00026_TiredOfWaiting/31045-01.html",
+   "quest": 26,
+   "text": "Valley Trader Kitzka: Yes? Do you need something else?",
+   "header": "Valley Trader Kitzka",
+   "when": [
+    "state STARTED; st.hasQuestItems(DELIVERY_BOX)"
+   ],
+   "links": [
+    {
+     "text": "\"I brought the item that Isael Silvershadow requested...\"",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-02.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-02.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-02.html"
+    }
+   ]
+  },
+  "Q00026_TiredOfWaiting/31045-09.html": {
+   "file": "Q00026_TiredOfWaiting/31045-09.html",
+   "quest": 26,
+   "text": "Valley Trader Kitzka: Did you think it was over? As I said before, I can give you the following items. Please listen to the explanations first, tell me what interests you, then I will give you that item . If it's difficult for you to decide, then think it over some more and come back. Don't worry, …",
+   "header": "Valley Trader Kitzka",
+   "when": [
+    "state STARTED; NOT st.hasQuestItems(DELIVERY_BOX)"
+   ],
+   "links": [
+    {
+     "text": "Large Dragon Bone",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-06.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-06.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-06.html"
+    },
+    {
+     "text": "Will of Antharas",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-07.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-07.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-07.html"
+    },
+    {
+     "text": "Sealed Blood Crystal",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-08.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-08.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-08.html"
+    }
+   ]
+  },
+  "Q00026_TiredOfWaiting/31045-02.html": {
+   "file": "Q00026_TiredOfWaiting/31045-02.html",
+   "quest": 26,
+   "text": "Valley Trader Kitzka: Ah, you mean the entrusted item?! Yes, I was waiting. Please, hand it over!",
+   "header": "Valley Trader Kitzka",
+   "links": [
+    {
+     "text": "\"You said that the item inside is valuable? I want a suitable reward in return.\"",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-03.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-03.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-03.html"
+    },
+    {
+     "text": "\"Here.\"",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-04.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-04.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-04.html"
+    }
+   ]
+  },
+  "Q00026_TiredOfWaiting/31045-03.html": {
+   "file": "Q00026_TiredOfWaiting/31045-03.html",
+   "quest": 26,
+   "text": "Valley Trader Kitzka: Oh... Was your pledge to Sir Silvershadow a lie? This item has no value, you fool. It was a simple test to see if you could be trusted. You have failed. Leave.",
+   "header": "Valley Trader Kitzka",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00026_TiredOfWaiting/31045-04.html": {
+   "file": "Q00026_TiredOfWaiting/31045-04.html",
+   "quest": 26,
+   "text": "Valley Trader Kitzka: You are truly a trustworthy person. Most adventurers get greedy about these items, so they take my items during delivery and disappear, or they try to provoke me into fighting them. But you... you have shown me a different side your breed. As it turns out, Sir Silvershadow ent…",
+   "header": "Valley Trader Kitzka",
+   "links": [
+    {
+     "text": "\"What are they?\"",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-05.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-05.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-05.html"
+    }
+   ]
+  },
+  "Q00026_TiredOfWaiting/31045-05.html": {
+   "file": "Q00026_TiredOfWaiting/31045-05.html",
+   "quest": 26,
+   "text": "Valley Trader Kitzka: I can give you the following items. Listen to the explanations first, tell me what interests you, then I will give you that item . Is it difficult for you to decide? Then think it over some more and come back. Don't worry, I'll remember your face!",
+   "header": "Valley Trader Kitzka",
+   "links": [
+    {
+     "text": "Large Dragon Bone",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-06.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-06.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-06.html"
+    },
+    {
+     "text": "Will of Antharas",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-07.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-07.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-07.html"
+    },
+    {
+     "text": "Sealed Blood Crystal",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-08.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-08.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-08.html"
+    }
+   ]
+  },
+  "Q00026_TiredOfWaiting/31045-06.html": {
+   "file": "Q00026_TiredOfWaiting/31045-06.html",
+   "quest": 26,
+   "text": "Valley Trader Kitzka: The Large Dragon Bone is an item for calling forth a powerful fragon. There are four Dragon Vortexes within the Dragon Valley. If you use the dragon bone by them, you will summon one of the following raid monsters: the Emerald Horn, Dust Rider, Bleeding Fly, Blackdagger Wing, …",
+   "header": "Valley Trader Kitzka",
+   "links": [
+    {
+     "text": "\"I'll take the bone.\"",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-10.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-10.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-10.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"Tell me about the other items.\"",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-09.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-09.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-09.html"
+    }
+   ]
+  },
+  "Q00026_TiredOfWaiting/31045-07.html": {
+   "file": "Q00026_TiredOfWaiting/31045-07.html",
+   "quest": 26,
+   "text": "Valley Trader Kitzka: Will of Antharas is a command stone that Antharas implanted into its mostly powerful subordinates, thus gaining control over their movements. It is also a tool that maximizes the magic powers of Antharas's Subordinates. If you were to combine it with a Sealed Blood Crystal , y…",
+   "header": "Valley Trader Kitzka",
+   "links": [
+    {
+     "text": "\"I'll take the Will.\"",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-11.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-11.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-11.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"And what of the other items?\"",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-09.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-09.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-09.html"
+    }
+   ]
+  },
+  "Q00026_TiredOfWaiting/31045-08.html": {
+   "file": "Q00026_TiredOfWaiting/31045-08.html",
+   "quest": 26,
+   "text": "Valley Trader Kitzka: The Sealed Blood Crystal is formed over time from Antharas's spilled blood. His blood has lost its magic power, but if you combine it with Will of Antharas , you can still obtain an item with tremendous magic power. Use it, and you will be able to resurrect several people simu…",
+   "header": "Valley Trader Kitzka",
+   "links": [
+    {
+     "text": "\"May I take the crystal?\"",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-12.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-12.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-12.html",
+     "effect": "end"
+    },
+    {
+     "text": "\"\"Tell me about something else.\"",
+     "bypass": "Quest Q00026_TiredOfWaiting 31045-09.html",
+     "kind": "quest-event",
+     "script": "Q00026_TiredOfWaiting",
+     "event": "31045-09.html",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-09.html"
+    }
+   ]
+  },
+  "Q00026_TiredOfWaiting/31045-10.html": {
+   "file": "Q00026_TiredOfWaiting/31045-10.html",
+   "quest": 26,
+   "text": "Valley Trader Kitzka: You selected the Large Dragon Bone . Here it is. Good luck!",
+   "header": "Valley Trader Kitzka",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00026_TiredOfWaiting/31045-11.html": {
+   "file": "Q00026_TiredOfWaiting/31045-11.html",
+   "quest": 26,
+   "text": "Valley Trader Kitzka: You selected Will of Antharas . Here is is. If you obtain the Sealed Blood Crystal later, ask the Separated Soul to combine it for you. If you do, you will realize the true value of this item. Good luck!",
+   "header": "Valley Trader Kitzka",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "Q00026_TiredOfWaiting/31045-12.html": {
+   "file": "Q00026_TiredOfWaiting/31045-12.html",
+   "quest": 26,
+   "text": "Valley Trader Kitzka: You selected the Sealed Blood Crystal . Here is is. If you obtain Will of Antharas later, ask the Separated Soul to combine it for you. If you do, you will realize the true value of this item. Good luck!",
+   "header": "Valley Trader Kitzka",
+   "sets": {
+    "exit": true
+   },
+   "outcome": "end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Tired of Waiting (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00026_TiredOfWaiting",
+     "kind": "quest",
+     "quest": 26,
+     "to": "Q00026_TiredOfWaiting/31045-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

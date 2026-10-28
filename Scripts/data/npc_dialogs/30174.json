@@ -1,0 +1,497 @@
+{
+ "npcId": 30174,
+ "name": "Arkenias",
+ "title": "Grand Magister",
+ "type": "L2VillageMasterMystic",
+ "generated": "2026-10-27T18:18:02.863Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "villagemaster/30174.htm",
+   "when": "",
+   "src": "html/villagemaster"
+  }
+ ],
+ "quests": {
+  "89": {
+   "name": "Saga of the Mystic Muse",
+   "listText": [
+    "[Saga of the Mystic Muse]",
+    "[Saga of the Mystic Muse (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00089_SagaOfTheMysticMuse/0-01.htm",
+     "when": "cond 0; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00089_SagaOfTheMysticMuse/0-04.htm",
+     "when": "cond 1; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00089_SagaOfTheMysticMuse/0-06.htm",
+     "when": "cond 19; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00089_SagaOfTheMysticMuse/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00089_SagaOfTheMysticMuse/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  },
+  "92": {
+   "name": "Saga of the Elemental Master",
+   "listText": [
+    "[Saga of the Elemental Master]",
+    "[Saga of the Elemental Master (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/0-01.htm",
+     "when": "cond 0; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      0
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/0-04.htm",
+     "when": "cond 1; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      1
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/0-06.htm",
+     "when": "cond 19; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      19
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/0-09.htm",
+     "when": "cond 20; level >= 76; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00092_SagaOfTheElementalMaster/0-010.htm",
+     "when": "cond 20; NOT level >= 76; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)",
+     "state": null,
+     "cond": [
+      20
+     ],
+     "outcome": "refusal"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "villagemaster/30174.htm": {
+   "file": "villagemaster/30174.htm",
+   "quest": null,
+   "text": "Grand Magister Arkenias: Glad to see you. It is my task to mold wizards into high-level sorcerers here in this Ivory Tower. Have you come to learn how to freely manipulate the power of the elements themselves?",
+   "header": "Grand Magister Arkenias",
+   "links": [
+    {
+     "text": "Listen to information about second class transfer.",
+     "bypass": "Quest ElfHumanWizardChange2",
+     "kind": "quest",
+     "script": "ElfHumanWizardChange2"
+    },
+    {
+     "text": "Sub Class.",
+     "bypass": "npc_%objectId%_Subclass 0",
+     "kind": "class"
+    },
+    {
+     "text": "Clan.",
+     "bypass": "npc_%objectId%_Quest Clan",
+     "kind": "quest",
+     "script": "Clan"
+    },
+    {
+     "text": "Alliance.",
+     "bypass": "npc_%objectId%_Quest Alliance",
+     "kind": "quest",
+     "script": "Alliance"
+    },
+    {
+     "text": "Use Shadow Weapon Exchange Coupon.",
+     "bypass": "npc_%objectId%_Link common/shadow_item_master.htm",
+     "kind": "page",
+     "to": "common/shadow_item_master.htm"
+    },
+    {
+     "text": "Quest.",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00089_SagaOfTheMysticMuse/0-01.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/0-01.htm",
+   "quest": 89,
+   "text": "Grand Magister Arkenias: So, you want to become a Mystic Muse? You've chosen a noble path, my child! You'll undergo a process that transforms your Elven mind to one that approaches the realm of the gods! You'll receive the power sealed by the gods in the past that prevented Elves from developing th…",
+   "header": "Grand Magister Arkenias",
+   "when": [
+    "cond 0; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"How can I get this power?\"",
+     "bypass": "Quest Q00089_SagaOfTheMysticMuse 0-1",
+     "kind": "quest-event",
+     "script": "Q00089_SagaOfTheMysticMuse",
+     "event": "0-1",
+     "quest": 89,
+     "to": "Q00089_SagaOfTheMysticMuse/0-05.htm",
+     "toAll": [
+      "Q00089_SagaOfTheMysticMuse/0-02.htm",
+      "Q00089_SagaOfTheMysticMuse/0-05.htm"
+     ]
+    }
+   ]
+  },
+  "Q00089_SagaOfTheMysticMuse/0-04.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/0-04.htm",
+   "quest": 89,
+   "text": "Grand Magister Arkenias: To become a Mystic Muse you must find six Tablets of Vision . The tablets are scattered throughout the world. You must absorb the power from the six stone tablets into your body! Go and speak with Magister Alminas in Goddard Castle Town. He'll know what you should do next.",
+   "header": "Grand Magister Arkenias",
+   "when": [
+    "cond 1; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/0-06.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/0-06.htm",
+   "quest": 89,
+   "text": "Grand Magister Arkenias: You've obtained the power of all the stone tablets! Good job! What? Why are you looking at me like that? You want the truth, eh? Very well. What did Feyshar tell you? Oh well, no use crying over spilt milk... Since I'm an Elf, I've always dreamed of being a top level wizard…",
+   "header": "Grand Magister Arkenias",
+   "when": [
+    "cond 19; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"So why didn't you?\"",
+     "bypass": "Quest Q00089_SagaOfTheMysticMuse 0-2",
+     "kind": "quest-event",
+     "script": "Q00089_SagaOfTheMysticMuse",
+     "event": "0-2",
+     "quest": 89,
+     "to": "Q00089_SagaOfTheMysticMuse/0-07.htm",
+     "toAll": [
+      "Q00089_SagaOfTheMysticMuse/0-08.htm",
+      "Q00089_SagaOfTheMysticMuse/0-07.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00089_SagaOfTheMysticMuse/0-09.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/0-09.htm",
+   "quest": 89,
+   "text": "Grand Magister Arkenias: Thank you for your hard work. Congratulations! You're now a Mystic Muse!",
+   "header": "Grand Magister Arkenias",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/0-010.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/0-010.htm",
+   "quest": 89,
+   "text": "Grand Magister Arkenias: You can't transfer to another class yet. Improve your skills and return. (Only a character of level 76 or above can transfer to the Mystic Muse class. Don't abandon the quest until your class transfer is complete.)",
+   "header": "Grand Magister Arkenias",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/0-01.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/0-01.htm",
+   "quest": 92,
+   "text": "Grand Magister Arkenias: I feel the presence of many spirits around you. Your bond with the unicorns, who have been associated with our tribe since ancient times, tells me that you're the one who can stop the discord that has tarnished nature's harmony. Head Summoner Galatea told me about you. In f…",
+   "header": "Grand Magister Arkenias",
+   "when": [
+    "cond 0; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"I'm ready.\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 0-1",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "0-1",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/0-05.htm",
+     "toAll": [
+      "Q00092_SagaOfTheElementalMaster/0-02.htm",
+      "Q00092_SagaOfTheElementalMaster/0-05.htm"
+     ]
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/0-04.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/0-04.htm",
+   "quest": 92,
+   "text": "Grand Magister Arkenias: High Summoner Radyss is waiting for you in Aden Castle Town. He'll tell you more about the pilgrimage you must undertake to become an Elemental Master. You must hurry! He's critically ill!",
+   "header": "Grand Magister Arkenias",
+   "when": [
+    "cond 1; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/0-06.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/0-06.htm",
+   "quest": 92,
+   "text": "Grand Magister Arkenias: Welcome, pilgrim of vision! At last you've come to the end of your arduous journey! Radyss told me that you'd returned. Congratulations on behalf of all the Grand Magisters in the Ivory Tower!",
+   "header": "Grand Magister Arkenias",
+   "when": [
+    "cond 19; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "links": [
+    {
+     "text": "\"So, what now?\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster 0-2",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "0-2",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/0-07.htm",
+     "toAll": [
+      "Q00092_SagaOfTheElementalMaster/0-08.htm",
+      "Q00092_SagaOfTheElementalMaster/0-07.htm"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/0-09.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/0-09.htm",
+   "quest": 92,
+   "text": "Grand Magister Arkenias: You've done it! I'm just a lowly magister who exists only to recognize those who have achieved the sacred knowledge! I hereby bestow upon you the title of Elemental Master ! Lead our Elven brothers of the Ivory Tower towards a new enlightenment with your newly obtained know…",
+   "header": "Grand Magister Arkenias",
+   "when": [
+    "cond 20; level >= 76; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/0-010.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/0-010.htm",
+   "quest": 92,
+   "text": "Grand Magister Arkenias: You've obtained the sacred knowledge, but you haven't yet made it entirely your own. Like food, it must be digested to become truly yours. You must be patient. (Only a character of level 76 or above can transfer to the Elemental Master class. Don't abandon the quest before …",
+   "header": "Grand Magister Arkenias",
+   "when": [
+    "cond 20; NOT level >= 76; !((npcId == 30174) && st.isCompleted()); player.getClassId().getId() == getPrevClass(player)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/0-02.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/0-02.htm",
+   "quest": 89,
+   "text": "Grand Magister Arkenias: So you want to become a Mystic Muse, eh? That path is too perilous for you to walk at this time. Get some more training, and come back and see me again. (Only a character of level 76 or above and of the Spellsinger class may undertake this quest.)",
+   "header": "Grand Magister Arkenias",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/0-03.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/0-03.htm",
+   "quest": 89,
+   "text": "Grand Magister Arkenias: I didn't scare you off, huh? Well, I won't try to stop you. Just one more thing... The Tablet of Vision can't be read alone. Only by using the Stone of Commune can you decipher it. The Stone of Commune acts as a medium, and you absorb the information directly into your body…",
+   "header": "Grand Magister Arkenias",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/0-05.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/0-05.htm",
+   "quest": 89,
+   "text": "Grand Magister Arkenias: The gods have sealed the power in several parts of the world. The Tablet of Vision is the form in which the power is sealed. You must absorb into your body all the information contained in the six stone Tablets of Vision throughout the world to obtain the power. Absorb the …",
+   "header": "Grand Magister Arkenias",
+   "links": [
+    {
+     "text": "\"I wish to become a Mystic Muse.\"",
+     "bypass": "Quest Q00089_SagaOfTheMysticMuse accept",
+     "kind": "quest-event",
+     "script": "Q00089_SagaOfTheMysticMuse",
+     "event": "accept",
+     "quest": 89,
+     "to": "Q00089_SagaOfTheMysticMuse/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00089_SagaOfTheMysticMuse/0-07.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/0-07.htm",
+   "quest": 89,
+   "text": "Grand Magister Arkenias: While fighting you, I came to a realization! I was wrong... I was just trying to hold onto my position. I'd forgotten what it's like to compete with powerful opponents, all determined to win first place! I realized that you could possibly be my equal! If I continued to figh…",
+   "header": "Grand Magister Arkenias",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00089_SagaOfTheMysticMuse/0-08.htm": {
+   "file": "Q00089_SagaOfTheMysticMuse/0-08.htm",
+   "quest": 89,
+   "text": "Grand Magister Arkenias: While fighting you, I came to a realization! I was wrong... I was just trying to hold onto my position! I forgot what it was like to compete with many powerful opponents, all determined to win first place! I realized that, with practice, you could possibly be my equal! If I…",
+   "header": "Grand Magister Arkenias",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/0-02.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/0-02.htm",
+   "quest": 92,
+   "text": "Grand Magister Arkenias: I feel many forces around you. Human bodies, minds, spirits... Our tribe has had a Contract with the unicorns since ancient times. Now, we seek someone to restore nature's harmony. We're looking for someone who has passed the Test of the Summoner to become the ultimate summ…",
+   "header": "Grand Magister Arkenias",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/0-03.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/0-03.htm",
+   "quest": 92,
+   "text": "Grand Magister Arkenias: Radyss is resting in Aden Castle Town. I'm afraid he doesn't have much time left. You must start your pilgrimage immediately! Although Elves' lives are practically eternal, we have no time to waste! Please read this report before you leave. It will tell you all you need to …",
+   "header": "Grand Magister Arkenias",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/0-05.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/0-05.htm",
+   "quest": 92,
+   "text": "Grand Magister Arkenias: There are no scrolls or books that contain the spell of ultimate summoning. That information has always been restricted to the gods, far beyond the grasp of mere Elves. The secret is supposedly written on six ancient tablets, in the language of the gods. The gods put these …",
+   "header": "Grand Magister Arkenias",
+   "links": [
+    {
+     "text": "\"Where is he?\"",
+     "bypass": "Quest Q00092_SagaOfTheElementalMaster accept",
+     "kind": "quest-event",
+     "script": "Q00092_SagaOfTheElementalMaster",
+     "event": "accept",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/0-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00092_SagaOfTheElementalMaster/0-07.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/0-07.htm",
+   "quest": 92,
+   "text": "Grand Magister Arkenias: You've done it! I'm just a lowly magister who exists only to recognize those who have achieved the sacred knowledge! I hereby bestow upon you the title of Elemental Master ! Lead our Elven brothers of the Ivory Tower towards a new enlightenment with your newly obtained know…",
+   "header": "Grand Magister Arkenias",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00092_SagaOfTheElementalMaster/0-08.htm": {
+   "file": "Q00092_SagaOfTheElementalMaster/0-08.htm",
+   "quest": 92,
+   "text": "Grand Magister Arkenias: You've obtained the sacred knowledge, but you haven't yet made it entirely your own. Like food, it must be digested to become truly yours. You must be patient. (Only a character of level 76 or above can transfer to the Elemental Master class. Don't abandon the quest before …",
+   "header": "Grand Magister Arkenias",
+   "outcome": "refusal",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Saga of the Mystic Muse]",
+     "bypass": "npc_%objectId%_Quest Q00089_SagaOfTheMysticMuse",
+     "kind": "quest",
+     "quest": 89,
+     "to": "Q00089_SagaOfTheMysticMuse/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Mystic Muse (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00089_SagaOfTheMysticMuse",
+     "kind": "quest",
+     "quest": 89,
+     "to": "Q00089_SagaOfTheMysticMuse/0-01.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Saga of the Elemental Master]",
+     "bypass": "npc_%objectId%_Quest Q00092_SagaOfTheElementalMaster",
+     "kind": "quest",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/0-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Saga of the Elemental Master (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00092_SagaOfTheElementalMaster",
+     "kind": "quest",
+     "quest": 92,
+     "to": "Q00092_SagaOfTheElementalMaster/0-01.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/shadow_item_master.htm": {
+   "file": "common/shadow_item_master.htm",
+   "quest": null,
+   "text": "A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it possib…",
+   "live": {
+    "file": "Logs/npclive_Sedrick_78d4f8cf.html",
+    "at": "2026-10-27T14:38:13.533Z",
+    "score": 0.97
+   },
+   "dpText": "A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower and the Black Anvil Guild. It is created by magically projecting the power of a weapon onto another catalytic object. While that means that it can only be used while the magic charge remains, it has made it poss…",
+   "links": [
+    {
+     "text": "Give the Shadow Weapon exchange coupon.",
+     "bypass": "npc_%objectId%_multisell 306893001",
+     "kind": "multisell",
+     "live": true,
+     "dpText": "Give the shadow Weapon exchange coupon."
+    }
+   ]
+  }
+ },
+ "liveDiff": [
+  "text of common/shadow_item_master.htm differs: live \"A Shadow Weapon is special weapon that is made in cooperation between the Ivory Tower and…\" vs datapack \"A Shadow weapon is a special weapon that is made in cooperation between the Ivory Tower a…\""
+ ]
+}

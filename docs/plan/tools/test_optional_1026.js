@@ -1,7 +1,8 @@
 // OFFLINE TEST of the three OPTIONAL switches of 2026-10-26 (owner: "Add the last 3 as optional i dont want them to affect the system").
 // Each switch: the DEFAULT changes nothing, and the switch does what it says. Never touches the game, MCP or the live files (scratch files).
 //   node docs/plan/tools/test_optional_1026.js     (exit 1 on a failure; SWARM_JS=<file> tests another copy of swarm.js)
-//  F1 SHOTSOUTOPT  party_auto.json shotsOutRun (default ON = the SHOTSOUT-2026-10-22 run as today; OFF + supply watch off = no shots-out run)
+//  F1 ONESWITCH    (2026-10-27, owner "One switch"; replaced SHOTSOUTOPT shotsOutRun) supplyWatch OFF = nothing bought, also not for shots that ran out
+//                  (a warning instead); supplyWatch ON = the supply run as before; an old shotsOutRun key is ignored
 //  F2 OLDGEAR      gear_auto.json oldGear per grade / enchanted / special = keep (default, KEEPOLD) | collector; never 'sell'
 //  F3 HANDSOFF     run_state.json handsOff.<name> (default OFF): Hive leaves the character alone, its party does not count it
 'use strict';
@@ -15,30 +16,27 @@ const blk = (b, e) => { const i = src.indexOf(b), j = src.indexOf(e, i + 1); if 
 const fnSrc = (head) => { const i = src.indexOf(head); if (i < 0) throw new Error(head + ' not found'); const j = src.indexOf('\n}\n', i); return src.slice(i, j + 3); };
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'opt1026-'));
 
-// =================================================================================================================== F1 SHOTSOUTOPT
+// =================================================================================================================== F1 ONESWITCH
 {
   const PA = new Function(blk('// PARTYAUTO-PURE-BEGIN', '// PARTYAUTO-PURE-END') + '\nreturn { PAUTO_KINDS, pautoEffective };')();
   const API = require(path.join(ROOT, 'Dashboard', 'partyauto_api.js'));
-  ok(PA.PAUTO_KINDS.shotsOutRun && PA.PAUTO_KINDS.shotsOutRun.def === true && PA.PAUTO_KINDS.shotsOutRun.char === false, 'F1 swarm.js: shotsOutRun is a party switch, default ON');
-  const K = API.KINDS.find(k => k.key === 'shotsOutRun');
-  ok(K && K.def === true && !K.char && !K.group, 'F1 API: shotsOutRun in the Supplies section, default ON');
+  ok(!PA.PAUTO_KINDS.shotsOutRun && !API.KINDS.some(k => k.key === 'shotsOutRun'), 'F1 the shotsOutRun switch is gone (swarm.js + API)');
   ok(Object.keys(PA.PAUTO_KINDS).join() === API.KEYS.join(), 'F1 swarm.js and the API know the same switches (same order)');
-  ok(PA.pautoEffective({}, 'shotsOutRun', 'Tank1', 'Tank1').on === true && API.pautoEffective({ default: { supplyWatch: false, sell: false, dyes: false } }, 'shotsOutRun', 'Tank1', 'Tank1').on === true, 'F1 DEFAULT: no file / the public seed = ON (today\'s shots-out run)');
-  ok(PA.pautoEffective({ parties: { Tank1: { shotsOutRun: false } } }, 'shotsOutRun', 'Tank1', 'Tank1').on === false && PA.pautoEffective({ default: { shotsOutRun: false } }, 'shotsOutRun', 'X', 'X').on === false, 'F1 a party / all-parties OFF is read');
-  const a1 = API.applyChange({}, { party: 'Tank1', values: { shotsOutRun: false } }), a2 = API.applyChange({}, { party: 'Tank1', chars: { Bishop1: { shotsOutRun: false } } }), a3 = API.applyChange({}, { party: 'Tank1', values: { shotsOutRun: 'no' } });
-  ok(a1.ok && a1.data.parties.Tank1.shotsOutRun === false && !a2.ok && !a3.ok, 'F1 API validation: party true / false / null only, no character switch');
+  ok(PA.pautoEffective({ parties: { Tank1: { shotsOutRun: true } } }, 'shotsOutRun', 'Tank1', 'Tank1').on === false, 'F1 an old shotsOutRun key is read as nothing (unknown kind)');
+  const a1 = API.applyChange({}, { party: 'Tank1', values: { shotsOutRun: false } });
+  ok(!a1.ok, 'F1 API: shotsOutRun can no longer be set');
   // the real supply watch on stubs (the interval of swarm.js) with critical / non-critical shortages
   const HOST = blk('// PARTYAUTO-PURE-BEGIN', '// PARTYAUTO-HOST-END');
-  const WATCH = blk('/** SHOTSOUTOPT-2026-10-26: shots really ran out', '// Leader: someone reached a class-change level');
+  const WATCH = blk('/** ONESWITCH-2026-10-27 (was SHOTSOUTOPT-2026-10-26): shots really ran out', '// Leader: someone reached a class-change level');
   const HT = blk('// HUNTTIMER-PURE-BEGIN', '// HUNTTIMER-PURE-END');
-  const run = (file, low) => {
-    const W = { t: 1760360000000, notes: [], said: [], calls: [], files: {} };
+  const run = (file, low, o) => {
+    const W = { t: 1760360000000, notes: [], said: [], calls: [], files: {} }, O = o || {};
     if (file) W.files['C:\\L2\\Scripts\\data\\party_auto.json'] = { text: JSON.stringify(file), stamp: 's1' };
     const intervals = [];
     const env = { File: { Exists: (f) => !!W.files[f], ReadAllText: (f) => W.files[f].text }, __DIR__: 'C:\\L2', now: () => W.t, fileStamp: (f) => (W.files[f] ? W.files[f].stamp : ''),
       Me: { Name: 'Tank1', IsDead: false }, CONFIG: { leader: 'Tank1', lead: { unload: { above: 70 } }, stash: { on: false, auto: false, above: 100 } }, teamOf: (x) => 'Tank1',
       note: (m, s) => { W.notes.push(m); if (s) W.said.push(m); }, setInterval: (fn) => intervals.push(fn), leadMode: () => true, state: { role: 'sk', mode: 'level' }, isLeader: () => true,
-      IsCharacterReady: () => true, leadPaused: () => false, nonstopOn: () => false, htHolds: () => false, rcHolds: () => false, supplyDue: () => true, lastSupplyAtGet: () => 0, leadRunBusy: false,
+      IsCharacterReady: () => true, leadPaused: () => false, nonstopOn: () => false, htHolds: (k) => { W.calls.push('htHolds ' + k); return !!O.htHold; }, rcHolds: () => !!O.rc, supplyDue: () => true, lastSupplyAtGet: () => 0, leadRunBusy: false,
       regroupRun: null, inRaid: () => false, scoutCtl: { on: false }, outranked: () => false, PRIO: { ORDER: 4 }, supplyLow: { what: low }, teamNames: () => [], livePos: {}, num: Number,
       Inventory: { Count: 10 }, globalThis: {}, runAuto: () => true, rcSupplyAsk: () => W.calls.push('rcSupplyAsk'), leadSupply: (why) => { W.calls.push('leadSupply ' + why); return Promise.resolve(); },
       logError: (w, e) => W.calls.push('ERR ' + w + ' ' + e.message), SayToParty: (m) => W.said.push(m), PartyList: { forEach() { }, Count: 0 }, classPlanOf: () => ({}), CP_STATUS: {} };
@@ -47,27 +45,32 @@ const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'opt1026-'));
     return W;
   };
   const out = 'Soulshot (No Grade) 5', lowOnly = 'SoE 0/5';
-  const d0 = run({ parties: { Tank1: { supplyWatch: false } } }, out), d1 = run({ parties: { Tank1: { supplyWatch: false, shotsOutRun: true } } }, out);
-  ok(d0.calls.some(c => /^leadSupply/.test(c)) && d0.notes.some(m => /although the party's supply switch is off/.test(m)), 'F1 DEFAULT (no shotsOutRun key): shots out + supply watch off = the supply run goes (SHOTSOUT as today)');
-  ok(JSON.stringify(d0.calls) === JSON.stringify(d1.calls) && JSON.stringify(d0.notes) === JSON.stringify(d1.notes), 'F1 DEFAULT = shotsOutRun true exactly (same calls, same notes)');
-  ok(run(null, out).calls.some(c => /^leadSupply/.test(c)), 'F1 DEFAULT: no party_auto.json at all = the shots-out run goes (as today)');
-  const off = run({ parties: { Tank1: { supplyWatch: false, shotsOutRun: false } } }, out);
-  ok(!off.calls.some(c => /leadSupply/.test(c)) && off.notes.some(m => /NO supply run/.test(m)) && off.said.some(m => /Supply run when shots run out/.test(m)), 'F1 switch OFF + supply watch off: NO supply run, said why (note + party chat)');
-  const k = off.notes.length; off.calls.length = 0;
-  ok(run({ default: { shotsOutRun: false }, parties: { Tank1: { supplyWatch: false } } }, out).calls.every(c => !/leadSupply/.test(c)), 'F1 the all-parties OFF counts too');
-  ok(run({ parties: { Tank1: { supplyWatch: true, shotsOutRun: false } } }, out).calls.some(c => /^leadSupply/.test(c)), 'F1 switch OFF but supply watch ON: the normal supply run still goes');
-  ok(!run({ parties: { Tank1: { supplyWatch: false, shotsOutRun: true } } }, lowOnly).calls.some(c => /leadSupply/.test(c)), 'F1 not critical (SoE only) + supply watch off: no run (unchanged)');
-  ok(k > 0, 'F1 (said once)');
-  // the party settings page
-  const PS = D('partysettings.js');
-  ok(/key: 'shotsOutRun', char: false, def: true/.test(PS) && /k\.key !== 'shotsOutRun' && paParty\(k\.key\)/.test(PS) && /Only shots that really ran out still start a run/.test(PS), 'F1 UI: Supplies card switch (default on, not in the summary), the supply-watch line says what still happens');
+  const noRun = (W) => !W.calls.some(c => /leadSupply|rcSupplyAsk/.test(c));
+  const off = run({ parties: { Tank1: { supplyWatch: false } } }, out);
+  ok(noRun(off) && off.notes.some(m => /NO supply run/.test(m) && /nothing is bought by itself/.test(m)) && off.said.some(m => /NO supply run/.test(m)), 'F1 shots out + supply runs OFF: NO supply run, a clear warning (note + party chat)');
+  ok(!off.calls.some(c => /^htHolds/.test(c)), 'F1 supply runs OFF: decided before the hunt timer (its "shots ran out -> supply run now" exception never fires)');
+  ok(noRun(run({ parties: { Tank1: { supplyWatch: false, shotsOutRun: true } } }, out)), 'F1 an old shotsOutRun: true key is ignored (still no run)');
+  ok(noRun(run(null, out)), 'F1 no party_auto.json at all (= supply runs off): no shots-out run either');
+  ok(run({ default: { shotsOutRun: true }, parties: { Tank1: { supplyWatch: false } } }, out, { rc: true }).calls.includes('rcSupplyAsk'), 'F1 the raid circuit\'s own resupply between bosses is unchanged (owner-only circuit setting, test_party_auto)');
+  const w2 = run({ parties: { Tank1: { supplyWatch: false } } }, lowOnly);
+  ok(noRun(w2) && w2.notes.some(m => /switched OFF/.test(m) && /also not when shots run out/.test(m)), 'F1 not critical (SoE only) + supply runs off: no run, the switch note says shots too');
+  const on = run({ parties: { Tank1: { supplyWatch: true } } }, out);
+  ok(on.calls.some(c => /^leadSupply/.test(c)) && on.calls.some(c => /^htHolds/.test(c)) && !on.notes.some(m => /NO supply run/.test(m)), 'F1 supply runs ON: shots out = the supply run as before (through the hunt-timer gate)');
+  ok(run({ parties: { Tank1: { supplyWatch: true } } }, lowOnly).calls.some(c => /^leadSupply/.test(c)), 'F1 supply runs ON: running low = the supply run as before');
+  ok(noRun(run({ parties: { Tank1: { supplyWatch: true } } }, out, { htHold: true })), 'F1 supply runs ON: a hunt timer that holds still holds');
+  ok(run({ parties: { Tank1: { supplyWatch: true } } }, out, { rc: true }).calls.includes('rcSupplyAsk'), 'F1 supply runs ON + circuit: the circuit is asked as before');
+  // the party settings page + catalog
+  const PS = D('partysettings.js'), AC = D('autocatalog.js'), PAJ = D('partyauto_api.js');
+  ok(!/key: 'shotsOutRun'/.test(PS) && !/key: 'shotsOutRun'/.test(AC) && !/\{ key: 'shotsOutRun'/.test(PAJ), 'F1 UI: the "Supply run when shots run out" switch is gone (settings, catalog, API)');
+  const sw = API.KINDS.find(k => k.key === 'supplyWatch');
+  ok(sw && /nothing is bought by itself, also not when shots run out/i.test(sw.help) && /warning/.test(sw.help) && /also not when shots run out/.test(PS), 'F1 UI: "Supply runs when someone runs low" says off = nothing bought, also not for shots, a warning');
 }
 
 // =================================================================================================================== F2 OLDGEAR
 {
   const GG = new Function(blk('// GEARGUARD-BEGIN', '// GEARGUARD-END') + '\nreturn { OLDGEAR, ogNorm, ogAllKeep, ogDecide, ogIsSpecial, ogGradeKey, ggPolicy, sgIsStarter };')();
   const API = require(path.join(ROOT, 'Dashboard', 'gearauto_api.js'));
-  ok(GG.OLDGEAR.keys.join() === API.OLDGEAR_KEYS.join() && GG.OLDGEAR.modes.join() === 'keep,collector' && API.OLDGEAR_MODES.join() === 'keep,collector', 'F2 keys NONE D C B A S enchanted special, modes keep | collector (no sell) — bot = API');
+  ok(GG.OLDGEAR.keys.join() === API.OLDGEAR_KEYS.join() && GG.OLDGEAR.modes.join() === 'keep,collector,distributor' && API.OLDGEAR_MODES.join() === GG.OLDGEAR.modes.join() && !GG.OLDGEAR.modes.some(m => /sell|destroy/.test(m)), 'F2 keys NONE D C B A S enchanted special, modes keep | collector | distributor (GEARPASS 2026-10-27; no sell) — bot = API');
   const n0 = GG.ogNorm(null);
   ok(GG.ogAllKeep(n0) && GG.OLDGEAR.keys.every(k => n0[k] === 'keep') && GG.ggPolicy({}, 'X', 'X').oldGear && GG.ogAllKeep(GG.ggPolicy({}, 'X', 'X').oldGear), 'F2 DEFAULT: no oldGear = every key keep (= KEEPOLD today)');
   const live = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'gear_auto.json'), 'utf8').replace(/^\uFEFF/, ''));
@@ -169,7 +172,7 @@ function f3() {
       pauseInfo: () => null, stashRules: () => (W.stash || {}), clanLeaderName: () => 'Dagger1', TOWN_CMD: { Giran: 'giran' }, leadPaused: () => false, takeControl: () => true, releaseControl: () => { }, PRIO: { ORDER: 4 } };
     const names = Object.keys(env);
     W.env = env;
-    W.api = new Function(...names, HOST + '\nreturn { runData, runMine, runOn, runOnOrCollector, runAuto, runHeld, handsOffOf, handsOffMe, collectorOn, RUN_FILE, RUNST };')(...names.map(k => env[k]));
+    W.api = new Function(...names, HOST + '\nreturn { runData, runMine, runOn, runOnOrCollector, runAuto, runHeld, handsOffOf, handsOffMe, collectorOn, RUN_FILE, RUNST, HANDSOFF_LABEL };')(...names.map(k => env[k]));
     W.put = (j) => { W.files[W.api.RUN_FILE()] = { text: JSON.stringify(j), stamp: String(++W.t) }; W.t += 3000; };
     W.tick = () => { W.t += 3000; W.intervals.forEach(f => f()); };
     return W;
@@ -188,6 +191,65 @@ function f3() {
     ok(W.api.handsOffMe() === false && W.env.Options.FollowAtk === true && W.env.Options.ActiveFollow === true && W.said.some(m => /hands off ended/.test(m)), 'F3 switched off: back with the party (follow + assist again)'); }
   { const W = world({ me: 'Dagger1', leader: 'Dagger1', stash: { collector: { on: true, name: 'Dagger1' } } }); W.put({ handsOff: { Dagger1: { on: true } } });
     ok(W.api.collectorOn() === false && W.api.runAuto('warehouse stash') === false, 'F3 a hands-off collector does no chores'); }
+  // ---- HOFFRACE-2026-10-27 (live test Healer14): the 3 s watch's runHeld() saw the switch before the 1 s handsOffMe cache did
+  const fresh = (W, j) => { W.files[W.api.RUN_FILE()] = { text: JSON.stringify(j), stamp: String(++W.t) }; };
+  { const W = world(); W.put({ parties: { Tank1: { on: true } } });
+    W.api.handsOffMe();                                                        // cache: OFF (runData read at the same time)
+    W.t += 2500; W.env.HOFF.at = W.t - 500; W.env.HOFF.on = false;            // someone asked 500 ms ago while runData was still the old one
+    fresh(W, { parties: { Tank1: { on: true } }, handsOff: { Bishop1: { on: true } } });
+    W.intervals.forEach(f => f());                                             // the watch, at once (runData 2.5 s old = re-read; handsOffMe cached)
+    ok(!W.notes.some(m => /stopped on its own/.test(m)) && W.said.some(m => /leaves Bishop1 alone/.test(m)), 'F3 RACE: switching on never says "stopped on its own ... until Start" (hands off said instead)');
+    ok(W.env.Options.FollowAtk === false && W.api.RUNST.hoffAtk === true && !W.api.RUNST.held, 'F3 RACE: assist off by hands off (remembered), no run-switch hold');
+    W.tick(); W.put({ parties: { Tank1: { on: true } } }); W.tick();
+    ok(W.env.Options.FollowAtk === true && W.env.Options.ActiveFollow === true && !W.notes.some(m => /stopped on its own/.test(m)), 'F3 RACE: hands off OFF -> FollowAtk (assist) + follow back on'); }
+  { const W = world(); W.put({ parties: { Tank1: { on: true } }, handsOff: { Bishop1: { on: true } } }); W.tick();   // a window that ran the OLD race: the hold saved the assist
+    Object.assign(W.api.RUNST, { hoffAtk: null, atkSaved: true, held: true }); W.env.Options.FollowAtk = false;
+    W.put({ parties: { Tank1: { on: true } } }); W.tick();
+    ok(W.env.Options.FollowAtk === true && W.api.RUNST.atkSaved === null && W.api.RUNST.held === false, 'F3 hands off OFF also gives back what a run-switch hold saved (RUNST.atkSaved)'); }
+  { const W = world(); W.put({ parties: { Tank1: { on: true } }, chars: { Bishop1: { on: false } }, handsOff: { Bishop1: { on: true } } }); W.tick();
+    W.put({ parties: { Tank1: { on: true } }, chars: { Bishop1: { on: false } } }); W.tick();
+    ok(W.env.Options.FollowAtk === false && W.api.RUNST.atkSaved === true, 'F3 hands off OFF while its own Stop still holds it: stays still, assist kept for its Start');
+    W.put({ parties: { Tank1: { on: true } } }); W.tick();
+    ok(W.env.Options.FollowAtk === true, 'F3 ... and its Start then gives the assist back'); }
+  // ---- HOFFRACE: the label (task + State list)
+  { const W = world(); ok(/^✋ Hands off — Hive does nothing; only your L2Swarm profile and your own orders$/.test(W.api.HANDSOFF_LABEL), 'F3 LABEL: the hands-off text');
+    const SC = blk('// STATECTL-PURE-BEGIN', '// STATECTL-PURE-END'); const S = new Function(SC + '\nreturn { stateItems };')();
+    const it = S.stateItems({ run: { on: false, held: true, handsOff: true } }, 0).find(x => x.key === 'run');
+    ok(it && /^✋ Hands off — Hive does nothing/.test(it.label) && !/only your orders/.test(it.label), 'F3 LABEL: the State list says Hands off (not "run switch OFF — only your orders")');
+    ok(/run switch OFF — only your orders/.test(S.stateItems({ run: { on: false, held: false } }, 0)[0].label), 'F3 LABEL DEFAULT: without hands off the State list is as before');
+    const ct = fnSrc('function currentTask() {');
+    ok(/if \(Me\.IsDead\) return 'dead';\n  if \(handsOffMe\(\)\) return HANDSOFF_LABEL;/.test(ct) && ct.indexOf('HANDSOFF_LABEL') < ct.indexOf('pauseLabel()'), 'F3 LABEL: the task says Hands off before "waiting for orders since …" / "farming (bot)"');
+    ok(/s\.run = \{ on: !!r\.on, held: !!r\.held, handsOff: r\.src === 'handsoff' \}/.test(src) && /src: r\.src, handsOff: r\.src === 'handsoff' \}/.test(src), 'F3 LABEL: stateSnap + swarm_state.run carry handsOff'); }
+  // ---- HOFFRACE: an ignored party order = "skipped (hands off)", not "done (dispatched)"
+  { const od = fnSrc('function oqDispatch(o) {');
+    ok(/hoIgn = \(\) => \(typeof HOFF !== 'undefined' && HOFF\.ignored\) \|\| 0/.test(od) && /ig0 = hoIgn\(\)/.test(od) && /else if \(hoIgn\(\) !== ig0\) oqSet\(o\.id, 'done', \{ skipped: 'handsoff', how: 'skipped \(hands off\)'/.test(od) && od.indexOf("skipped: 'handsoff'") < od.indexOf("'dispatched (it reports"), 'F3 ORDER: the queue marks an ignored party order skipped (hands off)');
+    ok(/handsOffMe\(\)\) \{ if \(now\(\) - \(HOFF\.saidSay \|\| 0\) > 300000\)[^\n]*HOFF\.ignored = \(HOFF\.ignored \|\| 0\) \+ 1; return; \}/.test(src), 'F3 ORDER: handleSay counts the order it ignores');
+    const runOd = (ignore) => { const set = []; const H = { at: 0, on: true };
+      const f = new Function('HOFF', 'now', 'oqIsNew', 'oqIsStop', 'oq', 'oqSave', 'userOrderEnd', 'logError', 'orderState', 'handleSay', 'setTimeout', 'oqKey', 'oqSet', 'Me', od + '\nreturn oqDispatch;');
+      f(H, () => 5, () => false, () => false, { st: { orders: {} }, ran: [], runId: 'r' }, () => true, () => { }, () => { }, { seq: 1 }, () => { if (ignore) H.ignored = (H.ignored || 0) + 1; }, (fn) => fn(), (c) => c,
+        (id, s, x) => set.push({ s, how: x && x.how, skipped: x && x.skipped }), { Name: 'Healer14' })({ id: 'o1', cmd: '!level', from: 'Spoiler14', at: 1 }); return set[set.length - 1]; };
+    const sk = runOd(true), dn = runOd(false);
+    ok(sk.s === 'done' && sk.skipped === 'handsoff' && sk.how === 'skipped (hands off)' && dn.how === 'dispatched (it reports in party chat / its notes)' && !dn.skipped, 'F3 ORDER (run): an order handleSay ignored for hands off ends "skipped (hands off)"; a normal one "dispatched"');
+    const OQ = require(path.join(ROOT, 'Dashboard', 'orderqueue.js')), win = { seen: true, fresh: true, ready: true };
+    const m1 = OQ.merge('Healer14', { at: 1, state: 'queued' }, { state: 'done', skipped: 'handsoff', why: 'skipped (hands off): x', how: 'skipped (hands off)', at: 2 }, win, 3);
+    const m0 = OQ.merge('Healer14', { at: 1, state: 'queued' }, { state: 'done', how: 'dispatched (it reports in party chat / its notes)', at: 2 }, win, 3);
+    ok(m1.state === 'skipped' && /hands off/.test(m1.why) && OQ.TERMINAL.has('skipped') && OQ.TAKEN.has('skipped') && m0.state === 'done', 'F3 ORDER: the dashboard shows it as "skipped" (terminal); a normal order stays "done"');
+    const PW = require(path.join(ROOT, 'Dashboard', 'plainwords.js'));
+    ok(PW.STATE_WORD.skipped === 'skipped (hands off)' && /skipped: 'skipped \(hands off\)'/.test(D('orders.js')), 'F3 ORDER: plain words + the Orders view say "skipped (hands off)"'); }
+  // ---- HOFFRACE: auto-shots are never touched while hands off
+  { const es = fnSrc('function enableShots() {');
+    const run = (ho, uo) => { const sent = []; const f = new Function('handsOffMe', 'userOrder', 'Send', 'shotId', 'itemCount', 'PSHOP_ALT', 'note', 'logError', 'tradeState', 'HOV', 'let shotsOn = 0;\n' + es + '\nenableShots(); return shotsOn;');
+      f(() => ho, { name: uo || null }, { RequestAutoSoulShot: (id, on) => sent.push(id + ':' + on) }, () => 1835, () => 500, {}, () => { }, () => { }, null, { host: null }); return sent; };
+    ok(run(false).join() === '1835:1', 'F3 SHOTS DEFAULT: auto-shots switched on as before');
+    ok(run(true).length === 0, 'F3 SHOTS: hands off = Hive never re-enables the auto-shots (also not the 10-min refresh)');
+    ok(run(true, '!attack').join() === '1835:1', 'F3 SHOTS: your own running order still may'); }
+  // ---- HOFFRACE: the character page / party card texts
+  { const RS = D('runswitch.js');
+    ok(/HOFF_EXPLAIN = 'Hands off switches off the Hive for this character only\. L2Swarm itself keeps running whatever this account\\'s own profile has ticked \(follow, attack, auto-skills, heals\)\. To make it stand completely still, also untick follow \/ attack in its L2Swarm profile\. Your own orders to it still work\.'/.test(RS), 'F3 UI: the switch explains what L2Swarm keeps doing (tooltip + confirm)');
+    ok(/if \(handsOffOn\(name\)\) return `[^\n]*hidden — Hands off is on/.test(RS) && RS.indexOf('if (handsOffOn(name))') < RS.indexOf('if (p.leader === name) return'), 'F3 UI: Stop / Start hidden while hands off (and why)');
+    ok(/✋ hands off: \$\{hoN\.map\(E\)\.join/.test(RS) && /\$\{held\}\$\{ho\}<\/div>/.test(RS), 'F3 UI: the party card line names its hands-off members');
+    const G = fs.readFileSync(path.join(ROOT, 'docs', 'guide', 'pages', 'character.md'), 'utf8');
+    ok(/### Hands off/.test(G) && /L2Swarm itself keeps running whatever this account's own profile has ticked/.test(G), 'F3 GUIDE: character.md explains Hands off'); }
   // source checks of the central gates
   const g = (re, what) => ok(re.test(src), 'F3 gate: ' + what);
   g(/function benched\(n\) \{ return runHeld\(n\) \|\| handsOffOf\(n\) \|\|/, 'benched() = hands off too (not waited for)');

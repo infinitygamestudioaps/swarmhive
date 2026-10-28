@@ -2,7 +2,7 @@
  "id": 276,
  "name": "Totem of the Hestui",
  "version": 1,
- "generated": "2026-10-27T11:15:18.143Z",
+ "generated": "2026-10-27T18:18:53.466Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 15,
@@ -21,14 +21,8 @@
    "text": "races: ORC"
   }
  ],
- "status": "fixable",
- "reasons": [
-  {
-   "code": "item-from-quest-mob",
-   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
-   "step": 2
-  }
- ],
+ "status": "ready",
+ "reasons": [],
  "expectedMin": 18,
  "refLevel": 15,
  "steps": [
@@ -785,14 +779,14 @@
     }
    ],
    "kills": 1,
-   "reasons": [
-    "item-from-quest-mob"
-   ],
+   "reasons": [],
    "engine": {
     "how": "kill",
     "trigger": [
      20479
-    ]
+    ],
+    "spawnItems": true,
+    "liveCheck": "quest-spawned monster drop: not yet seen live"
    },
    "text": "Make Kasha Bear Totem Spirit appear and kill it",
    "area": {
@@ -1304,5 +1298,14 @@
  ],
  "override": {
   "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T18:18:53.511Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "prereq-missing"
+  ]
  }
 }

@@ -1,0 +1,188 @@
+{
+ "npcId": 30907,
+ "name": "Minevia",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:03.109Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30907.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "10278": {
+   "name": "Mutated Kaneus - Heine",
+   "listText": [
+    "[Mutated Kaneus - Heine]",
+    "[Mutated Kaneus - Heine (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10278_MutatedKaneusHeine/30907-02.htm",
+     "when": "state STARTED; (st.hasQuestItems(TISSUE_BO) && st.hasQuestItems(TISSUE_WB))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10278_MutatedKaneusHeine/30907-01.htm",
+     "when": "state STARTED; NOT (st.hasQuestItems(TISSUE_BO) && st.hasQuestItems(TISSUE_WB))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30907.htm": {
+   "file": "trainer/30907.htm",
+   "quest": null,
+   "text": "Magister Minevia: Some time ago, a strange Elemental Summoner visited Anabel. It seems that she was a former paramour of the old Lord of Innadril. They had apparently been together for a century or more! You wouldn't know it to look at her, but she is as old as your grandmother's grandmother. Regar…",
+   "header": "Magister Minevia",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "teleporter/30907-pk.htm": {
+   "file": "teleporter/30907-pk.htm",
+   "quest": null,
+   "text": "Gatekeeper Minerva: Are you kidding? How dare you go around killing people indiscriminately! Did you think there would be no consequence of your actions? I cannot send you through the Gate of Space and Time. You must find another method of transport.",
+   "header": "Gatekeeper Minerva",
+   "outcome": "refusal",
+   "links": []
+  },
+  "trainer/30907-noteach.htm": {
+   "file": "trainer/30907-noteach.htm",
+   "quest": null,
+   "text": "Magister Minevia: Hmmm, well, it's not that I'm lazy, you see... I simply cannot teach you magic. I am Human and I feel a little uncomfortable teaching something so sensitive to another race... And besides, you're not even a Mystic!",
+   "header": "Magister Minevia",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10278_MutatedKaneusHeine/30907-02.htm": {
+   "file": "Q10278_MutatedKaneusHeine/30907-02.htm",
+   "quest": 10278,
+   "text": "Magister Minevia: This is it. Tissue samples of the mutated Kaneus! Now we can move forward with our study about the mutated Kaneus and the nature of Kamaloka. Soon we will discover their underlying nature! This is only the beginning of a long journey to find the truth.",
+   "header": "Magister Minevia",
+   "when": [
+    "state STARTED; (st.hasQuestItems(TISSUE_BO) && st.hasQuestItems(TISSUE_WB))"
+   ],
+   "links": [
+    {
+     "text": "\"Beginning of a journey?\"",
+     "bypass": "Quest Q10278_MutatedKaneusHeine 30907-03.htm",
+     "kind": "quest-event",
+     "script": "Q10278_MutatedKaneusHeine",
+     "event": "30907-03.htm",
+     "quest": 10278,
+     "to": "Q10278_MutatedKaneusHeine/30907-03.htm",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q10278_MutatedKaneusHeine/30907-01.htm": {
+   "file": "Q10278_MutatedKaneusHeine/30907-01.htm",
+   "quest": 10278,
+   "text": "Magister Minevia: I heard about you from Captain Gosta. You'e the one who helped the Sages of Magic study the mutated Kaneus in Kamaloka, aren't you? I can now you now that our study is not limited simply to those mutants. Actually, Kamaloka itself is an omen of impending crisis and chaos. Others m…",
+   "header": "Magister Minevia",
+   "when": [
+    "state STARTED; NOT (st.hasQuestItems(TISSUE_BO) && st.hasQuestItems(TISSUE_WB))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10278_MutatedKaneusHeine/30907-03.htm": {
+   "file": "Q10278_MutatedKaneusHeine/30907-03.htm",
+   "quest": 10278,
+   "text": "Magister Minevia: Yes. The journey to reveal the truth about Kamaloka and Kaneus can now begin in earnest thanks to the tissue samples you provided. But there are still many Kamalokas to be investigated in this world. And it is vital that we gather information about every Kamaloka. You have already…",
+   "header": "Magister Minevia",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Mutated Kaneus - Heine (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10278_MutatedKaneusHeine",
+     "kind": "quest",
+     "quest": 10278,
+     "to": "Q10278_MutatedKaneusHeine/30907-02.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

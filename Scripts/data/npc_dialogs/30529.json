@@ -1,0 +1,116 @@
+{
+ "npcId": 30529,
+ "name": "Maron",
+ "title": "Miner",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.992Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30529.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "108": {
+   "name": "Jumble, Tumble, Diamond Fuss",
+   "listText": [
+    "[Jumble, Tumble, Diamond Fuss]",
+    "[Jumble, Tumble, Diamond Fuss (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30529-01.html",
+     "when": "cond 3",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30529-02.html",
+     "when": "cond 4",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00108_JumbleTumbleDiamondFuss/30529-03.html",
+     "when": "cond >4",
+     "state": null,
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30529.htm": {
+   "file": "default/30529.htm",
+   "quest": null,
+   "text": "Miner Maron: Oh, my head...! I drank too much yesterday... I have to go to the village and rest... Oh, where is the village? Go to the north for a short distance. Just over there...! Can you see it?",
+   "header": "Miner Maron",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30529-01.html": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30529-01.html",
+   "quest": 108,
+   "text": "Miner Maron: Elven Wine...? A gift from Torocco? Oh my... This gift is great, but... he's going to have to fix that bad drinking habit of his... I'm always worried that Torocco might start trouble while drinking... Whew... I am worried about him... My friend, Torocco, is a fine, steady lad, but... …",
+   "header": "Miner Maron",
+   "when": [
+    "cond 3"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30529-02.html": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30529-02.html",
+   "quest": 108,
+   "text": "Miner Maron: Ah! You again... Are you an investigator of the Bronze Key Guild? I told you everything I know... I don't know about the Star Diamond... But what I know for sure is that my friend lost everything he had while gambling... to Blacksmith Brunon .",
+   "header": "Miner Maron",
+   "when": [
+    "cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00108_JumbleTumbleDiamondFuss/30529-03.html": {
+   "file": "Q00108_JumbleTumbleDiamondFuss/30529-03.html",
+   "quest": 108,
+   "text": "Miner Maron: Whew... I am very worried about my friend, Torocco... He is a nice fellow... Except for his terrible drinking and gambling habits... I don't know when he will cause another problem, so I can't let down my guard... Whew...",
+   "header": "Miner Maron",
+   "when": [
+    "cond >4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Jumble, Tumble, Diamond Fuss (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00108_JumbleTumbleDiamondFuss",
+     "kind": "quest",
+     "quest": 108,
+     "to": "Q00108_JumbleTumbleDiamondFuss/30529-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

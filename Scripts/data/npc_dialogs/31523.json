@@ -1,0 +1,260 @@
+{
+ "npcId": 31523,
+ "name": "Tombstone",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.213Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31523.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "21": {
+   "name": "Hidden Truth",
+   "listText": [
+    "[Hidden Truth]",
+    "[Hidden Truth (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00021_HiddenTruth/31523-01.html",
+     "when": "",
+     "state": null,
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  },
+  "23": {
+   "name": "Lidia's Heart",
+   "listText": [
+    "[Lidia's Heart]",
+    "[Lidia's Heart (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00023_LidiasHeart/31523-01.html",
+     "when": "state STARTED; memo 8",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00023_LidiasHeart/31523-04.html",
+     "when": "state STARTED; memo 9",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00023_LidiasHeart/31523-05.html",
+     "when": "state STARTED; memo 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31523.htm": {
+   "file": "default/31523.htm",
+   "quest": null,
+   "text": "Tombstone: A tombstone with barely legible engravings. Perhaps if you wipe away the moss and look very close...",
+   "header": "Tombstone",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31523-01.html": {
+   "file": "Q00021_HiddenTruth/31523-01.html",
+   "quest": 21,
+   "text": "Tombstone: After pushing away the moss, words appear engraved upon the stone. Could these words be used to conjure a ghost?",
+   "header": "Tombstone",
+   "when": [
+    "always"
+   ],
+   "links": [
+    {
+     "text": "Say the words loudly.",
+     "bypass": "Quest Q00021_HiddenTruth 31523-02.html",
+     "kind": "quest-event",
+     "script": "Q00021_HiddenTruth",
+     "event": "31523-02.html",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31523-02.html"
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31523-01.html": {
+   "file": "Q00023_LidiasHeart/31523-01.html",
+   "quest": 23,
+   "text": "Tombstone: One jeweled scepter for the King and two Silver Spears for the von Hellmann family who protects him.",
+   "header": "Tombstone",
+   "when": [
+    "state STARTED; memo 8"
+   ],
+   "links": [
+    {
+     "text": "Wait a while.",
+     "bypass": "Quest Q00023_LidiasHeart 31523-02.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31523-02.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31523-02.html",
+     "toAll": [
+      "Q00023_LidiasHeart/31523-02.html",
+      "Q00023_LidiasHeart/31523-03.html"
+     ]
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31523-04.html": {
+   "file": "Q00023_LidiasHeart/31523-04.html",
+   "quest": 23,
+   "text": "Tombstone: There is a tablet engraved with familiar characters.",
+   "header": "Tombstone",
+   "when": [
+    "state STARTED; memo 9"
+   ],
+   "links": [
+    {
+     "text": "Dig",
+     "bypass": "Quest Q00023_LidiasHeart 31523-06.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31523-06.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31523-06.html",
+     "effect": "cond:8"
+    },
+    {
+     "text": "Recall the ghost",
+     "bypass": "Quest Q00023_LidiasHeart 31523-02.html",
+     "kind": "quest-event",
+     "script": "Q00023_LidiasHeart",
+     "event": "31523-02.html",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31523-02.html",
+     "toAll": [
+      "Q00023_LidiasHeart/31523-02.html",
+      "Q00023_LidiasHeart/31523-03.html"
+     ]
+    }
+   ]
+  },
+  "Q00023_LidiasHeart/31523-05.html": {
+   "file": "Q00023_LidiasHeart/31523-05.html",
+   "quest": 23,
+   "text": "Tombstone: There is a tablet engraved with familiar characters. It appears that something else has been crudely etched into the tablet.",
+   "header": "Tombstone",
+   "when": [
+    "state STARTED; memo 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00021_HiddenTruth/31523-02.html": {
+   "file": "Q00021_HiddenTruth/31523-02.html",
+   "quest": 21,
+   "text": "Tombstone: A jeweled scepter for the King and two Silver Spears for the von Hellmann family who protect him.",
+   "header": "Tombstone",
+   "links": [
+    {
+     "text": "Wait.",
+     "bypass": "Quest Q00021_HiddenTruth 31523-03.html",
+     "kind": "quest-event",
+     "script": "Q00021_HiddenTruth",
+     "event": "31523-03.html",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31523-03.html",
+     "toAll": [
+      "Q00021_HiddenTruth/31523-03.html",
+      "Q00021_HiddenTruth/31523-04.html"
+     ],
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00021_HiddenTruth/31523-03.html": {
+   "file": "Q00021_HiddenTruth/31523-03.html",
+   "quest": 21,
+   "text": "Tombstone: Soon a ghostly being appears...",
+   "header": "Tombstone",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00021_HiddenTruth/31523-04.html": {
+   "file": "Q00021_HiddenTruth/31523-04.html",
+   "quest": 21,
+   "text": "Tombstone: Don't look now, but there's a ghost behind you!",
+   "header": "Tombstone",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00023_LidiasHeart/31523-02.html": {
+   "file": "Q00023_LidiasHeart/31523-02.html",
+   "quest": 23,
+   "text": "Tombstone: After a while, a white ghost appears.",
+   "header": "Tombstone",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00023_LidiasHeart/31523-03.html": {
+   "file": "Q00023_LidiasHeart/31523-03.html",
+   "quest": 23,
+   "text": "Tombstone: The ghost was beside you all along!",
+   "header": "Tombstone",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00023_LidiasHeart/31523-06.html": {
+   "file": "Q00023_LidiasHeart/31523-06.html",
+   "quest": 23,
+   "text": "Tombstone: You find a key engraved with a silver spear.",
+   "header": "Tombstone",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Hidden Truth (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00021_HiddenTruth",
+     "kind": "quest",
+     "quest": 21,
+     "to": "Q00021_HiddenTruth/31523-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Lidia's Heart (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00023_LidiasHeart",
+     "kind": "quest",
+     "quest": 23,
+     "to": "Q00023_LidiasHeart/31523-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

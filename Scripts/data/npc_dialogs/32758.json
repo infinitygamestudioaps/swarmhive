@@ -1,0 +1,198 @@
+{
+ "npcId": 32758,
+ "name": "Sumiel",
+ "title": "Treasure Seeker",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.403Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "ai/npc/Minigame/32758-08.html",
+   "when": "npc.getTarget() == null; miniGameStarted",
+   "src": "ai Minigame"
+  },
+  {
+   "page": "ai/npc/Minigame/32758.html",
+   "when": "npc.getTarget() == null; NOT miniGameStarted",
+   "src": "ai Minigame"
+  },
+  {
+   "page": "ai/npc/Minigame/32758-07.html",
+   "when": "!npc.getTarget() == null; npc.getTarget() == talker; miniGameStarted",
+   "src": "ai Minigame"
+  },
+  {
+   "page": "ai/npc/Minigame/32758-02.html",
+   "when": "!npc.getTarget() == null; npc.getTarget() == talker; !miniGameStarted; attemptNumber == 2",
+   "src": "ai Minigame"
+  },
+  {
+   "page": "ai/npc/Minigame/32758-03.html",
+   "when": "!npc.getTarget() == null; npc.getTarget() == talker; !miniGameStarted; !attemptNumber == 2",
+   "src": "ai Minigame"
+  },
+  {
+   "page": "ai/npc/Minigame/32758-04.html",
+   "when": "!npc.getTarget() == null; !npc.getTarget() == talker",
+   "src": "ai Minigame"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "ai/npc/Minigame/32758-08.html": {
+   "file": "ai/npc/Minigame/32758-08.html",
+   "quest": null,
+   "text": "Treasure seeker Sumiel: Ekoo... wait. I'm not ready yet. I need to clean up, this equipment has fingerprints all over it! Give me 3 minutes , I'll be ready then.",
+   "header": "Treasure seeker Sumiel",
+   "when": [
+    "npc.getTarget() == null; miniGameStarted"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/Minigame/32758.html": {
+   "file": "ai/npc/Minigame/32758.html",
+   "quest": null,
+   "text": "Treasure seeker Sumiel: Success! You've found this room, wandered around this Monastery of Silence for a long time, got lost, got hungry, found your way here now, haven't you? Trust me when I say I don't know where the treasure is. I'd be long gone if I did. But I've had time to look, and I think t…",
+   "header": "Treasure seeker Sumiel",
+   "when": [
+    "npc.getTarget() == null; NOT miniGameStarted"
+   ],
+   "links": [
+    {
+     "text": "Say you will try.",
+     "bypass": "Quest Minigame restart",
+     "kind": "quest-event",
+     "script": "Minigame",
+     "event": "restart",
+     "to": "ai/npc/Minigame/32758-05.html",
+     "toAll": [
+      "ai/npc/Minigame/32758-05.html",
+      "ai/npc/Minigame/32758-04.html"
+     ]
+    },
+    {
+     "text": "Say you don't have time for this jibber jabber, so you want to get out.",
+     "bypass": "Quest Minigame 32758-06.html",
+     "kind": "quest-event",
+     "script": "Minigame",
+     "event": "32758-06.html",
+     "to": "ai/npc/Minigame/32758-06.html"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "ai/npc/Minigame/32758-07.html": {
+   "file": "ai/npc/Minigame/32758-07.html",
+   "quest": null,
+   "text": "Treasure seeker Sumiel: Ha, ha, you're funny. Since you started already, light up the rest.",
+   "header": "Treasure seeker Sumiel",
+   "when": [
+    "!npc.getTarget() == null; npc.getTarget() == talker; miniGameStarted"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Minigame/32758-02.html": {
+   "file": "ai/npc/Minigame/32758-02.html",
+   "quest": null,
+   "text": "Treasure seeker Sumiel: Is it hard? Yeah, true. Looking at the torch, we can do it about two more times. You using the lighting skill on the lighted torch?",
+   "header": "Treasure seeker Sumiel",
+   "when": [
+    "!npc.getTarget() == null; npc.getTarget() == talker; !miniGameStarted; attemptNumber == 2"
+   ],
+   "links": [
+    {
+     "text": "Restart Mini Game",
+     "bypass": "Quest Minigame restart",
+     "kind": "quest-event",
+     "script": "Minigame",
+     "event": "restart",
+     "to": "ai/npc/Minigame/32758-05.html",
+     "toAll": [
+      "ai/npc/Minigame/32758-05.html",
+      "ai/npc/Minigame/32758-04.html"
+     ]
+    }
+   ]
+  },
+  "ai/npc/Minigame/32758-03.html": {
+   "file": "ai/npc/Minigame/32758-03.html",
+   "quest": null,
+   "text": "Treasure seeker Sumiel: Last time. Concentrate on the treasure to appear. We can't try if the torch is all burnt.",
+   "header": "Treasure seeker Sumiel",
+   "when": [
+    "!npc.getTarget() == null; npc.getTarget() == talker; !miniGameStarted; !attemptNumber == 2"
+   ],
+   "links": [
+    {
+     "text": "Restart Mini Game",
+     "bypass": "Quest Minigame restart",
+     "kind": "quest-event",
+     "script": "Minigame",
+     "event": "restart",
+     "to": "ai/npc/Minigame/32758-05.html",
+     "toAll": [
+      "ai/npc/Minigame/32758-05.html",
+      "ai/npc/Minigame/32758-04.html"
+     ]
+    }
+   ]
+  },
+  "ai/npc/Minigame/32758-04.html": {
+   "file": "ai/npc/Minigame/32758-04.html",
+   "quest": null,
+   "text": "Treasure Seeker Sumiel: Now's not the time. There's another adventurer trying. Wait your turn! Haha!",
+   "header": "Treasure Seeker Sumiel",
+   "when": [
+    "!npc.getTarget() == null; !npc.getTarget() == talker"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Minigame/32758-05.html": {
+   "file": "ai/npc/Minigame/32758-05.html",
+   "quest": null,
+   "text": "Treasure Seeker Sumiel: No, there's none. You have to light it the moment the furnace is turned on.",
+   "header": "Treasure Seeker Sumiel",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/Minigame/32758-06.html": {
+   "file": "ai/npc/Minigame/32758-06.html",
+   "quest": null,
+   "text": "Treasure seeker Sumiel: Is that so? If you say so... so what else can I do for you?",
+   "header": "Treasure seeker Sumiel",
+   "links": [
+    {
+     "text": "Teleport outside the door.",
+     "bypass": "Quest Minigame teleport1",
+     "kind": "quest-event",
+     "script": "Minigame",
+     "event": "teleport1",
+     "to": null
+    },
+    {
+     "text": "Teleport to Greymore",
+     "bypass": "Quest Minigame teleport2",
+     "kind": "quest-event",
+     "script": "Minigame",
+     "event": "teleport2",
+     "to": null
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

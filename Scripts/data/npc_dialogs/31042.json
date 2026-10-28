@@ -1,0 +1,523 @@
+{
+ "npcId": 31042,
+ "name": "Kantabilon",
+ "title": "Melody Maestro",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.130Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31042.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "241": {
+   "name": "Possessor Of A Precious Soul 1",
+   "listText": [
+    "[Path of the Noblesse, Precious Soul - 1]",
+    "[Path of the Noblesse, Precious Soul - 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31042-01.html",
+     "when": "cond 5",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31042-04.html",
+     "when": "cond 6",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31042-03.html",
+     "when": "cond 7; item 7597 >= 10",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00241_PossessorOfAPreciousSoul1/31042-06.html",
+     "when": "cond 8",
+     "state": null,
+     "cond": [
+      8
+     ],
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "431": {
+   "name": "Wedding March",
+   "listText": [
+    "[Wedding March]",
+    "[Wedding March (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00431_WeddingMarch/31042-01.htm",
+     "when": "state CREATED; (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00431_WeddingMarch/31042-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00431_WeddingMarch/31042-03.html",
+     "when": "state STARTED; (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00431_WeddingMarch/31042-04.html",
+     "when": "state STARTED; NOT (st.isCond(1))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31042.htm": {
+   "file": "default/31042.htm",
+   "quest": null,
+   "text": "Melody Maestro Kantabilon: Pleased to meet you! I am Melody Maestro Kantabilon! I specialize in putting music into small gems known as echo crystals. Music lovers from throughout the kingdom have been bringing me their scores for years. If you like, I will make a crystal for you! It will only cost …",
+   "header": "Melody Maestro Kantabilon",
+   "links": [
+    {
+     "text": "[Create an Echo Crystal - Travel Theme]",
+     "bypass": "Quest EchoCrystals 4410",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4410",
+     "to": null
+    },
+    {
+     "text": "[Create an Echo Crystal - Battle Theme]",
+     "bypass": "Quest EchoCrystals 4409",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4409",
+     "to": null
+    },
+    {
+     "text": "[Create an Echo Crystal - Love Theme]",
+     "bypass": "Quest EchoCrystals 4408",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4408",
+     "to": null
+    },
+    {
+     "text": "[Create an Echo Crystal - Theme of Solitude]",
+     "bypass": "Quest EchoCrystals 4420",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4420",
+     "to": null
+    },
+    {
+     "text": "[Create an Echo Crystal - Theme of the Feast]",
+     "bypass": "Quest EchoCrystals 4421",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4421",
+     "to": null
+    },
+    {
+     "text": "[Create an Echo Crystal - Comedy Theme]",
+     "bypass": "Quest EchoCrystals 4419",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4419",
+     "to": null
+    },
+    {
+     "text": "[Create an Echo Crystal - Celebration Theme]",
+     "bypass": "Quest EchoCrystals 4418",
+     "kind": "quest-event",
+     "script": "EchoCrystals",
+     "event": "4418",
+     "to": null
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31042-01.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31042-01.html",
+   "quest": 241,
+   "text": "Kantabilon: I can't believe somebody still knows about the song! Yes, I have a crystal like that. It's my most cherished possession, but I will gladly give it to someone who appreciates it's value! There is one problem that must be solved first, otherwise taking the crystal won't help you.",
+   "header": "Kantabilon",
+   "when": [
+    "cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"What can I do to help?\"",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 31042-02.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "31042-02.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31042-02.html",
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31042-04.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31042-04.html",
+   "quest": 241,
+   "text": "Kantabilon: I need the claws of Malruk Succubi to mend this Echo Crystal. I can't repair it without the proper tools. Go to the Dragon Valley to get the claws for me. I need at least 10 of them.",
+   "header": "Kantabilon",
+   "when": [
+    "cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31042-03.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31042-03.html",
+   "quest": 241,
+   "text": "Kantabilon: These are perfect. I'll start working on it right away. It shouldn't take very long.",
+   "header": "Kantabilon",
+   "when": [
+    "cond 7; item 7597 >= 10"
+   ],
+   "links": [
+    {
+     "text": "Wait",
+     "bypass": "Quest Q00241_PossessorOfAPreciousSoul1 31042-05.html",
+     "kind": "quest-event",
+     "script": "Q00241_PossessorOfAPreciousSoul1",
+     "event": "31042-05.html",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31042-05.html",
+     "effect": "cond:8"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31042-06.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31042-06.html",
+   "quest": 241,
+   "text": "Kantabilon: Take the Echo Crystal and go back to your poet friend.",
+   "header": "Kantabilon",
+   "when": [
+    "cond 8"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00431_WeddingMarch/31042-01.htm": {
+   "file": "Q00431_WeddingMarch/31042-01.htm",
+   "quest": 431,
+   "text": "Melody Maestro Kantabilon: Great news! I found the musical score for a wedding march I've been searching for! Now I can play for all the lucky couples in the world! I need a special Echo Crystal to store this music. Bring me 50 Silver Crystals, and I'll fill half of them with music for you!",
+   "header": "Melody Maestro Kantabilon",
+   "when": [
+    "state CREATED; (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "links": [
+    {
+     "text": "\"I'll get them.\"",
+     "bypass": "Quest Q00431_WeddingMarch 31042-02.htm",
+     "kind": "quest-event",
+     "script": "Q00431_WeddingMarch",
+     "event": "31042-02.htm",
+     "quest": 431,
+     "to": "Q00431_WeddingMarch/31042-02.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00431_WeddingMarch/31042-00.htm": {
+   "file": "Q00431_WeddingMarch/31042-00.htm",
+   "quest": 431,
+   "text": "Melody Maestro Kantabilon: Your pitch is way off! (This quest can only be undertaken by a character of level 38 or above.)",
+   "header": "Melody Maestro Kantabilon",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= MIN_LEVEL)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00431_WeddingMarch/31042-03.html": {
+   "file": "Q00431_WeddingMarch/31042-03.html",
+   "quest": 431,
+   "text": "Melody Maestro Kantabilon: How can you call yourself an Adventurer if you can't even get these crystals?",
+   "header": "Melody Maestro Kantabilon",
+   "when": [
+    "state STARTED; (st.isCond(1))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00431_WeddingMarch/31042-04.html": {
+   "file": "Q00431_WeddingMarch/31042-04.html",
+   "quest": 431,
+   "text": "Melody Maestro Kantabilon: Oh, I'm so thrilled! Now I can share this blessed music at wedding ceremonies!",
+   "header": "Melody Maestro Kantabilon",
+   "when": [
+    "state STARTED; NOT (st.isCond(1))"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the crystals.\"",
+     "bypass": "Quest Q00431_WeddingMarch 31042-06.html",
+     "kind": "quest-event",
+     "script": "Q00431_WeddingMarch",
+     "event": "31042-06.html",
+     "quest": 431,
+     "to": "Q00431_WeddingMarch/31042-06.html",
+     "toAll": [
+      "Q00431_WeddingMarch/31042-06.html",
+      "Q00431_WeddingMarch/31042-05.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31042-02.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31042-02.html",
+   "quest": 241,
+   "text": "Kantabilon: The Echo Crystal is a fragile object and is easily broken. This one is worn out after so many years, and needs to be restored. It's delicate work requiring specialized tools. I'll need the long and sturdy claws of Malruk succubi from the Dragon Valley. Bring me ten sharp claws. Make sur…",
+   "header": "Kantabilon",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00241_PossessorOfAPreciousSoul1/31042-05.html": {
+   "file": "Q00241_PossessorOfAPreciousSoul1/31042-05.html",
+   "quest": 241,
+   "text": "Kantabilon: Now it will make the proper sound! Take it to Talien, your poet friend. I don't need you to reimburse me. I'd rather see the crystal being used for a worthy purpose than sitting in this dusty warehouse. Now hurry!",
+   "header": "Kantabilon",
+   "sets": {
+    "cond": "8"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00431_WeddingMarch/31042-02.htm": {
+   "file": "Q00431_WeddingMarch/31042-02.htm",
+   "quest": 431,
+   "text": "Melody Maestro Kantabilon: According to the contract, you must bring me 50 Silver Crystals currently held by the Lienriks near Heine .",
+   "header": "Melody Maestro Kantabilon",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q00431_WeddingMarch/31042-05.html": {
+   "file": "Q00431_WeddingMarch/31042-05.html",
+   "quest": 431,
+   "text": "Melody Maestro Kantabilon: What can you gain by deceiving me? Go get the crystals!",
+   "header": "Melody Maestro Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00431_WeddingMarch/31042-06.html": {
+   "file": "Q00431_WeddingMarch/31042-06.html",
+   "quest": 431,
+   "text": "Melody Maestro Kantabilon: Here are the Echo Crystals with the wedding march. May this music bless you someday!",
+   "header": "Melody Maestro Kantabilon",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-01.htm": {
+   "file": "ai/npc/EchoCrystals/31042-01.htm",
+   "quest": null,
+   "text": "Kantabilon: What soothing music! Ideal for a traveler such as yourself... Here is your crystal! Enjoy!",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-02.htm": {
+   "file": "ai/npc/EchoCrystals/31042-02.htm",
+   "quest": null,
+   "text": "Kantabilon: Hi there! If you want an Echo Crystal, it'll cost you 200 adena.",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-03.htm": {
+   "file": "ai/npc/EchoCrystals/31042-03.htm",
+   "quest": null,
+   "text": "Kantabilon: How do you expect me to make a crystal if you don't bring me a score?",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-04.htm": {
+   "file": "ai/npc/EchoCrystals/31042-04.htm",
+   "quest": null,
+   "text": "Kantabilon: Oh, how noble! It brings to mind thousands of orcs marching bravely off to war... Your crystal is complete! Enjoy it!",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-05.htm": {
+   "file": "ai/npc/EchoCrystals/31042-05.htm",
+   "quest": null,
+   "text": "Kantabilon: If you want me to create an Echo Crystal, it'll cost you 200 adena.",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-06.htm": {
+   "file": "ai/npc/EchoCrystals/31042-06.htm",
+   "quest": null,
+   "text": "Kantabilon: As you are well aware, I cannot make an Echo Crystal for you if you don't bring me a score! A fellow once told me that he was able to obtain an old score by talking to a fake alchemist in Oren...",
+   "header": "Kantabilon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-07.htm": {
+   "file": "ai/npc/EchoCrystals/31042-07.htm",
+   "quest": null,
+   "text": "Kantabilon: Oh, how romantic! And melancholy at the same time... Like love, wouldn't you agree? Yes, this definitely has an Elven quality to it... Perhaps I should add a female Elven voice to the crystal?~ It is complete. Enjoy!",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-08.htm": {
+   "file": "ai/npc/EchoCrystals/31042-08.htm",
+   "quest": null,
+   "text": "Kantabilon: Well, if you want an Echo Crystal it will cost you 200 adena.",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-09.htm": {
+   "file": "ai/npc/EchoCrystals/31042-09.htm",
+   "quest": null,
+   "text": "Kantabilon: I already told you that I cannot make an Echo Crystal for you if you don't bring me a score! A fellow once told me that he was able to obtain an old score by talking to a fake alchemist in Oren...",
+   "header": "Kantabilon",
+   "outcome": "refusal",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-10.htm": {
+   "file": "ai/npc/EchoCrystals/31042-10.htm",
+   "quest": null,
+   "text": "Kantabilon: How sad! It reminds me of the feeling I get when I'm drinking alone on a rainy night... My, oh my, am I blue! Here is your crystal. Enjoy it!",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-11.htm": {
+   "file": "ai/npc/EchoCrystals/31042-11.htm",
+   "quest": null,
+   "text": "Kantabilon: If you want an Echo Crystal it'll cost you 200 adena.",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-12.htm": {
+   "file": "ai/npc/EchoCrystals/31042-12.htm",
+   "quest": null,
+   "text": "Kantabilon: How do you expect me to make a crystal if you don't bring me a score?",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-13.htm": {
+   "file": "ai/npc/EchoCrystals/31042-13.htm",
+   "quest": null,
+   "text": "Kantabilon: This music makes me want to get up and dance! I haven't felt this good in years! All it needs is an accordion! Your crystal is complete. Enjoy it!",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-14.htm": {
+   "file": "ai/npc/EchoCrystals/31042-14.htm",
+   "quest": null,
+   "text": "Kantabilon: If you want me to create an Echo Crystal it'll cost you 200 adena.",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-15.htm": {
+   "file": "ai/npc/EchoCrystals/31042-15.htm",
+   "quest": null,
+   "text": "Kantabilon: How do you expect me to make an Echo Crystal if you don't bring me a score?",
+   "header": "Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-16.htm": {
+   "file": "ai/npc/EchoCrystals/31042-16.htm",
+   "quest": null,
+   "text": "Melody Maestro Kantabilon: This is such a happy tune! I especially like the last part! It reminds me of watching a clown at the circus... It's done! Enjoy!",
+   "header": "Melody Maestro Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "ai/npc/EchoCrystals/31042-17.htm": {
+   "file": "ai/npc/EchoCrystals/31042-17.htm",
+   "quest": null,
+   "text": "Melody Maestro Kantabilon: Hmm...! Is there a happy occasion in the offing? My, what heartwarming music! It's done! Enjoy!",
+   "header": "Melody Maestro Kantabilon",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Path of the Noblesse, Precious Soul - 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00241_PossessorOfAPreciousSoul1",
+     "kind": "quest",
+     "quest": 241,
+     "to": "Q00241_PossessorOfAPreciousSoul1/31042-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Wedding March]",
+     "bypass": "npc_%objectId%_Quest Q00431_WeddingMarch",
+     "kind": "quest",
+     "quest": 431,
+     "to": "Q00431_WeddingMarch/31042-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Wedding March (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00431_WeddingMarch",
+     "kind": "quest",
+     "quest": 431,
+     "to": "Q00431_WeddingMarch/31042-03.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

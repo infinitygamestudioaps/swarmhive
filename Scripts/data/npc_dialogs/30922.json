@@ -1,0 +1,65 @@
+{
+ "npcId": 30922,
+ "name": "Cage",
+ "title": "Guard",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:03.112Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "guard/30922.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {},
+ "pages": {
+  "guard/30922.htm": {
+   "file": "guard/30922.htm",
+   "quest": null,
+   "text": "Guard Cage: Greetings! Isn't it a beautiful day? This road goes by Alligator Island . I'm an expert on the island if you are interested in going there.",
+   "header": "Guard Cage",
+   "links": [
+    {
+     "text": "\"Tell me about Alligator Island.\"",
+     "bypass": "npc_%objectId%_Chat 1",
+     "kind": "page",
+     "to": "guard/30922-1.htm"
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "guard/30922-1.htm": {
+   "file": "guard/30922-1.htm",
+   "quest": null,
+   "text": "Guard Cage: As the name suggests, the island is swarming with alligators! It is a popular tourist destination, where travelers go to sample the delicious meet or collect the valuable pelts of these reptiles. Besides alligators there are also beasts on the island called crokians . Their apperance is…",
+   "header": "Guard Cage",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "npc_%objectId%_Chat 0",
+     "kind": "page",
+     "to": "guard/30922.htm"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": []
+  }
+ }
+}

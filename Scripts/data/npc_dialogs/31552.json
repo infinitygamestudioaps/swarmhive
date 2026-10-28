@@ -1,0 +1,115 @@
+{
+ "npcId": 31552,
+ "name": "Mysterious Ancient Tablet",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.220Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/31552.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "603": {
+   "name": "Daimon the White-Eyed - Part 1",
+   "listText": [
+    "[Daimon the White-Eyed - Part 1]",
+    "[Daimon the White-Eyed - Part 1 (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00603_DaimonTheWhiteEyedPart1/31552-01.html",
+     "when": "state STARTED; qs.getInt(\"TABLET_\" + npc.getId()) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00603_DaimonTheWhiteEyedPart1/31552-03.html",
+     "when": "state STARTED; !qs.getInt(\"TABLET_\" + npc.getId()) == 0",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/31552.htm": {
+   "file": "default/31552.htm",
+   "quest": null,
+   "text": "Mysterious Ancient Stone Tablet: A very old, worn, stone tablet. It is covered with mysterious engravings that are barely visible.",
+   "header": "Mysterious Ancient Stone Tablet",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31552-01.html": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31552-01.html",
+   "quest": 603,
+   "text": "Ancient Stone Tablet: Upon closer examination, you notice an inscription describing the exploits of the heroes who defeated Daimon the White-Eyed.",
+   "header": "Ancient Stone Tablet",
+   "when": [
+    "state STARTED; qs.getInt(\"TABLET_\" + npc.getId()) == 0"
+   ],
+   "links": [
+    {
+     "text": "Read the inscription",
+     "bypass": "Quest Q00603_DaimonTheWhiteEyedPart1 31552-02.html",
+     "kind": "quest-event",
+     "script": "Q00603_DaimonTheWhiteEyedPart1",
+     "event": "31552-02.html",
+     "quest": 603,
+     "to": "Q00603_DaimonTheWhiteEyedPart1/31552-02.html",
+     "effect": "cond:[object Object]"
+    }
+   ]
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31552-03.html": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31552-03.html",
+   "quest": 603,
+   "text": "Ancient Stone Tablet: You've already read the inscription. Now that you've learned how to defeat Daimon the White-Eyed, go back to Eye of Argos.",
+   "header": "Ancient Stone Tablet",
+   "when": [
+    "state STARTED; !qs.getInt(\"TABLET_\" + npc.getId()) == 0"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00603_DaimonTheWhiteEyedPart1/31552-02.html": {
+   "file": "Q00603_DaimonTheWhiteEyedPart1/31552-02.html",
+   "quest": 603,
+   "text": "Ancient Stone Tablet: The text describes the decisive battles against Daimon the White-Eyed. Past heroes used the bead of summoning to call out Daimon before he and his minions were ready. Now it all makes sense! You know how to defeat Daimon! As you stand thinking before the tablet, something fall…",
+   "header": "Ancient Stone Tablet",
+   "sets": {
+    "cond": "[object Object]"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Daimon the White-Eyed - Part 1 (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00603_DaimonTheWhiteEyedPart1",
+     "kind": "quest",
+     "quest": 603,
+     "to": "Q00603_DaimonTheWhiteEyedPart1/31552-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

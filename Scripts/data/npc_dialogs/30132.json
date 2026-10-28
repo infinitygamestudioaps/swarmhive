@@ -1,0 +1,166 @@
+{
+ "npcId": 30132,
+ "name": "Cecktinon",
+ "title": "Abyssal Celebrant",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:02.847Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30132.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "103": {
+   "name": "Spirit of Craftsman",
+   "listText": [
+    "[Spirit of Craftsman]",
+    "[Spirit of Craftsman (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00103_SpiritOfCraftsman/30132-01.html",
+     "when": "state STARTED; has items 968",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00103_SpiritOfCraftsman/30132-02.html",
+     "when": "state STARTED; has items 969,970; lacks items 968",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00103_SpiritOfCraftsman/30132-03.html",
+     "when": "state STARTED; has items 971; lacks items 968,969,970",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00103_SpiritOfCraftsman/30132-04.html",
+     "when": "state STARTED; has items 972; lacks items 968,969,970,971,973,974",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00103_SpiritOfCraftsman/30132-05.html",
+     "when": "state STARTED; has items 973; lacks items 968,969,970,971; !(hasQuestItems(talker, PRESERVE_OIL) && !hasQuestItems(talker, ZOMBIE_HEAD, STEELBENDERS_HEAD))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00103_SpiritOfCraftsman/30132-06.html",
+     "when": "state STARTED; has items 974; lacks items 968,969,970,971,973; !(hasQuestItems(talker, PRESERVE_OIL) && !hasQuestItems(talker, ZOMBIE_HEAD, STEELBENDERS_HEAD))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30132.htm": {
+   "file": "default/30132.htm",
+   "quest": null,
+   "text": "Abyssal Celebrant Cecktinon: May you have the blessing of Abyss... Here is the birthplace of all Dark Elves, the temple of the goddess Shilen. Please enter with a solemn mind.",
+   "header": "Abyssal Celebrant Cecktinon",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00103_SpiritOfCraftsman/30132-01.html": {
+   "file": "Q00103_SpiritOfCraftsman/30132-01.html",
+   "quest": 103,
+   "text": "Abyssal Celebrant Cecktinon: A letter for me from Blacksmith Karrod ...? Hmm, what use does he have for the soul of a Dwarf slave who is already dead ... Whatever the reason may be, I cannot refuse my friend's request. It has been less than ten years since Steelbender died, and I don't think it wou…",
+   "header": "Abyssal Celebrant Cecktinon",
+   "when": [
+    "state STARTED; has items 968"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00103_SpiritOfCraftsman/30132-02.html": {
+   "file": "Q00103_SpiritOfCraftsman/30132-02.html",
+   "quest": 103,
+   "text": "Abyssal Celebrant Cecktinon: You haven't sought out Magister Harne yet? Go and show her the Letter of Introduction I wrote you, and ask about the Soul Catcher. We must have a Soul Catcher to proceed with the ritual summoning of Steelbender's spirit.",
+   "header": "Abyssal Celebrant Cecktinon",
+   "when": [
+    "state STARTED; has items 969,970; lacks items 968"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00103_SpiritOfCraftsman/30132-03.html": {
+   "file": "Q00103_SpiritOfCraftsman/30132-03.html",
+   "quest": 103,
+   "text": "Abyssal Celebrant Cecktinon: You have brought me the Soul Catcher. Now I can start the ritual calling upon the dead Dwarf's spirit. Did you say the slave's name was Roberto Steelbender? While I am preparing for this ritual, there is one thing that you can do for me. It seems that Karrod has a lot t…",
+   "header": "Abyssal Celebrant Cecktinon",
+   "when": [
+    "state STARTED; has items 971; lacks items 968,969,970"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00103_SpiritOfCraftsman/30132-04.html": {
+   "file": "Q00103_SpiritOfCraftsman/30132-04.html",
+   "quest": 103,
+   "text": "Abyssal Celebrant Cecktinon: If you keep interrupting me, it will interfere with my ritual. Go to the swamp and bring me the head of a zombie . I need an intact head that is not decayed or mangled.",
+   "header": "Abyssal Celebrant Cecktinon",
+   "when": [
+    "state STARTED; has items 972; lacks items 968,969,970,971,973,974"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00103_SpiritOfCraftsman/30132-05.html": {
+   "file": "Q00103_SpiritOfCraftsman/30132-05.html",
+   "quest": 103,
+   "text": "Abyssal Celebrant Cecktinon: This Zombie Head is in excellent condition. The chin area moves well, and all the teeth are still intact. This will do. ... I command you in the name of the abyss which rules over death. I hereby seal you to this spirit of power ... I have just transferred Steelbender's…",
+   "header": "Abyssal Celebrant Cecktinon",
+   "when": [
+    "state STARTED; has items 973; lacks items 968,969,970,971; !(hasQuestItems(talker, PRESERVE_OIL) && !hasQuestItems(talker, ZOMBIE_HEAD, STEELBENDERS_HEAD))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00103_SpiritOfCraftsman/30132-06.html": {
+   "file": "Q00103_SpiritOfCraftsman/30132-06.html",
+   "quest": 103,
+   "text": "Abyssal Celebrant Cecktinon: You haven't gone to the village yet? Go and deliver the head that holds the trapped spirit of Steelbender to Blacksmith Karrod before it begins to rot. You can find him at the village forge.",
+   "header": "Abyssal Celebrant Cecktinon",
+   "when": [
+    "state STARTED; has items 974; lacks items 968,969,970,971,973; !(hasQuestItems(talker, PRESERVE_OIL) && !hasQuestItems(talker, ZOMBIE_HEAD, STEELBENDERS_HEAD))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Spirit of Craftsman (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00103_SpiritOfCraftsman",
+     "kind": "quest",
+     "quest": 103,
+     "to": "Q00103_SpiritOfCraftsman/30132-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

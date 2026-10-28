@@ -1,0 +1,530 @@
+{
+ "npcId": 30034,
+ "name": "Iris",
+ "title": "Magister",
+ "type": "L2Trainer",
+ "generated": "2026-10-27T18:18:02.791Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "trainer/30034.htm",
+   "when": "",
+   "src": "html/trainer"
+  }
+ ],
+ "quests": {
+  "38": {
+   "name": "Dragon Fangs",
+   "listText": [
+    "[Dragon Fangs]",
+    "[Dragon Fangs (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00038_DragonFangs/30034-01.html",
+     "when": "cond 3",
+     "state": null,
+     "cond": [
+      3
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00038_DragonFangs/30034-04.html",
+     "when": "cond 4",
+     "state": null,
+     "cond": [
+      4
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00038_DragonFangs/30034-05.html",
+     "when": "cond 5",
+     "state": null,
+     "cond": [
+      5
+     ],
+     "outcome": null
+    },
+    {
+     "page": "Q00038_DragonFangs/30034-09.html",
+     "when": "cond 6",
+     "state": null,
+     "cond": [
+      6
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00038_DragonFangs/30034-08.html",
+     "when": "cond 7; has items 7175",
+     "state": null,
+     "cond": [
+      7
+     ],
+     "outcome": null
+    }
+   ]
+  },
+  "327": {
+   "name": "Recover the Farmland",
+   "listText": [
+    "[Recover the Farmland]",
+    "[Recover the Farmland (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00327_RecoverTheFarmland/30034-01.html",
+     "when": "state STARTED",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "trainer/30034.htm": {
+   "file": "trainer/30034.htm",
+   "quest": null,
+   "text": "Magister Iris: Nice to meet you. Normally I'm very careful, but last night I had a small mishap while conducting an experiment and I haven't had a chance to clean it all up. Oh, but you don't want to hear about that, do you? You're here...why exactly are you here again?",
+   "header": "Magister Iris",
+   "links": [
+    {
+     "text": "Learn skills.",
+     "bypass": "npc_%objectId%_SkillList",
+     "kind": "skills"
+    },
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help.htm"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "trainer/30034-noteach.htm": {
+   "file": "trainer/30034-noteach.htm",
+   "quest": null,
+   "text": "Magister Iris: Have you come to see me? If it's about magical items, you can buy them at magic shops. If not... well, surely you haven't come to learn magic? I only teach magic to Human Mystics.",
+   "header": "Magister Iris",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00038_DragonFangs/30034-01.html": {
+   "file": "Q00038_DragonFangs/30034-01.html",
+   "quest": 38,
+   "text": "Magister Iris: What can I do for you? Ah, Luis sent you! What's this about? Oh I see! Those vile Langk lizardmen are causing problems in the south. You've already dealt with them? Very impressive! The Langk lizardmen's sorcery has long been a mystery to us. Up to now we haven't given them much thou…",
+   "header": "Magister Iris",
+   "when": [
+    "cond 3"
+   ],
+   "links": [
+    {
+     "text": "\"I'll go and ask Magister Rohmer what we should do!\"",
+     "bypass": "Quest Q00038_DragonFangs 30034-02.html",
+     "kind": "quest-event",
+     "script": "Q00038_DragonFangs",
+     "event": "30034-02.html",
+     "quest": 38,
+     "to": "Q00038_DragonFangs/30034-02.html",
+     "toAll": [
+      "Q00038_DragonFangs/30034-02.html",
+      "Q00038_DragonFangs/30034-03.html"
+     ],
+     "effect": "cond:4"
+    }
+   ]
+  },
+  "Q00038_DragonFangs/30034-04.html": {
+   "file": "Q00038_DragonFangs/30034-04.html",
+   "quest": 38,
+   "text": "Magister Iris: This is urgent! You must leave as soon as possible! Take my letter to Magister Rohmer at the temple in the Town of Gludio.",
+   "header": "Magister Iris",
+   "when": [
+    "cond 4"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00038_DragonFangs/30034-05.html": {
+   "file": "Q00038_DragonFangs/30034-05.html",
+   "quest": 38,
+   "text": "Magister Iris: You're back! I've been waiting for you! We must hurry! Word has come from the guards that Langk lizardmen are attacking travelers again! They must be dealt with immediately! Please give me Magister Rohmer's reply! Just as I thought! We can do this, we just need to gather the ingredie…",
+   "header": "Magister Iris",
+   "when": [
+    "cond 5"
+   ],
+   "links": [
+    {
+     "text": "\"I'll help you finish the job.\"",
+     "bypass": "Quest Q00038_DragonFangs 30034-06.html",
+     "kind": "quest-event",
+     "script": "Q00038_DragonFangs",
+     "event": "30034-06.html",
+     "quest": 38,
+     "to": "Q00038_DragonFangs/30034-06.html",
+     "toAll": [
+      "Q00038_DragonFangs/30034-06.html",
+      "Q00038_DragonFangs/30034-07.html"
+     ],
+     "effect": "cond:6"
+    }
+   ]
+  },
+  "Q00038_DragonFangs/30034-09.html": {
+   "file": "Q00038_DragonFangs/30034-09.html",
+   "quest": 38,
+   "text": "Magister Iris: Come in! Have you completed your mission? I'm impressed! What? You haven't collected all of them yet? If we are to cancel the sorcery of the Langk lizardmen, you must bring me 50 dragon teeth . Get them from Langk Lizardman shamans and captains that can be found in the deepest parts …",
+   "header": "Magister Iris",
+   "when": [
+    "cond 6"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00038_DragonFangs/30034-08.html": {
+   "file": "Q00038_DragonFangs/30034-08.html",
+   "quest": 38,
+   "text": "Magister Iris: Great job! Exactly 50! You dealt with that challenge admirably! My compliments! The very survival of our world depends on Warriors like you! Well, I have all the ingredients I need, and I also know how to cancel the effects of their sorcery, all there is to do now is make it happen! …",
+   "header": "Magister Iris",
+   "when": [
+    "cond 7; has items 7175"
+   ],
+   "links": [
+    {
+     "text": "\"Here are the dragon teeth.\"",
+     "bypass": "Quest Q00038_DragonFangs 30034-10.html",
+     "kind": "quest-event",
+     "script": "Q00038_DragonFangs",
+     "event": "30034-10.html",
+     "quest": 38,
+     "to": "Q00038_DragonFangs/30034-10.html",
+     "toAll": [
+      "Q00038_DragonFangs/30034-10.html",
+      "Q00038_DragonFangs/30034-11.html"
+     ],
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30034-01.html": {
+   "file": "Q00327_RecoverTheFarmland/30034-01.html",
+   "quest": 327,
+   "text": "Magister Iris: So the rumors are true ... That the mercenaries fighting the Orcs on the northwest shores are secretly selling relics of the ancient kingdom ... How could they sell such valuable historical artifacts to businessmen ...! Objects that represent the lives of our ancestors ... They'll be…",
+   "header": "Magister Iris",
+   "when": [
+    "state STARTED"
+   ],
+   "links": [
+    {
+     "text": "Give Clay Pot piece",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30034-03.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30034-03.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30034-03.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30034-03.html",
+      "Q00327_RecoverTheFarmland/30034-02.html"
+     ]
+    },
+    {
+     "text": "Give brass decoration piece",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30034-04.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30034-04.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30034-04.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30034-04.html",
+      "Q00327_RecoverTheFarmland/30034-02.html"
+     ]
+    },
+    {
+     "text": "Give Bronze Mirror Piece",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30034-05.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30034-05.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30034-05.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30034-05.html",
+      "Q00327_RecoverTheFarmland/30034-02.html"
+     ]
+    },
+    {
+     "text": "Give Jade Necklace Bead",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30034-06.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30034-06.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30034-06.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30034-06.html",
+      "Q00327_RecoverTheFarmland/30034-02.html"
+     ]
+    },
+    {
+     "text": "Give all completed ancient relics",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30034-07.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30034-07.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30034-07.html",
+     "toAll": [
+      "Q00327_RecoverTheFarmland/30034-07.html",
+      "Q00327_RecoverTheFarmland/30034-02.html"
+     ]
+    }
+   ]
+  },
+  "Q00038_DragonFangs/30034-02.html": {
+   "file": "Q00038_DragonFangs/30034-02.html",
+   "quest": 38,
+   "text": "Magister Iris: Can you really do that for me? Thank you so much! Please take this letter to Magister Rohmer in the Temple of Einhasad in the Town of Gludio . Bring me his reply as soon as possible. You can find him if you follow the road in a northeast from here. Miss Richlin can get you there fast…",
+   "header": "Magister Iris",
+   "sets": {
+    "cond": "4"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00038_DragonFangs/30034-03.html": {
+   "file": "Q00038_DragonFangs/30034-03.html",
+   "quest": 38,
+   "text": "Magister Iris: What have you done with the tooth of sorcery ? You must have it with you when you meet Magister Rohmer, or he won't tell you anything! Please, bring it to me!",
+   "header": "Magister Iris",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00038_DragonFangs/30034-06.html": {
+   "file": "Q00038_DragonFangs/30034-06.html",
+   "quest": 38,
+   "text": "Magister Iris: Thank you so very much! I've found out that the Langk lizardmen use a dragon tooth to perform their sorcery. I'm not sure whether or not it's actually a tooth from a dragon, but their sorcery is strong, and has evolved from ancient times. The document Magister Rohmer sent me is from …",
+   "header": "Magister Iris",
+   "sets": {
+    "cond": "6"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00038_DragonFangs/30034-07.html": {
+   "file": "Q00038_DragonFangs/30034-07.html",
+   "quest": 38,
+   "text": "Magister Iris: Where is the letter from Magister Rohmer? We can't do anything without it! Did you drop it? You must find it!",
+   "header": "Magister Iris",
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00038_DragonFangs/30034-10.html": {
+   "file": "Q00038_DragonFangs/30034-10.html",
+   "quest": 38,
+   "text": "Magister Iris: Whew! What a relief! Thank you for your hard work. Please accept this gift from myself and the guards, a small token of our gratitude. We may not have driven the Langk lizardmen out completely, but they've lost their powerful sorcery, and no longer pose a mortal threat to us.",
+   "header": "Magister Iris",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": []
+  },
+  "Q00038_DragonFangs/30034-11.html": {
+   "file": "Q00038_DragonFangs/30034-11.html",
+   "quest": 38,
+   "text": "Magister Iris: Listen! You must collect 50 dragon teeth if I am to cancel the powerful effects of their sorcery. Take the teeth from Langk Lizardman captains and shamans .",
+   "header": "Magister Iris",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00327_RecoverTheFarmland/30034-02.html": {
+   "file": "Q00327_RecoverTheFarmland/30034-02.html",
+   "quest": 327,
+   "text": "Magister Iris: Why are you trying to give me something you don't even have? I can't understand you at all.",
+   "header": "Magister Iris",
+   "outcome": "refusal",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30034-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30034-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30034-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30034-03.html": {
+   "file": "Q00327_RecoverTheFarmland/30034-03.html",
+   "quest": 327,
+   "text": "Magister Iris: This Clay Pot piece ...? By the looks of the repetitive spiral designs, it looks like it was made in the early kingdom style. That such delicate craftsmanship was available thousands of years ago ... It's unbelievable. Thank you very much. The relics you have brought me will all be u…",
+   "header": "Magister Iris",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30034-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30034-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30034-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30034-04.html": {
+   "file": "Q00327_RecoverTheFarmland/30034-04.html",
+   "quest": 327,
+   "text": "Magister Iris: This brass piece? It is part of a crown! However ... it's not the crown of a ruler, but a portion of the crown worn by priests during ceremonies. Look at these delicate carvings ... Beautiful, aren't they? It doesn't look like this item was made thousands of years ago, does it? Thank…",
+   "header": "Magister Iris",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30034-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30034-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30034-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30034-05.html": {
+   "file": "Q00327_RecoverTheFarmland/30034-05.html",
+   "quest": 327,
+   "text": "Magister Iris: This is a piece of a broken mirror. This is probably a portion of one of the bronze mirrors used by noblewomen of the Elmoreden age. Truly this is a very valuable artifact, that holds images of the lives of the ancient ones. Thank you very much. The relics you have brought me will al…",
+   "header": "Magister Iris",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30034-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30034-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30034-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30034-06.html": {
+   "file": "Q00327_RecoverTheFarmland/30034-06.html",
+   "quest": 327,
+   "text": "Magister Iris: ... The bead appears to be part of a necklace ... Yes, that is probably it. It is the jade necklace worn by magicians of the royal Elmoreden court. Truly, it is a very valuable cultural artifact that records the lives and traditions of the ancient ones. Thank you very much. The relic…",
+   "header": "Magister Iris",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Return",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30034-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30034-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30034-01.html"
+    }
+   ]
+  },
+  "Q00327_RecoverTheFarmland/30034-07.html": {
+   "file": "Q00327_RecoverTheFarmland/30034-07.html",
+   "quest": 327,
+   "text": "Magister Iris: These artifacts...? Who restored them? Restoring broken artifacts to their original state is a job that requires great delicacy... Whoever worked on these is very talented. I will send them all to the Ivory Tower. They will be precious resources for historical study. I will make sure…",
+   "header": "Magister Iris",
+   "outcome": "dead-end",
+   "links": [
+    {
+     "text": "Back",
+     "bypass": "Quest Q00327_RecoverTheFarmland 30034-01.html",
+     "kind": "quest-event",
+     "script": "Q00327_RecoverTheFarmland",
+     "event": "30034-01.html",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30034-01.html"
+    }
+   ]
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Dragon Fangs (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00038_DragonFangs",
+     "kind": "quest",
+     "quest": 38,
+     "to": "Q00038_DragonFangs/30034-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Recover the Farmland (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00327_RecoverTheFarmland",
+     "kind": "quest",
+     "quest": 327,
+     "to": "Q00327_RecoverTheFarmland/30034-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "common/skill_enchant_help.htm": {
+   "file": "common/skill_enchant_help.htm",
+   "quest": null,
+   "text": "",
+   "links": [
+    {
+     "text": "Ask about Skill Enchanting.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_01.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_01.htm"
+    },
+    {
+     "text": "Ask about the Agathion in charge of skill enchantment.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_02.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_02.htm"
+    },
+    {
+     "text": "Ask about skill enchantment methods.",
+     "bypass": "npc_%objectId%_Link common/skill_enchant_help_03.htm",
+     "kind": "page",
+     "to": "common/skill_enchant_help_03.htm"
+    }
+   ]
+  },
+  "common/skill_enchant_help_01.htm": {
+   "file": "common/skill_enchant_help_01.htm",
+   "quest": null,
+   "text": "Skill Enchanting allows you to strengthen certain skills that have reached their maximum level. You must be level 76 or above and have completed your 3rd class transfer in order to take advantage of this system. To enchant your skills, simply speak to Agathion Pona. To do this, open your skills win…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "common/skill_enchant_help_02.htm": {
+   "file": "common/skill_enchant_help_02.htm",
+   "quest": null,
+   "text": "Back in the day, Skill Enchanting was a tedious process that could only be done through specific people throughout the land. But those days are gone. Now all you have to do is open your skill window and click on the Skill Enchanting button at the bottom. How easy is that!",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "common/skill_enchant_help_03.htm": {
+   "file": "common/skill_enchant_help_03.htm",
+   "quest": null,
+   "text": "There are several Skill Enchanting options at your disposal: General Skill Enchant, Blessed Skill Enchant, Skill Un-Enchanting and Skill Route Change. General Skill Enchanting This method of enchanting requires 1 [Giant's Codex] and a certain amount of SP and adena to complete. If the enchant attem…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ }
+}

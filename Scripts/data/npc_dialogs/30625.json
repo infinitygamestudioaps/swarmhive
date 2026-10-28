@@ -1,0 +1,186 @@
+{
+ "npcId": 30625,
+ "name": "Mason",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.021Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "default/30625.htm",
+   "when": "",
+   "src": "html/default"
+  }
+ ],
+ "quests": {
+  "223": {
+   "name": "Test Of The Champion",
+   "listText": [
+    "[Test of the Champion]",
+    "[Test of the Champion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00223_TestOfTheChampion/30625-01.html",
+     "when": "state STARTED; has items 3277",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30625-04.html",
+     "when": "state STARTED; has items 3279; lacks items 3277; getQuestItemsCount(player, BLOODY_AXE_HEAD) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30625-05.html",
+     "when": "state STARTED; has items 3279; lacks items 3277; !getQuestItemsCount(player, BLOODY_AXE_HEAD) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30625-06.html",
+     "when": "state STARTED; has items 3278; lacks items 3277,3279",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30625-07.html",
+     "when": "state STARTED; has items 3280,3281,3282,3283,3284,3285,3286; lacks items 3277,3279,3278",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "default/30625.htm": {
+   "file": "default/30625.htm",
+   "quest": null,
+   "text": "Mason: I lost my wife and children during Gracia's attack. The Gracian army is my lifelong enemy because they have deprived me of my most precious thing, my family. I swear that I will avenge them some day.",
+   "header": "Mason",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30625-01.html": {
+   "file": "Q00223_TestOfTheChampion/30625-01.html",
+   "quest": 223,
+   "text": "Mason: I lost my wife and children during Gracia's attack. Gracia's army deprived me of my family, my most precious possession, and are my lifelong enemies. These scoundrels are the Ol Mahums, also known as the 'Bloody Axe'. I swear to God that I will one day have my revenge!",
+   "header": "Mason",
+   "when": [
+    "state STARTED; has items 3277"
+   ],
+   "links": [
+    {
+     "text": "Show him the letter from Ascalon.",
+     "bypass": "Quest Q00223_TestOfTheChampion 30625-02.html",
+     "kind": "quest-event",
+     "script": "Q00223_TestOfTheChampion",
+     "event": "30625-02.html",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30625-02.html"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30625-04.html": {
+   "file": "Q00223_TestOfTheChampion/30625-04.html",
+   "quest": 223,
+   "text": "Mason: I am now too old and weak too even lift a spear. But my hatred towards those who killed my family still boils up like lava. I beg you, please obtain vengeance on my behalf. I will be able to die without regret if you bring me 10 Bloody Axe Heads from the Bloody Axe Elite soldiers. You will f…",
+   "header": "Mason",
+   "when": [
+    "state STARTED; has items 3279; lacks items 3277; getQuestItemsCount(player, BLOODY_AXE_HEAD) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30625-05.html": {
+   "file": "Q00223_TestOfTheChampion/30625-05.html",
+   "quest": 223,
+   "text": "Mason: Thank you. Now the souls of my family can rest in peace... The fire of revenge that has driven me mad is finally extinguished... Please give this letter to Ascalon . Tell him that my family and I are finally at peace.",
+   "header": "Mason",
+   "when": [
+    "state STARTED; has items 3279; lacks items 3277; !getQuestItemsCount(player, BLOODY_AXE_HEAD) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30625-06.html": {
+   "file": "Q00223_TestOfTheChampion/30625-06.html",
+   "quest": 223,
+   "text": "Mason: Revenge became my life force... Now as I examine my life all I see are hatred and regret... All for nothing... I thought that revenge would let me finally join my dear family in peace... But now word comes of Ascalon's continuing fight for his beliefs against the doers of injustice. I have c…",
+   "header": "Mason",
+   "when": [
+    "state STARTED; has items 3278; lacks items 3277,3279"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30625-07.html": {
+   "file": "Q00223_TestOfTheChampion/30625-07.html",
+   "quest": 223,
+   "text": "Mason: I may look old and withered, but my experience and know-how accumulated in the battlefields cannot be ignored... Recently I have been teaching young recruits how to deal with the flying corps, and the strategy of siege warfare. Keep up the good work for the peace of the Kingdom!",
+   "header": "Mason",
+   "when": [
+    "state STARTED; has items 3280,3281,3282,3283,3284,3285,3286; lacks items 3277,3279,3278"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30625-02.html": {
+   "file": "Q00223_TestOfTheChampion/30625-02.html",
+   "quest": 223,
+   "text": "Mason: Ascalon... It has been many years since I heard that name... When I left the army I married a beautiful woman named Lillian. We settled down in my hometown of Dion where we lived a happy and peaceful life and raised our family. And then, one dark day, Gracia's army attacked and killed my wif…",
+   "header": "Mason",
+   "links": [
+    {
+     "text": "Say you will help",
+     "bypass": "Quest Q00223_TestOfTheChampion 30625-03.html",
+     "kind": "quest-event",
+     "script": "Q00223_TestOfTheChampion",
+     "event": "30625-03.html",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30625-03.html",
+     "effect": "cond:2"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30625-03.html": {
+   "file": "Q00223_TestOfTheChampion/30625-03.html",
+   "quest": 223,
+   "text": "Mason: I want to rip apart the soldiers of Gracia's Foreign Legion still in our kingdom! Ah, but I am too old now to pick up the sword of revenge alone. Here, take the ring I once wore as a mercenary. Put it on and obtain vengeance on my behalf. Slay all the Bloody Axe Elites that killed my beloved…",
+   "header": "Mason",
+   "sets": {
+    "cond": "2"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Champion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00223_TestOfTheChampion",
+     "kind": "quest",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30625-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}

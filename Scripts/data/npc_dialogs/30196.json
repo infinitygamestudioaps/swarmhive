@@ -1,0 +1,612 @@
+{
+ "npcId": 30196,
+ "name": "Mouen",
+ "title": "Captain",
+ "type": "L2Guard",
+ "generated": "2026-10-27T18:18:02.884Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": true,
+ "firstTalk": [
+  {
+   "page": "guard/30196.htm",
+   "when": "",
+   "src": "html/guard"
+  }
+ ],
+ "quests": {
+  "223": {
+   "name": "Test Of The Champion",
+   "listText": [
+    "[Test of the Champion]",
+    "[Test of the Champion (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00223_TestOfTheChampion/30196-01.html",
+     "when": "state STARTED; has items 3283",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30196-04.html",
+     "when": "state STARTED; has items 3284; lacks items 3283; getQuestItemsCount(player, ROAD_RATMAN_HEAD) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30196-05.html",
+     "when": "state STARTED; has items 3284; lacks items 3283; !getQuestItemsCount(player, ROAD_RATMAN_HEAD) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30196-07.html",
+     "when": "state STARTED; has items 3285; lacks items 3283,3284; getQuestItemsCount(player, LETO_LIZARDMAN_FANG) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30196-08.html",
+     "when": "state STARTED; has items 3285; lacks items 3283,3284; !getQuestItemsCount(player, LETO_LIZARDMAN_FANG) < 10",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00223_TestOfTheChampion/30196-09.html",
+     "when": "state STARTED; has items 3286; lacks items 3283,3284,3285",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "249": {
+   "name": "Poisoned Plains of the Lizardmen",
+   "listText": [
+    "[Poisoned Plains of the Lizardmen]",
+    "[Poisoned Plains of the Lizardmen (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00249_PoisonedPlainsOfTheLizardmen/30196-01.htm",
+     "when": "state CREATED; (player.getLevel() >= 82)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00249_PoisonedPlainsOfTheLizardmen/30196-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() >= 82)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q00249_PoisonedPlainsOfTheLizardmen/30196-04.htm",
+     "when": "state STARTED; cond 1",
+     "state": "STARTED",
+     "cond": [
+      1
+     ],
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00249_PoisonedPlainsOfTheLizardmen/30196-05.htm",
+     "when": "state COMPLETED",
+     "state": "COMPLETED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  },
+  "10279": {
+   "name": "Mutated Kaneus - Oren",
+   "listText": [
+    "[Mutated Kaneus - Oren]",
+    "[Mutated Kaneus - Oren (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q10279_MutatedKaneusOren/30196-01.htm",
+     "when": "state CREATED; (player.getLevel() > 47)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q10279_MutatedKaneusOren/30196-00.htm",
+     "when": "state CREATED; NOT (player.getLevel() > 47)",
+     "state": "CREATED",
+     "cond": null,
+     "outcome": "refusal"
+    },
+    {
+     "page": "Q10279_MutatedKaneusOren/30196-05.htm",
+     "when": "state STARTED; (st.hasQuestItems(TISSUE_KA) && st.hasQuestItems(TISSUE_KM))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q10279_MutatedKaneusOren/30196-04.htm",
+     "when": "state STARTED; NOT (st.hasQuestItems(TISSUE_KA) && st.hasQuestItems(TISSUE_KM))",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    }
+   ]
+  }
+ },
+ "pages": {
+  "guard/30196.htm": {
+   "file": "guard/30196.htm",
+   "quest": null,
+   "text": "Captain Mouen: Young traveler, welcome to Oren! I am Mouen, responsible to the lord for the security of the town. As you know, we are close to Aden's enemy, the land of Elmore, so security is tighter here than in most towns. Let me apologize now for any inconvenience this may cause you. Please unde…",
+   "header": "Captain Mouen",
+   "links": [
+    {
+     "text": "Ask about Kamaloka.",
+     "bypass": "guard/kamaloka_help.htm",
+     "kind": "page",
+     "to": "guard/kamaloka_help.htm"
+    },
+    {
+     "text": "Look at the list of Kamaloka.",
+     "bypass": "guard/kamaloka_level.htm",
+     "kind": "page",
+     "to": "guard/kamaloka_level.htm"
+    },
+    {
+     "text": "Enter Kamaloka.",
+     "bypass": "npc_%objectId%_Quest Kamaloka",
+     "kind": "quest",
+     "script": "Kamaloka",
+     "live": true
+    },
+    {
+     "text": "Ask about the local lord and tax rate.",
+     "bypass": "npc_%objectId%_TerritoryStatus",
+     "kind": "other"
+    },
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist",
+     "live": true,
+     "dpText": "Quest."
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30196-01.html": {
+   "file": "Q00223_TestOfTheChampion/30196-01.html",
+   "quest": 223,
+   "text": "Captain Mouen: This letter...? Wow, from Ascalon!?",
+   "header": "Captain Mouen",
+   "when": [
+    "state STARTED; has items 3283"
+   ],
+   "links": [
+    {
+     "text": "\"Why are you so surprised?\"",
+     "bypass": "Quest Q00223_TestOfTheChampion 30196-02.html",
+     "kind": "quest-event",
+     "script": "Q00223_TestOfTheChampion",
+     "event": "30196-02.html",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30196-02.html"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30196-04.html": {
+   "file": "Q00223_TestOfTheChampion/30196-04.html",
+   "quest": 223,
+   "text": "Captain Mouen: Go to Death Pass and slay all the Road Scavengers you find. But be wary of surprise attacks! If you bring me 10 Road Scavenger heads , I will write a letter saying that you saved the kingdom. Our superior will be pleased to see such a letter...",
+   "header": "Captain Mouen",
+   "when": [
+    "state STARTED; has items 3284; lacks items 3283; getQuestItemsCount(player, ROAD_RATMAN_HEAD) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30196-05.html": {
+   "file": "Q00223_TestOfTheChampion/30196-05.html",
+   "quest": 223,
+   "text": "Captain Mouen: We are in trouble! It turns out to be that the road scavengers that you killed were an instrument of the Leto Lizardmen! Now the lizardmen are planning an attack on Giran Castle! Ascalon must have been right. We must strike the first blow! Many troops are already on their way. Please…",
+   "header": "Captain Mouen",
+   "when": [
+    "state STARTED; has items 3284; lacks items 3283; !getQuestItemsCount(player, ROAD_RATMAN_HEAD) < 10"
+   ],
+   "links": [
+    {
+     "text": "\"I will join the fight!\"",
+     "bypass": "Quest Q00223_TestOfTheChampion 30196-06.html",
+     "kind": "quest-event",
+     "script": "Q00223_TestOfTheChampion",
+     "event": "30196-06.html",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30196-06.html",
+     "effect": "cond:12"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30196-07.html": {
+   "file": "Q00223_TestOfTheChampion/30196-07.html",
+   "quest": 223,
+   "text": "Captain Mouen: Destroy the Leto Lizardmen troops! Then collect and bring me 10 fangs from the fallen Lizardmen . No one will be able to dispute your victory if you bring me 10 fangs!",
+   "header": "Captain Mouen",
+   "when": [
+    "state STARTED; has items 3285; lacks items 3283,3284; getQuestItemsCount(player, LETO_LIZARDMAN_FANG) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30196-08.html": {
+   "file": "Q00223_TestOfTheChampion/30196-08.html",
+   "quest": 223,
+   "text": "Captain Mouen: Congratulations on your success, Warrior. You have been a remarkable help in the defeat of the Leto Lizardmen threatening the town of Giran. Word has already spread throughout the kingdom of your achievement. Now take this letter with you and go back to Ascalon . I'll wager that your…",
+   "header": "Captain Mouen",
+   "when": [
+    "state STARTED; has items 3285; lacks items 3283,3284; !getQuestItemsCount(player, LETO_LIZARDMAN_FANG) < 10"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30196-09.html": {
+   "file": "Q00223_TestOfTheChampion/30196-09.html",
+   "quest": 223,
+   "text": "Captain Mouen: Ascalon can now retire in peace knowing that the future of the kingdom is in the hands of noble Warriors like you.",
+   "header": "Captain Mouen",
+   "when": [
+    "state STARTED; has items 3286; lacks items 3283,3284,3285"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00249_PoisonedPlainsOfTheLizardmen/30196-01.htm": {
+   "file": "Q00249_PoisonedPlainsOfTheLizardmen/30196-01.htm",
+   "quest": 249,
+   "text": "Chief Guard Mouen: You ever been to the Plains of the Lizardmen? It was there that the mighty dragon Antharas was slain. They say the magic that flowed through his veins poured into the Plains and bloomed into something quite beautiful. Absolute rubbish if you ask me! The region has become sick wit…",
+   "header": "Chief Guard Mouen",
+   "when": [
+    "state CREATED; (player.getLevel() >= 82)"
+   ],
+   "links": [
+    {
+     "text": "Ask about the changes.",
+     "bypass": "Quest Q00249_PoisonedPlainsOfTheLizardmen 30196-02.htm",
+     "kind": "quest-event",
+     "script": "Q00249_PoisonedPlainsOfTheLizardmen",
+     "event": "30196-02.htm",
+     "quest": 249,
+     "to": "Q00249_PoisonedPlainsOfTheLizardmen/30196-02.htm"
+    }
+   ]
+  },
+  "Q00249_PoisonedPlainsOfTheLizardmen/30196-00.htm": {
+   "file": "Q00249_PoisonedPlainsOfTheLizardmen/30196-00.htm",
+   "quest": 249,
+   "text": "Captain Mouen: Ever been to the Plains of the Lizardmen? It was there than the mighty dragon Antharas was slain and his blood carried his grudge into the soil of the earth beneath him. They say the place is cursed, but whatever is true, it is agreed that it is very dangerous. Tread lightly there. (…",
+   "header": "Captain Mouen",
+   "when": [
+    "state CREATED; NOT (player.getLevel() >= 82)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q00249_PoisonedPlainsOfTheLizardmen/30196-04.htm": {
+   "file": "Q00249_PoisonedPlainsOfTheLizardmen/30196-04.htm",
+   "quest": 249,
+   "text": "Chief Guard Mouen: We still haven't heard from those do-nothing investigators. Talk to Johnny as soon as possible, please.",
+   "header": "Chief Guard Mouen",
+   "when": [
+    "state STARTED; cond 1"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00249_PoisonedPlainsOfTheLizardmen/30196-05.htm": {
+   "file": "Q00249_PoisonedPlainsOfTheLizardmen/30196-05.htm",
+   "quest": 249,
+   "text": "Chief Guard Mouen: Hey, there you are! How are you doing? We're very pleased with how you handled that matter with the investigators. Might not have done it without you. Thanks! (This quest is complete.)",
+   "header": "Chief Guard Mouen",
+   "when": [
+    "state COMPLETED"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10279_MutatedKaneusOren/30196-01.htm": {
+   "file": "Q10279_MutatedKaneusOren/30196-01.htm",
+   "quest": 10279,
+   "text": "Captain Mouen: I heard tales of your recent activities. You have already acquired a reputation as an accomplished adventurer. Perhaps you have already heard about the Mutated Kaneus of Kamaloka . I have been asked to help investigate these strange creatures, but my duties unfortunately keep me far …",
+   "header": "Captain Mouen",
+   "when": [
+    "state CREATED; (player.getLevel() > 47)"
+   ],
+   "links": [
+    {
+     "text": "\"What kind of help do you need?\"",
+     "bypass": "Quest Q10279_MutatedKaneusOren 30196-02.htm",
+     "kind": "quest-event",
+     "script": "Q10279_MutatedKaneusOren",
+     "event": "30196-02.htm",
+     "quest": 10279,
+     "to": "Q10279_MutatedKaneusOren/30196-02.htm"
+    }
+   ]
+  },
+  "Q10279_MutatedKaneusOren/30196-00.htm": {
+   "file": "Q10279_MutatedKaneusOren/30196-00.htm",
+   "quest": 10279,
+   "text": "Captain Mouen: Based on my observations, I don't think you are yet ready to handle the Kaneus. (Only characters level 48 and above are permitted to undertake this quest.)",
+   "header": "Captain Mouen",
+   "when": [
+    "state CREATED; NOT (player.getLevel() > 47)"
+   ],
+   "outcome": "refusal",
+   "links": []
+  },
+  "Q10279_MutatedKaneusOren/30196-05.htm": {
+   "file": "Q10279_MutatedKaneusOren/30196-05.htm",
+   "quest": 10279,
+   "text": "Captain Mouen: Ah! Are these the cellular tissues of Kaim Abigore and Knight Montagnar ? From their pristine appearance, I can tell you were very careful. I couldn't have done better myself. Well done! Now take these samples to Magister Rovia at the Temple of Einhasad. He will be very pleased. If w…",
+   "header": "Captain Mouen",
+   "when": [
+    "state STARTED; (st.hasQuestItems(TISSUE_KA) && st.hasQuestItems(TISSUE_KM))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q10279_MutatedKaneusOren/30196-04.htm": {
+   "file": "Q10279_MutatedKaneusOren/30196-04.htm",
+   "quest": 10279,
+   "text": "Captain Mouen: The magisters become agitated if their research is delayed for any reason, so deliver the cellular tissue samples as quickly as possible. Those aren't people you want irritated with you, you know! Hurry to Kamaloka, and good hunting!",
+   "header": "Captain Mouen",
+   "when": [
+    "state STARTED; NOT (st.hasQuestItems(TISSUE_KA) && st.hasQuestItems(TISSUE_KM))"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30196-02.html": {
+   "file": "Q00223_TestOfTheChampion/30196-02.html",
+   "quest": 223,
+   "text": "Captain Mouen: Ascalon was my teacher when I was young. At one time he was a good soldier, but now he is very old and his mind wanders. Age has begun to tell on him... But he is like a father to me, and I won't go against what he says. Nowadays he seems to be suffering from the delusion that only h…",
+   "header": "Captain Mouen",
+   "links": [
+    {
+     "text": "\"What about the scavengers threatening the Kingdom?...\"",
+     "bypass": "Quest Q00223_TestOfTheChampion 30196-03.html",
+     "kind": "quest-event",
+     "script": "Q00223_TestOfTheChampion",
+     "event": "30196-03.html",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30196-03.html",
+     "effect": "cond:10"
+    }
+   ]
+  },
+  "Q00223_TestOfTheChampion/30196-03.html": {
+   "file": "Q00223_TestOfTheChampion/30196-03.html",
+   "quest": 223,
+   "text": "Captain Mouen: The Road Scavengers may not be the great threat to the kingdom that my superior makes them out to be, but they certainly are troublesome. They prey on merchants traveling between Oren and Giran. Your orders are to wipe out those troublesome thieves. Go to Death Pass and slay all you …",
+   "header": "Captain Mouen",
+   "sets": {
+    "cond": "10"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00223_TestOfTheChampion/30196-06.html": {
+   "file": "Q00223_TestOfTheChampion/30196-06.html",
+   "quest": 223,
+   "text": "Captain Mouen: Ahem! Slay the Leto Lizardmen and bring me their fangs as evidence. Bring 10 Leto Lizardman Fangs and no one will be able to dispute your victory. Do this and Ascalon will be very pleased!",
+   "header": "Captain Mouen",
+   "sets": {
+    "cond": "12"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00249_PoisonedPlainsOfTheLizardmen/30196-02.htm": {
+   "file": "Q00249_PoisonedPlainsOfTheLizardmen/30196-02.htm",
+   "quest": 249,
+   "text": "Chief Guard Mouen: The poisons of the plains caused the Leto to die off, and what Leto didn't die began to... evolve, if you could call it that. They have become a new species, calling themselves the Tanta. Only I doubt poison alone could do that, so it must be magic too. The poor Leto... they had …",
+   "header": "Chief Guard Mouen",
+   "links": [
+    {
+     "text": "Say you will.",
+     "bypass": "Quest Q00249_PoisonedPlainsOfTheLizardmen 30196-03.htm",
+     "kind": "quest-event",
+     "script": "Q00249_PoisonedPlainsOfTheLizardmen",
+     "event": "30196-03.htm",
+     "quest": 249,
+     "to": "Q00249_PoisonedPlainsOfTheLizardmen/30196-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q00249_PoisonedPlainsOfTheLizardmen/30196-03.htm": {
+   "file": "Q00249_PoisonedPlainsOfTheLizardmen/30196-03.htm",
+   "quest": 249,
+   "text": "Chief Guard Mouen: Go to the Plains of the Lizardmen and tell Johnny we're still anxiously awaiting a response and the clock's ticking. He owes me for paying for the investigation. I suppose I'll compensate you as well if you can get him to finally respond.",
+   "header": "Chief Guard Mouen",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10279_MutatedKaneusOren/30196-02.htm": {
+   "file": "Q10279_MutatedKaneusOren/30196-02.htm",
+   "quest": 10279,
+   "text": "Captain Mouen: The favor I ask is on behalf of Magister Rovia of the Temple of Einhasad. The Sages of Magic, a group of magisters of which Magister Rovia is a member, are researching the Kaneus: recently discovered monsters of Kamaloka. They know that Kamaloka exists between this world and the infe…",
+   "header": "Captain Mouen",
+   "links": [
+    {
+     "text": "Say yes.",
+     "bypass": "Quest Q10279_MutatedKaneusOren 30196-03.htm",
+     "kind": "quest-event",
+     "script": "Q10279_MutatedKaneusOren",
+     "event": "30196-03.htm",
+     "quest": 10279,
+     "to": "Q10279_MutatedKaneusOren/30196-03.htm",
+     "effect": "start"
+    }
+   ]
+  },
+  "Q10279_MutatedKaneusOren/30196-03.htm": {
+   "file": "Q10279_MutatedKaneusOren/30196-03.htm",
+   "quest": 10279,
+   "text": "Captain Mouen: Excellent! Visit either of the 2 Kamalokas we can enter from Oren, kill the Kaneus there and extract their cellular tissues. You will face the Kaim Abigore and Knight Montagnar Kaneus. The Kaim Abigore is much weaker, so I'd advise that you pursue it first. When you have extracted al…",
+   "header": "Captain Mouen",
+   "sets": {
+    "start": true
+   },
+   "outcome": "start",
+   "links": []
+  },
+  "Q10279_MutatedKaneusOren/30196-06.htm": {
+   "file": "Q10279_MutatedKaneusOren/30196-06.htm",
+   "quest": 10279,
+   "text": "Captain Mouen: Ah, it's you! Magister Rovia asked me to convey his gratitude to you. He said that the cellular tissues of the mutated Kaneus from the Kamaloka of Oren that you delivered to the Sages of Magic were a great help. Well done!",
+   "header": "Captain Mouen",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Test of the Champion (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00223_TestOfTheChampion",
+     "kind": "quest",
+     "quest": 223,
+     "to": "Q00223_TestOfTheChampion/30196-01.html",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Poisoned Plains of the Lizardmen]",
+     "bypass": "npc_%objectId%_Quest Q00249_PoisonedPlainsOfTheLizardmen",
+     "kind": "quest",
+     "quest": 249,
+     "to": "Q00249_PoisonedPlainsOfTheLizardmen/30196-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Poisoned Plains of the Lizardmen (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00249_PoisonedPlainsOfTheLizardmen",
+     "kind": "quest",
+     "quest": 249,
+     "to": "Q00249_PoisonedPlainsOfTheLizardmen/30196-04.htm",
+     "when": "quest in progress"
+    },
+    {
+     "text": "[Mutated Kaneus - Oren]",
+     "bypass": "npc_%objectId%_Quest Q10279_MutatedKaneusOren",
+     "kind": "quest",
+     "quest": 10279,
+     "to": "Q10279_MutatedKaneusOren/30196-01.htm",
+     "when": "quest not started"
+    },
+    {
+     "text": "[Mutated Kaneus - Oren (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q10279_MutatedKaneusOren",
+     "kind": "quest",
+     "quest": 10279,
+     "to": "Q10279_MutatedKaneusOren/30196-05.htm",
+     "when": "quest in progress"
+    }
+   ]
+  },
+  "guard/kamaloka_help.htm": {
+   "file": "guard/kamaloka_help.htm",
+   "quest": null,
+   "text": "Kamaloka is an invader from another world. We do not know precisely when it happened, but we discovered a sealed space, similar to a Dimensional Rift. We call it Kamaloka. To enter it, you must meet certain requirements. You cannot enter a basic Kamaloka alone. To fight alone, find the pathfinder t…",
+   "outcome": "refusal",
+   "links": []
+  },
+  "guard/kamaloka_level.htm": {
+   "file": "guard/kamaloka_level.htm",
+   "quest": null,
+   "text": "According to research from the Ivory Tower, the established theory is that Kamaloka is from a dimensional overlapping in Aden's land. Kamaloka has stages of power based on the strength of a monster's soul. This is cutting edge science, and we don't fully understand it. So we introduce adventurers t…",
+   "outcome": "dead-end",
+   "links": []
+  }
+ },
+ "liveDiff": [
+  "clicked live (Logs/dialog.log) but not in the datapack pages: Enter Kamaloka, Labyrinth of the Abyss (level 59). | Enter Kamaloka, Hall of the Abyss (level 56). | Sel Mahum Training Grounds (Center) - 1800 &#57; | Enter Kamaloka, Hall of the Abyss (level 53)."
+ ],
+ "liveClicks": [
+  {
+   "text": "Enter Kamaloka.",
+   "n": 60,
+   "inDatapack": true,
+   "from": [
+    "Captain Mouen:Young traveler, welcome to Oren! I am Mouen, r"
+   ],
+   "to": [
+    "Captain Mouen:What? You want to enter Kamaloka?Enter Kamalok"
+   ]
+  },
+  {
+   "text": "Enter Kamaloka, Labyrinth of the Abyss (level 59).",
+   "n": 40,
+   "inDatapack": false,
+   "from": [
+    "Captain Mouen:What? You want to enter Kamaloka?Enter Kamalok"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Enter Kamaloka, Hall of the Abyss (level 56).",
+   "n": 14,
+   "inDatapack": false,
+   "from": [
+    "Captain Mouen:What? You want to enter Kamaloka?Enter Kamalok"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Enter Kamaloka, Hall of the Abyss (level 53).",
+   "n": 5,
+   "inDatapack": false,
+   "from": [
+    "Captain Mouen:What? You want to enter Kamaloka?Enter Kamalok"
+   ],
+   "to": [
+    "teleport"
+   ]
+  },
+  {
+   "text": "Quest",
+   "n": 1,
+   "inDatapack": true,
+   "from": [],
+   "to": [
+    "You are either not on a quest that involves this NPC, or you"
+   ]
+  },
+  {
+   "text": "Sel Mahum Training Grounds (Center) - 1800 &#57;",
+   "n": 1,
+   "inDatapack": false,
+   "from": [],
+   "to": [
+    "teleport"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,380 @@
+{
+ "npcId": 32237,
+ "name": "Rodenpicula",
+ "title": "",
+ "type": "L2Npc",
+ "generated": "2026-10-27T18:18:03.362Z",
+ "tool": "docs/plan/tools/npc_dialogs_build.js",
+ "live": false,
+ "firstTalk": [
+  {
+   "page": "npcdefault.htm",
+   "when": "no page of its own",
+   "src": "html"
+  }
+ ],
+ "quests": {
+  "236": {
+   "name": "Seeds Of Chaos",
+   "listText": [
+    "[Seeds of Chaos]",
+    "[Seeds of Chaos (In Progress)]"
+   ],
+   "onTalk": [
+    {
+     "page": "Q00236_SeedsOfChaos/32237-01.html",
+     "when": "state STARTED; memo 40",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32237-11a.html",
+     "when": "state STARTED; memo 42",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32237-12.html",
+     "when": "state STARTED; memo 43",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32237-14.html",
+     "when": "state STARTED; memo 44",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": "dead-end"
+    },
+    {
+     "page": "Q00236_SeedsOfChaos/32237-15.html",
+     "when": "state STARTED; memo 45",
+     "state": "STARTED",
+     "cond": null,
+     "outcome": null
+    }
+   ]
+  }
+ },
+ "pages": {
+  "npcdefault.htm": {
+   "file": "npcdefault.htm",
+   "quest": null,
+   "text": "I have nothing to say to you",
+   "links": [
+    {
+     "text": "Quest",
+     "bypass": "npc_%objectId%_Quest",
+     "kind": "quest-menu",
+     "to": "@questlist"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-01.html": {
+   "file": "Q00236_SeedsOfChaos/32237-01.html",
+   "quest": 236,
+   "text": "Rodenpicula: So you have finally arrived! I have been waiting for a long time for a Metusela Kamael to achieve the level of a Spicula. I am Rodenpicula, the last of the Spicula Kamael.",
+   "header": "Rodenpicula",
+   "when": [
+    "state STARTED; memo 40"
+   ],
+   "links": [
+    {
+     "text": "Ask why she has been waiting for you.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-02.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-02.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-02.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-11a.html": {
+   "file": "Q00236_SeedsOfChaos/32237-11a.html",
+   "quest": 236,
+   "text": "Roden Pikeulla: Go speak with Mother Nornil. She will plant the Seed of Chaos within you.",
+   "header": "Roden Pikeulla",
+   "when": [
+    "state STARTED; memo 42"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32237-12.html": {
+   "file": "Q00236_SeedsOfChaos/32237-12.html",
+   "quest": 236,
+   "text": "Rodenpicula Do you mean contact? I see. Even with your consent, the system will not permit it. I do not officially have the authority, but as there are no other Spicula nearby...",
+   "when": [
+    "state STARTED; memo 43"
+   ],
+   "links": [
+    {
+     "text": "Ask if she will grant contact.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-13.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-13.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-13.html",
+     "effect": "cond:19"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-14.html": {
+   "file": "Q00236_SeedsOfChaos/32237-14.html",
+   "quest": 236,
+   "text": "Rodenpicula: I have granted permission. Please go to Nornil.",
+   "header": "Rodenpicula",
+   "when": [
+    "state STARTED; memo 44"
+   ],
+   "outcome": "dead-end",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32237-15.html": {
+   "file": "Q00236_SeedsOfChaos/32237-15.html",
+   "quest": 236,
+   "text": "Rodenpicula: In any case, congratulations on breaking through the wall of fate. Now you can master not only your own skills, but also the skills and abilities of others. At least, that is what I would like to say, but...",
+   "header": "Rodenpicula",
+   "when": [
+    "state STARTED; memo 45"
+   ],
+   "links": [
+    {
+     "text": "Ask if there is some sort of problem.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-16.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-16.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-16.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-02.html": {
+   "file": "Q00236_SeedsOfChaos/32237-02.html",
+   "quest": 236,
+   "text": "Rodenpicula: Unlike the other Spicula, I was created especially for you. Do you not perceive the difference from the other Spicula: Kekropus, Harkilgamed and Katenar?",
+   "header": "Rodenpicula",
+   "links": [
+    {
+     "text": "Say that you don't.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-03.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-03.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-03.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-03.html": {
+   "file": "Q00236_SeedsOfChaos/32237-03.html",
+   "quest": 236,
+   "text": "Rodenpicula: Perhaps that is because it is too obvious... Look at me carefully. Do you still not know?",
+   "header": "Rodenpicula",
+   "links": [
+    {
+     "text": "\"It wouldn't be...?\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-04.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-04.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-04.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-04.html": {
+   "file": "Q00236_SeedsOfChaos/32237-04.html",
+   "quest": 236,
+   "text": "Rodenpicula: Yes! My gender is different from all the others. The Spicula Kamael were created for a specific purpose, so there was no particular need for them to have a female form. But for me that form was essential to my purpose: the foundation upon which the Metusela Kamael were built.",
+   "header": "Rodenpicula",
+   "links": [
+    {
+     "text": "\"Foundation?\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-05.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-05.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-05.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-05.html": {
+   "file": "Q00236_SeedsOfChaos/32237-05.html",
+   "quest": 236,
+   "text": "Rodenpicula: The Metusela Kamael were not created after the Spicula Kamael; both lines co-existed together. Just as countless conditions had to be perfect before I could exist, so countless had to be perfect in order for you to be here today. You Metusela Kamael were initially an extremely weak rac…",
+   "header": "Rodenpicula",
+   "links": [
+    {
+     "text": "Keep listening.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-06.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-06.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-06.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-06.html": {
+   "file": "Q00236_SeedsOfChaos/32237-06.html",
+   "quest": 236,
+   "text": "Rodenpicula: Ah, but what is done is done. In any event, in order to imbue the weak Metusela Kamael with greater strength, our creators turned to the closely-related Spicula Kamael -- more specifically, me, the only female Spicula. A piece of my essence was grafted onto your souls, slowly increasin…",
+   "header": "Rodenpicula",
+   "links": [
+    {
+     "text": "\"Is that what you meant when you said that you were our foundation?\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-07.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-07.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-07.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-07.html": {
+   "file": "Q00236_SeedsOfChaos/32237-07.html",
+   "quest": 236,
+   "text": "Rodenpicula: Yes. You Metusela Kamael have achieved your current condition through me. The spirit of chaos and the power of darkness flow through your bodies. Deep within you is the power of the Spicula, with the ability to wield the sword and shield of the light... Without me, none of that would h…",
+   "header": "Rodenpicula",
+   "links": [
+    {
+     "text": "Ask why she summoned you.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-08.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-08.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-08.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-08.html": {
+   "file": "Q00236_SeedsOfChaos/32237-08.html",
+   "quest": 236,
+   "text": "Rodenpicula: In this place, I can help you overcome the limitations that you feel. Our three heroes waited for you, even though they were chased by the goddess, in order to reveal the secret of our creation to you... But in order to exceed your limitations, you must first know your limitations. Tha…",
+   "header": "Rodenpicula",
+   "links": [
+    {
+     "text": "Ask what you must do.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-10.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-10.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-10.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-10.html": {
+   "file": "Q00236_SeedsOfChaos/32237-10.html",
+   "quest": 236,
+   "text": "Rodenpicula: I will now break one of the restraints imposed upon you. This power was bequeathed to myself and Mother Nornil by the ancients. It will strengthen the Seed of Chaos within you. Be warned, though -- I do not know what side effects it may have on your body. It is, after all, the essence …",
+   "header": "Rodenpicula",
+   "links": [
+    {
+     "text": "\"I will.\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-11.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-11.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-11.html",
+     "effect": "cond:17"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-11.html": {
+   "file": "Q00236_SeedsOfChaos/32237-11.html",
+   "quest": 236,
+   "text": "Harlkilgamed: Very well. Then go speak with Mother Nornil there. She will know of our conversation and will be preparing to plant the seed of chaos.",
+   "header": "Harlkilgamed",
+   "sets": {
+    "cond": "17"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32237-13.html": {
+   "file": "Q00236_SeedsOfChaos/32237-13.html",
+   "quest": 236,
+   "text": "Rodenpicula: Very well. As a spear aimed at the heavens, As one who knows the chaos of the ancient days, As the keeper of the strength of the Giant Mimir, As a researcher who remembers the great laboratory Arviterre... I will authorize Nornil to contact your Seed of Chaos.",
+   "header": "Rodenpicula",
+   "sets": {
+    "cond": "19"
+   },
+   "outcome": "cond",
+   "links": []
+  },
+  "Q00236_SeedsOfChaos/32237-16.html": {
+   "file": "Q00236_SeedsOfChaos/32237-16.html",
+   "quest": 236,
+   "text": "Rodenpicula: It may be possible to escape fate, but it is impossible to escape the rules of this world. Although we were able to stimulate the Seed of Chaos, unfortunately you cannot take the powers of the other races that were created by the gods. Even so, you will be able to walk the path of the …",
+   "header": "Rodenpicula",
+   "links": [
+    {
+     "text": "\"Still?\"",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-17.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-17.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-17.html",
+     "effect": "reward"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-17.html": {
+   "file": "Q00236_SeedsOfChaos/32237-17.html",
+   "quest": 236,
+   "text": "Rodenpicula: The future is a blank canvass. If you master the abilities with the Sword that symbolize the skill of male Kamael, the abilities with the Bow that symbolize the skill of female Kamael, and the magical abilities that are available to our entire race, perhaps another path will be opened …",
+   "header": "Rodenpicula",
+   "sets": {
+    "reward": true
+   },
+   "outcome": "reward",
+   "links": [
+    {
+     "text": "Ask how to get out.",
+     "bypass": "Quest Q00236_SeedsOfChaos 32237-18.html",
+     "kind": "quest-event",
+     "script": "Q00236_SeedsOfChaos",
+     "event": "32237-18.html",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-18.html"
+    }
+   ]
+  },
+  "Q00236_SeedsOfChaos/32237-18.html": {
+   "file": "Q00236_SeedsOfChaos/32237-18.html",
+   "quest": 236,
+   "text": "Rodenpicula: Speak with Mother Nornil about how to depart this place. She will tell you how.",
+   "header": "Rodenpicula",
+   "outcome": "dead-end",
+   "links": []
+  },
+  "@questlist": {
+   "file": "@questlist",
+   "quest": null,
+   "text": "Quest list window (the server lists the quests this NPC has for you; shown only when there is more than one).",
+   "links": [
+    {
+     "text": "[Seeds of Chaos (In Progress)]",
+     "bypass": "npc_%objectId%_Quest Q00236_SeedsOfChaos",
+     "kind": "quest",
+     "quest": 236,
+     "to": "Q00236_SeedsOfChaos/32237-01.html",
+     "when": "quest in progress"
+    }
+   ]
+  }
+ }
+}
